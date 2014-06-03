@@ -168,7 +168,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 			// the server failed
 			stopStart.setText("Start");
 			tPortNumber.setEditable(true);
-			appendEvent("Server crashed\n");
+			appendEvent("Server has stopped\n");
 			server = null;
 		}
 	}

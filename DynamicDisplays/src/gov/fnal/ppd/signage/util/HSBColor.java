@@ -71,7 +71,8 @@ public class HSBColor extends Color {
 		for (int i = 0; i < nc; i++) {
 			HSBColor hsb = new HSBColor(i);
 			System.out.println(i + ": " + hsb);
-			JLabel lab = new JLabel((i < 10 ? "0" : "") + i + " " + hsb);
+			int rgb = hsb.getRGB();
+			JLabel lab = new JLabel((i < 10 ? "0" : "") + i + " " + hsb + " [" + Integer.toHexString(0x00FFFFFF & rgb).toUpperCase() + "]");
 			lab.setBorder(BorderFactory.createLineBorder(hsb, 20));
 			b.add(lab);
 		}

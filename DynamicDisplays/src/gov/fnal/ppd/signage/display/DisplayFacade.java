@@ -30,23 +30,26 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * 
  */
 public class DisplayFacade extends DisplayImpl {
-	private static final int	MESSAGING_SERVER_PORT		= 1500;
-	private static final String	MESSAGING_SERVER_NAME		= System.getProperty("signage.dbserver", "mccrory.fnal.gov");
+	private static final int		MESSAGING_SERVER_PORT		= 1500;
+	private static final String		MESSAGING_SERVER_NAME		= System.getProperty("signage.dbserver", "mccrory.fnal.gov");
+
+	private static final boolean	USE_MESSAGING				= true;
+	private static final boolean	USE_CLIENT_SERVER			= false;
 
 	/**
 	 * 
 	 */
-	public static boolean		tryToConnectToDisplaysNow	= false;
+	public static boolean			tryToConnectToDisplaysNow	= false;
 	/**
 	 * 
 	 */
-	public static AtomicBoolean	alreadyWaiting				= new AtomicBoolean(false);
-	private DCClient			dcc;
-	private AtomicBoolean		ready						= new AtomicBoolean(false);
-	private AtomicBoolean		waiting						= new AtomicBoolean(false);
-	private Thread				initThread;
+	public static AtomicBoolean		alreadyWaiting				= new AtomicBoolean(false);
+	private DCClient				dcc;
+	private AtomicBoolean			ready						= new AtomicBoolean(false);
+	private AtomicBoolean			waiting						= new AtomicBoolean(false);
+	private Thread					initThread;
 
-	private MessagingClient		messagingClient;
+	private MessagingClient			messagingClient;
 
 	/**
 	 * @param portNumber
@@ -60,32 +63,37 @@ public class DisplayFacade extends DisplayImpl {
 	public DisplayFacade(final int portNumber, final String ipName, final int screenNumber, final int number,
 			final String location, final Color color, final SignageType type) {
 		super(ipName, screenNumber, number, location, color, type);
-		try {
-			myName += " -- " + InetAddress.getLocalHost().getCanonicalHostName() + " FA\u00c7ADE";
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace(); // Really?  This should never happen.
-		}
 
-		connect(ipName, portNumber);
-		
-		System.out.println(" My messaging name is [" + myName + "]");
-		messagingClient = new MessagingClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName);
-		messagingClient.start();
+		if (USE_CLIENT_SERVER) {
+			connect(ipName, portNumber);
 
-		new Thread("DisplayFacadeInit." + ipName) { // make sure the connection continues
-			public void run() {
-				while (true) {
-					try {
-						sleep(2000);
-					} catch (InterruptedException e) {
-					}
-					if (dcc == null || !dcc.isConnected()) {
-						dcc = null;
-						connect(ipName, portNumber);
+			new Thread("DisplayFacadeInit." + ipName) { // make sure the connection continues
+				public void run() {
+					while (true) {
+						try {
+							sleep(2000);
+						} catch (InterruptedException e) {
+						}
+						if (dcc == null || !dcc.isConnected()) {
+							dcc = null;
+							connect(ipName, portNumber);
+						}
 					}
 				}
+			}.start();
+		}
+
+		if (USE_MESSAGING) {
+			try {
+				// That last bit is FACADE, with the curly thing under the C
+				myName += " -- " + InetAddress.getLocalHost().getCanonicalHostName() + " FA\u00c7ADE";
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace(); // Really? This should never happen.
 			}
-		}.start();
+			System.out.println(" My messaging name is [" + myName + "]");
+			messagingClient = new MessagingClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName);
+			messagingClient.start();
+		}
 	}
 
 	protected void connect(final String ipName, final int portNumber) {
@@ -166,35 +174,38 @@ public class DisplayFacade extends DisplayImpl {
 
 	public void localSetContent() {
 		try {
-			if (dcc != null) { // && (ready.get() || sync())) {
-				SignageContent content = getContent();
-				EncodedCarrier cc = null;
-				if (content instanceof ChannelPlayList) {
-					System.out.println(getClass().getSimpleName() + ": Have a ChannelPlayList to deal with!");
-					cc = new ChangeChannelList();
-					((ChangeChannelList) cc).setContent(getContent());
-				} else {
-					System.out.println(getClass().getSimpleName() + ": Have a simple channel");
-					cc = new ChangeChannel();
-					((ChangeChannel) cc).setContent(getContent());
-				}
+			// if (dcc != null) { // && (ready.get() || sync())) {
+			SignageContent content = getContent();
+			EncodedCarrier cc = null;
+			if (content instanceof ChannelPlayList) {
+				System.out.println(getClass().getSimpleName() + ": Have a ChannelPlayList to deal with!");
+				cc = new ChangeChannelList();
+				((ChangeChannelList) cc).setContent(getContent());
+			} else {
+				System.out.println(getClass().getSimpleName() + ": Have a simple channel");
+				cc = new ChangeChannel();
+				((ChangeChannel) cc).setContent(getContent());
+			}
 
-				// DDMessage message = new DDMessage(getContent().getURI().toASCIIString(), getScreenNumber());
-				String xmlMessage = MyXMLMarshaller.getXML(cc);
-				DDMessage message = new DDMessage(xmlMessage);
+			// DDMessage message = new DDMessage(getContent().getURI().toASCIIString(), getScreenNumber());
+			String xmlMessage = MyXMLMarshaller.getXML(cc);
+			DDMessage message = new DDMessage(xmlMessage);
+			if (USE_CLIENT_SERVER & dcc != null) {
 				dcc.send(message.getOutputMessage());
 				System.out.println(getClass().getSimpleName() + " --DEBUG-- Sent '" + message.getOutputMessage() + "'");
 
 				sync(DisplayChangeEvent.Type.CHANGE_COMPLETED);
-
+			}
+			if (USE_MESSAGING) {
 				// Now send the same thing to the Messaging Server (Test, 5/29/2014)
 				messagingClient.sendMessage(new MessageCarrier(1, xmlMessage));
-
-			} else {
-				System.out.println(getClass().getSimpleName() + " (screen " + getScreenNumber() + "): Change to '"
-						+ getContent().getURI().toASCIIString() + "' not completed.");
-				informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED);
 			}
+
+			// } else {
+			// System.out.println(getClass().getSimpleName() + " (screen " + getScreenNumber() + "): Change to '"
+			// + getContent().getURI().toASCIIString() + "' not completed.");
+			// informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED);
+			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -205,12 +216,17 @@ public class DisplayFacade extends DisplayImpl {
 	 */
 	public void ping() {
 		try {
-			if (dcc != null) { // && (ready.get() || sync())) {
-				DDMessage message = new DDMessage(MyXMLMarshaller.getXML(new Ping()));
+			// if (dcc != null) { // && (ready.get() || sync())) {
+			DDMessage message = new DDMessage(MyXMLMarshaller.getXML(new Ping()));
+			if (USE_CLIENT_SERVER) {
 				dcc.send(message.getOutputMessage());
 				System.out.println(getClass().getSimpleName() + " -- Ping -- Sent '" + message.getOutputMessage() + "'");
 				sync(DisplayChangeEvent.Type.ALIVE);
 			}
+			if (USE_MESSAGING) {
+				messagingClient.sendMessage(new MessageCarrier(1, message.getOutputMessage()));
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -219,8 +235,13 @@ public class DisplayFacade extends DisplayImpl {
 	/**
 	 * @return Is there really a display connected to us, here?
 	 */
+	@SuppressWarnings("unused")
 	public boolean isConnected() {
-		return dcc != null && dcc.isConnected();
+		if (USE_CLIENT_SERVER)
+			return dcc != null && dcc.isConnected();
+		if (USE_MESSAGING)
+			return true; // TODO This return value should be true only if we have seen a messsage from out connected Display.  Punt for now.
+		return false;
 	}
 
 	@Override

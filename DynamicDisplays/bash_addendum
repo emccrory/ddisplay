@@ -1,0 +1,6 @@
+# Start the Dynamic Display
+xset b off
+xset s off
+xset -dpms
+cd
+./ddisplay 0

@@ -95,7 +95,7 @@ public class ConnectionToFirefoxInstance {
 		if (out != null) {
 			this.out.println(s);
 		} else {
-			System.out.println("Still not connected to FireFox instance at " + LOCALHOST + ":" + PORT);
+			System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + PORT);
 		}
 	}
 

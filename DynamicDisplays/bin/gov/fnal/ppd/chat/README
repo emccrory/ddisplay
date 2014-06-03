@@ -1,0 +1,5 @@
+These files were taken from http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/ on 5/12/2014.
+
+It implements a simple, GUI-based client/server chat mechanism.
+
+I have changed the class names and I have made modifications to be useful in the context of the Dynamic Displays system.

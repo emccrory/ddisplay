@@ -44,7 +44,25 @@ public class MessagingServer {
 		// to display hh:mm:ss
 		sdf = new SimpleDateFormat("HH:mm:ss");
 		// ArrayList for the Client list
-		al = new ArrayList<ClientThread>();
+		al = new ArrayList<ClientThread>() {
+			private static final boolean	REQUIRE_UNIQUE_USERNAMES	= false;
+
+			private static final long		serialVersionUID			= 2919140620801861217L;
+
+			public boolean add(ClientThread ct) {
+				if (ct == null)
+					return false;
+				if (REQUIRE_UNIQUE_USERNAMES)
+					for (ClientThread CT : this)
+						if (CT.username.equals(ct.username))
+							return false; // Duplicate username is not allowed!
+
+				// TODO -- Is a bad thing to have duplicate usernames? When/if the server directs messages to the intended user,
+				// this WILL be necessary. But having a fairly anonymous clientelle works just fine.
+
+				return super.add(ct);
+			}
+		};
 	}
 
 	public void start() {
@@ -64,8 +82,10 @@ public class MessagingServer {
 				if (!keepGoing)
 					break;
 				ClientThread t = new ClientThread(socket); // make a thread of it
-				al.add(t); // save it in the ArrayList
-				t.start();
+				if (al.add(t)) // save it in the ArrayList
+					t.start();
+				else
+					display("Error! Duplicate username requested, '" + t.username + "'");
 			}
 			// I was asked to stop
 			try {
@@ -204,7 +224,7 @@ public class MessagingServer {
 		// the date I connect
 		String				date;
 
-		// Constructore
+		// Constructor
 		ClientThread(Socket socket) {
 			// a unique id
 			id = ++uniqueId;
@@ -219,7 +239,7 @@ public class MessagingServer {
 				username = (String) sInput.readObject();
 				display(username + " just connected.");
 			} catch (IOException e) {
-				display("Exception creating new Input/output Streams: " + e);
+				display("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
 				return;
 			}
 			// have to catch ClassNotFoundException
@@ -255,16 +275,23 @@ public class MessagingServer {
 					//
 					broadcast(username + ": " + message);
 					break;
+
 				case MessageCarrier.LOGOUT:
 					display(username + " disconnected with a LOGOUT message.");
 					keepGoing = false;
 					break;
+
 				case MessageCarrier.WHOISIN:
 					writeMsg("List of the users connected at " + sdf.format(new Date()) + "\n");
 					// scan all the users connected
 					for (int i = 0; i < al.size(); ++i) {
 						ClientThread ct = al.get(i);
-						writeMsg((i + 1) + ") " + ct.username + " since " + ct.date);
+						if (ct != null && ct.username != null && ct.date != null)
+							writeMsg("     " + (i + 1) + ": " + ct.username + " since " + ct.date);
+						else {
+							writeMsg("     " + (i + 1) + ": Error!  Have a null client, " + ct);
+							display((i + 1) + ": Error!  Have a null client, " + ct);
+						}
 					}
 					break;
 				}

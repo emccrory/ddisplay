@@ -109,7 +109,7 @@ public class DCClient {
 		if (out != null) {
 			this.out.println(s);
 		} else {
-			System.out.println("Still not connected to the Display server at " + hostName + ":" + portNumber);
+			System.out.println("Not connected to the server at " + hostName + ":" + portNumber);
 		}
 	}
 
