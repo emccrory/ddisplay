@@ -38,6 +38,8 @@ chown ${dduser}:${ddgroup} $DDLogs $DDLogs/*.log
 mkdir ${destination} || { echo ${destination} " already exists. Continuing ..."; }
 cd ${destination}
 
+# TODO -- Replace tar.gz fetching and manipulations with git commands (6/3/2014)
+
 echo Getting the software update script
 rm -f DDUpdate.sh
 wget ${SERVER}/DDUpdate.sh
@@ -59,21 +61,6 @@ echo "Unzipping and then un-tarring those files"
 gzip -dv all.tar.gz >> ${log} 2>&1
 
 tar xvf all.tar >> ${log} 2>&1
-
-# make sure the .xinitrc has the right stuff in it
-dotFile=.xinitrc
-touch ${dotFile} # Make sure the file exists and we can write to it
-tag=`head -1 bash_addendum`
-grep -q -i "$tag" ${dotfile} || {
-    cat ${dotfile} bash_addendum > temp
-    rm -f            ${dotfile}
-    mv temp          ${dotfile}
-    chmod +x         ${dotfile}
-    chown ${dduser}  ${dotfile}
-    chgrp ${ddgroup} ${dotfile}
-}
-
-chown ${dduser}:${ddgroup} * ${dotfile}
 
 ls -l ${destination} | tee -a ${log}
 
