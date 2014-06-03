@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Creating tar file..."
+
+rm -f all.tar*
+
+tar fc all.tar ddisplay runDisplay.sh runDisplayNode.sh runDisplayWindows.bat setupJars.sh runSelector.sh bash_addendum lib/*.jar bin/gov
+
+echo "gzip'ing this tar file "
+
+gzip all.tar
+
+ls -l *.gz
