@@ -15,7 +15,7 @@ set -u
 
 SERVER="http://mccrory.fnal.gov/DynamicDisplays"
 dduser=ddisplay
-ddgroup=$(getent group $(getent passwd ${dduser}) | cut -d: -f4) | cut -d: -f1)
+ddgroup=$(getent group $(getent passwd ${dduser} | cut -d: -f4) | cut -d: -f1)
 destination=$(getent passwd ${dduser} | cut -d: -f6)
 log="${destination}/DynamicDisplays$$.log"
 
