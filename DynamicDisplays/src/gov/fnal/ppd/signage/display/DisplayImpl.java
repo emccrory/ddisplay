@@ -220,4 +220,9 @@ public abstract class DisplayImpl implements Display {
 		// return "Displaying: " + (getContent() != null ? getContent().getName() : "No channel");
 		return getContent() + " is being displayed.";
 	}
+
+	public String getMessagingName() {
+		return myName;
+	}
+
 }

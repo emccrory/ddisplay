@@ -42,6 +42,8 @@ import java.net.ServerSocket;
 /** 
  * A single threaded server process, copied from Oracle/Java
  * 
+ * @deprecated
+ * 
  * @author Oracle
  *
  */

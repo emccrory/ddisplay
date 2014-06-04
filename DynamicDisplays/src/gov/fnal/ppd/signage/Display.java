@@ -104,4 +104,9 @@ public interface Display extends ActionListener {
 	 * @return String status message
 	 */
 	public String getStatus();
+	
+	/**
+	 * @return The name that this Display would use on the Messaging system
+	 */
+	public String getMessagingName();
 }

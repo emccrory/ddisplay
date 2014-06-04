@@ -46,6 +46,8 @@ import java.net.SocketException;
  * 
  * A multi-threaded server --test code.
  * 
+ * @deprecated
+ * 
  * @author Elliott McCrory, Fermilab
  */
 public class DCMulitServerThread extends Thread {

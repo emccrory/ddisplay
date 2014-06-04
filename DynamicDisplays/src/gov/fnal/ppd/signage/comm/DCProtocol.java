@@ -175,7 +175,7 @@ public class DCProtocol {
 				while (keepRunning) {
 					for (ChannelSpec spec : specs) {
 						long sleepTime = spec.getTime();
-						System.out.println(DCProtocol.class.getSimpleName() + ": Changning to " + spec.getName() + " -- "
+						System.out.println(DCProtocol.class.getSimpleName() + ": Channging to " + spec.getName() + " -- "
 								+ (new Date()));
 
 						informListeners(spec);

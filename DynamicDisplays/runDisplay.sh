@@ -6,5 +6,5 @@ if [ "$1 X" != " X" ]; then
 fi
 
 # java gov.fnal.ppd.signage.display.testing.DisplayAsStandaloneBrowser-display=$displayNum
-java gov.fnal.ppd.signage.display.testing.DisplayAsConnectionToFirefox -display=$displayNum
+java gov.fnal.ppd.signage.display.testing.DisplayAsConnectionToFireFox -display=$displayNum
 

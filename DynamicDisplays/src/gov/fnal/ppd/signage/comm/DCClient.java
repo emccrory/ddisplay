@@ -44,7 +44,9 @@ import java.net.UnknownHostException;
 /**
  * DC stands for Display Communications
  * 
- * Class that connects with a single Display server and, asynchronously, tells it what web page to show now.
+ * Class that connects directly to a single Display server and, asynchronously, tells it what web page to show now.
+ * 
+ * @deprecated -- in favor of using a messaging server
  * 
  * @author Elliott McCrory, Fermilab
  */

@@ -2,6 +2,8 @@ package gov.fnal.ppd;
 
 import static gov.fnal.ppd.signage.util.Util.shortDate;
 import static gov.fnal.ppd.signage.util.Util.truncate;
+import gov.fnal.ppd.chat.MessageCarrier;
+import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ChannelButtonGrid;
@@ -32,6 +34,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.InputStream;
 import java.lang.management.ManagementFactory;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,13 +58,11 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import sun.net.util.IPAddressUtil;
+
 /**
  * <p>
  * Allows the user to select the Channel that is being displayed on every Signage Display
- * </p>
- * <p>
- * TODO Giver the user a way to create his./her own lost of channels to play over time. This is not implemented at this time because
- * the implementation will be complicated, and it is not clear that the users actually want/need this feature. (16-July-2012)
  * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2013
@@ -103,15 +105,18 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	 */
 	public static float						FONT_SIZE				= 68.0f;
 
+	private static final int				MESSAGING_SERVER_PORT	= 1500;
+	private static final String				MESSAGING_SERVER_NAME	= System.getProperty("signage.dbserver", "mccrory.fnal.gov");
+
 	private static final Dimension			screenDimension			= Toolkit.getDefaultToolkit().getScreenSize();
 	private static final JFrame				f						= new JFrame("XOC Display Channel Selector");
 
-	private static final long				PING_INTERVAL			= 5000l;											// 60000l;
+	private static final long				PING_INTERVAL			= 5000l;														// 60000l;
 	protected static final long				FIFTEEN_MINUTES			= 15 * 60 * 1000;
 
 	private static ActionListener			refreshAction			= null;
 	private static DisplayList				displayList;
-	private static DisplayDebugTypes		realDisplays			= DisplayDebugTypes.REAL_AND_REMOTE;				// DisplayDebugTypes.REAL_BUT_LOCAL;
+	private static DisplayDebugTypes		realDisplays			= DisplayDebugTypes.REAL_AND_REMOTE;							// DisplayDebugTypes.REAL_BUT_LOCAL;
 
 	/**
 	 * Do we show in full screen or in a window?
@@ -321,10 +326,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 
 					footer.setText(text);
 					displaySelector.resetToolTip(display.getNumber());
-					displaySelector.setIsAlive(display.getNumber(), alive);
-					for (ChannelButtonGrid cbg : allGrids) {
-						cbg.setEnabled(alive);
-					}
+					setDisplayIsAlive(display.getNumber(), alive);
 				}
 
 			});
@@ -436,32 +438,108 @@ public class ChannelSelector extends JPanel implements ActionListener {
 		}
 
 		// Start a thread to see, for real, if the displays are connected
-		new Thread("CheckDisplayStatus") {
+		// new Thread("CheckDisplayStatus") {
+		// public void run() {
+		// while (true) {
+		// try {
+		// sleep(1000);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// int index = 0;
+		// for (Display d : displayList) {
+		// if (d != null && d instanceof DisplayFacade) {
+		// boolean alive = ((DisplayFacade) d).isConnected();
+		// // boolean alive = true; This will enable all the buttons
+		// displaySelector.setIsAlive(index + 1, alive);
+		// // Enable the Channel buttons, too
+		// List<ChannelButtonGrid> allGrids = channelButtonGridList.get(index);
+		// for (ChannelButtonGrid cbg : allGrids)
+		// if (cbg != null) {
+		// cbg.setAlive(alive);
+		// }
+		// ++index;
+		// }
+		// }
+		// }
+		// }
+		// }.start();
+
+		new Thread("WhoIsInChatRoom") {
+			private MessagingClient	client;
+			private boolean[]		aliveList		= null;
+			private boolean[]		lastAliveList	= null;
+
 			public void run() {
+				login();
+				long sleepTime = 1000;
 				while (true) {
 					try {
-						sleep(1000);
+						sleep(sleepTime);
+						sleepTime = 10000;
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					int index = 0;
-					for (Display d : displayList) {
-						if (d != null && d instanceof DisplayFacade) {
-							boolean alive = ((DisplayFacade) d).isConnected();
-							// boolean alive = true; This will enable all the buttons
-							displaySelector.setIsAlive(index + 1, alive);
-							// Enable the Channel buttons, too
-							List<ChannelButtonGrid> allGrids = channelButtonGridList.get(index);
-							for (ChannelButtonGrid cbg : allGrids)
-								if (cbg != null) {
-									cbg.setAlive(alive);
-								}
-							++index;
-						}
+					lastAliveList = aliveList;
+					aliveList = new boolean[displayList.size()];
+					for (int i = 0; i < displayList.size(); i++) {
+						aliveList[i] = false;
+					}
+					client.sendMessage(new MessageCarrier(MessageCarrier.WHOISIN, ""));
+
+					try {
+						sleep(2000); // Wait long enough for all the messages to come in.
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					for (int i = 0; i < displayList.size(); i++) {
+						if (lastAliveList == null || lastAliveList[i] != aliveList[i])
+							setDisplayIsAlive(displayList.get(i).getNumber(), aliveList[i]);
 					}
 				}
 			}
+
+			private void login() {
+				try {
+					long ran = new Date().getTime() % 1000L;
+					final String myName = InetAddress.getLocalHost().getCanonicalHostName() + "_" + ran;
+
+					client = new MessagingClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName) {
+						public void displayIncomingMessage(final String msg) {
+							if (msg.startsWith("WHOISIN") && !msg.contains("FA\u00c7ADE") && !msg.contains("Error")
+									&& !msg.contains(myName)) {
+								// Match the client name, "WHOISIN [(.*)] since <date>"
+								String clientName = msg.substring(msg.indexOf('[') + 1, msg.indexOf(']'));
+								// System.out.println("A client named '" + clientName + "' is alive");
+								for (int i = 0; i < displayList.size(); i++) {
+									if (displayList.get(i).getMessagingName().contains(clientName)) {
+										// System.out.println("A client named '" + clientName + "' is a Display I know about!");
+										// setDisplayIsAlive(D.getNumber(), true);
+										aliveList[i] = true;
+									}
+								}
+							}
+						}
+					};
+					// start the Client
+					if (!client.start())
+						return;
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+			}
 		}.start();
+	}
+
+	private void setDisplayIsAlive(int number, boolean alive) {
+		displaySelector.setIsAlive(number, alive);
+
+		// Enable the Channel buttons, too
+		List<ChannelButtonGrid> allGrids = channelButtonGridList.get(number - 1);
+		for (ChannelButtonGrid cbg : allGrids)
+			if (cbg != null) {
+				cbg.setAlive(alive);
+			}
 	}
 
 	protected static Border getTitleBorder(Color c) {

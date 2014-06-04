@@ -282,15 +282,16 @@ public class MessagingServer {
 					break;
 
 				case MessageCarrier.WHOISIN:
-					writeMsg("List of the users connected at " + sdf.format(new Date()) + "\n");
+					// writeMsg("WHOISIN List of the users connected at " + sdf.format(new Date()) + "\n");
 					// scan all the users connected
 					for (int i = 0; i < al.size(); ++i) {
 						ClientThread ct = al.get(i);
+						// TODO Make this into an XML document
 						if (ct != null && ct.username != null && ct.date != null)
-							writeMsg("     " + (i + 1) + ": " + ct.username + " since " + ct.date);
+							writeMsg("WHOISIN [" + ct.username + "] since " + ct.date);
 						else {
-							writeMsg("     " + (i + 1) + ": Error!  Have a null client, " + ct);
-							display((i + 1) + ": Error!  Have a null client, " + ct);
+							// writeMsg("WHOISIN " + (i + 1) + ": Error!  Have a null client");
+							display((i + 1) + ": Error!  Have a null client");
 						}
 					}
 					break;
