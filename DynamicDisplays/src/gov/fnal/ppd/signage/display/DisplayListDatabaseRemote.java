@@ -5,7 +5,6 @@ import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.changer.DisplayList;
-import gov.fnal.ppd.signage.display.attic.jxbrowser.DisplayAsJxBrowser;
 
 import java.awt.Color;
 import java.sql.Connection;
@@ -15,7 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
- * The actual list of displays in the system. Assumes REMOTE displays!!
+ * The actual list of Displays in the system.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2013
  * 
@@ -26,6 +25,9 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> implements Dis
 
 	private static Connection	connection			= null;
 
+	/**
+	 * @return a connection to the Dynamic Displays database
+	 */
 	public static Connection getConnection() {
 		if (connection == null)
 			try {
@@ -45,10 +47,13 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> implements Dis
 		return connection;
 	}
 
+	/**
+	 * Create a connection and the receive a list of Displays in the system.
+	 */
 	public DisplayListDatabaseRemote() {
 		super();
 
-		DisplayAsJxBrowser.webTesting = true;
+		// DisplayAsJxBrowser.webTesting = true;
 		getDisplays();
 	}
 

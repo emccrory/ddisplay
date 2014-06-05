@@ -29,7 +29,11 @@ public class DDMessage {
 	private static final String	CHANGE_CHANNEL_LIST	= "<changeChannelList ";
 	private static final String	CHANNEL_SPEC		= "<channelSpec ";
 
-	public DDMessage(String raw) {
+	/**
+	 * @param raw
+	 *            The body of the message to create
+	 */
+	public DDMessage(final String raw) {
 		this.screenNumber = 0;
 		if (raw != null && raw.length() > 0) {
 			// remove all the non-printable characters, but put back in the newlines
@@ -78,6 +82,9 @@ public class DDMessage {
 		}
 	}
 
+	/**
+	 * @return The URL that this message specifies
+	 */
 	public String getURL() {
 		if (receivedMessage instanceof ChangeChannelList)
 			return ((ChangeChannelList) receivedMessage).getChannelSpec()[0].getUri().toASCIIString(); // FIXME -- Have to
@@ -88,10 +95,16 @@ public class DDMessage {
 		return null;
 	}
 
+	/**
+	 * @return The screen number
+	 */
 	public int getDisplay() {
 		return screenNumber;
 	}
 
+	/**
+	 * @return The message that should be sent on the wire
+	 */
 	public String getOutputMessage() {
 		// if (command != null)
 		// return "Command=" + command;
@@ -99,6 +112,9 @@ public class DDMessage {
 		return rawMessage;
 	}
 
+	/**
+	 * @return The received message from the wire
+	 */
 	public Object getMessage() {
 		return receivedMessage;
 	}

@@ -2,13 +2,12 @@ package gov.fnal.ppd.signage.display.testing;
 
 import gov.fnal.ppd.signage.display.testing.BrowserLauncher.BrowserInstance;
 
-
 /**
  * Test the ability to change the channel for the chosen Dynamic Display instance.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
- *
+ * 
  */
 public class TestBrowserLaunch {
 
@@ -17,6 +16,7 @@ public class TestBrowserLaunch {
 
 	/**
 	 * @param args
+	 *            Expect at least two arguments
 	 */
 	public static void main(final String[] args) {
 		if (args.length < 2) {

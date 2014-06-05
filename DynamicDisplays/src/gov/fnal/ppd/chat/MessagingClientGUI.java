@@ -22,24 +22,44 @@ import javax.swing.SwingConstants;
  */
 public class MessagingClientGUI extends JFrame implements ActionListener {
 
-	private static final long	serialVersionUID	= 1L;
+	private static final long		serialVersionUID	= 1L;
 	// will first hold "Username:", later on "Enter message"
-	private JLabel				label;
+	private JLabel					label;
 	// to hold the Username and later on the messages
-	private JTextField			tf;
+	private JTextField				tf;
 	// to hold the server address an the port number
-	private JTextField			tfServer, tfPort;
+	private JTextField				tfServer, tfPort;
 	// to Logout and get the list of the users
-	private JButton				login, logout, whoIsIn;
+	private JButton					login, logout, whoIsIn;
 	// for the chat room
-	private JTextArea			ta;
+	private JTextArea				ta;
 	// if it is for connection
-	private boolean				connected;
+	private boolean					connected;
 	// the Client object
-	private MessagingClient				client;
+	private LocalMessagingClient	client;
 	// the default port number
-	private int					defaultPort;
-	private String				defaultHost;
+	private int						defaultPort;
+	private String					defaultHost;
+
+	// TODO It is probably more correct to have the GUI class extend MessagingClient and then have JFrame be an attribute.
+	// It is the other way around now.
+
+	private class LocalMessagingClient extends MessagingClient {
+
+		public LocalMessagingClient(String server, int port, String username) {
+			super(server, port, username);
+		}
+
+		@Override
+		public void displayLogMessage(final String msg) {
+			ta.append(msg);
+		}
+
+		@Override
+		public void displayIncomingMessage(final String msg) {
+			ta.append(msg);
+		};
+	}
 
 	// Constructor connection receiving a socket number
 	MessagingClientGUI(String host, int port) {
@@ -50,7 +70,7 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 
 		// The NorthPanel with:
 		JPanel northPanel = new JPanel(new GridLayout(3, 1));
-		// the server name anmd the port number
+		// the server name and the port number
 		JPanel serverAndPort = new JPanel(new GridLayout(1, 5, 1, 3));
 		// the two JTextField with default value for server address and port number
 		tfServer = new JTextField(host);
@@ -174,7 +194,7 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 			}
 
 			// try creating a new Client with GUI
-			client = new MessagingClient(server, port, username, this);
+			client = new LocalMessagingClient(server, port, username);
 			// test if we can start the Client
 			if (!client.start())
 				return;
@@ -196,9 +216,32 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 
 	}
 
-	// to start the whole thing the server
+	/**
+	 * @param args
+	 *            Command line arguments (none expected()
+	 */
 	public static void main(String[] args) {
-		new MessagingClientGUI("localhost", 1500);
+		int portNumber = 1500;
+		String host = "localhost";
+		if (args.length == 1) {
+			try {
+				portNumber = Integer.parseInt(args[0]);
+			} catch (Exception e) {
+				System.out.println("Invalid port number.");
+				System.out.println("Usage is: > java " + MessagingClientGUI.class.getCanonicalName() + " [portNumber]");
+				System.exit(-1);
+			}
+		} else if (args.length == 2) {
+			try {
+				host = args[0];
+				portNumber = Integer.parseInt(args[1]);
+			} catch (Exception e) {
+				System.out.println("Invalid port number.");
+				System.out.println("Usage is: > java " + MessagingClientGUI.class.getCanonicalName() + " [hostName] [portNumber]");
+				System.exit(-1);
+			}
+		}
+		new MessagingClientGUI(host, portNumber);
 	}
 
 }

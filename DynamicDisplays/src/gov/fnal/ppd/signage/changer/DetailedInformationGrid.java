@@ -20,7 +20,7 @@ import javax.swing.JPanel;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
- *
+ * 
  */
 public class DetailedInformationGrid extends ChannelButtonGrid {
 
@@ -30,7 +30,14 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 
 	private int					IS;
 
-	public DetailedInformationGrid(Display display, MyButtonGroup bg, int set) {
+	/**
+	 * @param display
+	 *            The Display for which these buttons relate
+	 * @param bg
+	 *            The button group into which these buttons go
+	 * @param set
+	 */
+	public DetailedInformationGrid(final Display display, final MyButtonGroup bg, final int set) {
 		super(display, bg);
 		add(makeExpGrid(set));
 	}

@@ -10,6 +10,7 @@ import java.util.Scanner;
  * The Client that can be run both as a console or a GUI
  * 
  * Taken from http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/ on 5/12/2014
+ * Extensively modified by Elliott McCrory, Fermilab AD/Instrumentation, 2014
  */
 public class MessagingClient {
 
@@ -17,9 +18,6 @@ public class MessagingClient {
 	private ObjectInputStream	sInput;		// to read from the socket
 	private ObjectOutputStream	sOutput;		// to write on the socket
 	private Socket				socket	= null;
-
-	// if I use a GUI or not
-	private MessagingClientGUI	cg;
 
 	// the server, the port and the username
 	private String				server, username;
@@ -36,24 +34,9 @@ public class MessagingClient {
 	 *            The name of the user you want to be identified as
 	 */
 	public MessagingClient(String server, int port, String username) {
-		// which calls the common constructor with the GUI set to null
-		this(server, port, username, null);
-	}
-
-	/**
-	 * Constructor call when used from a GUI in console mode the ClienGUI parameter is null
-	 * 
-	 * @param server
-	 * @param port
-	 * @param username
-	 * @param cg
-	 */
-	public MessagingClient(String server, int port, String username, MessagingClientGUI cg) {
 		this.server = server;
 		this.port = port;
 		this.username = username;
-		// save if we are in GUI mode or not
-		this.cg = cg;
 	}
 
 	/**
@@ -109,22 +92,18 @@ public class MessagingClient {
 	 * @param msg
 	 */
 	public void displayLogMessage(final String msg) {
-		if (cg == null)
-			System.out.println(msg); // println in console mode
-		else
-			cg.append(msg + "\n"); // append to the ClientGUI JTextArea (or whatever)
+		System.out.println(msg);
 	}
-	
+
 	/**
-	 * @param msg The message to display
+	 * Overridable to enable other sorts of usages.
+	 * 
+	 * @param msg
+	 *            The message to display
 	 */
 	public void displayIncomingMessage(final String msg) {
-		if (cg == null) {
-			System.out.println(msg);
-			System.out.print("> ");
-		} else {
-			cg.append(msg);
-		}
+		System.out.println(msg);
+		System.out.print("> ");
 	}
 
 	/**
@@ -138,6 +117,10 @@ public class MessagingClient {
 		} catch (IOException e) {
 			displayLogMessage("Exception writing to server: " + e);
 		}
+	}
+
+	protected void connectionFailed() {
+		// Override this if you need it
 	}
 
 	/*
@@ -160,10 +143,7 @@ public class MessagingClient {
 		} catch (Exception e) {
 		} // not much else I can do
 
-		// inform the GUI
-		if (cg != null)
-			cg.connectionFailed();
-
+		connectionFailed();
 	}
 
 	/**
@@ -253,8 +233,7 @@ public class MessagingClient {
 					displayIncomingMessage(msg);
 				} catch (IOException e) {
 					displayLogMessage("Server has closed the connection: " + e);
-					if (cg != null)
-						cg.connectionFailed();
+					connectionFailed();
 					break;
 				}
 				// can't happen with a String object but need the catch anyhow

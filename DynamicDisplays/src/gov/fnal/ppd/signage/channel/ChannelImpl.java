@@ -8,23 +8,30 @@ import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
 
+/**
+ * A simple implementation of the Channel interface
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copy 2014
+ * 
+ */
 public class ChannelImpl implements Channel {
-	
+
 	private static final long	serialVersionUID	= -5603360064745048878L;
 
 	// TODO Make this realistic!
-	protected int			number;
+	protected int				number;
 
-	private String			name, description;
+	private String				name, description;
 
-	private ChannelCategory	category;
+	private ChannelCategory		category;
 
 	// The content for this channel!
-	private SignageContent	content	= null;
+	private SignageContent		content				= null;
 
-	private URI				uri;
+	private URI					uri;
 
-	private SignageType		type	= SignageType.Public;
+	private SignageType			type				= SignageType.Public;
 
 	// public ChannelImpl( String name, ChannelCategory category, String description ) {
 	// this(name, category, description, Count++);
@@ -40,7 +47,19 @@ public class ChannelImpl implements Channel {
 	// this.description = "This is the '" + name + "' channel";
 	// }
 
-	public ChannelImpl(String name, ChannelCategory category, String description, URI uri, int number) {
+	/**
+	 * @param name
+	 *            The name of this Channel
+	 * @param category
+	 *            The category of this Channel
+	 * @param description
+	 *            A description of this Channel
+	 * @param uri
+	 *            The URI that represents this Channel
+	 * @param number
+	 *            A number for this Channel
+	 */
+	public ChannelImpl(final String name, final ChannelCategory category, final String description, final URI uri, final int number) {
 		this.name = name;
 		this.category = category;
 		this.number = number;
@@ -97,7 +116,7 @@ public class ChannelImpl implements Channel {
 
 	@Override
 	public void setName(String name) {
-		this.name = name;		
+		this.name = name;
 	}
 
 	@Override

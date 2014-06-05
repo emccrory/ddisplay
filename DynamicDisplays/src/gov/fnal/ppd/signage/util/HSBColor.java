@@ -25,8 +25,8 @@ public class HSBColor extends Color {
 
 	private static final int	map[]				= { 2, 5, 4, 7, 0, 3, 6, 1 };
 
-	public static float			saturation			= 0.8f;
-	public static float			brightness			= 0.7f;
+	private static float		saturation			= 0.8f;
+	private static float		brightness			= 0.7f;
 
 	private static final long	serialVersionUID	= -861252317070417732L;
 
@@ -35,6 +35,9 @@ public class HSBColor extends Color {
 	 */
 	public static boolean		smooth				= true;
 
+	/**
+	 * @return The number of colors in this set
+	 */
 	public static int getNumColors() {
 		return numColors;
 	}
@@ -46,10 +49,14 @@ public class HSBColor extends Color {
 		return (index & 0xfffffff8) | map[base];
 	}
 
-	public static void setNumColors(int numColors) {
+	/**
+	 * @param numColors
+	 *            The number of colors for this set
+	 */
+	public static void setNumColors(final int numColors) {
 		assert (numColors >= 1);
 		if (numColors > 100) {
-			// This kludge is not so great.  It breaks the "numColors" attribute and only adds a little distinctiveness. 
+			// This kludge is not so great. It breaks the "numColors" attribute and only adds a little distinctiveness.
 			HSBColor.numColors = (numColors / 2);
 			hueFactor = 1.0f / (numColors / 2);
 			numBrightness = 2;
@@ -59,11 +66,18 @@ public class HSBColor extends Color {
 		}
 	}
 
-	public HSBColor(int index) {
+	/**
+	 * @param index
+	 *            The color number to create, based on the previously determined number of colors in the set
+	 */
+	public HSBColor(final int index) {
 		super(numBrightness == 1 ? Color.HSBtoRGB(hueFactor * rotate(index), saturation, brightness) : Color.HSBtoRGB(hueFactor
 				* rotate(index % numColors), saturation, (index > numColors ? 1.0f : 0.6f)));
 	}
 
+	/**
+	 * @param args One argument expected
+	 */
 	public static void main(final String[] args) {
 		int nc = Integer.parseInt(args[0]);
 		HSBColor.setNumColors(nc);
@@ -72,7 +86,8 @@ public class HSBColor extends Color {
 			HSBColor hsb = new HSBColor(i);
 			System.out.println(i + ": " + hsb);
 			int rgb = hsb.getRGB();
-			JLabel lab = new JLabel((i < 10 ? "0" : "") + i + " " + hsb + " [" + Integer.toHexString(0x00FFFFFF & rgb).toUpperCase() + "]");
+			JLabel lab = new JLabel((i < 10 ? "0" : "") + i + " " + hsb + " ["
+					+ Integer.toHexString(0x00FFFFFF & rgb).toUpperCase() + "]");
 			lab.setBorder(BorderFactory.createLineBorder(hsb, 20));
 			b.add(lab);
 		}

@@ -15,11 +15,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 /**
- * Base class for the display grids that hold the channel buttons in the ChannelSelector 
+ * Base class for the display grids that hold the channel buttons in the ChannelSelector
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
- *
+ * 
  */
 public abstract class ChannelButtonGrid extends JPanel implements ActionListener {
 
@@ -43,9 +43,10 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	}
 
 	/**
-	 * OVerride (sortof) the base class add so I can make it the right color
+	 * Override (sort of) the base class add so I can make it the right color
+	 * 
 	 * @param comp
-	 * @return
+	 * @return The component argument
 	 */
 	public Component add(JPanel comp) {
 		JPanel p = new JPanel(new BorderLayout());
@@ -78,7 +79,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 			case ALIVE:
 				setAlive(true);
 				break;
-				
+
 			case ERROR:
 			case IDLE:
 				// Ignore for now
@@ -115,22 +116,22 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 		return false;
 	}
 
-//	public void addExitButton() {
-//		if (expGrid != null) {
-//			JButton exit = new JButton("Exit the GUI");
-//			exit.addActionListener(new ActionListener() {
-//
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					if (JOptionPane.showConfirmDialog(expGrid, "Do you _really_ want to exit the Channel Selector Application?",
-//							"Exit?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-//						System.exit(0);
-//				}
-//			});
-//
-//			Border bor = exit.getBorder();
-//			exit.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.RED, 10), bor));
-//			expGrid.add(exit);
-//		}
-//	}
+	// public void addExitButton() {
+	// if (expGrid != null) {
+	// JButton exit = new JButton("Exit the GUI");
+	// exit.addActionListener(new ActionListener() {
+	//
+	// @Override
+	// public void actionPerformed(ActionEvent e) {
+	// if (JOptionPane.showConfirmDialog(expGrid, "Do you _really_ want to exit the Channel Selector Application?",
+	// "Exit?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+	// System.exit(0);
+	// }
+	// });
+	//
+	// Border bor = exit.getBorder();
+	// exit.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.RED, 10), bor));
+	// expGrid.add(exit);
+	// }
+	// }
 }

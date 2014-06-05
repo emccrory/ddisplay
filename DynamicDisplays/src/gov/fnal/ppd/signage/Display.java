@@ -4,6 +4,13 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
 
+/**
+ * The signature of a Dynamic Display in the Fermilab Dynamic Display System
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copy 2014
+ * 
+ */
 public interface Display extends ActionListener {
 
 	/**
@@ -18,7 +25,7 @@ public interface Display extends ActionListener {
 	 * 
 	 * @param c
 	 *            the SignageContent to show on this Display
-	 * @return
+	 * @return The old SignageContent that was replaced by this call
 	 */
 	public SignageContent setContent(SignageContent c);
 
@@ -73,27 +80,30 @@ public interface Display extends ActionListener {
 	 */
 	public SignageType getCategory();
 
-	/**
+	/*
 	 * Set the DNS name of this Display. The Display class will internally set this to the InetAddress
 	 * 
 	 * @param ipName
 	 */
 	// public void setIpName( String ipName ) throws UnknownHostException;
 
-	/**
+	/*
 	 * Set the screen number for this Display. The default is 0.
 	 * 
 	 * @param screenNumber
 	 */
 	// public void setScreenNumber( int screenNumber );
 
-	/**
+	/*
 	 * Set the string that specifies the location of this Display
 	 * 
 	 * @param location
 	 */
 	// public void setLocation( String location );
 
+	/**
+	 * @return A description of the location of this Display
+	 */
 	public String getLocation();
 
 	// public void setNumber( int number );
@@ -104,7 +114,7 @@ public interface Display extends ActionListener {
 	 * @return String status message
 	 */
 	public String getStatus();
-	
+
 	/**
 	 * @return The name that this Display would use on the Messaging system
 	 */

@@ -19,8 +19,7 @@ public class MessagingServer {
 	private static int				uniqueId;
 	// an ArrayList to keep the list of the Client
 	private ArrayList<ClientThread>	al;
-	// if I am in a GUI
-	private MessagingServerGUI		sg;
+
 	// to display time
 	private SimpleDateFormat		sdf;
 	// the port number to listen for connection
@@ -29,16 +28,12 @@ public class MessagingServer {
 	private boolean					keepGoing;
 	private boolean					addTimeStamp	= false;
 
-	/*
+	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
+	 * 
+	 * @param port
 	 */
 	public MessagingServer(int port) {
-		this(port, null);
-	}
-
-	public MessagingServer(int port, MessagingServerGUI sg) {
-		// GUI or not
-		this.sg = sg;
 		// the port
 		this.port = port;
 		// to display hh:mm:ss
@@ -65,6 +60,9 @@ public class MessagingServer {
 		};
 	}
 
+	/**
+	 * Start the messaging server
+	 */
 	public void start() {
 		keepGoing = true;
 		/* create socket server and wait for connection requests */
@@ -125,21 +123,25 @@ public class MessagingServer {
 		}
 	}
 
-	/*
+	/**
 	 * Display an event (not a message) to the console or the GUI
 	 */
-	private void display(String msg) {
+	protected void display(String msg) {
 		String time = sdf.format(new Date()) + " " + msg;
-		if (sg == null)
-			System.out.println(time);
-		else
-			sg.appendEvent(time + "\n");
+		System.out.println(time);
 	}
 
-	/*
+	/**
 	 * to broadcast a message to all Clients
+	 * 
+	 * Overrideable if the base class wants to know about the messages.
+	 * 
+	 * Be sure to call super.broadcast(message) to actually get the message broadcast, though!
+	 * 
+	 * @param message
+	 *            -- The message to broadcast
 	 */
-	private synchronized void broadcast(String message) {
+	protected synchronized void broadcast(String message) {
 		// TODO (possibly) -- Be more selective about who gets this message
 
 		String messageLf;
@@ -150,11 +152,6 @@ public class MessagingServer {
 		} else {
 			messageLf = message;
 		}
-		// display message on console or GUI
-		if (sg == null)
-			System.out.print(messageLf);
-		else
-			sg.appendRoom(messageLf); // append in the room window
 
 		// we loop in reverse order in case we would have to remove a Client
 		// because it has disconnected
@@ -181,9 +178,12 @@ public class MessagingServer {
 		}
 	}
 
-	/*
+	/**
 	 * To run as a console application just open a console window and: > java Server > java Server portNumber If the port number is
 	 * not specified 1500 is used
+	 * 
+	 * @param args
+	 *            -- The command line arguments. [0] is the port number, otherwise 1500 is assumed
 	 */
 	public static void main(String[] args) {
 		// start server on port 1500 unless a PortNumber is specified

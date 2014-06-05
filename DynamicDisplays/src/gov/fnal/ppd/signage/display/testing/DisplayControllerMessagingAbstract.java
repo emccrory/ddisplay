@@ -4,18 +4,15 @@ import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
-import gov.fnal.ppd.signage.comm.DCMulitServerThread;
 import gov.fnal.ppd.signage.comm.DCProtocol;
 import gov.fnal.ppd.signage.comm.DDMessage;
 import gov.fnal.ppd.signage.display.DisplayImpl;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -55,8 +52,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	private MessagingClient			messagingClient;
 	private String					myName;
+
 	// / Use messaging to get change requests from the changers -->
-	private boolean					actAsServerNoMessages	= true;
+	// private boolean actAsServerNoMessages = true;
 
 	/**
 	 * @param portNumber
@@ -117,33 +115,33 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			}
 		});
 
-		if (actAsServerNoMessages) {
-			new Thread("ADisplayServerDaemon") {
-				public void run() {
-					DCMulitServerThread server = null;
-					while (keepGoing) {
-						if (server == null || !server.isAlive())
-							try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
-								server = null;
-								System.gc();
-								System.out.println("Listening on port " + portNumber);
-								server = new DCMulitServerThread(serverSocket.accept()); // This accept() call blocks
-								server.addListener(DisplayControllerMessagingAbstract.this);
-								server.start();
-							} catch (IOException e) {
-								System.err.println("Could not listen on port " + portNumber);
-								System.exit(-1);
-							}
-						try {
-							// Make sure the serverSocket is alive, continually
-							sleep(SOCKET_ALIVE_INTERVAL);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}.start();
-		}
+		// if (actAsServerNoMessages) {
+		// new Thread("ADisplayServerDaemon") {
+		// public void run() {
+		// DCMulitServerThread server = null;
+		// while (keepGoing) {
+		// if (server == null || !server.isAlive())
+		// try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
+		// server = null;
+		// System.gc();
+		// System.out.println("Listening on port " + portNumber);
+		// server = new DCMulitServerThread(serverSocket.accept()); // This accept() call blocks
+		// server.addListener(DisplayControllerMessagingAbstract.this);
+		// server.start();
+		// } catch (IOException e) {
+		// System.err.println("Could not listen on port " + portNumber);
+		// System.exit(-1);
+		// }
+		// try {
+		// // Make sure the serverSocket is alive, continually
+		// sleep(SOCKET_ALIVE_INTERVAL);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// }
+		// }.start();
+		// }
 	}
 
 	/**
@@ -200,18 +198,18 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 * 
 	 * @param number
 	 *            The display number this instance is
+	 * @param clazz 
 	 * @return The object that deals with this display
 	 */
-	public static DisplayControllerMessagingAbstract makeDynamicDisplayByNumber(final int number, Class<?> class1) {
+	public static DisplayControllerMessagingAbstract makeDynamicDisplayByNumber(final int number, Class<?> clazz) {
 		try {
 			String query = "SELECT * FROM Display where DisplayID=" + number;
 			InetAddress ip = InetAddress.getLocalHost();
 
 			String myNode = ip.getCanonicalHostName();
 
-			return makeADisplay(myNode, query, class1);
+			return makeADisplay(myNode, query, clazz);
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -220,6 +218,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	/**
 	 * @param screen
 	 *            This screen number
+	 * @param clazz 
 	 * @return The Dynamic Display object
 	 */
 	public static DisplayControllerMessagingAbstract makeDynamicDisplayByScreen(int screen, Class<?> clazz) {
@@ -323,9 +322,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	private class MessagingClientLocal extends MessagingClient {
-		private boolean	debug	= false;
-		private DCProtocol dcp = new DCProtocol();
-		
+		private boolean		debug	= false;
+		private DCProtocol	dcp		= new DCProtocol();
+
 		public MessagingClientLocal(String server, int port, String username) {
 			super(server, port, username);
 			dcp.addListener(DisplayControllerMessagingAbstract.this);
@@ -338,7 +337,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			if (msg.startsWith(myName)) {
 				if (debug)
 					System.out.println("This message is for me!");
-				
+
 				// TODO Interpret the XML document I just got and then set the content, appropriately.
 				String xmlDocument = msg.substring(msg.indexOf("<?xml"));
 				DDMessage myMessage = new DDMessage(xmlDocument);

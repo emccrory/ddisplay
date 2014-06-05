@@ -1,12 +1,13 @@
 package gov.fnal.ppd.signage.display.testing;
 
 import gov.fnal.ppd.signage.display.ScreenLayoutInterpreter;
-import gov.fnal.ppd.signage.display.testing.BrowserLauncher.BrowserInstance;
 
 import java.awt.Rectangle;
 import java.io.IOException;
 
 /**
+ * Control the launching of an external browser as the Display implementation
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
  * 
@@ -24,6 +25,8 @@ public class BrowserLauncher {
 	private BrowserInstance	whichInstance;
 
 	/**
+	 * What kind of browser are we to use?
+	 * 
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
 	 * @copy 2014
 	 * 
@@ -42,6 +45,9 @@ public class BrowserLauncher {
 
 	/**
 	 * @param screenNumber
+	 *            The physical screen number to display on
+	 * @param i
+	 *            Which sort of Browser to use?
 	 */
 	public BrowserLauncher(final int screenNumber, final BrowserInstance i) {
 		System.out.println("Launching browser " + i + " on screen #" + screenNumber);

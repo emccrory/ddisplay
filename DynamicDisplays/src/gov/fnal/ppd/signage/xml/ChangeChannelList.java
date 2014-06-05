@@ -5,7 +5,6 @@ import gov.fnal.ppd.signage.channel.ChannelPlayList;
 import gov.fnal.ppd.signage.channel.EmptyChannel;
 
 import java.net.URISyntaxException;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

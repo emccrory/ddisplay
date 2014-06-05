@@ -16,14 +16,26 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+/**
+ * At this time (June, 2014), a placeholder
+ * 
+ * This class was taken from an example on the Internet
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copy 2014
+ * 
+ */
 public class EncryptUtils {
-	Cipher ecipher;
+	Cipher	ecipher;
 
-	Cipher dcipher;
+	Cipher	dcipher;
 
-	public EncryptUtils( SecretKey key ) {
+	/**
+	 * @param key
+	 */
+	public EncryptUtils(final SecretKey key) {
 		// Create an 8-byte initialization vector
-		byte [] iv = new byte [] { (byte) 0x8E, 0x12, 0x39, (byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A };
+		byte[] iv = new byte[] { (byte) 0x8E, 0x12, 0x39, (byte) 0x9C, 0x07, 0x72, 0x6F, 0x5A };
 		AlgorithmParameterSpec paramSpec = new IvParameterSpec(iv);
 		try {
 			ecipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
@@ -44,9 +56,13 @@ public class EncryptUtils {
 	}
 
 	// Buffer used to transport the bytes from one stream to another
-	byte [] buf = new byte [1024];
+	byte[]	buf	= new byte[1024];
 
-	public void encrypt( InputStream in, OutputStream out ) {
+	/**
+	 * @param in
+	 * @param out
+	 */
+	public void encrypt(final InputStream in, OutputStream out) {
 		try {
 			// Bytes written to out will be encrypted
 			out = new CipherOutputStream(out, ecipher);
@@ -57,10 +73,15 @@ public class EncryptUtils {
 				out.write(buf, 0, numRead);
 			}
 			out.close();
-		} catch (java.io.IOException e) {}
+		} catch (java.io.IOException e) {
+		}
 	}
 
-	public void decrypt( InputStream in, OutputStream out ) {
+	/**
+	 * @param in
+	 * @param out
+	 */
+	public void decrypt(InputStream in, final OutputStream out) {
 		try {
 			// Bytes read from in will be decrypted
 			in = new CipherInputStream(in, dcipher);
@@ -71,25 +92,27 @@ public class EncryptUtils {
 				out.write(buf, 0, numRead);
 			}
 			out.close();
-		} catch (java.io.IOException e) {}
+		} catch (java.io.IOException e) {
+		}
 	}
-	
-	public final static void main(String [] args) {
+
+	/**
+	 * @param args
+	 */
+	public final static void main(final String[] args) {
 		try {
-		    // Generate a temporary key. In practice, you would save this key.
-		    // See also Encrypting with DES Using a Pass Phrase.
-		    SecretKey key = KeyGenerator.getInstance("DES").generateKey();
+			// Generate a temporary key. In practice, you would save this key.
+			// See also Encrypting with DES Using a Pass Phrase.
+			SecretKey key = KeyGenerator.getInstance("DES").generateKey();
 
-		    // Create encrypter/decrypter class
-		    EncryptUtils encrypter = new EncryptUtils(key);
+			// Create encrypter/decrypter class
+			EncryptUtils encrypter = new EncryptUtils(key);
 
-		    // Encrypt
-		    encrypter.encrypt(new FileInputStream("cleartext1"),
-		        new FileOutputStream("ciphertext"));
+			// Encrypt
+			encrypter.encrypt(new FileInputStream("cleartext1"), new FileOutputStream("ciphertext"));
 
-		    // Decrypt
-		    encrypter.decrypt(new FileInputStream("ciphertext"),
-		        new FileOutputStream("cleartext2"));
+			// Decrypt
+			encrypter.decrypt(new FileInputStream("ciphertext"), new FileOutputStream("cleartext2"));
 		} catch (Exception e) {
 		}
 	}

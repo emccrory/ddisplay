@@ -31,6 +31,10 @@ public class MyButton extends JButton {
 
 	private Border				regularButtonBorder;
 
+	/**
+	 * @param channel
+	 * @param display
+	 */
 	public MyButton(final Channel channel, final Display display) {
 		super(align(channel != null ? channel.getName() : display.toString()));
 		this.selected = false;
@@ -60,7 +64,10 @@ public class MyButton extends JButton {
 		setOpaque(true);
 	}
 
-	public void setMyBorder(boolean knownToBeAlive) {
+	/**
+	 * @param knownToBeAlive
+	 */
+	public void setMyBorder(final boolean knownToBeAlive) {
 		if (display != null && !knownToBeAlive) {
 			setBorder(BorderFactory.createCompoundBorder(
 					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(this.selectedColor, 1),
@@ -86,10 +93,17 @@ public class MyButton extends JButton {
 		return "<html><center>" + first + "<br />" + second + "</center></html>";
 	}
 
+	/**
+	 * @param display
+	 */
 	public MyButton(final Display display) {
 		this(null, display);
 	}
 
+	/**
+	 * @param text
+	 * @param color
+	 */
 	public MyButton(final String text, final Color color) {
 		super(text);
 
@@ -114,10 +128,16 @@ public class MyButton extends JButton {
 		super.setSelected(selected);
 	}
 
+	/**
+	 * @return The channel represented by this button
+	 */
 	public Channel getChannel() {
 		return channel;
 	}
 
+	/**
+	 * @return The Display represented by this button
+	 */
 	public Display getDisplay() {
 		return display;
 	}

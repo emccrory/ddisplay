@@ -8,11 +8,17 @@ import gov.fnal.ppd.signage.changer.ChannelCategory;
 
 import java.io.Serializable;
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * This class holds a list of Channels that are to be played on a Display
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copy 2014
+ * 
+ */
 public class ChannelPlayList implements Channel {
 
 	// FIXME -- No, the playing of a list of channels has to be handled by the Real Display.
@@ -62,6 +68,9 @@ public class ChannelPlayList implements Channel {
 	// }
 	// }
 
+	/**
+	 * An empty contructor, as required by XML marshalling
+	 */
 	public ChannelPlayList() {
 	}
 
@@ -81,7 +90,10 @@ public class ChannelPlayList implements Channel {
 		}
 	}
 
-	public void setDisplay(Display d) {
+	/**
+	 * @param d
+	 */
+	public void setDisplay(final Display d) {
 		myDisplay = d;
 	}
 
@@ -112,6 +124,9 @@ public class ChannelPlayList implements Channel {
 		return 0;
 	}
 
+	/**
+	 * Start playing this list of Channels
+	 */
 	public void start() {
 		new Thread("PlayingChannelList") {
 			public void run() {
@@ -138,6 +153,9 @@ public class ChannelPlayList implements Channel {
 		}.start();
 	}
 
+	/**
+	 * A polite request to stop playing the Channel list
+	 */
 	public void stop() {
 		running = false;
 	}
@@ -172,19 +190,32 @@ public class ChannelPlayList implements Channel {
 		// Not relevant for a list of content
 	}
 
+	/**
+	 * @return The length of time (milliseconds) to stay on the Channels
+	 */
 	public long getDwell() {
 		return dwell;
 	}
 
-	public void setDwell(long dwell) {
+	/**
+	 * @param dwell
+	 *            The number of milliseconds to sit on this Channel
+	 */
+	public void setDwell(final long dwell) {
 		this.dwell = dwell;
 	}
 
+	/**
+	 * @return The list of Channels being used here
+	 */
 	public List<SignageContent> getChannels() {
 		return channels;
 	}
 
-	public void setChannels(List<SignageContent> channels) {
+	/**
+	 * @param channels
+	 */
+	public void setChannels(final List<SignageContent> channels) {
 		this.channels = channels;
 		chanIterator = this.channels.listIterator();
 	}

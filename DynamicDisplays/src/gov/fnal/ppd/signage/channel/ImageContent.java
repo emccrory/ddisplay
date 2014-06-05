@@ -11,52 +11,54 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Proof-of-principle that Signage Content can be something other than a web page. It is not _fully_ tested.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copy 2014
+ * 
+ */
 public class ImageContent implements SignageContent {
 
 	private static final long	serialVersionUID	= 8092282215310981603L;
-
 	private String				name, description;
-
 	private Image				image;
-
 	private URI					uri;
-
 	private SignageType			type;
 
-	public ImageContent(String name, Image image) {
-		this.name = this.description = name;
-		this.image = image;
-	}
-
-	public ImageContent(String name, URI uri) {
-		this.name = this.description = name;
-		this.uri = uri;
-
-		image = getImage();
-	}
-
-	public ImageContent(String name, String des, Image image) {
+	/**
+	 * @param name
+	 *            The name assigned to this Content
+	 * @param des
+	 *            A description of this Content
+	 * @param image
+	 *            The image that is this content
+	 */
+	public ImageContent(final String name, final String des, final Image image) {
 		this.name = name;
 		this.description = des;
 		this.image = image;
 	}
 
-	public ImageContent(String name, String des, URI uri) {
+	/**
+	 * @param name
+	 *            The name assigned to this Content
+	 * @param des
+	 *            A description of this Content
+	 * @param uri
+	 *            The URI that points to this Content (assumed to be an image)
+	 */
+	public ImageContent(final String name, final String des, final URI uri) {
 		this.name = this.description = name;
 		this.description = des;
 		this.uri = uri;
-		image = getImage();
-	}
 
-	private Image getImage() {
-		Image retval = null;
 		try {
 			URL url = uri.toURL();
-			retval = ImageIO.read(url);
+			image = ImageIO.read(url);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return retval;
 	}
 
 	@Override
@@ -107,6 +109,7 @@ public class ImageContent implements SignageContent {
 	@Override
 	public void setCategory(ChannelCategory c) {
 		// This really should be an IMAGE
+		assert(c == ChannelCategory.IMAGE);
 	}
 
 	@Override

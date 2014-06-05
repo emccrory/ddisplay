@@ -15,17 +15,27 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+/**
+ * A grid of Channel buttons that represent the front page of the Public channel changer
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copy 2014
+ * 
+ */
 public class PublicInformationGrid extends ChannelButtonGrid {
 
 	private static final long	serialVersionUID		= -2796931031800511192L;
-
 	private static final int	LONG_WAIT_OF_INACTIVITY	= 600;						// 5 minutes
-
 	private int					seconds					= LONG_WAIT_OF_INACTIVITY;
-
 	protected boolean			autoChannelChange		= false;
 
-	public PublicInformationGrid(Display display, MyButtonGroup bg) {
+	/**
+	 * @param display
+	 *            The Display represented by this grid of channel buttons
+	 * @param bg
+	 *            The ButtonGroup into which these Channel buttons go
+	 */
+	public PublicInformationGrid(final Display display, final MyButtonGroup bg) {
 		super(display, bg);
 		add(makeExpGrid());
 		new Thread("PubGridInactivity") {
@@ -35,7 +45,7 @@ public class PublicInformationGrid extends ChannelButtonGrid {
 						sleep(1000);
 						if (seconds-- <= 0) {
 							// Change the channel automatically!
-							PublicInformationGrid.this.bg.next(); // ??
+							PublicInformationGrid.this.bg.next(); 
 						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -45,6 +55,9 @@ public class PublicInformationGrid extends ChannelButtonGrid {
 		}.start();
 	}
 
+	/**
+	 * @return The panel that contains all the buttons
+	 */
 	public JPanel makeExpGrid() {
 		GridLayout g = new GridLayout(0, 2);
 		if (!SHOW_IN_WINDOW) {

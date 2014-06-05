@@ -7,7 +7,6 @@ import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ChannelButtonGrid;
-import gov.fnal.ppd.signage.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.changer.DetailedInformationGrid;
@@ -15,10 +14,9 @@ import gov.fnal.ppd.signage.changer.DisplayButtons;
 import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
 import gov.fnal.ppd.signage.changer.DisplayList;
 import gov.fnal.ppd.signage.changer.DisplayListFactory;
-import gov.fnal.ppd.signage.changer.DisplayListFactory.DisplayDebugTypes;
 import gov.fnal.ppd.signage.changer.MyButton;
 import gov.fnal.ppd.signage.changer.PublicInformationGrid;
-import gov.fnal.ppd.signage.channel.CreateListOfChannels.CreateListOfChannelsHelper;
+import gov.fnal.ppd.signage.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.signage.display.DisplayFacade;
 import gov.fnal.ppd.signage.display.DisplayListDatabaseRemote;
 import gov.fnal.ppd.signage.util.MyButtonGroup;
@@ -57,8 +55,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import sun.net.util.IPAddressUtil;
 
 /**
  * <p>
@@ -116,7 +112,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 
 	private static ActionListener			refreshAction			= null;
 	private static DisplayList				displayList;
-	private static DisplayDebugTypes		realDisplays			= DisplayDebugTypes.REAL_AND_REMOTE;							// DisplayDebugTypes.REAL_BUT_LOCAL;
+	// private static DisplayDebugTypes realDisplays = DisplayDebugTypes.REAL_AND_REMOTE; // DisplayDebugTypes.REAL_BUT_LOCAL;
 
 	/**
 	 * Do we show in full screen or in a window?
@@ -706,8 +702,8 @@ public class ChannelSelector extends JPanel implements ActionListener {
 						}
 
 						// Regenerate the Display list and the Channel list
-						DisplayListFactory.useRealDisplays(realDisplays);
-						ChannelCatalogFactory.useRealChannels(true);
+						// DisplayListFactory.useRealDisplays(realDisplays);
+						// ChannelCatalogFactory.useRealChannels(true);
 						displayList = DisplayListFactory.getInstance();
 
 						f.setContentPane(new ChannelSelector());
@@ -727,8 +723,8 @@ public class ChannelSelector extends JPanel implements ActionListener {
 
 		f.setUndecorated(!SHOW_IN_WINDOW);
 
-		DisplayListFactory.useRealDisplays(realDisplays);
-		ChannelCatalogFactory.useRealChannels(true);
+		// DisplayListFactory.useRealDisplays(realDisplays);
+		// ChannelCatalogFactory.useRealChannels(true);
 		displayList = DisplayListFactory.getInstance();
 
 		f.setContentPane(new ChannelSelector());

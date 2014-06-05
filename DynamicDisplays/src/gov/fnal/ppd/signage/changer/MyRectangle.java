@@ -13,27 +13,26 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * A simple-looking panel that is a specified Color
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copy 2014
+ * 
+ */
 public class MyRectangle extends JPanel {
 
-	private static final long serialVersionUID = -6361828025007738524L;
+	private static final long	serialVersionUID	= -6361828025007738524L;
+	private static final String	colorClassName		= Color.class.getCanonicalName();
+	private static final int	PADD				= 0;
+	private int					width, height;
+	private double				x					= 25, y = 3;
+	private Color				color;
+	boolean						inside				= false;
+	private Color				myBorder;
+	private String				tip;
 
-	private static final String colorClassName = Color.class.getCanonicalName();
-
-	private static final int PADD = 0;
-
-	private int width, height;
-
-	private double x = 25, y = 3;
-
-	private Color color;
-
-	boolean inside = false;
-
-	private Color myBorder;
-
-	private String tip;
-
-	private MyRectangle( Color c ) {
+	private MyRectangle(Color c) {
 		super();
 		width = 80;
 		height = 30;
@@ -44,7 +43,12 @@ public class MyRectangle extends JPanel {
 		setPreferredSize(new Dimension(width + PADD, height + PADD));
 	}
 
-	public MyRectangle( int w, int h, Color c ) {
+	/**
+	 * @param w
+	 * @param h
+	 * @param c
+	 */
+	public MyRectangle(final int w, final int h, final Color c) {
 		super();
 		width = w;
 		height = h;
@@ -60,7 +64,7 @@ public class MyRectangle extends JPanel {
 		setPreferredSize(new Dimension(width + PADD, height + PADD));
 		setToolTipText(c.toString().replace(colorClassName, "") + " (CTL-Click for details)");
 		addMouseListener(new MouseListener() {
-			public void mouseReleased( MouseEvent arg0 ) {
+			public void mouseReleased(MouseEvent arg0) {
 				if (arg0.isControlDown()) {
 					Box b = Box.createHorizontalBox();
 					b.add(new MyRectangle(color));
@@ -77,29 +81,38 @@ public class MyRectangle extends JPanel {
 						vb.add(lab);
 						b = vb;
 					}
-					JOptionPane.showMessageDialog(null, b, (tip != null ? tip : "Color Map"),
-							JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, b, (tip != null ? tip : "Color Map"), JOptionPane.PLAIN_MESSAGE);
 				}
 			}
 
-			public void mousePressed( MouseEvent arg0 ) {}
+			public void mousePressed(MouseEvent arg0) {
+			}
 
-			public void mouseExited( MouseEvent arg0 ) {
+			public void mouseExited(MouseEvent arg0) {
 				inside = false;
 				repaint();
 			}
 
-			public void mouseEntered( MouseEvent arg0 ) {
+			public void mouseEntered(MouseEvent arg0) {
 				inside = true;
 				repaint();
 			}
 
-			public void mouseClicked( MouseEvent arg0 ) {}
+			public void mouseClicked(MouseEvent arg0) {
+			}
 
 		});
 	}
 
-	public MyRectangle( double x, double y, int w, int h, Color c, String tip ) {
+	/**
+	 * @param x
+	 * @param y
+	 * @param w
+	 * @param h
+	 * @param c
+	 * @param tip
+	 */
+	public MyRectangle(final double x, final double y, final int w, final int h, final Color c, final String tip) {
 		this(w, h, c);
 		this.x = x;
 		this.y = y;
@@ -107,7 +120,7 @@ public class MyRectangle extends JPanel {
 	}
 
 	@Override
-	public void paint( Graphics g ) {
+	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
 		g2.setPaint(color);

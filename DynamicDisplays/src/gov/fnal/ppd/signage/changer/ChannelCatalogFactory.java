@@ -5,34 +5,37 @@ package gov.fnal.ppd.signage.changer;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
- *
+ * 
  */
 public class ChannelCatalogFactory {
 
-	private static ChannelCatalog	me	= null;
+	private static ChannelCatalog	me	= new ChannelsFromDatabase();
 
 	private ChannelCatalogFactory() {
 	}
 
 	/**
-	 * Do we use real channels from the database, or not?
-	 * @param real
+	 * Do we use real channels from the database, or not?  This is irrelevant now as we always use real channels
+	 * 
+	 * @param real 
+	 * @deprecated
 	 */
 	public static void useRealChannels(boolean real) {
-		if (real)
-			me = new ChannelsFromDatabase();
-		else {
-			me = new ChannelCatalogTesting();
-			new Exception(" NOT USING REAL CHANNELS!").printStackTrace();
-		}
+		assert (real);
+		// if (real)
+		// me = new ChannelsFromDatabase();
+		// else {
+		// me = new ChannelCatalogTesting();
+		// new Exception(" NOT USING REAL CHANNELS!").printStackTrace();
+		// }
 	}
 
 	/**
-	 * @return The singleton 
+	 * @return The singleton
 	 */
 	public static ChannelCatalog getInstance() {
-		if (me == null)
-			useRealChannels(false);
+		// if (me == null)
+		// useRealChannels(false);
 		return me;
 	}
 }

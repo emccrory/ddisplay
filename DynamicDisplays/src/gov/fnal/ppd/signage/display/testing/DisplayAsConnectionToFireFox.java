@@ -47,7 +47,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		browserLauncher = new BrowserLauncher(screenNumber, BrowserInstance.FIREFOX);
 		browserLauncher.startBrowser(getContent().getURI().toASCIIString());
-		
+
 		new Thread() {
 			public void run() {
 				try {
@@ -93,7 +93,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		browserLauncher.exit();
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * @param args
+	 *            Expect one command line argument
+	 */
+	public static void main(final String[] args) {
 		@SuppressWarnings("unused")
 		DisplayAsConnectionToFireFox add;
 

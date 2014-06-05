@@ -1,13 +1,12 @@
 package gov.fnal.ppd.chat;
 
-import gov.fnal.ppd.chat.MessagingServerGUI.ServerRunning;
-
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -25,15 +24,34 @@ import javax.swing.JTextField;
  */
 public class MessagingServerGUI extends JFrame implements ActionListener, WindowListener {
 
-	private static final long	serialVersionUID	= 1L;
+	private static final long		serialVersionUID	= 1L;
 	// the stop and start buttons
-	private JButton				stopStart;
+	private JButton					stopStart;
 	// JTextArea for the chat room and the events
-	private JTextArea			chat, event;
+	private JTextArea				chat, event;
 	// The port number
-	private JTextField			tPortNumber;
+	private JTextField				tPortNumber;
 	// my server
-	private MessagingServer		server;
+	private LocalMessagingServer	server;
+
+	private class LocalMessagingServer extends MessagingServer {
+		public LocalMessagingServer(int port) {
+			super(port);
+		}
+
+		private SimpleDateFormat	sdf	= new SimpleDateFormat("HH:mm:ss");
+
+		protected void display(String msg) {
+			String time = sdf.format(new Date()) + " " + msg;
+			chat.append(time);
+		}
+
+		protected synchronized void broadcast(String message) {
+			super.broadcast(message);
+			event.append(message);
+		}
+
+	};
 
 	// server constructor that receive the port to listen to for connection as parameter
 	MessagingServerGUI(int port) {
@@ -57,7 +75,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 		chat.setEditable(false);
 		appendRoom("---Message log---\n");
 		center.add(new JScrollPane(chat));
-		
+
 		center.add(new JLabel("-------------------- Event Log --------------------"));
 		event = new JTextArea(80, 80);
 		event.setEditable(false);
@@ -101,8 +119,8 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 			appendEvent("Invalid port number");
 			return;
 		}
-		// ceate a new Server
-		server = new MessagingServer(port, this);
+		// create a new Server
+		server = new LocalMessagingServer(port);
 		// and start it as a thread
 		new ServerRunning().start();
 		stopStart.setText("Stop");
@@ -116,10 +134,24 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 		actionPerformed(null);
 	}
 
-	// entry point to start the Server
-	public static void main(String[] arg) {
+	/**
+	 * entry point to start the Server
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
 		// start server default port 1500
-		MessagingServerGUI ms = new MessagingServerGUI(1500);
+		int portNumber = 1500;
+		if (args.length > 0) {
+			try {
+				portNumber = Integer.parseInt(args[0]);
+			} catch (Exception e) {
+				System.out.println("Invalid port number.");
+				System.out.println("Usage is: > java " + MessagingServerGUI.class.getCanonicalName() + " [portNumber]");
+				System.exit(-1);
+			}
+		}
+		MessagingServerGUI ms = new MessagingServerGUI(portNumber);
 		ms.start();
 	}
 

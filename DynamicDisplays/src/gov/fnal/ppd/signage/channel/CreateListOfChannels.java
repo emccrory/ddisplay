@@ -31,6 +31,11 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerModel;
 
+/**
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copy 2014
+ *
+ */
 public class CreateListOfChannels extends JPanel {
 
 	private static final long		serialVersionUID	= 2157704848183269779L;
@@ -46,7 +51,7 @@ public class CreateListOfChannels extends JPanel {
 	private List<JLabel>			labelList			= new ArrayList<JLabel>();
 	private JSpinner				time;
 
-	private static class BigButton extends JButton {
+	static class BigButton extends JButton {
 		private static final long	serialVersionUID	= 6517317474435639087L;
 
 		public BigButton(String title) {
@@ -68,7 +73,7 @@ public class CreateListOfChannels extends JPanel {
 		}
 	}
 
-	public CreateListOfChannels() {
+	 CreateListOfChannels() {
 		super(new GridBagLayout());
 		GridBagConstraints bag = new GridBagConstraints();
 		bag.fill = GridBagConstraints.HORIZONTAL;
@@ -293,25 +298,6 @@ public class CreateListOfChannels extends JPanel {
 		}
 	}
 
-	public static class CreateListOfChannelsHelper {
-		public CreateListOfChannels	lister;
-		public JPanel				listerPanel;
-		public JButton				accept;
-
-		public CreateListOfChannelsHelper() {
-			listerPanel = new JPanel(new BorderLayout());
-			lister = new CreateListOfChannels();
-			accept = new BigButton("Accept This Channel List");
-
-			JScrollPane scroller = new JScrollPane(lister, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			if (!SHOW_IN_WINDOW)
-				scroller.getVerticalScrollBar().setPreferredSize(new Dimension(40, 0));
-			listerPanel.add(scroller, BorderLayout.CENTER);
-			listerPanel.add(accept, BorderLayout.NORTH);
-		}
-	}
-
 	private static Container getContainer() {
 		final CreateListOfChannelsHelper helper = new CreateListOfChannelsHelper();
 
@@ -341,20 +327,32 @@ public class CreateListOfChannels extends JPanel {
 		return retval;
 	}
 
+	/**
+	 * @return A play list of channels
+	 */
 	public SignageContent getChannelList() {
 		return new ChannelPlayList(channelList, getDwellTime());
 	}
 
-	public void setChannelList(List<SignageContent> channelList) {
+	/**
+	 * @param channelList
+	 */
+	public void setChannelList(final List<SignageContent> channelList) {
 		this.channelList = channelList;
 	}
 
+	/**
+	 * @return  How long (in milliseconds) to stay on each channel
+	 */
 	public long getDwellTime() {
 		return (Long) time.getValue();
 	}
 
-	public static void main(String[] args) {
-		ChannelCatalogFactory.useRealChannels(true);
+	/**
+	 * @param args Command line arguments (none expected)
+	 */
+	public static void main(final String[] args) {
+		// ChannelCatalogFactory.useRealChannels(true);
 
 		JFrame f = new JFrame(CreateListOfChannels.class.getCanonicalName() + " Testing;");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

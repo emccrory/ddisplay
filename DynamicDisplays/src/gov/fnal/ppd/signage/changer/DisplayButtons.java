@@ -113,7 +113,12 @@ public class DisplayButtons extends JPanel {
 		}
 	}
 
-	public DisplayButtons(SignageType[] cats, ActionListener listener) {
+	/**
+	 * @param cats
+	 *            The types of signage here (NOT USED at this time!)
+	 * @param listener
+	 */
+	public DisplayButtons(final SignageType[] cats, final ActionListener listener) {
 		super(new BorderLayout());
 		this.listener = listener;
 
@@ -198,6 +203,12 @@ public class DisplayButtons extends JPanel {
 		add(buttonBox, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Re-write the ToolTipsText for this Display button
+	 * 
+	 * @param displayNum
+	 *            The Display number for which to reset the ToolTipText
+	 */
 	public void resetToolTip(final int displayNum) {
 		new Thread() {
 			public void run() {
@@ -225,6 +236,12 @@ public class DisplayButtons extends JPanel {
 		}.start();
 	}
 
+	/**
+	 * @param displayNum
+	 *            The Display number of concern here
+	 * @param alive
+	 *            Is this Display alive?
+	 */
 	public void setIsAlive(final int displayNum, final boolean alive) {
 		new Thread("SetAliveDisplay" + displayNum) {
 			public void run() {

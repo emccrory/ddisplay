@@ -17,10 +17,15 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * A simple implementation of a Display
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copy 2014
+ * 
+ */
 public abstract class DisplayImpl implements Display {
 
 	private static int				displayCount		= 1;
@@ -32,16 +37,24 @@ public abstract class DisplayImpl implements Display {
 	protected List<ActionListener>	listeners			= new ArrayList<ActionListener>();
 	private SignageType				category			= SignageType.Public;
 	private InetAddress				ipAddress;
-	// protected Timer timer = new Timer("Heartbeat." + displayNumber, true);
 	private String					location;
-	protected TimerTask				heartbeatThread		= new TimerTask() {
-															public void run() {
-																informListeners(DisplayChangeEvent.Type.ALIVE);
-															}
-														};
+	// protected TimerTask heartbeatThread = new TimerTask() {
+	// public void run() {
+	// informListeners(DisplayChangeEvent.Type.ALIVE);
+	// }
+	// };
 	protected String				myName;
 
-	public DisplayImpl(String ipName, int screenNumber, int number, String location, Color color, SignageType type) {
+	/**
+	 * @param ipName
+	 * @param screenNumber
+	 * @param number
+	 * @param location
+	 * @param color
+	 * @param type
+	 */
+	public DisplayImpl(final String ipName, final int screenNumber, final int number, final String location, final Color color,
+			final SignageType type) {
 		assert (screenNumber >= 0);
 		assert (number >= 0);
 

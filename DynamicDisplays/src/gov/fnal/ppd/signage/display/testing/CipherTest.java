@@ -17,7 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
- *
+ * 
  */
 public class CipherTest {
 
@@ -55,7 +55,7 @@ public class CipherTest {
 
 	/**
 	 * @param input
-	 * @return
+	 * @return The encrypted data
 	 * @throws InvalidKeyException
 	 * @throws ShortBufferException
 	 * @throws IllegalBlockSizeException
@@ -75,7 +75,7 @@ public class CipherTest {
 
 	/**
 	 * @param encrypted
-	 * @return
+	 * @return The decrypted data
 	 * @throws InvalidKeyException
 	 * @throws ShortBufferException
 	 * @throws IllegalBlockSizeException

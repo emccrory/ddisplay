@@ -3,7 +3,7 @@ package gov.fnal.ppd.signage.display.attic;
 import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
-import gov.fnal.ppd.signage.comm.DCMulitServerThread;
+import gov.fnal.ppd.signage.comm.attic.DCMulitServerThread;
 import gov.fnal.ppd.signage.display.DisplayImpl;
 import gov.fnal.ppd.signage.display.ScreenLayoutInterpreter;
 import gov.fnal.ppd.signage.display.testing.BrowserLauncher;
@@ -54,6 +54,15 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 	private BrowserLauncher			browserLauncher			= null;
 	private static boolean			dynamic					= false;
 
+	/**
+	 * @param location
+	 * @param content
+	 * @param typ
+	 * @param screenNum
+	 * @param colorCode
+	 * @param port
+	 * @return The Display
+	 */
 	public static DynamicDisplayWithoutJxBrowser makeADynamicDisplay(final String location, final int content, final String typ,
 			final int screenNum, final String colorCode, final int port) {
 
@@ -177,8 +186,6 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 		System.exit(-1);
 		return null;
 	}
-	
-	
 
 	public DynamicDisplayWithoutJxBrowser(final int portNumber, final boolean maximized, String ipName, int screenNumber,
 			int number, String location, Color color, SignageType type) {
@@ -252,7 +259,6 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 			}
 		});
 	}
-
 
 	@Override
 	protected void localSetContent() {

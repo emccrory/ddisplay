@@ -3,7 +3,7 @@ package gov.fnal.ppd.signage.display.attic.jxbrowser;
 import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
-import gov.fnal.ppd.signage.comm.DCMulitServerThread;
+import gov.fnal.ppd.signage.comm.attic.DCMulitServerThread;
 import gov.fnal.ppd.signage.display.DisplayImpl;
 import gov.fnal.ppd.signage.display.ScreenLayoutInterpreter;
 

@@ -2,7 +2,6 @@ package gov.fnal.ppd.signage.util;
 
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
-import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
 import gov.fnal.ppd.signage.changer.MyButton;
 
@@ -11,8 +10,15 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A simple implementation of a button group, assuming buttons of type MyButton, which shows buttons as selected
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copy 2014
+ * 
+ */
 public class MyButtonGroup implements ActionListener {
-	private static int objCount = 0;
+	private static int		objCount	= 0;
 
 	static long				SleepTime	= 5000;
 	private boolean			play		= false;
@@ -20,15 +26,25 @@ public class MyButtonGroup implements ActionListener {
 	private Display			display;
 	private ActionListener	listener;
 
-	public MyButtonGroup(Display display) {
+	/**
+	 * @param display
+	 *            The Display that owns these buttons
+	 */
+	public MyButtonGroup(final Display display) {
 		this();
 		this.display = display;
 	}
 
-	public void setActionListener(ActionListener L) {
+	/**
+	 * @param L
+	 */
+	public void setActionListener(final ActionListener L) {
 		listener = L;
 	}
 
+	/**
+	 * Create a group
+	 */
 	public MyButtonGroup() {
 		new Thread("ButtonGroupCheck." + (objCount++)) {
 
@@ -55,7 +71,11 @@ public class MyButtonGroup implements ActionListener {
 		}.start();
 	}
 
-	public void add(MyButton b) {
+	/**
+	 * @param b
+	 *            The MyButton to add to this button group
+	 */
+	public void add(final MyButton b) {
 		synchronized (buttons) {
 			b.addActionListener(this);
 			buttons.add(b);
@@ -74,26 +94,31 @@ public class MyButtonGroup implements ActionListener {
 		}
 	}
 
-	public void setPlay() {
-		play = true;
-	}
+	// public void setPlay() {
+	// play = true;
+	// }
+	//
+	// public void setStop() {
+	// play = false;
+	// }
 
-	public void setStop() {
-		play = false;
-	}
-
+	/**
+	 * @return The Display that owns this Button Group
+	 */
 	public Display getDisplay() {
 		return display;
 	}
 
-	public SignageContent getSelectedChannel() {
-		if (display != null)
-			return display.getContent();
-		return null;
-	}
+	// public SignageContent getSelectedChannel() {
+	// if (display != null)
+	// return display.getContent();
+	// return null;
+	// }
 
-	public void disableAll(Object object) {
-		// TODO If a Display is not available, make its buttons unselectable.
+	/**
+	 * @param object
+	 */
+	public void disableAll(final Object object) {
 
 		Channel c = null;
 		if (object instanceof Channel)
@@ -115,6 +140,7 @@ public class MyButtonGroup implements ActionListener {
 		}
 	}
 
+	@SuppressWarnings("javadoc")
 	public synchronized void enableAll() {
 		synchronized (buttons) {
 			for (MyButton B : buttons) {
@@ -124,6 +150,10 @@ public class MyButtonGroup implements ActionListener {
 		}
 	}
 
+	/**
+	 * In some situations the channel changer can opt to change the channel automatically, for example, for a public display that
+	 * has not had a channel change in a while. This method makes this happen.
+	 */
 	public void next() {
 		synchronized (buttons) {
 			for (int i = 0; i < buttons.size(); i++) {

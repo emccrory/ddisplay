@@ -48,7 +48,7 @@ import java.util.List;
 /**
  * DC stands for Display Communications
  * 
- * This is the protocol for the server that is controlling a display.
+ * This is the protocol for the messages between a Channel Changer and a Display.
  * 
  * @author Elliott McCrory, Fermilab
  */
@@ -64,38 +64,61 @@ public class DCProtocol {
 	private Thread			changerThread	= null;
 	protected long			SHORT_INTERVAL	= 100l;
 
+	/**
+	 * @return The message just received
+	 */
 	public Object getTheMessage() {
 		return theMessage;
 	}
 
+	/**
+	 * @return The rpley that is relevant
+	 */
 	public Object getTheReply() {
 		return theReply;
 	}
 
-	public void addListener(Display listener) {
+	/**
+	 * @param listener
+	 */
+	public void addListener(final Display listener) {
 		if (listener != null && !listeners.contains(listener))
 			listeners.add(listener);
 		assert (listeners.size() <= 1);
 	}
 
-	public Display removeListener(Display remove) {
+	/**
+	 * @param remove
+	 * @return The Display that was just removed as a listener
+	 */
+	public Display removeListener(final Display remove) {
 		if (listeners.remove(remove))
 			return remove;
 		return null;
 	}
 
-	public boolean processInput(DDMessage message) {
-
-		/**
-		 * There are two agents in this conversation (client) -- the machine that tells the displays what to show asynchronous
-		 * message from a human, or from a channel script. This client receives a "ready" message, and the it can send a URL to the
-		 * server -- the machine that controls a display (server). This server waits for a URL from the client. When it gets it and
-		 * displays the URL successfully, it replies, "Ready".
-		 * 
-		 * -- There can (should?) also be a protocol that allows the client to ask, "How are you doing?" To which the server replies
-		 * with the URL it is showing.
-		 */
-
+	/**
+	 * <p>
+	 * There are two agents in this conversation
+	 * <ul>
+	 * <li>(client) -- the machine that tells the displays what to show asynchronous message from a human, or from a channel script.
+	 * This client receives a "ready" message, and the it can send a URL to the server</li>
+	 * <li>
+	 * the machine that controls a display (server). This server waits for a URL from the client. When it gets it and displays the
+	 * URL successfully, it replies, "Ready".</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * <p>
+	 * Maybe there should also be a protocol that allows the client to ask, "How are you doing?" To which the server replies with
+	 * the URL it is showing.
+	 * </p>
+	 * 
+	 * @param message
+	 *            The message to process
+	 * @return Was the processing successful?
+	 */
+	public boolean processInput(final DDMessage message) {
 		try {
 			System.out.println(getClass().getSimpleName() + ".processInput(): received '" + message + "'");
 
