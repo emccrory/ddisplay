@@ -82,6 +82,8 @@ public class MessagingClient {
 			disconnect();
 			return false;
 		}
+		
+		connectionAccepted();
 		// success we inform the caller that it worked
 		return true;
 	}
@@ -119,8 +121,25 @@ public class MessagingClient {
 		}
 	}
 
+	protected void connectionAccepted() {
+		// Override this method if you need to know when a connection is accepted
+	}
+
 	protected void connectionFailed() {
-		// Override this if you need it
+		socket = null;
+
+		long wait = 20000L;
+		// Wait until the server returns
+		while (socket == null) {
+			displayLogMessage("Will wait " + wait + " ms for server to return.");
+			try {
+				Thread.sleep(wait);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			wait = 10000L;
+			start();
+		}
 	}
 
 	/*

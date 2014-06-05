@@ -52,13 +52,31 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 
 		@Override
 		public void displayLogMessage(final String msg) {
-			ta.append(msg);
+			if (msg.endsWith("\n"))
+				ta.append(msg);
+			else
+				ta.append(msg + "\n");
 		}
 
 		@Override
 		public void displayIncomingMessage(final String msg) {
-			ta.append(msg);
+			if (msg.endsWith("\n"))
+				ta.append(msg);
+			else
+				ta.append(msg + "\n");
 		};
+		
+		@Override
+		protected void connectionAccepted() {
+			MessagingClientGUI.this.connectionAccepted();
+			super.connectionAccepted();
+		}
+
+		@Override
+		protected void connectionFailed() {
+			MessagingClientGUI.this.connectionFailed();
+			super.connectionFailed();
+		}
 	}
 
 	// Constructor connection receiving a socket number
@@ -200,20 +218,25 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 				return;
 			tf.setText("");
 			label.setText("Enter your message below");
-			connected = true;
 
-			// disable login button
-			login.setEnabled(false);
-			// enable the 2 buttons
-			logout.setEnabled(true);
-			whoIsIn.setEnabled(true);
-			// disable the Server and Port JTextField
-			tfServer.setEditable(false);
-			tfPort.setEditable(false);
 			// Action listener for when the user enter a message
 			tf.addActionListener(this);
 		}
 
+	}
+
+	
+	private void connectionAccepted() {
+		connected = true;
+
+		// disable login button
+		login.setEnabled(false);
+		// enable the 2 buttons
+		logout.setEnabled(true);
+		whoIsIn.setEnabled(true);
+		// disable the Server and Port JTextField
+		tfServer.setEditable(false);
+		tfPort.setEditable(false);
 	}
 
 	/**

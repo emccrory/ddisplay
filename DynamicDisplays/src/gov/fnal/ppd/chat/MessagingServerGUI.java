@@ -43,14 +43,19 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 
 		protected void display(String msg) {
 			String time = sdf.format(new Date()) + " " + msg;
-			chat.append(time);
+			if (msg.endsWith(("\n")))
+				chat.append(time);
+			else
+				chat.append(time + "\n");
 		}
 
-		protected synchronized void broadcast(String message) {
-			super.broadcast(message);
-			event.append(message);
+		protected synchronized void broadcast(String msg) {
+			super.broadcast(msg);
+			if (msg.endsWith(("\n")))
+				event.append(msg);
+			else
+				event.append(msg + "\n");
 		}
-
 	};
 
 	// server constructor that receive the port to listen to for connection as parameter
@@ -85,7 +90,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 
 		// need to be informed when the user click the close button on the frame
 		addWindowListener(this);
-		setSize(400, 600);
+		setSize(800, 400);
 		setVisible(true);
 	}
 
@@ -116,13 +121,14 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 		try {
 			port = Integer.parseInt(tPortNumber.getText().trim());
 		} catch (Exception er) {
-			appendEvent("Invalid port number");
+			appendEvent("Invalid port number\n");
 			return;
 		}
 		// create a new Server
 		server = new LocalMessagingServer(port);
 		// and start it as a thread
 		new ServerRunning().start();
+		appendEvent("Server started at " + (new Date()) + "\n");
 		stopStart.setText("Stop");
 		tPortNumber.setEditable(false);
 	}
@@ -191,16 +197,16 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 	public void windowDeactivated(WindowEvent e) {
 	}
 
-	/*
+	/**
 	 * A thread to run the Server
 	 */
 	class ServerRunning extends Thread {
 		public void run() {
-			server.start(); // should execute until if fails
+			server.start(); // should stay in this method until it fails
 			// the server failed
 			stopStart.setText("Start");
 			tPortNumber.setEditable(true);
-			appendEvent("Server has stopped\n");
+			appendEvent("Server has stopped at " + (new Date()) + "\n");
 			server = null;
 		}
 	}
