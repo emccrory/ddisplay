@@ -19,26 +19,25 @@ dduser=ddisplay
 ddgroup=$(getent group $(getent passwd ${dduser} | cut -d: -f4) | cut -d: -f1)
 destination=$(getent passwd ${dduser} | cut -d: -f6)
 
-DDLogs=/var/log/DD
+DDLogs=${destination}/log/
 log="${destination}/DynamicDisplays$$.log"
 
 # create a new log file
 date > ${log}
 
-echo "Starting Dynamic Displays creation in folder" $destination ".  Log file is " ${log}
+echo "Starting Dynamic Displays creation in folder" ${destination}".  Log file is " ${log}
 
 echo "Making folders for Dynamic Displays"
 
-# mkdir $DDLogs || { echo $DDLogs " already exists. Continuing ..."; }
-# chown $dduser  $DDLogs $DDLogs/*.log
-# chgrp $ddgroup $DDLogs $DDLogs/*.log
-mkdir -p ${DDLogs}
-chown ${dduser}:${ddgroup} $DDLogs $DDLogs/*.log
+mkdir -p ${destination} ${DDLogs}
 
-mkdir ${destination} || { echo ${destination} " already exists. Continuing ..."; }
 cd ${destination}
 
+
 # TODO -- Replace tar.gz fetching and manipulations with git commands (6/3/2014)
+#
+# This format doesn't require any special redmine rights
+# git clone http://cdcvs.fnal.gov/projects/roc-dynamicdisplays/ .
 
 echo Getting the software update script
 rm -f DDUpdate.sh
@@ -58,10 +57,12 @@ wget ${SERVER}/all.tar.gz >> ${log} 2>&1
 
 echo "Unzipping and then un-tarring those files"
 
-gzip -dv all.tar.gz >> ${log} 2>&1
-
-tar xvf all.tar >> ${log} 2>&1
+# on SL6, tar is smart enough to automatically gzip -d in memory
+tar xvf all.tar.gz >> ${log} 2>&1
 
 ls -l ${destination} | tee -a ${log}
+
+# ensure ownership is correct on all files
+chown -Rh ${dduser}:${ddgroup} ${DDLogs} ${destination}
 
 echo "Finished at " `date` | tee -a ${log}
