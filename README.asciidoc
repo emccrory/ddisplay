@@ -1,0 +1,21 @@
+////
+    Formatted with asciidoc to make conversion to other media simple
+    http://www.methods.co.nz/asciidoc/userguide.html
+////
+== About DynamicDisplay
+
+This is the ROC DynamicDisplay application.  It was originally developed at
+Fermilab for efficient and elegant digital displays.
+
+You can fetch the most recent release via:
+[source,shell]
+----
+git clone http://cdcvs.fnal.gov/projects/roc-dynamicdisplays/
+----
+
+=== How to Install
+TBA
+
+=== How to Use
+TBA
+
