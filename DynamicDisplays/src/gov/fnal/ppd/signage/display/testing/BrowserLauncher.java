@@ -91,15 +91,27 @@ public class BrowserLauncher {
 			if (browserProcess != null)
 				return;
 
+			String geom = bounds.width + "x" + bounds.height + "+" + (int) bounds.getX() + "+" + (int) bounds.getY();
 			try {
-				String geom = bounds.width + "x" + bounds.height + "+" + (int) bounds.getX() + "+" + (int) bounds.getY();
 				browserProcess = new ProcessBuilder("firefox", "-remote-control", "--geometry=" + geom, "-fullscreen", url).start();
 
 				if (debug)
 					System.out.println("Launched " + whichInstance + " browser, geometry=" + geom);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				// This probably failed because it could not find the browser executable.
 				e.printStackTrace();
+				System.err.println("Assume this is Windows and try again!");
+				try {
+					browserProcess = new ProcessBuilder("c:/Program Files (x86)/Mozilla Firefox/firefox.exe", "-remote-control",
+							"--geometry=" + geom, "-fullscreen", url).start();
+					if (debug)
+						System.out.println("Launched " + whichInstance + " browser, geometry=" + geom);
+				} catch (IOException e1) {
+					System.err.println("All options exhausted -- abort");
+					e1.printStackTrace();
+					System.exit(-1);
+				}
+
 			}
 			break;
 		}
