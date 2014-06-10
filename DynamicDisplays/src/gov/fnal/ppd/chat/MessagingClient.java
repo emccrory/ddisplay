@@ -82,7 +82,7 @@ public class MessagingClient {
 			disconnect();
 			return false;
 		}
-		
+
 		connectionAccepted();
 		// success we inform the caller that it worked
 		return true;
@@ -253,10 +253,11 @@ public class MessagingClient {
 				} catch (IOException e) {
 					displayLogMessage("Server has closed the connection: " + e);
 					connectionFailed();
+					e.printStackTrace();
 					break;
-				}
-				// can't happen with a String object but need the catch anyhow
-				catch (ClassNotFoundException e2) {
+				} catch (ClassNotFoundException e) {
+					// can't happen with a String object but need the catch anyhow
+					e.printStackTrace();
 				}
 			}
 		}

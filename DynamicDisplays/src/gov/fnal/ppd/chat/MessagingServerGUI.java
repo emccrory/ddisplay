@@ -39,22 +39,26 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 			super(port);
 		}
 
-		private SimpleDateFormat	sdf	= new SimpleDateFormat("HH:mm:ss");
+		// private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
 		protected void display(String msg) {
-			String time = sdf.format(new Date()) + " " + msg;
-			if (msg.endsWith(("\n")))
-				chat.append(time);
-			else
-				chat.append(time + "\n");
+			synchronized (sdf) {
+				String time = sdf.format(new Date()) + " " + msg;
+				if (msg.endsWith(("\n")))
+					chat.append(time);
+				else
+					chat.append(time + "\n");
+			}
 		}
 
 		protected synchronized void broadcast(String msg) {
 			super.broadcast(msg);
-			if (msg.endsWith(("\n")))
-				event.append(msg);
-			else
-				event.append(msg + "\n");
+			synchronized (event) {
+				if (msg.endsWith(("\n")))
+					event.append(msg);
+				else
+					event.append(msg + "\n");
+			}
 		}
 	};
 
@@ -122,6 +126,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 			port = Integer.parseInt(tPortNumber.getText().trim());
 		} catch (Exception er) {
 			appendEvent("Invalid port number\n");
+			er.printStackTrace();
 			return;
 		}
 		// create a new Server
@@ -170,6 +175,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 			try {
 				server.stop(); // ask the server to close the conection
 			} catch (Exception eClose) {
+				eClose.printStackTrace();
 			}
 			server = null;
 		}

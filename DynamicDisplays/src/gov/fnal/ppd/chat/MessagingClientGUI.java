@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -41,6 +44,8 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 	private int						defaultPort;
 	private String					defaultHost;
 
+	private String					defaultUserName;
+
 	// TODO It is probably more correct to have the GUI class extend MessagingClient and then have JFrame be an attribute.
 	// It is the other way around now.
 
@@ -65,7 +70,7 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 			else
 				ta.append(msg + "\n");
 		};
-		
+
 		@Override
 		protected void connectionAccepted() {
 			MessagingClientGUI.this.connectionAccepted();
@@ -81,10 +86,15 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 
 	// Constructor connection receiving a socket number
 	MessagingClientGUI(String host, int port) {
-
 		super("Chat Client");
 		defaultPort = port;
 		defaultHost = host;
+		
+		try {
+			defaultUserName = InetAddress.getLocalHost().getCanonicalHostName() + "_listener_" + ((new Date()).getTime() % 100L) ;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 
 		// The NorthPanel with:
 		JPanel northPanel = new JPanel(new GridLayout(3, 1));
@@ -106,7 +116,7 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 		// the Label and the TextField
 		label = new JLabel("Enter your username below", SwingConstants.CENTER);
 		northPanel.add(label);
-		tf = new JTextField("Anonymous");
+		tf = new JTextField(defaultUserName);
 		tf.setBackground(Color.WHITE);
 		northPanel.add(tf);
 		add(northPanel, BorderLayout.NORTH);
@@ -225,7 +235,6 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 
 	}
 
-	
 	private void connectionAccepted() {
 		connected = true;
 

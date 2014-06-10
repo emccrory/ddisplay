@@ -1,5 +1,6 @@
 package gov.fnal.ppd.chat;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,8 +21,8 @@ public class MessagingServer {
 	// an ArrayList to keep the list of the Client
 	private ArrayList<ClientThread>	al;
 
-	// to display time
-	private SimpleDateFormat		sdf;
+	// to display time (Also used as a synchronization object for writing messages to the local terminal/GUI
+	protected SimpleDateFormat		sdf;
 	// the port number to listen for connection
 	private int						port;
 	// the boolean that will be turned of to stop the server
@@ -96,16 +97,23 @@ public class MessagingServer {
 						tc.socket.close();
 					} catch (IOException ioE) {
 						// not much I can do
+						ioE.printStackTrace();
 					}
 				}
 			} catch (Exception e) {
 				display("Exception closing the server and clients: " + e);
+				e.printStackTrace();
 			}
 		}
 		// something went bad
 		catch (IOException e) {
 			String msg = sdf.format(new Date()) + " Exception on new ServerSocket: " + e + "\n";
 			display(msg);
+			e.printStackTrace();
+		} catch (Exception e) {
+			String msg = sdf.format(new Date()) + " Exception on new ServerSocket: " + e + "\n";
+			display(msg);
+			e.printStackTrace();
 		}
 	}
 
@@ -120,6 +128,7 @@ public class MessagingServer {
 			new Socket("localhost", port);
 		} catch (Exception e) {
 			// nothing I can really do
+			e.printStackTrace();
 		}
 	}
 
@@ -127,8 +136,10 @@ public class MessagingServer {
 	 * Display an event (not a message) to the console or the GUI
 	 */
 	protected void display(String msg) {
-		String time = sdf.format(new Date()) + " " + msg;
-		System.out.println(time);
+		synchronized (sdf) {
+			String time = sdf.format(new Date()) + " " + msg;
+			System.out.println(time);
+		}
 	}
 
 	/**
@@ -143,24 +154,25 @@ public class MessagingServer {
 	 */
 	protected synchronized void broadcast(String message) {
 		// TODO (possibly) -- Be more selective about who gets this message
+		synchronized (al) {
+			String messageLf;
+			if (addTimeStamp) {
+				// add HH:mm:ss and \n to the message
+				String time = sdf.format(new Date());
+				messageLf = time + " " + message + "\n";
+			} else {
+				messageLf = message;
+			}
 
-		String messageLf;
-		if (addTimeStamp) {
-			// add HH:mm:ss and \n to the message
-			String time = sdf.format(new Date());
-			messageLf = time + " " + message + "\n";
-		} else {
-			messageLf = message;
-		}
-
-		// we loop in reverse order in case we would have to remove a Client
-		// because it has disconnected
-		for (int i = al.size(); --i >= 0;) {
-			ClientThread ct = al.get(i);
-			// try to write to the Client if it fails remove it from the list
-			if (!ct.writeMsg(messageLf)) {
-				al.remove(i);
-				display("Disconnected Client " + ct.username + " removed from list.");
+			// we loop in reverse order in case we would have to remove a Client
+			// because it has disconnected
+			for (int i = al.size(); --i >= 0;) {
+				ClientThread ct = al.get(i);
+				// try to write to the Client if it fails remove it from the list
+				if (!ct.writeMsg(messageLf)) {
+					al.remove(i);
+					display("Disconnected Client " + ct.username + " removed from list.");
+				}
 			}
 		}
 	}
@@ -226,6 +238,7 @@ public class MessagingServer {
 
 		// Constructor
 		ClientThread(Socket socket) {
+			super("ClientThread_of_MessagingServer");
 			// a unique id
 			id = ++uniqueId;
 			this.socket = socket;
@@ -241,27 +254,35 @@ public class MessagingServer {
 			} catch (IOException e) {
 				display("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
 				return;
-			}
-			// have to catch ClassNotFoundException
-			// but I read a String, I am sure it will work
-			catch (ClassNotFoundException e) {
+			} catch (Exception e) {
+				// have to catch ClassNotFoundException but I read a String, I am sure it will work
+				e.printStackTrace();
 			}
 			date = new Date().toString() + "\n";
 		}
 
 		// what will run forever
 		public void run() {
-			// to loop until LOGOUT
+			// to loop until LOGOUT or we hit an exception
 			boolean keepGoing = true;
 			while (keepGoing) {
 				// read a String (which is an object)
 				try {
 					cm = (MessageCarrier) sInput.readObject();
+				} catch (EOFException e) {
+					display(username + " disconnected -- " + e);
+					break;
 				} catch (IOException e) {
-					display(username + " Exception reading Streams: " + e);
+					display(username + ": An I/O Exception -- " + e);
+					e.printStackTrace();
 					break;
-				} catch (ClassNotFoundException e2) {
+				} catch (ClassNotFoundException e) {
+					display(username + ": A class not found exception -- " + e);
+					e.printStackTrace();
 					break;
+				} catch (Exception e) {
+					display(username + ": Exception reading Streams -- " + e + "; will try to continue.");
+					e.printStackTrace();
 				}
 				// the message part of the ChatMessage
 				String message = cm.getMessage();
@@ -284,21 +305,40 @@ public class MessagingServer {
 				case MessageCarrier.WHOISIN:
 					// writeMsg("WHOISIN List of the users connected at " + sdf.format(new Date()) + "\n");
 					// scan all the users connected
-					for (int i = 0; i < al.size(); ++i) {
-						ClientThread ct = al.get(i);
-						// TODO Make this into an XML document
-						if (ct != null && ct.username != null && ct.date != null)
-							writeMsg("WHOISIN [" + ct.username + "] since " + ct.date);
-						else {
-							// writeMsg("WHOISIN " + (i + 1) + ": Error!  Have a null client");
-							display((i + 1) + ": Error!  Have a null client");
+					boolean purge = false;
+					synchronized (al) {
+						for (int i = 0; i < al.size(); ++i) {
+							ClientThread ct = al.get(i);
+							// TODO Make this into an XML document
+							if (ct != null && ct.username != null && ct.date != null)
+								writeMsg("WHOISIN [" + ct.username + "] since " + ct.date);
+							else {
+								// writeMsg("WHOISIN " + (i + 1) + ": Error!  Have a null client");
+								display("Talking to " + username + " socket " + socket.getLocalAddress() + " (" + (i + 1)
+										+ ") Error!  Have a null client");
+								purge = true;
+							}
+							if (purge)
+								for (ClientThread AL : al) {
+									if (AL == null) {
+										display("Removing null ClientThread");
+										al.remove(AL);
+									} else if (AL.username == null) {
+										display("Removing null ClientThread username [" + AL + "]");
+										al.remove(AL);
+									} else if (AL.date == null) {
+										display("Removing null ClientThread date [" + AL + "]");
+										al.remove(AL);
+									}
+								}
 						}
+						break;
 					}
-					break;
 				}
 			}
 			// remove myself from the arrayList containing the list of the
 			// connected Clients
+			display("Have exited 'forever' loop (keepGoing=" + keepGoing + ") Removing client " + id);
 			remove(id);
 			close();
 		}
@@ -310,17 +350,20 @@ public class MessagingServer {
 				if (sOutput != null)
 					sOutput.close();
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			try {
 				if (sInput != null)
 					sInput.close();
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			;
 			try {
 				if (socket != null)
 					socket.close();
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
@@ -341,6 +384,9 @@ public class MessagingServer {
 			catch (IOException e) {
 				display("Error sending message to " + username);
 				display(e.toString());
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			return true;
 		}
