@@ -318,22 +318,22 @@ public class MessagingServer {
 										+ ") Error!  Have a null client");
 								purge = true;
 							}
-							if (purge)
-								for (ClientThread AL : al) {
-									if (AL == null) {
-										display("Removing null ClientThread");
-										al.remove(AL);
-									} else if (AL.username == null) {
-										display("Removing null ClientThread username [" + AL + "]");
-										al.remove(AL);
-									} else if (AL.date == null) {
-										display("Removing null ClientThread date [" + AL + "]");
-										al.remove(AL);
-									}
-								}
 						}
-						break;
+						if (purge)
+							for (ClientThread AL : al) {
+								if (AL == null) {
+									display("Removing null ClientThread");
+									al.remove(AL);
+								} else if (AL.username == null) {
+									display("Removing null ClientThread username [" + AL + "]");
+									al.remove(AL);
+								} else if (AL.date == null) {
+									display("Removing null ClientThread date [" + AL + "]");
+									al.remove(AL);
+								}
+							}
 					}
+					break;
 				}
 			}
 			// remove myself from the arrayList containing the list of the

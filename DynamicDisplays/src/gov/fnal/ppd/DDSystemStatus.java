@@ -318,7 +318,7 @@ public class DDSystemStatus extends JFrame {
 	 */
 	public static void main(String[] args) {
 		int portNumber = 1500;
-		String host = "localhost";
+		String host = "mccrory.fnal.gov";
 		if (args.length == 1) {
 			try {
 				portNumber = Integer.parseInt(args[0]);

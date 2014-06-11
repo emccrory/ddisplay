@@ -44,10 +44,13 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 		protected void display(String msg) {
 			synchronized (sdf) {
 				String time = sdf.format(new Date()) + " " + msg;
-				if (msg.endsWith(("\n")))
+				if (msg.endsWith(("\n"))) {
 					chat.append(time);
-				else
+					System.out.print("display(): " + time);
+				} else {
 					chat.append(time + "\n");
+					System.out.println("display(): " + time);
+				}
 			}
 		}
 
