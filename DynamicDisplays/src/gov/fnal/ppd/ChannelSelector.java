@@ -531,11 +531,11 @@ public class ChannelSelector extends JPanel implements ActionListener {
 		displaySelector.setIsAlive(number, alive);
 
 		// Enable the Channel buttons, too
-		List<ChannelButtonGrid> allGrids = channelButtonGridList.get(number - 1);
-		for (ChannelButtonGrid cbg : allGrids)
-			if (cbg != null) {
-				cbg.setAlive(alive);
-			}
+		for (List<ChannelButtonGrid> allGrids : channelButtonGridList)
+			if (allGrids.get(0).getDisplay().getNumber() == number)
+				for (ChannelButtonGrid cbg : allGrids)
+					if (cbg != null)
+						cbg.setAlive(alive);
 	}
 
 	protected static Border getTitleBorder(Color c) {
