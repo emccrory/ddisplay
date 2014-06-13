@@ -4,11 +4,14 @@ import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,7 +21,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 /**
  * A messaging client that shows what is in the messaging system, taylored to the specifics of the Dynamic Displays system
@@ -28,6 +33,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class DDSystemStatus extends JFrame {
 
 	private static final long		serialVersionUID	= -1080299322567836987L;
+
+	/**
+	 * The French spelling of 'facade'
+	 */
+	public static final String		FACADE				= "FA\u00c7ADE";
 
 	// to hold the server address an the port number
 	private JTextField				tfServer, tfPort;
@@ -48,10 +58,9 @@ public class DDSystemStatus extends JFrame {
 																		+ ")");
 
 	private JTree					clientsTree			= new JTree(root);
-
 	private int						refresh				= 0;
-
-	private int						nextWhoIsIn			= 4;
+	private JScrollPane				scroller;
+	private ImageIcon				dataIcon, infoIcon, clockIcon, facadeIcon;
 
 	// TODO It is probably more correct to have the GUI class extend MessagingClient and then have JFrame be an attribute.
 	// It is the other way around now.
@@ -96,8 +105,8 @@ public class DDSystemStatus extends JFrame {
 					if (!found) {
 						DefaultMutableTreeNode g = new DefaultMutableTreeNode(facadeName);
 						root.add(g);
-						g.add(new DefaultMutableTreeNode(
-								"'FA\u00c7ADE' nodes are virtual connections between a channel changer & a real display"));
+						g.add(new DefaultMutableTreeNode("'" + FACADE.toLowerCase()
+								+ "' nodes are virtual connections between a channel changer & a real display"));
 						g.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
 						g.add(new DefaultMutableTreeNode(clientName));
 					}
@@ -113,7 +122,7 @@ public class DDSystemStatus extends JFrame {
 					else
 						node.add(new DefaultMutableTreeNode("This is an instance of " + ChannelSelector.class.getCanonicalName()));
 				}
-
+				// Apparently, there is a way to tell the JTree model that the tree has changed. Need to do that!
 			}
 		};
 
@@ -146,6 +155,8 @@ public class DDSystemStatus extends JFrame {
 			e.printStackTrace();
 		}
 
+		setTreeIcons();
+
 		JTabbedPane tabs = new JTabbedPane();
 		add(tabs, BorderLayout.CENTER);
 
@@ -173,28 +184,15 @@ public class DDSystemStatus extends JFrame {
 		messagePanel.add(new JScrollPane(ta));
 		ta.setEditable(false);
 
-		tabs.add(new JScrollPane(clientsTree), "Messaging Clients");
+		scroller = new JScrollPane(clientsTree);
+		tabs.add(scroller, "Messaging Clients");
 		tabs.add(messagePanel, "Raw messages");
 
 		DefaultMutableTreeNode placeHolderNode = new DefaultMutableTreeNode("Awaiting List of Clients");
 
 		root.add(placeHolderNode);
 
-		// the 3 buttons
-		// login = new JButton("Login");
-		// login.addActionListener(this);
-		// logout = new JButton("Logout");
-		// logout.addActionListener(this);
-		// logout.setEnabled(false); // you have to login before being able to logout
-		// whoIsIn = new JButton("Who is in");
-		// whoIsIn.addActionListener(this);
-		// whoIsIn.setEnabled(false); // you have to login before being able to Who is in
-		//
-		// JPanel southPanel = new JPanel();
-		// southPanel.add(login);
-		// southPanel.add(logout);
-		// southPanel.add(whoIsIn);
-		// add(southPanel, BorderLayout.SOUTH);
+		setTreeIcons();
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(600, 600);
@@ -212,6 +210,12 @@ public class DDSystemStatus extends JFrame {
 						// clientsTree.repaint();
 						repaint();
 						refresh = -1;
+						for (int i = 0; i < clientsTree.getRowCount(); i++)
+							clientsTree.expandRow(i);
+
+						// for (int k = 0; k < root.getChildCount(); k++) {
+						// System.out.println(k + ": " + root.getChildAt(k).toString());
+						// }
 					}
 				}
 			}
@@ -229,6 +233,8 @@ public class DDSystemStatus extends JFrame {
 		}.start();
 
 		new Thread("IssueAWhoIsInCommand") {
+			private int	nextWhoIsIn	= 2;
+
 			public void run() {
 				while (true) {
 					try {
@@ -238,11 +244,73 @@ public class DDSystemStatus extends JFrame {
 					}
 					if (client != null && nextWhoIsIn-- == 0) {
 						whoIsIn();
-						nextWhoIsIn = 10;
+						nextWhoIsIn = 19;
 					}
 				}
 			}
 		}.start();
+	}
+
+	private class MyRenderer extends DefaultTreeCellRenderer {
+
+		public MyRenderer() {
+		}
+
+		@Override
+		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,
+				int row, boolean hasFocus) {
+
+			super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+			if (leaf)
+				if (isDisplay(value))
+					setIcon(dataIcon);
+				else if (isFacade(value))
+					setIcon(facadeIcon);
+				else if (isTime(value))
+					setIcon(clockIcon);
+				else
+					setIcon(infoIcon);
+			return this;
+		}
+
+		private boolean isDisplay(Object value) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+			String nodeInfo = (String) (node.getUserObject());
+			return nodeInfo.indexOf("Dynamic Display") >= 0;
+		}
+
+		private boolean isFacade(Object value) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+			String nodeInfo = (String) (node.getUserObject());
+			return nodeInfo.indexOf(FACADE) >= 0;
+		}
+
+		protected boolean isTime(Object value) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+			String nodeInfo = (String) (node.getUserObject());
+			return nodeInfo.indexOf("Connected") >= 0;
+		}
+	}
+
+	private void setTreeIcons() {
+		if (dataIcon == null) {
+			ImageIcon bigIcon = new ImageIcon("src/gov/fnal/ppd/images/data-icon.gif");
+			Image I = bigIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+			dataIcon = new ImageIcon(I);
+
+			bigIcon = new ImageIcon("src/gov/fnal/ppd/images/info.png");
+			I = bigIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
+			infoIcon = new ImageIcon(I);
+
+			bigIcon = new ImageIcon("src/gov/fnal/ppd/images/clock.png");
+			I = bigIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+			clockIcon = new ImageIcon(I);
+
+			bigIcon = new ImageIcon("src/gov/fnal/ppd/images/eye.png");
+			I = bigIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+			facadeIcon = new ImageIcon(I);
+		}
+		clientsTree.setCellRenderer(new MyRenderer());
 	}
 
 	// called by the Client to append text in the TextArea
@@ -254,9 +322,6 @@ public class DDSystemStatus extends JFrame {
 	// called by the GUI is the connection failed
 	// we reset our buttons, label, textfield
 	void connectionFailed() {
-		// login.setEnabled(true);
-		// logout.setEnabled(false);
-		// whoIsIn.setEnabled(false);
 		// reset port number and host name as a construction time
 		tfPort.setText("" + defaultPort);
 		tfServer.setText(defaultHost);
@@ -266,6 +331,7 @@ public class DDSystemStatus extends JFrame {
 
 	}
 
+	@SuppressWarnings("unused")
 	private void logout() {
 		client.sendMessage(new MessageCarrier(MessageCarrier.LOGOUT, ""));
 	}
@@ -273,10 +339,22 @@ public class DDSystemStatus extends JFrame {
 	private void whoIsIn() {
 		if (client == null)
 			return;
+
+		// TODO Only redraw the tree if something changes.
+		root = new DefaultMutableTreeNode("Dynamic Displays Messaging System, " + new Date());
+		clientsTree = new JTree(root);
+		setTreeIcons();
+
 		client.sendMessage(new MessageCarrier(MessageCarrier.WHOISIN, ""));
-		root.removeAllChildren();
-		root.setUserObject("Dynamic Displays Messaging System, " + new Date());
-		nextWhoIsIn = 10;
+
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				scroller.setViewportView(clientsTree);
+				repaint();
+			}
+		});
 	}
 
 	private void login() {
