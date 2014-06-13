@@ -262,13 +262,15 @@ public class MessagingServer {
 		}
 
 		// what will run forever
+		Object read = new Object();
 		public void run() {
 			// to loop until LOGOUT or we hit an exception
 			boolean keepGoing = true;
 			while (keepGoing) {
 				// read a String (which is an object)
 				try {
-					cm = (MessageCarrier) sInput.readObject();
+					read = sInput.readObject();
+					cm = (MessageCarrier) read;
 				} catch (EOFException e) {
 					display(username + " disconnected -- " + e);
 					break;
@@ -277,12 +279,14 @@ public class MessagingServer {
 					e.printStackTrace();
 					break;
 				} catch (ClassNotFoundException e) {
-					display(username + ": A class not found exception -- " + e);
+					display(username + ": A class not found exception -- " + e + ". returned object of type "
+							+ read.getClass().getCanonicalName());
 					e.printStackTrace();
 					break;
 				} catch (Exception e) {
 					display(username + ": Exception reading Streams -- " + e + "; will try to continue.");
 					e.printStackTrace();
+					continue; // Go to the next iteration of this loop.
 				}
 				// the message part of the ChatMessage
 				String message = cm.getMessage();
@@ -338,7 +342,7 @@ public class MessagingServer {
 			}
 			// remove myself from the arrayList containing the list of the
 			// connected Clients
-			display("Have exited 'forever' loop (keepGoing=" + keepGoing + ") Removing client " + id);
+			display("Have exited 'forever' loop (keepGoing=" + keepGoing + ") Removing client " + id + ", name='" + username + "'");
 			remove(id);
 			close();
 		}

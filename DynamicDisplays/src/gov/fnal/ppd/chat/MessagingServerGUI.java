@@ -67,7 +67,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 
 	// server constructor that receive the port to listen to for connection as parameter
 	MessagingServerGUI(int port) {
-		super("Chat Server");
+		super("Dynamic Displays Messaging Server");
 		server = null;
 		// in the NorthPanel the PortNumber the Start and Stop buttons
 		JPanel north = new JPanel();

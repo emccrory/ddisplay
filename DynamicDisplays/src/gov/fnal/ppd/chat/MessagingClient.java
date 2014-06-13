@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -253,9 +254,11 @@ public class MessagingClient {
 				} catch (IOException e) {
 					displayLogMessage("Server has closed the connection: " + e);
 					connectionFailed();
+					System.err.println("Server has closed the connection at " + new Date());
 					e.printStackTrace();
 					break;
 				} catch (ClassNotFoundException e) {
+					System.err.println("Exception caught at " + new Date());
 					// can't happen with a String object but need the catch anyhow
 					e.printStackTrace();
 				}
