@@ -116,6 +116,10 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 		return false;
 	}
 
+	public Display getDisplay() {
+		return display;
+	}
+
 	// public void addExitButton() {
 	// if (expGrid != null) {
 	// JButton exit = new JButton("Exit the GUI");
