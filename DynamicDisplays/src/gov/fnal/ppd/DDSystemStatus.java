@@ -99,6 +99,7 @@ public class DDSystemStatus extends JFrame {
 						if (q.toString().contains(facadeName)) {
 							found = true;
 							q.add(new DefaultMutableTreeNode(clientName));
+							System.out.println("A: " + clientName + " added to " + q.getUserObject());
 							break;
 						}
 					}
@@ -109,11 +110,13 @@ public class DDSystemStatus extends JFrame {
 								+ "' nodes are virtual connections between a channel changer & a real display"));
 						g.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
 						g.add(new DefaultMutableTreeNode(clientName));
+						System.out.println("B: " + clientName + " added to " + g.getUserObject());
 					}
 				} else {
 					DefaultMutableTreeNode node = new DefaultMutableTreeNode(clientName);
 					root.add(node);
 					node.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
+					System.out.println("C: " + clientName + " added to root");
 					if (msg.contains(")"))
 						node.add(new DefaultMutableTreeNode("Dynamic Display Number "
 								+ msg.substring(msg.indexOf('(') + 1, msg.indexOf(')'))));
@@ -123,12 +126,10 @@ public class DDSystemStatus extends JFrame {
 						node.add(new DefaultMutableTreeNode("This is an instance of " + ChannelSelector.class.getCanonicalName()));
 				}
 				// Apparently, there is a way to tell the JTree model that the tree has changed. Need to do that!
+			} else {
+				System.out.println("D: Received an unknown message: '" + msg + "'");
 			}
 		};
-
-		//
-		// TODO Use JTree to show the clients that are connected to the messaging server
-		//
 
 		@Override
 		protected void connectionAccepted() {
