@@ -86,6 +86,10 @@ public class DDSystemStatus extends JFrame {
 			else
 				ta.append(msg + "\n");
 
+			// TODO Windows 7 display has a problem with this.  Only the first node is ever displayed when this is redrawn.
+			// It is geting all the messages and putting them into the tree properly, but the graphics is not showing up
+			// (at least on my instance of Windows 7) 6/16/2014
+			
 			if (msg.contains("WHOISIN")) {
 				refresh = 10;
 				String clientName = msg.substring("WHOISIN [".length(), msg.indexOf(']'));
@@ -99,7 +103,7 @@ public class DDSystemStatus extends JFrame {
 						if (q.toString().contains(facadeName)) {
 							found = true;
 							q.add(new DefaultMutableTreeNode(clientName));
-							System.out.println("A: " + clientName + " added to " + q.getUserObject());
+							// System.out.println("A: " + clientName + " added to " + q.getUserObject());
 							break;
 						}
 					}
@@ -110,13 +114,13 @@ public class DDSystemStatus extends JFrame {
 								+ "' nodes are virtual connections between a channel changer & a real display"));
 						g.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
 						g.add(new DefaultMutableTreeNode(clientName));
-						System.out.println("B: " + clientName + " added to " + g.getUserObject());
+						// System.out.println("B: " + clientName + " added to " + g.getUserObject());
 					}
 				} else {
 					DefaultMutableTreeNode node = new DefaultMutableTreeNode(clientName);
 					root.add(node);
 					node.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
-					System.out.println("C: " + clientName + " added to root");
+					// System.out.println("C: " + clientName + " added to root");
 					if (msg.contains(")"))
 						node.add(new DefaultMutableTreeNode("Dynamic Display Number "
 								+ msg.substring(msg.indexOf('(') + 1, msg.indexOf(')'))));
@@ -127,7 +131,7 @@ public class DDSystemStatus extends JFrame {
 				}
 				// Apparently, there is a way to tell the JTree model that the tree has changed. Need to do that!
 			} else {
-				System.out.println("D: Received an unknown message: '" + msg + "'");
+				System.err.println("Received an unknown message: '" + msg + "'");
 			}
 		};
 
