@@ -346,6 +346,7 @@ public class DDSystemStatus extends JFrame {
 		setTreeIcons();
 
 		client.sendMessage(new MessageCarrier(MessageCarrier.WHOISIN, ""));
+		ta.append("\n------ " + new Date() + " ------\n");
 
 		SwingUtilities.invokeLater(new Runnable() {
 

@@ -264,7 +264,7 @@ public class MessagingServer {
 		// what will run forever
 		Object read = new Object();
 		public void run() {
-			// to loop until LOGOUT or we hit an exception
+			// to loop until LOGOUT or we hit an unrecoverable exception
 			boolean keepGoing = true;
 			while (keepGoing) {
 				// read a String (which is an object)
@@ -283,9 +283,17 @@ public class MessagingServer {
 							+ read.getClass().getCanonicalName());
 					e.printStackTrace();
 					break;
+				} catch (NullPointerException e) {
+					display(username + ": Null pointer exception, attribute 'sInput' = '" + sInput + "'");
+					e.printStackTrace();
 				} catch (Exception e) {
 					display(username + ": Exception reading Streams -- " + e + "; will try to continue.");
 					e.printStackTrace();
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
 					continue; // Go to the next iteration of this loop.
 				}
 				// the message part of the ChatMessage

@@ -60,13 +60,14 @@ public class MessagingClient {
 			return false;
 		}
 
-		String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
+		String msg = "Connection accepted to " + socket.getInetAddress() + ", port " + socket.getPort() + ".  Username = '"
+				+ username + "'";
 		displayLogMessage(msg);
 
 		/* Creating both Data Stream */
 		try {
-			sInput = new ObjectInputStream(socket.getInputStream());
 			sOutput = new ObjectOutputStream(socket.getOutputStream());
+			sInput = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException eIO) {
 			displayLogMessage("Exception creating new Input/output Streams: " + eIO);
 			return false;
@@ -85,6 +86,7 @@ public class MessagingClient {
 		}
 
 		connectionAccepted();
+
 		// success we inform the caller that it worked
 		return true;
 	}
@@ -117,8 +119,9 @@ public class MessagingClient {
 	public void sendMessage(MessageCarrier msg) {
 		try {
 			sOutput.writeObject(msg);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			displayLogMessage("Exception writing to server: " + e);
+			e.printStackTrace();
 		}
 	}
 
