@@ -303,17 +303,18 @@ public class ChannelSelector extends JPanel implements ActionListener {
 						alive = true;
 						break;
 					case ALIVE:
-						text = "<html>Display " + display.getNumber() + ": " + display.getContent().getCategory() + "/'"
+						text = "<html>A Display " + display.getNumber() + ": " + display.getContent().getCategory() + "/'"
 								+ truncate(display.getContent().getName()) + "' (" + shortDate() + ")</html>";
 						alive = true;
 						break;
 					case ERROR:
 						text = "<html>Display " + display.getNumber() + " ERROR; " + ": " + display.getContent().getCategory()
 								+ "/'" + truncate(display.getContent().getName()) + "' (" + shortDate() + ")</html>";
+						break;
 					case IDLE:
 						if (lastUpdated + 30000l > System.currentTimeMillis())
-							return;
-						text = "<html>Display " + display.getNumber() + " Idle; " + ": " + display.getContent().getCategory()
+							break;
+						text = "<html>G Display " + display.getNumber() + " Idle; " + ": " + display.getContent().getCategory()
 								+ "/'" + truncate(display.getContent().getName()) + "' (" + shortDate() + ")</html>";
 						alive = true;
 						break;
@@ -321,7 +322,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 					lastUpdated = System.currentTimeMillis();
 
 					footer.setText(text);
-					displaySelector.resetToolTip(display.getNumber());
+					displaySelector.resetToolTip(display);
 					setDisplayIsAlive(display.getNumber(), alive);
 				}
 
@@ -347,28 +348,6 @@ public class ChannelSelector extends JPanel implements ActionListener {
 				}
 			});
 			setTabColor(display, index);
-
-			// // Set up a periodic process to Ping the displays (to make sure they are alive and to see what they are showing)
-			// new Thread("Display" + display.getNumber() + "." + display.getScreenNumber() + "Pinger") {
-			// public void run() {
-			// try {
-			// sleep(25 * fi); // Put in a slight delay to get the Pings to each Display offset from each other a little
-			// // bit.
-			// } catch (InterruptedException e) {
-			// e.printStackTrace();
-			// }
-			// while (true) {
-			// try {
-			// sleep(PING_INTERVAL);
-			// // Issue a Ping to the Display and wait for the Pong
-			// ((DisplayFacade) display).ping();
-			// } catch (InterruptedException e) {
-			// e.printStackTrace();
-			// }
-			// }
-			//
-			// }
-			// }.start();
 
 			// Set up a database check every now and then to see what a Display is actually doing (this is inSTEAD of the Ping
 			// thread, above.
@@ -403,17 +382,27 @@ public class ChannelSelector extends JPanel implements ActionListener {
 											String text = "<html><center>Display " + display.getNumber() + ": "
 													+ truncate(contentName, 25) + "' (" + shortDate() + ")</center></html>";
 											footer.setText(text);
-											// } else {
-											// System.out.println(ChannelSelector.class.getSimpleName()
-											// + ": Null value for ContentName for " + query);
+											DisplayButtons.setToolTip(display);
+
+											// Enable the Channel buttons, too
+											// System.out.println("\nReceived content '" + contentName + "'");
+											for (List<ChannelButtonGrid> allGrids : channelButtonGridList)
+												if (allGrids.get(0).getDisplay().getNumber() == display.getNumber())
+													for (ChannelButtonGrid cbg : allGrids)
+														for (int i = 0; i < cbg.getBg().getNumButtons(); i++) {
+															MyButton myButton = cbg.getBg().getAButton(i);
+															String myButtonText = myButton.getText().replaceAll("\\<.*?>", "");
+															boolean selected = myButtonText.contains(contentName)
+																	|| contentName.contains(myButtonText);
+															myButton.setSelected(selected);
+															// System.out.println("Display '" + display + "' button '"
+															// + myButton.getText() + "'/'" + myButtonText+ "' set to " + selected);
+														}
+
 										}
 										rs.next();
 									}
-									// } else {
-									// System.out
-									// .println(ChannelSelector.class.getSimpleName() + ": No records returned for " + query);
 								}
-								// Was this the source of the memory leak??
 								rs.close();
 								stmt.clearBatch();
 								stmt.close();
@@ -421,45 +410,15 @@ public class ChannelSelector extends JPanel implements ActionListener {
 								System.out.println(query);
 								e.printStackTrace();
 							}
-
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
 					}
-
 				}
 			}.start();
 
 			index++;
 		}
-
-		// Start a thread to see, for real, if the displays are connected
-		// new Thread("CheckDisplayStatus") {
-		// public void run() {
-		// while (true) {
-		// try {
-		// sleep(1000);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// int index = 0;
-		// for (Display d : displayList) {
-		// if (d != null && d instanceof DisplayFacade) {
-		// boolean alive = ((DisplayFacade) d).isConnected();
-		// // boolean alive = true; This will enable all the buttons
-		// displaySelector.setIsAlive(index + 1, alive);
-		// // Enable the Channel buttons, too
-		// List<ChannelButtonGrid> allGrids = channelButtonGridList.get(index);
-		// for (ChannelButtonGrid cbg : allGrids)
-		// if (cbg != null) {
-		// cbg.setAlive(alive);
-		// }
-		// ++index;
-		// }
-		// }
-		// }
-		// }
-		// }.start();
 
 		new Thread("WhoIsInChatRoom") {
 			private MessagingClient	client;
@@ -609,7 +568,8 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	private static JLabel makeChannelIndicator(Display display) {
 		// JLabel footer = new JLabel(" Display " + display.getNumber() + " set to the '" + display.getContent().getCategory()
 		// + "' channel '" + truncate(display.getContent().getName()) + "' (" + shortDate() + ")");
-		JLabel footer = new JLabel(" Display " + display.getNumber() + " (" + shortDate() + ")");
+		JLabel footer = new JLabel("Display " + display.getNumber() + " (" + shortDate() + ")");
+		DisplayButtons.setToolTip(display);
 
 		int wid = 1, is = 1;
 		if (!SHOW_IN_WINDOW) {

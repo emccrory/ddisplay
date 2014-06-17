@@ -176,4 +176,16 @@ public class MyButtonGroup implements ActionListener {
 			}
 		}
 	}
+
+	public int getNumButtons() {
+		synchronized (buttons) {
+			return buttons.size();
+		}
+	}
+
+	public MyButton getAButton(int index) {
+		synchronized (buttons) {
+			return buttons.get(index);
+		}
+	}
 }

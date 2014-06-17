@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JComponent;
@@ -26,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
@@ -44,9 +46,9 @@ public class DisplayButtons extends JPanel {
 	static final float				WINDOW_FONT_SIZE	= 14.0f;
 	protected static final Color	sliderBG			= new Color(0xe0e0e0);
 	private Box						buttonBox;
-	private DisplayList				displays;
+	private static DisplayList		displays;
 	private ActionListener			listener;
-	private List<MyButton>			buttonList			= new ArrayList<MyButton>();
+	private static List<MyButton>	buttonList			= new ArrayList<MyButton>();
 
 	/**
 	 * Make a JSlider with a tool-tip that is determined from where the mouse is. Put all the functionality for this class in here.
@@ -162,15 +164,11 @@ public class DisplayButtons extends JPanel {
 			button.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
+					AbstractButton b = (AbstractButton) e.getSource();
 					listener.actionPerformed(new ActionEvent(disp, fi, disp.toString(), e.getWhen(), e.getModifiers()));
 
-					String toolTip = "<html><b>Display:</b> " + disp.getNumber() + " -- " + disp.getDescription() + " ("
-							+ disp.getIPAddress() + ")";
-					toolTip += "<br><b>Active channel:</b> " + disp.getContent();
-					toolTip += "<br /><b>Last status update:</b> " + shortDate();
-					toolTip += "<br />Press to select this display.";
-					toolTip += "</p></html>";
-					button.setToolTipText(toolTip);
+					// Gets updated when the button is clicked
+					setToolTip(disp);
 				}
 			});
 
@@ -190,6 +188,21 @@ public class DisplayButtons extends JPanel {
 		add(buttonBox, BorderLayout.CENTER);
 	}
 
+	public static void setToolTip(final Display disp) {
+		int index = 0;
+		for (Display d : displays) {
+			if (d == disp) {
+				String toolTip = "<html><b>Display:</b> " + disp.getNumber() + " -- " + disp.getDescription();
+				toolTip += "<br /><b>Last status update:</b> " + shortDate();
+				toolTip += "<br />Press to select this display.";
+				toolTip += "</p></html>";
+				// button.setToolTipText(toolTip);
+				buttonList.get(index).setToolTipText(toolTip);
+			}
+			index++;
+		}
+	}
+
 	private void makeScreenGridSlider() {
 		buttonBox = Box.createVerticalBox();
 
@@ -206,34 +219,16 @@ public class DisplayButtons extends JPanel {
 	/**
 	 * Re-write the ToolTipsText for this Display button
 	 * 
-	 * @param displayNum
+	 * @param display
 	 *            The Display number for which to reset the ToolTipText
 	 */
-	public void resetToolTip(final int displayNum) {
-		new Thread() {
+	public void resetToolTip(final Display display) {
+		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				int index = 0;
-				for (Display d : displays) {
-					if (d.getNumber() == displayNum) {
-						String toolTip = "<html><b>Display</b> " + displays.get(index).getNumber() + " -- "
-								+ displays.get(index).getDescription();
-						toolTip += "<br><b>Active channel:</b> " + displays.get(index).getContent() + " ("
-								+ displays.get(index).getIPAddress() + ")";
-						toolTip += "<br />Press to select this display.";
-						toolTip += "<br /><b>Last status update:</b> " + shortDate();
-						toolTip += "</p></html>";
-
-						buttonList.get(index).setToolTipText(toolTip);
-					}
-					index++;
-				}
+				setToolTip(display);
+				System.out.println("Writing tool tip text for display '" + display + "'");
 			}
-		}.start();
+		});
 	}
 
 	/**

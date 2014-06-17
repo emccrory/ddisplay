@@ -120,6 +120,15 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 		return display;
 	}
 
+	/**
+	 * Get the buttons that are controlled/owned by this grid
+	 * 
+	 * @return the button group
+	 */
+	public MyButtonGroup getBg() {
+		return bg;
+	}
+
 	// public void addExitButton() {
 	// if (expGrid != null) {
 	// JButton exit = new JButton("Exit the GUI");
