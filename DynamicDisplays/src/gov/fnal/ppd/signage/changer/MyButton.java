@@ -44,6 +44,7 @@ public class MyButton extends JButton {
 			throw new IllegalArgumentException("Display cannot be null!");
 		this.selectedColor = display.getPreferredHighlightColor();
 
+		// It looks like this is not needed -- it is rewritten later
 		String toolTip = "<html>";
 		if (channel != null) {
 			toolTip += "<p><b>Channel:</b> " + this.channel.getNumber();

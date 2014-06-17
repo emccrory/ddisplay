@@ -195,7 +195,7 @@ public abstract class DisplayImpl implements Display {
 		if (getContent() == null) {
 			retval += "<em>No channel selected</em>";
 		} else {
-			retval += "<b>Channel:</b> '" + getContent().getName();
+			retval += "<b>Channel:</b> '" + getContent().getName() + "'";
 		}
 		retval += " <br /><b>Location:</b> " + location;
 		retval += " <br /><b>IP:</b> (" + getIPAddress() + ")";
