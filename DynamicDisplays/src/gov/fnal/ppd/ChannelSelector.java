@@ -24,15 +24,19 @@ import gov.fnal.ppd.signage.util.MyButtonGroup;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -66,7 +70,7 @@ import javax.swing.event.ChangeListener;
 public class ChannelSelector extends JPanel implements ActionListener {
 
 	/**
-	 * Encapsulate the orientation of the display
+	 * Encapsulate the orientation of the display (not really used yet)
 	 * 
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
 	 * @copy 2014
@@ -122,6 +126,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	 * Is this a PUBLIC controller?
 	 */
 	public static boolean					IS_PUBLIC_CONTROLLER	= Boolean.getBoolean("signage.selector.public");
+	private static ChannelSelector			channelSelector;
 
 	private List<List<ChannelButtonGrid>>	channelButtonGridList	= new ArrayList<List<ChannelButtonGrid>>();
 	/*
@@ -135,6 +140,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	// The circular arrow, as in the recycling symbol
 	private JButton							refreshButton			= new JButton("↺");
 	private JButton							exitButton				= new JButton("X");
+	private JButton							addChannelButton		= new JButton("+");
 	private DisplayButtons					displaySelector;
 	private CardLayout						card					= new CardLayout();
 	private JPanel							displayChannelPanel		= new JPanel(card);
@@ -521,7 +527,35 @@ public class ChannelSelector extends JPanel implements ActionListener {
 		refreshButton.setMargin(new Insets(5, 5, 5, 5));
 		refreshButton.addActionListener(refreshAction);
 
-		if (!SHOW_IN_WINDOW) {
+		if (SHOW_IN_WINDOW) {
+			// Create a button to add a channel to the database
+			addChannelButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					int n = JOptionPane.showConfirmDialog(addChannelButton, "A web page to add a channel is being launched now.\n"
+							+ "You must restart the Channel Selector to see the new channel once it is added.\n"
+							+ "Continue with the addition?", "Add Channel?", JOptionPane.YES_NO_OPTION);
+
+					if (n == 0)
+						try {
+							Desktop.getDesktop().browse(new URI("http://mccrory.fnal.gov/XOC/channelAdd.php"));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (URISyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				}
+
+			});
+			addChannelButton.setToolTipText("<html><b>Add a channel to the system</b> -- "
+					+ "<em>use sparingly!</em><br>Launches a web page on your local browser that will "
+					+ "allow you to add a Channel/URL to the system</html>");
+			addChannelButton.setMargin(new Insets(5, 5, 5, 5));
+		} else {
+			// Create an exit button
 			exitButton.addActionListener(new ActionListener() {
 
 				@Override
@@ -536,8 +570,6 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			exitButton.setBackground(new Color(255, 200, 200));
 			exitButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 4)));
 			exitButton.setMargin(new Insets(5, 5, 5, 5));
-		} else {
-
 		}
 		return titleBox;
 	}
@@ -553,14 +585,14 @@ public class ChannelSelector extends JPanel implements ActionListener {
 		titleBox.setBackground(c);
 		int wid = (SHOW_IN_WINDOW ? 1 : 8);
 		titleBox.setBorder(BorderFactory.createLineBorder(c, wid));
-		titleBox.add(refreshButton);
+		// This does not work, so remove it. titleBox.add(refreshButton);
 		titleBox.add(Box.createHorizontalGlue());
 		titleBox.add(title);
 		titleBox.add(Box.createHorizontalGlue());
 		if (!SHOW_IN_WINDOW) {
 			titleBox.add(exitButton);
 		} else {
-			titleBox.add(Box.createRigidArea(new Dimension(1, 1)));
+			titleBox.add(addChannelButton);
 		}
 		titleBox.setOpaque(true);
 	}
@@ -638,6 +670,9 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	 */
 	public static void main(final String[] args) {
 
+		displayList = DisplayListFactory.getInstance();
+		channelSelector = new ChannelSelector();
+
 		// SHOW_IN_WINDOW = args.length > 0 && "WINDOW".equals(args[0]);
 
 		refreshAction = new ActionListener() {
@@ -654,6 +689,9 @@ public class ChannelSelector extends JPanel implements ActionListener {
 						DisplayFacade.tryToConnectToDisplaysNow = true;
 						System.out.println("Refreshing touch panel");
 						f.setContentPane(new JLabel("refresh in progress"));
+						channelSelector.destroy();
+						channelSelector = null;
+						displayList = null;
 						Runtime.getRuntime().gc();
 						try {
 							Thread.sleep(1000);
@@ -666,7 +704,8 @@ public class ChannelSelector extends JPanel implements ActionListener {
 						// ChannelCatalogFactory.useRealChannels(true);
 						displayList = DisplayListFactory.getInstance();
 
-						f.setContentPane(new ChannelSelector());
+						channelSelector = new ChannelSelector();
+						f.setContentPane(channelSelector);
 						if (SHOW_IN_WINDOW) {
 							f.pack();
 						} else {
@@ -679,20 +718,30 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			}
 		};
 
+		channelSelector.setRefreshAction(refreshAction);
+
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		f.setUndecorated(!SHOW_IN_WINDOW);
 
 		// DisplayListFactory.useRealDisplays(realDisplays);
 		// ChannelCatalogFactory.useRealChannels(true);
-		displayList = DisplayListFactory.getInstance();
 
-		f.setContentPane(new ChannelSelector());
+		f.setContentPane(channelSelector);
 		if (SHOW_IN_WINDOW)
 			f.pack();
 		else
 			f.setSize(screenDimension);
 		f.setVisible(true);
 
+	}
+
+	protected void destroy() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void setRefreshAction(ActionListener refreshAction2) {
+		refreshButton.addActionListener(refreshAction2);
 	}
 }

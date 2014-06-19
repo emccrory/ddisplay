@@ -21,24 +21,25 @@ import java.util.TreeSet;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
- *
+ * 
  */
-public class ChannelsFromDatabase extends HashMap<String, SignageContent> implements ChannelCatalog{
+public class ChannelsFromDatabase extends HashMap<String, SignageContent> implements ChannelCatalog {
 
-	private static final long	serialVersionUID	= 8020508216810250903L;
+	private static final long								serialVersionUID	= 8020508216810250903L;
 
-	private Connection connection;
+	private Connection										connection;
 
-	private SignageContent defaultChannel;
+	private SignageContent									defaultChannel;
 
-	private static final Comparator<? super SignageContent> comparator = new Comparator<SignageContent>() {
+	private static final Comparator<? super SignageContent>	comparator			= new Comparator<SignageContent>() {
 
-		public int compare( SignageContent o1, SignageContent o2 ) {
-			return o1.getName().compareTo(o2.getName());
-		}
+																					public int compare(SignageContent o1,
+																							SignageContent o2) {
+																						return o1.getName().compareTo(o2.getName());
+																					}
 
-	};
-	
+																				};
+
 	ChannelsFromDatabase() {
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
@@ -50,9 +51,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		defaultChannel = get(keySet().iterator().next()); // The first channel (whatever!)
 	}
 
-	
-
-	private void getChannels( ) {
+	private void getChannels() {
 		Statement stmt = null;
 		ResultSet rs = null;
 
@@ -64,17 +63,23 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 			System.exit(1);
 		}
 
-		int count=0;
+		int count = 0;
 		try {
-			rs = stmt.executeQuery("SELECT * FROM Channel");
+			rs = stmt.executeQuery("SELECT Channel.Number as Number,Name,Description,URL,Category,Type "
+					+ "FROM Channel LEFT JOIN ChannelTabSort ON (Channel.Number=ChannelTabSort.Number)");
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast()) {
 				String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Name"));
-				ChannelCategory type = ChannelCategory.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type")).toUpperCase());
+				ChannelCategory category = ChannelCategory.MISCELLANEOUS;
+				try {
+					String cat = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type")).toUpperCase();
+					category = ChannelCategory.valueOf(cat);
+				} catch (Exception e) {
+				}
 				String description = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
 				String url = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("URL"));
 				int number = rs.getInt("Number");
-				SignageContent c = new ChannelImpl(name, type, description, new URI(url), number);
+				SignageContent c = new ChannelImpl(name, category, description, new URI(url), number);
 				put(name, c);
 				rs.next();
 				count++;
@@ -89,12 +94,10 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		System.out.println(getClass().getSimpleName() + ": Found " + count + " channels.");
 	}
 
-	
-
 	public Map<String, SignageContent> getPublicChannels() {
 		HashMap<String, SignageContent> retval = new HashMap<String, SignageContent>();
 
-		for (String key: this.keySet()) {
+		for (String key : this.keySet()) {
 			if (this.get(key).getCategory() == ChannelCategory.PUBLIC)
 				retval.put(key, this.get(key));
 		}
@@ -104,17 +107,17 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 	public Map<String, SignageContent> getDetailsChannels() {
 		HashMap<String, SignageContent> retval = new HashMap<String, SignageContent>();
 
-		for (String key: this.keySet()) {
+		for (String key : this.keySet()) {
 			if (this.get(key).getCategory() == ChannelCategory.PUBLIC_DETAILS)
 				retval.put(key, this.get(key));
 		}
 		return retval;
 	}
 
-	public Set<SignageContent> getChannelCatalog( ChannelCategory cat ) {
+	public Set<SignageContent> getChannelCatalog(ChannelCategory cat) {
 		TreeSet<SignageContent> retval = new TreeSet<SignageContent>(comparator);
 
-		for (String key: this.keySet()) {
+		for (String key : this.keySet()) {
 			if (this.get(key).getCategory() == cat)
 				retval.add(this.get(key));
 		}
@@ -124,7 +127,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 	public Map<String, SignageContent> getAllDetailsChannels() {
 		HashMap<String, SignageContent> retval = new HashMap<String, SignageContent>();
 
-		for (String key: this.keySet()) {
+		for (String key : this.keySet()) {
 			if (this.get(key).getCategory() == ChannelCategory.PUBLIC_DETAILS
 					|| this.get(key).getCategory() == ChannelCategory.EXPERIMENT_DETAILS)
 				retval.put(key, this.get(key));

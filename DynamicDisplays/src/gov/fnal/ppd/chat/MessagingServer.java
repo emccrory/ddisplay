@@ -1,5 +1,7 @@
 package gov.fnal.ppd.chat;
 
+import gov.fnal.ppd.chat.MessagingServer.ClientThread;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,6 +11,7 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * The server that can be run both as a console application or a GUI
@@ -17,17 +20,18 @@ import java.util.Date;
  */
 public class MessagingServer {
 	// a unique ID for each connection
-	private static int				uniqueId;
+	private static int							uniqueId;
 	// an ArrayList to keep the list of the Client
-	private ArrayList<ClientThread>	al;
+	// private ArrayList<ClientThread> al; This Template is supposed to help with ConcurrentModificationException
+	private CopyOnWriteArrayList<ClientThread>	al;
 
 	// to display time (Also used as a synchronization object for writing messages to the local terminal/GUI
-	protected SimpleDateFormat		sdf;
+	protected SimpleDateFormat					sdf;
 	// the port number to listen for connection
-	private int						port;
+	private int									port;
 	// the boolean that will be turned of to stop the server
-	private boolean					keepGoing;
-	private boolean					addTimeStamp	= false;
+	private boolean								keepGoing;
+	private boolean								addTimeStamp	= false;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -38,9 +42,9 @@ public class MessagingServer {
 		// the port
 		this.port = port;
 		// to display hh:mm:ss
-		sdf = new SimpleDateFormat("HH:mm:ss");
+		sdf = new SimpleDateFormat("dd MMM HH:mm:ss");
 		// ArrayList for the Client list
-		al = new ArrayList<ClientThread>() {
+		al = new CopyOnWriteArrayList<ClientThread>() {
 			private static final boolean	REQUIRE_UNIQUE_USERNAMES	= false;
 
 			private static final long		serialVersionUID			= 2919140620801861217L;
@@ -154,38 +158,38 @@ public class MessagingServer {
 	 */
 	protected synchronized void broadcast(String message) {
 		// TODO (possibly) -- Be more selective about who gets this message
-		synchronized (al) {
-			String messageLf;
-			if (addTimeStamp) {
-				// add HH:mm:ss and \n to the message
-				String time = sdf.format(new Date());
-				messageLf = time + " " + message + "\n";
-			} else {
-				messageLf = message;
-			}
+		String messageLf;
+		if (addTimeStamp) {
+			// add HH:mm:ss and \n to the message
+			String time = sdf.format(new Date());
+			messageLf = time + " " + message + "\n";
+		} else {
+			messageLf = message;
+		}
 
-			// we loop in reverse order in case we would have to remove a Client
-			// because it has disconnected
-			for (int i = al.size(); --i >= 0;) {
-				ClientThread ct = al.get(i);
-				// try to write to the Client if it fails remove it from the list
-				if (!ct.writeMsg(messageLf)) {
-					al.remove(i);
-					display("Disconnected Client " + ct.username + " removed from list.");
-				}
+		// we loop in reverse order in case we would have to remove a Client
+		// because it has disconnected
+		for (int i = al.size(); --i >= 0;) {
+			ClientThread ct = al.get(i);
+			// try to write to the Client if it fails remove it from the list
+			if (!ct.writeMsg(messageLf)) {
+				al.remove(i);
+				display("Disconnected Client " + ct.username + " removed from list.");
 			}
 		}
 	}
 
 	// for a client who logoff using the LOGOUT message
 	synchronized void remove(int id) {
-		// scan the array list until we found the Id
-		for (int i = 0; i < al.size(); ++i) {
-			ClientThread ct = al.get(i);
-			// found it
-			if (ct.id == id) {
-				al.remove(i);
-				return;
+		synchronized (al) {
+			// scan the array list until we found the Id
+			for (int i = 0; i < al.size(); ++i) {
+				ClientThread ct = al.get(i);
+				// found it
+				if (ct.id == id) {
+					al.remove(i);
+					return;
+				}
 			}
 		}
 	}
@@ -262,7 +266,8 @@ public class MessagingServer {
 		}
 
 		// what will run forever
-		Object read = new Object();
+		Object	read	= new Object();
+
 		public void run() {
 			// to loop until LOGOUT or we hit an unrecoverable exception
 			boolean keepGoing = true;
@@ -318,33 +323,31 @@ public class MessagingServer {
 					// writeMsg("WHOISIN List of the users connected at " + sdf.format(new Date()) + "\n");
 					// scan all the users connected
 					boolean purge = false;
-					synchronized (al) {
-						for (int i = 0; i < al.size(); ++i) {
-							ClientThread ct = al.get(i);
-							// TODO Make this into an XML document
-							if (ct != null && ct.username != null && ct.date != null)
-								writeMsg("WHOISIN [" + ct.username + "] since " + ct.date);
-							else {
-								// writeMsg("WHOISIN " + (i + 1) + ": Error!  Have a null client");
-								display("Talking to " + username + " socket " + socket.getLocalAddress() + " (" + (i + 1)
-										+ ") Error!  Have a null client");
-								purge = true;
+					for (int i = 0; i < al.size(); ++i) {
+						ClientThread ct = al.get(i);
+						// TODO Make this into an XML document
+						if (ct != null && ct.username != null && ct.date != null)
+							writeMsg("WHOISIN [" + ct.username + "] since " + ct.date);
+						else {
+							// writeMsg("WHOISIN " + (i + 1) + ": Error!  Have a null client");
+							display("Talking to " + username + " socket " + socket.getLocalAddress() + " (" + (i + 1)
+									+ ") Error!  Have a null client");
+							purge = true;
+						}
+					}
+					if (purge)
+						for (ClientThread AL : al) {
+							if (AL == null) {
+								display("Removing null ClientThread");
+								al.remove(AL);
+							} else if (AL.username == null) {
+								display("Removing null ClientThread username [" + AL + "]");
+								al.remove(AL);
+							} else if (AL.date == null) {
+								display("Removing null ClientThread date [" + AL + "]");
+								al.remove(AL);
 							}
 						}
-						if (purge)
-							for (ClientThread AL : al) {
-								if (AL == null) {
-									display("Removing null ClientThread");
-									al.remove(AL);
-								} else if (AL.username == null) {
-									display("Removing null ClientThread username [" + AL + "]");
-									al.remove(AL);
-								} else if (AL.date == null) {
-									display("Removing null ClientThread date [" + AL + "]");
-									al.remove(AL);
-								}
-							}
-					}
 					break;
 				}
 			}

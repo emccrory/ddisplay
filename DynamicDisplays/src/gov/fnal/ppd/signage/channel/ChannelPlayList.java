@@ -69,7 +69,7 @@ public class ChannelPlayList implements Channel {
 	// }
 
 	/**
-	 * An empty contructor, as required by XML marshalling
+	 * An empty constructor, as required by XML marshalling
 	 */
 	public ChannelPlayList() {
 	}

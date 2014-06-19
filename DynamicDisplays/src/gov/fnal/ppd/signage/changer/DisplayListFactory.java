@@ -16,7 +16,6 @@ public class DisplayListFactory {
 	// REAL_AND_REMOTE
 	// };
 
-	private static DisplayList	me	= new DisplayListDatabaseRemote();	;
 
 	private DisplayListFactory() {
 	}
@@ -41,6 +40,6 @@ public class DisplayListFactory {
 	 * @return My instance
 	 */
 	public static DisplayList getInstance() {
-		return me;
+		return new DisplayListDatabaseRemote();
 	}
 }

@@ -46,10 +46,10 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 				String time = sdf.format(new Date()) + " " + msg;
 				if (msg.endsWith(("\n"))) {
 					chat.append(time);
-					System.out.print("display(): " + time);
+					System.out.print(LocalMessagingServer.class.getSimpleName() + ".display(): " + time);
 				} else {
 					chat.append(time + "\n");
-					System.out.println("display(): " + time);
+					System.out.println(LocalMessagingServer.class.getSimpleName() + ".display(): " + time);
 				}
 			}
 		}
