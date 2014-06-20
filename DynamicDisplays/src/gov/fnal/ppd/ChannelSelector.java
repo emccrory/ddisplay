@@ -49,6 +49,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -251,6 +252,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			if (!IS_PUBLIC_CONTROLLER) {
 				// Remove the MoreDetails tab until such time that it is needed
 				grid = new DetailedInformationGrid(display, bg, 2);
+				allGrids.add(grid);
 				display.addListener(grid);
 				displayTabPane.add(grid, sp + (SHOW_IN_WINDOW ? "EXP" : ChannelCategory.EXPERIMENT_DETAILS) + sp);
 			}
@@ -383,11 +385,15 @@ public class ChannelSelector extends JPanel implements ActionListener {
 										InputStream cn = rs.getAsciiStream("Content");
 										if (cn != null) {
 											String contentName = ConnectionToDynamicDisplaysDatabase.makeString(cn);
-
+											if (contentName.startsWith("0: "))
+												contentName = contentName.substring(3);
+											if (contentName.contains(" is being displayed"))
+												contentName = contentName.substring(0, contentName.indexOf(" is being displayed"));
 											// Create a new footer
-											String text = "<html><center>Display " + display.getNumber() + ": "
-													+ truncate(contentName, 25) + "' (" + shortDate() + ")</center></html>";
+											String text = "<html><center>Disp " + display.getNumber() + ": "
+													+ truncate(contentName, 27) + " " + shortDate() + "</center></html>";
 											footer.setText(text);
+											footer.setToolTipText(contentName);
 											DisplayButtons.setToolTip(display);
 
 											// Enable the Channel buttons, too
@@ -395,15 +401,22 @@ public class ChannelSelector extends JPanel implements ActionListener {
 											for (List<ChannelButtonGrid> allGrids : channelButtonGridList)
 												if (allGrids.get(0).getDisplay().getNumber() == display.getNumber())
 													for (ChannelButtonGrid cbg : allGrids)
+														// if (contentName.contains(cbg.getId())) {
 														for (int i = 0; i < cbg.getBg().getNumButtons(); i++) {
 															MyButton myButton = cbg.getBg().getAButton(i);
+															boolean selected = myButton.getChannel().toString().equals(contentName);
 															String myButtonText = myButton.getText().replaceAll("\\<.*?>", "");
-															boolean selected = myButtonText.contains(contentName)
-																	|| contentName.contains(myButtonText);
+															// boolean selected = contentName.contains(myButtonText);
 															myButton.setSelected(selected);
 															// System.out.println("Display '" + display + "' button '"
-															// + myButton.getText() + "'/'" + myButtonText+ "' set to " + selected);
+															// + myButton.getText() + "'/'" + myButton.getChannel().toString()
+															// + "/" + myButtonText + "' set to " + selected
+															// + " for this message '" + contentName + "'");
 														}
+											// } else {
+											// System.out.println("Display '" + display + ": Ignoring grid "
+											// + cbg.getId() + " for this message '" + contentName + "'");
+											// }
 
 										}
 										rs.next();
@@ -530,21 +543,27 @@ public class ChannelSelector extends JPanel implements ActionListener {
 		if (SHOW_IN_WINDOW) {
 			// Create a button to add a channel to the database
 			addChannelButton.addActionListener(new ActionListener() {
+				boolean	showDialog	= true;
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					int n = JOptionPane.showConfirmDialog(addChannelButton, "A web page to add a channel is being launched now.\n"
-							+ "You must restart the Channel Selector to see the new channel once it is added.\n"
-							+ "Continue with the addition?", "Add Channel?", JOptionPane.YES_NO_OPTION);
-
+					int n = 0;
+					if (showDialog) {
+						Box dialog = Box.createVerticalBox();
+						dialog.add(new JLabel("<html>Launching web page to add a channel to database.<br>"
+								+ "You must restart the Channel Selector to see the new channel once it is added.<br>"
+								+ "Continue with the addition?"));
+						JCheckBox cb = new JCheckBox("Do not show this again");
+						dialog.add(cb);
+						n = JOptionPane.showConfirmDialog(addChannelButton, dialog, "Add Channel?", JOptionPane.YES_NO_OPTION);
+						showDialog = !cb.isSelected();
+					}
 					if (n == 0)
 						try {
 							Desktop.getDesktop().browse(new URI("http://mccrory.fnal.gov/XOC/channelAdd.php"));
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (URISyntaxException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 				}
@@ -610,9 +629,9 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			footer.setFont(new Font("Arial", Font.PLAIN, 25));
 		}
 		footer.setAlignmentX(CENTER_ALIGNMENT);
-		footer.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder(display.getPreferredHighlightColor(), wid),
-				BorderFactory.createEmptyBorder(is, is, is, is)));
+		// footer.setBorder(BorderFactory.createCompoundBorder(
+		// BorderFactory.createLineBorder(display.getPreferredHighlightColor(), wid),
+		// BorderFactory.createEmptyBorder(is, is, is, is)));
 
 		return footer;
 	}

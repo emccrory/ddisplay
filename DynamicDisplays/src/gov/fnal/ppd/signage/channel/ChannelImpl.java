@@ -92,7 +92,9 @@ public class ChannelImpl implements Channel {
 	}
 
 	public String toString() {
-		return number + ": " + name + " (" + category + ")";
+		// if (number > 0)
+		// return number + ": " + name + " (" + category + ")";
+		return name + " (" + category + ")";
 	}
 
 	public int getNumber() {
