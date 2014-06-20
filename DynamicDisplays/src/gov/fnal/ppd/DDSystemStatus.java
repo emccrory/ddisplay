@@ -5,13 +5,19 @@ import gov.fnal.ppd.chat.MessagingClient;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -62,6 +68,9 @@ public class DDSystemStatus extends JFrame {
 	private JScrollPane				scroller;
 	private ImageIcon				dataIcon, infoIcon, clockIcon, facadeIcon;
 
+	private int						nextWhoIsIn			= 1;
+	private JButton					refreshClients		= new JButton("Refresh in 0" + (nextWhoIsIn + 1));
+
 	// TODO It is probably more correct to have the GUI class extend MessagingClient and then have JFrame be an attribute.
 	// It is the other way around now.
 
@@ -86,10 +95,10 @@ public class DDSystemStatus extends JFrame {
 			else
 				ta.append(msg + "\n");
 
-			// TODO Windows 7 display has a problem with this.  Only the first node is ever displayed when this is redrawn.
+			// TODO Windows 7 display has a problem with this. Only the first node is ever displayed when this is redrawn.
 			// It is geting all the messages and putting them into the tree properly, but the graphics is not showing up
 			// (at least on my instance of Windows 7) 6/16/2014
-			
+
 			if (msg.contains("WHOISIN")) {
 				refresh = 10;
 				String clientName = msg.substring("WHOISIN [".length(), msg.indexOf(']'));
@@ -165,19 +174,33 @@ public class DDSystemStatus extends JFrame {
 		JTabbedPane tabs = new JTabbedPane();
 		add(tabs, BorderLayout.CENTER);
 
+		refreshClients.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				nextWhoIsIn = 0;
+			}
+		});
+		refreshClients.setFont(new Font("courier", Font.BOLD, 11));
+
 		JPanel northPanel = new JPanel();
 		// the server name and the port number
-		JPanel serverAndPort = new JPanel(new GridLayout(1, 4));
+		Box serverAndPort = Box.createHorizontalBox();
 
 		// the two JTextField with default value for server address and port number
 		tfServer = new JTextField(host);
 		tfPort = new JTextField("" + port);
 		tfPort.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		serverAndPort.add(new JLabel("Server Address:  "));
+		serverAndPort.add(new JLabel("Server: "));
+		serverAndPort.add(Box.createRigidArea(new Dimension(5, 5)));
 		serverAndPort.add(tfServer);
-		serverAndPort.add(new JLabel("Port Number:  "));
+		serverAndPort.add(Box.createRigidArea(new Dimension(5, 5)));
+		serverAndPort.add(new JLabel("Port: "));
+		serverAndPort.add(Box.createRigidArea(new Dimension(5, 5)));
 		serverAndPort.add(tfPort);
+		serverAndPort.add(Box.createRigidArea(new Dimension(5, 5)));
+		serverAndPort.add(refreshClients);
 		// adds the Server an port field to the GUI
 		northPanel.add(serverAndPort);
 
@@ -238,19 +261,21 @@ public class DDSystemStatus extends JFrame {
 		}.start();
 
 		new Thread("IssueAWhoIsInCommand") {
-			private int	nextWhoIsIn	= 2;
 
 			public void run() {
+				long sleep = 500;
 				while (true) {
 					try {
-						sleep(1000);
+						sleep(sleep);
+						sleep = 1000;
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					if (client != null && nextWhoIsIn-- == 0) {
+					if (client != null && nextWhoIsIn-- <= 0) {
 						whoIsIn();
 						nextWhoIsIn = 19;
 					}
+					refreshClients.setText("Refresh in " + (nextWhoIsIn < 9 ? "0" : "") + (nextWhoIsIn + 1));
 				}
 			}
 		}.start();
