@@ -365,7 +365,7 @@ public class DDSystemStatus extends JFrame {
 
 	@SuppressWarnings("unused")
 	private void logout() {
-		client.sendMessage(new MessageCarrier(MessageCarrier.LOGOUT, ""));
+		client.sendMessage(MessageCarrier.getLogout());
 	}
 
 	private void whoIsIn() {
@@ -377,7 +377,7 @@ public class DDSystemStatus extends JFrame {
 		clientsTree = new JTree(root);
 		setTreeIcons();
 
-		client.sendMessage(new MessageCarrier(MessageCarrier.WHOISIN, ""));
+		client.sendMessage(MessageCarrier.getWhoIsIn());
 		ta.append("\n------ " + new Date() + " ------\n");
 
 		SwingUtilities.invokeLater(new Runnable() {

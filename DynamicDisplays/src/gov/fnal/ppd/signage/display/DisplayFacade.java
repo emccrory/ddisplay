@@ -87,7 +87,7 @@ public class DisplayFacade extends DisplayImpl {
 			}
 
 			String xmlMessage = MyXMLMarshaller.getXML(cc);
-			messagingClient.sendMessage(new MessageCarrier(1, xmlMessage));
+			messagingClient.sendMessage(MessageCarrier.getMessage(xmlMessage));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -106,7 +106,7 @@ public class DisplayFacade extends DisplayImpl {
 			// sync(DisplayChangeEvent.Type.ALIVE);
 			// }
 			// if (USE_MESSAGING) {
-			messagingClient.sendMessage(new MessageCarrier(1, message.getOutputMessage()));
+			messagingClient.sendMessage(MessageCarrier.getMessage(message.getOutputMessage()));
 			// }
 
 		} catch (Exception e) {

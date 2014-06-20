@@ -183,19 +183,19 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 		Object o = e.getSource();
 		// if it is the Logout button
 		if (o == logout) {
-			client.sendMessage(new MessageCarrier(MessageCarrier.LOGOUT, ""));
+			client.sendMessage(MessageCarrier.getLogout());
 			return;
 		}
 		// if it the who is in button
 		if (o == whoIsIn) {
-			client.sendMessage(new MessageCarrier(MessageCarrier.WHOISIN, ""));
+			client.sendMessage(MessageCarrier.getWhoIsIn());
 			return;
 		}
 
 		// ok it is coming from the JTextField
 		if (connected) {
 			// just have to send the message
-			client.sendMessage(new MessageCarrier(MessageCarrier.MESSAGE, tf.getText()));
+			client.sendMessage(MessageCarrier.getMessage(tf.getText()));
 			tf.setText("");
 			return;
 		}

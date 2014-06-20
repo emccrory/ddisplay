@@ -1,7 +1,5 @@
 package gov.fnal.ppd.chat;
 
-import gov.fnal.ppd.chat.MessagingServer.ClientThread;
-
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,7 +7,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -307,19 +304,19 @@ public class MessagingServer {
 				// Switch on the type of message receive
 				switch (cm.getType()) {
 
-				case MessageCarrier.MESSAGE:
+				case MESSAGE:
 					//
 					// The message is broadcast here!
 					//
 					broadcast(username + ": " + message);
 					break;
 
-				case MessageCarrier.LOGOUT:
+				case LOGOUT:
 					display(username + " disconnected with a LOGOUT message.");
 					keepGoing = false;
 					break;
 
-				case MessageCarrier.WHOISIN:
+				case WHOISIN:
 					// writeMsg("WHOISIN List of the users connected at " + sdf.format(new Date()) + "\n");
 					// scan all the users connected
 					boolean purge = false;

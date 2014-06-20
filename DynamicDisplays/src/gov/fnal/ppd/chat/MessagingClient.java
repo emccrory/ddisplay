@@ -227,15 +227,15 @@ public class MessagingClient {
 			String msg = scan.nextLine();
 			// logout if message is LOGOUT
 			if (msg.equalsIgnoreCase("LOGOUT")) {
-				client.sendMessage(new MessageCarrier(MessageCarrier.LOGOUT, ""));
+				client.sendMessage(MessageCarrier.getLogout());
 				// break to do the disconnect
 				break;
 			}
 			// message WhoIsIn
 			else if (msg.equalsIgnoreCase("WHOISIN")) {
-				client.sendMessage(new MessageCarrier(MessageCarrier.WHOISIN, ""));
+				client.sendMessage(MessageCarrier.getWhoIsIn());
 			} else { // default to ordinary message
-				client.sendMessage(new MessageCarrier(MessageCarrier.MESSAGE, msg));
+				client.sendMessage(MessageCarrier.getMessage(msg));
 			}
 		}
 		// done disconnect

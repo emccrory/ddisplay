@@ -459,7 +459,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 					for (int i = 0; i < displayList.size(); i++) {
 						aliveList[i] = false;
 					}
-					client.sendMessage(new MessageCarrier(MessageCarrier.WHOISIN, ""));
+					client.sendMessage(MessageCarrier.getWhoIsIn());
 
 					try {
 						sleep(2000); // Wait long enough for all the messages to come in.
