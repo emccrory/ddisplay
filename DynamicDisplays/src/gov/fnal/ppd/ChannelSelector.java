@@ -20,6 +20,7 @@ import gov.fnal.ppd.signage.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.signage.display.DisplayFacade;
 import gov.fnal.ppd.signage.display.DisplayListDatabaseRemote;
 import gov.fnal.ppd.signage.util.MyButtonGroup;
+import gov.fnal.ppd.signage.util.Util;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -107,7 +108,6 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	public static float						FONT_SIZE				= 68.0f;
 
 	private static final int				MESSAGING_SERVER_PORT	= 1500;
-	private static final String				MESSAGING_SERVER_NAME	= System.getProperty("signage.dbserver", "mccrory.fnal.gov");
 
 	private static final Dimension			screenDimension			= Toolkit.getDefaultToolkit().getScreenSize();
 	private static final JFrame				f						= new JFrame("XOC Display Channel Selector");
@@ -478,7 +478,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 					long ran = new Date().getTime() % 1000L;
 					final String myName = InetAddress.getLocalHost().getCanonicalHostName() + "_" + ran;
 
-					client = new MessagingClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName) {
+					client = new MessagingClient(Util.MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName) {
 						public void displayIncomingMessage(final String msg) {
 							if (msg.startsWith("WHOISIN") && !msg.contains("FA\u00c7ADE") && !msg.contains("Error")
 									&& !msg.contains(myName)) {
@@ -560,7 +560,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 					}
 					if (n == 0)
 						try {
-							Desktop.getDesktop().browse(new URI("http://mccrory.fnal.gov/XOC/channelAdd.php"));
+							Desktop.getDesktop().browse(new URI("http://" + Util.WEB_SERVER_NAME + "/XOC/channelAdd.php"));
 						} catch (IOException e) {
 							e.printStackTrace();
 						} catch (URISyntaxException e) {

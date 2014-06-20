@@ -1,7 +1,9 @@
 package gov.fnal.ppd;
 
+import gov.fnal.ppd.chat.JTextAreaBottom;
 import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
+import gov.fnal.ppd.signage.util.Util;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -50,7 +52,7 @@ public class DDSystemStatus extends JFrame {
 	// to Logout and get the list of the users
 	// private JButton login, logout, whoIsIn;
 	// for the chat room
-	private JTextArea				ta;
+	private JTextAreaBottom			ta;
 
 	// the Client object
 	private LocalMessagingClient	client;
@@ -207,7 +209,7 @@ public class DDSystemStatus extends JFrame {
 		add(northPanel, BorderLayout.NORTH);
 
 		// The CenterPanel which is the chat room
-		ta = new JTextArea("Raw messages from the server\n", 20, 80);
+		ta = new JTextAreaBottom("Raw messages from the server\n", 20, 80);
 		JPanel messagePanel = new JPanel(new GridLayout(1, 1));
 		messagePanel.add(new JScrollPane(ta));
 		ta.setEditable(false);
@@ -426,8 +428,8 @@ public class DDSystemStatus extends JFrame {
 	 *            Command line arguments (none expected()
 	 */
 	public static void main(String[] args) {
-		int portNumber = 1500;
-		String host = "mccrory.fnal.gov";
+		int portNumber = Util.MESSAGING_SERVER_PORT;
+		String host = Util.MESSAGING_SERVER_NAME;
 		if (args.length == 1) {
 			try {
 				portNumber = Integer.parseInt(args[0]);

@@ -28,7 +28,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 	// the stop and start buttons
 	private JButton					stopStart;
 	// JTextArea for the chat room and the events
-	private JTextArea				chat, event;
+	private JTextAreaBottom			chat, event;
 	// The port number
 	private JTextField				tPortNumber;
 	// my server
@@ -83,13 +83,13 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 		// the event and chat room
 		Box center = Box.createVerticalBox();
 		center.add(new JLabel("-------------------- Message Log --------------------"));
-		chat = new JTextArea(80, 80);
+		chat = new JTextAreaBottom(80, 80);
 		chat.setEditable(false);
 		appendRoom("---Message log---\n");
 		center.add(new JScrollPane(chat));
 
 		center.add(new JLabel("-------------------- Event Log --------------------"));
-		event = new JTextArea(80, 80);
+		event = new JTextAreaBottom(80, 80);
 		event.setEditable(false);
 		appendEvent("---Event log---\n");
 		center.add(new JScrollPane(event));

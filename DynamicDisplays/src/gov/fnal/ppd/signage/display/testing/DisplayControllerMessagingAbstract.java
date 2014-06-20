@@ -7,6 +7,7 @@ import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.comm.DCProtocol;
 import gov.fnal.ppd.signage.comm.DDMessage;
 import gov.fnal.ppd.signage.display.DisplayImpl;
+import gov.fnal.ppd.signage.util.Util;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -27,7 +28,7 @@ import java.util.Date;
  * @author Elliott McCrory, Fermilab (2014)
  */
 public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
-	private static String			webServerNode			= System.getProperty("signage.webserver", "mccrory.fnal.gov");
+	private static String			webServerNode			= Util.WEB_SERVER_NAME;
 	private static String			messagingServerNode		= webServerNode;
 	private static int				messagingServerPort		= 1500;
 

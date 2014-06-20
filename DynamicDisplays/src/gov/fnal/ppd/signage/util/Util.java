@@ -9,7 +9,17 @@ import java.util.GregorianCalendar;
  * 
  */
 public class Util {
-	private static final String[]	days	= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+	// Some globals for identifying the servers in this system
+
+	private static final String		DEFAULT_SERVER			= "mccrory.fnal.gov";
+	public static final String		MESSAGING_SERVER_NAME	= System.getProperty("signage.messagingserver", DEFAULT_SERVER);
+	public static final String		WEB_SERVER_NAME			= System.getProperty("signage.webserver", DEFAULT_SERVER);
+	public static final String		DATABASE_SERVER_NAME	= System.getProperty("signage.dbserver", DEFAULT_SERVER);
+	public static final String		XML_SERVER_NAME			= System.getProperty("signage.xmlserver", DEFAULT_SERVER);
+
+	public static final int			MESSAGING_SERVER_PORT	= 1500;
+
+	private static final String[]	days					= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
 	private Util() {
 	}

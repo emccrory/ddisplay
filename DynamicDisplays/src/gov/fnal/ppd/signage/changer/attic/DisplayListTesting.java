@@ -40,16 +40,16 @@ public class DisplayListTesting extends ArrayList<Display> implements DisplayLis
 	 * 
 	 */
 	public DisplayListTesting() {
-		super();
-
-		for (int i = 0; i < nd; i++) {
-			// Display d = new DisplayImpl(getTheColor(i));
-			// Display d = new DisplayAsJFrame(getTheColor(i), categories[i]);
-			Display d = new DisplayAsJxBrowser(null, i, i, null, getTheColor(i), categories[i]);
-			// System.out.println("Display " + i + ": " + d.getPreferredHighlightColor());
-			new DisplayMonitor(d);
-			add(d);
-		}
+//		super();
+//
+//		for (int i = 0; i < nd; i++) {
+//			// Display d = new DisplayImpl(getTheColor(i));
+//			// Display d = new DisplayAsJFrame(getTheColor(i), categories[i]);
+//			Display d = new DisplayAsJxBrowser(null, i, i, null, getTheColor(i), categories[i]);
+//			// System.out.println("Display " + i + ": " + d.getPreferredHighlightColor());
+//			new DisplayMonitor(d);
+//			add(d);
+//		}
 	}
 
 	

@@ -1,5 +1,7 @@
 package gov.fnal.ppd.signage.xml;
 
+import gov.fnal.ppd.signage.util.Util;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,7 +16,6 @@ import javax.xml.bind.Marshaller;
  * @author Elliott McCrory, Fermilab/Accelerator, 2012
  */
 public class MyXMLMarshaller {
-	private static String	xmlServerNode	= System.getProperty("signage.xmlserver", "mccrory.fnal.gov");
 
 	private MyXMLMarshaller() {
 	}
@@ -25,7 +26,7 @@ public class MyXMLMarshaller {
 
 		// output pretty printed
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://" + xmlServerNode + " signage.xsd");
+		jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://" + Util.XML_SERVER_NAME + " signage.xsd");
 		return jaxbMarshaller;
 	}
 
