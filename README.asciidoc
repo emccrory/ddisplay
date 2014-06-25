@@ -7,14 +7,24 @@
 This is the ROC DynamicDisplay application.  It was originally developed at
 Fermilab for efficient and elegant digital displays.
 
+=== Development
 You can fetch the most recent release via:
 [source,shell]
 ----
 git clone http://cdcvs.fnal.gov/projects/roc-dynamicdisplays/
 ----
 
+==== External Packages
+This codebase includes code from:
+* https://github.com/pmorch/FF-Remote-Control
+
 === How to Install
-TBA
+[source,shell]
+----
+cd ~/
+git clone http://cdcvs.fnal.gov/projects/roc-dynamicdisplays/ .
+----
+More details to follow
 
 === How to Use
 TBA
