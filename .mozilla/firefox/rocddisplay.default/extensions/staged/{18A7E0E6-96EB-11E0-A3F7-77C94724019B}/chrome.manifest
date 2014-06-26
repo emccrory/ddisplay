@@ -1,0 +1,5 @@
+content fullfullscreen jar:chrome/fullfullscreen.jar!/content/
+overlay chrome://browser/content/browser.xul chrome://fullfullscreen/content/fullfullscreen.xul
+
+# default locale
+locale	fullfullscreen	en-US	jar:chrome/fullfullscreen.jar!/locale/en-US/
