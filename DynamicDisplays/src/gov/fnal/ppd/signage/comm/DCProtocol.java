@@ -72,7 +72,7 @@ public class DCProtocol {
 	}
 
 	/**
-	 * @return The rpley that is relevant
+	 * @return The reply that is relevant
 	 */
 	public Object getTheReply() {
 		return theReply;

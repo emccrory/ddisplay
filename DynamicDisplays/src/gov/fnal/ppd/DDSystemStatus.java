@@ -25,7 +25,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.SwingConstants;
@@ -101,7 +100,7 @@ public class DDSystemStatus extends JFrame {
 			// It is geting all the messages and putting them into the tree properly, but the graphics is not showing up
 			// (at least on my instance of Windows 7) 6/16/2014
 
-			if (msg.contains("WHOISIN")) {
+			if (msg.startsWith("WHOISIN")) {
 				refresh = 10;
 				String clientName = msg.substring("WHOISIN [".length(), msg.indexOf(']'));
 				if (msg.contains("FA\u00c7ADE")) {
@@ -127,7 +126,7 @@ public class DDSystemStatus extends JFrame {
 						g.add(new DefaultMutableTreeNode(clientName));
 						// System.out.println("B: " + clientName + " added to " + g.getUserObject());
 					}
-				} else {
+				} else { // Not a Facade user
 					DefaultMutableTreeNode node = new DefaultMutableTreeNode(clientName);
 					root.add(node);
 					node.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
@@ -142,7 +141,9 @@ public class DDSystemStatus extends JFrame {
 				}
 				// Apparently, there is a way to tell the JTree model that the tree has changed. Need to do that!
 			} else {
-				System.err.println("Received an unknown message: '" + msg + "'");
+				// System.err.println("Received an unknown message: '" + msg + "'");
+				// Other messages are likely to be the normal communications between ChannelSelector and Display
+				// TODO ? Interpret this message and give a summary on the "Raw Messages" screen
 			}
 		};
 
@@ -275,7 +276,7 @@ public class DDSystemStatus extends JFrame {
 					}
 					if (client != null && nextWhoIsIn-- <= 0) {
 						whoIsIn();
-						nextWhoIsIn = 19;
+						nextWhoIsIn = 59;
 					}
 					refreshClients.setText("Refresh in " + (nextWhoIsIn < 9 ? "0" : "") + (nextWhoIsIn + 1));
 				}
@@ -284,6 +285,8 @@ public class DDSystemStatus extends JFrame {
 	}
 
 	private class MyRenderer extends DefaultTreeCellRenderer {
+
+		private static final long	serialVersionUID	= 1648726489238080826L;
 
 		public MyRenderer() {
 		}
@@ -376,6 +379,9 @@ public class DDSystemStatus extends JFrame {
 		root = new DefaultMutableTreeNode("Dynamic Displays Messaging System, " + new Date());
 		clientsTree = new JTree(root);
 		setTreeIcons();
+
+		// FIXME -- Maybe there is a way to generate a new tree when these WHOISIN messages come in and then see if the two trees
+		// are equal().
 
 		client.sendMessage(MessageCarrier.getWhoIsIn());
 		ta.append("\n------ " + new Date() + " ------\n");

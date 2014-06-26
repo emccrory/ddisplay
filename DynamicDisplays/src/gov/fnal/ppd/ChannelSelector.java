@@ -14,12 +14,12 @@ import gov.fnal.ppd.signage.changer.DisplayButtons;
 import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
 import gov.fnal.ppd.signage.changer.DisplayList;
 import gov.fnal.ppd.signage.changer.DisplayListFactory;
-import gov.fnal.ppd.signage.changer.MyButton;
+import gov.fnal.ppd.signage.changer.DDButton;
 import gov.fnal.ppd.signage.changer.PublicInformationGrid;
 import gov.fnal.ppd.signage.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.signage.display.DisplayFacade;
 import gov.fnal.ppd.signage.display.DisplayListDatabaseRemote;
-import gov.fnal.ppd.signage.util.MyButtonGroup;
+import gov.fnal.ppd.signage.util.DisplayButtonGroup;
 import gov.fnal.ppd.signage.util.Util;
 
 import java.awt.BorderLayout;
@@ -233,7 +233,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 					selectedTab = ((JTabbedPane) e.getSource()).getSelectedIndex();
 				}
 			});
-			MyButtonGroup bg = new MyButtonGroup();
+			DisplayButtonGroup bg = new DisplayButtonGroup();
 
 			final List<ChannelButtonGrid> allGrids = new ArrayList<ChannelButtonGrid>();
 			channelButtonGridList.add(allGrids);
@@ -352,7 +352,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			bg.setActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					setTabColor(((MyButton) e.getSource()).getDisplay(), fi);
+					setTabColor(((DDButton) e.getSource()).getDisplay(), fi);
 				}
 			});
 			setTabColor(display, index);
@@ -403,7 +403,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 													for (ChannelButtonGrid cbg : allGrids)
 														// if (contentName.contains(cbg.getId())) {
 														for (int i = 0; i < cbg.getBg().getNumButtons(); i++) {
-															MyButton myButton = cbg.getBg().getAButton(i);
+															DDButton myButton = cbg.getBg().getAButton(i);
 															boolean selected = myButton.getChannel().toString().equals(contentName);
 															String myButtonText = myButton.getText().replaceAll("\\<.*?>", "");
 															// boolean selected = contentName.contains(myButtonText);

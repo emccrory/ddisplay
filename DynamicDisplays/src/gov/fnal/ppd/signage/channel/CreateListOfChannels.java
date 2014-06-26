@@ -32,18 +32,23 @@ import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerModel;
 
 /**
+ * Let the user create a list of channels for a display to play. This is used in CreateListOfChannelsHelper as a GUI element that is
+ * presented to ChannelSelector
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
- *
+ * 
  */
 public class CreateListOfChannels extends JPanel {
 
 	private static final long		serialVersionUID	= 2157704848183269779L;
 	private static final String		NOT_SELECTED		= "                  ";
-	private Set<SignageContent>		publicChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.PUBLIC);
+	private Set<SignageContent>		publicChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
+																ChannelCategory.PUBLIC);
 	private Set<SignageContent>		miscChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
 																ChannelCategory.MISCELLANEOUS);
-	private Set<SignageContent>		details1Channels	= ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.PUBLIC_DETAILS);
+	private Set<SignageContent>		details1Channels	= ChannelCatalogFactory.getInstance().getChannelCatalog(
+																ChannelCategory.PUBLIC_DETAILS);
 	private Set<SignageContent>		details2Channels	= ChannelCatalogFactory.getInstance().getChannelCatalog(
 																ChannelCategory.EXPERIMENT_DETAILS);
 
@@ -73,7 +78,7 @@ public class CreateListOfChannels extends JPanel {
 		}
 	}
 
-	 CreateListOfChannels() {
+	CreateListOfChannels() {
 		super(new GridBagLayout());
 		GridBagConstraints bag = new GridBagConstraints();
 		bag.fill = GridBagConstraints.HORIZONTAL;
@@ -342,14 +347,15 @@ public class CreateListOfChannels extends JPanel {
 	}
 
 	/**
-	 * @return  How long (in milliseconds) to stay on each channel
+	 * @return How long (in milliseconds) to stay on each channel
 	 */
 	public long getDwellTime() {
 		return (Long) time.getValue();
 	}
 
 	/**
-	 * @param args Command line arguments (none expected)
+	 * @param args
+	 *            Command line arguments (none expected)
 	 */
 	public static void main(final String[] args) {
 		// ChannelCatalogFactory.useRealChannels(true);

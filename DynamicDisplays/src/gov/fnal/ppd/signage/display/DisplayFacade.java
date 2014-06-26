@@ -4,7 +4,9 @@ import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
+import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
 import gov.fnal.ppd.signage.channel.ChannelPlayList;
+import gov.fnal.ppd.signage.comm.DCProtocol;
 import gov.fnal.ppd.signage.comm.DDMessage;
 import gov.fnal.ppd.signage.util.Util;
 import gov.fnal.ppd.signage.xml.ChangeChannel;
@@ -17,6 +19,8 @@ import java.awt.Color;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.xml.bind.JAXBException;
 
 /**
  * On the computer with the channel selector, this is the way you talk to a remote Dynamic Display
@@ -37,17 +41,57 @@ public class DisplayFacade extends DisplayImpl {
 	 * 
 	 */
 	public static AtomicBoolean	alreadyWaiting				= new AtomicBoolean(false);
-	// private DCClient dcc;
 	private AtomicBoolean		ready						= new AtomicBoolean(false);
 	private AtomicBoolean		waiting						= new AtomicBoolean(false);
-	// private Thread initThread;
 
-	// We should be able to make this static, but the ChannelSelector does not see all the "alive" messages from the far-away
-	// Displays (it has to do with the name that this client has.)
 	private MessagingClient		messagingClient				= null;
+
+	private class FacadeMessagingClient extends MessagingClient {
+
+		private String		lookingFor;
+		private DCProtocol	dcp	= new DCProtocol();
+
+		public FacadeMessagingClient(String lookingFor, String server, int port, String username) {
+			super(server, port, username);
+			this.lookingFor = lookingFor;
+		}
+
+		@SuppressWarnings("unused")
+		private void sendPing() {
+			try {
+				String xmlMessage = MyXMLMarshaller.getXML(new Ping());
+				sendMessage(MessageCarrier.getMessage(xmlMessage));
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public void displayIncomingMessage(String msg) {
+			super.displayIncomingMessage("Facade " + msg);
+
+			// TODO -- Need to either issue a "WHOISIN" command or do a PING to our real display
+
+			if (msg.startsWith("WHOISIN") && !msg.toUpperCase().contains("Façade".toUpperCase())) {
+				if (msg.contains(lookingFor)) {
+					System.out.println(lookingFor + " is alive; received this message '" + msg + "'");
+					ready.set(true);
+					informListeners(DisplayChangeEvent.Type.ALIVE);
+					return;
+				}
+			} else if (msg.startsWith(myName)) {
+				// Interpret the XML document I just got and then set the content, appropriately.
+				String xmlDocument = msg.substring(msg.indexOf("<?xml"));
+				DDMessage myMessage = new DDMessage(xmlDocument);
+				
+				dcp.processInput(myMessage);
+			}
+		}
+	}
 
 	/**
 	 * @param portNumber
+	 *            -- Ignored
 	 * @param ipName
 	 * @param screenNumber
 	 * @param number
@@ -60,20 +104,21 @@ public class DisplayFacade extends DisplayImpl {
 		super(ipName, screenNumber, number, location, color, type);
 
 		try {
-			// That last bit is FACADE, with the curly thing under the C
-			myName += " -- " + InetAddress.getLocalHost().getCanonicalHostName() + " FA\u00c7ADE";
+			// In UNICODE, this is spelled "FA\u00c7ADE"
+			myName += " -- " + InetAddress.getLocalHost().getCanonicalHostName() + " Façade ".toUpperCase();
 			// myName = InetAddress.getLocalHost().getCanonicalHostName() + " FA\u00c7ADE";
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace(); // Really? This should never happen.
 		}
 		System.out.println(" My messaging name is [" + myName + "]");
-		messagingClient = new MessagingClient(Util.MESSAGING_SERVER_NAME, Util.MESSAGING_SERVER_PORT, myName);
+		messagingClient = new FacadeMessagingClient(ipName + ":" + screenNumber + " (" + number + ")", Util.MESSAGING_SERVER_NAME,
+				Util.MESSAGING_SERVER_PORT, myName);
+
 		messagingClient.start();
 	}
 
 	public void localSetContent() {
 		try {
-			// if (dcc != null) { // && (ready.get() || sync())) {
 			SignageContent content = getContent();
 			EncodedCarrier cc = null;
 			if (content instanceof ChannelPlayList) {
@@ -94,35 +139,11 @@ public class DisplayFacade extends DisplayImpl {
 	}
 
 	/**
-	 * Send the Display a Ping message
-	 */
-	public void ping() {
-		try {
-			// if (dcc != null) { // && (ready.get() || sync())) {
-			DDMessage message = new DDMessage(MyXMLMarshaller.getXML(new Ping()));
-			// if (USE_CLIENT_SERVER) {
-			// dcc.send(message.getOutputMessage());
-			// System.out.println(getClass().getSimpleName() + " -- Ping -- Sent '" + message.getOutputMessage() + "'");
-			// sync(DisplayChangeEvent.Type.ALIVE);
-			// }
-			// if (USE_MESSAGING) {
-			messagingClient.sendMessage(MessageCarrier.getMessage(message.getOutputMessage()));
-			// }
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * @return Is there really a display connected to us, here?
 	 */
 	public boolean isConnected() {
-		// if (USE_CLIENT_SERVER)
-		// return dcc != null && dcc.isConnected();
-		// if (USE_MESSAGING)
-		return true; // TODO This return value should be true only if we have seen a message from out connected Display. Punt
-						// for now.
+		// TODO This return value should be true only if we have seen a message from our connected Display. Punt for now.
+		return true;
 		// return false;
 	}
 

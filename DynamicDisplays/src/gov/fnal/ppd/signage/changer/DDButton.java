@@ -11,11 +11,11 @@ import javax.swing.JButton;
 import javax.swing.border.Border;
 
 /**
- * Create a JButton that can be put into a ButtonGroup.
+ * Create a JButton that can be put into a ButtonGroup.  represents a Channel for a Display or a Display
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2012
  */
-public class MyButton extends JButton {
+public class DDButton extends JButton {
 
 	private static final long	serialVersionUID	= 6951625597558149464L;
 
@@ -33,9 +33,12 @@ public class MyButton extends JButton {
 
 	/**
 	 * @param channel
+	 *            (may be null) The Channel that this button represents
 	 * @param display
+	 *            (may NOT be null) the Display that this button is associated with. If channel is not null, this is the Display
+	 *            that the channel is associated with. If channel IS null, this is the actual "select this display" button
 	 */
-	public MyButton(final Channel channel, final Display display) {
+	public DDButton(final Channel channel, final Display display) {
 		super(align(channel != null ? channel.getName() : display.toString()));
 		this.selected = false;
 		this.channel = channel;
@@ -45,22 +48,25 @@ public class MyButton extends JButton {
 		this.selectedColor = display.getPreferredHighlightColor();
 
 		// It looks like this is not needed -- it is rewritten later
-		String toolTip = "<html>";
-		if (channel != null) {
-			toolTip += "<p><b>Channel:</b> " + this.channel.getNumber();
-			toolTip += "<br /><b>Name:</b> " + this.channel.getName();
-			toolTip += "<br /><b>Description:</b> '" + this.channel.getDescription() + "'";
-			toolTip += "<br />Press to change to this channel";
-		} else if (display != null) {
-			toolTip += "<b>Display</b> " + display.getNumber() + " -- " + display.getDescription();
-			toolTip += "<br /><b>Last status update:</b> <i>Never</i>";
-			toolTip += "<br />Press to select the displayed channel on this screen.";
-		}
-		toolTip += "</p></html>";
-		setToolTipText(toolTip);
+		// String toolTip = "<html>";
+		// if (channel != null) {
+		// toolTip += "<p><b>Channel:</b> " + this.channel.getNumber();
+		// toolTip += "<br /><b>Name:</b> " + this.channel.getName();
+		// toolTip += "<br /><b>Description:</b> '" + this.channel.getDescription() + "'";
+		// toolTip += "<br />Press to change to this channel";
+		// } else if (display != null) {
+		// toolTip += "<b>Display</b> " + display.getNumber() + " -- " + display.getDescription();
+		// toolTip += "<br /><b>Last status update:</b> <i>Never</i>";
+		// toolTip += "<br />Press to select the displayed channel on this screen.";
+		// }
+		// toolTip += "</p></html>";
+		// setToolTipText(toolTip);
 
+		// Hold the original button background for later
 		background = getBackground();
+		// Hold the original button border for later
 		regularButtonBorder = getBorder();
+
 		setEnabled(false);
 		setOpaque(true);
 	}
@@ -97,24 +103,8 @@ public class MyButton extends JButton {
 	/**
 	 * @param display
 	 */
-	public MyButton(final Display display) {
+	public DDButton(final Display display) {
 		this(null, display);
-	}
-
-	/**
-	 * @param text
-	 * @param color
-	 */
-	public MyButton(final String text, final Color color) {
-		super(text);
-
-		this.selected = false;
-		this.selectedColor = color;
-		this.channel = null;
-
-		background = getBackground();
-		// Border b = getBorder();
-		// setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white, 3), b));
 	}
 
 	@Override

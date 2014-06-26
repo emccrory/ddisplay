@@ -1,4 +1,4 @@
-package gov.fnal.ppd.signage.changer;
+package gov.fnal.ppd.signage.changer.attic;
 
 import java.awt.Color;
 import java.awt.Dimension;

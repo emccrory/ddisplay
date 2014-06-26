@@ -60,6 +60,10 @@ public class ChannelImpl implements Channel {
 	 *            A number for this Channel
 	 */
 	public ChannelImpl(final String name, final ChannelCategory category, final String description, final URI uri, final int number) {
+		assert (name != null);
+		assert (category != null);
+		assert (number > 0);
+
 		this.name = name;
 		this.category = category;
 		this.number = number;

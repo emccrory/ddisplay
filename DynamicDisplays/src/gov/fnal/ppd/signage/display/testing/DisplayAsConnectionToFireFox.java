@@ -77,12 +77,12 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						firefox.changeURL(lastURL);
+						setContent(lastChannel);						
 					}
 				}.start();
 			} else {
 				firefox.changeURL(url);
-				lastURL = url;
+				lastChannel =  getContent();
 				new Thread("UpdateStatus" + getMessagingName()) {
 					public void run() {
 						try {

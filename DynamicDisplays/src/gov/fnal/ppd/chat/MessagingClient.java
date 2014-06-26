@@ -108,7 +108,6 @@ public class MessagingClient {
 	 */
 	public void displayIncomingMessage(final String msg) {
 		System.out.println(msg);
-		System.out.print("> ");
 	}
 
 	/**

@@ -5,8 +5,8 @@ import static gov.fnal.ppd.ChannelSelector.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.signage.util.Util.shortDate;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageType;
-import gov.fnal.ppd.signage.util.MyButtonGroup;
-import gov.fnal.ppd.signage.util.MyColorSliderUI;
+import gov.fnal.ppd.signage.util.DisplayButtonGroup;
+import gov.fnal.ppd.signage.util.DisplayColorSliderUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,7 +19,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JComponent;
@@ -38,17 +37,6 @@ import javax.swing.plaf.basic.BasicSliderUI;
  * @author Elliott McCrory, Fermilab AD, 2012
  */
 public class DisplayButtons extends JPanel {
-
-	int								theFS				= (FONT_SIZE > 20.0f ? 20 : (int) FONT_SIZE);
-	private static final long		serialVersionUID	= 4096502469001848381L;
-	static final int				INSET_SIZE			= 6;
-	static final float				LOCAL_FONT_SIZE		= 38.0f;
-	static final float				WINDOW_FONT_SIZE	= 14.0f;
-	protected static final Color	sliderBG			= new Color(0xe0e0e0);
-	private Box						buttonBox;
-	private static DisplayList		displays;
-	private ActionListener			listener;
-	private static List<MyButton>	buttonList			= new ArrayList<MyButton>();
 
 	/**
 	 * Make a JSlider with a tool-tip that is determined from where the mouse is. Put all the functionality for this class in here.
@@ -79,7 +67,7 @@ public class DisplayButtons extends JPanel {
 				labels[i] = displays.get(i).getNumber();
 			}
 
-			BasicSliderUI sliderUI = new MyColorSliderUI(this, colorArray, labels);
+			BasicSliderUI sliderUI = new DisplayColorSliderUI(this, colorArray, labels);
 			setUI(sliderUI);
 
 			addChangeListener(new ChangeListener() {
@@ -115,6 +103,42 @@ public class DisplayButtons extends JPanel {
 		}
 	}
 
+	private static List<DDButton>	buttonList				= new ArrayList<DDButton>();
+	private static DisplayList		displays;
+	static final int				INSET_SIZE				= 6;
+	static final float				LOCAL_FONT_SIZE			= 38.0f;
+	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 20;
+	private static final long		serialVersionUID		= 4096502469001848381L;
+	protected static final Color	sliderBG				= new Color(0xe0e0e0);
+	static final float				WINDOW_FONT_SIZE		= 14.0f;
+
+	/**
+	 * Find this Display in the list and then set the ToolTip for it based on the status of the Display.
+	 * 
+	 * @param disp
+	 *            The Display to use for this tool tip
+	 */
+	public static void setToolTip(final Display disp) {
+		int index = 0;
+		for (Display d : displays) {
+			if (d == disp) {
+				String toolTip = "<html><b>Display:</b> " + disp.getNumber() + " -- " + disp.getDescription();
+				toolTip += "<br /><b>Last status update:</b> " + shortDate();
+				toolTip += "<br />Press to select this display.";
+				toolTip += "</p></html>";
+				// button.setToolTipText(toolTip);
+				buttonList.get(index).setToolTipText(toolTip);
+			}
+			index++;
+		}
+	}
+
+	private Box				buttonBox;
+
+	private ActionListener	listener;
+
+	private int				theFS	= (FONT_SIZE > 20.0f ? 20 : (int) FONT_SIZE);
+
 	/**
 	 * @param cats
 	 *            The types of signage here (NOT USED at this time!)
@@ -126,7 +150,7 @@ public class DisplayButtons extends JPanel {
 
 		displays = DisplayListFactory.getInstance();
 
-		if (displays.size() <= 20)
+		if (displays.size() <= MAXIMUM_DISPLAY_BUTTONS)
 			makeScreenGrid();
 		else
 			makeScreenGridSlider();
@@ -139,7 +163,7 @@ public class DisplayButtons extends JPanel {
 	private void makeScreenGrid() {
 		buttonBox = Box.createVerticalBox();
 
-		MyButtonGroup bg = new MyButtonGroup();
+		DisplayButtonGroup bg = new DisplayButtonGroup();
 		int is = displays.size() > 10 ? 2 * INSET_SIZE / 3 : INSET_SIZE;
 		float fs = displays.size() > 10 ? 3f * LOCAL_FONT_SIZE / 4f - 2 * (displays.size() - 10) : LOCAL_FONT_SIZE;
 		if (SHOW_IN_WINDOW)
@@ -151,7 +175,7 @@ public class DisplayButtons extends JPanel {
 		buttonBox.add(Box.createHorizontalGlue());
 		for (int i = 0; i < displays.size(); i++) {
 			final Display disp = displays.get(i);
-			final MyButton button = new MyButton(disp);
+			final DDButton button = new DDButton(disp);
 			buttonList.add(button);
 
 			button.setFont(button.getFont().deriveFont(fs));
@@ -164,7 +188,7 @@ public class DisplayButtons extends JPanel {
 			button.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					AbstractButton b = (AbstractButton) e.getSource();
+					// AbstractButton b = (AbstractButton) e.getSource();
 					listener.actionPerformed(new ActionEvent(disp, fi, disp.toString(), e.getWhen(), e.getModifiers()));
 
 					// Gets updated when the button is clicked
@@ -186,21 +210,6 @@ public class DisplayButtons extends JPanel {
 		setOpaque(true);
 		setBackground(g);
 		add(buttonBox, BorderLayout.CENTER);
-	}
-
-	public static void setToolTip(final Display disp) {
-		int index = 0;
-		for (Display d : displays) {
-			if (d == disp) {
-				String toolTip = "<html><b>Display:</b> " + disp.getNumber() + " -- " + disp.getDescription();
-				toolTip += "<br /><b>Last status update:</b> " + shortDate();
-				toolTip += "<br />Press to select this display.";
-				toolTip += "</p></html>";
-				// button.setToolTipText(toolTip);
-				buttonList.get(index).setToolTipText(toolTip);
-			}
-			index++;
-		}
 	}
 
 	private void makeScreenGridSlider() {

@@ -1,6 +1,8 @@
-package gov.fnal.ppd.signage.changer;
+package gov.fnal.ppd.signage.changer.attic;
 
 import gov.fnal.ppd.signage.SignageContent;
+import gov.fnal.ppd.signage.changer.ChannelCatalog;
+import gov.fnal.ppd.signage.changer.ChannelCategory;
 import gov.fnal.ppd.signage.channel.ChannelImpl;
 
 import java.net.URI;

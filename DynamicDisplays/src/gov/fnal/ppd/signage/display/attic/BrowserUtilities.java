@@ -1,4 +1,4 @@
-package gov.fnal.ppd.signage.display;
+package gov.fnal.ppd.signage.display.attic;
 
 /**
  * Some utility functions for the operating system

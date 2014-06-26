@@ -15,7 +15,7 @@ import java.net.URI;
 public interface SignageContent extends Serializable {
 
 	/**
-	 * The name of the Channel. This must be unique in the set of channels as this can be used as a database lookup
+	 * The name of the content.
 	 * 
 	 * @return The name of this content
 	 */
@@ -46,12 +46,12 @@ public interface SignageContent extends Serializable {
 	public String getDescription();
 
 	/**
-	 * @param d
+	 * @param d The (lengthy) description of this content
 	 */
 	public void setDescription(String d);
 
 	/**
-	 * The type of channel this is. This allows for the channels to be categorized, of course.
+	 * The category this content should be place in when presented to the user in the channel selector.
 	 * 
 	 * @return The category of this Channel
 	 */
@@ -63,7 +63,7 @@ public interface SignageContent extends Serializable {
 	public void setCategory(ChannelCategory c);
 
 	/**
-	 * @return The type of this Content
+	 * @return The type of this Content, e.g., PUBLIC, EXPERIMENT, and XOC.  This determined where this content may be displayed.
 	 */
 	public SignageType getType();
 
@@ -73,7 +73,7 @@ public interface SignageContent extends Serializable {
 	public void setType(SignageType t);
 
 	/**
-	 * The location of the content. Usually, this will be a URL (likely, "http://" or "https://") and point to somewhere on the
+	 * The address of the content. Usually, this will be a URL (likely, "http://" or "https://") and points to somewhere on the
 	 * Internet.
 	 * 
 	 * @return The URI for this content
@@ -84,8 +84,4 @@ public interface SignageContent extends Serializable {
 	 * @param i
 	 */
 	public void setURI(URI i);
-
-	// Not actually needed at this time. May be requested someday
-	// public int getNumber();
-
 }

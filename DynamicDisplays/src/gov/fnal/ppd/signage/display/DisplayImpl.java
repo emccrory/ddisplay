@@ -5,7 +5,7 @@ import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
-import gov.fnal.ppd.signage.changer.MyButton;
+import gov.fnal.ppd.signage.changer.DDButton;
 import gov.fnal.ppd.signage.channel.EmptyChannel;
 
 import java.awt.Color;
@@ -152,8 +152,8 @@ public abstract class DisplayImpl implements Display {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() instanceof MyButton) {
-			setContent(((MyButton) e.getSource()).getChannel());
+		if (e.getSource() instanceof DDButton) {
+			setContent(((DDButton) e.getSource()).getChannel());
 		} else
 			throw new RuntimeException("Unexpected source: " + e.getSource().getClass().getCanonicalName());
 	}

@@ -4,7 +4,7 @@ import static gov.fnal.ppd.ChannelSelector.SHOW_IN_WINDOW;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageContent;
-import gov.fnal.ppd.signage.util.MyButtonGroup;
+import gov.fnal.ppd.signage.util.DisplayButtonGroup;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -27,7 +27,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 
 	protected final Display		display;
 
-	protected MyButtonGroup		bg;
+	protected DisplayButtonGroup		bg;
 
 	protected JPanel			expGrid;
 
@@ -35,7 +35,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	 * @param display
 	 * @param bg
 	 */
-	public ChannelButtonGrid(Display display, MyButtonGroup bg) {
+	public ChannelButtonGrid(Display display, DisplayButtonGroup bg) {
 		super(new BorderLayout());
 		this.bg = bg;
 		this.display = display;
@@ -109,13 +109,16 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 		JPanel outer = (JPanel) getComponent(0);
 		JPanel expGrid = (JPanel) outer.getComponent(0);
 		for (Component C : expGrid.getComponents())
-			if (C instanceof MyButton) {
-				if (((MyButton) C).isSelected())
+			if (C instanceof DDButton) {
+				if (((DDButton) C).isSelected())
 					return true;
 			}
 		return false;
 	}
 
+	/**
+	 * @return The Display associated with this grid
+	 */
 	public Display getDisplay() {
 		return display;
 	}
@@ -125,7 +128,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	 * 
 	 * @return the button group
 	 */
-	public MyButtonGroup getBg() {
+	public DisplayButtonGroup getBg() {
 		return bg;
 	}
 

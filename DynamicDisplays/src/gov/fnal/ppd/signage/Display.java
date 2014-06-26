@@ -14,7 +14,7 @@ import java.net.InetAddress;
 public interface Display extends ActionListener {
 
 	/**
-	 * Which Channel is playing on this Display?
+	 * What content is playing on this Display?
 	 * 
 	 * @return The SignageContent that is playing now on this Display
 	 */
@@ -46,7 +46,7 @@ public interface Display extends ActionListener {
 	public int getNumber();
 
 	/**
-	 * What is the Screen number within this server?
+	 * What is the Screen number within this Display?
 	 * 
 	 * @return the Screen number
 	 */
@@ -60,7 +60,7 @@ public interface Display extends ActionListener {
 	public InetAddress getIPAddress();
 
 	/**
-	 * Add yourself as a listener to see when things change on a Display
+	 * Add a listener to see when things change on a Display
 	 * 
 	 * @param L
 	 */
@@ -116,7 +116,7 @@ public interface Display extends ActionListener {
 	public String getStatus();
 
 	/**
-	 * @return The name that this Display would use on the Messaging system
+	 * @return The name that this Display uses on the Messaging system
 	 */
 	public String getMessagingName();
 }

@@ -1,6 +1,7 @@
 package gov.fnal.ppd.signage.display.testing;
 
 import gov.fnal.ppd.chat.MessagingClient;
+import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
@@ -48,7 +49,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	protected static int			number;
 	protected boolean				keepGoing				= true;
-	protected String				lastURL					= "http://xoc.fnal.gov";
+	protected SignageContent		lastChannel				= null;
 	protected static boolean		dynamic					= false;
 
 	private MessagingClient			messagingClient;
@@ -199,7 +200,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 * 
 	 * @param number
 	 *            The display number this instance is
-	 * @param clazz 
+	 * @param clazz
 	 * @return The object that deals with this display
 	 */
 	public static DisplayControllerMessagingAbstract makeDynamicDisplayByNumber(final int number, Class<?> clazz) {
@@ -219,7 +220,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	/**
 	 * @param screen
 	 *            This screen number
-	 * @param clazz 
+	 * @param clazz
 	 * @return The Dynamic Display object
 	 */
 	public static DisplayControllerMessagingAbstract makeDynamicDisplayByScreen(int screen, Class<?> clazz) {

@@ -6,7 +6,7 @@ import static gov.fnal.ppd.ChannelSelector.INSET_SIZE;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageContent;
-import gov.fnal.ppd.signage.util.MyButtonGroup;
+import gov.fnal.ppd.signage.util.DisplayButtonGroup;
 
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -35,7 +35,7 @@ public class PublicInformationGrid extends ChannelButtonGrid {
 	 * @param bg
 	 *            The ButtonGroup into which these Channel buttons go
 	 */
-	public PublicInformationGrid(final Display display, final MyButtonGroup bg) {
+	public PublicInformationGrid(final Display display, final DisplayButtonGroup bg) {
 		super(display, bg);
 		add(makeExpGrid());
 		new Thread("PubGridInactivity") {
@@ -68,7 +68,7 @@ public class PublicInformationGrid extends ChannelButtonGrid {
 		expGrid.setOpaque(true);
 		expGrid.setBackground(display.getPreferredHighlightColor());
 		for (SignageContent exp : ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.PUBLIC)) {
-			final MyButton button = new MyButton((Channel) exp, display);
+			final DDButton button = new DDButton((Channel) exp, display);
 			if (!SHOW_IN_WINDOW) {
 				button.setFont(button.getFont().deriveFont(FONT_SIZE));
 				button.setMargin(new Insets(INSET_SIZE, INSET_SIZE, INSET_SIZE, INSET_SIZE));

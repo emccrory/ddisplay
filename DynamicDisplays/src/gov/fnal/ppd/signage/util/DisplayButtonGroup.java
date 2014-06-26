@@ -3,7 +3,7 @@ package gov.fnal.ppd.signage.util;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
-import gov.fnal.ppd.signage.changer.MyButton;
+import gov.fnal.ppd.signage.changer.DDButton;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,18 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple implementation of a button group, assuming buttons of type MyButton, which shows buttons as selected
+ * A simple implementation of a button group, assuming buttons of type DDButton, which shows buttons as selected for a specific
+ * Display
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
  * 
  */
-public class MyButtonGroup implements ActionListener {
-	private static int		objCount	= 0;
+public class DisplayButtonGroup implements ActionListener {
+	private static int		objCount				= 0;
 
-	static long				SleepTime	= 5000;
-	private boolean			play		= false;
-	private List<MyButton>	buttons		= new ArrayList<MyButton>();
+	static long				CheckStatusSleepTime	= 5000;
+	private boolean			play					= false;
+	private List<DDButton>	buttons					= new ArrayList<DDButton>();
 	private Display			display;
 	private ActionListener	listener;
 
@@ -30,7 +31,7 @@ public class MyButtonGroup implements ActionListener {
 	 * @param display
 	 *            The Display that owns these buttons
 	 */
-	public MyButtonGroup(final Display display) {
+	public DisplayButtonGroup(final Display display) {
 		this();
 		this.display = display;
 	}
@@ -45,13 +46,13 @@ public class MyButtonGroup implements ActionListener {
 	/**
 	 * Create a group
 	 */
-	public MyButtonGroup() {
+	public DisplayButtonGroup() {
 		new Thread("ButtonGroupCheck." + (objCount++)) {
 
 			public void run() {
 				while (true) {
 					try {
-						sleep(SleepTime);
+						sleep(CheckStatusSleepTime);
 						if (play)
 							synchronized (buttons) {
 								for (int i = 0; i < buttons.size(); i++) {
@@ -65,6 +66,7 @@ public class MyButtonGroup implements ActionListener {
 							}
 
 					} catch (Exception e) {
+						e.printStackTrace();
 					}
 				}
 			}
@@ -75,7 +77,7 @@ public class MyButtonGroup implements ActionListener {
 	 * @param b
 	 *            The MyButton to add to this button group
 	 */
-	public void add(final MyButton b) {
+	public void add(final DDButton b) {
 		synchronized (buttons) {
 			b.addActionListener(this);
 			buttons.add(b);
@@ -85,22 +87,14 @@ public class MyButtonGroup implements ActionListener {
 
 	public void actionPerformed(ActionEvent ev) {
 		if (display != null)
-			display.setContent(((MyButton) ev.getSource()).getChannel());
+			display.setContent(((DDButton) ev.getSource()).getChannel());
 		synchronized (buttons) {
-			for (MyButton b : buttons)
+			for (DDButton b : buttons)
 				b.setSelected(b.equals(ev.getSource()));
 			if (listener != null)
 				listener.actionPerformed(ev);
 		}
 	}
-
-	// public void setPlay() {
-	// play = true;
-	// }
-	//
-	// public void setStop() {
-	// play = false;
-	// }
 
 	/**
 	 * @return The Display that owns this Button Group
@@ -109,17 +103,10 @@ public class MyButtonGroup implements ActionListener {
 		return display;
 	}
 
-	// public SignageContent getSelectedChannel() {
-	// if (display != null)
-	// return display.getContent();
-	// return null;
-	// }
-
 	/**
 	 * @param object
 	 */
 	public void disableAll(final Object object) {
-
 		Channel c = null;
 		if (object instanceof Channel)
 			c = ((Channel) object);
@@ -131,7 +118,7 @@ public class MyButtonGroup implements ActionListener {
 			System.out.println("Setting Grid " + getClass().getSimpleName() + " (Channel='" + c.getName() + "') to not-responding");
 
 		synchronized (buttons) {
-			for (MyButton B : buttons) {
+			for (DDButton B : buttons) {
 				if (c != null)
 					B.setSelected(B.getChannel().equals(c));
 				B.setEnabled(false);
@@ -143,7 +130,7 @@ public class MyButtonGroup implements ActionListener {
 	@SuppressWarnings("javadoc")
 	public synchronized void enableAll() {
 		synchronized (buttons) {
-			for (MyButton B : buttons) {
+			for (DDButton B : buttons) {
 				B.setEnabled(true);
 				B.setEnabled(true); // Why two???
 			}
@@ -177,13 +164,21 @@ public class MyButtonGroup implements ActionListener {
 		}
 	}
 
+	/**
+	 * @return The number of buttons in this group
+	 */
 	public int getNumButtons() {
 		synchronized (buttons) {
 			return buttons.size();
 		}
 	}
 
-	public MyButton getAButton(int index) {
+	/**
+	 * @param index
+	 *            The button to return
+	 * @return A particular button
+	 */
+	public DDButton getAButton(final int index) {
 		synchronized (buttons) {
 			return buttons.get(index);
 		}

@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
+ * Some general utilities in the DD system
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
  * 
@@ -12,20 +14,36 @@ public class Util {
 	// Some globals for identifying the servers in this system
 
 	private static final String		DEFAULT_SERVER			= "mccrory.fnal.gov";
+	/**
+	 * Where is the messaging server?
+	 */
 	public static final String		MESSAGING_SERVER_NAME	= System.getProperty("signage.messagingserver", DEFAULT_SERVER);
+	/**
+	 * Where is the Web server?
+	 */
 	public static final String		WEB_SERVER_NAME			= System.getProperty("signage.webserver", DEFAULT_SERVER);
+	/**
+	 * Where is the Database server?
+	 */
 	public static final String		DATABASE_SERVER_NAME	= System.getProperty("signage.dbserver", DEFAULT_SERVER);
+	/**
+	 * Where is the XML server?
+	 */
 	public static final String		XML_SERVER_NAME			= System.getProperty("signage.xmlserver", DEFAULT_SERVER);
 
+	/**
+	 * What port is the Messaging Server listing on?
+	 */
 	public static final int			MESSAGING_SERVER_PORT	= 1500;
 
 	private static final String[]	days					= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
 	private Util() {
+		// Not implement--cannot be instantiated.
 	}
 
 	/**
-	 * Truncate a long string. Ad the elipsis if the string is too long
+	 * Truncate a long string. Add the ellipsis if the string is too long
 	 * 
 	 * @param name
 	 *            The string to shorten
@@ -40,7 +58,7 @@ public class Util {
 	}
 
 	/**
-	 * Truncate a string to 30 characters, adding an elipsis if it is too long
+	 * Truncate a string to 30 characters, adding an ellipsis if it is too long
 	 * 
 	 * @param name
 	 *            The string to truncate

@@ -21,19 +21,21 @@ import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicSliderUI;
 
 /**
- * Implement a JSlider. This is used when there are too many Displays to show on a ChannelSelector.
+ * Implement a JSlider. This is used when there are too many Displays to show on a ChannelSelector as individual buttons.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
  * 
  */
-public class MyColorSliderUI extends BasicSliderUI {
+public class DisplayColorSliderUI extends BasicSliderUI {
 
 	private Color				backgroundColor	= new Color(0xeeeeee);
 
 	private static final Color	myWhite			= new Color(255, 255, 255); // , 200);
-
 	private static final Color	myGray			= new Color(182, 182, 182); // , 200);
+
+	private int					WIDTH			= 60;
+	private Color[]				colors;
 
 	/**
 	 * Test this complicated bit of eye candy
@@ -45,8 +47,8 @@ public class MyColorSliderUI extends BasicSliderUI {
 		JSlider slider = new JSlider(SwingConstants.VERTICAL, 0, 20, 3);
 
 		System.out.println(Color.white + ", " + Color.gray.brighter() + ", " + myWhite + ", " + myGray);
-		slider.setUI(new MyColorSliderUI(slider, new Color[] { Color.red, Color.white, Color.orange, Color.white, Color.blue },
-				new int[] { 1, 5, 9, 22, 23 }));
+		slider.setUI(new DisplayColorSliderUI(slider,
+				new Color[] { Color.red, Color.white, Color.orange, Color.white, Color.blue }, new int[] { 1, 5, 9, 22, 23 }));
 
 		slider.setSnapToTicks(true);
 		slider.setPaintTicks(true);
@@ -64,10 +66,6 @@ public class MyColorSliderUI extends BasicSliderUI {
 
 	}
 
-	private int		WIDTH	= 60;
-
-	private Color[]	colors;
-
 	/**
 	 * @param slider
 	 *            The JSlider to use
@@ -76,7 +74,7 @@ public class MyColorSliderUI extends BasicSliderUI {
 	 * @param labels
 	 *            The labels (Display descriptions, presumably) for the individual elements in the JSlider
 	 */
-	public MyColorSliderUI(final JSlider slider, final Color[] c, final int[] labels) {
+	public DisplayColorSliderUI(final JSlider slider, final Color[] c, final int[] labels) {
 		super(slider);
 		assert (c != null);
 		colors = c;
