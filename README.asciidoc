@@ -19,6 +19,7 @@ This codebase includes code from:
 * https://github.com/pmorch/FF-Remote-Control
 
 === How to Install
+NOTE: you may need to remove ~/.mozilla if it already exists
 [source,shell]
 ----
 cd ~/
