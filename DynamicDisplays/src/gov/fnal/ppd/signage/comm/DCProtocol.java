@@ -146,7 +146,7 @@ public class DCProtocol {
 					}
 
 					Pong p = new Pong();
-					if (listeners.get(0) != null) {
+					if (listeners.size() > 0 && listeners.get(0) != null) {
 						// ASSUME that there is one and only one listener here.
 						p.setDisplayNum(listeners.get(0).getNumber());
 						ChannelSpec spec = new ChannelSpec();

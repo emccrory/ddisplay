@@ -20,6 +20,7 @@ import java.util.Date;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -69,8 +70,10 @@ public class DDSystemStatus extends JFrame {
 	private JScrollPane				scroller;
 	private ImageIcon				dataIcon, infoIcon, clockIcon, facadeIcon;
 
-	private int						nextWhoIsIn			= 1;
+	private Integer					nextWhoIsIn			= 1;
 	private JButton					refreshClients		= new JButton("Refresh in 0" + (nextWhoIsIn + 1));
+	private JCheckBox				showUpTime			= new JCheckBox("Times?");
+	private JCheckBox				showFacades			= new JCheckBox("Fa" + "\u00c7ades?".toLowerCase());
 
 	// TODO It is probably more correct to have the GUI class extend MessagingClient and then have JFrame be an attribute.
 	// It is the other way around now.
@@ -91,59 +94,66 @@ public class DDSystemStatus extends JFrame {
 
 		@Override
 		public void displayIncomingMessage(final String msg) {
-			if (msg.endsWith("\n"))
-				ta.append(msg);
-			else
-				ta.append(msg + "\n");
+			synchronized (nextWhoIsIn) {
+				if (msg.endsWith("\n"))
+					ta.append(msg);
+				else
+					ta.append(msg + "\n");
 
-			// TODO Windows 7 display has a problem with this. Only the first node is ever displayed when this is redrawn.
-			// It is geting all the messages and putting them into the tree properly, but the graphics is not showing up
-			// (at least on my instance of Windows 7) 6/16/2014
+				// TODO Windows 7 display has a problem with this. Only the first node is ever displayed when this is redrawn.
+				// It is geting all the messages and putting them into the tree properly, but the graphics is not showing up
+				// (at least on my instance of Windows 7) 6/16/2014
 
-			if (msg.startsWith("WHOISIN")) {
-				refresh = 10;
-				String clientName = msg.substring("WHOISIN [".length(), msg.indexOf(']'));
-				if (msg.contains("FA\u00c7ADE")) {
-					String facadeName = msg.substring(msg.indexOf("--") + 3, msg.indexOf(']'));
+				if (msg.startsWith("WHOISIN")) {
+					refresh = 10;
+					String clientName = msg.substring("WHOISIN [".length(), msg.indexOf(']'));
+					if (msg.contains("FA\u00c7ADE")) {
+						if (showFacades.isSelected()) {
+							String facadeName = msg.substring(msg.indexOf("--") + 3, msg.indexOf(']'));
 
-					int k = clientsTree.getModel().getChildCount(root);
-					boolean found = false;
-					for (int i = 0; i < k; i++) {
-						DefaultMutableTreeNode q = (DefaultMutableTreeNode) clientsTree.getModel().getChild(root, i);
-						if (q.toString().contains(facadeName)) {
-							found = true;
-							q.add(new DefaultMutableTreeNode(clientName));
-							// System.out.println("A: " + clientName + " added to " + q.getUserObject());
-							break;
+							int k = clientsTree.getModel().getChildCount(root);
+							boolean found = false;
+							for (int i = 0; i < k; i++) {
+								DefaultMutableTreeNode q = (DefaultMutableTreeNode) clientsTree.getModel().getChild(root, i);
+								if (q.toString().contains(facadeName)) {
+									found = true;
+									q.add(new DefaultMutableTreeNode(clientName));
+									// System.out.println("A: " + clientName + " added to " + q.getUserObject());
+									break;
+								}
+							}
+							if (!found) {
+								DefaultMutableTreeNode g = new DefaultMutableTreeNode(facadeName);
+								root.add(g);
+								g.add(new DefaultMutableTreeNode("'" + FACADE.toLowerCase()
+										+ "' nodes are virtual connections between a channel changer & a real display"));
+								if (showUpTime.isSelected())
+									g.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
+								g.add(new DefaultMutableTreeNode(clientName));
+								// System.out.println("B: " + clientName + " added to " + g.getUserObject());
+							}
 						}
+					} else { // Not a Facade user
+						DefaultMutableTreeNode node = new DefaultMutableTreeNode(clientName);
+						root.add(node);
+						if (showUpTime.isSelected())
+							node.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
+						// System.out.println("C: " + clientName + " added to root");
+						if (msg.contains(")"))
+							node.add(new DefaultMutableTreeNode("Dynamic Display Number "
+									+ msg.substring(msg.indexOf('(') + 1, msg.indexOf(')'))));
+						else if (msg.contains("_listener_"))
+							node.add(new DefaultMutableTreeNode("This is an instance of " + DDSystemStatus.class.getCanonicalName()));
+						else
+							node.add(new DefaultMutableTreeNode("This is an instance of "
+									+ ChannelSelector.class.getCanonicalName()));
 					}
-					if (!found) {
-						DefaultMutableTreeNode g = new DefaultMutableTreeNode(facadeName);
-						root.add(g);
-						g.add(new DefaultMutableTreeNode("'" + FACADE.toLowerCase()
-								+ "' nodes are virtual connections between a channel changer & a real display"));
-						g.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
-						g.add(new DefaultMutableTreeNode(clientName));
-						// System.out.println("B: " + clientName + " added to " + g.getUserObject());
-					}
-				} else { // Not a Facade user
-					DefaultMutableTreeNode node = new DefaultMutableTreeNode(clientName);
-					root.add(node);
-					node.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
-					// System.out.println("C: " + clientName + " added to root");
-					if (msg.contains(")"))
-						node.add(new DefaultMutableTreeNode("Dynamic Display Number "
-								+ msg.substring(msg.indexOf('(') + 1, msg.indexOf(')'))));
-					else if (msg.contains("_listener_"))
-						node.add(new DefaultMutableTreeNode("This is an instance of " + DDSystemStatus.class.getCanonicalName()));
-					else
-						node.add(new DefaultMutableTreeNode("This is an instance of " + ChannelSelector.class.getCanonicalName()));
+					// Apparently, there is a way to tell the JTree model that the tree has changed. Need to do that!
+				} else {
+					// System.err.println("Received an unknown message: '" + msg + "'");
+					// Other messages are likely to be the normal communications between ChannelSelector and Display
+					// TODO ? Interpret this message and give a summary on the "Raw Messages" screen
 				}
-				// Apparently, there is a way to tell the JTree model that the tree has changed. Need to do that!
-			} else {
-				// System.err.println("Received an unknown message: '" + msg + "'");
-				// Other messages are likely to be the normal communications between ChannelSelector and Display
-				// TODO ? Interpret this message and give a summary on the "Raw Messages" screen
 			}
 		};
 
@@ -177,14 +187,25 @@ public class DDSystemStatus extends JFrame {
 		JTabbedPane tabs = new JTabbedPane();
 		add(tabs, BorderLayout.CENTER);
 
-		refreshClients.addActionListener(new ActionListener() {
+		refreshClients.setFont(new Font("courier", Font.BOLD, 11));
+
+		ActionListener checkBoxListener = new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				nextWhoIsIn = 0;
+			public void actionPerformed(ActionEvent arg0) {
+				synchronized (nextWhoIsIn) {
+					nextWhoIsIn = 0;
+				}
 			}
-		});
-		refreshClients.setFont(new Font("courier", Font.BOLD, 11));
+		};
+		refreshClients.addActionListener(checkBoxListener);
+
+		showUpTime.addActionListener(checkBoxListener);
+		showFacades.addActionListener(checkBoxListener);
+		showUpTime.setToolTipText("Show the up time as part of the display for a client");
+		showFacades.setToolTipText("Show the connections of the channel selectors");
+		showUpTime.setSelected(true);
+		showFacades.setSelected(true);
 
 		JPanel northPanel = new JPanel();
 		// the server name and the port number
@@ -204,6 +225,11 @@ public class DDSystemStatus extends JFrame {
 		serverAndPort.add(tfPort);
 		serverAndPort.add(Box.createRigidArea(new Dimension(5, 5)));
 		serverAndPort.add(refreshClients);
+		serverAndPort.add(Box.createRigidArea(new Dimension(5, 5)));
+		serverAndPort.add(showUpTime);
+		serverAndPort.add(Box.createRigidArea(new Dimension(5, 5)));
+		serverAndPort.add(showFacades);
+
 		// adds the Server an port field to the GUI
 		northPanel.add(serverAndPort);
 
@@ -274,11 +300,13 @@ public class DDSystemStatus extends JFrame {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					if (client != null && nextWhoIsIn-- <= 0) {
-						whoIsIn();
-						nextWhoIsIn = 59;
+					synchronized (nextWhoIsIn) {
+						if (client != null && nextWhoIsIn-- <= 0) {
+							whoIsIn();
+							nextWhoIsIn = 59;
+						}
+						refreshClients.setText("Refresh in " + (nextWhoIsIn < 9 ? "0" : "") + (nextWhoIsIn + 1));
 					}
-					refreshClients.setText("Refresh in " + (nextWhoIsIn < 9 ? "0" : "") + (nextWhoIsIn + 1));
 				}
 			}
 		}.start();

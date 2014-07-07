@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.border.Border;
 
 /**
- * Create a JButton that can be put into a ButtonGroup.  represents a Channel for a Display or a Display
+ * Create a JButton that can be put into a ButtonGroup. represents a Channel for a Display or a Display
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2012
  */
@@ -31,6 +31,8 @@ public class DDButton extends JButton {
 
 	private Border				regularButtonBorder;
 
+	private final Border		BorderA, BorderB;
+
 	/**
 	 * @param channel
 	 *            (may be null) The Channel that this button represents
@@ -43,9 +45,17 @@ public class DDButton extends JButton {
 		this.selected = false;
 		this.channel = channel;
 		this.display = display;
+
 		if (display == null)
 			throw new IllegalArgumentException("Display cannot be null!");
 		this.selectedColor = display.getPreferredHighlightColor();
+
+		// There is no need to create these every time we get new status on this button--once should be enough.
+		BorderA = BorderFactory.createCompoundBorder(
+				BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 1),
+						BorderFactory.createLineBorder(Color.gray, 2)), regularButtonBorder);
+		BorderB = BorderFactory
+				.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 3), regularButtonBorder);
 
 		// It looks like this is not needed -- it is rewritten later
 		// String toolTip = "<html>";
@@ -75,13 +85,10 @@ public class DDButton extends JButton {
 	 * @param knownToBeAlive
 	 */
 	public void setMyBorder(final boolean knownToBeAlive) {
-		if (display != null && !knownToBeAlive) {
-			setBorder(BorderFactory.createCompoundBorder(
-					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(this.selectedColor, 1),
-							BorderFactory.createLineBorder(Color.gray, 2)), regularButtonBorder));
-		} else
-			setBorder(BorderFactory
-					.createCompoundBorder(BorderFactory.createLineBorder(this.selectedColor, 3), regularButtonBorder));
+		if (display != null && !knownToBeAlive)
+			setBorder(BorderA);
+		else
+			setBorder(BorderB);
 	}
 
 	private static String align(String string) {
