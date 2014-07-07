@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<!--
+install.rdf
+
+Full Fullscreen Firefox extension
+emsearcy@gmail.com
+
+Licensed under MPL (http://www.mozilla.org/MPL/MPL-1.1.html)
+-->
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+    <Description about="urn:mozilla:install-manifest">
+
+    <em:id>{18A7E0E6-96EB-11E0-A3F7-77C94724019B}</em:id>
+    <em:type>2</em:type>
+    <em:name>Full Fullscreen</em:name>
+    <em:version>7</em:version>
+    <em:unpack>true</em:unpack>
+    <em:description>Hides all toolbars on fullscreen. </em:description>
+    <em:creator>Eric Searcy Updated by ADiBoy</em:creator>
+    <em:homepageURL>http://emsearcy.org</em:homepageURL>
+    <em:optionsURL>chrome://fullfullscreen/content/settings.xul</em:optionsURL>
+
+    <em:targetApplication>
+        <Description>
+            <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+            <em:minVersion>3.0</em:minVersion>
+            <em:maxVersion>10.*</em:maxVersion>
+        </Description>
+    </em:targetApplication> 
+
+    </Description>
+
+</RDF>
