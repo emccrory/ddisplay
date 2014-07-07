@@ -550,9 +550,10 @@ public class ChannelSelector extends JPanel implements ActionListener {
 					int n = 0;
 					if (showDialog) {
 						Box dialog = Box.createVerticalBox();
-						dialog.add(new JLabel("<html>Launching web page to add a channel to database.<br>"
-								+ "You must restart the Channel Selector to see the new channel once it is added.<br>"
-								+ "Continue with the addition?"));
+						dialog.add(new JLabel("<html><center>You are about to launch a browser/web page to add a Channel to database.<br>"
+								+ "You must restart the Channel Selector to see the new Channel once it is added.<br><hr>"
+								+ "<em>This operation should be used sparingly</em></br><br>"
+								+ "Continue with the addition?</center></html>"));
 						JCheckBox cb = new JCheckBox("Do not show this again");
 						dialog.add(cb);
 						n = JOptionPane.showConfirmDialog(addChannelButton, dialog, "Add Channel?", JOptionPane.YES_NO_OPTION);

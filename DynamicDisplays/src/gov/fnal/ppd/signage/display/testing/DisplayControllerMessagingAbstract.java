@@ -151,14 +151,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 */
 	protected final synchronized void updateMyStatus() {
 		Statement stmt = null;
-		// ResultSet rs = null;
 
 		try {
 			stmt = connection.createStatement();
 			stmt.executeQuery("USE xoc");
 		} catch (SQLException ex) {
+			System.err.println("It is likely that the DB server is down.  We'll try again later.");
 			ex.printStackTrace();
-			System.exit(1);
+			return; 
 		}
 
 		try {
@@ -182,8 +182,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			}
 			stmt.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+						e.printStackTrace();
 		}
 
 	}
