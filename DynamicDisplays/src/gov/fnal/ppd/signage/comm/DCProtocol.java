@@ -120,7 +120,7 @@ public class DCProtocol {
 	 */
 	public boolean processInput(final DDMessage message) {
 		try {
-			System.out.println(getClass().getSimpleName() + ".processInput(): received '" + message + "'");
+			System.out.println(getClass().getSimpleName() + ".processInput(): processing '" + message + "'");
 
 			if (message != null && message.getMessage() != null) {
 				theMessage = message.getMessage();
@@ -155,7 +155,7 @@ public class DCProtocol {
 						spec.setName(listeners.get(0).getContent().getName());
 						p.setChannelSpec(spec);
 					} else {
-						System.err.println(getClass().getSimpleName() + ".processInput(): Hmm.  No listeners!?");
+						System.err.println(getClass().getSimpleName() + ".processInput(): No listeners for a 'Pong' message");
 					}
 					theReply = p;
 				}

@@ -16,7 +16,7 @@ public class ConnectionToFirefoxInstance {
 	private static final int	DEFAULT_BUFFER_SIZE	= 300;
 	private static final String	LOCALHOST			= "localhost";
 	private static final int	PORT				= 32000;
-	
+
 	private boolean				connected;
 	private BufferedReader		in;
 	private Socket				kkSocket;
@@ -92,11 +92,16 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	private void send(String s) {
-		if (out != null) {
-			this.out.println(s);
-		} else {
-			System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + PORT);
+		while (out == null) {
+			long wait = 15000;
+			System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + PORT + ".  Will try again in " + wait + " milliseconds");
+			try {
+				Thread.sleep(wait);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
+		this.out.println(s);
 	}
 
 	private boolean waitForServer() throws IOException {

@@ -112,7 +112,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	private static final Dimension			screenDimension			= Toolkit.getDefaultToolkit().getScreenSize();
 	private static final JFrame				f						= new JFrame("XOC Display Channel Selector");
 
-	private static final long				PING_INTERVAL			= 5000l;														// 60000l;
+	private static final long				PING_INTERVAL			= 5000l;											// 60000l;
 	protected static final long				FIFTEEN_MINUTES			= 15 * 60 * 1000;
 
 	private static ActionListener			refreshAction			= null;
@@ -360,7 +360,6 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			// Set up a database check every now and then to see what a Display is actually doing (this is inSTEAD of the Ping
 			// thread, above.
 			new Thread("Display." + display.getNumber() + "." + display.getScreenNumber() + ".StatusUpdate") {
-				private Statement	stmt;
 
 				public void run() {
 					try {
@@ -370,16 +369,15 @@ public class ChannelSelector extends JPanel implements ActionListener {
 						e.printStackTrace();
 					}
 					Connection connection = DisplayListDatabaseRemote.getConnection();
-					String query = "";
 					while (true) {
 						try {
 							sleep(PING_INTERVAL);
 							// read from the database to see what's up with this Display
 
-							try {
-								stmt = connection.createStatement();
-								query = "SELECT Content,ContentName FROM DisplayStatus WHERE DisplayID=" + display.getNumber();
-								ResultSet rs = stmt.executeQuery(query);
+							String query = "SELECT Content,ContentName FROM DisplayStatus WHERE DisplayID=" + display.getNumber();
+							// Use ARM (Automatic Resource Management) to assure that things get closed properly (a new Java 7
+							// feature)
+							try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query);) {
 								if (rs.first()) { // Move to first returned row
 									while (!rs.isAfterLast()) {
 										InputStream cn = rs.getAsciiStream("Content");
@@ -405,7 +403,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 														for (int i = 0; i < cbg.getBg().getNumButtons(); i++) {
 															DDButton myButton = cbg.getBg().getAButton(i);
 															boolean selected = myButton.getChannel().toString().equals(contentName);
-															String myButtonText = myButton.getText().replaceAll("\\<.*?>", "");
+															// String myButtonText = myButton.getText().replaceAll("\\<.*?>", "");
 															// boolean selected = contentName.contains(myButtonText);
 															myButton.setSelected(selected);
 															// System.out.println("Display '" + display + "' button '"
@@ -422,11 +420,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 										rs.next();
 									}
 								}
-								rs.close();
-								stmt.clearBatch();
-								stmt.close();
 							} catch (SQLException e) {
-								System.out.println(query);
 								e.printStackTrace();
 							}
 						} catch (InterruptedException e) {
@@ -550,10 +544,11 @@ public class ChannelSelector extends JPanel implements ActionListener {
 					int n = 0;
 					if (showDialog) {
 						Box dialog = Box.createVerticalBox();
-						dialog.add(new JLabel("<html><center>You are about to launch a browser/web page to add a Channel to database.<br>"
-								+ "You must restart the Channel Selector to see the new Channel once it is added.<br><hr>"
-								+ "<em>This operation should be used sparingly</em></br><br>"
-								+ "Continue with the addition?</center></html>"));
+						dialog.add(new JLabel(
+								"<html><center>You are about to launch a browser/web page to add a Channel to database.<br>"
+										+ "You must restart the Channel Selector to see the new Channel once it is added.<br><hr>"
+										+ "<em>This operation should be used sparingly</em></br><br>"
+										+ "Continue with the addition?</center></html>"));
 						JCheckBox cb = new JCheckBox("Do not show this again");
 						dialog.add(cb);
 						n = JOptionPane.showConfirmDialog(addChannelButton, dialog, "Add Channel?", JOptionPane.YES_NO_OPTION);

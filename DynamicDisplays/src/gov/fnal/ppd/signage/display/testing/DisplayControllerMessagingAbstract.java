@@ -150,41 +150,39 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 * Update my status to the database
 	 */
 	protected final synchronized void updateMyStatus() {
-		Statement stmt = null;
 
-		try {
-			stmt = connection.createStatement();
+		try (Statement stmt = connection.createStatement();) {
 			stmt.executeQuery("USE xoc");
+
+			try {
+				Date dNow = new Date();
+				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				// String statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus()
+				// + "',ContentName='" + getContent().getName() + "' where DisplayID=" + number;
+				// TODO Give xocuser the rights to change ContentName in this table!
+				String statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus()
+						+ "' where DisplayID=" + number;
+				int numRows = stmt.executeUpdate(statementString);
+				if (numRows == 0 || numRows > 1) {
+					System.err
+							.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
+									+ numRows + " rows instead. SQL='" + statementString + "'");
+				}
+
+				if (dynamic && OFF_LINE.equalsIgnoreCase(nowShowing)) {
+					// When we are all done, remove this new record from the Display and the DisplayStatus tables
+					stmt.executeUpdate("DELETE FROM Display WHERE DisplayID=" + number);
+					stmt.executeUpdate("DELETE FROM DisplayStatus WHERE DisplayID=" + number);
+				}
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		} catch (SQLException ex) {
 			System.err.println("It is likely that the DB server is down.  We'll try again later.");
 			ex.printStackTrace();
-			return; 
+			return;
 		}
-
-		try {
-			Date dNow = new Date();
-			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			// String statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus()
-			// + "',ContentName='" + getContent().getName() + "' where DisplayID=" + number;
-			// TODO Give xocuser the rights to change ContentName in this table!
-			String statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus()
-					+ "' where DisplayID=" + number;
-			int numRows = stmt.executeUpdate(statementString);
-			if (numRows == 0 || numRows > 1) {
-				System.err.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
-						+ numRows + " rows instead. SQL='" + statementString + "'");
-			}
-
-			if (dynamic && OFF_LINE.equalsIgnoreCase(nowShowing)) {
-				// When we are all done, remove this new record from the Display and the DisplayStatus tables
-				stmt.executeUpdate("DELETE FROM Display WHERE DisplayID=" + number);
-				stmt.executeUpdate("DELETE FROM DisplayStatus WHERE DisplayID=" + number);
-			}
-			stmt.close();
-		} catch (SQLException e) {
-						e.printStackTrace();
-		}
-
 	}
 
 	public final void actionPerformed(ActionEvent e) {
@@ -246,76 +244,72 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			System.exit(-1);
 		}
 
-		Statement stmt = null;
-		ResultSet rs = null;
+		// Use ARM to simplify these try blocks.
+		try (Statement stmt = connection.createStatement();) {
+			try (ResultSet rs = stmt.executeQuery("USE xoc")) {
+			}
 
-		try {
-			stmt = connection.createStatement();
-			rs = stmt.executeQuery("USE xoc");
+			try (ResultSet rs = stmt.executeQuery(query);) {
+				if (rs.first()) { // Move to first returned row (there should only be one)
+					String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
+
+					if (!myName.equals(myNode)) {
+						// TODO This will not work if the IPName in the database is an IP address.
+						System.out.println("The node name of this display (no. " + number
+								+ "), according to the database, is supposed to be '" + myName
+								+ "', but InetAddress.getLocalHost().getCanonicalHostName() says it is '" + myNode
+								+ "'\n\t** We'll try to run anyway, but this should be fixed **");
+						// System.exit(-1);
+					}
+					number = rs.getInt("DisplayID");
+
+					System.out.println("The node name of this display (no. " + number + ") is '" + myNode + "'");
+
+					String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
+					SignageType type = SignageType.valueOf(t);
+					String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
+					String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
+					Color color = new Color(Integer.parseInt(colorString, 16));
+					int portNumber = rs.getInt("Port");
+					int screenNumber = rs.getInt("ScreenNumber");
+					// String positionString = rs.getString("Position");
+					// if (positionString == null)
+
+					stmt.close();
+					rs.close();
+
+					// Now create the class object
+
+					Constructor<?> cons;
+					try {
+						cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class,
+								SignageType.class);
+						return (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] { myName, number, screenNumber,
+								portNumber, location, color, type });
+					} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
+							| IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return null;
+				} else {
+					new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
+					System.err.println("\n** Cannot continue! **\nExit");
+					connection.close();
+					System.exit(-1);
+				}
+
+				System.err.println("Cannot create an instance of DisplayAsStandaloneBrowser!");
+				if (connection != null)
+					connection.close();
+				System.exit(-1);
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			System.exit(1);
-		}
-
-		try {
-			rs = stmt.executeQuery(query);
-
-			if (rs.first()) { // Move to first returned row (there should only be one)
-				String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
-
-				if (!myName.equals(myNode)) {
-					// TODO This will not work if the IPName in the database is an IP address.
-					System.out.println("The node name of this display (no. " + number
-							+ "), according to the database, is supposed to be '" + myName
-							+ "', but InetAddress.getLocalHost().getCanonicalHostName() says it is '" + myNode
-							+ "'\n\t** We'll try to run anyway, but this should be fixed **");
-					// System.exit(-1);
-				}
-				number = rs.getInt("DisplayID");
-
-				System.out.println("The node name of this display (no. " + number + ") is '" + myNode + "'");
-
-				String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
-				SignageType type = SignageType.valueOf(t);
-				String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
-				String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
-				Color color = new Color(Integer.parseInt(colorString, 16));
-				int portNumber = rs.getInt("Port");
-				int screenNumber = rs.getInt("ScreenNumber");
-				// String positionString = rs.getString("Position");
-				// if (positionString == null)
-
-				stmt.close();
-				rs.close();
-
-				// Now create the class object
-
-				Constructor<?> cons;
-				try {
-					cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class,
-							SignageType.class);
-					return (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] { myName, number, screenNumber,
-							portNumber, location, color, type });
-				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
-						| IllegalArgumentException | InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return null;
-			} else {
-				new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
-				System.err.println("\n** Cannot continue! **\nExit");
-				connection.close();
-				System.exit(-1);
-			}
-
-			System.err.println("Cannot create an instance of DisplayAsStandaloneBrowser!");
-			if (connection != null)
-				connection.close();
-			System.exit(-1);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 		System.err.println("Control passed to a place that is impossible to reach!");

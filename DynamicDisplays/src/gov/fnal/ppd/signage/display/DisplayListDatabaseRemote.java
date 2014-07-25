@@ -36,8 +36,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> implements Dis
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		try {
-			Statement stmt = connection.createStatement();
+		try (Statement stmt = connection.createStatement();) {
 			stmt.executeQuery("USE xoc");
 			stmt.close();
 		} catch (SQLException ex) {
@@ -58,19 +57,17 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> implements Dis
 	}
 
 	private void getDisplays() {
-		Statement stmt = null;
-		ResultSet rs = null;
 
 		/*
-		 * Display DB table: | Location | char(255) | NO | | | | | Content | int(11) | YES | | NULL | | | Type |
+		 * Display DB table: <pre>
+		 * | Location | char(255) | NO | | | | | Content | int(11) | YES | | NULL | | | Type |
 		 * enum('Public','Experiment','XOC') | NO | | Public | | | DisplayID | int(11) | NO | PRI | NULL | auto_increment | | IPName
 		 * | char(100) | YES | | NULL | | | ScreenNumber
 		 */
 
 		int count = 0;
-		try {
-			stmt = getConnection().createStatement();
-			rs = stmt.executeQuery("SELECT * FROM Display");
+		// Use ARM to simplify this try block
+		try (Statement stmt = getConnection().createStatement(); ResultSet rs = stmt.executeQuery("SELECT * FROM Display");) {
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast()) {
 				String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
