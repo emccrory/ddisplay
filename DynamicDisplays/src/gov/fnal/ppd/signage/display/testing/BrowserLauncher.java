@@ -94,7 +94,7 @@ public class BrowserLauncher {
 
 			String geom = bounds.width + "x" + bounds.height + "+" + (int) bounds.getX() + "+" + (int) bounds.getY();
 			try {
-				browserProcess = new ProcessBuilder("firefox", "-remote-control", "--geometry=" + geom, "-fullscreen", url).start();
+				browserProcess = new ProcessBuilder("firefox", "-remote-control", url).start();  // , "--geometry=" + geom, "-fullscreen", url).start();
 
 				if (debug)
 					System.out.println("Launched " + whichInstance + " browser, geometry=" + geom);
