@@ -13,9 +13,9 @@ import java.net.UnknownHostException;
  * 
  */
 public class ConnectionToFirefoxInstance {
-	private static final int	DEFAULT_BUFFER_SIZE	= 300;
-	private static final String	LOCALHOST			= "localhost";
-	private static final int	PORT				= 32000;
+	private static final int	DEFAULT_BUFFER_SIZE			= 300;
+	private static final String	LOCALHOST					= "localhost";
+	private static final int	PORT						= 32000;
 	private static final long	WAIT_FOR_CONNECTION_TIME	= 15000;
 
 	// private static final String FullScreenExecute = "var elem = document.body; elem.requestFullScreen();";
@@ -26,7 +26,7 @@ public class ConnectionToFirefoxInstance {
 	private String				lastReplyLine;
 	private PrintWriter			out;
 
-	private boolean				debug				= true;
+	private boolean				debug						= true;
 
 	/**
 	 * Create a connection to the instance of FireFox that is being targeted here
@@ -83,8 +83,8 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	private void openConnection() {
-		System.out.println("Opening connection to FireFox instance ... ");
 		try {
+			System.out.println("Opening connection to FireFox instance to" + LOCALHOST + ":" + PORT + " ... ");
 			kkSocket = new Socket(LOCALHOST, PORT);
 			System.out.println("Socket connection to FF created");
 			out = new PrintWriter(kkSocket.getOutputStream(), true);
@@ -99,14 +99,16 @@ public class ConnectionToFirefoxInstance {
 			if (!"Connection refused".equals(e.getMessage()) && !"Connection timed out".equals(e.getMessage()))
 				System.err.println("Couldn't get I/O for the connection to " + LOCALHOST + "/" + PORT + "\t(" + e.getMessage()
 						+ ").");
+			else
+				e.printStackTrace();
 		}
 
 	}
 
 	private synchronized void send(String s) {
 		while (!connected && out == null) {
-			System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + PORT + ".  Will try again in " + WAIT_FOR_CONNECTION_TIME
-					+ " milliseconds");
+			System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + PORT + ".  Will try again in "
+					+ WAIT_FOR_CONNECTION_TIME + " milliseconds");
 			try {
 				Thread.sleep(WAIT_FOR_CONNECTION_TIME);
 			} catch (InterruptedException e) {
