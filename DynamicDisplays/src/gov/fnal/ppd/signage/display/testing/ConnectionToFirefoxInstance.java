@@ -17,7 +17,7 @@ public class ConnectionToFirefoxInstance {
 	private static final String	LOCALHOST			= "localhost";
 	private static final int	PORT				= 32000;
 
-	// private static final String	FullScreenExecute	= "var elem = document.body; elem.requestFullScreen();";
+	// private static final String FullScreenExecute = "var elem = document.body; elem.requestFullScreen();";
 
 	private boolean				connected;
 	private BufferedReader		in;
@@ -82,11 +82,6 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	private void openConnection() {
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
 		System.out.println("Opening connection to FireFox instance ... ");
 		try {
 			kkSocket = new Socket(LOCALHOST, PORT);

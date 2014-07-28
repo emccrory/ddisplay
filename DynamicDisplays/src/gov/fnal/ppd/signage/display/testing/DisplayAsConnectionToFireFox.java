@@ -51,12 +51,13 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		new Thread() {
 			public void run() {
 				try {
-					sleep(2000); // Wait a bit before trying to contact the instance of FireFox.
+					sleep(4000); // Wait a bit before trying to contact the instance of FireFox.
+					firefox = new ConnectionToFirefoxInstance();
+					sleep(1000); // Wait a bit more before trying to tell it to go to a specific page
+					firefox.changeURL(getContent().getURI().toASCIIString());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				firefox = new ConnectionToFirefoxInstance();
-				firefox.changeURL(getContent().getURI().toASCIIString());
 			}
 		}.start();
 
@@ -77,12 +78,12 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						setContent(lastChannel);						
+						setContent(lastChannel);
 					}
 				}.start();
 			} else {
 				firefox.changeURL(url);
-				lastChannel =  getContent();
+				lastChannel = getContent();
 				new Thread("UpdateStatus" + getMessagingName()) {
 					public void run() {
 						try {
@@ -90,7 +91,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						updateMyStatus();						
+						updateMyStatus();
 					}
 				}.start();
 			}
