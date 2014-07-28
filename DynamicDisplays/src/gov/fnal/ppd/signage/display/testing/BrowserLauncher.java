@@ -17,12 +17,13 @@ public class BrowserLauncher {
 	/**
 	 * Do we want more information when this class is executed?
 	 */
-	public static boolean	debug			= false;
+	public static boolean		debug					= false;
 
-	private Process			browserProcess	= null;
-	private Rectangle		bounds;
+	private Process				browserProcess			= null;
+	private Rectangle			bounds;
 
-	private BrowserInstance	whichInstance;
+	private BrowserInstance		whichInstance;
+
 
 	/**
 	 * What kind of browser are we to use?

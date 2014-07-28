@@ -17,11 +17,22 @@ public class ConnectionToFirefoxInstance {
 	private static final String	LOCALHOST			= "localhost";
 	private static final int	PORT				= 32000;
 
+	private static final String	FullScreenFunction	= "function requestFullScreen(element) {"
+															+ "var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;"
+															+ "if (requestMethod) { " + " requestMethod.call(element);"
+															+ "} else if (typeof window.ActiveXObject !== \"undefined\") { "
+															+ "var wscript = new ActiveXObject(\"WScript.Shell\");"
+															+ "if (wscript !== null) { wscript.SendKeys(\"{F11}\");}}" // End
+															+ "} ";
+	private static final String	FullScreenExecute	= "var elem = document.body; requestFullScreen(elem);";
+
 	private boolean				connected;
 	private BufferedReader		in;
 	private Socket				kkSocket;
 	private String				lastReplyLine;
 	private PrintWriter			out;
+	// Used for syncronization only
+	private Object				waitForOpen			= new Object();
 
 	/**
 	 * Create a connection to the instance of FireFox that is being targeted here
@@ -76,32 +87,40 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	private void openConnection() {
-		try {
-			kkSocket = new Socket(LOCALHOST, PORT);
-			out = new PrintWriter(kkSocket.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
-			connected = true;
-			System.out.println("** Connected to FireFox instance on " + LOCALHOST + " through port number " + PORT + " **");
-		} catch (UnknownHostException e) {
-			System.err.println("Don't know about host " + LOCALHOST + " --  ignoring.");
-		} catch (IOException e) {
-			if (!"Connection refused".equals(e.getMessage()) && !"Connection timed out".equals(e.getMessage()))
-				System.err.println("Couldn't get I/O for the connection to " + LOCALHOST + "/" + PORT + "\t(" + e.getMessage()
-						+ ").");
-		}
-	}
-
-	private void send(String s) {
-		while (out == null) {
-			long wait = 15000;
-			System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + PORT + ".  Will try again in " + wait + " milliseconds");
+		synchronized (waitForOpen) {
 			try {
-				Thread.sleep(wait);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+				kkSocket = new Socket(LOCALHOST, PORT);
+				out = new PrintWriter(kkSocket.getOutputStream(), true);
+				in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
+				connected = true;
+				System.out.println("** Connected to FireFox instance on " + LOCALHOST + " through port number " + PORT + " **");
+			} catch (UnknownHostException e) {
+				System.err.println("Don't know about host " + LOCALHOST + " --  ignoring.");
+			} catch (IOException e) {
+				if (!"Connection refused".equals(e.getMessage()) && !"Connection timed out".equals(e.getMessage()))
+					System.err.println("Couldn't get I/O for the connection to " + LOCALHOST + "/" + PORT + "\t(" + e.getMessage()
+							+ ").");
 			}
 		}
-		this.out.println(s);
+		// Load the full-screen Javascript function and then execute it
+		send(FullScreenFunction);
+		send(FullScreenExecute);
+	}
+
+	private synchronized void send(String s) {
+		synchronized (waitForOpen) {
+			while (out == null) {
+				long wait = 15000;
+				System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + PORT + ".  Will try again in "
+						+ wait + " milliseconds");
+				try {
+					Thread.sleep(wait);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			this.out.println(s);
+		}
 	}
 
 	private boolean waitForServer() throws IOException {
