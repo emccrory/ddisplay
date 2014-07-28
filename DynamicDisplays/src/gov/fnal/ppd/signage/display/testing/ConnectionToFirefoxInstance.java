@@ -84,23 +84,24 @@ public class ConnectionToFirefoxInstance {
 
 	private void openConnection() {
 		try {
-			System.out.println("Opening connection to FireFox instance to" + LOCALHOST + ":" + PORT + " ... ");
+			System.out.println("Opening connection to FireFox instance to " + LOCALHOST + ":" + PORT + " ... ");
 			kkSocket = new Socket(LOCALHOST, PORT);
-			System.out.println("Socket connection to FF created");
+			System.out.println("\tSocket connection to FF created");
 			out = new PrintWriter(kkSocket.getOutputStream(), true);
-			System.out.println("Output stream established");
+			System.out.println("\tOutput stream established");
 			in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
-			System.out.println("Input stream established");
+			System.out.println("\tInput stream established");
 			connected = true;
 			System.out.println("** Connected to FireFox instance on " + LOCALHOST + " through port number " + PORT + " **");
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host " + LOCALHOST + " --  ignoring.");
 		} catch (IOException e) {
-			if (!"Connection refused".equals(e.getMessage()) && !"Connection timed out".equals(e.getMessage()))
+			if ("Connection refused".equals(e.getMessage()) || "Connection timed out".equals(e.getMessage())) 
 				System.err.println("Couldn't get I/O for the connection to " + LOCALHOST + "/" + PORT + "\t(" + e.getMessage()
 						+ ").");
 			else
 				e.printStackTrace();
+			System.exit(-1);
 		}
 
 	}

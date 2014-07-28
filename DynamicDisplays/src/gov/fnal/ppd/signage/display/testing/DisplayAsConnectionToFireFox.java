@@ -100,8 +100,10 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 	@Override
 	protected void endAllConnections() {
-		firefox.exit();
-		browserLauncher.exit();
+		if (firefox != null)
+			firefox.exit();
+		if (browserLauncher != null)
+			browserLauncher.exit();
 	}
 
 	/**
