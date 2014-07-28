@@ -83,6 +83,12 @@ public class ConnectionToFirefoxInstance {
 
 	private void openConnection() {
 		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		System.out.println("Opening connection to FireFox instance ... ");
+		try {
 			kkSocket = new Socket(LOCALHOST, PORT);
 			out = new PrintWriter(kkSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
