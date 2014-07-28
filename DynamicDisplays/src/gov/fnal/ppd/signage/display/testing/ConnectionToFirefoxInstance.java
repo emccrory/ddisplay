@@ -16,6 +16,7 @@ public class ConnectionToFirefoxInstance {
 	private static final int	DEFAULT_BUFFER_SIZE	= 300;
 	private static final String	LOCALHOST			= "localhost";
 	private static final int	PORT				= 32000;
+	private static final long	WAIT_FOR_CONNECTION_TIME	= 15000;
 
 	// private static final String FullScreenExecute = "var elem = document.body; elem.requestFullScreen();";
 
@@ -85,8 +86,11 @@ public class ConnectionToFirefoxInstance {
 		System.out.println("Opening connection to FireFox instance ... ");
 		try {
 			kkSocket = new Socket(LOCALHOST, PORT);
+			System.out.println("Socket connection to FF created");
 			out = new PrintWriter(kkSocket.getOutputStream(), true);
+			System.out.println("Output stream established");
 			in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
+			System.out.println("Input stream established");
 			connected = true;
 			System.out.println("** Connected to FireFox instance on " + LOCALHOST + " through port number " + PORT + " **");
 		} catch (UnknownHostException e) {
@@ -100,12 +104,11 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	private synchronized void send(String s) {
-		while (out == null) {
-			long wait = 15000;
-			System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + PORT + ".  Will try again in " + wait
+		while (!connected && out == null) {
+			System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + PORT + ".  Will try again in " + WAIT_FOR_CONNECTION_TIME
 					+ " milliseconds");
 			try {
-				Thread.sleep(wait);
+				Thread.sleep(WAIT_FOR_CONNECTION_TIME);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
