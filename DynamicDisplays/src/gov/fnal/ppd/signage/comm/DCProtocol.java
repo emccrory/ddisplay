@@ -104,8 +104,8 @@ public class DCProtocol {
 	 * <li>(client) -- the machine that tells the displays what to show asynchronous message from a human, or from a channel script.
 	 * This client receives a "ready" message, and the it can send a URL to the server</li>
 	 * <li>
-	 * the machine that controls a display (server). This server waits for a URL from the client. When it gets it and displays the
-	 * URL successfully, it replies, "Ready".</li>
+	 * <server) -- the machine that controls a display. This server waits for a URL from the client. When it gets it and displays
+	 * the URL successfully, it replies, "Ready".</li>
 	 * </ul>
 	 * </p>
 	 * 
@@ -147,7 +147,7 @@ public class DCProtocol {
 
 					Pong p = new Pong();
 					if (listeners.size() > 0 && listeners.get(0) != null) {
-						// ASSUME that there is one and only one listener here.
+						// ASSUME that there is one and only one listener here and it is the physical display
 						p.setDisplayNum(listeners.get(0).getNumber());
 						ChannelSpec spec = new ChannelSpec();
 						spec.setUri(listeners.get(0).getContent().getURI());
@@ -155,7 +155,8 @@ public class DCProtocol {
 						spec.setName(listeners.get(0).getContent().getName());
 						p.setChannelSpec(spec);
 					} else {
-						System.err.println(getClass().getSimpleName() + ".processInput(): No listeners for a 'Pong' message");
+						// System.err.println(getClass().getSimpleName() + ".processInput(): No listeners for a 'Pong' message");
+						; 
 					}
 					theReply = p;
 				}
@@ -187,8 +188,11 @@ public class DCProtocol {
 
 	private void informListenersForever() {
 		checkChanger();
+		if (listeners == null || listeners.size() == 0) {
+			System.out.println("No listeners, so exiting from informListenersForever()");
+			return;
+		}
 		keepRunning = true;
-
 		final ChannelSpec[] specs = ((ChangeChannelList) theMessage).getChannelSpec();
 		changerThread = new Thread("ChannelChanger") {
 			public void run() {
