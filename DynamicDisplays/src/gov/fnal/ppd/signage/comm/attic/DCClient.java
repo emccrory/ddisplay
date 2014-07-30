@@ -103,7 +103,7 @@ public class DCClient {
 		if (in != null) {
 			char[] cbuf = new char[DEFAULT_BUFFER_SIZE];
 			int numRead = in.read(cbuf, 0, DEFAULT_BUFFER_SIZE);
-			System.out.println(getClass().getSimpleName() + " --DEBUG-- Got these lines: " + numRead);
+			System.out.println(getClass().getSimpleName() + " --DEBUG-- Got " + numRead + " lines from server");
 			String line = new String(cbuf);
 
 			DDMessage fromServer = new DDMessage(line);

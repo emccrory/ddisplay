@@ -156,7 +156,7 @@ public class DCProtocol {
 						p.setChannelSpec(spec);
 					} else {
 						// System.err.println(getClass().getSimpleName() + ".processInput(): No listeners for a 'Pong' message");
-						; 
+						;
 					}
 					theReply = p;
 				}
@@ -197,19 +197,20 @@ public class DCProtocol {
 		changerThread = new Thread("ChannelChanger") {
 			public void run() {
 				System.out.println(DCProtocol.class.getSimpleName()
-						+ ": Looks like we are going to be changing the channel automatically.  There are " + specs.length
-						+ " channels in the loop -- " + (new Date()));
+						+ ": We will be changing the channel automatically based on the list we just received.\n\tThere are "
+						+ specs.length + " channels in the list, and the first dwell time is " + specs[0].getTime() / 1000
+						+ " secs -- " + (new Date()));
 				while (keepRunning) {
 					for (ChannelSpec spec : specs) {
 						long sleepTime = spec.getTime();
-						System.out.println(DCProtocol.class.getSimpleName() + ": Channging to " + spec.getName() + " -- "
-								+ (new Date()));
+						// System.out.println(DCProtocol.class.getSimpleName() + ": Channging to [" + spec.getName() + "] -- "
+						// + (new Date()));
 
 						informListeners(spec);
 						try {
 							for (long i = 0; i < sleepTime && keepRunning; i += SHORT_INTERVAL)
 								sleep(SHORT_INTERVAL);
-							System.out.println(DCProtocol.class.getSimpleName() + ": Changing the channel now!");
+							// System.out.println(DCProtocol.class.getSimpleName() + ": Changing the channel now!");
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -231,8 +232,8 @@ public class DCProtocol {
 			c.setCategory(spec.getCategory());
 			c.setName(spec.getName());
 			for (Display L : listeners) {
-				System.out.println(getClass().getSimpleName() + ": Telling a " + L.getClass().getSimpleName() + " to change to "
-						+ c);
+				// System.out.println(getClass().getSimpleName() + ": Telling a " + L.getClass().getSimpleName() + " to change to ["
+				// + c + "]");
 				L.setContent(c);
 			}
 		} catch (MalformedURLException e1) {

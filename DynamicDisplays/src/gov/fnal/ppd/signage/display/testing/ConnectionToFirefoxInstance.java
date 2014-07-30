@@ -26,7 +26,7 @@ public class ConnectionToFirefoxInstance {
 	private String				lastReplyLine;
 	private PrintWriter			out;
 
-	private boolean				debug						= true;
+	private boolean				debug						= false;
 
 	/**
 	 * Create a connection to the instance of FireFox that is being targeted here
@@ -44,7 +44,8 @@ public class ConnectionToFirefoxInstance {
 	 *            The URL that this instance should show now.
 	 */
 	public void changeURL(final String urlString) {
-		System.out.println("New URL: " + urlString);
+		if (debug)
+			System.out.println("New URL: " + urlString);
 		send("window.location=\"" + urlString + "\"\n");
 		// send(FullScreenExecute);
 
@@ -139,10 +140,13 @@ public class ConnectionToFirefoxInstance {
 		if (in != null) {
 			char[] cbuf = new char[DEFAULT_BUFFER_SIZE];
 			int numRead = in.read(cbuf, 0, DEFAULT_BUFFER_SIZE);
-			System.out.println(getClass().getSimpleName() + " --DEBUG-- Got these lines: " + numRead);
 			lastReplyLine = new String(cbuf);
+			if (debug)
+				System.out.println(getClass().getSimpleName() + " --DEBUG-- Got " + numRead + " chars from server: "
+						+ lastReplyLine);
 
-			connected = !lastReplyLine.toUpperCase().contains("\"ERROR\""); // Meh. Probably not right
+			connected = !lastReplyLine.toUpperCase().contains("\"ERROR\""); // Probably not the right way to know if we are no
+																			// longer connected
 		}
 		return connected;
 	}

@@ -91,7 +91,7 @@ public abstract class DisplayImpl implements Display {
 				}
 			else
 				channel = (Channel) c;
-			System.out.println(getClass().getSimpleName() + ": Display " + getNumber() + " changed to '" + channel + "' at "
+			System.out.println(getClass().getSimpleName() + ": Display " + getNumber() + " changed to [" + channel + "] at "
 					+ (new Date()));
 
 			informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED);

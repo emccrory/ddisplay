@@ -40,6 +40,7 @@ public class CreateListOfChannelsHelper {
 
 		JScrollPane scroller = new JScrollPane(lister, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scroller.getVerticalScrollBar().setUnitIncrement(12);
 		if (!SHOW_IN_WINDOW)
 			scroller.getVerticalScrollBar().setPreferredSize(new Dimension(40, 0));
 		listerPanel.add(scroller, BorderLayout.CENTER);
