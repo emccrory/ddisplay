@@ -255,8 +255,8 @@ public class CreateListOfChannels extends JPanel {
 		retval.add(15000l);
 		retval.add(20000l);
 		retval.add(30000l);
-		retval.add(40000l);
-		retval.add(50000l);
+		retval.add(45000l);
+		retval.add(60000l);
 		retval.add(75000l);
 		retval.add(90000l);
 		retval.add(100000l);
