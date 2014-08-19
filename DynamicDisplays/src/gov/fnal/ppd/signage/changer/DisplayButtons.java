@@ -104,7 +104,7 @@ public class DisplayButtons extends JPanel {
 	}
 
 	private static List<DDButton>	buttonList				= new ArrayList<DDButton>();
-	private static DisplayList		displays;
+	private static List<Display>	displays;
 	static final int				INSET_SIZE				= 6;
 	static final float				LOCAL_FONT_SIZE			= 38.0f;
 	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 20;
@@ -140,16 +140,18 @@ public class DisplayButtons extends JPanel {
 	private int				theFS	= (FONT_SIZE > 20.0f ? 20 : (int) FONT_SIZE);
 
 	/**
-	 * @param cats
-	 *            The types of signage here (NOT USED at this time!)
+	 * @param cat
+	 *            The type of Display to allow control of, here
 	 * @param listener
 	 */
-	public DisplayButtons(final SignageType[] cats, final ActionListener listener) {
+	public DisplayButtons(final SignageType cat, final ActionListener listener) {
 		super(new BorderLayout());
 		this.listener = listener;
 
-		displays = DisplayListFactory.getInstance();
-
+		displays = DisplayListFactory.getInstance(cat);
+		
+		System.out.println("Number of displays: " + displays.size());
+		
 		if (displays.size() <= MAXIMUM_DISPLAY_BUTTONS)
 			makeScreenGrid();
 		else

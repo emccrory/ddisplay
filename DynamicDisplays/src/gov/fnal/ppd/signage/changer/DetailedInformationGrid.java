@@ -65,12 +65,17 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			IS = INSET_SIZE / 3;
 			cols = 5;
 			gap = 4;
-		} else if (list.size() > 12) {
+		} else if (list.size() > 18) {
 			FS = 3 * FONT_SIZE / 8;
 			IS = INSET_SIZE / 2;
 			cols = 4;
 			gap = 5;
-		} else if (list.size() <= 12) {
+		} else if (list.size() > 10) {
+			FS = 3 * FONT_SIZE / 4;
+			IS = INSET_SIZE / 2;
+			cols = 3;
+			gap = 7;
+		} else {
 			FS = FONT_SIZE;
 			IS = INSET_SIZE;
 			cols = 2;

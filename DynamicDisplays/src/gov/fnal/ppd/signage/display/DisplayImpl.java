@@ -63,7 +63,7 @@ public abstract class DisplayImpl implements Display {
 		try {
 			this.ipAddress = InetAddress.getByName(ipName);
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			System.err.println("Host not found: " + ipName);
 		}
 		this.screenNumber = screenNumber;
 		this.location = location;
@@ -117,7 +117,7 @@ public abstract class DisplayImpl implements Display {
 
 	@Override
 	public String toString() {
-		// FIXME Only works correctly up to 9999 total displays. That should be enough for now, though.
+		// FIXME Only works correctly up to 9999 total displays. That should be enough for now. :-)
 		if (displayCount >= 1000) {
 			if (displayNumber < 10)
 				return "Display 000" + displayNumber;

@@ -2,7 +2,7 @@ package gov.fnal.ppd;
 
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
-import gov.fnal.ppd.signage.changer.DisplayList;
+import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.DisplayListFactory;
 import gov.fnal.ppd.signage.channel.PlainURLChannel;
 
@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,7 +27,9 @@ public class IdentifyAll extends JButton implements ActionListener {
 
 	private static final long	serialVersionUID	= 389156534115421551L;
 
-	private DisplayList			displays			= DisplayListFactory.getInstance();
+	private List<Display>		displays			= DisplayListFactory
+															.getInstance((Boolean.getBoolean("signage.selector.public") ? SignageType.Public
+																	: SignageType.XOC));
 
 	private Channel				identifyChannel		= null;
 

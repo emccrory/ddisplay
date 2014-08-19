@@ -1,7 +1,5 @@
 package gov.fnal.ppd;
 
-import static gov.fnal.ppd.signage.util.Util.shortDate;
-import static gov.fnal.ppd.signage.util.Util.truncate;
 import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.Display;
@@ -9,17 +7,17 @@ import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ChannelButtonGrid;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
+import gov.fnal.ppd.signage.changer.DDButton;
 import gov.fnal.ppd.signage.changer.DetailedInformationGrid;
 import gov.fnal.ppd.signage.changer.DisplayButtons;
 import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
-import gov.fnal.ppd.signage.changer.DisplayList;
 import gov.fnal.ppd.signage.changer.DisplayListFactory;
-import gov.fnal.ppd.signage.changer.DDButton;
 import gov.fnal.ppd.signage.changer.PublicInformationGrid;
 import gov.fnal.ppd.signage.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.signage.display.DisplayFacade;
 import gov.fnal.ppd.signage.display.DisplayListDatabaseRemote;
 import gov.fnal.ppd.signage.util.DisplayButtonGroup;
+import gov.fnal.ppd.signage.util.JLabelFooter;
 import gov.fnal.ppd.signage.util.Util;
 
 import java.awt.BorderLayout;
@@ -105,7 +103,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
-	public static float						FONT_SIZE				= 68.0f;
+	public static float						FONT_SIZE				= 60.0f;
 
 	private static final int				MESSAGING_SERVER_PORT	= 1500;
 
@@ -116,7 +114,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	protected static final long				FIFTEEN_MINUTES			= 15 * 60 * 1000;
 
 	private static ActionListener			refreshAction			= null;
-	private static DisplayList				displayList;
+	private static List<Display>			displayList;
 	// private static DisplayDebugTypes realDisplays = DisplayDebugTypes.REAL_AND_REMOTE; // DisplayDebugTypes.REAL_BUT_LOCAL;
 
 	/**
@@ -180,11 +178,11 @@ public class ChannelSelector extends JPanel implements ActionListener {
 
 	private void initComponents() {
 		removeAll();
-		SignageType[] cats = displayList.getCategories();
+		SignageType cat = SignageType.XOC; // Show everything
 		if (IS_PUBLIC_CONTROLLER)
-			cats = new SignageType[] { SignageType.Public };
+			cat = SignageType.Public;
 
-		displaySelector = new DisplayButtons(cats, this);
+		displaySelector = new DisplayButtons(cat, this);
 		initChannelSelectors();
 
 		add(displayChannelPanel, BorderLayout.CENTER);
@@ -227,7 +225,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 		int index = 0;
 		for (final Display display : displayList) {
 			JTabbedPane displayTabPane = new JTabbedPane();
-			displayTabPane.setFont(getFont().deriveFont((SHOW_IN_WINDOW ? 10.0f : 28.0f)));
+			displayTabPane.setFont(getFont().deriveFont((SHOW_IN_WINDOW ? 12.0f : 40.0f)));
 			displayTabPane.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					selectedTab = ((JTabbedPane) e.getSource()).getSelectedIndex();
@@ -250,7 +248,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			displayTabPane.add(grid, sp + ChannelCategory.PUBLIC_DETAILS + sp);
 
 			if (!IS_PUBLIC_CONTROLLER) {
-				// Remove the MoreDetails tab until such time that it is needed
+				// Remove the "Experiment Details" tab until such time that it is needed
 				grid = new DetailedInformationGrid(display, bg, 2);
 				allGrids.add(grid);
 				display.addListener(grid);
@@ -270,22 +268,25 @@ public class ChannelSelector extends JPanel implements ActionListener {
 				wid2 = 1;
 			}
 
-			final CreateListOfChannelsHelper channelLister = new CreateListOfChannelsHelper();
-			displayTabPane.add(channelLister.listerPanel, " Lists ");
-			channelLister.accept.addActionListener(new ActionListener() {
+			if (!IS_PUBLIC_CONTROLLER) {
+				final CreateListOfChannelsHelper channelLister = new CreateListOfChannelsHelper();
+				displayTabPane.add(channelLister.listerPanel, " Lists ");
+				channelLister.accept.addActionListener(new ActionListener() {
 
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					System.out.println("Channel list accepted");
-					display.setContent(channelLister.lister.getChannelList());
-				}
-			});
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						System.out.println("Channel list accepted");
+						display.setContent(channelLister.lister.getChannelList());
+					}
+				});
+			}
 
+			// Add the Display Tabbed Pane to the main screen
 			inner.setBorder(BorderFactory.createCompoundBorder(
 					BorderFactory.createLineBorder(display.getPreferredHighlightColor(), wid1),
 					BorderFactory.createEmptyBorder(wid2, wid2, wid2, wid2)));
 			inner.add(displayTabPane, BorderLayout.CENTER);
-			final JLabel footer = makeChannelIndicator(display);
+			final JLabelFooter footer = makeChannelIndicator(display);
 			display.addListener(new ActionListener() {
 				private long	lastUpdated	= System.currentTimeMillis();
 
@@ -299,7 +300,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 					}
 
 					String text = display.getNumber() + " to " + display.getContent().getCategory() + " channel '"
-							+ truncate(display.getContent().getName()) + "' (" + shortDate() + ")</html>";
+							+ (display.getContent().getName());
 					boolean alive = false;
 
 					switch (ev.getType()) {
@@ -311,19 +312,19 @@ public class ChannelSelector extends JPanel implements ActionListener {
 						alive = true;
 						break;
 					case ALIVE:
-						text = "<html>A Display " + display.getNumber() + ": " + display.getContent().getCategory() + "/'"
-								+ truncate(display.getContent().getName()) + "' (" + shortDate() + ")</html>";
+						text = "A Display " + display.getNumber() + ": " + display.getContent().getCategory() + "/'"
+								+ (display.getContent().getName());
 						alive = true;
 						break;
 					case ERROR:
-						text = "<html>Display " + display.getNumber() + " ERROR; " + ": " + display.getContent().getCategory()
-								+ "/'" + truncate(display.getContent().getName()) + "' (" + shortDate() + ")</html>";
+						text = "Display " + display.getNumber() + " ERROR; " + ": " + display.getContent().getCategory() + "/'"
+								+ (display.getContent().getName());
 						break;
 					case IDLE:
 						if (lastUpdated + 30000l > System.currentTimeMillis())
 							break;
-						text = "<html>G Display " + display.getNumber() + " Idle; " + ": " + display.getContent().getCategory()
-								+ "/'" + truncate(display.getContent().getName()) + "' (" + shortDate() + ")</html>";
+						text = "G Display " + display.getNumber() + " Idle; " + ": " + display.getContent().getCategory() + "/'"
+								+ (display.getContent().getName());
 						alive = true;
 						break;
 					}
@@ -358,7 +359,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			setTabColor(display, index);
 
 			// Set up a database check every now and then to see what a Display is actually doing (this is inSTEAD of the Ping
-			// thread, above.
+			// thread, above).
 			new Thread("Display." + display.getNumber() + "." + display.getScreenNumber() + ".StatusUpdate") {
 
 				public void run() {
@@ -388,8 +389,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 											if (contentName.contains(" is being displayed"))
 												contentName = contentName.substring(0, contentName.indexOf(" is being displayed"));
 											// Create a new footer
-											String text = "<html><center>Disp " + display.getNumber() + ": "
-													+ truncate(contentName, 27) + " " + shortDate() + "</center></html>";
+											String text = "Disp " + display.getNumber() + ": " + (contentName);
 											footer.setText(text);
 											footer.setToolTipText(contentName);
 											DisplayButtons.setToolTip(display);
@@ -612,10 +612,10 @@ public class ChannelSelector extends JPanel implements ActionListener {
 		titleBox.setOpaque(true);
 	}
 
-	private static JLabel makeChannelIndicator(Display display) {
+	private static JLabelFooter makeChannelIndicator(Display display) {
 		// JLabel footer = new JLabel(" Display " + display.getNumber() + " set to the '" + display.getContent().getCategory()
-		// + "' channel '" + truncate(display.getContent().getName()) + "' (" + shortDate() + ")");
-		JLabel footer = new JLabel("Display " + display.getNumber() + " (" + shortDate() + ")");
+		// + "' channel '" + (display.getContent().getName()) + "' (" + shortDate() + ")");
+		JLabelFooter footer = new JLabelFooter("Display " + display.getNumber());
 		DisplayButtons.setToolTip(display);
 
 		int wid = 1, is = 1;
@@ -685,7 +685,9 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	 */
 	public static void main(final String[] args) {
 
-		displayList = DisplayListFactory.getInstance();
+		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public: SignageType.XOC);
+	
+		displayList = DisplayListFactory.getInstance(sType);
 		channelSelector = new ChannelSelector();
 
 		// SHOW_IN_WINDOW = args.length > 0 && "WINDOW".equals(args[0]);
@@ -717,7 +719,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 						// Regenerate the Display list and the Channel list
 						// DisplayListFactory.useRealDisplays(realDisplays);
 						// ChannelCatalogFactory.useRealChannels(true);
-						displayList = DisplayListFactory.getInstance();
+						displayList = DisplayListFactory.getInstance(sType);
 
 						channelSelector = new ChannelSelector();
 						f.setContentPane(channelSelector);

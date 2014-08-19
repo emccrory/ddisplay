@@ -3,6 +3,8 @@ package gov.fnal.ppd.signage.changer;
 /**
  * The way the channels are organized/sorted for the user
  * 
+ * FIXME -- This should be determined by what is in the database, not hard-coded like this
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
  * 

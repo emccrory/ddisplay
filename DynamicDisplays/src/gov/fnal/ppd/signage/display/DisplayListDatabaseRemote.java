@@ -4,7 +4,6 @@ import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
-import gov.fnal.ppd.signage.changer.DisplayList;
 
 import java.awt.Color;
 import java.sql.Connection;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2013
  * 
  */
-public class DisplayListDatabaseRemote extends ArrayList<Display> implements DisplayList {
+public class DisplayListDatabaseRemote extends ArrayList<Display> {
 
 	private static final long	serialVersionUID	= -1865804684093297761L;
 
@@ -59,8 +58,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> implements Dis
 	private void getDisplays() {
 
 		/*
-		 * Display DB table: <pre>
-		 * | Location | char(255) | NO | | | | | Content | int(11) | YES | | NULL | | | Type |
+		 * Display DB table: <pre> | Location | char(255) | NO | | | | | Content | int(11) | YES | | NULL | | | Type |
 		 * enum('Public','Experiment','XOC') | NO | | Public | | | DisplayID | int(11) | NO | PRI | NULL | auto_increment | | IPName
 		 * | char(100) | YES | | NULL | | | ScreenNumber
 		 */
@@ -93,14 +91,4 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> implements Dis
 		System.out.println(getClass().getSimpleName() + ": Found " + count + " displays.");
 	}
 
-	@Override
-	public SignageType getCategory(int dn) {
-		return get(dn).getCategory();
-	}
-
-	@Override
-	public SignageType[] getCategories() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

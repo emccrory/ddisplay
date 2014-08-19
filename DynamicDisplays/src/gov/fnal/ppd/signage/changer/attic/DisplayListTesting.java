@@ -2,8 +2,6 @@ package gov.fnal.ppd.signage.changer.attic;
 
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageType;
-import gov.fnal.ppd.signage.changer.DisplayList;
-import gov.fnal.ppd.signage.display.attic.jxbrowser.DisplayAsJxBrowser;
 import gov.fnal.ppd.signage.util.HSBColor;
 
 import java.awt.Color;
@@ -15,7 +13,7 @@ import java.util.List;
  * @copy 2014
  *
  */
-public class DisplayListTesting extends ArrayList<Display> implements DisplayList {
+public class DisplayListTesting extends ArrayList<Display> {
 	private static final long serialVersionUID = -5048596353258886811L;
 	private static int nd = 20;
 
