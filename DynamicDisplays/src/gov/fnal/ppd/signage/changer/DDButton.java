@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.changer;
 
+import gov.fnal.ppd.ChannelSelector;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 
@@ -23,7 +24,7 @@ public class DDButton extends JButton {
 
 	private boolean				selected			= false;
 
-	private Color				background, selectedColor;
+	private Color				background, selectedColor, plainFont = SystemColor.textText, selectedFont = SystemColor.textText;
 
 	private Channel				channel;
 
@@ -45,50 +46,36 @@ public class DDButton extends JButton {
 		this.selected = false;
 		this.channel = channel;
 		this.display = display;
+		// Hold the original button border for later
+		regularButtonBorder = getBorder();
 
 		if (display == null)
 			throw new IllegalArgumentException("Display cannot be null!");
 		this.selectedColor = display.getPreferredHighlightColor();
 
-		// There is no need to create these every time we get new status on this button--once should be enough.
-		BorderA = BorderFactory.createCompoundBorder(
-				BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 1),
-						BorderFactory.createLineBorder(Color.gray, 2)), regularButtonBorder);
-		BorderB = BorderFactory
-				.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 3), regularButtonBorder);
+		if (ChannelSelector.SHOW_IN_WINDOW) {
+			BorderA = BorderFactory.createCompoundBorder(
+					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 3),
+							BorderFactory.createLineBorder(Color.gray, 2)), regularButtonBorder);
+			BorderB = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 5), regularButtonBorder);
+		} else {
+			Border c = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black), regularButtonBorder);
+			BorderA = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.gray, 8), c);
+			BorderB = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 8), c);
+		}
 
-		// It looks like this is not needed -- it is rewritten later
-		// String toolTip = "<html>";
-		// if (channel != null) {
-		// toolTip += "<p><b>Channel:</b> " + this.channel.getNumber();
-		// toolTip += "<br /><b>Name:</b> " + this.channel.getName();
-		// toolTip += "<br /><b>Description:</b> '" + this.channel.getDescription() + "'";
-		// toolTip += "<br />Press to change to this channel";
-		// } else if (display != null) {
-		// toolTip += "<b>Display</b> " + display.getNumber() + " -- " + display.getDescription();
-		// toolTip += "<br /><b>Last status update:</b> <i>Never</i>";
-		// toolTip += "<br />Press to select the displayed channel on this screen.";
-		// }
-		// toolTip += "</p></html>";
+		float brightness = (Color.RGBtoHSB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue(), null))[2];
+		if (brightness < 0.6f) {
+			selectedFont = new Color(0xdddddd);
+		}
+
 		// setToolTipText(toolTip);
 
 		// Hold the original button background for later
 		background = getBackground();
-		// Hold the original button border for later
-		regularButtonBorder = getBorder();
 
 		setEnabled(false);
 		setOpaque(true);
-	}
-
-	/**
-	 * @param knownToBeAlive
-	 */
-	public void setMyBorder(final boolean knownToBeAlive) {
-		if (display != null && !knownToBeAlive)
-			setBorder(BorderA);
-		else
-			setBorder(BorderB);
 	}
 
 	private static String align(String string) {
@@ -121,9 +108,15 @@ public class DDButton extends JButton {
 
 	@Override
 	public void setSelected(final boolean selected) {
+		super.setSelected(selected);
+
 		this.selected = selected;
 		setBackground(selected ? selectedColor : background);
-		super.setSelected(selected);
+		
+		if (selected)
+			super.setForeground(selectedFont);
+		else
+			super.setForeground(plainFont);
 	}
 
 	/**
@@ -143,9 +136,13 @@ public class DDButton extends JButton {
 	/*
 	 * Overrides setEnabled to handle HTML graying out (which does not happen by default)
 	 */
+	@Override
 	public void setEnabled(boolean vEnabled) {
 		super.setEnabled(vEnabled);
-		super.setForeground(vEnabled ? SystemColor.textText : SystemColor.textInactiveText);
-		setMyBorder(vEnabled);
+		if (display != null && !vEnabled)
+			setBorder(BorderA);
+		else
+			setBorder(BorderB);
+
 	}
 }

@@ -26,7 +26,9 @@ public enum ChannelCategory {
 	 * Channels on the front page of the "Experiments" view
 	 */
 	EXPERIMENT_DETAILS,
-
+	NUMI_DETAILS,
+	NOVA_DETAILS,
+	
 	/**
 	 * Everything else
 	 */

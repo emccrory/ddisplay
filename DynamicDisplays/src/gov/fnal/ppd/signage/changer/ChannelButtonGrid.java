@@ -23,13 +23,13 @@ import javax.swing.JPanel;
  */
 public abstract class ChannelButtonGrid extends JPanel implements ActionListener {
 
-	private static final long	serialVersionUID	= -3589107759837109844L;
+	private static final long		serialVersionUID	= -3589107759837109844L;
 
-	protected final Display		display;
+	protected final Display			display;
 
-	protected DisplayButtonGroup		bg;
+	protected DisplayButtonGroup	bg;
 
-	protected JPanel			expGrid;
+	protected JPanel				expGrid;
 
 	/**
 	 * @param display

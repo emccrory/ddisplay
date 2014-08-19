@@ -51,6 +51,12 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		case 2:
 			cat = ChannelCategory.EXPERIMENT_DETAILS;
 			break;
+		case 3:
+			cat = ChannelCategory.NOVA_DETAILS;
+			break;
+		case 4:
+			cat = ChannelCategory.NUMI_DETAILS;
+			break;
 		default:
 			cat = ChannelCategory.MISCELLANEOUS;
 			break;
@@ -61,32 +67,34 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		int gap = 5;
 
 		if (list.size() > 48) {
-			FS = FONT_SIZE / 4;
+			FS = 0.5f * FONT_SIZE;
 			IS = INSET_SIZE / 3;
 			cols = 5;
 			gap = 4;
 		} else if (list.size() > 18) {
-			FS = 3 * FONT_SIZE / 8;
+			FS = 0.6f * FONT_SIZE;
 			IS = INSET_SIZE / 2;
 			cols = 4;
 			gap = 5;
 		} else if (list.size() > 10) {
-			FS = 3 * FONT_SIZE / 4;
+			FS = 0.75f * FONT_SIZE;
 			IS = INSET_SIZE / 2;
 			cols = 3;
 			gap = 7;
-		} else {
-			FS = FONT_SIZE;
-			IS = INSET_SIZE;
+		} else if (list.size() > 6) {
+			FS = 1.2f * FONT_SIZE;
+			IS = INSET_SIZE / 2;
 			cols = 2;
 			gap = 10;
+		} else {
+			FS = 1.5f * FONT_SIZE;
+			IS = INSET_SIZE;
+			cols = 1;
+			gap = 12;
 		}
 
 		GridLayout g = new GridLayout(0, cols);
-		if (SHOW_IN_WINDOW) {
-			FS = 14.0f;
-			IS = 2;
-		} else {
+		if (!SHOW_IN_WINDOW) {
 			g.setHgap(gap);
 			g.setVgap(gap);
 		}
@@ -96,7 +104,9 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		expGrid.setBackground(display.getPreferredHighlightColor());
 		for (SignageContent exp : list) {
 			final DDButton button = new DDButton((Channel) exp, display);
-			if (!SHOW_IN_WINDOW) {
+			if (SHOW_IN_WINDOW) {
+				button.setFont(button.getFont().deriveFont(FS));
+			} else {
 				button.setFont(button.getFont().deriveFont(FS));
 				button.setMargin(new Insets(IS, IS, IS, IS));
 			}

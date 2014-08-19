@@ -248,17 +248,28 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			displayTabPane.add(grid, sp + ChannelCategory.PUBLIC_DETAILS + sp);
 
 			if (!IS_PUBLIC_CONTROLLER) {
-				// Remove the "Experiment Details" tab until such time that it is needed
+				// Do not add the "Experiment Details" tabs to a Public controller
+
+				grid = new DetailedInformationGrid(display, bg, 3);
+				allGrids.add(grid);
+				display.addListener(grid);
+				displayTabPane.add(grid, " NOvA ");
+
+				grid = new DetailedInformationGrid(display, bg, 4);
+				allGrids.add(grid);
+				display.addListener(grid);
+				displayTabPane.add(grid, " NuMI ");
+
 				grid = new DetailedInformationGrid(display, bg, 2);
 				allGrids.add(grid);
 				display.addListener(grid);
-				displayTabPane.add(grid, sp + (SHOW_IN_WINDOW ? "EXP" : ChannelCategory.EXPERIMENT_DETAILS) + sp);
+				displayTabPane.add(grid, " EXP ");
 			}
 
-			grid = new DetailedInformationGrid(display, bg, 3);
+			grid = new DetailedInformationGrid(display, bg, -1);
 			allGrids.add(grid);
 			display.addListener(grid);
-			displayTabPane.add(grid, sp + (SHOW_IN_WINDOW ? "MISC" : ChannelCategory.MISCELLANEOUS) + sp);
+			displayTabPane.add(grid, " MISC ");
 
 			final JPanel inner = new JPanel(new BorderLayout());
 			int wid1 = 6;
@@ -592,8 +603,11 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	private void adjustTitle(Display display) {
 		Color c = display.getPreferredHighlightColor();
 		if (display != null) {
-			title.setText(" Control for XOC " + (display.getCategory() == SignageType.XOC ? "" : display.getCategory() + " ")
-					+ "Display " + display.getNumber() + " '" + display.getLocation() + "'");
+			/*
+			 * title.setText("  Control for XOC " + (display.getCategory() == SignageType.XOC ? "" : display.getCategory() + " ") +
+			 * "Display " + display.getNumber() + " '" + display.getLocation() + "'  ");
+			 */
+			title.setText("  Control for Display " + display.getNumber() + " '" + display.getLocation() + "'  ");
 		}
 		titleBox.removeAll();
 		titleBox.setOpaque(true);
@@ -685,8 +699,8 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	 */
 	public static void main(final String[] args) {
 
-		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public: SignageType.XOC);
-	
+		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
+
 		displayList = DisplayListFactory.getInstance(sType);
 		channelSelector = new ChannelSelector();
 
