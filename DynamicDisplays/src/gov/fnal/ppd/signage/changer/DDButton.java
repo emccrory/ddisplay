@@ -40,6 +40,7 @@ public class DDButton extends JButton {
 	 * @param display
 	 *            (may NOT be null) the Display that this button is associated with. If channel is not null, this is the Display
 	 *            that the channel is associated with. If channel IS null, this is the actual "select this display" button
+	 * @param maxLen 
 	 */
 	public DDButton(final Channel channel, final Display display, int maxLen) {
 		super(align(channel != null ? channel.getName() : display.toString(), maxLen));

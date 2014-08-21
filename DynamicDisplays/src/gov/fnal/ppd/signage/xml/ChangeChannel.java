@@ -6,7 +6,6 @@ import gov.fnal.ppd.signage.channel.PlainURLChannel;
 
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

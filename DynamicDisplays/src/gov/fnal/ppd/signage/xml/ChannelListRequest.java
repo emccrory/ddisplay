@@ -1,8 +1,8 @@
 package gov.fnal.ppd.signage.xml;
 
 import gov.fnal.ppd.signage.SignageContent;
-import gov.fnal.ppd.signage.changer.ChannelCategory;
 import gov.fnal.ppd.signage.changer.ChannelCatalogFactory;
+import gov.fnal.ppd.signage.changer.ChannelCategory;
 
 import java.util.Map;
 

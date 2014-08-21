@@ -4,8 +4,8 @@ import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
-import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
 import gov.fnal.ppd.signage.changer.DDButton;
+import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
 import gov.fnal.ppd.signage.channel.EmptyChannel;
 
 import java.awt.Color;

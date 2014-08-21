@@ -174,23 +174,10 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			}
 		}
 		initComponents();
+		launchMemoryWatcher();
 	}
 
-	private void initComponents() {
-		removeAll();
-		SignageType cat = SignageType.XOC; // Show everything
-		if (IS_PUBLIC_CONTROLLER)
-			cat = SignageType.Public;
-
-		displaySelector = new DisplayButtons(cat, this);
-		initChannelSelectors();
-
-		add(displayChannelPanel, BorderLayout.CENTER);
-		if (SHOW_IN_WINDOW)
-			displayChannelPanel.setPreferredSize(new Dimension(400, 320));
-		add(displaySelector, BorderLayout.EAST);
-		add(makeTitle(), BorderLayout.NORTH);
-
+	private void launchMemoryWatcher() {
 		new Thread("MemoryWatcher.DEBUG") {
 			public void run() {
 				long time = FIFTEEN_MINUTES / 512;
@@ -215,7 +202,39 @@ public class ChannelSelector extends JPanel implements ActionListener {
 							+ "M at " + (new Date()) + " (Sleep " + (time / 1000) + " sec.)");
 				}
 			}
-		}.start();
+		}.start();		
+	}
+
+	private void initComponents() {
+		removeAll();
+		SignageType cat = SignageType.XOC; // Show everything
+		if (IS_PUBLIC_CONTROLLER)
+			cat = SignageType.Public;
+
+		displaySelector = new DisplayButtons(cat, this);
+		initChannelSelectors();
+
+		add(displayChannelPanel, BorderLayout.CENTER);
+		if (SHOW_IN_WINDOW)
+			displayChannelPanel.setPreferredSize(new Dimension(400, 320));
+;
+		Box box = Box.createHorizontalBox();
+		JPanel black = new JPanel();
+		black.add(Box.createRigidArea(new Dimension(20,20)));
+		black.setOpaque(true);
+		black.setBackground(Color.black);
+		box.add(black);
+		box.add(displaySelector);
+		black = new JPanel();
+		black.add(Box.createRigidArea(new Dimension(20,20)));
+		black.setOpaque(true);
+		black.setBackground(Color.black);
+		box.add(black);
+		add(box, BorderLayout.EAST);
+		add(makeTitle(), BorderLayout.NORTH);
+
+		
+		
 	}
 
 	private void initChannelSelectors() {
@@ -607,7 +626,8 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			 * title.setText("  Control for XOC " + (display.getCategory() == SignageType.XOC ? "" : display.getCategory() + " ") +
 			 * "Display " + display.getNumber() + " '" + display.getLocation() + "'  ");
 			 */
-			title.setText("  Control for Display " + display.getNumber() + " '" + display.getLocation() + "'  ");
+			// title.setText("  Control for Display " + display.getNumber() + " '" + display.getLocation() + "'  ");
+			title.setText("   " + display.getLocation() + "   ");
 		}
 		titleBox.removeAll();
 		titleBox.setOpaque(true);

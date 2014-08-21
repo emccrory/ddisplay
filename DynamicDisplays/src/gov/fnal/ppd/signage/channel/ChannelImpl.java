@@ -1,12 +1,12 @@
 package gov.fnal.ppd.signage.channel;
 
-import java.io.Serializable;
-import java.net.URI;
-
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
+
+import java.io.Serializable;
+import java.net.URI;
 
 /**
  * A simple implementation of the Channel interface

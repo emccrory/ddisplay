@@ -3,8 +3,8 @@ package gov.fnal.ppd.signage.channel;
 import static gov.fnal.ppd.ChannelSelector.SHOW_IN_WINDOW;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.SignageContent;
-import gov.fnal.ppd.signage.changer.ChannelCategory;
 import gov.fnal.ppd.signage.changer.ChannelCatalogFactory;
+import gov.fnal.ppd.signage.changer.ChannelCategory;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -52,6 +52,11 @@ public class CreateListOfChannels extends JPanel {
 	private Set<SignageContent>		details2Channels	= ChannelCatalogFactory.getInstance().getChannelCatalog(
 																ChannelCategory.EXPERIMENT_DETAILS);
 
+	private Set<SignageContent>		novaChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
+																ChannelCategory.NOVA_DETAILS);
+	private Set<SignageContent>		numiChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
+																ChannelCategory.NUMI_DETAILS);
+
 	private List<SignageContent>	channelList			= new ArrayList<SignageContent>();
 	private List<JLabel>			labelList			= new ArrayList<JLabel>();
 	private JSpinner				time;
@@ -62,7 +67,7 @@ public class CreateListOfChannels extends JPanel {
 		public BigButton(String title) {
 			super(title);
 			if (!SHOW_IN_WINDOW) {
-				setFont(getFont().deriveFont(20.0f));
+				setFont(getFont().deriveFont(30.0f));
 				setMargin(new Insets(10, 10, 10, 10));
 			}
 		}
@@ -80,6 +85,11 @@ public class CreateListOfChannels extends JPanel {
 
 	CreateListOfChannels() {
 		super(new GridBagLayout());
+		
+		//
+		// TODO Instead of a long vertical list of channels, organize them into seperate panels, with a titled border
+		//
+		
 		GridBagConstraints bag = new GridBagConstraints();
 		bag.fill = GridBagConstraints.HORIZONTAL;
 		bag.gridx = bag.gridy = 1;
@@ -103,7 +113,7 @@ public class CreateListOfChannels extends JPanel {
 		add(bh, bag);
 		bag.gridy++;
 
-		add(new BigLabel("----- Public Channels -----", Font.BOLD), bag);
+		add(new BigLabel("---------- Public Channels ----------", Font.BOLD), bag);
 		bag.gridy++;
 
 		bag.gridwidth = 1;
@@ -140,7 +150,7 @@ public class CreateListOfChannels extends JPanel {
 		bag.gridwidth = 2;
 		add(new JSeparator(), bag);
 		bag.gridy++;
-		add(new BigLabel("----- Miscellaneous Channels -----", Font.BOLD), bag);
+		add(new BigLabel("---------- Miscellaneous Channels ----------", Font.BOLD), bag);
 		bag.gridwidth = 1;
 		bag.gridy++;
 
@@ -177,7 +187,79 @@ public class CreateListOfChannels extends JPanel {
 		bag.gridwidth = 2;
 		add(new JSeparator(), bag);
 		bag.gridy++;
-		add(new BigLabel("----- Details Channels -----", Font.BOLD), bag);
+		add(new BigLabel("---------- NOvA Channels ----------", Font.BOLD), bag);
+		bag.gridy++;
+		bag.gridwidth = 1;
+		for (final SignageContent CONTENT : novaChannels) {
+			final JButton b = new BigButton(CONTENT.getName());
+			add(b, bag);
+			bag.gridx++;
+			final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
+			add(lab, bag);
+			bag.gridx--;
+			bag.gridy++;
+			b.addActionListener(new ActionListener() {
+				boolean	selected	= false;
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if (selected) {
+						// TODO This does not work properly: All the labels must shift up when one is removed
+						selected = false;
+						channelList.remove(CONTENT);
+						lab.setText(NOT_SELECTED);
+						labelList.remove(lab);
+					} else {
+						selected = true;
+						channelList.add(CONTENT);
+						lab.setText("XX");
+						labelList.add(lab);
+					}
+					fixLabels();
+				}
+			});
+		}
+
+		bag.gridwidth = 2;
+		add(new JSeparator(), bag);
+		bag.gridy++;
+		add(new BigLabel("---------- NuMI Channels ----------", Font.BOLD), bag);
+		bag.gridy++;
+		bag.gridwidth = 1;
+		for (final SignageContent CONTENT : numiChannels) {
+			final JButton b = new BigButton(CONTENT.getName());
+			add(b, bag);
+			bag.gridx++;
+			final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
+			add(lab, bag);
+			bag.gridx--;
+			bag.gridy++;
+			b.addActionListener(new ActionListener() {
+				boolean	selected	= false;
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if (selected) {
+						// TODO This does not work properly: All the labels must shift up when one is removed
+						selected = false;
+						channelList.remove(CONTENT);
+						lab.setText(NOT_SELECTED);
+						labelList.remove(lab);
+					} else {
+						selected = true;
+						channelList.add(CONTENT);
+						lab.setText("XX");
+						labelList.add(lab);
+					}
+					fixLabels();
+				}
+			});
+		}
+
+		bag.gridwidth = 2;
+		add(new JSeparator(), bag);
+		bag.gridy++;
+		add(new BigLabel("---------- Details Channels ----------", Font.BOLD), bag);
 		bag.gridy++;
 		bag.gridwidth = 1;
 		for (final SignageContent CONTENT : details1Channels) {

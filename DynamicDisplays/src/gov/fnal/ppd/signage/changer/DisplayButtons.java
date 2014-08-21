@@ -111,6 +111,7 @@ public class DisplayButtons extends JPanel {
 	private static final long		serialVersionUID		= 4096502469001848381L;
 	protected static final Color	sliderBG				= new Color(0xe0e0e0);
 	static final float				WINDOW_FONT_SIZE		= 14.0f;
+	private static final Color		MY_GRAY					= new Color(0xaaaaaa);
 
 	/**
 	 * Find this Display in the list and then set the ToolTip for it based on the status of the Display.
@@ -149,9 +150,9 @@ public class DisplayButtons extends JPanel {
 		this.listener = listener;
 
 		displays = DisplayListFactory.getInstance(cat);
-		
+
 		System.out.println("Number of displays: " + displays.size());
-		
+
 		if (displays.size() <= MAXIMUM_DISPLAY_BUTTONS)
 			makeScreenGrid();
 		else
@@ -159,7 +160,7 @@ public class DisplayButtons extends JPanel {
 		if (SHOW_IN_WINDOW)
 			setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		else
-			setBorder(BorderFactory.createEmptyBorder(20, 10, 0, 10));
+			setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 	}
 
 	private void makeScreenGrid() {
@@ -167,7 +168,7 @@ public class DisplayButtons extends JPanel {
 
 		DisplayButtonGroup bg = new DisplayButtonGroup();
 		int is = displays.size() > 10 ? 2 * INSET_SIZE / 3 : INSET_SIZE;
-		float fs = displays.size() > 10 ? 3f * LOCAL_FONT_SIZE / 4f - 2 * (displays.size() - 10) : LOCAL_FONT_SIZE;
+		float fs = displays.size() > 10 ? 0.6f * LOCAL_FONT_SIZE - 2 * (displays.size() - 10) : LOCAL_FONT_SIZE;
 		if (SHOW_IN_WINDOW)
 			fs = WINDOW_FONT_SIZE;
 
@@ -182,7 +183,7 @@ public class DisplayButtons extends JPanel {
 
 			button.setFont(button.getFont().deriveFont(fs));
 			if (!SHOW_IN_WINDOW)
-				button.setMargin(new Insets(is, is, is, is));
+				button.setMargin(new Insets(INSET_SIZE, INSET_SIZE, INSET_SIZE, INSET_SIZE));
 			button.setSelected(i == 0);
 			bg.add(button);
 
@@ -205,12 +206,11 @@ public class DisplayButtons extends JPanel {
 			if (!SHOW_IN_WINDOW)
 				buttonBox.add(Box.createRigidArea(new Dimension(5, rigidHeight)));
 		}
-		final Color g = new Color(0xaaaaaa);
 		buttonBox.add(Box.createHorizontalGlue());
 		buttonBox.setOpaque(true);
-		buttonBox.setBackground(g);
+		buttonBox.setBackground(MY_GRAY);
 		setOpaque(true);
-		setBackground(g);
+		setBackground(MY_GRAY);
 		add(buttonBox, BorderLayout.CENTER);
 	}
 
