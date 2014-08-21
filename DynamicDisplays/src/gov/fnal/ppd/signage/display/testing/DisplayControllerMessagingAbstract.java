@@ -272,6 +272,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					Color color = new Color(Integer.parseInt(colorString, 16));
 					int portNumber = rs.getInt("Port");
 					int screenNumber = rs.getInt("ScreenNumber");
+					int channelNumber = rs.getInt("content");
 					// String positionString = rs.getString("Position");
 					// if (positionString == null)
 
@@ -288,7 +289,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								portNumber, location, color, type });
 					} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
 							| IllegalArgumentException | InvocationTargetException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					return null;

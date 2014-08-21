@@ -41,8 +41,8 @@ public class DDButton extends JButton {
 	 *            (may NOT be null) the Display that this button is associated with. If channel is not null, this is the Display
 	 *            that the channel is associated with. If channel IS null, this is the actual "select this display" button
 	 */
-	public DDButton(final Channel channel, final Display display) {
-		super(align(channel != null ? channel.getName() : display.toString()));
+	public DDButton(final Channel channel, final Display display, int maxLen) {
+		super(align(channel != null ? channel.getName() : display.toString(), maxLen));
 		this.selected = false;
 		this.channel = channel;
 		this.display = display;
@@ -78,19 +78,19 @@ public class DDButton extends JButton {
 		setOpaque(true);
 	}
 
-	private static String align(String string) {
-		if (string.length() < MAX_STRING_LENGTH)
+	private static String align(String string, int maxLen) {
+		if (string.length() < maxLen)
 			return string;
 		String[] split = string.split(" ");
 		String first = "";
 		String second = "";
 		int i = 0;
-		for (; (first + split[i]).length() < MAX_STRING_LENGTH; i++)
+		for (; (first + split[i]).length() < maxLen; i++)
 			first += split[i] + " ";
 		for (; i < split.length; i++)
 			second += split[i] + " ";
-		if (second.length() > MAX_STRING_LENGTH)
-			second = second.substring(0, MAX_STRING_LENGTH - 1) + "&hellip;"; // Ellipsis
+		if (second.length() > maxLen)
+			second = second.substring(0, maxLen - 1) + "&hellip;"; // Ellipsis
 		return "<html><center>" + first + "<br />" + second + "</center></html>";
 	}
 
@@ -98,7 +98,7 @@ public class DDButton extends JButton {
 	 * @param display
 	 */
 	public DDButton(final Display display) {
-		this(null, display);
+		this(null, display, MAX_STRING_LENGTH);
 	}
 
 	@Override

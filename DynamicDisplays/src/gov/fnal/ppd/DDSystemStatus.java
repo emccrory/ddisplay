@@ -68,7 +68,7 @@ public class DDSystemStatus extends JFrame {
 	private JTree					clientsTree			= new JTree(root);
 	private int						refresh				= 0;
 	private JScrollPane				scroller;
-	private ImageIcon				dataIcon, infoIcon, clockIcon, facadeIcon;
+	private ImageIcon				dataIcon, infoIcon, clockIcon, facadeIcon, selectorIcon;
 
 	private Integer					nextWhoIsIn			= 1;
 	private JButton					refreshClients		= new JButton("Refresh in 0" + (nextWhoIsIn + 1));
@@ -143,10 +143,9 @@ public class DDSystemStatus extends JFrame {
 							node.add(new DefaultMutableTreeNode("Dynamic Display Number "
 									+ msg.substring(msg.indexOf('(') + 1, msg.indexOf(')'))));
 						else if (msg.contains("_listener_"))
-							node.add(new DefaultMutableTreeNode("This is an instance of " + DDSystemStatus.class.getCanonicalName()));
+							node.add(new DefaultMutableTreeNode(DDSystemStatus.class.getCanonicalName()));
 						else
-							node.add(new DefaultMutableTreeNode("This is an instance of "
-									+ ChannelSelector.class.getCanonicalName()));
+							node.add(new DefaultMutableTreeNode(ChannelSelector.class.getCanonicalName()));
 					}
 					// Apparently, there is a way to tell the JTree model that the tree has changed. Need to do that!
 				} else {
@@ -204,8 +203,9 @@ public class DDSystemStatus extends JFrame {
 		showFacades.addActionListener(checkBoxListener);
 		showUpTime.setToolTipText("Show the up time as part of the display for a client");
 		showFacades.setToolTipText("Show the connections of the channel selectors");
-		showUpTime.setSelected(true);
-		showFacades.setSelected(true);
+		// With a lot of Displays in the system, having these default to OFF makes for a cleaner, clearer display
+		showUpTime.setSelected(false);
+		showFacades.setSelected(false);
 
 		JPanel northPanel = new JPanel();
 		// the server name and the port number
@@ -252,7 +252,7 @@ public class DDSystemStatus extends JFrame {
 		setTreeIcons();
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(600, 600);
+		setSize(600, 800);
 		setVisible(true);
 
 		new Thread("LookForRefresh") {
@@ -331,6 +331,8 @@ public class DDSystemStatus extends JFrame {
 					setIcon(facadeIcon);
 				else if (isTime(value))
 					setIcon(clockIcon);
+				else if (isSelector(value) )
+					setIcon(selectorIcon);
 				else
 					setIcon(infoIcon);
 			return this;
@@ -353,6 +355,12 @@ public class DDSystemStatus extends JFrame {
 			String nodeInfo = (String) (node.getUserObject());
 			return nodeInfo.indexOf("Connected") >= 0;
 		}
+		
+		protected boolean isSelector(Object value) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+			String nodeInfo = (String) (node.getUserObject());
+			return nodeInfo.indexOf("Selector") >= 0;
+		}
 	}
 
 	private void setTreeIcons() {
@@ -372,6 +380,10 @@ public class DDSystemStatus extends JFrame {
 			bigIcon = new ImageIcon("src/gov/fnal/ppd/images/eye.png");
 			I = bigIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 			facadeIcon = new ImageIcon(I);
+			
+			bigIcon = new ImageIcon("src/gov/fnal/ppd/images/selector.png");
+			I = bigIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+			selectorIcon = new ImageIcon(I);
 		}
 		clientsTree.setCellRenderer(new MyRenderer());
 	}

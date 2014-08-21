@@ -68,7 +68,7 @@ public class PublicInformationGrid extends ChannelButtonGrid {
 		expGrid.setOpaque(true);
 		expGrid.setBackground(display.getPreferredHighlightColor());
 		for (SignageContent exp : ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.PUBLIC)) {
-			final DDButton button = new DDButton((Channel) exp, display);
+			final DDButton button = new DDButton((Channel) exp, display, 60);
 			if (SHOW_IN_WINDOW) {
 				button.setFont(button.getFont().deriveFont(FONT_SIZE));
 			} else {

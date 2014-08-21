@@ -65,33 +65,39 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		Set<SignageContent> list = ChannelCatalogFactory.getInstance().getChannelCatalog(cat);
 		int cols = 4;
 		int gap = 5;
+		int maxLen = 50;
 
 		if (list.size() > 48) {
 			FS = 0.5f * FONT_SIZE;
 			IS = INSET_SIZE / 3;
 			cols = 5;
 			gap = 4;
+			maxLen = 12;
 		} else if (list.size() > 18) {
 			FS = 0.6f * FONT_SIZE;
 			IS = INSET_SIZE / 2;
 			cols = 4;
 			gap = 5;
+			maxLen = 13;
 		} else if (list.size() > 10) {
 			FS = 0.75f * FONT_SIZE;
 			IS = INSET_SIZE / 2;
 			cols = 3;
 			gap = 7;
+			maxLen = 14;
 		} else if (list.size() > 6) {
-			FS = 1.2f * FONT_SIZE;
+			FS = FONT_SIZE;
 			IS = INSET_SIZE / 2;
 			cols = 2;
 			gap = 10;
+			maxLen = 15;
 		} else {
-			FS = 1.5f * FONT_SIZE;
+			FS = 1.2f * FONT_SIZE;
 			IS = INSET_SIZE;
 			cols = 1;
 			gap = 12;
-		}
+			maxLen = 80;
+}
 
 		GridLayout g = new GridLayout(0, cols);
 		if (!SHOW_IN_WINDOW) {
@@ -103,7 +109,7 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		expGrid.setOpaque(true);
 		expGrid.setBackground(display.getPreferredHighlightColor());
 		for (SignageContent exp : list) {
-			final DDButton button = new DDButton((Channel) exp, display);
+			final DDButton button = new DDButton((Channel) exp, display, maxLen);
 			if (SHOW_IN_WINDOW) {
 				button.setFont(button.getFont().deriveFont(FS));
 			} else {
