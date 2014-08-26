@@ -238,4 +238,7 @@ public abstract class DisplayImpl implements Display {
 		return myName;
 	}
 
+	public void disconnect() {
+		// Nothing to do except for facade displays
+	}
 }

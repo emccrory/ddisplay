@@ -108,12 +108,13 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	private static final int				MESSAGING_SERVER_PORT	= 1500;
 
 	private static final Dimension			screenDimension			= Toolkit.getDefaultToolkit().getScreenSize();
-	private static final JFrame				f						= new JFrame("XOC Display Channel Selector");
+	private static JFrame					f						= new JFrame("XOC Display Channel Selector");
 
 	private static final long				PING_INTERVAL			= 5000l;											// 60000l;
 	protected static final long				FIFTEEN_MINUTES			= 15 * 60 * 1000;
 
-	private static ActionListener			refreshAction			= null;
+	private static ActionListener			fullRefreshAction		= null;
+	private static ActionListener			channelRefreshAction	= null;
 	private static List<Display>			displayList;
 	// private static DisplayDebugTypes realDisplays = DisplayDebugTypes.REAL_AND_REMOTE; // DisplayDebugTypes.REAL_BUT_LOCAL;
 
@@ -202,7 +203,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 							+ "M at " + (new Date()) + " (Sleep " + (time / 1000) + " sec.)");
 				}
 			}
-		}.start();		
+		}.start();
 	}
 
 	private void initComponents() {
@@ -215,26 +216,26 @@ public class ChannelSelector extends JPanel implements ActionListener {
 		initChannelSelectors();
 
 		add(displayChannelPanel, BorderLayout.CENTER);
-		if (SHOW_IN_WINDOW)
-			displayChannelPanel.setPreferredSize(new Dimension(400, 320));
-;
+		int blackBand = 20;
+		if (SHOW_IN_WINDOW) {
+			displayChannelPanel.setPreferredSize(new Dimension(700, 640));
+			blackBand = 0;
+		}
 		Box box = Box.createHorizontalBox();
 		JPanel black = new JPanel();
-		black.add(Box.createRigidArea(new Dimension(20,20)));
+		black.add(Box.createRigidArea(new Dimension(blackBand, blackBand)));
 		black.setOpaque(true);
 		black.setBackground(Color.black);
 		box.add(black);
 		box.add(displaySelector);
 		black = new JPanel();
-		black.add(Box.createRigidArea(new Dimension(20,20)));
+		black.add(Box.createRigidArea(new Dimension(blackBand, blackBand)));
 		black.setOpaque(true);
 		black.setBackground(Color.black);
 		box.add(black);
 		add(box, BorderLayout.EAST);
 		add(makeTitle(), BorderLayout.NORTH);
 
-		
-		
 	}
 
 	private void initChannelSelectors() {
@@ -562,7 +563,8 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			refreshButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 2)));
 		}
 		refreshButton.setMargin(new Insets(5, 5, 5, 5));
-		refreshButton.addActionListener(refreshAction);
+		// refreshButton.addActionListener(fullRefreshAction);
+		refreshButton.addActionListener(channelRefreshAction);
 
 		if (SHOW_IN_WINDOW) {
 			// Create a button to add a channel to the database
@@ -638,8 +640,10 @@ public class ChannelSelector extends JPanel implements ActionListener {
 		titleBox.add(Box.createHorizontalGlue());
 		titleBox.add(title);
 		titleBox.add(Box.createHorizontalGlue());
+		// Do not let the simple public controller exit
 		if (!SHOW_IN_WINDOW) {
-			titleBox.add(exitButton);
+			if (!IS_PUBLIC_CONTROLLER)
+				titleBox.add(exitButton);
 		} else {
 			titleBox.add(addChannelButton);
 		}
@@ -726,50 +730,9 @@ public class ChannelSelector extends JPanel implements ActionListener {
 
 		// SHOW_IN_WINDOW = args.length > 0 && "WINDOW".equals(args[0]);
 
-		refreshAction = new ActionListener() {
+		createRefreshActions(sType);
 
-			// FIXME This operation does not work! I suspect this is because of the globals and the socket connections (maybe they
-			// don't get closed properly?)
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(new Runnable() {
-
-					@Override
-					public void run() {
-						DisplayFacade.tryToConnectToDisplaysNow = true;
-						System.out.println("Refreshing touch panel");
-						f.setContentPane(new JLabel("refresh in progress"));
-						channelSelector.destroy();
-						channelSelector = null;
-						displayList = null;
-						Runtime.getRuntime().gc();
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-
-						// Regenerate the Display list and the Channel list
-						// DisplayListFactory.useRealDisplays(realDisplays);
-						// ChannelCatalogFactory.useRealChannels(true);
-						displayList = DisplayListFactory.getInstance(sType);
-
-						channelSelector = new ChannelSelector();
-						f.setContentPane(channelSelector);
-						if (SHOW_IN_WINDOW) {
-							f.pack();
-						} else {
-							f.setSize(screenDimension);
-						}
-						f.setVisible(true);
-
-					}
-				});
-			}
-		};
-
-		channelSelector.setRefreshAction(refreshAction);
+		channelSelector.setRefreshAction(fullRefreshAction);
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -787,8 +750,84 @@ public class ChannelSelector extends JPanel implements ActionListener {
 
 	}
 
+	private static void createRefreshActions(final SignageType sType) {
+		fullRefreshAction = new ActionListener() {
+
+			// FIXME This operation does not work! I suspect this is because of the globals and the socket connections (maybe they
+			// don't get closed properly?)
+			// Another attempt on 8/25/14, and I get a "Socket Closed" exception. (?)
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+
+					@Override
+					public void run() {
+						DisplayFacade.tryToConnectToDisplaysNow = true;
+						System.out.println("\n\nRefreshing Channel Selector\n\n");
+						f.setVisible(false);
+						f.dispose();
+						f = null;
+
+						channelSelector.destroy();
+						for (Display D : displayList) {
+							D.disconnect();
+						}
+						displayList.clear();
+
+						channelSelector = null;
+						displayList = null;
+						Runtime.getRuntime().gc();
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+
+						// Regenerate the Display list and the Channel list
+						// DisplayListFactory.useRealDisplays(realDisplays);
+						// ChannelCatalogFactory.useRealChannels(true);
+						displayList = DisplayListFactory.getInstance(sType);
+
+						channelSelector = new ChannelSelector();
+						channelSelector.setRefreshAction(fullRefreshAction);
+
+						f = new JFrame("XOC Display Channel Selector");
+						f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+						f.setUndecorated(!SHOW_IN_WINDOW);
+
+						// DisplayListFactory.useRealDisplays(realDisplays);
+						// ChannelCatalogFactory.useRealChannels(true);
+
+						f.setContentPane(channelSelector);
+						if (SHOW_IN_WINDOW)
+							f.pack();
+						else
+							f.setSize(screenDimension);
+						f.setVisible(true);
+
+					}
+				});
+			}
+		};
+
+		channelRefreshAction = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+
+					@Override
+					public void run() {
+					}
+				});
+			}
+		};
+	}
+
 	protected void destroy() {
-		// TODO Auto-generated method stub
+		// Do everything we can to forget everything we can.
 
 	}
 

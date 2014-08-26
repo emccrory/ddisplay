@@ -152,4 +152,10 @@ public class DisplayFacade extends DisplayImpl {
 		return super.getStatus() + ", " + (ready.get() ? "Is ready" : "Is not ready") + " and "
 				+ (waiting.get() ? "waiting." : "not waiting.");
 	}
+
+	@Override
+	public void disconnect() {
+		alreadyWaiting.set(false);
+		messagingClient.disconnect();		
+	}
 }

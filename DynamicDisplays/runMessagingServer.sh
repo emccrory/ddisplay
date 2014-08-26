@@ -1,4 +1,9 @@
 . setupJars.sh
 
-java gov.fnal.ppd.chat.MessagingServerGUI > log/messagingServer$$.log 2>&1
+d=`date +%F`
+
+{
+    echo date
+    java gov.fnal.ppd.chat.MessagingServerGUI
+} > ../log/messagingServer_${d}_$!.log 2>&1
 

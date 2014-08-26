@@ -119,4 +119,9 @@ public interface Display extends ActionListener {
 	 * @return The name that this Display uses on the Messaging system
 	 */
 	public String getMessagingName();
+
+	/**
+	 * Disconnect a display from the rest of the world (if appropriate)
+	 */
+	public void disconnect();
 }

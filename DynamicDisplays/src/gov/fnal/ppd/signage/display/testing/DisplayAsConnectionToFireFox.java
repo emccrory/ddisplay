@@ -106,6 +106,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			browserLauncher.exit();
 	}
 
+	@Override
+	public void disconnect() {
+		endAllConnections();
+	}
+
 	/**
 	 * @param args
 	 *            Expect one command line argument

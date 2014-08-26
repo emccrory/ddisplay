@@ -145,10 +145,10 @@ public class MessagingClient {
 		}
 	}
 
-	/*
+	/**
 	 * When something goes wrong Close the Input/Output streams and disconnect not much to do in the catch clause
 	 */
-	private void disconnect() {
+	public void disconnect() {
 		try {
 			if (sInput != null)
 				sInput.close();
