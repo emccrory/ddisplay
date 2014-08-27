@@ -1,5 +1,10 @@
 package gov.fnal.ppd;
 
+import static gov.fnal.ppd.GlobalVariables.FONT_SIZE;
+import static gov.fnal.ppd.GlobalVariables.INSET_SIZE;
+import static gov.fnal.ppd.GlobalVariables.IS_PUBLIC_CONTROLLER;
+import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.GlobalVariables.lastDisplayChange;
 import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.Display;
@@ -17,6 +22,7 @@ import gov.fnal.ppd.signage.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.signage.display.DisplayFacade;
 import gov.fnal.ppd.signage.display.DisplayListDatabaseRemote;
 import gov.fnal.ppd.signage.util.DisplayButtonGroup;
+import gov.fnal.ppd.signage.util.JLabelCenter;
 import gov.fnal.ppd.signage.util.JLabelFooter;
 import gov.fnal.ppd.signage.util.Util;
 
@@ -96,36 +102,20 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	}
 
 	private static final long				serialVersionUID		= 5044030472140151291L;
-	/**
-	 * 
-	 */
-	public static int						INSET_SIZE				= 32;
-	/**
-	 * 
-	 */
-	public static float						FONT_SIZE				= 60.0f;
 
 	private static final int				MESSAGING_SERVER_PORT	= 1500;
 
 	private static final Dimension			screenDimension			= Toolkit.getDefaultToolkit().getScreenSize();
 	private static JFrame					f						= new JFrame("XOC Display Channel Selector");
 
-	private static final long				PING_INTERVAL			= 5000l;											// 60000l;
-	protected static final long				FIFTEEN_MINUTES			= 15 * 60 * 1000;
+	protected static final long				ONE_SECOND				= 1000L;
+	protected static final long				FIFTEEN_MINUTES			= 15L * 60L * ONE_SECOND;
+	protected static final long				INACTIVITY_TIMEOUT		= 60L * ONE_SECOND;
+	private static final long				PING_INTERVAL			= 5L * ONE_SECOND;
 
 	private static ActionListener			fullRefreshAction		= null;
 	private static ActionListener			channelRefreshAction	= null;
 	private static List<Display>			displayList;
-	// private static DisplayDebugTypes realDisplays = DisplayDebugTypes.REAL_AND_REMOTE; // DisplayDebugTypes.REAL_BUT_LOCAL;
-
-	/**
-	 * Do we show in full screen or in a window?
-	 */
-	public static boolean					SHOW_IN_WINDOW			= Boolean.getBoolean("signage.selector.inwindow");
-	/**
-	 * Is this a PUBLIC controller?
-	 */
-	public static boolean					IS_PUBLIC_CONTROLLER	= Boolean.getBoolean("signage.selector.public");
 	private static ChannelSelector			channelSelector;
 
 	private List<List<ChannelButtonGrid>>	channelButtonGridList	= new ArrayList<List<ChannelButtonGrid>>();
@@ -144,6 +134,15 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	private DisplayButtons					displaySelector;
 	private CardLayout						card					= new CardLayout();
 	private JPanel							displayChannelPanel		= new JPanel(card);
+	private Box[]							splashPanel				= { Box.createVerticalBox(), Box.createVerticalBox(),
+			Box.createVerticalBox(), Box.createVerticalBox(), Box.createVerticalBox(), Box.createVerticalBox() };
+
+	private static int						locationCode			= Integer.getInteger("signage.selector.location", 0);
+	private static String[]					locationName			= { "The ROC-West", "The ROC-East",
+			"Elliott's Office Test System"							};
+	private static String[]					locationDescription		= {
+			"Fermilab Experiments' Remote Operations Center, West Side", "Fermilab CMS Remote Operations Center, East Side",
+			"Fermilab Transfer Gallery"							};
 
 	/**
 	 * Create the channel selector in the normal way
@@ -236,6 +235,64 @@ public class ChannelSelector extends JPanel implements ActionListener {
 		add(box, BorderLayout.EAST);
 		add(makeTitle(), BorderLayout.NORTH);
 
+		createSplashScreen();
+
+		new Thread() {
+			public void run() {
+				int index = 0;
+				while (true) {
+					try {
+						if (System.currentTimeMillis() > INACTIVITY_TIMEOUT + lastDisplayChange) {
+							card.show(displayChannelPanel, "Splash Screen" + index);
+							// System.out.println("Showing splash screen " + index);
+							index = (index + 1) % (splashPanel.length);
+							lastDisplayChange = System.currentTimeMillis();
+						}
+						sleep(ONE_SECOND);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
+
+	}
+
+	private void createSplashScreen() {
+		// Create a nice splash screen that it comes back to after a period of inactivity
+		int index = 0;
+		char arrow = '\u21E8';
+		float headline = 40, subHead = 18, parag = 12, arrowSize = 80;
+		int gap = 25;
+		if (!SHOW_IN_WINDOW) {
+			headline = 72;
+			subHead = 32;
+			parag = 15;
+			arrowSize = 120;
+			gap = 50;
+		}
+		int offsets[] = {200, 20, 300, 50, 400, 80 };
+		assert(offsets.length == splashPanel.length);
+		
+		for (Box splash : splashPanel) {
+			splash.add(Box.createRigidArea(new Dimension(50, 50)));
+			int h = offsets[index];
+			System.out.println("Splash screen " + index + " has vertical offset of " + h);
+			splash.add(Box.createRigidArea(new Dimension(100, h)));
+			splash.add(new JLabelCenter("Welcome to " + locationName[locationCode] + "!", headline));
+			splash.add(Box.createRigidArea(new Dimension(50, gap)));
+			splash.add(new JLabelCenter(locationDescription[locationCode], subHead));
+			splash.add(Box.createRigidArea(new Dimension(50, gap)));
+			splash.add(new JLabelCenter("<html><em>Touch a display button, right, to continue</em></html>", parag));
+			splash.add(new JLabelCenter("" + arrow, arrowSize));
+
+			splash.setOpaque(true);
+			splash.setBackground(new Color(200 + (int) (Math.random() * 40.0), 200 + (int) (Math.random() * 40.0),
+					200 + (int) (Math.random() * 40.0)));
+
+			displayChannelPanel.add(splash, "Splash Screen" + index++);
+		}
+		card.show(displayChannelPanel, "Splash Screen0");
 	}
 
 	private void initChannelSelectors() {
@@ -378,7 +435,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			b.add(Box.createHorizontalGlue());
 			inner.add(b, BorderLayout.SOUTH);
 
-			displayChannelPanel.add(display.toString(), inner);
+			displayChannelPanel.add(inner, display.toString());
 
 			final int fi = index;
 			bg.setActionListener(new ActionListener() {
@@ -676,6 +733,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 		int displayNum = e.getID();
 		adjustTitle(displayList.get(displayNum));
 		setTabColor(displayList.get(displayNum), displayNum);
+		lastDisplayChange = System.currentTimeMillis();
 	}
 
 	private void setTabColor(Display d, int index) {
@@ -725,7 +783,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 
 		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
 
-		displayList = DisplayListFactory.getInstance(sType);
+		displayList = DisplayListFactory.getInstance(sType, getLocationCode());
 		channelSelector = new ChannelSelector();
 
 		// SHOW_IN_WINDOW = args.length > 0 && "WINDOW".equals(args[0]);
@@ -748,6 +806,14 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			f.setSize(screenDimension);
 		f.setVisible(true);
 
+	}
+
+	public static int getLocationCode() {
+		return locationCode;
+	}
+
+	public static void setLocationCode(int locationCode) {
+		ChannelSelector.locationCode = locationCode;
 	}
 
 	private static void createRefreshActions(final SignageType sType) {
@@ -787,7 +853,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 						// Regenerate the Display list and the Channel list
 						// DisplayListFactory.useRealDisplays(realDisplays);
 						// ChannelCatalogFactory.useRealChannels(true);
-						displayList = DisplayListFactory.getInstance(sType);
+						displayList = DisplayListFactory.getInstance(sType, getLocationCode());
 
 						channelSelector = new ChannelSelector();
 						channelSelector.setRefreshAction(fullRefreshAction);

@@ -1,6 +1,6 @@
 package gov.fnal.ppd.signage.changer;
 
-import gov.fnal.ppd.ChannelSelector;
+import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 
@@ -54,7 +54,7 @@ public class DDButton extends JButton {
 			throw new IllegalArgumentException("Display cannot be null!");
 		this.selectedColor = display.getPreferredHighlightColor();
 
-		if (ChannelSelector.SHOW_IN_WINDOW) {
+		if (SHOW_IN_WINDOW) {
 			BorderA = BorderFactory.createCompoundBorder(
 					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 3),
 							BorderFactory.createLineBorder(Color.gray, 2)), regularButtonBorder);

@@ -1,8 +1,8 @@
 package gov.fnal.ppd.signage.util;
 
+import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.signage.util.Util.shortDate;
 import static gov.fnal.ppd.signage.util.Util.truncate;
-import gov.fnal.ppd.ChannelSelector;
 
 import java.awt.Dimension;
 
@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 public class JLabelFooter extends JLabel {
 
 	private static final long	serialVersionUID	= -7328547318315265510L;
-	private final static int	DEFAULT_SIZE		= (ChannelSelector.SHOW_IN_WINDOW ? 30 : 60);
+	private final static int	DEFAULT_SIZE		= (SHOW_IN_WINDOW ? 30 : 60);
 
 	public JLabelFooter(String text) {
 		super("<html>" + truncate(text, DEFAULT_SIZE) + " (" + shortDate() + ")" + "</html>");

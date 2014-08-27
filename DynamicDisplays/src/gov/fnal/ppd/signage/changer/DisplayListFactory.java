@@ -41,19 +41,29 @@ public class DisplayListFactory {
 	// }
 
 	/**
-	 * @return My instance
+	 * @param type
+	 * @param locationCode
+	 * @return
 	 */
-	public static List<Display> getInstance(SignageType type) {
+	public static List<Display> getInstance(final SignageType type, final int locationCode) {
 		if (type == SignageType.XOC)
-			return new DisplayListDatabaseRemote();
+			return new DisplayListDatabaseRemote(locationCode);
 		if (type == SignageType.Experiment)
 			throw new RuntimeException("Unimplemented code!");
 		List<Display> retval = new ArrayList<Display>();
-		List<Display> all = new DisplayListDatabaseRemote();
+		List<Display> all = new DisplayListDatabaseRemote(locationCode);
 		for (Display D : all)
 			if (D.getCategory() == SignageType.Public)
 				retval.add(D);
 		assert (retval.size() > 0);
 		return retval;
+	}
+
+	/**
+	 * @param type
+	 * @return My instance
+	 */
+	public static List<Display> getInstance(final SignageType type) {
+		return getInstance(type, 0);
 	}
 }

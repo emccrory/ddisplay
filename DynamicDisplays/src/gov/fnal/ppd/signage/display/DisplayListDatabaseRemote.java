@@ -45,12 +45,14 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 		return connection;
 	}
 
+	private int	locationCode;
+
 	/**
 	 * Create a connection and the receive a list of Displays in the system.
 	 */
-	public DisplayListDatabaseRemote() {
+	public DisplayListDatabaseRemote(int locationCode) {
 		super();
-
+		this.locationCode = locationCode;
 		// DisplayAsJxBrowser.webTesting = true;
 		getDisplays();
 	}
@@ -71,16 +73,20 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 				String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
 				String ipName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPname"));
 				int portNumber = rs.getInt("Port");
+				int locCode = portNumber; // Repurposing "Port" column as a location code!!
 				int displayID = rs.getInt("DisplayID");
 				int screenNumber = rs.getInt("ScreenNumber");
 				int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
-				SignageType type = SignageType.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type")));
+				if (locationCode >= 0 && locCode == locationCode) {
+					SignageType type = SignageType
+							.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type")));
 
-				Display p = new DisplayFacade(portNumber, ipName, screenNumber, displayID, location, new Color(colorCode), type);
+					Display p = new DisplayFacade(portNumber, ipName, screenNumber, displayID, location, new Color(colorCode), type);
 
-				add(p);
+					add(p);
+					count++;
+				}
 				rs.next();
-				count++;
 			}
 			stmt.close();
 			rs.close();
@@ -88,7 +94,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 			e.printStackTrace();
 		}
 
-		System.out.println(getClass().getSimpleName() + ": Found " + count + " displays.");
+		System.out.println(getClass().getSimpleName() + ": Found " + count + " displays at locationCode=" + locationCode + ".");
 	}
 
 }

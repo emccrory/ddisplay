@@ -1,8 +1,9 @@
 package gov.fnal.ppd.signage.changer;
 
-import static gov.fnal.ppd.ChannelSelector.FONT_SIZE;
-import static gov.fnal.ppd.ChannelSelector.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.GlobalVariables.FONT_SIZE;
+import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.signage.util.Util.shortDate;
+import gov.fnal.ppd.ChannelSelector;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.util.DisplayButtonGroup;
@@ -149,7 +150,7 @@ public class DisplayButtons extends JPanel {
 		super(new BorderLayout());
 		this.listener = listener;
 
-		displays = DisplayListFactory.getInstance(cat);
+		displays = DisplayListFactory.getInstance(cat, ChannelSelector.getLocationCode());
 
 		System.out.println("Number of displays: " + displays.size());
 

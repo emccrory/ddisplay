@@ -1,6 +1,6 @@
 package gov.fnal.ppd.signage.channel;
 
-import static gov.fnal.ppd.ChannelSelector.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.changer.ChannelCatalogFactory;

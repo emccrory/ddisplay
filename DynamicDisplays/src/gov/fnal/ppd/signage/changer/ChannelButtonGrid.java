@@ -1,6 +1,7 @@
 package gov.fnal.ppd.signage.changer;
 
-import static gov.fnal.ppd.ChannelSelector.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.GlobalVariables.lastDisplayChange;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageContent;
@@ -72,6 +73,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 					System.err.println(getClass().getSimpleName() + ": Unknown source " + e.getSource().getClass().getSimpleName());
 
 				bg.disableAll(to);
+				lastDisplayChange = System.currentTimeMillis();
 				break;
 			case CHANGE_COMPLETED:
 				bg.enableAll();

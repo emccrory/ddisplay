@@ -1,8 +1,8 @@
 package gov.fnal.ppd.signage.changer;
 
-import static gov.fnal.ppd.ChannelSelector.FONT_SIZE;
-import static gov.fnal.ppd.ChannelSelector.INSET_SIZE;
-import static gov.fnal.ppd.ChannelSelector.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.GlobalVariables.FONT_SIZE;
+import static gov.fnal.ppd.GlobalVariables.INSET_SIZE;
+import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageContent;
@@ -97,7 +97,7 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			cols = 1;
 			gap = 12;
 			maxLen = 80;
-}
+		}
 
 		GridLayout g = new GridLayout(0, cols);
 		if (!SHOW_IN_WINDOW) {
