@@ -13,7 +13,7 @@ public class GlobalVariables {
 	/**
 	 * How long since last user activity?
 	 */
-	public static long		lastDisplayChange;
+	public static long		lastDisplayChange		= System.currentTimeMillis();
 
 	/**
 	 * 

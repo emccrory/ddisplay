@@ -112,7 +112,6 @@ public class DisplayButtons extends JPanel {
 	private static final long		serialVersionUID		= 4096502469001848381L;
 	protected static final Color	sliderBG				= new Color(0xe0e0e0);
 	static final float				WINDOW_FONT_SIZE		= 14.0f;
-	private static final Color		MY_GRAY					= new Color(0xaaaaaa);
 
 	/**
 	 * Find this Display in the list and then set the ToolTip for it based on the status of the Display.
@@ -176,7 +175,7 @@ public class DisplayButtons extends JPanel {
 		int rigidHeight = INSET_SIZE + (11 - displays.size());
 		if (rigidHeight <= 0)
 			rigidHeight = 1;
-		buttonBox.add(Box.createHorizontalGlue());
+		buttonBox.add(Box.createVerticalGlue());
 		for (int i = 0; i < displays.size(); i++) {
 			final Display disp = displays.get(i);
 			final DDButton button = new DDButton(disp);
@@ -201,18 +200,26 @@ public class DisplayButtons extends JPanel {
 			});
 
 			JPanel p = new JPanel(new BorderLayout());
-			p.setBorder(BorderFactory.createLineBorder(disp.getPreferredHighlightColor(), is));
+			p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(0xcccccc)),
+					BorderFactory.createLineBorder(disp.getPreferredHighlightColor(), is)));
 			p.add(button, BorderLayout.CENTER);
 			buttonBox.add(p);
-			if (!SHOW_IN_WINDOW)
-				buttonBox.add(Box.createRigidArea(new Dimension(5, rigidHeight)));
 		}
-		buttonBox.add(Box.createHorizontalGlue());
-		buttonBox.setOpaque(true);
-		buttonBox.setBackground(MY_GRAY);
-		setOpaque(true);
-		setBackground(MY_GRAY);
-		add(buttonBox, BorderLayout.CENTER);
+		if (displays.size() > 1) {
+			setOpaque(true);
+			setBackground(Color.black);
+
+			JPanel outerPanel = new JPanel(new BorderLayout());
+			outerPanel.setOpaque(true);
+			outerPanel.setBackground(Color.black);
+
+			int blackBand = (SHOW_IN_WINDOW ? 2 : 20);
+			outerPanel.add(Box.createRigidArea(new Dimension(blackBand, blackBand)), BorderLayout.WEST);
+			outerPanel.add(buttonBox, BorderLayout.CENTER);
+			outerPanel.add(Box.createRigidArea(new Dimension(blackBand, blackBand)), BorderLayout.EAST);
+
+			add(outerPanel, BorderLayout.CENTER);
+		}
 	}
 
 	private void makeScreenGridSlider() {
@@ -266,6 +273,13 @@ public class DisplayButtons extends JPanel {
 				}
 			}
 		}.start();
-
 	}
+
+	/**
+	 * @return The first display in the internal list
+	 */
+	public Display getFirstDisplay() {
+		return displays.get(0);
+	}
+
 }

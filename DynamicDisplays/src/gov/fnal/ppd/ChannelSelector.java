@@ -22,8 +22,10 @@ import gov.fnal.ppd.signage.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.signage.display.DisplayFacade;
 import gov.fnal.ppd.signage.display.DisplayListDatabaseRemote;
 import gov.fnal.ppd.signage.util.DisplayButtonGroup;
+import gov.fnal.ppd.signage.util.DisplayCardActivator;
 import gov.fnal.ppd.signage.util.JLabelCenter;
 import gov.fnal.ppd.signage.util.JLabelFooter;
+import gov.fnal.ppd.signage.util.SimpleMouseListener;
 import gov.fnal.ppd.signage.util.Util;
 
 import java.awt.BorderLayout;
@@ -36,6 +38,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.management.ManagementFactory;
@@ -73,7 +76,7 @@ import javax.swing.event.ChangeListener;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2013
  */
-public class ChannelSelector extends JPanel implements ActionListener {
+public class ChannelSelector extends JPanel implements ActionListener, DisplayCardActivator {
 
 	/**
 	 * Encapsulate the orientation of the display (not really used yet)
@@ -137,12 +140,13 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	private Box[]							splashPanel				= { Box.createVerticalBox(), Box.createVerticalBox(),
 			Box.createVerticalBox(), Box.createVerticalBox(), Box.createVerticalBox(), Box.createVerticalBox() };
 
+	private String							lastActiveDisplay		= null;
+
 	private static int						locationCode			= Integer.getInteger("signage.selector.location", 0);
-	private static String[]					locationName			= { "The ROC-West", "The ROC-East",
-			"Elliott's Office Test System"							};
+	private static String[]					locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", };
 	private static String[]					locationDescription		= {
 			"Fermilab Experiments' Remote Operations Center, West Side", "Fermilab CMS Remote Operations Center, East Side",
-			"Fermilab Transfer Gallery"							};
+			"Fermilab Transfer Gallery",							};
 
 	/**
 	 * Create the channel selector in the normal way
@@ -212,27 +216,15 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			cat = SignageType.Public;
 
 		displaySelector = new DisplayButtons(cat, this);
+		lastActiveDisplay = displaySelector.getFirstDisplay().toString();
 		initChannelSelectors();
 
 		add(displayChannelPanel, BorderLayout.CENTER);
-		int blackBand = 20;
 		if (SHOW_IN_WINDOW) {
 			displayChannelPanel.setPreferredSize(new Dimension(700, 640));
-			blackBand = 0;
 		}
-		Box box = Box.createHorizontalBox();
-		JPanel black = new JPanel();
-		black.add(Box.createRigidArea(new Dimension(blackBand, blackBand)));
-		black.setOpaque(true);
-		black.setBackground(Color.black);
-		box.add(black);
-		box.add(displaySelector);
-		black = new JPanel();
-		black.add(Box.createRigidArea(new Dimension(blackBand, blackBand)));
-		black.setOpaque(true);
-		black.setBackground(Color.black);
-		box.add(black);
-		add(box, BorderLayout.EAST);
+		
+		add(displaySelector, BorderLayout.EAST);
 		add(makeTitle(), BorderLayout.NORTH);
 
 		createSplashScreen();
@@ -260,21 +252,22 @@ public class ChannelSelector extends JPanel implements ActionListener {
 
 	private void createSplashScreen() {
 		// Create a nice splash screen that it comes back to after a period of inactivity
+		SimpleMouseListener splashListener = new SimpleMouseListener(this);
+
 		int index = 0;
-		char arrow = '\u21E8';
-		float headline = 40, subHead = 18, parag = 12, arrowSize = 80;
+		// char arrow = '\u21E8';
+		float headline = 30, subHead = 18;
 		int gap = 25;
 		if (!SHOW_IN_WINDOW) {
 			headline = 72;
 			subHead = 32;
-			parag = 15;
-			arrowSize = 120;
 			gap = 50;
 		}
-		int offsets[] = {200, 20, 300, 50, 400, 80 };
-		assert(offsets.length == splashPanel.length);
-		
+		int offsets[] = { 200, 20, 300, 50, 400, 80 };
+		assert (offsets.length == splashPanel.length);
+
 		for (Box splash : splashPanel) {
+			splash.addMouseListener(splashListener);
 			splash.add(Box.createRigidArea(new Dimension(50, 50)));
 			int h = offsets[index];
 			System.out.println("Splash screen " + index + " has vertical offset of " + h);
@@ -283,8 +276,8 @@ public class ChannelSelector extends JPanel implements ActionListener {
 			splash.add(Box.createRigidArea(new Dimension(50, gap)));
 			splash.add(new JLabelCenter(locationDescription[locationCode], subHead));
 			splash.add(Box.createRigidArea(new Dimension(50, gap)));
-			splash.add(new JLabelCenter("<html><em>Touch a display button, right, to continue</em></html>", parag));
-			splash.add(new JLabelCenter("" + arrow, arrowSize));
+			splash.add(new JLabelCenter("<html><em>Touch to continue</em></html>", subHead));
+			// splash.add(new JLabelCenter("" + arrow, arrowSize));
 
 			splash.setOpaque(true);
 			splash.setBackground(new Color(200 + (int) (Math.random() * 40.0), 200 + (int) (Math.random() * 40.0),
@@ -292,7 +285,8 @@ public class ChannelSelector extends JPanel implements ActionListener {
 
 			displayChannelPanel.add(splash, "Splash Screen" + index++);
 		}
-		card.show(displayChannelPanel, "Splash Screen0");
+		if (!SHOW_IN_WINDOW)
+			card.show(displayChannelPanel, "Splash Screen0");
 	}
 
 	private void initChannelSelectors() {
@@ -730,6 +724,7 @@ public class ChannelSelector extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// The display selection has been changed, Select the "card" that shows this panel
 		card.show(displayChannelPanel, e.getActionCommand());
+		lastActiveDisplay = e.getActionCommand();
 		int displayNum = e.getID();
 		adjustTitle(displayList.get(displayNum));
 		setTabColor(displayList.get(displayNum), displayNum);
@@ -894,10 +889,16 @@ public class ChannelSelector extends JPanel implements ActionListener {
 
 	protected void destroy() {
 		// Do everything we can to forget everything we can.
-
+		// TOD Make this work -- no luck so far!
 	}
 
 	private void setRefreshAction(ActionListener refreshAction2) {
 		refreshButton.addActionListener(refreshAction2);
+	}
+
+	@Override
+	public void activateCard() {
+		card.show(displayChannelPanel, lastActiveDisplay);
+		System.out.println("Activating card '" + lastActiveDisplay + "'");
 	}
 }
