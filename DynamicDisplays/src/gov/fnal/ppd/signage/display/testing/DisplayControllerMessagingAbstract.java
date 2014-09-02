@@ -30,8 +30,8 @@ import java.util.Date;
  */
 public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private static String			webServerNode			= Util.WEB_SERVER_NAME;
-	private static String			messagingServerNode		= webServerNode;
-	private static int				messagingServerPort		= 1500;
+	private static String			messagingServerNode		= Util.MESSAGING_SERVER_NAME;
+	private static int				messagingServerPort		= Util.MESSAGING_SERVER_PORT;
 
 	protected static final long		STATUS_UPDATE_PERIOD	= 60000l;
 	protected static final long		SOCKET_ALIVE_INTERVAL	= 2500l;

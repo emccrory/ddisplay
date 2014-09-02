@@ -1,5 +1,8 @@
 package gov.fnal.ppd.chat;
 
+import static gov.fnal.ppd.signage.util.Util.FIFTEEN_MINUTES;
+import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -60,6 +63,28 @@ public class MessagingServer {
 				return super.add(ct);
 			}
 		};
+		launchMemoryWatcher();
+		new Thread("InternalCounts") {
+			public void run() {
+				while (true) {
+					long time = FIFTEEN_MINUTES / 512;
+					double sq2 = Math.sqrt(2.0);
+					while (true) {
+						try {
+							sleep(time);
+						} catch (InterruptedException e) {
+						}
+						if (time < FIFTEEN_MINUTES) {
+							time *= sq2;
+							if (time >= FIFTEEN_MINUTES) {
+								time = FIFTEEN_MINUTES;
+							}
+						}
+						System.out.println("Number of members of object al: " + al.size());
+					}
+				}
+			}
+		}.start();
 	}
 
 	/**
@@ -77,8 +102,7 @@ public class MessagingServer {
 				// format message saying we are waiting
 				display("Server waiting for Clients on port " + port + ".");
 
-				Socket socket = serverSocket.accept(); // accept connection
-				// if I was asked to stop
+				Socket socket = serverSocket.accept(); // accept connection if I was asked to stop
 				if (!keepGoing)
 					break;
 				ClientThread t = new ClientThread(socket); // make a thread of it

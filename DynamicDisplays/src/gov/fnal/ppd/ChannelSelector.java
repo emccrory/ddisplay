@@ -5,6 +5,10 @@ import static gov.fnal.ppd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.GlobalVariables.lastDisplayChange;
+import static gov.fnal.ppd.signage.util.Util.INACTIVITY_TIMEOUT;
+import static gov.fnal.ppd.signage.util.Util.ONE_SECOND;
+import static gov.fnal.ppd.signage.util.Util.PING_INTERVAL;
+import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.Display;
@@ -38,10 +42,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -111,11 +113,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private static final Dimension			screenDimension			= Toolkit.getDefaultToolkit().getScreenSize();
 	private static JFrame					f						= new JFrame("XOC Display Channel Selector");
 
-	protected static final long				ONE_SECOND				= 1000L;
-	protected static final long				FIFTEEN_MINUTES			= 15L * 60L * ONE_SECOND;
-	protected static final long				INACTIVITY_TIMEOUT		= 60L * ONE_SECOND;
-	private static final long				PING_INTERVAL			= 5L * ONE_SECOND;
-
 	private static ActionListener			fullRefreshAction		= null;
 	private static ActionListener			channelRefreshAction	= null;
 	private static List<Display>			displayList;
@@ -181,34 +178,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		launchMemoryWatcher();
 	}
 
-	private void launchMemoryWatcher() {
-		new Thread("MemoryWatcher.DEBUG") {
-			public void run() {
-				long time = FIFTEEN_MINUTES / 512;
-				double sq2 = Math.sqrt(2.0);
-				while (true) {
-					try {
-						sleep(time);
-					} catch (InterruptedException e) {
-					}
-					if (time < FIFTEEN_MINUTES) {
-						time *= sq2;
-						if (time >= FIFTEEN_MINUTES) {
-							time = FIFTEEN_MINUTES;
-						}
-					}
-					int tCount = java.lang.Thread.activeCount();
-					int activeTCount = ManagementFactory.getThreadMXBean().getThreadCount();
-					long free = Runtime.getRuntime().freeMemory() / 1024 / 1024;
-					long max = Runtime.getRuntime().maxMemory() / 1024 / 1024;
-					long total = Runtime.getRuntime().totalMemory() / 1024 / 1024;
-					System.out.println("Threads: " + tCount + " (" + activeTCount + "), mem: " + total + "M " + free + "M " + max
-							+ "M at " + (new Date()) + " (Sleep " + (time / 1000) + " sec.)");
-				}
-			}
-		}.start();
-	}
-
 	private void initComponents() {
 		removeAll();
 		SignageType cat = SignageType.XOC; // Show everything
@@ -223,7 +192,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		if (SHOW_IN_WINDOW) {
 			displayChannelPanel.setPreferredSize(new Dimension(700, 640));
 		}
-		
+
 		add(displaySelector, BorderLayout.EAST);
 		add(makeTitle(), BorderLayout.NORTH);
 
@@ -707,10 +676,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		JLabelFooter footer = new JLabelFooter("Display " + display.getNumber());
 		DisplayButtons.setToolTip(display);
 
-		int wid = 1, is = 1;
+		// int wid = 1, is = 1;
 		if (!SHOW_IN_WINDOW) {
-			wid = 3;
-			is = 2;
+			// wid = 3;
+			// is = 2;
 			footer.setFont(new Font("Arial", Font.PLAIN, 25));
 		}
 		footer.setAlignmentX(CENTER_ALIGNMENT);
@@ -803,12 +772,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	}
 
+	/**
+	 * @return the location code for this instance of the channel selector
+	 */
 	public static int getLocationCode() {
 		return locationCode;
-	}
-
-	public static void setLocationCode(int locationCode) {
-		ChannelSelector.locationCode = locationCode;
 	}
 
 	private static void createRefreshActions(final SignageType sType) {

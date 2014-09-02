@@ -3,6 +3,13 @@ package gov.fnal.ppd.signage.util;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ * A listener to attach to a Component to help the caller select a JCardLayout card when clicked.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copy 2014
+ * 
+ */
 public class SimpleMouseListener implements MouseListener {
 	private DisplayCardActivator	listener;
 
@@ -14,31 +21,26 @@ public class SimpleMouseListener implements MouseListener {
 	public void mouseClicked(MouseEvent arg0) {
 		// Interesting!!
 		listener.activateCard();
-		System.out.println("Mouse Clicked");
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// Not interesting
-		System.out.println("Mouse Entered");
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		// Not interesting
-		System.out.println("Mouse Exited");
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// Not interesting
-		System.out.println("Mouse Pressed");
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// Not interesting
-		System.out.println("Mouse Released");
 	}
 
 }

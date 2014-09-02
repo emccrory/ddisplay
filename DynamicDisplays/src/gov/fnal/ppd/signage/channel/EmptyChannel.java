@@ -16,18 +16,19 @@ public class EmptyChannel extends ChannelImpl {
 
 	private static final String	DEFAULT_URLS[]		= { "http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=MINOS",
 			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=MINERvA",
-			"hptp://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=MiniBooNE",
+			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=MiniBooNE",
 			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=MicroBooNE",
 			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=Mu2e",
 			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=gMinus2",
 			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=SeaQuest",
 			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=NOvA",
 			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=LBNE",
-			"http://www-bd.fnal.gov/notifyservlet/www?refresh=on", "http://vmsstreamer1.fnal.gov/live/novanearcams.htm",
-			"http://vmsstreamer1.fnal.gov/live/novawebcams.htm", "http://elliottmccrory.com/clock/five.html", };
-	
-	private static final String MY_URL = DEFAULT_URLS[(int) (DEFAULT_URLS.length * Math.random())];
-			
+			"http://www-bd.fnal.gov/notifyservlet/www?refresh=on", //
+			"http://vmsstreamer1.fnal.gov/live/novanearcams.htm", //
+			"http://vmsstreamer1.fnal.gov/live/novawebcams.htm", //
+			"http://elliottmccrory.com/clock/five.html", };
+
+	private static final String	MY_URL				= DEFAULT_URLS[(int) (DEFAULT_URLS.length * Math.random())];
 
 	/**
 	 * Create an Empty Channel
