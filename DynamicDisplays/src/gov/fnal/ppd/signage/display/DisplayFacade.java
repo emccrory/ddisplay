@@ -109,7 +109,7 @@ public class DisplayFacade extends DisplayImpl {
 			// In UNICODE, this is spelled "FA\u00c7ADE"
 			myName += " -- " + InetAddress.getLocalHost().getCanonicalHostName() + " Façade ".toUpperCase();
 			if (!"ChannelSelector".equals(PROGRAM_NAME))
-				myName = PROGRAM_NAME + " " + myName;
+				myName += " " + PROGRAM_NAME;
 
 			// myName = InetAddress.getLocalHost().getCanonicalHostName() + " FA\u00c7ADE";
 		} catch (UnknownHostException e1) {
