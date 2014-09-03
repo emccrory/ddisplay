@@ -1,5 +1,8 @@
 package gov.fnal.ppd.signage.display;
 
+import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
+import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
+import static gov.fnal.ppd.GlobalVariables.PROGRAM_NAME;
 import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.SignageContent;
@@ -8,7 +11,6 @@ import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
 import gov.fnal.ppd.signage.channel.ChannelPlayList;
 import gov.fnal.ppd.signage.comm.DCProtocol;
 import gov.fnal.ppd.signage.comm.DDMessage;
-import gov.fnal.ppd.signage.util.Util;
 import gov.fnal.ppd.signage.xml.ChangeChannel;
 import gov.fnal.ppd.signage.xml.ChangeChannelList;
 import gov.fnal.ppd.signage.xml.EncodedCarrier;
@@ -83,7 +85,7 @@ public class DisplayFacade extends DisplayImpl {
 				// Interpret the XML document I just got and then set the content, appropriately.
 				String xmlDocument = msg.substring(msg.indexOf("<?xml"));
 				DDMessage myMessage = new DDMessage(xmlDocument);
-				
+
 				dcp.processInput(myMessage);
 			}
 		}
@@ -106,13 +108,16 @@ public class DisplayFacade extends DisplayImpl {
 		try {
 			// In UNICODE, this is spelled "FA\u00c7ADE"
 			myName += " -- " + InetAddress.getLocalHost().getCanonicalHostName() + " Façade ".toUpperCase();
+			if (!"ChannelSelector".equals(PROGRAM_NAME))
+				myName = PROGRAM_NAME + " " + myName;
+
 			// myName = InetAddress.getLocalHost().getCanonicalHostName() + " FA\u00c7ADE";
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace(); // Really? This should never happen.
 		}
 		System.out.println(" My messaging name is [" + myName + "]");
-		messagingClient = new FacadeMessagingClient(ipName + ":" + screenNumber + " (" + number + ")", Util.MESSAGING_SERVER_NAME,
-				Util.MESSAGING_SERVER_PORT, myName);
+		messagingClient = new FacadeMessagingClient(ipName + ":" + screenNumber + " (" + number + ")", MESSAGING_SERVER_NAME,
+				MESSAGING_SERVER_PORT, myName);
 
 		messagingClient.start();
 	}
@@ -124,10 +129,12 @@ public class DisplayFacade extends DisplayImpl {
 			if (content instanceof ChannelPlayList) {
 				System.out.println(getClass().getSimpleName() + ": Have a ChannelPlayList to deal with!");
 				cc = new ChangeChannelList();
+				((ChangeChannelList) cc).setDisplayNumber(displayNumber);
 				((ChangeChannelList) cc).setContent(getContent());
 			} else {
 				System.out.println(getClass().getSimpleName() + ": Have a simple channel");
 				cc = new ChangeChannel();
+				((ChangeChannel) cc).setDisplayNumber(displayNumber);
 				((ChangeChannel) cc).setContent(getContent());
 			}
 
@@ -156,6 +163,6 @@ public class DisplayFacade extends DisplayImpl {
 	@Override
 	public void disconnect() {
 		alreadyWaiting.set(false);
-		messagingClient.disconnect();		
+		messagingClient.disconnect();
 	}
 }

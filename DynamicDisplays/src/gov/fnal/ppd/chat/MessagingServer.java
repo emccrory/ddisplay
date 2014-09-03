@@ -1,6 +1,6 @@
 package gov.fnal.ppd.chat;
 
-import static gov.fnal.ppd.signage.util.Util.FIFTEEN_MINUTES;
+import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 
 import java.io.EOFException;

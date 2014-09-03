@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.display.testing;
 
+import static gov.fnal.ppd.GlobalVariables.SELF_IDENTIFY;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.display.testing.BrowserLauncher.BrowserInstance;
 

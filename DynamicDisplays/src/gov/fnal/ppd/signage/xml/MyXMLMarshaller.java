@@ -1,6 +1,6 @@
 package gov.fnal.ppd.signage.xml;
 
-import gov.fnal.ppd.signage.util.Util;
+import static gov.fnal.ppd.GlobalVariables.XML_SERVER_NAME;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,7 +26,7 @@ public class MyXMLMarshaller {
 
 		// output pretty printed
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://" + Util.XML_SERVER_NAME + " signage.xsd");
+		jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://" + XML_SERVER_NAME + " signage.xsd");
 		return jaxbMarshaller;
 	}
 

@@ -1,7 +1,7 @@
 package gov.fnal.ppd.signage.changer;
 
+import static gov.fnal.ppd.GlobalVariables.DATABASE_SERVER_NAME;
 import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
-import gov.fnal.ppd.signage.util.Util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +22,7 @@ public class ConnectionToDynamicDisplaysDatabase {
 	private static Connection	connection;
 
 	private static String		thisNode;
-	private static String		serverNode	= Util.DATABASE_SERVER_NAME;
+	private static String		serverNode	= DATABASE_SERVER_NAME;
 
 	/**
 	 * @return the DB connection object

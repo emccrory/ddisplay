@@ -1,9 +1,10 @@
 package gov.fnal.ppd;
 
+import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
+import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 import gov.fnal.ppd.chat.JTextAreaBottom;
 import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
-import gov.fnal.ppd.signage.util.Util;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -474,8 +475,8 @@ public class DDSystemStatus extends JFrame {
 	 *            Command line arguments (none expected()
 	 */
 	public static void main(String[] args) {
-		int portNumber = Util.MESSAGING_SERVER_PORT;
-		String host = Util.MESSAGING_SERVER_NAME;
+		int portNumber = MESSAGING_SERVER_PORT;
+		String host = MESSAGING_SERVER_NAME;
 		if (args.length == 1) {
 			try {
 				portNumber = Integer.parseInt(args[0]);

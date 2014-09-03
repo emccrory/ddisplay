@@ -74,10 +74,10 @@ public class DDMessage {
 			} catch (JAXBException e) {
 				e.printStackTrace();
 			}
-			if (receivedMessage != null)
+			if (receivedMessage != null) {
 				System.out.println(getClass().getSimpleName() + ".decode(): Incoming message interpreted as an object of type "
 						+ receivedMessage.getClass().getCanonicalName());
-			else if (rawMessage != null)
+			} else if (rawMessage != null)
 				throw new RuntimeErrorException(new Error("Unknown XML data type within this XML document: [" + rawMessage + "]"));
 		}
 	}
@@ -121,7 +121,7 @@ public class DDMessage {
 
 	@Override
 	public String toString() {
-		return "display=[" + screenNumber + "] XML=[\n\t" + rawMessage.replace("\n", "\n\t") + "\n] received type="
+		return "screen=[" + screenNumber + "] XML=[\n\t" + rawMessage.replace("\n", "\n\t") + "\n] received type="
 				+ receivedMessage.getClass().getCanonicalName();
 	}
 

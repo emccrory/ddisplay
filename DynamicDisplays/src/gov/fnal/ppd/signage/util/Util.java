@@ -1,5 +1,7 @@
 package gov.fnal.ppd.signage.util;
 
+import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
+
 import java.lang.management.ManagementFactory;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,45 +16,6 @@ import java.util.GregorianCalendar;
  */
 public class Util {
 	// Some globals for identifying the servers in this system
-
-	private static final String		DEFAULT_SERVER			= "mccrory.fnal.gov";
-	/**
-	 * Where is the messaging server?
-	 */
-	public static final String		MESSAGING_SERVER_NAME	= System.getProperty("signage.messagingserver", DEFAULT_SERVER);
-	/**
-	 * What port is the Messaging Server listing on?
-	 */
-	public static final int			MESSAGING_SERVER_PORT	= 1500;
-	/**
-	 * Where is the Web server?
-	 */
-	public static final String		WEB_SERVER_NAME			= System.getProperty("signage.webserver", DEFAULT_SERVER);
-	/**
-	 * Where is the Database server?
-	 */
-	public static final String		DATABASE_SERVER_NAME	= System.getProperty("signage.dbserver", DEFAULT_SERVER);
-	/**
-	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
-	 */
-	public static final String		XML_SERVER_NAME			= System.getProperty("signage.xmlserver", DEFAULT_SERVER);
-
-	/**
-	 * One second, expressed in milliseconds (e.g., 1000L)
-	 */
-	public static final long		ONE_SECOND				= 1000L;
-	/**
-	 * 15 minutes, expressed in milliseconds
-	 */
-	public static final long		FIFTEEN_MINUTES			= 15L * 60L * ONE_SECOND;
-	/**
-	 * Used in ChannelSelector
-	 */
-	public static final long		INACTIVITY_TIMEOUT		= 60L * ONE_SECOND;
-	/**
-	 * Used in ChannelSelector
-	 */
-	public static final long		PING_INTERVAL			= 5L * ONE_SECOND;
 
 	private static final String[]	days					= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 

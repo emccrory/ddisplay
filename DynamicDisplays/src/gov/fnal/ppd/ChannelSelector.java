@@ -1,13 +1,15 @@
 package gov.fnal.ppd;
 
 import static gov.fnal.ppd.GlobalVariables.FONT_SIZE;
+import static gov.fnal.ppd.GlobalVariables.INACTIVITY_TIMEOUT;
 import static gov.fnal.ppd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.GlobalVariables.IS_PUBLIC_CONTROLLER;
+import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
+import static gov.fnal.ppd.GlobalVariables.ONE_SECOND;
+import static gov.fnal.ppd.GlobalVariables.PING_INTERVAL;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.lastDisplayChange;
-import static gov.fnal.ppd.signage.util.Util.INACTIVITY_TIMEOUT;
-import static gov.fnal.ppd.signage.util.Util.ONE_SECOND;
-import static gov.fnal.ppd.signage.util.Util.PING_INTERVAL;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
@@ -30,7 +32,6 @@ import gov.fnal.ppd.signage.util.DisplayCardActivator;
 import gov.fnal.ppd.signage.util.JLabelCenter;
 import gov.fnal.ppd.signage.util.JLabelFooter;
 import gov.fnal.ppd.signage.util.SimpleMouseListener;
-import gov.fnal.ppd.signage.util.Util;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -523,7 +524,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					long ran = new Date().getTime() % 1000L;
 					final String myName = InetAddress.getLocalHost().getCanonicalHostName() + "_" + ran;
 
-					client = new MessagingClient(Util.MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName) {
+					client = new MessagingClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName) {
 						public void displayIncomingMessage(final String msg) {
 							if (msg.startsWith("WHOISIN") && !msg.contains("FA\u00c7ADE") && !msg.contains("Error")
 									&& !msg.contains(myName)) {
@@ -608,7 +609,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					}
 					if (n == 0)
 						try {
-							Desktop.getDesktop().browse(new URI("http://" + Util.WEB_SERVER_NAME + "/XOC/channelAdd.php"));
+							Desktop.getDesktop().browse(new URI("http://" + WEB_SERVER_NAME + "/XOC/channelAdd.php"));
 						} catch (IOException e) {
 							e.printStackTrace();
 						} catch (URISyntaxException e) {

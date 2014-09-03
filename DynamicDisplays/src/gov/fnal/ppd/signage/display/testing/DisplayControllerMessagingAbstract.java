@@ -1,5 +1,8 @@
 package gov.fnal.ppd.signage.display.testing;
 
+import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
+import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
+import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
 import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
@@ -8,7 +11,6 @@ import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.comm.DCProtocol;
 import gov.fnal.ppd.signage.comm.DDMessage;
 import gov.fnal.ppd.signage.display.DisplayImpl;
-import gov.fnal.ppd.signage.util.Util;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -29,9 +31,9 @@ import java.util.Date;
  * @author Elliott McCrory, Fermilab (2014)
  */
 public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
-	private static String			webServerNode			= Util.WEB_SERVER_NAME;
-	private static String			messagingServerNode		= Util.MESSAGING_SERVER_NAME;
-	private static int				messagingServerPort		= Util.MESSAGING_SERVER_PORT;
+	private static String			webServerNode			= WEB_SERVER_NAME;
+	private static String			messagingServerNode		= MESSAGING_SERVER_NAME;
+	private static int				messagingServerPort		= MESSAGING_SERVER_PORT;
 
 	protected static final long		STATUS_UPDATE_PERIOD	= 60000l;
 	protected static final long		SOCKET_ALIVE_INTERVAL	= 2500l;
@@ -41,7 +43,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	protected static final String	OFF_LINE				= "Off Line";
 	protected static final String	IDENTIFY_URL			= "http://" + webServerNode + "/XOC/displaySplash.php?id=";
-	protected static final String	SELF_IDENTIFY			= "http://identify";
 
 	protected static Connection		connection;
 
@@ -272,7 +273,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					Color color = new Color(Integer.parseInt(colorString, 16));
 					int portNumber = rs.getInt("Port");
 					int screenNumber = rs.getInt("ScreenNumber");
-					int channelNumber = rs.getInt("content");
+					// int channelNumber = rs.getInt("content");
 					// String positionString = rs.getString("Position");
 					// if (positionString == null)
 
