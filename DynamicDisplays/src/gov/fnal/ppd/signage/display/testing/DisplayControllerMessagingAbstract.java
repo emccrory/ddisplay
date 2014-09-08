@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.display.testing;
 
+import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
@@ -77,10 +78,36 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 		myName = ipName + ":" + screenNumber + " (" + number + ")";
 		messagingClient = new MessagingClientLocal(messagingServerNode, messagingServerPort, myName);
-		messagingClient.start();
+		if (!messagingClient.start()) {
+			new Thread("WaitForServerToAppear") {
+				public void run() {
+					messagingClient.retryConnection();
+				}
+			}.start();
+		}
 
 		// Must be called by concrete class-->
 		// contInitialization(portNumber);
+
+		new Thread("IsMyServerAlive") {
+			public void run() {
+				while (true) {
+					try {
+						sleep(FIFTEEN_MINUTES);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (((MessagingClientLocal) messagingClient).getServerTimeStamp() + 2 * FIFTEEN_MINUTES < System
+							.currentTimeMillis()) {
+						System.err.println("It looks like the server is down! Let's try to restart out connection to it.");
+						messagingClient.disconnect();
+						messagingClient = null; // Not sure about this.
+						messagingClient = new MessagingClientLocal(messagingServerNode, messagingServerPort, myName);
+						messagingClient.start();
+					}
+				}
+			}
+		}.start();
 	}
 
 	protected abstract void endAllConnections();
@@ -324,12 +351,18 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		public MessagingClientLocal(String server, int port, String username) {
 			super(server, port, username);
 			dcp.addListener(DisplayControllerMessagingAbstract.this);
+
+		}
+
+		public long getServerTimeStamp() {
+			return dcp.getLastServerHeartbeat();
 		}
 
 		@Override
 		public void displayIncomingMessage(String msg) {
 			if (debug)
-				System.out.println("Got this message: [" + msg + "]");
+				System.out.println(DisplayControllerMessagingAbstract.class.getCanonicalName() + "."
+						+ this.getClass().getCanonicalName() + ".displayIncomingMessage(): Got this message: [" + msg + "]");
 			if (msg.startsWith(myName)) {
 				if (debug)
 					System.out.println("This message is for me!");

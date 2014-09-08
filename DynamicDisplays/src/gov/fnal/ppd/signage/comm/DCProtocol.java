@@ -6,6 +6,7 @@ import gov.fnal.ppd.signage.channel.PlainURLChannel;
 import gov.fnal.ppd.signage.xml.ChangeChannel;
 import gov.fnal.ppd.signage.xml.ChangeChannelList;
 import gov.fnal.ppd.signage.xml.ChannelSpec;
+import gov.fnal.ppd.signage.xml.HeartBeat;
 import gov.fnal.ppd.signage.xml.Pong;
 
 import java.net.MalformedURLException;
@@ -59,10 +60,11 @@ public class DCProtocol {
 
 	private Object			theMessage;
 	private Object			theReply;
-	private List<Display>	listeners		= new ArrayList<Display>();
-	protected boolean		keepRunning		= false;
-	private Thread			changerThread	= null;
-	protected long			SHORT_INTERVAL	= 100l;
+	private List<Display>	listeners			= new ArrayList<Display>();
+	protected boolean		keepRunning			= false;
+	private Thread			changerThread		= null;
+	protected long			SHORT_INTERVAL		= 100l;
+	private long			lastServerHeartbeat	= 0L;
 
 	/**
 	 * @return The message just received
@@ -140,6 +142,11 @@ public class DCProtocol {
 					} else if (theMessage instanceof ChannelSpec) {
 						checkChanger();
 						informListeners((ChannelSpec) theMessage);
+					} else if (theMessage instanceof HeartBeat) {
+						// System.out.println("Got a server heartbeat with timestamp = " + ((HeartBeat) theMessage).getTimeStamp());
+						theReply = null;
+						lastServerHeartbeat = ((HeartBeat) theMessage).getTimeStamp();
+						return true;
 					} else {
 						System.out.println("The message is of type " + theMessage.getClass().getCanonicalName()
 								+ ".  We will assume they meant it to be 'Pong'");
@@ -256,4 +263,10 @@ public class DCProtocol {
 		changerThread = null;
 	}
 
+	/**
+	 * @return The timestamp of the last time we got a heart beat message from the server.
+	 */
+	public long getLastServerHeartbeat() {
+		return lastServerHeartbeat;
+	}
 }

@@ -46,7 +46,10 @@ public class ConnectionToFirefoxInstance {
 	public void changeURL(final String urlString) {
 		if (debug)
 			System.out.println("New URL: " + urlString);
-		send("window.location=\"" + urlString + "\"\n");
+		send("window.location=\"" + urlString + "\";\n");
+		// An experiment: Can I turn off the scroll bars?  The answer is no (it seems)
+		// send("document.documentElement.style.overflow = 'hidden';\n");
+		// send("document.body.scroll='no';\n");
 		// send(FullScreenExecute);
 
 		try {

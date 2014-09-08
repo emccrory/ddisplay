@@ -1,5 +1,7 @@
 package gov.fnal.ppd.chat;
 
+import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -56,7 +58,6 @@ public class MessagingClient {
 		// if it failed not much I can so
 		catch (Exception ec) {
 			displayLogMessage("Error connectiong to server:" + ec);
-			ec.printStackTrace();
 			return false;
 		}
 
@@ -128,10 +129,13 @@ public class MessagingClient {
 		// Override this method if you need to know when a connection is accepted
 	}
 
+	public void retryConnection() {
+		connectionFailed();
+	}
 	protected void connectionFailed() {
 		socket = null;
 
-		long wait = 20000L;
+		long wait = 10000L;
 		// Wait until the server returns
 		while (socket == null) {
 			displayLogMessage("Will wait " + wait + " ms for server to return.");
@@ -140,8 +144,10 @@ public class MessagingClient {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			wait = 10000L;
-			start();
+			wait = (wait + 10000L > FIFTEEN_MINUTES ? FIFTEEN_MINUTES : wait + 10000L);
+			if (!start()) {
+				displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Server start failed again at " + (new Date()) + "...");
+			}
 		}
 	}
 
