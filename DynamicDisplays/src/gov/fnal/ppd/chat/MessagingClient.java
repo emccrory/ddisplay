@@ -69,6 +69,17 @@ public class MessagingClient {
 		try {
 			sOutput = new ObjectOutputStream(socket.getOutputStream());
 			sInput = new ObjectInputStream(socket.getInputStream());
+
+			/*
+			 * From http://stackoverflow.com/questions/5658089/java-creating-a-new-objectinputstream-blocks:
+			 * 
+			 * When you construct an ObjectInputStream, in the constructor the class attempts to read a header that the associated
+			 * ObjectOutputStream on the other end of the connection has written. It will not return until that header has been
+			 * read. So if you are seeing the constructor 'hang', it's because the other side of the socket either hasn't used an
+			 * ObjectOutputStream, or hasn't flushed the data yet.
+			 * 
+			 * So, if new ObjectInputStream blocks, it is because the server has not responded yet.
+			 */
 		} catch (IOException eIO) {
 			displayLogMessage("Exception creating new Input/output Streams: " + eIO);
 			return false;
@@ -132,6 +143,7 @@ public class MessagingClient {
 	public void retryConnection() {
 		connectionFailed();
 	}
+
 	protected void connectionFailed() {
 		socket = null;
 
@@ -146,7 +158,8 @@ public class MessagingClient {
 			}
 			wait = (wait + 10000L > FIFTEEN_MINUTES ? FIFTEEN_MINUTES : wait + 10000L);
 			if (!start()) {
-				displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Server start failed again at " + (new Date()) + "...");
+				displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Server start failed again at "
+						+ (new Date()) + "...");
 			}
 		}
 	}

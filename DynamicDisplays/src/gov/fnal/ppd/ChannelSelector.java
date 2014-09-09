@@ -9,6 +9,7 @@ import static gov.fnal.ppd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.GlobalVariables.PING_INTERVAL;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
+import static gov.fnal.ppd.GlobalVariables.displayList;
 import static gov.fnal.ppd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 import gov.fnal.ppd.chat.MessageCarrier;
@@ -116,7 +117,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	private static ActionListener			fullRefreshAction		= null;
 	private static ActionListener			channelRefreshAction	= null;
-	private static List<Display>			displayList;
 	private static ChannelSelector			channelSelector;
 
 	private List<List<ChannelButtonGrid>>	channelButtonGridList	= new ArrayList<List<ChannelButtonGrid>>();
@@ -524,6 +524,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					long ran = new Date().getTime() % 1000L;
 					final String myName = InetAddress.getLocalHost().getCanonicalHostName() + "_" + ran;
 
+					System.out.println("\n**Starting messaging client named '" + myName + "'");
 					client = new MessagingClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName) {
 						public void displayIncomingMessage(final String msg) {
 							if (msg.startsWith("WHOISIN") && !msg.contains("FA\u00c7ADE") && !msg.contains("Error")

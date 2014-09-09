@@ -1,5 +1,9 @@
 package gov.fnal.ppd;
 
+import gov.fnal.ppd.signage.Display;
+
+import java.util.List;
+
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
@@ -82,6 +86,8 @@ public class GlobalVariables {
 	 * 
 	 */
 	public static final String	SELF_IDENTIFY			= "http://identify";
+
+	public static List<Display>	displayList;
 
 	private GlobalVariables() {
 	}

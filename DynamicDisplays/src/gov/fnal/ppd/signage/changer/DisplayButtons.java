@@ -2,6 +2,7 @@ package gov.fnal.ppd.signage.changer;
 
 import static gov.fnal.ppd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.GlobalVariables.displayList;
 import static gov.fnal.ppd.signage.util.Util.shortDate;
 import gov.fnal.ppd.ChannelSelector;
 import gov.fnal.ppd.signage.Display;
@@ -61,11 +62,11 @@ public class DisplayButtons extends JPanel {
 			// setFont(new Font("Arial", Font.BOLD, (SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : theFS)));
 			setToolTipText("initializing...");
 
-			Color[] colorArray = new Color[displays.size()];
-			int[] labels = new int[displays.size()];
+			Color[] colorArray = new Color[displayList.size()];
+			int[] labels = new int[displayList.size()];
 			for (int i = 0; i < colorArray.length; i++) {
-				colorArray[i] = displays.get(i).getPreferredHighlightColor();
-				labels[i] = displays.get(i).getNumber();
+				colorArray[i] = displayList.get(i).getPreferredHighlightColor();
+				labels[i] = displayList.get(i).getNumber();
 			}
 
 			BasicSliderUI sliderUI = new DisplayColorSliderUI(this, colorArray, labels);
@@ -74,14 +75,14 @@ public class DisplayButtons extends JPanel {
 			addChangeListener(new ChangeListener() {
 
 				public void stateChanged(ChangeEvent e) {
-					Display disp = displays.get(getValue());
+					Display disp = displayList.get(getValue());
 					// FIXME The listener is part of the surrounding class--I don't like this
 					listener.actionPerformed(new ActionEvent(disp, getValue(), disp.toString(), System.currentTimeMillis(),
 							java.awt.event.MouseEvent.BUTTON1_MASK | java.awt.event.MouseEvent.BUTTON1_DOWN_MASK));
 				}
 			});
 
-			if (displays.size() < 26) {
+			if (displayList.size() < 26) {
 				setMajorTickSpacing(1);
 				setFont(getFont().deriveFont((SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : theFS)));
 				// setFont(new Font("Courier", Font.PLAIN, (SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : theFS)));
@@ -97,15 +98,15 @@ public class DisplayButtons extends JPanel {
 		public String getToolTipText(MouseEvent e) {
 			int x = e.getY();
 			Rectangle rect = getBounds();
-			int size = displays.size();
+			int size = displayList.size();
 			int index = size * x / rect.height;
-			Display d = displays.get(index);
+			Display d = displayList.get(index);
 			return "<html><b>" + d + "</b> " + d.getDescription() + "</html>";
 		}
 	}
 
 	private static List<DDButton>	buttonList				= new ArrayList<DDButton>();
-	private static List<Display>	displays;
+	// private static List<Display>	displayList;
 	static final int				INSET_SIZE				= 6;
 	static final float				LOCAL_FONT_SIZE			= 38.0f;
 	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 20;
@@ -121,7 +122,7 @@ public class DisplayButtons extends JPanel {
 	 */
 	public static void setToolTip(final Display disp) {
 		int index = 0;
-		for (Display d : displays) {
+		for (Display d : displayList) {
 			if (d == disp) {
 				String toolTip = "<html><b>Display:</b> " + disp.getNumber() + " -- " + disp.getDescription();
 				toolTip += "<br /><b>Last status update:</b> " + shortDate();
@@ -149,11 +150,11 @@ public class DisplayButtons extends JPanel {
 		super(new BorderLayout());
 		this.listener = listener;
 
-		displays = DisplayListFactory.getInstance(cat, ChannelSelector.getLocationCode());
+		// displayList = DisplayListFactory.getInstance(cat, ChannelSelector.getLocationCode());
 
-		System.out.println("Number of displays: " + displays.size());
+		System.out.println("Number of displays: " + displayList.size());
 
-		if (displays.size() <= MAXIMUM_DISPLAY_BUTTONS)
+		if (displayList.size() <= MAXIMUM_DISPLAY_BUTTONS)
 			makeScreenGrid();
 		else
 			makeScreenGridSlider();
@@ -167,17 +168,17 @@ public class DisplayButtons extends JPanel {
 		buttonBox = Box.createVerticalBox();
 
 		DisplayButtonGroup bg = new DisplayButtonGroup();
-		int is = displays.size() > 10 ? 2 * INSET_SIZE / 3 : INSET_SIZE;
-		float fs = displays.size() > 10 ? 0.6f * LOCAL_FONT_SIZE - 2 * (displays.size() - 10) : LOCAL_FONT_SIZE;
+		int is = displayList.size() > 10 ? 2 * INSET_SIZE / 3 : INSET_SIZE;
+		float fs = displayList.size() > 10 ? 0.6f * LOCAL_FONT_SIZE - 2 * (displayList.size() - 10) : LOCAL_FONT_SIZE;
 		if (SHOW_IN_WINDOW)
 			fs = WINDOW_FONT_SIZE;
 
-		int rigidHeight = INSET_SIZE + (11 - displays.size());
+		int rigidHeight = INSET_SIZE + (11 - displayList.size());
 		if (rigidHeight <= 0)
 			rigidHeight = 1;
 		buttonBox.add(Box.createVerticalGlue());
-		for (int i = 0; i < displays.size(); i++) {
-			final Display disp = displays.get(i);
+		for (int i = 0; i < displayList.size(); i++) {
+			final Display disp = displayList.get(i);
 			final DDButton button = new DDButton(disp);
 			buttonList.add(button);
 
@@ -205,7 +206,7 @@ public class DisplayButtons extends JPanel {
 			p.add(button, BorderLayout.CENTER);
 			buttonBox.add(p);
 		}
-		if (displays.size() > 1) {
+		if (displayList.size() > 1) {
 			setOpaque(true);
 			setBackground(Color.black);
 
@@ -228,7 +229,7 @@ public class DisplayButtons extends JPanel {
 		JLabel lab = new JLabel("\u25BC Display \u25BC");
 		lab.setAlignmentX(SwingConstants.LEFT);
 		buttonBox.add(lab);
-		buttonBox.add(new MyJSlider(SwingConstants.VERTICAL, 0, displays.size() - 1, 0));
+		buttonBox.add(new MyJSlider(SwingConstants.VERTICAL, 0, displayList.size() - 1, 0));
 		buttonBox.add(Box.createRigidArea(new Dimension(10, 10)));
 
 		buttonBox.setAlignmentX(JComponent.TOP_ALIGNMENT);
@@ -265,7 +266,7 @@ public class DisplayButtons extends JPanel {
 					e.printStackTrace();
 				}
 				int index = 0;
-				for (Display d : displays) {
+				for (Display d : displayList) {
 					if (d.getNumber() == displayNum) {
 						buttonList.get(index).setEnabled(alive);
 					}
@@ -279,7 +280,7 @@ public class DisplayButtons extends JPanel {
 	 * @return The first display in the internal list
 	 */
 	public Display getFirstDisplay() {
-		return displays.get(0);
+		return displayList.get(0);
 	}
 
 }

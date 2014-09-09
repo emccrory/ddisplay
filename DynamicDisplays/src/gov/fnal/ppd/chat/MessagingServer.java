@@ -3,10 +3,6 @@ package gov.fnal.ppd.chat;
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 
-import gov.fnal.ppd.signage.xml.HeartBeat;
-import gov.fnal.ppd.signage.xml.MyXMLMarshaller;
-import gov.fnal.ppd.signage.xml.Ping;
-
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,8 +12,6 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import javax.xml.bind.JAXBException;
 
 /**
  * The server that can be run both as a console application or a GUI
@@ -87,35 +81,6 @@ public class MessagingServer {
 							}
 						}
 						System.out.println("Number of members of object al: " + al.size());
-					}
-				}
-			}
-		}.start();
-
-		new Thread("PingAllUsers") {
-			public void run() {
-				while (true) {
-					long sleepTime = 30000L; // Being by sending a heartbeat shortly after the server starts
-					try {
-						sleep(sleepTime);
-						sleepTime = FIFTEEN_MINUTES; // Then once every 15 minutes after that
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-
-					try {
-						HeartBeat hb = new HeartBeat();
-						hb.setTimeStamp(System.currentTimeMillis());
-						String message = MyXMLMarshaller.getXML(hb);
-
-						for (int i = 0; i < al.size(); ++i) {
-							ClientThread ct = al.get(i);
-							broadcast(ct.username + ": " + message);
-							// System.out.println("Sent heartbeat to messaging client number " + i + " at " + new Date());
-
-						}
-					} catch (JAXBException e) {
-						e.printStackTrace();
 					}
 				}
 			}
@@ -231,14 +196,12 @@ public class MessagingServer {
 			if (!ct.writeMsg(messageLf)) {
 				al.remove(i);
 				display("Disconnected Client " + ct.username + " removed from list.");
-				// Observation, 9/8/2014: This never happens. If it does, this would probably lead to a "concurrent modification"
-				// exception.
 			}
 		}
 	}
 
-	// for a client who logs off using the LOGOUT message
-	private synchronized void remove(int id) {
+	// for a client who logoff using the LOGOUT message
+	synchronized void remove(int id) {
 		synchronized (al) {
 			// scan the array list until we found the Id
 			for (int i = 0; i < al.size(); ++i) {
