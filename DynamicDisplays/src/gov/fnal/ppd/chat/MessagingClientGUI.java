@@ -1,5 +1,7 @@
 package gov.fnal.ppd.chat;
 
+import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -253,27 +255,9 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 	 *            Command line arguments (none expected()
 	 */
 	public static void main(String[] args) {
-		int portNumber = 1500;
 		String host = "localhost";
-		if (args.length == 1) {
-			try {
-				portNumber = Integer.parseInt(args[0]);
-			} catch (Exception e) {
-				System.out.println("Invalid port number.");
-				System.out.println("Usage is: > java " + MessagingClientGUI.class.getCanonicalName() + " [portNumber]");
-				System.exit(-1);
-			}
-		} else if (args.length == 2) {
-			try {
-				host = args[0];
-				portNumber = Integer.parseInt(args[1]);
-			} catch (Exception e) {
-				System.out.println("Invalid port number.");
-				System.out.println("Usage is: > java " + MessagingClientGUI.class.getCanonicalName() + " [hostName] [portNumber]");
-				System.exit(-1);
-			}
-		}
-		new MessagingClientGUI(host, portNumber);
+	
+		new MessagingClientGUI(host, MESSAGING_SERVER_PORT);
 	}
 
 }

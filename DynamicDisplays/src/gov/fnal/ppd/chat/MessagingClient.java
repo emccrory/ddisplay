@@ -1,6 +1,7 @@
 package gov.fnal.ppd.chat;
 
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
+import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -61,10 +62,6 @@ public class MessagingClient {
 			return false;
 		}
 
-		String msg = "Connection accepted to " + socket.getInetAddress() + ", port " + socket.getPort() + ".  Username = '"
-				+ username + "'";
-		displayLogMessage(msg);
-
 		/* Creating both Data Stream */
 		try {
 			sOutput = new ObjectOutputStream(socket.getOutputStream());
@@ -84,6 +81,10 @@ public class MessagingClient {
 			displayLogMessage("Exception creating new Input/output Streams: " + eIO);
 			return false;
 		}
+
+		String msg = "Connection accepted to " + socket.getInetAddress() + ", port " + socket.getPort() + ".  Username = '"
+				+ username + "'";
+		displayLogMessage(msg);
 
 		// creates the Thread to listen from the server
 		new ListenFromServer().start();
@@ -200,7 +201,7 @@ public class MessagingClient {
 	 */
 	public static void main(String[] args) {
 		// default values
-		int portNumber = 1500;
+		int portNumber = MESSAGING_SERVER_PORT;
 		String serverAddress = "localhost";
 		String userName = "Anonymous";
 

@@ -3,6 +3,8 @@ package gov.fnal.ppd;
 import static gov.fnal.ppd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.GlobalVariables.PROGRAM_NAME;
 import static gov.fnal.ppd.GlobalVariables.SELF_IDENTIFY;
+import static gov.fnal.ppd.GlobalVariables.locationCode;
+import static gov.fnal.ppd.GlobalVariables.locationName;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageType;
@@ -30,8 +32,6 @@ public class IdentifyAll extends JButton implements ActionListener {
 
 	private static final long	serialVersionUID	= 389156534115421551L;
 
-	private static int			locationCode		= Integer.getInteger("signage.selector.location", 0);
-	private static String[]		locationName		= { "ROC-West", "ROC-East", "Elliott's Office Test", };
 	private List<Display>		displays;
 
 	private Channel				identifyChannel		= null;

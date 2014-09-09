@@ -1,6 +1,7 @@
 package gov.fnal.ppd.chat;
 
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
+import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 
 import java.io.EOFException;
@@ -19,19 +20,45 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Taken from http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/ on 5/12/2014
  */
 public class MessagingServer {
+
+	private class ClientThreadList extends CopyOnWriteArrayList<ClientThread> {
+
+		private static final boolean	REQUIRE_UNIQUE_USERNAMES	= true;
+
+		private static final long		serialVersionUID			= 2919140620801861217L;
+
+		@Override
+		public boolean add(ClientThread ct) {
+			if (ct == null)
+				return false;
+			if (REQUIRE_UNIQUE_USERNAMES)
+				for (ClientThread CT : this)
+					if (CT.username.equals(ct.username))
+						return false; // Duplicate username is not allowed!
+
+			// TODO -- Is a bad thing to have duplicate usernames? When/if the server directs messages to the intended user,
+			// this WILL be necessary. But having a fairly anonymous clientelle works just fine.
+			//
+			// BUt I am seeing bugs whereby one client restarts and the server has not dropped the old connection.
+
+			return super.add(ct);
+		}
+
+	}
+
 	// a unique ID for each connection
-	private static int							uniqueId;
+	private static int			uniqueId;
 	// an ArrayList to keep the list of the Client
 	// private ArrayList<ClientThread> al; This Template is supposed to help with ConcurrentModificationException
-	private CopyOnWriteArrayList<ClientThread>	al;
+	private ClientThreadList	al;
 
 	// to display time (Also used as a synchronization object for writing messages to the local terminal/GUI
-	protected SimpleDateFormat					sdf;
+	protected SimpleDateFormat	sdf;
 	// the port number to listen for connection
-	private int									port;
+	private int					port;
 	// the boolean that will be turned of to stop the server
-	private boolean								keepGoing;
-	private boolean								addTimeStamp	= false;
+	private boolean				keepGoing;
+	private boolean				addTimeStamp	= false;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -44,25 +71,7 @@ public class MessagingServer {
 		// to display hh:mm:ss
 		sdf = new SimpleDateFormat("dd MMM HH:mm:ss");
 		// ArrayList for the Client list
-		al = new CopyOnWriteArrayList<ClientThread>() {
-			private static final boolean	REQUIRE_UNIQUE_USERNAMES	= false;
-
-			private static final long		serialVersionUID			= 2919140620801861217L;
-
-			public boolean add(ClientThread ct) {
-				if (ct == null)
-					return false;
-				if (REQUIRE_UNIQUE_USERNAMES)
-					for (ClientThread CT : this)
-						if (CT.username.equals(ct.username))
-							return false; // Duplicate username is not allowed!
-
-				// TODO -- Is a bad thing to have duplicate usernames? When/if the server directs messages to the intended user,
-				// this WILL be necessary. But having a fairly anonymous clientelle works just fine.
-
-				return super.add(ct);
-			}
-		};
+		al = new ClientThreadList();
 		launchMemoryWatcher();
 		new Thread("InternalCounts") {
 			public void run() {
@@ -224,7 +233,7 @@ public class MessagingServer {
 	 */
 	public static void main(String[] args) {
 		// start server on port 1500 unless a PortNumber is specified
-		int portNumber = 1500;
+		int portNumber = MESSAGING_SERVER_PORT;
 		switch (args.length) {
 		case 1:
 			try {

@@ -5,12 +5,16 @@ import static gov.fnal.ppd.GlobalVariables.INACTIVITY_TIMEOUT;
 import static gov.fnal.ppd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
+import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.GlobalVariables.PING_INTERVAL;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.displayList;
 import static gov.fnal.ppd.GlobalVariables.lastDisplayChange;
+import static gov.fnal.ppd.GlobalVariables.locationCode;
+import static gov.fnal.ppd.GlobalVariables.locationDescription;
+import static gov.fnal.ppd.GlobalVariables.locationName;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
@@ -110,8 +114,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	private static final long				serialVersionUID		= 5044030472140151291L;
 
-	private static final int				MESSAGING_SERVER_PORT	= 1500;
-
 	private static final Dimension			screenDimension			= Toolkit.getDefaultToolkit().getScreenSize();
 	private static JFrame					f						= new JFrame("XOC Display Channel Selector");
 
@@ -139,12 +141,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			Box.createVerticalBox(), Box.createVerticalBox(), Box.createVerticalBox(), Box.createVerticalBox() };
 
 	private String							lastActiveDisplay		= null;
-
-	private static int						locationCode			= Integer.getInteger("signage.selector.location", 0);
-	private static String[]					locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", };
-	private static String[]					locationDescription		= {
-			"Fermilab Experiments' Remote Operations Center, West Side", "Fermilab CMS Remote Operations Center, East Side",
-			"Fermilab Transfer Gallery",							};
 
 	/**
 	 * Create the channel selector in the normal way

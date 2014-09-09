@@ -17,4 +17,4 @@ if [ "$1 X" = "XOC X" ]; then
    fi
 fi
 
-java -Dsignage.selector.inwindow=$window -Dsignage.selector.public=$public -Xmx512m  gov.fnal.ppd.ChannelSelector
+java -Dddisplay.selector.inwindow=$window -Dddisplay.selector.public=$public -Xmx512m  gov.fnal.ppd.ChannelSelector

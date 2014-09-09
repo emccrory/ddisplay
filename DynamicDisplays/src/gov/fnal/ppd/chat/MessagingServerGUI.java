@@ -1,5 +1,7 @@
 package gov.fnal.ppd.chat;
 
+import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -152,18 +154,8 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// start server default port 1500
-		int portNumber = 1500;
-		if (args.length > 0) {
-			try {
-				portNumber = Integer.parseInt(args[0]);
-			} catch (Exception e) {
-				System.out.println("Invalid port number.");
-				System.out.println("Usage is: > java " + MessagingServerGUI.class.getCanonicalName() + " [portNumber]");
-				System.exit(-1);
-			}
-		}
-		MessagingServerGUI ms = new MessagingServerGUI(portNumber);
+		
+		MessagingServerGUI ms = new MessagingServerGUI(MESSAGING_SERVER_PORT);
 		ms.start();
 	}
 

@@ -99,7 +99,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					}
 					if (((MessagingClientLocal) messagingClient).getServerTimeStamp() + 2 * FIFTEEN_MINUTES < System
 							.currentTimeMillis()) {
-						System.err.println("It looks like the server is down! Let's try to restart out connection to it.");
+						System.err.println("It looks like the server is down! Let's try to restart our connection to it.");
 						messagingClient.disconnect();
 						messagingClient = null; // Not sure about this.
 						messagingClient = new MessagingClientLocal(messagingServerNode, messagingServerPort, myName);

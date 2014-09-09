@@ -13,17 +13,23 @@ public class GlobalVariables {
 	/**
 	 * Do we show in full screen or in a window?
 	 */
-	public static boolean		SHOW_IN_WINDOW			= Boolean.getBoolean("signage.selector.inwindow");
+	public static boolean		SHOW_IN_WINDOW			= Boolean.getBoolean("ddisplay.selector.inwindow");
 	/**
 	 * Is this a PUBLIC controller?
 	 */
-	public static boolean		IS_PUBLIC_CONTROLLER	= Boolean.getBoolean("signage.selector.public");
+	public static boolean		IS_PUBLIC_CONTROLLER	= Boolean.getBoolean("ddisplay.selector.public");
 
 	/**
 	 * How long since last user activity?
 	 */
 	public static long			lastDisplayChange		= System.currentTimeMillis();
 
+	public static int			locationCode			= Integer.getInteger("ddisplay.selector.location", 0);
+
+	public static String[]		locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", };
+
+	public static String[]		locationDescription		= { "Fermilab Experiments' Remote Operations Center, West Side",
+			"Fermilab CMS Remote Operations Center, East Side", "Fermilab Transfer Gallery", };
 	/**
 	 * 
 	 */
@@ -41,24 +47,25 @@ public class GlobalVariables {
 	/**
 	 * Where is the messaging server?
 	 */
-	public static final String	MESSAGING_SERVER_NAME	= System.getProperty("signage.messagingserver",
+	public static final String	MESSAGING_SERVER_NAME	= System.getProperty("ddisplay.messagingserver",
 																GlobalVariables.DEFAULT_SERVER);
 	/**
-	 * What port is the Messaging Server listing on?
+	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) prime number in the range of unassigned
+	 * port number (49152 - 65535)
 	 */
-	public static final int		MESSAGING_SERVER_PORT	= 1500;
+	public static final int		MESSAGING_SERVER_PORT	= Integer.getInteger("ddisplay.messagingport", 49999);						// 1500;
 	/**
 	 * Where is the Web server?
 	 */
-	public static final String	WEB_SERVER_NAME			= System.getProperty("signage.webserver", GlobalVariables.DEFAULT_SERVER);
+	public static final String	WEB_SERVER_NAME			= System.getProperty("ddisplay.webserver", GlobalVariables.DEFAULT_SERVER);
 	/**
 	 * Where is the Database server?
 	 */
-	public static final String	DATABASE_SERVER_NAME	= System.getProperty("signage.dbserver", GlobalVariables.DEFAULT_SERVER);
+	public static final String	DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", GlobalVariables.DEFAULT_SERVER);
 	/**
 	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
 	 */
-	public static final String	XML_SERVER_NAME			= System.getProperty("signage.xmlserver", GlobalVariables.DEFAULT_SERVER);
+	public static final String	XML_SERVER_NAME			= System.getProperty("ddisplay.xmlserver", GlobalVariables.DEFAULT_SERVER);
 
 	/**
 	 * One second, expressed in milliseconds (e.g., 1000L)
