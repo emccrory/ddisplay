@@ -357,6 +357,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		public long getServerTimeStamp() {
 			return dcp.getLastServerHeartbeat();
 		}
+		
+		@Override
+		public void connectionAccepted() {
+			displayLogMessage("Connection accepted at " + (new Date()));
+		}
 
 		@Override
 		public void displayIncomingMessage(String msg) {
