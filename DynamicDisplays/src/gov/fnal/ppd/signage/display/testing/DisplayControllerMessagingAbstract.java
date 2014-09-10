@@ -56,6 +56,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	private MessagingClient			messagingClient;
 	private String					myName;
+	private boolean					doTheHeartbeatThing		= false;
 
 	// / Use messaging to get change requests from the changers -->
 	// private boolean actAsServerNoMessages = true;
@@ -89,25 +90,26 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		// Must be called by concrete class-->
 		// contInitialization(portNumber);
 
-		new Thread("IsMyServerAlive") {
-			public void run() {
-				while (true) {
-					try {
-						sleep(FIFTEEN_MINUTES);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					if (((MessagingClientLocal) messagingClient).getServerTimeStamp() + 2 * FIFTEEN_MINUTES < System
-							.currentTimeMillis()) {
-						System.err.println("It looks like the server is down! Let's try to restart our connection to it.");
-						messagingClient.disconnect();
-						messagingClient = null; // Not sure about this.
-						messagingClient = new MessagingClientLocal(messagingServerNode, messagingServerPort, myName);
-						messagingClient.start();
+		if (doTheHeartbeatThing)
+			new Thread("IsMyServerAlive") {
+				public void run() {
+					while (true) {
+						try {
+							sleep(FIFTEEN_MINUTES);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						if (((MessagingClientLocal) messagingClient).getServerTimeStamp() + 2 * FIFTEEN_MINUTES < System
+								.currentTimeMillis()) {
+							System.err.println("It looks like the server is down! Let's try to restart our connection to it.");
+							messagingClient.disconnect();
+							messagingClient = null; // Not sure about this.
+							messagingClient = new MessagingClientLocal(messagingServerNode, messagingServerPort, myName);
+							messagingClient.start();
+						}
 					}
 				}
-			}
-		}.start();
+			}.start();
 	}
 
 	protected abstract void endAllConnections();
@@ -357,7 +359,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		public long getServerTimeStamp() {
 			return dcp.getLastServerHeartbeat();
 		}
-		
+
 		@Override
 		public void connectionAccepted() {
 			displayLogMessage("Connection accepted at " + (new Date()));
