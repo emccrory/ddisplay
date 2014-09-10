@@ -52,7 +52,7 @@ public class MessagingClient {
 		if (socket != null) {
 			throw new RuntimeException("Already started the server.");
 		}
-		displayLogMessage("Connecting to server '" + server + "' on port " + port);
+		displayLogMessage("Connecting to server '" + server + "' on port " + port + " at " + (new Date()));
 		// try to connect to the server
 		try {
 			socket = new Socket(server, port);
@@ -84,25 +84,22 @@ public class MessagingClient {
 		}
 
 		String msg = "Connection accepted to " + socket.getInetAddress() + ", port " + socket.getPort() + ".  Username = '"
-				+ username + "'";
+				+ username + "' at " + (new Date());
 		displayLogMessage(msg);
 
 		// creates the Thread to listen from the server
 		new ListenFromServer().start();
-		
+
 		// Send our username to the server this is the only message that we
 		// will send as a String. All other messages will be ChatMessage objects
-		//
-		// 9/10/14: The server does not like this plain string--it will return false and the whole dang thing will fail
-		//          if we want to send something, it will have to be some sort of "Pong" message.
-		//
-		// try {
-		// sOutput.writeObject(username);
-		// } catch (IOException eIO) {
-		// displayLogMessage("Exception doing login : " + eIO);
-		// disconnect();
-		// return false;
-		// }
+		
+		try {
+			sOutput.writeObject(username);
+		} catch (IOException eIO) {
+			displayLogMessage("Exception doing login : " + eIO);
+			disconnect();
+			return false;
+		}
 
 		connectionAccepted();
 
@@ -174,7 +171,8 @@ public class MessagingClient {
 						+ (new Date()) + "...");
 			}
 		}
-		displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Socket is viable; connection has been restored.");
+		displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Socket is viable [" + socket
+				+ "]; connection has been restored at " + (new Date()));
 	}
 
 	/**
