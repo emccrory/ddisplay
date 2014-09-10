@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.channel;
 
+import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
 
 import java.net.URI;
@@ -14,18 +15,17 @@ import java.net.URISyntaxException;
 public class EmptyChannel extends ChannelImpl {
 	private static final long	serialVersionUID	= -419375552528263824L;
 
-	private static final String	DEFAULT_URLS[]		= { "http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=MINOS",
-			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=MINERvA",
-			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=MiniBooNE",
-			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=MicroBooNE",
-			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=Mu2e",
-			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=gMinus2",
-			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=SeaQuest",
-			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=NOvA",
-			"http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=LBNE",
-			"http://www-bd.fnal.gov/notifyservlet/www?refresh=on", //
-			"http://vmsstreamer1.fnal.gov/live/novanearcams.htm", //
-			"http://vmsstreamer1.fnal.gov/live/novawebcams.htm", //
+	private static final String	DEFAULT_URLS[]		= { "http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MINOS",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MINERvA",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MiniBooNE",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MicroBooNE",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=Mu2e",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=gMinus2",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=SeaQuest",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=NOvA",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=LBNE",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=NuMI", //
+			"http://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none", //
 			"http://elliottmccrory.com/clock/five.html", };
 
 	private static final String	MY_URL				= DEFAULT_URLS[(int) (DEFAULT_URLS.length * Math.random())];
