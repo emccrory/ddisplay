@@ -286,8 +286,6 @@ public class MessagingClient {
 				} catch (IOException e) {
 					displayLogMessage("Server has closed the connection: " + e);
 					connectionFailed();
-					System.err.println("Server has closed the connection at " + new Date());
-					e.printStackTrace();
 					break;
 				} catch (ClassNotFoundException e) {
 					System.err.println("Exception caught at " + new Date());

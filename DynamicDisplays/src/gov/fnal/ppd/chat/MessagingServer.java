@@ -330,7 +330,7 @@ public class MessagingServer {
 					e.printStackTrace();
 					break;
 				} catch (Exception e) {
-					display(username + ": Exception reading Streams -- " + e + "; The received message was '" + read + "'");
+					display(username + ": Exception reading input stream -- " + e + "; The received message was '" + read + "'");
 					e.printStackTrace();
 					break;
 				}
