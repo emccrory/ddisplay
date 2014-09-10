@@ -102,7 +102,7 @@ public class DDSystemStatus extends JFrame {
 					ta.append(msg + "\n");
 
 				// TODO Windows 7 display has a problem with this. Only the first node is ever displayed when this is redrawn.
-				// It is geting all the messages and putting them into the tree properly, but the graphics is not showing up
+				// It is getting all the messages and putting them into the tree properly, but the graphics is not showing up
 				// (at least on my instance of Windows 7) 6/16/2014
 
 				if (msg.startsWith("WHOISIN")) {
@@ -462,7 +462,7 @@ public class DDSystemStatus extends JFrame {
 		if (!client.start()) {
 			append("Login failed for some reason!\n");
 		} else {
-			append("Login as " + defaultUserName + "\n");
+			append("Logged in as " + defaultUserName + "\n");
 		}
 
 	}
