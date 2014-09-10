@@ -134,6 +134,11 @@ public class MessagingClient {
 		} catch (Exception e) {
 			displayLogMessage("Exception writing to server: " + e);
 			e.printStackTrace();
+			new Thread("ReconnectToServer") {
+				public void run() {
+					connectionFailed();
+				}
+			}.start();
 		}
 	}
 
