@@ -413,8 +413,10 @@ public class DDSystemStatus extends JFrame {
 	}
 
 	private void whoIsIn() {
-		if (client == null)
+		if (client == null) {
+			System.err.println(this.getClass().getSimpleName() + ".whoIsIn(): Messaging client is null!");
 			return;
+		}
 
 		// TODO Only redraw the tree if something changes.
 		root = new DefaultMutableTreeNode("Dynamic Displays Messaging System, " + new Date());

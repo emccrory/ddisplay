@@ -124,7 +124,7 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 		add(northPanel, BorderLayout.NORTH);
 
 		// The CenterPanel which is the chat room
-		ta = new JTextArea("Welcome to the Chat room\n", 80, 80);
+		ta = new JTextArea("Login to test the system\n", 80, 80);
 		JPanel centerPanel = new JPanel(new GridLayout(1, 1));
 		centerPanel.add(new JScrollPane(ta));
 		ta.setEditable(false);
@@ -212,7 +212,7 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 			String server = tfServer.getText().trim();
 			if (server.length() == 0)
 				return;
-			// empty or invalid port numer, ignore it
+			// empty or invalid port number, ignore it
 			String portNumber = tfPort.getText().trim();
 			if (portNumber.length() == 0)
 				return;

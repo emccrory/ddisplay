@@ -109,7 +109,7 @@ public class MessagingServer {
 			// infinite loop to wait for connections
 			while (keepGoing) {
 				// format message saying we are waiting
-				display("Server waiting for Clients on port " + port + ".");
+				display("Waiting for Clients on port " + port + ".");
 
 				Socket socket = serverSocket.accept(); // accept connection if I was asked to stop
 				if (!keepGoing)
@@ -121,6 +121,7 @@ public class MessagingServer {
 					display("Error! Duplicate username requested, '" + t.username + "'");
 			}
 			// I was asked to stop
+			display("Closing the server port");
 			try {
 				serverSocket.close();
 				for (int i = 0; i < al.size(); ++i) {
@@ -284,7 +285,7 @@ public class MessagingServer {
 				sInput = new ObjectInputStream(socket.getInputStream());
 				// read the username
 				username = (String) sInput.readObject();
-				display(username + " just connected.");
+				display("'" + username + "' has connected.");
 			} catch (IOException e) {
 				display("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
 				return;
@@ -323,6 +324,7 @@ public class MessagingServer {
 					e.printStackTrace();
 				} catch (Exception e) {
 					display(username + ": Exception reading Streams -- " + e + "; will try to continue.");
+					display(username + ": The received message was '" + read + "'");
 					e.printStackTrace();
 					try {
 						Thread.sleep(5000);
