@@ -31,11 +31,17 @@ public class MessagingServer {
 		public boolean add(ClientThread ct) {
 			if (ct == null)
 				return false;
-			if (REQUIRE_UNIQUE_USERNAMES)
-				for (ClientThread CT : this)
-					if (CT.username.equals(ct.username))
+			if (REQUIRE_UNIQUE_USERNAMES) {
+				int index = 0;
+				for (ClientThread CT : this) {
+					if (CT == null || CT.username == null) {
+						display("Unexpected null ClientThread at index=" + index + ": [" + CT + "]");
+						remove(CT); // How did THIS happen??
+					} else if (CT.username.equals(ct.username))
 						return false; // Duplicate username is not allowed!
-
+					index++;
+				}
+			}
 			// TODO -- Is a bad thing to have duplicate usernames? When/if the server directs messages to the intended user,
 			// this WILL be necessary. But having a fairly anonymous clientelle works just fine.
 			//
@@ -383,8 +389,7 @@ public class MessagingServer {
 					break;
 				}
 			}
-			// remove myself from the arrayList containing the list of the
-			// connected Clients
+			// remove myself from the arrayList containing the list of the connected Clients
 			display("Have exited 'forever' loop (keepGoing=" + keepGoing + ") Removing client " + id + ", name='" + username + "'");
 			remove(id);
 			close();
@@ -405,7 +410,6 @@ public class MessagingServer {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			;
 			try {
 				if (socket != null)
 					socket.close();
@@ -437,5 +441,11 @@ public class MessagingServer {
 			}
 			return true;
 		}
+
+		@Override
+		public String toString() {
+			return username + ", id=" + id + ", socket=[" + socket + "], date=" + date;
+		}
 	}
+
 }
