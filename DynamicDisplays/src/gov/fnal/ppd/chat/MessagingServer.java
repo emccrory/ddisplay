@@ -118,13 +118,18 @@ public class MessagingServer {
 				display("Waiting for Clients on port " + port + ".");
 
 				Socket socket = serverSocket.accept(); // accept connection if I was asked to stop
-				if (!keepGoing)
-					break;
+				// if (!keepGoing)
+				// break;
 				ClientThread t = new ClientThread(socket); // make a thread of it
 				if (al.add(t)) // save it in the ArrayList
 					t.start();
 				else
 					display("Error! Duplicate username requested, '" + t.username + "'");
+				String m = "List of connected clients:\n";
+				for (ClientThread CT : al) {
+					m += "                     " + CT.username + " at " + CT.date;
+				}
+				display(m);
 			}
 			// I was asked to stop
 			display("Closing the server port");
@@ -283,61 +288,51 @@ public class MessagingServer {
 			// a unique id
 			id = ++uniqueId;
 			this.socket = socket;
+			Object read = null;
 			/* Creating both Data Stream */
 			// System.out.println("Thread trying to create Object Input/Output Streams");
 			try {
 				// create output first
 				sOutput = new ObjectOutputStream(socket.getOutputStream());
 				sInput = new ObjectInputStream(socket.getInputStream());
-				// read the username
-				username = (String) sInput.readObject();
+				// read the username -- the first message from the new connection
+				read = sInput.readObject();
+				if (read instanceof MessageCarrier) {
+					username = ((MessageCarrier) read).getMessage();
+				} else if (read instanceof String) {
+					username = (String) read;
+				}
 				display("'" + username + "' has connected.");
 			} catch (IOException e) {
 				display("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
 				return;
 			} catch (Exception e) {
-				// have to catch ClassNotFoundException but I read a String, I am sure it will work
+				display("Expecting a String but got a " + read.getClass().getSimpleName() + " [" + read + "]");
 				e.printStackTrace();
 			}
 			date = new Date().toString() + "\n";
 		}
 
 		// what will run forever
-		Object	read	= new Object();
 
 		public void run() {
 			// to loop until LOGOUT or we hit an unrecoverable exception
-			boolean keepGoing = true;
-			while (keepGoing) {
+			boolean thisSocketIsActive = true;
+			Object read = new Object();
+			while (thisSocketIsActive) {
 				// read a String (which is an object)
 				try {
 					read = sInput.readObject();
 					cm = (MessageCarrier) read;
-				} catch (EOFException e) {
-					display(username + " disconnected -- " + e);
-					break;
-				} catch (IOException e) {
-					display(username + ": An I/O Exception -- " + e);
-					e.printStackTrace();
-					break;
 				} catch (ClassNotFoundException e) {
 					display(username + ": A class not found exception -- " + e + ". returned object of type "
 							+ read.getClass().getCanonicalName());
 					e.printStackTrace();
 					break;
-				} catch (NullPointerException e) {
-					display(username + ": Null pointer exception, attribute 'sInput' = '" + sInput + "'");
-					e.printStackTrace();
 				} catch (Exception e) {
-					display(username + ": Exception reading Streams -- " + e + "; will try to continue.");
-					display(username + ": The received message was '" + read + "'");
+					display(username + ": Exception reading Streams -- " + e + "; The received message was '" + read + "'");
 					e.printStackTrace();
-					try {
-						Thread.sleep(5000);
-					} catch (InterruptedException e1) {
-						e1.printStackTrace();
-					}
-					continue; // Go to the next iteration of this loop.
+					break;
 				}
 				// the message part of the ChatMessage
 				String message = cm.getMessage();
@@ -354,7 +349,7 @@ public class MessagingServer {
 
 				case LOGOUT:
 					display(username + " disconnected with a LOGOUT message.");
-					keepGoing = false;
+					thisSocketIsActive = false;
 					break;
 
 				case WHOISIN:
@@ -390,7 +385,8 @@ public class MessagingServer {
 				}
 			}
 			// remove myself from the arrayList containing the list of the connected Clients
-			display("Have exited 'forever' loop (keepGoing=" + keepGoing + ") Removing client " + id + ", name='" + username + "'");
+			display("Have exited 'forever' loop for client '" + username + "' (thisSocketIsActive=" + thisSocketIsActive
+					+ ") Removing it (number " + id + ")");
 			remove(id);
 			close();
 		}
