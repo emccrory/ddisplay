@@ -11,7 +11,7 @@ import java.util.GregorianCalendar;
  * Some general utilities in the DD system
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class Util {

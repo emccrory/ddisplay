@@ -24,7 +24,7 @@ import javax.swing.plaf.basic.BasicSliderUI;
  * Implement a JSlider. This is used when there are too many Displays to show on a ChannelSelector as individual buttons.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class DisplayColorSliderUI extends BasicSliderUI {

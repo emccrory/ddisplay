@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * A simple implementation of a Display
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public abstract class DisplayImpl implements Display {

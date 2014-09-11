@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * A simple heartbeat class for the Messaging Server to send out from time to time
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 @XmlRootElement

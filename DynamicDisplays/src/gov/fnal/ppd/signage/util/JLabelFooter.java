@@ -13,7 +13,7 @@ import javax.swing.JLabel;
  * text within the label to fit in the provided space.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class JLabelFooter extends JLabel {

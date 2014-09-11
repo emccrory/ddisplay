@@ -16,7 +16,7 @@ import java.util.ListIterator;
  * This class holds a list of Channels that are to be played on a Display
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class ChannelPlayList implements Channel {

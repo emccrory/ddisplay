@@ -4,7 +4,7 @@ package gov.fnal.ppd.chat;
  * The sorts of messages that the Messaging Server can understand
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public enum MessageType {

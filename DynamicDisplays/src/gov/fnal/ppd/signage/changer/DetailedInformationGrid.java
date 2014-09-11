@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  * Create a grid of the channels that represent "Detailed Information"
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class DetailedInformationGrid extends ChannelButtonGrid {

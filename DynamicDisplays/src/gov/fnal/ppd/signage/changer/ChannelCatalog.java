@@ -11,7 +11,7 @@ import java.util.Set;
  * an ad-hoc catalog.  Now, we only have a catalog that is read from a remote database.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  *
  */
 public interface ChannelCatalog {

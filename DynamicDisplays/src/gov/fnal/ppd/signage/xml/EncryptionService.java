@@ -8,7 +8,7 @@ import javax.xml.bind.DatatypeConverter;
  * A service for conducting the encryption of messages.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public final class EncryptionService {

@@ -15,7 +15,7 @@ import java.util.List;
  * Display
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class DisplayButtonGroup implements ActionListener {

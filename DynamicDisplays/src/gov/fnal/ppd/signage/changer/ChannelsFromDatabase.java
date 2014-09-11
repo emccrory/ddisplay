@@ -20,7 +20,7 @@ import java.util.TreeSet;
  * Return all the channels from the database
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class ChannelsFromDatabase extends HashMap<String, SignageContent> implements ChannelCatalog {

@@ -12,7 +12,7 @@ import java.net.URI;
  * A simple implementation of the Channel interface
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class ChannelImpl implements Channel {

@@ -8,7 +8,7 @@ import java.net.URL;
  * Used in XML marshalling to create a simple, URL-based Channel
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class PlainURLChannel extends ChannelImpl {

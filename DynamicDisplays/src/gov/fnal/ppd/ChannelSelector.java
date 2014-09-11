@@ -96,7 +96,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	 * Encapsulate the orientation of the display (not really used yet)
 	 * 
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 * @copy 2014
+	 * @Copyright 2014
 	 * 
 	 */
 	public static enum Orientation {

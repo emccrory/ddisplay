@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  * A grid of Channel buttons that represent the front page of the Public channel changer
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class PublicInformationGrid extends ChannelButtonGrid {

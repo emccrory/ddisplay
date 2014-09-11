@@ -22,7 +22,7 @@ import javax.crypto.spec.IvParameterSpec;
  * This class was taken from an example on the Internet
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class EncryptUtils {

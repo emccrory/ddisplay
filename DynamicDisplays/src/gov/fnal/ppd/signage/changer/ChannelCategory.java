@@ -6,7 +6,7 @@ package gov.fnal.ppd.signage.changer;
  * FIXME -- This should be determined by what is in the database, not hard-coded like this
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public enum ChannelCategory {

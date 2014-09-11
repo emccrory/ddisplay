@@ -13,7 +13,7 @@ import javax.swing.ScrollPaneConstants;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  *
  */
 public class CreateListOfChannelsHelper {

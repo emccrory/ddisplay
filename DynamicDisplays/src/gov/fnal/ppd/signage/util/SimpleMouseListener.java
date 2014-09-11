@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
  * A listener to attach to a Component to help the caller select a JCardLayout card when clicked.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class SimpleMouseListener implements MouseListener {

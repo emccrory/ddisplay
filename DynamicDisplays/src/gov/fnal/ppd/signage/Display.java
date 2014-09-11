@@ -8,7 +8,7 @@ import java.net.InetAddress;
  * The signature of a Dynamic Display in the Fermilab Dynamic Display System
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public interface Display extends ActionListener {

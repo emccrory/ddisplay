@@ -4,7 +4,7 @@ package gov.fnal.ppd.signage.changer;
  * Singleton class to deal with getting the Channel Catalog to the client.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class ChannelCatalogFactory {

@@ -9,7 +9,7 @@ import java.io.IOException;
  * Control the launching of an external browser as the Display implementation
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class BrowserLauncher {

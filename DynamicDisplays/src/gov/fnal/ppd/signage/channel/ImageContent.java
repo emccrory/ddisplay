@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
  * Proof-of-principle that Signage Content can be something other than a web page. It is not _fully_ tested.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class ImageContent implements SignageContent {

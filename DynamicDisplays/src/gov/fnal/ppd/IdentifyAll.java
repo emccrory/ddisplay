@@ -25,7 +25,7 @@ import javax.swing.JFrame;
  * only be on the screen for a fraction of a minute, the Display will go back to its "regularly scheduled program" after a while.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class IdentifyAll extends JButton implements ActionListener {

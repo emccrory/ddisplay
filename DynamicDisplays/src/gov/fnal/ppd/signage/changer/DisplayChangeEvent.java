@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
  * The event that tells the world that a Display has changed (or reiterated) its status.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class DisplayChangeEvent extends ActionEvent {

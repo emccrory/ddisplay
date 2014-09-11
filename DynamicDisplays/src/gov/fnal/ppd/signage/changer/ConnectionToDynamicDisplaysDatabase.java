@@ -15,7 +15,7 @@ import java.sql.SQLException;
  * Deal with the connection to the Dynamic Displays database.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  *
  */
 public class ConnectionToDynamicDisplaysDatabase {
