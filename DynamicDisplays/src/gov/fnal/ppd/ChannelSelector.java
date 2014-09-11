@@ -13,11 +13,13 @@ import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.bgImage;
 import static gov.fnal.ppd.GlobalVariables.displayList;
 import static gov.fnal.ppd.GlobalVariables.imageHeight;
+import static gov.fnal.ppd.GlobalVariables.imageNames;
 import static gov.fnal.ppd.GlobalVariables.imageWidth;
 import static gov.fnal.ppd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.GlobalVariables.locationCode;
 import static gov.fnal.ppd.GlobalVariables.locationDescription;
 import static gov.fnal.ppd.GlobalVariables.locationName;
+import static gov.fnal.ppd.GlobalVariables.offsets;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
@@ -141,8 +143,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private DisplayButtons					displaySelector;
 	private CardLayout						card					= new CardLayout();
 	private JPanel							displayChannelPanel		= new JPanel(card);
-	private Box[]							splashPanel				= { Box.createVerticalBox(), Box.createVerticalBox(),
-			Box.createVerticalBox(), Box.createVerticalBox(), Box.createVerticalBox(), Box.createVerticalBox() };
+	private Box[]							splashPanel				= new Box[imageNames.length];
 
 	private String							lastActiveDisplay		= null;
 
@@ -226,7 +227,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		// Create a nice splash screen that it comes back to after a period of inactivity
 		SimpleMouseListener splashListener = new SimpleMouseListener(this);
 
-		int index = 0;
 		// char arrow = '\u21E8';
 		float headline = 30, subHead = 18;
 		int gap = 25;
@@ -235,11 +235,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			subHead = 32;
 			gap = 50;
 		}
-		int offsets[] = { 200, 20, 300, 50, 400, 80 };
-		assert (offsets.length == splashPanel.length);
+	
 
 		int lc = (locationCode < 0 ? locationName.length - 1 : locationCode);
-		for (Box splash : splashPanel) {
+		for (int index = 0; index<splashPanel.length; index++) {
+			Box splash = splashPanel[index] = Box.createVerticalBox();
 			final int mine = index;
 			JPanel p = new JPanel() {
 				@Override
@@ -254,16 +254,15 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						double scrAspect = ((double) w) / ((double) h); // Say 3:2 or 1.5
 						if (imgAspect > scrAspect) {
 							// image is wider than the screen: reduce the height of the screen (and it will fill the width)
-							h = (int) (((double) h) / imgAspect);
+							h = (int) (((double) w) / imgAspect);
 							y = (getHeight() - h) / 2;
 						} else {
 							// screen is wider than the image: Reduce the width of the screen (and it will fill the height)
-							w = (int) (((double) w) * imgAspect);
+							w = (int) (((double) h) * imgAspect);
 							x = (getWidth() - w) / 2;
 						}
 						// System.out.println(w + "," + h + "," + getWidth() + "," + getHeight() + "," + x + "," + y + "," +
-						// imgAspect
-						// + "," + scrAspect);
+						// imgAspect + "," + scrAspect);
 
 					} catch (Exception e) {
 						// ignore what is probably a divide-by-zero exception
@@ -289,7 +288,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			// splash.setBackground(new Color(200 + (int) (Math.random() * 40.0), 200 + (int) (Math.random() * 40.0),
 			// 200 + (int) (Math.random() * 40.0)));
 			p.add(splash);
-			displayChannelPanel.add(p, "Splash Screen" + index++);
+			displayChannelPanel.add(p, "Splash Screen" + index);
 		}
 		if (!SHOW_IN_WINDOW)
 			card.show(displayChannelPanel, "Splash Screen0");

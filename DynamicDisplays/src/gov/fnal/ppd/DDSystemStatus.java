@@ -370,7 +370,7 @@ public class DDSystemStatus extends JFrame {
 			Image I = bigIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 			dataIcon = new ImageIcon(I);
 
-			bigIcon = new ImageIcon("src/gov/fnal/ppd/images/info.png");
+			bigIcon = new ImageIcon("src/gov/fnal/ppd/images/info.jpg");
 			I = bigIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
 			infoIcon = new ImageIcon(I);
 
@@ -382,7 +382,7 @@ public class DDSystemStatus extends JFrame {
 			I = bigIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 			facadeIcon = new ImageIcon(I);
 			
-			bigIcon = new ImageIcon("src/gov/fnal/ppd/images/selector.png");
+			bigIcon = new ImageIcon("src/gov/fnal/ppd/images/selector.jpg");
 			I = bigIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 			selectorIcon = new ImageIcon(I);
 		}

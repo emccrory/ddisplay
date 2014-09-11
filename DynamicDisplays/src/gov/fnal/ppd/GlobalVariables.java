@@ -46,16 +46,27 @@ public class GlobalVariables {
 			"All Dynamic Displays at Fermilab", //
 															};
 
-	private static final String[]	imageNames				= { "src/gov/fnal/ppd/images/fermilab3.jpg",
+	public static final String[]	imageNames				= { "src/gov/fnal/ppd/images/fermilab3.jpg",
 			"src/gov/fnal/ppd/images/fermilab1.jpg", //
 			"src/gov/fnal/ppd/images/fermilab2.jpg", //
 			"src/gov/fnal/ppd/images/fermilab4.jpg", //
 			"src/gov/fnal/ppd/images/fermilab5.jpg", //
-			"src/gov/fnal/ppd/images/fermilab6.jpg"		};
+			"src/gov/fnal/ppd/images/fermilab6.jpg", //
+			"src/gov/fnal/ppd/images/fermilab7.jpg", //
+			"src/gov/fnal/ppd/images/fermilab8.jpg", //
+			"src/gov/fnal/ppd/images/fermilab9.jpg", //
+			"src/gov/fnal/ppd/images/fermilab10.jpg", //
+			"src/gov/fnal/ppd/images/fermilab11.jpg", //
+			"src/gov/fnal/ppd/images/fermilab12.jpg", //
+			"src/gov/fnal/ppd/images/fermilab13.jpg", //
+			"src/gov/fnal/ppd/images/fermilab15.jpg", //
+			"src/gov/fnal/ppd/images/fermilab17.jpg", //
+															};
 
 	public final static Image[]		bgImage					= new Image[imageNames.length];
 	public final static int[]		imageWidth				= new int[imageNames.length];
 	public final static int[]		imageHeight				= new int[imageNames.length];
+	public final static int[]		offsets					= new int[imageNames.length];
 
 	static {
 		for (int i = 0; i < imageNames.length; i++) {
@@ -63,6 +74,7 @@ public class GlobalVariables {
 			bgImage[i] = icon.getImage();
 			imageWidth[i] = icon.getIconWidth();
 			imageHeight[i] = icon.getIconHeight();
+			offsets[i] = (int) (50.0 + 500.0 * Math.random());
 		}
 	}
 	/**

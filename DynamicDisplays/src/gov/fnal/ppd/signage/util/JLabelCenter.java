@@ -9,16 +9,19 @@ import javax.swing.JLabel;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copy 2014
- *
+ * 
  */
 public class JLabelCenter extends JLabel {
-	
+
 	private static final long	serialVersionUID	= 7194703523029330474L;
 
 	/**
 	 * Create a label
-	 * @param title The text on the label
-	 * @param size The size of the label
+	 * 
+	 * @param title
+	 *            The text on the label
+	 * @param size
+	 *            The size of the label
 	 */
 	public JLabelCenter(final String title, final float size) {
 		super(title, JLabel.CENTER);
@@ -26,7 +29,7 @@ public class JLabelCenter extends JLabel {
 		setAlignmentX(CENTER_ALIGNMENT);
 		setFont(getFont().deriveFont(size));
 		setForeground(Color.white);
-		setBackground(new Color(0x555555));
+		setBackground(new Color(0.2f, 0.2f, 0.2f, 0.5f));
 		setOpaque(true);
 	}
 }
