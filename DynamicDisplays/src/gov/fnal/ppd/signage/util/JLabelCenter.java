@@ -1,5 +1,7 @@
 package gov.fnal.ppd.signage.util;
 
+import java.awt.Color;
+
 import javax.swing.JLabel;
 
 /**
@@ -23,5 +25,8 @@ public class JLabelCenter extends JLabel {
 
 		setAlignmentX(CENTER_ALIGNMENT);
 		setFont(getFont().deriveFont(size));
+		setForeground(Color.white);
+		setBackground(new Color(0x555555));
+		setOpaque(true);
 	}
 }

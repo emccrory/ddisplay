@@ -77,7 +77,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 				int displayID = rs.getInt("DisplayID");
 				int screenNumber = rs.getInt("ScreenNumber");
 				int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
-				if (locationCode >= 0 && locCode == locationCode) {
+				if (locationCode < 0 || locCode == locationCode) { // Negative locationCode will select ALL displays everywhere
 					SignageType type = SignageType
 							.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type")));
 

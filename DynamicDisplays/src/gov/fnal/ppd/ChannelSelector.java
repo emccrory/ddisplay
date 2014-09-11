@@ -10,7 +10,10 @@ import static gov.fnal.ppd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.GlobalVariables.PING_INTERVAL;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
+import static gov.fnal.ppd.GlobalVariables.bgImage;
 import static gov.fnal.ppd.GlobalVariables.displayList;
+import static gov.fnal.ppd.GlobalVariables.imageHeight;
+import static gov.fnal.ppd.GlobalVariables.imageWidth;
 import static gov.fnal.ppd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.GlobalVariables.locationCode;
 import static gov.fnal.ppd.GlobalVariables.locationDescription;
@@ -44,6 +47,7 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -195,24 +199,26 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		createSplashScreen();
 
-		new Thread() {
-			public void run() {
-				int index = 0;
-				while (true) {
-					try {
-						if (System.currentTimeMillis() > INACTIVITY_TIMEOUT + lastDisplayChange) {
-							card.show(displayChannelPanel, "Splash Screen" + index);
-							// System.out.println("Showing splash screen " + index);
-							index = (index + 1) % (splashPanel.length);
-							lastDisplayChange = System.currentTimeMillis();
+		if (!SHOW_IN_WINDOW)
+			// Only enable the splash screen for the full-screen version
+			new Thread() {
+				public void run() {
+					int index = 0;
+					while (true) {
+						try {
+							if (System.currentTimeMillis() > INACTIVITY_TIMEOUT + lastDisplayChange) {
+								card.show(displayChannelPanel, "Splash Screen" + index);
+								// System.out.println("Showing splash screen " + index);
+								index = (index + 1) % (splashPanel.length);
+								lastDisplayChange = System.currentTimeMillis();
+							}
+							sleep(ONE_SECOND);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
-						sleep(ONE_SECOND);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
 					}
 				}
-			}
-		}.start();
+			}.start();
 
 	}
 
@@ -232,24 +238,58 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		int offsets[] = { 200, 20, 300, 50, 400, 80 };
 		assert (offsets.length == splashPanel.length);
 
+		int lc = (locationCode < 0 ? locationName.length - 1 : locationCode);
 		for (Box splash : splashPanel) {
+			final int mine = index;
+			JPanel p = new JPanel() {
+				@Override
+				protected void paintComponent(Graphics g) {
+					super.paintComponent(g);
+					// Implement a "fit" algorithm so the image is seen in its entirety, not stretched or cropped.
+					int w = getWidth();
+					int h = getHeight();
+					int x = 0, y = 0;
+					try {
+						double imgAspect = ((double) imageWidth[mine]) / ((double) imageHeight[mine]); // Say 16:9 or 1.778
+						double scrAspect = ((double) w) / ((double) h); // Say 3:2 or 1.5
+						if (imgAspect > scrAspect) {
+							// image is wider than the screen: reduce the height of the screen (and it will fill the width)
+							h = (int) (((double) h) / imgAspect);
+							y = (getHeight() - h) / 2;
+						} else {
+							// screen is wider than the image: Reduce the width of the screen (and it will fill the height)
+							w = (int) (((double) w) * imgAspect);
+							x = (getWidth() - w) / 2;
+						}
+						// System.out.println(w + "," + h + "," + getWidth() + "," + getHeight() + "," + x + "," + y + "," +
+						// imgAspect
+						// + "," + scrAspect);
+
+					} catch (Exception e) {
+						// ignore what is probably a divide-by-zero exception
+					}
+					g.drawImage(bgImage[mine], x, y, w, h, this); // draw the image
+				}
+			};
+			p.setBackground(Color.black);
+			p.setOpaque(true);
 			splash.addMouseListener(splashListener);
 			splash.add(Box.createRigidArea(new Dimension(50, 50)));
 			int h = offsets[index];
 			System.out.println("Splash screen " + index + " has vertical offset of " + h);
 			splash.add(Box.createRigidArea(new Dimension(100, h)));
-			splash.add(new JLabelCenter("Welcome to " + locationName[locationCode] + "!", headline));
+			splash.add(new JLabelCenter("   Welcome to " + locationName[lc] + "!   ", headline));
 			splash.add(Box.createRigidArea(new Dimension(50, gap)));
-			splash.add(new JLabelCenter(locationDescription[locationCode], subHead));
+			splash.add(new JLabelCenter("   " + locationDescription[lc] + "   ", subHead));
 			splash.add(Box.createRigidArea(new Dimension(50, gap)));
 			splash.add(new JLabelCenter("<html><em>Touch to continue</em></html>", subHead));
 			// splash.add(new JLabelCenter("" + arrow, arrowSize));
 
-			splash.setOpaque(true);
-			splash.setBackground(new Color(200 + (int) (Math.random() * 40.0), 200 + (int) (Math.random() * 40.0),
-					200 + (int) (Math.random() * 40.0)));
-
-			displayChannelPanel.add(splash, "Splash Screen" + index++);
+			// splash.setOpaque(true);
+			// splash.setBackground(new Color(200 + (int) (Math.random() * 40.0), 200 + (int) (Math.random() * 40.0),
+			// 200 + (int) (Math.random() * 40.0)));
+			p.add(splash);
+			displayChannelPanel.add(p, "Splash Screen" + index++);
 		}
 		if (!SHOW_IN_WINDOW)
 			card.show(displayChannelPanel, "Splash Screen0");
@@ -315,6 +355,14 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				wid1 = 2;
 				wid2 = 1;
 			}
+			displayTabPane.addChangeListener(new ChangeListener() {
+
+				@Override
+				public void stateChanged(ChangeEvent arg0) {
+					lastDisplayChange = System.currentTimeMillis();
+				}
+
+			});
 
 			if (!IS_PUBLIC_CONTROLLER) {
 				final CreateListOfChannelsHelper channelLister = new CreateListOfChannelsHelper();
