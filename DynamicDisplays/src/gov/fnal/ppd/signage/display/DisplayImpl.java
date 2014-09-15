@@ -212,6 +212,13 @@ public abstract class DisplayImpl implements Display {
 	public SignageContent getContent() {
 		return channel;
 	}
+	/**
+	 * A utility method to allow a well-behaved subclass set the channel underneath things, e.g., during initialization.
+	 * @param c
+	 */
+	protected void setChannel(Channel c) {
+		channel = c;
+	}
 
 	@Override
 	public int getScreenNumber() {

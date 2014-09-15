@@ -25,6 +25,7 @@ public class ConnectionToFirefoxInstance {
 	private Socket				kkSocket;
 	private String				lastReplyLine;
 	private PrintWriter			out;
+	private final int			port;
 
 	private boolean				debug						= false;
 
@@ -32,8 +33,12 @@ public class ConnectionToFirefoxInstance {
 	 * Create a connection to the instance of FireFox that is being targeted here
 	 * 
 	 */
-	public ConnectionToFirefoxInstance() {
+	public ConnectionToFirefoxInstance(final int screenNumber) {
 		// Create a connection to the instance of FireFox that is being targeted here
+
+		// FIXME The does not work for screen != 0. Firefox needs to be configured to listen to port 32001 for screen #1, and this,
+		// I think, needs to be done by hand. Not sure at this time (9/15/2014) how to do this.
+		port = PORT + screenNumber;
 		openConnection();
 	}
 
@@ -47,7 +52,7 @@ public class ConnectionToFirefoxInstance {
 		if (debug)
 			System.out.println("New URL: " + urlString);
 		send("window.location=\"" + urlString + "\";\n");
-		// An experiment: Can I turn off the scroll bars?  The answer is no (it seems)
+		// An experiment: Can I turn off the scroll bars? The answer is no (it seems)
 		// send("document.documentElement.style.overflow = 'hidden';\n");
 		// send("document.body.scroll='no';\n");
 		// send(FullScreenExecute);
@@ -91,21 +96,21 @@ public class ConnectionToFirefoxInstance {
 			public void run() {
 				while (!connected)
 					try {
-						System.out.println("Opening connection to FireFox instance to " + LOCALHOST + ":" + PORT + " ... ");
-						kkSocket = new Socket(LOCALHOST, PORT);
+						System.out.println("Opening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
+						kkSocket = new Socket(LOCALHOST, port);
 						System.out.println("\tSocket connection to FF created");
 						out = new PrintWriter(kkSocket.getOutputStream(), true);
 						System.out.println("\tOutput stream established");
 						in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
 						System.out.println("\tInput stream established");
 						connected = true;
-						System.out.println("** Connected to FireFox instance on " + LOCALHOST + " through port number " + PORT
+						System.out.println("** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
 								+ " **");
 					} catch (UnknownHostException e) {
 						System.err.println("Don't know about host " + LOCALHOST + " --  ignoring.");
 					} catch (IOException e) {
 						if ("Connection refused".equals(e.getMessage()) || "Connection timed out".equals(e.getMessage()))
-							System.err.println("Couldn't get I/O for the connection to " + LOCALHOST + ":" + PORT + " -- ("
+							System.err.println("Couldn't get I/O for the connection to " + LOCALHOST + ":" + port + " -- ("
 									+ e.getMessage() + ").");
 						else {
 							System.err.println("Unrecognized error!");
@@ -124,9 +129,9 @@ public class ConnectionToFirefoxInstance {
 		}.start();
 	}
 
-	private synchronized void send(String s) {
+	private void send(String s) {
 		while (!connected && out == null) {
-			System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + PORT + ".  Will try again in "
+			System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + port + ".  Will try again in "
 					+ WAIT_FOR_CONNECTION_TIME + " milliseconds");
 			try {
 				Thread.sleep(WAIT_FOR_CONNECTION_TIME);
@@ -134,9 +139,11 @@ public class ConnectionToFirefoxInstance {
 				e.printStackTrace();
 			}
 		}
-		if (debug)
-			System.out.println("[" + s + "]");
-		this.out.println(s);
+		synchronized (out) {
+			if (debug)
+				System.out.println("[" + s + "]");
+			out.println(s);
+		}
 	}
 
 	private boolean waitForServer() throws IOException {

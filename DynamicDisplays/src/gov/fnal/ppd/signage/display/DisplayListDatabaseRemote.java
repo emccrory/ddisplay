@@ -34,9 +34,11 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 			} catch (SignageDatabaseNotVisibleException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return null;
 			}
 		try (Statement stmt = connection.createStatement();) {
-			stmt.executeQuery("USE xoc");
+			@SuppressWarnings("unused")
+			ResultSet result = stmt.executeQuery("USE xoc");
 			stmt.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();

@@ -70,6 +70,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -118,16 +119,16 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		LANDSCAPE
 	}
 
-	private static final long				serialVersionUID		= 5044030472140151291L;
+	private static final long				serialVersionUID			= 5044030472140151291L;
 
-	private static final Dimension			screenDimension			= Toolkit.getDefaultToolkit().getScreenSize();
-	private static JFrame					f						= new JFrame("XOC Display Channel Selector");
+	private static final Dimension			screenDimension				= Toolkit.getDefaultToolkit().getScreenSize();
+	private static JFrame					f							= new JFrame("XOC Display Channel Selector");
 
-	private static ActionListener			fullRefreshAction		= null;
-	private static ActionListener			channelRefreshAction	= null;
+	private static ActionListener			fullRefreshAction			= null;
+	private static ActionListener			channelRefreshAction		= null;
 	private static ChannelSelector			channelSelector;
 
-	private List<List<ChannelButtonGrid>>	channelButtonGridList	= new ArrayList<List<ChannelButtonGrid>>();
+	private List<List<ChannelButtonGrid>>	channelButtonGridList		= new ArrayList<List<ChannelButtonGrid>>();
 	/*
 	 * Each tab contains a specific type of Channels in a CardLayout There is one Card for each Display in the CardLayout A button
 	 * might not be selected in a Card if that channel is not shown on the panel
@@ -137,15 +138,18 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private JLabel							title;
 	protected int							selectedTab;
 	// The circular arrow, as in the recycling symbol
-	private JButton							refreshButton			= new JButton("↺");
-	private JButton							exitButton				= new JButton("X");
-	private JButton							addChannelButton		= new JButton("+");
+	private JButton							refreshButton				= new JButton("↺");
+	private JButton							exitButton					= new JButton("X");
+	private JButton							lockButton;
+	private JButton							addChannelButton			= new JButton("+");
 	private DisplayButtons					displaySelector;
-	private CardLayout						card					= new CardLayout();
-	private JPanel							displayChannelPanel		= new JPanel(card);
-	private Box[]							splashPanel				= new Box[imageNames.length];
+	private CardLayout						card						= new CardLayout();
+	private JPanel							displayChannelPanel			= new JPanel(card);
+	private Box[]							splashPanel					= new Box[imageNames.length];
 
-	private String							lastActiveDisplay		= null;
+	private String							lastActiveDisplay			= null;
+
+	private List<JTabbedPane>				listOfDisplayTabbedPanes	= new ArrayList<JTabbedPane>();
 
 	/**
 	 * Create the channel selector in the normal way
@@ -235,10 +239,12 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			subHead = 32;
 			gap = 50;
 		}
-	
 
 		int lc = (locationCode < 0 ? locationName.length - 1 : locationCode);
-		for (int index = 0; index<splashPanel.length; index++) {
+		int splashWithCredits0 = (int) (((double) splashPanel.length) * Math.random());
+		int splashWithCredits1 = (splashWithCredits0 + splashPanel.length/2 ) % splashPanel.length;
+		System.out.println("Splash screen with credits is " + splashWithCredits0 + " & " + splashWithCredits1);
+		for (int index = 0; index < splashPanel.length; index++) {
 			Box splash = splashPanel[index] = Box.createVerticalBox();
 			final int mine = index;
 			JPanel p = new JPanel() {
@@ -272,9 +278,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			};
 			p.setBackground(Color.black);
 			p.setOpaque(true);
-			splash.addMouseListener(splashListener);
+			p.addMouseListener(splashListener);
 			splash.add(Box.createRigidArea(new Dimension(50, 50)));
 			int h = offsets[index];
+			if (index == splashWithCredits0 || index == splashWithCredits1 ) 
+				h = 100;
 			System.out.println("Splash screen " + index + " has vertical offset of " + h);
 			splash.add(Box.createRigidArea(new Dimension(100, h)));
 			splash.add(new JLabelCenter("   Welcome to " + locationName[lc] + "!   ", headline));
@@ -282,6 +290,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			splash.add(new JLabelCenter("   " + locationDescription[lc] + "   ", subHead));
 			splash.add(Box.createRigidArea(new Dimension(50, gap)));
 			splash.add(new JLabelCenter("<html><em>Touch to continue</em></html>", subHead));
+			if (index == splashWithCredits0 || index == splashWithCredits1 ) {
+				splash.add(Box.createRigidArea(new Dimension(50, gap)));
+				splash.add(new JLabelCenter(
+						"<html><em>Dynamic Display System software written by Elliott McCrory, Fermilab AD/Instrumentation, 2014</em></html>", 12));
+			}
 			// splash.add(new JLabelCenter("" + arrow, arrowSize));
 
 			// splash.setOpaque(true);
@@ -300,7 +313,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		int index = 0;
 		for (final Display display : displayList) {
-			JTabbedPane displayTabPane = new JTabbedPane();
+			final JTabbedPane displayTabPane = new JTabbedPane();
+			listOfDisplayTabbedPanes.add(displayTabPane);
 			displayTabPane.setFont(getFont().deriveFont((SHOW_IN_WINDOW ? 12.0f : 40.0f)));
 			displayTabPane.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
@@ -359,6 +373,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				@Override
 				public void stateChanged(ChangeEvent arg0) {
 					lastDisplayChange = System.currentTimeMillis();
+					setAllTabs(displayTabPane.getSelectedIndex());
 				}
 
 			});
@@ -595,6 +610,18 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		}.start();
 	}
 
+	/**
+	 * Set all tabs for all Displays to the same thing
+	 * 
+	 * @param selectedIndex
+	 *            The index that should be selected
+	 */
+	protected void setAllTabs(int selectedIndex) {
+		for (JTabbedPane TAB : listOfDisplayTabbedPanes) {
+			TAB.setSelectedIndex(selectedIndex);
+		}
+	}
+
 	private void setDisplayIsAlive(int number, boolean alive) {
 		displaySelector.setIsAlive(number, alive);
 
@@ -683,19 +710,20 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			exitButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 4)));
 			exitButton.setMargin(new Insets(5, 5, 5, 5));
 		}
+
 		return titleBox;
 	}
 
 	private void adjustTitle(Display display) {
+		if (display == null)
+			return;
 		Color c = display.getPreferredHighlightColor();
-		if (display != null) {
-			/*
-			 * title.setText("  Control for XOC " + (display.getCategory() == SignageType.XOC ? "" : display.getCategory() + " ") +
-			 * "Display " + display.getNumber() + " '" + display.getLocation() + "'  ");
-			 */
-			// title.setText("  Control for Display " + display.getNumber() + " '" + display.getLocation() + "'  ");
-			title.setText("   " + display.getLocation() + "   ");
-		}
+		/*
+		 * title.setText("  Control for XOC " + (display.getCategory() == SignageType.XOC ? "" : display.getCategory() + " ") +
+		 * "Display " + display.getNumber() + " '" + display.getLocation() + "'  ");
+		 */
+		// title.setText("  Control for Display " + display.getNumber() + " '" + display.getLocation() + "'  ");
+		title.setText("   " + display.getLocation() + "   ");
 		titleBox.removeAll();
 		titleBox.setOpaque(true);
 		titleBox.setBackground(c);
@@ -705,13 +733,60 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		titleBox.add(Box.createHorizontalGlue());
 		titleBox.add(title);
 		titleBox.add(Box.createHorizontalGlue());
+
+		if (lockButton == null) {
+			ImageIcon icon;
+
+			if (SHOW_IN_WINDOW)
+				icon = new ImageIcon("src/gov/fnal/ppd/images/lock20.jpg");
+			else
+				icon = new ImageIcon("src/gov/fnal/ppd/images/lock40.jpg");
+
+			lockButton = new JButton(icon);
+			lockButton.setMargin(new Insets(2, 5, 2, 5));
+			lockButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					lastDisplayChange = System.currentTimeMillis() - INACTIVITY_TIMEOUT;
+				}
+			});
+		}
+		titleBox.add(lockButton);
+		titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+
 		// Do not let the simple public controller exit
 		if (!SHOW_IN_WINDOW) {
-			if (!IS_PUBLIC_CONTROLLER)
+			if (lockButton == null) {
+				// Observation on 9/15/2014 -- A user of the touch screen wanted to "go back" to the pretty pictures. This lock
+				// button accomplishes this task
+				ImageIcon icon;
+
+				// if (SHOW_IN_WINDOW)
+				// icon = new ImageIcon("src/gov/fnal/ppd/images/lock20.jpg");
+				// else
+				icon = new ImageIcon("src/gov/fnal/ppd/images/lock40.jpg");
+
+				lockButton = new JButton(icon);
+				lockButton.setMargin(new Insets(2, 5, 2, 5));
+				lockButton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						lastDisplayChange = System.currentTimeMillis() - INACTIVITY_TIMEOUT;
+					}
+				});
+			}
+			titleBox.add(lockButton);
+
+			if (!IS_PUBLIC_CONTROLLER) {
+				titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
 				titleBox.add(exitButton);
+			}
 		} else {
 			titleBox.add(addChannelButton);
 		}
+
 		titleBox.setOpaque(true);
 	}
 

@@ -307,7 +307,10 @@ public class MessagingServer {
 				display("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
 				return;
 			} catch (Exception e) {
-				display("Expecting a String but got a " + read.getClass().getSimpleName() + " [" + read + "]");
+				if (read == null) {
+					display("Expecting a String but got nothing (null)");
+				} else
+					display("Expecting a String but got a " + read.getClass().getSimpleName() + " [" + read + "]");
 				e.printStackTrace();
 			}
 			date = new Date().toString() + "\n";
@@ -328,11 +331,13 @@ public class MessagingServer {
 					display(username + ": A class not found exception -- " + e + ". returned object of type "
 							+ read.getClass().getCanonicalName());
 					e.printStackTrace();
-					break;
+					break; // End the while(true) loop
 				} catch (Exception e) {
 					display(username + ": Exception reading input stream -- " + e + "; The received message was '" + read + "'");
+					System.err.println(username + ": Exception reading input stream -- " + e + "; The received message was '"
+							+ read + "'"); // Put this here to assure that the stack-trace and this message are together in the console (debugging)
 					e.printStackTrace();
-					break;
+					break; // End the while(true) loop
 				}
 				// the message part of the ChatMessage
 				String message = cm.getMessage();
@@ -385,8 +390,8 @@ public class MessagingServer {
 				}
 			}
 			// remove myself from the arrayList containing the list of the connected Clients
-			display("Have exited 'forever' loop for client '" + username + "' (thisSocketIsActive=" + thisSocketIsActive
-					+ ") Removing it (number " + id + ")");
+			display("Exiting forever loop for client '" + username + "' (thisSocketIsActive=" + thisSocketIsActive
+					+ ") Removing id=" + id + ")");
 			remove(id);
 			close();
 		}

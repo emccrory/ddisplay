@@ -29,6 +29,14 @@ public class PublicInformationGrid extends ChannelButtonGrid {
 	private int					seconds					= LONG_WAIT_OF_INACTIVITY;
 	protected boolean			autoChannelChange		= false;
 
+	public boolean isAutoChannelChange() {
+		return autoChannelChange;
+	}
+
+	public void setAutoChannelChange(boolean autoChannelChange) {
+		this.autoChannelChange = autoChannelChange;
+	}
+
 	/**
 	 * @param display
 	 *            The Display represented by this grid of channel buttons

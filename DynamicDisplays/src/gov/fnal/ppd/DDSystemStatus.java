@@ -453,6 +453,7 @@ public class DDSystemStatus extends JFrame {
 		try {
 			port = Integer.parseInt(portNumber);
 		} catch (Exception en) {
+			en.printStackTrace();
 			return; // nothing I can do if port number is not valid
 		}
 

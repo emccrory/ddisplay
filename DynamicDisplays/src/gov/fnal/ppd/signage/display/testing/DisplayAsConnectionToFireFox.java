@@ -39,8 +39,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 * @param color
 	 * @param type
 	 */
-	public DisplayAsConnectionToFireFox(String ipName, int displayID, int screenNumber, int portNumber, String location,
-			Color color, SignageType type) {
+	public DisplayAsConnectionToFireFox(final String ipName, final int displayID, final int screenNumber, final int portNumber,
+			final String location, final Color color, final SignageType type) {
 		super(ipName, displayID, screenNumber, portNumber, location, color, type);
 
 		if (getContent() == null)
@@ -53,7 +53,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			public void run() {
 				try {
 					sleep(4000); // Wait a bit before trying to contact the instance of FireFox.
-					firefox = new ConnectionToFirefoxInstance();
+					firefox = new ConnectionToFirefoxInstance(screenNumber);
 					sleep(1000); // Wait a bit more before trying to tell it to go to a specific page
 					firefox.changeURL(getContent().getURI().toASCIIString());
 				} catch (InterruptedException e) {
@@ -80,6 +80,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 							e.printStackTrace();
 						}
 						setContent(lastChannel);
+						resetStatusUpdatePeriod();
 					}
 				}.start();
 			} else {

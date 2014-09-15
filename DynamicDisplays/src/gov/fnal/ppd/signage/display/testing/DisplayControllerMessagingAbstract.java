@@ -5,10 +5,12 @@ import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
 import gov.fnal.ppd.chat.MessagingClient;
+import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
+import gov.fnal.ppd.signage.channel.EmptyChannel;
 import gov.fnal.ppd.signage.comm.DCProtocol;
 import gov.fnal.ppd.signage.comm.DDMessage;
 import gov.fnal.ppd.signage.display.DisplayImpl;
@@ -18,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -36,7 +39,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private static String			messagingServerNode		= MESSAGING_SERVER_NAME;
 	private static int				messagingServerPort		= MESSAGING_SERVER_PORT;
 
-	protected static final long		STATUS_UPDATE_PERIOD	= 60000l;
+	protected static final int		STATUS_UPDATE_PERIOD	= 30;
 	protected static final long		SOCKET_ALIVE_INTERVAL	= 2500l;
 	protected static final long		SHOW_SPLASH_SCREEN_TIME	= 15000l;
 
@@ -57,6 +60,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private MessagingClient			messagingClient;
 	private String					myName;
 	private boolean					doTheHeartbeatThing		= false;
+	private int						statusUpdatePeriod		= 10;
 
 	// / Use messaging to get change requests from the changers -->
 	// private boolean actAsServerNoMessages = true;
@@ -70,8 +74,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 * @param color
 	 * @param type
 	 */
-	public DisplayControllerMessagingAbstract(String ipName, int displayID, int screenNumber, int portNumber, String location,
-			Color color, SignageType type) {
+	public DisplayControllerMessagingAbstract(final String ipName, final int displayID, final int screenNumber,
+			final int portNumber, final String location, final Color color, final SignageType type) {
 		super(ipName, displayID, screenNumber, location, color, type);
 
 		if (getContent() == null)
@@ -126,8 +130,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			public void run() {
 				while (keepGoing) {
 					try {
-						sleep(STATUS_UPDATE_PERIOD);
-						updateMyStatus();
+						sleep(1000L);
+						if (statusUpdatePeriod-- <= 0) {
+							updateMyStatus();
+							statusUpdatePeriod = STATUS_UPDATE_PERIOD;
+						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -182,7 +189,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	protected final synchronized void updateMyStatus() {
 
 		try (Statement stmt = connection.createStatement();) {
-			stmt.executeQuery("USE xoc");
+			@SuppressWarnings("unused")
+			ResultSet result = stmt.executeQuery("USE xoc");
 
 			try {
 				Date dNow = new Date();
@@ -302,7 +310,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					Color color = new Color(Integer.parseInt(colorString, 16));
 					int portNumber = rs.getInt("Port");
 					int screenNumber = rs.getInt("ScreenNumber");
-					// int channelNumber = rs.getInt("content");
+					int channelNumber = rs.getInt("Content");
+					String url = getURLFromNumber(channelNumber);
 					// String positionString = rs.getString("Position");
 					// if (positionString == null)
 
@@ -315,8 +324,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					try {
 						cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class,
 								SignageType.class);
-						return (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] { myName, number, screenNumber,
-								portNumber, location, color, type });
+						DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] {
+								myName, number, screenNumber, portNumber, location, color, type });
+						d.setDefaultContent(url);
+						return d;
 					} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
 							| IllegalArgumentException | InvocationTargetException e) {
 						e.printStackTrace();
@@ -346,6 +357,43 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		return null;
 	}
 
+	private void setDefaultContent(String url) {
+		try {
+			EmptyChannel c = new EmptyChannel(url);
+			setChannel(c);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static String getURLFromNumber(int channelNumber) {
+		String query = "SELECT URL from Channel where Number=" + channelNumber;
+		String retval = "http://www.fnal.gov";
+		try (Statement stmt = connection.createStatement();) {
+			try (ResultSet rs = stmt.executeQuery(query);) {
+				if (rs.first()) { // Move to first returned row (there should only be one)
+					retval = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("URL"));
+
+					stmt.close();
+					rs.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (SQLException ex) {
+			System.err.println("It is likely that the DB server is down.  We'll try again later.");
+			ex.printStackTrace();
+		}
+		return retval;
+	}
+
+	/**
+	 * Ask for a status update to the database
+	 */
+	public void resetStatusUpdatePeriod() {
+		statusUpdatePeriod = 0;
+	}
+
 	private class MessagingClientLocal extends MessagingClient {
 		private boolean		debug	= false;
 		private DCProtocol	dcp		= new DCProtocol();
@@ -368,6 +416,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		@Override
 		public void displayIncomingMessage(String msg) {
 			if (debug)
+
 				System.out.println(DisplayControllerMessagingAbstract.class.getCanonicalName() + "."
 						+ this.getClass().getCanonicalName() + ".displayIncomingMessage(): Got this message: [" + msg + "]");
 			if (msg.startsWith(myName)) {

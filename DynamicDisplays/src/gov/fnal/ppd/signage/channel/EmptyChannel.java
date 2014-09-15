@@ -40,6 +40,15 @@ public class EmptyChannel extends ChannelImpl {
 		super("EmptyChannel", ChannelCategory.PUBLIC, "This channel is undefined", new URI(MY_URL), 0);
 
 	}
+	
+	/**
+	 * @param url
+	 * @throws URISyntaxException
+	 */
+	public EmptyChannel(final String url) throws URISyntaxException {
+		super("EmptyChannel", ChannelCategory.PUBLIC, "This channel is undefined", new URI(url), 0);
+
+	}
 
 	public static void main(String[] args) {
 		System.out.println(MY_URL);

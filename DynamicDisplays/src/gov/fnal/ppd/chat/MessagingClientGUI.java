@@ -220,6 +220,7 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 			try {
 				port = Integer.parseInt(portNumber);
 			} catch (Exception en) {
+				en.printStackTrace();
 				return; // nothing I can do if port number is not valid
 			}
 

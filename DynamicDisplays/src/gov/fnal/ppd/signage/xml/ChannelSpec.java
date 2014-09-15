@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.xml;
 
+import static gov.fnal.ppd.GlobalVariables.*;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
 import gov.fnal.ppd.signage.channel.EmptyChannel;
@@ -55,7 +56,12 @@ public class ChannelSpec {
 	@XmlElement
 	public URI getUri() {
 		if (content == null) {
-			System.out.println("Oops");
+			System.out.println("Oops -- got a bad URI");
+			try {
+				return new URI(SELF_IDENTIFY);
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
 		}
 		return content.getURI();
 	}

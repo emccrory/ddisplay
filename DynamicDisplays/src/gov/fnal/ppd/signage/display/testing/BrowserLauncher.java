@@ -94,7 +94,9 @@ public class BrowserLauncher {
 
 			String geom = bounds.width + "x" + bounds.height + "+" + (int) bounds.getX() + "+" + (int) bounds.getY();
 			try {
-				browserProcess = new ProcessBuilder("firefox", "-remote-control", url).start();  // , "--geometry=" + geom, "-fullscreen", url).start();
+				// extensions.remotecontrol.portNumber is the environment variable that gives the port number, I think (9/15/2014)
+				// I tried to set it (and several variations) using System.setProperty(), to no avail.
+				browserProcess = new ProcessBuilder("firefox", "-remote-control", url).start();
 
 				if (debug)
 					System.out.println("Launched " + whichInstance + " browser, geometry=" + geom);
