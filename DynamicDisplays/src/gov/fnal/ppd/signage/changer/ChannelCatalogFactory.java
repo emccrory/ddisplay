@@ -15,9 +15,9 @@ public class ChannelCatalogFactory {
 	}
 
 	/**
-	 * Do we use real channels from the database, or not?  This is irrelevant now as we always use real channels
+	 * Do we use real channels from the database, or not? This is irrelevant now as we always use real channels
 	 * 
-	 * @param real 
+	 * @param real
 	 * @deprecated
 	 */
 	public static void useRealChannels(boolean real) {
@@ -36,6 +36,16 @@ public class ChannelCatalogFactory {
 	public static ChannelCatalog getInstance() {
 		// if (me == null)
 		// useRealChannels(false);
+		return me;
+	}
+
+	/**
+	 * Re-read the channels from the database
+	 */
+	public static ChannelCatalog refresh() {
+		me = null;
+		System.gc();
+		me = new ChannelsFromDatabase();
 		return me;
 	}
 }

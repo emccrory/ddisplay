@@ -85,11 +85,12 @@ public class CreateListOfChannels extends JPanel {
 
 	CreateListOfChannels() {
 		super(new GridBagLayout());
-		
+
 		//
-		// TODO Instead of a long vertical list of channels, organize them into seperate panels, with a titled border
+		// TODO Instead of a long vertical list of channels in the "Channel List" GUI, organize them into separate panels, with a
+		// titled border
 		//
-		
+
 		GridBagConstraints bag = new GridBagConstraints();
 		bag.fill = GridBagConstraints.HORIZONTAL;
 		bag.gridx = bag.gridy = 1;
