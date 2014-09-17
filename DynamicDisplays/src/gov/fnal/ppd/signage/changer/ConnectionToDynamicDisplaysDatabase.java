@@ -1,7 +1,7 @@
 package gov.fnal.ppd.signage.changer;
 
 import static gov.fnal.ppd.GlobalVariables.DATABASE_SERVER_NAME;
-import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
+import gov.fnal.ppd.signage.DatabaseNotVisibleException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,9 +27,9 @@ public class ConnectionToDynamicDisplaysDatabase {
 	/**
 	 * @return the DB connection object
 	 * 
-	 * @throws SignageDatabaseNotVisibleException if it cannot connect to the database server
+	 * @throws DatabaseNotVisibleException if it cannot connect to the database server
 	 */
-	public static Connection getDbConnection() throws SignageDatabaseNotVisibleException {
+	public static Connection getDbConnection() throws DatabaseNotVisibleException {
 		if (connection != null) {
 			return connection;
 		}
@@ -72,7 +72,7 @@ public class ConnectionToDynamicDisplaysDatabase {
 			ex.printStackTrace();
 			if (ex.getMessage().contains("Access denied for user")) {
 				System.err.println("Cannont access the Channel/Display database.");
-				throw new SignageDatabaseNotVisibleException(ex.getMessage());
+				throw new DatabaseNotVisibleException(ex.getMessage());
 			} else {
 				System.err.println("Aborting");
 				System.exit(1);
