@@ -7,7 +7,7 @@ import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
 import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.SignageContent;
-import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
+import gov.fnal.ppd.signage.DatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.channel.EmptyChannel;
@@ -276,7 +276,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-		} catch (SignageDatabaseNotVisibleException e1) {
+		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
 			System.exit(-1);

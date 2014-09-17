@@ -1,6 +1,6 @@
 package gov.fnal.ppd.signage.display.attic;
 
-import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
+import gov.fnal.ppd.signage.DatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.comm.attic.DCMulitServerThread;
@@ -68,7 +68,7 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-		} catch (SignageDatabaseNotVisibleException e1) {
+		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 		}
 		DynamicDisplayWithoutJxBrowser.dynamic = true;
@@ -118,7 +118,7 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 		DynamicDisplayWithoutJxBrowser.number = number;
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-		} catch (SignageDatabaseNotVisibleException e1) {
+		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.  We're making stuff up now.");
 			// Make something up--this is a test (obviously)

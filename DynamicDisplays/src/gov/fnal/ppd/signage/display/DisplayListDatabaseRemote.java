@@ -1,7 +1,7 @@
 package gov.fnal.ppd.signage.display;
 
 import gov.fnal.ppd.signage.Display;
-import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
+import gov.fnal.ppd.signage.DatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 
@@ -31,7 +31,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 		if (connection == null)
 			try {
 				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-			} catch (SignageDatabaseNotVisibleException e) {
+			} catch (DatabaseNotVisibleException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
