@@ -72,19 +72,19 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			IS = INSET_SIZE / 3;
 			cols = 5;
 			gap = 4;
-			maxLen = 12;
+			maxLen = 8;
 		} else if (list.size() > 18) {
 			FS = 0.6f * FONT_SIZE;
 			IS = INSET_SIZE / 2;
 			cols = 4;
 			gap = 5;
-			maxLen = 13;
+			maxLen = 10;
 		} else if (list.size() > 10) {
-			FS = 0.75f * FONT_SIZE;
+			FS = FONT_SIZE;
 			IS = INSET_SIZE / 2;
 			cols = 3;
 			gap = 7;
-			maxLen = 14;
+			maxLen = 13;
 		} else if (list.size() > 6) {
 			FS = FONT_SIZE;
 			IS = INSET_SIZE / 2;
@@ -110,12 +110,12 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		expGrid.setBackground(display.getPreferredHighlightColor());
 		for (SignageContent exp : list) {
 			final DDButton button = new DDButton((Channel) exp, display, maxLen);
-			if (SHOW_IN_WINDOW) {
-				button.setFont(button.getFont().deriveFont(FS));
-			} else {
-				button.setFont(button.getFont().deriveFont(FS));
-				button.setMargin(new Insets(IS, IS, IS, IS));
-			}
+			// if (SHOW_IN_WINDOW) {
+			// button.setFont(button.getFont().deriveFont(FS));
+			// } else {
+			button.setFont(button.getFont().deriveFont(FS));
+			button.setMargin(new Insets(IS, IS, IS, IS));
+			// }
 			button.setSelected(exp.equals(display.getContent()));
 			button.addActionListener(this); // Order is important for the GUI. This one goes last.
 			button.addActionListener(display);
