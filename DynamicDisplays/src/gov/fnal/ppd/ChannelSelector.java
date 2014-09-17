@@ -23,9 +23,12 @@ import static gov.fnal.ppd.GlobalVariables.offsets;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
+import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
+import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ChannelButtonGrid;
+import gov.fnal.ppd.signage.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.changer.DDButton;
@@ -67,6 +70,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -122,7 +126,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private static final long				serialVersionUID			= 5044030472140151291L;
 
 	private static final Dimension			screenDimension				= Toolkit.getDefaultToolkit().getScreenSize();
-	private static JFrame					f							= new JFrame("XOC Display Channel Selector");
+	private static JFrame					f							= new JFrame("Dynamic Display Channel Selector");
 
 	private static ActionListener			fullRefreshAction			= null;
 	private static ActionListener			channelRefreshAction		= null;
@@ -160,7 +164,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		// Determine the size of the screen and thus the appropriate font size.
 
 		if (SHOW_IN_WINDOW) {
-			FONT_SIZE = 15.0f;
+			FONT_SIZE = 30.0f;
 			INSET_SIZE = 3;
 		} else {
 			int width = screenDimension.width;
@@ -180,6 +184,13 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				INSET_SIZE = 24;
 			}
 		}
+
+	}
+
+	/**
+	 * In order to obey the rule-of-thumb to not start threads within the context of a constructor, this start method is provided.
+	 */
+	public void start() {
 		initComponents();
 		launchMemoryWatcher();
 	}
@@ -242,12 +253,15 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		int lc = (locationCode < 0 ? locationName.length - 1 : locationCode);
 		int splashWithCredits0 = (int) (((double) splashPanel.length) * Math.random());
-		int splashWithCredits1 = (splashWithCredits0 + splashPanel.length/2 ) % splashPanel.length;
+		int splashWithCredits1 = (splashWithCredits0 + splashPanel.length / 2) % splashPanel.length;
 		System.out.println("Splash screen with credits is " + splashWithCredits0 + " & " + splashWithCredits1);
 		for (int index = 0; index < splashPanel.length; index++) {
 			Box splash = splashPanel[index] = Box.createVerticalBox();
 			final int mine = index;
 			JPanel p = new JPanel() {
+
+				private static final long	serialVersionUID	= -2364511327267313957L;
+
 				@Override
 				protected void paintComponent(Graphics g) {
 					super.paintComponent(g);
@@ -281,7 +295,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			p.addMouseListener(splashListener);
 			splash.add(Box.createRigidArea(new Dimension(50, 50)));
 			int h = offsets[index];
-			if (index == splashWithCredits0 || index == splashWithCredits1 ) 
+			if (index == splashWithCredits0 || index == splashWithCredits1)
 				h = 100;
 			System.out.println("Splash screen " + index + " has vertical offset of " + h);
 			splash.add(Box.createRigidArea(new Dimension(100, h)));
@@ -290,10 +304,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			splash.add(new JLabelCenter("   " + locationDescription[lc] + "   ", subHead));
 			splash.add(Box.createRigidArea(new Dimension(50, gap)));
 			splash.add(new JLabelCenter("<html><em>Touch to continue</em></html>", subHead));
-			if (index == splashWithCredits0 || index == splashWithCredits1 ) {
+			if (index == splashWithCredits0 || index == splashWithCredits1) {
 				splash.add(Box.createRigidArea(new Dimension(50, gap)));
 				splash.add(new JLabelCenter(
-						"<html><em>Dynamic Display System software written by Elliott McCrory, Fermilab AD/Instrumentation, 2014</em></html>", 12));
+						"<html><em>Dynamic Display System software written by Elliott McCrory, Fermilab AD/Instrumentation, 2014</em></html>",
+						12));
 			}
 			// splash.add(new JLabelCenter("" + arrow, arrowSize));
 
@@ -641,9 +656,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	private JComponent makeTitle() {
-		title = new JLabel(" Control for XOC Display 00 ");
-		if (!SHOW_IN_WINDOW)
+		title = new JLabel(" Dynamic Display 00 ");
+		if (!SHOW_IN_WINDOW) {
 			title.setFont(new Font("Serif", Font.ITALIC, (int) (3 * FONT_SIZE / 4)));
+			refreshButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 2)));
+		}
 		// title.setFont(title.getFont().deriveFont(3 * FONT_SIZE / 4));
 		title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		title.setOpaque(true);
@@ -651,14 +668,12 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		titleBox = Box.createHorizontalBox();
 		adjustTitle(displayList.get(0));
 
-		if (!SHOW_IN_WINDOW) {
-			refreshButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 2)));
-		}
 		refreshButton.setMargin(new Insets(5, 5, 5, 5));
-		// refreshButton.addActionListener(fullRefreshAction);
+		// Add this in when I get it to work!! refreshButton.addActionListener(fullRefreshAction);
 		refreshButton.addActionListener(channelRefreshAction);
 
 		if (SHOW_IN_WINDOW) {
+			titleBox.add(refreshButton);
 			// Create a button to add a channel to the database
 			addChannelButton.addActionListener(new ActionListener() {
 				boolean	showDialog	= true;
@@ -718,42 +733,18 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		if (display == null)
 			return;
 		Color c = display.getPreferredHighlightColor();
-		/*
-		 * title.setText("  Control for XOC " + (display.getCategory() == SignageType.XOC ? "" : display.getCategory() + " ") +
-		 * "Display " + display.getNumber() + " '" + display.getLocation() + "'  ");
-		 */
-		// title.setText("  Control for Display " + display.getNumber() + " '" + display.getLocation() + "'  ");
+
 		title.setText("   " + display.getLocation() + "   ");
 		titleBox.removeAll();
 		titleBox.setOpaque(true);
 		titleBox.setBackground(c);
 		int wid = (SHOW_IN_WINDOW ? 1 : 8);
 		titleBox.setBorder(BorderFactory.createLineBorder(c, wid));
-		// This does not work, so remove it. titleBox.add(refreshButton);
+		// This does not work, so remove it.
+		titleBox.add(refreshButton);
 		titleBox.add(Box.createHorizontalGlue());
 		titleBox.add(title);
 		titleBox.add(Box.createHorizontalGlue());
-
-		if (lockButton == null) {
-			ImageIcon icon;
-
-			if (SHOW_IN_WINDOW)
-				icon = new ImageIcon("src/gov/fnal/ppd/images/lock20.jpg");
-			else
-				icon = new ImageIcon("src/gov/fnal/ppd/images/lock40.jpg");
-
-			lockButton = new JButton(icon);
-			lockButton.setMargin(new Insets(2, 5, 2, 5));
-			lockButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					lastDisplayChange = System.currentTimeMillis() - INACTIVITY_TIMEOUT;
-				}
-			});
-		}
-		titleBox.add(lockButton);
-		titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
 
 		// Do not let the simple public controller exit
 		if (!SHOW_IN_WINDOW) {
@@ -869,12 +860,13 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		displayList = DisplayListFactory.getInstance(sType, getLocationCode());
 		channelSelector = new ChannelSelector();
+		channelSelector.start();
 
 		// SHOW_IN_WINDOW = args.length > 0 && "WINDOW".equals(args[0]);
 
 		createRefreshActions(sType);
 
-		channelSelector.setRefreshAction(fullRefreshAction);
+		channelSelector.setRefreshAction(channelRefreshAction);
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -939,7 +931,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						displayList = DisplayListFactory.getInstance(sType, getLocationCode());
 
 						channelSelector = new ChannelSelector();
-						channelSelector.setRefreshAction(fullRefreshAction);
+						channelSelector.start();
+						// channelSelector.setRefreshAction(fullRefreshAction);
 
 						f = new JFrame("XOC Display Channel Selector");
 						f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -969,6 +962,60 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 					@Override
 					public void run() {
+						System.out.println("Refreshing URLs of the channel buttons in this world");
+						// An alternate idea on how to implement the refresh
+						/*
+						 * Rather than doing a full refresh, maybe we can just refresh the URLs of the channels that we already
+						 * have. This does not fix the problem of adding channels to the system, but it helps somewhat.
+						 */
+
+						Set<SignageContent> list = ChannelCatalogFactory.refresh()
+								.getChannelCatalog(ChannelCategory.PUBLIC_DETAILS);
+						Set<SignageContent> subList = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.PUBLIC);
+						list.addAll(subList);
+						subList = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.EXPERIMENT_DETAILS);
+						list.addAll(subList);
+						subList = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.NOVA_DETAILS);
+						list.addAll(subList);
+						subList = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.NUMI_DETAILS);
+						list.addAll(subList);
+						subList = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.MISCELLANEOUS);
+						list.addAll(subList);
+
+						// list contains all the channels from the database Now check the URLs in the DB versus the ones we have now
+						// that are attached to all the buttons in our realm
+						int numButtons = 0;
+						int numChanged = 0;
+						for (List<ChannelButtonGrid> gridList : channelSelector.channelButtonGridList) {
+							for (ChannelButtonGrid grid : gridList) {
+								DisplayButtonGroup dbg = grid.getBg();
+								for (int i = 0; i < dbg.getNumButtons(); i++) {
+									numButtons++;
+									DDButton ddb = dbg.getAButton(i);
+									int channelNumber = ddb.getChannel().getNumber();
+									// Loop over the new channels to see if the URL has changed for the exiting channel
+									for (SignageContent CONTENT : list)
+										if (CONTENT instanceof Channel) {
+											Channel chan = (Channel) CONTENT;
+											if (chan.getNumber() == channelNumber) {
+												if (!ddb.getChannel().getURI().toString().equals(chan.getURI().toString())) {
+													System.out.println("URI '" + ddb.getChannel().getURI() + "' changed to '"
+															+ chan.getURI() + "'");
+													numChanged++;
+												}
+												ddb.getChannel().setURI(chan.getURI());
+											}
+											// if (channelNumber == 75 || chan.getNumber() == 75)
+											// System.out.println("Existing button for chan #" + channelNumber + " says URL="
+											// + ddb.getChannel().getURI().toString() + "\n\t\tNew information for channel #"
+											// + chan.getNumber() + " is " + chan.getURI());
+										} else
+											System.out.println("Hmmm.  Got a " + CONTENT.getClass().getCanonicalName()
+													+ " instead of a Channel");
+								}
+							}
+						}
+						System.out.println("Looked at " + numButtons + " buttons and changed " + numChanged + " URLs");
 					}
 				});
 			}
