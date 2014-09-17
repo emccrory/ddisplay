@@ -7,14 +7,14 @@ package gov.fnal.ppd.signage;
  * @copyright 2014
  *
  */
-public class SignageDatabaseNotVisibleException extends Exception {
+public class DatabaseNotVisibleException extends Exception {
 
 	private static final long	serialVersionUID	= -4495579375575150057L;
 
 	/**
 	 * @param message The associated message for this exception.
 	 */
-	public SignageDatabaseNotVisibleException(final String message) {
+	public DatabaseNotVisibleException(final String message) {
 		super(message);
 	}
 }
