@@ -1,7 +1,7 @@
 package gov.fnal.ppd.signage.changer;
 
 import gov.fnal.ppd.signage.SignageContent;
-import gov.fnal.ppd.signage.SignageDatabaseNotVisibleException;
+import gov.fnal.ppd.signage.DatabaseNotVisibleException;
 import gov.fnal.ppd.signage.channel.ChannelImpl;
 
 import java.net.URI;
@@ -43,8 +43,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 	ChannelsFromDatabase() {
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-		} catch (SignageDatabaseNotVisibleException e) {
-			// TODO Auto-generated catch block
+		} catch (DatabaseNotVisibleException e) {
 			e.printStackTrace();
 		}
 		getChannels();
