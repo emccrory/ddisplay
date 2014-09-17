@@ -40,7 +40,7 @@ public class DDButton extends JButton {
 	 * @param display
 	 *            (may NOT be null) the Display that this button is associated with. If channel is not null, this is the Display
 	 *            that the channel is associated with. If channel IS null, this is the actual "select this display" button
-	 * @param maxLen 
+	 * @param maxLen
 	 */
 	public DDButton(final Channel channel, final Display display, int maxLen) {
 		super(align(channel != null ? channel.getName() : display.toString(), maxLen));
@@ -85,14 +85,17 @@ public class DDButton extends JButton {
 		String[] split = string.split(" ");
 		String first = "";
 		String second = "";
+		String third = "";
 		int i = 0;
 		for (; (first + split[i]).length() < maxLen; i++)
 			first += split[i] + " ";
-		for (; i < split.length; i++)
+		for (; i < split.length && (second + split[i]).length() < maxLen; i++)
 			second += split[i] + " ";
-		if (second.length() > maxLen)
-			second = second.substring(0, maxLen - 1) + "&hellip;"; // Ellipsis
-		return "<html><center>" + first + "<br />" + second + "</center></html>";
+		for (; i < split.length; i++)
+			third += split[i] + " ";
+		if (third.length() > maxLen)
+			third = third.substring(0, maxLen - 1) + "&hellip;"; // Ellipsis
+		return "<html><center>" + first + "<br />" + second + "<br />" + third + "</center></html>";
 	}
 
 	/**
@@ -113,7 +116,7 @@ public class DDButton extends JButton {
 
 		this.selected = selected;
 		setBackground(selected ? selectedColor : background);
-		
+
 		if (selected)
 			super.setForeground(selectedFont);
 		else
@@ -125,6 +128,18 @@ public class DDButton extends JButton {
 	 */
 	public Channel getChannel() {
 		return channel;
+	}
+
+	/**
+	 * For the refresh operation, change the actual channel attached to this button.
+	 * 
+	 * @param channelNew
+	 */
+	public void setChannel(Channel channelNew) {
+		if (channelNew == null)
+			return;
+		channel = channelNew;
+		setText(channel.getName());
 	}
 
 	/**
