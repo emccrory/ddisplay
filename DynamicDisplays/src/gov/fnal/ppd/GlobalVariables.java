@@ -25,7 +25,7 @@ public class GlobalVariables {
 	/**
 	 * How long since last user activity?
 	 */
-	public static long				lastDisplayChange		= System.currentTimeMillis() + 10000L;
+	public static long				lastDisplayChange		= 0L;
 
 	/**
 	 * Which set of Displays are we controlling here?

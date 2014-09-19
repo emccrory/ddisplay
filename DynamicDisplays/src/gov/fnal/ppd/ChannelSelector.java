@@ -4,25 +4,12 @@ import static gov.fnal.ppd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.GlobalVariables.INACTIVITY_TIMEOUT;
 import static gov.fnal.ppd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.GlobalVariables.IS_PUBLIC_CONTROLLER;
-import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
-import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
-import static gov.fnal.ppd.GlobalVariables.ONE_SECOND;
-import static gov.fnal.ppd.GlobalVariables.PING_INTERVAL;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
-import static gov.fnal.ppd.GlobalVariables.bgImage;
 import static gov.fnal.ppd.GlobalVariables.displayList;
-import static gov.fnal.ppd.GlobalVariables.getLocationDescription;
-import static gov.fnal.ppd.GlobalVariables.getLocationName;
-import static gov.fnal.ppd.GlobalVariables.imageHeight;
-import static gov.fnal.ppd.GlobalVariables.imageNames;
-import static gov.fnal.ppd.GlobalVariables.imageWidth;
 import static gov.fnal.ppd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.GlobalVariables.locationCode;
-import static gov.fnal.ppd.GlobalVariables.offsets;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
-import gov.fnal.ppd.chat.MessageCarrier;
-import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageContent;
@@ -30,7 +17,6 @@ import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ChannelButtonGrid;
 import gov.fnal.ppd.signage.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
-import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.changer.DDButton;
 import gov.fnal.ppd.signage.changer.DetailedInformationGrid;
 import gov.fnal.ppd.signage.changer.DisplayButtons;
@@ -39,12 +25,13 @@ import gov.fnal.ppd.signage.changer.DisplayListFactory;
 import gov.fnal.ppd.signage.changer.PublicInformationGrid;
 import gov.fnal.ppd.signage.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.signage.display.DisplayFacade;
-import gov.fnal.ppd.signage.display.DisplayListDatabaseRemote;
+import gov.fnal.ppd.signage.util.CheckDisplayStatus;
 import gov.fnal.ppd.signage.util.DisplayButtonGroup;
 import gov.fnal.ppd.signage.util.DisplayCardActivator;
-import gov.fnal.ppd.signage.util.JLabelCenter;
+import gov.fnal.ppd.signage.util.DisplayKeeper;
 import gov.fnal.ppd.signage.util.JLabelFooter;
-import gov.fnal.ppd.signage.util.SimpleMouseListener;
+import gov.fnal.ppd.signage.util.SplashScreens;
+import gov.fnal.ppd.signage.util.WhoIsInChatRoom;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -52,23 +39,14 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.UnknownHostException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -78,6 +56,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -95,33 +74,7 @@ import javax.swing.event.ChangeListener;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2013
  */
-public class ChannelSelector extends JPanel implements ActionListener, DisplayCardActivator {
-
-	/**
-	 * Encapsulate the orientation of the display (not really used yet)
-	 * 
-	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 * @Copyright 2014
-	 * 
-	 */
-	public static enum Orientation {
-		/**
-		 * The screen orientation is not known
-		 */
-		UNDEFINED,
-		/**
-		 * The screen is perfectly square
-		 */
-		SQUARE,
-		/**
-		 * the screen is in a portrait orientation (taller)
-		 */
-		PORTRAIT,
-		/**
-		 * The screen is in a landscape orientation (wider)
-		 */
-		LANDSCAPE
-	}
+public class ChannelSelector extends JPanel implements ActionListener, DisplayCardActivator, DisplayKeeper {
 
 	private static final long				serialVersionUID			= 5044030472140151291L;
 
@@ -149,11 +102,12 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private DisplayButtons					displaySelector;
 	private CardLayout						card						= new CardLayout();
 	private JPanel							displayChannelPanel			= new JPanel(card);
-	private Box[]							splashPanel					= new Box[imageNames.length];
 
 	private String							lastActiveDisplay			= null;
 
 	private List<JTabbedPane>				listOfDisplayTabbedPanes	= new ArrayList<JTabbedPane>();
+
+	private SplashScreens					splashScreens;
 
 	/**
 	 * Create the channel selector in the normal way
@@ -184,7 +138,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				INSET_SIZE = 24;
 			}
 		}
-
 	}
 
 	/**
@@ -213,112 +166,12 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		add(displaySelector, BorderLayout.EAST);
 		add(makeTitle(), BorderLayout.NORTH);
 
-		createSplashScreen();
+		splashScreens = new SplashScreens(this, displayChannelPanel);
 
 		if (!SHOW_IN_WINDOW)
 			// Only enable the splash screen for the full-screen version
-			new Thread() {
-				public void run() {
-					int index = 0;
-					while (true) {
-						try {
-							if (System.currentTimeMillis() > INACTIVITY_TIMEOUT + lastDisplayChange) {
-								card.show(displayChannelPanel, "Splash Screen" + index);
-								// System.out.println("Showing splash screen " + index);
-								index = (index + 1) % (splashPanel.length);
-								lastDisplayChange = System.currentTimeMillis();
-							}
-							sleep(ONE_SECOND);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}.start();
+			splashScreens.start();
 
-	}
-
-	private void createSplashScreen() {
-		// Create a nice splash screen that it comes back to after a period of inactivity
-		SimpleMouseListener splashListener = new SimpleMouseListener(this);
-
-		// char arrow = '\u21E8';
-		float headline = 30, subHead = 18;
-		int gap = 25;
-		if (!SHOW_IN_WINDOW) {
-			headline = 72;
-			subHead = 32;
-			gap = 50;
-		}
-
-		int splashWithCredits0 = (int) (((double) splashPanel.length) * Math.random());
-		int splashWithCredits1 = (splashWithCredits0 + splashPanel.length / 2) % splashPanel.length;
-		System.out.println("Splash screen with credits is " + splashWithCredits0 + " & " + splashWithCredits1);
-		for (int index = 0; index < splashPanel.length; index++) {
-			Box splash = splashPanel[index] = Box.createVerticalBox();
-			final int mine = index;
-			JPanel p = new JPanel() {
-
-				private static final long	serialVersionUID	= -2364511327267313957L;
-
-				@Override
-				protected void paintComponent(Graphics g) {
-					super.paintComponent(g);
-					// Implement a "fit" algorithm so the image is seen in its entirety, not stretched or cropped.
-					int w = getWidth();
-					int h = getHeight();
-					int x = 0, y = 0;
-					try {
-						double imgAspect = ((double) imageWidth[mine]) / ((double) imageHeight[mine]); // Say 16:9 or 1.778
-						double scrAspect = ((double) w) / ((double) h); // Say 3:2 or 1.5
-						if (imgAspect > scrAspect) {
-							// image is wider than the screen: reduce the height of the screen (and it will fill the width)
-							h = (int) (((double) w) / imgAspect);
-							y = (getHeight() - h) / 2;
-						} else {
-							// screen is wider than the image: Reduce the width of the screen (and it will fill the height)
-							w = (int) (((double) h) * imgAspect);
-							x = (getWidth() - w) / 2;
-						}
-						// System.out.println(w + "," + h + "," + getWidth() + "," + getHeight() + "," + x + "," + y + "," +
-						// imgAspect + "," + scrAspect);
-
-					} catch (Exception e) {
-						// ignore what is probably a divide-by-zero exception
-					}
-					g.drawImage(bgImage[mine], x, y, w, h, this); // draw the image
-				}
-			};
-			p.setBackground(Color.black);
-			p.setOpaque(true);
-			p.addMouseListener(splashListener);
-			splash.add(Box.createRigidArea(new Dimension(50, 50)));
-			int h = offsets[index];
-			if (index == splashWithCredits0 || index == splashWithCredits1)
-				h = 100;
-			// System.out.println("Splash screen " + index + " has vertical offset of " + h);
-			splash.add(Box.createRigidArea(new Dimension(100, h)));
-			splash.add(new JLabelCenter("   Welcome to " + getLocationName(locationCode) + "!   ", headline));
-			splash.add(Box.createRigidArea(new Dimension(50, gap)));
-			splash.add(new JLabelCenter("   " + getLocationDescription(locationCode) + "   ", subHead));
-			splash.add(Box.createRigidArea(new Dimension(50, gap)));
-			splash.add(new JLabelCenter("<html><em>Touch to continue</em></html>", subHead));
-			if (index == splashWithCredits0 || index == splashWithCredits1) {
-				splash.add(Box.createRigidArea(new Dimension(50, gap)));
-				splash.add(new JLabelCenter(
-						"<html><em>Dynamic Display System software written by Elliott McCrory, Fermilab AD/Instrumentation, 2014</em></html>",
-						12));
-			}
-			// splash.add(new JLabelCenter("" + arrow, arrowSize));
-
-			// splash.setOpaque(true);
-			// splash.setBackground(new Color(200 + (int) (Math.random() * 40.0), 200 + (int) (Math.random() * 40.0),
-			// 200 + (int) (Math.random() * 40.0)));
-			p.add(splash);
-			displayChannelPanel.add(p, "Splash Screen" + index);
-		}
-		if (!SHOW_IN_WINDOW)
-			card.show(displayChannelPanel, "Splash Screen0");
 	}
 
 	private void initChannelSelectors() {
@@ -458,7 +311,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					displaySelector.resetToolTip(display);
 					setDisplayIsAlive(display.getNumber(), alive);
 				}
-
 			});
 
 			// TODO Have the Display button react to a change in the status of a Display,
@@ -484,144 +336,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			// Set up a database check every now and then to see what a Display is actually doing (this is inSTEAD of the Ping
 			// thread, above).
-			new Thread("Display." + display.getNumber() + "." + display.getScreenNumber() + ".StatusUpdate") {
-
-				public void run() {
-					try {
-						sleep(25 * fi); // Put in a slight delay to get the Pings to each Display offset from each other a little
-										// bit.
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					Connection connection = DisplayListDatabaseRemote.getConnection();
-					while (true) {
-						try {
-							sleep(PING_INTERVAL);
-							// read from the database to see what's up with this Display
-
-							String query = "SELECT Content,ContentName FROM DisplayStatus WHERE DisplayID=" + display.getNumber();
-							// Use ARM (Automatic Resource Management) to assure that things get closed properly (a new Java 7
-							// feature)
-							try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query);) {
-								if (rs.first()) { // Move to first returned row
-									while (!rs.isAfterLast()) {
-										InputStream cn = rs.getAsciiStream("Content");
-										if (cn != null) {
-											String contentName = ConnectionToDynamicDisplaysDatabase.makeString(cn);
-											if (contentName.startsWith("0: "))
-												contentName = contentName.substring(3);
-											if (contentName.contains(" is being displayed"))
-												contentName = contentName.substring(0, contentName.indexOf(" is being displayed"));
-											// Create a new footer
-											String text = "Disp " + display.getNumber() + ": " + (contentName);
-											footer.setText(text);
-											footer.setToolTipText(contentName);
-											DisplayButtons.setToolTip(display);
-
-											// Enable the Channel buttons, too
-											// System.out.println("\nReceived content '" + contentName + "'");
-											for (List<ChannelButtonGrid> allGrids : channelButtonGridList)
-												if (allGrids.get(0).getDisplay().getNumber() == display.getNumber())
-													for (ChannelButtonGrid cbg : allGrids)
-														// if (contentName.contains(cbg.getId())) {
-														for (int i = 0; i < cbg.getBg().getNumButtons(); i++) {
-															DDButton myButton = cbg.getBg().getAButton(i);
-															boolean selected = myButton.getChannel().toString().equals(contentName);
-															// String myButtonText = myButton.getText().replaceAll("\\<.*?>", "");
-															// boolean selected = contentName.contains(myButtonText);
-															myButton.setSelected(selected);
-															// System.out.println("Display '" + display + "' button '"
-															// + myButton.getText() + "'/'" + myButton.getChannel().toString()
-															// + "/" + myButtonText + "' set to " + selected
-															// + " for this message '" + contentName + "'");
-														}
-											// } else {
-											// System.out.println("Display '" + display + ": Ignoring grid "
-											// + cbg.getId() + " for this message '" + contentName + "'");
-											// }
-
-										}
-										rs.next();
-									}
-								}
-							} catch (SQLException e) {
-								e.printStackTrace();
-							}
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}.start();
-
+			new CheckDisplayStatus(display, index, footer, channelButtonGridList).start();
 			index++;
 		}
 
-		new Thread("WhoIsInChatRoom") {
-			private MessagingClient	client;
-			private boolean[]		aliveList		= null;
-			private boolean[]		lastAliveList	= null;
-
-			public void run() {
-				login();
-				long sleepTime = 1000;
-				while (true) {
-					try {
-						sleep(sleepTime);
-						sleepTime = 10000;
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					lastAliveList = aliveList;
-					aliveList = new boolean[displayList.size()];
-					for (int i = 0; i < displayList.size(); i++) {
-						aliveList[i] = false;
-					}
-					client.sendMessage(MessageCarrier.getWhoIsIn());
-
-					try {
-						sleep(2000); // Wait long enough for all the messages to come in.
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					for (int i = 0; i < displayList.size(); i++) {
-						if (lastAliveList == null || lastAliveList[i] != aliveList[i])
-							setDisplayIsAlive(displayList.get(i).getNumber(), aliveList[i]);
-					}
-				}
-			}
-
-			private void login() {
-				try {
-					long ran = new Date().getTime() % 1000L;
-					final String myName = InetAddress.getLocalHost().getCanonicalHostName() + "_" + ran;
-
-					System.out.println("\n**Starting messaging client named '" + myName + "'");
-					client = new MessagingClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName) {
-						public void displayIncomingMessage(final String msg) {
-							if (msg.startsWith("WHOISIN") && !msg.contains("FA\u00c7ADE") && !msg.contains("Error")
-									&& !msg.contains(myName)) {
-								// Match the client name, "WHOISIN [(.*)] since <date>"
-								String clientName = msg.substring(msg.indexOf('[') + 1, msg.indexOf(']'));
-								// System.out.println("A client named '" + clientName + "' is alive");
-								for (int i = 0; i < displayList.size(); i++) {
-									if (displayList.get(i).getMessagingName().contains(clientName)) {
-										// System.out.println("A client named '" + clientName + "' is a Display I know about!");
-										// setDisplayIsAlive(D.getNumber(), true);
-										aliveList[i] = true;
-									}
-								}
-							}
-						}
-					};
-					// start the Client
-					if (!client.start())
-						return;
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				}
-			}
-		}.start();
+		new WhoIsInChatRoom(this).start();
 	}
 
 	/**
@@ -636,7 +355,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		}
 	}
 
-	private void setDisplayIsAlive(int number, boolean alive) {
+	@Override
+	public void setDisplayIsAlive(int number, boolean alive) {
 		displaySelector.setIsAlive(number, alive);
 
 		// Enable the Channel buttons, too
@@ -713,8 +433,12 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (JOptionPane.showConfirmDialog(exitButton, "Do you _really_ want to exit the Channel Selector Application?",
-							"Exit?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+					JLabel message = new JLabel(
+							"<html>Do you <em>really</em> want to exit the<br>Channel Selector Application?</html>");
+					Font f = message.getFont();
+					message.setFont(new Font(f.getName(), Font.BOLD, f.getSize() * 2));
+
+					if (JOptionPane.showConfirmDialog(exitButton, message, "Exit?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
 						System.exit(0);
 				}
 			});
@@ -722,7 +446,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			exitButton.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.WHITE, 5), bor));
 			exitButton.setBackground(new Color(255, 200, 200));
 			exitButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 4)));
-			exitButton.setMargin(new Insets(5, 5, 5, 5));
+			exitButton.setMargin(new Insets(7, 7, 7, 7));
 		}
 
 		return titleBox;
@@ -792,17 +516,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		JLabelFooter footer = new JLabelFooter("Display " + display.getNumber());
 		DisplayButtons.setToolTip(display);
 
-		// int wid = 1, is = 1;
 		if (!SHOW_IN_WINDOW) {
-			// wid = 3;
-			// is = 2;
 			footer.setFont(new Font("Arial", Font.PLAIN, 25));
 		}
 		footer.setAlignmentX(CENTER_ALIGNMENT);
-		// footer.setBorder(BorderFactory.createCompoundBorder(
-		// BorderFactory.createLineBorder(display.getPreferredHighlightColor(), wid),
-		// BorderFactory.createEmptyBorder(is, is, is, is)));
-
 		return footer;
 	}
 
@@ -876,9 +593,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		f.setUndecorated(!SHOW_IN_WINDOW);
-
-		// DisplayListFactory.useRealDisplays(realDisplays);
-		// ChannelCatalogFactory.useRealChannels(true);
 
 		f.setContentPane(channelSelector);
 		if (SHOW_IN_WINDOW)
@@ -1038,7 +752,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	@Override
 	public void activateCard() {
-		card.show(displayChannelPanel, lastActiveDisplay);
-		System.out.println("Activating card '" + lastActiveDisplay + "'");
+		card.show(displayChannelPanel, splashScreens.getNext());
 	}
 }
