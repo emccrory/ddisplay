@@ -3,8 +3,8 @@ package gov.fnal.ppd;
 import static gov.fnal.ppd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.GlobalVariables.PROGRAM_NAME;
 import static gov.fnal.ppd.GlobalVariables.SELF_IDENTIFY;
+import static gov.fnal.ppd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.GlobalVariables.locationCode;
-import static gov.fnal.ppd.GlobalVariables.locationName;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageType;
@@ -19,7 +19,9 @@ import java.net.URL;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+
 /**
  * Let the user ask each Display in the Dynamic Display system to go to the "Identify" screen. Since this Channel is designed to
  * only be on the screen for a fraction of a minute, the Display will go back to its "regularly scheduled program" after a while.
@@ -28,21 +30,47 @@ import javax.swing.JFrame;
  * @copyright 2014
  * 
  */
-public class IdentifyAll extends JButton implements ActionListener {
+public class IdentifyAll implements ActionListener {
 
-	private static final long	serialVersionUID	= 389156534115421551L;
+	private static float		fontSize;
+	private static Insets		inset			= null;
+	private static String		title			= "Identify All Displays: " + getLocationName(locationCode);
 
 	private List<Display>		displays;
 
-	private Channel				identifyChannel		= null;
+	private Channel				identifyChannel	= null;
+
+	private static IdentifyAll	me				= new IdentifyAll();
+
+	/**
+	 * Setup the size of the button you want. Don't call this and you'll get a default button size
+	 * 
+	 * @param fontSize
+	 * @param inset
+	 */
+	public static void setup(final String title, final float fontSize, final Insets inset) {
+		if (title != null)
+			IdentifyAll.title = title;
+		IdentifyAll.fontSize = fontSize;
+		IdentifyAll.inset = inset;
+	}
+
+	public static JComponent getButton() {
+		JButton button = new JButton(title);
+		if (inset != null) {
+			button.setFont(button.getFont().deriveFont(fontSize));
+			button.setMargin(inset);
+		}
+		button.addActionListener(me);
+		return button;
+	}
 
 	/**
 	 * 
 	 */
-	public IdentifyAll() {
-		super("Identify All Displays: " + locationName[locationCode]);
+	private IdentifyAll() {
 		PROGRAM_NAME = "Identify";
-		
+
 		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
 
 		displays = DisplayListFactory.getInstance(sType, locationCode);
@@ -57,11 +85,6 @@ public class IdentifyAll extends JButton implements ActionListener {
 			System.exit(-1);
 		}
 
-		setFont(getFont().deriveFont(30.0f));
-		setMargin(new Insets(20, 50, 20, 50));
-
-		addActionListener(this);
-
 		for (Display D : displays)
 			D.addListener(this);
 	}
@@ -73,7 +96,7 @@ public class IdentifyAll extends JButton implements ActionListener {
 				System.out.println("Set '" + D + "' to '" + identifyChannel + "'");
 				D.setContent(identifyChannel);
 				try {
-					Thread.sleep(500);
+					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -88,8 +111,9 @@ public class IdentifyAll extends JButton implements ActionListener {
 	 */
 	public static void main(final String[] args) {
 		JFrame f = new JFrame(IdentifyAll.class.getSimpleName());
+		IdentifyAll.setup(null, 30.0f, new Insets(20, 50, 20, 50));
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setContentPane(new IdentifyAll());
+		f.setContentPane(IdentifyAll.getButton());
 		f.pack();
 		f.setVisible(true);
 	}

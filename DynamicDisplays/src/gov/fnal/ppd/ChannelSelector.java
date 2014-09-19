@@ -12,13 +12,13 @@ import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.bgImage;
 import static gov.fnal.ppd.GlobalVariables.displayList;
+import static gov.fnal.ppd.GlobalVariables.getLocationDescription;
+import static gov.fnal.ppd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.GlobalVariables.imageHeight;
 import static gov.fnal.ppd.GlobalVariables.imageNames;
 import static gov.fnal.ppd.GlobalVariables.imageWidth;
 import static gov.fnal.ppd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.GlobalVariables.locationCode;
-import static gov.fnal.ppd.GlobalVariables.locationDescription;
-import static gov.fnal.ppd.GlobalVariables.locationName;
 import static gov.fnal.ppd.GlobalVariables.offsets;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 import gov.fnal.ppd.chat.MessageCarrier;
@@ -251,7 +251,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			gap = 50;
 		}
 
-		int lc = (locationCode < 0 ? locationName.length - 1 : locationCode);
 		int splashWithCredits0 = (int) (((double) splashPanel.length) * Math.random());
 		int splashWithCredits1 = (splashWithCredits0 + splashPanel.length / 2) % splashPanel.length;
 		System.out.println("Splash screen with credits is " + splashWithCredits0 + " & " + splashWithCredits1);
@@ -297,11 +296,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			int h = offsets[index];
 			if (index == splashWithCredits0 || index == splashWithCredits1)
 				h = 100;
-			System.out.println("Splash screen " + index + " has vertical offset of " + h);
+			// System.out.println("Splash screen " + index + " has vertical offset of " + h);
 			splash.add(Box.createRigidArea(new Dimension(100, h)));
-			splash.add(new JLabelCenter("   Welcome to " + locationName[lc] + "!   ", headline));
+			splash.add(new JLabelCenter("   Welcome to " + getLocationName(locationCode) + "!   ", headline));
 			splash.add(Box.createRigidArea(new Dimension(50, gap)));
-			splash.add(new JLabelCenter("   " + locationDescription[lc] + "   ", subHead));
+			splash.add(new JLabelCenter("   " + getLocationDescription(locationCode) + "   ", subHead));
 			splash.add(Box.createRigidArea(new Dimension(50, gap)));
 			splash.add(new JLabelCenter("<html><em>Touch to continue</em></html>", subHead));
 			if (index == splashWithCredits0 || index == splashWithCredits1) {
@@ -740,8 +739,14 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		titleBox.setBackground(c);
 		int wid = (SHOW_IN_WINDOW ? 1 : 8);
 		titleBox.setBorder(BorderFactory.createLineBorder(c, wid));
-		// This does not work, so remove it.
-		titleBox.add(refreshButton);
+
+		if (!IS_PUBLIC_CONTROLLER) {
+			titleBox.add(refreshButton);
+			if (!SHOW_IN_WINDOW)
+				IdentifyAll.setup("?", FONT_SIZE / 2, new Insets(5, 5, 5, 5));
+			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+			titleBox.add(IdentifyAll.getButton());
+		}
 		titleBox.add(Box.createHorizontalGlue());
 		titleBox.add(title);
 		titleBox.add(Box.createHorizontalGlue());

@@ -35,17 +35,31 @@ public class GlobalVariables {
 	/**
 	 * Short name for the location of the displays
 	 */
-	public static String[]			locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", "Fermilab" };
+	private static String[]			locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", "Fermilab" };
+	
+	
 
 	/**
 	 * Long name for the location of the displays
 	 */
-	public static String[]			locationDescription		= { "Fermilab Experiments' Remote Operations Center, West Side",
+	private static String[]			locationDescription		= { "Fermilab Experiments' Remote Operations Center, West Side",
 			"Fermilab CMS/LHC Remote Operations Center, East Side", //
 			"Fermilab Transfer Gallery", //
 			"All Dynamic Displays at Fermilab", //
 															};
-
+	public static String getLocationName(int index) {
+		if ( index < 0 || index >= locationName.length )
+			return locationName[locationName.length-1];
+		return locationName[index];
+	}
+	
+	public static String getLocationDescription(int index) {
+		if ( index < 0 || index >= locationDescription.length )
+			return locationDescription[locationDescription.length-1];
+		return locationDescription[index];
+	} 
+	
+	
 	public static final String[]	imageNames				= { "src/gov/fnal/ppd/images/fermilab3.jpg",
 			"src/gov/fnal/ppd/images/fermilab1.jpg", //
 			"src/gov/fnal/ppd/images/fermilab2.jpg", //
