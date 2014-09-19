@@ -57,6 +57,7 @@ public class IdentifyAll implements ActionListener {
 
 	public static JComponent getButton() {
 		JButton button = new JButton(title);
+		button.setActionCommand(IdentifyAll.class.getCanonicalName());
 		if (inset != null) {
 			button.setFont(button.getFont().deriveFont(fontSize));
 			button.setMargin(inset);
@@ -91,9 +92,9 @@ public class IdentifyAll implements ActionListener {
 
 	@Override
 	public void actionPerformed(final ActionEvent ev) {
-		if (ev.getSource() == this)
+		if (ev.getActionCommand().equals(IdentifyAll.class.getCanonicalName()))
 			for (Display D : displays) {
-				System.out.println("Set '" + D + "' to '" + identifyChannel + "'");
+				// System.out.println("Set '" + D + "' to '" + identifyChannel + "'");
 				D.setContent(identifyChannel);
 				try {
 					Thread.sleep(10);
