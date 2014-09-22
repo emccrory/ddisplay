@@ -1,6 +1,14 @@
 set path="c:\Program Files (x86)\Java\jre7\bin";%path%
 
 set classpath=bin;lib/mysql-connector-java-5.0.3-bin.jar;lib/slf4j-api-1.5.8.jar;lib/slf4j-log4j12-1.5.8.jar
+set "public=false"
+set "loc=0"
+set "server=mccrory.fnal.gov"
 
-java -Dddisplay.selector.inwindow=FALSE -Xmx512m gov.fnal.ppd.ChannelSelector 
+java -Dddisplay.selector.inwindow=FALSE^
+     -Dddisplay.selector.public=%public% ^
+     -Dddisplay.selector.location=%loc% ^
+     -Dddisplay.messagingserver=%server% ^
+     -Dddisplay.dbserver=%server% ^
+     -Xmx512m gov.fnal.ppd.ChannelSelector 
 

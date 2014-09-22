@@ -12,9 +12,14 @@ d=`date +%F`
 
 log=../log/display_${d}_$$.log
 
+messagingServer="mccrory.fnal.gov"
+databaseServer="mccrory.fnal.gov"
+
 screenNum=0
 if [ "$1 X" != " X" ]; then
     screenNum=$1;
 fi
 
-java gov.fnal.ppd.signage.display.testing.DisplayAsConnectionToFireFox -screen=$screenNum 2>&1 > $log
+java -Dddisplay.messagingserver=$messagingServer \
+     -Dddisplay.dbserver=$databaseServer \
+     -Xmx512m gov.fnal.ppd.signage.display.testing.DisplayAsConnectionToFireFox -screen=$screenNum 2>&1 > $log
