@@ -1,6 +1,5 @@
 . setupJars.sh
 
-messagingServer="mccrory.fnal.gov"
 databaseServer="mccrory.fnal.gov"
 
 java -Dddisplay.messagingserver=$messagingServer \

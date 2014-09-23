@@ -1,7 +1,5 @@
 . setupJars.sh
 
-messagingServer="mccrory.fnal.gov"
-databaseServer="mccrory.fnal.gov"
 window="false"
 public="true"
 loc="0"

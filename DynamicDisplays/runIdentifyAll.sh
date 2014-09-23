@@ -1,6 +1,5 @@
 #!/bin/bash
 
-messagingServer="mccrory.fnal.gov"
 databaseServer="mccrory.fnal.gov"
 loc="0"
 
