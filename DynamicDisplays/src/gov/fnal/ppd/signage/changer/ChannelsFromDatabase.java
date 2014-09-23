@@ -1,7 +1,8 @@
 package gov.fnal.ppd.signage.changer;
 
-import gov.fnal.ppd.signage.SignageContent;
+import static gov.fnal.ppd.GlobalVariables.DATABASE_NAME;
 import gov.fnal.ppd.signage.DatabaseNotVisibleException;
+import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.channel.ChannelImpl;
 
 import java.net.URI;
@@ -56,7 +57,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 
 		try {
 			stmt = connection.createStatement();
-			rs = stmt.executeQuery("USE xoc");
+			rs = stmt.executeQuery("USE " + DATABASE_NAME);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			System.exit(1);

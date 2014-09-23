@@ -211,7 +211,7 @@ public class MessagingClient {
 	 */
 	public static void main(String[] args) {
 		// default values
-		int portNumber = MESSAGING_SERVER_PORT;
+		int portNumber = 32123; // MESSAGING_SERVER_PORT;
 		String serverAddress = "localhost";
 		String userName = "Anonymous";
 

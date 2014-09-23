@@ -16,50 +16,48 @@ public class GlobalVariables {
 	/**
 	 * Do we show in full screen or in a window?
 	 */
-	public static boolean			SHOW_IN_WINDOW			= Boolean.getBoolean("ddisplay.selector.inwindow");
+	public static boolean	SHOW_IN_WINDOW			= Boolean.getBoolean("ddisplay.selector.inwindow");
 	/**
 	 * Is this a PUBLIC controller?
 	 */
-	public static boolean			IS_PUBLIC_CONTROLLER	= Boolean.getBoolean("ddisplay.selector.public");
+	public static boolean	IS_PUBLIC_CONTROLLER	= Boolean.getBoolean("ddisplay.selector.public");
 
 	/**
 	 * How long since last user activity?
 	 */
-	public static long				lastDisplayChange		= 0L;
+	public static long		lastDisplayChange		= 0L;
 
 	/**
 	 * Which set of Displays are we controlling here?
 	 */
-	public static int				locationCode			= Integer.getInteger("ddisplay.selector.location", 0);
+	public static int		locationCode			= Integer.getInteger("ddisplay.selector.location", 0);
 
 	/**
 	 * Short name for the location of the displays
 	 */
-	private static String[]			locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", "Fermilab" };
-	
-	
+	private static String[]	locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", "Fermilab" };
 
 	/**
 	 * Long name for the location of the displays
 	 */
-	private static String[]			locationDescription		= { "Fermilab Experiments' Remote Operations Center, West Side",
+	private static String[]	locationDescription		= { "Fermilab Experiments' Remote Operations Center, West Side",
 			"Fermilab CMS/LHC Remote Operations Center, East Side", //
 			"Fermilab Transfer Gallery", //
 			"All Dynamic Displays at Fermilab", //
-															};
+													};
+
 	public static String getLocationName(int index) {
-		if ( index < 0 || index >= locationName.length )
-			return locationName[locationName.length-1];
+		if (index < 0 || index >= locationName.length)
+			return locationName[locationName.length - 1];
 		return locationName[index];
 	}
-	
+
 	public static String getLocationDescription(int index) {
-		if ( index < 0 || index >= locationDescription.length )
-			return locationDescription[locationDescription.length-1];
+		if (index < 0 || index >= locationDescription.length)
+			return locationDescription[locationDescription.length - 1];
 		return locationDescription[index];
-	} 
-	
-	
+	}
+
 	public static final String[]	imageNames				= { "src/gov/fnal/ppd/images/fermilab3.jpg",
 			"src/gov/fnal/ppd/images/fermilab1.jpg", //
 			"src/gov/fnal/ppd/images/fermilab2.jpg", //
@@ -127,6 +125,10 @@ public class GlobalVariables {
 	 */
 	public static final String		XML_SERVER_NAME			= System.getProperty("ddisplay.xmlserver", DEFAULT_SERVER);
 
+	/**
+	 * The database name, as in "USE " + DATABASE_NAME.
+	 */
+	public static final String		DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc");
 	/**
 	 * One second, expressed in milliseconds (e.g., 1000L)
 	 */

@@ -1,7 +1,8 @@
 package gov.fnal.ppd.signage.display;
 
-import gov.fnal.ppd.signage.Display;
+import static gov.fnal.ppd.GlobalVariables.DATABASE_NAME;
 import gov.fnal.ppd.signage.DatabaseNotVisibleException;
+import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 
@@ -38,7 +39,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 			}
 		try (Statement stmt = connection.createStatement();) {
 			@SuppressWarnings("unused")
-			ResultSet result = stmt.executeQuery("USE xoc");
+			ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);
 			stmt.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();

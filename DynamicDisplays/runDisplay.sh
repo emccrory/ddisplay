@@ -12,14 +12,26 @@ d=`date +%F`
 
 log=../log/display_${d}_$$.log
 
-messagingServer="mccrory.fnal.gov"
 databaseServer="mccrory.fnal.gov"
 
 screenNum=0
 if [ "$1 X" != " X" ]; then
-    screenNum=$1;
+    Screennum=$1;
 fi
+{
+    date
+# Is this node the messaging server??
+    if [ $messagingServer = `uname -n` ]; then
+	if java -Xmx512m gov.fnal.ppd.chat.MessagingServerTest; then
+	    echo Messaging server already running;
+	else
+	    echo Messaging server is not present so we shall start it
+	    ./runMessagingServer.sh & 
+	fi
+    fi
+    
+    java -Dddisplay.messagingserver=$messagingServer \
+	-Dddisplay.dbserver=$databaseServer \
+	-Xmx512m gov.fnal.ppd.signage.display.testing.DisplayAsConnectionToFireFox -screen=$screenNum 
 
-java -Dddisplay.messagingserver=$messagingServer \
-     -Dddisplay.dbserver=$databaseServer \
-     -Xmx512m gov.fnal.ppd.signage.display.testing.DisplayAsConnectionToFireFox -screen=$screenNum 2>&1 > $log
+} 2>&1 > $log

@@ -1,5 +1,7 @@
 package gov.fnal.ppd.signage.display.testing;
 
+import static gov.fnal.ppd.GlobalVariables.DATABASE_NAME;
+
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
@@ -190,7 +192,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 		try (Statement stmt = connection.createStatement();) {
 			@SuppressWarnings("unused")
-			ResultSet result = stmt.executeQuery("USE xoc");
+			ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);
 
 			try {
 				Date dNow = new Date();
@@ -284,7 +286,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 		// Use ARM to simplify these try blocks.
 		try (Statement stmt = connection.createStatement();) {
-			try (ResultSet rs = stmt.executeQuery("USE xoc")) {
+			try (ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME)) {
 			}
 
 			try (ResultSet rs = stmt.executeQuery(query);) {
