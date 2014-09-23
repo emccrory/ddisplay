@@ -4,7 +4,7 @@ set classpath=bin;lib/mysql-connector-java-5.0.3-bin.jar;lib/slf4j-api-1.5.8.jar
 set "public=true"
 set "loc=0"
 set "databaseServer=mccrory.fnal.gov"
-set "messagingServer=dd-124701.fnal.gov"
+set "messagingServer=dd-124709.fnal.gov"
 
 java -Dddisplay.selector.inwindow=FALSE^
      -Dddisplay.selector.public=%public% ^
