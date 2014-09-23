@@ -22,11 +22,13 @@ fi
     date
 # Is this node the messaging server??
     if [ $messagingServer = `uname -n` ]; then
-	if java -Xmx512m gov.fnal.ppd.chat.MessagingServerTest; then
+	if java -Dddisplay.messagingserver=$messagingServer \
+                -Xmx512m gov.fnal.ppd.chat.MessagingServerTest; then
 	    echo Messaging server already running;
 	else
 	    echo Messaging server is not present so we shall start it
 	    ./runMessagingServer.sh & 
+	    sleep 10;
 	fi
     fi
     
