@@ -34,6 +34,9 @@ public class DDButton extends JButton {
 
 	private final Border		BorderA, BorderB;
 
+	private int					numBR;
+	private static int			staticNumBR			= 0;
+
 	/**
 	 * @param channel
 	 *            (may be null) The Channel that this button represents
@@ -44,6 +47,7 @@ public class DDButton extends JButton {
 	 */
 	public DDButton(final Channel channel, final Display display, int maxLen) {
 		super(align(channel != null ? channel.getName() : display.toString(), maxLen));
+		numBR = staticNumBR;
 		this.selected = false;
 		this.channel = channel;
 		this.display = display;
@@ -79,6 +83,10 @@ public class DDButton extends JButton {
 		setOpaque(true);
 	}
 
+	public int numLinesInTitle() {
+		return numBR;
+	}
+
 	private static String align(String string, int maxLen) {
 		if (string.length() < maxLen)
 			return string;
@@ -95,7 +103,17 @@ public class DDButton extends JButton {
 			third += split[i] + " ";
 		if (third.length() > maxLen)
 			third = third.substring(0, maxLen - 1) + "&hellip;"; // Ellipsis
-		return "<html><center>" + first + "<br />" + second + "<br />" + third + "</center></html>";
+		staticNumBR = 1;
+		if (second.length() > 0) {
+			first += "<br />";
+			staticNumBR = 2;
+		}
+		if (third.length() > 0) {
+			second += "<br />";
+			staticNumBR = 3;
+		}
+
+		return "<html><center>" + first + second + third + "</center></html>";
 	}
 
 	/**

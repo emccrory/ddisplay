@@ -113,7 +113,11 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			// if (SHOW_IN_WINDOW) {
 			// button.setFont(button.getFont().deriveFont(FS));
 			// } else {
-			button.setFont(button.getFont().deriveFont(FS));
+			if (button.numLinesInTitle() > 2)
+				button.setFont(button.getFont().deriveFont(FS * 2.0f / 3.0f));
+			else
+				button.setFont(button.getFont().deriveFont(FS));
+
 			button.setMargin(new Insets(IS, IS, IS, IS));
 			// }
 			button.setSelected(exp.equals(display.getContent()));

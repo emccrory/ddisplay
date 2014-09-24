@@ -29,6 +29,7 @@ import java.awt.Color;
 public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbstract {
 
 	private ConnectionToFirefoxInstance	firefox;
+	private boolean						showingSelfIdentify	= false;
 
 	/**
 	 * @param portNumber
@@ -71,21 +72,27 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		synchronized (firefox) {
 			if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
-				firefox.changeURL(IDENTIFY_URL + number);
-				new Thread("Identify_" + displayNumber + "_wait") {
-					public void run() {
-						try {
-							sleep(SHOW_SPLASH_SCREEN_TIME);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+				if (!showingSelfIdentify) {
+					showingSelfIdentify = true;
+					firefox.changeURL(IDENTIFY_URL + number);
+					new Thread("Identify_" + displayNumber + "_wait") {
+						public void run() {
+							try {
+								sleep(SHOW_SPLASH_SCREEN_TIME);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							setContent(lastChannel);
+							resetStatusUpdatePeriod();
+							showingSelfIdentify = false;
 						}
-						setContent(lastChannel);
-						resetStatusUpdatePeriod();
-					}
-				}.start();
+					}.start();
+				}
 			} else {
 				firefox.changeURL(url);
 				lastChannel = getContent();
+				showingSelfIdentify = false;
+
 				new Thread("UpdateStatus" + getMessagingName()) {
 					public void run() {
 						try {
