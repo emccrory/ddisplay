@@ -21,12 +21,23 @@ import java.awt.Graphics;
 import javax.swing.Box;
 import javax.swing.JPanel;
 
+/**
+ * Utility class for ChannelSelector to deal with the splash screens on the touch-panel displays
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014
+ * 
+ */
 public class SplashScreens extends Thread {
 	private Box[]					splashPanel		= new Box[imageNames.length];
 	private DisplayCardActivator	listener;
 	private int						activeScreen	= -1;
 
-	public SplashScreens(DisplayCardActivator listener, Container displayChannelPanel) {
+	/**
+	 * @param listener
+	 * @param displayChannelPanel
+	 */
+	public SplashScreens(final DisplayCardActivator listener, final Container displayChannelPanel) {
 		this.listener = listener;
 
 		// Create a nice splash screen that it comes back to after a period of inactivity
@@ -114,11 +125,10 @@ public class SplashScreens extends Thread {
 	}
 
 	public void run() {
-		int index = 0;
 		while (true) {
 			try {
 				if (System.currentTimeMillis() > INACTIVITY_TIMEOUT + lastDisplayChange) {
-					listener.activateCard();
+					listener.activateCard(false);
 					lastDisplayChange = System.currentTimeMillis();
 				}
 				sleep(ONE_SECOND);

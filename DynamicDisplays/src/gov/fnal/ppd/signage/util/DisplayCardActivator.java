@@ -2,5 +2,5 @@ package gov.fnal.ppd.signage.util;
 
 public interface DisplayCardActivator {
 
-	public void activateCard();
+	public void activateCard(boolean show);
 }

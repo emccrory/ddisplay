@@ -499,7 +499,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						lastDisplayChange = System.currentTimeMillis() - INACTIVITY_TIMEOUT;
+						activateCard(false);
 					}
 				});
 			}
@@ -533,6 +533,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		// The display selection has been changed, Select the "card" that shows this panel
 		card.show(displayChannelPanel, e.getActionCommand());
 		lastActiveDisplay = e.getActionCommand();
+
 		int displayNum = e.getID();
 		adjustTitle(displayList.get(displayNum));
 		setTabColor(displayList.get(displayNum), displayNum);
@@ -749,7 +750,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	protected void destroy() {
 		// Do everything we can to forget everything we can.
-		// TOD Make this work -- no luck so far!
+		// TODO Make this work -- no luck so far!
 	}
 
 	private void setRefreshAction(ActionListener refreshAction2) {
@@ -757,7 +758,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	@Override
-	public void activateCard() {
-		card.show(displayChannelPanel, splashScreens.getNext());
+	public void activateCard(boolean showingSplash) {
+		if (showingSplash) {
+			card.show(displayChannelPanel, lastActiveDisplay);
+		} else {
+			card.show(displayChannelPanel, splashScreens.getNext());
+		}
 	}
 }

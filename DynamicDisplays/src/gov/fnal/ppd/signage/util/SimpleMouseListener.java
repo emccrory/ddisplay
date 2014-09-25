@@ -20,7 +20,7 @@ public class SimpleMouseListener implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// Interesting!!
-		listener.activateCard();
+		listener.activateCard(true);
 	}
 
 	@Override
