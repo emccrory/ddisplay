@@ -14,6 +14,7 @@ import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
+import gov.fnal.ppd.signage.changer.AddYourOwnURL;
 import gov.fnal.ppd.signage.changer.ChannelButtonGrid;
 import gov.fnal.ppd.signage.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
@@ -56,7 +57,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -221,6 +221,12 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				allGrids.add(grid);
 				display.addListener(grid);
 				displayTabPane.add(grid, " EXP ");
+
+				if (SHOW_IN_WINDOW) {
+					AddYourOwnURL yourOwn = new AddYourOwnURL(display, bg);
+					allGrids.add(yourOwn);
+					displayTabPane.add(yourOwn, "New URL");
+				}
 			}
 
 			grid = new DetailedInformationGrid(display, bg, -1);

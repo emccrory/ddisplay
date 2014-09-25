@@ -83,6 +83,13 @@ public class DDButton extends JButton {
 		setOpaque(true);
 	}
 
+	/**
+	 * @param display
+	 */
+	public DDButton(final Display display) {
+		this(null, display, MAX_STRING_LENGTH);
+	}
+
 	public int numLinesInTitle() {
 		return numBR;
 	}
@@ -114,13 +121,6 @@ public class DDButton extends JButton {
 		}
 
 		return "<html><center>" + first + second + third + "</center></html>";
-	}
-
-	/**
-	 * @param display
-	 */
-	public DDButton(final Display display) {
-		this(null, display, MAX_STRING_LENGTH);
 	}
 
 	@Override
