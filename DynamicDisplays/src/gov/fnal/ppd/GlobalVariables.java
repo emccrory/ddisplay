@@ -140,7 +140,7 @@ public class GlobalVariables {
 	/**
 	 * Used in ChannelSelector to go to the splash screen
 	 */
-	public static final long		INACTIVITY_TIMEOUT		= 10L * ONE_SECOND;
+	public static final long		INACTIVITY_TIMEOUT		= 120L * ONE_SECOND;
 	/**
 	 * Used in ChannelSelector
 	 */
