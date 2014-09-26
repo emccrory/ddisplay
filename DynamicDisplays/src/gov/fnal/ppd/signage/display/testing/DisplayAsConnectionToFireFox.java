@@ -50,6 +50,13 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		browserLauncher = new BrowserLauncher(screenNumber, BrowserInstance.FIREFOX);
 		browserLauncher.startBrowser(getContent().getURI().toASCIIString());
 
+		contInitialization(portNumber);
+	}
+
+	@Override
+	public void initiate() {
+		super.initiate();
+
 		new Thread() {
 			public void run() {
 				try {
@@ -62,8 +69,6 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				}
 			}
 		}.start();
-
-		contInitialization(portNumber);
 	}
 
 	protected void localSetContent() {

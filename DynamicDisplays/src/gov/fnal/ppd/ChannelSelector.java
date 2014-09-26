@@ -193,7 +193,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			final List<ChannelButtonGrid> allGrids = new ArrayList<ChannelButtonGrid>();
 			channelButtonGridList.add(allGrids);
 
-			ChannelButtonGrid grid = new PublicInformationGrid(display, bg);
+			// ChannelButtonGrid grid = new PublicInformationGrid(display, bg);
+			ChannelButtonGrid grid = new DetailedInformationGrid(display, bg, 0);
 			allGrids.add(grid);
 			display.addListener(grid);
 			String sp = SHOW_IN_WINDOW ? "" : " ";

@@ -29,6 +29,11 @@ public enum ChannelCategory {
 	NUMI_DETAILS,
 	NOVA_DETAILS,
 	
+	    /**
+	     * Channels that are videos
+	     */
+	    VIDEOS,
+
 	/**
 	 * Everything else
 	 */

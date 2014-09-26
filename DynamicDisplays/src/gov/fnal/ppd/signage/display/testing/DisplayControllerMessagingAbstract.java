@@ -85,6 +85,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 		myName = ipName + ":" + screenNumber + " (" + number + ")";
 		messagingClient = new MessagingClientLocal(messagingServerNode, messagingServerPort, myName);
+	}
+
+	/**
+	 * Must be called to start all the threads in this class instance!
+	 */
+	public void initiate() {
+
 		if (!messagingClient.start()) {
 			new Thread("WaitForServerToAppear") {
 				public void run() {
@@ -328,6 +335,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								SignageType.class);
 						DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] {
 								myName, number, screenNumber, portNumber, location, color, type });
+						d.initiate();
 						d.setDefaultContent(url);
 						return d;
 					} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException

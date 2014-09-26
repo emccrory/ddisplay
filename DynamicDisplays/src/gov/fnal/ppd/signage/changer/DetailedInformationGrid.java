@@ -45,6 +45,9 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 	protected JPanel makeExpGrid(int set) {
 		ChannelCategory cat = ChannelCategory.MISCELLANEOUS;
 		switch (set) {
+		case 0:
+			cat = ChannelCategory.PUBLIC;
+			break;
 		case 1:
 			cat = ChannelCategory.PUBLIC_DETAILS;
 			break;
@@ -57,6 +60,9 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		case 4:
 			cat = ChannelCategory.NUMI_DETAILS;
 			break;
+		case 5:
+		    cat = ChannelCategory.VIDEOS;
+		    break;
 		default:
 			cat = ChannelCategory.MISCELLANEOUS;
 			break;
@@ -79,7 +85,7 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			cols = 4;
 			gap = 5;
 			maxLen = 10;
-		} else if (list.size() > 10) {
+		} else if (list.size() > 14) {
 			FS = FONT_SIZE;
 			IS = INSET_SIZE / 2;
 			cols = 3;

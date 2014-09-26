@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -71,8 +72,8 @@ public class DDSystemStatus extends JFrame {
 	private JScrollPane				scroller;
 	private ImageIcon				dataIcon, infoIcon, clockIcon, facadeIcon, selectorIcon;
 
-	private Integer					nextWhoIsIn			= 1;
-	private JButton					refreshClients		= new JButton("Refresh in 0" + (nextWhoIsIn + 1));
+	private AtomicInteger			nextWhoIsIn			= new AtomicInteger(1);
+	private JButton					refreshClients		= new JButton("Refresh in 0" + (nextWhoIsIn.get() + 1));
 	private JCheckBox				showUpTime			= new JCheckBox("Times?");
 	private JCheckBox				showFacades			= new JCheckBox("Fa" + "\u00c7ades?".toLowerCase());
 
@@ -193,9 +194,7 @@ public class DDSystemStatus extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				synchronized (nextWhoIsIn) {
-					nextWhoIsIn = 0;
-				}
+				nextWhoIsIn.set(0);
 			}
 		};
 		refreshClients.addActionListener(checkBoxListener);
@@ -302,11 +301,11 @@ public class DDSystemStatus extends JFrame {
 						e.printStackTrace();
 					}
 					synchronized (nextWhoIsIn) {
-						if (client != null && nextWhoIsIn-- <= 0) {
+						if (client != null && nextWhoIsIn.decrementAndGet() <= 0) {
 							whoIsIn();
-							nextWhoIsIn = 59;
+							nextWhoIsIn.set(59);
 						}
-						refreshClients.setText("Refresh in " + (nextWhoIsIn < 9 ? "0" : "") + (nextWhoIsIn + 1));
+						refreshClients.setText("Refresh in " + (nextWhoIsIn.get() < 9 ? "0" : "") + (nextWhoIsIn.get() + 1));
 					}
 				}
 			}
@@ -332,7 +331,7 @@ public class DDSystemStatus extends JFrame {
 					setIcon(facadeIcon);
 				else if (isTime(value))
 					setIcon(clockIcon);
-				else if (isSelector(value) )
+				else if (isSelector(value))
 					setIcon(selectorIcon);
 				else
 					setIcon(infoIcon);
@@ -356,7 +355,7 @@ public class DDSystemStatus extends JFrame {
 			String nodeInfo = (String) (node.getUserObject());
 			return nodeInfo.indexOf("Connected") >= 0;
 		}
-		
+
 		protected boolean isSelector(Object value) {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 			String nodeInfo = (String) (node.getUserObject());
@@ -381,7 +380,7 @@ public class DDSystemStatus extends JFrame {
 			bigIcon = new ImageIcon("src/gov/fnal/ppd/images/eye.png");
 			I = bigIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 			facadeIcon = new ImageIcon(I);
-			
+
 			bigIcon = new ImageIcon("src/gov/fnal/ppd/images/selector.jpg");
 			I = bigIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 			selectorIcon = new ImageIcon(I);

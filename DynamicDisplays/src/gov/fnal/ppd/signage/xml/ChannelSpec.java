@@ -61,9 +61,10 @@ public class ChannelSpec {
 				return new URI(SELF_IDENTIFY);
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
+				return null;
 			}
-		}
-		return content.getURI();
+		} else
+			return content.getURI();
 	}
 
 	public void setUri(URI uri) {
