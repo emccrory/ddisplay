@@ -1,18 +1,19 @@
-package gov.fnal.ppd.signage.channel;
+package gov.fnal.ppd.signage.xml;
 
 import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
+import gov.fnal.ppd.signage.channel.ChannelImpl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * An empty channel that can be held by a display during startup (to avoid null pointer violation elsewhere)
+ * An empty channel for use by these XML classes
  * 
  * @author Elliott McCrory, Fermilab/AD/Instrumentation.
  * 
  */
-public class EmptyChannel extends ChannelImpl {
+class EmptyChannel extends ChannelImpl {
 	private static final long	serialVersionUID	= -419375552528263824L;
 
 	private static final String	DEFAULT_URLS[]		= { "http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MINOS",
@@ -50,7 +51,10 @@ public class EmptyChannel extends ChannelImpl {
 
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
 		System.out.println(MY_URL);
 	}
 }

@@ -41,6 +41,8 @@ public class ChannelCatalogFactory {
 
 	/**
 	 * Re-read the channels from the database
+	 * 
+	 * @return The instance of ChannelCatalog that is relevant here
 	 */
 	public static ChannelCatalog refresh() {
 		me = null;

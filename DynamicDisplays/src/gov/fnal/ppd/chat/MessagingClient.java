@@ -1,7 +1,6 @@
 package gov.fnal.ppd.chat;
 
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
-import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -149,6 +148,9 @@ public class MessagingClient {
 		// Override this method if you need to know when a connection is accepted
 	}
 
+	/**
+	 * 
+	 */
 	public void retryConnection() {
 		connectionFailed();
 	}

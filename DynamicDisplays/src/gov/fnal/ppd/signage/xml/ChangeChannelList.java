@@ -2,7 +2,6 @@ package gov.fnal.ppd.signage.xml;
 
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.channel.ChannelPlayList;
-import gov.fnal.ppd.signage.channel.EmptyChannel;
 
 import java.net.URISyntaxException;
 

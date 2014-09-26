@@ -1,18 +1,17 @@
 package gov.fnal.ppd.signage.display;
 
+import static gov.fnal.ppd.signage.util.Util.makeEmptyChannel;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.DDButton;
 import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
-import gov.fnal.ppd.signage.channel.EmptyChannel;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
-import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +44,7 @@ public abstract class DisplayImpl implements Display {
 	// };
 	protected String				myName;
 
+	
 	/**
 	 * @param ipName
 	 * @param screenNumber
@@ -70,12 +70,10 @@ public abstract class DisplayImpl implements Display {
 		this.displayNumber = number;
 		this.highlightColor = color;
 		this.category = type;
-		try {
-			this.channel = new EmptyChannel();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+		this.channel = makeEmptyChannel();
 	}
+
+	
 
 	protected abstract void localSetContent();
 
@@ -84,11 +82,7 @@ public abstract class DisplayImpl implements Display {
 		if (getCategory().isVisible(c)) {
 			SignageContent retval = channel;
 			if (c == null)
-				try {
-					channel = new EmptyChannel();
-				} catch (URISyntaxException e1) {
-					e1.printStackTrace();
-				}
+				channel = makeEmptyChannel();
 			else
 				channel = (Channel) c;
 			System.out.println(getClass().getSimpleName() + ": Display " + getNumber() + " changed to [" + channel + "] at "
@@ -212,8 +206,10 @@ public abstract class DisplayImpl implements Display {
 	public SignageContent getContent() {
 		return channel;
 	}
+
 	/**
 	 * A utility method to allow a well-behaved subclass set the channel underneath things, e.g., during initialization.
+	 * 
 	 * @param c
 	 */
 	protected void setChannel(Channel c) {

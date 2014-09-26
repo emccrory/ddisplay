@@ -4,7 +4,6 @@ import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -79,6 +78,13 @@ public class MessagingServer {
 		// ArrayList for the Client list
 		al = new ClientThreadList();
 		launchMemoryWatcher();
+	}
+
+	/**
+	 * Start the messaging server
+	 */
+	public void start() {
+
 		new Thread("InternalCounts") {
 			public void run() {
 				while (true) {
@@ -100,12 +106,7 @@ public class MessagingServer {
 				}
 			}
 		}.start();
-	}
 
-	/**
-	 * Start the messaging server
-	 */
-	public void start() {
 		keepGoing = true;
 		/* create socket server and wait for connection requests */
 		try {
@@ -335,7 +336,8 @@ public class MessagingServer {
 				} catch (Exception e) {
 					display(username + ": Exception reading input stream -- " + e + "; The received message was '" + read + "'");
 					System.err.println(username + ": Exception reading input stream -- " + e + "; The received message was '"
-							+ read + "'"); // Put this here to assure that the stack-trace and this message are together in the console (debugging)
+							+ read + "'"); // Put this here to assure that the stack-trace and this message are together in the
+											// console (debugging)
 					e.printStackTrace();
 					break; // End the while(true) loop
 				}

@@ -3,7 +3,6 @@ package gov.fnal.ppd.signage.xml;
 import static gov.fnal.ppd.GlobalVariables.*;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
-import gov.fnal.ppd.signage.channel.EmptyChannel;
 
 import java.net.URI;
 import java.net.URISyntaxException;

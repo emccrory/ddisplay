@@ -21,6 +21,7 @@ import javax.swing.JPanel;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copyright 2014
  * 
+ * @deprecated -- Replaced completely by DetailedInformationGrid.
  */
 public class PublicInformationGrid extends ChannelButtonGrid {
 
@@ -29,11 +30,17 @@ public class PublicInformationGrid extends ChannelButtonGrid {
 	private int					seconds					= LONG_WAIT_OF_INACTIVITY;
 	protected boolean			autoChannelChange		= false;
 
+	/**
+	 * @return if auto change channel is on or not
+	 */
 	public boolean isAutoChannelChange() {
 		return autoChannelChange;
 	}
 
-	public void setAutoChannelChange(boolean autoChannelChange) {
+	/**
+	 * @param autoChannelChange
+	 */
+	public void setAutoChannelChange(final boolean autoChannelChange) {
 		this.autoChannelChange = autoChannelChange;
 	}
 

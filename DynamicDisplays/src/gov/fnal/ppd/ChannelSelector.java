@@ -1,7 +1,6 @@
 package gov.fnal.ppd;
 
 import static gov.fnal.ppd.GlobalVariables.FONT_SIZE;
-import static gov.fnal.ppd.GlobalVariables.INACTIVITY_TIMEOUT;
 import static gov.fnal.ppd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
@@ -23,7 +22,6 @@ import gov.fnal.ppd.signage.changer.DetailedInformationGrid;
 import gov.fnal.ppd.signage.changer.DisplayButtons;
 import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
 import gov.fnal.ppd.signage.changer.DisplayListFactory;
-import gov.fnal.ppd.signage.changer.PublicInformationGrid;
 import gov.fnal.ppd.signage.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.signage.display.DisplayFacade;
 import gov.fnal.ppd.signage.util.CheckDisplayStatus;
@@ -81,7 +79,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private static final Dimension			screenDimension				= Toolkit.getDefaultToolkit().getScreenSize();
 	private static JFrame					f							= new JFrame("Dynamic Display Channel Selector");
 
-	private static ActionListener			fullRefreshAction			= null;
+	// private static ActionListener			fullRefreshAction			= null;
 	private static ActionListener			channelRefreshAction		= null;
 	private static ChannelSelector			channelSelector;
 
@@ -619,7 +617,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	private static void createRefreshActions(final SignageType sType) {
-		fullRefreshAction = new ActionListener() {
+		@SuppressWarnings("unused")
+		ActionListener fullRefreshAction = new ActionListener() {
 
 			// FIXME This operation does not work! I suspect this is because of the globals and the socket connections (maybe they
 			// don't get closed properly?)

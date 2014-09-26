@@ -45,6 +45,7 @@ public class IdentifyAll implements ActionListener {
 	/**
 	 * Setup the size of the button you want. Don't call this and you'll get a default button size
 	 * 
+	 * @param title
 	 * @param fontSize
 	 * @param inset
 	 */
@@ -55,6 +56,9 @@ public class IdentifyAll implements ActionListener {
 		IdentifyAll.inset = inset;
 	}
 
+	/**
+	 * @return the button that launches the "identify all" procedure
+	 */
 	public static JComponent getButton() {
 		JButton button = new JButton(title);
 		button.setActionCommand(IdentifyAll.class.getCanonicalName());

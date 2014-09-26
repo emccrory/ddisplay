@@ -26,13 +26,21 @@ public enum ChannelCategory {
 	 * Channels on the front page of the "Experiments" view
 	 */
 	EXPERIMENT_DETAILS,
-	NUMI_DETAILS,
-	NOVA_DETAILS,
 	
-	    /**
-	     * Channels that are videos
-	     */
-	    VIDEOS,
+	/**
+	 * Channels that show details on the NuMI experiment
+	 */
+	NUMI_DETAILS,
+	
+	/**
+	 * Channels that show details on the NOvA experiment
+	 */
+	NOVA_DETAILS,
+
+	/**
+	 * Channels that are videos
+	 */
+	VIDEOS,
 
 	/**
 	 * Everything else

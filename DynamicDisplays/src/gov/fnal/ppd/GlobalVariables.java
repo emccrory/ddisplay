@@ -46,18 +46,29 @@ public class GlobalVariables {
 			"All Dynamic Displays at Fermilab", //
 													};
 
-	public static String getLocationName(int index) {
+	/**
+	 * @param index
+	 * @return the location (short) name corresponding to this index value
+	 */
+	public static String getLocationName(final int index) {
 		if (index < 0 || index >= locationName.length)
 			return locationName[locationName.length - 1];
 		return locationName[index];
 	}
 
-	public static String getLocationDescription(int index) {
+	/**
+	 * @param index
+	 * @return The location (long) description corresponding to this index value
+	 */
+	public static String getLocationDescription(final int index) {
 		if (index < 0 || index >= locationDescription.length)
 			return locationDescription[locationDescription.length - 1];
 		return locationDescription[index];
 	}
 
+	/**
+	 * The names of the image files used in the screen saver
+	 */
 	public static final String[]	imageNames				= { "src/gov/fnal/ppd/images/fermilab3.jpg",
 			"src/gov/fnal/ppd/images/fermilab1.jpg", //
 			"src/gov/fnal/ppd/images/fermilab2.jpg", //
@@ -75,9 +86,21 @@ public class GlobalVariables {
 			"src/gov/fnal/ppd/images/fermilab17.jpg", //
 															};
 
+	/**
+	 * The images corresponding to the image names specified above
+	 */
 	public final static Image[]		bgImage					= new Image[imageNames.length];
+	/**
+	 * How wide is each image, nominally?
+	 */
 	public final static int[]		imageWidth				= new int[imageNames.length];
+	/**
+	 * how tall is each image, nominally?
+	 */
 	public final static int[]		imageHeight				= new int[imageNames.length];
+	/**
+	 * The offset from the top of the screen to put the text
+	 */
 	public final static int[]		offsets					= new int[imageNames.length];
 
 	static {

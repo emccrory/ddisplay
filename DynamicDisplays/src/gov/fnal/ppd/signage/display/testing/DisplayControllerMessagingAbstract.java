@@ -1,18 +1,17 @@
 package gov.fnal.ppd.signage.display.testing;
 
 import static gov.fnal.ppd.GlobalVariables.DATABASE_NAME;
-
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
+import static gov.fnal.ppd.signage.util.Util.makeEmptyChannel;
 import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.Channel;
-import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.DatabaseNotVisibleException;
+import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
-import gov.fnal.ppd.signage.channel.EmptyChannel;
 import gov.fnal.ppd.signage.comm.DCProtocol;
 import gov.fnal.ppd.signage.comm.DDMessage;
 import gov.fnal.ppd.signage.display.DisplayImpl;
@@ -22,7 +21,6 @@ import java.awt.event.ActionEvent;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
-import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -368,12 +366,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	private void setDefaultContent(String url) {
-		try {
-			EmptyChannel c = new EmptyChannel(url);
-			setChannel(c);
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+		setChannel((Channel) makeEmptyChannel());
 	}
 
 	private static String getURLFromNumber(int channelNumber) {

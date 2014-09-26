@@ -1,8 +1,15 @@
 package gov.fnal.ppd.signage.util;
 
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
+import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
+
+import gov.fnal.ppd.signage.SignageContent;
+import gov.fnal.ppd.signage.changer.ChannelCategory;
+import gov.fnal.ppd.signage.channel.ChannelImpl;
 
 import java.lang.management.ManagementFactory;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -17,7 +24,7 @@ import java.util.GregorianCalendar;
 public class Util {
 	// Some globals for identifying the servers in this system
 
-	private static final String[]	days					= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+	private static final String[]	days	= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
 	private Util() {
 		// Not implement--cannot be instantiated.
@@ -101,5 +108,32 @@ public class Util {
 				}
 			}
 		}.start();
+	}
+
+	private static final String	DEFAULT_URLS[]	= { "http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MINOS",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MINERvA",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MiniBooNE",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MicroBooNE",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=Mu2e",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=gMinus2",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=SeaQuest",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=NOvA",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=LBNE",
+			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=NuMI", //
+			"http://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none", //
+			"http://elliottmccrory.com/clock/five.html", };
+
+	private static final String	MY_URL			= DEFAULT_URLS[(int) (DEFAULT_URLS.length * Math.random())];
+
+	/**
+	 * @return An empty channel
+	 */
+	public static SignageContent makeEmptyChannel() {
+		try {
+			return new ChannelImpl("EmptyChannel", ChannelCategory.PUBLIC, "This channel is undefined", new URI(MY_URL), 0);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

@@ -90,6 +90,9 @@ public class DDButton extends JButton {
 		this(null, display, MAX_STRING_LENGTH);
 	}
 
+	/**
+	 * @return The number of lines that this title should cover (will help determine the font size)
+	 */
 	public int numLinesInTitle() {
 		return numBR;
 	}

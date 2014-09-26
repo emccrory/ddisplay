@@ -96,65 +96,63 @@ public class DDSystemStatus extends JFrame {
 
 		@Override
 		public void displayIncomingMessage(final String msg) {
-			synchronized (nextWhoIsIn) {
-				if (msg.endsWith("\n"))
-					ta.append(msg);
-				else
-					ta.append(msg + "\n");
+			if (msg.endsWith("\n"))
+				ta.append(msg);
+			else
+				ta.append(msg + "\n");
 
-				// TODO Windows 7 display has a problem with this. Only the first node is ever displayed when this is redrawn.
-				// It is getting all the messages and putting them into the tree properly, but the graphics is not showing up
-				// (at least on my instance of Windows 7) 6/16/2014
+			// TODO Windows 7 display has a problem with this. Only the first node is ever displayed when this is redrawn.
+			// It is getting all the messages and putting them into the tree properly, but the graphics is not showing up
+			// (at least on my instance of Windows 7) 6/16/2014
 
-				if (msg.startsWith("WHOISIN")) {
-					refresh = 10;
-					String clientName = msg.substring("WHOISIN [".length(), msg.indexOf(']'));
-					if (msg.contains("FA\u00c7ADE")) {
-						if (showFacades.isSelected()) {
-							String facadeName = msg.substring(msg.indexOf("--") + 3, msg.indexOf(']'));
+			if (msg.startsWith("WHOISIN")) {
+				refresh = 10;
+				String clientName = msg.substring("WHOISIN [".length(), msg.indexOf(']'));
+				if (msg.contains("FA\u00c7ADE")) {
+					if (showFacades.isSelected()) {
+						String facadeName = msg.substring(msg.indexOf("--") + 3, msg.indexOf(']'));
 
-							int k = clientsTree.getModel().getChildCount(root);
-							boolean found = false;
-							for (int i = 0; i < k; i++) {
-								DefaultMutableTreeNode q = (DefaultMutableTreeNode) clientsTree.getModel().getChild(root, i);
-								if (q.toString().contains(facadeName)) {
-									found = true;
-									q.add(new DefaultMutableTreeNode(clientName));
-									// System.out.println("A: " + clientName + " added to " + q.getUserObject());
-									break;
-								}
-							}
-							if (!found) {
-								DefaultMutableTreeNode g = new DefaultMutableTreeNode(facadeName);
-								root.add(g);
-								g.add(new DefaultMutableTreeNode("'" + FACADE.toLowerCase()
-										+ "' nodes are virtual connections between a channel changer & a real display"));
-								if (showUpTime.isSelected())
-									g.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
-								g.add(new DefaultMutableTreeNode(clientName));
-								// System.out.println("B: " + clientName + " added to " + g.getUserObject());
+						int k = clientsTree.getModel().getChildCount(root);
+						boolean found = false;
+						for (int i = 0; i < k; i++) {
+							DefaultMutableTreeNode q = (DefaultMutableTreeNode) clientsTree.getModel().getChild(root, i);
+							if (q.toString().contains(facadeName)) {
+								found = true;
+								q.add(new DefaultMutableTreeNode(clientName));
+								// System.out.println("A: " + clientName + " added to " + q.getUserObject());
+								break;
 							}
 						}
-					} else { // Not a Facade user
-						DefaultMutableTreeNode node = new DefaultMutableTreeNode(clientName);
-						root.add(node);
-						if (showUpTime.isSelected())
-							node.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
-						// System.out.println("C: " + clientName + " added to root");
-						if (msg.contains(")"))
-							node.add(new DefaultMutableTreeNode("Dynamic Display Number "
-									+ msg.substring(msg.indexOf('(') + 1, msg.indexOf(')'))));
-						else if (msg.contains("_listener_"))
-							node.add(new DefaultMutableTreeNode(DDSystemStatus.class.getCanonicalName()));
-						else
-							node.add(new DefaultMutableTreeNode(ChannelSelector.class.getCanonicalName()));
+						if (!found) {
+							DefaultMutableTreeNode g = new DefaultMutableTreeNode(facadeName);
+							root.add(g);
+							g.add(new DefaultMutableTreeNode("'" + FACADE.toLowerCase()
+									+ "' nodes are virtual connections between a channel changer & a real display"));
+							if (showUpTime.isSelected())
+								g.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
+							g.add(new DefaultMutableTreeNode(clientName));
+							// System.out.println("B: " + clientName + " added to " + g.getUserObject());
+						}
 					}
-					// Apparently, there is a way to tell the JTree model that the tree has changed. Need to do that!
-				} else {
-					// System.err.println("Received an unknown message: '" + msg + "'");
-					// Other messages are likely to be the normal communications between ChannelSelector and Display
-					// TODO ? Interpret this message and give a summary on the "Raw Messages" screen
+				} else { // Not a Facade user
+					DefaultMutableTreeNode node = new DefaultMutableTreeNode(clientName);
+					root.add(node);
+					if (showUpTime.isSelected())
+						node.add(new DefaultMutableTreeNode("Connected at " + msg.substring(msg.indexOf("since") + 6)));
+					// System.out.println("C: " + clientName + " added to root");
+					if (msg.contains(")"))
+						node.add(new DefaultMutableTreeNode("Dynamic Display Number "
+								+ msg.substring(msg.indexOf('(') + 1, msg.indexOf(')'))));
+					else if (msg.contains("_listener_"))
+						node.add(new DefaultMutableTreeNode(DDSystemStatus.class.getCanonicalName()));
+					else
+						node.add(new DefaultMutableTreeNode(ChannelSelector.class.getCanonicalName()));
 				}
+				// Apparently, there is a way to tell the JTree model that the tree has changed. Need to do that!
+			} else {
+				// System.err.println("Received an unknown message: '" + msg + "'");
+				// Other messages are likely to be the normal communications between ChannelSelector and Display
+				// TODO ? Interpret this message and give a summary on the "Raw Messages" screen
 			}
 		};
 
@@ -300,13 +298,11 @@ public class DDSystemStatus extends JFrame {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					synchronized (nextWhoIsIn) {
-						if (client != null && nextWhoIsIn.decrementAndGet() <= 0) {
-							whoIsIn();
-							nextWhoIsIn.set(59);
-						}
-						refreshClients.setText("Refresh in " + (nextWhoIsIn.get() < 9 ? "0" : "") + (nextWhoIsIn.get() + 1));
+					if (client != null && nextWhoIsIn.decrementAndGet() <= 0) {
+						whoIsIn();
+						nextWhoIsIn.set(59);
 					}
+					refreshClients.setText("Refresh in " + (nextWhoIsIn.get() < 9 ? "0" : "") + (nextWhoIsIn.get() + 1));
 				}
 			}
 		}.start();
