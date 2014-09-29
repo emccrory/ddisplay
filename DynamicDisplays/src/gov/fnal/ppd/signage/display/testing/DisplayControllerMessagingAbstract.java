@@ -398,7 +398,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	private class MessagingClientLocal extends MessagingClient {
-		private boolean		debug	= false;
+		private boolean		debug	= true;
 		private DCProtocol	dcp		= new DCProtocol();
 
 		public MessagingClientLocal(String server, int port, String username) {
@@ -419,7 +419,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		@Override
 		public void displayIncomingMessage(String msg) {
 			if (debug)
-
 				System.out.println(DisplayControllerMessagingAbstract.class.getCanonicalName() + "."
 						+ this.getClass().getCanonicalName() + ".displayIncomingMessage(): Got this message: [" + msg + "]");
 			if (msg.startsWith(myName)) {
