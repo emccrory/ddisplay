@@ -222,7 +222,7 @@ public class MessagingServer {
 		}
 	}
 
-	// for a client who logoff using the LOGOUT message
+	// for a client who logs off using the LOGOUT message
 	synchronized void remove(int id) {
 		synchronized (al) {
 			// scan the array list until we found the Id
@@ -231,10 +231,12 @@ public class MessagingServer {
 				// found it
 				if (ct.id == id) {
 					al.remove(i);
-					return;
+					// Do not return; I want to see the information message at the end.
+					break;
 				}
 			}
 		}
+		System.out.println(this.getClass().getSimpleName() + ": Number of remaining clients: " + al.size());
 	}
 
 	/**
@@ -282,12 +284,13 @@ public class MessagingServer {
 		MessageCarrier		cm;
 		// the date I connect
 		String				date;
+		private boolean		thisSocketIsActive;
 
 		// Constructor
 		ClientThread(Socket socket) {
-			super("ClientThread_of_MessagingServer");
+			super("ClientThread_of_MessagingServer_" + uniqueId);
 			// a unique id
-			id = ++uniqueId;
+			id = uniqueId++;
 			this.socket = socket;
 			Object read = null;
 			/* Creating both Data Stream */
@@ -303,7 +306,7 @@ public class MessagingServer {
 				} else if (read instanceof String) {
 					username = (String) read;
 				}
-				display("'" + username + "' has connected.");
+				display("'" + username + "' (" + id + ") has connected.");
 			} catch (IOException e) {
 				display("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
 				return;
@@ -321,7 +324,6 @@ public class MessagingServer {
 
 		public void run() {
 			// to loop until LOGOUT or we hit an unrecoverable exception
-			boolean thisSocketIsActive = true;
 			Object read = new Object();
 			while (thisSocketIsActive) {
 				// read a String (which is an object)
@@ -381,11 +383,13 @@ public class MessagingServer {
 								display("Removing null ClientThread");
 								al.remove(AL);
 							} else if (AL.username == null) {
-								display("Removing null ClientThread username [" + AL + "]");
+								display("Removing ClientThread with null username [" + AL + "]");
 								al.remove(AL);
+								AL.thisSocketIsActive = false;
 							} else if (AL.date == null) {
-								display("Removing null ClientThread date [" + AL + "]");
+								display("Removing ClientThread with null date [" + AL + "]");
 								al.remove(AL);
+								AL.thisSocketIsActive = false;
 							}
 						}
 					break;
@@ -443,6 +447,10 @@ public class MessagingServer {
 				e.printStackTrace();
 			}
 			return true;
+		}
+
+		private MessagingServer getOuterType() {
+			return MessagingServer.this;
 		}
 
 		@Override
