@@ -79,6 +79,7 @@ public class MessagingClient {
 			 */
 		} catch (IOException eIO) {
 			displayLogMessage("Exception creating new Input/output Streams: " + eIO);
+			socket = null;
 			return false;
 		}
 
@@ -97,6 +98,7 @@ public class MessagingClient {
 		} catch (IOException eIO) {
 			displayLogMessage("Exception doing login : " + eIO);
 			disconnect();
+			socket = null;
 			return false;
 		}
 
@@ -161,7 +163,7 @@ public class MessagingClient {
 		long wait = 10000L;
 		// Wait until the server returns
 		while (socket == null) {
-			displayLogMessage("Will wait " + wait + " ms for server to return.");
+			displayLogMessage("Will wait " + (wait/1000L) + " seconds for server to return and then try to connect again.");
 			try {
 				Thread.sleep(wait);
 			} catch (InterruptedException e) {
@@ -173,7 +175,7 @@ public class MessagingClient {
 						+ (new Date()) + "...");
 			}
 		}
-		displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Socket is viable [" + socket
+		displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Socket is now viable [" + socket
 				+ "]; connection has been restored at " + (new Date()));
 	}
 

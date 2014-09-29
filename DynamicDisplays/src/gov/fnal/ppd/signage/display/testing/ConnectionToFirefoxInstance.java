@@ -38,7 +38,7 @@ public class ConnectionToFirefoxInstance {
 
 		// FIXME The does not work for screen != 0. Firefox needs to be configured to listen to port 32001 for screen #1, and this,
 		// I think, needs to be done by hand. Not sure at this time (9/15/2014) how to do this.
-		port = PORT + screenNumber;
+		port = PORT; // + screenNumber;
 		openConnection();
 	}
 
