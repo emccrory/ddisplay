@@ -284,7 +284,7 @@ public class MessagingServer {
 		MessageCarrier		cm;
 		// the date I connect
 		String				date;
-		private boolean		thisSocketIsActive;
+		private boolean		thisSocketIsActive = false;
 
 		// Constructor
 		ClientThread(Socket socket) {
@@ -325,6 +325,7 @@ public class MessagingServer {
 		public void run() {
 			// to loop until LOGOUT or we hit an unrecoverable exception
 			Object read = new Object();
+			thisSocketIsActive = true;
 			while (thisSocketIsActive) {
 				// read a String (which is an object)
 				try {
