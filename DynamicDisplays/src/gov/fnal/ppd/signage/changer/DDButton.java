@@ -97,7 +97,8 @@ public class DDButton extends JButton {
 		return numBR;
 	}
 
-	private static String align(String string, int maxLen) {
+	private static synchronized String align(String string, int maxLen) {
+		staticNumBR = 1;
 		if (string.length() < maxLen)
 			return string;
 		String[] split = string.split(" ");
@@ -105,15 +106,17 @@ public class DDButton extends JButton {
 		String second = "";
 		String third = "";
 		int i = 0;
-		for (; (first + split[i]).length() < maxLen; i++)
+		for (; first.length() < maxLen; i++)
 			first += split[i] + " ";
-		for (; i < split.length && (second + split[i]).length() < maxLen; i++)
+		for (; i < split.length && second.length() < maxLen; i++)
 			second += split[i] + " ";
 		for (; i < split.length; i++)
 			third += split[i] + " ";
 		if (third.length() > maxLen)
 			third = third.substring(0, maxLen - 1) + "&hellip;"; // Ellipsis
-		staticNumBR = 1;
+		if (string.toUpperCase().contains("LBNF"))
+			System.out.println("maxlen=" + maxLen + " [" + first + "] [" + second + "] [" + third + "]");
+
 		if (second.length() > 0) {
 			first += "<br />";
 			staticNumBR = 2;

@@ -196,12 +196,12 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			allGrids.add(grid);
 			display.addListener(grid);
 			String sp = SHOW_IN_WINDOW ? "" : " ";
-			displayTabPane.add(grid, sp + ChannelCategory.PUBLIC + sp);
+			displayTabPane.add(grid, " Public ");
 
 			grid = new DetailedInformationGrid(display, bg, 1);
 			allGrids.add(grid);
 			display.addListener(grid);
-			displayTabPane.add(grid, sp + ChannelCategory.PUBLIC_DETAILS + sp);
+			displayTabPane.add(grid, " Details ");
 
 			if (!IS_PUBLIC_CONTROLLER) {
 				// Do not add the "Experiment Details" tabs to a Public controller
@@ -220,6 +220,13 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				allGrids.add(grid);
 				display.addListener(grid);
 				displayTabPane.add(grid, " EXP ");
+				
+				grid = new DetailedInformationGrid(display, bg, 6);
+				allGrids.add(grid);
+				display.addListener(grid);
+				displayTabPane.add(grid, " Beam ");
+				
+				
 
 				if (SHOW_IN_WINDOW) {
 					AddYourOwnURL yourOwn = new AddYourOwnURL(display, bg);
@@ -227,6 +234,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					displayTabPane.add(yourOwn, "New URL");
 				}
 			}
+			
+			grid = new DetailedInformationGrid(display, bg, 5);
+			allGrids.add(grid);
+			display.addListener(grid);
+			displayTabPane.add(grid, " Videos ");
 
 			grid = new DetailedInformationGrid(display, bg, -1);
 			allGrids.add(grid);

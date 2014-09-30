@@ -61,8 +61,12 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			cat = ChannelCategory.NUMI_DETAILS;
 			break;
 		case 5:
-		    cat = ChannelCategory.VIDEOS;
-		    break;
+			cat = ChannelCategory.VIDEOS;
+			break;
+
+		case 6:
+			cat = ChannelCategory.ACCELERATOR;
+			break;
 		default:
 			cat = ChannelCategory.MISCELLANEOUS;
 			break;
@@ -78,25 +82,26 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			IS = INSET_SIZE / 3;
 			cols = 5;
 			gap = 4;
-			maxLen = 8;
+			maxLen = 17;
 		} else if (list.size() > 18) {
 			FS = 0.6f * FONT_SIZE;
 			IS = INSET_SIZE / 2;
 			cols = 4;
 			gap = 5;
-			maxLen = 10;
+			maxLen = 15;
 		} else if (list.size() > 14) {
-			FS = FONT_SIZE;
+			FS = 0.8f * FONT_SIZE;
 			IS = INSET_SIZE / 2;
 			cols = 3;
 			gap = 7;
 			maxLen = 13;
 		} else if (list.size() > 6) {
+			// Between 7 and 14 buttons -- 2 columns
 			FS = FONT_SIZE;
 			IS = INSET_SIZE / 2;
 			cols = 2;
-			gap = 10;
-			maxLen = 15;
+			gap = 12;
+			maxLen = 9;
 		} else {
 			FS = 1.2f * FONT_SIZE;
 			IS = INSET_SIZE;
@@ -119,10 +124,17 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			// if (SHOW_IN_WINDOW) {
 			// button.setFont(button.getFont().deriveFont(FS));
 			// } else {
-			if (button.numLinesInTitle() > 2)
-				button.setFont(button.getFont().deriveFont(FS * 2.0f / 3.0f));
-			else
+			switch (button.numLinesInTitle()) {
+			case 2:
+				button.setFont(button.getFont().deriveFont(FS * 0.7500f));
+				break;
+			case 3:
+				button.setFont(button.getFont().deriveFont(FS * 0.6667f));
+				break;
+			default:
 				button.setFont(button.getFont().deriveFont(FS));
+				break;
+			}
 
 			button.setMargin(new Insets(IS, IS, IS, IS));
 			// }
@@ -138,5 +150,4 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		expGrid.setAlignmentX(JComponent.TOP_ALIGNMENT);
 		return expGrid;
 	}
-
 }

@@ -26,19 +26,19 @@ public enum ChannelCategory {
 	 * Channels on the front page of the "Experiments" view
 	 */
 	EXPERIMENT_DETAILS,
-	
+
 	/**
 	 * Channels that show details on the NuMI experiment
 	 */
 	NUMI_DETAILS,
-	
+
 	/**
 	 * Channels that show details on the NOvA experiment
 	 */
 	NOVA_DETAILS,
 
 	/**
-	 * Channels that are videos
+	 * Channels that are (YouTube) videos
 	 */
 	VIDEOS,
 
@@ -50,5 +50,10 @@ public enum ChannelCategory {
 	/**
 	 * Channels that are actually just JPEG images
 	 */
-	IMAGE
+	IMAGE,
+	
+	/**
+	 * Channels that give details on accelerator operations
+	 */
+	ACCELERATOR
 }
