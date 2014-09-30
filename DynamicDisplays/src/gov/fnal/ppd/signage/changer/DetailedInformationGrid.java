@@ -79,35 +79,64 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 
 		if (list.size() > 48) {
 			FS = 0.5f * FONT_SIZE;
-			IS = INSET_SIZE / 3;
+			IS = INSET_SIZE / 4;
 			cols = 5;
 			gap = 4;
 			maxLen = 17;
 		} else if (list.size() > 18) {
 			FS = 0.6f * FONT_SIZE;
-			IS = INSET_SIZE / 2;
+			IS = INSET_SIZE / 3;
 			cols = 4;
 			gap = 5;
 			maxLen = 15;
-		} else if (list.size() > 14) {
-			FS = 0.8f * FONT_SIZE;
-			IS = INSET_SIZE / 2;
-			cols = 3;
-			gap = 7;
-			maxLen = 13;
-		} else if (list.size() > 6) {
-			// Between 7 and 14 buttons -- 2 columns
-			FS = FONT_SIZE;
-			IS = INSET_SIZE / 2;
-			cols = 2;
-			gap = 12;
-			maxLen = 9;
 		} else {
-			FS = 1.2f * FONT_SIZE;
-			IS = INSET_SIZE;
-			cols = 1;
-			gap = 12;
-			maxLen = 80;
+			switch (list.size()) {
+			case 18:
+			case 17:
+			case 16:
+			case 15:
+				FS = 0.8f * FONT_SIZE;
+				IS = INSET_SIZE / 2;
+				cols = 3;
+				gap = 7;
+				maxLen = 13;
+				break;
+
+			case 14:
+				FS = 0.75f * FONT_SIZE;
+				IS = INSET_SIZE / 3;
+				cols = 2;
+				gap = 6;
+				maxLen = 14;
+				break;
+
+			case 13:
+			case 12:
+			case 11:
+			case 10:
+			case 9:
+				FS = 0.9f * FONT_SIZE;
+				IS = INSET_SIZE / 2;
+				cols = 2;
+				gap = 8;
+				maxLen = 13;
+				break;
+			case 8:
+			case 7:
+				FS = FONT_SIZE;
+				IS = INSET_SIZE / 2;
+				cols = 2;
+				gap = 10;
+				maxLen = 12;
+				break;
+			default:
+				FS = 1.2f * FONT_SIZE;
+				IS = INSET_SIZE;
+				cols = 1;
+				gap = 12;
+				maxLen = 80;
+				break;
+			}
 		}
 
 		GridLayout g = new GridLayout(0, cols);
@@ -132,7 +161,10 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 				button.setFont(button.getFont().deriveFont(FS * 0.6667f));
 				break;
 			default:
-				button.setFont(button.getFont().deriveFont(FS));
+				if (cols == 2 && button.getText().length() > 15)
+					button.setFont(button.getFont().deriveFont(FS * 0.6667f));
+				else
+					button.setFont(button.getFont().deriveFont(FS));
 				break;
 			}
 

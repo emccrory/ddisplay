@@ -43,6 +43,7 @@ public class CreateListOfChannels extends JPanel {
 
 	private static final long		serialVersionUID	= 2157704848183269779L;
 	private static final String		NOT_SELECTED		= "                  ";
+
 	private Set<SignageContent>		publicChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
 																ChannelCategory.PUBLIC);
 	private Set<SignageContent>		miscChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
@@ -56,6 +57,12 @@ public class CreateListOfChannels extends JPanel {
 																ChannelCategory.NOVA_DETAILS);
 	private Set<SignageContent>		numiChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
 																ChannelCategory.NUMI_DETAILS);
+
+	private Set<SignageContent>		beamChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
+																ChannelCategory.ACCELERATOR);
+
+	private Set<SignageContent>		videoChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
+																ChannelCategory.VIDEOS);
 
 	private List<SignageContent>	channelList			= new ArrayList<SignageContent>();
 	private List<JLabel>			labelList			= new ArrayList<JLabel>();
@@ -94,7 +101,10 @@ public class CreateListOfChannels extends JPanel {
 		GridBagConstraints bag = new GridBagConstraints();
 		bag.fill = GridBagConstraints.HORIZONTAL;
 		bag.gridx = bag.gridy = 1;
-		bag.insets = new Insets(2, 2, 2, 2);
+		if (SHOW_IN_WINDOW)
+			bag.insets = new Insets(2, 2, 2, 2);
+		else
+			bag.insets = new Insets(6, 6, 6, 6);
 		bag.anchor = GridBagConstraints.CENTER;
 
 		add(Box.createRigidArea(new Dimension(10, 10)), bag);
@@ -132,7 +142,69 @@ public class CreateListOfChannels extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if (selected) {
-						// TODO This does not work properly: All the labels must shift up when one is removed
+						selected = false;
+						channelList.remove(CONTENT);
+						lab.setText(NOT_SELECTED);
+						labelList.remove(lab);
+					} else {
+						selected = true;
+						channelList.add(CONTENT);
+						lab.setText("XX");
+						labelList.add(lab);
+					}
+					fixLabels();
+				}
+			});
+		}
+
+		bag.gridwidth = 2;
+		add(new JSeparator(), bag);
+		bag.gridy++;
+		add(new BigLabel("---------- Details Channels ----------", Font.BOLD), bag);
+		bag.gridy++;
+		bag.gridwidth = 1;
+		for (final SignageContent CONTENT : details1Channels) {
+			final JButton b = new BigButton(CONTENT.getName());
+			add(b, bag);
+			bag.gridx++;
+			final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
+			add(lab, bag);
+			bag.gridx--;
+			bag.gridy++;
+			b.addActionListener(new ActionListener() {
+				boolean	selected	= false;
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if (selected) {
+						selected = false;
+						channelList.remove(CONTENT);
+						lab.setText(NOT_SELECTED);
+						labelList.remove(lab);
+					} else {
+						selected = true;
+						channelList.add(CONTENT);
+						lab.setText("XX");
+						labelList.add(lab);
+					}
+					fixLabels();
+				}
+			});
+		}
+		for (final SignageContent CONTENT : details2Channels) {
+			final JButton b = new BigButton(CONTENT.getName());
+			add(b, bag);
+			bag.gridx++;
+			final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
+			add(lab, bag);
+			bag.gridx--;
+			bag.gridy++;
+			b.addActionListener(new ActionListener() {
+				boolean	selected	= false;
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if (selected) {
 						selected = false;
 						channelList.remove(CONTENT);
 						lab.setText(NOT_SELECTED);
@@ -169,7 +241,6 @@ public class CreateListOfChannels extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if (selected) {
-						// TODO This does not work properly: All the labels must shift up when one is removed
 						selected = false;
 						channelList.remove(CONTENT);
 						lab.setText(NOT_SELECTED);
@@ -205,7 +276,6 @@ public class CreateListOfChannels extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if (selected) {
-						// TODO This does not work properly: All the labels must shift up when one is removed
 						selected = false;
 						channelList.remove(CONTENT);
 						lab.setText(NOT_SELECTED);
@@ -241,7 +311,6 @@ public class CreateListOfChannels extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if (selected) {
-						// TODO This does not work properly: All the labels must shift up when one is removed
 						selected = false;
 						channelList.remove(CONTENT);
 						lab.setText(NOT_SELECTED);
@@ -260,10 +329,10 @@ public class CreateListOfChannels extends JPanel {
 		bag.gridwidth = 2;
 		add(new JSeparator(), bag);
 		bag.gridy++;
-		add(new BigLabel("---------- Details Channels ----------", Font.BOLD), bag);
+		add(new BigLabel("---------- BEAM Channels ----------", Font.BOLD), bag);
 		bag.gridy++;
 		bag.gridwidth = 1;
-		for (final SignageContent CONTENT : details1Channels) {
+		for (final SignageContent CONTENT : beamChannels) {
 			final JButton b = new BigButton(CONTENT.getName());
 			add(b, bag);
 			bag.gridx++;
@@ -277,7 +346,6 @@ public class CreateListOfChannels extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if (selected) {
-						// TODO This does not work properly: All the labels must shift up when one is removed
 						selected = false;
 						channelList.remove(CONTENT);
 						lab.setText(NOT_SELECTED);
@@ -292,7 +360,14 @@ public class CreateListOfChannels extends JPanel {
 				}
 			});
 		}
-		for (final SignageContent CONTENT : details2Channels) {
+		
+		bag.gridwidth = 2;
+		add(new JSeparator(), bag);
+		bag.gridy++;
+		add(new BigLabel("---------- Video Channels ----------", Font.BOLD), bag);
+		bag.gridy++;
+		bag.gridwidth = 1;
+		for (final SignageContent CONTENT : videoChannels) {
 			final JButton b = new BigButton(CONTENT.getName());
 			add(b, bag);
 			bag.gridx++;
@@ -306,7 +381,6 @@ public class CreateListOfChannels extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if (selected) {
-						// TODO This does not work properly: All the labels must shift up when one is removed
 						selected = false;
 						channelList.remove(CONTENT);
 						lab.setText(NOT_SELECTED);
