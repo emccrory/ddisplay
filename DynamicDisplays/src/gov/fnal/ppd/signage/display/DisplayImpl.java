@@ -44,7 +44,6 @@ public abstract class DisplayImpl implements Display {
 	// };
 	protected String				myName;
 
-	
 	/**
 	 * @param ipName
 	 * @param screenNumber
@@ -72,8 +71,6 @@ public abstract class DisplayImpl implements Display {
 		this.category = type;
 		this.channel = makeEmptyChannel();
 	}
-
-	
 
 	protected abstract void localSetContent();
 
