@@ -222,23 +222,6 @@ public class MessagingServer {
 		}
 	}
 
-	// for a client who logs off using the LOGOUT message
-	synchronized void remove(int id) {
-		synchronized (al) {
-			// scan the array list until we found the Id
-			for (int i = 0; i < al.size(); ++i) {
-				ClientThread ct = al.get(i);
-				// found it
-				if (ct.id == id) {
-					al.remove(i);
-					// Do not return; I want to see the information message at the end.
-					break;
-				}
-			}
-		}
-		System.out.println(this.getClass().getSimpleName() + ": Number of remaining clients: " + al.size());
-	}
-
 	/**
 	 * To run as a console application just open a console window and: > java Server > java Server portNumber If the port number is
 	 * not specified 1500 is used
@@ -284,7 +267,7 @@ public class MessagingServer {
 		MessageCarrier		cm;
 		// the date I connect
 		String				date;
-		private boolean		thisSocketIsActive = false;
+		private boolean		thisSocketIsActive	= false;
 
 		// Constructor
 		ClientThread(Socket socket) {
@@ -320,7 +303,7 @@ public class MessagingServer {
 			date = new Date().toString() + "\n";
 		}
 
-		// what will run forever
+		// This method is what will run forever
 
 		public void run() {
 			// to loop until LOGOUT or we hit an unrecoverable exception
@@ -335,14 +318,14 @@ public class MessagingServer {
 					display(username + ": A class not found exception -- " + e + ". returned object of type "
 							+ read.getClass().getCanonicalName());
 					e.printStackTrace();
-					break; // End the while(true) loop
+					break; // End the while(thisSocketIsActive) loop
 				} catch (Exception e) {
 					display(username + ": Exception reading input stream -- " + e + "; The received message was '" + read + "'");
 					System.err.println(username + ": Exception reading input stream -- " + e + "; The received message was '"
 							+ read + "'"); // Put this here to assure that the stack-trace and this message are together in the
 											// console (debugging)
 					e.printStackTrace();
-					break; // End the while(true) loop
+					break; // End the while(thisSocketIsActive) loop
 				}
 				// the message part of the ChatMessage
 				String message = cm.getMessage();
@@ -399,13 +382,26 @@ public class MessagingServer {
 			// remove myself from the arrayList containing the list of the connected Clients
 			display("Exiting forever loop for client '" + username + "' (thisSocketIsActive=" + thisSocketIsActive
 					+ ") Removing id=" + id + ")");
-			remove(id);
+
+			synchronized (al) {
+				// scan the array list until we found the Id
+				for (int i = 0; i < al.size(); ++i) {
+					ClientThread ct = al.get(i);
+					// found it
+					if (ct.id == id) {
+						al.remove(i);
+						// Do not return; I want to see the information message at the end.
+						break;
+					}
+				}
+			}
+
+			System.out.println(this.getClass().getSimpleName() + ": Number of remaining clients: " + al.size());
 			close();
 		}
 
 		// try to close everything
-		private void close() {
-			// try to close the connection
+		protected void close() {
 			try {
 				if (sOutput != null)
 					sOutput.close();
@@ -424,6 +420,9 @@ public class MessagingServer {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			sInput = null;
+			sOutput = null;
+			socket = null;
 		}
 
 		/*
@@ -448,10 +447,6 @@ public class MessagingServer {
 				e.printStackTrace();
 			}
 			return true;
-		}
-
-		private MessagingServer getOuterType() {
-			return MessagingServer.this;
 		}
 
 		@Override

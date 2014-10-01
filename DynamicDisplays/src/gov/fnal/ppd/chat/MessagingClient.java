@@ -18,13 +18,15 @@ import java.util.Scanner;
 public class MessagingClient {
 
 	// for I/O
-	private ObjectInputStream	sInput;		// to read from the socket
-	private ObjectOutputStream	sOutput;		// to write on the socket
+	private ObjectInputStream	sInput;				// to read from the socket
+	private ObjectOutputStream	sOutput;				// to write on the socket
 	private Socket				socket	= null;
 
 	// the server, the port and the username
 	private String				server, username;
 	private int					port;
+	private ListenFromServer	listenFromServer;
+	private Thread				restartThreadToServer;
 
 	/**
 	 * Constructor called by console mode server: the server address port: the port number username: the username
@@ -59,6 +61,7 @@ public class MessagingClient {
 		// if it failed not much I can so
 		catch (Exception ec) {
 			displayLogMessage("Error connectiong to server:" + ec);
+			disconnect();
 			return false;
 		}
 
@@ -80,6 +83,7 @@ public class MessagingClient {
 		} catch (IOException eIO) {
 			displayLogMessage("Exception creating new Input/output Streams: " + eIO);
 			socket = null;
+			disconnect();
 			return false;
 		}
 
@@ -88,11 +92,12 @@ public class MessagingClient {
 		displayLogMessage(msg);
 
 		// creates the Thread to listen from the server
-		new ListenFromServer().start();
+		listenFromServer = new ListenFromServer();
+		listenFromServer.start();
 
 		// Send our username to the server this is the only message that we
 		// will send as a String. All other messages will be ChatMessage objects
-		
+
 		try {
 			sOutput.writeObject(username);
 		} catch (IOException eIO) {
@@ -158,25 +163,35 @@ public class MessagingClient {
 	}
 
 	protected void connectionFailed() {
+		if (restartThreadToServer != null && restartThreadToServer.isAlive())
+			return; // Already trying to restart the thread
+
 		socket = null;
 
-		long wait = 10000L;
 		// Wait until the server returns
-		while (socket == null) {
-			displayLogMessage("Will wait " + (wait/1000L) + " seconds for server to return and then try to connect again.");
-			try {
-				Thread.sleep(wait);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		restartThreadToServer = new Thread() {
+			long	wait	= 10000L;
+
+			public void run() {
+				while (socket == null) {
+					displayLogMessage("Will wait " + (wait / 1000L)
+							+ " seconds for server to return and then try to connect again.");
+					try {
+						Thread.sleep(wait);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					wait = (wait + 10000L > FIFTEEN_MINUTES ? FIFTEEN_MINUTES : wait + 10000L);
+					if (!MessagingClient.this.start()) {
+						displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Server start failed again at "
+								+ (new Date()) + "...");
+					}
+				}
+				displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Socket is now viable [" + socket
+						+ "]; connection has been restored at " + (new Date()));
 			}
-			wait = (wait + 10000L > FIFTEEN_MINUTES ? FIFTEEN_MINUTES : wait + 10000L);
-			if (!start()) {
-				displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Server start failed again at "
-						+ (new Date()) + "...");
-			}
-		}
-		displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Socket is now viable [" + socket
-				+ "]; connection has been restored at " + (new Date()));
+		};
+		restartThreadToServer.start();
 	}
 
 	/**
@@ -199,6 +214,7 @@ public class MessagingClient {
 		} catch (Exception e) {
 		} // not much else I can do
 
+		listenFromServer = null;
 		connectionFailed();
 	}
 
@@ -261,8 +277,8 @@ public class MessagingClient {
 			// logout if message is LOGOUT
 			if (msg.equalsIgnoreCase("LOGOUT")) {
 				client.sendMessage(MessageCarrier.getLogout());
-				// break to do the disconnect
-				break;
+				// Note: In this fake example, logging off will cause the system to try to log you back in in a moment.
+				break; // break to do the disconnect
 			}
 			// message WhoIsIn
 			else if (msg.equalsIgnoreCase("WHOISIN")) {
@@ -271,7 +287,7 @@ public class MessagingClient {
 				client.sendMessage(MessageCarrier.getMessage(msg));
 			}
 		}
-		// done disconnect
+		// done: disconnect
 		client.disconnect();
 	}
 
@@ -280,23 +296,28 @@ public class MessagingClient {
 	 * System.out.println() it in console mode
 	 */
 	class ListenFromServer extends Thread {
+		public boolean	keepGoing	= true;
 
 		public void run() {
-			while (true) {
+			while (keepGoing) {
 				try {
 					String msg = (String) sInput.readObject();
 					// if console mode print the message and add back the prompt
 					displayIncomingMessage(msg);
 				} catch (IOException e) {
 					displayLogMessage("Server has closed the connection: " + e);
-					connectionFailed();
-					break;
+					break; // Leave the forever loop
 				} catch (ClassNotFoundException e) {
 					System.err.println("Exception caught at " + new Date());
 					// can't happen with a String object but need the catch anyhow
 					e.printStackTrace();
+					// try to continue anyway ...
+				} catch (NullPointerException e) {
+					displayLogMessage("NullPointerException from reading server!");
+					break; // Leave the forever loop
 				}
 			}
+			disconnect();
 		}
 	}
 }
