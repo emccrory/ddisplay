@@ -74,6 +74,7 @@ public class IdentifyAll implements ActionListener {
 	 * 
 	 */
 	private IdentifyAll() {
+		// Set up a different connection to each display within this class, doubling the number of connections to the messaging server
 		PROGRAM_NAME = "Identify";
 
 		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);

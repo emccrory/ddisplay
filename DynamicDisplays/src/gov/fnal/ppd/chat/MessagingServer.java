@@ -128,7 +128,7 @@ public class MessagingServer {
 					display("Error! Duplicate username requested, '" + t.username + "'");
 				String m = "List of connected clients:\n";
 				for (ClientThread CT : al) {
-					m += "                     " + CT.username + " at " + CT.date;
+					m += "                     " + CT.username + " at " + CT.date + " ID=" + CT.id + "\n";
 				}
 				display(m);
 			}
@@ -300,7 +300,7 @@ public class MessagingServer {
 					display("Expecting a String but got a " + read.getClass().getSimpleName() + " [" + read + "]");
 				e.printStackTrace();
 			}
-			date = new Date().toString() + "\n";
+			date = new Date().toString();
 		}
 
 		// This method is what will run forever
