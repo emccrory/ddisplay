@@ -11,6 +11,7 @@ import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
 
 /**
  * 
@@ -85,13 +86,20 @@ public class TemporaryDialogBox extends JFrame {
 
 		h.setOpaque(true);
 		h.setBackground(di.getPreferredHighlightColor());
-		h.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black, 15),
-				BorderFactory.createEmptyBorder(50, 50, 50, 50)));
+		Border b0 = BorderFactory.createLineBorder(Color.black);
+		Border b1 = BorderFactory.createLineBorder(Color.white, 15);
+		Border b2 = BorderFactory.createLineBorder(Color.black, 20);
+		Border b3 = BorderFactory.createEmptyBorder(50, 50, 50, 50);
+		Border b4 = BorderFactory.createCompoundBorder(b0, b1);
+		Border b5 = BorderFactory.createCompoundBorder(b4, b2);
+		h.setBorder(BorderFactory.createCompoundBorder(b5, b3));
 
 		setContentPane(h);
 		setUndecorated(true);
 		pack();
-		setLocation(200, 300);
+		Dimension size = comp.getSize();
+		setLocation(comp.getLocation().x + size.width/5, comp.getLocation().y + size.height/3);
+		
 		setVisible(true);
 		setAlwaysOnTop(true);
 

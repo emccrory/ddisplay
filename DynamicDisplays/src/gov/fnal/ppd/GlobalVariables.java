@@ -115,11 +115,11 @@ public class GlobalVariables {
 	/**
 	 * 
 	 */
-	public static int				INSET_SIZE				= 32;
+	public static int				INSET_SIZE				= 12;
 	/**
 	 * 
 	 */
-	public static float				FONT_SIZE				= 60.0f;
+	public static float				FONT_SIZE				= 45.0f;
 
 	/**
 	 * The location of the default server for everything in this system

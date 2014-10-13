@@ -88,13 +88,18 @@ public abstract class DisplayImpl implements Display {
 			informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED);
 			localSetContent();
 
-			// TODO -- This event needs to be triggered by the display actually indicating that it has changed the channel.
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED);
+			new Thread("FakeChangeComplete") {
+				public void run() {
+					// TODO -- This event needs to be triggered by the display actually indicating that it has changed the channel.
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED);
+				}
+			}.start();
+
 			return retval;
 		}
 

@@ -22,9 +22,9 @@ public class SelectorInstructions extends JLabel {
 
 	private static final long	serialVersionUID	= 4509134236620234614L;
 	private static final String	INSTRUCTIONS_TEXT	= "<html><center>This App allows you to change the channel, that is, the visible content, "
-															+ "on any of the HDTV Displays in the room.<br><br>"
+															+ "on any of the HDTV Displays in the room.<br>"
 															+ "Select the Display by touching one of the colored \"Display\" "
-															+ "buttons on the right side of this screen.<br><br>"
+															+ "buttons on the right side of this screen.<br>"
 															+ "Then you can change the channel using the buttons in the main part of the App, above</html>";
 	private Font				smallFont;
 	private Font				largeFont;

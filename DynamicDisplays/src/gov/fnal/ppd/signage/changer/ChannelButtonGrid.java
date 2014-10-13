@@ -54,7 +54,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	 */
 	public Component add(JPanel comp) {
 		JPanel p = new JPanel(new BorderLayout());
-		int wid = (SHOW_IN_WINDOW ? 2 : 5);
+		int wid = (SHOW_IN_WINDOW ? 2 : 4);
 		p.setBorder(BorderFactory.createLineBorder(display.getPreferredHighlightColor(), wid));
 
 		p.add(comp, BorderLayout.CENTER);
@@ -83,9 +83,6 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 
 				bg.disableAll(to);
 				lastDisplayChange = System.currentTimeMillis();
-				break;
-			case CHANGE_COMPLETED:
-				bg.enableAll();
 				if (!SHOW_IN_WINDOW)
 					if (imBusy.tryLock()) {
 						// Throw up a dialog box saying,
@@ -96,6 +93,9 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 							imBusy.unlock();
 						}
 					} // else another instance is doing it so I don't have to
+				break;
+			case CHANGE_COMPLETED:
+				bg.enableAll();				
 				break;
 			case ALIVE:
 				setAlive(true);
