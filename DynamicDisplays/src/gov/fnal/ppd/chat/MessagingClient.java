@@ -100,6 +100,7 @@ public class MessagingClient {
 
 		try {
 			sOutput.writeObject(username);
+			sOutput.reset();
 		} catch (IOException eIO) {
 			displayLogMessage("Exception doing login : " + eIO);
 			disconnect();
@@ -140,6 +141,7 @@ public class MessagingClient {
 	public void sendMessage(MessageCarrier msg) {
 		try {
 			sOutput.writeObject(msg);
+			sOutput.reset();
 		} catch (Exception e) {
 			displayLogMessage("Exception writing to server: " + e);
 			e.printStackTrace();

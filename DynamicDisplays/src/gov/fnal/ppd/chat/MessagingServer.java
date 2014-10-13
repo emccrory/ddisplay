@@ -85,27 +85,27 @@ public class MessagingServer {
 	 */
 	public void start() {
 
-		new Thread("InternalCounts") {
-			public void run() {
-				while (true) {
-					long time = FIFTEEN_MINUTES / 512;
-					double sq2 = Math.sqrt(2.0);
-					while (true) {
-						try {
-							sleep(time);
-						} catch (InterruptedException e) {
-						}
-						if (time < FIFTEEN_MINUTES) {
-							time *= sq2;
-							if (time >= FIFTEEN_MINUTES) {
-								time = FIFTEEN_MINUTES;
-							}
-						}
-						System.out.println("Number of members of object al: " + al.size());
-					}
-				}
-			}
-		}.start();
+	    //		new Thread("InternalCounts") {
+	    //			public void run() {
+	    //				while (true) {
+	    //					long time = FIFTEEN_MINUTES / 512;
+	    //					double sq2 = Math.sqrt(2.0);
+	    //					while (true) {
+	    //						try {
+	    //							sleep(time);
+	    //						} catch (InterruptedException e) {
+	    //						}
+	    //						if (time < FIFTEEN_MINUTES) {
+	    //							time *= sq2;
+	    //							if (time >= FIFTEEN_MINUTES) {
+	    //								time = FIFTEEN_MINUTES;
+	    //							}
+	    //						}
+	    //						System.out.println("Number of members of object al: " + al.size());
+	    //					}
+	    //				}
+	    //			}
+	    //		}.start();
 
 		keepGoing = true;
 		/* create socket server and wait for connection requests */
@@ -308,12 +308,15 @@ public class MessagingServer {
 		public void run() {
 			// to loop until LOGOUT or we hit an unrecoverable exception
 			Object read = new Object();
+			// Bug fix for input and output objects: call "reset" after every read and write to not let these objects
+			// remember their state.  After a few hours, we run out of memory!
 			thisSocketIsActive = true;
 			while (thisSocketIsActive) {
 				// read a String (which is an object)
 				try {
 					read = sInput.readObject();
 					cm = (MessageCarrier) read;
+					sInput.reset();
 				} catch (ClassNotFoundException e) {
 					display(username + ": A class not found exception -- " + e + ". returned object of type "
 							+ read.getClass().getCanonicalName());
@@ -437,6 +440,7 @@ public class MessagingServer {
 			// write the message to the stream
 			try {
 				sOutput.writeObject(msg);
+				sOutput.reset();
 			}
 			// if an error occurs, do not abort just inform the user
 			catch (IOException e) {
