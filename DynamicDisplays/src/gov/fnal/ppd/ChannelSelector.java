@@ -59,6 +59,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
@@ -79,7 +80,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private static final Dimension			screenDimension				= Toolkit.getDefaultToolkit().getScreenSize();
 	private static JFrame					f							= new JFrame("Dynamic Display Channel Selector");
 
-	// private static ActionListener			fullRefreshAction			= null;
+	// private static ActionListener fullRefreshAction = null;
 	private static ActionListener			channelRefreshAction		= null;
 	private static ChannelSelector			channelSelector;
 
@@ -220,13 +221,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				allGrids.add(grid);
 				display.addListener(grid);
 				displayTabPane.add(grid, " EXP ");
-				
+
 				grid = new DetailedInformationGrid(display, bg, 6);
 				allGrids.add(grid);
 				display.addListener(grid);
 				displayTabPane.add(grid, " Beam ");
-				
-				
 
 				if (SHOW_IN_WINDOW) {
 					AddYourOwnURL yourOwn = new AddYourOwnURL(display, bg);
@@ -234,7 +233,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					displayTabPane.add(yourOwn, "New URL");
 				}
 			}
-			
+
 			grid = new DetailedInformationGrid(display, bg, 5);
 			allGrids.add(grid);
 			display.addListener(grid);
@@ -610,13 +609,22 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		f.setUndecorated(!SHOW_IN_WINDOW);
-
-		f.setContentPane(channelSelector);
-		if (SHOW_IN_WINDOW)
+		if (SHOW_IN_WINDOW) {
+			f.setContentPane(channelSelector);
 			f.pack();
-		else
+		} else {
+			// Full-screen display of this app!
+			Box h = Box.createVerticalBox();
+			h.add(channelSelector);
+			SelectorInstructions label = new SelectorInstructions();
+			label.start();
+			h.add(label);
+			channelSelector.setAlignmentX(CENTER_ALIGNMENT);
+			label.setAlignmentX(CENTER_ALIGNMENT);
+			f.setUndecorated(true);
+			f.setContentPane(h);
 			f.setSize(screenDimension);
+		}
 		f.setVisible(true);
 
 	}

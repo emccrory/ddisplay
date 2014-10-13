@@ -11,6 +11,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -24,13 +25,15 @@ import javax.swing.JPanel;
  */
 public abstract class ChannelButtonGrid extends JPanel implements ActionListener {
 
-	private static final long		serialVersionUID	= -3589107759837109844L;
+	private static final long		serialVersionUID		= -3589107759837109844L;
 
 	protected final Display			display;
 
 	protected DisplayButtonGroup	bg;
 
 	protected JPanel				expGrid;
+
+	private static ReentrantLock	imBusy					= new ReentrantLock();
 
 	/**
 	 * @param display
@@ -60,11 +63,17 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 
 	public void actionPerformed(ActionEvent e) {
 		// System.err.println("Event " + e.getClass().getSimpleName() + " (" + e.getActionCommand() + ") received ");
+
+		// Observation (10/10/2014): This method is called for every tab on the screen. So, (at this time) for a general
+		// case, it is called 4 to 10 times, depending on the number of tabs of channels there are on the main screen.
+		// So, there is a bit of a bug below, in that the buttons in the entire container bg are "enabled" or "disabled" each time,
+		// over and over again.
+
 		if (e instanceof DisplayChangeEvent) {
 			DisplayChangeEvent ev = (DisplayChangeEvent) e;
+			SignageContent to = null;
 			switch (ev.getType()) {
 			case CHANGE_RECEIVED:
-				SignageContent to = null;
 				if (e.getSource() instanceof Display)
 					to = ((Display) e.getSource()).getContent();
 				else if (e.getSource() instanceof Channel)
@@ -77,6 +86,16 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 				break;
 			case CHANGE_COMPLETED:
 				bg.enableAll();
+				if (!SHOW_IN_WINDOW)
+					if (imBusy.tryLock()) {
+						// Throw up a dialog box saying,
+						// "Well done!  You've changed the channel on display #5 to 'Something or other', URL='http://some.url'"
+						if (e.getSource() instanceof Display) {
+							Display di = (Display) e.getSource();
+							new TemporaryDialogBox(this, di);
+							imBusy.unlock();
+						}
+					} // else another instance is doing it so I don't have to
 				break;
 			case ALIVE:
 				setAlive(true);

@@ -90,7 +90,7 @@ public abstract class DisplayImpl implements Display {
 
 			// TODO -- This event needs to be triggered by the display actually indicating that it has changed the channel.
 			try {
-				Thread.sleep(100);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -166,8 +166,8 @@ public abstract class DisplayImpl implements Display {
 		for (final ActionListener L : listeners)
 			new Thread("DisplayInform" + t + "_" + L.getClass().getSimpleName()) {
 				public void run() {
-					// System.out.println(DisplayImpl.this.getClass().getSimpleName() + ": " + t + "  sent to a "
-					// + L.getClass().getName() + " (" + L.hashCode() + ")");
+					System.out.println(DisplayImpl.this.getClass().getSimpleName() + ": " + t + "  sent to a "
+							+ L.getClass().getName() + " (" + L.hashCode() + ")");
 					L.actionPerformed(ev);
 				}
 			}.start();
