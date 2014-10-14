@@ -155,14 +155,14 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			// } else {
 			switch (button.numLinesInTitle()) {
 			case 2:
-				button.setFont(button.getFont().deriveFont(FS * 0.7500f));
+				button.setFont(button.getFont().deriveFont(FS * 0.8300f));
 				break;
 			case 3:
-				button.setFont(button.getFont().deriveFont(FS * 0.6667f));
+				button.setFont(button.getFont().deriveFont(FS * 0.7000f));
 				break;
 			default:
 				if (cols == 2 && button.getText().length() > 15)
-					button.setFont(button.getFont().deriveFont(FS * 0.6667f));
+					button.setFont(button.getFont().deriveFont(FS * 0.8500f));
 				else
 					button.setFont(button.getFont().deriveFont(FS));
 				break;

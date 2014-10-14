@@ -106,8 +106,8 @@ public class DisplayButtons extends JPanel {
 
 	private static List<DDButton>	buttonList				= new ArrayList<DDButton>();
 	// private static List<Display>	displayList;
-	static final int				INSET_SIZE				= 6;
-	static final float				LOCAL_FONT_SIZE			= 38.0f;
+	static final int				INSET_SIZE				= 5;
+	static final float				LOCAL_FONT_SIZE			= 40.0f;
 	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 20;
 	private static final long		serialVersionUID		= 4096502469001848381L;
 	protected static final Color	sliderBG				= new Color(0xe0e0e0);

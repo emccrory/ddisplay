@@ -22,6 +22,7 @@ import gov.fnal.ppd.signage.changer.DetailedInformationGrid;
 import gov.fnal.ppd.signage.changer.DisplayButtons;
 import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
 import gov.fnal.ppd.signage.changer.DisplayListFactory;
+import gov.fnal.ppd.signage.changer.InformationBox;
 import gov.fnal.ppd.signage.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.signage.display.DisplayFacade;
 import gov.fnal.ppd.signage.util.CheckDisplayStatus;
@@ -59,7 +60,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
@@ -406,6 +406,13 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		refreshButton.setMargin(new Insets(5, 5, 5, 5));
 		// Add this in when I get it to work!! refreshButton.addActionListener(fullRefreshAction);
 		refreshButton.addActionListener(channelRefreshAction);
+		refreshButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new InformationBox(refreshButton, "Channels refreshed", "The URLs of all the channels have been refreshed");
+			}
+		});
 
 		if (SHOW_IN_WINDOW) {
 			titleBox.add(refreshButton);
@@ -461,8 +468,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			Border bor = exitButton.getBorder();
 			exitButton.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.WHITE, 5), bor));
 			exitButton.setBackground(new Color(255, 200, 200));
-			exitButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 4)));
-			exitButton.setMargin(new Insets(7, 7, 7, 7));
+			exitButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 3)));
+			exitButton.setMargin(new Insets(6, 6, 6, 6));
 		}
 
 		return titleBox;
@@ -485,7 +492,16 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			if (!SHOW_IN_WINDOW)
 				IdentifyAll.setup("?", FONT_SIZE / 2, new Insets(5, 5, 5, 5));
 			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
-			titleBox.add(IdentifyAll.getButton());
+			JButton idAll = IdentifyAll.getButton();
+			titleBox.add(idAll);
+			idAll.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new InformationBox(refreshButton, "Displays Identified",
+							"Each Display should be showing a self-identify splash screen now.");
+				}
+			});
 		}
 		titleBox.add(Box.createHorizontalGlue());
 		titleBox.add(title);

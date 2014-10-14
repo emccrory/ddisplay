@@ -119,7 +119,7 @@ public class GlobalVariables {
 	/**
 	 * 
 	 */
-	public static float				FONT_SIZE				= 45.0f;
+	public static float				FONT_SIZE				= 50.0f;
 
 	/**
 	 * The location of the default server for everything in this system

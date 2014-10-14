@@ -59,7 +59,7 @@ public class IdentifyAll implements ActionListener {
 	/**
 	 * @return the button that launches the "identify all" procedure
 	 */
-	public static JComponent getButton() {
+	public static JButton getButton() {
 		JButton button = new JButton(title);
 		button.setActionCommand(IdentifyAll.class.getCanonicalName());
 		if (inset != null) {
