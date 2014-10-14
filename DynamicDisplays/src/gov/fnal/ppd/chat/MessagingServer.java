@@ -315,7 +315,7 @@ public class MessagingServer {
 				try {
 					read = sInput.readObject();
 					cm = (MessageCarrier) read;
-					sInput.reset();
+					// sInput.reset();
 				} catch (ClassNotFoundException e) {
 					display(username + ": A class not found exception -- " + e + ". returned object of type "
 							+ read.getClass().getCanonicalName());
