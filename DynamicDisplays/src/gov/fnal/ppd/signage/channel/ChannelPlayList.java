@@ -191,21 +191,6 @@ public class ChannelPlayList implements Channel {
 	}
 
 	/**
-	 * @return The length of time (milliseconds) to stay on the Channels
-	 */
-	public long getDwell() {
-		return dwell;
-	}
-
-	/**
-	 * @param dwell
-	 *            The number of milliseconds to sit on this Channel
-	 */
-	public void setDwell(final long dwell) {
-		this.dwell = dwell;
-	}
-
-	/**
 	 * @return The list of Channels being used here
 	 */
 	public List<SignageContent> getChannels() {
@@ -218,5 +203,15 @@ public class ChannelPlayList implements Channel {
 	public void setChannels(final List<SignageContent> channels) {
 		this.channels = channels;
 		chanIterator = this.channels.listIterator();
+	}
+
+	@Override
+	public long getTime() {
+		return dwell;
+	}
+
+	@Override
+	public void setTime(long time) {
+		dwell = time;		
 	}
 }

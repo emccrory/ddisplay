@@ -33,6 +33,8 @@ public class ChannelImpl implements Channel {
 
 	private SignageType			type				= SignageType.Public;
 
+	private long	time;
+
 	// public ChannelImpl( String name, ChannelCategory category, String description ) {
 	// this(name, category, description, Count++);
 	// }
@@ -175,6 +177,16 @@ public class ChannelImpl implements Channel {
 	@Override
 	public void setURI(URI i) {
 		this.uri = i;
+	}
+
+	@Override
+	public long getTime() {
+		return time;
+	}
+
+	@Override
+	public void setTime(long time) {
+		this.time = time;
 	}
 
 }

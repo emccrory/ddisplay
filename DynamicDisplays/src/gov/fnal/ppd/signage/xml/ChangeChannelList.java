@@ -46,6 +46,7 @@ public class ChangeChannelList extends EncodedCarrier {
 				content.setCategory(spec.getCategory());
 				content.setName(spec.getName());
 				content.setURI(spec.getUri());
+				content.setTime(spec.getTime());
 				cpl.getChannels().add(content);
 			}
 		} catch (URISyntaxException e) {
@@ -55,7 +56,7 @@ public class ChangeChannelList extends EncodedCarrier {
 
 	public void setContent(SignageContent s) {
 		cpl = (ChannelPlayList) s;
-		dwell = cpl.getDwell();
+		dwell = cpl.getTime();
 	}
 
 	public void setDisplayNumber(int d) {

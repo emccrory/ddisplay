@@ -160,6 +160,7 @@ public class DCProtocol {
 						spec.setUri(listeners.get(0).getContent().getURI());
 						spec.setCategory(listeners.get(0).getContent().getCategory());
 						spec.setName(listeners.get(0).getContent().getName());
+						spec.setTime(listeners.get(0).getContent().getTime());
 						p.setChannelSpec(spec);
 					} else {
 						// System.err.println(getClass().getSimpleName() + ".processInput(): No listeners for a 'Pong' message");
@@ -238,6 +239,7 @@ public class DCProtocol {
 			Channel c = new PlainURLChannel(url);
 			c.setCategory(spec.getCategory());
 			c.setName(spec.getName());
+			c.setTime(spec.getTime());
 			for (Display L : listeners) {
 				// System.out.println(getClass().getSimpleName() + ": Telling a " + L.getClass().getSimpleName() + " to change to ["
 				// + c + "]");

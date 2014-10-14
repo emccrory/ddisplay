@@ -205,8 +205,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				// String statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus()
 				// + "',ContentName='" + getContent().getName() + "' where DisplayID=" + number;
 				// TODO Give xocuser the rights to change ContentName in this table!
-				String statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus()
-						+ "' where DisplayID=" + number;
+				String statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
+						+ getContent().getURI() + ")" + "' where DisplayID=" + number;
 				int numRows = stmt.executeUpdate(statementString);
 				if (numRows == 0 || numRows > 1) {
 					System.err

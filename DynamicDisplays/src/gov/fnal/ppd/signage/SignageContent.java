@@ -46,7 +46,8 @@ public interface SignageContent extends Serializable {
 	public String getDescription();
 
 	/**
-	 * @param d The (lengthy) description of this content
+	 * @param d
+	 *            The (lengthy) description of this content
 	 */
 	public void setDescription(String d);
 
@@ -63,7 +64,7 @@ public interface SignageContent extends Serializable {
 	public void setCategory(ChannelCategory c);
 
 	/**
-	 * @return The type of this Content, e.g., PUBLIC, EXPERIMENT, and XOC.  This determined where this content may be displayed.
+	 * @return The type of this Content, e.g., PUBLIC, EXPERIMENT, and XOC. This determined where this content may be displayed.
 	 */
 	public SignageType getType();
 
@@ -84,4 +85,15 @@ public interface SignageContent extends Serializable {
 	 * @param i
 	 */
 	public void setURI(URI i);
+
+	/**
+	 * @return The time associated with this content. Generally, this will be the dwell time (or the time to wait before refreshing)
+	 */
+	public long getTime();
+
+	/**
+	 * @param time
+	 *            The time associated with this content.
+	 */
+	public void setTime(long time);
 }

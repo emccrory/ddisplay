@@ -25,6 +25,7 @@ public class ImageContent implements SignageContent {
 	private Image				image;
 	private URI					uri;
 	private SignageType			type;
+	private long				time				= 0L;
 
 	/**
 	 * @param name
@@ -109,7 +110,7 @@ public class ImageContent implements SignageContent {
 	@Override
 	public void setCategory(ChannelCategory c) {
 		// This really should be an IMAGE
-		assert(c == ChannelCategory.IMAGE);
+		assert (c == ChannelCategory.IMAGE);
 	}
 
 	@Override
@@ -120,6 +121,16 @@ public class ImageContent implements SignageContent {
 	@Override
 	public void setURI(URI i) {
 		this.uri = i;
+	}
+
+	@Override
+	public long getTime() {
+		return time;
+	}
+
+	@Override
+	public void setTime(long time) {
+		this.time = time;
 	}
 
 }
