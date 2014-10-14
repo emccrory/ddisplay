@@ -1,6 +1,5 @@
 package gov.fnal.ppd.chat;
 
-import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 

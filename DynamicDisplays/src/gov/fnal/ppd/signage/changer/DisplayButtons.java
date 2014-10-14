@@ -4,7 +4,6 @@ import static gov.fnal.ppd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.GlobalVariables.displayList;
 import static gov.fnal.ppd.signage.util.Util.shortDate;
-import gov.fnal.ppd.ChannelSelector;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.util.DisplayButtonGroup;

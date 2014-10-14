@@ -19,6 +19,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * Helper class for adding a new URL, temporarily, to the system.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014
+ * 
+ */
 public class AddYourOwnURL extends ChannelButtonGrid implements ActionListener {
 
 	private static final long			serialVersionUID	= 6550883217360074694L;
@@ -37,6 +44,7 @@ public class AddYourOwnURL extends ChannelButtonGrid implements ActionListener {
 
 	/**
 	 * @param display
+	 * @param bg
 	 */
 	public AddYourOwnURL(final Display display, final DisplayButtonGroup bg) {
 		super(display, bg);
@@ -88,8 +96,7 @@ public class AddYourOwnURL extends ChannelButtonGrid implements ActionListener {
 					}
 				} catch (Exception ex) {
 					// This will catch a bad URL
-					JOptionPane.showMessageDialog(this, ex.getLocalizedMessage(), "Input not accepted",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, ex.getLocalizedMessage(), "Input not accepted", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		} else if (NEW_URL_ACTION.equals(ev.getActionCommand())) {

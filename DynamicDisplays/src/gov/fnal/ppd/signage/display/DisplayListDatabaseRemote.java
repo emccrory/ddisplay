@@ -52,6 +52,9 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 
 	/**
 	 * Create a connection and the receive a list of Displays in the system.
+	 * 
+	 * @param locationCode
+	 *            Which Dynamic Display system are we dealing with?
 	 */
 	public DisplayListDatabaseRemote(int locationCode) {
 		super();

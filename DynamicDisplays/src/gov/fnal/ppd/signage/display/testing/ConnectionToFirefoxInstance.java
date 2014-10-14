@@ -31,6 +31,7 @@ public class ConnectionToFirefoxInstance {
 
 	/**
 	 * Create a connection to the instance of FireFox that is being targeted here
+	 * @param screenNumber 
 	 * 
 	 */
 	public ConnectionToFirefoxInstance(final int screenNumber) {
