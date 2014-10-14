@@ -10,7 +10,7 @@ cd ~/src/roc-dynamicdisplays/DynamicDisplays
 
 d=`date +%F`
 
-log=../log/display_${d}_$$.log
+log=../../log/display_${d}_$$.log
 
 databaseServer="mccrory.fnal.gov"
 
