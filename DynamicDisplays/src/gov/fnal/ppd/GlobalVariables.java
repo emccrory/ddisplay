@@ -115,7 +115,7 @@ public class GlobalVariables {
 	/**
 	 * 
 	 */
-	public static int				INSET_SIZE				= 12;
+	public static int				INSET_SIZE				= 6;
 	/**
 	 * 
 	 */

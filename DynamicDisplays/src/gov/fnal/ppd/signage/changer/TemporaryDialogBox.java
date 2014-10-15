@@ -5,12 +5,16 @@ import gov.fnal.ppd.signage.Display;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 /**
@@ -86,19 +90,20 @@ public class TemporaryDialogBox extends JFrame {
 
 		h.setOpaque(true);
 		h.setBackground(di.getPreferredHighlightColor());
-		Border b0 = BorderFactory.createLineBorder(Color.black);
-		Border b1 = BorderFactory.createLineBorder(Color.white, 15);
-		Border b2 = BorderFactory.createLineBorder(Color.black, 20);
+		Border b0 = BorderFactory.createRaisedSoftBevelBorder();
+		Border b1 = BorderFactory.createLoweredSoftBevelBorder();
+		Border b2 = BorderFactory.createLineBorder(Color.black, 10);
 		Border b3 = BorderFactory.createEmptyBorder(50, 50, 50, 50);
-		Border b4 = BorderFactory.createCompoundBorder(b0, b1);
-		Border b5 = BorderFactory.createCompoundBorder(b4, b2);
+		Border b4 = BorderFactory.createCompoundBorder(b0, b2);
+		Border b5 = BorderFactory.createCompoundBorder(b4, b1);
 		h.setBorder(BorderFactory.createCompoundBorder(b5, b3));
 
 		setContentPane(h);
 		setUndecorated(true);
 		pack();
-		Dimension size = comp.getSize();
-		setLocation(comp.getLocation().x + size.width/5, comp.getLocation().y + size.height/3);
+		PointerInfo p = MouseInfo.getPointerInfo();
+		Point pointerLocation = p.getLocation();
+		setLocation(pointerLocation.x -100, pointerLocation.y -100);
 		
 		setVisible(true);
 		setAlwaysOnTop(true);
