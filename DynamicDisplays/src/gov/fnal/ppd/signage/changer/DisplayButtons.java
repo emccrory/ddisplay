@@ -111,7 +111,7 @@ public class DisplayButtons extends JPanel {
 	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 20;
 	private static final long		serialVersionUID		= 4096502469001848381L;
 	protected static final Color	sliderBG				= new Color(0xe0e0e0);
-	static final float				WINDOW_FONT_SIZE		= 14.0f;
+	static final float				WINDOW_FONT_SIZE		= 12.0f;
 
 	/**
 	 * Find this Display in the list and then set the ToolTip for it based on the status of the Display.

@@ -226,12 +226,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				allGrids.add(grid);
 				display.addListener(grid);
 				displayTabPane.add(grid, " Beam ");
-
-				if (SHOW_IN_WINDOW) {
-					AddYourOwnURL yourOwn = new AddYourOwnURL(display, bg);
-					allGrids.add(yourOwn);
-					displayTabPane.add(yourOwn, "New URL");
-				}
 			}
 
 			grid = new DetailedInformationGrid(display, bg, 5);
@@ -272,6 +266,12 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						display.setContent(channelLister.lister.getChannelList());
 					}
 				});
+
+				if (SHOW_IN_WINDOW) {
+					AddYourOwnURL yourOwn = new AddYourOwnURL(display, bg);
+					allGrids.add(yourOwn);
+					displayTabPane.add(yourOwn, "New URL");
+				}
 			}
 
 			// Add the Display Tabbed Pane to the main screen
@@ -410,7 +410,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new InformationBox(refreshButton, "Channels refreshed", "The URLs of all the channels have been refreshed");
+				new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), refreshButton, "Channels refreshed",
+						"The URLs of all the channels have been refreshed");
 			}
 		});
 
@@ -498,7 +499,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new InformationBox(refreshButton, "Displays Identified",
+					new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), refreshButton, "Displays Identified",
 							"Each Display should be showing a self-identify splash screen now.");
 				}
 			});

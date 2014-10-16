@@ -21,6 +21,7 @@ import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -77,6 +78,7 @@ public class CreateListOfChannels extends JPanel {
 				setFont(getFont().deriveFont(30.0f));
 				setMargin(new Insets(10, 10, 10, 10));
 			}
+			setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		}
 	}
 
@@ -87,6 +89,7 @@ public class CreateListOfChannels extends JPanel {
 			super(title);
 			if (!SHOW_IN_WINDOW)
 				setFont(new Font("Sans Serif", style, 20));
+			setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		}
 	}
 
@@ -116,9 +119,11 @@ public class CreateListOfChannels extends JPanel {
 		SpinnerModel model = new SpinnerListModel(getDwellStrings());
 		time = new JSpinner(model);
 		time.setValue(new Long(20000l));
+		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		if (!SHOW_IN_WINDOW)
 			time.setFont(new Font("Monospace", Font.PLAIN, 40));
 		bh.add(time);
+		bh.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
 		bag.gridwidth = 2;
 		add(bh, bag);

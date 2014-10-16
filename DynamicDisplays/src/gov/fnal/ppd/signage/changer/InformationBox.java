@@ -39,25 +39,37 @@ public class InformationBox extends JFrame {
 	}
 
 	/**
-	 * 
 	 * @param comp
 	 *            The parent component for this dialog box
 	 * @param message1
 	 *            The headline message
 	 * @param message2
 	 *            The sub message
-	 * @param di
-	 *            The Display for which we are showing the dialog box
 	 */
-	public InformationBox(final JComponent comp, String message1, String message2) {
+	public InformationBox(final JComponent comp, final String message1, final String message2) {
+		this(1.0F, comp, message1, message2);
+	}
+
+	/**
+	 * 
+	 * @param scale
+	 *            Default: 1.0f
+	 * @param comp
+	 *            The parent component for this dialog box
+	 * @param message1
+	 *            The headline message
+	 * @param message2
+	 *            The sub message
+	 */
+	public InformationBox(float scale, final JComponent comp, final String message1, final String message2) {
 		super("URL Refresh Action");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		Box h = Box.createVerticalBox();
 		h.add(Box.createRigidArea(new Dimension(10, 10)));
-		h.add(new MyLabel("  ***** " + message1.toUpperCase() + " *****  ", 30.0f));
+		h.add(new MyLabel("  ***** " + message1.toUpperCase() + " *****  ", scale * 30.0f));
 		h.add(Box.createRigidArea(new Dimension(10, 10)));
-		h.add(new MyLabel(message2, 24.0f));
+		h.add(new MyLabel(message2, scale * 24.0f));
 		h.add(Box.createRigidArea(new Dimension(10, 10)));
 
 		final MyLabel timeLeft = new MyLabel("This will disappear in 10 seconds", 10.0f);
