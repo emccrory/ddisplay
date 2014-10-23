@@ -245,7 +245,7 @@ public class DisplayButtons extends JPanel {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				setToolTip(display);
-				System.out.println("Writing tool tip text for display '" + display + "'");
+				// System.out.println("Writing tool tip text for display '" + display + "'");
 			}
 		});
 	}

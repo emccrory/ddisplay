@@ -214,4 +214,14 @@ public class ChannelPlayList implements Channel {
 	public void setTime(long time) {
 		dwell = time;		
 	}
+
+	@Override
+	public int getCode() {
+		return currentChannel.getCode();
+	}
+
+	@Override
+	public void setCode(int n) {
+		// Not relevant for a list of content		
+	}
 }

@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ChannelSpec {
 	protected SignageContent	content;
 	private long				time	= 0;
+	private int					code	= 0;
 
 	public ChannelSpec() {
 		try {
@@ -70,7 +71,7 @@ public class ChannelSpec {
 		content.setURI(uri);
 	}
 
-	public void setContent(SignageContent c) {
+	public void setContent(final SignageContent c) {
 		content = c;
 	}
 
@@ -79,7 +80,27 @@ public class ChannelSpec {
 		return time;
 	}
 
-	public void setTime(long n) {
+	public void setTime(final long n) {
 		time = n;
+	}
+
+	/**
+	 * @return The user-defined "code"
+	 */
+	@XmlElement
+	public int getCode() {
+		return code;
+	}
+
+	/**
+	 * Gives the channel an attribute that can be interpreted in a number of ways. Initially, this code is either 0 or 1; 0 means
+	 * show the URL in the normal way; 1 means show the URL in a wrapper web page, which (presumably) has color and Display number
+	 * information on it, somehow.
+	 * 
+	 * @param n
+	 *            The new user-defined code
+	 */
+	public void setCode(final int n) {
+		code = n;
 	}
 }

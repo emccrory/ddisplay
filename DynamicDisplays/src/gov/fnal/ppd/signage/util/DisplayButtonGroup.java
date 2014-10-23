@@ -111,11 +111,11 @@ public class DisplayButtonGroup implements ActionListener {
 		if (object instanceof Channel)
 			c = ((Channel) object);
 
-		if (display != null)
-			System.out.println("Setting Grid " + getClass().getSimpleName() + " (Display='" + display.getLocation()
-					+ "') to not-responding");
-		else if (c != null)
-			System.out.println("Setting Grid " + getClass().getSimpleName() + " (Channel='" + c.getName() + "') to not-responding");
+		// if (display != null)
+		// System.out.println("Setting Grid " + getClass().getSimpleName() + " (Display='" + display.getLocation()
+		// + "') to not-responding");
+		// else if (c != null)
+		// System.out.println("Setting Grid " + getClass().getSimpleName() + " (Channel='" + c.getName() + "') to not-responding");
 
 		synchronized (buttons) {
 			for (DDButton B : buttons) {

@@ -32,7 +32,7 @@ public abstract class DisplayImpl implements Display {
 	protected int					screenNumber		= 0;
 	protected static AtomicInteger	internalThreadID	= new AtomicInteger(0);
 	private SignageContent			channel;
-	private Color					highlightColor;
+	protected Color					highlightColor;
 	protected List<ActionListener>	listeners			= new ArrayList<ActionListener>();
 	private SignageType				category			= SignageType.Public;
 	private InetAddress				ipAddress;
@@ -85,6 +85,9 @@ public abstract class DisplayImpl implements Display {
 			System.out.println(getClass().getSimpleName() + ": Display " + getNumber() + " changed to [" + channel + "] at "
 					+ (new Date()));
 
+			// ----- Do we put this channel in a wrapper?
+			channel.setCode(channel.getCode() | 1);
+			
 			informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED);
 			localSetContent();
 
@@ -171,8 +174,8 @@ public abstract class DisplayImpl implements Display {
 		for (final ActionListener L : listeners)
 			new Thread("DisplayInform" + t + "_" + L.getClass().getSimpleName()) {
 				public void run() {
-					System.out.println(DisplayImpl.this.getClass().getSimpleName() + ": " + t + "  sent to a "
-							+ L.getClass().getName() + " (" + L.hashCode() + ")");
+					// System.out.println(DisplayImpl.this.getClass().getSimpleName() + ": " + t + "  sent to a "
+					// + L.getClass().getName() + " (" + L.hashCode() + ")");
 					L.actionPerformed(ev);
 				}
 			}.start();

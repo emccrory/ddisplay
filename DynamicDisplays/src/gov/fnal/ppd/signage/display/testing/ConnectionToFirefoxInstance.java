@@ -1,10 +1,13 @@
 package gov.fnal.ppd.signage.display.testing;
 
+import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 
 /**
@@ -28,14 +31,68 @@ public class ConnectionToFirefoxInstance {
 	private final int			port;
 
 	private boolean				debug						= false;
+	private int					displayID;
+	private Color				color;
+
+	private static final String	COLOR_MARKER				= "XXColorCodeXX";
+	private static final String	DISPLAY_MARKER				= "XXDisplayXX";
+	private static final String	URL_MARKER					= "XXURLXX";
+
+	private final String		htmlTemplatePrecursor		= "<script>\n"
+																	+ "setTimeout(function () {\n"
+																	+ "    document.getElementsByTagName('body')[0].setAttribute('style', 'padding:0; margin: 0;' );\n"
+																	+ "    document.getElementById('iframe').style.width=1906;\n"
+																	+ "    document.getElementById('iframe').style.height=1063;\n"
+																	+ "    document.getElementById('numeral').style.opacity=0.305;\n"
+																	+ "}, 10000);\n"
+																	+ "</script>\n<style>\n"
+																	+ ".numeral {\n"
+																	+ "  position:    fixed;\n"
+																	+ "  width:       80px;\n"
+																	+ "  height:      80px;\n"
+																	+ "  padding:     10px;\n"
+																	+ "  top:         -18px;\n"
+																	+ "  text-shadow: 4px 4px 4px #"
+																	+ COLOR_MARKER
+																	+ ";\n"
+																	+ "  color: white;\n"
+																	+ "  opacity: 0.5;\n"
+																	+ "  font:   bold 120px sans-serif ;\n"
+																	+ "}\n"
+																	+ "</style>\n"
+																	+ "<html><body name='body' style='background-color: #"
+																	+ COLOR_MARKER
+																	+ ";padding:0; margin: 8; '>\n"
+																	+ "        <div class='numeral' id='numeral'>\n"
+																	+ DISPLAY_MARKER
+																	+ "\n"
+																	+ "        </div>\n"
+																	+ "<iframe id='iframe' src='"
+																	+ URL_MARKER
+																	+ "' width='1902' height='1059' scrolling='no' border='0' ></iframe>\n"
+																	+ "    </div></body></html>\n";
+
+	private byte[]				htmlTemplate;
+	private String				colorCode;
 
 	/**
 	 * Create a connection to the instance of FireFox that is being targeted here
-	 * @param screenNumber 
+	 * 
+	 * @param screenNumber
+	 * @param displayID
+	 * @param color
 	 * 
 	 */
-	public ConnectionToFirefoxInstance(final int screenNumber) {
+	public ConnectionToFirefoxInstance(final int screenNumber, final int displayID, final Color color) {
 		// Create a connection to the instance of FireFox that is being targeted here
+
+		this.displayID = displayID;
+		this.color = color;
+
+		colorCode = Integer.toHexString(color.getRGB() & 0x00ffffff);
+		colorCode = "000000".substring(colorCode.length()) + colorCode;
+
+		htmlTemplate = htmlTemplatePrecursor.replace(DISPLAY_MARKER, "" + displayID).replace(COLOR_MARKER, colorCode).getBytes();
 
 		// FIXME The does not work for screen != 0. Firefox needs to be configured to listen to port 32001 for screen #1, and this,
 		// I think, needs to be done by hand. Not sure at this time (9/15/2014) how to do this.
@@ -48,11 +105,35 @@ public class ConnectionToFirefoxInstance {
 	 * 
 	 * @param urlString
 	 *            The URL that this instance should show now.
+	 * @param useTheWrapper
 	 */
-	public void changeURL(final String urlString) {
+	public void changeURL(final String urlString, final boolean useTheWrapper) {
 		if (debug)
 			System.out.println("New URL: " + urlString);
-		send("window.location=\"" + urlString + "\";\n");
+
+		if (useTheWrapper) {
+			// Test the automatic border thing
+
+			try {
+				FileOutputStream out = new FileOutputStream("border.html");
+				out.write(htmlTemplate);
+				out.close();
+
+				send("window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
+						+ displayID + "&color=" + colorCode + "\";\n");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			// TODO -- This should be a local file, call it border.html.template I read that file at startup
+			// and substitute the color and the Display number in the HTML, which I save as a string locally.
+			// Then I substitute the URL in that file at this point and execute this line:
+
+			// send("window.location=\"border.html\");\n");
+		} else {
+			// Without the border wrapper
+			send("window.location=\"" + urlString + "\";\n");
+		}
 		// An experiment: Can I turn off the scroll bars? The answer is no (it seems)
 		// send("document.documentElement.style.overflow = 'hidden';\n");
 		// send("document.body.scroll='no';\n");

@@ -96,4 +96,20 @@ public interface SignageContent extends Serializable {
 	 *            The time associated with this content.
 	 */
 	public void setTime(long time);
+
+	/**
+	 * @return the special code that may be applicable for the content
+	 */
+	public int getCode();
+
+	/**
+	 * Gives the Content an attribute that can be interpreted in a number of ways. Initially, this code is either 0 or 1; 0 means
+	 * show the URL in the normal way; 1 means show the URL in a wrapper web page, which (presumably) has color and Display number
+	 * information on it, somehow.
+	 * 
+	 * @param n
+	 *            The new user-defined code
+	 */
+	public void setCode(final int n);
+
 }

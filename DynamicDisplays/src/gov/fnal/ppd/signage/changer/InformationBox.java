@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.changer;
 
+import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -85,7 +86,7 @@ public class InformationBox extends JFrame {
 		h.setBorder(BorderFactory.createCompoundBorder(b5, b3));
 
 		setContentPane(h);
-		setUndecorated(true);
+		setUndecorated(!SHOW_IN_WINDOW);
 		pack();
 		Dimension size = comp.getSize();
 		setLocation(comp.getLocation().x + size.width / 5, comp.getLocation().y + size.height / 3);

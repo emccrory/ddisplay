@@ -70,7 +70,7 @@ public class DisplayFacade extends DisplayImpl {
 
 		@Override
 		public void displayIncomingMessage(String msg) {
-			super.displayIncomingMessage("Facade " + msg);
+			// super.displayIncomingMessage(this.getClass().getSimpleName() + " (lookingFor=" + lookingFor + ") Facade " + msg);
 
 			// TODO -- Need to either issue a "WHOISIN" command or do a PING to our real display
 

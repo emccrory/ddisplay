@@ -133,4 +133,15 @@ public class ImageContent implements SignageContent {
 		this.time = time;
 	}
 
+	@Override
+	public int getCode() {
+		// TODO Not used
+		return 0;
+	}
+
+	@Override
+	public void setCode(int n) {
+		// TODO Not used		
+	}
+
 }

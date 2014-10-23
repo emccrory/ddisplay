@@ -61,9 +61,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			public void run() {
 				try {
 					sleep(4000); // Wait a bit before trying to contact the instance of FireFox.
-					firefox = new ConnectionToFirefoxInstance(screenNumber);
+					firefox = new ConnectionToFirefoxInstance(screenNumber, number, highlightColor);
 					sleep(1000); // Wait a bit more before trying to tell it to go to a specific page
-					firefox.changeURL(getContent().getURI().toASCIIString());
+					firefox.changeURL(getContent().getURI().toASCIIString(), true);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -74,12 +74,12 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	protected void localSetContent() {
 		String url = getContent().getURI().toASCIIString().replace("&amp;", "&"); // FIXME This could be risky! But it is needed for
 																					// URL arguments
-
+		
 		synchronized (firefox) {
 			if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
 				if (!showingSelfIdentify) {
 					showingSelfIdentify = true;
-					firefox.changeURL(IDENTIFY_URL + number);
+					firefox.changeURL(IDENTIFY_URL + number, false);
 					new Thread("Identify_" + displayNumber + "_wait") {
 						public void run() {
 							try {
@@ -94,7 +94,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					}.start();
 				}
 			} else {
-				firefox.changeURL(url);
+				boolean useWrapper = (getContent().getCode() & 1) != 0;
+				firefox.changeURL(url, useWrapper);
 				lastChannel = getContent();
 				showingSelfIdentify = false;
 
