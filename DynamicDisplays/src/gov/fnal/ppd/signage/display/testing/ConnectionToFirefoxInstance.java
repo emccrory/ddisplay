@@ -137,8 +137,8 @@ public class ConnectionToFirefoxInstance {
 		s += "document.getElementById('numeral').style.font='bold 500px sans-serif';\n";
 		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'background-color: #" + colorCode
 				+ "; padding:0; margin: 50;' );\n";
-		s += "document.getElementById('iframe').style.width=1861;\n";
-		s += "document.getElementById('iframe').style.height=1049;\n";
+		s += "document.getElementById('iframe').style.width=1810;\n";
+		s += "document.getElementById('iframe').style.height=972;\n";
 		send(s);
 		System.out.println("--Sent: [[" + s + "]]");
 	}
