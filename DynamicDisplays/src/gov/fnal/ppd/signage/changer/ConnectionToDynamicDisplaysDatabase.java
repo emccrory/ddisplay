@@ -60,9 +60,6 @@ public class ConnectionToDynamicDisplaysDatabase {
 			String user = "xocuser";
 			String passwd = "DynamicDisplays";
 			connection = DriverManager.getConnection(url, user, passwd);
-
-			// connection = DriverManager.getConnection("jdbc:mysql://" + serverNode +
-			// "/xoc?user=xocuser&password=DynamicDisplays");
 			return connection;
 
 		} catch (SQLException ex) {

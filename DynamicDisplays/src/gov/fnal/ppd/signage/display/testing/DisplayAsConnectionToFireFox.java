@@ -30,7 +30,6 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 	private ConnectionToFirefoxInstance	firefox;
 	private boolean						showingSelfIdentify	= false;
-	private boolean						useWebPageIdentify;
 
 	/**
 	 * @param portNumber
@@ -80,36 +79,36 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
 				if (!showingSelfIdentify) {
 					showingSelfIdentify = true;
-					if (useWebPageIdentify) {
-						firefox.changeURL(IDENTIFY_URL + number, false);
-						new Thread("Identify_" + displayNumber + "_wait") {
-							public void run() {
-								try {
-									sleep(SHOW_SPLASH_SCREEN_TIME);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-								boolean useWrapper = (lastChannel.getCode() & 1) != 0;
-								String url = lastChannel.getURI().toASCIIString().replace("&amp;", "&");
-								firefox.changeURL(url, useWrapper);
-								resetStatusUpdatePeriod();
-								showingSelfIdentify = false;
+					// if (useWebPageIdentify) {
+					// firefox.changeURL(IDENTIFY_URL + number, false);
+					// new Thread("Identify_" + displayNumber + "_wait") {
+					// public void run() {
+					// try {
+					// sleep(SHOW_SPLASH_SCREEN_TIME);
+					// } catch (InterruptedException e) {
+					// e.printStackTrace();
+					// }
+					// boolean useWrapper = (lastChannel.getCode() & 1) != 0;
+					// String url = lastChannel.getURI().toASCIIString().replace("&amp;", "&");
+					// firefox.changeURL(url, useWrapper);
+					// resetStatusUpdatePeriod();
+					// showingSelfIdentify = false;
+					// }
+					// }.start();
+					// } else {
+					firefox.showIdentity();
+					new Thread() {
+						public void run() {
+							try {
+								sleep(SHOW_SPLASH_SCREEN_TIME);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
 							}
-						}.start();
-					} else {
-						firefox.showIdentity();
-						new Thread() {
-							public void run() {
-								try {
-									sleep(SHOW_SPLASH_SCREEN_TIME);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-								firefox.removeSelfIdentify();
-								showingSelfIdentify = false;
-							}
-						}.start();
-					}
+							firefox.removeIdentify();
+							showingSelfIdentify = false;
+						}
+					}.start();
+					// }
 				}
 			} else {
 				boolean useWrapper = (getContent().getCode() & 1) != 0;

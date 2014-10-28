@@ -132,6 +132,9 @@ public class ConnectionToFirefoxInstance {
 		}
 	}
 
+	/**
+	 * Modify the actual display to self-identify, showing the Display number and the hightlight color.
+	 */
 	public void showIdentity() {
 		String s = "document.getElementById('numeral').style.opacity=0.8;\n";
 		s += "document.getElementById('numeral').style.font='bold 750px sans-serif';\n";
@@ -142,8 +145,11 @@ public class ConnectionToFirefoxInstance {
 		send(s);
 		System.out.println("--Sent: [[" + s + "]]");
 	}
-
-	public void removeSelfIdentify() {
+	
+	/**
+	 * Remove the self-identify dressings on the Display
+	 */
+	public void removeIdentify() {
 		String s = "document.getElementById('numeral').style.opacity=0.4;\n";
 		s += "document.getElementById('numeral').style.font='bold 120px sans-serif';\n";
 		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'padding:0; margin: 0;' );\n";

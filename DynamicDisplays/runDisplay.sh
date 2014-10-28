@@ -12,8 +12,6 @@ d=`date +%F`
 
 log=../../log/display_${d}_$$.log
 
-databaseServer="mccrory.fnal.gov"
-
 screenNum=0
 if [ "$1 X" != " X" ]; then
     Screennum=$1;
