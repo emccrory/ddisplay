@@ -138,21 +138,26 @@ public class ConnectionToFirefoxInstance {
 	public void showIdentity() {
 		String s = "document.getElementById('numeral').style.opacity=0.8;\n";
 		s += "document.getElementById('numeral').style.font='bold 750px sans-serif';\n";
+		s += "document.getElementById('numeral').style.textShadow='0 0 18px black, 0 0 18px black, 0 0 18px black, 0 0 18px black, 0 0 18px black, 16px 16px 2px #"
+				+ colorCode + "';\n";
 		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'background-color: #" + colorCode
 				+ "; padding:0; margin: 100;' );\n";
 		s += "document.getElementById('iframe').style.width=1700;\n";
 		s += "document.getElementById('iframe').style.height=872;\n";
+
 		send(s);
 		System.out.println("--Sent: [[" + s + "]]");
 	}
-	
+
 	/**
 	 * Remove the self-identify dressings on the Display
 	 */
 	public void removeIdentify() {
 		String s = "document.getElementById('numeral').style.opacity=0.4;\n";
 		s += "document.getElementById('numeral').style.font='bold 120px sans-serif';\n";
-		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'padding:0; margin: 0;' );\n";
+		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'padding:0; margin: 0;');\n";
+		s += "document.getElementById('numeral').style.textShadow='0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 6px 6px 2px #"
+				+ colorCode + "';\n";
 		s += "document.getElementById('iframe').style.width=1916;\n";
 		s += "document.getElementById('iframe').style.height=1074;\n";
 		send(s);

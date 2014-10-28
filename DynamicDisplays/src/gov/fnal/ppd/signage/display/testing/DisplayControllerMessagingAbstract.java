@@ -202,12 +202,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			try {
 				Date dNow = new Date();
 				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				// String statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus()
-				// + "',ContentName='" + getContent().getName() + "' where DisplayID=" + number;
-				// TODO Give xocuser the rights to change ContentName in this table!
+
 				String statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
 						+ getContent().getURI() + ")" + "' where DisplayID=" + number;
-				System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
+				// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 				int numRows = stmt.executeUpdate(statementString);
 				if (numRows == 0 || numRows > 1) {
 					System.err
@@ -215,11 +213,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 									+ numRows + " rows instead. SQL='" + statementString + "'");
 				}
 
-				if (dynamic && OFF_LINE.equalsIgnoreCase(nowShowing)) {
-					// When we are all done, remove this new record from the Display and the DisplayStatus tables
-					stmt.executeUpdate("DELETE FROM Display WHERE DisplayID=" + number);
-					stmt.executeUpdate("DELETE FROM DisplayStatus WHERE DisplayID=" + number);
-				}
+				// if (dynamic && OFF_LINE.equalsIgnoreCase(nowShowing)) {
+				// // When we are all done, remove this new record from the Display and the DisplayStatus tables
+				// stmt.executeUpdate("DELETE FROM Display WHERE DisplayID=" + number);
+				// stmt.executeUpdate("DELETE FROM DisplayStatus WHERE DisplayID=" + number);
+				// }
 				stmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
