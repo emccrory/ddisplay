@@ -98,6 +98,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private JButton							exitButton					= new JButton("X");
 	private JButton							lockButton;
 	private JButton							addChannelButton			= new JButton("+");
+	// private JCheckBox showBorderButton = new JCheckBox("Border?");
 	private DisplayButtons					displaySelector;
 	private CardLayout						card						= new CardLayout();
 	private JPanel							displayChannelPanel			= new JPanel(card);
@@ -391,11 +392,14 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	private JComponent makeTitle() {
+		// showBorderButton.setSelected(true);
 		title = new JLabel(" Dynamic Display 00 ");
 		if (!SHOW_IN_WINDOW) {
 			title.setFont(new Font("Serif", Font.ITALIC, (int) (3 * FONT_SIZE / 4)));
 			refreshButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 2)));
+			// showBorderButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 2)));
 		}
+		// showBorderButton.setOpaque(false);
 		// title.setFont(title.getFont().deriveFont(3 * FONT_SIZE / 4));
 		title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		title.setOpaque(true);
@@ -493,6 +497,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			if (!SHOW_IN_WINDOW)
 				IdentifyAll.setup("?", FONT_SIZE / 2, new Insets(5, 5, 5, 5));
 			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+			// titleBox.add(showBorderButton);
 			JButton idAll = IdentifyAll.getButton();
 			titleBox.add(idAll);
 			idAll.addActionListener(new ActionListener() {

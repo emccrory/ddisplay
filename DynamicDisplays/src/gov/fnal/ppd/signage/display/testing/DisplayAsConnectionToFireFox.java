@@ -30,6 +30,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 	private ConnectionToFirefoxInstance	firefox;
 	private boolean						showingSelfIdentify	= false;
+	private boolean						useWebPageIdentify;
 
 	/**
 	 * @param portNumber
@@ -74,24 +75,41 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	protected void localSetContent() {
 		String url = getContent().getURI().toASCIIString().replace("&amp;", "&"); // FIXME This could be risky! But it is needed for
 																					// URL arguments
-		
+
 		synchronized (firefox) {
 			if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
 				if (!showingSelfIdentify) {
 					showingSelfIdentify = true;
-					firefox.changeURL(IDENTIFY_URL + number, false);
-					new Thread("Identify_" + displayNumber + "_wait") {
-						public void run() {
-							try {
-								sleep(SHOW_SPLASH_SCREEN_TIME);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
+					if (useWebPageIdentify) {
+						firefox.changeURL(IDENTIFY_URL + number, false);
+						new Thread("Identify_" + displayNumber + "_wait") {
+							public void run() {
+								try {
+									sleep(SHOW_SPLASH_SCREEN_TIME);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								boolean useWrapper = (lastChannel.getCode() & 1) != 0;
+								String url = lastChannel.getURI().toASCIIString().replace("&amp;", "&");
+								firefox.changeURL(url, useWrapper);
+								resetStatusUpdatePeriod();
+								showingSelfIdentify = false;
 							}
-							setContent(lastChannel);
-							resetStatusUpdatePeriod();
-							showingSelfIdentify = false;
-						}
-					}.start();
+						}.start();
+					} else {
+						firefox.showIdentity();
+						new Thread() {
+							public void run() {
+								try {
+									sleep(SHOW_SPLASH_SCREEN_TIME);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								firefox.removeSelfIdentify();
+								showingSelfIdentify = false;
+							}
+						}.start();
+					}
 				}
 			} else {
 				boolean useWrapper = (getContent().getCode() & 1) != 0;

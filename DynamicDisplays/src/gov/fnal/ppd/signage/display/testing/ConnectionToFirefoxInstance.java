@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -37,43 +38,10 @@ public class ConnectionToFirefoxInstance {
 	private static final String	COLOR_MARKER				= "XXColorCodeXX";
 	private static final String	DISPLAY_MARKER				= "XXDisplayXX";
 	private static final String	URL_MARKER					= "XXURLXX";
+	private static final String	LOCAL_FILE_NAME				= System.getProperty("user.dir") + "/border.html";
 
-	private final String		htmlTemplatePrecursor		= "<script>\n"
-																	+ "setTimeout(function () {\n"
-																	+ "    document.getElementsByTagName('body')[0].setAttribute('style', 'padding:0; margin: 0;' );\n"
-																	+ "    document.getElementById('iframe').style.width=1966;\n"
-																	+ "    document.getElementById('iframe').style.height=1074;\n"
-																	+ "    document.getElementById('numeral').style.opacity=0.305;\n"
-																	+ "}, 10000);\n"
-																	+ "</script>\n<style>\n"
-																	+ ".numeral {\n"
-																	+ "  position:    fixed;\n"
-																	+ "  width:       80px;\n"
-																	+ "  height:      80px;\n"
-																	+ "  padding:     10px;\n"
-																	+ "  top:         -18px;\n"
-																	+ "  text-shadow: 4px 4px 4px #"
-																	+ COLOR_MARKER
-																	+ ";\n"
-																	+ "  color: white;\n"
-																	+ "  opacity: 0.6;\n"
-																	+ "  font:   bold 120px sans-serif ;\n"
-																	+ "}\n"
-																	+ "</style>\n"
-																	+ "<html><body name='body' style='background-color: #"
-																	+ COLOR_MARKER
-																	+ ";padding:0; margin: 8; '>\n"
-																	+ "        <div class='numeral' id='numeral'>\n"
-																	+ DISPLAY_MARKER
-																	+ "\n"
-																	+ "        </div>\n"
-																	+ "<iframe id='iframe' src='"
-																	+ URL_MARKER
-																	+ "' width='1902' height='1059' scrolling='no' border='0' ></iframe>\n"
-																	+ "    </div></body></html>\n";
-
-	private byte[]				htmlTemplate;
 	private String				colorCode;
+	private boolean				firstTime					= true;
 
 	/**
 	 * Create a connection to the instance of FireFox that is being targeted here
@@ -92,7 +60,7 @@ public class ConnectionToFirefoxInstance {
 		colorCode = Integer.toHexString(color.getRGB() & 0x00ffffff);
 		colorCode = "000000".substring(colorCode.length()) + colorCode;
 
-		htmlTemplate = htmlTemplatePrecursor.replace(DISPLAY_MARKER, "" + displayID).replace(COLOR_MARKER, colorCode).getBytes();
+		// htmlTemplate = htmlTemplatePrecursor.replace(DISPLAY_MARKER, "" + displayID).replace(COLOR_MARKER, colorCode);
 
 		// FIXME The does not work for screen != 0. Firefox needs to be configured to listen to port 32001 for screen #1, and this,
 		// I think, needs to be done by hand. Not sure at this time (9/15/2014) how to do this.
@@ -112,24 +80,41 @@ public class ConnectionToFirefoxInstance {
 			System.out.println("New URL: " + urlString);
 
 		if (useTheWrapper) {
-			// Test the automatic border thing
 
-			try {
-				FileOutputStream out = new FileOutputStream("border.html");
-				out.write(htmlTemplate);
-				out.close();
+			// I have tried to do this in a local file, in order to remove some load from the web server. But
+			// this has not worked for me. (10/2014) First, it seems that the "window.location" Javascript command
+			// does not work for local files. Second, if I load the local file by hand, the Javascript timeout
+			// function never gets called.
 
-				send("window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
-						+ displayID + "&color=" + colorCode + "\";\n");
-			} catch (Exception e) {
-				e.printStackTrace();
+			// try {
+			// FileOutputStream out = new FileOutputStream(LOCAL_FILE_NAME);
+			// out.write(htmlTemplate.replace(URL_MARKER, urlString).getBytes());
+			// out.close();
+			//
+			// String sendString = "window.location=\"file://localhost" + LOCAL_FILE_NAME + "\";\n";
+			// System.out.println("changeURL(): " + sendString);
+			// send(sendString);
+			// //
+			//
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// }
+
+			String s = "";
+			if (firstTime) {
+				firstTime = false;
+				s = "window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
+						+ displayID + "&color=" + colorCode + "\";\n";
+				send(s);
+			} else {
+				s = "document.getElementById('iframe').src = '" + urlString + "';\n";
+				// s += "document.getElementById('iframe').contentWindow.location.reload();\n";
+				send(s);
 			}
+			System.out.println("--Sent: [[" + s + "]]");
 
-			// TODO -- This should be a local file, call it border.html.template I read that file at startup
-			// and substitute the color and the Display number in the HTML, which I save as a string locally.
-			// Then I substitute the URL in that file at this point and execute this line:
-
-			// send("window.location=\"border.html\");\n");
+			// send("window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
+			// + displayID + "&color=" + colorCode + "\";\n");
 		} else {
 			// Without the border wrapper
 			send("window.location=\"" + urlString + "\";\n");
@@ -145,6 +130,27 @@ public class ConnectionToFirefoxInstance {
 			e.printStackTrace();
 			connected = false;
 		}
+	}
+
+	public void showIdentity() {
+		String s = "document.getElementById('numeral').style.opacity=0.8;\n";
+		s += "document.getElementById('numeral').style.font='bold 500px sans-serif';\n";
+		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'background-color: #" + colorCode
+				+ "; padding:0; margin: 50;' );\n";
+		s += "document.getElementById('iframe').style.width=1861;\n";
+		s += "document.getElementById('iframe').style.height=1049;\n";
+		send(s);
+		System.out.println("--Sent: [[" + s + "]]");
+	}
+
+	public void removeSelfIdentify() {
+		String s = "document.getElementById('numeral').style.opacity=0.4;\n";
+		s += "document.getElementById('numeral').style.font='bold 120px sans-serif';\n";
+		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'padding:0; margin: 0;' );\n";
+		s += "document.getElementById('iframe').style.width=1916;\n";
+		s += "document.getElementById('iframe').style.height=1074;\n";
+		send(s);
+		System.out.println("--Sent: [[" + s + "]]");
 	}
 
 	/**
