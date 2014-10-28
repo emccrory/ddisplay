@@ -134,11 +134,11 @@ public class ConnectionToFirefoxInstance {
 
 	public void showIdentity() {
 		String s = "document.getElementById('numeral').style.opacity=0.8;\n";
-		s += "document.getElementById('numeral').style.font='bold 500px sans-serif';\n";
+		s += "document.getElementById('numeral').style.font='bold 750px sans-serif';\n";
 		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'background-color: #" + colorCode
-				+ "; padding:0; margin: 50;' );\n";
-		s += "document.getElementById('iframe').style.width=1810;\n";
-		s += "document.getElementById('iframe').style.height=972;\n";
+				+ "; padding:0; margin: 100;' );\n";
+		s += "document.getElementById('iframe').style.width=1700;\n";
+		s += "document.getElementById('iframe').style.height=872;\n";
 		send(s);
 		System.out.println("--Sent: [[" + s + "]]");
 	}
