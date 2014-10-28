@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -17,31 +18,45 @@ import java.util.Arrays;
  * 
  */
 public class ConnectionToFirefoxInstance {
-	private static final int	DEFAULT_BUFFER_SIZE			= 300;
-	private static final String	LOCALHOST					= "localhost";
-	private static final int	PORT						= 32000;
-	private static final long	WAIT_FOR_CONNECTION_TIME	= 15000;
+	private static final int						DEFAULT_BUFFER_SIZE			= 300;
+	private static final String						LOCALHOST					= "localhost";
+	private static final int						PORT						= 32000;
+	private static final long						WAIT_FOR_CONNECTION_TIME	= 15000;
 
 	// private static final String FullScreenExecute = "var elem = document.body; elem.requestFullScreen();";
 
-	private boolean				connected;
-	private BufferedReader		in;
-	private Socket				kkSocket;
-	private String				lastReplyLine;
-	private PrintWriter			out;
-	private final int			port;
+	private boolean									connected;
+	private BufferedReader							in;
+	private Socket									kkSocket;
+	private String									lastReplyLine;
+	private PrintWriter								out;
+	private final int								port;
 
-	private boolean				debug						= false;
-	private int					displayID;
-	private Color				color;
+	private boolean									debug						= false;
+	private int										displayID;
+	private Color									color;
 
-	private static final String	COLOR_MARKER				= "XXColorCodeXX";
-	private static final String	DISPLAY_MARKER				= "XXDisplayXX";
-	private static final String	URL_MARKER					= "XXURLXX";
-	private static final String	LOCAL_FILE_NAME				= System.getProperty("user.dir") + "/border.html";
+	private String									colorCode;
+	private boolean									firstTime					= true;
 
-	private String				colorCode;
-	private boolean				firstTime					= true;
+	@SuppressWarnings("serial")
+	private static final HashMap<String, String>	colorNames					= new HashMap<String, String>() {
+																					{
+																						put("003397", "Blue");
+																						put("ffcc00", "Yellow");
+																						put("f20019", "Red");
+																						put("008000", "Green");
+																						put("fe8420", "Orange");
+																						put("ffffff", "White");
+																						put("777777", "Gray");
+																						put("800080", "Purple");
+																						put("964b00", "Brown");
+																						put("ffcbdb", "Pink");
+																						put("000000", "Black");
+																						put("ff0055", "Magenta");
+																						put("a0d681", "Light Green");
+																					}
+																				};
 
 	/**
 	 * Create a connection to the instance of FireFox that is being targeted here
@@ -133,7 +148,7 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	/**
-	 * Modify the actual display to self-identify, showing the Display number and the hightlight color.
+	 * Modify the actual display to self-identify, showing the Display number and the highlight color.
 	 */
 	public void showIdentity() {
 		String s = "document.getElementById('numeral').style.opacity=0.8;\n";
@@ -144,6 +159,10 @@ public class ConnectionToFirefoxInstance {
 				+ "; padding:0; margin: 100;' );\n";
 		s += "document.getElementById('iframe').style.width=1700;\n";
 		s += "document.getElementById('iframe').style.height=872;\n";
+		if (colorNames.containsKey(colorCode))
+			s += "document.getElementById('colorName').innerHTML = '" + colorNames.get(colorCode) + "';\n";
+		else
+			s += "document.getElementById('colorName').innerHTML = '#" + colorCode + "';\n";
 
 		send(s);
 		System.out.println("--Sent: [[" + s + "]]");
@@ -160,6 +179,8 @@ public class ConnectionToFirefoxInstance {
 				+ colorCode + "';\n";
 		s += "document.getElementById('iframe').style.width=1916;\n";
 		s += "document.getElementById('iframe').style.height=1074;\n";
+		s += "document.getElementById('colorName').innerHTML = '';\n";
+		
 		send(s);
 		System.out.println("--Sent: [[" + s + "]]");
 	}

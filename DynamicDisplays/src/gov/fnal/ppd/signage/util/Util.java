@@ -2,7 +2,6 @@ package gov.fnal.ppd.signage.util;
 
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
-
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
 import gov.fnal.ppd.signage.channel.ChannelImpl;
@@ -13,6 +12,7 @@ import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 /**
  * Some general utilities in the DD system
