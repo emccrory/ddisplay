@@ -25,7 +25,7 @@ public class ConnectionToFirefoxInstance {
 
 	// private static final String FullScreenExecute = "var elem = document.body; elem.requestFullScreen();";
 
-	private boolean									connected;
+	private boolean									connected					= false;
 	private BufferedReader							in;
 	private Socket									kkSocket;
 	private String									lastReplyLine;
