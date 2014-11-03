@@ -21,5 +21,10 @@ public enum MessageType {
 	/**
 	 * A request from the client to logout from the messaging server
 	 */
-	LOGOUT
+	LOGOUT,
+	
+	/**
+	 * Is this client actually alive?
+	 */
+	ALIVE
 }

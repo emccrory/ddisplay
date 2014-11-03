@@ -54,6 +54,15 @@ public class MessageCarrier implements Serializable {
 	}
 
 	/**
+	 * @param clientName
+	 *            The name of the client for whom this message is intended
+	 * @return A message for the messaging server asking for all the clients that are connected
+	 */
+	public static MessageCarrier getAlive(String clientName) {
+		return new MessageCarrier(MessageType.ALIVE, clientName);
+	}
+
+	/**
 	 * @param type
 	 *            -- Which type of message is this?
 	 * @param message
@@ -77,8 +86,8 @@ public class MessageCarrier implements Serializable {
 	public String getMessage() {
 		return message;
 	}
-	
-	@Override 
+
+	@Override
 	public String toString() {
 		return "Type=" + type + ", message=[" + message + "]";
 	}

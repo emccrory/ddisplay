@@ -8,13 +8,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.Key;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.RSAPrivateKeySpec;
-import java.security.spec.RSAPublicKeySpec;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -26,7 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class MessagingServer {
 
-	public int	numConnectionsSeen	= 0;
+	int	numConnectionsSeen	= 0;
 
 	private class ClientThreadList extends CopyOnWriteArrayList<ClientThread> {
 
@@ -59,25 +52,23 @@ public class MessagingServer {
 
 	}
 
-	protected static final String	INNOCUOUS_MESSSAGE		= "RUThere?";
-
 	// a unique ID for each connection
-	private static int				uniqueId;
+	private static int			uniqueId;
 	// an ArrayList to keep the list of the Client
 	// private ArrayList<ClientThread> al; This Template is supposed to help with ConcurrentModificationException
-	private ClientThreadList		al;
+	private ClientThreadList	al;
 
 	// to display time (Also used as a synchronization object for writing messages to the local terminal/GUI
-	protected SimpleDateFormat		sdf;
+	protected SimpleDateFormat	sdf;
 	// the port number to listen for connection
-	private int						port;
+	private int					port;
 	// the boolean that will be turned of to stop the server
-	private boolean					keepGoing;
+	private boolean				keepGoing;
 
-	private Object					broadcasting			= "For synchronization";
-	private Thread					showClientList			= null;
+	private Object				broadcasting			= "For synchronization";
+	private Thread				showClientList			= null;
 
-	protected int					totalMesssagesHandled	= 0;
+	protected int				totalMesssagesHandled	= 0;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -179,7 +170,8 @@ public class MessagingServer {
 
 	private void startPinger() {
 		// A kludge of sorts: Write an innocuous message to every client at some small period. If the client has actually
-		// died and we think the socket is still open, this *should* cause the socket to fail. The we can delete that client.
+		// died and we think the socket is still open, this *should* cause the socket to fail. Then we can delete that client.
+		// Update: This does not cause the socket to fail.
 		new Thread("Pinger") {
 			public long	sleepPeriod	= 10000L;
 			int			counter		= 98;
@@ -197,12 +189,19 @@ public class MessagingServer {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					broadcast(INNOCUOUS_MESSSAGE);
-					double aliveTime = ((double) counter * sleepPeriod) / 1000.0 / 60.0 / 60.0 / 60.0;
+					// TODO Implement PING/PONG protocol
+					// This protocol is not done very well. There are some places where it seems to just read the
+					// message as a string and some places that it looks at the message as a real Message object. This needs
+					// to be made self-consistent!
+
+					// So for now, forget about this innocuous message. (But keep this thread going for the diagnostic messages)
+					// broadcast(INNOCUOUS_MESSSAGE);
+					double aliveTime = ((double) counter * sleepPeriod) / 1000.0 / 3600.0;
 					if (((counter++) % 100) == 99) {
 						display(MessagingServer.class.getSimpleName() + " has been alive " + aliveTime + " hours -- \n "
 								+ "                       " + numConnectionsSeen + " connections accepted, " + al.size()
-								+ " clients connected right now, " + totalMesssagesHandled + " messages handled");
+								+ " client" + (al.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
+								+ " messages handled");
 					}
 				}
 			}
@@ -330,6 +329,7 @@ public class MessagingServer {
 		// the date I connect
 		String				date;
 		private boolean		thisSocketIsActive	= false;
+		private long		lastSeen;
 
 		// Constructor
 		ClientThread(Socket socket) {
@@ -402,6 +402,7 @@ public class MessagingServer {
 				}
 				// the message part of the ChatMessage
 				String message = cm.getMessage();
+				lastSeen = System.currentTimeMillis();
 
 				// Switch on the type of message receive
 				switch (cm.getType()) {
@@ -416,6 +417,9 @@ public class MessagingServer {
 				case LOGOUT:
 					display(username + " disconnected with a LOGOUT message.");
 					thisSocketIsActive = false;
+					break;
+
+				case ALIVE:
 					break;
 
 				case WHOISIN:

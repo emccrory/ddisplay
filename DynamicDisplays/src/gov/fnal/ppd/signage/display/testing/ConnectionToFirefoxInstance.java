@@ -218,9 +218,12 @@ public class ConnectionToFirefoxInstance {
 	private void openConnection() {
 		new Thread("OpenConToFirefox") {
 			public void run() {
+				if (connected)
+					System.out.println(ConnectionToFirefoxInstance.class.getSimpleName() + ": already connected!");
 				while (!connected)
 					try {
-						System.out.println("Opening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
+						System.out.println(ConnectionToFirefoxInstance.class.getSimpleName()
+								+ ":\n\tOpening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
 						kkSocket = new Socket(LOCALHOST, port);
 						System.out.println("\tSocket connection to FF created");
 						out = new PrintWriter(kkSocket.getOutputStream(), true);
