@@ -59,10 +59,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		new Thread() {
 			public void run() {
+				System.out.println(DisplayAsConnectionToFireFox.class.getSimpleName() + ".initiate(): Here we go!");
 				try {
 					sleep(4000); // Wait a bit before trying to contact the instance of FireFox.
 					firefox = new ConnectionToFirefoxInstance(screenNumber, number, highlightColor);
-					sleep(1000); // Wait a bit more before trying to tell it to go to a specific page
+					sleep(500); // Wait a bit more before trying to tell it to go to a specific page
 					firefox.changeURL(getContent().getURI().toASCIIString(), true);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
