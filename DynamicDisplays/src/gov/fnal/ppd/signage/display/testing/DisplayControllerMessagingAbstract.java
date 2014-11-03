@@ -154,8 +154,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				System.err.println("Exit hook called.");
 				keepGoing = false;
 				nowShowing = OFF_LINE;
-				// updateMyStatus(); This is odd--it was deleting the rows for this Display in Display and DisplayStatus tables.
-				// (5/24/14)
+				updateMyStatus();
 
 				endAllConnections();
 			}
@@ -202,9 +201,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			try {
 				Date dNow = new Date();
 				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-				String statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
-						+ getContent().getURI() + ")" + "' where DisplayID=" + number;
+				String statementString;
+				if (OFF_LINE.equalsIgnoreCase(nowShowing))
+					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='Off Line' where DisplayID="
+							+ number;
+				else
+					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
+							+ getContent().getURI() + ")" + "' where DisplayID=" + number;
 				// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 				int numRows = stmt.executeUpdate(statementString);
 				if (numRows == 0 || numRows > 1) {
@@ -213,7 +216,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 									+ numRows + " rows instead. SQL='" + statementString + "'");
 				}
 
-				// if (dynamic && OFF_LINE.equalsIgnoreCase(nowShowing)) {
 				// // When we are all done, remove this new record from the Display and the DisplayStatus tables
 				// stmt.executeUpdate("DELETE FROM Display WHERE DisplayID=" + number);
 				// stmt.executeUpdate("DELETE FROM DisplayStatus WHERE DisplayID=" + number);
@@ -314,6 +316,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
 					String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
 					Color color = new Color(Integer.parseInt(colorString, 16));
+					// TODO Also get the color name from the DB
 					int portNumber = rs.getInt("Port");
 					int screenNumber = rs.getInt("ScreenNumber");
 					int channelNumber = rs.getInt("Content");
@@ -397,7 +400,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	private class MessagingClientLocal extends MessagingClient {
-		private boolean		debug	= true;
+		private boolean		debug	= false;
 		private DCProtocol	dcp		= new DCProtocol();
 
 		public MessagingClientLocal(String server, int port, String username) {
@@ -418,17 +421,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		@Override
 		public void displayIncomingMessage(String msg) {
 			if (debug)
-				System.out.println(DisplayControllerMessagingAbstract.class.getCanonicalName() + "."
-						+ this.getClass().getCanonicalName() + ".displayIncomingMessage(): Got this message: [" + msg + "]");
+				System.out.println(DisplayControllerMessagingAbstract.class.getCanonicalName() + ":"
+						+ this.getClass().getSimpleName() + ".displayIncomingMessage(): Got this message: [" + msg + "]");
 			if (msg.startsWith(myName)) {
 				if (debug)
 					System.out.println("This message is for me!");
 
-				// TODO Interpret the XML document I just got and then set the content, appropriately.
+				// Interpret the XML document I just got and then set the content, appropriately.
 				String xmlDocument = msg.substring(msg.indexOf("<?xml"));
 				DDMessage myMessage = new DDMessage(xmlDocument);
-				// TODO Make this message affect the URL that is being shown
-				// I think we need to use the DCProtocol class here.
 				dcp.processInput(myMessage);
 			}
 		}

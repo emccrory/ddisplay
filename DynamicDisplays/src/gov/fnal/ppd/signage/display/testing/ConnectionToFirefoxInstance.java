@@ -34,12 +34,12 @@ public class ConnectionToFirefoxInstance {
 
 	private boolean									debug						= false;
 	private int										displayID;
-	private Color									color;
 
 	private String									colorCode;
-	private boolean									firstTime					= true;
+	private boolean									showingCanonicalSite		= false;
 
 	@SuppressWarnings("serial")
+	// TODO This is actually in the database and should be read from there.
 	private static final HashMap<String, String>	colorNames					= new HashMap<String, String>() {
 																					{
 																						put("003397", "Blue");
@@ -70,7 +70,6 @@ public class ConnectionToFirefoxInstance {
 		// Create a connection to the instance of FireFox that is being targeted here
 
 		this.displayID = displayID;
-		this.color = color;
 
 		colorCode = Integer.toHexString(color.getRGB() & 0x00ffffff);
 		colorCode = "000000".substring(colorCode.length()) + colorCode;
@@ -89,8 +88,9 @@ public class ConnectionToFirefoxInstance {
 	 * @param urlString
 	 *            The URL that this instance should show now.
 	 * @param useTheWrapper
+	 * @return Was the change successful?
 	 */
-	public void changeURL(final String urlString, final boolean useTheWrapper) {
+	public boolean changeURL(final String urlString, final boolean useTheWrapper) {
 		if (debug)
 			System.out.println("New URL: " + urlString);
 
@@ -116,8 +116,8 @@ public class ConnectionToFirefoxInstance {
 			// }
 
 			String s = "";
-			if (firstTime) {
-				firstTime = false;
+			if (!showingCanonicalSite) {
+				showingCanonicalSite = true;
 				s = "window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
 						+ displayID + "&color=" + colorCode + "\";\n";
 				send(s);
@@ -133,6 +133,8 @@ public class ConnectionToFirefoxInstance {
 		} else {
 			// Without the border wrapper
 			send("window.location=\"" + urlString + "\";\n");
+			System.out.println("Wrapper not used, new URL is " + urlString);
+			showingCanonicalSite = false;
 		}
 		// An experiment: Can I turn off the scroll bars? The answer is no (it seems)
 		// send("document.documentElement.style.overflow = 'hidden';\n");
@@ -144,7 +146,9 @@ public class ConnectionToFirefoxInstance {
 		} catch (IOException e) {
 			e.printStackTrace();
 			connected = false;
+			return false;
 		}
+		return true;
 	}
 
 	/**
@@ -180,7 +184,7 @@ public class ConnectionToFirefoxInstance {
 		s += "document.getElementById('iframe').style.width=1916;\n";
 		s += "document.getElementById('iframe').style.height=1074;\n";
 		s += "document.getElementById('colorName').innerHTML = '';\n";
-		
+
 		send(s);
 		System.out.println("--Sent: [[" + s + "]]");
 	}

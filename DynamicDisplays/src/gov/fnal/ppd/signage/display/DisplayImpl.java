@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.display;
 
+import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.signage.util.Util.makeEmptyChannel;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
@@ -86,16 +87,18 @@ public abstract class DisplayImpl implements Display {
 					+ (new Date()));
 
 			// ----- Do we put this channel in a wrapper?
-			channel.setCode(channel.getCode() | 1);
-			
+			// channel.setCode(channel.getCode() | 1);
+
 			informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED);
 			localSetContent();
 
 			new Thread("FakeChangeComplete") {
+				long	sleepTime	= (SHOW_IN_WINDOW ? 1000 : 5000);
+
 				public void run() {
 					// TODO -- This event needs to be triggered by the display actually indicating that it has changed the channel.
 					try {
-						Thread.sleep(5000);
+						Thread.sleep(sleepTime);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -108,6 +111,16 @@ public abstract class DisplayImpl implements Display {
 
 		error("Content type of this Channel (" + c.getType() + ") is not appropriate for this Display (" + getCategory() + ")");
 		return channel;
+	}
+
+	/**
+	 * A necessary mechanism to set the content when something strange is going on in the derived class. *Use sparingly*
+	 * 
+	 * @param c
+	 *            the new content
+	 */
+	protected void setContentBypass(SignageContent c) {
+		channel = c;
 	}
 
 	protected void error(String string) {

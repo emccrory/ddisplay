@@ -106,26 +106,28 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 							}
 							firefox.removeIdentify();
 							showingSelfIdentify = false;
+							setContentBypass(lastChannel);
+							updateMyStatus();
 						}
 					}.start();
 					// }
 				}
 			} else {
-				boolean useWrapper = (getContent().getCode() & 1) != 0;
-				firefox.changeURL(url, useWrapper);
-				lastChannel = getContent();
-				showingSelfIdentify = false;
+				boolean useWrapper = true; // Someday we may need this: (getContent().getCode() & 1) != 0;
+				if (firefox.changeURL(url, useWrapper)) {
+					lastChannel = getContent();
+					showingSelfIdentify = false;
+				} else {
+					System.err.println(getClass().getSimpleName() + ".localSetContent(): Failed to set content");
+				}
 
-				new Thread("UpdateStatus" + getMessagingName()) {
+				new Thread("Respond" + getMessagingName()) {
 					public void run() {
-						try {
-							sleep(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						updateMyStatus();
+						// TODO Implement a "PONG" type message and send it back to the client here.
 					}
 				}.start();
+
+				updateMyStatus();
 			}
 		}
 	}
