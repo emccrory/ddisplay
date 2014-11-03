@@ -32,6 +32,6 @@ fi
     
     java -Dddisplay.messagingserver=$messagingServer \
 	-Dddisplay.dbserver=$databaseServer \
-	-Xmx512m gov.fnal.ppd.signage.display.testing.DisplayAsConnectionToFireFox -screen=$screenNum 
+	-Xmx512m gov.fnal.ppd.signage.display.client.DisplayAsConnectionToFireFox -screen=$screenNum 
 
 } 2>&1 > $log

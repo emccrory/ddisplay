@@ -1,4 +1,4 @@
-package gov.fnal.ppd.signage.display.testing;
+package gov.fnal.ppd.signage.util;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;

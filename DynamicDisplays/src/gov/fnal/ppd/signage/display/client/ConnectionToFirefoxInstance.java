@@ -1,4 +1,4 @@
-package gov.fnal.ppd.signage.display.testing;
+package gov.fnal.ppd.signage.display.client;
 
 import java.awt.Color;
 import java.io.BufferedReader;

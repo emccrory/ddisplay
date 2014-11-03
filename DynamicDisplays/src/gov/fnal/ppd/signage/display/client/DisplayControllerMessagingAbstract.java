@@ -1,4 +1,4 @@
-package gov.fnal.ppd.signage.display.testing;
+package gov.fnal.ppd.signage.display.client;
 
 import static gov.fnal.ppd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
@@ -15,6 +15,7 @@ import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.comm.DCProtocol;
 import gov.fnal.ppd.signage.comm.DDMessage;
 import gov.fnal.ppd.signage.display.DisplayImpl;
+import gov.fnal.ppd.signage.display.testing.BrowserLauncher;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

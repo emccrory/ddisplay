@@ -1,4 +1,4 @@
-package gov.fnal.ppd.signage.display.testing;
+package gov.fnal.ppd.signage.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

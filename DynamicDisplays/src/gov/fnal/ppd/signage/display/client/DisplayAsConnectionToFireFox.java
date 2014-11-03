@@ -1,7 +1,8 @@
-package gov.fnal.ppd.signage.display.testing;
+package gov.fnal.ppd.signage.display.client;
 
 import static gov.fnal.ppd.GlobalVariables.SELF_IDENTIFY;
 import gov.fnal.ppd.signage.SignageType;
+import gov.fnal.ppd.signage.display.testing.BrowserLauncher;
 import gov.fnal.ppd.signage.display.testing.BrowserLauncher.BrowserInstance;
 
 import java.awt.Color;
