@@ -35,9 +35,6 @@ import java.util.Date;
  * @author Elliott McCrory, Fermilab (2014)
  */
 public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
-	private static String			webServerNode			= WEB_SERVER_NAME;
-	private static String			messagingServerNode		= MESSAGING_SERVER_NAME;
-	private static int				messagingServerPort		= MESSAGING_SERVER_PORT;
 
 	protected static final int		STATUS_UPDATE_PERIOD	= 30;
 	protected static final long		SOCKET_ALIVE_INTERVAL	= 2500l;
@@ -46,7 +43,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private String					nowShowing				= "Startup Splash Screen";
 
 	protected static final String	OFF_LINE				= "Off Line";
-	protected static final String	IDENTIFY_URL			= "http://" + webServerNode + "/XOC/displaySplash.php?id=";
 
 	protected static Connection		connection;
 
@@ -82,7 +78,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			throw new IllegalArgumentException("No content defined!");
 
 		myName = ipName + ":" + screenNumber + " (" + number + ")";
-		messagingClient = new MessagingClientLocal(messagingServerNode, messagingServerPort, myName);
+		messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName);
 	}
 
 	/**
@@ -115,7 +111,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							System.err.println("It looks like the server is down! Let's try to restart our connection to it.");
 							messagingClient.disconnect();
 							messagingClient = null; // Not sure about this.
-							messagingClient = new MessagingClientLocal(messagingServerNode, messagingServerPort, myName);
+							messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName);
 							messagingClient.start();
 						}
 					}
