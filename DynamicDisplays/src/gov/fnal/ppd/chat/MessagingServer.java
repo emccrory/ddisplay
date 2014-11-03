@@ -8,6 +8,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.Key;
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.RSAPrivateKeySpec;
+import java.security.spec.RSAPublicKeySpec;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -18,6 +25,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Taken from http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/ on 5/12/2014
  */
 public class MessagingServer {
+
+	public int	numConnectionsSeen	= 0;
 
 	private class ClientThreadList extends CopyOnWriteArrayList<ClientThread> {
 
@@ -40,29 +49,35 @@ public class MessagingServer {
 					index++;
 				}
 			}
-			// TODO -- Is a bad thing to have duplicate usernames? When/if the server directs messages to the intended user,
+			// QUESTION -- Is a bad thing to have duplicate usernames? When/if the server directs messages to the intended user,
 			// this WILL be necessary. But having a fairly anonymous clientelle works just fine.
 			//
 			// BUt I am seeing bugs whereby one client restarts and the server has not dropped the old connection.
-
+			numConnectionsSeen++;
 			return super.add(ct);
 		}
 
 	}
 
+	protected static final String	INNOCUOUS_MESSSAGE		= "RUThere?";
+
 	// a unique ID for each connection
-	private static int			uniqueId;
+	private static int				uniqueId;
 	// an ArrayList to keep the list of the Client
 	// private ArrayList<ClientThread> al; This Template is supposed to help with ConcurrentModificationException
-	private ClientThreadList	al;
+	private ClientThreadList		al;
 
 	// to display time (Also used as a synchronization object for writing messages to the local terminal/GUI
-	protected SimpleDateFormat	sdf;
+	protected SimpleDateFormat		sdf;
 	// the port number to listen for connection
-	private int					port;
+	private int						port;
 	// the boolean that will be turned of to stop the server
-	private boolean				keepGoing;
-	private boolean				addTimeStamp	= false;
+	private boolean					keepGoing;
+
+	private Object					broadcasting			= "For synchronization";
+	private Thread					showClientList			= null;
+
+	protected int					totalMesssagesHandled	= 0;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -83,29 +98,7 @@ public class MessagingServer {
 	 * Start the messaging server
 	 */
 	public void start() {
-
-	    //		new Thread("InternalCounts") {
-	    //			public void run() {
-	    //				while (true) {
-	    //					long time = FIFTEEN_MINUTES / 512;
-	    //					double sq2 = Math.sqrt(2.0);
-	    //					while (true) {
-	    //						try {
-	    //							sleep(time);
-	    //						} catch (InterruptedException e) {
-	    //						}
-	    //						if (time < FIFTEEN_MINUTES) {
-	    //							time *= sq2;
-	    //							if (time >= FIFTEEN_MINUTES) {
-	    //								time = FIFTEEN_MINUTES;
-	    //							}
-	    //						}
-	    //						System.out.println("Number of members of object al: " + al.size());
-	    //					}
-	    //				}
-	    //			}
-	    //		}.start();
-
+		startPinger();
 		keepGoing = true;
 		/* create socket server and wait for connection requests */
 		try {
@@ -125,11 +118,32 @@ public class MessagingServer {
 					t.start();
 				else
 					display("Error! Duplicate username requested, '" + t.username + "'");
-				String m = "List of connected clients:\n";
-				for (ClientThread CT : al) {
-					m += "                     " + CT.username + " at " + CT.date + " ID=" + CT.id + "\n";
+				if (showClientList == null) {
+
+					// This block is to print out the current set of clients. Rather than printing it out every time
+					// a client connects, we wait 3 seconds from the first connect to do this. Usually, a lot of clients
+					// connect at the same time--either the Channel Selector or when all the Displays reboot.
+
+					showClientList = new Thread("ShowClientList") {
+						long	WAIT_FOR_ALL_TO_CONNECT_TIME	= 3000;
+
+						public void run() {
+							try {
+								sleep(WAIT_FOR_ALL_TO_CONNECT_TIME);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							String m = "List of connected clients:\n";
+							for (ClientThread CT : al) {
+								m += "                     " + CT.username + " at " + CT.date + " ID=" + CT.id + "\n";
+							}
+							display(m);
+							showClientList = null;
+						}
+					};
+					showClientList.start();
 				}
-				display(m);
+
 			}
 			// I was asked to stop
 			display("Closing the server port");
@@ -151,7 +165,7 @@ public class MessagingServer {
 				e.printStackTrace();
 			}
 		}
-		// something went bad
+		// something went wrong
 		catch (IOException e) {
 			String msg = sdf.format(new Date()) + " Exception on new ServerSocket: " + e + "\n";
 			display(msg);
@@ -161,6 +175,38 @@ public class MessagingServer {
 			display(msg);
 			e.printStackTrace();
 		}
+	}
+
+	private void startPinger() {
+		// A kludge of sorts: Write an innocuous message to every client at some small period. If the client has actually
+		// died and we think the socket is still open, this *should* cause the socket to fail. The we can delete that client.
+		new Thread("Pinger") {
+			public long	sleepPeriod	= 10000L;
+			int			counter		= 98;
+
+			public void run() {
+				try {
+					sleep(sleepPeriod);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				while (keepGoing) {
+					try {
+						sleep(sleepPeriod);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					broadcast(INNOCUOUS_MESSSAGE);
+					double aliveTime = ((double) counter * sleepPeriod) / 1000.0 / 60.0 / 60.0 / 60.0;
+					if (((counter++) % 100) == 99) {
+						display(MessagingServer.class.getSimpleName() + " has been alive " + aliveTime + " hours -- \n "
+								+ "                       " + numConnectionsSeen + " connections accepted, " + al.size()
+								+ " clients connected right now, " + totalMesssagesHandled + " messages handled");
+					}
+				}
+			}
+		}.start();
 	}
 
 	/*
@@ -198,27 +244,44 @@ public class MessagingServer {
 	 * @param message
 	 *            -- The message to broadcast
 	 */
-	protected synchronized void broadcast(String message) {
-		// TODO (possibly) -- Be more selective about who gets this message
-		String messageLf;
-		if (addTimeStamp) {
-			// add HH:mm:ss and \n to the message
-			String time = sdf.format(new Date());
-			messageLf = time + " " + message + "\n";
-		} else {
-			messageLf = message;
-		}
-
-		// we loop in reverse order in case we would have to remove a Client
-		// because it has disconnected
-		for (int i = al.size(); --i >= 0;) {
-			ClientThread ct = al.get(i);
-			// try to write to the Client if it fails remove it from the list
-			if (!ct.writeMsg(messageLf)) {
-				al.remove(i);
-				display("Disconnected Client " + ct.username + " removed from list.");
+	protected void broadcast(String message) {
+		synchronized (broadcasting) {
+			// we loop in reverse order in case we would have to remove a Client
+			// because it has disconnected
+			for (int i = al.size(); --i >= 0;) {
+				ClientThread ct = al.get(i);
+				// try to write to the Client if it fails remove it from the list
+				if (!ct.writeMsg(message)) {
+					al.remove(i);
+					display("Disconnected Client " + ct.username + " removed from list.");
+				}
 			}
 		}
+	}
+
+	protected void broadcast(String username, String message) {
+		synchronized (broadcasting) {
+			String fullMessage = username + ": " + encrypt(message);
+			// we loop in reverse order in case we would have to remove a Client
+			// because it has disconnected
+			for (int i = al.size(); --i >= 0;) {
+				ClientThread ct = al.get(i);
+				if (username.contains(ct.username)) {
+					// try to write to the Client if it fails remove it from the list
+					if (!ct.writeMsg(fullMessage)) {
+						al.remove(i);
+						display("Disconnected Client " + ct.username + " removed from list.");
+					} else
+						totalMesssagesHandled++;
+				}
+			}
+		}
+	}
+
+	private String encrypt(String message) {
+		// TODO Implement asymmetric (public/private key, RSA) encryption here
+
+		return message;
 	}
 
 	/**
@@ -281,6 +344,13 @@ public class MessagingServer {
 				// create output first
 				sOutput = new ObjectOutputStream(socket.getOutputStream());
 				sInput = new ObjectInputStream(socket.getInputStream());
+
+				// TODO It seems that the only certain way to assure that the client at the other end of this read is
+				// still alive is to establish some sort of "Still Alive" protocol between client and server. It is
+				// possible for the client to die in such a way as to NOT close the socket. The socket is closed
+				// when the client exits, and sometimes it seems to close when the client dies--but not always.
+				// This may have been addressed in the method startPinger().
+
 				// read the username -- the first message from the new connection
 				read = sInput.readObject();
 				if (read instanceof MessageCarrier) {
@@ -308,24 +378,25 @@ public class MessagingServer {
 			// to loop until LOGOUT or we hit an unrecoverable exception
 			Object read = new Object();
 			// Bug fix for input and output objects: call "reset" after every read and write to not let these objects
-			// remember their state.  After a few hours, we run out of memory!
+			// remember their state. After a few hours, we run out of memory!
 			thisSocketIsActive = true;
 			while (thisSocketIsActive) {
 				// read a String (which is an object)
 				try {
 					read = sInput.readObject();
 					cm = (MessageCarrier) read;
-					// sInput.reset();
 				} catch (ClassNotFoundException e) {
 					display(username + ": A class not found exception -- " + e + ". returned object of type "
 							+ read.getClass().getCanonicalName());
 					e.printStackTrace();
 					break; // End the while(thisSocketIsActive) loop
 				} catch (Exception e) {
-					display(username + ": Exception reading input stream -- " + e + "; The received message was '" + read + "'");
+					display(username + ": Exception reading input stream -- " + e + "; The received message was '" + read
+							+ "' (type=" + read.getClass().getCanonicalName() + ")");
 					System.err.println(username + ": Exception reading input stream -- " + e + "; The received message was '"
-							+ read + "'"); // Put this here to assure that the stack-trace and this message are together in the
-											// console (debugging)
+							+ read + "' (type=" + read.getClass().getCanonicalName() + ")"); // Put this here to assure that the
+					// stack-trace and this message are together
+					// in the console (debugging)
 					e.printStackTrace();
 					break; // End the while(thisSocketIsActive) loop
 				}
@@ -337,9 +408,9 @@ public class MessagingServer {
 
 				case MESSAGE:
 					//
-					// The message is broadcast here!
+					// The message, received from a client, is broadcast here!
 					//
-					broadcast(username + ": " + message);
+					broadcast(username, message);
 					break;
 
 				case LOGOUT:
@@ -353,7 +424,7 @@ public class MessagingServer {
 					boolean purge = false;
 					for (int i = 0; i < al.size(); ++i) {
 						ClientThread ct = al.get(i);
-						// TODO Make this into an XML document
+						// TODO Make the WHOISIN message into an XML document
 						if (ct != null && ct.username != null && ct.date != null)
 							writeMsg("WHOISIN [" + ct.username + "] since " + ct.date);
 						else {
@@ -443,10 +514,11 @@ public class MessagingServer {
 			}
 			// if an error occurs, do not abort just inform the user
 			catch (IOException e) {
-				display("Error sending message to " + username);
+				display("IOException sending message to " + username);
 				display(e.toString());
 				e.printStackTrace();
 			} catch (Exception e) {
+				display(e.getLocalizedMessage() + ", Error sending message to " + username);
 				e.printStackTrace();
 			}
 			return true;

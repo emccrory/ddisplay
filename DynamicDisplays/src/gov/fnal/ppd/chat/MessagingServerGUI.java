@@ -56,7 +56,23 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 
 		protected synchronized void broadcast(String msg) {
 			super.broadcast(msg);
+			if (INNOCUOUS_MESSSAGE.equals(msg))
+				return;
 			synchronized (event) {
+				event.append(new Date() + "\n");
+				if (msg.endsWith(("\n")))
+					event.append(msg);
+				else
+					event.append(msg + "\n");
+			}
+		}
+
+		protected synchronized void broadcast(String username, String msg) {
+			super.broadcast(username, msg);
+			if (INNOCUOUS_MESSSAGE.equals(msg))
+				return;
+			synchronized (event) {
+				event.append(new Date() + "\n");
 				if (msg.endsWith(("\n")))
 					event.append(msg);
 				else
