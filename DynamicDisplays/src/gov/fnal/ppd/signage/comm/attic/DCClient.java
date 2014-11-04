@@ -107,7 +107,7 @@ public class DCClient {
 			String line = new String(cbuf);
 
 			DDMessage fromServer = new DDMessage(line);
-			connected = dcp.processInput(fromServer);
+			// Removed so there are no compile errors connected = dcp.processInput(fromServer);
 		}
 		return connected;
 	}
