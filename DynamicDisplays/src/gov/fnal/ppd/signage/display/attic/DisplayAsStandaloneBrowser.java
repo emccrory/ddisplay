@@ -38,16 +38,19 @@ public class DisplayAsStandaloneBrowser extends DisplayControllerAbstract {
 		synchronized (browserLauncher) {
 			if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
 				browserLauncher.changeURL(IDENTIFY_URL + number);
-				new Thread("Identify_" + displayNumber + "_wait") {
-					public void run() {
-						try {
-							sleep(SHOW_SPLASH_SCREEN_TIME);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						browserLauncher.changeURL(lastURL);
-					}
-				}.start();
+				
+// removed this block so there are no compile errors
+//				new Thread("Identify_" + displayNumber + "_wait") {
+//					public void run() {
+//						try {
+//							sleep(SHOW_SPLASH_SCREEN_TIME);
+//						} catch (InterruptedException e) {
+//							e.printStackTrace();
+//						}
+//						browserLauncher.changeURL(lastURL);
+//					}
+//				}.start();
+				
 			} else {
 				browserLauncher.changeURL(url);
 				lastURL = url;
