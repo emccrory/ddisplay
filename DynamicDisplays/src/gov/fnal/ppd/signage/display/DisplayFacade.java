@@ -7,7 +7,6 @@ import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
-import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
 import gov.fnal.ppd.signage.channel.ChannelPlayList;
 import gov.fnal.ppd.signage.comm.DCProtocol;
 import gov.fnal.ppd.signage.comm.DDMessage;
@@ -38,15 +37,15 @@ public class DisplayFacade extends DisplayImpl {
 	/**
 	 * 
 	 */
-	public static boolean		tryToConnectToDisplaysNow	= false;
+	public static boolean			tryToConnectToDisplaysNow	= false;
 	/**
 	 * 
 	 */
-	public static AtomicBoolean	alreadyWaiting				= new AtomicBoolean(false);
-	private AtomicBoolean		ready						= new AtomicBoolean(false);
-	private AtomicBoolean		waiting						= new AtomicBoolean(false);
+	public static AtomicBoolean		alreadyWaiting				= new AtomicBoolean(false);
+	private AtomicBoolean			ready						= new AtomicBoolean(false);
+	private AtomicBoolean			waiting						= new AtomicBoolean(false);
 
-	private MessagingClient		messagingClient				= null;
+	private FacadeMessagingClient	messagingClient				= null;
 
 	private class FacadeMessagingClient extends MessagingClient {
 
@@ -58,36 +57,13 @@ public class DisplayFacade extends DisplayImpl {
 			this.lookingFor = lookingFor;
 		}
 
-		@SuppressWarnings("unused")
-		private void sendPing() {
-			try {
-				String xmlMessage = MyXMLMarshaller.getXML(new Ping());
-				sendMessage(MessageCarrier.getMessage(xmlMessage));
-			} catch (JAXBException e) {
-				e.printStackTrace();
-			}
+		@Override
+		public void displayIncomingMessage(final MessageCarrier message) {
+			dcp.processInput(message, getNumber());
 		}
 
-		@Override
-		public void displayIncomingMessage(String msg) {
-			// super.displayIncomingMessage(this.getClass().getSimpleName() + " (lookingFor=" + lookingFor + ") Facade " + msg);
-
-			// TODO -- Need to either issue a "WHOISIN" command or do a PING to our real display
-
-			if (msg.startsWith("WHOISIN") && !msg.toUpperCase().contains("Façade".toUpperCase())) {
-				if (msg.contains(lookingFor)) {
-					System.out.println(lookingFor + " is alive; received this message '" + msg + "'");
-					ready.set(true);
-					informListeners(DisplayChangeEvent.Type.ALIVE);
-					return;
-				}
-			} else if (msg.startsWith(myName)) {
-				// Interpret the XML document I just got and then set the content, appropriately.
-				String xmlDocument = msg.substring(msg.indexOf("<?xml"));
-				DDMessage myMessage = new DDMessage(xmlDocument);
-
-				dcp.processInput(myMessage);
-			}
+		public String getTargetName() {
+			return lookingFor;
 		}
 	}
 
@@ -101,13 +77,13 @@ public class DisplayFacade extends DisplayImpl {
 	 * @param color
 	 * @param type
 	 */
-	public DisplayFacade(final int portNumber, final String ipName, final int screenNumber, final int number,
+	public DisplayFacade(final int portNumber, final String ipName, final int number,final int screenNumber, 
 			final String location, final Color color, final SignageType type) {
-		super(ipName, screenNumber, number, location, color, type);
+		super(ipName, number, screenNumber, location, color, type);
 
 		try {
 			// In UNICODE, this is spelled "FA\u00c7ADE"
-			myName += " -- " + InetAddress.getLocalHost().getCanonicalHostName() + " Façade ".toUpperCase();
+			myName += " -- " + InetAddress.getLocalHost().getCanonicalHostName() + " Façade".toUpperCase();
 			if (!"ChannelSelector".equals(PROGRAM_NAME))
 				myName += " " + PROGRAM_NAME; // Used by "IdentifyAll" to connect to the Displays in parallel
 
@@ -129,17 +105,17 @@ public class DisplayFacade extends DisplayImpl {
 			if (content instanceof ChannelPlayList) {
 				System.out.println(getClass().getSimpleName() + ": Have a ChannelPlayList to deal with!");
 				cc = new ChangeChannelList();
-				((ChangeChannelList) cc).setDisplayNumber(displayNumber);
+				((ChangeChannelList) cc).setDisplayNumber(getNumber());
 				((ChangeChannelList) cc).setContent(getContent());
 			} else {
 				System.out.println(getClass().getSimpleName() + ": Have a simple channel");
 				cc = new ChangeChannel();
-				((ChangeChannel) cc).setDisplayNumber(displayNumber);
+				((ChangeChannel) cc).setDisplayNumber(getNumber());
 				((ChangeChannel) cc).setContent(getContent());
 			}
 
 			String xmlMessage = MyXMLMarshaller.getXML(cc);
-			messagingClient.sendMessage(MessageCarrier.getMessage(xmlMessage));
+			messagingClient.sendMessage(MessageCarrier.getMessage(messagingClient.getName(), messagingClient.getTargetName(), xmlMessage));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -10,6 +10,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 
+/**
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014
+ * 
+ */
 public class WhoIsInChatRoom extends Thread {
 
 	private MessagingClient	client;
@@ -17,7 +22,10 @@ public class WhoIsInChatRoom extends Thread {
 	private boolean[]		lastAliveList	= null;
 	private DisplayKeeper	alive;
 
-	public WhoIsInChatRoom(DisplayKeeper alive) {
+	/**
+	 * @param alive
+	 */
+	public WhoIsInChatRoom(final DisplayKeeper alive) {
 		super(WhoIsInChatRoom.class.getSimpleName());
 		this.alive = alive;
 	}
@@ -37,7 +45,7 @@ public class WhoIsInChatRoom extends Thread {
 			for (int i = 0; i < displayList.size(); i++) {
 				aliveList[i] = false;
 			}
-			client.sendMessage(MessageCarrier.getWhoIsIn());
+			client.sendMessage(MessageCarrier.getWhoIsIn(client.getName()));
 
 			try {
 				sleep(2000); // Wait long enough for all the messages to come in.
@@ -58,20 +66,24 @@ public class WhoIsInChatRoom extends Thread {
 
 			System.out.println("\n**Starting messaging client named '" + myName + "'");
 			client = new MessagingClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName) {
-				public void displayIncomingMessage(final String msg) {
-					if (msg.startsWith("WHOISIN") && !msg.contains("FA\u00c7ADE") && !msg.contains("Error")
-							&& !msg.contains(myName)) {
-						// Match the client name, "WHOISIN [(.*)] since <date>"
-						String clientName = msg.substring(msg.indexOf('[') + 1, msg.indexOf(']'));
-						// System.out.println("A client named '" + clientName + "' is alive");
-						for (int i = 0; i < displayList.size(); i++) {
-							if (displayList.get(i).getMessagingName().contains(clientName)) {
-								// System.out.println("A client named '" + clientName + "' is a Display I know about!");
-								// setDisplayIsAlive(D.getNumber(), true);
-								aliveList[i] = true;
-							}
+				@Override
+				public void displayIncomingMessage(final MessageCarrier msg) {
+					String clientName = msg.getFrom();
+					if (clientName.toLowerCase().contains("façade"))
+						return;
+					System.out.println("A client named '" + clientName + "' is alive.  Do we care?");
+					for (int i = 0; i < displayList.size(); i++) {
+						System.out.println("How about " + displayList.get(i).getMessagingName());
+						if (getRootName(displayList.get(i).getMessagingName()).equals(clientName)) {
+							System.out.println("A client named '" + clientName + "' is a Display I know about!");
+							// setDisplayIsAlive(D.getNumber(), true);
+							aliveList[i] = true;
 						}
 					}
+				}
+
+				private String getRootName(String n) {
+					return n.substring(0, n.indexOf(" -- "));
 				}
 			};
 			// start the Client

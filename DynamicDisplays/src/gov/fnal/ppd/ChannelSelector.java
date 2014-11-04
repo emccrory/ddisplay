@@ -286,6 +286,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 				// A simple listener to change the title after the Display has a chance to react.
 				public void actionPerformed(ActionEvent e) {
+					System.out.println(ChannelSelector.class.getSimpleName() + ".actionPerformed(), event=" + e);
 					DisplayChangeEvent ev = (DisplayChangeEvent) e;
 					try {
 						Thread.sleep(100);
@@ -374,6 +375,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	@Override
 	public void setDisplayIsAlive(int number, boolean alive) {
+		System.out.println(ChannelSelector.class.getSimpleName() + ": Display " + number + (alive? " is alive": " is NOT alive"));
 		displaySelector.setIsAlive(number, alive);
 
 		// Enable the Channel buttons, too

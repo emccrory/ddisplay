@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.comm;
 
+import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.channel.PlainURLChannel;
@@ -100,6 +101,37 @@ public class DCProtocol {
 	}
 
 	/**
+	 * @param message
+	 * @param myDisplayNumber
+	 * @return
+	 */
+	public boolean processInput(final MessageCarrier message, final int myDisplayNumber) {
+		String body = message.getMessage();
+		switch (message.getType()) {
+		case MESSAGE:
+			String xmlDocument = body.substring(body.indexOf("<?xml"));
+			DDMessage myMessage = new DDMessage(xmlDocument);
+			return processInput(myMessage, myDisplayNumber);
+			
+		case WHOISIN:
+		case LOGIN:
+		case LOGOUT:
+			// Not relevant to a client (only a server cares about these message types)
+			break;
+			
+		case ISALIVE:
+			// We are being asked, "Are we alive right now?"
+			break;
+			
+		case AMALIVE:
+			// We are being told that such-and-such a client is alive right now.
+			break;
+
+		}
+		return true;
+	}
+
+	/**
 	 * <p>
 	 * There are two agents in this conversation
 	 * <ul>
@@ -118,9 +150,10 @@ public class DCProtocol {
 	 * 
 	 * @param message
 	 *            The message to process
+	 * @param myDisplayNumber
 	 * @return Was the processing successful?
 	 */
-	public boolean processInput(final DDMessage message) {
+	public boolean processInput(final DDMessage message, int myDisplayNumber) {
 		try {
 			System.out.println(getClass().getSimpleName() + ".processInput(): processing '" + message + "'");
 
@@ -138,7 +171,11 @@ public class DCProtocol {
 					if (theMessage instanceof ChangeChannelList) {
 						informListenersForever();
 					} else if (theMessage instanceof ChangeChannel) {
-						informListeners();
+						if (((ChangeChannel) theMessage).getDisplayNumber() == myDisplayNumber)
+							informListeners();
+						else
+							System.out.println(DCProtocol.class.getSimpleName() + ".processInput(): Got display="
+									+ ((ChangeChannel) theMessage).getDisplayNumber() + ", but I am " + myDisplayNumber);
 					} else if (theMessage instanceof ChannelSpec) {
 						checkChanger();
 						informListeners((ChannelSpec) theMessage);

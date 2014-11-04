@@ -66,11 +66,8 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 		}
 
 		@Override
-		public void displayIncomingMessage(final String msg) {
-			if (msg.endsWith("\n"))
-				ta.append(msg);
-			else
-				ta.append(msg + "\n");
+		public void displayIncomingMessage(final MessageCarrier msg) {
+			ta.append(msg.toString() + "\n");
 		};
 
 		@Override
@@ -91,9 +88,9 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 		super("Chat Client");
 		defaultPort = port;
 		defaultHost = host;
-		
+
 		try {
-			defaultUserName = InetAddress.getLocalHost().getCanonicalHostName() + "_listener_" + ((new Date()).getTime() % 100L) ;
+			defaultUserName = InetAddress.getLocalHost().getCanonicalHostName() + "_listener_" + ((new Date()).getTime() % 100L);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -190,14 +187,14 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 		}
 		// if it the who is in button
 		if (o == whoIsIn) {
-			client.sendMessage(MessageCarrier.getWhoIsIn());
+			client.sendMessage(MessageCarrier.getWhoIsIn(client.getName()));
 			return;
 		}
 
 		// ok it is coming from the JTextField
 		if (connected) {
-			// just have to send the message
-			client.sendMessage(MessageCarrier.getMessage(tf.getText()));
+			// just have to send the message and send it to everyone
+			client.sendMessage(MessageCarrier.getMessage(client.getName(), "NULL", tf.getText()));
 			tf.setText("");
 			return;
 		}
@@ -257,7 +254,7 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		String host = "localhost";
-	
+
 		new MessagingClientGUI(host, MESSAGING_SERVER_PORT);
 	}
 

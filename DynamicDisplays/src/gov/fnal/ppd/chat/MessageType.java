@@ -19,12 +19,22 @@ public enum MessageType {
 	MESSAGE,
 
 	/**
+	 * A request from the client to login the messaging server. Also provides a username
+	 */
+	LOGIN,
+
+	/**
 	 * A request from the client to logout from the messaging server
 	 */
 	LOGOUT,
-	
+
 	/**
-	 * Is this client actually alive?
+	 * Is this client actually alive? [Or do I use "PING"?]
 	 */
-	ALIVE
+	ISALIVE,
+
+	/**
+	 * This client is actually alive [Or do I use "PONG"?]
+	 */
+	AMALIVE
 }

@@ -87,7 +87,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 					SignageType type = SignageType
 							.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type")));
 
-					Display p = new DisplayFacade(portNumber, ipName, screenNumber, displayID, location, new Color(colorCode), type);
+					Display p = new DisplayFacade(portNumber, ipName, displayID, screenNumber, location, new Color(colorCode), type);
 
 					add(p);
 					count++;

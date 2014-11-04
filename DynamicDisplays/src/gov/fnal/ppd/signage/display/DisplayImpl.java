@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class DisplayImpl implements Display {
 
 	private static int				displayCount		= 1;
-	protected int					displayNumber		= displayCount++;
+	private int						displayNumber		= displayCount++;
 	protected int					screenNumber		= 0;
 	protected static AtomicInteger	internalThreadID	= new AtomicInteger(0);
 	private SignageContent			channel;
@@ -48,17 +48,17 @@ public abstract class DisplayImpl implements Display {
 	/**
 	 * @param ipName
 	 * @param screenNumber
-	 * @param number
+	 * @param displayNumber
 	 * @param location
 	 * @param color
 	 * @param type
 	 */
-	public DisplayImpl(final String ipName, final int screenNumber, final int number, final String location, final Color color,
+	public DisplayImpl(final String ipName, final int displayNumber, final int screenNumber, final String location, final Color color,
 			final SignageType type) {
 		assert (screenNumber >= 0);
-		assert (number >= 0);
+		assert (displayNumber >= 0);
 
-		myName = ipName + ":" + screenNumber + " (" + number + ")";
+		myName = ipName + ":" + screenNumber + " (" + screenNumber + ")";
 
 		try {
 			this.ipAddress = InetAddress.getByName(ipName);
@@ -67,7 +67,7 @@ public abstract class DisplayImpl implements Display {
 		}
 		this.screenNumber = screenNumber;
 		this.location = location;
-		this.displayNumber = number;
+		this.displayNumber = displayNumber;
 		this.highlightColor = color;
 		this.category = type;
 		this.channel = makeEmptyChannel();

@@ -243,44 +243,20 @@ public class MessagingServer {
 	 * @param message
 	 *            -- The message to broadcast
 	 */
-	protected void broadcast(String message) {
+	protected void broadcast(MessageCarrier message) {
 		synchronized (broadcasting) {
 			// we loop in reverse order in case we would have to remove a Client
 			// because it has disconnected
 			for (int i = al.size(); --i >= 0;) {
 				ClientThread ct = al.get(i);
 				// try to write to the Client if it fails remove it from the list
-				if (!ct.writeMsg(message)) {
-					al.remove(i);
-					display("Disconnected Client " + ct.username + " removed from list.");
-				}
-			}
-		}
-	}
-
-	protected void broadcast(String username, String message) {
-		synchronized (broadcasting) {
-			String fullMessage = username + ": " + encrypt(message);
-			// we loop in reverse order in case we would have to remove a Client
-			// because it has disconnected
-			for (int i = al.size(); --i >= 0;) {
-				ClientThread ct = al.get(i);
-				if (username.contains(ct.username)) {
-					// try to write to the Client if it fails remove it from the list
-					if (!ct.writeMsg(fullMessage)) {
+				if (message.getTo() == null || message.getTo().equals("NULL") || message.getTo().equals(ct.username))
+					if (!ct.writeMsg(message)) {
 						al.remove(i);
 						display("Disconnected Client " + ct.username + " removed from list.");
-					} else
-						totalMesssagesHandled++;
-				}
+					}
 			}
 		}
-	}
-
-	private String encrypt(String message) {
-		// TODO Implement asymmetric (public/private key, RSA) encryption here
-
-		return message;
 	}
 
 	/**
@@ -314,7 +290,9 @@ public class MessagingServer {
 		server.start();
 	}
 
-	/** One instance of this thread will run for each client */
+	/**
+	 * One instance of this thread will run for each client. It handles all the messages from that client to the server (that's me!)
+	 */
 	class ClientThread extends Thread {
 		// the socket where to listen/talk
 		Socket				socket;
@@ -324,7 +302,7 @@ public class MessagingServer {
 		int					id;
 		// the Username of the Client
 		String				username;
-		// the only type of message a will receive
+		// the only type of message we will receive
 		MessageCarrier		cm;
 		// the date I connect
 		String				date;
@@ -400,26 +378,27 @@ public class MessagingServer {
 					e.printStackTrace();
 					break; // End the while(thisSocketIsActive) loop
 				}
-				// the message part of the ChatMessage
-				String message = cm.getMessage();
+
 				lastSeen = System.currentTimeMillis();
 
-				// Switch on the type of message receive
+				display(cm + "");
+				
+				// Switch for the type of message receive
 				switch (cm.getType()) {
 
 				case MESSAGE:
+				case ISALIVE:
+				case AMALIVE:
 					//
-					// The message, received from a client, is broadcast here!
+					// The message, received from a client, is relayed here to the client of its choosing
 					//
-					broadcast(username, message);
+					broadcast(cm);
 					break;
 
+				// ---------- Other types of messages are interpreted here by the server. ---------
 				case LOGOUT:
 					display(username + " disconnected with a LOGOUT message.");
 					thisSocketIsActive = false;
-					break;
-
-				case ALIVE:
 					break;
 
 				case WHOISIN:
@@ -428,11 +407,9 @@ public class MessagingServer {
 					boolean purge = false;
 					for (int i = 0; i < al.size(); ++i) {
 						ClientThread ct = al.get(i);
-						// TODO Make the WHOISIN message into an XML document
 						if (ct != null && ct.username != null && ct.date != null)
-							writeMsg("WHOISIN [" + ct.username + "] since " + ct.date);
+							writeMsg(MessageCarrier.getIAmAlive(ct.username, cm.getFrom(), "since " + ct.date));
 						else {
-							// writeMsg("WHOISIN " + (i + 1) + ": Error!  Have a null client");
 							display("Talking to " + username + " socket " + socket.getLocalAddress() + " (" + (i + 1)
 									+ ") Error!  Have a null client");
 							purge = true;
@@ -505,7 +482,7 @@ public class MessagingServer {
 		/*
 		 * Write a String to the Client output stream
 		 */
-		private boolean writeMsg(String msg) {
+		private boolean writeMsg(MessageCarrier msg) {
 			// if Client is still connected send the message to it
 			if (!socket.isConnected()) {
 				close();

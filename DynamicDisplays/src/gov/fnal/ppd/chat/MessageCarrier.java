@@ -13,30 +13,20 @@ public class MessageCarrier implements Serializable {
 
 	protected static final long	serialVersionUID	= 1112122200L;
 
-	// The different types of message sent by the Client
-	// /**
-	// * WHOISIN to receive the list of the users connected
-	// */
-	// static final int WHOISIN = 0;
-	// /**
-	// * MESSAGE an ordinary message
-	// */
-	// static final int MESSAGE = 1;
-	// /**
-	// * LOGOUT to disconnect from the Server
-	// */
-	// static final int LOGOUT = 2;
-	// private int type;
 	private MessageType			type;
 	private String				message;
+	private String				to;
+	private String				from;
 
 	/**
+	 * @param from 
+	 * @param to 
 	 * @param message
 	 *            The ASCII message to send
 	 * @return the object to send over the wire
 	 */
-	public static MessageCarrier getMessage(final String message) {
-		return new MessageCarrier(MessageType.MESSAGE, message);
+	public static MessageCarrier getMessage(final String from, final String to, final String message) {
+		return new MessageCarrier(MessageType.MESSAGE, from, to, message);
 	}
 
 	/**
@@ -47,19 +37,43 @@ public class MessageCarrier implements Serializable {
 	}
 
 	/**
-	 * @return A message for the messaging server asking for all the clients that are connected
+	 * @param username
+	 * @return A login message for the messaging server
 	 */
-	public static MessageCarrier getWhoIsIn() {
-		return new MessageCarrier(MessageType.WHOISIN, "");
+	public static MessageCarrier getLogin(final String username) {
+		return new MessageCarrier(MessageType.LOGIN, username);
 	}
 
 	/**
-	 * @param clientName
-	 *            The name of the client for whom this message is intended
+	 * @param from 
 	 * @return A message for the messaging server asking for all the clients that are connected
 	 */
-	public static MessageCarrier getAlive(String clientName) {
-		return new MessageCarrier(MessageType.ALIVE, clientName);
+	public static MessageCarrier getWhoIsIn(final String from) {
+		return new MessageCarrier(MessageType.WHOISIN, from, "NULL", "");
+	}
+
+	/**
+	 * @param from 
+	 * @param to
+	 *            The name of the client for whom this message is intended
+	 * @return A message for the messaging server asking if a client is alive
+	 */
+	public static MessageCarrier getIsAlive(final String from, final String to) {
+		return new MessageCarrier(MessageType.ISALIVE, from, to, "");
+	}
+
+	/**
+	 * @param from 
+	 * @param to 
+	 * @param message 
+	 * @return A message to the messaging server that says, "Yes, I am alive"
+	 */
+	public static MessageCarrier getIAmAlive(final String from, final String to, String message) {
+		return new MessageCarrier(MessageType.AMALIVE, from, to, message);
+	}
+
+	private MessageCarrier(final MessageType type, final String message) {
+		this(type, "NULL", "NULL", message);
 	}
 
 	/**
@@ -68,9 +82,11 @@ public class MessageCarrier implements Serializable {
 	 * @param message
 	 *            -- The body of the message (a simple String)
 	 */
-	private MessageCarrier(MessageType type, String message) {
+	private MessageCarrier(final MessageType type, final String from, final String to, final String message) {
 		this.type = type;
 		this.message = message;
+		this.from = from;
+		this.to = to;
 	}
 
 	/**
@@ -87,8 +103,38 @@ public class MessageCarrier implements Serializable {
 		return message;
 	}
 
+	/**
+	 * @return Who is this message intended to be received by?
+	 */
+	public String getTo() {
+		return to;
+	}
+
+	/**
+	 * @param to
+	 *            Set to whom this message is aimed
+	 */
+	public void setTo(final String to) {
+		this.to = to;
+	}
+
+	/**
+	 * @return who is this message from?
+	 */
+	public String getFrom() {
+		return from;
+	}
+
+	/**
+	 * @param from
+	 *            Who is this message from
+	 */
+	public void setFrom(final String from) {
+		this.from = from;
+	}
+
 	@Override
 	public String toString() {
-		return "Type=" + type + ", message=[" + message + "]";
+		return "Type=" + type + ", sent from [" + from + "] to [" + to + "] message=[" + message + "]";
 	}
 }

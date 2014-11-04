@@ -4,8 +4,8 @@ import static gov.fnal.ppd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
-import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.signage.util.Util.makeEmptyChannel;
+import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.DatabaseNotVisibleException;
@@ -13,7 +13,6 @@ import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.comm.DCProtocol;
-import gov.fnal.ppd.signage.comm.DDMessage;
 import gov.fnal.ppd.signage.display.DisplayImpl;
 import gov.fnal.ppd.signage.display.testing.BrowserLauncher;
 
@@ -49,7 +48,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	protected BrowserLauncher		browserLauncher;
 
-	protected static int			number;
+	// protected static int			number;
 	protected boolean				keepGoing				= true;
 	protected SignageContent		lastChannel				= null;
 	protected static boolean		dynamic					= false;
@@ -65,21 +64,21 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	/**
 	 * @param portNumber
 	 * @param ipName
-	 * @param displayID
+	 * @param displayNumber
 	 * @param screenNumber
 	 * @param location
 	 * @param color
 	 * @param type
 	 */
-	public DisplayControllerMessagingAbstract(final String ipName, final int displayID, final int screenNumber,
+	public DisplayControllerMessagingAbstract(final String ipName, final int displayNumber, final int screenNumber,
 			final int portNumber, final String location, final Color color, final SignageType type) {
-		super(ipName, displayID, screenNumber, location, color, type);
+		super(ipName, displayNumber, screenNumber, location, color, type);
 
 		if (getContent() == null)
 			throw new IllegalArgumentException("No content defined!");
 
-		myName = ipName + ":" + screenNumber + " (" + number + ")";
-		messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName);
+		myName = ipName + ":" + screenNumber + " (" + getNumber() + ")";
+		messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName, getNumber());
 	}
 
 	/**
@@ -112,7 +111,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							System.err.println("It looks like the server is down! Let's try to restart our connection to it.");
 							messagingClient.disconnect();
 							messagingClient = null; // Not sure about this.
-							messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName);
+							messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName,
+									getNumber());
 							messagingClient.start();
 						}
 					}
@@ -201,10 +201,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				String statementString;
 				if (OFF_LINE.equalsIgnoreCase(nowShowing))
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='Off Line' where DisplayID="
-							+ number;
+							+ getNumber();
 				else
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
-							+ getContent().getURI() + ")" + "' where DisplayID=" + number;
+							+ getContent().getURI() + ")" + "' where DisplayID=" + getNumber();
 				// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 				int numRows = stmt.executeUpdate(statementString);
 				if (numRows == 0 || numRows > 1) {
@@ -298,13 +298,12 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 					if (!myName.equals(myNode)) {
 						// TODO This will not work if the IPName in the database is an IP address.
-						System.out.println("The node name of this display (no. " + number
-								+ "), according to the database, is supposed to be '" + myName
+						System.out.println("The node name of this display, according to the database, is supposed to be '" + myName
 								+ "', but InetAddress.getLocalHost().getCanonicalHostName() says it is '" + myNode
 								+ "'\n\t** We'll try to run anyway, but this should be fixed **");
 						// System.exit(-1);
 					}
-					number = rs.getInt("DisplayID");
+					int number = rs.getInt("DisplayID");
 
 					System.out.println("The node name of this display (no. " + number + ") is '" + myNode + "'");
 
@@ -397,13 +396,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	private class MessagingClientLocal extends MessagingClient {
-		private boolean		debug	= false;
+		private boolean		debug	= true;
 		private DCProtocol	dcp		= new DCProtocol();
+		private int			myDisplayNumber;
 
-		public MessagingClientLocal(String server, int port, String username) {
+		public MessagingClientLocal(String server, int port, String username, int myDisplayNumber) {
 			super(server, port, username);
 			dcp.addListener(DisplayControllerMessagingAbstract.this);
-
+			this.myDisplayNumber = myDisplayNumber;
 		}
 
 		public long getServerTimeStamp() {
@@ -416,19 +416,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 
 		@Override
-		public void displayIncomingMessage(String msg) {
+		public void displayIncomingMessage(MessageCarrier msg) {
 			if (debug)
 				System.out.println(DisplayControllerMessagingAbstract.class.getCanonicalName() + ":"
 						+ this.getClass().getSimpleName() + ".displayIncomingMessage(): Got this message: [" + msg + "]");
-			if (msg.startsWith(myName)) {
-				if (debug)
-					System.out.println("This message is for me!");
-
-				// Interpret the XML document I just got and then set the content, appropriately.
-				String xmlDocument = msg.substring(msg.indexOf("<?xml"));
-				DDMessage myMessage = new DDMessage(xmlDocument);
-				dcp.processInput(myMessage);
-			}
+			if (msg.getTo().equals(getName()))
+				dcp.processInput(msg, myDisplayNumber);
+			else
+				System.out.println("Ignoring a message from [" + msg.getTo() + "] because I am [" + getName() + "]");
 		}
 	}
 }

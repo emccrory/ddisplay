@@ -24,6 +24,7 @@ public class MessagingClient {
 
 	// the server, the port and the username
 	private String				server, username;
+
 	private int					port;
 	private ListenFromServer	listenFromServer;
 	private Thread				restartThreadToServer;
@@ -99,7 +100,7 @@ public class MessagingClient {
 		// will send as a String. All other messages will be ChatMessage objects
 
 		try {
-			sOutput.writeObject(username);
+			sOutput.writeObject(MessageCarrier.getLogin(username));
 			sOutput.reset();
 		} catch (IOException eIO) {
 			displayLogMessage("Exception doing login : " + eIO);
@@ -129,7 +130,7 @@ public class MessagingClient {
 	 * @param msg
 	 *            The message to display
 	 */
-	public void displayIncomingMessage(final String msg) {
+	public void displayIncomingMessage(final MessageCarrier msg) {
 		System.out.println(msg);
 	}
 
@@ -162,6 +163,13 @@ public class MessagingClient {
 	 */
 	public void retryConnection() {
 		connectionFailed();
+	}
+
+	/**
+	 * @return the username of this client in the messaging system
+	 */
+	public String getName() {
+		return username;
 	}
 
 	protected void connectionFailed() {
@@ -284,9 +292,9 @@ public class MessagingClient {
 			}
 			// message WhoIsIn
 			else if (msg.equalsIgnoreCase("WHOISIN")) {
-				client.sendMessage(MessageCarrier.getWhoIsIn());
+				client.sendMessage(MessageCarrier.getWhoIsIn(userName));
 			} else { // default to ordinary message
-				client.sendMessage(MessageCarrier.getMessage(msg));
+				client.sendMessage(MessageCarrier.getMessage(userName, null, msg));
 			}
 		}
 		// done: disconnect
@@ -303,8 +311,7 @@ public class MessagingClient {
 		public void run() {
 			while (keepGoing) {
 				try {
-					String msg = (String) sInput.readObject();
-					// if console mode print the message and add back the prompt
+					MessageCarrier msg = (MessageCarrier) sInput.readObject();
 					displayIncomingMessage(msg);
 				} catch (IOException e) {
 					displayLogMessage("Server has closed the connection: " + e);
