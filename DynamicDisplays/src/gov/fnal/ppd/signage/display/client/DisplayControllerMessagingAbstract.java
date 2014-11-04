@@ -418,8 +418,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		@Override
 		public void displayIncomingMessage(MessageCarrier msg) {
 			if (debug)
-				System.out.println(DisplayControllerMessagingAbstract.class.getCanonicalName() + ":"
-						+ this.getClass().getSimpleName() + ".displayIncomingMessage(): Got this message: [" + msg + "]");
+				System.out.println(DisplayControllerMessagingAbstract.class.getSimpleName() + ":"
+						+ MessagingClientLocal.class.getSimpleName() + ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
 			if (msg.getTo().equals(getName()))
 				dcp.processInput(msg, myDisplayNumber);
 			else
