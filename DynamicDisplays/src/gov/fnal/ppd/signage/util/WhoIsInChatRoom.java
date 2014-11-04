@@ -71,9 +71,9 @@ public class WhoIsInChatRoom extends Thread {
 					String clientName = msg.getFrom();
 					if (clientName.toLowerCase().contains("façade"))
 						return;
-					System.out.println("A client named '" + clientName + "' is alive.  Do we care?");
+					// System.out.println("A client named '" + clientName + "' is alive.  Do we care?");
 					for (int i = 0; i < displayList.size(); i++) {
-						System.out.println("How about " + displayList.get(i).getMessagingName());
+						// System.out.println("How about " + displayList.get(i).getMessagingName());
 						if (getRootName(displayList.get(i).getMessagingName()).equals(clientName)) {
 							System.out.println("A client named '" + clientName + "' is a Display I know about!");
 							// setDisplayIsAlive(D.getNumber(), true);
