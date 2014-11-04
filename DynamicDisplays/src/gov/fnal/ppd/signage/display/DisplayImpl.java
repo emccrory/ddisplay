@@ -58,7 +58,7 @@ public abstract class DisplayImpl implements Display {
 		assert (screenNumber >= 0);
 		assert (displayNumber >= 0);
 
-		myName = ipName + ":" + screenNumber + " (" + screenNumber + ")";
+		myName = ipName + ":" + screenNumber + " (" + displayNumber + ")";
 
 		try {
 			this.ipAddress = InetAddress.getByName(ipName);
