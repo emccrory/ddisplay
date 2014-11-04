@@ -1,5 +1,6 @@
 package gov.fnal.ppd.chat;
 
+import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 
@@ -9,7 +10,9 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -69,6 +72,8 @@ public class MessagingServer {
 	private Thread				showClientList			= null;
 
 	protected int				totalMesssagesHandled	= 0;
+	private long				startTime				= System.currentTimeMillis();
+	private long				tooOldTime				= 4L * FIFTEEN_MINUTES;		// One hour
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -129,6 +134,7 @@ public class MessagingServer {
 								m += "                     " + CT.username + " at " + CT.date + " ID=" + CT.id + "\n";
 							}
 							display(m);
+							showDiagnostics();
 							showClientList = null;
 						}
 					};
@@ -169,12 +175,9 @@ public class MessagingServer {
 	}
 
 	private void startPinger() {
-		// A kludge of sorts: Write an innocuous message to every client at some small period. If the client has actually
-		// died and we think the socket is still open, this *should* cause the socket to fail. Then we can delete that client.
-		// Update: This does not cause the socket to fail.
+
 		new Thread("Pinger") {
-			public long	sleepPeriod	= 10000L;
-			int			counter		= 98;
+			public long	sleepPeriod	= 1000L;
 
 			public void run() {
 				try {
@@ -194,18 +197,57 @@ public class MessagingServer {
 					// message as a string and some places that it looks at the message as a real Message object. This needs
 					// to be made self-consistent!
 
-					// So for now, forget about this innocuous message. (But keep this thread going for the diagnostic messages)
-					// broadcast(INNOCUOUS_MESSSAGE);
-					double aliveTime = ((double) counter * sleepPeriod) / 1000.0 / 3600.0;
-					if (((counter++) % 100) == 99) {
-						display(MessagingServer.class.getSimpleName() + " has been alive " + aliveTime + " hours -- \n "
-								+ "                       " + numConnectionsSeen + " connections accepted, " + al.size()
-								+ " client" + (al.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
-								+ " messages handled");
-					}
+					// TODO -- Figure out a way for the server to send "Are You Alive" messages to each client.
+					if (false)
+						broadcast(MessageCarrier.getIsAlive("NULL", "NULL"));
+
+					sleepPeriod = (sleepPeriod > FIFTEEN_MINUTES ? FIFTEEN_MINUTES : sleepPeriod * 2);
+
+					showDiagnostics();
 				}
 			}
 		}.start();
+	}
+
+	protected void showDiagnostics() {
+		// check for oldest client (lastSeen)
+		long oldest = System.currentTimeMillis();
+		String oldestName = "";
+		List<String> unSeen = new ArrayList<String>();
+		List<String> tooOld = new ArrayList<String>();
+		for (ClientThread CT : al) {
+			if (CT.getLastSeen() == 0) {
+				unSeen.add(CT.username);
+			} else {
+				if (CT.getLastSeen() < oldest) {
+					oldest = CT.getLastSeen();
+					oldestName = CT.username;
+				}
+				if ((System.currentTimeMillis() - CT.getLastSeen()) > tooOldTime) {
+					tooOld.add(CT.username);
+				}
+			}
+		}
+		long longAliveTime = System.currentTimeMillis() - startTime;
+		long hours = longAliveTime / (3600L * 1000L);
+		long days = hours / 24L;
+		hours = hours % 24L;
+		long minutes = (longAliveTime % (36000L * 1000L)) / 60000L;
+		long seconds = (longAliveTime % (60L * 1000L)) / 1000L;
+
+		display(MessagingServer.class.getSimpleName() + " has been alive " + days + " days, " + hours + " hrs " + minutes + " min "
+				+ seconds + " sec -- \n " + "                       " + numConnectionsSeen + " connections accepted, " + al.size()
+				+ " client" + (al.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
+				+ " messages handled\n" + "                       " + "Oldest client is [" + oldestName + "], last seen "
+				+ (System.currentTimeMillis() - oldest) + " msec ago (although it could be a tie)\n" + "                       "
+				+ "There are " + unSeen.size() + " clients never heard from at this time.\n" + "                       "
+				+ "Clients that are too old: " + tooOld.size());
+		if (tooOld.size() > 0) {
+			String m = MessagingServer.class.getSimpleName() + ": List of clients that are too old\n";
+			for (String S : tooOld)
+				m += "                       " + S + "\n";
+			display(m);
+		}
 	}
 
 	/*
@@ -307,7 +349,7 @@ public class MessagingServer {
 		// the date I connect
 		String				date;
 		private boolean		thisSocketIsActive	= false;
-		private long		lastSeen;
+		private long		lastSeen			= System.currentTimeMillis();
 
 		// Constructor
 		ClientThread(Socket socket) {
@@ -350,6 +392,10 @@ public class MessagingServer {
 			date = new Date().toString();
 		}
 
+		public long getLastSeen() {
+			return lastSeen;
+		}
+
 		// This method is what will run forever
 
 		public void run() {
@@ -379,10 +425,14 @@ public class MessagingServer {
 					break; // End the while(thisSocketIsActive) loop
 				}
 
-				lastSeen = System.currentTimeMillis();
+				// The client that sent this message is still alive
+				String from = cm.getFrom();
+				for (ClientThread CT : al) {
+					if (CT.username.equals(from))
+						CT.lastSeen = System.currentTimeMillis();
+				}
 
-				display(cm + "");
-				
+				totalMesssagesHandled++;
 				// Switch for the type of message receive
 				switch (cm.getType()) {
 
