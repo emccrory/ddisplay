@@ -121,7 +121,9 @@ public class DCProtocol {
 			break;
 
 		case ISALIVE:
-			// We are being asked, "Are we alive right now?"
+			// We are being asked, "Are we alive right now?".  respond with, "Yes, I am alive" message
+			// FIXME -- At this time (11/2014), we should not really see this soor of message down here.  It should be
+			// handled directly by the messaging client that receives it (and knows where to send the response).
 			break;
 
 		case AMALIVE:
