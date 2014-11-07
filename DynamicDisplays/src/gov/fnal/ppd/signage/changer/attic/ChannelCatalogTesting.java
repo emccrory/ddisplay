@@ -147,21 +147,22 @@ public class ChannelCatalogTesting extends HashMap<String, SignageContent> imple
 		return retval;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see gov.fnal.ppd.xoc.signage.changer.ChannelCatalog#getDetailsChannels()
-	 */
-	@Override
-	public Map<String, SignageContent> getDetailsChannels() {
-		HashMap<String, SignageContent> retval = new HashMap<String, SignageContent>();
-
-		for (String key : this.keySet()) {
-			if (this.get(key).getCategory() == ChannelCategory.PUBLIC_DETAILS)
-				retval.put(key, this.get(key));
-		}
-		return retval;
-	}
+	//
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see gov.fnal.ppd.xoc.signage.changer.ChannelCatalog#getDetailsChannels()
+	// */
+	// @Override
+	// public Map<String, SignageContent> getDetailsChannels() {
+	// HashMap<String, SignageContent> retval = new HashMap<String, SignageContent>();
+	//
+	// for (String key : this.keySet()) {
+	// if (this.get(key).getCategory() == ChannelCategory.PUBLIC_DETAILS)
+	// retval.put(key, this.get(key));
+	// }
+	// return retval;
+	// }
 
 	/*
 	 * (non-Javadoc)
@@ -179,22 +180,22 @@ public class ChannelCatalogTesting extends HashMap<String, SignageContent> imple
 		return retval;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see gov.fnal.ppd.xoc.signage.changer.ChannelCatalog#getAllDetailsChannels()
-	 */
-	@Override
-	public Map<String, SignageContent> getAllDetailsChannels() {
-		HashMap<String, SignageContent> retval = new HashMap<String, SignageContent>();
-
-		for (String key : this.keySet()) {
-			if (this.get(key).getCategory() == ChannelCategory.PUBLIC_DETAILS
-					|| this.get(key).getCategory() == ChannelCategory.EXPERIMENT_DETAILS)
-				retval.put(key, this.get(key));
-		}
-		return retval;
-	}
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see gov.fnal.ppd.xoc.signage.changer.ChannelCatalog#getAllDetailsChannels()
+	// */
+	// @Override
+	// public Map<String, SignageContent> getAllDetailsChannels() {
+	// HashMap<String, SignageContent> retval = new HashMap<String, SignageContent>();
+	//
+	// for (String key : this.keySet()) {
+	// if (this.get(key).getCategory() == ChannelCategory.PUBLIC_DETAILS
+	// || this.get(key).getCategory() == ChannelCategory.EXPERIMENT_DETAILS)
+	// retval.put(key, this.get(key));
+	// }
+	// return retval;
+	// }
 
 	/*
 	 * (non-Javadoc)
