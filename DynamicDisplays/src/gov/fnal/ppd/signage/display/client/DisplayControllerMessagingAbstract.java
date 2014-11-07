@@ -416,7 +416,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						+ "]");
 			if (msg.getTo().equals(getName()))
 				dcp.processInput(msg, myDisplayNumber);
-			else
+			else if (debug)
 				System.out.println("Ignoring a message from [" + msg.getTo() + "] because I am [" + getName() + "]");
 		}
 	}
