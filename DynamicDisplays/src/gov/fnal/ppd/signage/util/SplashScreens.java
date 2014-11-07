@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.util;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.GlobalVariables.INACTIVITY_TIMEOUT;
 import static gov.fnal.ppd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
@@ -126,15 +127,11 @@ public class SplashScreens extends Thread {
 
 	public void run() {
 		while (true) {
-			try {
-				if (System.currentTimeMillis() > INACTIVITY_TIMEOUT + lastDisplayChange) {
-					listener.activateCard(false);
-					lastDisplayChange = System.currentTimeMillis();
-				}
-				sleep(ONE_SECOND);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if (System.currentTimeMillis() > INACTIVITY_TIMEOUT + lastDisplayChange) {
+				listener.activateCard(false);
+				lastDisplayChange = System.currentTimeMillis();
 			}
+			catchSleep(ONE_SECOND);
 		}
 	}
 

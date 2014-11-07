@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.changer;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.GlobalVariables.displayList;
@@ -105,7 +106,7 @@ public class DisplayButtons extends JPanel {
 	}
 
 	private static List<DDButton>	buttonList				= new ArrayList<DDButton>();
-	// private static List<Display>	displayList;
+	// private static List<Display> displayList;
 	static final int				INSET_SIZE				= 5;
 	static final float				LOCAL_FONT_SIZE			= 40.0f;
 	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 20;
@@ -259,11 +260,7 @@ public class DisplayButtons extends JPanel {
 	public void setIsAlive(final int displayNum, final boolean alive) {
 		new Thread("SetAliveDisplay" + displayNum) {
 			public void run() {
-				try {
-					sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				catchSleep(100);
 				int index = 0;
 				for (Display d : displayList) {
 					if (d.getNumber() == displayNum) {

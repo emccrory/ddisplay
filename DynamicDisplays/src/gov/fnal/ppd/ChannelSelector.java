@@ -1,5 +1,7 @@
 package gov.fnal.ppd;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
+
 import static gov.fnal.ppd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.GlobalVariables.IS_PUBLIC_CONTROLLER;
@@ -288,11 +290,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				public void actionPerformed(ActionEvent e) {
 					System.out.println(ChannelSelector.class.getSimpleName() + ".actionPerformed(), event=" + e);
 					DisplayChangeEvent ev = (DisplayChangeEvent) e;
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e1) {
-						e1.printStackTrace();
-					}
+					catchSleep(100);
 
 					String text = display.getNumber() + " to " + display.getContent().getCategory() + " channel '"
 							+ (display.getContent().getName());
@@ -375,7 +373,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	@Override
 	public void setDisplayIsAlive(int number, boolean alive) {
-		System.out.println(ChannelSelector.class.getSimpleName() + ": Display " + number + (alive? " is alive": " is NOT alive"));
+		// System.out.println(ChannelSelector.class.getSimpleName() + ": Display " + number + (alive ? " is alive" : " is NOT alive"));
 		displaySelector.setIsAlive(number, alive);
 
 		// Enable the Channel buttons, too
@@ -500,6 +498,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				IdentifyAll.setup("?", FONT_SIZE / 2, new Insets(5, 5, 5, 5));
 			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
 			// titleBox.add(showBorderButton);
+
+			// TODO -- This IdentifyAll class was an expedient way to implement this functionality, but at the price of twice as
+			// many messaging clients in this ChannelSelector class. It should be easy enough to re-implement this using the
+			// messaging clients we already have.
 			JButton idAll = IdentifyAll.getButton();
 			titleBox.add(idAll);
 			idAll.addActionListener(new ActionListener() {
@@ -689,11 +691,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						channelSelector = null;
 						displayList = null;
 						Runtime.getRuntime().gc();
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+						catchSleep(1000);
 
 						// Regenerate the Display list and the Channel list
 						// DisplayListFactory.useRealDisplays(realDisplays);

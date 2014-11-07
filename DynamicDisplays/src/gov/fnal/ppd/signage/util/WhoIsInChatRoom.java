@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.util;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.GlobalVariables.displayList;
@@ -34,28 +35,21 @@ public class WhoIsInChatRoom extends Thread {
 		login();
 		long sleepTime = 1000;
 		while (true) {
-			try {
-				sleep(sleepTime);
-				sleepTime = 10000;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			catchSleep(sleepTime);
+			sleepTime = 10000;
+
 			lastAliveList = aliveList;
 			aliveList = new boolean[displayList.size()];
-			for (int i = 0; i < displayList.size(); i++) {
+			for (int i = 0; i < displayList.size(); i++)
 				aliveList[i] = false;
-			}
+
 			client.sendMessage(MessageCarrier.getWhoIsIn(client.getName()));
 
-			try {
-				sleep(2000); // Wait long enough for all the messages to come in.
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			for (int i = 0; i < displayList.size(); i++) {
+			catchSleep(2000); // Wait long enough for all the messages to come in.
+
+			for (int i = 0; i < displayList.size(); i++)
 				if (lastAliveList == null || lastAliveList[i] != aliveList[i])
 					alive.setDisplayIsAlive(displayList.get(i).getNumber(), aliveList[i]);
-			}
 		}
 	}
 
@@ -71,15 +65,9 @@ public class WhoIsInChatRoom extends Thread {
 					String clientName = msg.getFrom();
 					if (clientName.toLowerCase().contains("façade"))
 						return;
-					// System.out.println("A client named '" + clientName + "' is alive.  Do we care?");
-					for (int i = 0; i < displayList.size(); i++) {
-						// System.out.println("How about " + displayList.get(i).getMessagingName());
-						if (getRootName(displayList.get(i).getMessagingName()).equals(clientName)) {
-							System.out.println("A client named '" + clientName + "' is a Display I know about!");
-							// setDisplayIsAlive(D.getNumber(), true);
+					for (int i = 0; i < displayList.size(); i++)
+						if (getRootName(displayList.get(i).getMessagingName()).equals(clientName))
 							aliveList[i] = true;
-						}
-					}
 				}
 
 				private String getRootName(String n) {

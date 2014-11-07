@@ -137,4 +137,12 @@ public class MessageCarrier implements Serializable {
 	public String toString() {
 		return "Type=" + type + ", sent from [" + from + "] to [" + to + "] message=[" + message + "]";
 	}
+
+	/**
+	 * @param username The username to check
+	 * @return Is this message intended for this user?
+	 */
+	public boolean isThisForMe(final String username) {
+		return to == null || to.equals("NULL") || to.equals(username);
+	}
 }

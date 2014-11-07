@@ -87,10 +87,7 @@ public class Util {
 				long time = FIFTEEN_MINUTES / 512;
 				double sq2 = Math.sqrt(2.0);
 				while (true) {
-					try {
-						sleep(time);
-					} catch (InterruptedException e) {
-					}
+					catchSleep(time);
 					if (time < FIFTEEN_MINUTES) {
 						time *= sq2;
 						if (time >= FIFTEEN_MINUTES) {
@@ -133,6 +130,18 @@ public class Util {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	/**
+	 * A helper function to call Thread.sleep() and not throw an exception.
+	 * @param time
+	 */
+	public static void catchSleep(final long time) {
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 }

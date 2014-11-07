@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.display.client;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.GlobalVariables.SELF_IDENTIFY;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.display.testing.BrowserLauncher;
@@ -60,15 +61,12 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		new Thread() {
 			public void run() {
-				System.out.println(DisplayAsConnectionToFireFox.class.getSimpleName() + ".initiate(): Here we go! display number=" + getNumber());
-				try {
-					sleep(4000); // Wait a bit before trying to contact the instance of FireFox.
-					firefox = new ConnectionToFirefoxInstance(screenNumber, getNumber(), highlightColor);
-					sleep(500); // Wait a bit more before trying to tell it to go to a specific page
-					firefox.changeURL(getContent().getURI().toASCIIString(), true);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				System.out.println(DisplayAsConnectionToFireFox.class.getSimpleName() + ".initiate(): Here we go! display number="
+						+ getNumber());
+				catchSleep(4000); // Wait a bit before trying to contact the instance of FireFox.
+				firefox = new ConnectionToFirefoxInstance(screenNumber, getNumber(), highlightColor);
+				catchSleep(500); // Wait a bit more before trying to tell it to go to a specific page
+				firefox.changeURL(getContent().getURI().toASCIIString(), true);
 			}
 		}.start();
 	}

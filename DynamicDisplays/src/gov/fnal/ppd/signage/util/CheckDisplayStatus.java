@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.util;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.GlobalVariables.PING_INTERVAL;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.changer.ChannelButtonGrid;
@@ -40,12 +41,8 @@ public class CheckDisplayStatus extends Thread {
 	}
 
 	public void run() {
-		try {
-			sleep(25 * index); // Put in a slight delay to get the Pings to each Display offset from each other a little
+		catchSleep(25 * index); // Put in a slight delay to get the Pings to each Display offset from each other a little
 								// bit.
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		Connection connection = DisplayListDatabaseRemote.getConnection();
 		while (true) {
 			try {

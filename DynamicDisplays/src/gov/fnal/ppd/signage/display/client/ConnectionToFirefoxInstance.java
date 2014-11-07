@@ -1,15 +1,15 @@
 package gov.fnal.ppd.signage.display.client;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
+
 import java.awt.Color;
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -246,11 +246,7 @@ public class ConnectionToFirefoxInstance {
 						long delay = 10;
 						System.err.println("It may be possible to turn on the FireFox connectivity.  You have " + delay
 								+ " seconds to try.");
-						try {
-							sleep(delay * 1000l);
-						} catch (InterruptedException e1) {
-							e1.printStackTrace();
-						}
+						catchSleep(delay * 1000l);
 					}
 			}
 		}.start();
@@ -260,11 +256,7 @@ public class ConnectionToFirefoxInstance {
 		while (!connected && out == null) {
 			System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + port + ".  Will try again in "
 					+ WAIT_FOR_CONNECTION_TIME + " milliseconds");
-			try {
-				Thread.sleep(WAIT_FOR_CONNECTION_TIME);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			catchSleep(WAIT_FOR_CONNECTION_TIME);
 		}
 		synchronized (out) {
 			if (debug)

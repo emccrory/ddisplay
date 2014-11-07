@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.display;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.signage.util.Util.makeEmptyChannel;
 import gov.fnal.ppd.signage.Channel;
@@ -53,8 +54,8 @@ public abstract class DisplayImpl implements Display {
 	 * @param color
 	 * @param type
 	 */
-	public DisplayImpl(final String ipName, final int displayNumber, final int screenNumber, final String location, final Color color,
-			final SignageType type) {
+	public DisplayImpl(final String ipName, final int displayNumber, final int screenNumber, final String location,
+			final Color color, final SignageType type) {
 		assert (screenNumber >= 0);
 		assert (displayNumber >= 0);
 
@@ -97,11 +98,7 @@ public abstract class DisplayImpl implements Display {
 
 				public void run() {
 					// TODO -- This event needs to be triggered by the display actually indicating that it has changed the channel.
-					try {
-						Thread.sleep(sleepTime);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					catchSleep(sleepTime);
 					informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED);
 				}
 			}.start();

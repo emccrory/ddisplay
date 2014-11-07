@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.display.client;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
@@ -48,7 +49,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	protected BrowserLauncher		browserLauncher;
 
-	// protected static int			number;
+	// protected static int number;
 	protected boolean				keepGoing				= true;
 	protected SignageContent		lastChannel				= null;
 	protected static boolean		dynamic					= false;
@@ -101,11 +102,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			new Thread("IsMyServerAlive") {
 				public void run() {
 					while (true) {
-						try {
-							sleep(FIFTEEN_MINUTES);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+						catchSleep(FIFTEEN_MINUTES);
 						if (((MessagingClientLocal) messagingClient).getServerTimeStamp() + 2 * FIFTEEN_MINUTES < System
 								.currentTimeMillis()) {
 							System.err.println("It looks like the server is down! Let's try to restart our connection to it.");
@@ -133,14 +130,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		new Thread("StatusThread") {
 			public void run() {
 				while (keepGoing) {
-					try {
-						sleep(1000L);
-						if (statusUpdatePeriod-- <= 0) {
-							updateMyStatus();
-							statusUpdatePeriod = STATUS_UPDATE_PERIOD;
-						}
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+					catchSleep(1000L);
+					if (statusUpdatePeriod-- <= 0) {
+						updateMyStatus();
+						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 					}
 				}
 			}
@@ -419,7 +412,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		public void displayIncomingMessage(MessageCarrier msg) {
 			if (debug)
 				System.out.println(DisplayControllerMessagingAbstract.class.getSimpleName() + ":"
-						+ MessagingClientLocal.class.getSimpleName() + ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
+						+ MessagingClientLocal.class.getSimpleName() + ".displayIncomingMessage(): Got this message:\n[" + msg
+						+ "]");
 			if (msg.getTo().equals(getName()))
 				dcp.processInput(msg, myDisplayNumber);
 			else

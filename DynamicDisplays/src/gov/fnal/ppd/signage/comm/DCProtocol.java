@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.comm;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
@@ -112,17 +113,17 @@ public class DCProtocol {
 			String xmlDocument = body.substring(body.indexOf("<?xml"));
 			DDMessage myMessage = new DDMessage(xmlDocument);
 			return processInput(myMessage, myDisplayNumber);
-			
+
 		case WHOISIN:
 		case LOGIN:
 		case LOGOUT:
 			// Not relevant to a client (only a server cares about these message types)
 			break;
-			
+
 		case ISALIVE:
 			// We are being asked, "Are we alive right now?"
 			break;
-			
+
 		case AMALIVE:
 			// We are being told that such-and-such a client is alive right now.
 			break;
@@ -252,13 +253,10 @@ public class DCProtocol {
 						// + (new Date()));
 
 						informListeners(spec);
-						try {
-							for (long i = 0; i < sleepTime && keepRunning; i += SHORT_INTERVAL)
-								sleep(SHORT_INTERVAL);
-							// System.out.println(DCProtocol.class.getSimpleName() + ": Changing the channel now!");
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+						for (long i = 0; i < sleepTime && keepRunning; i += SHORT_INTERVAL)
+							catchSleep(SHORT_INTERVAL);
+						// System.out.println(DCProtocol.class.getSimpleName() + ": Changing the channel now!");
+
 						if (!keepRunning)
 							break;
 					}
@@ -290,14 +288,10 @@ public class DCProtocol {
 	}
 
 	private void checkChanger() {
+		// Hmmm.  This seems to have been neutered (11/2014)
 		keepRunning = false;
 		while (changerThread != null && changerThread.isAlive()) {
-			try {
-				// Give the thread time to stop
-				Thread.sleep(2 * SHORT_INTERVAL);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			catchSleep(2 * SHORT_INTERVAL);
 		}
 		changerThread = null;
 	}

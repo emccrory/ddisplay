@@ -1,5 +1,6 @@
 package gov.fnal.ppd;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 import gov.fnal.ppd.chat.JTextAreaBottom;
@@ -253,11 +254,8 @@ public class DDSystemStatus extends JFrame {
 		new Thread("LookForRefresh") {
 			public void run() {
 				while (true) {
-					try {
-						sleep(10L);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					catchSleep(10L);
+
 					if (refresh-- == 0) {
 						// clientsTree.repaint();
 						repaint();
@@ -275,11 +273,7 @@ public class DDSystemStatus extends JFrame {
 
 		new Thread("Login") {
 			public void run() {
-				try {
-					sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				catchSleep(1000);
 				login();
 			}
 		}.start();
@@ -289,12 +283,9 @@ public class DDSystemStatus extends JFrame {
 			public void run() {
 				long sleep = 500;
 				while (true) {
-					try {
-						sleep(sleep);
-						sleep = 1000;
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					catchSleep(sleep);
+					sleep = 1000;
+
 					if (client != null && nextWhoIsIn.decrementAndGet() <= 0) {
 						whoIsIn();
 						nextWhoIsIn.set(59);

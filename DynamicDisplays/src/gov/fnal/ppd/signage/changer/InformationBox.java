@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.changer;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -96,13 +97,9 @@ public class InformationBox extends JFrame {
 
 		new Thread(this.getClass().getSimpleName() + "_Removal") {
 			public void run() {
-				try {
-					for (int i = 10; i > 0; i--) {
-						timeLeft.setText("This will disappear in " + i + " seconds");
-						sleep(1000L);
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				for (int i = 10; i > 0; i--) {
+					timeLeft.setText("This will disappear in " + i + " seconds");
+					catchSleep(1000L);
 				}
 				InformationBox.this.dispose();
 			}

@@ -1,5 +1,6 @@
 package gov.fnal.ppd.signage.channel;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageContent;
@@ -130,11 +131,7 @@ public class ChannelPlayList implements Channel {
 	public void start() {
 		new Thread("PlayingChannelList") {
 			public void run() {
-				try {
-					sleep(dwell);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				catchSleep(dwell);
 				while (running) {
 					if (chanIterator.hasNext()) {
 						currentChannel = chanIterator.next();
@@ -143,11 +140,7 @@ public class ChannelPlayList implements Channel {
 						currentChannel = chanIterator.next();
 					}
 					informDisplay();
-					try {
-						sleep(dwell);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					catchSleep(dwell);
 				}
 			}
 		}.start();
@@ -212,7 +205,7 @@ public class ChannelPlayList implements Channel {
 
 	@Override
 	public void setTime(long time) {
-		dwell = time;		
+		dwell = time;
 	}
 
 	@Override
@@ -222,6 +215,6 @@ public class ChannelPlayList implements Channel {
 
 	@Override
 	public void setCode(int n) {
-		// Not relevant for a list of content		
+		// Not relevant for a list of content
 	}
 }
