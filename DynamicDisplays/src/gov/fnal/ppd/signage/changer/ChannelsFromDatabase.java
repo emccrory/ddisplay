@@ -1,12 +1,14 @@
 package gov.fnal.ppd.signage.changer;
 
 import static gov.fnal.ppd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.GlobalVariables.DATABASE_SERVER_NAME;
 import gov.fnal.ppd.signage.DatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.channel.ChannelImpl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,6 +50,8 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 			e.printStackTrace();
 		}
 		getChannels();
+		getImages();
+		
 		defaultChannel = get(keySet().iterator().next()); // The first channel (whatever!)
 	}
 
@@ -94,21 +98,49 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		System.out.println(getClass().getSimpleName() + ": Found " + count + " channels.");
 	}
 
+	private void getImages() {
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			stmt = connection.createStatement();
+			rs = stmt.executeQuery("USE " + DATABASE_NAME);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			System.exit(1);
+		}
+
+		int count = 0;
+		try {
+			rs = stmt.executeQuery("select Filename,Experiment,Description from Portfolio where Type='Image' and Approval='Approved'");
+			rs.first(); // Move to first returned row
+			while (!rs.isAfterLast()) {
+				String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("FileName"));
+				String descr = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
+				String exp = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Experiment"));
+
+
+				String url = DATABASE_SERVER_NAME + "/XOC/portfolioOneSlide.php?photo=" + name + "&caption=" + URLEncoder.encode(descr);
+				SignageContent c = new ChannelImpl(name, ChannelCategory.IMAGE, descr, new URI(url), 0);
+				put(name, c);
+				rs.next();
+				count++;
+			}
+			stmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		System.out.println(getClass().getSimpleName() + ": Found " + count + " channels.");
+	}
+
 	public Map<String, SignageContent> getPublicChannels() {
 		HashMap<String, SignageContent> retval = new HashMap<String, SignageContent>();
 
 		for (String key : this.keySet()) {
 			if (this.get(key).getCategory() == ChannelCategory.PUBLIC)
-				retval.put(key, this.get(key));
-		}
-		return retval;
-	}
-
-	public Map<String, SignageContent> getDetailsChannels() {
-		HashMap<String, SignageContent> retval = new HashMap<String, SignageContent>();
-
-		for (String key : this.keySet()) {
-			if (this.get(key).getCategory() == ChannelCategory.PUBLIC_DETAILS)
 				retval.put(key, this.get(key));
 		}
 		return retval;
@@ -120,17 +152,6 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		for (String key : this.keySet()) {
 			if (this.get(key).getCategory() == cat)
 				retval.add(this.get(key));
-		}
-		return retval;
-	}
-
-	public Map<String, SignageContent> getAllDetailsChannels() {
-		HashMap<String, SignageContent> retval = new HashMap<String, SignageContent>();
-
-		for (String key : this.keySet()) {
-			if (this.get(key).getCategory() == ChannelCategory.PUBLIC_DETAILS
-					|| this.get(key).getCategory() == ChannelCategory.EXPERIMENT_DETAILS)
-				retval.put(key, this.get(key));
 		}
 		return retval;
 	}
