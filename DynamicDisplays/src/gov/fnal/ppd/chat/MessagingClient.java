@@ -1,6 +1,7 @@
 package gov.fnal.ppd.chat;
 
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -186,11 +187,7 @@ public class MessagingClient {
 				while (socket == null) {
 					displayLogMessage("Will wait " + (wait / 1000L)
 							+ " seconds for server to return and then try to connect again.");
-					try {
-						Thread.sleep(wait);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					catchSleep(wait);
 					wait = (wait + 10000L > FIFTEEN_MINUTES ? FIFTEEN_MINUTES : wait + 10000L);
 					if (!MessagingClient.this.start()) {
 						displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Server start failed again at "
@@ -312,7 +309,8 @@ public class MessagingClient {
 			while (keepGoing) {
 				try {
 					MessageCarrier msg = (MessageCarrier) sInput.readObject();
-					displayIncomingMessage(msg);
+					//if (msg.isThisForMe(username))
+						displayIncomingMessage(msg);
 				} catch (IOException e) {
 					displayLogMessage("Server has closed the connection: " + e);
 					break; // Leave the forever loop
