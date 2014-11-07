@@ -1,7 +1,11 @@
 package gov.fnal.ppd.chat;
 
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
+import static gov.fnal.ppd.GlobalVariables.ONE_HOUR;
+import static gov.fnal.ppd.GlobalVariables.ONE_MINUTE;
+import static gov.fnal.ppd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 
 import java.io.IOException;
@@ -22,7 +26,245 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class MessagingServer {
 
-	int	numConnectionsSeen	= 0;
+	/*************************************************************************************************************************
+	 * Handle the communications with a specific client in the messaging system. One instance of this thread will run for each
+	 * client.
+	 * 
+	 * This class the surrounding MessagingServer class by calling display() and by manipulating the list, al.
+	 * 
+	 * Style note: Using the syntax, "this.attribute" within this inner class to mark the stuff owned by this class. I also tried
+	 * marking the surrounding calls with "MessagingServer.this.", but this was just too much clutter (IMHO).
+	 * 
+	 * @author Elliott McCrory, Fermilab AD/Instrumentation
+	 * @copyright 2014
+	 */
+	class ClientThread extends Thread {
+
+		// the only type of message we will receive
+		MessageCarrier		cm;
+		// the date I connected
+		String				date;
+		// my unique id (easier for deconnection)
+		int					id;
+		private long		lastSeen			= System.currentTimeMillis();
+		ObjectInputStream	sInput;
+		// the socket where to listen/talk
+		Socket				socket;
+		ObjectOutputStream	sOutput;
+		private boolean		thisSocketIsActive	= false;
+		// the Username of the Client
+		String				username;
+
+		// Constructor
+		ClientThread(Socket socket) {
+			super("ClientThread_of_MessagingServer_" + MessagingServer.uniqueId);
+			// a unique id
+			this.id = MessagingServer.uniqueId++;
+			this.socket = socket;
+			Object read = null;
+			/* Creating both Data Stream */
+			// System.out.println("Thread trying to create Object Input/Output Streams");
+			try {
+				// create output first
+				this.sOutput = new ObjectOutputStream(socket.getOutputStream());
+				this.sInput = new ObjectInputStream(socket.getInputStream());
+
+				// read the username -- the first message from the new connection
+				read = this.sInput.readObject();
+				if (read instanceof MessageCarrier) {
+					this.username = ((MessageCarrier) read).getMessage();
+				} else if (read instanceof String) {
+					this.username = (String) read;
+				}
+				display("'" + this.username + "' (" + id + ") has connected.");
+			} catch (IOException e) {
+				display("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
+				return;
+			} catch (Exception e) {
+				if (read == null) {
+					display("Expecting a String but got nothing (null)");
+				} else
+					display("Expecting a String but got a " + read.getClass().getSimpleName() + " [" + read + "]");
+				e.printStackTrace();
+			}
+			this.date = new Date().toString();
+		}
+
+		// try to close everything
+		protected void close() {
+			try {
+				if (this.sOutput != null)
+					this.sOutput.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if (this.sInput != null)
+					this.sInput.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if (this.socket != null)
+					this.socket.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			this.sInput = null;
+			this.sOutput = null;
+			this.socket = null;
+		}
+
+		// This method is what will run forever
+
+		public long getLastSeen() {
+			return this.lastSeen;
+		}
+
+		public void run() {
+			// to loop until LOGOUT or we hit an unrecoverable exception
+			Object read = new Object();
+			// Bug fix for input and output objects: call "reset" after every read and write to not let these objects
+			// remember their state. After a few hours, we run out of memory!
+			this.thisSocketIsActive = true;
+			while (this.thisSocketIsActive) {
+				// read a String (which is an object)
+				try {
+					read = this.sInput.readObject();
+					this.cm = (MessageCarrier) read;
+				} catch (ClassNotFoundException e) {
+					display(this.username + ": A class not found exception -- " + e + ". returned object of type "
+							+ read.getClass().getCanonicalName());
+					e.printStackTrace();
+					break; // End the while(this.thisSocketIsActive) loop
+				} catch (Exception e) {
+					display(this.username + ": Exception reading input stream -- " + e + "; The received message was '" + read
+							+ "' (type=" + read.getClass().getCanonicalName() + ")");
+					System.err.println(this.username + ": Exception reading input stream -- " + e + "; The received message was '"
+							+ read + "' (type=" + read.getClass().getCanonicalName() + ")"); // Put this here to assure that the
+					// stack-trace and this message are together
+					// in the console (debugging)
+					e.printStackTrace();
+					break; // End the while(this.thisSocketIsActive) loop
+				}
+
+				// The client that sent this message is still alive
+				markClientAsSeen(this.cm.getFrom());
+
+				if (this.cm.getTo().equals(SPECIAL_SERVER_MESSAGE_USERNAME))
+					continue; // That's all for this loop iteration.
+
+				totalMesssagesHandled++;
+				// Switch for the type of message receive
+				switch (this.cm.getType()) {
+
+				case MESSAGE:
+				case ISALIVE:
+				case AMALIVE:
+					//
+					// The message, received from a client, is relayed here to the client of its choosing
+					//
+					broadcast(this.cm);
+					break;
+
+				// ---------- Other types of messages are interpreted here by the server. ---------
+				case LOGOUT:
+					display(this.username + " disconnected with a LOGOUT message.");
+					this.thisSocketIsActive = false;
+					break;
+
+				case WHOISIN:
+					// writeMsg("WHOISIN List of the users connected at " + sdf.format(new Date()) + "\n");
+					// scan all the users connected
+					boolean purge = false;
+					for (int i = 0; i < listOfMessagingClients.size(); ++i) {
+						ClientThread ct = listOfMessagingClients.get(i);
+						if (ct != null && ct.username != null && ct.date != null)
+							writeMsg(MessageCarrier.getIAmAlive(ct.username, this.cm.getFrom(), "since " + ct.date));
+						else {
+							display("Talking to " + this.username + " socket " + this.socket.getLocalAddress() + " (" + (i + 1)
+									+ ") Error!  Have a null client");
+							purge = true;
+						}
+					}
+					if (purge)
+						for (ClientThread CT : listOfMessagingClients) {
+							if (CT == null) {
+								display("Removing null ClientThread");
+								listOfMessagingClients.remove(CT);
+							} else if (CT.username == null) {
+								display("Removing ClientThread with null username [" + CT + "]");
+								listOfMessagingClients.remove(CT);
+								CT.thisSocketIsActive = false;
+							} else if (CT.date == null) {
+								display("Removing ClientThread with null date [" + CT + "]");
+								listOfMessagingClients.remove(CT);
+								CT.thisSocketIsActive = false;
+							}
+						}
+					break;
+				}
+			}
+			// remove myself from the arrayList containing the list of the connected Clients
+			display("Exiting forever loop for client '" + this.username + "' (thisSocketIsActive=" + this.thisSocketIsActive
+					+ ") Removing id=" + id + ")");
+
+			synchronized (listOfMessagingClients) {
+				// scan the array list until we found the Id
+				for (int i = 0; i < listOfMessagingClients.size(); ++i) {
+					ClientThread ct = listOfMessagingClients.get(i);
+					// found it
+					if (ct.id == id) {
+						listOfMessagingClients.remove(i);
+						// Do not return; I want to see the information message at the end.
+						break;
+					}
+				}
+			}
+
+			System.out.println(this.getClass().getSimpleName() + ": Number of remaining clients: " + listOfMessagingClients.size());
+			close();
+		}
+
+		@Override
+		public String toString() {
+			return this.username + ", id=" + id + ", socket=[" + socket + "], date=" + date;
+		}
+
+		/*
+		 * Write a String to the Client output stream
+		 */
+		boolean writeMsg(MessageCarrier msg) {
+			// if Client is still connected send the message to it
+			if (!socket.isConnected()) {
+				close();
+				return false;
+			}
+			// write the message to the stream
+			try {
+				sOutput.writeObject(msg);
+				sOutput.reset();
+			}
+			// if an error occurs, do not abort just inform the user
+			catch (IOException e) {
+				display("IOException sending message to " + this.username);
+				display(e.toString());
+				e.printStackTrace();
+			} catch (Exception e) {
+				display(e.getLocalizedMessage() + ", Error sending message to " + this.username);
+				e.printStackTrace();
+			}
+			return true;
+		}
+	}
+
+	/*************************************************************************************************************************
+	 * Simple inner class to handle the insertion of a ClientThread object into a list.
+	 * 
+	 * @author Elliott McCrory, Fermilab AD/Instrumentation
+	 * @copyright 2014
+	 * 
+	 */
 
 	private class ClientThreadList extends CopyOnWriteArrayList<ClientThread> {
 
@@ -32,8 +274,9 @@ public class MessagingServer {
 
 		@Override
 		public boolean add(ClientThread ct) {
-			if (ct == null)
+			if (ct == null || SPECIAL_SERVER_MESSAGE_USERNAME.equals(ct.username))
 				return false;
+
 			if (REQUIRE_UNIQUE_USERNAMES) {
 				int index = 0;
 				for (ClientThread CT : this) {
@@ -55,25 +298,73 @@ public class MessagingServer {
 
 	}
 
+	protected static final String	SPECIAL_SERVER_MESSAGE_USERNAME	= "Server Message";
+
+	/* ************************************************************************************************************************
+	 * Begin the definition of the class MessagingServer
+	 * 
+	 * Static stuff
+	 */
+
 	// a unique ID for each connection
-	private static int			uniqueId;
+	static int						uniqueId;
+
+	/**
+	 * To run as a console application just open a console window and: > java Server > java Server portNumber If the port number is
+	 * not specified 1500 is used
+	 * 
+	 * @param args
+	 *            -- The command line arguments. [0] is the port number, otherwise MESSAGING_SERVER_PORT (49999) is used
+	 */
+	public static void main(String[] args) {
+		// start server on port 1500 unless a PortNumber is specified
+		int portNumber = MESSAGING_SERVER_PORT;
+		switch (args.length) {
+		case 1:
+			try {
+				portNumber = Integer.parseInt(args[0]);
+			} catch (Exception e) {
+				System.out.println("Invalid port number.");
+				System.out.println("Usage is: > java Server [portNumber]");
+				return;
+			}
+		case 0:
+			break;
+		default:
+			System.out.println("Usage is: > java Server [portNumber]");
+			return;
+
+		}
+		// create a server object and start it
+		MessagingServer server = new MessagingServer(portNumber);
+		server.start();
+	}
+
+	private void markClientAsSeen(String from) {
+		for (ClientThread CT : listOfMessagingClients)
+			if (from.equals(CT.username))
+				CT.lastSeen = System.currentTimeMillis();
+	}
+
 	// an ArrayList to keep the list of the Client
 	// private ArrayList<ClientThread> al; This Template is supposed to help with ConcurrentModificationException
-	private ClientThreadList	al;
-
-	// to display time (Also used as a synchronization object for writing messages to the local terminal/GUI
-	protected SimpleDateFormat	sdf;
-	// the port number to listen for connection
-	private int					port;
+	ClientThreadList			listOfMessagingClients;
+	private Object				broadcasting			= "For synchronization";
 	// the boolean that will be turned of to stop the server
 	private boolean				keepGoing;
 
-	private Object				broadcasting			= "For synchronization";
+	private int					numConnectionsSeen		= 0;
+	// the port number to listen for connection
+	private int					port;
+
+	// to display time (Also used as a synchronization object for writing messages to the local terminal/GUI
+	protected SimpleDateFormat	sdf;
 	private Thread				showClientList			= null;
+	private long				startTime				= System.currentTimeMillis();
+
+	private long				tooOldTime				= ONE_MINUTE;
 
 	protected int				totalMesssagesHandled	= 0;
-	private long				startTime				= System.currentTimeMillis();
-	private long				tooOldTime				= 4L * FIFTEEN_MINUTES;		// One hour
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -86,8 +377,81 @@ public class MessagingServer {
 		// to display hh:mm:ss
 		sdf = new SimpleDateFormat("dd MMM HH:mm:ss");
 		// ArrayList for the Client list
-		al = new ClientThreadList();
+		listOfMessagingClients = new ClientThreadList();
 		launchMemoryWatcher();
+	}
+
+	/**
+	 * to broadcast a message to a Clients
+	 * 
+	 * Overrideable if the base class wants to know about the messages.
+	 * 
+	 * Be sure to call super.broadcast(message) to actually get the message broadcast, though!
+	 * 
+	 * @param message
+	 *            -- The message to broadcast
+	 */
+	protected void broadcast(MessageCarrier message) {
+		synchronized (broadcasting) {
+			// we loop in reverse order in case we would have to remove a Client because it has disconnected
+			for (int i = listOfMessagingClients.size(); --i >= 0;) {
+				ClientThread ct = listOfMessagingClients.get(i);
+				// try to write to the Client if it fails remove it from the list
+				if (message.isThisForMe(ct.username))
+					if (!ct.writeMsg(message)) {
+						listOfMessagingClients.remove(i);
+						display("Disconnected Client " + ct.username + " removed from list.");
+					}
+			}
+		}
+	}
+
+	/**
+	 * Display an event (not a message) to the console or the GUI
+	 */
+	protected void display(String msg) {
+		synchronized (sdf) {
+			String time = sdf.format(new Date()) + " " + msg;
+			System.out.println(time);
+		}
+	}
+
+	protected void showDiagnostics() {
+		// check for oldest client (lastSeen)
+		long oldest = System.currentTimeMillis();
+		List<String> unSeen = new ArrayList<String>();
+		List<String> tooOld = new ArrayList<String>();
+		for (ClientThread CT : listOfMessagingClients) {
+			if (CT.getLastSeen() == 0) {
+				unSeen.add(CT.username);
+			} else {
+				if (CT.getLastSeen() < oldest) {
+					oldest = CT.getLastSeen();
+				}
+				if ((System.currentTimeMillis() - CT.getLastSeen()) > tooOldTime) {
+					tooOld.add(CT.username + " (" + CT.date + ")");
+				}
+			}
+		}
+		long longAliveTime = System.currentTimeMillis() - startTime;
+		long hours = longAliveTime / ONE_HOUR;
+		long days = hours / 24L;
+		hours = hours % 24L;
+		long minutes = (longAliveTime % ONE_HOUR) / ONE_MINUTE;
+		long seconds = (longAliveTime % (ONE_MINUTE)) / ONE_SECOND;
+
+		display(MessagingServer.class.getSimpleName() + " has been alive " + days + " days, " + hours + " hrs " + minutes + " min "
+				+ seconds + " sec -- \n " + "                       " + numConnectionsSeen + " connections accepted, "
+				+ listOfMessagingClients.size() + " client" + (listOfMessagingClients.size() != 1 ? "s" : "")
+				+ " connected right now, " + totalMesssagesHandled + " messages handled\n" + "                       "
+				+ "There are " + unSeen.size() + " clients never heard from at this time.\n" + "                       "
+				+ "Clients that are too old: " + tooOld.size());
+		if (tooOld.size() > 0) {
+			String m = MessagingServer.class.getSimpleName() + ": List of clients that are too old\n";
+			for (String S : tooOld)
+				m += "                       " + S + "\n";
+			display(m);
+		}
 	}
 
 	/**
@@ -110,7 +474,7 @@ public class MessagingServer {
 				// if (!keepGoing)
 				// break;
 				ClientThread t = new ClientThread(socket); // make a thread of it
-				if (al.add(t)) // save it in the ArrayList
+				if (listOfMessagingClients.add(t)) // save it in the ArrayList
 					t.start();
 				else
 					display("Error! Duplicate username requested, '" + t.username + "'");
@@ -124,13 +488,10 @@ public class MessagingServer {
 						long	WAIT_FOR_ALL_TO_CONNECT_TIME	= 3000;
 
 						public void run() {
-							try {
-								sleep(WAIT_FOR_ALL_TO_CONNECT_TIME);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
+							catchSleep(WAIT_FOR_ALL_TO_CONNECT_TIME);
+
 							String m = "List of connected clients:\n";
-							for (ClientThread CT : al) {
+							for (ClientThread CT : listOfMessagingClients) {
 								m += "                     " + CT.username + " at " + CT.date + " ID=" + CT.id + "\n";
 							}
 							display(m);
@@ -146,8 +507,8 @@ public class MessagingServer {
 			display("Closing the server port");
 			try {
 				serverSocket.close();
-				for (int i = 0; i < al.size(); ++i) {
-					ClientThread tc = al.get(i);
+				for (int i = 0; i < listOfMessagingClients.size(); ++i) {
+					ClientThread tc = listOfMessagingClients.get(i);
 					try {
 						tc.sInput.close();
 						tc.sOutput.close();
@@ -174,32 +535,23 @@ public class MessagingServer {
 		}
 	}
 
+	/**
+	 * Ping each client from time to time to assure that it is (still) alive
+	 */
 	private void startPinger() {
-
 		new Thread("Pinger") {
 			public long	sleepPeriod	= 1000L;
 
 			public void run() {
-				try {
-					sleep(sleepPeriod);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				catchSleep(15000L); // Wait a bit before starting the diagnostics
 
 				while (keepGoing) {
-					try {
-						sleep(sleepPeriod);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					// TODO Implement PING/PONG protocol
-					// This protocol is not done very well. There are some places where it seems to just read the
-					// message as a string and some places that it looks at the message as a real Message object. This needs
-					// to be made self-consistent!
+					catchSleep(sleepPeriod);
 
-					// TODO -- Figure out a way for the server to send "Are You Alive" messages to each client.
+					// TODO -- Figure out a way for the server to send "Are You Alive" messages to each client and to hear the
+					// response.
 					if (false)
-						broadcast(MessageCarrier.getIsAlive("NULL", "NULL"));
+						broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, "NULL"));
 
 					sleepPeriod = (sleepPeriod > FIFTEEN_MINUTES ? FIFTEEN_MINUTES : sleepPeriod * 2);
 
@@ -207,47 +559,6 @@ public class MessagingServer {
 				}
 			}
 		}.start();
-	}
-
-	protected void showDiagnostics() {
-		// check for oldest client (lastSeen)
-		long oldest = System.currentTimeMillis();
-		String oldestName = "";
-		List<String> unSeen = new ArrayList<String>();
-		List<String> tooOld = new ArrayList<String>();
-		for (ClientThread CT : al) {
-			if (CT.getLastSeen() == 0) {
-				unSeen.add(CT.username);
-			} else {
-				if (CT.getLastSeen() < oldest) {
-					oldest = CT.getLastSeen();
-					oldestName = CT.username;
-				}
-				if ((System.currentTimeMillis() - CT.getLastSeen()) > tooOldTime) {
-					tooOld.add(CT.username);
-				}
-			}
-		}
-		long longAliveTime = System.currentTimeMillis() - startTime;
-		long hours = longAliveTime / (3600L * 1000L);
-		long days = hours / 24L;
-		hours = hours % 24L;
-		long minutes = (longAliveTime % (36000L * 1000L)) / 60000L;
-		long seconds = (longAliveTime % (60L * 1000L)) / 1000L;
-
-		display(MessagingServer.class.getSimpleName() + " has been alive " + days + " days, " + hours + " hrs " + minutes + " min "
-				+ seconds + " sec -- \n " + "                       " + numConnectionsSeen + " connections accepted, " + al.size()
-				+ " client" + (al.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
-				+ " messages handled\n" + "                       " + "Oldest client is [" + oldestName + "], last seen "
-				+ (System.currentTimeMillis() - oldest) + " msec ago (although it could be a tie)\n" + "                       "
-				+ "There are " + unSeen.size() + " clients never heard from at this time.\n" + "                       "
-				+ "Clients that are too old: " + tooOld.size());
-		if (tooOld.size() > 0) {
-			String m = MessagingServer.class.getSimpleName() + ": List of clients that are too old\n";
-			for (String S : tooOld)
-				m += "                       " + S + "\n";
-			display(m);
-		}
 	}
 
 	/*
@@ -258,306 +569,11 @@ public class MessagingServer {
 		// connect to myself as Client to exit statement
 		// Socket socket = serverSocket.accept();
 		try {
+			// Huh? (11/04/2014)
 			new Socket("localhost", port);
 		} catch (Exception e) {
 			// nothing I can really do
 			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Display an event (not a message) to the console or the GUI
-	 */
-	protected void display(String msg) {
-		synchronized (sdf) {
-			String time = sdf.format(new Date()) + " " + msg;
-			System.out.println(time);
-		}
-	}
-
-	/**
-	 * to broadcast a message to all Clients
-	 * 
-	 * Overrideable if the base class wants to know about the messages.
-	 * 
-	 * Be sure to call super.broadcast(message) to actually get the message broadcast, though!
-	 * 
-	 * @param message
-	 *            -- The message to broadcast
-	 */
-	protected void broadcast(MessageCarrier message) {
-		synchronized (broadcasting) {
-			// we loop in reverse order in case we would have to remove a Client
-			// because it has disconnected
-			for (int i = al.size(); --i >= 0;) {
-				ClientThread ct = al.get(i);
-				// try to write to the Client if it fails remove it from the list
-				if (message.getTo() == null || message.getTo().equals("NULL") || message.getTo().equals(ct.username))
-					if (!ct.writeMsg(message)) {
-						al.remove(i);
-						display("Disconnected Client " + ct.username + " removed from list.");
-					}
-			}
-		}
-	}
-
-	/**
-	 * To run as a console application just open a console window and: > java Server > java Server portNumber If the port number is
-	 * not specified 1500 is used
-	 * 
-	 * @param args
-	 *            -- The command line arguments. [0] is the port number, otherwise 1500 is assumed
-	 */
-	public static void main(String[] args) {
-		// start server on port 1500 unless a PortNumber is specified
-		int portNumber = MESSAGING_SERVER_PORT;
-		switch (args.length) {
-		case 1:
-			try {
-				portNumber = Integer.parseInt(args[0]);
-			} catch (Exception e) {
-				System.out.println("Invalid port number.");
-				System.out.println("Usage is: > java Server [portNumber]");
-				return;
-			}
-		case 0:
-			break;
-		default:
-			System.out.println("Usage is: > java Server [portNumber]");
-			return;
-
-		}
-		// create a server object and start it
-		MessagingServer server = new MessagingServer(portNumber);
-		server.start();
-	}
-
-	/**
-	 * One instance of this thread will run for each client. It handles all the messages from that client to the server (that's me!)
-	 */
-	class ClientThread extends Thread {
-		// the socket where to listen/talk
-		Socket				socket;
-		ObjectInputStream	sInput;
-		ObjectOutputStream	sOutput;
-		// my unique id (easier for deconnection)
-		int					id;
-		// the Username of the Client
-		String				username;
-		// the only type of message we will receive
-		MessageCarrier		cm;
-		// the date I connect
-		String				date;
-		private boolean		thisSocketIsActive	= false;
-		private long		lastSeen			= System.currentTimeMillis();
-
-		// Constructor
-		ClientThread(Socket socket) {
-			super("ClientThread_of_MessagingServer_" + uniqueId);
-			// a unique id
-			id = uniqueId++;
-			this.socket = socket;
-			Object read = null;
-			/* Creating both Data Stream */
-			// System.out.println("Thread trying to create Object Input/Output Streams");
-			try {
-				// create output first
-				sOutput = new ObjectOutputStream(socket.getOutputStream());
-				sInput = new ObjectInputStream(socket.getInputStream());
-
-				// TODO It seems that the only certain way to assure that the client at the other end of this read is
-				// still alive is to establish some sort of "Still Alive" protocol between client and server. It is
-				// possible for the client to die in such a way as to NOT close the socket. The socket is closed
-				// when the client exits, and sometimes it seems to close when the client dies--but not always.
-				// This may have been addressed in the method startPinger().
-
-				// read the username -- the first message from the new connection
-				read = sInput.readObject();
-				if (read instanceof MessageCarrier) {
-					username = ((MessageCarrier) read).getMessage();
-				} else if (read instanceof String) {
-					username = (String) read;
-				}
-				display("'" + username + "' (" + id + ") has connected.");
-			} catch (IOException e) {
-				display("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
-				return;
-			} catch (Exception e) {
-				if (read == null) {
-					display("Expecting a String but got nothing (null)");
-				} else
-					display("Expecting a String but got a " + read.getClass().getSimpleName() + " [" + read + "]");
-				e.printStackTrace();
-			}
-			date = new Date().toString();
-		}
-
-		public long getLastSeen() {
-			return lastSeen;
-		}
-
-		// This method is what will run forever
-
-		public void run() {
-			// to loop until LOGOUT or we hit an unrecoverable exception
-			Object read = new Object();
-			// Bug fix for input and output objects: call "reset" after every read and write to not let these objects
-			// remember their state. After a few hours, we run out of memory!
-			thisSocketIsActive = true;
-			while (thisSocketIsActive) {
-				// read a String (which is an object)
-				try {
-					read = sInput.readObject();
-					cm = (MessageCarrier) read;
-				} catch (ClassNotFoundException e) {
-					display(username + ": A class not found exception -- " + e + ". returned object of type "
-							+ read.getClass().getCanonicalName());
-					e.printStackTrace();
-					break; // End the while(thisSocketIsActive) loop
-				} catch (Exception e) {
-					display(username + ": Exception reading input stream -- " + e + "; The received message was '" + read
-							+ "' (type=" + read.getClass().getCanonicalName() + ")");
-					System.err.println(username + ": Exception reading input stream -- " + e + "; The received message was '"
-							+ read + "' (type=" + read.getClass().getCanonicalName() + ")"); // Put this here to assure that the
-					// stack-trace and this message are together
-					// in the console (debugging)
-					e.printStackTrace();
-					break; // End the while(thisSocketIsActive) loop
-				}
-
-				// The client that sent this message is still alive
-				String from = cm.getFrom();
-				for (ClientThread CT : al) {
-					if (CT.username.equals(from))
-						CT.lastSeen = System.currentTimeMillis();
-				}
-
-				totalMesssagesHandled++;
-				// Switch for the type of message receive
-				switch (cm.getType()) {
-
-				case MESSAGE:
-				case ISALIVE:
-				case AMALIVE:
-					//
-					// The message, received from a client, is relayed here to the client of its choosing
-					//
-					broadcast(cm);
-					break;
-
-				// ---------- Other types of messages are interpreted here by the server. ---------
-				case LOGOUT:
-					display(username + " disconnected with a LOGOUT message.");
-					thisSocketIsActive = false;
-					break;
-
-				case WHOISIN:
-					// writeMsg("WHOISIN List of the users connected at " + sdf.format(new Date()) + "\n");
-					// scan all the users connected
-					boolean purge = false;
-					for (int i = 0; i < al.size(); ++i) {
-						ClientThread ct = al.get(i);
-						if (ct != null && ct.username != null && ct.date != null)
-							writeMsg(MessageCarrier.getIAmAlive(ct.username, cm.getFrom(), "since " + ct.date));
-						else {
-							display("Talking to " + username + " socket " + socket.getLocalAddress() + " (" + (i + 1)
-									+ ") Error!  Have a null client");
-							purge = true;
-						}
-					}
-					if (purge)
-						for (ClientThread AL : al) {
-							if (AL == null) {
-								display("Removing null ClientThread");
-								al.remove(AL);
-							} else if (AL.username == null) {
-								display("Removing ClientThread with null username [" + AL + "]");
-								al.remove(AL);
-								AL.thisSocketIsActive = false;
-							} else if (AL.date == null) {
-								display("Removing ClientThread with null date [" + AL + "]");
-								al.remove(AL);
-								AL.thisSocketIsActive = false;
-							}
-						}
-					break;
-				}
-			}
-			// remove myself from the arrayList containing the list of the connected Clients
-			display("Exiting forever loop for client '" + username + "' (thisSocketIsActive=" + thisSocketIsActive
-					+ ") Removing id=" + id + ")");
-
-			synchronized (al) {
-				// scan the array list until we found the Id
-				for (int i = 0; i < al.size(); ++i) {
-					ClientThread ct = al.get(i);
-					// found it
-					if (ct.id == id) {
-						al.remove(i);
-						// Do not return; I want to see the information message at the end.
-						break;
-					}
-				}
-			}
-
-			System.out.println(this.getClass().getSimpleName() + ": Number of remaining clients: " + al.size());
-			close();
-		}
-
-		// try to close everything
-		protected void close() {
-			try {
-				if (sOutput != null)
-					sOutput.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			try {
-				if (sInput != null)
-					sInput.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			try {
-				if (socket != null)
-					socket.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			sInput = null;
-			sOutput = null;
-			socket = null;
-		}
-
-		/*
-		 * Write a String to the Client output stream
-		 */
-		private boolean writeMsg(MessageCarrier msg) {
-			// if Client is still connected send the message to it
-			if (!socket.isConnected()) {
-				close();
-				return false;
-			}
-			// write the message to the stream
-			try {
-				sOutput.writeObject(msg);
-				sOutput.reset();
-			}
-			// if an error occurs, do not abort just inform the user
-			catch (IOException e) {
-				display("IOException sending message to " + username);
-				display(e.toString());
-				e.printStackTrace();
-			} catch (Exception e) {
-				display(e.getLocalizedMessage() + ", Error sending message to " + username);
-				e.printStackTrace();
-			}
-			return true;
-		}
-
-		@Override
-		public String toString() {
-			return username + ", id=" + id + ", socket=[" + socket + "], date=" + date;
 		}
 	}
 
