@@ -1,11 +1,11 @@
 package gov.fnal.ppd.chat;
 
-import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.GlobalVariables.ONE_SECOND;
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 
 import java.io.IOException;
@@ -14,15 +14,70 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * The server that can be run both as a console application or a GUI
  * 
+ * TODO: Improve the architecture
+ * 
+ * <p>
+ * According to http://docs.oracle.com/cd/E19957-01/816-6024-10/apa.htm (the first hit on Google for
+ * "Messaging Server Architecture"), a well-built messaging server has these six components:
+ * <ul>
+ * <li>The dispatcher is the daemon (or service) component of the Messaging Server. It coordinates the activities of all other
+ * modules. In Figure A.1, the dispatcher can be thought of as an envelope that contains and initiates the processes of all items
+ * shown within the largest box.</li>
+ * <li>The module configuration database contains general configuration information for the other modules.</li>
+ * <li>The message transfer agent (MTA) handles all message accepting, routing, and delivery tasks.</li>
+ * <li>The Messaging Server managers facilitate remote configuration and operation of the system and ensure that the modules are
+ * doing their job and following the rules.</li>
+ * <li>The AutoReply utility lets the Messaging Server automatically reply to incoming messages with predefined responses of your
+ * choice.</li>
+ * <li>The directory database--either a local directory database or a Directory Server--contains user and group account information
+ * for the other modules.</li>
+ * </ul>
+ * </p>
+ * 
+ * <p>
+ * In this application of the idea, I have pretty much a stove-pipe server with only one bit of a protocol, handled elsewhere. The
+ * message is an object (see MessageCarrier.java) with four attributes:
+ * <ul>
+ * <li>MessageType type; -- An enum of the sorts of messages we expect</li>
+ * <li>String message; -- The message body (if it is required). in principle, this can be encrypted (and then ASCII-fied). In this
+ * architecture, when the message is used, it is usually an XML document</li>
+ * <li>String to; -- The name of the client who is supposed to get this message</li>
+ * <li>String from; -- The name of the client who sent the message (allowing a reply of some sort)</li>
+ * </ul>
+ * </p>
+ * 
+ * <p>
+ * It may be possible to use ObjectOutputStream and ObjectInputStream to send the EncodedCarrier (XML) object directly, without the
+ * existing XML marshalling and unmarshalling. But since this works, I have little motivation to make this change. Future developers
+ * may be more enthusiastic to do this. The existing scheme makes it easy to add on encryption of the message (which is the XML
+ * document), which would allow the routing of the message without decrypting.
+ * </p>
+ * 
+ * <p>
+ * What about encryption? If we ever need to secure this communication, it should be possible to encrypt parts of the message. A
+ * simple way to implement this would be to add a time stamp to MessageCarrier which is encrypted and re-ASCII-fied. Using an
+ * asymmetric encryption, the source (the ChannelSelector) can encrypt it with its secret key and then the destination (the Display)
+ * can decrypt it with the public key and then verify that the date is "recent". Or one can encrypt the XML document itself (which
+ * includes a time stamp). This will probably not be necessary at Fermilab as it is hard to imagine a situation where someone would
+ * put bad stuff into the stream of messages and foul things up. But hackers are a clever bunch, so never say never.
+ * </p>
+ * <p>
+ * An operational observation: A Client often drop out without saying goodbye. Almost always when this happens, the socket
+ * connection between the server and the client gets corrupted and the server notices. When it does notice, it can delete this
+ * client from its inventory. But sometimes this corruption does not happen and the socket somehow remains viable from the server's
+ * perspective. In this situation, when the Client tries to reconnect it is turned away as its name is already in use. Thus, I have
+ * implemented a heart beat from the server to each client to see if this client really is alive. See startPinger() method for details.
+ * </p>
+ * 
+ * <p>
  * Taken from http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/ on 5/12/2014
+ * </p>
  */
 public class MessagingServer {
 
@@ -151,8 +206,10 @@ public class MessagingServer {
 				// The client that sent this message is still alive
 				markClientAsSeen(this.cm.getFrom());
 
-				if (this.cm.getTo().equals(SPECIAL_SERVER_MESSAGE_USERNAME))
+				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())) {
+					// display("Got an 'I Am Alive' message from " + cm.getFrom());
 					continue; // That's all for this loop iteration.
+				}
 
 				totalMesssagesHandled++;
 				// Switch for the type of message receive
@@ -362,7 +419,7 @@ public class MessagingServer {
 	private Thread				showClientList			= null;
 	private long				startTime				= System.currentTimeMillis();
 
-	private long				tooOldTime				= ONE_MINUTE;
+	private long				tooOldTime				= 5 * ONE_MINUTE;
 
 	protected int				totalMesssagesHandled	= 0;
 
@@ -416,41 +473,37 @@ public class MessagingServer {
 		}
 	}
 
-	protected void showDiagnostics() {
-		// check for oldest client (lastSeen)
-		long oldest = System.currentTimeMillis();
-		List<String> unSeen = new ArrayList<String>();
-		List<String> tooOld = new ArrayList<String>();
+	protected void performDiagnostics(boolean show) {
+		// check for old clientS (lastSeen)
+
+		String oldestName = "";
+		long oldestTime = System.currentTimeMillis() + FIFTEEN_MINUTES;
 		for (ClientThread CT : listOfMessagingClients) {
-			if (CT.getLastSeen() == 0) {
-				unSeen.add(CT.username);
-			} else {
-				if (CT.getLastSeen() < oldest) {
-					oldest = CT.getLastSeen();
-				}
-				if ((System.currentTimeMillis() - CT.getLastSeen()) > tooOldTime) {
-					tooOld.add(CT.username + " (" + CT.date + ")");
-				}
+			if (CT.getLastSeen() < oldestTime) {
+				oldestTime = CT.getLastSeen();
+				oldestName = CT.username + ", last seen " + new Date(CT.getLastSeen());
+			}
+			if ((System.currentTimeMillis() - CT.getLastSeen()) > tooOldTime) {
+				listOfMessagingClients.remove(CT);
+				CT.close();
+				display("Removed Client " + CT.username + " removed from list because its last response was "
+						+ new Date(CT.lastSeen));
 			}
 		}
-		long longAliveTime = System.currentTimeMillis() - startTime;
-		long hours = longAliveTime / ONE_HOUR;
-		long days = hours / 24L;
-		hours = hours % 24L;
-		long minutes = (longAliveTime % ONE_HOUR) / ONE_MINUTE;
-		long seconds = (longAliveTime % (ONE_MINUTE)) / ONE_SECOND;
 
-		display(MessagingServer.class.getSimpleName() + " has been alive " + days + " days, " + hours + " hrs " + minutes + " min "
-				+ seconds + " sec -- \n " + "                       " + numConnectionsSeen + " connections accepted, "
-				+ listOfMessagingClients.size() + " client" + (listOfMessagingClients.size() != 1 ? "s" : "")
-				+ " connected right now, " + totalMesssagesHandled + " messages handled\n" + "                       "
-				+ "There are " + unSeen.size() + " clients never heard from at this time.\n" + "                       "
-				+ "Clients that are too old: " + tooOld.size());
-		if (tooOld.size() > 0) {
-			String m = MessagingServer.class.getSimpleName() + ": List of clients that are too old\n";
-			for (String S : tooOld)
-				m += "                       " + S + "\n";
-			display(m);
+		if (show) {
+			long longAliveTime = System.currentTimeMillis() - startTime;
+			long hours = longAliveTime / ONE_HOUR;
+			long days = hours / 24L;
+			hours = hours % 24L;
+			long minutes = (longAliveTime % ONE_HOUR) / ONE_MINUTE;
+			long seconds = (longAliveTime % (ONE_MINUTE)) / ONE_SECOND;
+
+			display(MessagingServer.class.getSimpleName() + " has been alive " + days + " days, " + hours + " hrs " + minutes
+					+ " min " + seconds + " sec -- \n " + "                       " + numConnectionsSeen
+					+ " connections accepted, " + listOfMessagingClients.size() + " client"
+					+ (listOfMessagingClients.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
+					+ " messages handled\n" + "                       Oldest client is " + oldestName);
 		}
 	}
 
@@ -492,10 +545,11 @@ public class MessagingServer {
 
 							String m = "List of connected clients:\n";
 							for (ClientThread CT : listOfMessagingClients) {
-								m += "                     " + CT.username + " at " + CT.date + " ID=" + CT.id + "\n";
+								m += "           " + CT.username + ", last seen at " + new Date(CT.lastSeen) + " ID=" + CT.id
+										+ "\n";
 							}
 							display(m);
-							showDiagnostics();
+							performDiagnostics(true);
 							showClientList = null;
 						}
 					};
@@ -541,21 +595,30 @@ public class MessagingServer {
 	private void startPinger() {
 		new Thread("Pinger") {
 			public long	sleepPeriod	= 1000L;
+			int			nextClient	= 0;
+			long		lastPrint	= System.currentTimeMillis();
 
 			public void run() {
 				catchSleep(15000L); // Wait a bit before starting the diagnostics
 
 				while (keepGoing) {
 					catchSleep(sleepPeriod);
+					if (listOfMessagingClients.size() == 0)
+						continue;
 
-					// TODO -- Figure out a way for the server to send "Are You Alive" messages to each client and to hear the
-					// response.
-					if (false)
-						broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, "NULL"));
+					broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME,
+							listOfMessagingClients.get(nextClient).username));
 
-					sleepPeriod = (sleepPeriod > FIFTEEN_MINUTES ? FIFTEEN_MINUTES : sleepPeriod * 2);
-
-					showDiagnostics();
+					// sleepPeriod = (sleepPeriod > FIFTEEN_MINUTES ? FIFTEEN_MINUTES : sleepPeriod * 2);
+					nextClient = (++nextClient) % listOfMessagingClients.size();
+					if (nextClient == 0) {
+						performDiagnostics(lastPrint + FIFTEEN_MINUTES < System.currentTimeMillis());
+						// See each client once in five minutes ...
+						sleepPeriod = -10L + 5 * ONE_MINUTE / (long) listOfMessagingClients.size();
+						if (sleepPeriod < 1000L)
+							// But do not send out these messages faster than 1Hz
+							sleepPeriod = 1000L;
+					}
 				}
 			}
 		}.start();
