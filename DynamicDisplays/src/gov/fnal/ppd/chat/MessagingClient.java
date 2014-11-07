@@ -309,7 +309,9 @@ public class MessagingClient {
 			while (keepGoing) {
 				try {
 					MessageCarrier msg = (MessageCarrier) sInput.readObject();
-					//if (msg.isThisForMe(username))
+					if (msg.isThisForMe(username) && msg.getType() == MessageType.ISALIVE) {
+						sendMessage(MessageCarrier.getIAmAlive(username, msg.getFrom(), "" + new Date()));
+					} else
 						displayIncomingMessage(msg);
 				} catch (IOException e) {
 					displayLogMessage("Server has closed the connection: " + e);
