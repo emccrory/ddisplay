@@ -119,7 +119,7 @@ public class AsymmetricEncryption {
 
 	/**
 	 * @param data
-	 * @return
+	 * @return The encrypted blob
 	 */
 	public byte[] rsaEncrypt(final byte[] data) {
 		try {
@@ -134,7 +134,7 @@ public class AsymmetricEncryption {
 
 	/**
 	 * @param data
-	 * @return
+	 * @return The original blob
 	 */
 	public byte[] rsaDecrypt(final byte[] data) {
 		try {
