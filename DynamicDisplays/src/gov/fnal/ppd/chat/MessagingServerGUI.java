@@ -54,13 +54,13 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 			}
 		}
 
-		protected synchronized void broadcast(MessageCarrier msg) {
-			super.broadcast(msg);
-
-			synchronized (event) {
-				event.append(new Date() + "\n" + msg + "\n");
-			}
-		}
+//		protected synchronized void broadcast(MessageCarrier msg) {
+//			super.broadcast(msg);
+//
+//			synchronized (event) {
+//				event.append(new Date() + "\n" + msg + "\n");
+//			}
+//		}
 	};
 
 	// server constructor that receive the port to listen to for connection as parameter
