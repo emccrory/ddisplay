@@ -207,7 +207,7 @@ public class MessagingServer {
 				markClientAsSeen(this.cm.getFrom());
 
 				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())) {
-					// display("Got an 'I Am Alive' message from " + cm.getFrom());
+					display("Got 'I'm Alive' message from " + cm.getFrom());
 					continue; // That's all for this loop iteration.
 				}
 
@@ -612,7 +612,7 @@ public class MessagingServer {
 					// sleepPeriod = (sleepPeriod > FIFTEEN_MINUTES ? FIFTEEN_MINUTES : sleepPeriod * 2);
 					nextClient = (++nextClient) % listOfMessagingClients.size();
 					if (nextClient == 0) {
-						performDiagnostics(lastPrint + FIFTEEN_MINUTES < System.currentTimeMillis());
+						performDiagnostics(true); //lastPrint + FIFTEEN_MINUTES < System.currentTimeMillis());
 						// See each client once in five minutes ...
 						sleepPeriod = -10L + 5 * ONE_MINUTE / (long) listOfMessagingClients.size();
 						if (sleepPeriod < 1000L)
