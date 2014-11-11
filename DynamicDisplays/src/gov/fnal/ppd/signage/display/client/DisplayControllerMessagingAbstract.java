@@ -205,12 +205,12 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
 									+ numRows + " rows instead. SQL='" + statementString + "'");
 				}
-
-				// // When we are all done, remove this new record from the Display and the DisplayStatus tables
-				// stmt.executeUpdate("DELETE FROM Display WHERE DisplayID=" + number);
-				// stmt.executeUpdate("DELETE FROM DisplayStatus WHERE DisplayID=" + number);
-				// }
 				stmt.close();
+				if (statusUpdatePeriod > 0) {
+					System.out.println(getClass().getSimpleName() + ".updateMyStatus(): Status: \n            "
+							+ statementString.substring("UPDATE DisplayStatus set ".length()));
+					statusUpdatePeriod = STATUS_UPDATE_PERIOD;
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

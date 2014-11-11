@@ -122,7 +122,7 @@ public class MessagingClient {
 	 * @param msg
 	 */
 	public void displayLogMessage(final String msg) {
-		System.out.println(msg);
+		System.out.println(new Date() + ": " + msg);
 	}
 
 	/**
@@ -145,8 +145,7 @@ public class MessagingClient {
 			sOutput.writeObject(msg);
 			sOutput.reset();
 		} catch (Exception e) {
-			displayLogMessage("Exception writing to server: " + e);
-			e.printStackTrace();
+			displayLogMessage(getClass().getSimpleName() + ".sendMessage(): Exception writing to server: " + e);
 			new Thread("ReconnectToServer") {
 				public void run() {
 					connectionFailed();
