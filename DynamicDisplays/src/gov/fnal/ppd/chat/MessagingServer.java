@@ -72,7 +72,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * connection between the server and the client gets corrupted and the server notices. When it does notice, it can delete this
  * client from its inventory. But sometimes this corruption does not happen and the socket somehow remains viable from the server's
  * perspective. In this situation, when the Client tries to reconnect it is turned away as its name is already in use. Thus, I have
- * implemented a heart beat from the server to each client to see if this client really is alive. See startPinger() method for details.
+ * implemented a heart beat from the server to each client to see if this client really is alive. See startPinger() method for
+ * details.
  * </p>
  * 
  * <p>
@@ -80,6 +81,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * </p>
  */
 public class MessagingServer {
+
+	public boolean	showAliveMessages	= false;
 
 	/*************************************************************************************************************************
 	 * Handle the communications with a specific client in the messaging system. One instance of this thread will run for each
@@ -206,7 +209,8 @@ public class MessagingServer {
 				// The client that sent this message is still alive
 				markClientAsSeen(this.cm.getFrom());
 
-				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())) {
+				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())
+						&& showAliveMessages) {
 					display("Got 'I'm Alive' message from " + cm.getFrom());
 					continue; // That's all for this loop iteration.
 				}
@@ -606,18 +610,22 @@ public class MessagingServer {
 					if (listOfMessagingClients.size() == 0)
 						continue;
 
+					// This boolean turns on the diagnostic message (in ClientThread.run()) that echos when a client says
+					// "I am alive"
+					showAliveMessages = (sleepPeriod == 1000L) || (lastPrint + 13 * ONE_MINUTE) < System.currentTimeMillis();
+					
+					// Send the "Is (this client) Alive" message
 					broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME,
 							listOfMessagingClients.get(nextClient).username));
 
-					// sleepPeriod = (sleepPeriod > FIFTEEN_MINUTES ? FIFTEEN_MINUTES : sleepPeriod * 2);
 					nextClient = (++nextClient) % listOfMessagingClients.size();
 					if (nextClient == 0) {
-						performDiagnostics(true); //lastPrint + FIFTEEN_MINUTES < System.currentTimeMillis());
+						performDiagnostics(lastPrint + FIFTEEN_MINUTES < System.currentTimeMillis());
 						// See each client once in five minutes ...
 						sleepPeriod = -10L + 5 * ONE_MINUTE / (long) listOfMessagingClients.size();
-						if (sleepPeriod < 1000L)
+						if (sleepPeriod < 1001L)
 							// But do not send out these messages faster than 1Hz
-							sleepPeriod = 1000L;
+							sleepPeriod = 1001L;
 					}
 				}
 			}
