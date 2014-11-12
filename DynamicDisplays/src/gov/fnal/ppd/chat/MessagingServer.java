@@ -14,7 +14,10 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -433,7 +436,8 @@ public class MessagingServer {
 	private Thread				showClientList			= null;
 	private long				startTime				= System.currentTimeMillis();
 
-	private long				tooOldTime				= 5 * ONE_MINUTE;
+	private final long			sleepPeriodBtwPings		= 2000L;
+	private final long			tooOldTime				= 1000L * sleepPeriodBtwPings;
 
 	protected int				totalMesssagesHandled	= 0;
 
@@ -608,37 +612,40 @@ public class MessagingServer {
 	 */
 	private void startPinger() {
 		new Thread("Pinger") {
-			public long	sleepPeriod	= 1000L;
-			int			nextClient	= 0;
-			long		lastPrint	= System.currentTimeMillis();
+			private int				nextClient	= 0;
+			private long			lastPrint	= System.currentTimeMillis();
+			private List<Integer>	randomOrder	= new ArrayList<Integer>();
 
 			public void run() {
 				catchSleep(15000L); // Wait a bit before starting the diagnostics
 
 				while (keepGoing) {
-					catchSleep(sleepPeriod);
+					catchSleep(sleepPeriodBtwPings);
 					if (listOfMessagingClients.size() == 0)
 						continue;
 
+					if (randomOrder.size() != listOfMessagingClients.size()) {
+						randomOrder.clear();
+						for (int i = 0; i < listOfMessagingClients.size(); i++)
+							randomOrder.add(i);
+						Collections.shuffle(randomOrder);
+					}
 					// This boolean turns on the diagnostic message (in ClientThread.run()) that echos when a client says
 					// "I am alive"
-					showAliveMessages = (sleepPeriod == 1000L) || (lastPrint + 13 * ONE_MINUTE) < System.currentTimeMillis();
+					showAliveMessages = (lastPrint + 13L * ONE_MINUTE) < System.currentTimeMillis();
 
 					// Send the "Is (this client) Alive" message
 					broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME,
-							listOfMessagingClients.get(nextClient).username));
+							listOfMessagingClients.get(randomOrder.get(nextClient)).username));
 
 					nextClient = (++nextClient) % listOfMessagingClients.size();
 					if (nextClient == 0) {
 						boolean old = lastPrint + FIFTEEN_MINUTES < System.currentTimeMillis();
 						performDiagnostics(old);
-						// See each client once in five minutes ...
-						sleepPeriod = -10L + 5 * ONE_MINUTE / (long) listOfMessagingClients.size();
-						if (sleepPeriod < 1001L)
-							// But do not send out these messages faster than 1Hz
-							sleepPeriod = 1001L;
+
 						if (old)
 							lastPrint = System.currentTimeMillis();
+						Collections.shuffle(randomOrder);
 					}
 				}
 			}
