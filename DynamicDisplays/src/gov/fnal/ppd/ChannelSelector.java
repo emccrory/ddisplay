@@ -1,7 +1,5 @@
 package gov.fnal.ppd;
 
-import static gov.fnal.ppd.signage.util.Util.catchSleep;
-
 import static gov.fnal.ppd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.GlobalVariables.IS_PUBLIC_CONTROLLER;
@@ -10,6 +8,7 @@ import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.displayList;
 import static gov.fnal.ppd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.GlobalVariables.locationCode;
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 import static gov.fnal.ppd.signage.util.Util.launchMemoryWatcher;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
@@ -24,6 +23,7 @@ import gov.fnal.ppd.signage.changer.DetailedInformationGrid;
 import gov.fnal.ppd.signage.changer.DisplayButtons;
 import gov.fnal.ppd.signage.changer.DisplayChangeEvent;
 import gov.fnal.ppd.signage.changer.DisplayListFactory;
+import gov.fnal.ppd.signage.changer.ImageGrid;
 import gov.fnal.ppd.signage.changer.InformationBox;
 import gov.fnal.ppd.signage.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.signage.display.DisplayFacade;
@@ -236,6 +236,12 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			display.addListener(grid);
 			displayTabPane.add(grid, " Videos ");
 
+			// Not working yet (11/12/2014)
+			// grid = new ImageGrid(display, bg);
+			// allGrids.add(grid);
+			// display.addListener(grid);
+			// displayTabPane.add(grid, " Images ");
+
 			grid = new DetailedInformationGrid(display, bg, -1);
 			allGrids.add(grid);
 			display.addListener(grid);
@@ -373,7 +379,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	@Override
 	public void setDisplayIsAlive(int number, boolean alive) {
-		// System.out.println(ChannelSelector.class.getSimpleName() + ": Display " + number + (alive ? " is alive" : " is NOT alive"));
+		// System.out.println(ChannelSelector.class.getSimpleName() + ": Display " + number + (alive ? " is alive" :
+		// " is NOT alive"));
 		displaySelector.setIsAlive(number, alive);
 
 		// Enable the Channel buttons, too

@@ -14,7 +14,11 @@ import java.awt.event.ActionListener;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 
 /**
  * Base class for the display grids that hold the channel buttons in the ChannelSelector
@@ -25,15 +29,15 @@ import javax.swing.JPanel;
  */
 public abstract class ChannelButtonGrid extends JPanel implements ActionListener {
 
-	private static final long		serialVersionUID		= -3589107759837109844L;
+	private static final long		serialVersionUID	= -3589107759837109844L;
 
 	protected final Display			display;
 
 	protected DisplayButtonGroup	bg;
 
-	protected JPanel				expGrid;
+	protected JComponent			expGrid;
 
-	private static ReentrantLock	imBusy					= new ReentrantLock();
+	private static ReentrantLock	imBusy				= new ReentrantLock();
 
 	/**
 	 * @param display
@@ -95,7 +99,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 					} // else another instance is doing it so I don't have to
 				break;
 			case CHANGE_COMPLETED:
-				bg.enableAll();				
+				bg.enableAll();
 				break;
 			case ALIVE:
 				setAlive(true);
@@ -127,13 +131,36 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	 * @return Does this panel contain the selected channel?
 	 */
 	public boolean hasSelectedChannel() {
-		JPanel outer = (JPanel) getComponent(0);
-		JPanel expGrid = (JPanel) outer.getComponent(0);
-		for (Component C : expGrid.getComponents())
-			if (C instanceof DDButton) {
-				if (((DDButton) C).isSelected())
-					return true;
+		Object o1 = getComponent(0);
+		if (o1 instanceof JPanel) {
+			JPanel outer = (JPanel) o1;
+			Object o2 = outer.getComponent(0);
+			if (o2 instanceof JPanel) {
+				JPanel expGrid = (JPanel) o2;
+				for (Component C : expGrid.getComponents())
+					if (C instanceof DDButton) {
+						if (((DDButton) C).isSelected())
+							return true;
+					}
+			} else if (o2 instanceof DDButton) {
+				for (Component C : outer.getComponents())
+					if (C instanceof DDButton) {
+						if (((DDButton) C).isSelected())
+							return true;
+					}
 			}
+		} else if (o1 instanceof JScrollPane) {
+			JViewport internal = (JViewport) ((JScrollPane) o1).getComponent(0);
+			JPanel c0 = (JPanel) internal.getComponent(0);
+			for (Component C : c0.getComponents())
+				if (C instanceof Box) {
+					JComponent c1 = (JComponent) ((Box) C).getComponent(0);
+					if (c1 instanceof DDButton)
+						if (((DDButton) c1).isSelected())
+							return true;
+				}
+		}
+
 		return false;
 	}
 

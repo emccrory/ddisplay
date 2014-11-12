@@ -4,6 +4,7 @@ import static gov.fnal.ppd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.GlobalVariables.DATABASE_SERVER_NAME;
 import gov.fnal.ppd.signage.DatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageContent;
+import gov.fnal.ppd.signage.channel.ChannelImage;
 import gov.fnal.ppd.signage.channel.ChannelImpl;
 
 import java.net.URI;
@@ -119,9 +120,9 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 				String descr = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
 				String exp = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Experiment"));
 
-
 				String url = DATABASE_SERVER_NAME + "/XOC/portfolioOneSlide.php?photo=" + name + "&caption=" + URLEncoder.encode(descr);
-				SignageContent c = new ChannelImpl(name, ChannelCategory.IMAGE, descr, new URI(url), 0);
+				SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
+				
 				put(name, c);
 				rs.next();
 				count++;

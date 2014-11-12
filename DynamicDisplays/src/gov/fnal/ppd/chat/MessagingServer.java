@@ -196,14 +196,24 @@ public class MessagingServer {
 					e.printStackTrace();
 					break; // End the while(this.thisSocketIsActive) loop
 				} catch (Exception e) {
-					display(this.username + ": Exception reading input stream -- " + e + "; The received message was '" + read
-							+ "' (type=" + read.getClass().getCanonicalName() + ")");
-					System.err.println(this.username + ": Exception reading input stream -- " + e + "; The received message was '"
-							+ read + "' (type=" + read.getClass().getCanonicalName() + ")"); // Put this here to assure that the
-					// stack-trace and this message are together
-					// in the console (debugging)
-					e.printStackTrace();
+					String dis = this.username + ": Exception reading input stream -- " + e + "; The received message was '" + read
+							+ "' (type=" + read.getClass().getCanonicalName() + ")";
+					StackTraceElement[] trace = e.getStackTrace();
+					dis += "\n" + trace[trace.length - 1]; // Print the last line (reducing crap in the printout)
+
+					display(dis);
+					System.err.println(dis);
+
 					break; // End the while(this.thisSocketIsActive) loop
+
+					/*
+					 * There is something odd going on here. Nov/12/2014
+					 * 
+					 * It seems that every time a lot of clients try to connect at once, for example when a new instance of the
+					 * ChannelSelector comes up, this causes all of the existing connections to read an "EOF" here ()sometimes
+					 * worse, but it seems to mostly be EOF). Everything recovers (as it is designed to do), but this is a bug
+					 * waiting to bite us harder. Some say that EOF is ignorable, but others say "No way!"
+					 */
 				}
 
 				// The client that sent this message is still alive
@@ -613,19 +623,22 @@ public class MessagingServer {
 					// This boolean turns on the diagnostic message (in ClientThread.run()) that echos when a client says
 					// "I am alive"
 					showAliveMessages = (sleepPeriod == 1000L) || (lastPrint + 13 * ONE_MINUTE) < System.currentTimeMillis();
-					
+
 					// Send the "Is (this client) Alive" message
 					broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME,
 							listOfMessagingClients.get(nextClient).username));
 
 					nextClient = (++nextClient) % listOfMessagingClients.size();
 					if (nextClient == 0) {
-						performDiagnostics(lastPrint + FIFTEEN_MINUTES < System.currentTimeMillis());
+						boolean old = lastPrint + FIFTEEN_MINUTES < System.currentTimeMillis();
+						performDiagnostics(old);
 						// See each client once in five minutes ...
 						sleepPeriod = -10L + 5 * ONE_MINUTE / (long) listOfMessagingClients.size();
 						if (sleepPeriod < 1001L)
 							// But do not send out these messages faster than 1Hz
 							sleepPeriod = 1001L;
+						if (old)
+							lastPrint = System.currentTimeMillis();
 					}
 				}
 			}

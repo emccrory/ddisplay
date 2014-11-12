@@ -73,7 +73,7 @@ public class PublicInformationGrid extends ChannelButtonGrid {
 	/**
 	 * @return The panel that contains all the buttons
 	 */
-	public JPanel makeExpGrid() {
+	public JComponent makeExpGrid() {
 		GridLayout g = new GridLayout(0, 2);
 		if (!SHOW_IN_WINDOW) {
 			g.setHgap(10);

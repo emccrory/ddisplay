@@ -42,7 +42,7 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		add(makeExpGrid(set));
 	}
 
-	protected JPanel makeExpGrid(int set) {
+	protected JComponent makeExpGrid(int set) {
 		ChannelCategory cat = ChannelCategory.MISCELLANEOUS;
 		switch (set) {
 		case 0:
@@ -63,10 +63,13 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		case 5:
 			cat = ChannelCategory.VIDEOS;
 			break;
-
 		case 6:
 			cat = ChannelCategory.ACCELERATOR;
 			break;
+		case 7:
+			cat = ChannelCategory.IMAGE;
+			break;
+			
 		default:
 			cat = ChannelCategory.MISCELLANEOUS;
 			break;
