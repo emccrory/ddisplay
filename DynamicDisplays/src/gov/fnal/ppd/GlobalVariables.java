@@ -157,17 +157,21 @@ public class GlobalVariables {
 	 */
 	public static final long		ONE_SECOND				= 1000L;
 	/**
-	 * One second, expressed in milliseconds (e.g., 1000L)
+	 * One Minute, expressed in milliseconds (e.g., 60000L)
 	 */
 	public static final long		ONE_MINUTE				= 60L * ONE_SECOND;
 	/**
-	 * 15 minutes, expressed in milliseconds
+	 * 15 minutes, expressed in milliseconds (e.g., 900000L)
 	 */
 	public static final long		FIFTEEN_MINUTES			= 15L * ONE_MINUTE;
 	/**
-	 * One second, expressed in milliseconds (e.g., 1000L)
+	 * One hour, expressed in milliseconds (e.g., 3600000L)
 	 */
 	public static final long		ONE_HOUR				= 60L * ONE_MINUTE;
+	/**
+	 * One day (24 hours), expressed in milliseconds (e.g., 86400000L)
+	 */
+	public static final long		ONE_DAY					= 24L * ONE_HOUR;
 	/**
 	 * Used in ChannelSelector to go to the splash screen
 	 */

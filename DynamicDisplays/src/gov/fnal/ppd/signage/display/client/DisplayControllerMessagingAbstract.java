@@ -5,7 +5,7 @@ import static gov.fnal.ppd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
-import static gov.fnal.ppd.signage.util.Util.makeEmptyChannel;
+import static gov.fnal.ppd.signage.util.Util.*;
 import gov.fnal.ppd.chat.MessageCarrier;
 import gov.fnal.ppd.chat.MessagingClient;
 import gov.fnal.ppd.signage.Channel;
@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -277,7 +278,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
-			System.exit(-1);
+			return failSafeVersion(clazz);
 		}
 
 		// Use ARM to simplify these try blocks.
@@ -336,23 +337,35 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
 					System.err.println("\n** Cannot continue! **\nExit");
 					connection.close();
-					System.exit(-1);
+					return failSafeVersion(clazz);
 				}
-
-				System.err.println("Cannot create an instance of DisplayAsStandaloneBrowser!");
-				if (connection != null)
-					connection.close();
-				System.exit(-1);
 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-			System.exit(1);
+			return failSafeVersion(clazz);
 		}
 
 		System.err.println("Control passed to a place that is impossible to reach!");
+		return null;
+	}
+
+	private static DisplayControllerMessagingAbstract failSafeVersion(Class<?> clazz) {
+		Constructor<?> cons;
+		try {
+			cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class,
+					SignageType.class);
+			DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] {
+					"Failsafe Display", 99, 0, 0, "Failsafe location", Color.red, SignageType.XOC });
+			d.initiate();
+			d.setDefaultContent(makeEmptyChannel().getURI().toURL().toString());
+			return d;
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
+				| IllegalArgumentException | InvocationTargetException | MalformedURLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

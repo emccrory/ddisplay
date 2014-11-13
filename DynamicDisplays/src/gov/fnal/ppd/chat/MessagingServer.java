@@ -2,6 +2,7 @@ package gov.fnal.ppd.chat;
 
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.MESSAGING_SERVER_PORT;
+import static gov.fnal.ppd.GlobalVariables.ONE_DAY;
 import static gov.fnal.ppd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.GlobalVariables.ONE_SECOND;
@@ -146,7 +147,7 @@ public class MessagingServer {
 					display("Expecting a String but got nothing (null)");
 				} else
 					display("Expecting a String but got a " + read.getClass().getSimpleName() + " [" + read + "]");
-				e.printStackTrace();
+				printStackTrace(e);
 			}
 			this.date = new Date().toString();
 		}
@@ -157,19 +158,19 @@ public class MessagingServer {
 				if (this.sOutput != null)
 					this.sOutput.close();
 			} catch (Exception e) {
-				e.printStackTrace();
+				printStackTrace(e);
 			}
 			try {
 				if (this.sInput != null)
 					this.sInput.close();
 			} catch (Exception e) {
-				e.printStackTrace();
+				printStackTrace(e);
 			}
 			try {
 				if (this.socket != null)
 					this.socket.close();
 			} catch (Exception e) {
-				e.printStackTrace();
+				printStackTrace(e);
 			}
 			this.sInput = null;
 			this.sOutput = null;
@@ -196,7 +197,7 @@ public class MessagingServer {
 				} catch (ClassNotFoundException e) {
 					display(this.username + ": A class not found exception -- " + e + ". returned object of type "
 							+ read.getClass().getCanonicalName());
-					e.printStackTrace();
+					printStackTrace(e);
 					break; // End the while(this.thisSocketIsActive) loop
 				} catch (Exception e) {
 					String dis = this.username + ": Exception reading input stream -- " + e + "; The received message was '" + read
@@ -205,7 +206,7 @@ public class MessagingServer {
 					dis += "\n" + trace[trace.length - 1]; // Print the last line (reducing crap in the printout)
 
 					display(dis);
-					System.err.println(dis);
+					error(dis);
 
 					break; // End the while(this.thisSocketIsActive) loop
 
@@ -323,10 +324,10 @@ public class MessagingServer {
 			catch (IOException e) {
 				display("IOException sending message to " + this.username);
 				display(e.toString());
-				e.printStackTrace();
+				printStackTrace(e);
 			} catch (Exception e) {
 				display(e.getLocalizedMessage() + ", Error sending message to " + this.username);
-				e.printStackTrace();
+				printStackTrace(e);
 			}
 			return true;
 		}
@@ -423,7 +424,7 @@ public class MessagingServer {
 	// an ArrayList to keep the list of the Client
 	// private ArrayList<ClientThread> al; This Template is supposed to help with ConcurrentModificationException
 	ClientThreadList			listOfMessagingClients;
-	private Object				broadcasting			= "For synchronization";
+	private Object				broadcasting			= "An Object for Java synchronization";
 	// the boolean that will be turned of to stop the server
 	private boolean				keepGoing;
 
@@ -447,11 +448,9 @@ public class MessagingServer {
 	 * @param port
 	 */
 	public MessagingServer(int port) {
-		// the port
 		this.port = port;
-		// to display hh:mm:ss
 		sdf = new SimpleDateFormat("dd MMM HH:mm:ss");
-		// ArrayList for the Client list
+		// ArrayList of the Clients
 		listOfMessagingClients = new ClientThreadList();
 		launchMemoryWatcher();
 	}
@@ -467,7 +466,7 @@ public class MessagingServer {
 	 *            -- The message to broadcast
 	 */
 	protected void broadcast(MessageCarrier message) {
-		synchronized (broadcasting) {
+		synchronized (broadcasting) { // Only send one message at a time
 			// we loop in reverse order in case we would have to remove a Client because it has disconnected
 			for (int i = listOfMessagingClients.size(); --i >= 0;) {
 				ClientThread ct = listOfMessagingClients.get(i);
@@ -478,50 +477,64 @@ public class MessagingServer {
 						display("Disconnected Client " + ct.username + " removed from list.");
 					}
 			}
-		}
+		} 
 	}
 
 	/**
 	 * Display an event (not a message) to the console or the GUI
 	 */
 	protected void display(String msg) {
-		synchronized (sdf) {
+		synchronized (sdf) { // Only print one message at a time
 			String time = sdf.format(new Date()) + " " + msg;
 			System.out.println(time);
 		}
 	}
+	
+	protected void error(String msg) {
+		synchronized (sdf) { // Only print one message at a time
+			String time = sdf.format(new Date()) + " " + msg;
+			System.err.println(time);
+		}
+	}
+	
+	protected void printStackTrace(Exception e) {
+		synchronized (sdf) { // Only print one message at a time
+			e.printStackTrace();
+		}
+	}
+		
 
 	protected void performDiagnostics(boolean show) {
-		// check for old clientS (lastSeen)
+		// check for old clientS (using ClientThread.lastSeen)
 
 		String oldestName = "";
 		long oldestTime = System.currentTimeMillis() + FIFTEEN_MINUTES;
 		for (ClientThread CT : listOfMessagingClients) {
-			if (CT.getLastSeen() < oldestTime) {
+			if (show && CT.getLastSeen() < oldestTime) {
 				oldestTime = CT.getLastSeen();
 				oldestName = CT.username + ", last seen " + new Date(CT.getLastSeen());
 			}
 			if ((System.currentTimeMillis() - CT.getLastSeen()) > tooOldTime) {
 				listOfMessagingClients.remove(CT);
 				CT.close();
-				display("Removed Client " + CT.username + " removed from list because its last response was "
-						+ new Date(CT.lastSeen));
+				display("Removed Client " + CT.username + " because its last response was more than " + (tooOldTime / 1000L)
+						+ " seconds ago: " + new Date(CT.lastSeen));
+				CT = null;  // Not really necessary, but it makes me feel better.
 			}
 		}
 
 		if (show) {
-			long longAliveTime = System.currentTimeMillis() - startTime;
-			long hours = longAliveTime / ONE_HOUR;
-			long days = hours / 24L;
-			hours = hours % 24L;
-			long minutes = (longAliveTime % ONE_HOUR) / ONE_MINUTE;
-			long seconds = (longAliveTime % (ONE_MINUTE)) / ONE_SECOND;
+			long aliveTime = System.currentTimeMillis() - startTime;
+			long days = aliveTime / ONE_DAY;
+			long hours = (aliveTime % ONE_DAY) / ONE_HOUR;
+			long mins = (aliveTime % ONE_HOUR) / ONE_MINUTE;
+			long secs = (aliveTime % ONE_MINUTE) / ONE_SECOND;
 
-			display(MessagingServer.class.getSimpleName() + " has been alive " + days + " days, " + hours + " hrs " + minutes
-					+ " min " + seconds + " sec -- \n " + "                       " + numConnectionsSeen
-					+ " connections accepted, " + listOfMessagingClients.size() + " client"
-					+ (listOfMessagingClients.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
-					+ " messages handled\n" + "                       Oldest client is " + oldestName);
+			display(MessagingServer.class.getSimpleName() + " has been alive " + days + " days, " + hours + " hrs " + mins
+					+ " min " + secs + " sec -- \n " + "                       " + numConnectionsSeen + " connections accepted, "
+					+ listOfMessagingClients.size() + " client" + (listOfMessagingClients.size() != 1 ? "s" : "")
+					+ " connected right now, " + totalMesssagesHandled + " messages handled\n"
+					+ "                       Oldest client is " + oldestName);
 		}
 	}
 
@@ -556,7 +569,7 @@ public class MessagingServer {
 					// connect at the same time--either the Channel Selector or when all the Displays reboot.
 
 					showClientList = new Thread("ShowClientList") {
-						long	WAIT_FOR_ALL_TO_CONNECT_TIME	= 3000;
+						long	WAIT_FOR_ALL_TO_CONNECT_TIME	= 3000L;
 
 						public void run() {
 							catchSleep(WAIT_FOR_ALL_TO_CONNECT_TIME);
@@ -587,23 +600,23 @@ public class MessagingServer {
 						tc.socket.close();
 					} catch (IOException ioE) {
 						// not much I can do
-						ioE.printStackTrace();
+						printStackTrace(ioE);
 					}
 				}
 			} catch (Exception e) {
 				display("Exception closing the server and clients: " + e);
-				e.printStackTrace();
+				printStackTrace(e);
 			}
 		}
 		// something went wrong
 		catch (IOException e) {
-			String msg = sdf.format(new Date()) + " Exception on new ServerSocket: " + e + "\n";
+			String msg = sdf.format(new Date()) + " IOException on new ServerSocket: " + e + "\n";
 			display(msg);
-			e.printStackTrace();
+			printStackTrace(e);
 		} catch (Exception e) {
 			String msg = sdf.format(new Date()) + " Exception on new ServerSocket: " + e + "\n";
 			display(msg);
-			e.printStackTrace();
+			printStackTrace(e);
 		}
 	}
 
@@ -620,7 +633,9 @@ public class MessagingServer {
 				catchSleep(15000L); // Wait a bit before starting the diagnostics
 
 				while (keepGoing) {
+
 					catchSleep(sleepPeriodBtwPings);
+
 					if (listOfMessagingClients.size() == 0)
 						continue;
 
@@ -630,13 +645,24 @@ public class MessagingServer {
 							randomOrder.add(i);
 						Collections.shuffle(randomOrder);
 					}
-					// This boolean turns on the diagnostic message (in ClientThread.run()) that echos when a client says
-					// "I am alive"
+					/*
+					 * This boolean turns on the diagnostic message (in ClientThread.run()) that echos when a client says
+					 * "I am alive". Turn it on for two minutes, just before the diagnostic is printed, which would show about 60
+					 * such messages (at a period of 2Hz). today, there are ~40 clients connected, so we'll see them all
+					 */
 					showAliveMessages = (lastPrint + 13L * ONE_MINUTE) < System.currentTimeMillis();
 
-					// Send the "Is (this client) Alive" message
+					// Send the "Are You Alive?" message. (Note that the order of selection is randomized)
 					broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME,
 							listOfMessagingClients.get(randomOrder.get(nextClient)).username));
+
+					/*
+					 * TODO Maybe the right way to do this is to broadcast a "Are You Alive" message (really, broadcast with one
+					 * message to anyone that may be listening) and capture the results. It might be nice to have each client wait
+					 * some random number of milliseconds so the messages come in with few(er) collisions. The method here works,
+					 * but it takes some time to go through all the clients. This delay means that it is a long time before we
+					 * actually learn that a client is not there.
+					 */
 
 					nextClient = (++nextClient) % listOfMessagingClients.size();
 					if (nextClient == 0) {
@@ -645,6 +671,8 @@ public class MessagingServer {
 
 						if (old)
 							lastPrint = System.currentTimeMillis();
+						
+						// Thank you, Collections, for making this so easy.
 						Collections.shuffle(randomOrder);
 					}
 				}
@@ -664,7 +692,7 @@ public class MessagingServer {
 			new Socket("localhost", port);
 		} catch (Exception e) {
 			// nothing I can really do
-			e.printStackTrace();
+			printStackTrace(e);
 		}
 	}
 
