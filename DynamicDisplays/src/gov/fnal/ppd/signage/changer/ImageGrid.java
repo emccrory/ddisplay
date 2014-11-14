@@ -30,9 +30,26 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
+/**
+ * Create a tab of images that can be shown on a Display. This is a very different way of giving user content to see because it ties
+ * up the URL from within this class (as opposed to the DB containing the URLs and classes like this just simply read them).
+ * 
+ * This is likely to be inappropriate when we have thousands of images: All the images are read from the server when the GUi starts.
+ * At 151 images (today), it takes the better part of a minute to complete. It may be better to launch this as a separate
+ * application, when needed.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014
+ * 
+ */
 public class ImageGrid extends DetailedInformationGrid {
 
+	private static final long	serialVersionUID	= 3102445872732142334L;
+
 	private static class JWhiteLabel extends JLabel {
+
+		private static final long	serialVersionUID	= -4821299908662876531L;
+
 		public JWhiteLabel(String text) {
 			super("  " + trunc(text) + " ");
 			setOpaque(true);
@@ -42,9 +59,10 @@ public class ImageGrid extends DetailedInformationGrid {
 
 	private static class DrawingPanel extends JPanel {
 
-		private static Map<String, ImageIcon>	cache		= new HashMap<String, ImageIcon>();
+		private static final long				serialVersionUID	= 8963747596403311688L;
+		private static Map<String, ImageIcon>	cache				= new HashMap<String, ImageIcon>();
 		private ImageIcon						icon;
-		private final int						LONG_EDGE	= (SHOW_IN_WINDOW ? 300 : 450);
+		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 300 : 450);
 
 		public DrawingPanel(String url, Color bgColor) {
 			int height = LONG_EDGE;
@@ -95,7 +113,13 @@ public class ImageGrid extends DetailedInformationGrid {
 	private static final Set<SignageContent>	list		= ChannelCatalogFactory.getInstance().getChannelCatalog(
 																	ChannelCategory.IMAGE);
 
-	public ImageGrid(Display display, DisplayButtonGroup bg) {
+	/**
+	 * Create this tab for the ChannelSelector GUI
+	 * 
+	 * @param display
+	 * @param bg
+	 */
+	public ImageGrid(final Display display, final DisplayButtonGroup bg) {
 		super(display, bg, 7);
 	}
 
