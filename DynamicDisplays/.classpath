@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.0.3-bin.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.5.8.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.5.8.jar"/>
+	<classpathentry kind="lib" path="lib/selenium-server-standalone-2.44.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

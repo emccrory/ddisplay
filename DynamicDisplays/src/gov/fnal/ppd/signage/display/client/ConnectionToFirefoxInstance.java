@@ -32,7 +32,7 @@ public class ConnectionToFirefoxInstance {
 	private PrintWriter								out;
 	private final int								port;
 
-	private boolean									debug						= false;
+	private boolean									debug						= true;
 	private int										displayID;
 
 	private String									colorCode;
@@ -170,6 +170,13 @@ public class ConnectionToFirefoxInstance {
 
 		send(s);
 		System.out.println("--Sent: [[" + s + "]]");
+
+		try {
+			waitForServer();
+		} catch (IOException e) {
+			e.printStackTrace();
+			connected = false;
+		}
 	}
 
 	/**
@@ -187,6 +194,13 @@ public class ConnectionToFirefoxInstance {
 
 		send(s);
 		System.out.println("--Sent: [[" + s + "]]");
+
+		try {
+			waitForServer();
+		} catch (IOException e) {
+			e.printStackTrace();
+			connected = false;
+		}
 	}
 
 	/**
@@ -271,12 +285,22 @@ public class ConnectionToFirefoxInstance {
 			int numRead = in.read(cbuf, 0, DEFAULT_BUFFER_SIZE);
 			lastReplyLine = new String(cbuf);
 			if (debug)
-				System.out.println(getClass().getSimpleName() + " --DEBUG-- Got " + numRead + " chars from server: "
-						+ lastReplyLine);
+				System.out.println(getClass().getSimpleName() + ": " + numRead + " chars from server: " + lastReplyLine);
 
-			connected = !lastReplyLine.toUpperCase().contains("\"ERROR\""); // Probably not the right way to know if we are no
-																			// longer connected
+			/*
+			 * It looks like the reply expected here is something like this:
+			 * 
+			 * {"result":"<whatever we just sent>"}
+			 * 
+			 * If you send more than one line, it sometimes sends more than one {"result":"<value>"} pair, ending in a new line.
+			 */
+
+			/*
+			 * I have never seen anything returned except the thing described above. So this is a guess.
+			 */
+			connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
 		}
+		System.out.println("Returning from waitForServer(), connected=" + connected);
 		return connected;
 	}
 
