@@ -1,7 +1,7 @@
 package gov.fnal.ppd.signage.changer;
 
 import static gov.fnal.ppd.GlobalVariables.DATABASE_NAME;
-import static gov.fnal.ppd.GlobalVariables.DATABASE_SERVER_NAME;
+import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
 import gov.fnal.ppd.signage.DatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.channel.ChannelImage;
@@ -120,7 +120,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 				String descr = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
 				String exp = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Experiment"));
 
-				String url = DATABASE_SERVER_NAME + "/XOC/portfolioOneSlide.php?photo=" + name + "&caption=" + URLEncoder.encode(descr);
+				String url = "http://" + WEB_SERVER_NAME + "/XOC/portfolioOneSlide.php?photo=" + name + "&caption=" + URLEncoder.encode(descr);
 				SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
 				
 				put(name, c);
@@ -134,7 +134,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		System.out.println(getClass().getSimpleName() + ": Found " + count + " channels.");
+		System.out.println(getClass().getSimpleName() + ": Found " + count + " images.");
 	}
 
 	public Map<String, SignageContent> getPublicChannels() {

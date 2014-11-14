@@ -237,10 +237,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			displayTabPane.add(grid, " Videos ");
 
 			// Not working yet (11/12/2014)
-			// grid = new ImageGrid(display, bg);
-			// allGrids.add(grid);
-			// display.addListener(grid);
-			// displayTabPane.add(grid, " Images ");
+			grid = new ImageGrid(display, bg);
+			allGrids.add(grid);
+			display.addListener(grid);
+			displayTabPane.add(grid, " Images ");
 
 			grid = new DetailedInformationGrid(display, bg, -1);
 			allGrids.add(grid);

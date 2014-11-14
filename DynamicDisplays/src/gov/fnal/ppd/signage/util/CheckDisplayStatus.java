@@ -41,7 +41,7 @@ public class CheckDisplayStatus extends Thread {
 	}
 
 	public void run() {
-		catchSleep(25 * index); // Put in a slight delay to get the Pings to each Display offset from each other a little
+		catchSleep(25 * index + 20000L); // Put in a delay to get the Pings to each Display offset from each other a little
 								// bit.
 		Connection connection = DisplayListDatabaseRemote.getConnection();
 		while (true) {
