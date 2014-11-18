@@ -23,6 +23,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -59,7 +60,7 @@ public class ImageGrid extends DetailedInformationGrid {
 			setOpaque(true);
 			setAlignmentX(JPanel.LEFT_ALIGNMENT);
 		}
-		
+
 		public JWhiteLabel(String text, float size) {
 			this(text);
 			setFont(getFont().deriveFont(size));
@@ -71,7 +72,7 @@ public class ImageGrid extends DetailedInformationGrid {
 		private static final long				serialVersionUID	= 8963747596403311688L;
 		private static Map<String, ImageIcon>	cache				= new HashMap<String, ImageIcon>();
 		private ImageIcon						icon;
-		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 200 : 350);
+		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 300 : 350);
 
 		public DrawingPanel(String url, Color bgColor) {
 			int height = LONG_EDGE;
@@ -177,9 +178,21 @@ public class ImageGrid extends DetailedInformationGrid {
 				System.out.print(".");
 
 			// TODO Put the buttons into the grid after sorting on the experiment name.
-			
+			TreeSet<SignageContent> newList = new TreeSet<SignageContent>(new Comparator<SignageContent>() {
+				public int compare(SignageContent o1, SignageContent o2) {
+					if (o1 instanceof ChannelImage && o2 instanceof ChannelImage) {
+						ChannelImage c1 = (ChannelImage) o1;
+						ChannelImage c2 = (ChannelImage) o2;
+						return (c1.getExp() + c1.getName()).toUpperCase().compareTo((c2.getExp() + c2.getName()).toUpperCase());
+					}
+					return o1.getName().compareTo(o2.getName());
+				}
+			});
+			for (SignageContent P : list)
+				newList.add(P);
+
 			String colorString = String.format("%06X", display.getPreferredHighlightColor().getRGB() & 0xFFFFFF);
-			for (SignageContent content : list)
+			for (SignageContent content : newList)
 				try {
 					ChannelImage imageChannel = (ChannelImage) content;
 					String name = imageChannel.getName(); // This is the URL end
