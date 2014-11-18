@@ -141,7 +141,7 @@ public class ImageGrid extends DetailedInformationGrid {
 	private static final Set<SignageContent>	list				= ChannelCatalogFactory.getInstance().getChannelCatalog(
 																			ChannelCategory.IMAGE);
 
-	private static final int					MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 37 : 50);
+	private static final int					MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 33 : 46);
 
 	/**
 	 * Create this tab for the ChannelSelector GUI

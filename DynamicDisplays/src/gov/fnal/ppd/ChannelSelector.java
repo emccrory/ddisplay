@@ -189,13 +189,16 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		ProgressMonitor progressMonitor = new ProgressMonitor(null, "Building Channel Selector GUI", "", 0, displayList.size()
 				* (1 + categories.length));
+		String note = "Building image database";
+		progressMonitor.setNote(note);
 		progressMonitor.setProgress(0);
-		
+
 		if (categories.length != labels.length)
 			throw new RuntimeException();
 
 		int index = 0;
 		for (final Display display : displayList) {
+			progressMonitor.setNote(note);
 			progressMonitor.setProgress(index * 5);
 
 			// NOTE: Each display has the same set of tabs and channels to offer.
@@ -219,6 +222,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				display.addListener(grid);
 				String sp = SHOW_IN_WINDOW ? "" : " ";
 				displayTabPane.add(grid, sp + labels[cat] + sp);
+				progressMonitor.setNote(note);
 				progressMonitor.setProgress(index * 5 + cat);
 			}
 
@@ -325,6 +329,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			displayChannelPanel.add(inner, display.toString());
 
+			note = "Building the rest of the GUI";
+			progressMonitor.setNote(note);
 			progressMonitor.setProgress(index * 5 + categories.length);
 
 			final int fi = index;
