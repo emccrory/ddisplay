@@ -74,7 +74,7 @@ public class InformationBox extends JFrame {
 		h.add(new MyLabel(message2, scale * 24.0f));
 		h.add(Box.createRigidArea(new Dimension(10, 10)));
 
-		final MyLabel timeLeft = new MyLabel("This will disappear in 10 seconds", 10.0f);
+		final MyLabel timeLeft = new MyLabel("This will disappear in 5 seconds", 10.0f);
 		h.add(timeLeft);
 		h.add(Box.createRigidArea(new Dimension(10, 10)));
 
@@ -97,7 +97,7 @@ public class InformationBox extends JFrame {
 
 		new Thread(this.getClass().getSimpleName() + "_Removal") {
 			public void run() {
-				for (int i = 10; i > 0; i--) {
+				for (int i = 5; i > 0; i--) {
 					timeLeft.setText("This will disappear in " + i + " seconds");
 					catchSleep(1000L);
 				}

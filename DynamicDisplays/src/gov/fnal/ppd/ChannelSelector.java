@@ -158,7 +158,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		displaySelector = new DisplayButtons(cat, this);
 		lastActiveDisplay = displaySelector.getFirstDisplay().toString();
-		initChannelSelectors();
+		// initChannelSelectors();
+		altInitTabs();
 
 		add(displayChannelPanel, BorderLayout.CENTER);
 		if (SHOW_IN_WINDOW) {
@@ -177,11 +178,20 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	private void initChannelSelectors() {
-		// Three (or more) tabs representing Public, First set of Details, Full set of Details (or
-		// something like that) Each Display has its own set of channels.
+		/*
+		 * TODO -- Configure each GUI from the database
+		 * 
+		 * Rather than hard-coding the tabs, and the channels in those tabs, that go onto the GUI, we should read this configuration
+		 * from the database. The motivation is that there will be several different sorts of GUI instances based on where they are.
+		 * That is, the ROC-West GUI will be different from the ROC-East GUI, and they will be different from the GUi that sits in
+		 * the NuMI visitors' area (for example).
+		 */
 
 		int index = 0;
 		for (final Display display : displayList) {
+
+			// NOTE: Eeach display has the same set of tabs and channels to offer.
+
 			final JTabbedPane displayTabPane = new JTabbedPane();
 			listOfDisplayTabbedPanes.add(displayTabPane);
 			displayTabPane.setFont(getFont().deriveFont((SHOW_IN_WINDOW ? 12.0f : 30.0f)));
@@ -195,7 +205,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			final List<ChannelButtonGrid> allGrids = new ArrayList<ChannelButtonGrid>();
 			channelButtonGridList.add(allGrids);
 
-			// ChannelButtonGrid grid = new PublicInformationGrid(display, bg);
 			ChannelButtonGrid grid = new DetailedInformationGrid(display, bg, 0);
 			allGrids.add(grid);
 			display.addListener(grid);
@@ -236,7 +245,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			display.addListener(grid);
 			displayTabPane.add(grid, " Videos ");
 
-			// Not working yet (11/12/2014)
 			grid = new ImageGrid(display, bg);
 			allGrids.add(grid);
 			display.addListener(grid);
@@ -363,6 +371,166 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		}
 
 		new WhoIsInChatRoom(this).start();
+	}
+
+	private void altInitTabs() {
+
+		int[] categories = { 0, 1, 3, 4, 2, 6, 5, -1 };
+		String[] labels = { "Public", "Details", "NOvA", "NuMI", "EXP", "BEAM", "Videos", "MISC" };
+		if (!IS_PUBLIC_CONTROLLER) {
+			categories = new int[] { 0, 1, 5, -1 };
+			labels = new String[] { "Public", "Details", "Videos", "MISC" };
+		}
+
+		if (categories.length != labels.length)
+			throw new RuntimeException();
+
+		int index = 0;
+		for (final Display display : displayList) {
+
+			// NOTE: Each display has the same set of tabs and channels to offer.
+
+			final JTabbedPane displayTabPane = new JTabbedPane();
+			listOfDisplayTabbedPanes.add(displayTabPane);
+			displayTabPane.setFont(getFont().deriveFont((SHOW_IN_WINDOW ? 12.0f : 30.0f)));
+			displayTabPane.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					selectedTab = ((JTabbedPane) e.getSource()).getSelectedIndex();
+				}
+			});
+			DisplayButtonGroup bg = new DisplayButtonGroup();
+
+			final List<ChannelButtonGrid> allGrids = new ArrayList<ChannelButtonGrid>();
+			channelButtonGridList.add(allGrids);
+
+			for (int cat = 0; cat < categories.length; cat++) {
+				ChannelButtonGrid grid = new DetailedInformationGrid(display, bg, categories[cat]);
+				allGrids.add(grid);
+				display.addListener(grid);
+				String sp = SHOW_IN_WINDOW ? "" : " ";
+				displayTabPane.add(grid, sp + labels[cat] + sp);
+			}
+
+			ChannelButtonGrid grid = new ImageGrid(display, bg);
+			allGrids.add(grid);
+			display.addListener(grid);
+			displayTabPane.add(grid, " Images ");
+			
+			final JPanel inner = new JPanel(new BorderLayout());
+			int wid1 = 6;
+			int wid2 = 5;
+			if (SHOW_IN_WINDOW) {
+				wid1 = 2;
+				wid2 = 1;
+			}
+			displayTabPane.addChangeListener(new ChangeListener() {
+
+				@Override
+				public void stateChanged(ChangeEvent arg0) {
+					lastDisplayChange = System.currentTimeMillis();
+					setAllTabs(displayTabPane.getSelectedIndex());
+				}
+
+			});
+
+			final CreateListOfChannelsHelper channelLister = new CreateListOfChannelsHelper();
+			displayTabPane.add(channelLister.listerPanel, " Lists ");
+			channelLister.accept.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					System.out.println("Channel list accepted");
+					display.setContent(channelLister.lister.getChannelList());
+				}
+			});
+
+			if (SHOW_IN_WINDOW) {
+				AddYourOwnURL yourOwn = new AddYourOwnURL(display, bg);
+				allGrids.add(yourOwn);
+				displayTabPane.add(yourOwn, "New URL");
+			}
+
+			// Add the Display Tabbed Pane to the main screen
+			inner.setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createLineBorder(display.getPreferredHighlightColor(), wid1),
+					BorderFactory.createEmptyBorder(wid2, wid2, wid2, wid2)));
+			inner.add(displayTabPane, BorderLayout.CENTER);
+			final JLabelFooter footer = makeChannelIndicator(display);
+			display.addListener(new ActionListener() {
+				private long	lastUpdated	= System.currentTimeMillis();
+
+				// A simple listener to change the title after the Display has a chance to react.
+				public void actionPerformed(ActionEvent e) {
+					System.out.println(ChannelSelector.class.getSimpleName() + ".actionPerformed(), event=" + e);
+					DisplayChangeEvent ev = (DisplayChangeEvent) e;
+					catchSleep(100);
+
+					String text = display.getNumber() + " to " + display.getContent().getCategory() + " channel '"
+							+ (display.getContent().getName());
+					boolean alive = false;
+
+					switch (ev.getType()) {
+					case CHANGE_RECEIVED:
+						text = "<html>Setting Display " + text;
+						break;
+					case CHANGE_COMPLETED:
+						text = "<html>Changed Display " + text;
+						alive = true;
+						break;
+					case ALIVE:
+						text = "A Display " + display.getNumber() + ": " + display.getContent().getCategory() + "/'"
+								+ (display.getContent().getName());
+						alive = true;
+						break;
+					case ERROR:
+						text = "Display " + display.getNumber() + " ERROR; " + ": " + display.getContent().getCategory() + "/'"
+								+ (display.getContent().getName());
+						break;
+					case IDLE:
+						if (lastUpdated + 30000l > System.currentTimeMillis())
+							break;
+						text = "G Display " + display.getNumber() + " Idle; " + ": " + display.getContent().getCategory() + "/'"
+								+ (display.getContent().getName());
+						alive = true;
+						break;
+					}
+					lastUpdated = System.currentTimeMillis();
+
+					footer.setText(text);
+					displaySelector.resetToolTip(display);
+					setDisplayIsAlive(display.getNumber(), alive);
+				}
+			});
+
+			// TODO Have the Display button react to a change in the status of a Display,
+			// in particular, when the Display goes off-line or comes online.
+
+			footer.setAlignmentX(CENTER_ALIGNMENT);
+			Box b = Box.createHorizontalBox();
+			b.add(Box.createHorizontalGlue());
+			b.add(footer);
+			b.add(Box.createHorizontalGlue());
+			inner.add(b, BorderLayout.SOUTH);
+
+			displayChannelPanel.add(inner, display.toString());
+
+			final int fi = index;
+			bg.setActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					setTabColor(((DDButton) e.getSource()).getDisplay(), fi);
+				}
+			});
+			setTabColor(display, index);
+
+			// Set up a database check every now and then to see what a Display is actually doing (this is inSTEAD of the Ping
+			// thread, above).
+			new CheckDisplayStatus(display, index, footer, channelButtonGridList).start();
+			index++;
+		}
+
+		new WhoIsInChatRoom(this).start();
+
 	}
 
 	/**

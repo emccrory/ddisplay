@@ -29,20 +29,42 @@ import java.util.TreeSet;
  */
 public class ChannelsFromDatabase extends HashMap<String, SignageContent> implements ChannelCatalog {
 
-	private static final long								serialVersionUID	= 8020508216810250903L;
+	private static final long							serialVersionUID	= 8020508216810250903L;
 
-	private Connection										connection;
+	private Connection									connection;
 
-	private SignageContent									defaultChannel;
+	private SignageContent								defaultChannel;
 
-	private static final Comparator<? super SignageContent>	comparator			= new Comparator<SignageContent>() {
+	private static Comparator<? super SignageContent>	comparator			= new Comparator<SignageContent>() {
 
-																					public int compare(SignageContent o1,
-																							SignageContent o2) {
-																						return o1.getName().compareTo(o2.getName());
-																					}
+																				/**
+																				 * Compare by the name of the channel
+																				 * 
+																				 * @param o1
+																				 * @param o2
+																				 * @return the comparison result
+																				 */
+																				public int compare(SignageContent o1,
+																						SignageContent o2) {
+																					return o1.getName().compareTo(o2.getName());
+																				}
 
-																				};
+																			};
+
+	/**
+	 * @return The existing comparator being used by the channel creation method
+	 */
+	public static Comparator<? super SignageContent> getComparator() {
+		return comparator;
+	}
+
+	/**
+	 * @param comparator
+	 *            The replacement comparator for creating the channel list.
+	 */
+	public static void setComparator(final Comparator<? super SignageContent> comparator) {
+		ChannelsFromDatabase.comparator = comparator;
+	}
 
 	ChannelsFromDatabase() {
 		try {
@@ -52,7 +74,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		}
 		getChannels();
 		getImages();
-		
+
 		defaultChannel = get(keySet().iterator().next()); // The first channel (whatever!)
 	}
 
@@ -113,16 +135,18 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 
 		int count = 0;
 		try {
-			rs = stmt.executeQuery("select Filename,Experiment,Description from Portfolio where Type='Image' and Approval='Approved'");
+			rs = stmt
+					.executeQuery("select Filename,Experiment,Description from Portfolio where Type='Image' and Approval='Approved'");
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast()) {
 				String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("FileName"));
 				String descr = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
 				String exp = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Experiment"));
 
-				String url = "http://" + WEB_SERVER_NAME + "/XOC/portfolioOneSlide.php?photo=" + name + "&caption=" + URLEncoder.encode(descr);
+				String url = "http://" + WEB_SERVER_NAME + "/XOC/portfolioOneSlide.php?photo=" + name + "&caption="
+						+ URLEncoder.encode(descr);
 				SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
-				
+
 				put(name, c);
 				rs.next();
 				count++;

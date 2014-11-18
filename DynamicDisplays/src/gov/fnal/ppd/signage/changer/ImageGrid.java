@@ -2,6 +2,7 @@ package gov.fnal.ppd.signage.changer;
 
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.GlobalVariables.WEB_SERVER_NAME;
+import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.channel.ChannelImage;
@@ -14,15 +15,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -62,7 +66,7 @@ public class ImageGrid extends DetailedInformationGrid {
 		private static final long				serialVersionUID	= 8963747596403311688L;
 		private static Map<String, ImageIcon>	cache				= new HashMap<String, ImageIcon>();
 		private ImageIcon						icon;
-		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 300 : 450);
+		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 250 : 375);
 
 		public DrawingPanel(String url, Color bgColor) {
 			int height = LONG_EDGE;
@@ -107,11 +111,32 @@ public class ImageGrid extends DetailedInformationGrid {
 			super.paintComponent(g);
 			icon.paintIcon(this, g, 0, 0);
 		}
+
+		public ImageIcon getIcon() {
+			return icon;
+		}
 	}
 
-	private static boolean						firstTime	= true;
-	private static final Set<SignageContent>	list		= ChannelCatalogFactory.getInstance().getChannelCatalog(
-																	ChannelCategory.IMAGE);
+	private static class DDIconButton extends DDButton {
+
+		private static final long	serialVersionUID	= -8377645551707373769L;
+
+		public DDIconButton(Channel channel, Display display, int maxLen, Icon icon) {
+			super(channel, display, maxLen);
+			setIcon(icon);
+			setVerticalTextPosition(BOTTOM);
+			setHorizontalTextPosition(CENTER);
+			setMargin(new Insets(5, 5, 5, 5));
+		}
+
+	}
+
+	private static boolean						firstTime			= true;
+
+	private static final Set<SignageContent>	list				= ChannelCatalogFactory.getInstance().getChannelCatalog(
+																			ChannelCategory.IMAGE);
+
+	private static final int					MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 37 : 50);
 
 	/**
 	 * Create this tab for the ChannelSelector GUI
@@ -124,14 +149,14 @@ public class ImageGrid extends DetailedInformationGrid {
 	}
 
 	private static String trunc(String text) {
-		if (text.length() < 37)
+		if (text.length() < MAX_CAPTION_LENGTH)
 			return text;
-		return text.substring(0, 35) + " ...";
+		return text.substring(0, MAX_CAPTION_LENGTH - 2) + " ...";
 	}
 
 	@Override
 	protected JComponent makeExpGrid(int set) {
-		int ncol = 3;
+		int ncol = 4;
 		if (SHOW_IN_WINDOW)
 			ncol = 2;
 
@@ -144,8 +169,10 @@ public class ImageGrid extends DetailedInformationGrid {
 				System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): resizing " + list.size() + " images.");
 				firstTime = false;
 			} else
-				System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): finding " + list.size() + " images.");
+				System.out.print(".");
 
+			// TODO Put the buttons into the grid after sorting on the experiment name.
+			
 			String colorString = String.format("%06X", display.getPreferredHighlightColor().getRGB() & 0xFFFFFF);
 			for (SignageContent content : list)
 				try {
@@ -164,12 +191,12 @@ public class ImageGrid extends DetailedInformationGrid {
 					Box b = Box.createVerticalBox();
 					b.setOpaque(true);
 
-					DDButton button = new DDButton(imageChannel, display, 30);
+					DDButton button = new DDIconButton(imageChannel, display, MAX_CAPTION_LENGTH, dp.getIcon());
 					button.setText(name.replace("upload/items/", ""));
 					button.setAlignmentX(JPanel.LEFT_ALIGNMENT);
 					b.add(new JWhiteLabel(exp));
 					b.add(button);
-					b.add(dp);
+					// b.add(dp);
 					b.add(new JWhiteLabel(desc));
 					b.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white),
 							BorderFactory.createLineBorder(display.getPreferredHighlightColor(), 5)));
