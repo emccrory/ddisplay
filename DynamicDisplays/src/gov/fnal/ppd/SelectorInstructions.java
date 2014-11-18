@@ -3,6 +3,7 @@ package gov.fnal.ppd;
 import static gov.fnal.ppd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.GlobalVariables.lastDisplayChange;
+import static gov.fnal.ppd.signage.util.Util.catchSleep;
 
 import java.awt.Font;
 
@@ -48,20 +49,16 @@ public class SelectorInstructions extends JLabel {
 			public void run() {
 				long sleepTime = 30000L;
 				while (true) {
-					try {
-						sleep(sleepTime);
-						sleepTime = 2000L;
-						checkChange();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					catchSleep(sleepTime);
+					sleepTime = 2000L;
+					checkChange();
 				}
 			}
 		}.start();
 	}
 
 	private void checkChange() {
-		if (!isLargeFont && lastDisplayChange + FIFTEEN_MINUTES < System.currentTimeMillis()) {
+		if (!isLargeFont && (lastDisplayChange + FIFTEEN_MINUTES) < System.currentTimeMillis()) {
 			// make font big again
 			setText(INSTRUCTIONS_TEXT);
 			setFont(largeFont);

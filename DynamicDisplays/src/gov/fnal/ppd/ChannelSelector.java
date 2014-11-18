@@ -182,7 +182,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		int[] categories = { 0, 1, 3, 4, 2, 6, 5, -1 };
 		String[] labels = { "Public", "Details", "NOvA", "NuMI", "EXP", "BEAM", "Videos", "MISC" };
-		if (!IS_PUBLIC_CONTROLLER) {
+		if (IS_PUBLIC_CONTROLLER) {
 			categories = new int[] { 0, 1, 5, -1 };
 			labels = new String[] { "Public", "Details", "Videos", "MISC" };
 		}
@@ -192,6 +192,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		String note = "Building image database";
 		progressMonitor.setNote(note);
 		progressMonitor.setProgress(0);
+		
+		catchSleep(100);
 
 		if (categories.length != labels.length)
 			throw new RuntimeException();

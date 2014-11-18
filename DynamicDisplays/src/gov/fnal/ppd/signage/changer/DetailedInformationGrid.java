@@ -69,7 +69,7 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		case 7:
 			cat = ChannelCategory.IMAGE;
 			break;
-			
+					
 		default:
 			cat = ChannelCategory.MISCELLANEOUS;
 			break;

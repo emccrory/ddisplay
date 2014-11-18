@@ -55,5 +55,10 @@ public enum ChannelCategory {
 	/**
 	 * Channels that give details on accelerator operations
 	 */
-	ACCELERATOR
+	ACCELERATOR,
+	
+	/**
+	 * Channels that show general stuff about Fermilab itself
+	 */
+	FERMILAB
 }
