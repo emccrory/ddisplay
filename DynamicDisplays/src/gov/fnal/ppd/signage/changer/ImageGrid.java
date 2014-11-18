@@ -59,6 +59,11 @@ public class ImageGrid extends DetailedInformationGrid {
 			setOpaque(true);
 			setAlignmentX(JPanel.LEFT_ALIGNMENT);
 		}
+		
+		public JWhiteLabel(String text, float size) {
+			this(text);
+			setFont(getFont().deriveFont(size));
+		}
 	}
 
 	private static class DrawingPanel extends JPanel {
@@ -66,7 +71,7 @@ public class ImageGrid extends DetailedInformationGrid {
 		private static final long				serialVersionUID	= 8963747596403311688L;
 		private static Map<String, ImageIcon>	cache				= new HashMap<String, ImageIcon>();
 		private ImageIcon						icon;
-		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 250 : 375);
+		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 200 : 350);
 
 		public DrawingPanel(String url, Color bgColor) {
 			int height = LONG_EDGE;
@@ -194,7 +199,7 @@ public class ImageGrid extends DetailedInformationGrid {
 					DDButton button = new DDIconButton(imageChannel, display, MAX_CAPTION_LENGTH, dp.getIcon());
 					button.setText(name.replace("upload/items/", ""));
 					button.setAlignmentX(JPanel.LEFT_ALIGNMENT);
-					b.add(new JWhiteLabel(exp));
+					b.add(new JWhiteLabel(exp, 24.0f));
 					b.add(button);
 					// b.add(dp);
 					b.add(new JWhiteLabel(desc));
