@@ -38,9 +38,10 @@ public class CreateListOfChannelsHelper {
 	public CreateListOfChannelsHelper() {
 		listerPanel = new JPanel(new BorderLayout());
 		lister = new CreateListOfChannels();
-		accept = new BigButton("Accept This Channel List");
-		JLabel instructions = new JLabel("Create a list by selecting the Channels in order below.  " +
-				"Click \"Accept This Channel List\" and the Display will play these Channels in sequence.");
+		accept = new BigButton("Accept This Channel List Sequence");
+		JLabel instructions = new JLabel("<html><p align='center'>This page allows you to play a sequence of content on a Display.  " +
+				"Create the sequence by selecting the Channels in order below.  Also, set the dwell time.<br>" +
+				"Click \"Accept This Channel List Sequence\" and the Display will play these Channels in sequence.</html>");
 
 		Box v = Box.createVerticalBox();
 		v.add(instructions);

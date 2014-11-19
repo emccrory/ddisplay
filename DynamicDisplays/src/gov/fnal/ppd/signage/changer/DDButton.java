@@ -3,8 +3,10 @@ package gov.fnal.ppd.signage.changer;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.Display;
+import gov.fnal.ppd.signage.channel.ChannelImage;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.SystemColor;
 
 import javax.swing.BorderFactory;
@@ -18,24 +20,36 @@ import javax.swing.border.Border;
  */
 public class DDButton extends JButton {
 
-	private static final long	serialVersionUID	= 6951625597558149464L;
+	private static final long	serialVersionUID		= 6951625597558149464L;
 
-	private static final int	MAX_STRING_LENGTH	= 14;
+	private static final int	MAX_STRING_LENGTH		= 14;
 
-	private boolean				selected			= false;
+	/**
+	 * 
+	 */
+	public static final int		USE_NAME_FIELD			= 0;
+	/**
+	 * 
+	 */
+	public static final int		USE_DESCRIPTION_FIELD	= 1;
+	private static int			staticNumBR				= 0;
+
+	private boolean				selected				= false;
 
 	private Color				background, selectedColor, plainFont = SystemColor.textText, selectedFont = SystemColor.textText;
 
 	private Channel				channel;
-
 	private Display				display;
 
 	private Border				regularButtonBorder;
-
 	private final Border		BorderA, BorderB;
 
 	private int					numBR;
-	private static int			staticNumBR			= 0;
+
+	private int					maxLen;
+
+	private Font				userDefinedFont;
+	private Font				alternateFont;
 
 	/**
 	 * @param channel
@@ -51,6 +65,7 @@ public class DDButton extends JButton {
 		this.selected = false;
 		this.channel = channel;
 		this.display = display;
+		this.maxLen = maxLen;
 		// Hold the original button border for later
 		regularButtonBorder = getBorder();
 
@@ -90,6 +105,14 @@ public class DDButton extends JButton {
 		this(null, display, MAX_STRING_LENGTH);
 	}
 
+	@Override
+	public void setFont(Font f) {
+		userDefinedFont = f;
+		int size = userDefinedFont.getSize();
+		alternateFont = userDefinedFont.deriveFont(size / 2.0f);
+		super.setFont(f);
+	}
+
 	/**
 	 * @return The number of lines that this title should cover (will help determine the font size)
 	 */
@@ -114,8 +137,6 @@ public class DDButton extends JButton {
 			third += split[i] + " ";
 		if (third.length() > maxLen)
 			third = third.substring(0, maxLen - 1) + "&hellip;"; // Ellipsis
-		if (string.toUpperCase().contains("LBNF"))
-			System.out.println("maxlen=" + maxLen + " [" + first + "] [" + second + "] [" + third + "]");
 
 		if (second.length() > 0) {
 			first += "<br />";
@@ -184,5 +205,23 @@ public class DDButton extends JButton {
 		else
 			setBorder(BorderB);
 
+	}
+
+	/**
+	 * Change the text on the button
+	 * 
+	 * @param which
+	 *            either USE_NAME_FIELD or USE_DESCRIPTION_FIELD
+	 */
+	public void setText(final int which) {
+		if (channel == null  || channel.getDescription().length() < 5 || channel instanceof ChannelImage)
+			return;
+		if (which == USE_NAME_FIELD) {
+			setText(align(channel.getName(), maxLen));
+			super.setFont(userDefinedFont);
+		} else if (which == USE_DESCRIPTION_FIELD) {
+			setText("<html><b>" + channel.getName() + ":</b> " + channel.getDescription() + "</html>");
+			super.setFont(alternateFont);
+		}
 	}
 }

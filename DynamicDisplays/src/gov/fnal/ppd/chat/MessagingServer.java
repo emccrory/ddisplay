@@ -438,9 +438,11 @@ public class MessagingServer {
 	private long				startTime				= System.currentTimeMillis();
 
 	private final long			sleepPeriodBtwPings		= 2000L;
-	private final long			tooOldTime				= 1000L * sleepPeriodBtwPings;
+	private final long			tooOldTime				= 100L * sleepPeriodBtwPings;
 
 	protected int				totalMesssagesHandled	= 0;
+
+	private int					numClientsRemoved		= 0;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -477,7 +479,7 @@ public class MessagingServer {
 						display("Disconnected Client " + ct.username + " removed from list.");
 					}
 			}
-		} 
+		}
 	}
 
 	/**
@@ -489,20 +491,19 @@ public class MessagingServer {
 			System.out.println(time);
 		}
 	}
-	
+
 	protected void error(String msg) {
 		synchronized (sdf) { // Only print one message at a time
 			String time = sdf.format(new Date()) + " " + msg;
 			System.err.println(time);
 		}
 	}
-	
+
 	protected void printStackTrace(Exception e) {
 		synchronized (sdf) { // Only print one message at a time
 			e.printStackTrace();
 		}
 	}
-		
 
 	protected void performDiagnostics(boolean show) {
 		// check for old clientS (using ClientThread.lastSeen)
@@ -519,7 +520,8 @@ public class MessagingServer {
 				CT.close();
 				display("Removed Client " + CT.username + " because its last response was more than " + (tooOldTime / 1000L)
 						+ " seconds ago: " + new Date(CT.lastSeen));
-				CT = null;  // Not really necessary, but it makes me feel better.
+				numClientsRemoved++;
+				CT = null; // Not really necessary, but it makes me feel better.
 			}
 		}
 
@@ -534,7 +536,8 @@ public class MessagingServer {
 					+ " min " + secs + " sec -- \n " + "                       " + numConnectionsSeen + " connections accepted, "
 					+ listOfMessagingClients.size() + " client" + (listOfMessagingClients.size() != 1 ? "s" : "")
 					+ " connected right now, " + totalMesssagesHandled + " messages handled\n"
-					+ "                       Oldest client is " + oldestName);
+					+ "                       Oldest client is " + oldestName + "\n"
+					+ "                       Number of clients removed due to lack of response: " + numClientsRemoved);
 		}
 	}
 
@@ -632,50 +635,54 @@ public class MessagingServer {
 			public void run() {
 				catchSleep(15000L); // Wait a bit before starting the diagnostics
 
-				while (keepGoing) {
+				while (keepGoing)
+					try {
+						catchSleep(sleepPeriodBtwPings);
 
-					catchSleep(sleepPeriodBtwPings);
+						if (listOfMessagingClients.size() == 0)
+							continue;
 
-					if (listOfMessagingClients.size() == 0)
-						continue;
+						if (randomOrder.size() != listOfMessagingClients.size()) {
+							randomOrder.clear();
+							for (int i = 0; i < listOfMessagingClients.size(); i++)
+								randomOrder.add(i);
+							Collections.shuffle(randomOrder);
+							nextClient = (nextClient % randomOrder.size());
+						}
+						/*
+						 * This boolean turns on the diagnostic message (in ClientThread.run()) that echos when a client says
+						 * "I am alive". Turn it on for two minutes, just before the diagnostic is printed, which would show about
+						 * 60 such messages (at a period of 2Hz). today, there are ~40 clients connected, so we'll see them all
+						 */
+						showAliveMessages = (lastPrint + 13L * ONE_MINUTE) < System.currentTimeMillis();
 
-					if (randomOrder.size() != listOfMessagingClients.size()) {
-						randomOrder.clear();
-						for (int i = 0; i < listOfMessagingClients.size(); i++)
-							randomOrder.add(i);
-						Collections.shuffle(randomOrder);
+						// Send the "Are You Alive?" message. (Note that the order of selection is randomized)
+						broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME,
+								listOfMessagingClients.get(randomOrder.get(nextClient)).username));
+
+						/*
+						 * TODO Maybe the right way to do this is to broadcast a "Are You Alive" message (really, broadcast with one
+						 * message to anyone that may be listening) and capture the results. It might be nice to have each client
+						 * wait some random number of milliseconds so the messages come in with few(er) collisions. The method here
+						 * works, but it takes some time to go through all the clients. This delay means that it is a long time
+						 * before we actually learn that a client is not there.
+						 */
+
+						nextClient = (++nextClient) % listOfMessagingClients.size();
+						if (nextClient == 0) {
+							boolean old = lastPrint + FIFTEEN_MINUTES < System.currentTimeMillis();
+							performDiagnostics(old);
+
+							if (old)
+								lastPrint = System.currentTimeMillis();
+
+							// Thank you, Collections, for making this so easy.
+							Collections.shuffle(randomOrder);
+						}
+					} catch (Exception e) {
+						// This has bitten me before; don't let that happen again.
+						e.printStackTrace();
 					}
-					/*
-					 * This boolean turns on the diagnostic message (in ClientThread.run()) that echos when a client says
-					 * "I am alive". Turn it on for two minutes, just before the diagnostic is printed, which would show about 60
-					 * such messages (at a period of 2Hz). today, there are ~40 clients connected, so we'll see them all
-					 */
-					showAliveMessages = (lastPrint + 13L * ONE_MINUTE) < System.currentTimeMillis();
-
-					// Send the "Are You Alive?" message. (Note that the order of selection is randomized)
-					broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME,
-							listOfMessagingClients.get(randomOrder.get(nextClient)).username));
-
-					/*
-					 * TODO Maybe the right way to do this is to broadcast a "Are You Alive" message (really, broadcast with one
-					 * message to anyone that may be listening) and capture the results. It might be nice to have each client wait
-					 * some random number of milliseconds so the messages come in with few(er) collisions. The method here works,
-					 * but it takes some time to go through all the clients. This delay means that it is a long time before we
-					 * actually learn that a client is not there.
-					 */
-
-					nextClient = (++nextClient) % listOfMessagingClients.size();
-					if (nextClient == 0) {
-						boolean old = lastPrint + FIFTEEN_MINUTES < System.currentTimeMillis();
-						performDiagnostics(old);
-
-						if (old)
-							lastPrint = System.currentTimeMillis();
-						
-						// Thank you, Collections, for making this so easy.
-						Collections.shuffle(randomOrder);
-					}
-				}
 			}
 		}.start();
 	}
