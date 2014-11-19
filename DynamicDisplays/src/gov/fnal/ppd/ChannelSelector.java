@@ -111,6 +111,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private List<JTabbedPane>				listOfDisplayTabbedPanes	= new ArrayList<JTabbedPane>();
 
 	private SplashScreens					splashScreens;
+	private int								nowShowing					= DDButton.USE_NAME_FIELD;
 
 	/**
 	 * Create the channel selector in the normal way
@@ -192,7 +193,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		String note = "Building image database";
 		progressMonitor.setNote(note);
 		progressMonitor.setProgress(0);
-		
+
 		catchSleep(100);
 
 		if (categories.length != labels.length)
@@ -201,7 +202,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		int index = 0;
 		for (final Display display : displayList) {
 			progressMonitor.setNote(note);
-			progressMonitor.setProgress(index * 5);
+			progressMonitor.setProgress(index * (1 + categories.length));
 
 			// NOTE: Each display has the same set of tabs and channels to offer.
 
@@ -225,7 +226,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				String sp = SHOW_IN_WINDOW ? "" : " ";
 				displayTabPane.add(grid, sp + labels[cat] + sp);
 				progressMonitor.setNote(note);
-				progressMonitor.setProgress(index * 5 + cat);
+				progressMonitor.setProgress(index * (1 + categories.length) + cat);
 			}
 
 			ChannelButtonGrid grid = new ImageGrid(display, bg);
@@ -333,7 +334,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			note = "Building the rest of the GUI";
 			progressMonitor.setNote(note);
-			progressMonitor.setProgress(index * 5 + categories.length);
+			progressMonitor.setProgress(index * (1 + categories.length) + categories.length);
 
 			final int fi = index;
 			bg.setActionListener(new ActionListener() {
@@ -492,7 +493,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		if (!IS_PUBLIC_CONTROLLER) {
 			titleBox.add(refreshButton);
 			if (!SHOW_IN_WINDOW)
-				IdentifyAll.setup("?", FONT_SIZE / 2, new Insets(5, 5, 5, 5));
+				IdentifyAll.setup("ID", FONT_SIZE / 2, new Insets(5, 5, 5, 5));
 			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
 			// titleBox.add(showBorderButton);
 
@@ -510,6 +511,29 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				}
 			});
 		}
+
+		JButton flipTitles = new JButton(new ImageIcon("src/gov/fnal/ppd/images/2arrows.png"));
+		flipTitles.setMargin(new Insets(2, 5, 2, 5));
+
+		flipTitles.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				nowShowing = (nowShowing == DDButton.USE_NAME_FIELD ? DDButton.USE_DESCRIPTION_FIELD : DDButton.USE_NAME_FIELD);
+
+				for (List<ChannelButtonGrid> gridList : channelButtonGridList) {
+					for (ChannelButtonGrid grid : gridList) {
+						DisplayButtonGroup dbg = grid.getBg();
+						for (int i = 0; i < dbg.getNumButtons(); i++) {
+							DDButton ddb = dbg.getAButton(i);
+							ddb.setText(nowShowing);
+						}
+					}
+				}
+			}
+		});
+		titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+		titleBox.add(flipTitles);
 		titleBox.add(Box.createHorizontalGlue());
 		titleBox.add(title);
 		titleBox.add(Box.createHorizontalGlue());
