@@ -35,7 +35,7 @@ public class GlobalVariables {
 	/**
 	 * Short name for the location of the displays
 	 */
-	private static String[]	locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", "Fermilab" };
+	private static String[]	locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", "WH Second Floor", "Fermilab" };
 
 	/**
 	 * Long name for the location of the displays
@@ -43,6 +43,7 @@ public class GlobalVariables {
 	private static String[]	locationDescription		= { "Fermilab Experiments' Remote Operations Center, West Side",
 			"Fermilab CMS/LHC Remote Operations Center, East Side", //
 			"Fermilab Transfer Gallery", //
+			"Second Floor of Wilson Hall",
 			"All Dynamic Displays at Fermilab", //
 													};
 

@@ -37,45 +37,14 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 	 *            The button group into which these buttons go
 	 * @param set
 	 */
-	public DetailedInformationGrid(final Display display, final DisplayButtonGroup bg, final int set) {
+	public DetailedInformationGrid(final Display display, final DisplayButtonGroup bg, final ChannelCategory set) {
 		super(display, bg);
 		add(makeExpGrid(set));
 	}
 
-	protected JComponent makeExpGrid(int set) {
-		ChannelCategory cat = ChannelCategory.MISCELLANEOUS;
-		switch (set) {
-		case 0:
-			cat = ChannelCategory.PUBLIC;
-			break;
-		case 1:
-			cat = ChannelCategory.PUBLIC_DETAILS;
-			break;
-		case 2:
-			cat = ChannelCategory.EXPERIMENT_DETAILS;
-			break;
-		case 3:
-			cat = ChannelCategory.NOVA_DETAILS;
-			break;
-		case 4:
-			cat = ChannelCategory.NUMI_DETAILS;
-			break;
-		case 5:
-			cat = ChannelCategory.VIDEOS;
-			break;
-		case 6:
-			cat = ChannelCategory.ACCELERATOR;
-			break;
-		case 7:
-			cat = ChannelCategory.IMAGE;
-			break;
-					
-		default:
-			cat = ChannelCategory.MISCELLANEOUS;
-			break;
-		}
-
-		Set<SignageContent> list = ChannelCatalogFactory.getInstance().getChannelCatalog(cat);
+	protected JComponent makeExpGrid(ChannelCategory set) {
+		
+		Set<SignageContent> list = ChannelCatalogFactory.getInstance().getChannelCatalog(set);
 		int cols = 4;
 		int gap = 5;
 		int maxLen = 50;

@@ -3,10 +3,12 @@ package gov.fnal.ppd.signage.channel;
 import static gov.fnal.ppd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.signage.Channel;
 import gov.fnal.ppd.signage.SignageContent;
+import gov.fnal.ppd.signage.changer.CategoryDictionary;
 import gov.fnal.ppd.signage.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -95,7 +97,11 @@ public class CreateListOfChannels extends JPanel {
 
 	CreateListOfChannels() {
 		super(new GridBagLayout());
+		alt();
 
+	}
+
+	private void makeButtons() {
 		//
 		// TODO Instead of a long vertical list of channels in the "Channel List" GUI, organize them into separate panels, with a
 		// titled border
@@ -365,7 +371,7 @@ public class CreateListOfChannels extends JPanel {
 				}
 			});
 		}
-		
+
 		bag.gridwidth = 2;
 		add(new JSeparator(), bag);
 		bag.gridy++;
@@ -403,6 +409,96 @@ public class CreateListOfChannels extends JPanel {
 
 		bag.gridx++;
 		add(Box.createRigidArea(new Dimension(10, 10)), bag);
+	}
+
+	private void alt() {
+		setLayout(new GridBagLayout());
+
+		//
+		// TODO Instead of a long vertical list of channels in the "Channel List" GUI, organize them into separate panels, with a
+		// titled border
+		//
+
+		GridBagConstraints bag = new GridBagConstraints();
+		bag.fill = GridBagConstraints.HORIZONTAL;
+		bag.gridx = bag.gridy = 1;
+		if (SHOW_IN_WINDOW)
+			bag.insets = new Insets(2, 2, 2, 2);
+		else
+			bag.insets = new Insets(6, 6, 6, 6);
+		bag.anchor = GridBagConstraints.CENTER;
+
+		add(Box.createRigidArea(new Dimension(10, 10)), bag);
+		bag.gridy++;
+
+		Box bh = Box.createHorizontalBox();
+		bh.add(new BigLabel("Dwell time (msec): ", Font.PLAIN));
+
+		SpinnerModel model = new SpinnerListModel(getDwellStrings());
+		time = new JSpinner(model);
+		time.setValue(new Long(20000l));
+		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		if (!SHOW_IN_WINDOW)
+			time.setFont(new Font("Monospace", Font.PLAIN, 40));
+		bh.add(time);
+		bh.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+
+		bag.gridwidth = 2;
+		add(bh, bag);
+		bag.gridy++;
+
+		ChannelCategory categories[] = CategoryDictionary.getCategories();
+
+		for (ChannelCategory C : categories) {
+			bag.gridwidth = 2;
+			add(new JSeparator(), bag);
+			bag.gridy++;
+
+			String sep = "--------------- " + C + " ----------------";
+			// if ( C.getValue().length() < 10 )
+			// sep = "--" + sep + "--";
+			for (int len = C.getValue().length(); len < 18; len += 2)
+				sep = "-" + sep + "--";
+
+			add(new BigLabel(sep, Font.BOLD), bag);
+			bag.gridy++;
+
+			bag.gridwidth = 1;
+			Set<SignageContent> chans = ChannelCatalogFactory.getInstance().getChannelCatalog(C);
+			for (final SignageContent CONTENT : chans) {
+				final JButton b = new BigButton(CONTENT.getName());
+				add(b, bag);
+				bag.gridx++;
+				final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
+				add(lab, bag);
+				bag.gridx--;
+				bag.gridy++;
+				b.addActionListener(new ActionListener() {
+					boolean	selected	= false;
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						if (selected) {
+							selected = false;
+							channelList.remove(CONTENT);
+							lab.setText(NOT_SELECTED);
+							labelList.remove(lab);
+						} else {
+							selected = true;
+							channelList.add(CONTENT);
+							lab.setText("XX");
+							labelList.add(lab);
+						}
+						fixLabels();
+					}
+				});
+			}
+
+		}
+
+		bag.gridx++;
+		add(Box.createRigidArea(new Dimension(10, 10)), bag);
+
 	}
 
 	private static List<Long> getDwellStrings() {

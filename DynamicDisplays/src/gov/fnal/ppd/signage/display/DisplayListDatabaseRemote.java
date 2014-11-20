@@ -73,27 +73,32 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 
 		int count = 0;
 		// Use ARM to simplify this try block
-		try (Statement stmt = getConnection().createStatement(); ResultSet rs = stmt.executeQuery("SELECT * FROM Display");) {
+		try (Statement stmt = getConnection().createStatement();
+				ResultSet rs = stmt
+						.executeQuery("SELECT * FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID);");) {
 			rs.first(); // Move to first returned row
-			while (!rs.isAfterLast()) {
-				String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
-				String ipName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPname"));
-				int portNumber = rs.getInt("Port");
-				int locCode = portNumber; // Repurposing "Port" column as a location code!!
-				int displayID = rs.getInt("DisplayID");
-				int screenNumber = rs.getInt("ScreenNumber");
-				int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
-				if (locationCode < 0 || locCode == locationCode) { // Negative locationCode will select ALL displays everywhere
-					SignageType type = SignageType
-							.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type")));
+			while (!rs.isAfterLast())
+				try {
+					String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
+					String ipName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPname"));
+					int locCode = rs.getInt("LocationCode");
+					int displayID = rs.getInt("DisplayID");
+					int screenNumber = rs.getInt("ScreenNumber");
+					int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
+					if (locationCode < 0 || locCode == locationCode) { // Negative locationCode will select ALL displays everywhere
+						SignageType type = SignageType.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs
+								.getAsciiStream("Type")));
 
-					Display p = new DisplayFacade(portNumber, ipName, displayID, screenNumber, location, new Color(colorCode), type);
+						Display p = new DisplayFacade(locCode, ipName, displayID, screenNumber, location, new Color(colorCode),
+								type);
 
-					add(p);
-					count++;
+						add(p);
+						count++;
+					}
+					rs.next();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				rs.next();
-			}
 			stmt.close();
 			rs.close();
 		} catch (SQLException e) {

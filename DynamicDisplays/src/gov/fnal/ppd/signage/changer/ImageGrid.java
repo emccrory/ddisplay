@@ -86,7 +86,7 @@ public class ImageGrid extends DetailedInformationGrid {
 					// This does not work unless we cache the images (we run out of space!)
 					// System.out.println(DrawingPanel.class.getSimpleName() + ": fetching image at " + url);
 
-					ImageIcon icon0 = new ImageIcon(new URL(url));
+					ImageIcon icon0 = new ImageIcon(new URL(url.replace("upload/items", "upload/items/thumbs")));
 					int h = icon0.getIconHeight();
 					int w = icon0.getIconWidth();
 					if (h > w) {
@@ -151,7 +151,7 @@ public class ImageGrid extends DetailedInformationGrid {
 	 * @param bg
 	 */
 	public ImageGrid(final Display display, final DisplayButtonGroup bg) {
-		super(display, bg, 7);
+		super(display, bg, ChannelCategory.IMAGE);
 	}
 
 	private static String trunc(String text) {
@@ -161,7 +161,7 @@ public class ImageGrid extends DetailedInformationGrid {
 	}
 
 	@Override
-	protected JComponent makeExpGrid(int set) {
+	protected JComponent makeExpGrid(ChannelCategory set) {
 		int ncol = 4;
 		if (SHOW_IN_WINDOW)
 			ncol = 2;
@@ -177,7 +177,6 @@ public class ImageGrid extends DetailedInformationGrid {
 			} else
 				System.out.print(".");
 
-			// TODO Put the buttons into the grid after sorting on the experiment name.
 			TreeSet<SignageContent> newList = new TreeSet<SignageContent>(new Comparator<SignageContent>() {
 				public int compare(SignageContent o1, SignageContent o2) {
 					if (o1 instanceof ChannelImage && o2 instanceof ChannelImage) {
@@ -188,8 +187,11 @@ public class ImageGrid extends DetailedInformationGrid {
 					return o1.getName().compareTo(o2.getName());
 				}
 			});
-			for (SignageContent P : list)
-				newList.add(P);
+			for (SignageContent P : list) {
+				ChannelImage imageChannel = (ChannelImage) P;
+				if (CategoryDictionary.isExperiment(imageChannel.getExp()))
+					newList.add(P);
+			}
 
 			String colorString = String.format("%06X", display.getPreferredHighlightColor().getRGB() & 0xFFFFFF);
 			for (SignageContent content : newList)

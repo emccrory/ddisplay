@@ -131,35 +131,36 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	 * @return Does this panel contain the selected channel?
 	 */
 	public boolean hasSelectedChannel() {
-		Object o1 = getComponent(0);
-		if (o1 instanceof JPanel) {
-			JPanel outer = (JPanel) o1;
-			Object o2 = outer.getComponent(0);
-			if (o2 instanceof JPanel) {
-				JPanel expGrid = (JPanel) o2;
-				for (Component C : expGrid.getComponents())
-					if (C instanceof DDButton) {
-						if (((DDButton) C).isSelected())
-							return true;
-					}
-			} else if (o2 instanceof DDButton) {
-				for (Component C : outer.getComponents())
-					if (C instanceof DDButton) {
-						if (((DDButton) C).isSelected())
-							return true;
-					}
-			}
-		} else if (o1 instanceof JScrollPane) {
-			JViewport internal = (JViewport) ((JScrollPane) o1).getComponent(0);
-			JPanel c0 = (JPanel) internal.getComponent(0);
-			for (Component C : c0.getComponents())
-				if (C instanceof Box) {
-					JComponent c1 = (JComponent) ((Box) C).getComponent(0);
-					if (c1 instanceof DDButton)
-						if (((DDButton) c1).isSelected())
-							return true;
-				}
-		}
+		// FIXME !!!
+//		Object o1 = getComponent(0);
+//		if (o1 instanceof JPanel) {
+//			JPanel outer = (JPanel) o1;
+//			Object o2 = outer.getComponent(0);  // This line fails with ArrayINdexOutOfBoundsException
+//			if (o2 instanceof JPanel) {
+//				JPanel expGrid = (JPanel) o2;
+//				for (Component C : expGrid.getComponents())
+//					if (C instanceof DDButton) {
+//						if (((DDButton) C).isSelected())
+//							return true;
+//					}
+//			} else if (o2 instanceof DDButton) {
+//				for (Component C : outer.getComponents())
+//					if (C instanceof DDButton) {
+//						if (((DDButton) C).isSelected())
+//							return true;
+//					}
+//			}
+//		} else if (o1 instanceof JScrollPane) {
+//			JViewport internal = (JViewport) ((JScrollPane) o1).getComponent(0);
+//			JPanel c0 = (JPanel) internal.getComponent(0);
+//			for (Component C : c0.getComponents())
+//				if (C instanceof Box) {
+//					JComponent c1 = (JComponent) ((Box) C).getComponent(0);
+//					if (c1 instanceof DDButton)
+//						if (((DDButton) c1).isSelected())
+//							return true;
+//				}
+//		}
 
 		return false;
 	}

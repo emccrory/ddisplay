@@ -15,6 +15,7 @@ import gov.fnal.ppd.signage.Display;
 import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.AddYourOwnURL;
+import gov.fnal.ppd.signage.changer.CategoryDictionary;
 import gov.fnal.ppd.signage.changer.ChannelButtonGrid;
 import gov.fnal.ppd.signage.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
@@ -180,13 +181,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	private void initializeTabs() {
-
-		int[] categories = { 0, 1, 3, 4, 2, 6, 5, -1 };
-		String[] labels = { "Public", "Details", "NOvA", "NuMI", "EXP", "BEAM", "Videos", "MISC" };
-		if (IS_PUBLIC_CONTROLLER) {
-			categories = new int[] { 0, 1, 5, -1 };
-			labels = new String[] { "Public", "Details", "Videos", "MISC" };
-		}
+		ChannelCategory[] categories = CategoryDictionary.getCategories();
 
 		ProgressMonitor progressMonitor = new ProgressMonitor(null, "Building Channel Selector GUI", "", 0, displayList.size()
 				* (1 + categories.length));
@@ -194,11 +189,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		progressMonitor.setNote(note);
 		progressMonitor.setProgress(0);
 
-		catchSleep(100);
-
-		if (categories.length != labels.length)
-			throw new RuntimeException();
-
+		catchSleep(100); // Let the progress monitor start
+		
 		int index = 0;
 		for (final Display display : displayList) {
 			progressMonitor.setNote(note);
@@ -224,7 +216,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				allGrids.add(grid);
 				display.addListener(grid);
 				String sp = SHOW_IN_WINDOW ? "" : " ";
-				displayTabPane.add(grid, sp + labels[cat] + sp);
+				displayTabPane.add(grid, sp + categories[cat].getAbbreviation() + sp);
 				progressMonitor.setNote(note);
 				progressMonitor.setProgress(index * (1 + categories.length) + cat);
 			}

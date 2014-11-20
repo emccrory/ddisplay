@@ -110,7 +110,7 @@ public class ImageContent implements SignageContent {
 	@Override
 	public void setCategory(ChannelCategory c) {
 		// This really should be an IMAGE
-		assert (c == ChannelCategory.IMAGE);
+		assert (c.equals(ChannelCategory.IMAGE));
 	}
 
 	@Override
@@ -141,7 +141,7 @@ public class ImageContent implements SignageContent {
 
 	@Override
 	public void setCode(int n) {
-		// TODO Not used		
+		// TODO Not used
 	}
 
 }

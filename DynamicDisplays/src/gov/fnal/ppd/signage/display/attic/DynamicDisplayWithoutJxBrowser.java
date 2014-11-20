@@ -137,51 +137,51 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 			System.exit(1);
 		}
 
-		try {
-			rs = stmt.executeQuery("SELECT * FROM Display where DisplayID=" + number);
-			rs.first(); // Move to first returned row (there should only be one)
-			String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
-
-			String node = InetAddress.getLocalHost().getCanonicalHostName();
-			if (!myName.equals(node)) {
-				// TODO This will not work if the IPName in the database is an IP address.
-				System.out.println("The node name of display no. " + number + " is supposed to be '" + myName
-						+ "', but this node is called '" + node + "'\n\t** We'll try to run anyway, but this should be fixed **");
-				// System.exit(-1);
-			}
-
-			String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
-			SignageType type = SignageType.valueOf(t);
-			String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
-			String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
-			Color color = new Color(Integer.parseInt(colorString, 16));
-			int portNumber = rs.getInt("Port");
-			int screenNumber = rs.getInt("ScreenNumber");
-			// String positionString = rs.getString("Position");
-			// if (positionString == null)
-
-			stmt.close();
-			rs.close();
-			return new DynamicDisplayWithoutJxBrowser(portNumber, true, myName, screenNumber, number, location, color, type);
-			// else {
-			// String[] tokens = positionString.split("[+-]");
-			// if (tokens.length == 3) {
-			// int x = Integer.parseInt(tokens[1]);
-			// if (positionString.startsWith("-"))
-			// x = -x;
-			// int y = Integer.parseInt(tokens[2]);
-			// return new ADynamicDisplay(portNumber, true, myName, x, y, number, location, color, type);
-			// } else {
-			// System.err.println("Oops!  There are " + tokens.length + " tokens in '" + positionString + "': "
-			// + Arrays.toString(tokens));
-			// System.exit(-1);
-			// }
-			// }
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			rs = stmt.executeQuery("SELECT * FROM Display where DisplayID=" + number);
+//			rs.first(); // Move to first returned row (there should only be one)
+//			String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
+//
+//			String node = InetAddress.getLocalHost().getCanonicalHostName();
+//			if (!myName.equals(node)) {
+//				// TODO This will not work if the IPName in the database is an IP address.
+//				System.out.println("The node name of display no. " + number + " is supposed to be '" + myName
+//						+ "', but this node is called '" + node + "'\n\t** We'll try to run anyway, but this should be fixed **");
+//				// System.exit(-1);
+//			}
+//
+//			String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
+//			SignageType type = SignageType.valueOf(t);
+//			String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
+//			String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
+//			Color color = new Color(Integer.parseInt(colorString, 16));
+//			int portNumber = rs.getInt("Port");
+//			int screenNumber = rs.getInt("ScreenNumber");
+//			// String positionString = rs.getString("Position");
+//			// if (positionString == null)
+//
+//			stmt.close();
+//			rs.close();
+//			return new DynamicDisplayWithoutJxBrowser(portNumber, true, myName, screenNumber, number, location, color, type);
+//			// else {
+//			// String[] tokens = positionString.split("[+-]");
+//			// if (tokens.length == 3) {
+//			// int x = Integer.parseInt(tokens[1]);
+//			// if (positionString.startsWith("-"))
+//			// x = -x;
+//			// int y = Integer.parseInt(tokens[2]);
+//			// return new ADynamicDisplay(portNumber, true, myName, x, y, number, location, color, type);
+//			// } else {
+//			// System.err.println("Oops!  There are " + tokens.length + " tokens in '" + positionString + "': "
+//			// + Arrays.toString(tokens));
+//			// System.exit(-1);
+//			// }
+//			// }
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} catch (UnknownHostException e) {
+//			e.printStackTrace();
+//		}
 
 		System.err.println("Cannot create an instance of ADynamicDisplay!");
 		System.exit(-1);

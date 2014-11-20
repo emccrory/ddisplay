@@ -23,13 +23,13 @@ import javax.swing.JLabel;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copyright 2014
- *
+ * 
  */
 public class CheckDisplayStatus extends Thread {
 
-	private Display		display;
-	private int			index;
-	private JLabel	footer;
+	private Display							display;
+	private int								index;
+	private JLabel							footer;
 	private List<List<ChannelButtonGrid>>	grids;
 
 	public CheckDisplayStatus(final Display display, final int index, final JLabel footer, final List<List<ChannelButtonGrid>> grids) {
@@ -42,7 +42,7 @@ public class CheckDisplayStatus extends Thread {
 
 	public void run() {
 		catchSleep(25 * index + 20000L); // Put in a delay to get the Pings to each Display offset from each other a little
-								// bit.
+		// bit.
 		Connection connection = DisplayListDatabaseRemote.getConnection();
 		while (true) {
 			try {
@@ -56,28 +56,31 @@ public class CheckDisplayStatus extends Thread {
 					if (rs.first()) { // Move to first returned row
 						while (!rs.isAfterLast()) {
 							InputStream cn = rs.getAsciiStream("Content");
-							if (cn != null) {
-								String contentName = ConnectionToDynamicDisplaysDatabase.makeString(cn);
-								if (contentName.startsWith("0: "))
-									contentName = contentName.substring(3);
-								if (contentName.contains(" is being displayed"))
-									contentName = contentName.substring(0, contentName.indexOf(" is being displayed"));
-								// Create a new footer
-								String text = "Disp " + display.getNumber() + ": " + (contentName);
-								footer.setText(text);
-								footer.setToolTipText(contentName);
-								DisplayButtons.setToolTip(display);
+							if (cn != null)
+								try {
+									String contentName = ConnectionToDynamicDisplaysDatabase.makeString(cn);
+									if (contentName.startsWith("0: "))
+										contentName = contentName.substring(3);
+									if (contentName.contains(" is being displayed"))
+										contentName = contentName.substring(0, contentName.indexOf(" is being displayed"));
+									// Create a new footer
+									String text = "Disp " + display.getNumber() + ": " + (contentName);
+									footer.setText(text);
+									footer.setToolTipText(contentName);
+									DisplayButtons.setToolTip(display);
 
-								// Enable the Channel buttons, too
-								for (List<ChannelButtonGrid> allGrids : grids)
-									if (allGrids.get(0).getDisplay().getNumber() == display.getNumber())
-										for (ChannelButtonGrid cbg : allGrids)
-											for (int i = 0; i < cbg.getBg().getNumButtons(); i++) {
-												DDButton myButton = cbg.getBg().getAButton(i);
-												boolean selected = myButton.getChannel().toString().equals(contentName);
-												myButton.setSelected(selected);
-											}
-							}
+									// Enable the Channel buttons, too
+									for (List<ChannelButtonGrid> allGrids : grids)
+										if (allGrids.get(0).getDisplay().getNumber() == display.getNumber())
+											for (ChannelButtonGrid cbg : allGrids)
+												for (int i = 0; i < cbg.getBg().getNumButtons(); i++) {
+													DDButton myButton = cbg.getBg().getAButton(i);
+													boolean selected = myButton.getChannel().toString().equals(contentName);
+													myButton.setSelected(selected);
+												}
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
 							rs.next();
 						}
 					}

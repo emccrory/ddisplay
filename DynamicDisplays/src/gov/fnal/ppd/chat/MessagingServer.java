@@ -678,6 +678,8 @@ public class MessagingServer {
 
 							// Thank you, Collections, for making this so easy.
 							Collections.shuffle(randomOrder);
+							
+							// TODO -- It might be better to sort them oldest to newest (so the oldest clients get pinged first)
 						}
 					} catch (Exception e) {
 						// This has bitten me before; don't let that happen again.

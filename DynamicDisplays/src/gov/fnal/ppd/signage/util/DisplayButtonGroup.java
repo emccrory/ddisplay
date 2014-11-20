@@ -146,12 +146,12 @@ public class DisplayButtonGroup implements ActionListener {
 			for (int i = 0; i < buttons.size(); i++) {
 				if (buttons.get(i).isSelected()) {
 					int sel = (i + 1) % buttons.size();
-					if (buttons.get(sel).getChannel().getCategory() != ChannelCategory.PUBLIC) {
+					if (!buttons.get(sel).getChannel().getCategory().equals(ChannelCategory.PUBLIC)) {
 						// Rats! have to find the next Public Channel
-						for (; sel < buttons.size() && buttons.get(sel).getChannel().getCategory() != ChannelCategory.PUBLIC; sel++)
+						for (; sel < buttons.size() && !buttons.get(sel).getChannel().getCategory().equals(ChannelCategory.PUBLIC); sel++)
 							; // Just keep looking
 						if (sel >= buttons.size()) {
-							for (sel = 0; sel < i && buttons.get(sel).getChannel().getCategory() != ChannelCategory.PUBLIC; sel++)
+							for (sel = 0; sel < i && !buttons.get(sel).getChannel().getCategory().equals(ChannelCategory.PUBLIC); sel++)
 								; // Just keep looking
 						}
 					}

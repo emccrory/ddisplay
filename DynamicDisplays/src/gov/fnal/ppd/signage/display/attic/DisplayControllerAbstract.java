@@ -244,66 +244,66 @@ public abstract class DisplayControllerAbstract extends DisplayImpl {
 			System.exit(1);
 		}
 
-		try {
-			rs = stmt.executeQuery(query);
+//		try {
+//			rs = stmt.executeQuery(query);
 
-			if (rs.first()) { // Move to first returned row (there should only be one)
-				String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
-
-				if (!myName.equals(myNode)) {
-					// TODO This will not work if the IPName in the database is an IP address.
-					System.out.println("The node name of this display (no. " + number
-							+ "), according to the database, is supposed to be '" + myName
-							+ "', but InetAddress.getLocalHost().getCanonicalHostName() says it is '" + myNode
-							+ "'\n\t** We'll try to run anyway, but this should be fixed **");
-					// System.exit(-1);
-				}
-				number = rs.getInt("DisplayID");
-
-				System.out.println("The node name of this display (no. " + number + ") is '" + myNode + "'");
-
-				String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
-				SignageType type = SignageType.valueOf(t);
-				String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
-				String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
-				Color color = new Color(Integer.parseInt(colorString, 16));
-				int portNumber = rs.getInt("Port");
-				int screenNumber = rs.getInt("ScreenNumber");
-				// String positionString = rs.getString("Position");
-				// if (positionString == null)
-
-				stmt.close();
-				rs.close();
-
-				// Now create the class object
-
-				Constructor<?> cons;
-				try {
-					cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class,
-							SignageType.class);
-					return (DisplayControllerAbstract) cons.newInstance(new Object[] { myName, number, screenNumber, portNumber,
-							location, color, type });
-				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
-						| IllegalArgumentException | InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return null;
-			} else {
-				new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
-				System.err.println("\n** Cannot continue! **\nExit");
-				connection.close();
-				System.exit(-1);
-			}
-
-			System.err.println("Cannot create an instance of DisplayAsStandaloneBrowser!");
-			if (connection != null)
-				connection.close();
-			System.exit(-1);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+//			if (rs.first()) { // Move to first returned row (there should only be one)
+//				String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
+//
+//				if (!myName.equals(myNode)) {
+//					// TODO This will not work if the IPName in the database is an IP address.
+//					System.out.println("The node name of this display (no. " + number
+//							+ "), according to the database, is supposed to be '" + myName
+//							+ "', but InetAddress.getLocalHost().getCanonicalHostName() says it is '" + myNode
+//							+ "'\n\t** We'll try to run anyway, but this should be fixed **");
+//					// System.exit(-1);
+//				}
+//				number = rs.getInt("DisplayID");
+//
+//				System.out.println("The node name of this display (no. " + number + ") is '" + myNode + "'");
+//
+//				String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
+//				SignageType type = SignageType.valueOf(t);
+//				String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
+//				String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
+//				Color color = new Color(Integer.parseInt(colorString, 16));
+//				int portNumber = rs.getInt("Port");
+//				int screenNumber = rs.getInt("ScreenNumber");
+//				// String positionString = rs.getString("Position");
+//				// if (positionString == null)
+//
+//				stmt.close();
+//				rs.close();
+//
+//				// Now create the class object
+//
+//				Constructor<?> cons;
+//				try {
+//					cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class,
+//							SignageType.class);
+//					return (DisplayControllerAbstract) cons.newInstance(new Object[] { myName, number, screenNumber, portNumber,
+//							location, color, type });
+//				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
+//						| IllegalArgumentException | InvocationTargetException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				return null;
+//			} else {
+//				new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
+//				System.err.println("\n** Cannot continue! **\nExit");
+//				connection.close();
+//				System.exit(-1);
+//			}
+//
+//			System.err.println("Cannot create an instance of DisplayAsStandaloneBrowser!");
+//			if (connection != null)
+//				connection.close();
+//			System.exit(-1);
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//   	}
 
 		System.err.println("Control passed to a place that is impossible to reach!");
 		return null;

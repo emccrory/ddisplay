@@ -287,7 +287,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			}
 
 			try (ResultSet rs = stmt.executeQuery(query);) {
-				if (rs.first()) { // Move to first returned row (there should only be one)
+				if (rs.first()) try { // Move to first returned row (there should only be one)
 					String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
 
 					if (!myName.equals(myNode)) {
@@ -333,6 +333,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						e.printStackTrace();
 					}
 					return null;
+				} catch ( Exception e) {
+					e.printStackTrace();
 				} else {
 					new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
 					System.err.println("\n** Cannot continue! **\nExit");
@@ -384,7 +386,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					stmt.close();
 					rs.close();
 				}
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} catch (SQLException ex) {

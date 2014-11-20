@@ -16,7 +16,7 @@ import java.sql.SQLException;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copyright 2014
- *
+ * 
  */
 public class ConnectionToDynamicDisplaysDatabase {
 	private static Connection	connection;
@@ -27,7 +27,8 @@ public class ConnectionToDynamicDisplaysDatabase {
 	/**
 	 * @return the DB connection object
 	 * 
-	 * @throws DatabaseNotVisibleException if it cannot connect to the database server
+	 * @throws DatabaseNotVisibleException
+	 *             if it cannot connect to the database server
 	 */
 	public static Connection getDbConnection() throws DatabaseNotVisibleException {
 		if (connection != null) {
@@ -81,19 +82,18 @@ public class ConnectionToDynamicDisplaysDatabase {
 	/**
 	 * A simplified way to get a string from an InputStream.
 	 * 
-	 * @param asciiStream The InputStream to read
+	 * @param asciiStream
+	 *            The InputStream to read
 	 * @return The String that has been read from the InputStream
+	 * @throws IOException 
 	 */
-	public static String makeString(InputStream asciiStream) {
+	public static String makeString(InputStream asciiStream) throws IOException {
 		String retval = "";
+
 		int c;
-		try {
-			while ((c = asciiStream.read()) > 0) {
-				retval += Character.valueOf((char) c);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		while ((c = asciiStream.read()) > 0)
+			retval += Character.valueOf((char) c);
+
 		return retval;
 	}
 }
