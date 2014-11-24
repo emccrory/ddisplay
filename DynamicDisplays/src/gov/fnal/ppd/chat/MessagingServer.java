@@ -109,6 +109,8 @@ public class MessagingServer {
 		// my unique id (easier for deconnection)
 		int					id;
 		private long		lastSeen			= System.currentTimeMillis();
+		private boolean		onNotice			= false;
+
 		ObjectInputStream	sInput;
 		// the socket where to listen/talk
 		Socket				socket;
@@ -177,12 +179,16 @@ public class MessagingServer {
 			this.socket = null;
 		}
 
-		// This method is what will run forever
-
 		public long getLastSeen() {
 			return this.lastSeen;
 		}
 
+		public void setLastSeen() {
+			this.lastSeen = System.currentTimeMillis();
+			setOnNotice(false);
+		}
+
+		// This method is what will run forever
 		public void run() {
 			// to loop until LOGOUT or we hit an unrecoverable exception
 			Object read = new Object();
@@ -331,6 +337,24 @@ public class MessagingServer {
 			}
 			return true;
 		}
+
+		/**
+		 * Is this client on notice, that is, have we recently thought it was tardy??
+		 * 
+		 * @return if this client is on notice for being tardy/absent
+		 */
+		public boolean isOnNotice() {
+			return onNotice;
+		}
+
+		/**
+		 * Put this client on notice, or take it off.
+		 * 
+		 * @param onNotice
+		 */
+		public void setOnNotice(boolean onNotice) {
+			this.onNotice = onNotice;
+		}
 	}
 
 	/*************************************************************************************************************************
@@ -418,7 +442,7 @@ public class MessagingServer {
 	private void markClientAsSeen(String from) {
 		for (ClientThread CT : listOfMessagingClients)
 			if (from.equals(CT.username))
-				CT.lastSeen = System.currentTimeMillis();
+				CT.setLastSeen();
 	}
 
 	// an ArrayList to keep the list of the Client
@@ -441,8 +465,8 @@ public class MessagingServer {
 	private final long			tooOldTime				= 100L * sleepPeriodBtwPings;
 
 	protected int				totalMesssagesHandled	= 0;
-
 	private int					numClientsRemoved		= 0;
+	private int					numClientsputOnNotice	= 0;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -516,12 +540,22 @@ public class MessagingServer {
 				oldestName = CT.username + ", last seen " + new Date(CT.getLastSeen());
 			}
 			if ((System.currentTimeMillis() - CT.getLastSeen()) > tooOldTime) {
-				listOfMessagingClients.remove(CT);
-				CT.close();
-				display("Removed Client " + CT.username + " because its last response was more than " + (tooOldTime / 1000L)
-						+ " seconds ago: " + new Date(CT.lastSeen));
-				numClientsRemoved++;
-				CT = null; // Not really necessary, but it makes me feel better.
+
+				// Give this client a second chance.
+
+				if (CT.isOnNotice()) {
+					listOfMessagingClients.remove(CT);
+					CT.close();
+					display("Removed Client [" + CT.username + "] because its last response was more than " + (tooOldTime / 1000L)
+							+ " seconds ago: " + new Date(CT.getLastSeen()));
+					numClientsRemoved++;
+					CT = null; // Not really necessary, but it makes me feel better.
+				} else {
+					display("Client [" + CT.username + "] is now 'on notice' because its last response was more than "
+							+ (tooOldTime / 1000L) + " seconds ago: " + new Date(CT.getLastSeen()));
+					CT.setOnNotice(true);
+					numClientsputOnNotice++;
+				}
 			}
 		}
 
@@ -537,6 +571,7 @@ public class MessagingServer {
 					+ listOfMessagingClients.size() + " client" + (listOfMessagingClients.size() != 1 ? "s" : "")
 					+ " connected right now, " + totalMesssagesHandled + " messages handled\n"
 					+ "                       Oldest client is " + oldestName + "\n"
+					+ "                       Number of clients put 'on notice': " + numClientsputOnNotice + "\n"
 					+ "                       Number of clients removed due to lack of response: " + numClientsRemoved);
 		}
 	}
@@ -579,7 +614,7 @@ public class MessagingServer {
 
 							String m = "List of connected clients:\n";
 							for (ClientThread CT : listOfMessagingClients) {
-								m += "           " + CT.username + ", last seen at " + new Date(CT.lastSeen) + " ID=" + CT.id
+								m += "           " + CT.username + ", last seen at " + new Date(CT.getLastSeen()) + " ID=" + CT.id
 										+ "\n";
 							}
 							display(m);
@@ -637,7 +672,7 @@ public class MessagingServer {
 
 				while (keepGoing)
 					try {
-						catchSleep(sleepPeriodBtwPings);
+						catchSleep(sleepPeriodBtwPings); // Two seconds between pings; 200 seconds is "too old"
 
 						if (listOfMessagingClients.size() == 0)
 							continue;
@@ -656,9 +691,20 @@ public class MessagingServer {
 						 */
 						showAliveMessages = (lastPrint + 13L * ONE_MINUTE) < System.currentTimeMillis();
 
-						// Send the "Are You Alive?" message. (Note that the order of selection is randomized)
-						broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME,
-								listOfMessagingClients.get(randomOrder.get(nextClient)).username));
+						// Ping any client that is "on notice"
+						List<String> clist = new ArrayList<String>();
+						for (ClientThread CT : listOfMessagingClients)
+							if (CT.isOnNotice())
+								clist.add(CT.username);
+
+						// Add a random client to the list of clients to send the "Are You Alive?" message
+						String ranClient = listOfMessagingClients.get(randomOrder.get(nextClient)).username;
+						if (!clist.contains(ranClient))
+							clist.add(ranClient);
+						for (String S : clist) {
+							catchSleep(1);
+							broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, S));
+						}
 
 						/*
 						 * TODO Maybe the right way to do this is to broadcast a "Are You Alive" message (really, broadcast with one
@@ -678,8 +724,6 @@ public class MessagingServer {
 
 							// Thank you, Collections, for making this so easy.
 							Collections.shuffle(randomOrder);
-							
-							// TODO -- It might be better to sort them oldest to newest (so the oldest clients get pinged first)
 						}
 					} catch (Exception e) {
 						// This has bitten me before; don't let that happen again.
