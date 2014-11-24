@@ -109,7 +109,7 @@ public class DDSystemStatus extends JFrame {
 			if (clientName == null || clientName.length() == 0) // || clientName.equals("NULL"))
 				return;
 
-			String dateString = msg.getMessage().substring(msg.getMessage().indexOf("since ") + 7);
+			String dateString = msg.getMessage();
 			if (clientName.contains("FA\u00c7ADE")) {
 				if (showFacades.isSelected()) {
 					String facadeName = clientName.substring(clientName.indexOf("--") + 3);
@@ -131,8 +131,7 @@ public class DDSystemStatus extends JFrame {
 						g.add(new DefaultMutableTreeNode("'" + FACADE.toLowerCase()
 								+ "' nodes are virtual connections between a channel changer & a real display"));
 						if (showUpTime.isSelected())
-							g.add(new DefaultMutableTreeNode("Connected at "
-									+ dateString.substring(dateString.indexOf("since") + 6)));
+							g.add(new DefaultMutableTreeNode("Connected " + dateString));
 						g.add(new DefaultMutableTreeNode(clientName));
 						// System.out.println("B: " + clientName + " added to " + g.getUserObject());
 					}
@@ -141,12 +140,15 @@ public class DDSystemStatus extends JFrame {
 				DefaultMutableTreeNode node = new DefaultMutableTreeNode(clientName);
 				root.add(node);
 				if (showUpTime.isSelected())
-					node.add(new DefaultMutableTreeNode("Connected at " + dateString.substring(dateString.indexOf("since") + 6)));
+					node.add(new DefaultMutableTreeNode("Connected " + dateString));
 				// System.out.println("C: " + clientName + " added to root");
-				if (clientName.contains(")"))
-					node.add(new DefaultMutableTreeNode("Dynamic Display Number "
-							+ clientName.substring(clientName.indexOf('(') + 1, clientName.indexOf(')'))));
-				else if (clientName.contains("_listener_"))
+				if (clientName.contains(")")) {
+					int num = Integer.parseInt(clientName.substring(clientName.indexOf('(') + 1, clientName.indexOf(')')));
+					String s = "" + num;
+					if (num < 10)
+						s = "0" + num;
+					node.add(new DefaultMutableTreeNode("Dynamic Display ** Number " + s + " ** "));
+				} else if (clientName.contains("_listener_"))
 					node.add(new DefaultMutableTreeNode(DDSystemStatus.class.getCanonicalName()));
 				else
 					node.add(new DefaultMutableTreeNode(ChannelSelector.class.getCanonicalName()));

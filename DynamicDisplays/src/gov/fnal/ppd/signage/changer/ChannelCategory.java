@@ -68,6 +68,12 @@ public class ChannelCategory {
 	private String						value;
 	private String						abbreviation;
 
+	/**
+	 * Needed for XML encoding and decoding
+	 */
+	public ChannelCategory() {
+	}
+
 	public ChannelCategory(String s) {
 		this.value = this.abbreviation = s;
 		if (s != null && s.length() > 5)

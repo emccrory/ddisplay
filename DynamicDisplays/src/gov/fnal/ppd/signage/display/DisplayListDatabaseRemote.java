@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The actual list of Displays in the system.
@@ -73,6 +74,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 
 		int count = 0;
 		// Use ARM to simplify this try block
+		List<Integer> dID = new ArrayList<Integer>();
 		try (Statement stmt = getConnection().createStatement();
 				ResultSet rs = stmt
 						.executeQuery("SELECT * FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID);");) {
@@ -85,10 +87,13 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 					int displayID = rs.getInt("DisplayID");
 					int screenNumber = rs.getInt("ScreenNumber");
 					int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
-					if (locationCode < 0 || locCode == locationCode) { // Negative locationCode will select ALL displays everywhere
+					if ((locationCode < 0 || locCode == locationCode) && !dID.contains(displayID)) { // Negative locationCode will
+																									// select ALL displays
+																									// everywhere
 						SignageType type = SignageType.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs
 								.getAsciiStream("Type")));
 
+						dID.add(displayID);
 						Display p = new DisplayFacade(locCode, ipName, displayID, screenNumber, location, new Color(colorCode),
 								type);
 
