@@ -16,10 +16,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 /**
@@ -40,7 +40,16 @@ public class IdentifyAll implements ActionListener {
 
 	private Channel				identifyChannel	= null;
 
-	private static IdentifyAll	me				= new IdentifyAll();
+	private static IdentifyAll	me;
+
+	/**
+	 * Add all the displays to the
+	 * 
+	 * @param d
+	 */
+	public static void setListOfDisplays(List<Display> d) {
+		me = new IdentifyAll(d);
+	}
 
 	/**
 	 * Setup the size of the button you want. Don't call this and you'll get a default button size
@@ -60,7 +69,12 @@ public class IdentifyAll implements ActionListener {
 	 * @return the button that launches the "identify all" procedure
 	 */
 	public static JButton getButton() {
+		if (me == null)
+			me = new IdentifyAll(null);
+
 		JButton button = new JButton(title);
+		button.setToolTipText("<html><b>Identify All Displays</b> -- Cause each Display "
+				+ "<br>to show a special, self-identify splash screen</html>");
 		button.setActionCommand(IdentifyAll.class.getCanonicalName());
 		if (inset != null) {
 			button.setFont(button.getFont().deriveFont(fontSize));
@@ -73,13 +87,19 @@ public class IdentifyAll implements ActionListener {
 	/**
 	 * 
 	 */
-	private IdentifyAll() {
-		// Set up a different connection to each display within this class, doubling the number of connections to the messaging server
+	private IdentifyAll(List<Display> d) {
+		// Set up a different connection to each display within this class, doubling the number of connections to the messaging
+		// server
 		PROGRAM_NAME = "Identify";
 
 		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
 
-		displays = DisplayListFactory.getInstance(sType, locationCode);
+		if (d == null)
+			displays = DisplayListFactory.getInstance(sType, locationCode);
+		else {
+			displays = new ArrayList<Display>();
+			displays.addAll(d);
+		}
 
 		try {
 			identifyChannel = new PlainURLChannel(new URL(SELF_IDENTIFY));
@@ -99,7 +119,7 @@ public class IdentifyAll implements ActionListener {
 	public void actionPerformed(final ActionEvent ev) {
 		if (ev.getActionCommand().equals(IdentifyAll.class.getCanonicalName()))
 			for (Display D : displays) {
-				// System.out.println("Set '" + D + "' to '" + identifyChannel + "'");
+				System.out.println("Set '" + D + "' to '" + identifyChannel + "'");
 				D.setContent(identifyChannel);
 				try {
 					Thread.sleep(10);

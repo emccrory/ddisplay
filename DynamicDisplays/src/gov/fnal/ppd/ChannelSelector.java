@@ -190,7 +190,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		progressMonitor.setProgress(0);
 
 		catchSleep(100); // Let the progress monitor start
-		
+
 		int index = 0;
 		for (final Display display : displayList) {
 			progressMonitor.setNote(note);
@@ -442,8 +442,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			});
 			addChannelButton.setToolTipText("<html><b>Add a channel to the system</b> -- "
-					+ "<em>use sparingly!</em><br>Launches a web page on your local browser that will "
-					+ "allow you to add a Channel/URL to the system</html>");
+					+ "<em>use sparingly!</em><br>Launches a web page on your local browser that "
+					+ "<br>will allow you to add a Channel/URL to the system</html>");
 			addChannelButton.setMargin(new Insets(5, 5, 5, 5));
 		} else {
 			// Create an exit button
@@ -483,6 +483,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		titleBox.setBorder(BorderFactory.createLineBorder(c, wid));
 
 		if (!IS_PUBLIC_CONTROLLER) {
+			refreshButton.setToolTipText("<html><b>Refresh URLs</b> -- Refresh the URLs on each Channel button "
+					+ "<br>by re-reading this information from the Channel database."
+					+ "<br><em>This will not create new buttons</em></html>");
 			titleBox.add(refreshButton);
 			if (!SHOW_IN_WINDOW)
 				IdentifyAll.setup("ID", FONT_SIZE / 2, new Insets(5, 5, 5, 5));
@@ -492,6 +495,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			// TODO -- This IdentifyAll class was an expedient way to implement this functionality, but at the price of twice as
 			// many messaging clients in this ChannelSelector class. It should be easy enough to re-implement this using the
 			// messaging clients we already have.
+			IdentifyAll.setListOfDisplays(displayList);
 			JButton idAll = IdentifyAll.getButton();
 			titleBox.add(idAll);
 			idAll.addActionListener(new ActionListener() {
@@ -506,6 +510,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		JButton flipTitles = new JButton(new ImageIcon("src/gov/fnal/ppd/images/2arrows.png"));
 		flipTitles.setMargin(new Insets(2, 5, 2, 5));
+		flipTitles.setToolTipText("<html><b>Toggle Text</b> -- Toggle between a succinct"
+				+ "<br>Channel button label and one with more details");
 
 		flipTitles.addActionListener(new ActionListener() {
 
