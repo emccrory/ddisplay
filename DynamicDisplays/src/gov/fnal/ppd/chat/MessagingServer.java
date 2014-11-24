@@ -86,7 +86,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class MessagingServer {
 
-	public boolean	showAliveMessages	= false;
+	private boolean	showAliveMessages	= false;
 
 	/*************************************************************************************************************************
 	 * Handle the communications with a specific client in the messaging system. One instance of this thread will run for each
