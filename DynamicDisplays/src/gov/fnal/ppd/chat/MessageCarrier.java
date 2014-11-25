@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 /**
  * This class defines the different type of messages that will be exchanged between the Clients and the Server. When talking from a
- * Java Client to a Java Server a lot easier to pass Java objects, no need to count bytes or to wait for a line feed at the end of
- * the frame
+ * Java Client to a Java Server, it is a lot easier to stream Java objects, so that is what we do here.
  * 
  * Taken from http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/ on 5/12/2014
  */
@@ -19,8 +18,8 @@ public class MessageCarrier implements Serializable {
 	private String				from;
 
 	/**
-	 * @param from 
-	 * @param to 
+	 * @param from
+	 * @param to
 	 * @param message
 	 *            The ASCII message to send
 	 * @return the object to send over the wire
@@ -45,7 +44,7 @@ public class MessageCarrier implements Serializable {
 	}
 
 	/**
-	 * @param from 
+	 * @param from
 	 * @return A message for the messaging server asking for all the clients that are connected
 	 */
 	public static MessageCarrier getWhoIsIn(final String from) {
@@ -53,7 +52,7 @@ public class MessageCarrier implements Serializable {
 	}
 
 	/**
-	 * @param from 
+	 * @param from
 	 * @param to
 	 *            The name of the client for whom this message is intended
 	 * @return A message for the messaging server asking if a client is alive
@@ -63,9 +62,9 @@ public class MessageCarrier implements Serializable {
 	}
 
 	/**
-	 * @param from 
-	 * @param to 
-	 * @param message 
+	 * @param from
+	 * @param to
+	 * @param message
 	 * @return A message to the messaging server that says, "Yes, I am alive"
 	 */
 	public static MessageCarrier getIAmAlive(final String from, final String to, String message) {
@@ -139,10 +138,11 @@ public class MessageCarrier implements Serializable {
 	}
 
 	/**
-	 * @param username The username to check
+	 * @param username
+	 *            The username to check
 	 * @return Is this message intended for this user?
 	 */
 	public boolean isThisForMe(final String username) {
-		return to == null || to.equals("NULL") || to.equals(username);
+		return to == null || to.equalsIgnoreCase("NULL") || to.equals(username);
 	}
 }
