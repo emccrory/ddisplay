@@ -74,7 +74,7 @@ public class DDSystemStatus extends JFrame {
 	private ImageIcon				dataIcon, infoIcon, clockIcon, facadeIcon, selectorIcon;
 
 	private AtomicInteger			nextWhoIsIn			= new AtomicInteger(1);
-	private JButton					refreshClients		= new JButton("Refresh in 0" + (nextWhoIsIn.get() + 1));
+	private JButton					refreshClients		= new JButton("Refresh in 00" + (nextWhoIsIn.get() + 1));
 	private JCheckBox				showUpTime			= new JCheckBox("Times?");
 	private JCheckBox				showFacades			= new JCheckBox("Fa" + "\u00c7ades?".toLowerCase());
 
@@ -148,8 +148,10 @@ public class DDSystemStatus extends JFrame {
 					if (num < 10)
 						s = "0" + num;
 					node.add(new DefaultMutableTreeNode("Dynamic Display ** Number " + s + " ** "));
-				} else if (clientName.contains("_listener_"))
-					node.add(new DefaultMutableTreeNode(DDSystemStatus.class.getCanonicalName()));
+				} else if (clientName.equals(client.getName()))
+					node.add(new DefaultMutableTreeNode("This " + DDSystemStatus.class.getSimpleName() + " Instance"));
+				else if (clientName.contains("_listener_"))
+					node.add(new DefaultMutableTreeNode("DD System Observer"));
 				else
 					node.add(new DefaultMutableTreeNode(ChannelSelector.class.getCanonicalName()));
 			}
@@ -187,6 +189,7 @@ public class DDSystemStatus extends JFrame {
 		add(tabs, BorderLayout.CENTER);
 
 		refreshClients.setFont(new Font("courier", Font.BOLD, 11));
+		refreshClients.setToolTipText("Click to refresh the client list now");
 
 		ActionListener checkBoxListener = new ActionListener() {
 
@@ -288,11 +291,12 @@ public class DDSystemStatus extends JFrame {
 					catchSleep(sleep);
 					sleep = 1000;
 
-					if (client != null && nextWhoIsIn.decrementAndGet() <= 0) {
+					if (client != null && nextWhoIsIn.decrementAndGet() < 0) {
 						whoIsIn();
-						nextWhoIsIn.set(59);
+						nextWhoIsIn.set(599);
 					}
-					refreshClients.setText("Refresh in " + (nextWhoIsIn.get() < 9 ? "0" : "") + (nextWhoIsIn.get() + 1));
+					refreshClients.setText("Refresh in " + (nextWhoIsIn.get() < 9 ? "00" : (nextWhoIsIn.get() < 99 ? "0" : ""))
+							+ (nextWhoIsIn.get() + 1));
 				}
 			}
 		}.start();
