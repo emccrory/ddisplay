@@ -17,8 +17,12 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -231,7 +235,7 @@ public class MessagingServer {
 
 				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())
 						&& showAliveMessages) {
-					display("Got 'I'm Alive' message from " + cm.getFrom());
+					display("Got 'I'm Alive' message from " + cm.getFrom().trim());
 					continue; // That's all for this loop iteration.
 				}
 
@@ -244,8 +248,14 @@ public class MessagingServer {
 				case AMALIVE:
 					//
 					// The message, received from a client, is relayed here to the client of its choosing
+					// (unless that client is not authorized)
 					//
-					broadcast(this.cm);
+					if (isAuthorized())
+						broadcast(this.cm);
+					else
+						display(this.username + " asked to send message of type " + this.cm.getType() + " to " + this.cm.getTo()
+								+ ", but it was rejected because" + this.username + " is not authorized in the network.");
+
 					break;
 
 				// ---------- Other types of messages are interpreted here by the server. ---------
@@ -321,6 +331,7 @@ public class MessagingServer {
 				close();
 				return false;
 			}
+
 			// write the message to the stream
 			try {
 				sOutput.writeObject(msg);
@@ -354,6 +365,19 @@ public class MessagingServer {
 		 */
 		public void setOnNotice(boolean onNotice) {
 			this.onNotice = onNotice;
+		}
+
+		public String getRemoteIPAddress() {
+			String retval = socket.getRemoteSocketAddress().toString();
+			return retval.substring(1, retval.indexOf(':'));
+		}
+
+		public boolean isAuthorized() {
+			/*
+			 * TODO -- Implement something meaningful here. Maybe it is sufficient to base this decision on the IP address, by
+			 * asking the DB if this IP address is a known user. For now, simply say every client is OK.
+			 */
+			return true;
 		}
 	}
 
@@ -461,8 +485,8 @@ public class MessagingServer {
 	private Thread				showClientList			= null;
 	private long				startTime				= System.currentTimeMillis();
 
-	private final long			sleepPeriodBtwPings		= 2000L;
-	private final long			tooOldTime				= 100L * sleepPeriodBtwPings;
+	private long				sleepPeriodBtwPings		= 2000L;
+	private long				tooOldTime				= 100L * sleepPeriodBtwPings;
 
 	protected int				totalMesssagesHandled	= 0;
 	private int					numClientsRemoved		= 0;
@@ -537,7 +561,7 @@ public class MessagingServer {
 		for (ClientThread CT : listOfMessagingClients) {
 			if (show && CT.getLastSeen() < oldestTime) {
 				oldestTime = CT.getLastSeen();
-				oldestName = CT.username + ", last seen " + new Date(CT.getLastSeen());
+				oldestName = CT.username + " (" + CT.getRemoteIPAddress() + "), last seen " + new Date(CT.getLastSeen());
 			}
 			if ((System.currentTimeMillis() - CT.getLastSeen()) > tooOldTime) {
 
@@ -566,11 +590,11 @@ public class MessagingServer {
 			long mins = (aliveTime % ONE_HOUR) / ONE_MINUTE;
 			long secs = (aliveTime % ONE_MINUTE) / ONE_SECOND;
 
-			display(MessagingServer.class.getSimpleName() + " has been alive " + days + " days, " + hours + " hrs " + mins
-					+ " min " + secs + " sec -- \n " + "                       " + numConnectionsSeen + " connections accepted, "
-					+ listOfMessagingClients.size() + " client" + (listOfMessagingClients.size() != 1 ? "s" : "")
-					+ " connected right now, " + totalMesssagesHandled + " messages handled\n"
-					+ "                       Oldest client is " + oldestName + "\n"
+			display("\n                       " + MessagingServer.class.getSimpleName() + " has been alive " + days + " d " + hours
+					+ " hr " + mins + " min " + secs + " sec (" + aliveTime + " msec)\n                       "
+					+ numConnectionsSeen + " connections accepted, " + listOfMessagingClients.size() + " client"
+					+ (listOfMessagingClients.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
+					+ " messages handled\n" + "                       Oldest client is " + oldestName + "\n"
 					+ "                       Number of clients put 'on notice': " + numClientsputOnNotice + "\n"
 					+ "                       Number of clients removed due to lack of response: " + numClientsRemoved);
 		}
@@ -614,8 +638,8 @@ public class MessagingServer {
 
 							String m = "List of connected clients:\n";
 							for (ClientThread CT : listOfMessagingClients) {
-								m += "           " + CT.username + ", last seen at " + new Date(CT.getLastSeen()) + " ID=" + CT.id
-										+ "\n";
+								m += "           " + CT.username + " (" + CT.getRemoteIPAddress() + "), last seen at "
+										+ new Date(CT.getLastSeen()) + " ID=" + CT.id + "\n";
 							}
 							display(m);
 							performDiagnostics(true);
@@ -663,27 +687,22 @@ public class MessagingServer {
 	 */
 	private void startPinger() {
 		new Thread("Pinger") {
-			private int				nextClient	= 0;
-			private long			lastPrint	= System.currentTimeMillis();
-			private List<Integer>	randomOrder	= new ArrayList<Integer>();
+			private int		nextClient	= 0;
+			private long	lastPrint	= System.currentTimeMillis();
 
 			public void run() {
-				catchSleep(15000L); // Wait a bit before starting the diagnostics
+				catchSleep(15000L); // Wait a bit before starting the pinging and the diagnostics
 
 				while (keepGoing)
 					try {
-						catchSleep(sleepPeriodBtwPings); // Two seconds between pings; 200 seconds is "too old"
+						catchSleep(sleepPeriodBtwPings); // Defaults: 200 seconds is "too old"; Two seconds between pings
 
 						if (listOfMessagingClients.size() == 0)
 							continue;
 
-						if (randomOrder.size() != listOfMessagingClients.size()) {
-							randomOrder.clear();
-							for (int i = 0; i < listOfMessagingClients.size(); i++)
-								randomOrder.add(i);
-							Collections.shuffle(randomOrder);
-							nextClient = (nextClient % randomOrder.size());
-						}
+						// This sleep period assures that each client is pinged at least twice before it is "too old"
+						sleepPeriodBtwPings = Math.min(tooOldTime / listOfMessagingClients.size() / 2L, 2000L);
+
 						/*
 						 * This boolean turns on the diagnostic message (in ClientThread.run()) that echos when a client says
 						 * "I am alive". Turn it on for two minutes, just before the diagnostic is printed, which would show about
@@ -691,42 +710,54 @@ public class MessagingServer {
 						 */
 						showAliveMessages = (lastPrint + 13L * ONE_MINUTE) < System.currentTimeMillis();
 
-						// Ping any client that is "on notice"
+						// Figure out which client(s) to ping
 						List<String> clist = new ArrayList<String>();
-						for (ClientThread CT : listOfMessagingClients)
+
+						long oldestTime = listOfMessagingClients.get(0).getLastSeen();
+						String oldestClientName = listOfMessagingClients.get(0).username;
+						// Ping any client that is "on notice", plus the oldest one that is not on notice
+						for (int i = 1; i < listOfMessagingClients.size(); i++) {
+							ClientThread CT = listOfMessagingClients.get(i);
 							if (CT.isOnNotice())
 								clist.add(CT.username);
+							else if (CT.getLastSeen() < oldestTime) {
+								oldestTime = CT.getLastSeen();
+								oldestClientName = CT.username;
+							}
+						}
 
-						// Add a random client to the list of clients to send the "Are You Alive?" message
-						String ranClient = listOfMessagingClients.get(randomOrder.get(nextClient)).username;
-						if (!clist.contains(ranClient))
-							clist.add(ranClient);
+						clist.add(oldestClientName);
+
 						for (String S : clist) {
 							catchSleep(1);
 							broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, S));
 						}
 
 						/*
-						 * TODO Maybe the right way to do this is to broadcast a "Are You Alive" message (really, broadcast with one
-						 * message to anyone that may be listening) and capture the results. It might be nice to have each client
-						 * wait some random number of milliseconds so the messages come in with few(er) collisions. The method here
-						 * works, but it takes some time to go through all the clients. This delay means that it is a long time
-						 * before we actually learn that a client is not there.
+						 * TODO Maybe the right way to do this is to _broadcast_ a "Are You Alive" message (really, broadcast with
+						 * one message to anyone that may be listening) and capture the results. In this case, it would be nice to
+						 * have each client wait some random number of milliseconds so the messages come in with few(er) collisions.
+						 * The method here works, but it takes some time to go through all the clients. This delay means that it is
+						 * a long time before we actually learn that a client is not there.
+						 */
+
+						/*
+						 * The idea here is to ping any client that is "on notice," plus the oldest client. If I have implemented
+						 * this right and all clients are prompt about reporting, then in the steady state it will march through and
+						 * ping the clients in the same order. Clients that send something to the server (like the Facades) will get
+						 * pushed to the end of the list, though.
 						 */
 
 						nextClient = (++nextClient) % listOfMessagingClients.size();
 						if (nextClient == 0) {
-							boolean old = lastPrint + FIFTEEN_MINUTES < System.currentTimeMillis();
+							boolean old = (lastPrint + FIFTEEN_MINUTES) < System.currentTimeMillis();
 							performDiagnostics(old);
 
 							if (old)
 								lastPrint = System.currentTimeMillis();
-
-							// Thank you, Collections, for making this so easy.
-							Collections.shuffle(randomOrder);
 						}
 					} catch (Exception e) {
-						// This has bitten me before; don't let that happen again.
+						// Random, unexpected exceptions have bitten me before (killing this thread); don't let that happen again.
 						e.printStackTrace();
 					}
 			}
