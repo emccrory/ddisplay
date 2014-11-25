@@ -9,19 +9,15 @@ import gov.fnal.ppd.signage.SignageContent;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.channel.ChannelPlayList;
 import gov.fnal.ppd.signage.comm.DCProtocol;
-import gov.fnal.ppd.signage.comm.DDMessage;
 import gov.fnal.ppd.signage.xml.ChangeChannel;
 import gov.fnal.ppd.signage.xml.ChangeChannelList;
 import gov.fnal.ppd.signage.xml.EncodedCarrier;
 import gov.fnal.ppd.signage.xml.MyXMLMarshaller;
-import gov.fnal.ppd.signage.xml.Ping;
 
 import java.awt.Color;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.xml.bind.JAXBException;
 
 /**
  * On the computer with the channel selector, this is the way you talk to a remote Dynamic Display
@@ -37,16 +33,39 @@ public class DisplayFacade extends DisplayImpl {
 	/**
 	 * 
 	 */
-	public static boolean			tryToConnectToDisplaysNow	= false;
+	public static boolean		tryToConnectToDisplaysNow	= false;
 	/**
 	 * 
 	 */
-	public static AtomicBoolean		alreadyWaiting				= new AtomicBoolean(false);
-	private AtomicBoolean			ready						= new AtomicBoolean(false);
-	private AtomicBoolean			waiting						= new AtomicBoolean(false);
+	public static AtomicBoolean	alreadyWaiting				= new AtomicBoolean(false);
+	private AtomicBoolean		ready						= new AtomicBoolean(false);
+	private AtomicBoolean		waiting						= new AtomicBoolean(false);
 
-	private FacadeMessagingClient	messagingClient				= null;
-
+	/**
+	 * Internal client for handling the direct messaging connection to our Display. There is one connection (through the Messaging
+	 * Server) and one instance of this private, inner class to each Display. That is, if there are ten Displays handled by the
+	 * ChannelSelector GUI, there will be ten sockets (connected through the Messaging Server) within the GUI to the ten individual
+	 * Displays.
+	 * 
+	 * TODO -- It might be necessary to reduce the number of messaging clients here on the GUI side; it seems like it would be
+	 * possible to reduce it to a single client. The messages being used in this system contain a "to" field, so it is not (really)
+	 * necessary to have the one-to-one connection between the Facade object (here) and the actual Display client out in the field.
+	 * Breaking that might be tricky, and it will definitely make the implementation more complicated. but in the era when we have
+	 * (ahem!) hundreds of GUIs out there trying to connect to (ahem!) thousands of Displays, it would save a lot of sockets on the
+	 * server.
+	 * 
+	 * This is a real concern if we get thousands of clients. See
+	 * http://stackoverflow.com/questions/1575453/how-many-socket-connections-can-a-typical-server-handle --
+	 * 
+	 * "The port number is a 16-bit unsigned integer, so 65536 is a hard limit on the maximum number of TCP/IP connections. This
+	 * varies from system to system, but a more realistic number is 'several thousand'. For web sites, the actual number of sessions
+	 * can be much greater than the maximum number of simultaneous sockets because a web browser disconnects after transferring the
+	 * data and reconnects later as necessary."
+	 * 
+	 * @author Elliott McCrory, Fermilab AD/Instrumentation
+	 * @copyright 2014
+	 * 
+	 */
 	private class FacadeMessagingClient extends MessagingClient {
 
 		private String		lookingFor;
@@ -67,6 +86,8 @@ public class DisplayFacade extends DisplayImpl {
 		}
 	}
 
+	private FacadeMessagingClient	messagingClient	= null;
+
 	/**
 	 * @param portNumber
 	 *            -- Ignored
@@ -77,7 +98,7 @@ public class DisplayFacade extends DisplayImpl {
 	 * @param color
 	 * @param type
 	 */
-	public DisplayFacade(final int portNumber, final String ipName, final int number,final int screenNumber, 
+	public DisplayFacade(final int portNumber, final String ipName, final int number, final int screenNumber,
 			final String location, final Color color, final SignageType type) {
 		super(ipName, number, screenNumber, location, color, type);
 
@@ -115,7 +136,8 @@ public class DisplayFacade extends DisplayImpl {
 			}
 
 			String xmlMessage = MyXMLMarshaller.getXML(cc);
-			messagingClient.sendMessage(MessageCarrier.getMessage(messagingClient.getName(), messagingClient.getTargetName(), xmlMessage));
+			messagingClient.sendMessage(MessageCarrier.getMessage(messagingClient.getName(), messagingClient.getTargetName(),
+					xmlMessage));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
