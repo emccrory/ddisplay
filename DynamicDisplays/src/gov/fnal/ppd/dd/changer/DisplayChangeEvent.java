@@ -17,7 +17,7 @@ public class DisplayChangeEvent extends ActionEvent {
 	 * The type of event this is
 	 * 
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 * @copy 2014
+	 * @copyright 2014
 	 * 
 	 */
 	@SuppressWarnings("javadoc")

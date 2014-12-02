@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  * A simple-looking panel that is a specified Color
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class MyRectangle extends JPanel {

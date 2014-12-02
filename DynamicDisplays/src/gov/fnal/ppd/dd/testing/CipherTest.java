@@ -16,7 +16,7 @@ import javax.crypto.spec.SecretKeySpec;
  * Use the Cipher stuff in javax.crypto
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class CipherTest {

@@ -11,7 +11,7 @@ import javax.swing.text.Document;
  * 
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class JTextAreaBottom extends JTextArea {

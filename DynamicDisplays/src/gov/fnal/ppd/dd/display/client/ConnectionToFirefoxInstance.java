@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class ConnectionToFirefoxInstance {

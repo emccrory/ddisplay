@@ -4,7 +4,7 @@ package gov.fnal.ppd.dd.display.attic;
  * Some utility functions for the operating system
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copy 2014
+ * @copyright 2014
  * 
  */
 public class BrowserUtilities {

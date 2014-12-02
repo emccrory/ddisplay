@@ -29,7 +29,7 @@ public class BrowserLauncher {
 	 * What kind of browser are we to use?
 	 * 
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 * @copy 2014
+	 * @copyright 2014
 	 * 
 	 */
 	public enum BrowserInstance {
