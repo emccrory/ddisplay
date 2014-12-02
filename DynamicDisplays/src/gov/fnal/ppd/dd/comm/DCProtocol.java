@@ -5,11 +5,11 @@ import gov.fnal.ppd.dd.channel.PlainURLChannel;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.util.attic.xml.HeartBeat;
+import gov.fnal.ppd.dd.util.attic.xml.Pong;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
-import gov.fnal.ppd.dd.xml.attic.HeartBeat;
-import gov.fnal.ppd.dd.xml.attic.Pong;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -49,11 +49,13 @@ import java.util.List;
  */
 
 /**
- * DC stands for Display Communications
+ * <p>This is the protocol for the messages between a Channel Changer and a Display.</p>
+ * <p><em>DC</p> stands for <em>Display Communications</p</p>
  * 
- * This is the protocol for the messages between a Channel Changer and a Display.
  * 
- * @author Elliott McCrory, Fermilab
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014
+ *
  */
 public class DCProtocol {
 	// private enum State {

@@ -8,17 +8,19 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 /**
+ * This is where all the globakl constant in the Dynamic Displays system are held.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copyright 2014
  * 
  */
 public class GlobalVariables {
 	/**
-	 * Do we show in full screen or in a window?
+	 * Do we show in full screen or in a window? Controlled by system constant, ddisplay.selector.inwindow
 	 */
 	public static boolean	SHOW_IN_WINDOW			= Boolean.getBoolean("ddisplay.selector.inwindow");
 	/**
-	 * Is this a PUBLIC controller?
+	 * Is this a PUBLIC controller? Controlled by system constant, ddisplay.selector.public
 	 */
 	public static boolean	IS_PUBLIC_CONTROLLER	= Boolean.getBoolean("ddisplay.selector.public");
 
@@ -28,14 +30,15 @@ public class GlobalVariables {
 	public static long		lastDisplayChange		= 0L;
 
 	/**
-	 * Which set of Displays are we controlling here?
+	 * Which set of Displays are we controlling here? Controlled by system constant, ddisplay.selector.location
 	 */
 	public static int		locationCode			= Integer.getInteger("ddisplay.selector.location", 0);
 
 	/**
 	 * Short name for the location of the displays
 	 */
-	private static String[]	locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", "WH Second Floor", "Fermilab" };
+	private static String[]	locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", "WH Second Floor",
+			"Fermilab"								};
 
 	/**
 	 * Long name for the location of the displays
@@ -43,8 +46,7 @@ public class GlobalVariables {
 	private static String[]	locationDescription		= { "Fermilab Experiments' Remote Operations Center, West Side",
 			"Fermilab CMS/LHC Remote Operations Center, East Side", //
 			"Fermilab Transfer Gallery", //
-			"Second Floor of Wilson Hall",
-			"All Dynamic Displays at Fermilab", //
+			"Second Floor of Wilson Hall", "All Dynamic Displays at Fermilab", //
 													};
 
 	/**
@@ -128,29 +130,30 @@ public class GlobalVariables {
 	public static final String		DEFAULT_SERVER			= "mccrory.fnal.gov";
 
 	/**
-	 * Where is the messaging server?
+	 * Where is the messaging server? Controlled by system constant, ddisplay.messagingserver
 	 */
 	public static final String		MESSAGING_SERVER_NAME	= System.getProperty("ddisplay.messagingserver", DEFAULT_SERVER);
 	/**
 	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) prime number in the range of unassigned
-	 * port number (49152 - 65535)
+	 * port number (49152 - 65535) Controlled by system constant ddisplay.messagingserver
 	 */
 	public static final int			MESSAGING_SERVER_PORT	= Integer.getInteger("ddisplay.messagingport", 49999);
 	/**
-	 * Where is the Web server?
+	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
 	public static final String		WEB_SERVER_NAME			= System.getProperty("ddisplay.webserver", DEFAULT_SERVER);
 	/**
-	 * Where is the Database server?
+	 * Where is the Database server? Controlled by system constant ddisplay.dbserver
 	 */
 	public static final String		DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", DEFAULT_SERVER);
 	/**
 	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
+	 * Controlled by system constant ddisplay.xmlserver
 	 */
 	public static final String		XML_SERVER_NAME			= System.getProperty("ddisplay.xmlserver", DEFAULT_SERVER);
 
 	/**
-	 * The database name, as in "USE " + DATABASE_NAME.
+	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
 	 */
 	public static final String		DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc");
 	/**

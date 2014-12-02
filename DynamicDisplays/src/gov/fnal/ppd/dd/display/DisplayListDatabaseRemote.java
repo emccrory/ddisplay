@@ -2,9 +2,9 @@ package gov.fnal.ppd.dd.display;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
-import gov.fnal.ppd.dd.signage.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageType;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.awt.Color;
 import java.sql.Connection;

@@ -1,7 +1,7 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_SERVER_NAME;
-import gov.fnal.ppd.dd.signage.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.io.IOException;
 import java.io.InputStream;

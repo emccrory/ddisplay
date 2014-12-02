@@ -4,9 +4,6 @@ import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
-import gov.fnal.ppd.dd.xml.attic.HeartBeat;
-import gov.fnal.ppd.dd.xml.attic.Ping;
-import gov.fnal.ppd.dd.xml.attic.Pong;
 
 import javax.management.RuntimeErrorException;
 import javax.xml.bind.JAXBException;
@@ -24,9 +21,9 @@ public class DDMessage {
 	private Object				receivedMessage;
 	// private final static String SCREEN = "Screen:";
 	private static final String	XMLPRE				= "<?xml";
-	private static final String	PING				= "<ping ";
-	private static final String	PONG				= "<pong ";
-	private static final String	HEARTBEAT			= "<heartBeat ";
+	// private static final String PING = "<ping ";
+	// private static final String PONG = "<pong ";
+	// private static final String HEARTBEAT = "<heartBeat ";
 	private static final String	CHANGE_CHANNEL		= "<changeChannel ";
 	private static final String	CHANGE_CHANNEL_LIST	= "<changeChannelList ";
 	private static final String	CHANNEL_SPEC		= "<channelSpec ";

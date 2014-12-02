@@ -4,8 +4,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
-import gov.fnal.ppd.dd.signage.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.net.URI;
 import java.net.URLEncoder;

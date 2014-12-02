@@ -33,6 +33,7 @@ import gov.fnal.ppd.dd.util.DisplayButtonGroup;
 import gov.fnal.ppd.dd.util.DisplayCardActivator;
 import gov.fnal.ppd.dd.util.DisplayKeeper;
 import gov.fnal.ppd.dd.util.JLabelFooter;
+import gov.fnal.ppd.dd.util.SelectorInstructions;
 import gov.fnal.ppd.dd.util.SplashScreens;
 import gov.fnal.ppd.dd.util.WhoIsInChatRoom;
 
@@ -72,10 +73,18 @@ import javax.swing.event.ChangeListener;
 
 /**
  * <p>
- * Allows the user to select the Channel that is being displayed on every Signage Display
+ * Allows the user to select the Channel that is being displayed on each Display in the Dynamic Displays system
+ * </p>
+ * <p>
+ * This is the main GUI class for performing the Channel selection on the Displays. The configuration of the GUI is determined by a
+ * series of system parameters, which are held in {@link gov.fnal.ppd.dd.GlobalVariables}:
+ * <ul>
+ * <li>{@link gov.fnal.ppd.dd.GlobalVariables#SHOW_IN_WINDOW} -- false means make it full screen</li>
+ * <li>{@link gov.fnal.ppd.dd.GlobalVariables#IS_PUBLIC_CONTROLLER} -- false mean show all possible channels</li>
+ * </ul>
  * </p>
  * 
- * @author Elliott McCrory, Fermilab AD/Instrumentation, 2013
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2013-14
  */
 public class ChannelSelector extends JPanel implements ActionListener, DisplayCardActivator, DisplayKeeper {
 
@@ -115,7 +124,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private int								nowShowing					= DDButton.USE_NAME_FIELD;
 
 	/**
-	 * Create the channel selector in the normal way
+	 * Create the channel selector GUI in the normal way
 	 */
 	public ChannelSelector() {
 		super(new BorderLayout());
@@ -607,7 +616,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		}
 	}
 
-	
 	// This code snippet would be used if this selector was to be run on an Android device.
 	// @Override
 	// public void onConfigurationChanged(Configuration newConfig) {

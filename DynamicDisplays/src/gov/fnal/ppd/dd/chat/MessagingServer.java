@@ -79,9 +79,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * details.
  * </p>
  * 
+ * *
  * <p>
- * Taken from http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/ on 5/12/2014
+ * Taken from the internet on 5/12/2014. @see <a
+ * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
  * </p>
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014
  */
 public class MessagingServer {
 

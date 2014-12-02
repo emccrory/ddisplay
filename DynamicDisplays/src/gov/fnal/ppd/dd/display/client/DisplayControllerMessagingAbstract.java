@@ -11,9 +11,9 @@ import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.comm.DCProtocol;
 import gov.fnal.ppd.dd.display.DisplayImpl;
 import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

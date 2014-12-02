@@ -11,10 +11,20 @@ import java.util.Date;
 import java.util.Scanner;
 
 /**
+ * <p>
  * The Client that can be run both as a console or a GUI
+ * </p>
  * 
- * Taken from http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/ on 5/12/2014
+ * <p>
+ * Taken from the internet on 5/12/2014. @see <a
+ * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
+ * </p>
+ * <p>
  * Extensively modified by Elliott McCrory, Fermilab AD/Instrumentation, 2014
+ * </p>
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014
  */
 public class MessagingClient {
 

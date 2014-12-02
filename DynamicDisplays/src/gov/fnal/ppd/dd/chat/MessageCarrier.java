@@ -6,7 +6,12 @@ import java.io.Serializable;
  * This class defines the different type of messages that will be exchanged between the Clients and the Server. When talking from a
  * Java Client to a Java Server, it is a lot easier to stream Java objects, so that is what we do here.
  * 
- * Taken from http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/ on 5/12/2014
+ * Taken from the internet on 5/12/2014. @see <a
+ * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014
+ * 
  */
 public class MessageCarrier implements Serializable {
 

@@ -5,8 +5,8 @@ import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.xml.attic.Ping;
-import gov.fnal.ppd.dd.xml.attic.Pong;
+import gov.fnal.ppd.dd.util.attic.xml.Ping;
+import gov.fnal.ppd.dd.util.attic.xml.Pong;
 
 import java.net.URI;
 import java.net.URISyntaxException;

@@ -37,9 +37,14 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 /**
+ * <p>
  * A messaging client that shows what is in the messaging system, taylored to the specifics of the Dynamic Displays system
+ * </p>
  * 
- * Taken from http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/ on 5/12/2014
+ * <p>
+ * Taken from web page on 5/12/2014: @see <a
+ * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/">dreamincode.net</a>
+ * </p>
  */
 public class DDSystemStatus extends JFrame {
 

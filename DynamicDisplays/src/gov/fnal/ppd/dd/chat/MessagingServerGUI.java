@@ -20,9 +20,20 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 /**
- * The server as a GUI
+ * <p>
+ * The messaging server as a GUI
+ * </p>
  * 
- * Taken from http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/ on 5/12/2014
+ * <p>
+ * Taken from the internet on 5/12/2014. @see <a
+ * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
+ * </p>
+ * <p>
+ * Extensively modified by Elliott McCrory, Fermilab AD/Instrumentation, 2014
+ * </p>
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014
  */
 public class MessagingServerGUI extends JFrame implements ActionListener, WindowListener {
 
@@ -56,13 +67,13 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 			}
 		}
 
-//		protected synchronized void broadcast(MessageCarrier msg) {
-//			super.broadcast(msg);
-//
-//			synchronized (event) {
-//				event.append(new Date() + "\n" + msg + "\n");
-//			}
-//		}
+		// protected synchronized void broadcast(MessageCarrier msg) {
+		// super.broadcast(msg);
+		//
+		// synchronized (event) {
+		// event.append(new Date() + "\n" + msg + "\n");
+		// }
+		// }
 	};
 
 	// server constructor that receive the port to listen to for connection as parameter
