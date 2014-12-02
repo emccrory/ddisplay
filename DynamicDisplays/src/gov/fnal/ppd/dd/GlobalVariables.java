@@ -85,8 +85,14 @@ public class GlobalVariables {
 			"src/gov/fnal/ppd/dd/images/fermilab11.jpg", //
 			"src/gov/fnal/ppd/dd/images/fermilab12.jpg", //
 			"src/gov/fnal/ppd/dd/images/fermilab13.jpg", //
+			"src/gov/fnal/ppd/dd/images/fermilab14.jpg", //
 			"src/gov/fnal/ppd/dd/images/fermilab15.jpg", //
+			"src/gov/fnal/ppd/dd/images/fermilab16.jpg", //
 			"src/gov/fnal/ppd/dd/images/fermilab17.jpg", //
+			"src/gov/fnal/ppd/dd/images/fermilab18.jpg", //
+			"src/gov/fnal/ppd/dd/images/fermilab19.jpg", //
+			"src/gov/fnal/ppd/dd/images/fermilab20.jpg", //
+			"src/gov/fnal/ppd/dd/images/fermilab21.jpg", //
 															};
 
 	/**
