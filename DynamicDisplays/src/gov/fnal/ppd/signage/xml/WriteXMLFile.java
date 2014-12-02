@@ -5,6 +5,8 @@ import gov.fnal.ppd.signage.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
 import gov.fnal.ppd.signage.channel.ChannelImpl;
 import gov.fnal.ppd.signage.channel.ChannelPlayList;
+import gov.fnal.ppd.signage.xml.attic.Ping;
+import gov.fnal.ppd.signage.xml.attic.Pong;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -35,9 +37,11 @@ import javax.xml.bind.JAXBException;
  */
 public class WriteXMLFile {
 
-	public static void main(String argv[]) {
+	/**
+	 * @param argv
+	 */
+	public static void main(final String argv[]) {
 		long id = (long) Math.random() * 999999999l;
-		ChannelCatalogFactory.useRealChannels(true);
 		for (int which = 0; which < 10; which++) {
 			Object stuff = null;
 			try {

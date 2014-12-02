@@ -8,8 +8,8 @@ import gov.fnal.ppd.signage.channel.PlainURLChannel;
 import gov.fnal.ppd.signage.xml.ChangeChannel;
 import gov.fnal.ppd.signage.xml.ChangeChannelList;
 import gov.fnal.ppd.signage.xml.ChannelSpec;
-import gov.fnal.ppd.signage.xml.HeartBeat;
-import gov.fnal.ppd.signage.xml.Pong;
+import gov.fnal.ppd.signage.xml.attic.HeartBeat;
+import gov.fnal.ppd.signage.xml.attic.Pong;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -121,8 +121,8 @@ public class DCProtocol {
 			break;
 
 		case ISALIVE:
-			// We are being asked, "Are we alive right now?".  respond with, "Yes, I am alive" message
-			// FIXME -- At this time (11/2014), we should not really see this soor of message down here.  It should be
+			// We are being asked, "Are we alive right now?". respond with, "Yes, I am alive" message
+			// FIXME -- At this time (11/2014), we should not really see this soor of message down here. It should be
 			// handled directly by the messaging client that receives it (and knows where to send the response).
 			break;
 
@@ -165,49 +165,50 @@ public class DCProtocol {
 				// System.out.println(getClass().getSimpleName() + ".processInput(): theMessage is of type "
 				// + theMessage.getClass().getSimpleName());
 
-				if (theMessage instanceof Pong) {
-					// For the client (the channel changer), this is a statement of what the server (the Display) is doing.
-					// For the server (the display), this should never happen.
-					theReply = null;
-					informListenersPong();
+				// if (theMessage instanceof Pong) {
+				// // For the client (the channel changer), this is a statement of what the server (the Display) is doing.
+				// // For the server (the display), this should never happen.
+				// theReply = null;
+				// informListenersPong();
+				// } else {
+				if (theMessage instanceof ChangeChannelList) {
+					informListenersForever();
+				} else if (theMessage instanceof ChangeChannel) {
+					if (((ChangeChannel) theMessage).getDisplayNumber() == myDisplayNumber)
+						informListeners();
+					else
+						System.out.println(DCProtocol.class.getSimpleName() + ".processInput(): Got display="
+								+ ((ChangeChannel) theMessage).getDisplayNumber() + ", but I am " + myDisplayNumber);
+				} else if (theMessage instanceof ChannelSpec) {
+					checkChanger();
+					informListeners((ChannelSpec) theMessage);
+					// } else if (theMessage instanceof HeartBeat) {
+					// // System.out.println("Got a server heartbeat with timestamp = " + ((HeartBeat)
+					// theMessage).getTimeStamp());
+					// theReply = null;
+					// lastServerHeartbeat = ((HeartBeat) theMessage).getTimeStamp();
+					// return true;
 				} else {
-					if (theMessage instanceof ChangeChannelList) {
-						informListenersForever();
-					} else if (theMessage instanceof ChangeChannel) {
-						if (((ChangeChannel) theMessage).getDisplayNumber() == myDisplayNumber)
-							informListeners();
-						else
-							System.out.println(DCProtocol.class.getSimpleName() + ".processInput(): Got display="
-									+ ((ChangeChannel) theMessage).getDisplayNumber() + ", but I am " + myDisplayNumber);
-					} else if (theMessage instanceof ChannelSpec) {
-						checkChanger();
-						informListeners((ChannelSpec) theMessage);
-					} else if (theMessage instanceof HeartBeat) {
-						// System.out.println("Got a server heartbeat with timestamp = " + ((HeartBeat) theMessage).getTimeStamp());
-						theReply = null;
-						lastServerHeartbeat = ((HeartBeat) theMessage).getTimeStamp();
-						return true;
-					} else {
-						System.out.println("The message is of type " + theMessage.getClass().getCanonicalName()
-								+ ".  We will assume they meant it to be 'Pong'");
-					}
-
-					Pong p = new Pong();
-					if (listeners.size() > 0 && listeners.get(0) != null) {
-						// ASSUME that there is one and only one listener here and it is the physical display
-						p.setDisplayNum(listeners.get(0).getNumber());
-						ChannelSpec spec = new ChannelSpec();
-						spec.setUri(listeners.get(0).getContent().getURI());
-						spec.setCategory(listeners.get(0).getContent().getCategory());
-						spec.setName(listeners.get(0).getContent().getName());
-						spec.setTime(listeners.get(0).getContent().getTime());
-						p.setChannelSpec(spec);
-					} else {
-						// System.err.println(getClass().getSimpleName() + ".processInput(): No listeners for a 'Pong' message");
-						;
-					}
-					theReply = p;
+					System.out.println("The message is of type " + theMessage.getClass().getCanonicalName()
+							+ ".  We will assume they meant it to be 'Pong'");
 				}
+
+				Pong p = new Pong();
+				if (listeners.size() > 0 && listeners.get(0) != null) {
+					// ASSUME that there is one and only one listener here and it is the physical display
+					p.setDisplayNum(listeners.get(0).getNumber());
+					ChannelSpec spec = new ChannelSpec();
+					spec.setUri(listeners.get(0).getContent().getURI());
+					spec.setCategory(listeners.get(0).getContent().getCategory());
+					spec.setName(listeners.get(0).getContent().getName());
+					spec.setTime(listeners.get(0).getContent().getTime());
+					p.setChannelSpec(spec);
+				} else {
+					// System.err.println(getClass().getSimpleName() + ".processInput(): No listeners for a 'Pong' message");
+					;
+				}
+				theReply = p;
+				// }
 			} else {
 				System.err.println(getClass().getSimpleName() + ".processInput(): Hmm.  message problems: " + message
 						+ (message != null ? message.getMessage() : ""));
@@ -226,13 +227,13 @@ public class DCProtocol {
 		informListeners(((ChangeChannel) theMessage).getChannelSpec());
 	}
 
-	private void informListenersPong() {
-		Pong p = (Pong) theMessage;
-		ChannelSpec spec = p.getChannelSpec();
-		System.out.println(getClass().getSimpleName() + ": Propagating the pong with this ChannelSpec: " + spec.getName() + ", "
-				+ spec.getTime() + ", " + spec.getCategory() + " (" + spec.getClass().getSimpleName() + ")");
-		informListeners(spec);
-	}
+	// private void informListenersPong() {
+	// Pong p = (Pong) theMessage;
+	// ChannelSpec spec = p.getChannelSpec();
+	// System.out.println(getClass().getSimpleName() + ": Propagating the pong with this ChannelSpec: " + spec.getName() + ", "
+	// + spec.getTime() + ", " + spec.getCategory() + " (" + spec.getClass().getSimpleName() + ")");
+	// informListeners(spec);
+	// }
 
 	private void informListenersForever() {
 		checkChanger();
@@ -290,7 +291,7 @@ public class DCProtocol {
 	}
 
 	private void checkChanger() {
-		// Hmmm.  This seems to have been neutered (11/2014)
+		// Hmmm. This seems to have been neutered (11/2014)
 		keepRunning = false;
 		while (changerThread != null && changerThread.isAlive()) {
 			catchSleep(2 * SHORT_INTERVAL);

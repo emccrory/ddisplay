@@ -8,7 +8,6 @@ import gov.fnal.ppd.signage.channel.ChannelImage;
 import gov.fnal.ppd.signage.channel.ChannelImpl;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.ResultSet;

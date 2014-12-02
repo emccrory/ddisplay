@@ -1,8 +1,8 @@
 package gov.fnal.ppd.signage.display.attic;
 
 import gov.fnal.ppd.signage.SignageType;
-import gov.fnal.ppd.signage.display.testing.BrowserLauncher;
-import gov.fnal.ppd.signage.display.testing.BrowserLauncher.BrowserInstance;
+import gov.fnal.ppd.signage.display.client.BrowserLauncher;
+import gov.fnal.ppd.signage.display.client.BrowserLauncher.BrowserInstance;
 
 import java.awt.Color;
 

@@ -6,7 +6,7 @@ import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.comm.attic.DCMulitServerThread;
 import gov.fnal.ppd.signage.display.DisplayImpl;
 import gov.fnal.ppd.signage.display.ScreenLayoutInterpreter;
-import gov.fnal.ppd.signage.display.testing.BrowserLauncher;
+import gov.fnal.ppd.signage.display.client.BrowserLauncher;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

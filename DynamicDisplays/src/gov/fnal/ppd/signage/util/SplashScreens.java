@@ -121,6 +121,9 @@ public class SplashScreens extends Thread {
 		}
 	}
 
+	/**
+	 * @return the number of splash screen images we have
+	 */
 	public int getLength() {
 		return splashPanel.length;
 	}
@@ -135,6 +138,9 @@ public class SplashScreens extends Thread {
 		}
 	}
 
+	/**
+	 * @return the name of the next splash screen
+	 */
 	public String getNext() {
 		activeScreen = (activeScreen + 1) % splashPanel.length;
 		return "Splash Screen" + activeScreen;

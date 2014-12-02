@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2012
  */
+@SuppressWarnings("javadoc")
 @XmlRootElement
 public class ChannelSpec {
 	protected SignageContent	content;

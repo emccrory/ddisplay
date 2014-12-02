@@ -4,7 +4,7 @@ import gov.fnal.ppd.signage.DatabaseNotVisibleException;
 import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.display.DisplayImpl;
-import gov.fnal.ppd.signage.display.testing.BrowserLauncher;
+import gov.fnal.ppd.signage.display.client.BrowserLauncher;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

@@ -32,6 +32,12 @@ public class CheckDisplayStatus extends Thread {
 	private JLabel							footer;
 	private List<List<ChannelButtonGrid>>	grids;
 
+	/**
+	 * @param display
+	 * @param index
+	 * @param footer
+	 * @param grids
+	 */
 	public CheckDisplayStatus(final Display display, final int index, final JLabel footer, final List<List<ChannelButtonGrid>> grids) {
 		super("Display." + display.getNumber() + "." + display.getScreenNumber() + ".StatusUpdate");
 		this.display = display;

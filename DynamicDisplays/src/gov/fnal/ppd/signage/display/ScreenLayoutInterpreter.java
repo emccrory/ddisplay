@@ -1,6 +1,6 @@
 package gov.fnal.ppd.signage.display;
 
-import static gov.fnal.ppd.signage.display.testing.BrowserLauncher.debug;
+import static gov.fnal.ppd.signage.display.client.BrowserLauncher.debug;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;

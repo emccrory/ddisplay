@@ -13,7 +13,10 @@ import java.awt.event.MouseListener;
 public class SimpleMouseListener implements MouseListener {
 	private DisplayCardActivator	listener;
 
-	public SimpleMouseListener(DisplayCardActivator listener) {
+	/**
+	 * @param listener
+	 */
+	public SimpleMouseListener(final DisplayCardActivator listener) {
 		this.listener = listener;
 	}
 

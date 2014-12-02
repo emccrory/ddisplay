@@ -3,10 +3,10 @@ package gov.fnal.ppd.signage.comm;
 import gov.fnal.ppd.signage.xml.ChangeChannel;
 import gov.fnal.ppd.signage.xml.ChangeChannelList;
 import gov.fnal.ppd.signage.xml.ChannelSpec;
-import gov.fnal.ppd.signage.xml.HeartBeat;
 import gov.fnal.ppd.signage.xml.MyXMLMarshaller;
-import gov.fnal.ppd.signage.xml.Ping;
-import gov.fnal.ppd.signage.xml.Pong;
+import gov.fnal.ppd.signage.xml.attic.HeartBeat;
+import gov.fnal.ppd.signage.xml.attic.Ping;
+import gov.fnal.ppd.signage.xml.attic.Pong;
 
 import javax.management.RuntimeErrorException;
 import javax.xml.bind.JAXBException;
@@ -60,13 +60,16 @@ public class DDMessage {
 		if (rawMessage.startsWith(XMLPRE)) {
 			// We have to have one of the XML classes defined here: Ping, Pong, ChangeChannel, ChangeChannelList, or ChannelSpec
 			try {
-				if (rawMessage.contains(PING)) {
-					receivedMessage = MyXMLMarshaller.unmarshall(Ping.class, rawMessage);
-				} else if (rawMessage.contains(PONG)) {
-					receivedMessage = MyXMLMarshaller.unmarshall(Pong.class, rawMessage);
-				} else if (rawMessage.contains(HEARTBEAT)) {
-					receivedMessage = MyXMLMarshaller.unmarshall(HeartBeat.class, rawMessage);
-				} else if (rawMessage.contains(CHANGE_CHANNEL)) {
+				// These sorts of XML messages are not used
+				// if (rawMessage.contains(PING)) {
+				// receivedMessage = MyXMLMarshaller.unmarshall(Ping.class, rawMessage);
+				// } else if (rawMessage.contains(PONG)) {
+				// receivedMessage = MyXMLMarshaller.unmarshall(Pong.class, rawMessage);
+				// } else if (rawMessage.contains(HEARTBEAT)) {
+				// receivedMessage = MyXMLMarshaller.unmarshall(HeartBeat.class, rawMessage);
+				// } else
+
+				if (rawMessage.contains(CHANGE_CHANNEL)) {
 					receivedMessage = MyXMLMarshaller.unmarshall(ChangeChannel.class, rawMessage);
 				} else if (rawMessage.contains(CHANGE_CHANNEL_LIST)) {
 					receivedMessage = MyXMLMarshaller.unmarshall(ChangeChannelList.class, rawMessage);

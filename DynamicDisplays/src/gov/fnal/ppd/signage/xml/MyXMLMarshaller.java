@@ -15,6 +15,7 @@ import javax.xml.bind.Marshaller;
  * 
  * @author Elliott McCrory, Fermilab/Accelerator, 2012
  */
+@SuppressWarnings("javadoc")
 public class MyXMLMarshaller {
 
 	private MyXMLMarshaller() {

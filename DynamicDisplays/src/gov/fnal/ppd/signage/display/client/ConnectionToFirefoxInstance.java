@@ -90,6 +90,7 @@ public class ConnectionToFirefoxInstance {
 	 * @param useTheWrapper
 	 * @return Was the change successful?
 	 */
+	@SuppressWarnings("deprecation")
 	public boolean changeURL(final String urlString, final boolean useTheWrapper) {
 		if (debug)
 			System.out.println("New URL: " + urlString);

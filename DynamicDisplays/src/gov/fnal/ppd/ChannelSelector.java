@@ -607,25 +607,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		}
 	}
 
-	/**
-	 * For future enhancements, say, when the selector is on a phone or an iPad.
-	 * 
-	 * @param args
-	 */
-	@SuppressWarnings("unused")
-	private Orientation getScreenOrientation() {
-		Orientation orientation = Orientation.UNDEFINED;
-		if (screenDimension.width == screenDimension.height) {
-			orientation = Orientation.SQUARE;
-		} else if (screenDimension.width < screenDimension.height) {
-			orientation = Orientation.PORTRAIT;
-		} else {
-			orientation = Orientation.LANDSCAPE;
-		}
-
-		return orientation;
-	}
-
+	
 	// This code snippet would be used if this selector was to be run on an Android device.
 	// @Override
 	// public void onConfigurationChanged(Configuration newConfig) {

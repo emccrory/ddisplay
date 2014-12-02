@@ -21,9 +21,11 @@ public class JLabelFooter extends JLabel {
 	private static final long	serialVersionUID	= -7328547318315265510L;
 	private final static int	DEFAULT_SIZE		= (SHOW_IN_WINDOW ? 30 : 60);
 
-	public JLabelFooter(String text) {
+	/**
+	 * @param text
+	 */
+	public JLabelFooter(final String text) {
 		super("<html>" + truncate(text, DEFAULT_SIZE) + " (" + shortDate() + ")" + "</html>");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

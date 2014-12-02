@@ -8,7 +8,6 @@ import gov.fnal.ppd.signage.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.signage.changer.ChannelCategory;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -101,6 +100,7 @@ public class CreateListOfChannels extends JPanel {
 
 	}
 
+	@SuppressWarnings("unused")
 	private void makeButtons() {
 		//
 		// TODO Instead of a long vertical list of channels in the "Channel List" GUI, organize them into separate panels, with a

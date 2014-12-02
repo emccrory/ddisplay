@@ -15,7 +15,6 @@ import gov.fnal.ppd.signage.SignageType;
 import gov.fnal.ppd.signage.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.signage.comm.DCProtocol;
 import gov.fnal.ppd.signage.display.DisplayImpl;
-import gov.fnal.ppd.signage.display.testing.BrowserLauncher;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

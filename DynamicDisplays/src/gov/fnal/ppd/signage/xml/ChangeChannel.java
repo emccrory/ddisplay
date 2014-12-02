@@ -13,8 +13,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Message from a Control Panel to the Display Server to change the thing being shown on a Display
  * 
- * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2012
+ * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2012-14
  */
+@SuppressWarnings("javadoc")
 @XmlRootElement
 public class ChangeChannel extends EncodedCarrier {
 
