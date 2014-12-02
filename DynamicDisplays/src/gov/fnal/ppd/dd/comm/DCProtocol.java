@@ -104,7 +104,7 @@ public class DCProtocol {
 	/**
 	 * @param message
 	 * @param myDisplayNumber
-	 * @return
+	 * @return Was this message understood?
 	 */
 	public boolean processInput(final MessageCarrier message, final int myDisplayNumber) {
 		String body = message.getMessage();
