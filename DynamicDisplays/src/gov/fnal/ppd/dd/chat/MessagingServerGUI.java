@@ -26,7 +26,7 @@ import javax.swing.JTextField;
  * 
  * <p>
  * Taken from the internet on 5/12/2014. @see <a
- * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
+ * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/"> dreamincode.net</a>
  * </p>
  * <p>
  * Extensively modified by Elliott McCrory, Fermilab AD/Instrumentation, 2014
