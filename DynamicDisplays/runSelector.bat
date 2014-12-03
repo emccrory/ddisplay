@@ -11,5 +11,5 @@ java -Dddisplay.selector.inwindow=FALSE^
      -Dddisplay.selector.location=%loc% ^
      -Dddisplay.messagingserver=%messagingServer% ^
      -Dddisplay.dbserver=%databaseServer% ^
-     -Xmx512m gov.fnal.ppd.ChannelSelector 
+     -Xmx512m gov.fnal.ppd.dd.ChannelSelector 
 
