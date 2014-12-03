@@ -1,6 +1,6 @@
 package gov.fnal.ppd.dd.chat;
 
-import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
 import java.io.IOException;
@@ -197,7 +197,7 @@ public class MessagingClient {
 					displayLogMessage("Will wait " + (wait / 1000L)
 							+ " seconds for server to return and then try to connect again.");
 					catchSleep(wait);
-					wait = (wait + 10000L > FIFTEEN_MINUTES ? FIFTEEN_MINUTES : wait + 10000L);
+					wait = (wait + 10000L > ONE_MINUTE ? ONE_MINUTE : wait + 10000L);
 					if (!MessagingClient.this.start()) {
 						displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Server start failed again at "
 								+ (new Date()) + "...");

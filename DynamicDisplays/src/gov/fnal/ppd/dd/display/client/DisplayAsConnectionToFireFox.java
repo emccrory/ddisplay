@@ -6,6 +6,7 @@ import gov.fnal.ppd.dd.display.client.BrowserLauncher.BrowserInstance;
 import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.awt.Color;
+import java.io.UnsupportedEncodingException;
 
 /**
  * <p>
@@ -31,6 +32,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 	private ConnectionToFirefoxInstance	firefox;
 	private boolean						showingSelfIdentify	= false;
+	private boolean						useWrapper			= true;
 
 	/**
 	 * @param portNumber
@@ -65,7 +67,13 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				catchSleep(4000); // Wait a bit before trying to contact the instance of FireFox.
 				firefox = new ConnectionToFirefoxInstance(screenNumber, getNumber(), highlightColor);
 				catchSleep(500); // Wait a bit more before trying to tell it to go to a specific page
-				firefox.changeURL(getContent().getURI().toASCIIString(), true);
+				try {
+					firefox.changeURL(getContent().getURI().toASCIIString(), true);
+				} catch (UnsupportedEncodingException e) {
+					System.err.println(DisplayAsConnectionToFireFox.class.getSimpleName() + ": Somthing is wrong with this URL: ["
+							+ getContent().getURI().toASCIIString() + "]");
+					e.printStackTrace();
+				}
 			}
 		}.start();
 	}
@@ -111,23 +119,28 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					}.start();
 					// }
 				}
-			} else {
-				boolean useWrapper = true; // Someday we may need this: (getContent().getCode() & 1) != 0;
-				if (firefox.changeURL(url, useWrapper)) {
-					lastChannel = getContent();
-					showingSelfIdentify = false;
-				} else {
-					System.err.println(getClass().getSimpleName() + ".localSetContent(): Failed to set content");
-				}
-
-				new Thread("Respond" + getMessagingName()) {
-					public void run() {
-						// TODO Implement a "PONG" type message and send it back to the client here.
+			} else
+				try {
+					// Someday we may need this: (getContent().getCode() & 1) != 0;
+					if (firefox.changeURL(url, useWrapper)) {
+						lastChannel = getContent();
+						showingSelfIdentify = false;
+					} else {
+						System.err.println(getClass().getSimpleName() + ".localSetContent(): Failed to set content");
 					}
-				}.start();
 
-				updateMyStatus();
-			}
+					new Thread("Respond" + getMessagingName()) {
+						public void run() {
+							// TODO Implement a "PONG" type message and send it back to the client here.
+						}
+					}.start();
+
+					updateMyStatus();
+				} catch (UnsupportedEncodingException e) {
+					System.err.println(getClass().getSimpleName() + ": Somthing is wrong with this URL: [" + url + "]");
+					e.printStackTrace();
+
+				}
 		}
 	}
 
@@ -142,6 +155,22 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	@Override
 	public void disconnect() {
 		endAllConnections();
+	}
+
+	/**
+	 * @return will the next URL request go through the normal wrapper page?
+	 */
+	public boolean isUsingWrapper() {
+		return useWrapper;
+	}
+
+	/**
+	 * @param useWrapper
+	 *            Do you want to use the standard URL wrapper page? Be very careful if you set this to false; not tested at this
+	 *            time (12/2014)
+	 */
+	public void setUseWrapper(final boolean useWrapper) {
+		this.useWrapper = useWrapper;
 	}
 
 	/**

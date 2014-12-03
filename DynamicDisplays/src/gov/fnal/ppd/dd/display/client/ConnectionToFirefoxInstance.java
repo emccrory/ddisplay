@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
@@ -89,9 +90,9 @@ public class ConnectionToFirefoxInstance {
 	 *            The URL that this instance should show now.
 	 * @param useTheWrapper
 	 * @return Was the change successful?
+	 * @throws UnsupportedEncodingException 
 	 */
-	@SuppressWarnings("deprecation")
-	public boolean changeURL(final String urlString, final boolean useTheWrapper) {
+	public boolean changeURL(final String urlString, final boolean useTheWrapper) throws UnsupportedEncodingException {
 		if (debug)
 			System.out.println("New URL: " + urlString);
 
@@ -119,7 +120,7 @@ public class ConnectionToFirefoxInstance {
 			String s = "";
 			if (!showingCanonicalSite) {
 				showingCanonicalSite = true;
-				s = "window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
+				s = "window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 						+ displayID + "&color=" + colorCode + "\";\n";
 				send(s);
 			} else {
