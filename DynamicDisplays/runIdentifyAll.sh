@@ -8,4 +8,4 @@ loc="0"
 java -Dddisplay.messagingserver=$messagingServer \
      -Dddisplay.dbserver=$databaseServer \
      -Dddisplay.selector.location=$loc \
-     -Xmx512m gov.fnal.ppd.IdentifyAll
+     -Xmx512m gov.fnal.ppd.dd.IdentifyAll

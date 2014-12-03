@@ -29,4 +29,4 @@ java -Dddisplay.selector.inwindow=$window \
      -Dddisplay.selector.location=$loc \
      -Dddisplay.messagingserver=$messagingServer \
      -Dddisplay.dbserver=$databaseServer \
-     -Xmx512m  gov.fnal.ppd.ChannelSelector > ../../log/selector_${d}_$$.log 2>&1  &
+     -Xmx512m  gov.fnal.ppd.dd.ChannelSelector > ../../log/selector_${d}_$$.log 2>&1  &

@@ -21,7 +21,7 @@ fi
 # Is this node the messaging server??
     if [ $messagingServer = `uname -n` ]; then
 	if java -Dddisplay.messagingserver=$messagingServer \
-                -Xmx512m gov.fnal.ppd.chat.MessagingServerTest; then
+                -Xmx512m gov.fnal.ppd.dd.chat.MessagingServerTest; then
 	    echo Messaging server already running;
 	else
 	    echo Messaging server is not present so we shall start it
@@ -32,6 +32,6 @@ fi
     
     java -Dddisplay.messagingserver=$messagingServer \
 	-Dddisplay.dbserver=$databaseServer \
-	-Xmx512m gov.fnal.ppd.signage.display.client.DisplayAsConnectionToFireFox -screen=$screenNum 
+	-Xmx512m gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox -screen=$screenNum 
 
 } 2>&1 > $log
