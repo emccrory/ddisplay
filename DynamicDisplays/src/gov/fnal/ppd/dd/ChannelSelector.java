@@ -484,7 +484,13 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			return;
 		Color c = display.getPreferredHighlightColor();
 
-		title.setText("   " + display.getLocation() + "   ");
+		String num = "" + display.getNumber();
+		String t = display.getLocation();
+		if (t.contains(num))
+			title.setText("   " + display.getLocation() + "   ");
+		else
+			title.setText("   " + display.getLocation() + " (" + num + ")  ");
+
 		titleBox.removeAll();
 		titleBox.setOpaque(true);
 		titleBox.setBackground(c);

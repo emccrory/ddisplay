@@ -22,8 +22,9 @@ public class CategoryDictionary {
 
 		// TODO Push this into the database (rather than hard-coding it here)
 
-		if (locationCode == 0) {
-			// ROC-West
+		switch (locationCode) {
+		case 0: // ROC-West
+
 			categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
 					ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS, ChannelCategory.EXPERIMENT_DETAILS,
 					ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS };
@@ -32,28 +33,23 @@ public class CategoryDictionary {
 				categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
 						ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS };
 			}
-		} else if (locationCode == 1) {
-			// ROC-East
+			break;
+
+		case 1:// ROC-East
 			categories = new ChannelCategory[] { new ChannelCategory("CMS"), new ChannelCategory("LHC"),
 					ChannelCategory.MISCELLANEOUS };
-		} else if (locationCode == 2) {
+			break;
+
+		case 2:
 			// Test regime in Elliott's office
-			categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
-					ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS, ChannelCategory.EXPERIMENT_DETAILS,
-					ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS };
-		} else if (locationCode == 3) {
-			// WH2
+		case 3:
+			// WH2E
+		default:
 			categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
 					ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS, ChannelCategory.EXPERIMENT_DETAILS,
 					ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS, new ChannelCategory("CMS"),
 					new ChannelCategory("LHC") };
-		} else if (locationCode == -1) {
-			// Everything
-			categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
-					ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS, ChannelCategory.EXPERIMENT_DETAILS,
-					ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS };
-		} else
-			throw new RuntimeException("Unknown locationCode, " + locationCode);
+		}
 
 		return categories;
 	}

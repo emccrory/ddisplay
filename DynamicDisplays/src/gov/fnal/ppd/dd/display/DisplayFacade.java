@@ -17,6 +17,8 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 import java.awt.Color;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -66,27 +68,63 @@ public class DisplayFacade extends DisplayImpl {
 	 * @copyright 2014
 	 * 
 	 */
-	private class FacadeMessagingClient extends MessagingClient {
+	private static class FacadeMessagingClient extends MessagingClient {
 
-		private String		lookingFor;
-		private DCProtocol	dcp	= new DCProtocol();
+		private Map<String, DisplayFacade>		clients		= new HashMap<String, DisplayFacade>();
+		// private String lookingFor;
+		private DCProtocol						dcp			= new DCProtocol();
+		private static FacadeMessagingClient	me			= null;
+		private static boolean					notStarted	= true;
 
-		public FacadeMessagingClient(String lookingFor, String server, int port, String username) {
-			super(server, port, username);
-			this.lookingFor = lookingFor;
+		private FacadeMessagingClient(String server, int port, String clientName) {
+			super(server, port, clientName);
+		}
+
+		public static void registerClient(final String server, final int port, final String clientName, final String lookingFor,
+				final DisplayFacade client) {
+			if (me == null)
+				me = new FacadeMessagingClient(server, port, clientName);
+			me.clients.put(lookingFor, client);
 		}
 
 		@Override
 		public void displayIncomingMessage(final MessageCarrier message) {
-			dcp.processInput(message, getNumber());
+			dcp.processInput(message, clients.get(message.getFrom()).getNumber());
 		}
 
-		public String getTargetName() {
-			return lookingFor;
+		/**
+		 * What is the target Display for this client?
+		 * 
+		 * @param client
+		 *            This client
+		 * @return The target Display name
+		 */
+		public static String getTargetName(DisplayFacade client) {
+			for (String entry : me.clients.keySet()) {
+				if (client.equals(me.clients.get(entry))) {
+					return entry;
+				}
+			}
+			return null;
+		}
+
+		/**
+		 * Start the messaging client
+		 */
+		public static void doStart() {
+			if (notStarted)
+				me.start();
+			notStarted = false;
+		}
+
+		/**
+		 * Direct the messaging client to send the message
+		 * @param msg The message to send
+		 */
+		public static void sendAMessage(MessageCarrier msg) {
+			me.sendMessage(msg);
 		}
 	}
-
-	private FacadeMessagingClient	messagingClient	= null;
 
 	/**
 	 * @param portNumber
@@ -113,10 +151,9 @@ public class DisplayFacade extends DisplayImpl {
 			e1.printStackTrace(); // Really? This should never happen.
 		}
 		System.out.println(DisplayFacade.class.getSimpleName() + ": My messaging name is [" + myName + "]");
-		messagingClient = new FacadeMessagingClient(ipName + ":" + screenNumber + " (" + number + ")", MESSAGING_SERVER_NAME,
-				MESSAGING_SERVER_PORT, myName);
-
-		messagingClient.start();
+		FacadeMessagingClient.registerClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName, ipName + ":" + screenNumber
+				+ " (" + number + ")", this);
+		FacadeMessagingClient.doStart();
 	}
 
 	public void localSetContent() {
@@ -136,7 +173,7 @@ public class DisplayFacade extends DisplayImpl {
 			}
 
 			String xmlMessage = MyXMLMarshaller.getXML(cc);
-			messagingClient.sendMessage(MessageCarrier.getMessage(messagingClient.getName(), messagingClient.getTargetName(),
+			FacadeMessagingClient.sendAMessage(MessageCarrier.getMessage(myName, FacadeMessagingClient.getTargetName(this),
 					xmlMessage));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -161,6 +198,6 @@ public class DisplayFacade extends DisplayImpl {
 	@Override
 	public void disconnect() {
 		alreadyWaiting.set(false);
-		messagingClient.disconnect();
+		FacadeMessagingClient.me.disconnect();
 	}
 }
