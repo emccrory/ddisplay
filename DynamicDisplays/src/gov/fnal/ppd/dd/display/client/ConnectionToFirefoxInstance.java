@@ -2,6 +2,8 @@ package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
+import gov.fnal.ppd.dd.GlobalVariables;
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,9 +46,11 @@ public class ConnectionToFirefoxInstance {
 	private static final HashMap<String, String>	colorNames					= new HashMap<String, String>() {
 																					{
 																						put("003397", "Blue");
+																						put("80A0ff", "Light Blue");
 																						put("ffcc00", "Yellow");
 																						put("f20019", "Red");
 																						put("008000", "Green");
+																						put("71BC78", "Fern");
 																						put("fe8420", "Orange");
 																						put("ffffff", "White");
 																						put("777777", "Gray");
@@ -90,7 +94,7 @@ public class ConnectionToFirefoxInstance {
 	 *            The URL that this instance should show now.
 	 * @param useTheWrapper
 	 * @return Was the change successful?
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
 	public boolean changeURL(final String urlString, final boolean useTheWrapper) throws UnsupportedEncodingException {
 		if (debug)
@@ -120,8 +124,13 @@ public class ConnectionToFirefoxInstance {
 			String s = "";
 			if (!showingCanonicalSite) {
 				showingCanonicalSite = true;
-				s = "window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-						+ displayID + "&color=" + colorCode + "\";\n";
+				s = "window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString, "UTF-8")
+						+ "&display=" + displayID + "&color=" + colorCode;
+				
+				// TODO Remove this hard coding!!
+				if ( displayID == 13 || displayID == 14 || displayID == 15 || displayID == 16)
+					s += "&shownumber=0";
+				s += "\";\n";
 				send(s);
 			} else {
 				s = "document.getElementById('iframe').src = '" + urlString + "';\n";

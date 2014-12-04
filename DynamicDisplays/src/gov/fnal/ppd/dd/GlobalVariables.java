@@ -58,6 +58,13 @@ public class GlobalVariables {
 			return locationName[locationName.length - 1];
 		return locationName[index];
 	}
+	
+	/**
+	 * @return Should the display show its number (all the time) on itself?
+	 */
+	public static boolean showNumberOnDisplay() {
+		return locationCode != 3;
+	}
 
 	/**
 	 * @param index

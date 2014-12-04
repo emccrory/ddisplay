@@ -25,6 +25,9 @@ public class Util {
 
 	private static final String[]	days			= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
+	/**
+	 * The lsit of default URLs
+	 */
 	public static final String		DEFAULT_URLS[]	= {
 			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MINOS",
 			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MINERvA",
@@ -39,11 +42,20 @@ public class Util {
 			"http://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none", //
 			"http://elliottmccrory.com/clock/five.html", };
 
+	/**
+	 * The list of default names for URLS
+	 */
 	public static final String		DEFAULT_NAMES[]	= { "MINOS Pictures", "MINERvA Pictures", "MiniBooNE Pictures",
 			"MicroBooNE Pictures", "Mu2e Pictures", "g-2 Pictures", "SeaQuest Pictures", "NOvA Pictures", "LBNE Pictures",
 			"NuMI Pictures", "Accelerator Status", "Clocks", };
 
+	/**
+	 * The default URL for a Display
+	 */
 	public static final String		MY_URL;
+	/**
+	 * The name that is associated with the default URL for a Display
+	 */
 	public static final String		MY_NAME;
 	static {
 		int index = (int) (DEFAULT_URLS.length * Math.random());
