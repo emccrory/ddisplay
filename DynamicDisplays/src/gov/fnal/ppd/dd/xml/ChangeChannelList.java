@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class ChangeChannelList extends EncodedCarrier {
 
-	protected ChannelPlayList	cpl			= new ChannelPlayList();
+	protected ChannelPlayList	cpl	= new ChannelPlayList();
 	protected int				displayNum;
 	private long				dwell;
 
@@ -43,9 +43,8 @@ public class ChangeChannelList extends EncodedCarrier {
 		System.out.println(getClass().getSimpleName() + ": Adding a channelSpec list of length " + cs.length);
 		try {
 			for (ChannelSpec spec : cs) {
-				EmptyChannel content = new EmptyChannel();
-				content.setCategory(spec.getCategory());
-				content.setName(spec.getName());
+				EmptyChannel content = new EmptyChannel(spec.getName(), spec.getCategory());
+
 				content.setURI(spec.getUri());
 				content.setTime(spec.getTime());
 				cpl.getChannels().add(content);
