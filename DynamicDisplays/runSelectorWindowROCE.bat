@@ -6,7 +6,7 @@ set "loc=1"
 set "databaseServer=mccrory.fnal.gov"
 set "messagingServer=roc-w-11.fnal.gov"
 
-java -Dddisplay.selector.inwindow=FALSE^
+java -Dddisplay.selector.inwindow=TRUE^
      -Dddisplay.selector.public=%public% ^
      -Dddisplay.selector.location=%loc% ^
      -Dddisplay.messagingserver=%messagingServer% ^
