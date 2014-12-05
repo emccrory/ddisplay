@@ -1,10 +1,7 @@
-set path="c:\Program Files (x86)\Java\jre7\bin";%path%
+call config.cmd
 
-set classpath=bin;lib/mysql-connector-java-5.0.3-bin.jar;lib/slf4j-api-1.5.8.jar;lib/slf4j-log4j12-1.5.8.jar
 set "public=false"
 set "loc=1"
-set "databaseServer=mccrory.fnal.gov"
-set "messagingServer=roc-w-11.fnal.gov"
 
 java -Dddisplay.selector.inwindow=FALSE^
      -Dddisplay.selector.public=%public% ^
