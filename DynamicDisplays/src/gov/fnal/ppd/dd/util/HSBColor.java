@@ -92,7 +92,7 @@ public class HSBColor extends Color {
 				index = i / 2;
 
 			Color hsb;
-			if (nc > 8 && (i % 2) == 1)
+			if (nc > 8 && (i % 2) != 0)
 				hsb = new HSBColor(index).brighter();
 			else
 				hsb = new HSBColor(index);

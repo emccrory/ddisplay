@@ -43,7 +43,7 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 	}
 
 	protected JComponent makeExpGrid(ChannelCategory set) {
-		
+
 		Set<SignageContent> list = ChannelCatalogFactory.getInstance().getChannelCatalog(set);
 		int cols = 4;
 		int gap = 5;
@@ -122,6 +122,12 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		expGrid.setBackground(display.getPreferredHighlightColor());
 		for (SignageContent exp : list) {
 			final DDButton button = new DDButton((Channel) exp, display, maxLen);
+			if (button.getText().toUpperCase().startsWith(set.getValue().toUpperCase()))
+				button.setText(button.getText().substring(set.getValue().length() + 1)); // Assume trailing space
+			
+			if (button.getText().toUpperCase().startsWith(("<html><center>" + set.getValue()).toUpperCase()))
+				button.setText("<html><center>" + button.getText().substring(set.getValue().length() + 15)); // Assume trailing space
+
 			// if (SHOW_IN_WINDOW) {
 			// button.setFont(button.getFont().deriveFont(FS));
 			// } else {

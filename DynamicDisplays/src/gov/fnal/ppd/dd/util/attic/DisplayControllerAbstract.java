@@ -8,8 +8,6 @@ import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Connection;
@@ -234,11 +232,11 @@ public abstract class DisplayControllerAbstract extends DisplayImpl {
 		}
 
 		Statement stmt = null;
-		ResultSet rs = null;
+		//ResultSet rs = null;
 
 		try {
 			stmt = connection.createStatement();
-			rs = stmt.executeQuery("USE xoc");
+			stmt.executeQuery("USE xoc");
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			System.exit(1);

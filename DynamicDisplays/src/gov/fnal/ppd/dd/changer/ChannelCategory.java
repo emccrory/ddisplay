@@ -33,12 +33,12 @@ public class ChannelCategory {
 	/**
 	 * Channels that show details on the NuMI experiment
 	 */
-	public static final ChannelCategory	NUMI_DETAILS		= new ChannelCategory("NUMI_DETAILS", "NuMI");
+	public static final ChannelCategory	NUMI_DETAILS		= new ChannelCategory("NUMI", "NuMI");
 
 	/**
 	 * Channels that show details on the NOvA experiment
 	 */
-	public static final ChannelCategory	NOVA_DETAILS		= new ChannelCategory("NOVA_DETAILS", "NOvA");
+	public static final ChannelCategory	NOVA_DETAILS		= new ChannelCategory("NOVA", "NOvA");
 
 	/**
 	 * Channels that are (YouTube) videos

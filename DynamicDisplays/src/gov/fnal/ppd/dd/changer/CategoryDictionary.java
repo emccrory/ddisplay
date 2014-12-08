@@ -43,12 +43,12 @@ public class CategoryDictionary {
 		case 2:
 			// Test regime in Elliott's office
 		case 3:
-			// WH2E
+			// WH2E -- CMS Remote Operations Center
 		default:
 			categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
 					ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS, ChannelCategory.EXPERIMENT_DETAILS,
 					ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS, new ChannelCategory("CMS"),
-					new ChannelCategory("LHC") };
+					new ChannelCategory("LHC"), new ChannelCategory("FERMILAB") };
 		}
 
 		return categories;

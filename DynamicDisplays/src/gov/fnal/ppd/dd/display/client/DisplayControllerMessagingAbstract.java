@@ -183,35 +183,27 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 */
 	protected final synchronized void updateMyStatus() {
 
-		try (Statement stmt = connection.createStatement();) {
-			@SuppressWarnings("unused")
-			ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);
-
-			try {
-				Date dNow = new Date();
-				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String statementString;
-				if (OFF_LINE.equalsIgnoreCase(nowShowing))
-					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='Off Line' where DisplayID="
-							+ getNumber();
-				else
-					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
-							+ getContent().getURI() + ")" + "' where DisplayID=" + getNumber();
-				// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
-				int numRows = stmt.executeUpdate(statementString);
-				if (numRows == 0 || numRows > 1) {
-					System.err
-							.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
-									+ numRows + " rows instead. SQL='" + statementString + "'");
-				}
-				stmt.close();
-				if (statusUpdatePeriod > 0) {
-					System.out.println(getClass().getSimpleName() + ".updateMyStatus(): Status: \n            "
-							+ statementString.substring("UPDATE DisplayStatus set ".length()));
-					statusUpdatePeriod = STATUS_UPDATE_PERIOD;
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+		try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+			Date dNow = new Date();
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String statementString;
+			if (OFF_LINE.equalsIgnoreCase(nowShowing))
+				statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='Off Line' where DisplayID="
+						+ getNumber();
+			else
+				statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
+						+ getContent().getURI() + ")" + "' where DisplayID=" + getNumber();
+			// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
+			int numRows = stmt.executeUpdate(statementString);
+			if (numRows == 0 || numRows > 1) {
+				System.err.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
+						+ numRows + " rows instead. SQL='" + statementString + "'");
+			}
+			stmt.close();
+			if (statusUpdatePeriod > 0) {
+				System.out.println(getClass().getSimpleName() + ".updateMyStatus(): Status: \n            "
+						+ statementString.substring("UPDATE DisplayStatus set ".length()));
+				statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 			}
 		} catch (SQLException ex) {
 			System.err.println("It is likely that the DB server is down.  We'll try again later.");
@@ -285,55 +277,57 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			}
 
 			try (ResultSet rs = stmt.executeQuery(query);) {
-				if (rs.first()) try { // Move to first returned row (there should only be one)
-					String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
+				if (rs.first())
+					try { // Move to first returned row (there should only be one)
+						String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
 
-					if (!myName.equals(myNode)) {
-						// TODO This will not work if the IPName in the database is an IP address.
-						System.out.println("The node name of this display, according to the database, is supposed to be '" + myName
-								+ "', but InetAddress.getLocalHost().getCanonicalHostName() says it is '" + myNode
-								+ "'\n\t** We'll try to run anyway, but this should be fixed **");
-						// System.exit(-1);
-					}
-					int number = rs.getInt("DisplayID");
+						if (!myName.equals(myNode)) {
+							// TODO This will not work if the IPName in the database is an IP address.
+							System.out.println("The node name of this display, according to the database, is supposed to be '"
+									+ myName + "', but InetAddress.getLocalHost().getCanonicalHostName() says it is '" + myNode
+									+ "'\n\t** We'll try to run anyway, but this should be fixed **");
+							// System.exit(-1);
+						}
+						int number = rs.getInt("DisplayID");
 
-					System.out.println("The node name of this display (no. " + number + ") is '" + myNode + "'");
+						System.out.println("The node name of this display (no. " + number + ") is '" + myNode + "'");
 
-					String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
-					SignageType type = SignageType.valueOf(t);
-					String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
-					String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
-					Color color = new Color(Integer.parseInt(colorString, 16));
-					// TODO Also get the color name from the DB
-					int portNumber = rs.getInt("Port");
-					int screenNumber = rs.getInt("ScreenNumber");
-					int channelNumber = rs.getInt("Content");
-					String url = getURLFromNumber(channelNumber);
-					// String positionString = rs.getString("Position");
-					// if (positionString == null)
+						String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
+						SignageType type = SignageType.valueOf(t);
+						String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
+						String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
+						Color color = new Color(Integer.parseInt(colorString, 16));
+						// TODO Also get the color name from the DB
+						int portNumber = rs.getInt("Port");
+						int screenNumber = rs.getInt("ScreenNumber");
+						int channelNumber = rs.getInt("Content");
+						String url = getURLFromNumber(channelNumber);
+						// String positionString = rs.getString("Position");
+						// if (positionString == null)
 
-					stmt.close();
-					rs.close();
+						stmt.close();
+						rs.close();
 
-					// Now create the class object
+						// Now create the class object
 
-					Constructor<?> cons;
-					try {
-						cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class,
-								SignageType.class);
-						DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] {
-								myName, number, screenNumber, portNumber, location, color, type });
-						d.initiate();
-						d.setDefaultContent(url);
-						return d;
-					} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
-							| IllegalArgumentException | InvocationTargetException e) {
+						Constructor<?> cons;
+						try {
+							cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class,
+									SignageType.class);
+							DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons
+									.newInstance(new Object[] { myName, number, screenNumber, portNumber, location, color, type });
+							d.initiate();
+							d.setDefaultContent(url);
+							return d;
+						} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
+								| IllegalArgumentException | InvocationTargetException e) {
+							e.printStackTrace();
+						}
+						return null;
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					return null;
-				} catch ( Exception e) {
-					e.printStackTrace();
-				} else {
+				else {
 					new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
 					System.err.println("\n** Cannot continue! **\nExit");
 					connection.close();
@@ -355,8 +349,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private static DisplayControllerMessagingAbstract failSafeVersion(Class<?> clazz) {
 		Constructor<?> cons;
 		try {
-			cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class,
-					SignageType.class);
+			cons = clazz
+					.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class, SignageType.class);
 			DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] {
 					"Failsafe Display", 99, 0, 0, "Failsafe location", Color.red, SignageType.XOC });
 			d.initiate();

@@ -2,14 +2,12 @@ package gov.fnal.ppd.dd.util.attic;
 
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.display.DisplayImpl;
-import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 import gov.fnal.ppd.dd.display.client.BrowserLauncher;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -75,8 +73,7 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 		// This display is not registered. Let's register it!
 		try {
 			final Statement stmt = connection.createStatement();
-			@SuppressWarnings("unused")
-			ResultSet result = stmt.executeQuery("USE xoc");
+			stmt.executeQuery("USE xoc");
 
 			String ipAddress = InetAddress.getLocalHost().getHostAddress();
 
@@ -111,6 +108,9 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 
 	/**
 	 * Look up all the information from the database using the number as the DisplayID
+	 * 
+	 * @param number
+	 * @return something
 	 */
 	public static DynamicDisplayWithoutJxBrowser makeADynamicDisplay(final int number) {
 
@@ -126,69 +126,78 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 		}
 
 		Statement stmt = null;
-		ResultSet rs = null;
 
 		try {
 			stmt = connection.createStatement();
-			rs = stmt.executeQuery("USE xoc");
+			stmt.executeQuery("USE xoc");
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			System.exit(1);
 		}
 
-//		try {
-//			rs = stmt.executeQuery("SELECT * FROM Display where DisplayID=" + number);
-//			rs.first(); // Move to first returned row (there should only be one)
-//			String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
-//
-//			String node = InetAddress.getLocalHost().getCanonicalHostName();
-//			if (!myName.equals(node)) {
-//				// TODO This will not work if the IPName in the database is an IP address.
-//				System.out.println("The node name of display no. " + number + " is supposed to be '" + myName
-//						+ "', but this node is called '" + node + "'\n\t** We'll try to run anyway, but this should be fixed **");
-//				// System.exit(-1);
-//			}
-//
-//			String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
-//			SignageType type = SignageType.valueOf(t);
-//			String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
-//			String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
-//			Color color = new Color(Integer.parseInt(colorString, 16));
-//			int portNumber = rs.getInt("Port");
-//			int screenNumber = rs.getInt("ScreenNumber");
-//			// String positionString = rs.getString("Position");
-//			// if (positionString == null)
-//
-//			stmt.close();
-//			rs.close();
-//			return new DynamicDisplayWithoutJxBrowser(portNumber, true, myName, screenNumber, number, location, color, type);
-//			// else {
-//			// String[] tokens = positionString.split("[+-]");
-//			// if (tokens.length == 3) {
-//			// int x = Integer.parseInt(tokens[1]);
-//			// if (positionString.startsWith("-"))
-//			// x = -x;
-//			// int y = Integer.parseInt(tokens[2]);
-//			// return new ADynamicDisplay(portNumber, true, myName, x, y, number, location, color, type);
-//			// } else {
-//			// System.err.println("Oops!  There are " + tokens.length + " tokens in '" + positionString + "': "
-//			// + Arrays.toString(tokens));
-//			// System.exit(-1);
-//			// }
-//			// }
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} catch (UnknownHostException e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		// rs = stmt.executeQuery("SELECT * FROM Display where DisplayID=" + number);
+		// rs.first(); // Move to first returned row (there should only be one)
+		// String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
+		//
+		// String node = InetAddress.getLocalHost().getCanonicalHostName();
+		// if (!myName.equals(node)) {
+		// // TODO This will not work if the IPName in the database is an IP address.
+		// System.out.println("The node name of display no. " + number + " is supposed to be '" + myName
+		// + "', but this node is called '" + node + "'\n\t** We'll try to run anyway, but this should be fixed **");
+		// // System.exit(-1);
+		// }
+		//
+		// String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
+		// SignageType type = SignageType.valueOf(t);
+		// String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
+		// String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
+		// Color color = new Color(Integer.parseInt(colorString, 16));
+		// int portNumber = rs.getInt("Port");
+		// int screenNumber = rs.getInt("ScreenNumber");
+		// // String positionString = rs.getString("Position");
+		// // if (positionString == null)
+		//
+		// stmt.close();
+		// rs.close();
+		// return new DynamicDisplayWithoutJxBrowser(portNumber, true, myName, screenNumber, number, location, color, type);
+		// // else {
+		// // String[] tokens = positionString.split("[+-]");
+		// // if (tokens.length == 3) {
+		// // int x = Integer.parseInt(tokens[1]);
+		// // if (positionString.startsWith("-"))
+		// // x = -x;
+		// // int y = Integer.parseInt(tokens[2]);
+		// // return new ADynamicDisplay(portNumber, true, myName, x, y, number, location, color, type);
+		// // } else {
+		// // System.err.println("Oops!  There are " + tokens.length + " tokens in '" + positionString + "': "
+		// // + Arrays.toString(tokens));
+		// // System.exit(-1);
+		// // }
+		// // }
+		// } catch (SQLException e) {
+		// e.printStackTrace();
+		// } catch (UnknownHostException e) {
+		// e.printStackTrace();
+		// }
 
 		System.err.println("Cannot create an instance of ADynamicDisplay!");
 		System.exit(-1);
 		return null;
 	}
 
-	public DynamicDisplayWithoutJxBrowser(final int portNumber, final boolean maximized, String ipName, int screenNumber,
-			int number, String location, Color color, SignageType type) {
+	/**
+	 * @param portNumber
+	 * @param maximized
+	 * @param ipName
+	 * @param screenNumber
+	 * @param number
+	 * @param location
+	 * @param color
+	 * @param type
+	 */
+	public DynamicDisplayWithoutJxBrowser(final int portNumber, final boolean maximized, final String ipName,
+			final int screenNumber, final int number, final String location, final Color color, final SignageType type) {
 		super(ipName, screenNumber, number, location, color, type);
 
 		lastURL = "http://xoc.fnal.gov";
@@ -197,7 +206,7 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 
 		// GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[screenNumber]
 		// .getDefaultConfiguration();
-		Rectangle bounds = ScreenLayoutInterpreter.getBounds(screenNumber);
+		// Rectangle bounds = ScreenLayoutInterpreter.getBounds(screenNumber);
 
 		JFrame frame = new JFrame("Dynamic Display no. " + this.getNumber());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -214,6 +223,7 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 	private void contInitialization(final int portNumber) {
 
 		new Thread("ADisplayServerDaemon") {
+			@SuppressWarnings("deprecation")
 			public void run() {
 				DCMulitServerThread server = null;
 				while (keepGoing) {
@@ -405,7 +415,10 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 		browserLauncher.changeURL(url);
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
 
 		/*
 		 * TODO --- Certificates can be added, awkwardly (https://sites.google.com/a/teamdev.com/jxbrowser-support/home, search for

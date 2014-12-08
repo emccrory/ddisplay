@@ -39,8 +39,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 				return null;
 			}
 		try (Statement stmt = connection.createStatement();) {
-			@SuppressWarnings("unused")
-			ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);
+			stmt.executeQuery("USE " + DATABASE_NAME);
 			stmt.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
