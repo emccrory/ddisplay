@@ -80,8 +80,8 @@ public class DDButton extends JButton {
 			BorderB = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 5), regularButtonBorder);
 		} else {
 			Border c = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black), regularButtonBorder);
-			BorderA = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.gray, 8), c);
-			BorderB = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 8), c);
+			BorderA = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.gray, 6), c);
+			BorderB = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 6), c);
 		}
 
 		float brightness = (Color.RGBtoHSB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue(), null))[2];

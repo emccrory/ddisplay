@@ -34,16 +34,16 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
 
 /**
- * Create the widget of the available displays for the XOC "Channel Changer"
+ * Create the widget of the available displays for the Dynamic Displays "Channel Changer"
  * 
- * @author Elliott McCrory, Fermilab AD, 2012
+ * @author Elliott McCrory, Fermilab AD, 2012-14
  */
 public class DisplayButtons extends JPanel {
 
 	/**
 	 * Make a JSlider with a tool-tip that is determined from where the mouse is. Put all the functionality for this class in here.
 	 * 
-	 * @author Elliott McCrory, Fermilab AD, 2012-2014
+	 * @author Elliott McCrory, Fermilab AD, 2012-14
 	 */
 	private class MyJSlider extends JSlider {
 		private static final long	serialVersionUID	= 6272217247978609017L;
@@ -168,14 +168,14 @@ public class DisplayButtons extends JPanel {
 		buttonBox = Box.createVerticalBox();
 
 		DisplayButtonGroup bg = new DisplayButtonGroup();
-		int is = displayList.size() > 10 ? 2 * INSET_SIZE / 3 : INSET_SIZE;
+		// int is = displayList.size() > 10 ? 2 * INSET_SIZE / 3 : INSET_SIZE;
 		float fs = displayList.size() > 10 ? 0.6f * LOCAL_FONT_SIZE - 2 * (displayList.size() - 10) : LOCAL_FONT_SIZE;
 		if (SHOW_IN_WINDOW)
 			fs = WINDOW_FONT_SIZE;
 
-		int rigidHeight = INSET_SIZE + (11 - displayList.size());
-		if (rigidHeight <= 0)
-			rigidHeight = 1;
+//		int rigidHeight = INSET_SIZE + (11 - displayList.size());
+//		if (rigidHeight <= 0)
+//			rigidHeight = 1;
 		buttonBox.add(Box.createVerticalGlue());
 		for (int i = 0; i < displayList.size(); i++) {
 			final Display disp = displayList.get(i);
@@ -183,8 +183,8 @@ public class DisplayButtons extends JPanel {
 			buttonList.add(button);
 
 			button.setFont(button.getFont().deriveFont(fs));
-			if (!SHOW_IN_WINDOW)
-				button.setMargin(new Insets(INSET_SIZE, INSET_SIZE, INSET_SIZE, INSET_SIZE));
+//			if (!SHOW_IN_WINDOW)
+//				button.setMargin(new Insets(INSET_SIZE, INSET_SIZE, INSET_SIZE, INSET_SIZE));
 			button.setSelected(i == 0);
 			bg.add(button);
 
@@ -202,7 +202,7 @@ public class DisplayButtons extends JPanel {
 
 			JPanel p = new JPanel(new BorderLayout());
 			p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(0xcccccc)),
-					BorderFactory.createLineBorder(disp.getPreferredHighlightColor(), is)));
+					BorderFactory.createLineBorder(disp.getPreferredHighlightColor(), 2)));
 			p.add(button, BorderLayout.CENTER);
 			buttonBox.add(p);
 		}
