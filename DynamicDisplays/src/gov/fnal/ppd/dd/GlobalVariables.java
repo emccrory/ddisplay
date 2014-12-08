@@ -79,27 +79,27 @@ public class GlobalVariables {
 	/**
 	 * The names of the image files used in the screen saver
 	 */
-	public static final String[]	imageNames				= { "src/gov/fnal/ppd/dd/images/fermilab3.jpg",
-			"src/gov/fnal/ppd/dd/images/fermilab1.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab2.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab4.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab5.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab6.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab7.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab8.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab9.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab10.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab11.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab12.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab13.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab14.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab15.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab16.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab17.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab18.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab19.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab20.jpg", //
-			"src/gov/fnal/ppd/dd/images/fermilab21.jpg", //
+	public static final String[]	imageNames				= { "bin/gov/fnal/ppd/dd/images/fermilab3.jpg",
+			"bin/gov/fnal/ppd/dd/images/fermilab1.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab2.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab4.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab5.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab6.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab7.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab8.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab9.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab10.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab11.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab12.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab13.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab14.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab15.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab16.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab17.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab18.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab19.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab20.jpg", //
+			"bin/gov/fnal/ppd/dd/images/fermilab21.jpg", //
 															};
 
 	/**

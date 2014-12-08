@@ -523,7 +523,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			});
 		}
 
-		JButton flipTitles = new JButton(new ImageIcon("src/gov/fnal/ppd/dd/images/2arrows.png"));
+		JButton flipTitles = new JButton(new ImageIcon("bin/gov/fnal/ppd/dd/images/2arrows.png"));
 		flipTitles.setMargin(new Insets(2, 5, 2, 5));
 		flipTitles.setToolTipText("<html><b>Toggle Text</b> -- Toggle between a succinct"
 				+ "<br>Channel button label and one with more details");
@@ -561,7 +561,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				// if (SHOW_IN_WINDOW)
 				// icon = new ImageIcon("src/gov/fnal/ppd/images/lock20.jpg");
 				// else
-				icon = new ImageIcon("src/gov/fnal/ppd/dd/images/lock40.jpg");
+				icon = new ImageIcon("bin/gov/fnal/ppd/dd/images/lock40.jpg");
 
 				lockButton = new JButton(icon);
 				lockButton.setMargin(new Insets(2, 5, 2, 5));

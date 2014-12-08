@@ -360,23 +360,23 @@ public class DDSystemStatus extends JFrame {
 
 	private void setTreeIcons() {
 		if (dataIcon == null) {
-			ImageIcon bigIcon = new ImageIcon("src/gov/fnal/ppd/dd/images/data-icon.gif");
+			ImageIcon bigIcon = new ImageIcon("bin/gov/fnal/ppd/dd/images/data-icon.gif");
 			Image I = bigIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 			dataIcon = new ImageIcon(I);
 
-			bigIcon = new ImageIcon("src/gov/fnal/ppd/dd/images/info.jpg");
+			bigIcon = new ImageIcon("bin/gov/fnal/ppd/dd/images/info.jpg");
 			I = bigIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
 			infoIcon = new ImageIcon(I);
 
-			bigIcon = new ImageIcon("src/gov/fnal/ppd/dd/images/clock.png");
+			bigIcon = new ImageIcon("bin/gov/fnal/ppd/dd/images/clock.png");
 			I = bigIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 			clockIcon = new ImageIcon(I);
 
-			bigIcon = new ImageIcon("src/gov/fnal/ppd/dd/images/eye.png");
+			bigIcon = new ImageIcon("bin/gov/fnal/ppd/dd/images/eye.png");
 			I = bigIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 			facadeIcon = new ImageIcon(I);
 
-			bigIcon = new ImageIcon("src/gov/fnal/ppd/dd/images/selector.jpg");
+			bigIcon = new ImageIcon("bin/gov/fnal/ppd/dd/images/selector.jpg");
 			I = bigIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 			selectorIcon = new ImageIcon(I);
 		}
