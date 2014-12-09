@@ -29,9 +29,9 @@ import java.util.Scanner;
 public class MessagingClient {
 
 	// for I/O
-	private ObjectInputStream	sInput;				// to read from the socket
-	private ObjectOutputStream	sOutput;				// to write on the socket
-	private Socket				socket	= null;
+	private ObjectInputStream	sInput;							// to read from the socket
+	private ObjectOutputStream	sOutput;							// to write on the socket
+	private Socket				socket				= null;
 
 	// the server, the port and the username
 	private String				server, username;
@@ -39,6 +39,12 @@ public class MessagingClient {
 	private int					port;
 	private ListenFromServer	listenFromServer;
 	private Thread				restartThreadToServer;
+
+	private long				lastMessageReceived	= 0l;
+	private boolean				keepGoing			= true;
+
+	private Object				syncReconnects		= new Object();
+	private String				serverName;
 
 	/**
 	 * Constructor called by console mode server: the server address port: the port number username: the username
@@ -62,6 +68,30 @@ public class MessagingClient {
 	 * @return if we were successful
 	 */
 	public boolean start() {
+		new Thread(username + "ping") {
+			/**
+			 * We need to be sure that the server is still there.
+			 * 
+			 * There have been times when the server disappears (I think this is when the server machine accidentally goes to
+			 * sleep/hibernates) and the client does not notice it.
+			 * 
+			 * This thread does that
+			 */
+			public void run() {
+				long sleep = 60000L;
+				while (keepGoing) {
+					catchSleep(sleep);
+					if (lastMessageReceived + 5 * ONE_MINUTE < System.currentTimeMillis()) {
+						// We haven't heard from the server in a long time! Maybe it is dead or sleeping.
+						sendMessage(MessageCarrier.getIAmAlive(username, serverName, new Date().toString()));
+						displayLogMessage("Sending an unsolicited 'IAmAlive' message to the server (" + serverName
+								+ ") because we last got a message " + (System.currentTimeMillis() - lastMessageReceived)
+								+ " msec ago");
+					}
+					sleep = 10000L;
+				}
+			}
+		}.start();
 		if (socket != null) {
 			throw new RuntimeException("Already started the server.");
 		}
@@ -139,7 +169,7 @@ public class MessagingClient {
 	 * Overridable to enable other sorts of usages.
 	 * 
 	 * @param msg
-	 *            The message to display
+	 *            The message that was received just now.
 	 */
 	public void displayIncomingMessage(final MessageCarrier msg) {
 		System.out.println(msg);
@@ -182,29 +212,32 @@ public class MessagingClient {
 		return username;
 	}
 
-	protected void connectionFailed() {
+	protected synchronized void connectionFailed() {
 		if (restartThreadToServer != null && restartThreadToServer.isAlive())
 			return; // Already trying to restart the thread
 
 		socket = null;
 
 		// Wait until the server returns
-		restartThreadToServer = new Thread() {
+		restartThreadToServer = new Thread(username + "_restart_connection") {
 			long	wait	= 10000L;
 
 			public void run() {
-				while (socket == null) {
-					displayLogMessage("Will wait " + (wait / 1000L)
-							+ " seconds for server to return and then try to connect again.");
-					catchSleep(wait);
-					wait = (wait + 10000L > ONE_MINUTE ? ONE_MINUTE : wait + 10000L);
-					if (!MessagingClient.this.start()) {
-						displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Server start failed again at "
-								+ (new Date()) + "...");
+				synchronized (syncReconnects) {
+					while (socket == null) {
+						displayLogMessage("Will wait " + (wait / 1000L)
+								+ " seconds for server to return and then try to connect again.");
+						catchSleep(wait);
+						wait = (wait + 10000L > ONE_MINUTE ? ONE_MINUTE : wait + 10000L);
+						if (!MessagingClient.this.start()) {
+							displayLogMessage(this.getClass().getSimpleName()
+									+ ".connectionFailed(): Server start failed again at " + (new Date()) + "...");
+						}
 					}
+					displayLogMessage(this.getClass().getSimpleName() + ": Socket is now viable [" + socket
+							+ "]; connection has been restored at " + (new Date()));
+					restartThreadToServer = null;
 				}
-				displayLogMessage(this.getClass().getSimpleName() + ".connectionFailed(): Socket is now viable [" + socket
-						+ "]; connection has been restored at " + (new Date()));
 			}
 		};
 		restartThreadToServer.start();
@@ -308,16 +341,31 @@ public class MessagingClient {
 	}
 
 	/**
-	 * a class that waits for the message from the server and append them to the JTextArea if we have a GUI or simply
+	 * <p>
+	 * A class that waits for the message from the server and append them to the JTextArea if we have a GUI or simply
 	 * System.out.println() it in console mode
+	 * </p>
+	 * 
+	 * <p>
+	 * <b>Bug fix</b> <em>(December, 2014)</em> -- when the messaging server gets put into hibernation (a bad thing that really
+	 * needs to be avoided!), the clients do not notice it. Because of the way the NUC computers in the ROC are set up, the easiest
+	 * way to recover from the hibernation is to restart the server. When the server comes back online, the clients are no wiser and
+	 * continue to believe that their socket to the server is OK. the only way to test this is to send the server a message from
+	 * time to time.
+	 * </p>
+	 * <p>
+	 * The existence of the attribute lastMessageReceiver is to make sure the server is still talking to me. The timeout of this
+	 * test is handled in the method {@link #start() start} of class MessageClient.
+	 * </p>
 	 */
 	class ListenFromServer extends Thread {
-		public boolean	keepGoing	= true;
 
 		public void run() {
 			while (keepGoing) {
 				try {
 					MessageCarrier msg = (MessageCarrier) sInput.readObject();
+					lastMessageReceived = System.currentTimeMillis();
+					serverName = msg.getFrom();
 					if (msg.isThisForMe(username) && msg.getType() == MessageType.ISALIVE) {
 						sendMessage(MessageCarrier.getIAmAlive(username, msg.getFrom(), "" + new Date()));
 					} else
@@ -330,6 +378,7 @@ public class MessagingClient {
 					// can't happen with a String object but need the catch anyhow
 					e.printStackTrace();
 					// try to continue anyway ...
+					catchSleep(1000L);
 				} catch (NullPointerException e) {
 					displayLogMessage("NullPointerException from reading server!");
 					break; // Leave the forever loop
