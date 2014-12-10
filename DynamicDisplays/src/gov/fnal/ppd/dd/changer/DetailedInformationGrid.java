@@ -120,10 +120,10 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			if (button.getText().toUpperCase().startsWith(("<html><center>" + set.getValue()).toUpperCase()))
 				button.setText("<html><center>" + button.getText().substring(set.getValue().length() + 15));
 
-			// if (SHOW_IN_WINDOW) {
-			// button.setFont(button.getFont().deriveFont(FS));
-			// } else {
-			if (!SHOW_IN_WINDOW)
+			if (SHOW_IN_WINDOW) {
+				button.setFont(button.getFont().deriveFont(FS));
+			} else {
+				// if (!SHOW_IN_WINDOW)
 				switch (button.numLinesInTitle()) {
 				case 2:
 					button.setFont(button.getFont().deriveFont(FS * 0.8300f));
@@ -139,8 +139,8 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 					break;
 				}
 
-			// button.setMargin(new Insets(IS, IS, IS, IS));
-			// }
+				// button.setMargin(new Insets(IS, IS, IS, IS));
+			}
 			button.setSelected(exp.equals(display.getContent()));
 			button.addActionListener(this); // Order is important for the GUI. This one goes last.
 			button.addActionListener(display);

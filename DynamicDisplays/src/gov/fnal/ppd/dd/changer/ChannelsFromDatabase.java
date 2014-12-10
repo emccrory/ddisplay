@@ -144,7 +144,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 					String exp = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Experiment"));
 
 					String url = "http://" + WEB_SERVER_NAME + "/XOC/portfolioOneSlide.php?photo="
-							+ URLEncoder.encode(name + "&caption=" + descr, "UTF-16");
+							+ URLEncoder.encode(name, "UTF-8") + "&caption=" + URLEncoder.encode(descr, "UTF-8");
 					SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
 
 					put(name, c);

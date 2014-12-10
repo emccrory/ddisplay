@@ -212,10 +212,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			float sz = 12.0f;
 			if (!SHOW_IN_WINDOW)
 				sz = categories.length > 7 ? 30.0f - 2*(categories.length-7) : 30.0f;
-
-			// 12 -- 18
-			// 9 -- 26
-
+				
 			displayTabPane.setFont(getFont().deriveFont(sz));
 			displayTabPane.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
