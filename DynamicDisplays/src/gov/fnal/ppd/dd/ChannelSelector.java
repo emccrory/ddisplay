@@ -209,7 +209,14 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			final JTabbedPane displayTabPane = new JTabbedPane();
 			listOfDisplayTabbedPanes.add(displayTabPane);
-			displayTabPane.setFont(getFont().deriveFont((SHOW_IN_WINDOW ? 12.0f : 30.0f)));
+			float sz = 12.0f;
+			if (!SHOW_IN_WINDOW)
+				sz = categories.length > 7 ? 30.0f - 2*(categories.length-7) : 30.0f;
+
+			// 12 -- 18
+			// 9 -- 26
+
+			displayTabPane.setFont(getFont().deriveFont(sz));
 			displayTabPane.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					selectedTab = ((JTabbedPane) e.getSource()).getSelectedIndex();
