@@ -1,6 +1,15 @@
 package gov.fnal.ppd.dd.changer;
 
-import static gov.fnal.ppd.dd.GlobalVariables.*;
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
+import static gov.fnal.ppd.dd.GlobalVariables.locationCode;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Retrieve the categories that are to be used by the ChannelSelector GUI
@@ -10,6 +19,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.*;
  * 
  */
 public class CategoryDictionary {
+	private static ChannelCategory[]	categories	= null;
 
 	private CategoryDictionary() {
 	}
@@ -18,16 +28,79 @@ public class CategoryDictionary {
 	 * @return The array of Channel categories that are appropriate for this instance of the ChannelSelector GUI
 	 */
 	public static ChannelCategory[] getCategories() {
-		ChannelCategory[] categories;
+		if (categories == null) {
+			// getCategoriesCoded();
+			getCategoriesDatabase();
+		}
+		return categories;
 
-		// TODO Push this into the database (rather than hard-coding it here)
+	}
 
+	private static void getCategoriesDatabase() {
+		List<ChannelCategory> cats = new ArrayList<ChannelCategory>();
+
+		Connection connection = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+
+			stmt = connection.createStatement();
+			rs = stmt.executeQuery("USE " + DATABASE_NAME);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.exit(1);
+		}
+
+		try {
+			String typ = "Type='XOC'";
+			if (IS_PUBLIC_CONTROLLER)
+				typ = "Type='Public'";
+			String q = "SELECT TabName,Abbreviation from LocationTab where LocationCode=" + locationCode + " AND " + typ;
+			if (locationCode < 0)
+				q = "SELECT DISTINCT TabName,Abbreviation from LocationTab WHERE " + typ;
+
+			rs = stmt.executeQuery(q);
+			if (rs.first()) // Move to first returned row
+				while (!rs.isAfterLast())
+					try {
+
+						// | TabName | char(64)
+						// | LocationCode | int(11)
+						// | LocalID | int(11)
+						// | Type | enum('Public','Experiment','XOC')
+						// | Abbreviation | char(15)
+
+						String cat = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("TabName"));
+						String abb = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Abbreviation"));
+						cats.add(new ChannelCategory(cat, abb));
+
+						rs.next();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+			else {
+				System.err.println("No definition of what tabs to show for locationCode=" + locationCode + " and Controller Type="
+						+ (IS_PUBLIC_CONTROLLER ? "Public" : "XOC"));
+				System.exit(-1);
+			}
+			stmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		categories = cats.toArray(new ChannelCategory[0]);
+	}
+
+	private static void getCategoriesCoded() {
 		switch (locationCode) {
 		case 0: // ROC-West
 
 			categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
-					ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS, ChannelCategory.EXPERIMENT_DETAILS,
-					ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS };
+					ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS,
+					new ChannelCategory("MINERVA_DETAILS", "MINER\u03BDA"), ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS,
+					ChannelCategory.MISCELLANEOUS };
 
 			if (IS_PUBLIC_CONTROLLER) {
 				categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
@@ -48,10 +121,10 @@ public class CategoryDictionary {
 			categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
 					ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS, ChannelCategory.EXPERIMENT_DETAILS,
 					ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS, new ChannelCategory("CMS"),
-					new ChannelCategory("LHC"), new ChannelCategory("FERMILAB") };
+					new ChannelCategory("MINERVA_DETAILS", "MINER\u03BDA"), new ChannelCategory("LHC"),
+					new ChannelCategory("FERMILAB") };
 		}
 
-		return categories;
 	}
 
 	private static final String[]	FermilabExperiments	= { "gMinus2", "LBNF", "MicroBooNE", "MiniBooNE", "MINERvA", "MINOS",
@@ -63,34 +136,37 @@ public class CategoryDictionary {
 			"TOTEM", "UA9"								};
 
 	/**
+	 * (For future expansion) Check if an experiment name is an experiment that is "relevant" at the specified location
+	 * 
 	 * @param exp
-	 *            The experiment to check
+	 *            The name of the experiment to check
 	 * @return Is this experiment relevant to the GUI at the designated locationCode?
 	 */
 	public static boolean isExperiment(final String exp) {
-		if (locationCode == 0) {
+		switch (locationCode) {
+		case 0:
 			// ROC-West
 			for (String EXP : FermilabExperiments)
 				if (exp.equalsIgnoreCase(EXP))
 					return true;
+			break;
 
-		} else if (locationCode == 1) {
+		case 1:
 			// ROC-East
 			for (String EXP : CERNExperiments)
 				if (exp.equalsIgnoreCase(EXP))
 					return true;
+			break;
 
-		} else if (locationCode == 2) {
+		case 2:
 			// Test regime in Elliott's office
-			return true;
-		} else if (locationCode == 3) {
+		case 3:
 			// WH2
-			return true;
-		} else if (locationCode == -1) {
+		default:
 			// Everything
 			return true;
-		} else
-			throw new RuntimeException("Unknown locationCode, " + locationCode);
+		}
+
 		return false;
 	}
 }

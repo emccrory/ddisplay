@@ -85,14 +85,23 @@ public class ConnectionToDynamicDisplaysDatabase {
 	 * @param asciiStream
 	 *            The InputStream to read
 	 * @return The String that has been read from the InputStream
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public static String makeString(InputStream asciiStream) throws IOException {
 		String retval = "";
 
 		int c;
-		while ((c = asciiStream.read()) > 0)
-			retval += Character.valueOf((char) c);
+		while ((c = asciiStream.read()) > 0) {
+			if (c == '\\') {
+				if (Character.valueOf((char) asciiStream.read()) == 'u') {
+					String blah = "" + Character.valueOf((char) asciiStream.read()) + Character.valueOf((char) asciiStream.read())
+							+ Character.valueOf((char) asciiStream.read()) + Character.valueOf((char) asciiStream.read());
+					int cod = Integer.parseInt(blah, 16);
+					retval += (char) cod;
+				}
+			} else
+				retval += Character.valueOf((char) c);
+		}
 
 		return retval;
 	}
