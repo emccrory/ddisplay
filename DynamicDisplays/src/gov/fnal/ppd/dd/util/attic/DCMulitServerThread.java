@@ -31,8 +31,8 @@ package gov.fnal.ppd.dd.util.attic;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import gov.fnal.ppd.dd.comm.DCProtocol;
-import gov.fnal.ppd.dd.comm.DDMessage;
+import gov.fnal.ppd.dd.chat.DCProtocol;
+import gov.fnal.ppd.dd.chat.DDMessage;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 

@@ -1,8 +1,7 @@
-package gov.fnal.ppd.dd.comm;
+package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.channel.PlainURLChannel;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.util.attic.xml.HeartBeat;

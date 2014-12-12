@@ -32,8 +32,8 @@ package gov.fnal.ppd.dd.util.attic;
  */
 
 import static gov.fnal.ppd.dd.util.attic.DCMulitServerThread.DEFAULT_BUFFER_SIZE;
-import gov.fnal.ppd.dd.comm.DCProtocol;
-import gov.fnal.ppd.dd.comm.DDMessage;
+import gov.fnal.ppd.dd.chat.DCProtocol;
+import gov.fnal.ppd.dd.chat.DDMessage;
 import gov.fnal.ppd.dd.signage.Display;
 
 import java.io.BufferedReader;

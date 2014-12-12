@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.comm;
+package gov.fnal.ppd.dd.chat;
 
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
