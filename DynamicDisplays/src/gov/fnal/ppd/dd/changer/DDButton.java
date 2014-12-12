@@ -44,12 +44,9 @@ public class DDButton extends JButton {
 	private Border				regularButtonBorder;
 	private final Border		BorderA, BorderB;
 
-	private int					numBR;
+	private int					numBR, maxLen;
 
-	private int					maxLen;
-
-	private Font				userDefinedFont;
-	private Font				alternateFont;
+	private Font				userDefinedFont			= null, alternateFont = null;
 
 	/**
 	 * @param channel
@@ -108,8 +105,6 @@ public class DDButton extends JButton {
 	@Override
 	public void setFont(Font f) {
 		userDefinedFont = f;
-		int size = userDefinedFont.getSize();
-		alternateFont = userDefinedFont.deriveFont(size / 2.0f);
 		super.setFont(f);
 	}
 
@@ -124,6 +119,7 @@ public class DDButton extends JButton {
 		staticNumBR = 1;
 		if (string.length() < maxLen)
 			return string;
+
 		String[] split = string.split(" ");
 		String first = "";
 		String second = "";
@@ -139,11 +135,11 @@ public class DDButton extends JButton {
 			third = third.substring(0, maxLen - 1) + "&hellip;"; // Ellipsis
 
 		if (second.length() > 0) {
-			first += "<br />";
+			// first += "<br />";
 			staticNumBR = 2;
 		}
 		if (third.length() > 0) {
-			second += "<br />";
+			// second += "<br />";
 			staticNumBR = 3;
 		}
 
@@ -214,13 +210,25 @@ public class DDButton extends JButton {
 	 *            either USE_NAME_FIELD or USE_DESCRIPTION_FIELD
 	 */
 	public void setText(final int which) {
-		if (channel == null  || channel.getDescription().length() < 5 || channel instanceof ChannelImage)
+		if (channel == null || channel.getDescription().length() < 5 || channel instanceof ChannelImage)
 			return;
+		if (userDefinedFont == null)
+			userDefinedFont = getFont();
 		if (which == USE_NAME_FIELD) {
 			setText(align(channel.getName(), maxLen));
 			super.setFont(userDefinedFont);
 		} else if (which == USE_DESCRIPTION_FIELD) {
-			setText("<html><b>" + channel.getName() + ":</b> " + channel.getDescription() + "</html>");
+			String tx = "<html><b>" + channel.getName() + ":</b> " + channel.getDescription() + " <em>(Channel "
+					+ channel.getNumber() + ")</em></html>";
+			if (alternateFont == null) {
+				float siz = ((float) userDefinedFont.getSize()) / (tx.length() / 50.0f);
+				if (siz < 8.0f)
+					siz = 8.0f;
+				else if (siz > userDefinedFont.getSize())
+					siz = userDefinedFont.getSize();
+				alternateFont = userDefinedFont.deriveFont(siz);
+			}
+			setText(tx);
 			super.setFont(alternateFont);
 		}
 	}
