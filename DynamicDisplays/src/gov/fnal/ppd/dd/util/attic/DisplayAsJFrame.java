@@ -164,4 +164,10 @@ public class DisplayAsJFrame extends DisplayImpl {
 			}
 		}
 	}
+
+	@Override
+	public String getMessagingName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -105,4 +105,10 @@ public class DisplayAsStandaloneBrowser extends DisplayControllerAbstract {
 		}
 	}
 
+	@Override
+	public String getMessagingName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

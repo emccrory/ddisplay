@@ -459,4 +459,10 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 		}
 	}
 
+	@Override
+	public String getMessagingName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

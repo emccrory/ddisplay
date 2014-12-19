@@ -79,8 +79,8 @@ public class ChannelCatalogTesting extends HashMap<String, SignageContent> imple
 			"A MINER" + NU + "A", "B MINER" + NU + "A", "C MINER" + NU + "A", "D MINER" + NU + "A", "E MINER" + NU + "A",
 			"A SeaQuest", "B SeaQuest", "C SeaQuest", "D SeaQuest", "E SeaQuest", "A MiniBooNE",
 			"B MiniBooNE a d f another onethingshshshshshshhshsgsgsgs", "C MiniBooNE", "D MiniBooNE", "E MiniBooNE",
-			"A Accelerator", "B Accelerator", "C Accelerator", "D Accelerator", "E Accelerator", "A LBNE", "B LBNE", "C LBNE",
-			"D LBNE", "E LBNE",											};
+			"A Accelerator", "B Accelerator", "C Accelerator", "D Accelerator", "E Accelerator", "A LBNF", "B LBNF", "C LBNF",
+			"D LBNF", "E LBNF",											};
 
 	/**
 	 * 
