@@ -52,4 +52,9 @@ public class DisplayChangeEvent extends ActionEvent {
 	public Type getType() {
 		return type;
 	}
+	
+	@Override 
+	public String toString() {
+		return super.toString().replace("unknown type", "Display Change Action");
+	}
 }

@@ -126,9 +126,9 @@ public class ConnectionToFirefoxInstance {
 				showingCanonicalSite = true;
 				s = "window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString, "UTF-8")
 						+ "&display=" + displayID + "&color=" + colorCode;
-				
+
 				// TODO Remove this hard coding!!
-				if ( displayID == 13 || displayID == 14 || displayID == 15 || displayID == 16)
+				if (isNumberDiscrete())
 					s += "&shownumber=0";
 				s += "\";\n";
 				send(s);
@@ -160,6 +160,10 @@ public class ConnectionToFirefoxInstance {
 			return false;
 		}
 		return true;
+	}
+
+	private boolean isNumberDiscrete() {
+		return (displayID == 13 || displayID == 14 || displayID == 15 || displayID == 16);
 	}
 
 	/**
@@ -194,7 +198,7 @@ public class ConnectionToFirefoxInstance {
 	 * Remove the self-identify dressings on the Display
 	 */
 	public void removeIdentify() {
-		String s = "document.getElementById('numeral').style.opacity=0.4;\n";
+		String s = "document.getElementById('numeral').style.opacity=" + (isNumberDiscrete()? "0.0" : "0.4") + ";\n";
 		s += "document.getElementById('numeral').style.font='bold 120px sans-serif';\n";
 		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'padding:0; margin: 0;');\n";
 		s += "document.getElementById('numeral').style.textShadow='0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 6px 6px 2px #"

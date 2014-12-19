@@ -84,8 +84,10 @@ public class EncodedCarrier {
 	 */
 	public long howOld() {
 		try { // Thu Dec 18 15:54:43 CST 2014
-			DateFormat format = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy", Locale.ENGLISH);
-			long then = format.parse(dateString).getTime();
+			DateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+			Date dd = format.parse(dateString);
+			long then = dd.getTime();
+			// System.out.println("----------> Date from message interpreted as '" + dd + "'");
 			return System.currentTimeMillis() - then;
 		} catch (Exception e) {
 			e.printStackTrace();

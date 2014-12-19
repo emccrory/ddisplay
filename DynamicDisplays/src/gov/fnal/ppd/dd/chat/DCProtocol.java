@@ -183,7 +183,9 @@ public class DCProtocol {
 					// Every message *should be* an instance of EncodedCarrier.
 					EncodedCarrier carrier = (EncodedCarrier) theMessage;
 					if (carrier.howOld() > 30000L) {
-						System.err.println("An old message has been received: [" + theMessage + "]\n Ignoring it.");
+						long old = carrier.howOld();
+						System.err.println("An old message has been received: [" + carrier + ", date=" + carrier.getDate()
+								+ "], which is " + old + " msec old\n Ignoring it.");
 						return false;
 					}
 				}

@@ -127,9 +127,9 @@ public class IdentifyAll implements ActionListener {
 					e.printStackTrace();
 				}
 			}
-		else {
-			System.out.println("Event received: '" + ev + "'");
-		}
+		// else {
+		// System.out.println("Event received: '" + ev + "'");
+		// }
 	}
 
 	/**
