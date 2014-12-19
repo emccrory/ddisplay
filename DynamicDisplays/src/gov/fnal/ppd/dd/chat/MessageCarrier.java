@@ -1,6 +1,15 @@
 package gov.fnal.ppd.dd.chat;
 
+import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
+import gov.fnal.ppd.dd.testing.ObjectSigning;
+
+import java.io.IOException;
 import java.io.Serializable;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
+import java.security.SignedObject;
+import java.security.spec.InvalidKeySpecException;
 
 /**
  * This class defines the different type of messages that will be exchanged between the Clients and the Server. When talking from a
@@ -91,6 +100,9 @@ public class MessageCarrier implements Serializable {
 		this.message = message;
 		this.from = from;
 		this.to = to;
+		if (type.isReadOnly())
+			return;
+		initializeSignature();
 	}
 
 	/**
@@ -144,10 +156,45 @@ public class MessageCarrier implements Serializable {
 
 	/**
 	 * @param username
-	 *            The username to check
+	 *            The user name to check
 	 * @return Is this message intended for this user?
 	 */
 	public boolean isThisForMe(final String username) {
 		return to == null || to.equalsIgnoreCase("NULL") || to.equals(username);
+	}
+
+	private void initializeSignature() {
+		try {
+			ObjectSigning.getInstance().loadPrivateKey(PRIVATE_KEY_LOCATION);
+		} catch (InvalidKeySpecException | NoSuchAlgorithmException | IOException e) {
+			System.out.println("Problems loading private key for new client");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @return -- A Signed version of this MessageCarrier object
+	 * @throws NoPrivateKeyException
+	 *             -- If the originator of this message does not have a private key, it cannot generator a signed object.
+	 */
+	public SignedObject getSignedObject() throws NoPrivateKeyException {
+		try {
+			return ObjectSigning.getInstance().getSignedObject(this);
+		} catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException | IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * @param signedObject
+	 *            -- the object that (should be) the holder of "this"
+	 * @return -- Has the signedObject been properly signed?
+	 */
+	public boolean verifySignedObject(final SignedObject signedObject) {
+		// assert (this.equals(signedObject.getObject()));
+
+		ObjectSigning signing = ObjectSigning.getPublicSigning(getFrom());
+		return signing != null && signing.verifySignature(signedObject);
 	}
 }

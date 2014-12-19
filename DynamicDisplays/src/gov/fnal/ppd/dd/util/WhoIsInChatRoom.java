@@ -58,21 +58,23 @@ public class WhoIsInChatRoom extends Thread {
 			long ran = new Date().getTime() % 1000L;
 			final String myName = InetAddress.getLocalHost().getCanonicalHostName() + "_" + ran;
 
-			System.out.println("\n**Starting messaging client named '" + myName + "'");
+			System.out.println("\n**Starting messaging client named '" + myName + "' for listening to who is in the system");
 			client = new MessagingClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName) {
 				@Override
 				public void displayIncomingMessage(final MessageCarrier msg) {
 					String clientName = msg.getFrom();
+					// System.out.println("WhoIsInChatRoom: see a message from [" + clientName + "]");
 					if (clientName.toLowerCase().contains("façade"))
 						return;
 					for (int i = 0; i < displayList.size(); i++)
-						if (getRootName(displayList.get(i).getMessagingName()).equals(clientName))
+						// if (getRootName(displayList.get(i).getMessagingName()).equals(clientName))
+						if (displayList.get(i).getMessagingName().equals(clientName))
 							aliveList[i] = true;
 				}
 
-				private String getRootName(String n) {
-					return n.substring(0, n.indexOf(" -- "));
-				}
+				// private String getRootName(String n) {
+				// return n.substring(0, n.indexOf(" -- "));
+				// }
 			};
 			// start the Client
 			if (!client.start())

@@ -9,6 +9,7 @@ import gov.fnal.ppd.dd.util.attic.xml.Pong;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
+import gov.fnal.ppd.dd.xml.EncodedCarrier;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -48,13 +49,18 @@ import java.util.List;
  */
 
 /**
- * <p>This is the protocol for the messages between a Channel Changer and a Display.</p>
- * <p><em>DC</p> stands for <em>Display Communications</p</p>
+ * <p>
+ * This is the protocol for the messages between a Channel Changer and a Display.
+ * </p>
+ * <p>
+ * <em>DC
+ * </p>
+ * stands for <em>Display Communications</p</p>
  * 
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copyright 2014
- *
+ * 
  */
 public class DCProtocol {
 	// private enum State {
@@ -172,6 +178,16 @@ public class DCProtocol {
 				// theReply = null;
 				// informListenersPong();
 				// } else {
+
+				if (theMessage instanceof EncodedCarrier) {
+					// Every message *should be* an instance of EncodedCarrier.
+					EncodedCarrier carrier = (EncodedCarrier) theMessage;
+					if (carrier.howOld() > 30000L) {
+						System.err.println("An old message has been received: [" + theMessage + "]\n Ignoring it.");
+						return false;
+					}
+				}
+
 				if (theMessage instanceof ChangeChannelList) {
 					informListenersForever();
 				} else if (theMessage instanceof ChangeChannel) {

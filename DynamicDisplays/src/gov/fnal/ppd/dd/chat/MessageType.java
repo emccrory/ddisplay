@@ -36,5 +36,12 @@ public enum MessageType {
 	/**
 	 * This client is actually alive [Or do I use "PONG"?]
 	 */
-	AMALIVE
+	AMALIVE;
+
+	/**
+	 * @return -- Is this sort of message read-only?
+	 */
+	public boolean isReadOnly() {
+		return this != MESSAGE;
+	}
 }

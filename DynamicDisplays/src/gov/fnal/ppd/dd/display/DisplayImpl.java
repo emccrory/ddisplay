@@ -44,7 +44,7 @@ public abstract class DisplayImpl implements Display {
 	// informListeners(DisplayChangeEvent.Type.ALIVE);
 	// }
 	// };
-	protected String				myName;
+	// protected String				myName;
 
 	/**
 	 * @param ipName
@@ -59,7 +59,7 @@ public abstract class DisplayImpl implements Display {
 		assert (screenNumber >= 0);
 		assert (displayNumber >= 0);
 
-		myName = ipName + ":" + screenNumber + " (" + displayNumber + ")";
+		// myName = ipName + ":" + screenNumber + " (" + displayNumber + ")";
 
 		try {
 			this.ipAddress = InetAddress.getByName(ipName);
@@ -250,10 +250,6 @@ public abstract class DisplayImpl implements Display {
 	public String getStatus() {
 		// return "Displaying: " + (getContent() != null ? getContent().getName() : "No channel");
 		return getContent() + " is being displayed.";
-	}
-
-	public String getMessagingName() {
-		return myName;
 	}
 
 	public void disconnect() {

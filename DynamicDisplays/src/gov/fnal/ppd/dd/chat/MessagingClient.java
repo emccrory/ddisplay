@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.security.SignedObject;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -45,6 +46,8 @@ public class MessagingClient {
 
 	private Object				syncReconnects		= new Object();
 	private String				serverName;
+
+	private boolean				readOnly			= true;
 
 	/**
 	 * Constructor called by console mode server: the server address port: the port number username: the username
@@ -87,6 +90,7 @@ public class MessagingClient {
 						displayLogMessage("Sending an unsolicited 'IAmAlive' message to the server (" + serverName
 								+ ") because we last got a message " + (System.currentTimeMillis() - lastMessageReceived)
 								+ " msec ago");
+						lastMessageReceived = System.currentTimeMillis() - ONE_MINUTE; // Wait a minute before trying again
 					}
 					sleep = 10000L;
 				}
@@ -176,19 +180,31 @@ public class MessagingClient {
 	}
 
 	/**
-	 * To send a message to the server
+	 * Send a message to the server, converting it to a signed message if the messaging client, here, has the authority
 	 * 
 	 * @param msg
+	 *            -- The message to sign and then send.
 	 */
 	public void sendMessage(MessageCarrier msg) {
 		try {
-			sOutput.writeObject(msg);
+			// System.out.println(MessagingClient.class.getSimpleName() + ".sendMessage(" + msg + ").  isReadOnly() = "
+			// + msg.getType().isReadOnly());
+			if (msg.getType().isReadOnly())
+				sOutput.writeObject(msg);
+			else
+				sOutput.writeObject(msg.getSignedObject());
+
+			// The following line is controversial: Is it a bug or is it a feature? Sun claims it is a feature -- it allows the
+			// sender to re-send any message easily. But others (myself included) see this as a bug -- if you remember every message
+			// every time, you'll run out of memory eventually. The call to "reset()" causes the output object to ignore this,
+			// and all previous, messages it has sent.
 			sOutput.reset();
+
 		} catch (Exception e) {
 			displayLogMessage(getClass().getSimpleName() + ".sendMessage(): Exception writing to server: " + e);
 			new Thread("ReconnectToServer") {
 				public void run() {
-					connectionFailed();
+					retryConnection();
 				}
 			}.start();
 		}
@@ -202,11 +218,13 @@ public class MessagingClient {
 	 * 
 	 */
 	public void retryConnection() {
-		connectionFailed();
+		// disconnect() calls retryConnection() at the end.
+		disconnect();
+		// retryConnection();
 	}
 
 	/**
-	 * @return the username of this client in the messaging system
+	 * @return the user name of this client in the messaging system
 	 */
 	public String getName() {
 		return username;
@@ -263,6 +281,9 @@ public class MessagingClient {
 		} catch (Exception e) {
 		} // not much else I can do
 
+		sInput = null;
+		sOutput = null;
+		socket = null;
 		listenFromServer = null;
 		connectionFailed();
 	}
@@ -341,6 +362,21 @@ public class MessagingClient {
 	}
 
 	/**
+	 * @return Is this client a rad-only client?
+	 */
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
+	/**
+	 * @param readOnly
+	 *            -- Should this client be read-only?
+	 */
+	public void setReadOnly(final boolean readOnly) {
+		this.readOnly = readOnly;
+	}
+
+	/**
 	 * <p>
 	 * A class that waits for the message from the server and append them to the JTextArea if we have a GUI or simply
 	 * System.out.println() it in console mode
@@ -350,7 +386,7 @@ public class MessagingClient {
 	 * <b>Bug fix</b> <em>(December, 2014)</em> -- when the messaging server gets put into hibernation (a bad thing that really
 	 * needs to be avoided!), the clients do not notice it. Because of the way the NUC computers in the ROC are set up, the easiest
 	 * way to recover from the hibernation is to restart the server. When the server comes back online, the clients are no wiser and
-	 * continue to believe that their socket to the server is OK. the only way to test this is to send the server a message from
+	 * continue to believe that their socket to the server is OK. The only way to test this is to send the server a message from
 	 * time to time.
 	 * </p>
 	 * <p>
@@ -361,9 +397,51 @@ public class MessagingClient {
 	class ListenFromServer extends Thread {
 
 		public void run() {
+			boolean showMessage1 = true, showMessage2 = true, showMessage3 = true;
 			while (keepGoing) {
 				try {
-					MessageCarrier msg = (MessageCarrier) sInput.readObject();
+					MessageCarrier msg;
+					Object read = sInput.readObject();
+					if (read instanceof MessageCarrier) {
+						msg = (MessageCarrier) read;
+						if (!msg.getType().isReadOnly()) {
+							System.err.println("MessagingClient:ListenFromServer.run(): "
+									+ "Received message is unsigned and could cause a 'write' to happen:\n" + "[" + msg
+									+ "] -- IGNORING IT!");
+							continue;
+						}
+					} else if (read instanceof SignedObject) {
+						SignedObject signedObject = (SignedObject) read;
+						msg = (MessageCarrier) signedObject.getObject();
+						if (msg.verifySignedObject(signedObject)) {
+							if (showMessage1) {
+								System.out.println("Message is properly signed: " + msg);
+								showMessage1 = false;
+							}
+						} else {
+							if (msg.getType().isReadOnly()) {
+								if (showMessage2) {
+									System.out.println(new Date() + "Message is NOT properly signed: [" + msg
+											+ "] -- but it is a read-only message, so we'll accept it.");
+									showMessage2 = false;
+								}
+							} else {
+								if (showMessage3)
+									System.err.print(new Date() + "Message is NOT PROPERLY SIGNED: [" + msg
+											+ "] -- Ignoring this message!");
+								showMessage3 = false;
+								catchSleep(500L);
+								continue;
+							}
+						}
+					} else {
+						System.err.println("Exception caught at " + new Date());
+						new ClassNotFoundException().printStackTrace();
+						// try to continue anyway ...
+						catchSleep(1000L);
+						continue;
+					}
+
 					lastMessageReceived = System.currentTimeMillis();
 					serverName = msg.getFrom();
 					if (msg.isThisForMe(username) && msg.getType() == MessageType.ISALIVE) {
@@ -373,15 +451,12 @@ public class MessagingClient {
 				} catch (IOException e) {
 					displayLogMessage("Server has closed the connection: " + e);
 					break; // Leave the forever loop
-				} catch (ClassNotFoundException e) {
-					System.err.println("Exception caught at " + new Date());
-					// can't happen with a String object but need the catch anyhow
-					e.printStackTrace();
-					// try to continue anyway ...
-					catchSleep(1000L);
 				} catch (NullPointerException e) {
 					displayLogMessage("NullPointerException from reading server!");
 					break; // Leave the forever loop
+				} catch (ClassNotFoundException e) {
+					// can't happen with an Object cast, but need the catch anyhow
+					e.printStackTrace();
 				}
 			}
 			disconnect();

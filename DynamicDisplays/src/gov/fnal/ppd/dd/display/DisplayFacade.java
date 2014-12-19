@@ -2,7 +2,8 @@ package gov.fnal.ppd.dd.display;
 
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
-import static gov.fnal.ppd.dd.GlobalVariables.PROGRAM_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
@@ -42,6 +43,7 @@ public class DisplayFacade extends DisplayImpl {
 	public static AtomicBoolean	alreadyWaiting				= new AtomicBoolean(false);
 	private AtomicBoolean		ready						= new AtomicBoolean(false);
 	private AtomicBoolean		waiting						= new AtomicBoolean(false);
+	private String				myExpectedName;
 
 	/**
 	 * Internal client for handling the direct messaging connection to our Display. There is one connection (through the Messaging
@@ -76,14 +78,14 @@ public class DisplayFacade extends DisplayImpl {
 		private static FacadeMessagingClient	me			= null;
 		private static boolean					notStarted	= true;
 
-		private FacadeMessagingClient(String server, int port, String clientName) {
-			super(server, port, clientName);
+		private FacadeMessagingClient(String server, int port) {
+			super(server, port, THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE);
+			setReadOnly(false);
 		}
 
-		public static void registerClient(final String server, final int port, final String clientName, final String lookingFor,
-				final DisplayFacade client) {
+		public static void registerClient(final String server, final int port, final String lookingFor, final DisplayFacade client) {
 			if (me == null)
-				me = new FacadeMessagingClient(server, port, clientName);
+				me = new FacadeMessagingClient(server, port);
 			me.clients.put(lookingFor, client);
 		}
 
@@ -108,6 +110,10 @@ public class DisplayFacade extends DisplayImpl {
 			return null;
 		}
 
+		public static String getMyName() {
+			return me.getName();
+		}
+
 		/**
 		 * Start the messaging client
 		 */
@@ -119,7 +125,9 @@ public class DisplayFacade extends DisplayImpl {
 
 		/**
 		 * Direct the messaging client to send the message
-		 * @param msg The message to send
+		 * 
+		 * @param msg
+		 *            The message to send
 		 */
 		public static void sendAMessage(MessageCarrier msg) {
 			me.sendMessage(msg);
@@ -140,19 +148,21 @@ public class DisplayFacade extends DisplayImpl {
 			final String location, final Color color, final SignageType type) {
 		super(ipName, number, screenNumber, location, color, type);
 
-		try {
-			// In UNICODE, this is spelled "FA\u00c7ADE"
-			myName += " -- " + InetAddress.getLocalHost().getCanonicalHostName() + " Façade".toUpperCase();
-			if (!"ChannelSelector".equals(PROGRAM_NAME))
-				myName += " " + PROGRAM_NAME; // Used by "IdentifyAll" to connect to the Displays in parallel
+		// try {
+		// In UNICODE, this is spelled "FA\u00c7ADE"
+		// myExpectedName += " -- " + InetAddress.getLocalHost().getCanonicalHostName() + " Façade".toUpperCase();
+		myExpectedName = ipName + ":" + screenNumber + " (" + number + ")";
+		// if (!"ChannelSelector".equals(PROGRAM_NAME))
+		// myExpectedName += " " + PROGRAM_NAME; // Used by "IdentifyAll" to connect to the Displays in parallel
 
-			// myName = InetAddress.getLocalHost().getCanonicalHostName() + " FA\u00c7ADE";
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace(); // Really? This should never happen.
-		}
-		// System.out.println(DisplayFacade.class.getSimpleName() + ": My messaging name is [" + myName + "]");
-		FacadeMessagingClient.registerClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName, ipName + ":" + screenNumber
-				+ " (" + number + ")", this);
+		// myExpectedName = InetAddress.getLocalHost().getCanonicalHostName() + " FA\u00c7ADE";
+		// } catch (UnknownHostException e1) {
+		// e1.printStackTrace(); // Really? This should never happen.
+		// }
+		System.out.println(DisplayFacade.class.getSimpleName() + ": The messaging name of the Display is expected to be ["
+				+ myExpectedName + "]");
+		FacadeMessagingClient.registerClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, ipName + ":" + screenNumber + " ("
+				+ number + ")", this);
 		FacadeMessagingClient.doStart();
 	}
 
@@ -173,8 +183,8 @@ public class DisplayFacade extends DisplayImpl {
 			}
 
 			String xmlMessage = MyXMLMarshaller.getXML(cc);
-			FacadeMessagingClient.sendAMessage(MessageCarrier.getMessage(myName, FacadeMessagingClient.getTargetName(this),
-					xmlMessage));
+			FacadeMessagingClient.sendAMessage(MessageCarrier.getMessage(FacadeMessagingClient.getMyName(),
+					FacadeMessagingClient.getTargetName(this), xmlMessage));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -187,6 +197,12 @@ public class DisplayFacade extends DisplayImpl {
 		// TODO This return value should be true only if we have seen a message from our connected Display. Punt for now.
 		return true;
 		// return false;
+	}
+
+	@Override
+	public String getMessagingName() {
+		// return FacadeMessagingClient.getMyName();
+		return myExpectedName;
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package gov.fnal.ppd.dd;
 import gov.fnal.ppd.dd.signage.Display;
 
 import java.awt.Image;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -18,36 +20,87 @@ public class GlobalVariables {
 	/**
 	 * Do we show in full screen or in a window? Controlled by system constant, ddisplay.selector.inwindow
 	 */
-	public static boolean	SHOW_IN_WINDOW			= Boolean.getBoolean("ddisplay.selector.inwindow");
+	public static boolean		SHOW_IN_WINDOW			= Boolean.getBoolean("ddisplay.selector.inwindow");
 	/**
 	 * Is this a PUBLIC controller? Controlled by system constant, ddisplay.selector.public
 	 */
-	public static boolean	IS_PUBLIC_CONTROLLER	= Boolean.getBoolean("ddisplay.selector.public");
+	public static boolean		IS_PUBLIC_CONTROLLER	= Boolean.getBoolean("ddisplay.selector.public");
 
 	/**
 	 * How long since last user activity?
 	 */
-	public static long		lastDisplayChange		= 0L;
+	public static long			lastDisplayChange		= 0L;
+
+	/**
+	 * Where is the private key stored on the local file system
+	 */
+	public static String		PRIVATE_KEY_LOCATION	= System.getProperty("ddisplay.privatekeyfilename",
+																"/home/ddisplay/keystore/private.key");
+
+	/**
+	 * String that says, "Do not check message signing"
+	 */
+	public static final String	NOCHECK_SIGNED_MESSAGE	= "nocheck";
+
+	/**
+	 * String that says, "Check message signing, but ignore the result"
+	 */
+	public static final String	CHECK_SIGNED_MESSAGE	= "check";
+
+	/**
+	 * String that says, "Force all messages to be signed properly"
+	 */
+	public static final String	FORCE_SIGNED_MESSAGE	= "force";
+
+	/**
+	 * <p>
+	 * How should we deal with signed messages? The options are
+	 * <ol>
+	 * <li>nocheck -- do not check the signature on any signed object</li>
+	 * <li>check -- Check the signature and complain if the signature is bad, but use the message no matter what the check says</li>
+	 * <li>force -- Check the signature and reject any mis-signed message</li>
+	 * </ol>
+	 * </p>
+	 */
+
+	public static String		checkSignedMessage		= System.getProperty("ddisplay.chacksignedmessage", NOCHECK_SIGNED_MESSAGE);
+
+	/**
+	 * My IP Name
+	 */
+	public static String		THIS_IP_NAME;
+	static {
+		try {
+			String s = InetAddress.getLocalHost().getHostName();
+			THIS_IP_NAME = s.substring(0, s.indexOf('.'));
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 
+	 */
+	public static final String THIS_IP_NAME_INSTANCE = System.getProperty("ddisplay.selectorinstance", "00");
 
 	/**
 	 * Which set of Displays are we controlling here? Controlled by system constant, ddisplay.selector.location
 	 */
-	public static int		locationCode			= Integer.getInteger("ddisplay.selector.location", 0);
+	public static int		locationCode		= Integer.getInteger("ddisplay.selector.location", 0);
 
 	/**
 	 * Short name for the location of the displays
 	 */
-	private static String[]	locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", "WH Second Floor",
-			"Fermilab"								};
+	private static String[]	locationName		= { "ROC-West", "ROC-East", "Elliott's Office Test", "WH Second Floor", "Fermilab" };
 
 	/**
 	 * Long name for the location of the displays
 	 */
-	private static String[]	locationDescription		= { "Fermilab Experiments' Remote Operations Center, West Side",
+	private static String[]	locationDescription	= { "Fermilab Experiments' Remote Operations Center, West Side",
 			"Fermilab CMS/LHC Remote Operations Center, East Side", //
 			"Fermilab Transfer Gallery", //
 			"Second Floor of Wilson Hall", "All Dynamic Displays at Fermilab", //
-													};
+												};
 
 	/**
 	 * @param index
@@ -58,7 +111,7 @@ public class GlobalVariables {
 			return locationName[locationName.length - 1];
 		return locationName[index];
 	}
-	
+
 	/**
 	 * @return Should the display show its number (all the time) on itself?
 	 */

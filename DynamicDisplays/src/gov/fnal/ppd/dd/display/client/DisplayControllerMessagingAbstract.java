@@ -118,6 +118,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	protected abstract void endAllConnections();
 
+	public String getMessagingName() {
+		return myName;
+	}
+
 	/**
 	 * This method must be called by concrete class
 	 * 

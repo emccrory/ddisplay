@@ -1,12 +1,19 @@
 package gov.fnal.ppd.dd.testing;
 
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.NOCHECK_SIGNED_MESSAGE;
+import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessage;
+import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -20,6 +27,13 @@ import java.security.SignedObject;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -36,12 +50,16 @@ import java.security.spec.X509EncodedKeySpec;
  */
 public class ObjectSigning {
 
-	private static ObjectSigning	me	= new ObjectSigning();
+	private static final String					ALG_TYPE	= "DSA";
+
+	private static ObjectSigning				me			= new ObjectSigning();
+
+	private static Map<String, ObjectSigning>	keys		= new HashMap<String, ObjectSigning>();
 
 	/**
 	 * @return the instance of this ObjectSigning object for this JVM
 	 */
-	public ObjectSigning getInstance() {
+	public static ObjectSigning getInstance() {
 		return me;
 	}
 
@@ -52,6 +70,8 @@ public class ObjectSigning {
 	private KeyFactory			keyFactory;
 	private Signature			signature	= null;
 
+	private Signature			sig			= null;
+
 	// I'm thinking that all the public keys will be stored in the database and the private keys will be stored on the local
 	// disk of the sender, but not in a place that can normally be read. For example, ~/.keystore
 
@@ -60,15 +80,33 @@ public class ObjectSigning {
 	 */
 	private ObjectSigning() {
 		try {
-			keyFactory = KeyFactory.getInstance("DSA");
+			keyFactory = KeyFactory.getInstance(ALG_TYPE);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * @param client
+	 *            -- The name of the client for which you'll need to check the signature
+	 * @return -- The object that knows about this client's public key
+	 */
+	public static ObjectSigning getPublicSigning(final String client) {
+		if (keys.containsKey(client))
+			return keys.get(client);
+
+		ObjectSigning thatObject = new ObjectSigning();
+		if (thatObject.loadPublicKeyFromDB(client)) {
+			keys.put(client, thatObject);
+			return thatObject;
+		}
+		keys.put(client, null);
+		return null;
+	}
+
 	private void generateNewKeys() throws NoSuchAlgorithmException {
 		// Generate a 1024-bit Digital Signature Algorithm (DSA) key pair.
-		keyPairGenerator = KeyPairGenerator.getInstance("DSA");
+		keyPairGenerator = KeyPairGenerator.getInstance(ALG_TYPE);
 
 		keyPairGenerator.initialize(1024);
 		KeyPair keyPair = keyPairGenerator.genKeyPair();
@@ -90,7 +128,7 @@ public class ObjectSigning {
 			IOException {
 
 		// Generate a 1024-bit Digital Signature Algorithm (DSA) key pair.
-		keyPairGenerator = KeyPairGenerator.getInstance("DSA");
+		keyPairGenerator = KeyPairGenerator.getInstance(ALG_TYPE);
 
 		keyPairGenerator.initialize(1024);
 		KeyPair keyPair = keyPairGenerator.genKeyPair();
@@ -110,6 +148,43 @@ public class ObjectSigning {
 		fos = new FileOutputStream(filenamePrivate);
 		fos.write(pkcs8EncodedKeySpec.getEncoded());
 		fos.close();
+	}
+
+	/**
+	 * @param clientName
+	 *            -- the name of the client, in the database, that is associated with the public key we need to retrieve
+	 */
+	private boolean loadPublicKeyFromDB(final String clientName) {
+
+		Connection connection;
+		try {
+			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+
+			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+				String query = "SELECT PublicKey from PublicKeys WHERE ClientName= '" + clientName + "'";
+
+				try (ResultSet rs = stmt.executeQuery(query);) {
+					if (rs.first()) { // Move to first returned row (there should only be one)
+						Blob pk = rs.getBlob("PublicKey");
+						int len = (int) pk.length();
+						byte[] bytes = pk.getBytes(1, len);
+						publicKey = KeyFactory.getInstance(ALG_TYPE).generatePublic(new X509EncodedKeySpec(bytes));
+						System.out.println("Got the public key for client " + clientName);
+						return true;
+					} else {
+						// Likely culprit here: The source of this message does not have a public key in the DB
+						publicKey = null;
+						System.err.println("No public key for client='" + clientName + "' -- it cannot have signed messages.");
+					}
+
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+		return false;
 	}
 
 	/**
@@ -196,28 +271,6 @@ public class ObjectSigning {
 	}
 
 	/**
-	 * @param signed
-	 *            -- The signed object
-	 * @return -- The plain object that was signed
-	 * @throws ClassNotFoundException
-	 *             -- Problem interpreting the internal signed object
-	 * @throws IOException
-	 *             -- problem reading stuff?
-	 * @throws InvalidKeyException
-	 *             -- The public key is not valid
-	 * @throws SignatureException
-	 *             -- The signature is not valid
-	 */
-	public Object getPlainObject(final SignedObject signed) throws ClassNotFoundException, IOException, InvalidKeyException,
-			SignatureException {
-		if (!signed.verify(publicKey, signature)) {
-			System.err.println("Object " + signed + " not properly signed!");
-			return null;
-		}
-		return signed.getObject();
-	}
-
-	/**
 	 * @param args
 	 */
 	public static void main(final String[] args) {
@@ -244,7 +297,7 @@ public class ObjectSigning {
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			}
-		} else {
+		} else if (args.length == 2) {
 			String filenamePrivate = args[1];
 			String filenamePublic = args[0];
 
@@ -252,8 +305,26 @@ public class ObjectSigning {
 				OS.generateNewKeys(filenamePublic, filenamePrivate);
 				System.out.println("Successfully generated new keys.  Public key is in file '" + filenamePublic
 						+ "'.  The public key probably belongs in the database.");
-				System.out.println("The private key is in '" + filenamePublic
+				System.out.println("The private key is in '" + filenamePrivate
 						+ "'.  Be sure to move this private keystore to somewhere really, REALLY private!");
+			} catch (NoSuchAlgorithmException | IOException e) {
+				e.printStackTrace();
+			}
+		} else if (args.length == 3) {
+			String filenamePublic = args[0];
+			String filenamePrivate = args[1];
+			String clientName = args[2];
+
+			try {
+				OS.generateNewKeys(filenamePublic, filenamePrivate);
+
+				OS.writePublicKeyToDatabase(clientName);
+
+				System.out.println("Successfully generated new keys.  Public key is in file '" + filenamePublic + "'.");
+				System.out.println("Public key has been inserted into the database under client name '" + clientName + "'.");
+				System.out.println("The private key is in '" + filenamePrivate
+						+ "'.  Be sure to move this private keystore to somewhere really, REALLY private!");
+
 			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
@@ -263,7 +334,6 @@ public class ObjectSigning {
 	private static String dump(byte[] encoded) {
 		String r = "";
 		for (int i = 0; i < encoded.length; i++) {
-
 			if ((0x000000ff & encoded[i]) < 16)
 				r += "0";
 			r += Integer.toHexString(0x000000ff & encoded[i]);
@@ -275,6 +345,29 @@ public class ObjectSigning {
 				r += '\n';
 		}
 		return r;
+	}
+
+	/**
+	 * @param signedMess
+	 *            -- The message to test
+	 * @return -- is the passed message signed properly?
+	 */
+	public boolean verifySignature(final SignedObject signedMess) {
+		if (NOCHECK_SIGNED_MESSAGE.equals(checkSignedMessage))
+			return true;
+
+		try {
+			if (sig == null && publicKey != null)
+				sig = Signature.getInstance(publicKey.getAlgorithm());
+			return signedMess.verify(publicKey, sig);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		} catch (SignatureException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	/**
@@ -306,5 +399,45 @@ public class ObjectSigning {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	protected final synchronized void writePublicKeyToDatabase(String clientName) {
+		String blob = "";
+		byte[] encoded = publicKey.getEncoded();
+		for (int i = 0; i < encoded.length; i++) {
+			if ((0x000000ff & encoded[i]) < 16)
+				blob += "0";
+			blob += Integer.toHexString(0x000000ff & encoded[i]);
+
+		}
+		Connection connection;
+		try {
+			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+
+			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+				String statementString = "INSERT INTO PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
+						+ InetAddress.getLocalHost().getHostAddress() + "');";
+
+				int numRows = stmt.executeUpdate(statementString);
+				if (numRows == 0 || numRows > 1) {
+					System.err
+							.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
+									+ numRows + " rows instead. SQL='" + statementString + "'");
+				}
+				stmt.close();
+			} catch (SQLException ex) {
+				System.err.println("cannot execute a query. Is the DB server down?  Try again later.");
+				ex.printStackTrace();
+				System.exit(-1);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+		} catch (DatabaseNotVisibleException e) {
+			// not good!
+			System.err.println("No connection.  It is likely that the DB server is down.  Try again later.");
+
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 }

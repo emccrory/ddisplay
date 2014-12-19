@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.SignedObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,6 +109,7 @@ public class MessagingServer {
 
 		// the only type of message we will receive
 		MessageCarrier		cm;
+		SignedObject		cmSigned;
 		// the date I connected
 		String				date;
 		// my unique id (easier for deconnection)
@@ -143,6 +145,15 @@ public class MessagingServer {
 					this.username = ((MessageCarrier) read).getMessage();
 				} else if (read instanceof String) {
 					this.username = (String) read;
+				} else if (read instanceof SignedObject) {
+					SignedObject so = (SignedObject) read;
+					MessageCarrier mc = (MessageCarrier) so.getObject();
+					if (mc.verifySignedObject(so))
+						; // TODO -- Signed properly
+					else
+						; // Not signed properly
+
+					this.username = mc.getMessage();
 				}
 				display("'" + this.username + "' (" + id + ") has connected.");
 			} catch (IOException e) {
@@ -195,25 +206,38 @@ public class MessagingServer {
 		// This method is what will run forever
 		public void run() {
 			// to loop until LOGOUT or we hit an unrecoverable exception
-			Object read = new Object();
 			// Bug fix for input and output objects: call "reset" after every read and write to not let these objects
 			// remember their state. After a few hours, we run out of memory!
 			this.thisSocketIsActive = true;
 			while (this.thisSocketIsActive) {
-				// read a String (which is an object)
+				// Create this Object here so it can be seen by the catch blocks
+				Object read = new Object();
 				try {
 					read = this.sInput.readObject();
-					this.cm = (MessageCarrier) read;
-				} catch (ClassNotFoundException e) {
-					display(this.username + ": A class not found exception -- " + e + ". returned object of type "
-							+ read.getClass().getCanonicalName());
-					printStackTrace(e);
-					break; // End the while(this.thisSocketIsActive) loop
+					if (read instanceof MessageCarrier) {
+						this.cm = (MessageCarrier) read;
+						this.cmSigned = null;
+					} else if (read instanceof SignedObject) {
+						this.cmSigned = (SignedObject) read;
+						this.cm = (MessageCarrier) cmSigned.getObject();
+						if (this.cm.verifySignedObject(cmSigned))
+							System.out.println("Message is properly signed: " + this.cm);
+						else {
+							System.err.println("Message is NOT PROPERLY SIGNED: [" + this.cm + "] -- ignoring this message.");
+							continue;
+						}
+					} else {
+						display(this.username + ": A class not found exception -- " + read + ". returned object of type "
+								+ read.getClass().getCanonicalName());
+						new ClassNotFoundException().printStackTrace();
+						break; // End the while(this.thisSocketIsActive) loop
+					}
 				} catch (Exception e) {
-					String dis = this.username + ": Exception reading input stream -- " + e + "; The received message was '" + read
-							+ "' (type=" + read.getClass().getCanonicalName() + ")";
+					String dis = "Client " + this.username + ": Exception reading input stream -- " + e + ";\n          "
+							+ "The received message was '" + read + "'\n          (type=" + read.getClass().getCanonicalName() + ")";
+					e.printStackTrace();
 					StackTraceElement[] trace = e.getStackTrace();
-					dis += "\n" + trace[trace.length - 1]; // Print the last line (reducing crap in the printout)
+					dis += "\n" + trace[trace.length - 1]; // Print only the last line (reducing crap in the printout)
 
 					display(dis);
 					error(dis);
@@ -221,12 +245,14 @@ public class MessagingServer {
 					break; // End the while(this.thisSocketIsActive) loop
 
 					/*
-					 * There is something odd going on here. Nov/12/2014
+					 * There is something odd going on here. Nov. 12, 2014 (continues on Dec. 19, 2014)
 					 * 
 					 * It seems that every time a lot of clients try to connect at once, for example when a new instance of the
-					 * ChannelSelector comes up, this causes all of the existing connections to read an "EOF" here ()sometimes
+					 * ChannelSelector comes up, this causes all of the existing connections to read an "EOF" here (sometimes
 					 * worse, but it seems to mostly be EOF). Everything recovers (as it is designed to do), but this is a bug
-					 * waiting to bite us harder. Some say that EOF is ignorable, but others say "No way!"
+					 * waiting to bite us harder. Some say that EOF is ignorable, but others say "No way!"  For example:
+					 * 
+					 * http://stackoverflow.com/questions/12684072/eofexception-when-reading-files-with-objectinputstream
 					 */
 				}
 
@@ -243,15 +269,18 @@ public class MessagingServer {
 				// Switch for the type of message receive
 				switch (this.cm.getType()) {
 
-				case MESSAGE:
 				case ISALIVE:
 				case AMALIVE:
+					broadcast(this.cm);
+					break;
+
+				case MESSAGE:
 					//
 					// The message, received from a client, is relayed here to the client of its choosing
 					// (unless that client is not authorized)
 					//
 					if (isAuthorized())
-						broadcast(this.cm);
+						broadcast(this.cmSigned);
 					else
 						display(this.username + " asked to send message of type " + this.cm.getType() + " to " + this.cm.getTo()
 								+ ", but it was rejected because" + this.username + " is not authorized in the network.");
@@ -270,9 +299,20 @@ public class MessagingServer {
 					boolean purge = false;
 					for (int i = 0; i < listOfMessagingClients.size(); ++i) {
 						ClientThread ct = listOfMessagingClients.get(i);
-						if (ct != null && ct.username != null && ct.date != null)
-							writeMsg(MessageCarrier.getIAmAlive(ct.username, this.cm.getFrom(), "since " + ct.date));
-						else {
+						if (ct != null && ct.username != null && ct.date != null) {
+
+							// This message comes from the server, who is acting on behalf of the client to say that it is alive.
+							// This is not right in the context of signed messages--the server does not know how to sign this
+							// message properly.
+							//
+							// A correct way to do this is to have the client (the one asking "WhoIsIn") to send a
+							// "ping" type message to the server, which it will relay to every client it knows about.
+							//
+							// The way we are doing it here (which is not strictly correct) is to send unsigned messages
+							// back to the client (the one asking "WhoIsIn") for each client out there.
+
+							writeUnsignedMsg(MessageCarrier.getIAmAlive(ct.username, this.cm.getFrom(), "since " + ct.date));
+						} else {
 							display("Talking to " + this.username + " socket " + this.socket.getLocalAddress() + " (" + (i + 1)
 									+ ") Error!  Have a null client");
 							purge = true;
@@ -322,10 +362,10 @@ public class MessagingServer {
 			return this.username + ", id=" + id + ", socket=[" + socket + "], date=" + date;
 		}
 
-		/*
-		 * Write a String to the Client output stream
+		/**
+		 * Write an unsigned object to the Client output stream
 		 */
-		boolean writeMsg(MessageCarrier msg) {
+		boolean writeUnsignedMsg(MessageCarrier msg) {
 			// if Client is still connected send the message to it
 			if (!socket.isConnected()) {
 				close();
@@ -336,6 +376,7 @@ public class MessagingServer {
 			try {
 				sOutput.writeObject(msg);
 				sOutput.reset();
+				return true;
 			}
 			// if an error occurs, do not abort just inform the user
 			catch (IOException e) {
@@ -346,7 +387,35 @@ public class MessagingServer {
 				display(e.getLocalizedMessage() + ", Error sending message to " + this.username);
 				printStackTrace(e);
 			}
-			return true;
+			return false;
+		}
+
+		/**
+		 * Write a signed object to the Client output stream. **THIS IS THE PREFERRED WAY TO DO IT**
+		 */
+		boolean writeMsg(SignedObject signedMsg) {
+			// if Client is still connected send the message to it
+			if (!socket.isConnected()) {
+				close();
+				return false;
+			}
+
+			// write the message to the stream
+			try {
+				sOutput.writeObject(signedMsg);
+				sOutput.reset();
+				return true;
+			}
+			// if an error occurs, do not abort just inform the user
+			catch (IOException e) {
+				display("IOException sending signed message to " + this.username);
+				display(e.toString());
+				printStackTrace(e);
+			} catch (Exception e) {
+				display(e.getLocalizedMessage() + ", Error sending signed message to " + this.username);
+				printStackTrace(e);
+			}
+			return false;
 		}
 
 		/**
@@ -506,7 +575,7 @@ public class MessagingServer {
 	}
 
 	/**
-	 * to broadcast a message to a Clients
+	 * Broadcast an unsigned message to a Client
 	 * 
 	 * Overrideable if the base class wants to know about the messages.
 	 * 
@@ -515,18 +584,48 @@ public class MessagingServer {
 	 * @param message
 	 *            -- The message to broadcast
 	 */
-	protected void broadcast(MessageCarrier message) {
+	protected void broadcast(MessageCarrier mc) {
 		synchronized (broadcasting) { // Only send one message at a time
 			// we loop in reverse order in case we would have to remove a Client because it has disconnected
 			for (int i = listOfMessagingClients.size(); --i >= 0;) {
 				ClientThread ct = listOfMessagingClients.get(i);
 				// try to write to the Client if it fails remove it from the list
-				if (message.isThisForMe(ct.username))
-					if (!ct.writeMsg(message)) {
+				if (mc.isThisForMe(ct.username))
+					if (!ct.writeUnsignedMsg(mc)) {
 						listOfMessagingClients.remove(i);
 						display("Disconnected Client " + ct.username + " removed from list.");
 					}
 			}
+		}
+	}
+
+	/**
+	 * Broadcast a signed message to a Client
+	 * 
+	 * Overrideable if the base class wants to know about the messages.
+	 * 
+	 * Be sure to call super.broadcast(message) to actually get the message broadcast, though!
+	 * 
+	 * @param message
+	 *            -- The message to broadcast
+	 */
+	protected void broadcast(SignedObject message) {
+		try {
+			MessageCarrier mc = (MessageCarrier) message.getObject();
+			synchronized (broadcasting) { // Only send one message at a time
+				// we loop in reverse order in case we would have to remove a Client because it has disconnected
+				for (int i = listOfMessagingClients.size(); --i >= 0;) {
+					ClientThread ct = listOfMessagingClients.get(i);
+					// try to write to the Client if it fails remove it from the list
+					if (mc.isThisForMe(ct.username))
+						if (!ct.writeMsg(message)) {
+							listOfMessagingClients.remove(i);
+							display("Disconnected Client " + ct.username + " removed from list.");
+						}
+				}
+			}
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -730,7 +829,9 @@ public class MessagingServer {
 
 						for (String S : clist) {
 							catchSleep(1);
-							broadcast(MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, S));
+							MessageCarrier mc = MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, S);
+							// This is a read-only message and DOES NOT NEED a signature.
+							broadcast(mc);
 						}
 
 						/*
