@@ -147,7 +147,10 @@ public class AsymmetricEncryption {
 		return data;
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
 		int length = 1024;
 		AsymmetricEncryption.generateKeys(length);
 	}

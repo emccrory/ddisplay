@@ -74,30 +74,49 @@ public class ChannelCategory {
 	public ChannelCategory() {
 	}
 
-	public ChannelCategory(String s) {
+	/**
+	 * @param s
+	 */
+	public ChannelCategory(final String s) {
 		this.value = this.abbreviation = s;
 		if (s != null && s.length() > 5)
 			this.abbreviation = s.substring(0, 5);
 	}
 
-	public ChannelCategory(String s, String a) {
+	/**
+	 * @param s
+	 * @param a
+	 */
+	public ChannelCategory(final String s, final String a) {
 		this.value = s;
 		this.abbreviation = a;
 	}
 
+	/**
+	 * @return -- The name of the category
+	 */
 	public String getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	/**
+	 * @param value -- Th new name for this category
+	 */
+	public void setValue(final String value) {
 		this.value = value;
 	}
 
+	/**
+	 * @return -- The short name for this category
+	 */
 	public String getAbbreviation() {
 		return abbreviation;
 	}
 
-	public void setAbbreviation(String abbreviation) {
+	/**
+	 * @param abbreviation
+	 */
+	public void setAbbreviation(final String abbreviation) {
 		this.abbreviation = abbreviation;
 	}
 

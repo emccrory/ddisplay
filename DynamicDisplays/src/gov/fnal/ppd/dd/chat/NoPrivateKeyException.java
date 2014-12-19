@@ -9,31 +9,46 @@ package gov.fnal.ppd.dd.chat;
  * 
  */
 public class NoPrivateKeyException extends Exception {
+	private static final long	serialVersionUID	= -6598594995368928L;
 
+	/**
+	 * Create an exception
+	 */
 	public NoPrivateKeyException() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public NoPrivateKeyException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
-
-	public NoPrivateKeyException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public NoPrivateKeyException(String message) {
-		super(message);
-	}
-
-	public NoPrivateKeyException(Throwable cause) {
-		super(cause);
 	}
 
 	/**
-	 * 
+	 * @param message
+	 * @param cause
+	 * @param enableSuppression
+	 * @param writableStackTrace
 	 */
-	private static final long	serialVersionUID	= -6598594995368928L;
+	public NoPrivateKeyException(final String message, final Throwable cause, final boolean enableSuppression,
+			final boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace);
+	}
+
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public NoPrivateKeyException(final String message, final Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
+	 * @param message
+	 */
+	public NoPrivateKeyException(final String message) {
+		super(message);
+	}
+
+	/**
+	 * @param cause
+	 */
+	public NoPrivateKeyException(final Throwable cause) {
+		super(cause);
+	}
 
 }

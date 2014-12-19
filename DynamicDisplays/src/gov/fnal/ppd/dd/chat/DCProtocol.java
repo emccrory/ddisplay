@@ -4,10 +4,9 @@ import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.channel.PlainURLChannel;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.util.attic.xml.HeartBeat;
-import gov.fnal.ppd.dd.util.attic.xml.Pong;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
+import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 import gov.fnal.ppd.dd.xml.EncodedCarrier;
 
@@ -209,10 +208,10 @@ public class DCProtocol {
 					// return true;
 				} else {
 					System.out.println("The message is of type " + theMessage.getClass().getCanonicalName()
-							+ ".  We will assume they meant it to be 'Pong'");
+							+ ".  We will assume they meant it to be 'ChangeChannelReply'");
 				}
 
-				Pong p = new Pong();
+				ChangeChannelReply p = new ChangeChannelReply();
 				if (listeners.size() > 0 && listeners.get(0) != null) {
 					// ASSUME that there is one and only one listener here and it is the physical display
 					p.setDisplayNum(listeners.get(0).getNumber());
@@ -247,9 +246,9 @@ public class DCProtocol {
 	}
 
 	// private void informListenersPong() {
-	// Pong p = (Pong) theMessage;
+	// ChangeChannelReply p = (ChangeChannelReply) theMessage;
 	// ChannelSpec spec = p.getChannelSpec();
-	// System.out.println(getClass().getSimpleName() + ": Propagating the pong with this ChannelSpec: " + spec.getName() + ", "
+	// System.out.println(getClass().getSimpleName() + ": Propagating the ChangeChannelReply with this ChannelSpec: " + spec.getName() + ", "
 	// + spec.getTime() + ", " + spec.getCategory() + " (" + spec.getClass().getSimpleName() + ")");
 	// informListeners(spec);
 	// }

@@ -2,8 +2,6 @@ package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
-import gov.fnal.ppd.dd.GlobalVariables;
-
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -16,8 +16,6 @@ import gov.fnal.ppd.dd.xml.EncodedCarrier;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 import java.awt.Color;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
