@@ -311,23 +311,7 @@ public class ObjectSigning {
 				e.printStackTrace();
 			}
 		} else if (args.length == 3) {
-			String filenamePublic = args[0];
-			String filenamePrivate = args[1];
-			String clientName = args[2];
-
-			try {
-				OS.generateNewKeys(filenamePublic, filenamePrivate);
-
-				OS.writePublicKeyToDatabase(clientName);
-
-				System.out.println("Successfully generated new keys.  Public key is in file '" + filenamePublic + "'.");
-				System.out.println("Public key has been inserted into the database under client name '" + clientName + "'.");
-				System.out.println("The private key is in '" + filenamePrivate
-						+ "'.  Be sure to move this private keystore to somewhere really, REALLY private!");
-
-			} catch (NoSuchAlgorithmException | IOException e) {
-				e.printStackTrace();
-			}
+			// This functionality has been moved to gov.fnal.ppd.security.GenerateNewKeyPair
 		}
 	}
 
@@ -353,10 +337,13 @@ public class ObjectSigning {
 	 * @return -- is the passed message signed properly?
 	 */
 	public boolean verifySignature(final SignedObject signedMess) {
-		if (NOCHECK_SIGNED_MESSAGE.equals(checkSignedMessage))
+		if (NOCHECK_SIGNED_MESSAGE.equals(checkSignedMessage)) {
+			System.err.println(getClass().getSimpleName() + ".verifySignature(): Ignoring the signature and returning 'true'");
 			return true;
+		}
 
 		try {
+			System.err.println(getClass().getSimpleName() + ".verifySignature(): really and truly checking the signature!");
 			if (sig == null && publicKey != null)
 				sig = Signature.getInstance(publicKey.getAlgorithm());
 			return signedMess.verify(publicKey, sig);

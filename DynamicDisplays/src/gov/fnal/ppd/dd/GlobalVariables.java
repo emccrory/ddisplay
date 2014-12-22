@@ -63,7 +63,7 @@ public class GlobalVariables {
 	 * </p>
 	 */
 
-	public static String		checkSignedMessage		= System.getProperty("ddisplay.chacksignedmessage", NOCHECK_SIGNED_MESSAGE);
+	public static String		checkSignedMessage		= System.getProperty("ddisplay.checksignedmessage", NOCHECK_SIGNED_MESSAGE);
 
 	/**
 	 * My IP Name
