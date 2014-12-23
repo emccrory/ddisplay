@@ -103,6 +103,14 @@ public class ObjectSigning {
 		keys.put(client, null);
 		return null;
 	}
+	
+	/**
+	 * If a client has a bad signature, this method is provided to remove it.
+	 * @param client -- The client to remove
+	 */
+	public static void removeClientSigning(final String client) {
+		keys.remove(client);
+	}
 
 	private void generateNewKeys() throws NoSuchAlgorithmException {
 		// Generate a 1024-bit Digital Signature Algorithm (DSA) key pair.

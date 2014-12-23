@@ -72,7 +72,11 @@ public class GlobalVariables {
 	static {
 		try {
 			String s = InetAddress.getLocalHost().getHostName();
-			THIS_IP_NAME = s.substring(0, s.indexOf('.'));
+			int index = s.indexOf('.');
+			if (index > 0)
+				THIS_IP_NAME = s.substring(0, index);
+			else
+				THIS_IP_NAME = s;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -81,26 +85,27 @@ public class GlobalVariables {
 	/**
 	 * 
 	 */
-	public static final String THIS_IP_NAME_INSTANCE = System.getProperty("ddisplay.selectorinstance", "00");
+	public static final String	THIS_IP_NAME_INSTANCE	= System.getProperty("ddisplay.selectorinstance", "00");
 
 	/**
 	 * Which set of Displays are we controlling here? Controlled by system constant, ddisplay.selector.location
 	 */
-	public static int		locationCode		= Integer.getInteger("ddisplay.selector.location", 0);
+	public static int			locationCode			= Integer.getInteger("ddisplay.selector.location", 0);
 
 	/**
 	 * Short name for the location of the displays
 	 */
-	private static String[]	locationName		= { "ROC-West", "ROC-East", "Elliott's Office Test", "WH Second Floor", "Fermilab" };
+	private static String[]		locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", "WH Second Floor",
+			"Fermilab"									};
 
 	/**
 	 * Long name for the location of the displays
 	 */
-	private static String[]	locationDescription	= { "Fermilab Experiments' Remote Operations Center, West Side",
+	private static String[]		locationDescription		= { "Fermilab Experiments' Remote Operations Center, West Side",
 			"Fermilab CMS/LHC Remote Operations Center, East Side", //
 			"Fermilab Transfer Gallery", //
 			"Second Floor of Wilson Hall", "All Dynamic Displays at Fermilab", //
-												};
+														};
 
 	/**
 	 * @param index

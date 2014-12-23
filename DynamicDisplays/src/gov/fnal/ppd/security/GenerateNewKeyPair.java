@@ -1,7 +1,5 @@
 package gov.fnal.ppd.security;
 
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
-
 import java.io.Console;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,19 +30,113 @@ import java.util.Arrays;
  */
 public class GenerateNewKeyPair {
 
-	/**
-	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
-	 */
-	private static final String	DATABASE_NAME	= System.getProperty("ddisplay.dbname", "xoc");
+	private static final String	ALG_TYPE				= "DSA";
+	private static Connection	connection;
+	private static final String	DEFAULT_SERVER			= "mccrory.fnal.gov";
+	private static final String	DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc");
+	private static final String	DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", DEFAULT_SERVER);
+	private static String		serverNode				= DATABASE_SERVER_NAME;
+	private static String		thisNode;
 
-	private static final String	ALG_TYPE		= "DSA";
+	/**
+	 * @param user
+	 * @param passwd
+	 * @return the DB connection object
+	 * 
+	 * @throws DatabaseNotVisibleException
+	 *             if it cannot connect to the database server
+	 */
+	public static Connection getDbConnection(String user, char[] passwd) throws DatabaseNotVisibleException {
+		if (connection != null) {
+			return connection;
+		}
+
+		InetAddress ip = null;
+		try {
+			ip = InetAddress.getLocalHost();
+			thisNode = ip.getCanonicalHostName();
+		} catch (UnknownHostException e) {
+			System.err.println("Cannot get my own IP name.  IP Address is " + ip);
+			e.printStackTrace();
+		}
+
+		if (serverNode.equals(thisNode))
+			serverNode = "localhost";
+
+		try {
+			// The newInstance() call is a work around for some broken Java implementations
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("It seems that we can't load the jdbc driver: " + ex);
+			System.exit(1);
+		}
+		try {
+
+			String pw = "";
+			for (char C: passwd)
+				pw += C;
+			connection = DriverManager.getConnection("jdbc:mysql://" + serverNode + "/xoc", user, pw);
+			return connection;
+
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+			ex.printStackTrace();
+			if (ex.getMessage().contains("Access denied for user")) {
+				System.err.println("Cannont access the Channel/Display database. DB Host=jdbc:mysql://" + serverNode + "/xoc");
+				throw new DatabaseNotVisibleException(ex.getMessage());
+			} else {
+				System.err.println("Aborting");
+				System.exit(1);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
+		GenerateNewKeyPair OS = new GenerateNewKeyPair();
+
+		if (args.length == 4) {
+			String filenamePublic = args[0];
+			String filenamePrivate = args[1];
+			String clientName = args[2];
+			String userName = args[3];
+
+			try {
+				OS.generateNewKeys(filenamePublic, filenamePrivate);
+				System.out.println("Successfully generated new keys.  Public key is in file '" + filenamePublic + "'.");
+				System.out.println("The private key is in '" + filenamePrivate
+						+ "'.  Be sure to move this private keystore to somewhere really, REALLY private!");
+
+				// Prompt the user for the password and store it in a char[]
+				Console console = System.console();
+				console.printf("Please enter the DB password for user " + userName + ": ");
+				char[] password = console.readPassword();
+
+				
+				OS.writePublicKeyToDatabase(clientName, userName, password);
+				for (int i = 0; i < password.length; i++)
+					password[i] = 0;
+
+
+				System.out.println("Public key has been inserted into the database under client name '" + clientName + "'.");
+			} catch (NoSuchAlgorithmException | IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.err.println("USAGE: java " + GenerateNewKeyPair.class.getCanonicalName()
+					+ " <PublicKey File Name> <PrivateKey file name> <Client name> <database user name> <database password>");
+		}
+	}
 
 	private KeyPairGenerator	keyPairGenerator;
 	private PrivateKey			privateKey;
 	private PublicKey			publicKey;
-
-	// I'm thinking that all the public keys will be stored in the database and the private keys will be stored on the local
-	// disk of the sender, but not in a place that can normally be read. For example, ~/.keystore
 
 	/**
 	 * Initialize the object signing mechanism
@@ -89,43 +181,6 @@ public class GenerateNewKeyPair {
 		fos.close();
 	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(final String[] args) {
-		GenerateNewKeyPair OS = new GenerateNewKeyPair();
-
-		if (args.length == 4) {
-			String filenamePublic = args[0];
-			String filenamePrivate = args[1];
-			String clientName = args[2];
-			String userName = args[3];
-
-			try {
-				OS.generateNewKeys(filenamePublic, filenamePrivate);
-				System.out.println("Successfully generated new keys.  Public key is in file '" + filenamePublic + "'.");
-				System.out.println("The private key is in '" + filenamePrivate
-						+ "'.  Be sure to move this private keystore to somewhere really, REALLY private!");
-
-				// Prompt the user for the password and store it in a char[]
-				Console console = System.console();
-				console.printf("Please enter the DB password for user " + userName + ": ");
-				char[] password = console.readPassword();
-
-				OS.writePublicKeyToDatabase(clientName, userName, password);
-				for (int i = 0; i < password.length; i++)
-					password[i] = 0;
-
-				System.out.println("Public key has been inserted into the database under client name '" + clientName + "'.");
-			} catch (NoSuchAlgorithmException | IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			System.err.println("USAGE: java " + GenerateNewKeyPair.class.getCanonicalName()
-					+ " <PublicKey File Name> <PrivateKey file name> <Client name> <database user name> <database password>");
-		}
-	}
-
 	protected final synchronized void writePublicKeyToDatabase(String clientName, String user, char[] password) {
 		String blob = "";
 		byte[] encoded = publicKey.getEncoded();
@@ -164,69 +219,6 @@ public class GenerateNewKeyPair {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-	}
-
-	private static final String	DEFAULT_SERVER			= "mccrory.fnal.gov";
-	private static final String	DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", DEFAULT_SERVER);
-	private static String		serverNode				= DATABASE_SERVER_NAME;
-
-	private static Connection	connection;
-	private static String		thisNode;
-
-	/**
-	 * @param user
-	 * @param passwd
-	 * @return the DB connection object
-	 * 
-	 * @throws DatabaseNotVisibleException
-	 *             if it cannot connect to the database server
-	 */
-	public static Connection getDbConnection(String user, char[] passwd) throws DatabaseNotVisibleException {
-		if (connection != null) {
-			return connection;
-		}
-
-		InetAddress ip = null;
-		try {
-			ip = InetAddress.getLocalHost();
-			thisNode = ip.getCanonicalHostName();
-		} catch (UnknownHostException e) {
-			System.err.println("Cannot get my own IP name.  IP Address is " + ip);
-			e.printStackTrace();
-		}
-
-		if (serverNode.equals(thisNode))
-			serverNode = "localhost";
-
-		try {
-			// The newInstance() call is a work around for some broken Java implementations
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("It seems that we can't load the jdbc driver: " + ex);
-			System.exit(1);
-		}
-		try {
-
-			String url = "jdbc:mysql://" + serverNode + "/xoc";
-
-			connection = DriverManager.getConnection(url, user, Arrays.toString(passwd));
-			return connection;
-
-		} catch (SQLException ex) {
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
-			ex.printStackTrace();
-			if (ex.getMessage().contains("Access denied for user")) {
-				System.err.println("Cannont access the Channel/Display database.");
-				throw new DatabaseNotVisibleException(ex.getMessage());
-			} else {
-				System.err.println("Aborting");
-				System.exit(1);
-			}
-		}
-		return null;
 	}
 
 }

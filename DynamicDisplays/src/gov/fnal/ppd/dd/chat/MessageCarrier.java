@@ -195,6 +195,11 @@ public class MessageCarrier implements Serializable {
 		// assert (this.equals(signedObject.getObject()));
 
 		ObjectSigning signing = ObjectSigning.getPublicSigning(getFrom());
-		return signing != null && signing.verifySignature(signedObject);
+		if (signing == null)
+			return false;
+		boolean f = signing.verifySignature(signedObject);
+		if (!f)
+			ObjectSigning.removeClientSigning(getFrom());
+		return f;
 	}
 }
