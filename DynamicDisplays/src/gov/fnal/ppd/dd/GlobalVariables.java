@@ -63,7 +63,14 @@ public class GlobalVariables {
 	 * </p>
 	 */
 
-	public static String		checkSignedMessage		= System.getProperty("ddisplay.checksignedmessage", NOCHECK_SIGNED_MESSAGE);
+	private static String		checkSignedMessage		= System.getProperty("ddisplay.checksignedmessage", NOCHECK_SIGNED_MESSAGE);
+
+	/**
+	 * @return Do we need to check the signature on messages?
+	 */
+	public static boolean checkSignedMessages() {
+		return CHECK_SIGNED_MESSAGE.equals(checkSignedMessage);
+	}
 
 	/**
 	 * My IP Name

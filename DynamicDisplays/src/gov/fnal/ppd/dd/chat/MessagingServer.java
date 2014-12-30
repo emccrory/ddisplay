@@ -6,6 +6,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_DAY;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
+import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
 
@@ -226,6 +227,15 @@ public class MessagingServer {
 							System.err.println("Message is NOT PROPERLY SIGNED: [" + this.cm + "] -- ignoring this message.");
 							continue;
 						}
+					} else if (read instanceof String) {
+						display(this.username + ": Received message of type String, '" + read + "'");
+						if ("NULL".equalsIgnoreCase((String) read))
+							continue;
+						System.out.println("\t\t -- This may be an old client trying to connect.");
+						cm = MessageCarrier.getIAmAlive((String) read, "NULL", new Date().toString());
+					} else if (read instanceof MessageType) {
+						display(this.username + ": Received message of type MessageType, value='" + read + "'");
+						continue;
 					} else {
 						display(this.username + ": A class not found exception -- " + read + ". returned object of type "
 								+ read.getClass().getCanonicalName());
@@ -234,7 +244,8 @@ public class MessagingServer {
 					}
 				} catch (Exception e) {
 					String dis = "Client " + this.username + ": Exception reading input stream -- " + e + ";\n          "
-							+ "The received message was '" + read + "'\n          (type=" + read.getClass().getCanonicalName() + ")";
+							+ "The received message was '" + read + "'\n          (type=" + read.getClass().getCanonicalName()
+							+ ")";
 					e.printStackTrace();
 					StackTraceElement[] trace = e.getStackTrace();
 					dis += "\n" + trace[trace.length - 1]; // Print only the last line (reducing crap in the printout)
@@ -248,9 +259,9 @@ public class MessagingServer {
 					 * There is something odd going on here. Nov. 12, 2014 (continues on Dec. 19, 2014)
 					 * 
 					 * It seems that every time a lot of clients try to connect at once, for example when a new instance of the
-					 * ChannelSelector comes up, this causes all of the existing connections to read an "EOF" here (sometimes
-					 * worse, but it seems to mostly be EOF). Everything recovers (as it is designed to do), but this is a bug
-					 * waiting to bite us harder. Some say that EOF is ignorable, but others say "No way!"  For example:
+					 * ChannelSelector comes up, this causes all of the existing connections to read an "EOF" here (sometimes worse,
+					 * but it seems to mostly be EOF). Everything recovers (as it is designed to do), but this is a bug waiting to
+					 * bite us harder. Some say that EOF is ignorable, but others say "No way!" For example:
 					 * 
 					 * http://stackoverflow.com/questions/12684072/eofexception-when-reading-files-with-objectinputstream
 					 */
@@ -279,12 +290,13 @@ public class MessagingServer {
 					// The message, received from a client, is relayed here to the client of its choosing
 					// (unless that client is not authorized)
 					//
-					if (isAuthorized())
-						broadcast(this.cmSigned);
-					else
+					if (isAuthorized()) {
+						broadcast(this);
+						// broadcast(this.cmSigned);
+					} else {
 						display(this.username + " asked to send message of type " + this.cm.getType() + " to " + this.cm.getTo()
 								+ ", but it was rejected because" + this.username + " is not authorized in the network.");
-
+					}
 					break;
 
 				// ---------- Other types of messages are interpreted here by the server. ---------
@@ -442,11 +454,7 @@ public class MessagingServer {
 		}
 
 		public boolean isAuthorized() {
-			/*
-			 * TODO -- Implement something meaningful here. Maybe it is sufficient to base this decision on the IP address, by
-			 * asking the DB if this IP address is a known user. For now, simply say every client is OK.
-			 */
-			return true;
+			return !checkSignedMessages() || cm.getType().isReadOnly() || cmSigned != null;
 		}
 	}
 
@@ -572,6 +580,13 @@ public class MessagingServer {
 		// ArrayList of the Clients
 		listOfMessagingClients = new ClientThreadList();
 		launchMemoryWatcher();
+	}
+
+	private void broadcast(ClientThread ct) {
+		if (ct.cmSigned != null)
+			broadcast(ct.cmSigned);
+		else
+			broadcast(ct.cm);
 	}
 
 	/**

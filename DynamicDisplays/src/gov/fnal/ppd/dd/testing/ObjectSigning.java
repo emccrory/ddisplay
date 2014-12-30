@@ -1,8 +1,7 @@
 package gov.fnal.ppd.dd.testing;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.NOCHECK_SIGNED_MESSAGE;
-import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessage;
+import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
@@ -102,14 +101,6 @@ public class ObjectSigning {
 		}
 		keys.put(client, null);
 		return null;
-	}
-	
-	/**
-	 * If a client has a bad signature, this method is provided to remove it.
-	 * @param client -- The client to remove
-	 */
-	public static void removeClientSigning(final String client) {
-		keys.remove(client);
 	}
 
 	private void generateNewKeys() throws NoSuchAlgorithmException {
@@ -342,10 +333,10 @@ public class ObjectSigning {
 	/**
 	 * @param signedMess
 	 *            -- The message to test
-	 * @return -- is the passed message signed properly?
+	 * @return -- is this message signed properly?
 	 */
 	public boolean verifySignature(final SignedObject signedMess) {
-		if (NOCHECK_SIGNED_MESSAGE.equals(checkSignedMessage)) {
+		if (!checkSignedMessages()) {
 			System.err.println(getClass().getSimpleName() + ".verifySignature(): Ignoring the signature and returning 'true'");
 			return true;
 		}
@@ -354,12 +345,17 @@ public class ObjectSigning {
 			System.err.println(getClass().getSimpleName() + ".verifySignature(): really and truly checking the signature!");
 			if (sig == null && publicKey != null)
 				sig = Signature.getInstance(publicKey.getAlgorithm());
-			return signedMess.verify(publicKey, sig);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (SignatureException e) {
+			boolean retval = signedMess.verify(publicKey, sig);
+			if (!retval) {
+				for (String k : keys.keySet()) {
+					if (keys.get(k) == this) { // Yes, I think "==" is right here:  Are these the same objects?
+						keys.remove(k);
+						break;
+					}
+				}
+			}
+			return retval;
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;

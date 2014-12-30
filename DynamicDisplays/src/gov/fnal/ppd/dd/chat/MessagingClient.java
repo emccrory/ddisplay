@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
+import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
 import java.io.IOException;
@@ -404,7 +405,7 @@ public class MessagingClient {
 					Object read = sInput.readObject();
 					if (read instanceof MessageCarrier) {
 						msg = (MessageCarrier) read;
-						if (!msg.getType().isReadOnly()) {
+						if (checkSignedMessages() && !msg.getType().isReadOnly()) {
 							System.err.println("MessagingClient:ListenFromServer.run(): "
 									+ "Received message is unsigned and could cause a 'write' to happen:\n" + "[" + msg
 									+ "] -- IGNORING IT!");

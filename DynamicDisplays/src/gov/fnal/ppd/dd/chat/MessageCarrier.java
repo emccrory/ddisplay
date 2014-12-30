@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
+import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import gov.fnal.ppd.dd.testing.ObjectSigning;
 
 import java.io.IOException;
@@ -192,14 +193,13 @@ public class MessageCarrier implements Serializable {
 	 * @return -- Has the signedObject been properly signed?
 	 */
 	public boolean verifySignedObject(final SignedObject signedObject) {
+		if (!checkSignedMessages())
+			return true;
 		// assert (this.equals(signedObject.getObject()));
 
 		ObjectSigning signing = ObjectSigning.getPublicSigning(getFrom());
 		if (signing == null)
 			return false;
-		boolean f = signing.verifySignature(signedObject);
-		if (!f)
-			ObjectSigning.removeClientSigning(getFrom());
-		return f;
+		return signing.verifySignature(signedObject);
 	}
 }
