@@ -8,25 +8,37 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class ChangeChannelReply extends EncodedCarrier {
-	private ChannelSpec showing;
+	private ChannelSpec	showing;
 
-	private int displayNum;
+	private int			displayNum;
 
+	/**
+	 * @return The currently showing channel spec
+	 */
 	@XmlElement
 	public ChannelSpec getChannelSpec() {
 		return showing;
 	}
-	
-	public void setChannelSpec(ChannelSpec spec) {
+
+	/**
+	 * @param spec
+	 */
+	public void setChannelSpec(final ChannelSpec spec) {
 		showing = spec;
 	}
 
+	/**
+	 * @return the display number
+	 */
 	public int getDisplayNum() {
 		return displayNum;
 	}
 
+	/**
+	 * @param displayNum
+	 */
 	@XmlElement
-	public void setDisplayNum( int displayNum ) {
+	public void setDisplayNum(final int displayNum) {
 		this.displayNum = displayNum;
 	}
 
