@@ -16,6 +16,7 @@ import gov.fnal.ppd.dd.xml.EncodedCarrier;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 import java.awt.Color;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -89,7 +90,8 @@ public class DisplayFacade extends DisplayImpl {
 
 		@Override
 		public void displayIncomingMessage(final MessageCarrier message) {
-			dcp.processInput(message, clients.get(message.getFrom()).getNumber());
+			DisplayFacade d = clients.get(message.getFrom());
+			dcp.processInput(message, d.getNumber(), d.getScreenNumber());
 		}
 
 		/**
@@ -178,6 +180,7 @@ public class DisplayFacade extends DisplayImpl {
 				cc = new ChangeChannel();
 				((ChangeChannel) cc).setDisplayNumber(getNumber());
 				((ChangeChannel) cc).setContent(getContent());
+				((ChangeChannel) cc).setIPAddress(InetAddress.getLocalHost().getHostAddress());
 			}
 
 			String xmlMessage = MyXMLMarshaller.getXML(cc);

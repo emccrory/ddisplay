@@ -164,13 +164,18 @@ public class MessageCarrier implements Serializable {
 		return to == null || to.equalsIgnoreCase("NULL") || to.equals(username);
 	}
 
-	private void initializeSignature() {
+	/**
+	 * Read the private key so we can initialize out signature
+	 */
+	public static boolean initializeSignature() {
 		try {
 			ObjectSigning.getInstance().loadPrivateKey(PRIVATE_KEY_LOCATION);
+			return true;
 		} catch (InvalidKeySpecException | NoSuchAlgorithmException | IOException e) {
 			System.out.println("Problems loading private key for new client");
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	/**

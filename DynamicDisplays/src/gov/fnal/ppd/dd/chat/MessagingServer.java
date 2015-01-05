@@ -106,23 +106,34 @@ public class MessagingServer {
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
 	 * @copyright 2014
 	 */
-	class ClientThread extends Thread {
+	private class ClientThread extends Thread {
 
-		// the only type of message we will receive
+		// the only types of message we will deal with here
 		MessageCarrier		cm;
 		SignedObject		cmSigned;
+
 		// the date I connected
 		String				date;
+
 		// my unique id (easier for deconnection)
 		int					id;
-		private long		lastSeen			= System.currentTimeMillis();
-		private boolean		onNotice			= false;
 
+		// When was this client last seen?
+		long				lastSeen			= System.currentTimeMillis();
+
+		// If this client has been absent for too long, we put it "on notice"
+		boolean				onNotice			= false;
+
+		// the input stream for our conversation
 		ObjectInputStream	sInput;
+		// the output stream for our conversation
+		ObjectOutputStream	sOutput;
 		// the socket where to listen/talk
 		Socket				socket;
-		ObjectOutputStream	sOutput;
-		private boolean		thisSocketIsActive	= false;
+
+		// Does it seem like the socket for this client is active?
+		boolean				thisSocketIsActive	= false;
+
 		// the Username of the Client
 		String				username;
 
@@ -140,23 +151,19 @@ public class MessagingServer {
 				this.sOutput = new ObjectOutputStream(socket.getOutputStream());
 				this.sInput = new ObjectInputStream(socket.getInputStream());
 
-				// read the username -- the first message from the new connection
+				// read the username -- the first message from the new connection should be a login message
 				read = this.sInput.readObject();
 				if (read instanceof MessageCarrier) {
+					if (((MessageCarrier) read).getType() != MessageType.LOGIN) {
+						System.err.println("Expected LOGIN message from " + ((MessageCarrier) read).getMessage() + ", but got a "
+								+ ((MessageCarrier) read).getType() + " message");
+					}
 					this.username = ((MessageCarrier) read).getMessage();
-				} else if (read instanceof String) {
-					this.username = (String) read;
-				} else if (read instanceof SignedObject) {
-					SignedObject so = (SignedObject) read;
-					MessageCarrier mc = (MessageCarrier) so.getObject();
-					if (mc.verifySignedObject(so))
-						; // TODO -- Signed properly
-					else
-						; // Not signed properly
-
-					this.username = mc.getMessage();
+					display("'" + this.username + "' (" + id + ") has connected.");
+				} else {
+					display("Unexpected response from client '" + ((MessageCarrier) read).getFrom() + ": Type=" + read.getClass().getCanonicalName());
+					return;
 				}
-				display("'" + this.username + "' (" + id + ") has connected.");
 			} catch (IOException e) {
 				display("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
 				return;

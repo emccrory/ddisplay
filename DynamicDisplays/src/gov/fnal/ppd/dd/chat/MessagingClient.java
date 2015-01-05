@@ -73,6 +73,8 @@ public class MessagingClient {
 	 */
 	public boolean start() {
 		new Thread(username + "ping") {
+			long	lastPingSent	= 0l;
+
 			/**
 			 * We need to be sure that the server is still there.
 			 * 
@@ -82,18 +84,18 @@ public class MessagingClient {
 			 * This thread does that
 			 */
 			public void run() {
-				long sleep = 60000L;
+				long sleep = 5 * ONE_MINUTE; // First sleep is 5 minutes
 				while (keepGoing) {
 					catchSleep(sleep);
-					if (lastMessageReceived + 5 * ONE_MINUTE < System.currentTimeMillis()) {
+					if (lastMessageReceived + 5 * ONE_MINUTE < System.currentTimeMillis()
+							&& lastPingSent + ONE_MINUTE < System.currentTimeMillis()) {
 						// We haven't heard from the server in a long time! Maybe it is dead or sleeping.
 						sendMessage(MessageCarrier.getIAmAlive(username, serverName, new Date().toString()));
-						displayLogMessage("Sending an unsolicited 'IAmAlive' message to the server (" + serverName
-								+ ") because we last got a message " + (System.currentTimeMillis() - lastMessageReceived)
-								+ " msec ago");
-						lastMessageReceived = System.currentTimeMillis() - ONE_MINUTE; // Wait a minute before trying again
+						displayLogMessage("Sending an unsolicited 'IAmAlive' message from " + username + " to the server ("
+								+ serverName + ") because we last got a message " + lastMessageReceived + " mSec ago.");
+						lastPingSent = System.currentTimeMillis();
 					}
-					sleep = 10000L;
+					sleep = 9999L; // subsequent sleeps are ten seconds
 				}
 			}
 		}.start();
@@ -403,6 +405,7 @@ public class MessagingClient {
 				try {
 					MessageCarrier msg;
 					Object read = sInput.readObject();
+					lastMessageReceived = System.currentTimeMillis();
 					if (read instanceof MessageCarrier) {
 						msg = (MessageCarrier) read;
 						if (checkSignedMessages() && !msg.getType().isReadOnly()) {
@@ -419,6 +422,7 @@ public class MessagingClient {
 								System.out.println("Message is properly signed: " + msg);
 								showMessage1 = false;
 							}
+							// TODO -- Is the IP address within the message correct? Should verify that, too.
 						} else {
 							if (msg.getType().isReadOnly()) {
 								if (showMessage2) {
@@ -443,7 +447,6 @@ public class MessagingClient {
 						continue;
 					}
 
-					lastMessageReceived = System.currentTimeMillis();
 					serverName = msg.getFrom();
 					if (msg.isThisForMe(username) && msg.getType() == MessageType.ISALIVE) {
 						sendMessage(MessageCarrier.getIAmAlive(username, msg.getFrom(), "" + new Date()));

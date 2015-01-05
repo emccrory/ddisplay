@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -135,7 +136,7 @@ public class ConnectionToFirefoxInstance {
 				// s += "document.getElementById('iframe').contentWindow.location.reload();\n";
 				send(s);
 			}
-			System.out.println("--Sent: [[" + s + "]]");
+			System.out.println(new Date() + " --Sent: [[" + s + "]]");
 
 			// send("window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
 			// + displayID + "&color=" + colorCode + "\";\n");
@@ -182,7 +183,7 @@ public class ConnectionToFirefoxInstance {
 			s += "document.getElementById('colorName').innerHTML = '#" + colorCode + "';\n";
 
 		send(s);
-		System.out.println("--Sent: [[" + s + "]]");
+		System.out.println(new Date() + " --Sent: [[" + s + "]]");
 
 		try {
 			waitForServer();
@@ -196,7 +197,7 @@ public class ConnectionToFirefoxInstance {
 	 * Remove the self-identify dressings on the Display
 	 */
 	public void removeIdentify() {
-		String s = "document.getElementById('numeral').style.opacity=" + (isNumberDiscrete()? "0.0" : "0.4") + ";\n";
+		String s = "document.getElementById('numeral').style.opacity=" + (isNumberDiscrete() ? "0.0" : "0.4") + ";\n";
 		s += "document.getElementById('numeral').style.font='bold 120px sans-serif';\n";
 		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'padding:0; margin: 0;');\n";
 		s += "document.getElementById('numeral').style.textShadow='0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 6px 6px 2px #"
@@ -206,7 +207,7 @@ public class ConnectionToFirefoxInstance {
 		s += "document.getElementById('colorName').innerHTML = '';\n";
 
 		send(s);
-		System.out.println("--Sent: [[" + s + "]]");
+		System.out.println(new Date() + " --Sent: [[" + s + "]]");
 
 		try {
 			waitForServer();
@@ -249,7 +250,7 @@ public class ConnectionToFirefoxInstance {
 					System.out.println(ConnectionToFirefoxInstance.class.getSimpleName() + ": already connected!");
 				while (!connected)
 					try {
-						System.out.println(ConnectionToFirefoxInstance.class.getSimpleName()
+						System.out.println(new Date() + " -- " + ConnectionToFirefoxInstance.class.getSimpleName()
 								+ ":\n\tOpening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
 						kkSocket = new Socket(LOCALHOST, port);
 						System.out.println("\tSocket connection to FF created");
@@ -259,7 +260,7 @@ public class ConnectionToFirefoxInstance {
 						System.out.println("\tInput stream established");
 						connected = true;
 						System.out.println("** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
-								+ " **");
+								+ " ** -- " + new Date());
 					} catch (UnknownHostException e) {
 						System.err.println("Don't know about host " + LOCALHOST + " --  ignoring.");
 					} catch (IOException e) {
@@ -296,7 +297,7 @@ public class ConnectionToFirefoxInstance {
 		if (in != null) {
 			char[] cbuf = new char[DEFAULT_BUFFER_SIZE];
 			int numRead = in.read(cbuf, 0, DEFAULT_BUFFER_SIZE);
-			lastReplyLine = new String(cbuf);
+			lastReplyLine = new String(cbuf).substring(0, numRead - 1);
 			if (debug)
 				System.out.println(getClass().getSimpleName() + ": " + numRead + " chars from server: " + lastReplyLine);
 
@@ -313,7 +314,7 @@ public class ConnectionToFirefoxInstance {
 			 */
 			connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
 		}
-		System.out.println("Returning from waitForServer(), connected=" + connected);
+		System.out.println(new Date() + " -- Returning from waitForServer(), connected=" + connected);
 		return connected;
 	}
 

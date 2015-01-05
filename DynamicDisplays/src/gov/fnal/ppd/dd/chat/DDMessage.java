@@ -102,7 +102,7 @@ public class DDMessage {
 	/**
 	 * @return The screen number
 	 */
-	public int getDisplay() {
+	public int getScreenNumber() {
 		return screenNumber;
 	}
 

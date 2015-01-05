@@ -110,15 +110,16 @@ public class DCProtocol {
 	/**
 	 * @param message
 	 * @param myDisplayNumber
+	 * @param myScreenNumber 
 	 * @return Was this message understood?
 	 */
-	public boolean processInput(final MessageCarrier message, final int myDisplayNumber) {
+	public boolean processInput(final MessageCarrier message, final int myDisplayNumber, final int myScreenNumber) {
 		String body = message.getMessage();
 		switch (message.getType()) {
 		case MESSAGE:
 			String xmlDocument = body.substring(body.indexOf("<?xml"));
 			DDMessage myMessage = new DDMessage(xmlDocument);
-			return processInput(myMessage, myDisplayNumber);
+			return processInput(myMessage, myDisplayNumber, myScreenNumber);
 
 		case WHOISIN:
 		case LOGIN:
@@ -160,13 +161,15 @@ public class DCProtocol {
 	 * @param message
 	 *            The message to process
 	 * @param myDisplayNumber
+	 * @param myScreenNumber 
 	 * @return Was the processing successful?
 	 */
-	public boolean processInput(final DDMessage message, int myDisplayNumber) {
+	public boolean processInput(final DDMessage message, int myDisplayNumber, int myScreenNumber) {
 		try {
 			System.out.println(getClass().getSimpleName() + ".processInput(): processing '" + message + "'");
 
 			if (message != null && message.getMessage() != null) {
+				int screenNumber = message.getScreenNumber();
 				theMessage = message.getMessage();
 				// System.out.println(getClass().getSimpleName() + ".processInput(): theMessage is of type "
 				// + theMessage.getClass().getSimpleName());
@@ -187,12 +190,15 @@ public class DCProtocol {
 								+ "], which is " + old + " msec old\n Ignoring it.");
 						return false;
 					}
+					// TODO -- Verify the IP address of the sender
+					// String ip = carrier.getIPAddress();
+				    // if ( ip.equals(getIPAddressOf(messageFromField) ) everything is OK	
 				}
 
 				if (theMessage instanceof ChangeChannelList) {
 					informListenersForever();
 				} else if (theMessage instanceof ChangeChannel) {
-					if (((ChangeChannel) theMessage).getDisplayNumber() == myDisplayNumber)
+					if (((ChangeChannel) theMessage).getDisplayNumber() == myDisplayNumber && screenNumber == myScreenNumber)
 						informListeners();
 					else
 						System.out.println(DCProtocol.class.getSimpleName() + ".processInput(): Got display="

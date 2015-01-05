@@ -41,21 +41,20 @@ public class WriteXMLFile {
 	 * @param argv
 	 */
 	public static void main(final String argv[]) {
-		long id = (long) Math.random() * 999999999l;
 		for (int which = 0; which < 10; which++) {
 			Object stuff = null;
 			try {
 				switch (which) {
 				case 0:
 					Ping ping = new Ping();
-					ping.setEncodedId(id++);
+					ping.setIPAddress("131.225.100.100");
 					ping.setDisplayNum(15);
 					stuff = ping;
 					break;
 
 				case 1:
 					Pong pong = new Pong();
-					pong.setEncodedId(id++);
+					pong.setIPAddress("131.225.100.100");
 					pong.setDisplayNum(15);
 					// pong.setChannelSpec((ChannelSpec) ChannelCatalogFactory.getInstance().getDefaultChannel());
 					stuff = pong;
@@ -77,7 +76,7 @@ public class WriteXMLFile {
 
 				case 4:
 					ChangeChannel cc = new ChangeChannel();
-					cc.setEncodedId(id++);
+					cc.setIPAddress("131.225.101.1");
 					cc.setContent(ChannelCatalogFactory.getInstance().getDefaultChannel());
 					cc.setDisplayNumber(14);
 					stuff = cc;
@@ -128,6 +127,7 @@ public class WriteXMLFile {
 					}
 					ChannelPlayList cpl = new ChannelPlayList(lst, 60); // This is the XML class
 					ChangeChannelList ccl = new ChangeChannelList(); // This is the DigitalSignage class
+					ccl.setIPAddress("131.225.1.2");
 					ccl.setContent(cpl);
 					stuff = ccl;
 					break;

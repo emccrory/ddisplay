@@ -78,7 +78,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			throw new IllegalArgumentException("No content defined!");
 
 		myName = ipName + ":" + screenNumber + " (" + getNumber() + ")";
-		messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName, getNumber());
+		messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName, getNumber(), getScreenNumber());
 	}
 
 	/**
@@ -108,7 +108,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							messagingClient.disconnect();
 							messagingClient = null; // Not sure about this.
 							messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName,
-									getNumber());
+									getNumber(), getScreenNumber());
 							messagingClient.start();
 						}
 					}
@@ -402,12 +402,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private class MessagingClientLocal extends MessagingClient {
 		private boolean		debug	= true;
 		private DCProtocol	dcp		= new DCProtocol();
-		private int			myDisplayNumber;
+		private int			myDisplayNumber, myScreenNumber;
 
-		public MessagingClientLocal(String server, int port, String username, int myDisplayNumber) {
+		public MessagingClientLocal(String server, int port, String username, int myDisplayNumber, int myScreenNumber) {
 			super(server, port, username);
 			dcp.addListener(DisplayControllerMessagingAbstract.this);
 			this.myDisplayNumber = myDisplayNumber;
+			this.myScreenNumber = myScreenNumber;
 		}
 
 		public long getServerTimeStamp() {
@@ -425,9 +426,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				System.out.println(DisplayControllerMessagingAbstract.class.getSimpleName() + ":"
 						+ MessagingClientLocal.class.getSimpleName() + ".displayIncomingMessage(): Got this message:\n[" + msg
 						+ "]");
-			if (msg.getTo().equals(getName()))
-				dcp.processInput(msg, myDisplayNumber);
-			else if (debug)
+			if (msg.getTo().equals(getName())) {
+				dcp.processInput(msg, myDisplayNumber, myScreenNumber);
+			} else if (debug)
 				System.out.println("Ignoring a message from [" + msg.getTo() + "] because I am [" + getName() + "]");
 		}
 	}

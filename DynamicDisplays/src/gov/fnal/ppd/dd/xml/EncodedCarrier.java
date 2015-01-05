@@ -8,61 +8,14 @@ import java.util.Locale;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
- * Base class for all the XML classes. Includes encoding of the ID of this sender, and an ability to affect the encoding (future
- * enhancement).
+ * Base class for all the XML classes.
  * 
  * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2012-14
  */
 public class EncodedCarrier {
 
-	protected static final EncryptionService	service		= EncryptionService.getInstance();
-	protected String							encodedId;
-	protected long								key;
-	protected String							dateString	= new Date().toString();
-
-	/**
-	 * @param id
-	 */
-	public void setEncodedId(final long id) {
-		// TODO Use the encoding value to encrypt this ID. this is not right yet. I need to find a
-		// package that uses a KEY to encode the ID. (This kinda works.)
-		try {
-			this.encodedId = service.encrypt("" + (id + key));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * @param receivedEncoding
-	 * @param actualID
-	 * @return Is this ID valid?
-	 */
-	public boolean checkID(final String receivedEncoding, final long actualID) {
-		try {
-			String encodedGuess = service.encrypt("" + (actualID + key));
-			return encodedGuess.equals(encodedId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	/**
-	 * @return the encoded ID
-	 */
-	@XmlElement
-	public String getEncodedId() {
-		return encodedId;
-	}
-
-	/**
-	 * @param key
-	 */
-	public void setKey(final long key) {
-		// Not transmitted via XML!
-		this.key = key;
-	}
+	protected String	dateString	= new Date().toString();
+	protected String	ipAddress;
 
 	/**
 	 * @return the date string
@@ -80,6 +33,21 @@ public class EncodedCarrier {
 	}
 
 	/**
+	 * @return the IP Address string
+	 */
+	@XmlElement
+	public String getIPAddress() {
+		return ipAddress;
+	}
+
+	/**
+	 * @param d
+	 */
+	public void setIPAddress(final String d) {
+		ipAddress = d;
+	}
+
+	/**
 	 * @return -- the age of this message in milliseconds
 	 */
 	public long howOld() {
@@ -92,7 +60,7 @@ public class EncodedCarrier {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return 3600*1000L; // an hour
+
+		return 3600 * 1000L; // an hour
 	}
 }

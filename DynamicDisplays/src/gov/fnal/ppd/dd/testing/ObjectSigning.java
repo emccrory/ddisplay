@@ -63,8 +63,8 @@ public class ObjectSigning {
 	}
 
 	private KeyPairGenerator	keyPairGenerator;
-	private PrivateKey			privateKey;
-	private PublicKey			publicKey;
+	private PrivateKey			privateKey = null;
+	private PublicKey			publicKey = null;
 
 	private KeyFactory			keyFactory;
 	private Signature			signature	= null;
@@ -234,6 +234,9 @@ public class ObjectSigning {
 	 *             -- A problem with the encryption service * @throws InvalidKeySpecException
 	 */
 	public void loadPrivateKey(final String filename) throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
+		if (privateKey != null)
+			return;
+
 		File filePrivateKey = new File(filename);
 		FileInputStream fis = new FileInputStream(filename);
 		byte[] encodedPrivateKey = new byte[(int) filePrivateKey.length()];
@@ -348,7 +351,7 @@ public class ObjectSigning {
 			boolean retval = signedMess.verify(publicKey, sig);
 			if (!retval) {
 				for (String k : keys.keySet()) {
-					if (keys.get(k) == this) { // Yes, I think "==" is right here:  Are these the same objects?
+					if (keys.get(k) == this) { // Yes, I think "==" is right here: Are these the same objects?
 						keys.remove(k);
 						break;
 					}
