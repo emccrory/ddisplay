@@ -3,7 +3,10 @@ package gov.fnal.ppd.dd;
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
+import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
@@ -23,6 +26,7 @@ import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.changer.ImageGrid;
 import gov.fnal.ppd.dd.changer.InformationBox;
 import gov.fnal.ppd.dd.channel.CreateListOfChannelsHelper;
+import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
@@ -211,8 +215,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			listOfDisplayTabbedPanes.add(displayTabPane);
 			float sz = 12.0f;
 			if (!SHOW_IN_WINDOW)
-				sz = categories.length > 7 ? 30.0f - 2*(categories.length-7) : 30.0f;
-				
+				sz = categories.length > 7 ? 30.0f - 2 * (categories.length - 7) : 30.0f;
+
 			displayTabPane.setFont(getFont().deriveFont(sz));
 			displayTabPane.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
@@ -641,6 +645,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	public static void main(final String[] args) {
 
 		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
+
+		MessageCarrier.initializeSignature();
+		System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
+		System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + "'\n");
 
 		displayList = DisplayListFactory.getInstance(sType, getLocationCode());
 		channelSelector = new ChannelSelector();
