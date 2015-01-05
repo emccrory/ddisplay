@@ -166,6 +166,8 @@ public class MessageCarrier implements Serializable {
 
 	/**
 	 * Read the private key so we can initialize out signature
+	 * 
+	 * @return Did we properly initialize the signature?
 	 */
 	public static boolean initializeSignature() {
 		try {
