@@ -31,11 +31,7 @@ public class GlobalVariables {
 	 */
 	public static long			lastDisplayChange		= 0L;
 
-	/**
-	 * Where is the private key stored on the local file system
-	 */
-	public static String		PRIVATE_KEY_LOCATION	= System.getProperty("ddisplay.privatekeyfilename",
-																"/home/ddisplay/keystore/private.key");
+	
 
 	/**
 	 * String that says, "Do not check message signing"
@@ -94,6 +90,27 @@ public class GlobalVariables {
 	 */
 	public static final String	THIS_IP_NAME_INSTANCE	= System.getProperty("ddisplay.selectorinstance", "00");
 
+	
+	/**
+	 * Where is the private key stored on the local file system.
+	 * 
+	 * On Linux (& MAC) the default will be $HOME/keystore/privateKey.key
+	 * 
+	 * On Windows the default will be %HOMEDIR%\keystore\privateKey.key
+	 * 
+	 */
+	public static final String	PRIVATE_KEY_LOCATION;
+
+	static {
+		String def = "/keystore/private" +  THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key";
+		if (System.getenv("HOME") != null) // Linux and MAC
+			def = System.getenv("HOME") + def;
+		else if (System.getenv("HOMEPATH") != null) // Windows
+			def = System.getenv("HOMEPATH") + def;
+		PRIVATE_KEY_LOCATION = System.getProperty("ddisplay.privatekeyfilename", def);
+	}
+	
+	
 	/**
 	 * Which set of Displays are we controlling here? Controlled by system constant, ddisplay.selector.location
 	 */
