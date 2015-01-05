@@ -14,11 +14,8 @@ import java.awt.event.ActionListener;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
 
 /**
  * Base class for the display grids that hold the channel buttons in the ChannelSelector

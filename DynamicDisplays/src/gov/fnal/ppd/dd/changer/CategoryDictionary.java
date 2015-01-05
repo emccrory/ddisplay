@@ -93,6 +93,7 @@ public class CategoryDictionary {
 		categories = cats.toArray(new ChannelCategory[0]);
 	}
 
+	@SuppressWarnings("unused")
 	private static void getCategoriesCoded() {
 		switch (locationCode) {
 		case 0: // ROC-West
