@@ -1,10 +1,10 @@
 package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.DCProtocol;
@@ -29,6 +29,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Implement a Dynamic Display using an underlying browser through a simple messaging server
@@ -110,19 +112,28 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 * This method must be called by concrete class. Start various threads necessary to maintain this job.
 	 */
 	protected final void contInitialization() {
+		Timer timer = new Timer("DisplayDaemons");
 
-		new Thread("StatusThread") {
+		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
-				while (keepGoing) {
-					catchSleep(1000L);
-					if (statusUpdatePeriod-- <= 0) {
-						updateMyStatus();
-						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
-					}
+				if (statusUpdatePeriod-- <= 0) {
+					updateMyStatus();
+					statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 				}
-				System.err.println("Exiting Display Status Update Thread!");
 			}
-		}.start();
+		}, 20000L, 1000L);
+
+		timer.scheduleAtFixedRate(new TimerTask() {
+			public void run() {
+				// Once an hour, print something meaningful in the log
+				System.out.print(new Date() + " -- " + DisplayControllerMessagingAbstract.this.getClass().getSimpleName()
+						+ " showing: " + (getContent() == null ? " *null* " : getContent().getName()));
+				if (getContent() instanceof Channel)
+					System.out.print(" (" + ((Channel) getContent()).getURI() + ")");
+				System.out.println("\n                             -- Last communication with server: "
+						+ new Date(((MessagingClientLocal) messagingClient).getServerTimeStamp()));
+			}
+		}, FIFTEEN_MINUTES, ONE_HOUR);
 
 		Runtime.getRuntime().addShutdownHook(new Thread("ConnectionShutdownHook") {
 			public void run() {
@@ -134,23 +145,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				endAllConnections();
 			}
 		});
-
-		new Thread("HeartbeatMessage") {
-			public void run() {
-				while (keepGoing) {
-					catchSleep(ONE_HOUR);
-					// Once an hour, print something meaningful in the log
-					System.out.print(new Date() + " -- " + DisplayControllerMessagingAbstract.this.getClass().getSimpleName()
-							+ " showing: " + (getContent() == null ? " *null* " : getContent().getName()));
-					if (getContent() instanceof Channel)
-						System.out.print(" (" + ((Channel) getContent()).getURI() + ")");
-					System.out.println("\n                             -- Last communication with server: "
-							+ new Date(((MessagingClientLocal) messagingClient).getServerTimeStamp()));
-				}
-				System.err.println("Exiting Display Heartbeat Thread!");
-			}
-		}.start();
-
 	}
 
 	/**
