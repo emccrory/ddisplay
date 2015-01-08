@@ -1,10 +1,11 @@
 package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
-import static gov.fnal.ppd.dd.util.Util.*;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
+import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
@@ -55,7 +56,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	private MessagingClient			messagingClient;
 	private String					myName;
-	private boolean					doTheHeartbeatThing		= true;
 	private int						statusUpdatePeriod		= 10;
 
 	// / Use messaging to get change requests from the changers -->
@@ -98,39 +98,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		// Must be called by concrete class-->
 		// contInitialization(portNumber);
 
-		if (doTheHeartbeatThing)
-			new Thread("IsMyServerAlive") {
-				private int	counter	= 0;
-
-				public void run() {
-					while (true) {
-						// catchSleep(FIFTEEN_MINUTES);
-						catchSleep(60000L);
-						System.out.println("-- tick tock " + counter);
-						if (((MessagingClientLocal) messagingClient).getServerTimeStamp() + 2 * FIFTEEN_MINUTES < System
-								.currentTimeMillis()) {
-							System.err.println(new Date()
-									+ " -- It looks like the server is down! Will try to restart connection to it.");
-							messagingClient.disconnect();
-							messagingClient = null; // Not sure about this.
-							messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName,
-									getNumber(), getScreenNumber());
-							messagingClient.start();
-							counter = 0;
-						} else if ((counter++) % 4 == 3) {
-							// Once an hour, say something in the log
-							System.out.println(new Date() + " -- "
-									+ DisplayControllerMessagingAbstract.this.getClass().getSimpleName()
-									+ ".heartbeat\n                             -- Last communication with the server: "
-									+ new Date(((MessagingClientLocal) messagingClient).getServerTimeStamp()));
-							if (getContent() == null)
-								System.out.println("                             -- Current content is null");
-							else
-								System.out.println("                             -- Showing " + getContent().getName());
-						}
-					}
-				}
-			}.start();
 	}
 
 	protected abstract void endAllConnections();
@@ -140,12 +107,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	/**
-	 * This method must be called by concrete class
-	 * 
-	 * @param portNumber
-	 *            Port number on which to listen
+	 * This method must be called by concrete class. Start various threads necessary to maintain this job.
 	 */
-	protected final void contInitialization(final int portNumber) {
+	protected final void contInitialization() {
 
 		new Thread("StatusThread") {
 			public void run() {
@@ -159,9 +123,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			}
 		}.start();
 
-		Runtime.getRuntime().addShutdownHook(new Thread() {
+		Runtime.getRuntime().addShutdownHook(new Thread("ConnectionShutdownHook") {
 			public void run() {
-				System.err.println("Exit hook called.");
+				System.err.println("Exit hook called."); // This does not actually get printed.
 				keepGoing = false;
 				nowShowing = OFF_LINE;
 				updateMyStatus();
@@ -170,33 +134,21 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			}
 		});
 
-		// if (actAsServerNoMessages) {
-		// new Thread("ADisplayServerDaemon") {
-		// public void run() {
-		// DCMulitServerThread server = null;
-		// while (keepGoing) {
-		// if (server == null || !server.isAlive())
-		// try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
-		// server = null;
-		// System.gc();
-		// System.out.println("Listening on port " + portNumber);
-		// server = new DCMulitServerThread(serverSocket.accept()); // This accept() call blocks
-		// server.addListener(DisplayControllerMessagingAbstract.this);
-		// server.start();
-		// } catch (IOException e) {
-		// System.err.println("Could not listen on port " + portNumber);
-		// System.exit(-1);
-		// }
-		// try {
-		// // Make sure the serverSocket is alive, continually
-		// sleep(SOCKET_ALIVE_INTERVAL);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// }
-		// }.start();
-		// }
+		new Thread("HeartbeatMessage") {
+			public void run() {
+				while (keepGoing) {
+					catchSleep(ONE_HOUR);
+					// Once an hour, print something meaningful in the log
+					System.out.print(new Date() + " -- " + DisplayControllerMessagingAbstract.this.getClass().getSimpleName()
+							+ " showing: " + (getContent() == null ? " *null* " : getContent().getName()));
+					if (getContent() instanceof Channel)
+						System.out.print(" (" + ((Channel) getContent()).getURI() + ")");
+					System.out.println("\n                             -- Last communication with server: "
+							+ new Date(((MessagingClientLocal) messagingClient).getServerTimeStamp()));
+				}
+			}
+		}.start();
+
 	}
 
 	/**
@@ -417,10 +369,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	private class MessagingClientLocal extends MessagingClient {
-		private boolean		debug				= true;
-		private DCProtocol	dcp					= new DCProtocol();
+		private boolean		debug	= true;
+		private DCProtocol	dcp		= new DCProtocol();
 		private int			myDisplayNumber, myScreenNumber;
-		private long		LastServerTimeStamp	= System.currentTimeMillis();
 
 		public MessagingClientLocal(String server, int port, String username, int myDisplayNumber, int myScreenNumber) {
 			super(server, port, username);
@@ -430,7 +381,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 
 		public long getServerTimeStamp() {
-			return LastServerTimeStamp;
+			return lastMessageReceived;
 		}
 
 		@Override
@@ -446,7 +397,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						+ "]");
 			if (msg.getTo().equals(getName())) {
 				dcp.processInput(msg, myDisplayNumber, myScreenNumber);
-				LastServerTimeStamp = System.currentTimeMillis();
 			} else if (debug)
 				System.out.println("Ignoring a message from [" + msg.getTo() + "] because I am [" + getName() + "]");
 		}

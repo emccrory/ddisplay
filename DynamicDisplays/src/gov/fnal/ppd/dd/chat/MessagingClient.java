@@ -42,7 +42,7 @@ public class MessagingClient {
 	private ListenFromServer	listenFromServer;
 	private Thread				restartThreadToServer;
 
-	private long				lastMessageReceived	= 0l;
+	protected long				lastMessageReceived	= 0l;
 	private boolean				keepGoing			= true;
 
 	private Object				syncReconnects		= new Object();

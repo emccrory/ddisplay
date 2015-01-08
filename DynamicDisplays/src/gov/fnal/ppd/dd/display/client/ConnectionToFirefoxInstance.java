@@ -136,7 +136,7 @@ public class ConnectionToFirefoxInstance {
 				// s += "document.getElementById('iframe').contentWindow.location.reload();\n";
 				send(s);
 			}
-			System.out.println(new Date() + " --Sent: [[" + s + "]]");
+			System.out.println(new Date() + " -- Sent: [[" + s + "]]");
 
 			// send("window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
 			// + displayID + "&color=" + colorCode + "\";\n");
@@ -183,7 +183,7 @@ public class ConnectionToFirefoxInstance {
 			s += "document.getElementById('colorName').innerHTML = '#" + colorCode + "';\n";
 
 		send(s);
-		System.out.println(new Date() + " --Sent: [[" + s + "]]");
+		System.out.println(new Date() + " -- Sent: [[" + s + "]]");
 
 		try {
 			waitForServer();
@@ -207,7 +207,7 @@ public class ConnectionToFirefoxInstance {
 		s += "document.getElementById('colorName').innerHTML = '';\n";
 
 		send(s);
-		System.out.println(new Date() + " --Sent: [[" + s + "]]");
+		System.out.println(new Date() + " -- Sent: [[" + s + "]]");
 
 		try {
 			waitForServer();
