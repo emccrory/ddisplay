@@ -68,11 +68,10 @@ public class DCProtocol {
 
 	private Object			theMessage;
 	private Object			theReply;
-	private List<Display>	listeners			= new ArrayList<Display>();
-	protected boolean		keepRunning			= false;
-	private Thread			changerThread		= null;
-	protected long			SHORT_INTERVAL		= 100l;
-	private long			lastServerHeartbeat	= 0L;
+	private List<Display>	listeners		= new ArrayList<Display>();
+	protected boolean		keepRunning		= false;
+	private Thread			changerThread	= null;
+	protected long			SHORT_INTERVAL	= 100l;
 
 	/**
 	 * @return The message just received
@@ -110,7 +109,7 @@ public class DCProtocol {
 	/**
 	 * @param message
 	 * @param myDisplayNumber
-	 * @param myScreenNumber 
+	 * @param myScreenNumber
 	 * @return Was this message understood?
 	 */
 	public boolean processInput(final MessageCarrier message, final int myDisplayNumber, final int myScreenNumber) {
@@ -161,7 +160,7 @@ public class DCProtocol {
 	 * @param message
 	 *            The message to process
 	 * @param myDisplayNumber
-	 * @param myScreenNumber 
+	 * @param myScreenNumber
 	 * @return Was the processing successful?
 	 */
 	public boolean processInput(final DDMessage message, int myDisplayNumber, int myScreenNumber) {
@@ -192,7 +191,7 @@ public class DCProtocol {
 					}
 					// TODO -- Verify the IP address of the sender
 					// String ip = carrier.getIPAddress();
-				    // if ( ip.equals(getIPAddressOf(messageFromField) ) everything is OK	
+					// if ( ip.equals(getIPAddressOf(messageFromField) ) everything is OK
 				}
 
 				if (theMessage instanceof ChangeChannelList) {
@@ -254,7 +253,8 @@ public class DCProtocol {
 	// private void informListenersPong() {
 	// ChangeChannelReply p = (ChangeChannelReply) theMessage;
 	// ChannelSpec spec = p.getChannelSpec();
-	// System.out.println(getClass().getSimpleName() + ": Propagating the ChangeChannelReply with this ChannelSpec: " + spec.getName() + ", "
+	// System.out.println(getClass().getSimpleName() + ": Propagating the ChangeChannelReply with this ChannelSpec: " +
+	// spec.getName() + ", "
 	// + spec.getTime() + ", " + spec.getCategory() + " (" + spec.getClass().getSimpleName() + ")");
 	// informListeners(spec);
 	// }
@@ -321,12 +321,5 @@ public class DCProtocol {
 			catchSleep(2 * SHORT_INTERVAL);
 		}
 		changerThread = null;
-	}
-
-	/**
-	 * @return The timestamp of the last time we got a heart beat message from the server.
-	 */
-	public long getLastServerHeartbeat() {
-		return lastServerHeartbeat;
 	}
 }
