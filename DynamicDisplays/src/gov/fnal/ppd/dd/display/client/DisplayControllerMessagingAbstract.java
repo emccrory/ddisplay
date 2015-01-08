@@ -120,6 +120,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 					}
 				}
+				System.err.println("Exiting Display Status Update Thread!");
 			}
 		}.start();
 
@@ -146,6 +147,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					System.out.println("\n                             -- Last communication with server: "
 							+ new Date(((MessagingClientLocal) messagingClient).getServerTimeStamp()));
 				}
+				System.err.println("Exiting Display Heartbeat Thread!");
 			}
 		}.start();
 
