@@ -105,8 +105,8 @@ public class GlobalVariables {
 		String def = "/keystore/private" +  THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key";
 		if (System.getenv("HOME") != null) // Linux and MAC
 			def = System.getenv("HOME") + def;
-		else if (System.getenv("HOMEPATH") != null) // Windows
-			def = System.getenv("HOMEPATH") + def;
+		else if (System.getenv("UserProfile") != null) // Windows
+			def = System.getenv("UserProfile") + def;
 		PRIVATE_KEY_LOCATION = System.getProperty("ddisplay.privatekeyfilename", def);
 	}
 	
