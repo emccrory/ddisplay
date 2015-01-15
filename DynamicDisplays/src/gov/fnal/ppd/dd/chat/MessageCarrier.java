@@ -13,10 +13,38 @@ import java.security.SignedObject;
 import java.security.spec.InvalidKeySpecException;
 
 /**
- * This class defines the different type of messages that will be exchanged between the Clients and the Server. When talking from a
+ * This class holds the messages that will be exchanged between the Clients and the Server. When talking from a
  * Java Client to a Java Server, it is a lot easier to stream Java objects, so that is what we do here.
  * 
- * Taken from the internet on 5/12/2014. @see <a
+ * TODO -- replace this class and the XML classes with one, unified message, probably in JSON.  It would be best, at that time,
+ * to stop streaming a Java object here so that other languages can get into the game--we would just stream ASCII messages.
+ * 
+ * Off the top of my head, here is what a JSON message that carries all the information might looks like.
+ * 
+ * <pre>
+ * { "message": {
+ *     "Type"    : "message",
+ *     "To"      : "destinationClientName",
+ *     "From"    : "sourceClientName",
+ *     "IP"      : "131.225.1.1",
+ *     "Date"    : "Jan 1, 2015 12:34:56 CST",
+ *     "Display" : "12",
+ *     "Screen"  : "0",
+ *     "Content" : {
+ *     	    "Type" : "Web Page",
+ *          "Name" : "Channel Name",
+ *          "URI"  : "http://www.fnal.gov",
+ *          "Time" : "0",
+ *          "Code" : "0",         
+ *     }
+ *     "Signature" : "82736152635fe62de82ab7fe901ab82",
+ *   }
+ * }
+ * </pre>
+ * 
+ * As stated above, if/when we change to this JSON scheme, it will be important NOT to stream an object.  
+ * 
+ * Taken from the Internet on 5/12/2014. @see <a
  * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
