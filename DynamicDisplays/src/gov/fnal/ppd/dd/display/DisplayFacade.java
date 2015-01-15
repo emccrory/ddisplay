@@ -159,10 +159,9 @@ public class DisplayFacade extends DisplayImpl {
 		// } catch (UnknownHostException e1) {
 		// e1.printStackTrace(); // Really? This should never happen.
 		// }
-		System.out.println(DisplayFacade.class.getSimpleName() + ": The messaging name of the Display is expected to be ["
-				+ myExpectedName + "]");
-		FacadeMessagingClient.registerClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, ipName + ":" + screenNumber + " ("
-				+ number + ")", this);
+		System.out.println(DisplayFacade.class.getSimpleName() + ": The messaging name of Display " + number
+				+ " is expected to be '" + myExpectedName + "'");
+		FacadeMessagingClient.registerClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myExpectedName, this);
 		FacadeMessagingClient.doStart();
 	}
 
