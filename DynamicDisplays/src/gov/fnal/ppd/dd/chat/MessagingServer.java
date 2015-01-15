@@ -828,8 +828,10 @@ public class MessagingServer {
 						 * This boolean turns on the diagnostic message (in ClientThread.run()) that echos when a client says
 						 * "I am alive". Turn it on for two minutes, just before the diagnostic is printed, which would show about
 						 * 60 such messages (at a period of 2Hz). today, there are ~40 clients connected, so we'll see them all
+						 * 
+						 * 1/10/15 -- Change from 78000L after the last time to 800000L (13.4 minutes; prints for 96 seconds or so) 
 						 */
-						showAliveMessages = (lastPrint + 13L * ONE_MINUTE) < System.currentTimeMillis();
+						showAliveMessages = (lastPrint + 80000L) < System.currentTimeMillis();
 
 						// Figure out which client(s) to ping
 						List<String> clist = new ArrayList<String>();
