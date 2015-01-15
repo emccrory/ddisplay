@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 /**
- * This is where all the globakl constant in the Dynamic Displays system are held.
+ * This is where all the global constant in the Dynamic Displays system are held.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copyright 2014
