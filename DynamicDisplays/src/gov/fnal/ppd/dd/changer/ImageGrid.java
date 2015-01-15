@@ -166,6 +166,9 @@ public class ImageGrid extends DetailedInformationGrid {
 		if (SHOW_IN_WINDOW)
 			ncol = 2;
 
+		// TODO -- Implement touch scrolling for this panel. From a brief search of google, it seems that one must either
+		// (a) Use JavaFX (and use their touch interface stuff) or (b) use the Canvas class (and implement it yourself)
+
 		final JPanel internalGrid = new JPanel(new GridLayout(0, ncol));
 		internalGrid.setOpaque(true);
 		internalGrid.setBackground(display.getPreferredHighlightColor());
