@@ -105,30 +105,30 @@ public class ChannelCatalogTesting extends HashMap<String, SignageContent> imple
 																			};
 
 	ChannelCatalogTesting() {
-		try {
-			int chanNum = 1;
-
-			for (ChannelDesc c : Public) {
-				URI uri = new URI("http://www.fnal.gov/signage/" + chanNum++ + ".html");
-				put(c.n, new ChannelImpl(c.n, ChannelCategory.PUBLIC, c.d, uri, chanNum++));
-			}
-			for (String c : DetailedOne) {
-				URI uri = new URI("http://www.fnal.gov/signage/" + chanNum++ + ".html");
-				put(c, new ChannelImpl(c, ChannelCategory.PUBLIC_DETAILS, c, uri, chanNum++));
-			}
-			for (String c : DetailedTwo) {
-				URI uri = new URI("http://www.fnal.gov/signage/" + chanNum++ + ".html");
-				put(c, new ChannelImpl(c, ChannelCategory.EXPERIMENT_DETAILS, c, uri, chanNum++));
-			}
-			for (ChannelDesc c : MetaChannels) {
-				URI uri = new URI("http://www.fnal.gov/signage/" + chanNum++ + ".html");
-				put(c.n, new ChannelImpl(c.n, ChannelCategory.MISCELLANEOUS, c.d, uri, chanNum++));
-			}
-			defaultChannel = get(MetaChannels[0].n);
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			int chanNum = 1;
+//
+//			for (ChannelDesc c : Public) {
+//				URI uri = new URI("http://www.fnal.gov/signage/" + chanNum++ + ".html");
+//				put(c.n, new ChannelImpl(c.n, ChannelCategory.PUBLIC, c.d, uri, chanNum++));
+//			}
+//			for (String c : DetailedOne) {
+//				URI uri = new URI("http://www.fnal.gov/signage/" + chanNum++ + ".html");
+//				put(c, new ChannelImpl(c, ChannelCategory.PUBLIC_DETAILS, c, uri, chanNum++));
+//			}
+//			for (String c : DetailedTwo) {
+//				URI uri = new URI("http://www.fnal.gov/signage/" + chanNum++ + ".html");
+//				put(c, new ChannelImpl(c, ChannelCategory.EXPERIMENT_DETAILS, c, uri, chanNum++));
+//			}
+//			for (ChannelDesc c : MetaChannels) {
+//				URI uri = new URI("http://www.fnal.gov/signage/" + chanNum++ + ".html");
+//				put(c.n, new ChannelImpl(c.n, ChannelCategory.MISCELLANEOUS, c.d, uri, chanNum++));
+//			}
+//			defaultChannel = get(MetaChannels[0].n);
+//		} catch (URISyntaxException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	/*

@@ -61,8 +61,12 @@ public class ChannelImpl implements Channel {
 	 *            The URI that represents this Channel
 	 * @param number
 	 *            A number for this Channel
+	 * @param dwellTime
+	 *            The amount of time to wait before asking to refresh the content. 0 = use default (currently 2 hours); negative =
+	 *            never refresh.
 	 */
-	public ChannelImpl(final String name, final ChannelCategory category, final String description, final URI uri, final int number) {
+	public ChannelImpl(final String name, final ChannelCategory category, final String description, final URI uri,
+			final int number, final long dwellTime) {
 		assert (name != null);
 		assert (category != null);
 		assert (number > 0);
@@ -75,6 +79,7 @@ public class ChannelImpl implements Channel {
 		else
 			this.description = "This is the '" + name + "' channel";
 		this.uri = uri;
+		this.time = dwellTime;
 	}
 
 	public String getName() {

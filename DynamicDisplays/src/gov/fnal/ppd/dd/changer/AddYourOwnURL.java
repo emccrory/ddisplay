@@ -65,6 +65,10 @@ public class AddYourOwnURL extends ChannelButtonGrid implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent ev) {
 		if (ev.getSource() == addNew) {
+			
+			// TODO -- Add the dwell time as a parameter for the user to specify.
+			long dwellTime = 0;
+			
 			String s = (String) JOptionPane.showInputDialog(this, "Enter a valid URL (including the 'http://' part)",
 					"Customized Dialog", JOptionPane.PLAIN_MESSAGE, null, null, null);
 
@@ -74,7 +78,7 @@ public class AddYourOwnURL extends ChannelButtonGrid implements ActionListener {
 						throw new Exception("Invalid URL: does not start with 'http://' or 'https://'");
 					for (AddYourOwnURL AYO : myInstances) {
 						Channel channel = new ChannelImpl(s, ChannelCategory.PUBLIC, "Dynamically added channel", new URI(s),
-								number++);
+								number++, dwellTime);
 						DDButton newButton = new DDButton(channel, AYO.display, 99);
 						newButton.setEnabled(true);
 						newButton.setToolTipText("Launch URL " + s + " on " + AYO.name);

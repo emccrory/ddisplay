@@ -32,7 +32,7 @@ public class ChannelImage extends ChannelImpl {
 	 */
 	public ChannelImage(final String name, final ChannelCategory category, final String description, final URI uri,
 			final int number, final String exp) {
-		super(name, category, description, uri, number);
+		super(name, category, description, uri, number, -1);
 		this.exp = exp;
 	}
 

@@ -149,7 +149,7 @@ public class Util {
 	 */
 	public static SignageContent makeEmptyChannel() {
 		try {
-			return new ChannelImpl(MY_NAME, ChannelCategory.PUBLIC, "This is a default channel", new URI(MY_URL), 0);
+			return new ChannelImpl(MY_NAME, ChannelCategory.PUBLIC, "This is a default channel", new URI(MY_URL), 0, 0);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return null;

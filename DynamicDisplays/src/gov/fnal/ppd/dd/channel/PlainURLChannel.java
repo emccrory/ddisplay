@@ -21,7 +21,7 @@ public class PlainURLChannel extends ChannelImpl {
 	 *             In the case that the URL passed here is not a valid URI
 	 */
 	public PlainURLChannel(final URL theURL) throws Exception {
-		super(theURL.toString(), ChannelCategory.PUBLIC, "This is a URL that is '" + theURL + "'", theURL.toURI(), 0);
+		super(theURL.toString(), ChannelCategory.PUBLIC, "This is a URL that is '" + theURL + "'", theURL.toURI(), 0, 0);
 	}
 
 }
