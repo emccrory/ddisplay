@@ -9,7 +9,6 @@ import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 
 /**
  * <p>
