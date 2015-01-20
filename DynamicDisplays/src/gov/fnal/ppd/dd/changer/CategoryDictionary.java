@@ -53,10 +53,10 @@ public class CategoryDictionary {
 		}
 
 		try {
-			String typ = "Type='XOC'";
+			String typ = "";
 			if (IS_PUBLIC_CONTROLLER)
-				typ = "Type='Public'";
-			String q = "SELECT TabName,Abbreviation from LocationTab where LocationCode=" + locationCode + " AND " + typ;
+				typ = " AND Type='Public'";
+			String q = "SELECT TabName,Abbreviation from LocationTab where LocationCode=" + locationCode + typ;
 			if (locationCode < 0)
 				q = "SELECT DISTINCT TabName,Abbreviation from LocationTab WHERE " + typ;
 
