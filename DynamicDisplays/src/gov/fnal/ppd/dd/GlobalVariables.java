@@ -31,8 +31,6 @@ public class GlobalVariables {
 	 */
 	public static long			lastDisplayChange		= 0L;
 
-	
-
 	/**
 	 * String that says, "Do not check message signing"
 	 */
@@ -90,7 +88,6 @@ public class GlobalVariables {
 	 */
 	public static final String	THIS_IP_NAME_INSTANCE	= System.getProperty("ddisplay.selectorinstance", "00");
 
-	
 	/**
 	 * Where is the private key stored on the local file system.
 	 * 
@@ -102,15 +99,14 @@ public class GlobalVariables {
 	public static final String	PRIVATE_KEY_LOCATION;
 
 	static {
-		String def = "/keystore/private" +  THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key";
+		String def = "/keystore/private" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key";
 		if (System.getenv("HOME") != null) // Linux and MAC
 			def = System.getenv("HOME") + def;
 		else if (System.getenv("UserProfile") != null) // Windows
 			def = System.getenv("UserProfile") + def;
 		PRIVATE_KEY_LOCATION = System.getProperty("ddisplay.privatekeyfilename", def);
 	}
-	
-	
+
 	/**
 	 * Which set of Displays are we controlling here? Controlled by system constant, ddisplay.selector.location
 	 */
@@ -294,6 +290,19 @@ public class GlobalVariables {
 	 * The list of Displays in this instance of whatever program you are running. This is used in a couple of places.
 	 */
 	public static List<Display>		displayList;
+
+	/**
+	 * <p>
+	 * The default dwell time if the dwell time is zero. In other words, how long do we want to wait before the FireFox instance
+	 * asks to refresh a web page. It has been my observation that this is needed for these reasons:
+	 * 
+	 * <ol>
+	 * <li>Many pages really do need refreshing because they "end", like YouTube videos and PowerPoint presentations</li>
+	 * <li>Many we pages just fail from time to time. For example, the webcam pages and the "Channel 13" accelerator display.</li>
+	 * <ol>
+	 * </p>
+	 */
+	public static final long		DEFAULT_DWELL_TIME		= 2 * ONE_HOUR;
 
 	private GlobalVariables() {
 	}

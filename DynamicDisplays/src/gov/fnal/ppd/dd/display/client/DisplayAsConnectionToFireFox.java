@@ -1,12 +1,15 @@
 package gov.fnal.ppd.dd.display.client;
 
+import static gov.fnal.ppd.dd.GlobalVariables.DEFAULT_DWELL_TIME;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.display.client.BrowserLauncher.BrowserInstance;
 import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 
 /**
  * <p>
@@ -33,6 +36,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	private ConnectionToFirefoxInstance	firefox;
 	private boolean						showingSelfIdentify	= false;
 	private boolean						useWrapper			= true;
+	private int							changeCount;
 
 	/**
 	 * @param portNumber
@@ -62,13 +66,15 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		new Thread() {
 			public void run() {
-				System.out.println(DisplayAsConnectionToFireFox.class.getSimpleName() + ".initiate(): Here we go! display number="
-						+ getNumber());
+				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number=" + getNumber());
 				catchSleep(4000); // Wait a bit before trying to contact the instance of FireFox.
 				firefox = new ConnectionToFirefoxInstance(screenNumber, getNumber(), highlightColor);
 				catchSleep(500); // Wait a bit more before trying to tell it to go to a specific page
 				try {
-					firefox.changeURL(getContent().getURI().toASCIIString(), true);
+					String url = getContent().getURI().toASCIIString();
+					firefox.changeURL(url, true);
+					setResetThread(DEFAULT_DWELL_TIME, url);
+					updateMyStatus();
 				} catch (UnsupportedEncodingException e) {
 					System.err.println(DisplayAsConnectionToFireFox.class.getSimpleName() + ": Somthing is wrong with this URL: ["
 							+ getContent().getURI().toASCIIString() + "]");
@@ -79,30 +85,16 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	}
 
 	protected void localSetContent() {
-		String url = getContent().getURI().toASCIIString().replace("&amp;", "&"); // FIXME This could be risky! But it is needed for
-																					// URL arguments
+		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&"); // FIXME This could be risky! But it is
+																						// needed for URL arguments
+
+		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
+		println(getClass(), ": Dwell time is " + dwellTime);
 
 		synchronized (firefox) {
 			if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
 				if (!showingSelfIdentify) {
 					showingSelfIdentify = true;
-					// if (useWebPageIdentify) {
-					// firefox.changeURL(IDENTIFY_URL + number, false);
-					// new Thread("Identify_" + displayNumber + "_wait") {
-					// public void run() {
-					// try {
-					// sleep(SHOW_SPLASH_SCREEN_TIME);
-					// } catch (InterruptedException e) {
-					// e.printStackTrace();
-					// }
-					// boolean useWrapper = (lastChannel.getCode() & 1) != 0;
-					// String url = lastChannel.getURI().toASCIIString().replace("&amp;", "&");
-					// firefox.changeURL(url, useWrapper);
-					// resetStatusUpdatePeriod();
-					// showingSelfIdentify = false;
-					// }
-					// }.start();
-					// } else {
 					firefox.showIdentity();
 					new Thread() {
 						public void run() {
@@ -122,6 +114,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			} else
 				try {
 					// Someday we may need this: (getContent().getCode() & 1) != 0;
+					changeCount++;
 					if (firefox.changeURL(url, useWrapper)) {
 						lastChannel = getContent();
 						showingSelfIdentify = false;
@@ -129,12 +122,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						System.err.println(getClass().getSimpleName() + ".localSetContent(): Failed to set content");
 					}
 
-					new Thread("Respond" + getMessagingName()) {
-						public void run() {
-							// TODO Implement a "PONG" type message and send it back to the client here.
-						}
-					}.start();
-
+					setResetThread(dwellTime, url);
 					updateMyStatus();
 				} catch (UnsupportedEncodingException e) {
 					System.err.println(getClass().getSimpleName() + ": Somthing is wrong with this URL: [" + url + "]");
@@ -142,6 +130,37 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 				}
 		}
+	}
+
+	private void setResetThread(final long dwellTime, final String url) {
+		if (dwellTime > 0) {
+			final int thisChangeCount = changeCount;
+			new Thread("RefreshContent" + getMessagingName()) {
+
+				@Override
+				public void run() {
+					while (true) {
+						catchSleep(dwellTime);
+						synchronized (firefox) {
+							if (changeCount == thisChangeCount) {
+								println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reloading web page "
+										+ url);
+								try {
+									if (!firefox.changeURL(url, useWrapper)) {
+										println(DisplayAsConnectionToFireFox.class,
+												".localSetContent().refreshThread: Failed to REFRESH content");
+										return; // All bets are off!!
+									}
+								} catch (UnsupportedEncodingException e) {
+									e.printStackTrace();
+								}
+							} else
+								return;
+						}
+					}
+				}
+			}.start();
+		}		
 	}
 
 	@Override

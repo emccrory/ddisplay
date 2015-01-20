@@ -168,4 +168,12 @@ public class Util {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * @param clazz The type of the caller
+	 * @param message the message to print
+	 */
+	public static void println(Class clazz, String message) {
+		System.out.println(new Date() + " -- " + clazz.getSimpleName() + message);
+	}
 }

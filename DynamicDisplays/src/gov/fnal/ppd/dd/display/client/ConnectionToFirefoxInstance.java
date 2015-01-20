@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -97,7 +98,7 @@ public class ConnectionToFirefoxInstance {
 	 */
 	public boolean changeURL(final String urlString, final boolean useTheWrapper) throws UnsupportedEncodingException {
 		if (debug)
-			System.out.println("New URL: " + urlString);
+			println(getClass(), ": New URL: " + urlString);
 
 		if (useTheWrapper) {
 
@@ -136,14 +137,14 @@ public class ConnectionToFirefoxInstance {
 				// s += "document.getElementById('iframe').contentWindow.location.reload();\n";
 				send(s);
 			}
-			System.out.println(new Date() + " -- Sent: [[" + s + "]]");
+			println(getClass(), " -- Sent: [[" + s + "]]");
 
 			// send("window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
 			// + displayID + "&color=" + colorCode + "\";\n");
 		} else {
 			// Without the border wrapper
 			send("window.location=\"" + urlString + "\";\n");
-			System.out.println("Wrapper not used, new URL is " + urlString);
+			println(getClass(), "Wrapper not used, new URL is " + urlString);
 			showingCanonicalSite = false;
 		}
 		// An experiment: Can I turn off the scroll bars? The answer is no (it seems)
@@ -183,7 +184,7 @@ public class ConnectionToFirefoxInstance {
 			s += "document.getElementById('colorName').innerHTML = '#" + colorCode + "';\n";
 
 		send(s);
-		System.out.println(new Date() + " -- Sent: [[" + s + "]]");
+		println(getClass(), " -- Sent: [[" + s + "]]");
 
 		try {
 			waitForServer();
@@ -207,7 +208,7 @@ public class ConnectionToFirefoxInstance {
 		s += "document.getElementById('colorName').innerHTML = '';\n";
 
 		send(s);
-		System.out.println(new Date() + " -- Sent: [[" + s + "]]");
+		println(getClass(), " -- Sent: [[" + s + "]]");
 
 		try {
 			waitForServer();
@@ -250,8 +251,8 @@ public class ConnectionToFirefoxInstance {
 					System.out.println(ConnectionToFirefoxInstance.class.getSimpleName() + ": already connected!");
 				while (!connected)
 					try {
-						System.out.println(new Date() + " -- " + ConnectionToFirefoxInstance.class.getSimpleName()
-								+ ":\n\tOpening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
+						println(ConnectionToFirefoxInstance.class, ":\n\tOpening connection to FireFox instance to " + LOCALHOST
+								+ ":" + port + " ... ");
 						kkSocket = new Socket(LOCALHOST, port);
 						System.out.println("\tSocket connection to FF created");
 						out = new PrintWriter(kkSocket.getOutputStream(), true);
