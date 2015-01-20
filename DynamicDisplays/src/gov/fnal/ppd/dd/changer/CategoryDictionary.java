@@ -52,11 +52,12 @@ public class CategoryDictionary {
 			System.exit(1);
 		}
 
+		String q = "";
 		try {
-			String typ = "";
+			String typ = "Type='XOC'";
 			if (IS_PUBLIC_CONTROLLER)
 				typ = " AND Type='Public'";
-			String q = "SELECT TabName,Abbreviation from LocationTab where LocationCode=" + locationCode + typ;
+			q = "SELECT TabName,Abbreviation from LocationTab where LocationCode=" + locationCode + typ;
 			if (locationCode < 0)
 				q = "SELECT DISTINCT TabName,Abbreviation from LocationTab WHERE " + typ;
 
@@ -88,6 +89,7 @@ public class CategoryDictionary {
 			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.err.println("Query was '" + q + "'");
 		}
 
 		categories = cats.toArray(new ChannelCategory[0]);
