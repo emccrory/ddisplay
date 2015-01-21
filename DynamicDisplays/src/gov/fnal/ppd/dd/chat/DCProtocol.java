@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.PlainURLChannel;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
@@ -165,7 +166,7 @@ public class DCProtocol {
 	 */
 	public boolean processInput(final DDMessage message, int myDisplayNumber, int myScreenNumber) {
 		try {
-			System.out.println(getClass().getSimpleName() + ".processInput(): processing '" + message + "'");
+			println(getClass(), ".processInput(): processing '" + message + "'");
 
 			if (message != null && message.getMessage() != null) {
 				int screenNumber = message.getScreenNumber();
@@ -200,7 +201,7 @@ public class DCProtocol {
 					if (((ChangeChannel) theMessage).getDisplayNumber() == myDisplayNumber && screenNumber == myScreenNumber)
 						informListeners();
 					else
-						System.out.println(DCProtocol.class.getSimpleName() + ".processInput(): Got display="
+						println(DCProtocol.class, ".processInput(): Got display="
 								+ ((ChangeChannel) theMessage).getDisplayNumber() + ", but I am " + myDisplayNumber);
 				} else if (theMessage instanceof ChannelSpec) {
 					checkChanger();
@@ -212,7 +213,7 @@ public class DCProtocol {
 					// lastServerHeartbeat = ((HeartBeat) theMessage).getTimeStamp();
 					// return true;
 				} else {
-					System.out.println("The message is of type " + theMessage.getClass().getCanonicalName()
+					println(getClass(), "The message is of type " + theMessage.getClass().getCanonicalName()
 							+ ".  We will assume they meant it to be 'ChangeChannelReply'");
 				}
 
@@ -262,26 +263,28 @@ public class DCProtocol {
 	private void informListenersForever() {
 		checkChanger();
 		if (listeners == null || listeners.size() == 0) {
-			System.out.println("No listeners, so exiting from informListenersForever()");
+			println(getClass(), "No listeners, so exiting from informListenersForever()");
 			return;
 		}
 		keepRunning = true;
-		final ChannelSpec[] specs = ((ChangeChannelList) theMessage).getChannelSpec();
+		final ChangeChannelList channelListSpec = ((ChangeChannelList) theMessage);
+		final ChannelSpec[] specs = channelListSpec.getChannelSpec();
 		changerThread = new Thread("ChannelChanger") {
 			public void run() {
-				System.out.println(DCProtocol.class.getSimpleName()
-						+ ": We will be changing the channel automatically based on the list we just received.\n\tThere are "
-						+ specs.length + " channels in the list, and the first dwell time is " + specs[0].getTime() / 1000
+				println(DCProtocol.class,
+						 ": We will be changing the channel automatically based on the list we just received.\n\tThere are "
+						+ specs.length + " channels in the list, and the dwell time is " + channelListSpec.getTime() / 1000
 						+ " secs -- " + (new Date()));
+				
+				long sleepTime = channelListSpec.getTime();
 				while (keepRunning) {
 					for (ChannelSpec spec : specs) {
-						long sleepTime = spec.getTime();
-						// System.out.println(DCProtocol.class.getSimpleName() + ": Channging to [" + spec.getName() + "] -- "
+						// System.out.println(DCProtocol.class.getSimpleName() + ": Changing to [" + spec.getName() + "] -- "
 						// + (new Date()));
 
 						informListeners(spec);
-						for (long i = 0; i < sleepTime && keepRunning; i += SHORT_INTERVAL)
-							catchSleep(SHORT_INTERVAL);
+						for (long i = sleepTime; i > 0 && keepRunning; i -= SHORT_INTERVAL)
+							catchSleep(Math.min(i,SHORT_INTERVAL));
 						// System.out.println(DCProtocol.class.getSimpleName() + ": Changing the channel now!");
 
 						if (!keepRunning)
@@ -289,7 +292,7 @@ public class DCProtocol {
 					}
 
 				}
-				System.out.println(DCProtocol.class.getSimpleName() + ": Channel list has exited -- " + (new Date()));
+				println(DCProtocol.class, ": Channel list has exited -- " + (new Date()));
 			}
 		};
 		changerThread.start();

@@ -138,28 +138,32 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 				@Override
 				public void run() {
+					long increment = 15000L;
 					while (true) {
-						catchSleep(dwellTime);
-						synchronized (firefox) {
-							if (changeCount == thisChangeCount) {
-								println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reloading web page "
-										+ url);
+						for (long t = dwellTime; t > 0 && changeCount == thisChangeCount; t -= increment) {
+							catchSleep(Math.min(increment, t));
+						}
+						if (changeCount == thisChangeCount) {
+							synchronized (firefox) {
+								println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reloading web page " + url);
 								try {
 									if (!firefox.changeURL(url, useWrapper)) {
-										println(DisplayAsConnectionToFireFox.class,
-												".localSetContent().refreshThread: Failed to REFRESH content");
+										println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Failed to REFRESH content");
 										return; // All bets are off!!
 									}
 								} catch (UnsupportedEncodingException e) {
 									e.printStackTrace();
 								}
-							} else
-								return;
+							}
+						} else {
+							println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Not necessary to refresh " + url
+									+ " because the channel was changed.  Bye!");
+							return;
 						}
 					}
 				}
 			}.start();
-		}		
+		}
 	}
 
 	@Override

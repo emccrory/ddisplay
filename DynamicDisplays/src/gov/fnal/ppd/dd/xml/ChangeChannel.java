@@ -51,6 +51,8 @@ public class ChangeChannel extends EncodedCarrier {
 			PlainURLChannel channel = new PlainURLChannel(uri.toURL());
 			channel.setCategory(category);
 			channel.setName(name);
+			channel.setCode(s.getCode());
+			channel.setTime(s.getTime());
 			content = channel;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

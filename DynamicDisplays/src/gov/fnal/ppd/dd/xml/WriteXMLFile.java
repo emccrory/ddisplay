@@ -70,7 +70,7 @@ public class WriteXMLFile {
 				case 3:
 					ChannelSpec cs = new ChannelSpec();
 					cs.setContent(new ChannelImpl("Test Channel", ChannelCategory.PUBLIC_DETAILS, "This is the desription", new URI(
-							"http://www.fnal.gov"), 23, System.currentTimeMillis() % 24L*3600L*1000L));
+							"http://www.fnal.gov"), 23, System.currentTimeMillis() % (24L*3600L*1000L)));
 					stuff = cs;
 					break;
 

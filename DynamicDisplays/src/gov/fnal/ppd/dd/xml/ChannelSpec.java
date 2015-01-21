@@ -73,7 +73,9 @@ public class ChannelSpec {
 	}
 
 	public void setContent(final SignageContent c) {
-		content = c;
+		this.content = c;
+		this.time = c.getTime();
+		this.code = c.getCode();
 	}
 
 	@XmlElement
