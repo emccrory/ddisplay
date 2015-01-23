@@ -67,12 +67,13 @@ public class DCProtocol {
 	// WAITING, READY, DISPLAYING
 	// };
 
-	private Object			theMessage;
-	private Object			theReply;
-	private List<Display>	listeners		= new ArrayList<Display>();
-	protected boolean		keepRunning		= false;
-	private Thread			changerThread	= null;
-	protected long			SHORT_INTERVAL	= 100l;
+	private static final long	MESSAGE_AGE_IS_TOO_OLD	= 30000L;
+	private Object				theMessage;
+	private Object				theReply;
+	private List<Display>		listeners				= new ArrayList<Display>();
+	protected boolean			keepRunning				= false;
+	private Thread				changerThread			= null;
+	protected long				SHORT_INTERVAL			= 100l;
 
 	/**
 	 * @return The message just received
@@ -184,7 +185,7 @@ public class DCProtocol {
 				if (theMessage instanceof EncodedCarrier) {
 					// Every message *should be* an instance of EncodedCarrier.
 					EncodedCarrier carrier = (EncodedCarrier) theMessage;
-					if (carrier.howOld() > 30000L) {
+					if (carrier.howOld() > MESSAGE_AGE_IS_TOO_OLD) {
 						long old = carrier.howOld();
 						System.err.println("An old message has been received: [" + carrier + ", date=" + carrier.getDate()
 								+ "], which is " + old + " msec old\n Ignoring it.");
@@ -201,8 +202,8 @@ public class DCProtocol {
 					if (((ChangeChannel) theMessage).getDisplayNumber() == myDisplayNumber && screenNumber == myScreenNumber)
 						informListeners();
 					else
-						println(DCProtocol.class, ".processInput(): Got display="
-								+ ((ChangeChannel) theMessage).getDisplayNumber() + ", but I am " + myDisplayNumber);
+						println(DCProtocol.class, ".processInput(): Got display=" + ((ChangeChannel) theMessage).getDisplayNumber()
+								+ ", but I am " + myDisplayNumber);
 				} else if (theMessage instanceof ChannelSpec) {
 					checkChanger();
 					informListeners((ChannelSpec) theMessage);
@@ -261,6 +262,10 @@ public class DCProtocol {
 	// }
 
 	private void informListenersForever() {
+
+		// TODO -- Alternate way to do this, which is possibly more elegant: Change the way we interpret the time field in the
+		// channel so that it will look for "the next channel" when that time expires. Otherwise, it refreshes this channel.
+
 		checkChanger();
 		if (listeners == null || listeners.size() == 0) {
 			println(getClass(), "No listeners, so exiting from informListenersForever()");
@@ -272,19 +277,19 @@ public class DCProtocol {
 		changerThread = new Thread("ChannelChanger") {
 			public void run() {
 				println(DCProtocol.class,
-						 ": We will be changing the channel automatically based on the list we just received.\n\tThere are "
-						+ specs.length + " channels in the list, and the dwell time is " + channelListSpec.getTime() / 1000
-						+ " secs -- " + (new Date()));
-				
+						": We will be changing the channel automatically based on the list we just received.\n\tThere are "
+								+ specs.length + " channels in the list, and the dwell time is " + channelListSpec.getTime() / 1000
+								+ " secs -- " + (new Date()));
+
 				long sleepTime = channelListSpec.getTime();
 				while (keepRunning) {
 					for (ChannelSpec spec : specs) {
 						// System.out.println(DCProtocol.class.getSimpleName() + ": Changing to [" + spec.getName() + "] -- "
 						// + (new Date()));
-
+						long st = (spec.getTime() > sleepTime ? spec.getTime() : sleepTime);
 						informListeners(spec);
-						for (long i = sleepTime; i > 0 && keepRunning; i -= SHORT_INTERVAL)
-							catchSleep(Math.min(i,SHORT_INTERVAL));
+						for (long i = st; i > 0 && keepRunning; i -= SHORT_INTERVAL)
+							catchSleep(Math.min(i, SHORT_INTERVAL));
 						// System.out.println(DCProtocol.class.getSimpleName() + ": Changing the channel now!");
 
 						if (!keepRunning)
