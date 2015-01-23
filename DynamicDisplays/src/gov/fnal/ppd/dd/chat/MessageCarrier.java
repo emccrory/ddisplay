@@ -13,11 +13,11 @@ import java.security.SignedObject;
 import java.security.spec.InvalidKeySpecException;
 
 /**
- * This class holds the messages that will be exchanged between the Clients and the Server. When talking from a
- * Java Client to a Java Server, it is a lot easier to stream Java objects, so that is what we do here.
+ * This class holds the messages that will be exchanged between the Clients and the Server. When talking from a Java Client to a
+ * Java Server, it is a lot easier to stream Java objects, so that is what we do here.
  * 
- * TODO -- replace this class and the XML classes with one, unified message, probably in JSON.  It would be best, at that time,
- * to stop streaming a Java object here so that other languages can get into the game--we would just stream ASCII messages.
+ * TODO -- replace this class and the XML classes with one, unified message, probably in JSON. It would be best, at that time, to
+ * stop streaming a Java object here so that other languages can get into the game--we would just stream ASCII messages.
  * 
  * Off the top of my head, here is what a JSON message that carries all the information might looks like.
  * 
@@ -42,7 +42,7 @@ import java.security.spec.InvalidKeySpecException;
  * }
  * </pre>
  * 
- * As stated above, if/when we change to this JSON scheme, it will be important NOT to stream an object.  
+ * As stated above, if/when we change to this JSON scheme, it will be important NOT to stream an object.
  * 
  * Taken from the Internet on 5/12/2014. @see <a
  * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
@@ -56,7 +56,7 @@ public class MessageCarrier implements Serializable {
 	protected static final long	serialVersionUID	= 1112122200L;
 
 	private MessageType			type;
-	private String				message;
+	public String				message;
 	private String				to;
 	private String				from;
 
@@ -229,12 +229,71 @@ public class MessageCarrier implements Serializable {
 	 */
 	public boolean verifySignedObject(final SignedObject signedObject) {
 		if (!checkSignedMessages())
+			// 1. Ignoring signatures
 			return true;
-		// assert (this.equals(signedObject.getObject()));
 
+		// Second, verify that the message in the signedObject is me
+		try {
+			MessageCarrier signedMessage = (MessageCarrier) signedObject.getObject();
+
+			if (!signedMessage.equals(this))
+				// 2. The object being tested is not equal to this!
+				return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			// 3. Casting exception!
+			return false;
+		}
+
+		// Now verify the signature
 		ObjectSigning signing = ObjectSigning.getPublicSigning(getFrom());
 		if (signing == null)
+			// 4. No public key found
 			return false;
+		// 5. Does the signature actually match?
 		return signing.verifySignature(signedObject);
 	}
+
+	// Eclipse-generated hashCode and equals
+	@Override
+	public int hashCode() {
+		final int prime = 41;
+		int result = 1;
+		result = prime * result + ((from == null) ? 0 : from.hashCode());
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + ((to == null) ? 0 : to.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MessageCarrier other = (MessageCarrier) obj;
+		if (from == null) {
+			if (other.from != null)
+				return false;
+		} else if (!from.equals(other.from))
+			return false;
+		if (message == null) {
+			if (other.message != null)
+				return false;
+		} else if (!message.equals(other.message))
+			return false;
+		if (to == null) {
+			if (other.to != null)
+				return false;
+		} else if (!to.equals(other.to))
+			return false;
+		if (type != other.type)
+			return false;
+		return true;
+	}
+	
+	
 }
