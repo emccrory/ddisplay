@@ -130,6 +130,7 @@ public class ChannelCategory {
 
 	@Override
 	public boolean equals(Object obj) {
+		// println(getClass(), ".equals(" + toString() + ", " + obj + ")");
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -147,6 +148,6 @@ public class ChannelCategory {
 
 	@Override
 	public String toString() {
-		return value;
+		return value + "[" + abbreviation + "]";
 	}
 }
