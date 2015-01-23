@@ -31,6 +31,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,8 +64,8 @@ public class ObjectSigning {
 	}
 
 	private KeyPairGenerator	keyPairGenerator;
-	private PrivateKey			privateKey = null;
-	private PublicKey			publicKey = null;
+	private PrivateKey			privateKey	= null;
+	private PublicKey			publicKey	= null;
 
 	private KeyFactory			keyFactory;
 	private Signature			signature	= null;
@@ -283,7 +284,7 @@ public class ObjectSigning {
 					.println("********************\n\n  Generating new public and private keys and signing an object, just as a test\n\n********************\n");
 			try {
 				OS.generateNewKeys();
-				MessageCarrier mess1 = MessageCarrier.getIAmAlive("Left", "Me", "Booyah!");
+				MessageCarrier mess1 = MessageCarrier.getMessage("Left", "Me", new Date().toString());
 				MessageCarrier mess2 = MessageCarrier.getIAmAlive("Them", "Us", "Howdy!");
 				SignedObject so1 = OS.example(mess1);
 				SignedObject so2 = OS.example(mess2);
@@ -296,6 +297,35 @@ public class ObjectSigning {
 				System.out.println("Signature on the 1st signed object was:\n" + dump(so1.getSignature()));
 				System.out.println();
 				System.out.println("Signature on the 2nd signed object was:\n" + dump(so2.getSignature()));
+
+				SignedObject so4 = OS.example(mess1);
+
+				mess1.setFrom("Mf");
+				SignedObject so3 = OS.example(mess1);
+				System.out.println();
+				System.out.println("Signature on the 3rd signed object was:\n" + dump(so3.getSignature()));
+				System.out.println();
+				System.out.println("Signature on the 4th signed object was:\n" + dump(so4.getSignature()));
+
+				if (OS.verifySignature(so1))
+					System.out.println("Verified");
+				else
+					System.out.println("Not verified");
+
+				Signature thesig = Signature.getInstance(OS.publicKey.getAlgorithm());
+				try {
+					boolean retval = so1.verify(OS.publicKey, thesig);
+					if (retval)
+						System.out.println("Secondary signature is verified");
+					else
+						System.out.println("Secondary signature is INCORRECT");
+
+				} catch (InvalidKeyException e) {
+					e.printStackTrace();
+				} catch (SignatureException e) {
+					e.printStackTrace();
+				}
+
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			}
