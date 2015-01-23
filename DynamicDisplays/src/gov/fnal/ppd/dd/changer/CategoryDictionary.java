@@ -52,14 +52,17 @@ public class CategoryDictionary {
 			System.exit(1);
 		}
 
-		String q = "";
+		String q = "SELECT DISTINCT TabName,Abbreviation FROM LocationTab";
 		try {
-			String typ = "Type='XOC'";
-			if (IS_PUBLIC_CONTROLLER)
-				typ = " AND Type='Public'";
-			q = "SELECT TabName,Abbreviation from LocationTab where LocationCode=" + locationCode + typ;
-			if (locationCode < 0)
-				q = "SELECT DISTINCT TabName,Abbreviation from LocationTab WHERE " + typ;
+			if (IS_PUBLIC_CONTROLLER) {
+				if (locationCode < 0)
+					q += " WHERE Type='Public'";
+				else
+					q += " WHERE LocationCode=" + locationCode + " AND Type='Public'";
+			} else {
+				if (locationCode >= 0)
+					q += " WHERE LocationCode=" + locationCode;
+			}
 
 			rs = stmt.executeQuery(q);
 			if (rs.first()) // Move to first returned row
@@ -95,40 +98,40 @@ public class CategoryDictionary {
 		categories = cats.toArray(new ChannelCategory[0]);
 	}
 
-	@SuppressWarnings("unused")
-	private static void getCategoriesCoded() {
-		switch (locationCode) {
-		case 0: // ROC-West
-
-			categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
-					ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS,
-					new ChannelCategory("MINERVA_DETAILS", "MINER\u03BDA"), ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS,
-					ChannelCategory.MISCELLANEOUS };
-
-			if (IS_PUBLIC_CONTROLLER) {
-				categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
-						ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS };
-			}
-			break;
-
-		case 1:// ROC-East
-			categories = new ChannelCategory[] { new ChannelCategory("CMS"), new ChannelCategory("LHC"),
-					ChannelCategory.MISCELLANEOUS };
-			break;
-
-		case 2:
-			// Test regime in Elliott's office
-		case 3:
-			// WH2E -- CMS Remote Operations Center
-		default:
-			categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
-					ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS, ChannelCategory.EXPERIMENT_DETAILS,
-					ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS, new ChannelCategory("CMS"),
-					new ChannelCategory("MINERVA_DETAILS", "MINER\u03BDA"), new ChannelCategory("LHC"),
-					new ChannelCategory("FERMILAB") };
-		}
-
-	}
+	// @SuppressWarnings("unused")
+	// private static void getCategoriesCoded() {
+	// switch (locationCode) {
+	// case 0: // ROC-West
+	//
+	// categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
+	// ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS,
+	// new ChannelCategory("MINERVA_DETAILS", "MINER\u03BDA"), ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS,
+	// ChannelCategory.MISCELLANEOUS };
+	//
+	// if (IS_PUBLIC_CONTROLLER) {
+	// categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
+	// ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS };
+	// }
+	// break;
+	//
+	// case 1:// ROC-East
+	// categories = new ChannelCategory[] { new ChannelCategory("CMS"), new ChannelCategory("LHC"),
+	// ChannelCategory.MISCELLANEOUS };
+	// break;
+	//
+	// case 2:
+	// // Test regime in Elliott's office
+	// case 3:
+	// // WH2E -- CMS Remote Operations Center
+	// default:
+	// categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
+	// ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS, ChannelCategory.EXPERIMENT_DETAILS,
+	// ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS, new ChannelCategory("CMS"),
+	// new ChannelCategory("MINERVA_DETAILS", "MINER\u03BDA"), new ChannelCategory("LHC"),
+	// new ChannelCategory("FERMILAB") };
+	// }
+	//
+	// }
 
 	private static final String[]	FermilabExperiments	= { "gMinus2", "LBNF", "MicroBooNE", "MiniBooNE", "MINERvA", "MINOS",
 			"Mu2E", "NOvA", "SeaQuest", "NUmI"			};
