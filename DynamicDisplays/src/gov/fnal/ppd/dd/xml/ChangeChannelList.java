@@ -26,11 +26,7 @@ public class ChangeChannelList extends EncodedCarrier {
 		ChannelSpec[] retval = new ChannelSpec[cpl.getChannels().size()];
 		int i = 0;
 		for (SignageContent C : cpl.getChannels()) {
-			ChannelSpec cs = new ChannelSpec();
-			cs.setContent(C);
-			// See "TODO" comment in setChannelSpec(), below.
-			cs.setTime(-1);
-			retval[i++] = cs;
+			retval[i++] = new ChannelSpec(C);
 		}
 		return retval;
 	}
@@ -48,11 +44,7 @@ public class ChangeChannelList extends EncodedCarrier {
 
 				content.setURI(spec.getUri());
 				content.setCode(spec.getCode());
-
-				// TODO -- There may be some clever way to use the time attribute in each channel in the spec
-				// intelligently. But for now, all channels in the spec will change at a fixed period. Set the
-				// time in each individual channel so that it skips the refresh entirely.
-				content.setTime(-1);
+				content.setTime(spec.getTime() > 0 ? spec.getTime() : getTime());
 
 				cpl.getChannels().add(content);
 			}

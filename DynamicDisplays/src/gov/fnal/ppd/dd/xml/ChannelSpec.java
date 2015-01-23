@@ -30,6 +30,12 @@ public class ChannelSpec {
 		}
 	}
 
+	public ChannelSpec(SignageContent c) {
+		content = c;
+		time = c.getTime();
+		code = c.getCode();
+	}
+
 	@XmlElement
 	public ChannelCategory getCategory() {
 		return content.getCategory();
