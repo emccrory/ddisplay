@@ -57,7 +57,7 @@ public class MessageCarrier implements Serializable {
 	protected static final long	serialVersionUID	= 1112122200L;
 
 	private MessageType			type;
-	public String				message;
+	private String				message;
 	private String				to;
 	private String				from;
 
