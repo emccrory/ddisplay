@@ -32,12 +32,13 @@ public class GlobalVariables {
 	public static long			lastDisplayChange		= 0L;
 
 	/**
-	 * String that says, "Do not check message signing"
+	 * String that says, "Do not check message signing". This is the only word that will turn off checking. All other words will
+	 * result in checking.
 	 */
 	public static final String	NOCHECK_SIGNED_MESSAGE	= "nocheck";
 
 	/**
-	 * String that says, "Check message signing"
+	 * String that says, "Check message signing". This is the default.
 	 */
 	public static final String	CHECK_SIGNED_MESSAGE	= "check";
 
@@ -51,13 +52,13 @@ public class GlobalVariables {
 	 * </p>
 	 */
 
-	private static String		checkSignedMessage		= System.getProperty("ddisplay.checksignedmessage", NOCHECK_SIGNED_MESSAGE);
+	private static String		checkSignedMessage		= System.getProperty("ddisplay.checksignedmessage", CHECK_SIGNED_MESSAGE);
 
 	/**
 	 * @return Do we need to check the signature on messages?
 	 */
 	public static boolean checkSignedMessages() {
-		return CHECK_SIGNED_MESSAGE.equals(checkSignedMessage);
+		return !NOCHECK_SIGNED_MESSAGE.equals(checkSignedMessage);
 	}
 
 	/**
