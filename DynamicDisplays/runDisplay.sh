@@ -1,10 +1,11 @@
 #!/bin/bash
 
-cd ~/src/roc-dynamicdisplays/DynamicDisplays
-
 # We need something to run on the X display, otherwise the present version of FireFox, with the
 # kiosk mode enabled, won't let us get to the desktop
+cd ~/src/log
 /usr/bin/xterm &
+
+cd ~/src/roc-dynamicdisplays/DynamicDisplays
 
 . setupJars.sh
 
@@ -14,11 +15,11 @@ log=../../log/display_${d}_$$.log
 
 screenNum=0
 if [ "$1 X" != " X" ]; then
-    Screennum=$1;
+    screenNum=$1;
 fi
 {
-    date
-# Is this node the messaging server??
+    /bin/date
+    # Is this node the messaging server??
     if [ $messagingServer = `uname -n` ]; then
 	if java -Dddisplay.messagingserver=$messagingServer \
                 -Xmx512m gov.fnal.ppd.dd.chat.MessagingServerTest; then
