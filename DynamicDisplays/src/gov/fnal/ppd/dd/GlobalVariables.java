@@ -37,14 +37,9 @@ public class GlobalVariables {
 	public static final String	NOCHECK_SIGNED_MESSAGE	= "nocheck";
 
 	/**
-	 * String that says, "Check message signing, but ignore the result"
+	 * String that says, "Check message signing"
 	 */
 	public static final String	CHECK_SIGNED_MESSAGE	= "check";
-
-	/**
-	 * String that says, "Force all messages to be signed properly"
-	 */
-	public static final String	FORCE_SIGNED_MESSAGE	= "force";
 
 	/**
 	 * <p>
@@ -52,7 +47,6 @@ public class GlobalVariables {
 	 * <ol>
 	 * <li>nocheck -- do not check the signature on any signed object</li>
 	 * <li>check -- Check the signature and complain if the signature is bad, but use the message no matter what the check says</li>
-	 * <li>force -- Check the signature and reject any mis-signed message</li>
 	 * </ol>
 	 * </p>
 	 */
