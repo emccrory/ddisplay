@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.testing.ObjectSigning;
 
 import java.io.IOException;
@@ -228,10 +229,12 @@ public class MessageCarrier implements Serializable {
 	 * @return -- Has the signedObject been properly signed?
 	 */
 	public boolean verifySignedObject(final SignedObject signedObject) {
-		if (!checkSignedMessages())
+		if (!checkSignedMessages()) {
 			// 1. Ignoring signatures
+			println(getClass(), " -- Signature is not being checked.");
 			return true;
-
+		}
+		
 		// Second, verify that the message in the signedObject is me
 		try {
 			MessageCarrier signedMessage = (MessageCarrier) signedObject.getObject();
