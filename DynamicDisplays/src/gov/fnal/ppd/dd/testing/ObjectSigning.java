@@ -375,7 +375,7 @@ public class ObjectSigning {
 		}
 
 		try {
-			System.err.println(getClass().getSimpleName() + ".verifySignature(): really and truly checking the signature!");
+			// System.err.println(getClass().getSimpleName() + ".verifySignature(): really and truly checking the signature!");
 			if (sig == null && publicKey != null)
 				sig = Signature.getInstance(publicKey.getAlgorithm());
 			boolean retval = signedMess.verify(publicKey, sig);

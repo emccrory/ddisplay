@@ -6,6 +6,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
@@ -152,6 +153,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 */
 	protected final synchronized void updateMyStatus() {
 
+		try {
+			if (!connection.isValid(5)) {
+				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			}
+		} catch (SQLException | DatabaseNotVisibleException e) {
+			e.printStackTrace();
+		}
+		
 		try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 			Date dNow = new Date();
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -170,8 +179,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			}
 			stmt.close();
 			if (statusUpdatePeriod > 0) {
-				System.out.println(getClass().getSimpleName() + ".updateMyStatus(): Status: \n            "
-						+ statementString.substring("UPDATE DisplayStatus set ".length()));
+				println(getClass(),
+						".updateMyStatus(): Status: \n            "
+								+ statementString.substring("UPDATE DisplayStatus set ".length()));
 				statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 			}
 		} catch (SQLException ex) {

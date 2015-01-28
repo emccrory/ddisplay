@@ -254,13 +254,13 @@ public class ConnectionToFirefoxInstance {
 						println(ConnectionToFirefoxInstance.class, ":\n\tOpening connection to FireFox instance to " + LOCALHOST
 								+ ":" + port + " ... ");
 						kkSocket = new Socket(LOCALHOST, port);
-						System.out.println("\tSocket connection to FF created");
+						println(ConnectionToFirefoxInstance.class, "\tSocket connection to FF created");
 						out = new PrintWriter(kkSocket.getOutputStream(), true);
-						System.out.println("\tOutput stream established");
+						println(ConnectionToFirefoxInstance.class, "\tOutput stream established");
 						in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
-						System.out.println("\tInput stream established");
+						println(ConnectionToFirefoxInstance.class, "\tInput stream established");
 						connected = true;
-						System.out.println("** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
+						println(ConnectionToFirefoxInstance.class, " ** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
 								+ " ** -- " + new Date());
 					} catch (UnknownHostException e) {
 						System.err.println("Don't know about host " + LOCALHOST + " --  ignoring.");
@@ -283,13 +283,13 @@ public class ConnectionToFirefoxInstance {
 
 	private void send(String s) {
 		while (!connected && out == null) {
-			System.out.println("Not connected to FireFox instance at " + LOCALHOST + ":" + port + ".  Will try again in "
+			println(getClass(), " -- Not connected to FireFox instance at " + LOCALHOST + ":" + port + ".  Will try again in "
 					+ WAIT_FOR_CONNECTION_TIME + " milliseconds");
 			catchSleep(WAIT_FOR_CONNECTION_TIME);
 		}
 		synchronized (out) {
 			if (debug)
-				System.out.println("[" + s + "]");
+				println(getClass(), " [" + s + "]");
 			out.println(s);
 		}
 	}
@@ -300,7 +300,7 @@ public class ConnectionToFirefoxInstance {
 			int numRead = in.read(cbuf, 0, DEFAULT_BUFFER_SIZE);
 			lastReplyLine = new String(cbuf).substring(0, numRead - 1);
 			if (debug)
-				System.out.println(getClass().getSimpleName() + ": " + numRead + " chars from server: " + lastReplyLine);
+				println(getClass(), numRead + " chars from server: " + lastReplyLine);
 
 			/*
 			 * It looks like the reply expected here is something like this:
@@ -315,7 +315,7 @@ public class ConnectionToFirefoxInstance {
 			 */
 			connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
 		}
-		System.out.println(new Date() + " -- Returning from waitForServer(), connected=" + connected);
+		println(getClass(), " -- Returning from waitForServer(), connected=" + connected);
 		return connected;
 	}
 
