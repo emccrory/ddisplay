@@ -31,10 +31,11 @@ public class JLabelFooter extends JLabel {
 	@Override
 	public void setText(String text) {
 		Dimension d = getSize();
-		int numChars = DEFAULT_SIZE;
-		if (d.height != 0 && d.width != 0)
-			numChars = 3 * d.width / d.height;
-
+		if (d.width * d.height == 0) {
+			super.setText(text);
+			return;
+		}
+		int numChars = Math.max(-23 + d.width / 7, DEFAULT_SIZE);
 		super.setText("<html>" + truncate(text, numChars) + " (" + shortDate() + ")" + "</html>");
 	}
 }
