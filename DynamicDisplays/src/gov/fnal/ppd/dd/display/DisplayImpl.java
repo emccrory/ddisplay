@@ -249,7 +249,7 @@ public abstract class DisplayImpl implements Display {
 	@Override
 	public String getStatus() {
 		// return "Displaying: " + (getContent() != null ? getContent().getName() : "No channel");
-		return getContent() + " is being displayed.";
+		return "" + getContent();
 	}
 
 	public void disconnect() {

@@ -292,8 +292,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					DisplayChangeEvent ev = (DisplayChangeEvent) e;
 					catchSleep(100);
 
-					String text = display.getNumber() + " to " + display.getContent().getCategory() + " channel '"
-							+ (display.getContent().getName());
+					String text = display.getNumber() + " to channel '" + (display.getContent().getName()) + "'";
 					boolean alive = false;
 
 					switch (ev.getType()) {
@@ -305,6 +304,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						alive = true;
 						break;
 					case ALIVE:
+						// These remaining items are not ever reached. (1/28/2015)
 						text = "A Display " + display.getNumber() + ": " + display.getContent().getCategory() + "/'"
 								+ (display.getContent().getName());
 						alive = true;

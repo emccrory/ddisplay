@@ -133,7 +133,7 @@ public class ChannelImpl implements Channel {
 	public String toString() {
 		// if (number > 0)
 		// return number + ": " + name + " (" + category + ")";
-		return name + " (" + category + ")";
+		return getName();
 	}
 
 	public int getNumber() {

@@ -70,7 +70,7 @@ public class CheckDisplayStatus extends Thread {
 									if (contentName.contains(" is being displayed"))
 										contentName = contentName.substring(0, contentName.indexOf(" is being displayed"));
 									// Create a new footer
-									String text = "Disp " + display.getNumber() + ": " + (contentName);
+									String text = "Disp " + display.getNumber() + ": " + contentName;
 									footer.setText(text);
 									footer.setToolTipText(contentName);
 									DisplayButtons.setToolTip(display);
