@@ -67,7 +67,7 @@ public class GlobalVariables {
 	public static String		THIS_IP_NAME;
 	static {
 		try {
-			String s = InetAddress.getLocalHost().getHostName();
+			String s = InetAddress.getLocalHost().getHostName().toLowerCase();
 			int index = s.indexOf('.');
 			if (index > 0)
 				THIS_IP_NAME = s.substring(0, index);
@@ -86,15 +86,15 @@ public class GlobalVariables {
 	/**
 	 * Where is the private key stored on the local file system.
 	 * 
-	 * On Linux (& MAC) the default will be $HOME/keystore/privateKey.key
+	 * On Linux (& MAC) the default will be $HOME/keystore/private\<ipname\> selector 00.key
 	 * 
-	 * On Windows the default will be %HOMEDIR%\keystore\privateKey.key
+	 * On Windows the default will be %HOMEDIR%\\keystore\\private\<ipname\> selector 00.key
 	 * 
 	 */
 	public static final String	PRIVATE_KEY_LOCATION;
 
 	static {
-		String def = "/keystore/private" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key";
+		String def = ("/keystore/private" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key").toLowerCase();
 		if (System.getenv("HOME") != null) // Linux and MAC
 			def = System.getenv("HOME") + def;
 		else if (System.getenv("UserProfile") != null) // Windows
