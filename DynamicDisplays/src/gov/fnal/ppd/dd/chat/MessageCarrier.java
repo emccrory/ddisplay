@@ -228,11 +228,11 @@ public class MessageCarrier implements Serializable {
 	 *            -- the object that (should be) the holder of "this"
 	 * @return -- Has the signedObject been properly signed?
 	 */
-	public boolean verifySignedObject(final SignedObject signedObject) {
+	public String verifySignedObject(final SignedObject signedObject) {
 		if (!checkSignedMessages()) {
 			// 1. Ignoring signatures
 			println(getClass(), " -- Signature is not being checked.");
-			return true;
+			return null;
 		}
 		
 		// Second, verify that the message in the signedObject is me
@@ -241,18 +241,21 @@ public class MessageCarrier implements Serializable {
 
 			if (!signedMessage.equals(this))
 				// 2. The object being tested is not equal to this!
-				return false;
-		} catch (Exception e) {
+				return "The message being checked has been modified";
+		} catch (IOException e) {
 			e.printStackTrace();
 			// 3. Casting exception!
-			return false;
+			return "There was an IO exception in reading the message" ;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return "The returned message was not of type " + MessageCarrier.class.getCanonicalName();
 		}
 
 		// Now verify the signature
 		ObjectSigning signing = ObjectSigning.getPublicSigning(getFrom());
 		if (signing == null)
 			// 4. No public key found
-			return false;
+			return "There is no public key for client '" + getFrom() + "'";
 		// 5. Does the signature actually match?
 		return signing.verifySignature(signedObject);
 	}

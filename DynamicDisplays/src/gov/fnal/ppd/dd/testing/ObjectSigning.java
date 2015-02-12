@@ -307,7 +307,7 @@ public class ObjectSigning {
 				System.out.println();
 				System.out.println("Signature on the 4th signed object was:\n" + dump(so4.getSignature()));
 
-				if (OS.verifySignature(so1))
+				if (OS.verifySignature(so1) == null)
 					System.out.println("Verified");
 				else
 					System.out.println("Not verified");
@@ -366,12 +366,12 @@ public class ObjectSigning {
 	/**
 	 * @param signedMess
 	 *            -- The message to test
-	 * @return -- is this message signed properly?
+	 * @return -- null if the message is signed properly; a string explaining why if it is not.
 	 */
-	public boolean verifySignature(final SignedObject signedMess) {
+	public String verifySignature(final SignedObject signedMess) {
 		if (!checkSignedMessages()) {
 			System.err.println(getClass().getSimpleName() + ".verifySignature(): Ignoring the signature and returning 'true'");
-			return true;
+			return null;
 		}
 
 		try {
@@ -386,12 +386,13 @@ public class ObjectSigning {
 						break;
 					}
 				}
+				return "Signature is invalid";
 			}
-			return retval;
+			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
+		return "Exeption caused the signature check to fail";
 	}
 
 	/**

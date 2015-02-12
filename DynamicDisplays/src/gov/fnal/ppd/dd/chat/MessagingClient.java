@@ -417,7 +417,8 @@ public class MessagingClient {
 					} else if (read instanceof SignedObject) {
 						SignedObject signedObject = (SignedObject) read;
 						msg = (MessageCarrier) signedObject.getObject();
-						if (msg.verifySignedObject(signedObject)) {
+						String signatureString = msg.verifySignedObject(signedObject);
+						if (signatureString == null) {
 							if (showMessage1) {
 								System.out.println("Message is properly signed: " + msg);
 								showMessage1 = false;
@@ -426,14 +427,14 @@ public class MessagingClient {
 						} else {
 							if (msg.getType().isReadOnly()) {
 								if (showMessage2) {
-									System.out.println(new Date() + "Message is NOT properly signed: [" + msg
-											+ "] -- but it is a read-only message, so we'll accept it.");
+									System.out.println(new Date() + "Message is NOT properly signed: [" + msg + "]; reason = '"
+											+ signatureString + "' -- but it is a read-only message, so we'll accept it.");
 									showMessage2 = false;
 								}
 							} else {
 								if (showMessage3)
-									System.err.print(new Date() + "Message is NOT PROPERLY SIGNED: [" + msg
-											+ "] -- Ignoring this message!");
+									System.err.print(new Date() + "Message is NOT PROPERLY SIGNED: [" + msg + "]; reason = '"
+											+ signatureString + "'-- Ignoring this message!");
 								showMessage3 = false;
 								catchSleep(500L);
 								continue;

@@ -161,7 +161,8 @@ public class MessagingServer {
 					this.username = ((MessageCarrier) read).getMessage();
 					display("'" + this.username + "' (" + id + ") has connected.");
 				} else {
-					display("Unexpected response from client '" + ((MessageCarrier) read).getFrom() + ": Type=" + read.getClass().getCanonicalName());
+					display("Unexpected response from client '" + ((MessageCarrier) read).getFrom() + ": Type="
+							+ read.getClass().getCanonicalName());
 					return;
 				}
 			} catch (IOException e) {
@@ -228,10 +229,12 @@ public class MessagingServer {
 					} else if (read instanceof SignedObject) {
 						this.cmSigned = (SignedObject) read;
 						this.cm = (MessageCarrier) cmSigned.getObject();
-						if (this.cm.verifySignedObject(cmSigned))
+						String signatureString = this.cm.verifySignedObject(cmSigned);
+						if (signatureString == null)
 							System.out.println("Message is properly signed: " + this.cm);
 						else {
-							System.err.println("Message is NOT PROPERLY SIGNED: [" + this.cm + "] -- ignoring this message.");
+							System.err.println("Message is NOT PROPERLY SIGNED: [" + this.cm + "]; reason = '" + signatureString
+									+ "' -- ignoring this message.");
 							continue;
 						}
 					} else if (read instanceof String) {
@@ -829,7 +832,7 @@ public class MessagingServer {
 						 * "I am alive". Turn it on for two minutes, just before the diagnostic is printed, which would show about
 						 * 60 such messages (at a period of 2Hz). today, there are ~40 clients connected, so we'll see them all
 						 * 
-						 * 1/10/15 -- Change from 78000L after the last time to 800000L (13.4 minutes; prints for 96 seconds or so) 
+						 * 1/10/15 -- Change from 78000L after the last time to 800000L (13.4 minutes; prints for 96 seconds or so)
 						 */
 						showAliveMessages = (lastPrint + 80000L) < System.currentTimeMillis();
 
