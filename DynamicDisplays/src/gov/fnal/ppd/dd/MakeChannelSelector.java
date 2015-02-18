@@ -28,6 +28,8 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 /**
+ * Use the database to determine what sort of ChannelSelector to actually run
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copyright 2015
  * 
