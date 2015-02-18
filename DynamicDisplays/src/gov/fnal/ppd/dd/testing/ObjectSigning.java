@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd.testing;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
@@ -169,7 +170,7 @@ public class ObjectSigning {
 						int len = (int) pk.length();
 						byte[] bytes = pk.getBytes(1, len);
 						publicKey = KeyFactory.getInstance(ALG_TYPE).generatePublic(new X509EncodedKeySpec(bytes));
-						System.out.println("Got the public key for client " + clientName);
+						println(getClass(), "Got the public key for client " + clientName);
 						return true;
 					} else {
 						// Likely culprit here: The source of this message does not have a public key in the DB
