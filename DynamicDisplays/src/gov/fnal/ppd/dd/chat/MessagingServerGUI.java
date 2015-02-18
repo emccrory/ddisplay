@@ -58,10 +58,23 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 			synchronized (sdf) {
 				String time = sdf.format(new Date()) + " " + msg;
 				if (msg.endsWith(("\n"))) {
-					chat.append(time);
+					appendRoom(time);
 					System.out.print(LocalMessagingServer.class.getSimpleName() + ".display(): " + time);
 				} else {
-					chat.append(time + "\n");
+					appendRoom(time + "\n");
+					System.out.println(LocalMessagingServer.class.getSimpleName() + ".display(): " + time);
+				}
+			}
+		}
+		
+		protected void event(String msg) {
+			synchronized (sdf) {
+				String time = sdf.format(new Date()) + " " + msg;
+				if (msg.endsWith(("\n"))) {
+					appendEvent(time);
+					System.out.print(LocalMessagingServer.class.getSimpleName() + ".display(): " + time);
+				} else {
+					appendEvent(time + "\n");
 					System.out.println(LocalMessagingServer.class.getSimpleName() + ".display(): " + time);
 				}
 			}
