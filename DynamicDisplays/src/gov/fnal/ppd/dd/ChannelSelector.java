@@ -94,6 +94,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	private static final long				serialVersionUID			= 5044030472140151291L;
 
+	/**
+	 * 
+	 */
 	public static final Dimension			screenDimension				= Toolkit.getDefaultToolkit().getScreenSize();
 	private static JFrame					f							= new JFrame("Dynamic Display Channel Selector");
 

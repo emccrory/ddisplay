@@ -35,6 +35,9 @@ import javax.swing.JFrame;
 public class MakeChannelSelector {
 	private static Connection	connection;
 
+	/**
+	 * @param args
+	 */
 	public static void main(final String[] args) {
 
 		try {
