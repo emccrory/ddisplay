@@ -155,7 +155,7 @@ public class MessagingServer {
 				read = this.sInput.readObject();
 				if (read instanceof MessageCarrier) {
 					if (((MessageCarrier) read).getType() != MessageType.LOGIN) {
-						System.err.println("Expected LOGIN message from " + ((MessageCarrier) read).getMessage() + ", but got a "
+						error("Expected LOGIN message from " + ((MessageCarrier) read).getMessage() + ", but got a "
 								+ ((MessageCarrier) read).getType() + " message");
 					}
 					this.username = ((MessageCarrier) read).getMessage();
@@ -231,9 +231,9 @@ public class MessagingServer {
 						this.cm = (MessageCarrier) cmSigned.getObject();
 						String signatureString = this.cm.verifySignedObject(cmSigned);
 						if (signatureString == null)
-							System.out.println("Message is properly signed: " + this.cm);
+							event("Message is properly signed: " + this.cm);
 						else {
-							System.err.println("Message is NOT PROPERLY SIGNED: [" + this.cm + "]; reason = '" + signatureString
+							event("Message is NOT PROPERLY SIGNED: [" + this.cm + "]; reason = '" + signatureString
 									+ "' -- ignoring this message.");
 							continue;
 						}
@@ -241,7 +241,7 @@ public class MessagingServer {
 						display(this.username + ": Received message of type String, '" + read + "'");
 						if ("NULL".equalsIgnoreCase((String) read))
 							continue;
-						System.out.println("\t\t -- This may be an old client trying to connect.");
+						display("\t\t -- This may be an old client trying to connect.");
 						cm = MessageCarrier.getIAmAlive((String) read, "NULL", new Date().toString());
 					} else if (read instanceof MessageType) {
 						display(this.username + ": Received message of type MessageType, value='" + read + "'");
@@ -375,7 +375,7 @@ public class MessagingServer {
 				}
 			}
 
-			System.out.println(this.getClass().getSimpleName() + ": Number of remaining clients: " + listOfMessagingClients.size());
+			display(this.getClass().getSimpleName() + ": Number of remaining clients: " + listOfMessagingClients.size());
 			close();
 		}
 
@@ -655,9 +655,16 @@ public class MessagingServer {
 	}
 
 	/**
-	 * Display an event (not a message) to the console or the GUI
+	 * Display a message to the console or the GUI
 	 */
 	protected void display(String msg) {
+		synchronized (sdf) { // Only print one message at a time
+			String time = sdf.format(new Date()) + " " + msg;
+			System.out.println(time);
+		}
+	}
+	
+	protected void event(String msg) {
 		synchronized (sdf) { // Only print one message at a time
 			String time = sdf.format(new Date()) + " " + msg;
 			System.out.println(time);
