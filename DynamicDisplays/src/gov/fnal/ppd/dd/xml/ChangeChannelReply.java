@@ -6,6 +6,13 @@ import gov.fnal.ppd.dd.xml.EncodedCarrier;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * The reply message to a change-channel request.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014-15
+ *
+ */
 @XmlRootElement
 public class ChangeChannelReply extends EncodedCarrier {
 	private ChannelSpec	showing;
