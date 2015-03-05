@@ -154,11 +154,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	protected final synchronized void updateMyStatus() {
 
 		try {
-			if (!connection.isValid(5)) {
+			if (connection == null || !connection.isValid(5)) {
 				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+				println(getClass(), " -- Re-established database connection, " + connection);
 			}
-		} catch (SQLException | DatabaseNotVisibleException e) {
+		} catch (Exception e) {
+			println(getClass(), " -- Unexpected exception in method updateMyStatus while reestablishing connection to the database.");
 			e.printStackTrace();
+			return;
 		}
 		
 		try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
@@ -174,7 +177,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 			int numRows = stmt.executeUpdate(statementString);
 			if (numRows == 0 || numRows > 1) {
-				System.err.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
+				println(getClass(), "Problem while updating status of Display: Expected to modify exactly one row, but  modified "
 						+ numRows + " rows instead. SQL='" + statementString + "'");
 			}
 			stmt.close();
@@ -185,8 +188,16 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 			}
 		} catch (SQLException ex) {
-			System.err.println("It is likely that the DB server is down.  We'll try again later.");
+			println(getClass(), " -- It is likely that the DB server is down.  We'll try again later.");
 			ex.printStackTrace();
+			connection = null;
+			ConnectionToDynamicDisplaysDatabase.dropConnection();
+			return;
+		} catch (Exception ex) {
+			println(getClass(), " -- Unexpected exception in method updateMyStatus.  Skipping this updqate.");
+			ex.printStackTrace();
+			connection = null;
+			ConnectionToDynamicDisplaysDatabase.dropConnection();
 			return;
 		}
 	}
@@ -247,6 +258,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
+			connection = null;
+			ConnectionToDynamicDisplaysDatabase.dropConnection();
 			return failSafeVersion(clazz);
 		}
 
@@ -310,6 +323,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
 					System.err.println("\n** Cannot continue! **\nExit");
 					connection.close();
+					connection = null;
+					ConnectionToDynamicDisplaysDatabase.dropConnection();
 					return failSafeVersion(clazz);
 				}
 

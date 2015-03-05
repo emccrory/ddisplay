@@ -79,6 +79,17 @@ public class ConnectionToDynamicDisplaysDatabase {
 		return null;
 	}
 
+	public static void dropConnection() {
+		try {
+			if (connection.isValid(50)) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		connection = null;
+	}
+
 	/**
 	 * A simplified way to get a string from an InputStream.
 	 * 

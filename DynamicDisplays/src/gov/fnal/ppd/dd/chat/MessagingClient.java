@@ -109,7 +109,7 @@ public class MessagingClient {
 		}
 		// if it failed not much I can so
 		catch (Exception ec) {
-			displayLogMessage("Error connectiong to server:" + ec);
+			displayLogMessage("Error connecting to messaging server, '" + server + ":" + port + "'.  Exception is " + ec);
 			disconnect();
 			return false;
 		}
@@ -251,7 +251,7 @@ public class MessagingClient {
 						catchSleep(wait);
 						wait = (wait + 10000L > ONE_MINUTE ? ONE_MINUTE : wait + 10000L);
 						if (!MessagingClient.this.start()) {
-							displayLogMessage(this.getClass().getSimpleName()
+							displayLogMessage(MessagingClient.class.getSimpleName()
 									+ ".connectionFailed(): Server start failed again at " + (new Date()) + "...");
 						}
 					}
