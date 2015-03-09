@@ -48,8 +48,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	protected static final String	OFF_LINE				= "Off Line";
 
-	protected static Connection		connection;
-
 	protected BrowserLauncher		browserLauncher;
 
 	// protected static int number;
@@ -153,17 +151,17 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 */
 	protected final synchronized void updateMyStatus() {
 
+		Connection connection;
 		try {
-			if (connection == null || !connection.isValid(5)) {
-				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-				println(getClass(), " -- Re-established database connection, " + connection);
-			}
+			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			println(getClass(), " -- Re-established database connection, " + connection);
 		} catch (Exception e) {
-			println(getClass(), " -- Unexpected exception in method updateMyStatus while reestablishing connection to the database.");
+			println(getClass(),
+					" -- Unexpected exception in method updateMyStatus while reestablishing connection to the database.");
 			e.printStackTrace();
 			return;
 		}
-		
+
 		try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 			Date dNow = new Date();
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -190,14 +188,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		} catch (SQLException ex) {
 			println(getClass(), " -- It is likely that the DB server is down.  We'll try again later.");
 			ex.printStackTrace();
-			connection = null;
-			ConnectionToDynamicDisplaysDatabase.dropConnection();
 			return;
 		} catch (Exception ex) {
 			println(getClass(), " -- Unexpected exception in method updateMyStatus.  Skipping this updqate.");
 			ex.printStackTrace();
-			connection = null;
-			ConnectionToDynamicDisplaysDatabase.dropConnection();
 			return;
 		}
 	}
@@ -253,13 +247,12 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private static DisplayControllerMessagingAbstract makeADisplay(String myNode, String query, Class<?> clazz) {
 		dynamic = true;
 
+		Connection connection;
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
-			connection = null;
-			ConnectionToDynamicDisplaysDatabase.dropConnection();
 			return failSafeVersion(clazz);
 		}
 
@@ -323,8 +316,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
 					System.err.println("\n** Cannot continue! **\nExit");
 					connection.close();
-					connection = null;
-					ConnectionToDynamicDisplaysDatabase.dropConnection();
 					return failSafeVersion(clazz);
 				}
 
@@ -364,6 +355,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private static String getURLFromNumber(int channelNumber) {
 		String query = "SELECT URL from Channel where Number=" + channelNumber;
 		String retval = "http://www.fnal.gov";
+		Connection connection;
+		try {
+			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+		} catch (DatabaseNotVisibleException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
+
 		try (Statement stmt = connection.createStatement();) {
 			try (ResultSet rs = stmt.executeQuery(query);) {
 				if (rs.first()) { // Move to first returned row (there should only be one)

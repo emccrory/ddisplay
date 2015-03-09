@@ -464,6 +464,7 @@ public class MessagingServer {
 		}
 
 		public boolean isAuthorized() {
+			// TODO -- add an authorization that this messenger can/may send a command to this display
 			return !checkSignedMessages() || cm.getType().isReadOnly() || cmSigned != null;
 		}
 	}
@@ -779,7 +780,6 @@ public class MessagingServer {
 					};
 					showClientList.start();
 				}
-
 			}
 			// I was asked to stop
 			display("Closing the server port");
