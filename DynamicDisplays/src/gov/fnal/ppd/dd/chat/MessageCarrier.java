@@ -256,6 +256,7 @@ public class MessageCarrier implements Serializable {
 		if (signing == null)
 			// 4. No public key found
 			return "There is no public key for client '" + getFrom() + "'";
+		
 		// 5. Does the signature actually match?
 		return signing.verifySignature(signedObject);
 	}

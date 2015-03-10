@@ -10,6 +10,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
 
+import gov.fnal.ppd.dd.testing.ObjectSigning;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -300,12 +302,12 @@ public class MessagingServer {
 					// The message, received from a client, is relayed here to the client of its choosing
 					// (unless that client is not authorized)
 					//
-					if (isAuthorized()) {
+					if (isAuthorized(this.cm.getFrom(), this.cm.getTo())) {
 						broadcast(this);
 						// broadcast(this.cmSigned);
 					} else {
-						display(this.username + " asked to send message of type " + this.cm.getType() + " to " + this.cm.getTo()
-								+ ", but it was rejected because" + this.username + " is not authorized in the network.");
+						display("Message rejected!  '" + this.username + "' asked to send message of type " + this.cm.getType() + " to '" + this.cm.getTo()
+								+ "', but it is not authorized to send a message to this client");
 					}
 					break;
 
@@ -463,9 +465,11 @@ public class MessagingServer {
 			return retval.substring(1, retval.indexOf(':'));
 		}
 
-		public boolean isAuthorized() {
+		public boolean isAuthorized(String from, String to) {
 			// TODO -- add an authorization that this messenger can/may send a command to this display
-			return !checkSignedMessages() || cm.getType().isReadOnly() || cmSigned != null;
+			if (!checkSignedMessages() || cm.getType().isReadOnly() || cmSigned != null)
+				return ObjectSigning.isClientAuthorized(from, to);
+			return false;
 		}
 	}
 
@@ -664,7 +668,7 @@ public class MessagingServer {
 			System.out.println(time);
 		}
 	}
-	
+
 	protected void event(String msg) {
 		synchronized (sdf) { // Only print one message at a time
 			String time = sdf.format(new Date()) + " " + msg;

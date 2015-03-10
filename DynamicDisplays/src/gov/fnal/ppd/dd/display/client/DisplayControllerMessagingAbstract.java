@@ -154,7 +154,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		Connection connection;
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-			println(getClass(), " -- Re-established database connection, " + connection);
 		} catch (Exception e) {
 			println(getClass(),
 					" -- Unexpected exception in method updateMyStatus while reestablishing connection to the database.");
@@ -185,11 +184,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								+ statementString.substring("UPDATE DisplayStatus set ".length()));
 				statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 			}
-		} catch (SQLException ex) {
-			println(getClass(), " -- It is likely that the DB server is down.  We'll try again later.");
-			ex.printStackTrace();
-			return;
-		} catch (Exception ex) {
+		}  catch (Exception ex) {
 			println(getClass(), " -- Unexpected exception in method updateMyStatus.  Skipping this updqate.");
 			ex.printStackTrace();
 			return;
@@ -282,13 +277,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
 						String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
 						Color color = new Color(Integer.parseInt(colorString, 16));
-						// TODO Also get the color name from the DB
+
 						int portNumber = rs.getInt("Port");
 						int screenNumber = rs.getInt("ScreenNumber");
 						int channelNumber = rs.getInt("Content");
 						String url = getURLFromNumber(channelNumber);
-						// String positionString = rs.getString("Position");
-						// if (positionString == null)
+						
+						// TODO Also get the color _name_ from the DB
 
 						stmt.close();
 						rs.close();
@@ -359,7 +354,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			return null;
 		}

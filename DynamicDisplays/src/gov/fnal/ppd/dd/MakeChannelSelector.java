@@ -35,15 +35,15 @@ import javax.swing.JFrame;
  * 
  */
 public class MakeChannelSelector {
-	private static Connection	connection;
 
 	/**
 	 * @param args
 	 */
 	public static void main(final String[] args) {
 
+		Connection connection = null;
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection  = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
@@ -61,6 +61,7 @@ public class MakeChannelSelector {
 				if (rs.first())
 					try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)
 						locationCode = rs.getInt("LocationCode");
+						System.out.println("Location code is " + locationCode);
 						String myClassification = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
 
 						IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);

@@ -32,8 +32,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,11 +54,13 @@ import java.util.Map;
  */
 public class ObjectSigning {
 
-	private static final String					ALG_TYPE	= "DSA";
+	private static final String					ALG_TYPE			= "DSA";
 
-	private static ObjectSigning				me			= new ObjectSigning();
+	private static ObjectSigning				me					= new ObjectSigning();
 
-	private static Map<String, ObjectSigning>	keys		= new HashMap<String, ObjectSigning>();
+	private static Map<String, ObjectSigning>	keys				= new HashMap<String, ObjectSigning>();
+
+	private static Map<String, List<Integer>>	clientControlList	= new HashMap<String, List<Integer>>();
 
 	/**
 	 * @return the instance of this ObjectSigning object for this JVM
@@ -93,16 +98,49 @@ public class ObjectSigning {
 	 * @return -- The object that knows about this client's public key
 	 */
 	public static ObjectSigning getPublicSigning(final String client) {
-		if (keys.containsKey(client))
+		if (keys.containsKey(client) && keys.get(client) != null)
 			return keys.get(client);
 
 		ObjectSigning thatObject = new ObjectSigning();
 		if (thatObject.loadPublicKeyFromDB(client)) {
 			keys.put(client, thatObject);
+			clientControlList.put(client, loadDisplayListFromDB(client));
 			return thatObject;
 		}
-		keys.put(client, null);
+		keys.remove(client);
 		return null;
+	}
+
+	/**
+	 * @param client
+	 *            The client trying to make changes to the display
+	 * @param displayID
+	 *            The ID of the display (i.e., the display number)
+	 * @return Is this client authorized to change the channel on this display?
+	 */
+	public static boolean isClientAuthorized(final String client, final int displayID) {
+		// println(ObjectSigning.class, ": Checking if " + client + " is authorized to send to display number " + displayID);
+		if (!clientControlList.containsKey(client)) {
+			println(ObjectSigning.class, ": Client is not in the DB; we don't know what displays it can change!");
+			return false;
+		}
+		List<Integer> thisClientsDisplays = clientControlList.get(client);
+		// println(ObjectSigning.class, ": Contains(-1)? " + thisClientsDisplays.contains(-1));
+		// println(ObjectSigning.class, ": Contains(" + displayID + ")? " + thisClientsDisplays.contains(displayID));
+		// println(ObjectSigning.class, ": " + Arrays.toString(thisClientsDisplays.toArray()));
+		return thisClientsDisplays.contains(-1) || thisClientsDisplays.contains(displayID);
+	}
+
+	/**
+	 * @param client
+	 *            The client trying to make changes to the display
+	 * @param displayName
+	 *            the name of the Display, which is supposed to look like "ip-name-of-display.fnal.gov (10)"
+	 * @return Is this client authorized to change the channel on this display?
+	 */
+	public static boolean isClientAuthorized(final String client, final String displayName) {
+		int displayID = Integer.parseInt(displayName.substring(displayName.indexOf('(') + 1, displayName.indexOf(')')));
+		return isClientAuthorized(client, displayID);
 	}
 
 	private void generateNewKeys() throws NoSuchAlgorithmException {
@@ -156,7 +194,6 @@ public class ObjectSigning {
 	 *            -- the name of the client, in the database, that is associated with the public key we need to retrieve
 	 */
 	private boolean loadPublicKeyFromDB(final String clientName) {
-
 		Connection connection;
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
@@ -170,7 +207,7 @@ public class ObjectSigning {
 						int len = (int) pk.length();
 						byte[] bytes = pk.getBytes(1, len);
 						publicKey = KeyFactory.getInstance(ALG_TYPE).generatePublic(new X509EncodedKeySpec(bytes));
-						println(getClass(), "Got the public key for client " + clientName);
+						println(getClass(), ": Got the public key for client " + clientName);
 						return true;
 					} else {
 						// Likely culprit here: The source of this message does not have a public key in the DB
@@ -186,6 +223,61 @@ public class ObjectSigning {
 			e2.printStackTrace();
 		}
 		return false;
+	}
+
+	private static List<Integer> loadDisplayListFromDB(final String clientName) {
+		List<Integer> retval = new ArrayList<Integer>();
+
+		String clientIP = "131.225.1.1";
+		String ipName = clientName.substring(0, clientName.indexOf(' '));
+		try {
+			InetAddress address = InetAddress.getByName(ipName);
+			clientIP = address.getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			return retval;
+		}
+
+		Connection connection;
+		try {
+			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			int lc = 999;
+			
+			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+				String query1 = "SELECT LocationCode from SelectorLocation WHERE IPAddress='" + clientIP + "'";
+				try (ResultSet rs = stmt.executeQuery(query1);) {
+					if (rs.first()) { // Move to first returned row
+						lc = rs.getInt("LocationCode");
+					}
+				}
+				if ( lc < 0 ) {
+					retval.add(-1);
+					println(ObjectSigning.class, ": This client can control all the displays!");
+					return retval;
+				}
+				
+				String query2 = "SELECT DisplayID FROM DisplaySort WHERE DisplaySort.LocationCode=" + lc;
+
+				try (ResultSet rs = stmt.executeQuery(query2);) {
+					if (rs.first()) { // Move to first returned row
+						do {
+							int display = rs.getInt("DisplayID");
+							retval.add(display);
+						} while (rs.next());
+						println(ObjectSigning.class, ": This client has " + retval.size() + " displays it can change.");
+					} else {
+						System.err.println("No displays for IP='" + clientIP + "' -- it cannot control any displays.");
+					}
+
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+		return retval;
+
 	}
 
 	/**
