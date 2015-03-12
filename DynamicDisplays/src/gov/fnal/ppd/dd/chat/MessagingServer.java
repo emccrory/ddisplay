@@ -306,8 +306,8 @@ public class MessagingServer {
 						broadcast(this);
 						// broadcast(this.cmSigned);
 					} else {
-						display("Message rejected!  '" + this.username + "' asked to send message of type " + this.cm.getType() + " to '" + this.cm.getTo()
-								+ "', but it is not authorized to send a message to this client");
+						display("Message rejected!  '" + this.username + "' asked to send message of type " + this.cm.getType()
+								+ " to '" + this.cm.getTo() + "', but it is not authorized to send a message to this client");
 					}
 					break;
 
@@ -841,11 +841,10 @@ public class MessagingServer {
 						/*
 						 * This boolean turns on the diagnostic message (in ClientThread.run()) that echos when a client says
 						 * "I am alive". Turn it on for two minutes, just before the diagnostic is printed, which would show about
-						 * 60 such messages (at a period of 2Hz). today, there are ~40 clients connected, so we'll see them all
+						 * 60 such messages (at a frequency of 0.5Hz). today, there are ~40 clients connected, so we'll see them all
 						 * 
-						 * 1/10/15 -- Change from 78000L after the last time to 800000L (13.4 minutes; prints for 96 seconds or so)
 						 */
-						showAliveMessages = (lastPrint + 80000L) < System.currentTimeMillis();
+						showAliveMessages = (lastPrint + 13 * ONE_MINUTE) < System.currentTimeMillis();
 
 						// Figure out which client(s) to ping
 						List<String> clist = new ArrayList<String>();
