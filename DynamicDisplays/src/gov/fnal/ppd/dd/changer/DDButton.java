@@ -142,7 +142,7 @@ public class DDButton extends JButton {
 			// second += "<br />";
 			staticNumBR = 3;
 		}
-
+		
 		return "<html><center>" + first + second + third + "</center></html>";
 	}
 

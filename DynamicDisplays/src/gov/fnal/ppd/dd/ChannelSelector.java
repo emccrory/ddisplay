@@ -7,6 +7,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
+import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_FOLDER;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
@@ -452,7 +453,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					}
 					if (n == 0)
 						try {
-							Desktop.getDesktop().browse(new URI("http://" + WEB_SERVER_NAME + "/XOC/channelAdd.php"));
+							Desktop.getDesktop().browse(
+									new URI("http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/channelAdd.php"));
 						} catch (IOException e) {
 							e.printStackTrace();
 						} catch (URISyntaxException e) {

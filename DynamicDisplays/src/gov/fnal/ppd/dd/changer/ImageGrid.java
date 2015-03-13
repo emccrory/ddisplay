@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_FOLDER;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -201,7 +202,7 @@ public class ImageGrid extends DetailedInformationGrid {
 				try {
 					ChannelImage imageChannel = (ChannelImage) content;
 					String name = imageChannel.getName(); // This is the URL end
-					String url = "http://" + WEB_SERVER_NAME + "/XOC/" + name;
+					String url = "http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/" + name;
 					// if (index++ % 10 == 0)
 					// System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): resizing " + index + " -- " +
 					// url);

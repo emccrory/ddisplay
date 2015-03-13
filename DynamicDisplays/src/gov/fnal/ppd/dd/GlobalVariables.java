@@ -229,6 +229,10 @@ public class GlobalVariables {
 	 */
 	public static final String		WEB_SERVER_NAME			= System.getProperty("ddisplay.webserver", DEFAULT_SERVER);
 	/**
+	 * Where is the Web server? Controlled by system constant ddisplay.webserver
+	 */
+	public static final String		WEB_SERVER_FOLDER		= System.getProperty("ddisplay.webfolder", "XOC");
+	/**
 	 * Where is the Database server? Controlled by system constant ddisplay.dbserver
 	 */
 	public static final String		DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", DEFAULT_SERVER);

@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_FOLDER;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
@@ -144,7 +145,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 					String descr = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
 					String exp = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Experiment"));
 
-					String url = "http://" + WEB_SERVER_NAME + "/XOC/portfolioOneSlide.php?photo="
+					String url = "http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/portfolioOneSlide.php?photo="
 							+ URLEncoder.encode(name, "UTF-8") + "&caption=" + URLEncoder.encode(descr, "UTF-8");
 					SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
 

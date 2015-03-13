@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
+import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_FOLDER;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
@@ -29,16 +30,16 @@ public class Util {
 	 * The lsit of default URLs
 	 */
 	public static final String		DEFAULT_URLS[]	= {
-			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MINOS",
-			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MINERvA",
-			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MiniBooNE",
-			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=MicroBooNE",
-			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=Mu2e",
-			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=gMinus2",
-			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=SeaQuest",
-			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=NOvA",
-			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=LBNF",
-			"http://" + WEB_SERVER_NAME + "/XOC/kenburns/portfolioDisplay.php?exp=NuMI", //
+			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=MINOS",
+			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=MINERvA",
+			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=MiniBooNE",
+			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=MicroBooNE",
+			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=Mu2e",
+			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=gMinus2",
+			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=SeaQuest",
+			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=NOvA",
+			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=LBNF",
+			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=NuMI", //
 			"http://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none", //
 			"http://elliottmccrory.com/clock/five.html", };
 

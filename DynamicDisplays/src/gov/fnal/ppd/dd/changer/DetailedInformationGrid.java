@@ -52,47 +52,66 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		if (list.size() > 48) {
 			FS = 0.5f * FONT_SIZE;
 			// IS = INSET_SIZE / 6;
-			cols = 5;
+			cols = 4;
 			maxLen = 17;
 		} else if (list.size() > 18) {
 			FS = 0.6f * FONT_SIZE;
 			// IS = INSET_SIZE / 6;
-			cols = 4;
+			cols = 3;
 			maxLen = 15;
 		} else {
 			switch (list.size()) {
 			case 18:
 			case 17:
 			case 16:
-			case 15:
-				FS = 0.8f * FONT_SIZE;
+				FS = 0.6f * FONT_SIZE;
 				// IS = INSET_SIZE / 6;
 				cols = 3;
 				maxLen = 13;
 				break;
+				
+//				FS = 0.8f * FONT_SIZE;
+//				// IS = INSET_SIZE / 6;
+//				cols = 3;
+//				maxLen = 13;
+//				break;
 
+			case 15:
 			case 14:
 			case 13:
 				FS = 0.75f * FONT_SIZE;
 				// IS = INSET_SIZE / 3;
-				cols = 2;
+				cols = 3;
 				maxLen = 14;
 				break;
 
 			case 12:
 			case 11:
+				FS = 0.9f * FONT_SIZE;
+				// IS = INSET_SIZE / 3;
+				cols = 2;
+				maxLen = 14;
+				break;
+				
 			case 10:
-			case 9:
 				FS = 0.94f * FONT_SIZE;
 				// IS = INSET_SIZE / 3;
 				cols = 2;
 				maxLen = 13;
 				break;
+				
+			case 9:
+				FS = 0.96f * FONT_SIZE;
+				// IS = INSET_SIZE ;
+				cols = 1;
+				maxLen = 95;
+				break;
+				
 			case 8:
 				FS = FONT_SIZE;
 				// IS = INSET_SIZE ;
-				cols = 2;
-				maxLen = 10;
+				cols = 1;
+				maxLen = 90;
 				break;
 			default:
 				FS = 1.2f * FONT_SIZE;
