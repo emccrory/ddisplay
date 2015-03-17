@@ -3,7 +3,10 @@ package gov.fnal.ppd.dd.display.client;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 
+import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
+
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,6 +43,7 @@ public class ConnectionToFirefoxInstance {
 
 	private String									colorCode;
 	private boolean									showingCanonicalSite		= false;
+	private Rectangle								bounds;
 
 	@SuppressWarnings("serial")
 	// TODO This is actually in the database and should be read from there.
@@ -73,6 +77,9 @@ public class ConnectionToFirefoxInstance {
 	 */
 	public ConnectionToFirefoxInstance(final int screenNumber, final int displayID, final Color color) {
 		// Create a connection to the instance of FireFox that is being targeted here
+
+		bounds = ScreenLayoutInterpreter.getBounds(screenNumber);
+		println(getClass(), "Screen size is " + bounds.width + " x " + bounds.height);
 
 		this.displayID = displayID;
 
@@ -124,8 +131,8 @@ public class ConnectionToFirefoxInstance {
 			String s = "";
 			if (!showingCanonicalSite) {
 				showingCanonicalSite = true;
-				s = "window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString, "UTF-8")
-						+ "&display=" + displayID + "&color=" + colorCode;
+				s = "window.location=\"http://xoc.fnal.gov/border.php?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+						+ displayID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
 				// TODO Remove this hard coding!!
 				if (isNumberDiscrete())
@@ -176,8 +183,11 @@ public class ConnectionToFirefoxInstance {
 				+ colorCode + "';\n";
 		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'background-color: #" + colorCode
 				+ "; padding:0; margin: 100;' );\n";
-		s += "document.getElementById('iframe').style.width=1700;\n";
-		s += "document.getElementById('iframe').style.height=872;\n";
+		// s += "document.getElementById('iframe').style.width=1700;\n";
+		// s += "document.getElementById('iframe').style.height=872;\n";
+		s += "document.getElementById('iframe').style.width=" + (bounds.width - 220) + ";\n";
+		s += "document.getElementById('iframe').style.height=" + (bounds.height - 208) + ";\n";
+
 		if (colorNames.containsKey(colorCode))
 			s += "document.getElementById('colorName').innerHTML = '" + colorNames.get(colorCode) + "';\n";
 		else
@@ -203,8 +213,11 @@ public class ConnectionToFirefoxInstance {
 		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'padding:0; margin: 0;');\n";
 		s += "document.getElementById('numeral').style.textShadow='0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 6px 6px 2px #"
 				+ colorCode + "';\n";
-		s += "document.getElementById('iframe').style.width=1916;\n";
-		s += "document.getElementById('iframe').style.height=1074;\n";
+		// s += "document.getElementById('iframe').style.width=1916;\n";
+		// s += "document.getElementById('iframe').style.height=1074;\n";
+		s += "document.getElementById('iframe').style.width=" + (bounds.width - 4) + ";\n";
+		s += "document.getElementById('iframe').style.height=" + (bounds.height - 6) + ";\n";
+
 		s += "document.getElementById('colorName').innerHTML = '';\n";
 
 		send(s);
@@ -260,8 +273,8 @@ public class ConnectionToFirefoxInstance {
 						in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
 						println(ConnectionToFirefoxInstance.class, "\tInput stream established");
 						connected = true;
-						println(ConnectionToFirefoxInstance.class, " ** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
-								+ " ** -- " + new Date());
+						println(ConnectionToFirefoxInstance.class, " ** Connected to FireFox instance on " + LOCALHOST
+								+ " through port number " + port + " ** -- " + new Date());
 					} catch (UnknownHostException e) {
 						System.err.println("Don't know about host " + LOCALHOST + " --  ignoring.");
 					} catch (IOException e) {

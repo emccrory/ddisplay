@@ -54,6 +54,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			throw new IllegalArgumentException("No content defined!");
 
 		browserLauncher = new BrowserLauncher(screenNumber, BrowserInstance.FIREFOX);
+		
 		browserLauncher.startBrowser(getContent().getURI().toASCIIString());
 
 		contInitialization();
