@@ -228,13 +228,11 @@ public class ObjectSigning {
 	private static List<Integer> loadDisplayListFromDB(final String clientName) {
 		List<Integer> retval = new ArrayList<Integer>();
 
-		String clientIP = "131.225.1.1";
-		String ipName = clientName.substring(0, clientName.indexOf(' '));
-		try {
-			InetAddress address = InetAddress.getByName(ipName);
-			clientIP = address.getHostAddress();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
+		String clientIP = getIPName(clientName.substring(0, clientName.indexOf(' ')));
+
+		if (clientIP == null) {
+			println(ObjectSigning.class, " -- Client named " + clientName + " seems to have no IP address.  "
+					+ "Thus, it cannot do anything here!");
 			return retval;
 		}
 
@@ -242,7 +240,7 @@ public class ObjectSigning {
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 			int lc = 999;
-			
+
 			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 				String query1 = "SELECT LocationCode from SelectorLocation WHERE IPAddress='" + clientIP + "'";
 				try (ResultSet rs = stmt.executeQuery(query1);) {
@@ -250,12 +248,12 @@ public class ObjectSigning {
 						lc = rs.getInt("LocationCode");
 					}
 				}
-				if ( lc < 0 ) {
+				if (lc < 0) {
 					retval.add(-1);
 					println(ObjectSigning.class, ": This client can control all the displays!");
 					return retval;
 				}
-				
+
 				String query2 = "SELECT DisplayID FROM DisplaySort WHERE DisplaySort.LocationCode=" + lc;
 
 				try (ResultSet rs = stmt.executeQuery(query2);) {
@@ -278,6 +276,22 @@ public class ObjectSigning {
 		}
 		return retval;
 
+	}
+
+	private static String getIPName(String ipName) {
+		try {
+			InetAddress address = InetAddress.getByName(ipName);
+			return address.getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		try {
+			InetAddress address = InetAddress.getByName(ipName + ".dhcp.fnal.gov");
+			return address.getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**
