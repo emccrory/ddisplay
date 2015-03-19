@@ -119,7 +119,7 @@ public class ObjectSigning {
 	 * @return Is this client authorized to change the channel on this display?
 	 */
 	public static boolean isClientAuthorized(final String client, final int displayID) {
-		// println(ObjectSigning.class, ": Checking if " + client + " is authorized to send to display number " + displayID);
+		println(ObjectSigning.class, ": Checking if " + client + " is authorized to send to display number " + displayID);
 		if (!clientControlList.containsKey(client)) {
 			println(ObjectSigning.class, ": Client is not in the DB; we don't know what displays it can change!");
 			return false;
