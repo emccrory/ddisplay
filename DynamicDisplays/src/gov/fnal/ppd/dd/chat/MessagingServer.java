@@ -307,7 +307,7 @@ public class MessagingServer {
 						// broadcast(this.cmSigned);
 					} else {
 						display("Message rejected!  '" + this.username + "' asked to send message of type " + this.cm.getType()
-								+ " to '" + this.cm.getTo() + "', but it is not authorized to send a message to this client");
+								+ " to '" + this.cm.getTo() + "'\n\t\tbut it is not authorized to send a message to this client");
 					}
 					break;
 
@@ -466,8 +466,9 @@ public class MessagingServer {
 		}
 
 		public boolean isAuthorized(String from, String to) {
-			// TODO -- add an authorization that this messenger can/may send a command to this display
-			if (!checkSignedMessages() || cm.getType().isReadOnly() || cmSigned != null)
+			if (!checkSignedMessages() || cm.getType().isReadOnly())
+				return true;
+			if (cmSigned != null)
 				return ObjectSigning.isClientAuthorized(from, to);
 			return false;
 		}
@@ -842,7 +843,6 @@ public class MessagingServer {
 						 * This boolean turns on the diagnostic message (in ClientThread.run()) that echos when a client says
 						 * "I am alive". Turn it on for two minutes, just before the diagnostic is printed, which would show about
 						 * 60 such messages (at a frequency of 0.5Hz). today, there are ~40 clients connected, so we'll see them all
-						 * 
 						 */
 						showAliveMessages = (lastPrint + 13 * ONE_MINUTE) < System.currentTimeMillis();
 
