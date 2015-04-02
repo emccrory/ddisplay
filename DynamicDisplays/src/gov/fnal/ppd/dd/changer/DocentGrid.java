@@ -147,9 +147,9 @@ public class DocentGrid extends DetailedInformationGrid {
 	private static final List<SignageContent>	buttonList			= new ArrayList<SignageContent>();
 	private List<SignageContent>				myButtonList		= new ArrayList<SignageContent>();
 
-	private static final int					MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 20 : 30);
+	private static final int					MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 25 : 30);
 
-	private String								docentName;
+	// private String docentName;
 
 	// static {
 	// Set<SignageContent> imageList = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.IMAGE);
@@ -171,7 +171,7 @@ public class DocentGrid extends DetailedInformationGrid {
 	 */
 	public DocentGrid(final Display display, final DisplayButtonGroup bg, String docentName) {
 		super(display, bg);
-		this.docentName = docentName;
+		// this.docentName = docentName;
 
 		// Get the channels associated with this docent.
 		if (buttonList.size() == 0) {
@@ -250,6 +250,9 @@ public class DocentGrid extends DetailedInformationGrid {
 		if (SHOW_IN_WINDOW)
 			ncol = 3;
 
+		final JPanel simpleButtonBox = new JPanel(new GridLayout(0, ncol));
+		simpleButtonBox.setOpaque(true);
+		simpleButtonBox.setBackground(display.getPreferredHighlightColor());
 		final JPanel internalGrid = new JPanel(new GridLayout(0, ncol));
 		internalGrid.setOpaque(true);
 		internalGrid.setBackground(display.getPreferredHighlightColor());
@@ -291,18 +294,25 @@ public class DocentGrid extends DetailedInformationGrid {
 						internalGrid.add(b);
 					} else {
 						DDButton button = new DDButton((Channel) content, display, MAX_CAPTION_LENGTH);
+						button.setMargin(new Insets(20, 2, 20, 2));
 
 						button.addActionListener(this); // Order is important for the GUI. This one goes last.
 						button.addActionListener(display);
 						bg.add(button);
-						internalGrid.add(button);
+						simpleButtonBox.add(button);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		}
 
-		expGrid = new JScrollPane(internalGrid);
+		Box outerBox = Box.createVerticalBox();
+		outerBox.setOpaque(true);
+		outerBox.setBackground(display.getPreferredHighlightColor());
+		outerBox.add(simpleButtonBox);
+		outerBox.add(internalGrid);
+
+		expGrid = new JScrollPane(outerBox);
 		expGrid.setAlignmentX(JComponent.TOP_ALIGNMENT);
 		JScrollBar sb = ((JScrollPane) expGrid).getVerticalScrollBar();
 		sb.setUnitIncrement(20);
