@@ -149,7 +149,9 @@ public class MessageCarrier implements Serializable {
 		this.to = to;
 		if (type.isReadOnly())
 			return;
-		initializeSignature();
+		if (!initializeSignature()) {
+
+		}
 	}
 
 	/**

@@ -26,6 +26,7 @@ import java.sql.Statement;
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * Use the database to determine what sort of ChannelSelector to actually run
@@ -43,7 +44,7 @@ public class MakeChannelSelector {
 
 		Connection connection = null;
 		try {
-			connection  = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
@@ -68,7 +69,12 @@ public class MakeChannelSelector {
 
 						final SignageType sType = SignageType.valueOf(myClassification);
 
-						MessageCarrier.initializeSignature();
+						if (!MessageCarrier.initializeSignature()) {
+							JOptionPane.showMessageDialog(null, "The private key file, for security, cannot be found.\n"
+									+ "Click 'Dismiss' to close the GUI.\nThen get help to fix this problem.", "No Private Key",
+									JOptionPane.ERROR_MESSAGE);
+							System.exit(-1);
+						}
 						System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
 						System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE
 								+ "'\n");
