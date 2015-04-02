@@ -92,7 +92,8 @@ public class MessagingClient {
 						// We haven't heard from the server in a long time! Maybe it is dead or sleeping.
 						sendMessage(MessageCarrier.getIAmAlive(username, serverName, new Date().toString()));
 						displayLogMessage("Sending an unsolicited 'IAmAlive' message from " + username + " to the server ("
-								+ serverName + ") because we last got a message " + lastMessageReceived + " mSec ago.");
+								+ serverName + ") because we last got a message "
+								+ (System.currentTimeMillis() - lastMessageReceived) + " mSec ago.");
 						lastPingSent = System.currentTimeMillis();
 					}
 					sleep = 9999L; // subsequent sleeps are ten seconds
@@ -204,7 +205,7 @@ public class MessagingClient {
 			sOutput.reset();
 
 		} catch (Exception e) {
-			displayLogMessage(getClass().getSimpleName() + ".sendMessage(): Exception writing to server: " + e);
+			displayLogMessage(MessagingClient.class.getSimpleName() + ".sendMessage(): Exception writing to server: " + e);
 			new Thread("ReconnectToServer") {
 				public void run() {
 					retryConnection();
@@ -255,7 +256,7 @@ public class MessagingClient {
 									+ ".connectionFailed(): Server start failed again at " + (new Date()) + "...");
 						}
 					}
-					displayLogMessage(this.getClass().getSimpleName() + ": Socket is now viable [" + socket
+					displayLogMessage(MessagingClient.class.getSimpleName() + ": Socket is now viable [" + socket
 							+ "]; connection has been restored at " + (new Date()));
 					restartThreadToServer = null;
 				}
@@ -406,6 +407,7 @@ public class MessagingClient {
 					MessageCarrier msg;
 					Object read = sInput.readObject();
 					lastMessageReceived = System.currentTimeMillis();
+					
 					if (read instanceof MessageCarrier) {
 						msg = (MessageCarrier) read;
 						if (checkSignedMessages() && !msg.getType().isReadOnly()) {
@@ -458,6 +460,7 @@ public class MessagingClient {
 					break; // Leave the forever loop
 				} catch (NullPointerException e) {
 					displayLogMessage("NullPointerException from reading server!");
+					e.printStackTrace();
 					break; // Leave the forever loop
 				} catch (ClassNotFoundException e) {
 					// can't happen with an Object cast, but need the catch anyhow

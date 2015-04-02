@@ -41,6 +41,21 @@ public class DisplayChangeEvent extends ActionEvent {
 		this.type = t;
 	}
 
+	/**
+	 * @param source
+	 *            The source of this ActionEvent
+	 * @param id
+	 *            The ID number for this ActionEvent
+	 * @param t
+	 *            The type of event this is
+	 * @param moreInfo
+	 *            Extra information to tag onto the event type
+	 */
+	public DisplayChangeEvent(final Object source, final int id, final Type t, final String moreInfo) {
+		super(source, id, "" + t + " -- " + moreInfo);
+		this.type = t;
+	}
+
 	@Override
 	public String getActionCommand() {
 		return "" + type;
@@ -52,8 +67,8 @@ public class DisplayChangeEvent extends ActionEvent {
 	public Type getType() {
 		return type;
 	}
-	
-	@Override 
+
+	@Override
 	public String toString() {
 		return super.toString().replace("unknown type", "Display Change Action");
 	}

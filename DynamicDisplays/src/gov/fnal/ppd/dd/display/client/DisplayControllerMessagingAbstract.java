@@ -55,7 +55,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	protected SignageContent		lastChannel				= null;
 	protected static boolean		dynamic					= false;
 
-	private MessagingClient			messagingClient;
+	protected MessagingClient		messagingClient;
 	private String					myName;
 	private int						statusUpdatePeriod		= 10;
 
@@ -87,7 +87,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 * Must be called to start all the threads in this class instance!
 	 */
 	public void initiate() {
-
 		if (!messagingClient.start()) {
 			new Thread("WaitForServerToAppear") {
 				public void run() {
@@ -150,7 +149,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 * Update my status to the database
 	 */
 	protected final synchronized void updateMyStatus() {
-
 		Connection connection;
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
@@ -184,7 +182,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								+ statementString.substring("UPDATE DisplayStatus set ".length()));
 				statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 			}
-		}  catch (Exception ex) {
+		} catch (Exception ex) {
 			println(getClass(), " -- Unexpected exception in method updateMyStatus.  Skipping this updqate.");
 			ex.printStackTrace();
 			return;
@@ -282,7 +280,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						int screenNumber = rs.getInt("ScreenNumber");
 						int channelNumber = rs.getInt("Content");
 						String url = getURLFromNumber(channelNumber);
-						
+
 						// TODO Also get the color _name_ from the DB
 
 						stmt.close();

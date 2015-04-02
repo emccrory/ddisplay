@@ -271,7 +271,7 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 	}
 
 	@Override
-	protected void localSetContent() {
+	protected boolean localSetContent() {
 		String url = getContent().getURI().toASCIIString();
 		if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
 			identifyMe();
@@ -281,6 +281,7 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 			nowShowing = lastURL = url;
 		}
 		displayHasChanged();
+		return true;
 	}
 
 	/**

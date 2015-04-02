@@ -39,12 +39,13 @@ public abstract class DisplayImpl implements Display {
 	private SignageType				category			= SignageType.Public;
 	private InetAddress				ipAddress;
 	private String					location;
+
 	// protected TimerTask heartbeatThread = new TimerTask() {
 	// public void run() {
 	// informListeners(DisplayChangeEvent.Type.ALIVE);
 	// }
 	// };
-	// protected String				myName;
+	// protected String myName;
 
 	/**
 	 * @param ipName
@@ -74,7 +75,7 @@ public abstract class DisplayImpl implements Display {
 		this.channel = makeEmptyChannel();
 	}
 
-	protected abstract void localSetContent();
+	protected abstract boolean localSetContent();
 
 	@Override
 	public SignageContent setContent(SignageContent c) {
@@ -90,19 +91,21 @@ public abstract class DisplayImpl implements Display {
 			// ----- Do we put this channel in a wrapper?
 			// channel.setCode(channel.getCode() | 1);
 
-			informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED);
-			localSetContent();
+			informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
+			if (localSetContent())
+				new Thread("FakeChangeComplete") {
+					long	sleepTime	= (SHOW_IN_WINDOW ? 1000 : 5000);
 
-			new Thread("FakeChangeComplete") {
-				long	sleepTime	= (SHOW_IN_WINDOW ? 1000 : 5000);
-
-				public void run() {
-					// TODO -- This event needs to be triggered by the display actually indicating that it has changed the channel.
-					catchSleep(sleepTime);
-					informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED);
-				}
-			}.start();
-
+					public void run() {
+						// TODO -- This event needs to be triggered by the display actually indicating that it has changed the
+						// channel.
+						catchSleep(sleepTime);
+						informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED, "Channel change succeeded");
+					}
+				}.start();
+			else {
+				informListeners(DisplayChangeEvent.Type.ERROR, "Channel change unsuccessful");
+			}
 			return retval;
 		}
 
@@ -179,8 +182,8 @@ public abstract class DisplayImpl implements Display {
 	// }.start();
 	// }
 
-	protected void informListeners(final DisplayChangeEvent.Type t) {
-		final DisplayChangeEvent ev = new DisplayChangeEvent(this, internalThreadID.getAndIncrement(), t);
+	protected void informListeners(final DisplayChangeEvent.Type t, String more) {
+		final DisplayChangeEvent ev = new DisplayChangeEvent(this, internalThreadID.getAndIncrement(), t, more);
 		for (final ActionListener L : listeners)
 			new Thread("DisplayInform" + t + "_" + L.getClass().getSimpleName()) {
 				public void run() {
@@ -195,6 +198,11 @@ public abstract class DisplayImpl implements Display {
 	public void addListener(ActionListener listener) {
 		if (listener != null)
 			this.listeners.add(listener);
+	}
+
+	@Override
+	public void errorHandler(String errorMessage) {
+		informListeners(DisplayChangeEvent.Type.ERROR, errorMessage);
 	}
 
 	@Override

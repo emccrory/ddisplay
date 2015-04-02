@@ -36,7 +36,12 @@ public enum MessageType {
 	/**
 	 * This client is actually alive [Or do I use "PONG"?]
 	 */
-	AMALIVE;
+	AMALIVE,
+	
+	/**
+	 * There is an error of some sort here.
+	 */
+	ERROR;
 
 	/**
 	 * @return -- Is this sort of message read-only?

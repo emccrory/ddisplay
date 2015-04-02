@@ -1,5 +1,6 @@
 package gov.fnal.ppd.dd.chat;
 
+import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.PlainURLChannel;
@@ -128,9 +129,13 @@ public class DCProtocol {
 			// Not relevant to a client (only a server cares about these message types)
 			break;
 
+		case ERROR:
+			errorHandler(message);
+			break;
+
 		case ISALIVE:
 			// We are being asked, "Are we alive right now?". respond with, "Yes, I am alive" message
-			// FIXME -- At this time (11/2014), we should not really see this soor of message down here. It should be
+			// FIXME -- At this time (11/2014), we should not really see this sort of message down here. It should be
 			// handled directly by the messaging client that receives it (and knows where to send the response).
 			break;
 
@@ -329,5 +334,18 @@ public class DCProtocol {
 			catchSleep(2 * SHORT_INTERVAL);
 		}
 		changerThread = null;
+	}
+
+	public void errorHandler(MessageCarrier message) {
+		println(DCProtocol.class, " $$$ Error handler, message is to '" + message.getTo() + "', from '" + message.getFrom() + "'");
+		for (Display L : listeners) {
+			if (L.getMessagingName().equals(message.getTo()) || message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME)) {
+				println(DCProtocol.class, " $$$ Sending to " + L);
+				L.errorHandler(message.getMessage());
+			} else
+				println(DCProtocol.class, " $$$ SKIPPING " + L);
+
+		}
+
 	}
 }

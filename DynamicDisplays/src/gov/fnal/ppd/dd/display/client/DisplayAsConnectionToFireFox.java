@@ -54,7 +54,6 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			throw new IllegalArgumentException("No content defined!");
 
 		browserLauncher = new BrowserLauncher(screenNumber, BrowserInstance.FIREFOX);
-		
 		browserLauncher.startBrowser(getContent().getURI().toASCIIString());
 
 		contInitialization();
@@ -72,8 +71,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				catchSleep(500); // Wait a bit more before trying to tell it to go to a specific page
 				try {
 					String url = getContent().getURI().toASCIIString();
-					firefox.changeURL(url, true);
-					setResetThread(DEFAULT_DWELL_TIME, url);
+					if (firefox.changeURL(url, true)) {
+						setResetThread(DEFAULT_DWELL_TIME, url);
+					}
 					updateMyStatus();
 				} catch (UnsupportedEncodingException e) {
 					System.err.println(DisplayAsConnectionToFireFox.class.getSimpleName() + ": Somthing is wrong with this URL: ["
@@ -84,7 +84,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		}.start();
 	}
 
-	protected void localSetContent() {
+	protected boolean localSetContent() {
 		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&"); // FIXME This could be risky! But it is
 																						// needed for URL arguments
 
@@ -117,9 +117,10 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					changeCount++;
 					if (firefox.changeURL(url, useWrapper)) {
 						lastChannel = getContent();
-						showingSelfIdentify = false;
+						showingSelfIdentify = false;						
 					} else {
 						System.err.println(getClass().getSimpleName() + ".localSetContent(): Failed to set content");
+						return false;
 					}
 
 					setResetThread(dwellTime, url);
@@ -127,9 +128,10 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				} catch (UnsupportedEncodingException e) {
 					System.err.println(getClass().getSimpleName() + ": Somthing is wrong with this URL: [" + url + "]");
 					e.printStackTrace();
-
+					return false;
 				}
 		}
+		return true;
 	}
 
 	private void setResetThread(final long dwellTime, final String url) {

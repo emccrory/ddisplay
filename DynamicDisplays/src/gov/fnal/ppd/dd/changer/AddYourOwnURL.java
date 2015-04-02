@@ -118,4 +118,9 @@ public class AddYourOwnURL extends ChannelButtonGrid implements ActionListener {
 	// f.setSize(400, 600);
 	// f.setVisible(true);
 	// }
+
+	@Override
+	public void makeGrid(ChannelCategory cat) {
+		// Nothing to do here		
+	}
 }

@@ -32,7 +32,7 @@ public class DisplayAsStandaloneBrowser extends DisplayControllerAbstract {
 		contInitialization(portNumber);
 	}
 
-	protected void localSetContent() {
+	protected boolean localSetContent() {
 		String url = getContent().getURI().toASCIIString();
 
 		synchronized (browserLauncher) {
@@ -56,6 +56,7 @@ public class DisplayAsStandaloneBrowser extends DisplayControllerAbstract {
 				lastURL = url;
 			}
 		}
+		return true;
 	}
 
 	@Override

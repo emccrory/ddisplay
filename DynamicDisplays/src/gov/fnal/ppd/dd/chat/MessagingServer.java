@@ -214,7 +214,7 @@ public class MessagingServer {
 			setOnNotice(false);
 		}
 
-		// This method is what will run forever
+		// This method will run for as long as this client is connected
 		public void run() {
 			// to loop until LOGOUT or we hit an unrecoverable exception
 			// Bug fix for input and output objects: call "reset" after every read and write to not let these objects
@@ -236,7 +236,12 @@ public class MessagingServer {
 							event("Message is properly signed: " + this.cm);
 						else {
 							event("Message is NOT PROPERLY SIGNED: [" + this.cm + "]; reason = '" + signatureString
-									+ "' -- ignoring this message.");
+									+ "' -- ignoring this message and sending an error message back to the client.");
+
+							// Reply to the client that this message was rejected!
+							writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, this.cm.getFrom(),
+									"Your message to the display called " + this.cm.getTo()
+											+ " is not properly signed, so it has been rejected"));
 							continue;
 						}
 					} else if (read instanceof String) {
@@ -246,7 +251,7 @@ public class MessagingServer {
 						display("\t\t -- This may be an old client trying to connect.");
 						cm = MessageCarrier.getIAmAlive((String) read, "NULL", new Date().toString());
 					} else if (read instanceof MessageType) {
-						display(this.username + ": Received message of type MessageType, value='" + read + "'");
+						display(this.username + ": Unexpectedly received message of type MessageType, value='" + read + "'");
 						continue;
 					} else {
 						display(this.username + ": A class not found exception -- " + read + ". returned object of type "
@@ -264,6 +269,18 @@ public class MessagingServer {
 
 					display(dis);
 					error(dis);
+
+					// Reply to the client that this message was rejected!
+					writeUnsignedMsg(MessageCarrier
+							.getErrorMessage(
+									SPECIAL_SERVER_MESSAGE_USERNAME,
+									this.cm.getFrom(),
+									"Your message of type "
+											+ this.cm.getType()
+											+ " to client, "
+											+ this.cm.getTo()
+											+ " was not processed because there was an internal error in the messaging server; exception type is "
+											+ e.getClass().getCanonicalName()));
 
 					break; // End the while(this.thisSocketIsActive) loop
 
@@ -308,7 +325,13 @@ public class MessagingServer {
 					} else {
 						display("Message rejected!  '" + this.username + "' asked to send message of type " + this.cm.getType()
 								+ " to '" + this.cm.getTo() + "'\n\t\tbut it is not authorized to send a message to this client");
+
+						// Reply to the client that this message was rejected!
+						writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, this.cm.getFrom(),
+								"You are not authorized to change the channel on the display called " + this.cm.getTo()
+										+ ".\nThis directive has been rejected."));
 					}
+
 					break;
 
 				// ---------- Other types of messages are interpreted here by the server. ---------
@@ -474,6 +497,23 @@ public class MessagingServer {
 		}
 	}
 
+	/*
+	 * TODO -- New message to return the status of the server
+	 * 
+	 * It would be a useful diagnostic to ask the server to return to a client a diagnostics dump. The data in this dump would
+	 * include the stuff that is kept in the diagnostics method, like the client names, how many messages there have been, some
+	 * accounting for the errors that have been handled, how old each client is and how long since we have last seen it, etc.
+	 * 
+	 * This would be a new message type, I think.
+	 * 
+	 * I think, in general, I need to implement a handshake in the protocol. The thing that is missing is that the client that sends
+	 * a "change the channel" message gets no feedback that its signature is wrong or that it does not have the authority to command
+	 * that display. This new message will need this sort of handshake, and we definitely can use this handshake in the normal
+	 * message flow.
+	 * 
+	 * 3/20/2015 -- E. McCrory.
+	 */
+
 	/*************************************************************************************************************************
 	 * Simple inner class to handle the insertion of a ClientThread object into a list.
 	 * 
@@ -514,7 +554,10 @@ public class MessagingServer {
 
 	}
 
-	protected static final String	SPECIAL_SERVER_MESSAGE_USERNAME	= "Server Message";
+	/**
+	 * The name we use for the messaging server, when it is sending a message out
+	 */
+	public static final String	SPECIAL_SERVER_MESSAGE_USERNAME	= "Server Message";
 
 	/* ************************************************************************************************************************
 	 * Begin the definition of the class MessagingServer
@@ -523,7 +566,7 @@ public class MessagingServer {
 	 */
 
 	// a unique ID for each connection
-	static int						uniqueId;
+	static int					uniqueId;
 
 	/**
 	 * To run as a console application just open a console window and: > java Server > java Server portNumber If the port number is

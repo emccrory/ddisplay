@@ -152,7 +152,7 @@ public class ImageGrid extends DetailedInformationGrid {
 	 * @param bg
 	 */
 	public ImageGrid(final Display display, final DisplayButtonGroup bg) {
-		super(display, bg, ChannelCategory.IMAGE);
+		super(display, bg);
 	}
 
 	private static String trunc(String text) {

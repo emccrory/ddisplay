@@ -160,13 +160,13 @@ public class ConnectionToFirefoxInstance {
 		// send(FullScreenExecute);
 
 		try {
-			waitForServer();
+			return waitForServer();
 		} catch (IOException e) {
 			e.printStackTrace();
 			connected = false;
 			return false;
 		}
-		return true;
+		// return true;
 	}
 
 	private boolean isNumberDiscrete() {
@@ -198,6 +198,8 @@ public class ConnectionToFirefoxInstance {
 
 		try {
 			waitForServer();
+			if (!connected)
+				System.err.println(getClass().getName() + ".showIdentity() -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
 			connected = false;
@@ -225,6 +227,8 @@ public class ConnectionToFirefoxInstance {
 
 		try {
 			waitForServer();
+			if (!connected)
+				System.err.println(getClass().getName() + ".removeIdentity() -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
 			connected = false;

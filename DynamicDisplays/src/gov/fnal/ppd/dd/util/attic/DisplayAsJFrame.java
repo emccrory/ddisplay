@@ -121,7 +121,7 @@ public class DisplayAsJFrame extends DisplayImpl {
 		return sp;
 	}
 
-	protected void localSetContent() {
+	protected boolean localSetContent() {
 		if (webTesting)
 			try {
 				tp.setPage(new URL(getContent().getURI().toString()));
@@ -138,6 +138,7 @@ public class DisplayAsJFrame extends DisplayImpl {
 		}
 		cDescr.setText((this.getContent()).getDescription());
 		errorMessage.setText("");
+		return true;
 	}
 
 	public void actionPerformed(ActionEvent e) {

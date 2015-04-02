@@ -113,4 +113,9 @@ public class PublicInformationGrid extends ChannelButtonGrid {
 		}
 		super.actionPerformed(ev);
 	}
+
+	@Override
+	public void makeGrid(ChannelCategory cat) {
+		add(makeExpGrid());		
+	}
 }

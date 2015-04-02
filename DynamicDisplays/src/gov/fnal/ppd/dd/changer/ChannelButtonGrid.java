@@ -37,6 +37,11 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	private static ReentrantLock	imBusy				= new ReentrantLock();
 
 	/**
+	 * @param cat make a grid of channels of this category
+	 */
+	public abstract void makeGrid(ChannelCategory cat);
+	
+	/**
 	 * @param display
 	 * @param bg
 	 */
@@ -103,6 +108,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 				break;
 
 			case ERROR:
+				System.out.println("Got the error indication in ChannelButtonGrid");
 			case IDLE:
 				// Ignore for now
 				break;

@@ -4,6 +4,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
+import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
@@ -50,12 +51,6 @@ public class DisplayFacade extends DisplayImpl {
 	 * ChannelSelector GUI, there will be ten sockets (connected through the Messaging Server) within the GUI to the ten individual
 	 * Displays.
 	 * 
-	 * TODO -- It might be necessary to reduce the number of messaging clients here on the GUI side; it seems like it would be
-	 * possible to reduce it to a single client. The messages being used in this system contain a "to" field, so it is not (really)
-	 * necessary to have the one-to-one connection between the Facade object (here) and the actual Display client out in the field.
-	 * Breaking that might be tricky, and it will definitely make the implementation more complicated. but in the era when we have
-	 * (ahem!) hundreds of GUIs out there trying to connect to (ahem!) thousands of Displays, it would save a lot of sockets on the
-	 * server.
 	 * 
 	 * This is a real concern if we get thousands of clients. See
 	 * http://stackoverflow.com/questions/1575453/how-many-socket-connections-can-a-typical-server-handle --
@@ -90,8 +85,17 @@ public class DisplayFacade extends DisplayImpl {
 
 		@Override
 		public void displayIncomingMessage(final MessageCarrier message) {
-			DisplayFacade d = clients.get(message.getFrom());
-			dcp.processInput(message, d.getNumber(), d.getScreenNumber());
+			if (message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME)) {
+				// Need to inform all the listeners about this situation
+
+				System.out.println("\n\n** WHOOP! WHOOP! ** Got an error message\n\n");
+
+				dcp.errorHandler(message);
+
+			} else {
+				DisplayFacade d = clients.get(message.getFrom());
+				dcp.processInput(message, d.getNumber(), d.getScreenNumber());
+			}
 		}
 
 		/**
@@ -132,6 +136,10 @@ public class DisplayFacade extends DisplayImpl {
 		public static void sendAMessage(MessageCarrier msg) {
 			me.sendMessage(msg);
 		}
+
+		public static void addListener(DisplayFacade displayFacade) {
+			me.dcp.addListener(displayFacade);			
+		}
 	}
 
 	/**
@@ -162,10 +170,11 @@ public class DisplayFacade extends DisplayImpl {
 		System.out.println(DisplayFacade.class.getSimpleName() + ": The messaging name of Display " + number
 				+ " is expected to be '" + myExpectedName + "'");
 		FacadeMessagingClient.registerClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myExpectedName, this);
+		FacadeMessagingClient.addListener(this);
 		FacadeMessagingClient.doStart();
 	}
 
-	public void localSetContent() {
+	public boolean localSetContent() {
 		try {
 			SignageContent content = getContent();
 			EncodedCarrier cc = null;
@@ -185,9 +194,13 @@ public class DisplayFacade extends DisplayImpl {
 			String xmlMessage = MyXMLMarshaller.getXML(cc);
 			FacadeMessagingClient.sendAMessage(MessageCarrier.getMessage(FacadeMessagingClient.getMyName(),
 					FacadeMessagingClient.getTargetName(this), xmlMessage));
+
+			// A reply is expected.  It will come later.
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	/**
@@ -216,4 +229,5 @@ public class DisplayFacade extends DisplayImpl {
 		alreadyWaiting.set(false);
 		FacadeMessagingClient.me.disconnect();
 	}
+
 }

@@ -37,12 +37,15 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 	 *            The button group into which these buttons go
 	 * @param set
 	 */
-	public DetailedInformationGrid(final Display display, final DisplayButtonGroup bg, final ChannelCategory set) {
+	public DetailedInformationGrid(final Display display, final DisplayButtonGroup bg) {
 		super(display, bg);
+	}
+
+	public void makeGrid(final ChannelCategory set) {
 		add(makeExpGrid(set));
 	}
 
-	protected JComponent makeExpGrid(ChannelCategory set) {
+	protected JComponent makeExpGrid(final ChannelCategory set) {
 
 		Set<SignageContent> list = ChannelCatalogFactory.getInstance().getChannelCatalog(set);
 		int cols = 4;
@@ -69,12 +72,12 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 				cols = 3;
 				maxLen = 13;
 				break;
-				
-//				FS = 0.8f * FONT_SIZE;
-//				// IS = INSET_SIZE / 6;
-//				cols = 3;
-//				maxLen = 13;
-//				break;
+
+			// FS = 0.8f * FONT_SIZE;
+			// // IS = INSET_SIZE / 6;
+			// cols = 3;
+			// maxLen = 13;
+			// break;
 
 			case 15:
 			case 14:
@@ -92,21 +95,21 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 				cols = 2;
 				maxLen = 14;
 				break;
-				
+
 			case 10:
 				FS = 0.94f * FONT_SIZE;
 				// IS = INSET_SIZE / 3;
 				cols = 2;
 				maxLen = 13;
 				break;
-				
+
 			case 9:
 				FS = 0.96f * FONT_SIZE;
 				// IS = INSET_SIZE ;
 				cols = 1;
 				maxLen = 95;
 				break;
-				
+
 			case 8:
 				FS = FONT_SIZE;
 				// IS = INSET_SIZE ;

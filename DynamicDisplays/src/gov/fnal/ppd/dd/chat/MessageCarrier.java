@@ -63,9 +63,11 @@ public class MessageCarrier implements Serializable {
 
 	/**
 	 * @param from
+	 *            The originator of the message
 	 * @param to
+	 *            The recipient of the message
 	 * @param message
-	 *            The ASCII message to send
+	 *            The ASCII message to send. Generally, this is an XML document.
 	 * @return the object to send over the wire
 	 */
 	public static MessageCarrier getMessage(final String from, final String to, final String message) {
@@ -113,6 +115,21 @@ public class MessageCarrier implements Serializable {
 	 */
 	public static MessageCarrier getIAmAlive(final String from, final String to, String message) {
 		return new MessageCarrier(MessageType.AMALIVE, from, to, message);
+	}
+
+	/**
+	 * There has been an error with message communications.
+	 * 
+	 * @param from
+	 *            The originator of the message
+	 * @param to
+	 *            The recipient of the message
+	 * @param message
+	 *            The message itself. It is anticipated that this will be just a statement of the error (i.e., not XML)
+	 * @return A message to the messaging server that says, "There has been an error"
+	 */
+	public static MessageCarrier getErrorMessage(final String from, final String to, final String message) {
+		return new MessageCarrier(MessageType.ERROR, from, to, message);
 	}
 
 	private MessageCarrier(final MessageType type, final String message) {
@@ -234,7 +251,7 @@ public class MessageCarrier implements Serializable {
 			println(getClass(), " -- Signature is not being checked.");
 			return null;
 		}
-		
+
 		// Second, verify that the message in the signedObject is me
 		try {
 			MessageCarrier signedMessage = (MessageCarrier) signedObject.getObject();
@@ -245,7 +262,7 @@ public class MessageCarrier implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 			// 3. Casting exception!
-			return "There was an IO exception in reading the message" ;
+			return "There was an IO exception in reading the message";
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return "The returned message was not of type " + MessageCarrier.class.getCanonicalName();
@@ -256,7 +273,7 @@ public class MessageCarrier implements Serializable {
 		if (signing == null)
 			// 4. No public key found
 			return "There is no public key for client '" + getFrom() + "'";
-		
+
 		// 5. Does the signature actually match?
 		return signing.verifySignature(signedObject);
 	}
@@ -301,6 +318,5 @@ public class MessageCarrier implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
+
 }

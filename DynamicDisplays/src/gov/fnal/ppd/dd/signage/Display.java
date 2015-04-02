@@ -124,4 +124,11 @@ public interface Display extends ActionListener {
 	 * Disconnect a display from the rest of the world (if appropriate)
 	 */
 	public void disconnect();
+
+	/**
+	 * A way foir the Display to handle errors from the messaging system
+	 * 
+	 * @param message
+	 */
+	public void errorHandler(String message);
 }

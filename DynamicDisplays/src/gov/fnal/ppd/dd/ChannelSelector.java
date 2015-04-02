@@ -24,6 +24,7 @@ import gov.fnal.ppd.dd.changer.DetailedInformationGrid;
 import gov.fnal.ppd.dd.changer.DisplayButtons;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
+import gov.fnal.ppd.dd.changer.DocentGrid;
 import gov.fnal.ppd.dd.changer.ImageGrid;
 import gov.fnal.ppd.dd.changer.InformationBox;
 import gov.fnal.ppd.dd.channel.CreateListOfChannelsHelper;
@@ -233,7 +234,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			channelButtonGridList.add(allGrids);
 
 			for (int cat = 0; cat < categories.length; cat++) {
-				ChannelButtonGrid grid = new DetailedInformationGrid(display, bg, categories[cat]);
+				ChannelButtonGrid grid = new DetailedInformationGrid(display, bg);
+				grid.makeGrid(categories[cat]);
 				allGrids.add(grid);
 				display.addListener(grid);
 				String sp = SHOW_IN_WINDOW ? "" : " ";
@@ -243,9 +245,16 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			}
 
 			ChannelButtonGrid grid = new ImageGrid(display, bg);
+			grid.makeGrid(ChannelCategory.IMAGE);
 			allGrids.add(grid);
 			display.addListener(grid);
 			displayTabPane.add(grid, " Images ");
+
+			grid = new DocentGrid(display, bg, "Default");
+			grid.makeGrid(ChannelCategory.IMAGE);
+			allGrids.add(grid);
+			display.addListener(grid);
+			displayTabPane.add(grid, " Docent ");
 
 			final JPanel inner = new JPanel(new BorderLayout());
 			int wid1 = 6;
@@ -275,7 +284,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				}
 			});
 
-			if (SHOW_IN_WINDOW) {
+			if (SHOW_IN_WINDOW && false) {
+				// Do not include the "wrap your own" URL until someone asks for it.
 				AddYourOwnURL yourOwn = new AddYourOwnURL(display, bg);
 				allGrids.add(yourOwn);
 				displayTabPane.add(yourOwn, "New URL");
@@ -307,22 +317,25 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						text = "<html>Changed Display " + text;
 						alive = true;
 						break;
-					case ALIVE:
-						// These remaining items are not ever reached. (1/28/2015)
-						text = "A Display " + display.getNumber() + ": " + display.getContent().getCategory() + "/'"
-								+ (display.getContent().getName());
-						alive = true;
-						break;
 					case ERROR:
 						text = "Display " + display.getNumber() + " ERROR; " + ": " + display.getContent().getCategory() + "/'"
 								+ (display.getContent().getName());
+						launchErrorMessage(e);
 						break;
+
+					case ALIVE:
+						// These remaining items are not ever reached. (1/28/2015)
+						alive = true;
+						text = "A Display " + display.getNumber() + ": " + display.getContent().getCategory() + "/'"
+								+ (display.getContent().getName());
+						break;
+
 					case IDLE:
+						alive = true;
 						if (lastUpdated + 30000l > System.currentTimeMillis())
 							break;
 						text = "G Display " + display.getNumber() + " Idle; " + ": " + display.getContent().getCategory() + "/'"
 								+ (display.getContent().getName());
-						alive = true;
 						break;
 					}
 					lastUpdated = System.currentTimeMillis();
@@ -331,10 +344,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					displaySelector.resetToolTip(display);
 					setDisplayIsAlive(display.getNumber(), alive);
 				}
-			});
 
-			// TODO Have the Display button react to a change in the status of a Display,
-			// in particular, when the Display goes off-line or comes online.
+			});
 
 			footer.setAlignmentX(CENTER_ALIGNMENT);
 			Box b = Box.createHorizontalBox();
@@ -367,6 +378,23 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		new WhoIsInChatRoom(this).start();
 
 		progressMonitor.close();
+	}
+
+	private static Thread	errorMessageThread	= null;
+
+	private static void launchErrorMessage(final ActionEvent e) {
+		if (errorMessageThread != null)
+			return;
+		errorMessageThread = new Thread("ErrorMessagePopup") {
+			public void run() {
+				JOptionPane.showMessageDialog(null,
+						e.paramString().substring(e.paramString().indexOf("ERROR") + 9, e.paramString().indexOf(",when")),
+						"Error in communications", JOptionPane.ERROR_MESSAGE);
+				// catchSleep(3000L);
+				errorMessageThread = null;
+			}
+		};
+		errorMessageThread.start();
 	}
 
 	/**
@@ -520,9 +548,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
 			// titleBox.add(showBorderButton);
 
-			// TODO -- This IdentifyAll class was an expedient way to implement this functionality, but at the price of twice as
-			// many messaging clients in this ChannelSelector class. It should be easy enough to re-implement this using the
-			// messaging clients we already have.
 			IdentifyAll.setListOfDisplays(displayList);
 			JButton idAll = IdentifyAll.getButton();
 			titleBox.add(idAll);
