@@ -65,14 +65,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	/**
 	 * @param portNumber
 	 * @param ipName
-	 * @param vNumber 
-	 * @param dbNumber 
+	 * @param vNumber
+	 * @param dbNumber
 	 * @param screenNumber
 	 * @param location
 	 * @param color
 	 * @param type
 	 */
-	public DisplayControllerMessagingAbstract(final String ipName, final int vNumber,final int dbNumber, final int screenNumber,
+	public DisplayControllerMessagingAbstract(final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
 			final int portNumber, final String location, final Color color, final SignageType type) {
 		super(ipName, vNumber, dbNumber, screenNumber, location, color, type);
 
@@ -80,8 +80,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			throw new IllegalArgumentException("No content defined!");
 
 		myName = ipName + ":" + screenNumber + " (" + getVirtualDisplayNumber() + ")";
-		messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName, getVirtualDisplayNumber(),
-				getScreenNumber());
+		messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName);
+		// , getVirtualDisplayNumber(), getScreenNumber());
 	}
 
 	/**
@@ -270,7 +270,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						int dbNumber = rs.getInt("DisplayID");
 						int vNumber = rs.getInt("VirtualDisplayNumber");
 
-						System.out.println("The node name of this display (no. " + vNumber + "/" + dbNumber + ") is '" + myNode + "'");
+						System.out.println("The node name of this display (no. " + vNumber + "/" + dbNumber + ") is '" + myNode
+								+ "'");
 
 						String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
 						SignageType type = SignageType.valueOf(t);
@@ -292,10 +293,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 						Constructor<?> cons;
 						try {
-							cons = clazz.getConstructor(String.class, int.class, int.class, int.class, int.class, String.class, Color.class,
-									SignageType.class);
+							cons = clazz.getConstructor(String.class, int.class, int.class, int.class, int.class, String.class,
+									Color.class, SignageType.class);
 							DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons
-									.newInstance(new Object[] { myName, vNumber, dbNumber, screenNumber, portNumber, location, color, type });
+									.newInstance(new Object[] { myName, vNumber, dbNumber, screenNumber, portNumber, location,
+											color, type });
 							d.initiate();
 							d.setDefaultContent(url);
 							return d;
@@ -386,13 +388,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private class MessagingClientLocal extends MessagingClient {
 		private boolean		debug	= true;
 		private DCProtocol	dcp		= new DCProtocol();
-		private int			myDisplayNumber, myScreenNumber;
 
-		public MessagingClientLocal(String server, int port, String username, int myDisplayNumber, int myScreenNumber) {
+		// private int myDisplayNumber, myScreenNumber;
+
+		public MessagingClientLocal(String server, int port, String username) { // , int myDisplayNumber, int myScreenNumber) {
 			super(server, port, username);
 			dcp.addListener(DisplayControllerMessagingAbstract.this);
-			this.myDisplayNumber = myDisplayNumber;
-			this.myScreenNumber = myScreenNumber;
+			// this.myDisplayNumber = myDisplayNumber;
+			// this.myScreenNumber = myScreenNumber;
 		}
 
 		public long getServerTimeStamp() {

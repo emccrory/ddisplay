@@ -70,8 +70,26 @@ public class ConnectionToFirefoxInstance {
 	private static final String						BASE_WEB_PAGE				= "http://xoc.fnal.gov/border.php";
 	private static final String						TICKERTAPE_WEB_PAGE			= "http://mccrory.fnal.gov/border1.php";
 
+	/**
+	 * What type of "wrapper" shall we use to show our web pages?
+	 * 
+	 * @author Elliott McCrory, Fermilab AD/Instrumentation
+	 * @copyright 2015
+	 * 
+	 */
 	public enum WrapperType {
-		NORMAL, TICKER, NONE
+		/**
+		 * Use the normal border.php web page
+		 */
+		NORMAL,
+		/**
+		 * Use the border web page that includes the News Ticker
+		 */
+		TICKER,
+		/**
+		 * Show naked web pages wthout the border (untested)
+		 */
+		NONE
 	};
 
 	/**
@@ -79,7 +97,7 @@ public class ConnectionToFirefoxInstance {
 	 * 
 	 * @param screenNumber
 	 * @param virtualID
-	 * @param dbID 
+	 * @param dbID
 	 * @param color
 	 * 
 	 */
@@ -87,7 +105,8 @@ public class ConnectionToFirefoxInstance {
 		// Create a connection to the instance of FireFox that is being targeted here
 
 		bounds = ScreenLayoutInterpreter.getBounds(screenNumber);
-		println(getClass(), " -- Screen size is " + bounds.width + " x " + bounds.height + ", vDisplay=" + virtualID + ", dbID=" + dbID);
+		println(getClass(), " -- Screen size is " + bounds.width + " x " + bounds.height + ", vDisplay=" + virtualID + ", dbID="
+				+ dbID);
 
 		this.virtualID = virtualID;
 		this.dbID = dbID;
@@ -318,8 +337,6 @@ public class ConnectionToFirefoxInstance {
 							e.printStackTrace();
 						}
 						long delay = 10;
-						System.err.println("It may be possible to turn on the FireFox connectivity.  You have " + delay
-								+ " seconds to try.");
 						catchSleep(delay * 1000l);
 					}
 			}

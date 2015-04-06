@@ -29,27 +29,29 @@ import java.io.UnsupportedEncodingException;
  * </ul>
  * </p>
  * 
- * @author Elliott McCrory, Fermilab (2014)
+ * @author Elliott McCrory, Fermilab (2014-15)
  */
 public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbstract {
 
 	private ConnectionToFirefoxInstance	firefox;
 	private boolean						showingSelfIdentify	= false;
-	private WrapperType					useWrapper			= WrapperType.NORMAL;
+	private WrapperType					defaultWrapperType	= WrapperType.valueOf(System.getProperty("ddisplay.wrappertype",
+																	"NORMAL"));
+
 	private int							changeCount;
 
 	/**
 	 * @param portNumber
 	 * @param ipName
-	 * @param vNumber 
-	 * @param dbNumber 
+	 * @param vNumber
+	 * @param dbNumber
 	 * @param screenNumber
 	 * @param location
 	 * @param color
 	 * @param type
 	 */
-	public DisplayAsConnectionToFireFox(final String ipName, final int vNumber, final int dbNumber, final int screenNumber, final int portNumber,
-			final String location, final Color color, final SignageType type) {
+	public DisplayAsConnectionToFireFox(final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
+			final int portNumber, final String location, final Color color, final SignageType type) {
 		super(ipName, vNumber, dbNumber, screenNumber, portNumber, location, color, type);
 
 		if (getContent() == null)
@@ -69,11 +71,12 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			public void run() {
 				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number=" + getVirtualDisplayNumber());
 				catchSleep(4000); // Wait a bit before trying to contact the instance of FireFox.
-				firefox = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(), highlightColor);
+				firefox = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
+						highlightColor);
 				catchSleep(500); // Wait a bit more before trying to tell it to go to a specific page
 				try {
 					String url = getContent().getURI().toASCIIString();
-					if (firefox.changeURL(url, WrapperType.NORMAL)) {
+					if (firefox.changeURL(url, defaultWrapperType)) {
 						setResetThread(DEFAULT_DWELL_TIME, url);
 					}
 					updateMyStatus();
@@ -117,7 +120,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				try {
 					// Someday we may need this: (getContent().getCode() & 1) != 0;
 					changeCount++;
-					if (firefox.changeURL(url, useWrapper)) {
+					if (firefox.changeURL(url, defaultWrapperType)) {
 						lastChannel = getContent();
 						showingSelfIdentify = false;
 					} else {
@@ -152,7 +155,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 							synchronized (firefox) {
 								println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reloading web page " + url);
 								try {
-									if (!firefox.changeURL(url, useWrapper)) {
+									if (!firefox.changeURL(url, defaultWrapperType)) {
 										println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Failed to REFRESH content");
 										return; // All bets are off!!
 									}
@@ -188,7 +191,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 * @return will the next URL request go through the normal wrapper page?
 	 */
 	public boolean isUsingWrapper() {
-		return useWrapper != WrapperType.NONE;
+		return defaultWrapperType != WrapperType.NONE;
 	}
 
 	/**
@@ -197,7 +200,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 *            time (12/2014)
 	 */
 	public void setUseWrapper(final WrapperType useWrapper) {
-		this.useWrapper = useWrapper;
+		this.defaultWrapperType = useWrapper;
 	}
 
 	/**
