@@ -77,7 +77,7 @@ public class DisplayMonitor implements ActionListener {
 
 			if (autoTimeoutOnChannels  && (waitToChangeChannel == null || !waitToChangeChannel.isAlive())) {
 				System.out.println(getClass().getSimpleName() + ": Starting thread...");
-				waitToChangeChannel = new Thread("AutoChangeChannel" + myDisplay.getNumber()) {
+				waitToChangeChannel = new Thread("AutoChangeChannel" + myDisplay.getVirtualDisplayNumber()) {
 					public void run() {
 						while (myDisplay.getContent().getCategory() == ChannelCategory.PUBLIC) {
 							while (countDown-- > 0)

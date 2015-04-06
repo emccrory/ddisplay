@@ -65,21 +65,22 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	/**
 	 * @param portNumber
 	 * @param ipName
-	 * @param displayNumber
+	 * @param vNumber 
+	 * @param dbNumber 
 	 * @param screenNumber
 	 * @param location
 	 * @param color
 	 * @param type
 	 */
-	public DisplayControllerMessagingAbstract(final String ipName, final int displayNumber, final int screenNumber,
+	public DisplayControllerMessagingAbstract(final String ipName, final int vNumber,final int dbNumber, final int screenNumber,
 			final int portNumber, final String location, final Color color, final SignageType type) {
-		super(ipName, displayNumber, screenNumber, location, color, type);
+		super(ipName, vNumber, dbNumber, screenNumber, location, color, type);
 
 		if (getContent() == null)
 			throw new IllegalArgumentException("No content defined!");
 
-		myName = ipName + ":" + screenNumber + " (" + getNumber() + ")";
-		messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName, getNumber(),
+		myName = ipName + ":" + screenNumber + " (" + getVirtualDisplayNumber() + ")";
+		messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName, getVirtualDisplayNumber(),
 				getScreenNumber());
 	}
 
@@ -165,10 +166,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			String statementString;
 			if (OFF_LINE.equalsIgnoreCase(nowShowing))
 				statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='Off Line' where DisplayID="
-						+ getNumber();
+						+ getDBDisplayNumber();
 			else
 				statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
-						+ getContent().getURI() + ")" + "' where DisplayID=" + getNumber();
+						+ getContent().getURI() + ")" + "' where DisplayID=" + getDBDisplayNumber();
 			// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 			int numRows = stmt.executeUpdate(statementString);
 			if (numRows == 0 || numRows > 1) {
@@ -266,9 +267,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 									+ "'\n\t** We'll try to run anyway, but this should be fixed **");
 							// System.exit(-1);
 						}
-						int number = rs.getInt("DisplayID");
+						int dbNumber = rs.getInt("DisplayID");
+						int vNumber = rs.getInt("VirtualDisplayNumber");
 
-						System.out.println("The node name of this display (no. " + number + ") is '" + myNode + "'");
+						System.out.println("The node name of this display (no. " + vNumber + "/" + dbNumber + ") is '" + myNode + "'");
 
 						String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
 						SignageType type = SignageType.valueOf(t);
@@ -290,10 +292,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 						Constructor<?> cons;
 						try {
-							cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class,
+							cons = clazz.getConstructor(String.class, int.class, int.class, int.class, int.class, String.class, Color.class,
 									SignageType.class);
 							DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons
-									.newInstance(new Object[] { myName, number, screenNumber, portNumber, location, color, type });
+									.newInstance(new Object[] { myName, vNumber, dbNumber, screenNumber, portNumber, location, color, type });
 							d.initiate();
 							d.setDefaultContent(url);
 							return d;
@@ -409,7 +411,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						+ MessagingClientLocal.class.getSimpleName() + ".displayIncomingMessage(): Got this message:\n[" + msg
 						+ "]");
 			if (msg.getTo().equals(getName())) {
-				dcp.processInput(msg, myDisplayNumber, myScreenNumber);
+				dcp.processInput(msg);
 			} else if (debug)
 				System.out.println("Ignoring a message from [" + msg.getTo() + "] because I am [" + getName() + "]");
 		}

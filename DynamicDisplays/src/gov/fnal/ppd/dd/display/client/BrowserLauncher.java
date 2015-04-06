@@ -3,7 +3,9 @@ package gov.fnal.ppd.dd.display.client;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 
 import java.awt.Rectangle;
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Control the launching of an external browser as the Display implementation
@@ -17,12 +19,14 @@ public class BrowserLauncher {
 	/**
 	 * Do we want more information when this class is executed?
 	 */
-	public static boolean	debug			= false;
+	public static boolean		debug			= true;
+	private static final String	FIREFOX_USER	= "DynamicDisplay";
 
-	private Process			browserProcess	= null;
-	private Rectangle		bounds;
+	private Process				browserProcess	= null;
+	private Rectangle			bounds;
 
-	private BrowserInstance	whichInstance;
+	private BrowserInstance		whichInstance;
+	private int					screenNumber;
 
 	/**
 	 * What kind of browser are we to use?
@@ -45,14 +49,16 @@ public class BrowserLauncher {
 
 	/**
 	 * @param screenNumber
-	 *            The physical screen number to display on
+	 *            The physical screen number to display on. This is a little complicated. Internally, if the screen number is not
+	 *            zero it causes firefox to be launched as user DynamicDisplay2 (for screen=1), listening on port number 32001.
 	 * @param i
-	 *            Which sort of Browser to use?
+	 *            Which sort of Browser to use? Only Firefox is supported at this time.
 	 */
 	public BrowserLauncher(final int screenNumber, final BrowserInstance i) {
 		System.out.println("Launching browser " + i + " on screen #" + screenNumber);
 		bounds = ScreenLayoutInterpreter.getBounds(screenNumber);
 		whichInstance = i;
+		this.screenNumber = screenNumber;
 	}
 
 	/**
@@ -88,6 +94,10 @@ public class BrowserLauncher {
 			break;
 
 		case FIREFOX:
+			String firefoxUser = FIREFOX_USER;
+			if (screenNumber > 0) {
+				firefoxUser += (screenNumber + 1);
+			}
 			if (browserProcess != null)
 				return;
 
@@ -95,17 +105,28 @@ public class BrowserLauncher {
 			try {
 				// extensions.remotecontrol.portNumber is the environment variable that gives the port number, I think (9/15/2014)
 				// I tried to set it (and several variations) using System.setProperty(), to no avail.
-				browserProcess = new ProcessBuilder("firefox", "-remote-control", url).start();
+				File file = new File(firefoxUser + ".log");
+				ProcessBuilder pb = new ProcessBuilder("firefox", "-new-instance", "-P", firefoxUser, "-remote-control", url);
+				pb.redirectErrorStream(true);
+				pb.redirectOutput(file);
+				List<String> c = pb.command();
+				browserProcess = pb.start();
+
+				System.out.print("Tried to run '");
+				for (String S : c) {
+					System.out.print(S + " ");
+				}
+				System.out.println("'");
 
 				if (debug)
 					System.out.println("Launched " + whichInstance + " browser, geometry=" + geom);
 			} catch (IOException e) {
 				// This probably failed because it could not find the browser executable.
 				e.printStackTrace();
-				System.err.println("Assume this is Windows and try again!");
+				System.err.println("Assuming that this is Windows now.  We'll try again!");
 				try {
 					browserProcess = new ProcessBuilder("c:/Program Files (x86)/Mozilla Firefox/firefox.exe", "-remote-control",
-							"--geometry=" + geom, "-fullscreen", url).start();
+							"-P " + firefoxUser, "--geometry=" + geom, "-new-instance", "-fullscreen", url).start();
 					if (debug)
 						System.out.println("Launched " + whichInstance + " browser, geometry=" + geom);
 				} catch (IOException e1) {

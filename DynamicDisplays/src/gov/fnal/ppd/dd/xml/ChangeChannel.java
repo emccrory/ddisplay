@@ -21,6 +21,7 @@ public class ChangeChannel extends EncodedCarrier {
 
 	protected SignageContent	content;
 	protected int				displayNum;
+	protected int				screenNum;
 
 	@XmlElement
 	public ChannelSpec getChannelSpec() {
@@ -37,8 +38,16 @@ public class ChangeChannel extends EncodedCarrier {
 	public void setDisplayNumber(int d) {
 		displayNum = d;
 	}
-	
-	
+
+	@XmlElement
+	public int getScreenNumber() {
+		return screenNum;
+	}
+
+	public void setScreenNumber(int s) {
+		screenNum = s;
+	}
+
 	public void setContent(SignageContent s) {
 		content = s;
 	}

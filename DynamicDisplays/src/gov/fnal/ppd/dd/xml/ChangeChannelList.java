@@ -19,6 +19,7 @@ public class ChangeChannelList extends EncodedCarrier {
 
 	protected ChannelPlayList	cpl	= new ChannelPlayList();
 	protected int				displayNum;
+	protected int				screenNum;
 	private long				dwell;
 
 	@XmlElement
@@ -34,6 +35,19 @@ public class ChangeChannelList extends EncodedCarrier {
 	@XmlElement
 	public int getDisplayNumber() {
 		return displayNum;
+	}
+
+	public void setDisplayNumber(int d) {
+		displayNum = d;
+	}
+
+	@XmlElement
+	public int getScreenNumber() {
+		return screenNum;
+	}
+
+	public void setScreenNumber(int s) {
+		screenNum = s;
 	}
 
 	public void setChannelSpec(ChannelSpec[] cs) {
@@ -56,10 +70,6 @@ public class ChangeChannelList extends EncodedCarrier {
 	public void setContent(SignageContent s) {
 		cpl = (ChannelPlayList) s;
 		dwell = cpl.getTime();
-	}
-
-	public void setDisplayNumber(int d) {
-		displayNum = d;
 	}
 
 	@XmlElement

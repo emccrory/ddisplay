@@ -30,7 +30,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class DisplayImpl implements Display {
 
 	private static int				displayCount		= 1;
-	private int						displayNumber		= displayCount++;
+	// private int displayNumber = displayCount++;
+
+	private int						dbDisplayNumber;
+	private int						vDisplayNumber		= displayCount++;
+
 	protected int					screenNumber		= 0;
 	protected static AtomicInteger	internalThreadID	= new AtomicInteger(0);
 	private SignageContent			channel;
@@ -49,16 +53,18 @@ public abstract class DisplayImpl implements Display {
 
 	/**
 	 * @param ipName
+	 * @param vDisplay 
+	 * @param dbDisplay 
 	 * @param screenNumber
-	 * @param displayNumber
 	 * @param location
 	 * @param color
 	 * @param type
 	 */
-	public DisplayImpl(final String ipName, final int displayNumber, final int screenNumber, final String location,
+	public DisplayImpl(final String ipName, final int vDisplay, final int dbDisplay, final int screenNumber, final String location,
 			final Color color, final SignageType type) {
 		assert (screenNumber >= 0);
-		assert (displayNumber >= 0);
+		assert (vDisplay >= 0);
+		assert (dbDisplay >= 0);
 
 		// myName = ipName + ":" + screenNumber + " (" + displayNumber + ")";
 
@@ -69,7 +75,8 @@ public abstract class DisplayImpl implements Display {
 		}
 		this.screenNumber = screenNumber;
 		this.location = location;
-		this.displayNumber = displayNumber;
+		this.dbDisplayNumber = dbDisplay;
+		this.vDisplayNumber = vDisplay;
 		this.highlightColor = color;
 		this.category = type;
 		this.channel = makeEmptyChannel();
@@ -85,7 +92,7 @@ public abstract class DisplayImpl implements Display {
 				channel = makeEmptyChannel();
 			else
 				channel = (Channel) c;
-			System.out.println(getClass().getSimpleName() + ": Display " + getNumber() + " changed to [" + channel + "] at "
+			System.out.println(getClass().getSimpleName() + ": Display " + getVirtualDisplayNumber() + " changed to [" + channel + "] at "
 					+ (new Date()));
 
 			// ----- Do we put this channel in a wrapper?
@@ -129,6 +136,7 @@ public abstract class DisplayImpl implements Display {
 
 	@Override
 	public String toString() {
+		int displayNumber = getVirtualDisplayNumber();
 		// FIXME Only works correctly up to 9999 total displays. That should be enough for now. :-)
 		if (displayCount >= 1000) {
 			if (displayNumber < 10)
@@ -152,9 +160,31 @@ public abstract class DisplayImpl implements Display {
 		return "Display " + displayNumber;
 	}
 
+//	@Override
+//	public int getNumber() {
+//		if (SHOW_VIRTUAL_DISPLAY_NUMS)
+//			return getVirtualDisplayNumber();
+//		return getDBDisplayNumber();
+//	}
+
 	@Override
-	public int getNumber() {
-		return displayNumber;
+	public int getDBDisplayNumber() {
+		return dbDisplayNumber;
+	}
+
+	@Override
+	public void setDBDisplayNumber(final int d) {
+		dbDisplayNumber = d;
+	}
+
+	@Override
+	public void setVirtualDisplayNumber(final int d) {
+		vDisplayNumber = d;
+	}
+
+	@Override
+	public int getVirtualDisplayNumber() {
+		return vDisplayNumber;
 	}
 
 	@Override
@@ -209,12 +239,8 @@ public abstract class DisplayImpl implements Display {
 	public String getDescription() {
 		String retval = getCategory() + "<br />";
 
-		if (getContent() == null) {
-			retval += "<em>No channel selected</em>";
-		} else {
-			retval += "<b>Channel:</b> '" + getContent().getName() + "'";
-		}
-		retval += " <br /><b>Location:</b> " + location;
+		retval += " <b>Location:</b> " + location + "<br />";
+		retval += (getContent() == null ? "<em>No channel selected</em>" : "<b>Channel:</b> '" + getContent().getName() + "'");
 		retval += " <br /><b>IP:</b> (" + getIPAddress() + ")";
 		retval += " <br /><b>Color:</b> " + getPreferredHighlightColor().toString().replace("gov.fnal.ppd.xoc.util.HSBColor", "");
 		return retval;

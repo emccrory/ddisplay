@@ -161,9 +161,10 @@ public class Channel {
 
 			System.out.println("<em>" + mychop(c.getTitle()) + " -- " + mychop(c.getCopyright()) + " (retrieved " + (new Date())
 					+ ")</em>");
-			for (Item I : c.item) {
-				System.out.println("<b>" + mychop(I.getTitle()) + "</b>: " + mychop(I.getDescription()));
-			}
+			if (c.item != null)
+				for (Item I : c.item) {
+					System.out.println("<b>" + mychop(I.getTitle()) + "</b>: " + mychop(I.getDescription()));
+				}
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -172,6 +173,8 @@ public class Channel {
 	}
 
 	private static String mychop(String s) {
+		if (s == null)
+			return null;
 		if (s.endsWith("\n"))
 			return s.substring(0, s.length() - 2);
 		if (s.startsWith("\n"))

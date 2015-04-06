@@ -306,7 +306,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					DisplayChangeEvent ev = (DisplayChangeEvent) e;
 					catchSleep(100);
 
-					String text = display.getNumber() + " to channel '" + (display.getContent().getName()) + "'";
+					String text = display.getVirtualDisplayNumber() + " to channel '" + (display.getContent().getName()) + "'";
 					boolean alive = false;
 
 					switch (ev.getType()) {
@@ -318,7 +318,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						alive = true;
 						break;
 					case ERROR:
-						text = "Display " + display.getNumber() + " ERROR; " + ": " + display.getContent().getCategory() + "/'"
+						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; " + ": " + display.getContent().getCategory() + "/'"
 								+ (display.getContent().getName());
 						launchErrorMessage(e);
 						break;
@@ -326,7 +326,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					case ALIVE:
 						// These remaining items are not ever reached. (1/28/2015)
 						alive = true;
-						text = "A Display " + display.getNumber() + ": " + display.getContent().getCategory() + "/'"
+						text = "A Display " + display.getVirtualDisplayNumber() + ": " + display.getContent().getCategory() + "/'"
 								+ (display.getContent().getName());
 						break;
 
@@ -334,7 +334,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						alive = true;
 						if (lastUpdated + 30000l > System.currentTimeMillis())
 							break;
-						text = "G Display " + display.getNumber() + " Idle; " + ": " + display.getContent().getCategory() + "/'"
+						text = "G Display " + display.getVirtualDisplayNumber() + " Idle; " + ": " + display.getContent().getCategory() + "/'"
 								+ (display.getContent().getName());
 						break;
 					}
@@ -342,7 +342,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 					footer.setText(text);
 					displaySelector.resetToolTip(display);
-					setDisplayIsAlive(display.getNumber(), alive);
+					setDisplayIsAlive(display.getDBDisplayNumber(), alive);
 				}
 
 			});
@@ -417,7 +417,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		// Enable the Channel buttons, too
 		for (List<ChannelButtonGrid> allGrids : channelButtonGridList)
-			if (allGrids.get(0).getDisplay().getNumber() == number)
+			if (allGrids.get(0).getDisplay().getDBDisplayNumber() == number)
 				for (ChannelButtonGrid cbg : allGrids)
 					if (cbg != null)
 						cbg.setAlive(alive);
@@ -525,7 +525,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			return;
 		Color c = display.getPreferredHighlightColor();
 
-		String num = "" + display.getNumber();
+		String num = "" + display.getVirtualDisplayNumber();
 		String t = display.getLocation();
 		if (t.contains(num))
 			title.setText("   " + display.getLocation() + "   ");
@@ -627,7 +627,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private static JLabelFooter makeChannelIndicator(Display display) {
 		// JLabel footer = new JLabel(" Display " + display.getNumber() + " set to the '" + display.getContent().getCategory()
 		// + "' channel '" + (display.getContent().getName()) + "' (" + shortDate() + ")");
-		JLabelFooter footer = new JLabelFooter("Display " + display.getNumber());
+		JLabelFooter footer = new JLabelFooter("Display " + display.getVirtualDisplayNumber());
 		DisplayButtons.setToolTip(display);
 
 		if (!SHOW_IN_WINDOW) {

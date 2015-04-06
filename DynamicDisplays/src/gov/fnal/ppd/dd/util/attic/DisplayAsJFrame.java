@@ -38,7 +38,7 @@ public class DisplayAsJFrame extends DisplayImpl {
 	public static boolean	webTesting;
 
 	public DisplayAsJFrame(String ipName, int screenNumber, int number, String location, Color color, SignageType type) {
-		super(ipName, screenNumber, number, location, color, type);
+		super(ipName, screenNumber, number, number, location, color, type);
 		initComponents();
 	}
 
@@ -49,7 +49,7 @@ public class DisplayAsJFrame extends DisplayImpl {
 
 		// p.setOpaque(true);
 		// p.setBackground(getPreferredHighlightColor());
-		dNum = new JLabel("Display " + getNumber() + " (" + getCategory() + ")");
+		dNum = new JLabel("Display " + getVirtualDisplayNumber() + " (" + getCategory() + ")");
 		dNum.setFont(new Font("SansSerif", Font.BOLD, 20));
 		cName = new JLabel((this.getContent() != null ? this.getContent().getName() : "n/a"));
 		cName.setFont(new Font("SansSerif", Font.BOLD, 15));
@@ -88,7 +88,7 @@ public class DisplayAsJFrame extends DisplayImpl {
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(getPreferredHighlightColor(), 10),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		f = new JFrame("Place holder for Display " + getNumber());
+		f = new JFrame("Place holder for Display " + getVirtualDisplayNumber());
 		if (webTesting)
 			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		else

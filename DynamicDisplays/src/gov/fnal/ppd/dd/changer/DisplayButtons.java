@@ -65,7 +65,7 @@ public class DisplayButtons extends JPanel {
 			int[] labels = new int[displayList.size()];
 			for (int i = 0; i < colorArray.length; i++) {
 				colorArray[i] = displayList.get(i).getPreferredHighlightColor();
-				labels[i] = displayList.get(i).getNumber();
+				labels[i] = displayList.get(i).getVirtualDisplayNumber();
 			}
 
 			BasicSliderUI sliderUI = new DisplayColorSliderUI(this, colorArray, labels);
@@ -123,7 +123,9 @@ public class DisplayButtons extends JPanel {
 		int index = 0;
 		for (Display d : displayList) {
 			if (d == disp) {
-				String toolTip = "<html><b>Display:</b> " + disp.getNumber() + " -- " + disp.getDescription();
+				String toolTip = "<html><b>Display:</b> " + disp.getVirtualDisplayNumber();
+				toolTip += " (index=" + disp.getDBDisplayNumber() + ", num=" + disp.getVirtualDisplayNumber() + ")";
+				toolTip += " -- " + disp.getDescription();
 				toolTip += "<br /><b>Last status update:</b> " + shortDate();
 				toolTip += "<br />Press to select this display.";
 				toolTip += "</p></html>";
@@ -172,9 +174,9 @@ public class DisplayButtons extends JPanel {
 		if (SHOW_IN_WINDOW)
 			fs = WINDOW_FONT_SIZE;
 
-//		int rigidHeight = INSET_SIZE + (11 - displayList.size());
-//		if (rigidHeight <= 0)
-//			rigidHeight = 1;
+		// int rigidHeight = INSET_SIZE + (11 - displayList.size());
+		// if (rigidHeight <= 0)
+		// rigidHeight = 1;
 		buttonBox.add(Box.createVerticalGlue());
 		for (int i = 0; i < displayList.size(); i++) {
 			final Display disp = displayList.get(i);
@@ -182,8 +184,8 @@ public class DisplayButtons extends JPanel {
 			buttonList.add(button);
 
 			button.setFont(button.getFont().deriveFont(fs));
-//			if (!SHOW_IN_WINDOW)
-//				button.setMargin(new Insets(INSET_SIZE, INSET_SIZE, INSET_SIZE, INSET_SIZE));
+			// if (!SHOW_IN_WINDOW)
+			// button.setMargin(new Insets(INSET_SIZE, INSET_SIZE, INSET_SIZE, INSET_SIZE));
 			button.setSelected(i == 0);
 			bg.add(button);
 
@@ -262,7 +264,7 @@ public class DisplayButtons extends JPanel {
 				catchSleep(100);
 				int index = 0;
 				for (Display d : displayList) {
-					if (d.getNumber() == displayNum) {
+					if (d.getDBDisplayNumber() == displayNum) {
 						buttonList.get(index).setEnabled(alive);
 					}
 					index++;

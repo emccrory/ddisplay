@@ -94,7 +94,7 @@ public class DisplayFacade extends DisplayImpl {
 
 			} else {
 				DisplayFacade d = clients.get(message.getFrom());
-				dcp.processInput(message, d.getNumber(), d.getScreenNumber());
+				dcp.processInput(message);
 			}
 		}
 
@@ -138,7 +138,7 @@ public class DisplayFacade extends DisplayImpl {
 		}
 
 		public static void addListener(DisplayFacade displayFacade) {
-			me.dcp.addListener(displayFacade);			
+			me.dcp.addListener(displayFacade);
 		}
 	}
 
@@ -152,14 +152,14 @@ public class DisplayFacade extends DisplayImpl {
 	 * @param color
 	 * @param type
 	 */
-	public DisplayFacade(final int portNumber, final String ipName, final int number, final int screenNumber,
+	public DisplayFacade(final int portNumber, final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
 			final String location, final Color color, final SignageType type) {
-		super(ipName, number, screenNumber, location, color, type);
+		super(ipName, vNumber, dbNumber, screenNumber, location, color, type);
 
 		// try {
 		// In UNICODE, this is spelled "FA\u00c7ADE"
 		// myExpectedName += " -- " + InetAddress.getLocalHost().getCanonicalHostName() + " Façade".toUpperCase();
-		myExpectedName = ipName + ":" + screenNumber + " (" + number + ")";
+		myExpectedName = ipName + ":" + screenNumber + " (" + vNumber + ")";
 		// if (!"ChannelSelector".equals(PROGRAM_NAME))
 		// myExpectedName += " " + PROGRAM_NAME; // Used by "IdentifyAll" to connect to the Displays in parallel
 
@@ -167,7 +167,7 @@ public class DisplayFacade extends DisplayImpl {
 		// } catch (UnknownHostException e1) {
 		// e1.printStackTrace(); // Really? This should never happen.
 		// }
-		System.out.println(DisplayFacade.class.getSimpleName() + ": The messaging name of Display " + number
+		System.out.println(DisplayFacade.class.getSimpleName() + ": The messaging name of Display " + vNumber + "/" + dbNumber
 				+ " is expected to be '" + myExpectedName + "'");
 		FacadeMessagingClient.registerClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myExpectedName, this);
 		FacadeMessagingClient.addListener(this);
@@ -181,12 +181,14 @@ public class DisplayFacade extends DisplayImpl {
 			if (content instanceof ChannelPlayList) {
 				System.out.println(getClass().getSimpleName() + ": Have a ChannelPlayList to deal with!");
 				cc = new ChangeChannelList();
-				((ChangeChannelList) cc).setDisplayNumber(getNumber());
+				((ChangeChannelList) cc).setDisplayNumber(getVirtualDisplayNumber());
+				((ChangeChannelList) cc).setScreenNumber(getScreenNumber());
 				((ChangeChannelList) cc).setContent(getContent());
 			} else {
 				System.out.println(getClass().getSimpleName() + ": Have a simple channel");
 				cc = new ChangeChannel();
-				((ChangeChannel) cc).setDisplayNumber(getNumber());
+				((ChangeChannel) cc).setDisplayNumber(getVirtualDisplayNumber());
+				((ChangeChannel) cc).setScreenNumber(getScreenNumber());
 				((ChangeChannel) cc).setContent(getContent());
 				((ChangeChannel) cc).setIPAddress(InetAddress.getLocalHost().getHostAddress());
 			}
@@ -195,7 +197,7 @@ public class DisplayFacade extends DisplayImpl {
 			FacadeMessagingClient.sendAMessage(MessageCarrier.getMessage(FacadeMessagingClient.getMyName(),
 					FacadeMessagingClient.getTargetName(this), xmlMessage));
 
-			// A reply is expected.  It will come later.
+			// A reply is expected. It will come later.
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

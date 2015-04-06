@@ -49,7 +49,7 @@ public class WhoIsInChatRoom extends Thread {
 
 			for (int i = 0; i < displayList.size(); i++)
 				if (lastAliveList == null || lastAliveList[i] != aliveList[i])
-					alive.setDisplayIsAlive(displayList.get(i).getNumber(), aliveList[i]);
+					alive.setDisplayIsAlive(displayList.get(i).getDBDisplayNumber(), aliveList[i]);
 		}
 	}
 

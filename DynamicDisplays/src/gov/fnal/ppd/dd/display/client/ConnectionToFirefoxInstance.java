@@ -39,7 +39,7 @@ public class ConnectionToFirefoxInstance {
 	private final int								port;
 
 	private boolean									debug						= true;
-	private int										displayID;
+	private int										virtualID, dbID;
 
 	private String									colorCode;
 	private boolean									showingCanonicalSite		= false;
@@ -67,21 +67,30 @@ public class ConnectionToFirefoxInstance {
 																					}
 																				};
 
+	private static final String						BASE_WEB_PAGE				= "http://xoc.fnal.gov/border.php";
+	private static final String						TICKERTAPE_WEB_PAGE			= "http://mccrory.fnal.gov/border1.php";
+
+	public enum WrapperType {
+		NORMAL, TICKER, NONE
+	};
+
 	/**
 	 * Create a connection to the instance of FireFox that is being targeted here
 	 * 
 	 * @param screenNumber
-	 * @param displayID
+	 * @param virtualID
+	 * @param dbID 
 	 * @param color
 	 * 
 	 */
-	public ConnectionToFirefoxInstance(final int screenNumber, final int displayID, final Color color) {
+	public ConnectionToFirefoxInstance(final int screenNumber, final int virtualID, final int dbID, final Color color) {
 		// Create a connection to the instance of FireFox that is being targeted here
 
 		bounds = ScreenLayoutInterpreter.getBounds(screenNumber);
-		println(getClass(), "Screen size is " + bounds.width + " x " + bounds.height);
+		println(getClass(), " -- Screen size is " + bounds.width + " x " + bounds.height + ", vDisplay=" + virtualID + ", dbID=" + dbID);
 
-		this.displayID = displayID;
+		this.virtualID = virtualID;
+		this.dbID = dbID;
 
 		colorCode = Integer.toHexString(color.getRGB() & 0x00ffffff);
 		colorCode = "000000".substring(colorCode.length()) + colorCode;
@@ -90,7 +99,8 @@ public class ConnectionToFirefoxInstance {
 
 		// FIXME The does not work for screen != 0. Firefox needs to be configured to listen to port 32001 for screen #1, and this,
 		// I think, needs to be done by hand. Not sure at this time (9/15/2014) how to do this.
-		port = PORT; // + screenNumber;
+
+		port = PORT + screenNumber;
 		openConnection();
 	}
 
@@ -99,61 +109,79 @@ public class ConnectionToFirefoxInstance {
 	 * 
 	 * @param urlString
 	 *            The URL that this instance should show now.
-	 * @param useTheWrapper
+	 * @param theWrapper
 	 * @return Was the change successful?
 	 * @throws UnsupportedEncodingException
 	 */
-	public boolean changeURL(final String urlString, final boolean useTheWrapper) throws UnsupportedEncodingException {
+	public boolean changeURL(final String urlString, final WrapperType theWrapper) throws UnsupportedEncodingException {
 		if (debug)
 			println(getClass(), ": New URL: " + urlString);
 
-		if (useTheWrapper) {
+		String s = "";
+		switch (theWrapper) {
 
-			// I have tried to do this in a local file, in order to remove some load from the web server. But
-			// this has not worked for me. (10/2014) First, it seems that the "window.location" Javascript command
-			// does not work for local files. Second, if I load the local file by hand, the Javascript timeout
-			// function never gets called.
-
-			// try {
-			// FileOutputStream out = new FileOutputStream(LOCAL_FILE_NAME);
-			// out.write(htmlTemplate.replace(URL_MARKER, urlString).getBytes());
-			// out.close();
-			//
-			// String sendString = "window.location=\"file://localhost" + LOCAL_FILE_NAME + "\";\n";
-			// System.out.println("changeURL(): " + sendString);
-			// send(sendString);
-			// //
-			//
-			// } catch (Exception e) {
-			// e.printStackTrace();
-			// }
-
-			String s = "";
+		case NORMAL:
 			if (!showingCanonicalSite) {
 				showingCanonicalSite = true;
-				s = "window.location=\"http://xoc.fnal.gov/border.php?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-						+ displayID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+				s = "window.location=\"" + BASE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
 				// TODO Remove this hard coding!!
 				if (isNumberDiscrete())
 					s += "&shownumber=0";
 				s += "\";\n";
-				send(s);
 			} else {
 				s = "document.getElementById('iframe').src = '" + urlString + "';\n";
-				// s += "document.getElementById('iframe').contentWindow.location.reload();\n";
-				send(s);
 			}
-			println(getClass(), " -- Sent: [[" + s + "]]");
+			break;
 
-			// send("window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
-			// + displayID + "&color=" + colorCode + "\";\n");
-		} else {
-			// Without the border wrapper
-			send("window.location=\"" + urlString + "\";\n");
+		case TICKER:
+			if (!showingCanonicalSite) {
+				showingCanonicalSite = true;
+				s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+
+				// TODO Remove this hard coding!!
+				if (isNumberDiscrete())
+					s += "&shownumber=0";
+				s += "\";\n";
+			} else {
+				s = "document.getElementById('iframe').src = '" + urlString + "';\n";
+			}
+			break;
+
+		case NONE:
+			s = "window.location=\"" + urlString + "\";\n";
 			println(getClass(), "Wrapper not used, new URL is " + urlString);
 			showingCanonicalSite = false;
+			break;
 		}
+
+		send(s);
+		println(getClass(), " -- Sent: [[" + s + "]]");
+
+		// I have tried to do this in a local file, in order to remove some load from the web server. But
+		// this has not worked for me. (10/2014) First, it seems that the "window.location" Javascript command
+		// does not work for local files. Second, if I load the local file by hand, the Javascript timeout
+		// function never gets called.
+
+		// try {
+		// FileOutputStream out = new FileOutputStream(LOCAL_FILE_NAME);
+		// out.write(htmlTemplate.replace(URL_MARKER, urlString).getBytes());
+		// out.close();
+		//
+		// String sendString = "window.location=\"file://localhost" + LOCAL_FILE_NAME + "\";\n";
+		// System.out.println("changeURL(): " + sendString);
+		// send(sendString);
+		// //
+		//
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+
+		// send("window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
+		// + displayID + "&color=" + colorCode + "\";\n");
+
 		// An experiment: Can I turn off the scroll bars? The answer is no (it seems)
 		// send("document.documentElement.style.overflow = 'hidden';\n");
 		// send("document.body.scroll='no';\n");
@@ -170,7 +198,7 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	private boolean isNumberDiscrete() {
-		return (displayID == 13 || displayID == 14 || displayID == 15 || displayID == 16);
+		return (dbID == 13 || dbID == 14 || dbID == 15 || dbID == 16);
 	}
 
 	/**

@@ -5,6 +5,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.display.client.BrowserLauncher.BrowserInstance;
+import gov.fnal.ppd.dd.display.client.ConnectionToFirefoxInstance.WrapperType;
 import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.awt.Color;
@@ -34,21 +35,22 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 	private ConnectionToFirefoxInstance	firefox;
 	private boolean						showingSelfIdentify	= false;
-	private boolean						useWrapper			= true;
+	private WrapperType					useWrapper			= WrapperType.NORMAL;
 	private int							changeCount;
 
 	/**
 	 * @param portNumber
 	 * @param ipName
-	 * @param displayID
+	 * @param vNumber 
+	 * @param dbNumber 
 	 * @param screenNumber
 	 * @param location
 	 * @param color
 	 * @param type
 	 */
-	public DisplayAsConnectionToFireFox(final String ipName, final int displayID, final int screenNumber, final int portNumber,
+	public DisplayAsConnectionToFireFox(final String ipName, final int vNumber, final int dbNumber, final int screenNumber, final int portNumber,
 			final String location, final Color color, final SignageType type) {
-		super(ipName, displayID, screenNumber, portNumber, location, color, type);
+		super(ipName, vNumber, dbNumber, screenNumber, portNumber, location, color, type);
 
 		if (getContent() == null)
 			throw new IllegalArgumentException("No content defined!");
@@ -65,13 +67,13 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		new Thread() {
 			public void run() {
-				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number=" + getNumber());
+				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number=" + getVirtualDisplayNumber());
 				catchSleep(4000); // Wait a bit before trying to contact the instance of FireFox.
-				firefox = new ConnectionToFirefoxInstance(screenNumber, getNumber(), highlightColor);
+				firefox = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(), highlightColor);
 				catchSleep(500); // Wait a bit more before trying to tell it to go to a specific page
 				try {
 					String url = getContent().getURI().toASCIIString();
-					if (firefox.changeURL(url, true)) {
+					if (firefox.changeURL(url, WrapperType.NORMAL)) {
 						setResetThread(DEFAULT_DWELL_TIME, url);
 					}
 					updateMyStatus();
@@ -117,7 +119,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					changeCount++;
 					if (firefox.changeURL(url, useWrapper)) {
 						lastChannel = getContent();
-						showingSelfIdentify = false;						
+						showingSelfIdentify = false;
 					} else {
 						System.err.println(getClass().getSimpleName() + ".localSetContent(): Failed to set content");
 						return false;
@@ -186,7 +188,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 * @return will the next URL request go through the normal wrapper page?
 	 */
 	public boolean isUsingWrapper() {
-		return useWrapper;
+		return useWrapper != WrapperType.NONE;
 	}
 
 	/**
@@ -194,7 +196,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 *            Do you want to use the standard URL wrapper page? Be very careful if you set this to false; not tested at this
 	 *            time (12/2014)
 	 */
-	public void setUseWrapper(final boolean useWrapper) {
+	public void setUseWrapper(final WrapperType useWrapper) {
 		this.useWrapper = useWrapper;
 	}
 

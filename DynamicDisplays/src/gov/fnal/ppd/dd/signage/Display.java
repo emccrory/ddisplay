@@ -39,11 +39,31 @@ public interface Display extends ActionListener {
 	// public void setPreferredHighlightColor( Color c );
 
 	/**
-	 * What is the Display number?
+	 * What is the Display number? This is either the Database Index or the virutal number the user wants to see.
 	 * 
 	 * @return the Display number
 	 */
-	public int getNumber();
+	// public int getNumber();
+
+	/**
+	 * @return The index into the database of this display. This used to be the actual display number
+	 */
+	public int getDBDisplayNumber();
+
+	/**
+	 * @return The display number that the user wants to show on this display
+	 */
+	public int getVirtualDisplayNumber();
+
+	/**
+	 * @param d
+	 */
+	public void setDBDisplayNumber(int d);
+
+	/**
+	 * @param v
+	 */
+	public void setVirtualDisplayNumber(int v);
 
 	/**
 	 * What is the Screen number within this Display?

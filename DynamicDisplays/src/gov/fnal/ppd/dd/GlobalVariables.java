@@ -20,27 +20,32 @@ public class GlobalVariables {
 	/**
 	 * Do we show in full screen or in a window? Controlled by system constant, ddisplay.selector.inwindow
 	 */
-	public static boolean		SHOW_IN_WINDOW			= Boolean.getBoolean("ddisplay.selector.inwindow");
+	public static boolean		SHOW_IN_WINDOW				= Boolean.getBoolean("ddisplay.selector.inwindow");
 	/**
 	 * Is this a PUBLIC controller? Controlled by system constant, ddisplay.selector.public
 	 */
-	public static boolean		IS_PUBLIC_CONTROLLER	= Boolean.getBoolean("ddisplay.selector.public");
+	public static boolean		IS_PUBLIC_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.public");
+
+	/**
+	 * Does the user want to have the database index for the display shown (default) or the virtual display numbers?
+	 */
+	public static boolean		SHOW_VIRTUAL_DISPLAY_NUMS	= Boolean.getBoolean("ddisplay.virtualdisplaynumbers");
 
 	/**
 	 * How long since last user activity?
 	 */
-	public static long			lastDisplayChange		= 0L;
+	public static long			lastDisplayChange			= 0L;
 
 	/**
 	 * String that says, "Do not check message signing". This is the only word that will turn off checking. All other words will
 	 * result in checking.
 	 */
-	public static final String	NOCHECK_SIGNED_MESSAGE	= "nocheck";
+	public static final String	NOCHECK_SIGNED_MESSAGE		= "nocheck";
 
 	/**
 	 * String that says, "Check message signing". This is the default.
 	 */
-	public static final String	CHECK_SIGNED_MESSAGE	= "check";
+	public static final String	CHECK_SIGNED_MESSAGE		= "check";
 
 	/**
 	 * <p>
@@ -52,7 +57,8 @@ public class GlobalVariables {
 	 * </p>
 	 */
 
-	private static String		checkSignedMessage		= System.getProperty("ddisplay.checksignedmessage", CHECK_SIGNED_MESSAGE);
+	private static String		checkSignedMessage			= System.getProperty("ddisplay.checksignedmessage",
+																	CHECK_SIGNED_MESSAGE);
 
 	/**
 	 * @return Do we need to check the signature on messages?

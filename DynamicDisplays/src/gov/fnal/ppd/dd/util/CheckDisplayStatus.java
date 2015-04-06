@@ -39,7 +39,7 @@ public class CheckDisplayStatus extends Thread {
 	 * @param grids
 	 */
 	public CheckDisplayStatus(final Display display, final int index, final JLabel footer, final List<List<ChannelButtonGrid>> grids) {
-		super("Display." + display.getNumber() + "." + display.getScreenNumber() + ".StatusUpdate");
+		super("Display." + display.getVirtualDisplayNumber() + "." + display.getScreenNumber() + ".StatusUpdate");
 		this.display = display;
 		this.index = index;
 		this.footer = footer;
@@ -55,7 +55,7 @@ public class CheckDisplayStatus extends Thread {
 				sleep(PING_INTERVAL);
 				// read from the database to see what's up with this Display
 
-				String query = "SELECT Content,ContentName FROM DisplayStatus WHERE DisplayID=" + display.getNumber();
+				String query = "SELECT Content,ContentName FROM DisplayStatus WHERE DisplayID=" + display.getDBDisplayNumber();
 				// Use ARM (Automatic Resource Management) to assure that things get closed properly (a new Java 7
 				// feature)
 				try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query);) {
@@ -70,14 +70,14 @@ public class CheckDisplayStatus extends Thread {
 									if (contentName.contains(" is being displayed"))
 										contentName = contentName.substring(0, contentName.indexOf(" is being displayed"));
 									// Create a new footer
-									String text = "Disp " + display.getNumber() + ": " + contentName;
+									String text = "Disp " + display.getVirtualDisplayNumber() + ": " + contentName;
 									footer.setText(text);
 									footer.setToolTipText(contentName);
 									DisplayButtons.setToolTip(display);
 
 									// Enable the Channel buttons, too
 									for (List<ChannelButtonGrid> allGrids : grids)
-										if (allGrids.get(0).getDisplay().getNumber() == display.getNumber())
+										if (allGrids.get(0).getDisplay().getDBDisplayNumber() == display.getDBDisplayNumber())
 											for (ChannelButtonGrid cbg : allGrids)
 												for (int i = 0; i < cbg.getBg().getNumButtons(); i++) {
 													DDButton myButton = cbg.getBg().getAButton(i);

@@ -198,7 +198,7 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 	 */
 	public DynamicDisplayWithoutJxBrowser(final int portNumber, final boolean maximized, final String ipName,
 			final int screenNumber, final int number, final String location, final Color color, final SignageType type) {
-		super(ipName, screenNumber, number, location, color, type);
+		super(ipName, screenNumber, number, number, location, color, type);
 
 		lastURL = "http://xoc.fnal.gov";
 		changeURL(lastURL);
@@ -208,7 +208,7 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 		// .getDefaultConfiguration();
 		// Rectangle bounds = ScreenLayoutInterpreter.getBounds(screenNumber);
 
-		JFrame frame = new JFrame("Dynamic Display no. " + this.getNumber());
+		JFrame frame = new JFrame("Dynamic Display no. " + number);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		mainPanel.add(new JLabel("Wait"), BorderLayout.CENTER);

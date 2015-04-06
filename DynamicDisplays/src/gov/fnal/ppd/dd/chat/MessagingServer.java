@@ -240,8 +240,8 @@ public class MessagingServer {
 
 							// Reply to the client that this message was rejected!
 							writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, this.cm.getFrom(),
-									"Your message to the display called " + this.cm.getTo()
-											+ " is not properly signed, so it has been rejected"));
+									"The message to display '" + this.cm.getTo()
+											+ "' does not have a correct cryptographic signature; it has been rejected."));
 							continue;
 						}
 					} else if (read instanceof String) {

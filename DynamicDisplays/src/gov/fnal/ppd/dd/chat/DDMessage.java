@@ -17,7 +17,6 @@ import javax.xml.bind.JAXBException;
 public class DDMessage {
 	private String				rawMessage;
 
-	private int					screenNumber;
 	private Object				receivedMessage;
 	// private final static String SCREEN = "Screen:";
 	private static final String	XMLPRE				= "<?xml";
@@ -33,7 +32,6 @@ public class DDMessage {
 	 *            The body of the message to create
 	 */
 	public DDMessage(final String raw) {
-		this.screenNumber = 0;
 		if (raw != null && raw.length() > 0) {
 			// remove all the non-printable characters, but put back in the newlines
 			String resultString = raw.replaceAll("[^\\x20-\\x7F]", "").replaceAll(" +", " ").replace("><", ">\n<")
@@ -100,13 +98,6 @@ public class DDMessage {
 	}
 
 	/**
-	 * @return The screen number
-	 */
-	public int getScreenNumber() {
-		return screenNumber;
-	}
-
-	/**
 	 * @return The message that should be sent on the wire
 	 */
 	public String getOutputMessage() {
@@ -125,7 +116,7 @@ public class DDMessage {
 
 	@Override
 	public String toString() {
-		return "screen=[" + screenNumber + "] XML=[\n\t" + rawMessage.replace("\n", "\n\t") + "\n] received type="
+		return "XML=[\n\t" + rawMessage.replace("\n", "\n\t") + "\n] received type="
 				+ receivedMessage.getClass().getCanonicalName();
 	}
 

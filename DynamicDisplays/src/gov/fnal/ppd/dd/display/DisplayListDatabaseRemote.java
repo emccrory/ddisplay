@@ -84,17 +84,19 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 					String ipName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPname"));
 					int locCode = rs.getInt("LocationCode");
 					int displayID = rs.getInt("DisplayID");
+					int vDisplayNum = rs.getInt("VirtualDisplayNumber");
 					int screenNumber = rs.getInt("ScreenNumber");
 					int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
 					if ((locationCode < 0 || locCode == locationCode) && !dID.contains(displayID)) { // Negative locationCode will
-																									// select ALL displays
-																									// everywhere
+																										// select ALL displays
+																										// everywhere
 						SignageType type = SignageType.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs
 								.getAsciiStream("Type")));
 
 						dID.add(displayID);
-						Display p = new DisplayFacade(locCode, ipName, displayID, screenNumber, location, new Color(colorCode),
+						Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location, new Color(colorCode),
 								type);
+						p.setVirtualDisplayNumber(vDisplayNum);
 
 						add(p);
 						count++;

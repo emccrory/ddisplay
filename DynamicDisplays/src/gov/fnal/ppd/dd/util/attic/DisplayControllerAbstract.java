@@ -56,7 +56,7 @@ public abstract class DisplayControllerAbstract extends DisplayImpl {
 	 */
 	public DisplayControllerAbstract(String ipName, int displayID, int screenNumber, int portNumber, String location, Color color,
 			SignageType type) {
-		super(ipName, displayID, screenNumber, location, color, type);
+		super(ipName, displayID, displayID, screenNumber, location, color, type);
 
 		if (getContent() == null)
 			throw new IllegalArgumentException("No content defined!");
