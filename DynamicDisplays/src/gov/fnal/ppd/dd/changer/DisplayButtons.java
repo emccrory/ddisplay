@@ -4,6 +4,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.shortDate;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -194,7 +195,7 @@ public class DisplayButtons extends JPanel {
 
 				public void actionPerformed(ActionEvent e) {
 					// AbstractButton b = (AbstractButton) e.getSource();
-					listener.actionPerformed(new ActionEvent(disp, fi, disp.toString(), e.getWhen(), e.getModifiers()));
+					listener.actionPerformed(new ActionEvent(disp, fi, getDisplayID(disp), e.getWhen(), e.getModifiers()));
 
 					// Gets updated when the button is clicked
 					setToolTip(disp);

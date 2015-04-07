@@ -157,6 +157,7 @@ public abstract class DisplayImpl implements Display {
 				return "Display 0" + displayNumber;
 
 		}
+	
 		return "Display " + displayNumber;
 	}
 

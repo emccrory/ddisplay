@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
@@ -63,6 +64,7 @@ public class DDButton extends JButton {
 		this.channel = channel;
 		this.display = display;
 		this.maxLen = maxLen;
+
 		// Hold the original button border for later
 		regularButtonBorder = getBorder();
 
@@ -142,7 +144,7 @@ public class DDButton extends JButton {
 			// second += "<br />";
 			staticNumBR = 3;
 		}
-		
+
 		return "<html><center>" + first + second + third + "</center></html>";
 	}
 

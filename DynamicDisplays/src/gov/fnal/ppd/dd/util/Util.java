@@ -5,6 +5,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_FOLDER;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 import java.lang.management.ManagementFactory;
@@ -26,8 +27,10 @@ public class Util {
 
 	private static final String[]	days			= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
+	// TODO Replace this random selection of default page to show with the page that is specified in the database.
+
 	/**
-	 * The lsit of default URLs
+	 * The list of default URLs
 	 */
 	public static final String		DEFAULT_URLS[]	= {
 			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=MINOS",
@@ -38,7 +41,7 @@ public class Util {
 			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=gMinus2",
 			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=SeaQuest",
 			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=NOvA",
-			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=LBNF",
+			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=DUNE",
 			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=NuMI", //
 			"http://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none", //
 			"http://elliottmccrory.com/clock/five.html", };
@@ -47,7 +50,7 @@ public class Util {
 	 * The list of default names for URLS
 	 */
 	public static final String		DEFAULT_NAMES[]	= { "MINOS Pictures", "MINERvA Pictures", "MiniBooNE Pictures",
-			"MicroBooNE Pictures", "Mu2e Pictures", "g-2 Pictures", "SeaQuest Pictures", "NOvA Pictures", "LBNF Pictures",
+			"MicroBooNE Pictures", "Mu2e Pictures", "g-2 Pictures", "SeaQuest Pictures", "NOvA Pictures", "DUNE Pictures",
 			"NuMI Pictures", "Accelerator Status", "Clocks", };
 
 	/**
@@ -171,10 +174,22 @@ public class Util {
 	}
 
 	/**
-	 * @param clazz The type of the caller
-	 * @param message the message to print
+	 * @param clazz
+	 *            The type of the caller
+	 * @param message
+	 *            the message to print
 	 */
 	public static void println(Class<?> clazz, String message) {
 		System.out.println(new Date() + " -- " + clazz.getSimpleName() + message);
+	}
+
+	/**
+	 * @param d
+	 *            The display to identify
+	 * @return A unique string to identify this display.
+	 */
+	public static String getDisplayID(final Display d) {
+		return "Display " + d.getVirtualDisplayNumber() + "/" + d.getDBDisplayNumber();
+
 	}
 }

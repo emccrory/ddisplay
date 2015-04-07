@@ -133,7 +133,7 @@ public class CategoryDictionary {
 	//
 	// }
 
-	private static final String[]	FermilabExperiments	= { "gMinus2", "LBNF", "MicroBooNE", "MiniBooNE", "MINERvA", "MINOS",
+	private static final String[]	FermilabExperiments	= { "gMinus2", "DUNE", "MicroBooNE", "MiniBooNE", "MINERvA", "MINOS",
 			"Mu2E", "NOvA", "SeaQuest", "NUmI"			};
 
 	private static final String[]	CERNExperiments		= { "CMS", "ATLAS", "LHC", "AEGIS", "ALICE", "ALPHA", "AMS", "ASACUSA",

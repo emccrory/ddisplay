@@ -14,6 +14,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.dd.GlobalVariables.locationCode;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
+import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import gov.fnal.ppd.dd.changer.AddYourOwnURL;
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
@@ -318,8 +319,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						alive = true;
 						break;
 					case ERROR:
-						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; " + ": " + display.getContent().getCategory() + "/'"
-								+ (display.getContent().getName());
+						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; " + ": "
+								+ display.getContent().getCategory() + "/'" + (display.getContent().getName());
 						launchErrorMessage(e);
 						break;
 
@@ -334,8 +335,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						alive = true;
 						if (lastUpdated + 30000l > System.currentTimeMillis())
 							break;
-						text = "G Display " + display.getVirtualDisplayNumber() + " Idle; " + ": " + display.getContent().getCategory() + "/'"
-								+ (display.getContent().getName());
+						text = "G Display " + display.getVirtualDisplayNumber() + " Idle; " + ": "
+								+ display.getContent().getCategory() + "/'" + (display.getContent().getName());
 						break;
 					}
 					lastUpdated = System.currentTimeMillis();
@@ -354,7 +355,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			b.add(Box.createHorizontalGlue());
 			inner.add(b, BorderLayout.SOUTH);
 
-			displayChannelPanel.add(inner, display.toString());
+			displayChannelPanel.add(inner, getDisplayID(display));
 
 			note = "Building the rest of the GUI";
 			progressMonitor.setNote(note);
@@ -639,6 +640,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	public void actionPerformed(ActionEvent e) {
 		// The display selection has been changed, Select the "card" that shows this panel
+
 		card.show(displayChannelPanel, e.getActionCommand());
 		lastActiveDisplay = e.getActionCommand();
 
