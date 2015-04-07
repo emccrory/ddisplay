@@ -124,7 +124,15 @@ public class ObjectSigning {
 			return false;
 		}
 		List<String> thisClientsDisplays = clientControlList.get(client);
-		return thisClientsDisplays.contains("-1") || thisClientsDisplays.contains(displayName);
+		// return thisClientsDisplays.contains("-1") || thisClientsDisplays.contains(displayName);
+		if (thisClientsDisplays.contains("-1") || thisClientsDisplays.contains(displayName))
+			return true;
+
+		String theList = "";
+		for (String S : thisClientsDisplays)
+			theList += "\t\t" + S + "\n";
+		println(ObjectSigning.class, ": I wonder why this client is not in the list.  Here is the list:\n" + theList);
+		return false;
 	}
 
 	private void generateNewKeys() throws NoSuchAlgorithmException {
@@ -238,15 +246,16 @@ public class ObjectSigning {
 					return retval;
 				}
 
-				String query2 = "SELECT VirtualDisplayNumber,IPName FROM DisplaySort,Display WHERE DisplaySort.DisplayID=Display.DisplayID DisplaySort.LocationCode="
-						+ lc;
+				String query2 = "SELECT VirtualDisplayNumber,IPName,ScreenNumber FROM DisplaySort,Display WHERE "
+						+ "DisplaySort.DisplayID=Display.DisplayID AND DisplaySort.LocationCode=" + lc;
 
 				try (ResultSet rs = stmt.executeQuery(query2);) {
 					if (rs.first()) { // Move to first returned row
 						do {
 							String ipName = rs.getString("IPname");
+							int scr = rs.getInt("ScreenNumber");
 							int vID = rs.getInt("VirtualDisplayNumber");
-							retval.add(ipName + " (" + vID + ")");
+							retval.add(ipName + ":" + scr + " (" + vID + ")");
 						} while (rs.next());
 						println(ObjectSigning.class, ": This client has " + retval.size() + " displays it can change.");
 					} else {
