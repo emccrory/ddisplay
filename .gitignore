@@ -43,3 +43,7 @@ CVS
 JxBrowser
 version3jars
 *.key
+headlines.txt
+temp*
+newsfeed.xml
+weather*

@@ -33,7 +33,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +59,7 @@ public class ObjectSigning {
 
 	private static Map<String, ObjectSigning>	keys				= new HashMap<String, ObjectSigning>();
 
-	private static Map<String, List<Integer>>	clientControlList	= new HashMap<String, List<Integer>>();
+	private static Map<String, List<String>>	clientControlList	= new HashMap<String, List<String>>();
 
 	/**
 	 * @return the instance of this ObjectSigning object for this JVM
@@ -114,33 +113,18 @@ public class ObjectSigning {
 	/**
 	 * @param client
 	 *            The client trying to make changes to the display
-	 * @param displayID
+	 * @param displayName
 	 *            The ID of the display (i.e., the display number)
 	 * @return Is this client authorized to change the channel on this display?
 	 */
-	public static boolean isClientAuthorized(final String client, final int displayID) {
-		println(ObjectSigning.class, ": Checking if " + client + " is authorized to send to display number " + displayID);
+	public static boolean isClientAuthorized(final String client, final String displayName) {
+		println(ObjectSigning.class, ": Checking if " + client + " is authorized to send to display '" + displayName + "'");
 		if (!clientControlList.containsKey(client)) {
 			println(ObjectSigning.class, ": Client is not in the DB; we don't know what displays it can change!");
 			return false;
 		}
-		List<Integer> thisClientsDisplays = clientControlList.get(client);
-		// println(ObjectSigning.class, ": Contains(-1)? " + thisClientsDisplays.contains(-1));
-		// println(ObjectSigning.class, ": Contains(" + displayID + ")? " + thisClientsDisplays.contains(displayID));
-		// println(ObjectSigning.class, ": " + Arrays.toString(thisClientsDisplays.toArray()));
-		return thisClientsDisplays.contains(-1) || thisClientsDisplays.contains(displayID);
-	}
-
-	/**
-	 * @param client
-	 *            The client trying to make changes to the display
-	 * @param displayName
-	 *            the name of the Display, which is supposed to look like "ip-name-of-display.fnal.gov (10)"
-	 * @return Is this client authorized to change the channel on this display?
-	 */
-	public static boolean isClientAuthorized(final String client, final String displayName) {
-		int displayID = Integer.parseInt(displayName.substring(displayName.indexOf('(') + 1, displayName.indexOf(')')));
-		return isClientAuthorized(client, displayID);
+		List<String> thisClientsDisplays = clientControlList.get(client);
+		return thisClientsDisplays.contains("-1") || thisClientsDisplays.contains(displayName);
 	}
 
 	private void generateNewKeys() throws NoSuchAlgorithmException {
@@ -225,8 +209,8 @@ public class ObjectSigning {
 		return false;
 	}
 
-	private static List<Integer> loadDisplayListFromDB(final String clientName) {
-		List<Integer> retval = new ArrayList<Integer>();
+	private static List<String> loadDisplayListFromDB(final String clientName) {
+		List<String> retval = new ArrayList<String>();
 
 		String clientIP = getIPName(clientName.substring(0, clientName.indexOf(' ')));
 
@@ -249,18 +233,20 @@ public class ObjectSigning {
 					}
 				}
 				if (lc < 0) {
-					retval.add(-1);
+					retval.add("-1");
 					println(ObjectSigning.class, ": This client can control all the displays!");
 					return retval;
 				}
 
-				String query2 = "SELECT DisplayID FROM DisplaySort WHERE DisplaySort.LocationCode=" + lc;
+				String query2 = "SELECT VirtualDisplayNumber,IPName FROM DisplaySort,Display WHERE DisplaySort.DisplayID=Display.DisplayID DisplaySort.LocationCode="
+						+ lc;
 
 				try (ResultSet rs = stmt.executeQuery(query2);) {
 					if (rs.first()) { // Move to first returned row
 						do {
-							int display = rs.getInt("DisplayID");
-							retval.add(display);
+							String ipName = rs.getString("IPname");
+							int vID = rs.getInt("VirtualDisplayNumber");
+							retval.add(ipName + " (" + vID + ")");
 						} while (rs.next());
 						println(ObjectSigning.class, ": This client has " + retval.size() + " displays it can change.");
 					} else {
