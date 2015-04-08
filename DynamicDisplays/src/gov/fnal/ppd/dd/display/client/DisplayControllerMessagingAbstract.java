@@ -304,6 +304,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
 								| IllegalArgumentException | InvocationTargetException e) {
 							e.printStackTrace();
+							System.err.println("Here are the arguments: " + myName + ", " + vNumber + ", " + dbNumber + ", "
+									+ screenNumber + ", " + portNumber + ", " + location + ", " + color + ", " + type);
 						}
 						return null;
 					} catch (Exception e) {
@@ -336,7 +338,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] {
 					"Failsafe Display", 99, 0, 0, "Failsafe location", Color.red, SignageType.XOC });
 			d.initiate();
-			d.setDefaultContent(makeEmptyChannel().getURI().toURL().toString());
+			d.setDefaultContent(makeEmptyChannel(null).getURI().toURL().toString());
 			return d;
 		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
 				| IllegalArgumentException | InvocationTargetException | MalformedURLException e) {
@@ -346,7 +348,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	private void setDefaultContent(String url) {
-		setChannel((Channel) makeEmptyChannel());
+		setContentBypass((Channel) makeEmptyChannel(url));
 	}
 
 	private static String getURLFromNumber(int channelNumber) {

@@ -1,8 +1,8 @@
 package gov.fnal.ppd.dd.display.client;
 
+import static gov.fnal.ppd.dd.GlobalVariables.*;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
-
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 
 import java.awt.Color;
@@ -17,6 +17,9 @@ import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -42,31 +45,32 @@ public class ConnectionToFirefoxInstance {
 	private int										virtualID, dbID;
 
 	private String									colorCode;
-	private boolean									showingCanonicalSite		= false;
+	private AtomicBoolean							showingCanonicalSite		= new AtomicBoolean(false);
 	private Rectangle								bounds;
 
-	@SuppressWarnings("serial")
+	// @SuppressWarnings("serial")
 	// TODO This is actually in the database and should be read from there.
-	private static final HashMap<String, String>	colorNames					= new HashMap<String, String>() {
-																					{
-																						put("003397", "Blue");
-																						put("80A0ff", "Light Blue");
-																						put("ffcc00", "Yellow");
-																						put("f20019", "Red");
-																						put("008000", "Green");
-																						put("71BC78", "Fern");
-																						put("fe8420", "Orange");
-																						put("ffffff", "White");
-																						put("777777", "Gray");
-																						put("800080", "Purple");
-																						put("964b00", "Brown");
-																						put("ffcbdb", "Pink");
-																						put("000000", "Black");
-																						put("ff0055", "Magenta");
-																						put("a0d681", "Light Green");
-																					}
-																				};
+	// private static final HashMap<String, String> colorNames = new HashMap<String, String>() {
+	// {
+	// put("003397", "Blue");
+	// put("80A0ff", "Light Blue");
+	// put("ffcc00", "Yellow");
+	// put("f20019", "Red");
+	// put("008000", "Green");
+	// put("71BC78", "Fern");
+	// put("fe8420", "Orange");
+	// put("ffffff", "White");
+	// put("777777", "Gray");
+	// put("800080", "Purple");
+	// put("964b00", "Brown");
+	// put("ffcbdb", "Pink");
+	// put("000000", "Black");
+	// put("ff0055", "Magenta");
+	// put("a0d681", "Light Green");
+	// }
+	// };
 
+	private static final HashMap<String, String>	colorNames					= GetColorsFromDatabase.get();
 	private static final String						BASE_WEB_PAGE				= "http://xoc.fnal.gov/border.php";
 	private static final String						TICKERTAPE_WEB_PAGE			= "http://mccrory.fnal.gov/border1.php";
 
@@ -121,6 +125,17 @@ public class ConnectionToFirefoxInstance {
 
 		port = PORT + screenNumber;
 		openConnection();
+
+		// Perform a full reset of the browser every now and then.
+		Timer timer = new Timer();
+		TimerTask tt = new TimerTask() {
+			public void run() {
+				// The next time there is a channel change (even for a refresh), it will do a full reset.
+				showingCanonicalSite.set(false);
+			}
+		};
+		// timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
+		timer.scheduleAtFixedRate(tt, ONE_MINUTE, 5 * ONE_MINUTE);
 	}
 
 	/**
@@ -129,89 +144,93 @@ public class ConnectionToFirefoxInstance {
 	 * @param urlString
 	 *            The URL that this instance should show now.
 	 * @param theWrapper
+	 *            What kind of wrapper page shall this be? Normal, ticker-tape or none ("none" is really not going to work)
 	 * @return Was the change successful?
 	 * @throws UnsupportedEncodingException
+	 *             -- if the url we have been given is bogus
 	 */
 	public boolean changeURL(final String urlString, final WrapperType theWrapper) throws UnsupportedEncodingException {
 		if (debug)
 			println(getClass(), ": New URL: " + urlString);
 
 		String s = "";
-		switch (theWrapper) {
+		synchronized (showingCanonicalSite) {
+			switch (theWrapper) {
 
-		case NORMAL:
-			if (!showingCanonicalSite) {
-				showingCanonicalSite = true;
-				s = "window.location=\"" + BASE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+			case NORMAL:
+				if (!showingCanonicalSite.get()) {
+					showingCanonicalSite.set(true);
+					s = "window.location=\"" + BASE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
-				// TODO Remove this hard coding!!
-				if (isNumberDiscrete())
-					s += "&shownumber=0";
-				s += "\";\n";
-			} else {
-				s = "document.getElementById('iframe').src = '" + urlString + "';\n";
+					// TODO Remove this hard coding!!
+					if (isNumberDiscrete())
+						s += "&shownumber=0";
+					s += "\";\n";
+				} else {
+					s = "document.getElementById('iframe').src = '" + urlString + "';\n";
+				}
+				break;
+
+			case TICKER:
+				if (!showingCanonicalSite.get()) {
+					showingCanonicalSite.set(true);
+					s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+
+					// TODO Remove this hard coding!!
+					if (isNumberDiscrete())
+						s += "&shownumber=0";
+					s += "\";\n";
+				} else {
+					s = "document.getElementById('iframe').src = '" + urlString + "';\n";
+				}
+				break;
+
+			case NONE:
+				s = "window.location=\"" + urlString + "\";\n";
+				println(getClass(), "Wrapper not used, new URL is " + urlString);
+				showingCanonicalSite.set(false);
+				break;
 			}
-			break;
 
-		case TICKER:
-			if (!showingCanonicalSite) {
-				showingCanonicalSite = true;
-				s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+			send(s);
+			println(getClass(), " -- Sent: [[" + s + "]]");
 
-				// TODO Remove this hard coding!!
-				if (isNumberDiscrete())
-					s += "&shownumber=0";
-				s += "\";\n";
-			} else {
-				s = "document.getElementById('iframe').src = '" + urlString + "';\n";
+			// I have tried to do this in a local file, in order to remove some load from the web server. But
+			// this has not worked for me. (10/2014) First, it seems that the "window.location" Javascript command
+			// does not work for local files. Second, if I load the local file by hand, the Javascript timeout
+			// function never gets called.
+
+			// try {
+			// FileOutputStream out = new FileOutputStream(LOCAL_FILE_NAME);
+			// out.write(htmlTemplate.replace(URL_MARKER, urlString).getBytes());
+			// out.close();
+			//
+			// String sendString = "window.location=\"file://localhost" + LOCAL_FILE_NAME + "\";\n";
+			// System.out.println("changeURL(): " + sendString);
+			// send(sendString);
+			// //
+			//
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// }
+
+			// send("window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
+			// + displayID + "&color=" + colorCode + "\";\n");
+
+			// An experiment: Can I turn off the scroll bars? The answer is no (it seems)
+			// send("document.documentElement.style.overflow = 'hidden';\n");
+			// send("document.body.scroll='no';\n");
+			// send(FullScreenExecute);
+
+			try {
+				return waitForServer();
+			} catch (IOException e) {
+				e.printStackTrace();
+				connected = false;
+				return false;
 			}
-			break;
-
-		case NONE:
-			s = "window.location=\"" + urlString + "\";\n";
-			println(getClass(), "Wrapper not used, new URL is " + urlString);
-			showingCanonicalSite = false;
-			break;
-		}
-
-		send(s);
-		println(getClass(), " -- Sent: [[" + s + "]]");
-
-		// I have tried to do this in a local file, in order to remove some load from the web server. But
-		// this has not worked for me. (10/2014) First, it seems that the "window.location" Javascript command
-		// does not work for local files. Second, if I load the local file by hand, the Javascript timeout
-		// function never gets called.
-
-		// try {
-		// FileOutputStream out = new FileOutputStream(LOCAL_FILE_NAME);
-		// out.write(htmlTemplate.replace(URL_MARKER, urlString).getBytes());
-		// out.close();
-		//
-		// String sendString = "window.location=\"file://localhost" + LOCAL_FILE_NAME + "\";\n";
-		// System.out.println("changeURL(): " + sendString);
-		// send(sendString);
-		// //
-		//
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-
-		// send("window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
-		// + displayID + "&color=" + colorCode + "\";\n");
-
-		// An experiment: Can I turn off the scroll bars? The answer is no (it seems)
-		// send("document.documentElement.style.overflow = 'hidden';\n");
-		// send("document.body.scroll='no';\n");
-		// send(FullScreenExecute);
-
-		try {
-			return waitForServer();
-		} catch (IOException e) {
-			e.printStackTrace();
-			connected = false;
-			return false;
 		}
 		// return true;
 	}

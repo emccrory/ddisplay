@@ -79,7 +79,7 @@ public abstract class DisplayImpl implements Display {
 		this.vDisplayNumber = vDisplay;
 		this.highlightColor = color;
 		this.category = type;
-		this.channel = makeEmptyChannel();
+		this.channel = makeEmptyChannel(null);
 	}
 
 	protected abstract boolean localSetContent();
@@ -89,7 +89,7 @@ public abstract class DisplayImpl implements Display {
 		if (getCategory().isVisible(c)) {
 			SignageContent retval = channel;
 			if (c == null)
-				channel = makeEmptyChannel();
+				channel = makeEmptyChannel(null);
 			else
 				channel = (Channel) c;
 			System.out.println(getClass().getSimpleName() + ": Display " + getVirtualDisplayNumber() + " changed to [" + channel + "] at "
@@ -257,14 +257,6 @@ public abstract class DisplayImpl implements Display {
 		return channel;
 	}
 
-	/**
-	 * A utility method to allow a well-behaved subclass set the channel underneath things, e.g., during initialization.
-	 * 
-	 * @param c
-	 */
-	protected void setChannel(Channel c) {
-		channel = c;
-	}
 
 	@Override
 	public int getScreenNumber() {

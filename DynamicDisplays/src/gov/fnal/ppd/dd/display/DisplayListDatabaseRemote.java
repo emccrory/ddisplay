@@ -76,7 +76,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 		List<Integer> dID = new ArrayList<Integer>();
 		try (Statement stmt = getConnection().createStatement();
 				ResultSet rs = stmt
-						.executeQuery("SELECT * FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID);");) {
+						.executeQuery("SELECT * FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;");) {
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {

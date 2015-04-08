@@ -39,6 +39,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 																	"NORMAL"));
 
 	private int							changeCount;
+	protected long	lastFullRestTime;
 
 	/**
 	 * @param portNumber
@@ -73,6 +74,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				catchSleep(4000); // Wait a bit before trying to contact the instance of FireFox.
 				firefox = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
 						highlightColor);
+				lastFullRestTime = System.currentTimeMillis();
 				catchSleep(500); // Wait a bit more before trying to tell it to go to a specific page
 				try {
 					String url = getContent().getURI().toASCIIString();
