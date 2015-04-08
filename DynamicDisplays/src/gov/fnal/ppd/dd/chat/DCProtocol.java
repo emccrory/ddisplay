@@ -333,7 +333,13 @@ public class DCProtocol {
 		changerThread = null;
 	}
 
-	public void errorHandler(MessageCarrier message) {
+	/**
+	 * An error has been encountered: Deal with it.
+	 * 
+	 * @param message
+	 *            The message to consider
+	 */
+	public void errorHandler(final MessageCarrier message) {
 		println(DCProtocol.class, " $$$ Error handler, message is to '" + message.getTo() + "', from '" + message.getFrom() + "'");
 		for (Display L : listeners) {
 			if (L.getMessagingName().equals(message.getTo()) || message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME)) {

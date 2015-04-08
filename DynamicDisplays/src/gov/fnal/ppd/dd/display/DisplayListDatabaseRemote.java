@@ -59,24 +59,16 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 	public DisplayListDatabaseRemote(int locationCode) {
 		super();
 		this.locationCode = locationCode;
-		// DisplayAsJxBrowser.webTesting = true;
 		getDisplays();
 	}
 
 	private void getDisplays() {
-
-		/*
-		 * Display DB table: <pre> | Location | char(255) | NO | | | | | Content | int(11) | YES | | NULL | | | Type |
-		 * enum('Public','Experiment','XOC') | NO | | Public | | | DisplayID | int(11) | NO | PRI | NULL | auto_increment | | IPName
-		 * | char(100) | YES | | NULL | | | ScreenNumber
-		 */
-
 		int count = 0;
 		// Use ARM to simplify this try block
 		List<Integer> dID = new ArrayList<Integer>();
 		try (Statement stmt = getConnection().createStatement();
-				ResultSet rs = stmt
-						.executeQuery("SELECT * FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;");) {
+				ResultSet rs = stmt.executeQuery("SELECT * FROM Display LEFT JOIN DisplaySort "
+						+ "ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;");) {
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
@@ -94,8 +86,8 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 								.getAsciiStream("Type")));
 
 						dID.add(displayID);
-						Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location, new Color(colorCode),
-								type);
+						Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location, new Color(
+								colorCode), type);
 						p.setVirtualDisplayNumber(vDisplayNum);
 
 						add(p);

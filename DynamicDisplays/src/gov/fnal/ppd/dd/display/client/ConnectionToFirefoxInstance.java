@@ -49,7 +49,6 @@ public class ConnectionToFirefoxInstance {
 	private Rectangle								bounds;
 
 	// @SuppressWarnings("serial")
-	// TODO This is actually in the database and should be read from there.
 	// private static final HashMap<String, String> colorNames = new HashMap<String, String>() {
 	// {
 	// put("003397", "Blue");
@@ -118,11 +117,6 @@ public class ConnectionToFirefoxInstance {
 		colorCode = Integer.toHexString(color.getRGB() & 0x00ffffff);
 		colorCode = "000000".substring(colorCode.length()) + colorCode;
 
-		// htmlTemplate = htmlTemplatePrecursor.replace(DISPLAY_MARKER, "" + displayID).replace(COLOR_MARKER, colorCode);
-
-		// FIXME The does not work for screen != 0. Firefox needs to be configured to listen to port 32001 for screen #1, and this,
-		// I think, needs to be done by hand. Not sure at this time (9/15/2014) how to do this.
-
 		port = PORT + screenNumber;
 		openConnection();
 
@@ -134,8 +128,7 @@ public class ConnectionToFirefoxInstance {
 				showingCanonicalSite.set(false);
 			}
 		};
-		// timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
-		timer.scheduleAtFixedRate(tt, ONE_MINUTE, 5 * ONE_MINUTE);
+		timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
 	}
 
 	/**

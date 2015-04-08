@@ -149,6 +149,8 @@ public class Util {
 	}
 
 	/**
+	 * @param url
+	 *            The URL to show in this empty channel (which can be null)
 	 * @return An empty channel
 	 */
 	public static SignageContent makeEmptyChannel(String url) {

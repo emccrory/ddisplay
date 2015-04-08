@@ -1,8 +1,7 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_SERVER_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
-import static gov.fnal.ppd.dd.util.Util.*;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.io.IOException;

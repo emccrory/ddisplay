@@ -13,9 +13,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.dd.GlobalVariables.locationCode;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
-import gov.fnal.ppd.dd.changer.AddYourOwnURL;
+import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
@@ -285,11 +284,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				}
 			});
 
-			if (SHOW_IN_WINDOW && false) {
+			if (SHOW_IN_WINDOW) {
 				// Do not include the "wrap your own" URL until someone asks for it.
-				AddYourOwnURL yourOwn = new AddYourOwnURL(display, bg);
-				allGrids.add(yourOwn);
-				displayTabPane.add(yourOwn, "New URL");
+				// AddYourOwnURL yourOwn = new AddYourOwnURL(display, bg);
+				// allGrids.add(yourOwn);
+				// displayTabPane.add(yourOwn, "New URL");
 			}
 
 			// Add the Display Tabbed Pane to the main screen

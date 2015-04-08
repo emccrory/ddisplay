@@ -87,13 +87,9 @@ public class DisplayFacade extends DisplayImpl {
 		public void displayIncomingMessage(final MessageCarrier message) {
 			if (message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME)) {
 				// Need to inform all the listeners about this situation
-
-				System.out.println("\n\n** WHOOP! WHOOP! ** Got an error message\n\n");
-
 				dcp.errorHandler(message);
-
 			} else {
-				DisplayFacade d = clients.get(message.getFrom());
+				// DisplayFacade d = clients.get(message.getFrom());
 				dcp.processInput(message);
 			}
 		}
@@ -146,11 +142,19 @@ public class DisplayFacade extends DisplayImpl {
 	 * @param portNumber
 	 *            -- Ignored
 	 * @param ipName
+	 *            The name of the dispay
+	 * @param vNumber
+	 *            The virtual display number (for local consumption)
+	 * @param dbNumber
+	 *            The database index for this display
 	 * @param screenNumber
-	 * @param number
+	 *            The screen number (like 0 or 1)
 	 * @param location
+	 *            A description of the location of this display
 	 * @param color
+	 *            the highlight color for this display
 	 * @param type
+	 *            the signage type for this display (not really used at this time)
 	 */
 	public DisplayFacade(final int portNumber, final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
 			final String location, final Color color, final SignageType type) {
