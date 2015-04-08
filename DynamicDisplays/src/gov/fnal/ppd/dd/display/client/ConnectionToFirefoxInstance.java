@@ -126,6 +126,7 @@ public class ConnectionToFirefoxInstance {
 			public void run() {
 				// The next time there is a channel change (even for a refresh), it will do a full reset.
 				showingCanonicalSite.set(false);
+				println(ConnectionToFirefoxInstance.class, ": next refresh of URL will be a FULL reset");
 			}
 		};
 		timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
@@ -152,11 +153,11 @@ public class ConnectionToFirefoxInstance {
 
 			case NORMAL:
 				if (!showingCanonicalSite.get()) {
+					println(getClass(), " -- Sending full, new URL to browser, " + BASE_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + BASE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
-					// TODO Remove this hard coding!!
 					if (isNumberDiscrete())
 						s += "&shownumber=0";
 					s += "\";\n";
@@ -167,11 +168,11 @@ public class ConnectionToFirefoxInstance {
 
 			case TICKER:
 				if (!showingCanonicalSite.get()) {
+					println(getClass(), " -- Sending full, new URL to browser, " + TICKERTAPE_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
-					// TODO Remove this hard coding!!
 					if (isNumberDiscrete())
 						s += "&shownumber=0";
 					s += "\";\n";
@@ -229,6 +230,7 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	private boolean isNumberDiscrete() {
+		// TODO Put this information into the database
 		return (dbID == 13 || dbID == 14 || dbID == 15 || dbID == 16);
 	}
 

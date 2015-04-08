@@ -175,10 +175,14 @@ public class Channel {
 	private static String mychop(String s) {
 		if (s == null)
 			return null;
+		if (s.length() - 2 <= 0)
+			return "";
+
+		if (s.startsWith("\n"))
+			s = s.substring(1);
 		if (s.endsWith("\n"))
 			return s.substring(0, s.length() - 2);
-		if (s.startsWith("\n"))
-			return s.substring(1);
+
 		return s;
 	}
 }
