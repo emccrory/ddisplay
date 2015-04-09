@@ -76,17 +76,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						highlightColor);
 				lastFullRestTime = System.currentTimeMillis();
 				catchSleep(500); // Wait a bit more before trying to tell it to go to a specific page
-				try {
-					String url = getContent().getURI().toASCIIString();
-					if (firefox.changeURL(url, defaultWrapperType)) {
-						setResetThread(DEFAULT_DWELL_TIME, url);
-					}
-					updateMyStatus();
-				} catch (UnsupportedEncodingException e) {
-					System.err.println(DisplayAsConnectionToFireFox.class.getSimpleName() + ": Somthing is wrong with this URL: ["
-							+ getContent().getURI().toASCIIString() + "]");
-					e.printStackTrace();
-				}
+				localSetContent();
 			}
 		}.start();
 	}
