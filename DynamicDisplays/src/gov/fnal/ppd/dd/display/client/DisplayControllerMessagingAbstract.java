@@ -7,7 +7,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import static gov.fnal.ppd.dd.util.Util.println;
+import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
+import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.chat.MessagingClient;
@@ -23,6 +25,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -282,7 +285,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						int portNumber = rs.getInt("Port");
 						int screenNumber = rs.getInt("ScreenNumber");
 						int channelNumber = rs.getInt("Content");
-						String url = getURLFromNumber(channelNumber);
+						SignageContent cont = getChannelFromNumber(channelNumber);
 
 						// TODO Also get the color _name_ from the DB
 
@@ -298,8 +301,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons
 									.newInstance(new Object[] { myName, vNumber, dbNumber, screenNumber, portNumber, location,
 											color, type });
+							d.setContentBypass(cont);
 							d.initiate();
-							d.setDefaultContent(url);
 							return d;
 						} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
 								| IllegalArgumentException | InvocationTargetException e) {
@@ -351,9 +354,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		setContentBypass((Channel) makeEmptyChannel(url));
 	}
 
-	private static String getURLFromNumber(int channelNumber) {
-		String query = "SELECT URL from Channel where Number=" + channelNumber;
-		String retval = "http://www.fnal.gov";
+	private static SignageContent getChannelFromNumber(int channelNumber) {
+		String query = "SELECT * from Channel where Number=" + channelNumber;
+		SignageContent retval = null;
 		Connection connection;
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
@@ -365,8 +368,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		try (Statement stmt = connection.createStatement();) {
 			try (ResultSet rs = stmt.executeQuery(query);) {
 				if (rs.first()) { // Move to first returned row (there should only be one)
-					retval = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("URL"));
-
+					String url = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("URL"));
+					int dwell = rs.getInt("DwellTime");
+					String desc = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
+					String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Name"));
+					
+					retval = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, dwell);
+					
 					stmt.close();
 					rs.close();
 				}

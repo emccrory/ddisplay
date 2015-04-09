@@ -15,9 +15,9 @@ en-us</language>
 <copyright>
 Copyright 2015 The New York Times Company</copyright>
 <pubDate>
-Thu, 09 Apr 2015 14:42:12 GMT</pubDate>
+Thu, 09 Apr 2015 15:25:57 GMT</pubDate>
 <lastBuildDate>
-Thu, 09 Apr 2015 14:42:12 GMT</lastBuildDate>
+Thu, 09 Apr 2015 15:25:57 GMT</lastBuildDate>
 <ttl>
 2</ttl>
 <image>
@@ -28,6 +28,26 @@ http://graphics8.nytimes.com/images/misc/NYT_logo_rss_250x40.png</url>
 <link>
 http://www.nytimes.com/pages/index.html?partner=rss&amp;emc=rss</link>
 </image>
+<item>
+<link href="http://www.nytimes.com/2015/04/09/nytnow/latest-news-south-carolina-fallout-tsarnaev-trial-iraq-conflict.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Latest News: South Carolina Fallout, Tsarnaev Trial, Iraq Conflict</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/453d97bb/sc/7/l/0L0Snytimes0N0C20A150C0A40C0A90Cnytnow0Clatest0Enews0Esouth0Ecarolina0Efallout0Etsarnaev0Etrial0Eiraq0Econflict0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Here’s what you need to know to start your day.</description>
+<pubDate>
+Thu, 09 Apr 2015 15:08:18 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/09/nytnow/latest-news-south-carolina-fallout-tsarnaev-trial-iraq-conflict.html</guid>
+<creator>
+ADEEL HASSAN</creator>
+<credit scheme="urn:ebu">
+Orlin Wagner/Associated Press</credit>
+<description>
+The Kansas City Royals training under storm clouds at Kauffman Stadium. Bad weather is expected today in much of the Midwest.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/09/blogs/09nytnow-weather-sub02/09nytnow-weather-sub02-moth.jpg" />
+</item>
 <item>
 <link href="http://www.nytimes.com/2015/04/10/world/middleeast/iran-khamenei-rouhani-nuclear-agreement.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
@@ -85,24 +105,38 @@ A satellite image from March 17 shows work on an emerging artificial island at M
 <content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/10/world/10ChinaIslands/10ChinaIslands-moth.jpg" />
 </item>
 <item>
-<link href="http://www.nytimes.com/2015/04/09/nytnow/latest-news-south-carolina-fallout-tsarnaev-trial-iraq-conflict.html?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/04/10/world/europe/french-broadcaster-tv5-monde-recovers-after-hacking.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-Latest News: South Carolina Fallout, Tsarnaev Trial, Iraq Conflict</title>
+French Broadcaster TV5 Monde Recovers After Hacking</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/453d97bb/sc/7/l/0L0Snytimes0N0C20A150C0A40C0A90Cnytnow0Clatest0Enews0Esouth0Ecarolina0Efallout0Etsarnaev0Etrial0Eiraq0Econflict0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/454041a1/sc/11/l/0L0Snytimes0N0C20A150C0A40C10A0Cworld0Ceurope0Cfrench0Ebroadcaster0Etv50Emonde0Erecovers0Eafter0Ehacking0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-Here’s what you need to know to start your day.</description>
+A cyberattack by hackers claiming to support the Islamic State militant group had shut down transmission and wrested control of online accounts.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+TV5 Monde</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Social Media</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Islamic State in Iraq and Syria (ISIS)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Television</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Cyberattacks and Hackers</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+France</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Computers and the Internet</category>
 <pubDate>
-Thu, 09 Apr 2015 13:45:46 GMT</pubDate>
+Thu, 09 Apr 2015 13:46:01 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/2015/04/09/nytnow/latest-news-south-carolina-fallout-tsarnaev-trial-iraq-conflict.html</guid>
+http://www.nytimes.com/2015/04/10/world/europe/french-broadcaster-tv5-monde-recovers-after-hacking.html</guid>
 <creator>
-ADEEL HASSAN</creator>
+AURELIEN BREEDEN and ALISSA J. RUBIN</creator>
 <credit scheme="urn:ebu">
-Orlin Wagner/Associated Press</credit>
+TV5, via Associated Press</credit>
 <description>
-The Kansas City Royals training under storm clouds at Kauffman Stadium. Bad weather is expected today in much of the Midwest.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/09/blogs/09nytnow-weather-sub02/09nytnow-weather-sub02-moth.jpg" />
+The website of the French television broadcaster TV5 Monde on Wednesday. The network regained control of its social media accounts on Thursday, and its website was back online.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/10/world/10France-web/10France-web-moth.jpg" />
 </item>
 <item>
 <link href="http://www.nytimes.com/2015/04/10/world/americas/obama-jamaica-caribbean.html?partner=rss&amp;emc=rss" rel="standout" />
@@ -545,38 +579,6 @@ Thu, 09 Apr 2015 08:12:01 GMT</pubDate>
 http://www.nytimes.com/2015/04/10/world/asia/china-detained-womens-rights-activists.html</guid>
 <creator>
 EDWARD WONG</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/09/nyregion/david-laventhol-publisher-on-both-coasts-dies-at-81.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-David Laventhol, Publisher on Both Coasts, Dies at 81</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/453ba842/sc/7/l/0L0Snytimes0N0C20A150C0A40C0A90Cnyregion0Cdavid0Elaventhol0Epublisher0Eon0Eboth0Ecoasts0Edies0Eat0E810Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Mr. Laventhol, a former publisher of The Los Angeles Times and Newsday, tried to break into the New York newspaper market by starting New York Newsday in 1985.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Newspapers</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Deaths (Obituaries)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Los Angeles Times</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Laventhol, David</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Newsday</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Times Mirror Company</category>
-<pubDate>
-Thu, 09 Apr 2015 04:42:16 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/09/nyregion/david-laventhol-publisher-on-both-coasts-dies-at-81.html</guid>
-<creator>
-DENNIS HEVESI</creator>
-<credit scheme="urn:ebu">
-Randy Leffingwell/The Los Angeles Times</credit>
-<description>
-David Laventhol in Los Angeles in 1993, when he retired.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/09/us/090LAVENTHOL-obit/090LAVENTHOL-obit-moth.jpg" />
 </item>
 </channel>
 </rss>

@@ -4,7 +4,7 @@
      <channel>
 <title>Weather at Chicago / West Chicago, Dupage Airport, IL - via NOAA's National Weather Service</title>
 <link>http://www.weather.gov/xml/current_obs/</link>
-     <lastBuildDate>Thu, 09 Apr 2015 09:52:00 -0500</lastBuildDate>
+     <lastBuildDate>Thu, 09 Apr 2015 10:52:00 -0500</lastBuildDate>
      <ttl>60</ttl>
      <description>Weather conditions from NOAA's National Weather Service. </description>
      <language>en-us</language>
@@ -18,15 +18,14 @@
     
      <item>
 <title>
-Thunderstorm Heavy Rain Fog/Mist and 54 F at Chicago / West Chicago, Dupage Airport, IL</title>
+Thunderstorm in Vicinity Light Rain Fog/Mist and 61 F at Chicago / West Chicago, Dupage Airport, IL</title>
 <link>http://weather.noaa.gov/weather/current/KDPA.html</link> 
 <description>
-<![CDATA[<img src="http://forecast.weather.gov/images/wtf/small/tsra.png" class="noaaWeatherIcon"  width="55" height="58" alt="Thunderstorm Heavy Rain Fog/Mist" style="float:left;" /><br />]]>
-Winds are Southeast at 5.8 MPH (5 KT). The pressure is 1005.5 mb and the humidity is 97%.
-The wind chill is 53.
- Last Updated on Apr 9 2015, 9:52 am CDT.  
+Winds are South at 11.5 MPH (10 KT). The pressure is 1004.2 mb and the humidity is 93%.
+The wind chill is 59.
+ Last Updated on Apr 9 2015, 10:52 am CDT.  
       </description>
-      <guid isPermaLink="false">Thu, 09 Apr 2015 09:52:00 -0500</guid>
+      <guid isPermaLink="false">Thu, 09 Apr 2015 10:52:00 -0500</guid>
       </item>
       </channel>
       </rss>

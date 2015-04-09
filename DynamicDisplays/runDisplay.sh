@@ -13,6 +13,14 @@ d=`date +%F`
 
 log=../../log/display_${d}_$$.log
 
+MyName=`uname -a`
+WrapperType=NORMAL
+
+# TODO Remove this bit of hard coding.  Put it in the DB or something
+if [$MyName = "roc-w-02.fnal.gov" -or $MyName = "xocnum01.fnal.gov" -or $MyName = "wh2e-nuc-14.fnal.gov" ]; then
+    WrapperType=TICKER;
+fi
+
 screenNum=0
 if [ "$1 X" != " X" ]; then
     screenNum=$1;
@@ -20,7 +28,7 @@ fi
 {
     /bin/date
     # Is this node the messaging server??
-    if [ $messagingServer = `uname -n` ]; then
+    if [ $messagingServer = $MyName ]; then
 	if java -Dddisplay.messagingserver=$messagingServer \
                 -Xmx512m gov.fnal.ppd.dd.chat.MessagingServerTest; then
 	    echo Messaging server already running;
@@ -33,6 +41,7 @@ fi
     
     java -Dddisplay.messagingserver=$messagingServer \
 	-Dddisplay.dbserver=$databaseServer \
+	-Dddisplay.wrappertype=$WrapperType \
 	-Xmx512m gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox -screen=$screenNum 
 
 } 2>&1 > $log
