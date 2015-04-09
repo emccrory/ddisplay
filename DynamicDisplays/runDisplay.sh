@@ -17,7 +17,7 @@ MyName=`uname -n`
 WrapperType=NORMAL
 
 # TODO Remove this bit of hard coding.  Put it in the DB or something
-if [ $MyName = "roc-w-02.fnal.gov" -or $MyName = "xocnuc01.fnal.gov" -or $MyName = "wh2e-nuc-14.fnal.gov" ]; then
+if [ $MyName = "roc-w-02.fnal.gov" -o $MyName = "xocnuc01.fnal.gov" -o $MyName = "wh2e-nuc-14.fnal.gov" ]; then
     WrapperType=TICKER;
 fi
 
