@@ -159,11 +159,17 @@ public class Channel {
 		try {
 			Channel c = (Channel) MyXMLMarshaller.unmarshall(Channel.class, xml);
 
-			System.out.println("<em>" + mychop(c.getTitle()) + " -- " + mychop(c.getCopyright()) + " (retrieved " + (new Date())
-					+ ")</em>");
+			System.out.println("<em>" + mychop(c.getTitle()) + " -- " + mychop(c.getCopyright()) + " (" + (new Date()) + ")</em>");
 			if (c.item != null)
 				for (Item I : c.item) {
-					System.out.println("<b>" + mychop(I.getTitle()) + "</b>: " + mychop(I.getDescription()));
+					if (I == null || I.getTitle() == null)
+						continue;
+					if (I.getTitle().length() < 10)
+						continue;
+					if (I.getDescription() == null || I.getDescription().length() < 10)
+						System.out.println("<b>" + mychop(I.getTitle()) + "</b>");
+					else
+						System.out.println("<b>" + mychop(I.getTitle()) + "</b>: " + mychop(I.getDescription()));
 				}
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
