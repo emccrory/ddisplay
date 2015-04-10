@@ -62,6 +62,18 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 		getDisplays();
 	}
 
+	/**
+	 * Create a connection and the receive one display, if it is controllable.
+	 * 
+	 * @param locationCode
+	 * @param displayDBNum
+	 */
+	public DisplayListDatabaseRemote(final int locationCode, final int displayDBNum) {
+		super();
+		this.locationCode = locationCode;
+		getADisplay(displayDBNum);
+	}
+
 	private void getDisplays() {
 		int count = 0;
 		// Use ARM to simplify this try block
@@ -104,6 +116,47 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 		}
 
 		System.out.println(getClass().getSimpleName() + ": Found " + count + " displays at locationCode=" + locationCode + ".");
+	}
+
+	private void getADisplay(int displayDBNumber) {
+		int count = 0;
+		// Use ARM to simplify this try block
+		try (Statement stmt = getConnection().createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM Display LEFT JOIN DisplaySort "
+						+ "ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;");) {
+			rs.first(); // Move to first returned row
+			while (!rs.isAfterLast())
+				try {
+					String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
+					String ipName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPname"));
+					int locCode = rs.getInt("LocationCode");
+					int displayID = rs.getInt("DisplayID");
+					int vDisplayNum = rs.getInt("VirtualDisplayNumber");
+					int screenNumber = rs.getInt("ScreenNumber");
+					int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
+					if ((locationCode < 0 || locCode == locationCode) && displayDBNumber == displayID) {
+						SignageType type = SignageType.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs
+								.getAsciiStream("Type")));
+
+						Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location, new Color(
+								colorCode), type);
+						p.setVirtualDisplayNumber(vDisplayNum);
+
+						add(p);
+						count++;
+					}
+					rs.next();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			stmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println(getClass().getSimpleName() + ": Found " + count + " displays at locationCode=" + locationCode
+				+ " and displayDBNumber=" + displayDBNumber);
 	}
 
 }
