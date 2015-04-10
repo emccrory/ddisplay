@@ -119,7 +119,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private JButton							refreshButton				= new JButton("↺");
 	private JButton							exitButton					= new JButton("X");
 	private JButton							lockButton;
-	private JButton							addChannelButton			= new JButton("+");
+	// private JButton addChannelButton = new JButton("+");
 	// private JCheckBox showBorderButton = new JCheckBox("Border?");
 	private DisplayButtons					displaySelector;
 	private CardLayout						card						= new CardLayout();
@@ -458,64 +458,65 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			}
 		});
 
-		if (SHOW_IN_WINDOW) {
-			titleBox.add(refreshButton);
-			// Create a button to add a channel to the database
-			addChannelButton.addActionListener(new ActionListener() {
-				boolean	showDialog	= true;
+		// The "Add Channel Button" opens the possibility of someone adding an inappropriate URL to the system.
+		// This can be added back if the need arises 9and we figure out how to secure it).
+		// if (SHOW_IN_WINDOW) {
+		// titleBox.add(refreshButton);
+		// // Create a button to add a channel to the database
+		// addChannelButton.addActionListener(new ActionListener() {
+		// boolean showDialog = true;
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent arg0) {
+		// int n = 0;
+		// if (showDialog) {
+		// Box dialog = Box.createVerticalBox();
+		// dialog.add(new JLabel(
+		// "<html><center>You are about to launch a browser/web page to add a Channel to database.<br>"
+		// + "You must restart the Channel Selector to see the new Channel once it is added.<br><hr>"
+		// + "<em>This operation should be used sparingly</em></br><br>"
+		// + "Continue with the addition?</center></html>"));
+		// JCheckBox cb = new JCheckBox("Do not show this again");
+		// dialog.add(cb);
+		// n = JOptionPane.showConfirmDialog(addChannelButton, dialog, "Add Channel?", JOptionPane.YES_NO_OPTION);
+		// showDialog = !cb.isSelected();
+		// }
+		// if (n == 0)
+		// try {
+		// Desktop.getDesktop().browse(
+		// new URI("http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/channelAdd.php"));
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// } catch (URISyntaxException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		//
+		// });
+		// addChannelButton.setToolTipText("<html><b>Add a channel to the system</b> -- "
+		// + "<em>use sparingly!</em><br>Launches a web page on your local browser that "
+		// + "<br>will allow you to add a Channel/URL to the system</html>");
+		// addChannelButton.setMargin(new Insets(5, 5, 5, 5));
+		// } else {
+		// Create an exit button
+		exitButton.addActionListener(new ActionListener() {
 
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					int n = 0;
-					if (showDialog) {
-						Box dialog = Box.createVerticalBox();
-						dialog.add(new JLabel(
-								"<html><center>You are about to launch a browser/web page to add a Channel to database.<br>"
-										+ "You must restart the Channel Selector to see the new Channel once it is added.<br><hr>"
-										+ "<em>This operation should be used sparingly</em></br><br>"
-										+ "Continue with the addition?</center></html>"));
-						JCheckBox cb = new JCheckBox("Do not show this again");
-						dialog.add(cb);
-						n = JOptionPane.showConfirmDialog(addChannelButton, dialog, "Add Channel?", JOptionPane.YES_NO_OPTION);
-						showDialog = !cb.isSelected();
-					}
-					if (n == 0)
-						try {
-							Desktop.getDesktop().browse(
-									new URI("http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/channelAdd.php"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						} catch (URISyntaxException e) {
-							e.printStackTrace();
-						}
-				}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JLabel message = new JLabel("<html>Do you <em>really</em> want to exit the<br>Channel Selector Application?</html>");
+				Font f = message.getFont();
+				message.setFont(new Font(f.getName(), Font.BOLD, f.getSize() * 2));
 
-			});
-			addChannelButton.setToolTipText("<html><b>Add a channel to the system</b> -- "
-					+ "<em>use sparingly!</em><br>Launches a web page on your local browser that "
-					+ "<br>will allow you to add a Channel/URL to the system</html>");
-			addChannelButton.setMargin(new Insets(5, 5, 5, 5));
-		} else {
-			// Create an exit button
-			exitButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					JLabel message = new JLabel(
-							"<html>Do you <em>really</em> want to exit the<br>Channel Selector Application?</html>");
-					Font f = message.getFont();
-					message.setFont(new Font(f.getName(), Font.BOLD, f.getSize() * 2));
-
-					if (JOptionPane.showConfirmDialog(exitButton, message, "Exit?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-						System.exit(0);
-				}
-			});
-			Border bor = exitButton.getBorder();
-			exitButton.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.WHITE, 5), bor));
-			exitButton.setBackground(new Color(255, 200, 200));
-			exitButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 3)));
-			exitButton.setMargin(new Insets(6, 6, 6, 6));
-		}
+				if (JOptionPane.showConfirmDialog(exitButton, message, "Exit?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+					System.exit(0);
+			}
+		});
+		Border bor = exitButton.getBorder();
+		exitButton.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.WHITE, 5), bor));
+		exitButton.setBackground(new Color(255, 200, 200));
+		exitButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 3)));
+		exitButton.setMargin(new Insets(6, 6, 6, 6));
+		// }
 
 		return titleBox;
 	}
@@ -617,8 +618,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
 				titleBox.add(exitButton);
 			}
-		} else {
-			titleBox.add(addChannelButton);
+			// } else {
+			// titleBox.add(addChannelButton);
 		}
 
 		titleBox.setOpaque(true);
@@ -669,11 +670,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	// }
 
 	/**
-	 * Run the Channel Selector application
+	 * Run the Channel Selector application. Renamed from "main" so it cannot (easily) be run
 	 * 
 	 * @param args
 	 */
-	public static void main(final String[] args) {
+	public static void oldMain(final String[] args) {
 
 		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
 
