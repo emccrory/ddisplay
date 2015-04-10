@@ -259,8 +259,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			}
 
 			try (ResultSet rs = stmt.executeQuery(query);) {
+				// Move to first returned row (there should only be one)
 				if (rs.first())
-					try { // Move to first returned row (there should only be one)
+					try { 
 						String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
 
 						if (!myName.equals(myNode)) {
@@ -286,8 +287,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						int screenNumber = rs.getInt("ScreenNumber");
 						int channelNumber = rs.getInt("Content");
 						SignageContent cont = getChannelFromNumber(channelNumber);
-
-						// TODO Also get the color _name_ from the DB
 
 						stmt.close();
 						rs.close();
@@ -354,7 +353,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		setContentBypass((Channel) makeEmptyChannel(url));
 	}
 
-	private static SignageContent getChannelFromNumber(int channelNumber) {
+	/**
+	 * @param channelNumber
+	 * @return
+	 */
+	public static SignageContent getChannelFromNumber(final int channelNumber) {
 		String query = "SELECT * from Channel where Number=" + channelNumber;
 		SignageContent retval = null;
 		Connection connection;
