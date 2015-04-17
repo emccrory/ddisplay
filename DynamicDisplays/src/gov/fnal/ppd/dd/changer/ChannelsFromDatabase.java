@@ -162,13 +162,6 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		}
 		System.out.println(getClass().getSimpleName() + ": Found " + count + " images.");
 	}
-	
-	
-	
-	
-	
-	
-	
 
 	public Map<String, SignageContent> getPublicChannels() {
 		HashMap<String, SignageContent> retval = new HashMap<String, SignageContent>();
@@ -185,7 +178,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 
 		for (String key : this.keySet())
 			if (this.get(key).getCategory().equals(cat))
-				retval.add(this.get(key));
+				retval.add(new ChannelImpl(this.get(key)));
 
 		return retval;
 	}
