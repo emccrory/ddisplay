@@ -41,7 +41,7 @@ public class Util {
 			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=gMinus2",
 			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=SeaQuest",
 			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=NOvA",
-			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=DUNE",
+			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=DUNE-LBNF",
 			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=NuMI", //
 			"http://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none", //
 			"http://elliottmccrory.com/clock/five.html", };
@@ -50,7 +50,7 @@ public class Util {
 	 * The list of default names for URLS
 	 */
 	public static final String		DEFAULT_NAMES[]	= { "MINOS Pictures", "MINERvA Pictures", "MiniBooNE Pictures",
-			"MicroBooNE Pictures", "Mu2e Pictures", "g-2 Pictures", "SeaQuest Pictures", "NOvA Pictures", "DUNE Pictures",
+			"MicroBooNE Pictures", "Mu2e Pictures", "g-2 Pictures", "SeaQuest Pictures", "NOvA Pictures", "DUNE/LBNF Pictures",
 			"NuMI Pictures", "Accelerator Status", "Clocks", };
 
 	/**
