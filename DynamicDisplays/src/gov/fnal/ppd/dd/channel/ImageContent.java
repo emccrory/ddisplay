@@ -144,4 +144,15 @@ public class ImageContent implements SignageContent {
 		// TODO Not used
 	}
 
+	@Override
+	public int getFrameNumber() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	@Override
+	public void setFrameNumber(int f) {
+		// TODO Auto-generated method stub
+	}
+
 }

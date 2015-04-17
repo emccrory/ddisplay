@@ -1,6 +1,6 @@
 package gov.fnal.ppd.dd.xml;
 
-import static gov.fnal.ppd.dd.GlobalVariables.*;
+import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
@@ -13,7 +13,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Message from a Control Panel that specifies a Channel (SignageContent)
  * 
- * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2012
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014-15
+ * 
+ *            TODO -- We maybe able to let this class implement SingageContent or Channel
  */
 @SuppressWarnings("javadoc")
 @XmlRootElement
@@ -111,5 +114,14 @@ public class ChannelSpec {
 	 */
 	public void setCode(final int n) {
 		code = n;
+	}
+
+	@XmlElement
+	public int getFrameNumber() {
+		return content.getFrameNumber();
+	}
+
+	public void setFrameNumber(int frameNumber) {
+		content.setFrameNumber(frameNumber);
 	}
 }

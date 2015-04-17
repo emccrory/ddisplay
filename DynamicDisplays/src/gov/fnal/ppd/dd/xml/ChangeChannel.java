@@ -62,6 +62,7 @@ public class ChangeChannel extends EncodedCarrier {
 			channel.setName(name);
 			channel.setCode(s.getCode());
 			channel.setTime(s.getTime());
+			channel.setFrameNumber(s.getFrameNumber());
 			content = channel;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

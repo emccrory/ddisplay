@@ -112,4 +112,15 @@ public interface SignageContent extends Serializable {
 	 */
 	public void setCode(final int n);
 
+	/**
+	 * @return The frame number within the browser to which we direct this content
+	 */
+	public int getFrameNumber();
+
+	/**
+	 * @param frameNumber
+	 *            The frame number within the browser to which we direct this content
+	 */
+	public void setFrameNumber(int frameNumber);
+
 }

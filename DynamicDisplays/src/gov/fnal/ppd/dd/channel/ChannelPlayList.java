@@ -32,6 +32,7 @@ public class ChannelPlayList implements Channel {
 	private boolean							running				= true;
 	// private Thread playThread = null;
 	private Display							myDisplay			= null;
+	private int								frameNumber			= 0;
 
 	/**
 	 * Create a channel list to play out on the Display.
@@ -216,5 +217,17 @@ public class ChannelPlayList implements Channel {
 	@Override
 	public void setCode(int n) {
 		// Not relevant for a list of content
+	}
+
+	@Override
+	public int getFrameNumber() {
+		return frameNumber;
+	}
+
+	/**
+	 * @param frameNumber the frame number to give this content to.
+	 */
+	public void setFrameNumber(final int frameNumber) {
+		this.frameNumber = frameNumber;
 	}
 }
