@@ -199,22 +199,10 @@ public class DCProtocol {
 				if (theMessage instanceof ChangeChannelList) {
 					informListenersForever();
 				} else if (theMessage instanceof ChangeChannel) {
-					// if (((ChangeChannel) theMessage).getDisplayNumber() == myDisplayNumber
-					// && ((ChangeChannel) theMessage).getScreenNumber() == myScreenNumber)
 					informListeners();
-					// else
-					// println(DCProtocol.class, ".processInput(): Got display=" + ((ChangeChannel) theMessage).getDisplayNumber()
-					// + ":" + ((ChangeChannel) theMessage).getScreenNumber() + ", but I am " + myDisplayNumber + ":"
-					// + myScreenNumber);
 				} else if (theMessage instanceof ChannelSpec) {
 					checkChanger();
 					informListeners((ChannelSpec) theMessage);
-					// } else if (theMessage instanceof HeartBeat) {
-					// // System.out.println("Got a server heartbeat with timestamp = " + ((HeartBeat)
-					// theMessage).getTimeStamp());
-					// theReply = null;
-					// lastServerHeartbeat = ((HeartBeat) theMessage).getTimeStamp();
-					// return true;
 				} else {
 					println(getClass(), "The message is of type " + theMessage.getClass().getCanonicalName()
 							+ ".  We will assume they meant it to be 'ChangeChannelReply'");
@@ -312,6 +300,7 @@ public class DCProtocol {
 			c.setCategory(spec.getCategory());
 			c.setName(spec.getName());
 			c.setTime(spec.getTime());
+			c.setFrameNumber(spec.getFrameNumber());
 			for (Display L : listeners) {
 				// System.out.println(getClass().getSimpleName() + ": Telling a " + L.getClass().getSimpleName() + " to change to ["
 				// + c + "]");
