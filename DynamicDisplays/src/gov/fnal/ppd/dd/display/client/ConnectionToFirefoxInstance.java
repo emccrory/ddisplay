@@ -70,8 +70,11 @@ public class ConnectionToFirefoxInstance {
 	// };
 
 	private static final HashMap<String, String>	colorNames					= GetColorsFromDatabase.get();
+
 	private static final String						BASE_WEB_PAGE				= "http://xoc.fnal.gov/border.php";
 	private static final String						TICKERTAPE_WEB_PAGE			= "http://mccrory.fnal.gov/border1.php";
+	private static final String						EXTRAFRAME_WEB_PAGE			= "http://mccrory.fnal.gov/border2.php";
+	private static final String						EXTRAFRAMENOTICKER_WEB_PAGE	= "http://mccrory.fnal.gov/border3.php";
 
 	/**
 	 * What type of "wrapper" shall we use to show our web pages?
@@ -82,15 +85,27 @@ public class ConnectionToFirefoxInstance {
 	 */
 	public enum WrapperType {
 		/**
-		 * Use the normal border.php web page
+		 * Use the normal border.php web page (with no ticker or extra frame)
 		 */
 		NORMAL,
+
 		/**
 		 * Use the border web page that includes the News Ticker
 		 */
 		TICKER,
+
 		/**
-		 * Show naked web pages wthout the border (untested)
+		 * Use the border web page that includes the News Ticker AND one or more extra iFrames for announcements
+		 */
+		TICKERANDFRAME,
+
+		/**
+		 * There are multiple frames but no ticker.
+		 */
+		FRAMENOTICKER,
+
+		/**
+		 * Show naked web pages without the border (untested)
 		 */
 		NONE
 	};
@@ -139,15 +154,25 @@ public class ConnectionToFirefoxInstance {
 	 *            The URL that this instance should show now.
 	 * @param theWrapper
 	 *            What kind of wrapper page shall this be? Normal, ticker-tape or none ("none" is really not going to work)
+	 * @param frameNumber
+	 *            The frame number to which this content is targeted
 	 * @return Was the change successful?
 	 * @throws UnsupportedEncodingException
 	 *             -- if the url we have been given is bogus
 	 */
-	public boolean changeURL(final String urlString, final WrapperType theWrapper) throws UnsupportedEncodingException {
+	public boolean changeURL(final String urlString, final WrapperType theWrapper, final int frameNumber)
+			throws UnsupportedEncodingException {
 		if (debug)
 			println(getClass(), ": New URL: " + urlString);
+		
+		String frameName = "iframe";
+		if (frameNumber > 0)
+			frameName = "frame" + frameNumber;
 
-		String s = "";
+		String s = "document.getElementById('" + frameName + "').src = '" + urlString + "';\n";
+		if ( frameNumber > 0 )
+			s += "document.getElementById('" + frameName + "').style.visibility='visible';\n";
+
 		synchronized (showingCanonicalSite) {
 			switch (theWrapper) {
 
@@ -161,8 +186,6 @@ public class ConnectionToFirefoxInstance {
 					if (isNumberDiscrete())
 						s += "&shownumber=0";
 					s += "\";\n";
-				} else {
-					s = "document.getElementById('iframe').src = '" + urlString + "';\n";
 				}
 				break;
 
@@ -176,8 +199,33 @@ public class ConnectionToFirefoxInstance {
 					if (isNumberDiscrete())
 						s += "&shownumber=0";
 					s += "\";\n";
-				} else {
-					s = "document.getElementById('iframe').src = '" + urlString + "';\n";
+				}
+				break;
+
+			case TICKERANDFRAME:
+				if (!showingCanonicalSite.get()) {
+					println(getClass(), " -- Sending full, new URL to browser, " + EXTRAFRAME_WEB_PAGE);
+					showingCanonicalSite.set(true);
+					s = "window.location=\"" + EXTRAFRAME_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+
+					if (isNumberDiscrete())
+						s += "&shownumber=0";
+					s += "\";\n";
+				}
+				break;
+
+			case FRAMENOTICKER:
+				if (!showingCanonicalSite.get()) {
+					println(getClass(), " -- Sending full, new URL to browser, " + EXTRAFRAMENOTICKER_WEB_PAGE);
+					showingCanonicalSite.set(true);
+					s = "window.location=\"" + EXTRAFRAMENOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
+							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
+							+ bounds.height;
+
+					if (isNumberDiscrete())
+						s += "&shownumber=0";
+					s += "\";\n";
 				}
 				break;
 
@@ -297,6 +345,44 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	/**
+	 * @param frameNumber
+	 *            the frame number to show in the HTML file
+	 */
+	public void showFrame(final int frameNumber) {
+		String s = "document.getElementById('frame" + frameNumber + "').style.visibility=visible;\n";
+		send(s);
+		println(getClass(), " -- Sent: [[" + s + "]]");
+
+		try {
+			waitForServer();
+			if (!connected)
+				System.err.println(getClass().getName() + ".showFrame() -- error from Display server!");
+		} catch (IOException e) {
+			e.printStackTrace();
+			connected = false;
+		}
+	}
+
+	/**
+	 * @param frameNumber
+	 *            the frame number to hide in the HTML file
+	 */
+	public void hideFrame(final int frameNumber) {
+		String s = "document.getElementById('frame" + frameNumber + "').style.visibility=hidden;\n";
+		send(s);
+		println(getClass(), " -- Sent: [[" + s + "]]");
+
+		try {
+			waitForServer();
+			if (!connected)
+				System.err.println(getClass().getName() + ".hideFrame() -- error from Display server!");
+		} catch (IOException e) {
+			e.printStackTrace();
+			connected = false;
+		}
+	}
+
+	/**
 	 * Remove the FireFox window that was created earlier.
 	 */
 	public void exit() {
@@ -393,6 +479,25 @@ public class ConnectionToFirefoxInstance {
 		}
 		println(getClass(), " -- Returning from waitForServer(), connected=" + connected);
 		return connected;
+	}
+
+	/**
+	 * @param frameNumber The frame number to turn off
+	 */
+	public void turnOffFrame(final int frameNumber) {
+		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
+
+		send(s);
+		println(getClass(), " -- Sent: [[" + s + "]]");
+
+		try {
+			waitForServer();
+			if (!connected)
+				System.err.println(getClass().getName() + ".removeIdentity() -- error from Display server!");
+		} catch (IOException e) {
+			e.printStackTrace();
+			connected = false;
+		}		
 	}
 
 }
