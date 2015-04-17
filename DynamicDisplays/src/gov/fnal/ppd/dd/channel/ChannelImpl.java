@@ -35,6 +35,7 @@ public class ChannelImpl implements Channel {
 
 	private long				time;
 	private int					code				= 0;
+	private int					frameNumber			= 0;
 
 	// public ChannelImpl( String name, ChannelCategory category, String description ) {
 	// this(name, category, description, Count++);
@@ -80,6 +81,25 @@ public class ChannelImpl implements Channel {
 			this.description = "This is the '" + name + "' channel";
 		this.uri = uri;
 		this.time = dwellTime;
+	}
+
+	/**
+	 * @param c
+	 *            the SignageContent to clone
+	 */
+	public ChannelImpl(final SignageContent c) {
+		this.name = c.getName();
+		this.category = c.getCategory();
+		this.time = c.getTime();
+		this.description = c.getDescription();
+		this.uri = c.getURI();
+		this.frameNumber = c.getFrameNumber();
+		this.time = c.getTime();
+		this.code = c.getCode();
+		
+		if (c instanceof Channel) {
+			this.number = ((Channel) c).getNumber();
+		}
 	}
 
 	public String getName() {
@@ -205,4 +225,16 @@ public class ChannelImpl implements Channel {
 		this.code = n;
 	}
 
+	@Override
+	public int getFrameNumber() {
+		return frameNumber;
+	}
+
+	/**
+	 * @param f
+	 *            the frame number to set this content to.
+	 */
+	public void setFrameNumber(final int f) {
+		frameNumber = f;
+	}
 }
