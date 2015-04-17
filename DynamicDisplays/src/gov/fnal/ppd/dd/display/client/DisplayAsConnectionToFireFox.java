@@ -39,7 +39,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 																	"NORMAL"));
 
 	private int							changeCount;
-	protected long	lastFullRestTime;
+	protected long						lastFullRestTime;
 
 	/**
 	 * @param portNumber
@@ -85,6 +85,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&"); // FIXME This could be risky! But it is
 																						// needed for URL arguments
 
+		final int frameNumber = getContent().getFrameNumber();
+
 		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
 		println(getClass(), ": Dwell time is " + dwellTime);
 
@@ -112,7 +114,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				try {
 					// Someday we may need this: (getContent().getCode() & 1) != 0;
 					changeCount++;
-					if (firefox.changeURL(url, defaultWrapperType)) {
+					if (firefox.changeURL(url, defaultWrapperType, frameNumber)) {
 						lastChannel = getContent();
 						showingSelfIdentify = false;
 					} else {
@@ -120,7 +122,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						return false;
 					}
 
-					setResetThread(dwellTime, url);
+					setResetThread(dwellTime, url, frameNumber);
 					updateMyStatus();
 				} catch (UnsupportedEncodingException e) {
 					System.err.println(getClass().getSimpleName() + ": Somthing is wrong with this URL: [" + url + "]");
@@ -131,38 +133,56 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		return true;
 	}
 
-	private void setResetThread(final long dwellTime, final String url) {
+	private void setResetThread(final long dwellTime, final String url, final int frameNumber) {
+
 		if (dwellTime > 0) {
 			final int thisChangeCount = changeCount;
-			new Thread("RefreshContent" + getMessagingName()) {
 
-				@Override
-				public void run() {
-					long increment = 15000L;
-					while (true) {
-						for (long t = dwellTime; t > 0 && changeCount == thisChangeCount; t -= increment) {
-							catchSleep(Math.min(increment, t));
-						}
-						if (changeCount == thisChangeCount) {
-							synchronized (firefox) {
-								println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reloading web page " + url);
-								try {
-									if (!firefox.changeURL(url, defaultWrapperType)) {
-										println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Failed to REFRESH content");
-										return; // All bets are off!!
-									}
-								} catch (UnsupportedEncodingException e) {
-									e.printStackTrace();
-								}
-							}
-						} else {
-							println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Not necessary to refresh " + url
-									+ " because the channel was changed.  Bye!");
-							return;
+			// The Use Case for the extra frame is to be able to show announcements. In that vein, it seems that
+			// we want the frame to go away after a while.
+			if (frameNumber != 0) {
+				new Thread("TurnOffFrame" + getMessagingName()) {
+					@Override
+					public void run() {
+						catchSleep(dwellTime);
+						synchronized (firefox) {
+							println(DisplayAsConnectionToFireFox.class, ".localSetContent(): turning off the announcement frame");
+							firefox.turnOffFrame(frameNumber);
 						}
 					}
-				}
-			}.start();
+				}.start();
+			} else {
+				new Thread("RefreshContent" + getMessagingName()) {
+
+					@Override
+					public void run() {
+						long increment = 15000L;
+						while (true) {
+							for (long t = dwellTime; t > 0 && changeCount == thisChangeCount; t -= increment) {
+								catchSleep(Math.min(increment, t));
+							}
+							if (changeCount == thisChangeCount) {
+								synchronized (firefox) {
+									println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reloading web page " + url);
+									try {
+										if (!firefox.changeURL(url, defaultWrapperType, frameNumber)) {
+											println(DisplayAsConnectionToFireFox.class,
+													".localSetContent(): Failed to REFRESH content");
+											return; // All bets are off!!
+										}
+									} catch (UnsupportedEncodingException e) {
+										e.printStackTrace();
+									}
+								}
+							} else {
+								println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Not necessary to refresh " + url
+										+ " because the channel was changed.  Bye!");
+								return;
+							}
+						}
+					}
+				}.start();
+			}
 		}
 	}
 
