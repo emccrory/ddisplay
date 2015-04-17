@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.channel;
 
 import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 import java.net.URI;
 
@@ -34,6 +35,15 @@ public class ChannelImage extends ChannelImpl {
 			final int number, final String exp) {
 		super(name, category, description, uri, number, -1);
 		this.exp = exp;
+	}
+
+	/**
+	 * @param c
+	 */
+	public ChannelImage(final SignageContent c) {
+		super(c);
+		if (c instanceof ChannelImage)
+			this.exp = ((ChannelImage) c).exp;
 	}
 
 	/**

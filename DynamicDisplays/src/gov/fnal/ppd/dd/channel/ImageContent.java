@@ -26,6 +26,7 @@ public class ImageContent implements SignageContent {
 	private URI					uri;
 	private SignageType			type;
 	private long				time				= 0L;
+	private int					frameNumber;
 
 	/**
 	 * @param name
@@ -60,6 +61,20 @@ public class ImageContent implements SignageContent {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * @param content
+	 */
+	public ImageContent(final SignageContent content) {
+		this.name = content.getName();
+		this.description = content.getDescription();
+		this.uri = content.getURI();
+		this.time = content.getTime();
+		this.frameNumber = content.getFrameNumber();
+
+		if (content instanceof ImageContent)
+			this.image = ((ImageContent) content).image;
 	}
 
 	@Override
@@ -99,7 +114,7 @@ public class ImageContent implements SignageContent {
 
 	@Override
 	public void setContent(Serializable content) {
-
+		// TODO Hmmmm.  not sure what to do here.
 	}
 
 	@Override
@@ -149,7 +164,7 @@ public class ImageContent implements SignageContent {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	@Override
 	public void setFrameNumber(int f) {
 		// TODO Auto-generated method stub

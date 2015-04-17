@@ -5,6 +5,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_FOLDER;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
@@ -177,9 +178,13 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		TreeSet<SignageContent> retval = new TreeSet<SignageContent>(comparator);
 
 		for (String key : this.keySet())
-			if (this.get(key).getCategory().equals(cat))
-				retval.add(new ChannelImpl(this.get(key)));
-
+			if (this.get(key).getCategory().equals(cat)) {
+				SignageContent C = this.get(key);
+				if (C instanceof ChannelImage)
+					retval.add(new ChannelImage(C));
+				else if (C instanceof Channel)
+					retval.add(new ChannelImpl(C));
+			}
 		return retval;
 	}
 
