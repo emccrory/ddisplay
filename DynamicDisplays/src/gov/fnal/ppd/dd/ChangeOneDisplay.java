@@ -5,13 +5,10 @@ import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
-import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.locationCode;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
-import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.display.DisplayListDatabaseRemote;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.signage.Display;
@@ -35,35 +32,34 @@ import javax.swing.JOptionPane;
  */
 public class ChangeOneDisplay {
 
-	/**
-	 * @param server
-	 *            The name of the server
-	 * @param port
-	 *            The port number to connect to the server on
-	 * @param username
-	 *            The username to use to connect to the server with. This user MUST BE AUTHORIZED with a cryptographic
-	 *            public/private key pair in the Dynamic Displays database.
-	 */
-	public ChangeOneDisplay(final String username) {
+	private ChangeOneDisplay() {
 	}
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
-
+		if ( args.length != 2) {
+			System.err.println("Usage: java " + ChangeOneDisplay.class.getCanonicalName() + " <displayID> <channelNumber>");
+			return;
+		}
+		
 		int targetDisplayNumber = Integer.parseInt(args[0]);
 		Display display = getControllableDisplay(targetDisplayNumber);
 
-		if (display == null)
+		if (display == null) {
+			System.err.println("There is no controllable display for displayID=" + targetDisplayNumber);
 			return;
+		}
 
 		int targetChannelumber = Integer.parseInt(args[1]);
 		SignageContent content = DisplayControllerMessagingAbstract.getChannelFromNumber(targetChannelumber);
 
-		// Create the message
-
+		// Set this content to this display
 		display.setContent(content);
+		// TODO -- Determine if this was successful.
 
 		System.out.println("Attempted to change display [" + display + "] to channel [" + content + "]");
-
 		catchSleep(5000);
 		System.exit(0);
 
@@ -110,7 +106,7 @@ public class ChangeOneDisplay {
 
 						DisplayListDatabaseRemote g = new DisplayListDatabaseRemote(locationCode, dNum);
 						retval = g.get(0);
-						if ( retval.getDBDisplayNumber() == dNum)
+						if (retval.getDBDisplayNumber() == dNum)
 							return retval;
 
 					} catch (Exception e) {
