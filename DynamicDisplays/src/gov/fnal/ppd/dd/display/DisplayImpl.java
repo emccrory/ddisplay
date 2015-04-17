@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.display;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_VIRTUAL_DISPLAY_NUMS;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import gov.fnal.ppd.dd.changer.DDButton;
@@ -53,8 +54,8 @@ public abstract class DisplayImpl implements Display {
 
 	/**
 	 * @param ipName
-	 * @param vDisplay 
-	 * @param dbDisplay 
+	 * @param vDisplay
+	 * @param dbDisplay
 	 * @param screenNumber
 	 * @param location
 	 * @param color
@@ -92,8 +93,8 @@ public abstract class DisplayImpl implements Display {
 				channel = makeEmptyChannel(null);
 			else
 				channel = (Channel) c;
-			System.out.println(getClass().getSimpleName() + ": Display " + getVirtualDisplayNumber() + " changed to [" + channel + "] at "
-					+ (new Date()));
+			System.out.println(getClass().getSimpleName() + ": Display " + getVirtualDisplayNumber() + " changed to [" + channel
+					+ "] at " + (new Date()));
 
 			// ----- Do we put this channel in a wrapper?
 			// channel.setCode(channel.getCode() | 1);
@@ -136,7 +137,10 @@ public abstract class DisplayImpl implements Display {
 
 	@Override
 	public String toString() {
-		int displayNumber = getVirtualDisplayNumber();
+		int displayNumber = getDBDisplayNumber();
+		if (SHOW_VIRTUAL_DISPLAY_NUMS)
+			displayNumber = getVirtualDisplayNumber();
+
 		// FIXME Only works correctly up to 9999 total displays. That should be enough for now. :-)
 		if (displayCount >= 1000) {
 			if (displayNumber < 10)
@@ -157,16 +161,16 @@ public abstract class DisplayImpl implements Display {
 				return "Display 0" + displayNumber;
 
 		}
-	
+
 		return "Display " + displayNumber;
 	}
 
-//	@Override
-//	public int getNumber() {
-//		if (SHOW_VIRTUAL_DISPLAY_NUMS)
-//			return getVirtualDisplayNumber();
-//		return getDBDisplayNumber();
-//	}
+	// @Override
+	// public int getNumber() {
+	// if (SHOW_VIRTUAL_DISPLAY_NUMS)
+	// return getVirtualDisplayNumber();
+	// return getDBDisplayNumber();
+	// }
 
 	@Override
 	public int getDBDisplayNumber() {
@@ -256,7 +260,6 @@ public abstract class DisplayImpl implements Display {
 	public SignageContent getContent() {
 		return channel;
 	}
-
 
 	@Override
 	public int getScreenNumber() {
