@@ -118,4 +118,10 @@ public class PublicInformationGrid extends ChannelButtonGrid {
 	public void makeGrid(ChannelCategory cat) {
 		add(makeExpGrid());		
 	}
+
+	@Override
+	public void makeGrid(ChannelCategory cat, int frameNumber) {
+		// TODO Auto-generated method stub
+		
+	}
 }

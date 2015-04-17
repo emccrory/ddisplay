@@ -42,10 +42,14 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 	}
 
 	public void makeGrid(final ChannelCategory set) {
-		add(makeExpGrid(set));
+		makeGrid(set, 0);
 	}
 
-	protected JComponent makeExpGrid(final ChannelCategory set) {
+	public void makeGrid(final ChannelCategory set, final int frameNumber) {
+		add(makeExpGrid(set, frameNumber));
+	}
+
+	protected JComponent makeExpGrid(final ChannelCategory set, int frameNumber) {
 
 		Set<SignageContent> list = ChannelCatalogFactory.getInstance().getChannelCatalog(set);
 		int cols = 4;
@@ -133,6 +137,7 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		int numButtons = 0;
 		for (SignageContent exp : list) {
 			numButtons++;
+			exp.setFrameNumber(frameNumber);
 			final DDButton button = new DDButton((Channel) exp, display, maxLen);
 
 			// TODO -- Move this title manipulation down into DDButton so it can break up the title into two rows properly
@@ -141,7 +146,6 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 
 			if (button.getText().toUpperCase().startsWith(("<html><center>" + set.getValue()).toUpperCase()))
 				button.setText("<html><center>" + button.getText().substring(set.getValue().length() + 15));
-
 			if (SHOW_IN_WINDOW) {
 				button.setFont(button.getFont().deriveFont(FS));
 			} else {

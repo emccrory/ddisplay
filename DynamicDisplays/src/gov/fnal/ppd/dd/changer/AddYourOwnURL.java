@@ -123,4 +123,10 @@ public class AddYourOwnURL extends ChannelButtonGrid implements ActionListener {
 	public void makeGrid(ChannelCategory cat) {
 		// Nothing to do here		
 	}
+
+	@Override
+	public void makeGrid(ChannelCategory cat, int frameNumber) {
+		// TODO Auto-generated method stub
+		
+	}
 }
