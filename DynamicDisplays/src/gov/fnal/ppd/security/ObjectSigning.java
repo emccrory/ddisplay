@@ -6,7 +6,7 @@
  *
  * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd.testing;
+package gov.fnal.ppd.security;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
@@ -65,7 +65,7 @@ public class ObjectSigning {
 	private static Map<String, List<String>>	clientControlList	= new HashMap<String, List<String>>();
 
 	/**
-	 * @return the instance of this ObjectSigning object for this JVM
+	 * @return the instance of this ObjectSigning object for this JVM 
 	 */
 	public static ObjectSigning getInstance() {
 		return me;
@@ -80,11 +80,11 @@ public class ObjectSigning {
 
 	private Signature			sig			= null;
 
-	// I'm thinking that all the public keys will be stored in the database and the private keys will be stored on the local
+	// All the public keys will be stored in the database and the private keys will be stored on the local
 	// disk of the sender, but not in a place that can normally be read. For example, ~/.keystore
 
 	/**
-	 * Initialize the object signing mechanism
+	 * Initialize the object signing mechanism -- PRIVATE class.  Use getInstance();
 	 */
 	private ObjectSigning() {
 		try {

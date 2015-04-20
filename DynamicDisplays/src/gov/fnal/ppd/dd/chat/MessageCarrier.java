@@ -11,7 +11,7 @@ package gov.fnal.ppd.dd.chat;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.testing.ObjectSigning;
+import gov.fnal.ppd.security.ObjectSigning;
 
 import java.io.IOException;
 import java.io.Serializable;

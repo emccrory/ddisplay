@@ -18,7 +18,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
 
-import gov.fnal.ppd.dd.testing.ObjectSigning;
+import gov.fnal.ppd.security.ObjectSigning;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
