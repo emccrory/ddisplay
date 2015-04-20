@@ -21,7 +21,6 @@ import gov.fnal.ppd.dd.changer.DisplayButtons;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
@@ -30,7 +29,6 @@ import gov.fnal.ppd.dd.util.DisplayCardActivator;
 import gov.fnal.ppd.dd.util.DisplayKeeper;
 import gov.fnal.ppd.dd.util.JLabelFooter;
 import gov.fnal.ppd.dd.util.SelectorInstructions;
-import gov.fnal.ppd.dd.util.SplashScreens;
 import gov.fnal.ppd.dd.util.WhoIsInChatRoom;
 
 import java.awt.BorderLayout;
@@ -52,7 +50,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -77,9 +74,6 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 	private static final int				NUMBER_OF_FRAMES			= 4;
 	private static JFrame					f							= new JFrame("Dynamic Display Channel Selector");
 
-	// private static ActionListener fullRefreshAction = null;
-	private static ChangeChannelOnFrame		channelSelector;
-
 	private List<List<ChannelButtonGrid>>	channelButtonGridList		= new ArrayList<List<ChannelButtonGrid>>();
 	/*
 	 * Each tab contains a specific type of Channels in a CardLayout There is one Card for each Display in the CardLayout A button
@@ -97,8 +91,6 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 	private String							lastActiveDisplay			= null;
 
 	private List<JTabbedPane>				listOfDisplayTabbedPanes	= new ArrayList<JTabbedPane>();
-
-	private SplashScreens					splashScreens;
 
 	/**
 	 * Create the channel selector GUI in the normal way
@@ -158,16 +150,9 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 		add(displaySelector, BorderLayout.EAST);
 		add(makeTitle(), BorderLayout.NORTH);
 
-		splashScreens = new SplashScreens(this, displayChannelPanel);
-
-		if (!SHOW_IN_WINDOW)
-			// Only enable the splash screen for the full-screen version
-			splashScreens.start();
-
 	}
 
 	private void initializeTabs() {
-
 		int index = 0;
 		for (final Display display : displayList) {
 
@@ -191,7 +176,7 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 			ChannelCategory cat = new ChannelCategory("Special");
 			for (int frameNumber = 1; frameNumber < NUMBER_OF_FRAMES; frameNumber++) {
 				ChannelButtonGrid grid = new DetailedInformationGrid(display, bg);
-				
+
 				grid.makeGrid(cat, frameNumber);
 				allGrids.add(grid);
 				display.addListener(grid);
@@ -212,7 +197,6 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 					lastDisplayChange = System.currentTimeMillis();
 					setAllTabs(displayTabPane.getSelectedIndex());
 				}
-
 			});
 
 			// Add the Display Tabbed Pane to the main screen
@@ -296,7 +280,6 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 		}
 
 		new WhoIsInChatRoom(this).start();
-
 	}
 
 	private static Thread	errorMessageThread	= null;
@@ -436,7 +419,7 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 	// }
 
 	/**
-	 * Run the Channel Selector application. Renamed from "main" so it cannot (easily) be run
+	 * Run the ChangeChannelOnFrame application. 
 	 * 
 	 * @param args
 	 */
@@ -448,27 +431,23 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 		System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
 		System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + "'\n");
 
-		displayList = DisplayListFactory.getInstance(sType, getLocationCode());
-		channelSelector = new ChangeChannelOnFrame();
-		channelSelector.start();
-
-		// SHOW_IN_WINDOW = args.length > 0 && "WINDOW".equals(args[0]);
-
-		createRefreshActions(sType);
+		displayList = DisplayListFactory.getInstance(sType, locationCode);
+		ChangeChannelOnFrame changer = new ChangeChannelOnFrame();
+		changer.start();
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		if (SHOW_IN_WINDOW) {
-			f.setContentPane(channelSelector);
+			f.setContentPane(changer);
 			f.pack();
 		} else {
 			// Full-screen display of this app!
 			Box h = Box.createVerticalBox();
-			h.add(channelSelector);
+			h.add(changer);
 			SelectorInstructions label = new SelectorInstructions();
 			label.start();
 			h.add(label);
-			channelSelector.setAlignmentX(CENTER_ALIGNMENT);
+			changer.setAlignmentX(CENTER_ALIGNMENT);
 			label.setAlignmentX(CENTER_ALIGNMENT);
 			f.setUndecorated(true);
 			f.setContentPane(h);
@@ -478,88 +457,9 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 
 	}
 
-	/**
-	 * @return the location code for this instance of the channel selector
-	 */
-	public static int getLocationCode() {
-		return locationCode;
-	}
-
-	private static void createRefreshActions(final SignageType sType) {
-		@SuppressWarnings("unused")
-		ActionListener fullRefreshAction = new ActionListener() {
-
-			// FIXME This operation does not work! I suspect this is because of the globals and the socket connections (maybe they
-			// don't get closed properly?)
-			// Another attempt on 8/25/14, and I get a "Socket Closed" exception. (?)
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(new Runnable() {
-
-					@Override
-					public void run() {
-						DisplayFacade.tryToConnectToDisplaysNow = true;
-						System.out.println("\n\nRefreshing Channel Selector\n\n");
-						f.setVisible(false);
-						f.dispose();
-						f = null;
-
-						channelSelector.destroy();
-						for (Display D : displayList) {
-							D.disconnect();
-						}
-						displayList.clear();
-
-						channelSelector = null;
-						displayList = null;
-						Runtime.getRuntime().gc();
-						catchSleep(1000);
-
-						// Regenerate the Display list and the Channel list
-						// DisplayListFactory.useRealDisplays(realDisplays);
-						// ChannelCatalogFactory.useRealChannels(true);
-						displayList = DisplayListFactory.getInstance(sType, getLocationCode());
-
-						channelSelector = new ChangeChannelOnFrame();
-						channelSelector.start();
-						// channelSelector.setRefreshAction(fullRefreshAction);
-
-						f = new JFrame("XOC Display Channel Selector");
-						f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-						f.setUndecorated(!SHOW_IN_WINDOW);
-
-						// DisplayListFactory.useRealDisplays(realDisplays);
-						// ChannelCatalogFactory.useRealChannels(true);
-
-						f.setContentPane(channelSelector);
-						if (SHOW_IN_WINDOW)
-							f.pack();
-						else
-							f.setSize(screenDimension);
-						f.setVisible(true);
-
-					}
-				});
-			}
-		};
-	}
-
-	protected void destroy() {
-		// Do everything we can to forget everything we can.
-		// TODO Make this work -- no luck so far!
-	}
-
-	private void setRefreshAction(ActionListener refreshAction2) {
-	}
 
 	@Override
 	public void activateCard(boolean showingSplash) {
-		if (showingSplash) {
-			card.show(displayChannelPanel, lastActiveDisplay);
-		} else {
-			card.show(displayChannelPanel, splashScreens.getNext());
-		}
+		card.show(displayChannelPanel, lastActiveDisplay);
 	}
 }

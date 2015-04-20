@@ -4,7 +4,6 @@ package gov.fnal.ppd.dd.util.attic.jxbrowser;
  * Class removed.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * @deprecated
  */
 public class JxBrowserTest {

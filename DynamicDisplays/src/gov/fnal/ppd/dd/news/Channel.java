@@ -1,3 +1,8 @@
+/*
+ * Channel
+ *
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.news;
 
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
@@ -15,13 +20,14 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * This is what the CBS News RSS feed looks like. Can I interpret it??
+ * This is what an RSS news feed looks like. It has to be called "Channel" because this is what is in the RSS. Unfortunate
+ * overloading of this popular word.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2015
  * 
  */
 @XmlRootElement(name = "channel")
+@SuppressWarnings("javadoc")
 public class Channel {
 
 	private String	title;

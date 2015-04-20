@@ -1,3 +1,8 @@
+/*
+ * DetailedInformationGrid
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
@@ -19,7 +24,6 @@ import javax.swing.JPanel;
  * Create a grid of the channels that represent "Detailed Information"
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class DetailedInformationGrid extends ChannelButtonGrid {
@@ -35,7 +39,6 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 	 *            The Display for which these buttons relate
 	 * @param bg
 	 *            The button group into which these buttons go
-	 * @param set
 	 */
 	public DetailedInformationGrid(final Display display, final DisplayButtonGroup bg) {
 		super(display, bg);

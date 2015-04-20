@@ -1,8 +1,12 @@
+/*
+ * DatabaseNotVisibleException
+ *
+ * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.security;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  *
  */
 public class DatabaseNotVisibleException extends Exception {

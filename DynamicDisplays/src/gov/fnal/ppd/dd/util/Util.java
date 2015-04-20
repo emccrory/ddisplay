@@ -1,3 +1,8 @@
+/*
+ * Util
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
@@ -19,7 +24,6 @@ import java.util.GregorianCalendar;
  * Some general utilities in the DD system
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class Util {

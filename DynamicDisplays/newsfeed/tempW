@@ -4,7 +4,7 @@
      <channel>
 <title>Weather at Chicago / West Chicago, Dupage Airport, IL - via NOAA's National Weather Service</title>
 <link>http://www.weather.gov/xml/current_obs/</link>
-     <lastBuildDate>Fri, 17 Apr 2015 12:52:00 -0500</lastBuildDate>
+     <lastBuildDate>Mon, 20 Apr 2015 12:52:00 -0500</lastBuildDate>
      <ttl>60</ttl>
      <description>Weather conditions from NOAA's National Weather Service. </description>
      <language>en-us</language>
@@ -18,14 +18,15 @@
     
      <item>
 <title>
-Mostly Cloudy and 75 F at Chicago / West Chicago, Dupage Airport, IL</title>
+Overcast and Breezy and 46 F at Chicago / West Chicago, Dupage Airport, IL</title>
 <link>http://weather.noaa.gov/weather/current/KDPA.html</link> 
 <description>
-<![CDATA[<img src="http://forecast.weather.gov/images/wtf/small/bkn.png" class="noaaWeatherIcon"  width="55" height="58" alt="Mostly Cloudy" style="float:left;" /><br />]]>
-Winds are Southwest at 8.1 MPH (7 KT). The pressure is 1017.4 mb and the humidity is 40%.
- Last Updated on Apr 17 2015, 12:52 pm CDT.  
+<![CDATA[<img src="http://forecast.weather.gov/images/wtf/small/ovc.png" class="noaaWeatherIcon"  width="55" height="58" alt="Overcast and Breezy" style="float:left;" /><br />]]>
+Winds are from the West at 23.0 gusting to 27.6 MPH (20 gusting to 24 KT). The pressure is 997.2 mb and the humidity is 73%.
+The wind chill is 38.
+ Last Updated on Apr 20 2015, 12:52 pm CDT.  
       </description>
-      <guid isPermaLink="false">Fri, 17 Apr 2015 12:52:00 -0500</guid>
+      <guid isPermaLink="false">Mon, 20 Apr 2015 12:52:00 -0500</guid>
       </item>
       </channel>
       </rss>

@@ -1,3 +1,8 @@
+/*
+ * ConnectionToDynamicDisplaysDatabase
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_SERVER_NAME;
@@ -16,7 +21,6 @@ import java.sql.SQLException;
  * Deal with the connection to the Dynamic Displays database.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class ConnectionToDynamicDisplaysDatabase {

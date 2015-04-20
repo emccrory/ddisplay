@@ -1,3 +1,8 @@
+/*
+ * MyRectangle
+ * 
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util.attic;
 
 import java.awt.Color;
@@ -17,7 +22,6 @@ import javax.swing.JPanel;
  * A simple-looking panel that is a specified Color
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class MyRectangle extends JPanel {

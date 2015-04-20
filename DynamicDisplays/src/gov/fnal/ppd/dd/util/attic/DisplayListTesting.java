@@ -1,3 +1,8 @@
+/*
+ * DisplayListTesting
+ * 
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util.attic;
 
 import gov.fnal.ppd.dd.signage.Display;
@@ -10,7 +15,6 @@ import java.util.List;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  *
  */
 public class DisplayListTesting extends ArrayList<Display> {
@@ -67,10 +71,17 @@ public class DisplayListTesting extends ArrayList<Display> {
 		return new HSBColor(val);
 	}
 
+	/**
+	 * @param dn
+	 * @return the SignageType for this display number
+	 */
 	public SignageType getCategory( int dn ) {
 		return categories[dn];
 	}
 
+	/**
+	 * @return the SignageTypes
+	 */
 	public SignageType [] getCategories() {
 		return categories;
 	}

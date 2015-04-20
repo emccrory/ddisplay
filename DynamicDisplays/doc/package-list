@@ -4,6 +4,7 @@ gov.fnal.ppd.dd.channel
 gov.fnal.ppd.dd.chat
 gov.fnal.ppd.dd.display
 gov.fnal.ppd.dd.display.client
+gov.fnal.ppd.dd.news
 gov.fnal.ppd.dd.signage
 gov.fnal.ppd.dd.testing
 gov.fnal.ppd.dd.util

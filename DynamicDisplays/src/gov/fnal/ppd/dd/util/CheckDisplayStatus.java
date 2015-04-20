@@ -1,3 +1,8 @@
+/*
+ * CheckDisplayStatus
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.PING_INTERVAL;
@@ -22,7 +27,6 @@ import javax.swing.JLabel;
  * Utility class for the main Channel Selector class.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class CheckDisplayStatus extends Thread {

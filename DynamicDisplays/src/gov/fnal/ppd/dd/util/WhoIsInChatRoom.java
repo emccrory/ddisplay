@@ -1,3 +1,8 @@
+/*
+ * WhoIsInChatRoom
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_NAME;
@@ -12,8 +17,9 @@ import java.net.UnknownHostException;
 import java.util.Date;
 
 /**
+ * Helper class to keep track of who is in the chat room.  Used by the top-level GUI(s) to say if a Display is available.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class WhoIsInChatRoom extends Thread {

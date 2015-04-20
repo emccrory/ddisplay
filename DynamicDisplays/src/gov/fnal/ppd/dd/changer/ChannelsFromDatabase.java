@@ -1,3 +1,8 @@
+/*
+ * ChannelsFromDatabase
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
@@ -25,7 +30,6 @@ import java.util.TreeSet;
  * Return all the channels from the database
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class ChannelsFromDatabase extends HashMap<String, SignageContent> implements ChannelCatalog {

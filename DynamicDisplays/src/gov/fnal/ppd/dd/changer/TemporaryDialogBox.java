@@ -1,3 +1,8 @@
+/*
+ * TemporaryDialogBox
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -20,7 +25,6 @@ import javax.swing.border.Border;
 /**
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class TemporaryDialogBox extends JFrame {
@@ -31,7 +35,6 @@ public class TemporaryDialogBox extends JFrame {
 	 * A simple extension of JLabel to assist in the proper setup of the fonts and stuff
 	 * 
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 * @copyright 2014
 	 * 
 	 */
 	private static class MyLabel extends JLabel {

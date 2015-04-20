@@ -1,4 +1,9 @@
-package gov.fnal.ppd.dd.testing;
+/*
+ * SeleniumTest1
+ * 
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
+package gov.fnal.ppd.dd.util.attic;
 
 
 /**
@@ -11,7 +16,6 @@ package gov.fnal.ppd.dd.testing;
  * FF-Remote-Control plugin, which solve the problem at hand.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class SeleniumTest1 {

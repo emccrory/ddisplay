@@ -1,24 +1,6 @@
-package gov.fnal.ppd.dd.chat;
-
-import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.channel.PlainURLChannel;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.xml.ChangeChannel;
-import gov.fnal.ppd.dd.xml.ChangeChannelList;
-import gov.fnal.ppd.dd.xml.ChangeChannelReply;
-import gov.fnal.ppd.dd.xml.ChannelSpec;
-import gov.fnal.ppd.dd.xml.EncodedCarrier;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 /*
+ * DCProtocol
+ *
  * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,20 +29,39 @@ import java.util.List;
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * Adaptations to this class:
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
+package gov.fnal.ppd.dd.chat;
+
+import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
+import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.Util.println;
+import gov.fnal.ppd.dd.channel.PlainURLChannel;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.xml.ChangeChannel;
+import gov.fnal.ppd.dd.xml.ChangeChannelList;
+import gov.fnal.ppd.dd.xml.ChangeChannelReply;
+import gov.fnal.ppd.dd.xml.ChannelSpec;
+import gov.fnal.ppd.dd.xml.EncodedCarrier;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
  * This is the protocol for the messages between a Channel Changer and a Display.
  * </p>
  * <p>
- * <em>DC
- * </p>
- * stands for <em>Display Communications</p</p>
+ * <em>DC</em> stands for <em>Display Communications</em></p>
  * 
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class DCProtocol {
@@ -329,13 +330,13 @@ public class DCProtocol {
 	 *            The message to consider
 	 */
 	public void errorHandler(final MessageCarrier message) {
-		println(DCProtocol.class, " $$$ Error handler, message is to '" + message.getTo() + "', from '" + message.getFrom() + "'");
+		// println(DCProtocol.class, " $$$ Error handler, message is to '" + message.getTo() + "', from '" + message.getFrom() + "'");
 		for (Display L : listeners) {
 			if (L.getMessagingName().equals(message.getTo()) || message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME)) {
-				println(DCProtocol.class, " $$$ Sending to " + L);
+				// println(DCProtocol.class, " $$$ Sending to " + L);
 				L.errorHandler(message.getMessage());
 			} else
-				println(DCProtocol.class, " $$$ SKIPPING " + L);
+				;// println(DCProtocol.class, " $$$ SKIPPING " + L);
 
 		}
 

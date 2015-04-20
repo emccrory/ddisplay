@@ -1,3 +1,8 @@
+/*
+ * DisplayChangeEvent
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.changer;
 
 import java.awt.event.ActionEvent;
@@ -6,7 +11,6 @@ import java.awt.event.ActionEvent;
  * The event that tells the world that a Display has changed (or reiterated) its status.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class DisplayChangeEvent extends ActionEvent {
@@ -17,7 +21,6 @@ public class DisplayChangeEvent extends ActionEvent {
 	 * The type of event this is
 	 * 
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 * @copyright 2014
 	 * 
 	 */
 	@SuppressWarnings("javadoc")

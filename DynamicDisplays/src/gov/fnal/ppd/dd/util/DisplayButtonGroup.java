@@ -1,3 +1,8 @@
+/*
+ * DisplayButtonGroup
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util;
 
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -15,7 +20,6 @@ import java.util.List;
  * Display
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class DisplayButtonGroup implements ActionListener {

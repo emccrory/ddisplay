@@ -1,3 +1,8 @@
+/*
+ * ConnectionToFirefoxInstance
+ *
+ * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.*;
@@ -23,7 +28,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class ConnectionToFirefoxInstance {
@@ -80,7 +84,6 @@ public class ConnectionToFirefoxInstance {
 	 * What type of "wrapper" shall we use to show our web pages?
 	 * 
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 * @copyright 2015
 	 * 
 	 */
 	public enum WrapperType {

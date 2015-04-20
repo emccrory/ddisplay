@@ -1,3 +1,8 @@
+/*
+ * MakeChannelSelector
+ *
+ * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
@@ -32,7 +37,6 @@ import javax.swing.JOptionPane;
  * Use the database to determine what sort of ChannelSelector to actually run
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2015
  * 
  */
 public class MakeChannelSelector {

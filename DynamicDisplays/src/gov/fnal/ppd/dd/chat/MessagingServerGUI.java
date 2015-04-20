@@ -1,3 +1,11 @@
+/*
+ * MessagingServerGUI
+ *
+ * Original version: Taken from the internet on 5/12/2014. @see <a
+ * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/"> dreamincode.net</a>
+ * 
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
@@ -23,17 +31,11 @@ import javax.swing.JTextField;
  * <p>
  * The messaging server as a GUI
  * </p>
- * 
- * <p>
- * Taken from the internet on 5/12/2014. @see <a
- * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/"> dreamincode.net</a>
- * </p>
  * <p>
  * Extensively modified by Elliott McCrory, Fermilab AD/Instrumentation, 2014
  * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  */
 public class MessagingServerGUI extends JFrame implements ActionListener, WindowListener {
 
@@ -66,7 +68,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 				}
 			}
 		}
-		
+
 		protected void event(String msg) {
 			synchronized (sdf) {
 				String time = sdf.format(new Date()) + " " + msg;

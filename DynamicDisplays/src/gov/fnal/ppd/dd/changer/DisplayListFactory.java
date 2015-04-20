@@ -1,3 +1,8 @@
+/*
+ * DisplayListFactory
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.changer;
 
 import gov.fnal.ppd.dd.display.DisplayListDatabaseRemote;
@@ -9,7 +14,6 @@ import java.util.List;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class DisplayListFactory {

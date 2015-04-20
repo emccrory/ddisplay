@@ -17,24 +17,29 @@
 	<station_id>KDPA</station_id>
 	<latitude>41.89639</latitude>
 	<longitude>-88.25111</longitude>
-	<observation_time>Last Updated on Apr 17 2015, 1:52 pm CDT</observation_time>
-        <observation_time_rfc822>Fri, 17 Apr 2015 13:52:00 -0500</observation_time_rfc822>
-	<weather>Overcast</weather>
-	<temperature_string>74.0 F (23.3 C)</temperature_string>
-	<temp_f>74.0</temp_f>
-	<temp_c>23.3</temp_c>
-	<relative_humidity>38</relative_humidity>
-	<wind_string>West at 4.6 MPH (4 KT)</wind_string>
+	<observation_time>Last Updated on Apr 20 2015, 12:52 pm CDT</observation_time>
+        <observation_time_rfc822>Mon, 20 Apr 2015 12:52:00 -0500</observation_time_rfc822>
+	<weather>Overcast and Breezy</weather>
+	<temperature_string>46.0 F (7.8 C)</temperature_string>
+	<temp_f>46.0</temp_f>
+	<temp_c>7.8</temp_c>
+	<relative_humidity>73</relative_humidity>
+	<wind_string>from the West at 23.0 gusting to 27.6 MPH (20 gusting to 24 KT)</wind_string>
 	<wind_dir>West</wind_dir>
-	<wind_degrees>290</wind_degrees>
-	<wind_mph>4.6</wind_mph>
-	<wind_kt>4</wind_kt>
-	<pressure_string>1016.7 mb</pressure_string>
-	<pressure_mb>1016.7</pressure_mb>
-	<pressure_in>30.03</pressure_in>
-	<dewpoint_string>46.9 F (8.3 C)</dewpoint_string>
-	<dewpoint_f>46.9</dewpoint_f>
-	<dewpoint_c>8.3</dewpoint_c>
+	<wind_degrees>270</wind_degrees>
+	<wind_mph>23.0</wind_mph>
+	<wind_gust_mph>27.6</wind_gust_mph>
+	<wind_kt>20</wind_kt>
+	<wind_gust_kt>24</wind_gust_kt>
+	<pressure_string>997.2 mb</pressure_string>
+	<pressure_mb>997.2</pressure_mb>
+	<pressure_in>29.44</pressure_in>
+	<dewpoint_string>37.9 F (3.3 C)</dewpoint_string>
+	<dewpoint_f>37.9</dewpoint_f>
+	<dewpoint_c>3.3</dewpoint_c>
+	<windchill_string>38 F (3 C)</windchill_string>
+      	<windchill_f>38</windchill_f>
+      	<windchill_c>3</windchill_c>
 	<visibility_mi>10.00</visibility_mi>
  	<icon_url_base>http://forecast.weather.gov/images/wtf/small/</icon_url_base>
 	<two_day_history_url>http://www.weather.gov/data/obhistory/KDPA.html</two_day_history_url>

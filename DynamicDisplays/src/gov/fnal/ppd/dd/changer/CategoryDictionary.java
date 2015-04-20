@@ -1,3 +1,8 @@
+/*
+ * CategoryDictionary
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
@@ -15,7 +20,6 @@ import java.util.List;
  * Retrieve the categories that are to be used by the ChannelSelector GUI
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class CategoryDictionary {

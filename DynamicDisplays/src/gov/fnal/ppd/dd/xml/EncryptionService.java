@@ -1,3 +1,8 @@
+/*
+ * EncryptionService
+ *
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.xml;
 
 import java.security.MessageDigest;
@@ -8,7 +13,6 @@ import javax.xml.bind.DatatypeConverter;
  * A service for conducting the encryption of messages.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public final class EncryptionService {

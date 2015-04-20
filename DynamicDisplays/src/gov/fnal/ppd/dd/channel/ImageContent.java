@@ -1,3 +1,8 @@
+/*
+ * ImageContent
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.channel;
 
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -15,7 +20,6 @@ import javax.imageio.ImageIO;
  * Proof-of-principle that Signage Content can be something other than a web page. It is not _fully_ tested.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class ImageContent implements SignageContent {
@@ -27,6 +31,7 @@ public class ImageContent implements SignageContent {
 	private SignageType			type;
 	private long				time				= 0L;
 	private int					frameNumber;
+	private int					code;
 
 	/**
 	 * @param name
@@ -114,7 +119,7 @@ public class ImageContent implements SignageContent {
 
 	@Override
 	public void setContent(Serializable content) {
-		// TODO Hmmmm.  not sure what to do here.
+		// TODO Hmmmm. not sure what to do here.
 	}
 
 	@Override
@@ -150,24 +155,22 @@ public class ImageContent implements SignageContent {
 
 	@Override
 	public int getCode() {
-		// TODO Not used
-		return 0;
+		return code;
 	}
 
 	@Override
 	public void setCode(int n) {
-		// TODO Not used
+		code = n;
 	}
 
 	@Override
 	public int getFrameNumber() {
-		// TODO Auto-generated method stub
-		return 0;
+		return frameNumber;
 	}
 
 	@Override
 	public void setFrameNumber(int f) {
-		// TODO Auto-generated method stub
+		frameNumber = f;
 	}
 
 }

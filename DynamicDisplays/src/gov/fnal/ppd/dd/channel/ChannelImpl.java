@@ -1,3 +1,8 @@
+/*
+ * ChannelImpl
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.channel;
 
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -12,7 +17,6 @@ import java.net.URI;
  * A simple implementation of the Channel interface
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class ChannelImpl implements Channel {

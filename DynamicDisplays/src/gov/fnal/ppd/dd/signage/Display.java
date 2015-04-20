@@ -1,3 +1,8 @@
+/*
+ * Display
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.signage;
 
 import java.awt.Color;
@@ -8,7 +13,6 @@ import java.net.InetAddress;
  * The signature of a Dynamic Display in the Fermilab Dynamic Display System
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public interface Display extends ActionListener {

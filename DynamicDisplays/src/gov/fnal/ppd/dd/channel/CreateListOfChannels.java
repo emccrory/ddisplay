@@ -1,3 +1,8 @@
+/*
+ * CreateListOfChannels
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.channel;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
@@ -38,7 +43,6 @@ import javax.swing.SpinnerModel;
  * presented to ChannelSelector
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class CreateListOfChannels extends JPanel {

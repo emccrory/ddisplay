@@ -1,11 +1,15 @@
+/*
+ * NoPrivateKeyException
+ *
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.chat;
 
 /**
- * This client canno0t sdign a message because it does not have a private key. This is OK for the messaging server (and the expected
+ * This client cannot sign a message because it does not have a private key. This is OK for the messaging server (and the expected
  * situation).
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class NoPrivateKeyException extends Exception {

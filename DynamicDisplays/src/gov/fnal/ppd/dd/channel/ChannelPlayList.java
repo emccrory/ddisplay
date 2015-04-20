@@ -1,3 +1,8 @@
+/*
+ * ChannelPlayList
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.channel;
 
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -17,7 +22,6 @@ import java.util.ListIterator;
  * This class holds a list of Channels that are to be played on a Display
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class ChannelPlayList implements Channel {

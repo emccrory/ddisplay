@@ -1,3 +1,8 @@
+/*
+ * DocentGrid
+ *
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
@@ -51,7 +56,6 @@ import javax.swing.JScrollPane;
  * application, when needed.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class DocentGrid extends DetailedInformationGrid {

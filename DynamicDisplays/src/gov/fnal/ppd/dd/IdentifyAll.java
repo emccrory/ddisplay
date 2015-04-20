@@ -1,3 +1,8 @@
+/*
+ * IdentifyAll
+ *
+ * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
@@ -27,7 +32,6 @@ import javax.swing.JFrame;
  * only be on the screen for a fraction of a minute, the Display will go back to its "regularly scheduled program" after a while.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class IdentifyAll implements ActionListener {

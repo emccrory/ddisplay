@@ -1,3 +1,8 @@
+/*
+ * ScreenLayoutInterpreter
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.display;
 
 import static gov.fnal.ppd.dd.display.client.BrowserLauncher.debug;
@@ -14,7 +19,6 @@ import java.util.List;
  * Figure out the geometry of the screens on this system.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class ScreenLayoutInterpreter {

@@ -1,10 +1,14 @@
+/*
+ * MessageType
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.chat;
 
 /**
  * The sorts of messages that the Messaging Server can understand
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public enum MessageType {

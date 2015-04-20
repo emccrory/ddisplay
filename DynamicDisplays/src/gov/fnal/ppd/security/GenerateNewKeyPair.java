@@ -1,3 +1,8 @@
+/*
+ * GenerateNewKeyPair
+ *
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.security;
 
 import java.io.Console;
@@ -24,7 +29,6 @@ import java.sql.Statement;
  * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class GenerateNewKeyPair {

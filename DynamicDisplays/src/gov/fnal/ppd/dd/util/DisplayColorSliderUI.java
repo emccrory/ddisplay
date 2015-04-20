@@ -1,3 +1,8 @@
+/*
+ * DisplayColorSliderUI
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util;
 
 import java.awt.Color;
@@ -24,7 +29,6 @@ import javax.swing.plaf.basic.BasicSliderUI;
  * Implement a JSlider. This is used when there are too many Displays to show on a ChannelSelector as individual buttons.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class DisplayColorSliderUI extends BasicSliderUI {

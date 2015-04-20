@@ -1,3 +1,8 @@
+/*
+ * EncryptUtils
+ *
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.testing;
 
 import java.io.FileInputStream;
@@ -22,12 +27,10 @@ import javax.crypto.spec.IvParameterSpec;
  * This class was taken from an example on the Internet
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class EncryptUtils {
 	Cipher	ecipher;
-
 	Cipher	dcipher;
 
 	/**

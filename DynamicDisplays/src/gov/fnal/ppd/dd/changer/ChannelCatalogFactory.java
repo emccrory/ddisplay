@@ -1,10 +1,14 @@
+/*
+ * ChannelCatalogFactory
+ *
+ * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.changer;
 
 /**
  * Singleton class to deal with getting the Channel Catalog to the client.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class ChannelCatalogFactory {

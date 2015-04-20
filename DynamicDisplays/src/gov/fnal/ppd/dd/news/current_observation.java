@@ -1,3 +1,8 @@
+/*
+ * current_observation
+ *
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.news;
 
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
@@ -7,7 +12,6 @@ import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
@@ -15,13 +19,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * This is what the CBS News RSS feed looks like. Can I interpret it??
+ * This is what the NOAA airport RSS feed looks like. 
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2015
  * 
  */
 @XmlRootElement(name = "current_observation")
+@SuppressWarnings("javadoc")
 public class current_observation {
 
 	private String	credit, credit_url, image, suggested_pickup, location, station_id, observation_time;
@@ -32,7 +36,10 @@ public class current_observation {
 	private double	lattitude, longitude, temp_f, temp_c, relative_humidity, wind_degrees;
 	private double	wind_mph, wind_kt, pressure_mb, pressure_in, dewpoint_f, dewpoint_c, windchill_f, windchill_c, visibility_mi;
 
-	public static void main(String[] args) {
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
 		Path path = FileSystems.getDefault().getPath(args[0]);
 		String xml = "";
 		try {
@@ -386,19 +393,5 @@ public class current_observation {
 
 	public void setVisibility_mi(double visibility_mi) {
 		this.visibility_mi = visibility_mi;
-	}
-
-	private static String mychop(String s) {
-		if (s == null)
-			return null;
-		if (s.length() - 2 <= 0)
-			return "";
-
-		if (s.startsWith("\n"))
-			s = s.substring(1);
-		if (s.endsWith("\n"))
-			return s.substring(0, s.length() - 2);
-
-		return s;
 	}
 }

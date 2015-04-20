@@ -1,3 +1,8 @@
+/*
+ * GetColorsFromDatabase
+ *
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
@@ -12,7 +17,6 @@ import java.util.HashMap;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2015
  * 
  */
 public class GetColorsFromDatabase {

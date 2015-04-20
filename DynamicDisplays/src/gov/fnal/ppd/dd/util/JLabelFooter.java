@@ -1,3 +1,8 @@
+/*
+ * JLabelFooter
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
@@ -13,7 +18,6 @@ import javax.swing.JLabel;
  * text within the label to fit in the provided space.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class JLabelFooter extends JLabel {

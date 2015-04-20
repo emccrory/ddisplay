@@ -1,3 +1,8 @@
+/*
+ * GlobalVariables
+ *
+ * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd;
 
 import gov.fnal.ppd.dd.signage.Display;
@@ -13,7 +18,6 @@ import javax.swing.ImageIcon;
  * This is where all the global constant in the Dynamic Displays system are held.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class GlobalVariables {

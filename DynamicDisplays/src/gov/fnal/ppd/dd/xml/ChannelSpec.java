@@ -1,3 +1,4 @@
+
 package gov.fnal.ppd.dd.xml;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
@@ -14,7 +15,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Message from a Control Panel that specifies a Channel (SignageContent)
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014-15
  * 
  *            TODO -- We maybe able to let this class implement SingageContent or Channel
  */

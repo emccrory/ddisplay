@@ -1,3 +1,8 @@
+/*
+ * SplashScreens
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.INACTIVITY_TIMEOUT;
@@ -26,7 +31,6 @@ import javax.swing.JPanel;
  * Utility class for ChannelSelector to deal with the splash screens on the touch-panel displays
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class SplashScreens extends Thread {

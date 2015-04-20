@@ -1,3 +1,8 @@
+/*
+ * PlainURLChannel
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.channel;
 
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -8,7 +13,6 @@ import java.net.URL;
  * Used in XML marshalling to create a simple, URL-based Channel
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class PlainURLChannel extends ChannelImpl {

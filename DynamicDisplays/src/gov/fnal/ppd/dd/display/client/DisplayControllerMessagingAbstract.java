@@ -261,7 +261,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			try (ResultSet rs = stmt.executeQuery(query);) {
 				// Move to first returned row (there should only be one)
 				if (rs.first())
-					try { 
+					try {
 						String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
 
 						if (!myName.equals(myNode)) {
@@ -355,7 +355,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	/**
 	 * @param channelNumber
-	 * @return
+	 *            The channel number to look up
+	 * @return The channel that is specified by this channel number
 	 */
 	public static SignageContent getChannelFromNumber(final int channelNumber) {
 		String query = "SELECT * from Channel where Number=" + channelNumber;
@@ -375,9 +376,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					int dwell = rs.getInt("DwellTime");
 					String desc = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
 					String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Name"));
-					
+
 					retval = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, dwell);
-					
+
 					stmt.close();
 					rs.close();
 				}

@@ -1,3 +1,8 @@
+/*
+ * DisplayImpl
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.display;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
@@ -25,7 +30,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * A simple implementation of a Display
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public abstract class DisplayImpl implements Display {

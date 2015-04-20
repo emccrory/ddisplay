@@ -1,3 +1,8 @@
+/*
+ * AddYourOwnURL
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.changer;
 
 import gov.fnal.ppd.dd.channel.ChannelImpl;
@@ -23,7 +28,6 @@ import javax.swing.JPanel;
  * Helper class for adding a new URL, temporarily, to the system.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class AddYourOwnURL extends ChannelButtonGrid implements ActionListener {

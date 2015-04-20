@@ -1,3 +1,8 @@
+/*
+ * JTextAreaBottom
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util;
 
 import javax.swing.JTextArea;
@@ -11,7 +16,6 @@ import javax.swing.text.Document;
  * 
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class JTextAreaBottom extends JTextArea {

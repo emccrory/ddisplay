@@ -1,3 +1,8 @@
+/*
+ * MessagingServerTest
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_NAME;
@@ -7,7 +12,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
  * Test if the messaging server is running somewhere
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class MessagingServerTest {

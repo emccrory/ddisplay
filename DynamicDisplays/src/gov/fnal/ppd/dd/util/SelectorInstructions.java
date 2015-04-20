@@ -1,3 +1,8 @@
+/*
+ * SelectorInstructions
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
@@ -16,7 +21,6 @@ import javax.swing.JLabel;
  * time of quiet (15 minutes?), go back to full-on, in-your-face presentation for the next user.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class SelectorInstructions extends JLabel {

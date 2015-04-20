@@ -1,3 +1,8 @@
+/*
+ * JLabelCenter
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util;
 
 import java.awt.Color;
@@ -8,7 +13,6 @@ import javax.swing.JLabel;
  * Helper class for building the Splash Screen for the channel selector.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copytight 2014
  * 
  */
 public class JLabelCenter extends JLabel {

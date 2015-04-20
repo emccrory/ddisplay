@@ -1,3 +1,8 @@
+/*
+ * ChannelButtonGrid
+ *
+ * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
@@ -21,7 +26,6 @@ import javax.swing.JPanel;
  * Base class for the display grids that hold the channel buttons in the ChannelSelector
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public abstract class ChannelButtonGrid extends JPanel implements ActionListener {
@@ -117,7 +121,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 				break;
 
 			case ERROR:
-				System.out.println("Got the error indication in ChannelButtonGrid");
+				// System.out.println("Got the error indication in ChannelButtonGrid");
 			case IDLE:
 				// Ignore for now
 				break;

@@ -1,3 +1,12 @@
+/*
+ * ChangeOneDisplay
+ *
+ * v1.0
+ *
+ * 2015-01-01
+ * 
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
@@ -27,7 +36,6 @@ import javax.swing.JOptionPane;
  * A simple, command-line program for setting the content of one display to one channel. This would be used by a scheduling system.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2015
  * 
  */
 public class ChangeOneDisplay {

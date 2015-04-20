@@ -1,3 +1,8 @@
+/*
+ * MultiCastTest
+ * 
+ * Copyright (c) 2014 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util.attic;
 
 import java.net.DatagramPacket;
@@ -7,7 +12,6 @@ import java.net.MulticastSocket;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  *
  */
 public class MultiCastTest implements Runnable {

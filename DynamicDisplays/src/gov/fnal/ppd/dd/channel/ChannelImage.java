@@ -1,3 +1,8 @@
+/*
+ * ChannelImage
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.channel;
 
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -9,7 +14,6 @@ import java.net.URI;
  * Simple extension to ChannelImpl to add an experiment attribute.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class ChannelImage extends ChannelImpl {

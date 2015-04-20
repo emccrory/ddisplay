@@ -1,10 +1,14 @@
+/*
+ * BrowserUtilities
+ * 
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util.attic;
 
 /**
  * Some utility functions for the operating system
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class BrowserUtilities {

@@ -1,3 +1,8 @@
+/*
+ * SimpleMouseListener
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.util;
 
 import java.awt.event.MouseEvent;
@@ -7,7 +12,6 @@ import java.awt.event.MouseListener;
  * A listener to attach to a Component to help the caller select a JCardLayout card when clicked.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class SimpleMouseListener implements MouseListener {

@@ -1,8 +1,12 @@
-package gov.fnal.ppd.dd.changer;
+package gov.fnal.ppd.dd.util.attic;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
+import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
+import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -19,7 +23,6 @@ import javax.swing.JPanel;
  * A grid of Channel buttons that represent the front page of the Public channel changer
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  * @deprecated -- Replaced completely by DetailedInformationGrid.
  */

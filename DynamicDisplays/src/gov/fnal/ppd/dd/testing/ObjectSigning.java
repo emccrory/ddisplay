@@ -1,3 +1,11 @@
+/*
+ * ObjectSigning
+ * 
+ * Taken from <a
+ * href="http://examples.javacodegeeks.com/core-java/security/signing-a-java-object-example/">examples.javacodegeeks.com/</a>
+ *
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.testing;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
@@ -42,13 +50,8 @@ import java.util.Map;
  * <p>
  * A class to sign any seiralizable object
  * </p>
- * <p>
- * Taken from <a
- * href="http://examples.javacodegeeks.com/core-java/security/signing-a-java-object-example/">examples.javacodegeeks.com/</a>
- * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class ObjectSigning {

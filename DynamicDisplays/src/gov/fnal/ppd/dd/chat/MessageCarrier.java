@@ -1,3 +1,11 @@
+/*
+ * MessageCarrier
+ *
+ * Taken from the Internet on 5/12/2014. @see <a
+ * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
+ * 
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
@@ -45,11 +53,8 @@ import java.security.spec.InvalidKeySpecException;
  * 
  * As stated above, if/when we change to this JSON scheme, it will be important NOT to stream an object.
  * 
- * Taken from the Internet on 5/12/2014. @see <a
- * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class MessageCarrier implements Serializable {

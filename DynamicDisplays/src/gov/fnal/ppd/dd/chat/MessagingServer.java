@@ -1,3 +1,11 @@
+/*
+ * MessagingServer
+ *
+ * Taken from the internet on 5/12/2014. @see <a
+ * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
+ * 
+ * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
@@ -75,6 +83,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * put bad stuff into the stream of messages and foul things up. But hackers are a clever bunch, so never say never.
  * </p>
  * <p>
+ * We have opted not to encrypt these messages, but rather to cryptographically sign them.
+ * </p>
+ * <p>
  * An operational observation: A Client often drop out without saying goodbye. Almost always when this happens, the socket
  * connection between the server and the client gets corrupted and the server notices. When it does notice, it can delete this
  * client from its inventory. But sometimes this corruption does not happen and the socket somehow remains viable from the server's
@@ -83,14 +94,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * details.
  * </p>
  * 
- * *
- * <p>
- * Taken from the internet on 5/12/2014. @see <a
- * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
- * </p>
- * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  */
 public class MessagingServer {
 
@@ -161,7 +165,7 @@ public class MessagingServer {
 								+ ((MessageCarrier) read).getType() + " message");
 					}
 					this.username = ((MessageCarrier) read).getMessage();
-					display("'" + this.username + "' (" + id + ") has connected.");
+					display("'" + this.username + "' (" + id + ") wants to connect.");
 				} else {
 					display("Unexpected response from client '" + ((MessageCarrier) read).getFrom() + ": Type="
 							+ read.getClass().getCanonicalName());
@@ -655,8 +659,8 @@ public class MessagingServer {
 	 * 
 	 * Be sure to call super.broadcast(message) to actually get the message broadcast, though!
 	 * 
-	 * @param message
-	 *            -- The message to broadcast
+	 * @param mc
+	 *            The message to broadcast
 	 */
 	protected void broadcast(MessageCarrier mc) {
 		synchronized (broadcasting) { // Only send one message at a time
@@ -802,8 +806,14 @@ public class MessagingServer {
 				ClientThread t = new ClientThread(socket); // make a thread of it
 				if (listOfMessagingClients.add(t)) // save it in the ArrayList
 					t.start();
-				else
+				else {
 					display("Error! Duplicate username requested, '" + t.username + "'");
+					t.start();
+					t.writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, t.username,
+							"A client with the name " + t.username + " has already connected.  Disconnecting now."));
+					t.close();
+					continue;
+				}
 				if (showClientList == null) {
 
 					// This block is to print out the current set of clients. Rather than printing it out every time

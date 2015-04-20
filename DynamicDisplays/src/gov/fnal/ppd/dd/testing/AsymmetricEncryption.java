@@ -1,3 +1,8 @@
+/*
+ * EncryptionService
+ *
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.testing;
 
 import java.io.BufferedInputStream;
@@ -21,7 +26,6 @@ import javax.crypto.NoSuchPaddingException;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class AsymmetricEncryption {

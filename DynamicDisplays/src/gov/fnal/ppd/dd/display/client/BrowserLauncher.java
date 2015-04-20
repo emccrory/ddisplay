@@ -1,3 +1,8 @@
+/*
+ * BrowserLauncher
+ *
+ * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.display.client;
 
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
@@ -11,7 +16,6 @@ import java.util.List;
  * Control the launching of an external browser as the Display implementation
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2014
  * 
  */
 public class BrowserLauncher {
@@ -32,7 +36,6 @@ public class BrowserLauncher {
 	 * What kind of browser are we to use?
 	 * 
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 * @copyright 2014
 	 * 
 	 */
 	public enum BrowserInstance {
