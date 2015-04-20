@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Class that contains static methods for retrieving the displays in the system.  {@link DisplayListDatabaseRemote}
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */

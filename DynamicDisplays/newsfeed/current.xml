@@ -17,33 +17,33 @@
 	<station_id>KDPA</station_id>
 	<latitude>41.89639</latitude>
 	<longitude>-88.25111</longitude>
-	<observation_time>Last Updated on Apr 20 2015, 12:52 pm CDT</observation_time>
-        <observation_time_rfc822>Mon, 20 Apr 2015 12:52:00 -0500</observation_time_rfc822>
-	<weather>Overcast and Breezy</weather>
-	<temperature_string>46.0 F (7.8 C)</temperature_string>
-	<temp_f>46.0</temp_f>
-	<temp_c>7.8</temp_c>
-	<relative_humidity>73</relative_humidity>
-	<wind_string>from the West at 23.0 gusting to 27.6 MPH (20 gusting to 24 KT)</wind_string>
+	<observation_time>Last Updated on Apr 20 2015, 1:52 pm CDT</observation_time>
+        <observation_time_rfc822>Mon, 20 Apr 2015 13:52:00 -0500</observation_time_rfc822>
+	<weather>Overcast and Windy</weather>
+	<temperature_string>45.0 F (7.2 C)</temperature_string>
+	<temp_f>45.0</temp_f>
+	<temp_c>7.2</temp_c>
+	<relative_humidity>74</relative_humidity>
+	<wind_string>from the West at 26.5 gusting to 35.7 MPH (23 gusting to 31 KT)</wind_string>
 	<wind_dir>West</wind_dir>
-	<wind_degrees>270</wind_degrees>
-	<wind_mph>23.0</wind_mph>
-	<wind_gust_mph>27.6</wind_gust_mph>
-	<wind_kt>20</wind_kt>
-	<wind_gust_kt>24</wind_gust_kt>
-	<pressure_string>997.2 mb</pressure_string>
-	<pressure_mb>997.2</pressure_mb>
-	<pressure_in>29.44</pressure_in>
-	<dewpoint_string>37.9 F (3.3 C)</dewpoint_string>
-	<dewpoint_f>37.9</dewpoint_f>
-	<dewpoint_c>3.3</dewpoint_c>
-	<windchill_string>38 F (3 C)</windchill_string>
-      	<windchill_f>38</windchill_f>
-      	<windchill_c>3</windchill_c>
+	<wind_degrees>260</wind_degrees>
+	<wind_mph>26.5</wind_mph>
+	<wind_gust_mph>35.7</wind_gust_mph>
+	<wind_kt>23</wind_kt>
+	<wind_gust_kt>31</wind_gust_kt>
+	<pressure_string>998.3 mb</pressure_string>
+	<pressure_mb>998.3</pressure_mb>
+	<pressure_in>29.48</pressure_in>
+	<dewpoint_string>37.0 F (2.8 C)</dewpoint_string>
+	<dewpoint_f>37.0</dewpoint_f>
+	<dewpoint_c>2.8</dewpoint_c>
+	<windchill_string>36 F (2 C)</windchill_string>
+      	<windchill_f>36</windchill_f>
+      	<windchill_c>2</windchill_c>
 	<visibility_mi>10.00</visibility_mi>
  	<icon_url_base>http://forecast.weather.gov/images/wtf/small/</icon_url_base>
 	<two_day_history_url>http://www.weather.gov/data/obhistory/KDPA.html</two_day_history_url>
-	<icon_url_name>ovc.png</icon_url_name>
+	<icon_url_name>wind.png</icon_url_name>
 	<ob_url>http://www.weather.gov/data/METAR/KDPA.1.txt</ob_url>
 	<disclaimer_url>http://weather.gov/disclaimer.html</disclaimer_url>
 	<copyright_url>http://weather.gov/disclaimer.html</copyright_url>

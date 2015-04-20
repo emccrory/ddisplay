@@ -28,10 +28,8 @@ import javax.swing.JPanel;
 /**
  * Dynamic Display server task for listening to a port for the URI (really, a URL) to display on a free-standing browser.
  * 
- * ** This needs more work (mostly simplification!!) **
- * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2013-14
- * 
+ * @deprecated
  */
 public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 

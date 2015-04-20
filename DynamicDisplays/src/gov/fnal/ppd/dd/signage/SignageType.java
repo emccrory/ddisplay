@@ -1,3 +1,8 @@
+/*
+ * SignageType
+ *
+ * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.signage;
 
 /**
@@ -11,6 +16,9 @@ package gov.fnal.ppd.dd.signage;
  * </p>
  * <p>
  * The Display and the Content are both tagged with this hierarchy
+ * </p>
+ * <p>
+ * As of 4/2015, this functionality has not been used!  Everything is a "XOC".  It may be that this gets deprecated at some point.
  * </p>
  * 
  * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2013-14.

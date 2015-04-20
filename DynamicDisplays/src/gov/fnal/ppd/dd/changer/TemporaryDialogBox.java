@@ -23,6 +23,8 @@ import javax.swing.JLabel;
 import javax.swing.border.Border;
 
 /**
+ * Creates a borderless pop-up window. Used by {@link gov.fnal.ppd.dd.ChannelSelector}, and others, to let the user know that
+ * something is happening.  Disappears after a short interval.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

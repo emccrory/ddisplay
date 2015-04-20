@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  * A simple-looking panel that is a specified Color
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * 
+ * @deprecated
  */
 public class MyRectangle extends JPanel {
 

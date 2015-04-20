@@ -11,7 +11,7 @@ import java.net.URL;
  * @deprecated -- Not used anywhere
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- *
+ * @deprecated
  */
 public interface URLChangeListener {
 

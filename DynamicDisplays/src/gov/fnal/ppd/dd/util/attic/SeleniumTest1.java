@@ -16,7 +16,7 @@ package gov.fnal.ppd.dd.util.attic;
  * FF-Remote-Control plugin, which solve the problem at hand.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * 
+ * @deprecated
  */
 public class SeleniumTest1 {
 //	// FIXME -- Not working!

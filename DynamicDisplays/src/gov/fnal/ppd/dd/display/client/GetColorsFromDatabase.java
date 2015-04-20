@@ -16,6 +16,8 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 /**
+ * Retrieve the color names from the DD database.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */

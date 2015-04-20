@@ -1,8 +1,20 @@
+/*
+ * Channel
+ * 
+ * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ */
 package gov.fnal.ppd.dd.xml.news;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * A news "item" in an RSS feed.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * 
+ */
+@SuppressWarnings("javadoc")
 @XmlRootElement(name = "item")
 public class Item {
 	private String	title;
@@ -11,7 +23,7 @@ public class Item {
 	private String	image;
 	private String	pubDate;
 	private String	guid;
-	private int width, height;
+	private int		width, height;
 
 	@XmlElement
 	public String getLink() {

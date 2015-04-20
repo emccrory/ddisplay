@@ -1,5 +1,11 @@
 package gov.fnal.ppd.dd.util.attic;
 
+/**
+ * Some playing with prime numbers
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * 
+ */
 public class PrimePlay {
 	public static void main(String[] args) {
 		long prime = Long.parseLong(args[0]);

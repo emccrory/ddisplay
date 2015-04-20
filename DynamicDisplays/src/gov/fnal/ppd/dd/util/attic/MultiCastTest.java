@@ -12,6 +12,7 @@ import java.net.MulticastSocket;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @deprecated
  *
  */
 public class MultiCastTest implements Runnable {

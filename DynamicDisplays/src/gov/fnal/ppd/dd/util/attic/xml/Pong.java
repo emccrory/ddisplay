@@ -6,6 +6,12 @@ import gov.fnal.ppd.dd.xml.EncodedCarrier;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * the "pong" object
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 @XmlRootElement
 public class Pong extends EncodedCarrier {
 	private ChannelSpec showing;

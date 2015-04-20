@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.util.attic;
 /**
  * @author Stanislav Lapitsky
  * @version 1.0
+ * @deprecated
  */
 
 import java.awt.Graphics;

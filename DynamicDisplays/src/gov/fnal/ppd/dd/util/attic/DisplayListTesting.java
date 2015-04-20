@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- *
+ * @deprecated
  */
 public class DisplayListTesting extends ArrayList<Display> {
 	private static final long serialVersionUID = -5048596353258886811L;

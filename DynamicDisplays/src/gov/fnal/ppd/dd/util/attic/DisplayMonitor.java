@@ -16,6 +16,7 @@ import java.util.Arrays;
  * When a Display changes channel, it may be necessary to do some other stuff.
  * 
  * @author Elliott McCrory, Fermilab, 2012.
+ * @deprecated
  */
 public class DisplayMonitor implements ActionListener {
 	private static final int AUTO_CHANGE_SECONDS = 60;

@@ -27,6 +27,9 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
+ * Connects to an instance of Firefox browser and sends JavaScript instructions to it. This is the "lowest" level class in the
+ * suite.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
@@ -167,13 +170,13 @@ public class ConnectionToFirefoxInstance {
 			throws UnsupportedEncodingException {
 		if (debug)
 			println(getClass(), ": New URL: " + urlString);
-		
+
 		String frameName = "iframe";
 		if (frameNumber > 0)
 			frameName = "frame" + frameNumber;
 
 		String s = "document.getElementById('" + frameName + "').src = '" + urlString + "';\n";
-		if ( frameNumber > 0 )
+		if (frameNumber > 0)
 			s += "document.getElementById('" + frameName + "').style.visibility='visible';\n";
 
 		synchronized (showingCanonicalSite) {
@@ -485,7 +488,8 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	/**
-	 * @param frameNumber The frame number to turn off
+	 * @param frameNumber
+	 *            The frame number to turn off
 	 */
 	public void turnOffFrame(final int frameNumber) {
 		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
@@ -500,7 +504,7 @@ public class ConnectionToFirefoxInstance {
 		} catch (IOException e) {
 			e.printStackTrace();
 			connected = false;
-		}		
+		}
 	}
 
 }

@@ -26,6 +26,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+/**
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @deprecated
+ *
+ */
 public class DisplayAsJFrame extends DisplayImpl {
 	private static int		x	= 0, y = 0;
 
