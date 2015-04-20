@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.news;
+package gov.fnal.ppd.dd.xml.news;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

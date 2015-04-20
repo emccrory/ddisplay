@@ -7,7 +7,7 @@ export PATH=/usr/krb5/bin:/usr/krb5/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/us
 # Get the weather at the Dupage County Airport.
 /usr/bin/wget -o currentConditions.log -O current.xml  http://w1.weather.gov/xml/current_obs/KDPA.xml 
 
-/usr/bin/java gov.fnal.ppd.dd.news.current_observation current.xml > currentTemperature.txt
+/usr/bin/java gov.fnal.ppd.dd.xml.news.current_observation current.xml > currentTemperature.txt
 
 cp currentTemperature.txt /var/www/html/newsfeed
 

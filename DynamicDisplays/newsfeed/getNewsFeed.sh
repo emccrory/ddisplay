@@ -21,7 +21,7 @@ rm -f temp tempN tempW $xmlNewsFile $logNewsFile $xmlWeatherFile $logWeatherFile
 
 /bin/sed 's/>/>\n/g' tempN | sed 's-<br/>--g' | sed 's/dc://g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | sed 's/&lt;img .*&gt;//g' > $xmlNewsFile
 
-/usr/bin/java gov.fnal.ppd.dd.news.Channel $xmlNewsFile > headlines.txt
+/usr/bin/java gov.fnal.ppd.dd.xml.news.Channel $xmlNewsFile > headlines.txt
 
 # ---------------------------------------------------------------------------------------
 # The weather feed has a lot of blank lines in it.  Some of this is to remove them
@@ -30,7 +30,7 @@ rm -f temp tempN tempW $xmlNewsFile $logNewsFile $xmlWeatherFile $logWeatherFile
 
 /bin/sed 's/>/>\n/g' tempW |  sed 's-<br/>--g' | sed 's/dc://g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | /bin/sed 's///g' > $xmlWeatherFile
 
-/usr/bin/java gov.fnal.ppd.dd.news.Channel $xmlWeatherFile > weather.txt
+/usr/bin/java gov.fnal.ppd.dd.xml.news.Channel $xmlWeatherFile > weather.txt
 
 # --------------------------------------------------------------------------------------
 
