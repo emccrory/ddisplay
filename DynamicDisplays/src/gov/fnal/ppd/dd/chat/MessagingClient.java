@@ -7,6 +7,7 @@ package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
+import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
 import java.io.IOException;
@@ -35,8 +36,8 @@ import java.util.Scanner;
 public class MessagingClient {
 
 	// for I/O
-	private ObjectInputStream	sInput;							// to read from the socket
-	private ObjectOutputStream	sOutput;							// to write on the socket
+	private ObjectInputStream	sInput;												// to read from the socket
+	private ObjectOutputStream	sOutput;												// to write on the socket
 	private Socket				socket				= null;
 
 	// the server, the port and the username
@@ -50,7 +51,7 @@ public class MessagingClient {
 	private boolean				keepGoing			= true;
 
 	private Object				syncReconnects		= new Object();
-	private String				serverName;
+	private String				serverName			= SPECIAL_SERVER_MESSAGE_USERNAME;
 
 	private boolean				readOnly			= true;
 
@@ -411,7 +412,7 @@ public class MessagingClient {
 					MessageCarrier msg;
 					Object read = sInput.readObject();
 					lastMessageReceived = System.currentTimeMillis();
-					
+
 					if (read instanceof MessageCarrier) {
 						msg = (MessageCarrier) read;
 						if (checkSignedMessages() && !msg.getType().isReadOnly()) {
