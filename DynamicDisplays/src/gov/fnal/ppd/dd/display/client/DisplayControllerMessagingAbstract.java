@@ -161,7 +161,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				Date dNow = new Date();
 				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String statementString;
-				if (OFF_LINE.equalsIgnoreCase(nowShowing))
+				if (OFF_LINE.equalsIgnoreCase(nowShowing) || getContent() == null )
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='Off Line' where DisplayID="
 							+ getDBDisplayNumber();
 				else
