@@ -183,6 +183,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				}
 			} catch (Exception ex) {
 				println(getClass(), " -- Unexpected exception in method updateMyStatus: " + ex + "  Skipping this update.");
+				for (StackTraceElement F : ex.getStackTrace()) {
+					println(getClass(), "\t\t -- " + F);
+				}
 				ex.printStackTrace();
 				return;
 			}
