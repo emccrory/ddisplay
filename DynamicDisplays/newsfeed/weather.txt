@@ -1,8 +1,8 @@
-<em>Weather at Chicago / West Chicago, Dupage Airport, IL - via NOAA's National Weather Service -- null (Tue Apr 21 11:04:06 CDT 2015)</em>
-<b>Overcast and Windy and 46 F at Chicago / West Chicago, Dupage Airport, IL</b>: <img src="http://forecast.weather.gov/images/wtf/small/wind.png" class="noaaWeatherIcon"  width="55" height="58" alt="Overcast and Windy" style="float:left;" />
+<em>Weather at Chicago / West Chicago, Dupage Airport, IL - via NOAA's National Weather Service -- null (Tue Apr 21 12:04:05 CDT 2015)</em>
+<b>Overcast and Windy and 50 F at Chicago / West Chicago, Dupage Airport, IL</b>: <img src="http://forecast.weather.gov/images/wtf/small/wind.png" class="noaaWeatherIcon"  width="55" height="58" alt="Overcast and Windy" style="float:left;" />
 <br />
 
-Winds are from the West at 28.8 gusting to 41.4 MPH (25 gusting to 36 KT). The pressure is 1003.6 mb and the humidity is 50%.
-The wind chill is 37.
- Last Updated on Apr 21 2015, 10:52 am CDT.  
+Winds are from the West at 28.8 gusting to 41.4 MPH (25 gusting to 36 KT). The pressure is 1003.5 mb and the humidity is 44%.
+The wind chill is 42.
+ Last Updated on Apr 21 2015, 11:52 am CDT.  
       
