@@ -5,6 +5,8 @@
  */
 package gov.fnal.ppd.security;
 
+import static gov.fnal.ppd.dd.util.Util.println;
+
 import java.io.Console;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -83,9 +85,9 @@ public class GenerateNewKeyPair {
 			return connection;
 
 		} catch (SQLException ex) {
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
+			println(GenerateNewKeyPair.class, " -- SQLException: '" + ex.getMessage() + "'");
+			println(GenerateNewKeyPair.class, " -- SQLState: " + ex.getSQLState());
+			println(GenerateNewKeyPair.class, " -- VendorError: " + ex.getErrorCode());
 			ex.printStackTrace();
 			if (ex.getMessage().contains("Access denied for user")) {
 				System.err.println("Cannont access the Channel/Display database. DB Host=jdbc:mysql://" + serverNode + "/xoc");

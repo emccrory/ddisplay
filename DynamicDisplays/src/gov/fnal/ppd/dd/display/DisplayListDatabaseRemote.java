@@ -34,9 +34,8 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 			try {
 				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 			} catch (DatabaseNotVisibleException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return null;
+				return connection = null;
 			}
 		try (Statement stmt = connection.createStatement();) {
 			stmt.executeQuery("USE " + DATABASE_NAME);

@@ -15,9 +15,9 @@ en-us</language>
 <copyright>
 Copyright 2015 The New York Times Company</copyright>
 <pubDate>
-Mon, 20 Apr 2015 18:49:01 GMT</pubDate>
+Tue, 21 Apr 2015 15:52:18 GMT</pubDate>
 <lastBuildDate>
-Mon, 20 Apr 2015 18:49:01 GMT</lastBuildDate>
+Tue, 21 Apr 2015 15:52:18 GMT</lastBuildDate>
 <ttl>
 2</ttl>
 <image>
@@ -29,607 +29,536 @@ http://graphics8.nytimes.com/images/misc/NYT_logo_rss_250x40.png</url>
 http://www.nytimes.com/pages/index.html?partner=rss&amp;emc=rss</link>
 </image>
 <item>
-<link href="http://www.nytimes.com/2015/04/21/us/6-somali-americans-arrested-in-isis-recruiting-case.html?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/04/21/nytnow/latest-news-genetic-testing-google-search-john-muir-day.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-6 Somali-Americans Arrested in ISIS Recruiting Case</title>
+Latest News: Loretta Lynch, Mohamed Morsi, John Muir Day</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/458fabba/sc/16/l/0L0Snytimes0N0C20A150C0A40C210Cus0C60Esomali0Eamericans0Earrested0Ein0Eisis0Erecruiting0Ecase0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Federal authorities said they had broken up a recruitment ring for the terrorist group in Minnesota, arresting six young men who tried for months to travel to Syria.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Terrorism</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-San Diego (Calif)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Minneapolis (Minn)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Islamic State in Iraq and Syria (ISIS)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Federal Bureau of Investigation</category>
-<pubDate>
-Mon, 20 Apr 2015 18:47:58 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/us/6-somali-americans-arrested-in-isis-recruiting-case.html</guid>
-<creator>
-SCOTT SHANE</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/21/us/baltimore-officials-promise-investigation-into-death-of-freddie-gray.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Baltimore Officials Promise Investigation Into Death of Man After His Arrest</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/45920613/sc/16/l/0L0Snytimes0N0C20A150C0A40C210Cus0Cbaltimore0Eofficials0Epromise0Einvestigation0Einto0Edeath0Eof0Efreddie0Egray0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Mayor Stephanie Rawlings-Blake vowed the city would conduct a thorough investigation after an apparently healthy 25-year-old black man died a week after he was arrested.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Gray, Freddie</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Police</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Rawlings-Blake, Stephanie C</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Baltimore (Md)</category>
-<pubDate>
-Mon, 20 Apr 2015 17:36:13 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/us/baltimore-officials-promise-investigation-into-death-of-freddie-gray.html</guid>
-<creator>
-SHERYL GAY STOLBERG</creator>
-<credit scheme="urn:ebu">
-Algerina Perna/The Baltimore Sun, via Associated Press</credit>
-<description>
-Protesters marched through Baltimore on Sunday following news of Freddie Gray's death.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/21BALTIMOREWEB1/21BALTIMOREWEB1-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/21/sports/tim-tebow-joining-a-crowd-of-eagles-quarterbacks.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Tim Tebow Appears Set to Join a Crowd of Eagles Quarterbacks</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4590561d/sc/13/l/0L0Snytimes0N0C20A150C0A40C210Csports0Ctim0Etebow0Ejoining0Ea0Ecrowd0Eof0Eeagles0Equarterbacks0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Reports that the Philadelphia Eagles are about to sign Tim Tebow raise the question: Just how many quarterbacks do the Eagles need?</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Denver Broncos</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-New England Patriots</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Football</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Draft and Recruitment (Sports)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-New York Jets</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Tebow, Tim</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Sanchez, Mark</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Bradford, Sam</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-College Athletics</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Foles, Nick</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Philadelphia Eagles</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Lett, Leon</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-National Football League</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Kelly, Chip</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Meadowlands (NJ)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Sports Injuries</category>
-<pubDate>
-Mon, 20 Apr 2015 17:32:47 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/sports/tim-tebow-joining-a-crowd-of-eagles-quarterbacks.html</guid>
-<creator>
-VICTOR MATHER</creator>
-<credit scheme="urn:ebu">
-Ezra Shaw/Getty Images</credit>
-<description>
-Tim Tebow led the Broncos to the A.F.C. Championship game in 2012.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/sports/eaglesweb/eaglesweb-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/21/nyregion/carl-heastie-new-york-assembly-speaker-benefited-from-mothers-embezzling.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Carl Heastie, New York Assembly Speaker, Benefited From Mother’s Embezzling</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4590b272/sc/7/l/0L0Snytimes0N0C20A150C0A40C210Cnyregion0Ccarl0Eheastie0Enew0Eyork0Eassembly0Espeaker0Ebenefited0Efrom0Emothers0Eembezzling0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The episode, which unfolded through an unusual string of legal lapses, casts new light on the Bronx Democrat’s claims of being a reformer in state government.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Heastie, Carl E</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Bronx (NYC)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Real Estate and Housing (Residential)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Corruption (Institutional)</category>
-<pubDate>
-Mon, 20 Apr 2015 16:54:06 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/nyregion/carl-heastie-new-york-assembly-speaker-benefited-from-mothers-embezzling.html</guid>
-<creator>
-RUSS BUETTNER and DAVID W. CHEN</creator>
-<credit scheme="urn:ebu">
-Nathaniel Brooks for The New York Times</credit>
-<description>
-Carl E. Heastie, a Bronx Democrat who was elected speaker of the State Assembly earlier this year.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/nyregion/21HEASTIE1/21HEASTIE1-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/21/business/international/europe-is-expected-to-charge-gazprom-in-antitrust-case.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Europe Is Expected to Charge Gazprom in Antitrust Case</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4590b26e/sc/24/l/0L0Snytimes0N0C20A150C0A40C210Cbusiness0Cinternational0Ceurope0Eis0Eexpected0Eto0Echarge0Egazprom0Ein0Eantitrust0Ecase0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Gazprom is accused of abusing its dominance in natural gas markets, and countries like Lithuania and the United States have been pushing for a crackdown.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Russia</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Natural Gas</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Gazprom</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Oil (Petroleum) and Gasoline</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Antitrust Laws and Competition Issues</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-European Commission</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Vestager, Margrethe</category>
-<pubDate>
-Mon, 20 Apr 2015 16:53:46 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/business/international/europe-is-expected-to-charge-gazprom-in-antitrust-case.html</guid>
-<creator>
-JAMES KANTER</creator>
-<credit scheme="urn:ebu">
-Maxim Zmeyev/Reuters</credit>
-<description>
-Pedestrians near the Gazprom headquarters in Moscow. A European investigation of Gazprom has been underway for four years.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/business/21eugazprom-web/21eugazprom-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/20/nytnow/latest-news-migrant-crisis-clinton-cash-national-weed-day.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Latest News: Migrant Crisis, ‘Clinton Cash,’ National Weed Day</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/458db45f/sc/7/l/0L0Snytimes0N0C20A150C0A40C20A0Cnytnow0Clatest0Enews0Emigrant0Ecrisis0Eclinton0Ecash0Enational0Eweed0Eday0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/459717c3/sc/15/l/0L0Snytimes0N0C20A150C0A40C210Cnytnow0Clatest0Enews0Egenetic0Etesting0Egoogle0Esearch0Ejohn0Emuir0Eday0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
 Here’s what you need to know to start your day.</description>
 <pubDate>
-Mon, 20 Apr 2015 16:24:22 GMT</pubDate>
+Tue, 21 Apr 2015 15:47:38 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/2015/04/20/nytnow/latest-news-migrant-crisis-clinton-cash-national-weed-day.html</guid>
+http://www.nytimes.com/2015/04/21/nytnow/latest-news-genetic-testing-google-search-john-muir-day.html</guid>
 <creator>
 VICTORIA SHANNON</creator>
 <credit scheme="urn:ebu">
-Matthew Mirabelli/Agence France-Presse — Getty Images</credit>
+Amr Nabil/Associated Press</credit>
 <description>
-Officials estimate that 700 people may have drowned when a boat carrying migrants capsized off the coast of Libya.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/world/20nytnow-migrant01/20nytnow-migrant01-moth-v4.jpg" />
+The ousted Egyptian president Mohamed Morsi was sentenced to 20 years in prison today over the deaths of protesters in 2012.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/world/21nytnow-morsi01/21nytnow-morsi01-moth-v2.jpg" />
 </item>
 <item>
-<link href="http://www.nytimes.com/2015/04/21/sports/boston-marathon-lelisa-desisa-caroline-rotich.html?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/04/22/us/senate-loretta-lynch-confirmation-vote-to-replace-eric-holder.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-Lelisa Desisa and Caroline Rotich Win Boston Marathon</title>
+Loretta Lynch Confirmation Block Lifts as Senators Agree on Sex Trafficking Bill</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/4590c472/sc/13/l/0L0Snytimes0N0C20A150C0A40C210Csports0Cboston0Emarathon0Elelisa0Edesisa0Ecaroline0Erotich0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/4599a143/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cus0Csenate0Eloretta0Elynch0Econfirmation0Evote0Eto0Ereplace0Eeric0Eholder0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-Desisa of Ethiopia won the men’s race for the second time in three years while Rotich, a Kenyan, edged Mare Dibaba of Ethiopia in the final stretch to win the women’s race.</description>
+Disagreement over whether fines put into a victims’ fund could be used to pay for abortions had spilled over into the attorney general nomination.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Senate</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/des">
-Boston Marathon</category>
+Human Trafficking</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Dibaba, Mare</category>
+Lynch, Loretta E</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Abortion</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Appointments and Executive Changes</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Deba, Buzunesh</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Rotich, Caroline</category>
+Holder, Eric H Jr</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Justice Department</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/des">
-Marathon Running</category>
-<pubDate>
-Mon, 20 Apr 2015 16:14:18 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/sports/boston-marathon-lelisa-desisa-caroline-rotich.html</guid>
-<creator>
-LINDSAY CROUSE</creator>
-<credit scheme="urn:ebu">
-Brian Fluharty/USA Today Sports, via Reuters</credit>
-<description>
-Caroline Rotich of Kenya on Monday won the women's elite race of the Boston Marathon.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/sports/21MARATHONweb2/21MARATHONweb2-moth-v2.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/21/us/new-law-to-strip-social-security-numbers-from-medicare-cards.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-New Law to Strip Social Security Numbers From Medicare Cards</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/458d40b2/sc/28/l/0L0Snytimes0N0C20A150C0A40C210Cus0Cnew0Elaw0Eto0Estrip0Esocial0Esecurity0Enumbers0Efrom0Emedicare0Ecards0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-After years of warnings about the risk of theft, a new way to identify beneficiaries will be devised under a broader measure signed last week.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Medicare</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Social Security (US)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Electronic Health Records</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Identity Theft</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
 Law and Legislation</category>
 <pubDate>
-Mon, 20 Apr 2015 14:27:00 GMT</pubDate>
+Tue, 21 Apr 2015 15:28:18 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/us/new-law-to-strip-social-security-numbers-from-medicare-cards.html</guid>
+http://www.nytimes.com/2015/04/22/us/senate-loretta-lynch-confirmation-vote-to-replace-eric-holder.html</guid>
 <creator>
-ROBERT PEAR</creator>
-<credit scheme="urn:ebu">
-Zach Gibson/The New York Times</credit>
-<description>
-President Obama signing a Medicare measure that included a directive to devise a more secure way of identifying beneficiaries.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/21health-web/21health-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/21/world/europe/european-union-immigration-migrant-ship-capsizes.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-More Migrant Boats Issue Distress Calls Amid Fears of ‘Massacre’ in Sinking Off Libya</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/458e0f42/sc/11/l/0L0Snytimes0N0C20A150C0A40C210Cworld0Ceurope0Ceuropean0Eunion0Eimmigration0Emigrant0Eship0Ecapsizes0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Rescuers scrambled to reach two vessels in the Mediterranean even as efforts continued to find survivors after a ship carrying hundreds sank Saturday night.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Human Trafficking</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Maritime Accidents and Safety</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Europe</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Immigration and Emigration</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Refugees and Displaced Persons</category>
-<pubDate>
-Mon, 20 Apr 2015 14:16:02 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/world/europe/european-union-immigration-migrant-ship-capsizes.html</guid>
-<creator>
-DAN BILEFSKY</creator>
-<credit scheme="urn:ebu">
-Alessandra Tarantino/Associated Press</credit>
-<description>
-A member of the Italian Coast Guard carried a young migrant rescued from the capsized boat early on Monday in Sicily.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/world/21migrants2-web/21migrants2-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/22/dining/tartine-expansion-plans-include-new-york.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Tartine Expansion Plans Include New York</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/45905613/sc/28/l/0L0Snytimes0N0C20A150C0A40C220Cdining0Ctartine0Eexpansion0Eplans0Einclude0Enew0Eyork0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The San Francisco bakery has merged with Blue Bottle Coffee and will open in Tokyo and Los Angeles this year. The company is scouting locations for a New York bakery in 2016.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-New York City</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Blue Bottle Coffee</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Tartine Bakery (San Francisco, Calif)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Los Angeles (Calif)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Bakeries and Baked Products</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Tokyo (Japan)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Mergers, Acquisitions and Divestitures</category>
-<pubDate>
-Mon, 20 Apr 2015 14:00:24 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/22/dining/tartine-expansion-plans-include-new-york.html</guid>
-<creator>
-OLIVER STRAND</creator>
-<credit scheme="urn:ebu">
-Peter DaSilva for The New York Times</credit>
-<description>
-James Freeman the founder of Blue Bottle Coffee, with Chad Robertson and Elisabeth Prueitt of Tartine in the Heath Ceramics building in San Francisco.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/dining/22TARTINE/22TARTINE-moth.jpg" />
-</item>
-<item>
-<link href="http://cityroom.blogs.nytimes.com/2015/04/20/new-york-today-reefer-sanity/?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-City Room: New York Today: Reefer Sanity</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/458db460/sc/28/l/0Lcityroom0Bblogs0Bnytimes0N0C20A150C0A40C20A0Cnew0Eyork0Etoday0Ereefer0Esanity0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Monday: It’s four-twenty, rain and more rain, and religious freedom in New York.</description>
-<category domain="http://www.nytimes.com/namespaces/">
-New York Today</category>
-<pubDate>
-Mon, 20 Apr 2015 13:47:02 GMT</pubDate>
-<guid isPermaLink="false">
-http://cityroom.blogs.nytimes.com/2015/04/20/new-york-today-reefer-sanity/</guid>
-<creator>
-TATIANA SCHLOSSBERG</creator>
-<credit scheme="urn:ebu">
-Matthew Staver for The New York Times</credit>
-<description>
-This is a joint.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/20/nyregion/20NYTODAY/20NYTODAY-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/21/business/dealbook/morgan-stanley-profit-jumps-on-higher-trading-revenue.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Morgan Stanley Profit Jumps on Higher Trading Revenue</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/45905617/sc/24/l/0L0Snytimes0N0C20A150C0A40C210Cbusiness0Cdealbook0Cmorgan0Estanley0Eprofit0Ejumps0Eon0Ehigher0Etrading0Erevenue0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Executives have been pushing to make the bank less reliant on its trading operations, but the results underscore how important they still are.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Company Reports</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Smith Barney</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Morgan Stanley</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Gorman, James P</category>
-<pubDate>
-Mon, 20 Apr 2015 12:50:06 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/business/dealbook/morgan-stanley-profit-jumps-on-higher-trading-revenue.html</guid>
-<creator>
-NATHANIEL POPPER</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/21/world/middleeast/sana-yemen-explosion.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Explosion Rips Through Homes in Yemen’s Capital After Airstrike</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/458e792d/sc/11/l/0L0Snytimes0N0C20A150C0A40C210Cworld0Cmiddleeast0Csana0Eyemen0Eexplosion0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-An assault by a Saudi-led military coalition set off a huge blast that flattened homes in Sana, part of a campaign against Houthi rebels in the country.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Houthis</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Sana (Yemen)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Oxfam</category>
-<pubDate>
-Mon, 20 Apr 2015 11:29:19 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/world/middleeast/sana-yemen-explosion.html</guid>
-<creator>
-MOHAMMED ALI KALFOOD and KAREEM FAHIM</creator>
-<credit scheme="urn:ebu">
-Khaled Abdullah/Reuters</credit>
-<description>
-An explosion in Sana, Yemen, on Monday shattered windows and shook buildings miles away.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/world/21Yemen-web/21Yemen-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/20/us/politics/new-book-clinton-cash-questions-foreign-donations-to-foundation.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-New Book, ‘Clinton Cash,’ Questions Foreign Donations to Foundation</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/458b372e/sc/7/l/0L0Snytimes0N0C20A150C0A40C20A0Cus0Cpolitics0Cnew0Ebook0Eclinton0Ecash0Equestions0Eforeign0Edonations0Eto0Efoundation0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The book, a 186-page investigation of donations made to the Clinton Foundation by foreign entities, is proving the most anticipated and feared book of a presidential cycle still in its infancy.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Clinton, Hillary Rodham</category>
-<category domain="http://www.nytimes.com/namespaces/nyt_org_all">
-News Corporation|NWSA|NASDAQ</category>
-<category domain="http://www.nytimes.com/namespaces/nyt_org_all">
-Telefonaktiebolaget L M Ericsson|ERIC|NASDAQ</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Schweizer, Peter</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Clinton, Bill</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Books and Literature</category>
-<pubDate>
-Mon, 20 Apr 2015 11:28:05 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/20/us/politics/new-book-clinton-cash-questions-foreign-donations-to-foundation.html</guid>
-<creator>
-AMY CHOZICK</creator>
-<credit scheme="urn:ebu">
-Charlie Neibergall/Associated Press</credit>
-<description>
-Hillary Rodham Clinton at a small-business round table on Wednesday in Des Moines.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/20/us/elections/20Hillary-web/20Hillary-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/politics/first-draft/2015/04/20/today-in-politics-new-hampshire-shifts-its-focus-to-a-party-of-one/?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-First Draft: Today in Politics: New Hampshire Shifts Its Focus to a Party of One</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/458e076b/sc/7/l/0L0Snytimes0N0Cpolitics0Cfirst0Edraft0C20A150C0A40C20A0Ctoday0Ein0Epolitics0Enew0Ehampshire0Eshifts0Eits0Efocus0Eto0Ea0Eparty0Eof0Eone0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-New Hampshire remains the center of the presidential race, as it says so long to the crowded Republican field and welcomes Hillary Rodham Clinton.</description>
-<category domain="http://www.nytimes.com/namespaces/">
-New Hampshire</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Presidential Election of 2016</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Clinton, Hillary Rodham</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Lynch, Loretta E</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Obama, Barack</category>
-<category domain="http://www.nytimes.com/namespaces/">
-United States Politics and Government</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Democratic Party</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Rubio, Marco</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Republican Party</category>
-<pubDate>
-Mon, 20 Apr 2015 11:21:22 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/politics/first-draft/2015/04/20/today-in-politics-new-hampshire-shifts-its-focus-to-a-party-of-one/</guid>
-<creator>
-THE NEW YORK TIMES</creator>
+JENNIFER STEINHAUER and EMMARIE HUETTEMAN</creator>
 <credit scheme="urn:ebu">
 Doug Mills/The New York Times</credit>
 <description>
-Hillary Rodham Clinton campaigning in Iowa last week. She heads to New Hampshire this week.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/20/us/politics/20firstdraft-hillary-trail/20firstdraft-hillary-trail-moth.jpg" />
+Senator Mitch McConnell, the Kentucky Republican and majority leader, walked to the Senate floor after announcing the deal on Tuesday.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/21firstdraft-mitch-mcconnell/21firstdraft-mitch-mcconnell-moth-v3.jpg" />
 </item>
 <item>
-<link href="http://www.nytimes.com/2015/04/21/upshot/simple-rules-for-healthy-eating.html?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/04/22/world/europe/italy-libya-migrant-boat-capsize.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-The New Health Care: Simple Rules for Healthy Eating</title>
+Captain of Migrant Boat Hit Rescue Ship, Prosecutors Say</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/4590a952/sc/14/l/0L0Snytimes0N0C20A150C0A40C210Cupshot0Csimple0Erules0Efor0Ehealthy0Eeating0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/45969af7/sc/11/l/0L0Snytimes0N0C20A150C0A40C220Cworld0Ceurope0Citaly0Elibya0Emigrant0Eboat0Ecapsize0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-There’s a lot of advice out there about what kinds of food you should be avoiding. Here’s a more positive approach.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Carbohydrates</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Restaurants</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Food</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Cooking and Cookbooks</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Salt</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Diet and Nutrition</category>
-<pubDate>
-Mon, 20 Apr 2015 11:00:02 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/upshot/simple-rules-for-healthy-eating.html</guid>
-<creator>
-AARON E. CARROLL</creator>
-<credit scheme="urn:ebu">
-Edwin J. Torres for The New York Times</credit>
-<description>
-The green market in Union Square in New York in September 2014. Foods that have not undergone lots of processing — fresh tomatoes, for example — should be the mainstay of a healthy diet.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/18/upshot/21UP-Health/21UP-Health-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/21/world/africa/somalia-shabab-unicef-attack.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Roadside Bomb in Somalia Kills 4 Unicef Workers</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/458d9cce/sc/40/l/0L0Snytimes0N0C20A150C0A40C210Cworld0Cafrica0Csomalia0Eshabab0Eunicef0Eattack0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The Shabab, a Somali Islamist extremist group linked to Al Qaeda, claimed responsibility for the attack, The Associated Press reported.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Terrorism</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Shabab</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-United Nations Children's Fund</category>
+The captain, identified on Tuesday by prosecutors in Sicily as Mohammed Ali Malek, 27, was arrested on suspicion of multiple homicide.</description>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Puntland (Somalia)</category>
-<pubDate>
-Mon, 20 Apr 2015 09:34:09 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/world/africa/somalia-shabab-unicef-attack.html</guid>
-<creator>
-ISMA’IL KUSHKUSH</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/21/nyregion/2-manhattan-aeries-with-hearsts-lasting-imprint-are-for-sale.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-The Appraisal: 2 Manhattan Aeries With Hearst’s Lasting Imprint Are for Sale</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/458d9cd3/sc/27/l/0L0Snytimes0N0C20A150C0A40C210Cnyregion0C20Emanhattan0Eaeries0Ewith0Ehearsts0Elasting0Eimprint0Eare0Efor0Esale0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Two penthouses bracketing the Upper West Side between Central and Riverside Parks that the publisher William Randolph Hearst once called home are on the market simultaneously.</description>
+Libya</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/des">
-Real Estate and Housing (Residential)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Benedict Silverman</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Hearst, William Randolph</category>
+Maritime Accidents and Safety</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Hearst Corp</category>
+European Union</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Illegal Immigration</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Refugees and Displaced Persons</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Upper West Side (Manhattan, NY)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Jayne Bentzen</category>
+Italy</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Smuggling</category>
 <pubDate>
-Mon, 20 Apr 2015 09:00:34 GMT</pubDate>
+Tue, 21 Apr 2015 15:20:58 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/nyregion/2-manhattan-aeries-with-hearsts-lasting-imprint-are-for-sale.html</guid>
+http://www.nytimes.com/2015/04/22/world/europe/italy-libya-migrant-boat-capsize.html</guid>
 <creator>
-MATT A.V. CHABAN</creator>
+JIM YARDLEY and DAN BILEFSKY</creator>
 <credit scheme="urn:ebu">
-Pablo Enriquez for The New York Times</credit>
+Alessandro Di Meo/European Pressphoto Agency</credit>
 <description>
-A master bedroom in the penthouse in the Clarendon at 137 Riverside Drive, once owned by William Randolph Hearst. After coming on the market a year ago for $38 million, the asking price is now a more modest $24 million.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/nyregion/21APPRAISAL1/21APPRAISAL1-moth.jpg" />
+Migrants who survived a boat sinking over the weekend arrived at the Sicilian port city of Catania early on Tuesday.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/world/22migrants1-web/22migrants1-web-moth.jpg" />
 </item>
 <item>
-<link href="http://www.nytimes.com/2015/04/21/us/in-brief-to-justices-former-military-officials-support-same-sex-marriage.html?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/04/22/world/middleeast/egypt-mohamed-morsi-sentenced.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-Sidebar: In Brief to Justices, Former Military Officials Support Same-Sex Marriage</title>
+Egyptian Court Sentences Mohamed Morsi to 20 Years in Prison</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/458d40b3/sc/7/l/0L0Snytimes0N0C20A150C0A40C210Cus0Cin0Ebrief0Eto0Ejustices0Eformer0Emilitary0Eofficials0Esupport0Esame0Esex0Emarriage0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/4598c7d7/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cworld0Cmiddleeast0Cegypt0Emohamed0Emorsi0Esentenced0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-Their message is that the patchwork of marriage laws around the country hurts military families and threatens national security.</description>
+Mr. Morsi, the deposed president, was sentenced after being convicted of charges stemming from a night of bloody street fighting between his supporters and opponents in 2012.</description>
 <category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-United States Defense and Military Forces</category>
+Sentences (Criminal)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Egypt</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Morsi, Mohamed</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Sidley Austin</category>
+Muslim Brotherhood (Egypt)</category>
+<pubDate>
+Tue, 21 Apr 2015 15:03:17 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/world/middleeast/egypt-mohamed-morsi-sentenced.html</guid>
+<creator>
+DAVID D. KIRKPATRICK and MERNA THOMAS</creator>
+<credit scheme="urn:ebu">
+Amr Nabil/Associated Press</credit>
+<description>
+Mohamed Morsi, Egypt's ousted Islamist president, inside a makeshift courtroom in Cairo on Tuesday.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/world/22Egypt-web/22Egypt-web-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/politics/first-draft/2015/04/21/senate-deal-imminent-on-sex-trafficking-bill/?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+First Draft: Senate Reaches Deal on Sex Trafficking Bill</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/45994f5f/sc/7/l/0L0Snytimes0N0Cpolitics0Cfirst0Edraft0C20A150C0A40C210Csenate0Edeal0Eimminent0Eon0Esex0Etrafficking0Ebill0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Senator Mitch McConnell announced the agreement, which could clear the way for a vote on Loretta E. Lynch’s attorney general nomination.</description>
+<category domain="http://www.nytimes.com/namespaces/">
+Senate</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Human Trafficking</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Law and Legislation</category>
+<pubDate>
+Tue, 21 Apr 2015 14:58:34 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/politics/first-draft/2015/04/21/senate-deal-imminent-on-sex-trafficking-bill/</guid>
+<creator>
+CARL HULSE</creator>
+<credit scheme="urn:ebu">
+Doug Mills/The New York Times</credit>
+<description>
+Senate Majority Leader Mitch McConnell walks for the Senate Floor after announcing a deal with Democrats on Tuesday.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/21firstdraft-mitch-mcconnell/21firstdraft-mitch-mcconnell-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/business/dealbook/teva-offers-to-acquire-mylan-for-40-billion.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Teva Offers to Acquire Generic Drug Maker Mylan for $40 Billion</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4598cc09/sc/21/l/0L0Snytimes0N0C20A150C0A40C220Cbusiness0Cdealbook0Cteva0Eoffers0Eto0Eacquire0Emylan0Efor0E40A0Ebillion0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The unsolicited offer of $82 a share would scuttle Mylan’s proposed acquisition of Perrigo in a shake-up of the generic drug industry.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Mylan Inc</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Drugs (Pharmaceuticals)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Teva Pharmaceutical Industries</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Perrigo Company</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Mergers, Acquisitions and Divestitures</category>
+<pubDate>
+Tue, 21 Apr 2015 14:55:05 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/business/dealbook/teva-offers-to-acquire-mylan-for-40-billion.html</guid>
+<creator>
+DAVID GELLES</creator>
+<credit scheme="urn:ebu">
+Lionel Bonaventure/Agence France-Presse — Getty Images</credit>
+<description>
+Teva, the big Israeli maker of generic drugs, said it could extract savings of about $2 billion annually from a combined company.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/business/db-drug-web1/db-drug-web1-moth.jpg" />
+</item>
+<item>
+<link href="http://artsbeat.blogs.nytimes.com/2015/04/21/jon-stewart-announces-august-date-for-final-show/?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+ArtsBeat: Jon Stewart Announces August Date for Final Show</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4598743b/sc/7/l/0Lartsbeat0Bblogs0Bnytimes0N0C20A150C0A40C210Cjon0Estewart0Eannounces0Eaugust0Edate0Efor0Efinal0Eshow0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+He made the announcement on “The Daily Show” on Monday night.</description>
+<category domain="http://www.nytimes.com/namespaces/">
+Comedy and Humor</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Stewart, Jon</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Noah, Trevor (1984- )</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Television</category>
+<category domain="http://www.nytimes.com/namespaces/">
+The Daily Show with Jon Stewart (TV Program)</category>
+<pubDate>
+Tue, 21 Apr 2015 14:38:34 GMT</pubDate>
+<guid isPermaLink="false">
+http://artsbeat.blogs.nytimes.com/2015/04/21/jon-stewart-announces-august-date-for-final-show/</guid>
+<creator>
+DAVE ITZKOFF</creator>
+<credit scheme="urn:ebu">
+Brad Barket/Associated Press</credit>
+<description>
+Jon Stewart</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/arts/21artsbeat-stewart1/21artsbeat-stewart1-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/us/missouri-bishop-convicted-of-shielding-pedophile-priest-resigns.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Robert Finn, Missouri Bishop Convicted of Shielding Pedophile Priest, Resigns</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4598743a/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cus0Cmissouri0Ebishop0Econvicted0Eof0Eshielding0Epedophile0Epriest0Eresigns0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Bishop Finn was the highest-ranking American church official found guilty of a crime related to the child sexual abuse scandal.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Child Pornography</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Child Abuse and Neglect</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Finn, Robert William</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Kansas City (Kan)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Missouri</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Sex Crimes</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Roman Catholic Church</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Priests</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Kansas</category>
+<pubDate>
+Tue, 21 Apr 2015 14:27:00 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/us/missouri-bishop-convicted-of-shielding-pedophile-priest-resigns.html</guid>
+<creator>
+LAURIE GOODSTEIN</creator>
+</item>
+<item>
+<link href="http://cityroom.blogs.nytimes.com/2015/04/21/new-york-today-finding-cuba-in-new-york/?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+City Room: New York Today: Finding Cuba in New York</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/459717c4/sc/14/l/0Lcityroom0Bblogs0Bnytimes0N0C20A150C0A40C210Cnew0Eyork0Etoday0Efinding0Ecuba0Ein0Enew0Eyork0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Tuesday: Cuba in New York, a weather grab-bag, and the Battle of Harlem Heights.</description>
+<category domain="http://www.nytimes.com/namespaces/">
+New York Today</category>
+<pubDate>
+Tue, 21 Apr 2015 11:25:14 GMT</pubDate>
+<guid isPermaLink="false">
+http://cityroom.blogs.nytimes.com/2015/04/21/new-york-today-finding-cuba-in-new-york/</guid>
+<creator>
+TATIANA SCHLOSSBERG</creator>
+<credit scheme="urn:ebu">
+Eliana Aponte Tobar for The New York Times</credit>
+<description>
+Hey, Cuba!</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/nyregion/21NYTODAY/22NYTODAY-moth.jpg" />
+</item>
+<item>
+<title>
+Pope Accepts Resignation of U.S. Bishop Who Failed to Report Abuse</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4597a2dd/sc/11/l/0L0Snytimes0N0Caponline0C20A150C0A40C210Cworld0Ceurope0Cap0Eeu0Erel0Evatican0Eus0Ebishop0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Bishop Robert Finn, of the Diocese of Kansas City-St. Joseph in Missouri, pleaded guilty to failing to report a suspected priestly child abuser.</description>
+<pubDate>
+Tue, 21 Apr 2015 11:20:28 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/aponline/2015/04/21/world/europe/ap-eu-rel-vatican-us-bishop.html</guid>
+<creator>
+THE ASSOCIATED PRESS</creator>
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/world/europe/oskar-groning-auschwitz-birkenau-guard-trial.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Trial of Former Auschwitz Guard, 93, Opens in Germany</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4596a1ea/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cworld0Ceurope0Coskar0Egroning0Eauschwitz0Ebirkenau0Eguard0Etrial0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Oskar Gröning is charged with complicity in the murder of 300,000 mostly Hungarian Jewish prisoners at the Nazi death camp in 1944.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Holocaust and the Nazi Era</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Oskar Groning</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Auschwitz Concentration Camp</category>
+<pubDate>
+Tue, 21 Apr 2015 11:13:25 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/world/europe/oskar-groning-auschwitz-birkenau-guard-trial.html</guid>
+<creator>
+ALISON SMALE</creator>
+<credit scheme="urn:ebu">
+Fabian Bimmer/Reuters</credit>
+<description>
+Oskar Gröning, former SS guard at Auschwitz-Birkenau, arrived for the opening of his trial in Lüneburg, Germany, on Tuesday.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/world/22Nazi-web/22Nazi-web-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/us/report-seeks-overhaul-of-postal-service-surveillance-program.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Report Seeks Overhaul of Postal Service Surveillance Program</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4597a2d8/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cus0Creport0Eseeks0Eoverhaul0Eof0Epostal0Eservice0Esurveillance0Eprogram0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The program, which records information on letters and packages sent to suspects, lacks oversight, a report by a national defense lawyers’ group said.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Surveillance of Citizens by Government</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+National Assn of Criminal Defense Lawyers</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Foreign Intelligence Surveillance Court</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Postal Service and Post Offices</category>
+<pubDate>
+Tue, 21 Apr 2015 11:00:02 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/us/report-seeks-overhaul-of-postal-service-surveillance-program.html</guid>
+<creator>
+RON NIXON</creator>
+</item>
+<item>
+<link href="http://www.nytimes.com/politics/first-draft/2015/04/21/today-in-politics-hillary-clinton-will-always-have-new-hampshire/?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+First Draft: Today in Politics: Hillary Clinton Will Always Have New Hampshire</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4597a2d3/sc/7/l/0L0Snytimes0N0Cpolitics0Cfirst0Edraft0C20A150C0A40C210Ctoday0Ein0Epolitics0Ehillary0Eclinton0Ewill0Ealways0Ehave0Enew0Ehampshire0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Presidential candidates must pretend that they have a special connection to every state they visit, but it’s not hard to see that Hillary Rodham Clinton wishes they all could be like New Hampshire.</description>
+<pubDate>
+Tue, 21 Apr 2015 10:58:16 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/politics/first-draft/2015/04/21/today-in-politics-hillary-clinton-will-always-have-new-hampshire/</guid>
+<creator>
+THE NEW YORK TIMES</creator>
+<credit scheme="urn:ebu">
+Ian Thomas Jansen-Lonnquist for The New York Times</credit>
+<description>
+Hillary Rodham Clinton campaigning in Keene, N.H., on Monday.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/20/us/politics/21firstdraft-newsletter-hillary/20WARREN-web-sub-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/world/middleeast/iran-our-man-in-tehran.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+An Eye for an Eye</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4596a1cd/sc/13/l/0L0Snytimes0N0C20A150C0A40C220Cworld0Cmiddleeast0Ciran0Eour0Eman0Ein0Etehran0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+After Ameneh Bahrami was blinded and disfigured by a scorned suitor who poured acid on her face, she fought to punish her attacker in kind.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Islamic Azad University</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Iran</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Bahrami, Ameneh (1978- )</category>
+<pubDate>
+Tue, 21 Apr 2015 10:43:33 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/world/middleeast/iran-our-man-in-tehran.html</guid>
+<creator>
+THOMAS ERDBRINK</creator>
+</item>
+<item>
+<title>
+Egyptian Court Sentences Morsi to 20 Years in Prison</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/45969933/sc/40/l/0L0Snytimes0N0Caponline0C20A150C0A40C210Cworld0Cmiddleeast0Cap0Eml0Eegypt0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+A criminal court sentenced Mohammed Morsi, the ousted president, over the killing of protesters in 2012.</description>
+<pubDate>
+Tue, 21 Apr 2015 10:32:22 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/aponline/2015/04/21/world/middleeast/ap-ml-egypt.html</guid>
+<creator>
+THE ASSOCIATED PRESS</creator>
+<credit scheme="urn:ebu">
+Amr Nabil/Associated Press</credit>
+<description>
+Mohamed Morsi, Egypt's ousted Islamist president, inside a makeshift courtroom in Cairo on Tuesday.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/world/22Egypt-web/22Egypt-web-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/realestate/commercial/targets-hasty-exit-from-canada-leaves-anger-behind.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Square Feet: Target’s Hasty Exit From Canada Leaves Anger Behind</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4596a1ee/sc/26/l/0L0Snytimes0N0C20A150C0A40C220Crealestate0Ccommercial0Ctargets0Ehasty0Eexit0Efrom0Ecanada0Eleaves0Eanger0Ebehind0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The American retailer has stirred resentment among landlords, in part, for its use of bankruptcy law in shutting down Canadian operations.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Renting and Leasing (Real Estate)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Shopping and Retail</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Target Corporation</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Real Estate (Commercial)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Bankruptcies</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Canada</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Landlords</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Shopping Centers and Malls</category>
+<pubDate>
+Tue, 21 Apr 2015 09:00:30 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/realestate/commercial/targets-hasty-exit-from-canada-leaves-anger-behind.html</guid>
+<creator>
+IAN AUSTEN</creator>
+<credit scheme="urn:ebu">
+Ian Willms for The New York Times</credit>
+<description>
+The final days of operation at a Target store in Toronto early this month.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/business/22CANTARGET/22CANTARGET-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/us/politics/hillary-clintons-quest-to-prove-her-populist-edge-is-as-strong-as-elizabeth-warrens.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+A Newcomer to Populism? Hillary Clinton Campaign Begs to Differ</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4596a1d4/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cus0Cpolitics0Chillary0Eclintons0Equest0Eto0Eprove0Eher0Epopulist0Eedge0Eis0Eas0Estrong0Eas0Eelizabeth0Ewarrens0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Mrs. Clinton’s advisers insist that she was the original Elizabeth Warren: a populist fighter who for decades has been an advocate for families and children.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Presidential Election of 2016</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Clinton, Hillary Rodham</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Democratic Party</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Income Inequality</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Warren, Elizabeth</category>
+<pubDate>
+Tue, 21 Apr 2015 09:00:22 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/us/politics/hillary-clintons-quest-to-prove-her-populist-edge-is-as-strong-as-elizabeth-warrens.html</guid>
+<creator>
+AMY CHOZICK</creator>
+<credit scheme="urn:ebu">
+Ian Thomas Jansen-Lonnquist for The New York Times</credit>
+<description>
+Hillary Rodham Clinton, in Keene, N.H., on Monday, spoke with David Stabler, president of Whitney Brothers, a manufacturer of children's furniture.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/politics/22WARRENsub/22WARRENsub-moth-v2.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/us/negotiated-at-the-hague-a-child-support-treaty-falters-in-boise.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Negotiated at The Hague, a Child Support Treaty Falters in Boise</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4596a1e1/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cus0Cnegotiated0Eat0Ethe0Ehague0Ea0Echild0Esupport0Etreaty0Efalters0Ein0Eboise0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+A committee of the Idaho Legislature has refused to act on a bill that would enable the United States to take part in a global enforcement pact.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Child Custody and Support</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Idaho</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Hague (Netherlands)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+State Legislatures</category>
+<pubDate>
+Tue, 21 Apr 2015 09:00:21 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/us/negotiated-at-the-hague-a-child-support-treaty-falters-in-boise.html</guid>
+<creator>
+KIRK JOHNSON</creator>
+<credit scheme="urn:ebu">
+Rajah Bose for The New York Times</credit>
+<description>
+Taryn Thompson with her daughter Faith. Ms. Thompson, a divorced mother in Kootenai County, Idaho, said she depended on child support.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/22IDAHOWEB1/22IDAHOWEB1-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/us/victims-in-boston-marathon-bombings-are-split-on-death-penalty.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Victims in Boston Marathon Bombings Are Split on Death Penalty</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4596a1ca/sc/42/l/0L0Snytimes0N0C20A150C0A40C220Cus0Cvictims0Ein0Eboston0Emarathon0Ebombings0Eare0Esplit0Eon0Edeath0Epenalty0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The sentencing phase, which begins Tuesday, will be far more contentious than the first phase of Dzhokhar Tsarnaev’s trial as the jury weighs his fate.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Capital Punishment</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Tsarnaev, Dzhokhar A</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Tsarnaev, Tamerlan</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Boston Marathon Bombings (2013)</category>
+<pubDate>
+Tue, 21 Apr 2015 09:00:21 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/us/victims-in-boston-marathon-bombings-are-split-on-death-penalty.html</guid>
+<creator>
+KATHARINE Q. SEELYE</creator>
+<credit scheme="urn:ebu">
+Katherine Taylor/European Pressphoto Agency</credit>
+<description>
+Dzhokhar Tsarnaev's lead defense attorney, Judy Clarke, leaving the courthouse on April 8 after he was found guilty on 30 counts.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/22BOSTON/22BOSTON-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/us/at-supreme-court-holders-justice-dept-routinely-backs-officers-use-of-force.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+At Supreme Court, Eric Holder’s Justice Dept. Routinely Backs Officers’ Use of Force</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4596a1c6/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cus0Cat0Esupreme0Ecourt0Eholders0Ejustice0Edept0Eroutinely0Ebacks0Eofficers0Euse0Eof0Eforce0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The attorney general, even as his agency investigates local police departments, is considered more of an ally to them than his frequent criticism would suggest.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Police Brutality, Misconduct and Shootings</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Holder, Eric H Jr</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
 Supreme Court (US)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Same-Sex Marriage, Civil Unions and Domestic Partnerships</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Veterans</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Defense of Marriage Act (1996)</category>
-<pubDate>
-Mon, 20 Apr 2015 09:00:20 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/us/in-brief-to-justices-former-military-officials-support-same-sex-marriage.html</guid>
-<creator>
-ADAM LIPTAK</creator>
-<credit scheme="urn:ebu">
-Jabin Botsford/The New York Times</credit>
-<description>
-A friend-of-the-court brief submitted to the Supreme Court notes that service members may be sent against their wishes to a state that does not recognize their same-sex marriage.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/20/us/21BARweb/21BARweb-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/21/business/pilots-at-allegiant-air-question-safety-standards.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Pilots at Allegiant Air Question Safety Standards</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/458d2070/sc/10/l/0L0Snytimes0N0C20A150C0A40C210Cbusiness0Cpilots0Eat0Eallegiant0Eair0Equestion0Esafety0Estandards0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The pilots, who are in contract negotiations, say they worry about maintenance problems with the airline’s aging fleet.</description>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Allegiant Air</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Airlines and Airplanes</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Aviation Accidents, Safety and Disasters</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Organized Labor</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Pilots</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Maurice Gallagher</category>
+Justice Department</category>
 <pubDate>
-Mon, 20 Apr 2015 09:00:20 GMT</pubDate>
+Tue, 21 Apr 2015 09:00:17 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/2015/04/21/business/pilots-at-allegiant-air-question-safety-standards.html</guid>
+http://www.nytimes.com/2015/04/22/us/at-supreme-court-holders-justice-dept-routinely-backs-officers-use-of-force.html</guid>
 <creator>
-JAD MOUAWAD</creator>
+MATT APUZZO and ADAM LIPTAK</creator>
 <credit scheme="urn:ebu">
-David Becker/Associated Press</credit>
+Stephen Crowley/The New York Times</credit>
 <description>
-Conflict between the pilots and Allegiant's chairman and chief executive has become increasingly tense over the last two years.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/business/21allegiant/21allegiant-moth.jpg" />
+Attorney General Eric H. Holder Jr. at a cabinet meeting at the White House in February.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/nyregion/22HOLDERweb1/22HOLDERweb1-moth.jpg" />
 </item>
 </channel>
 </rss>
