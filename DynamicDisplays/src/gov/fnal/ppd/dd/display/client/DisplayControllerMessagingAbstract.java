@@ -161,7 +161,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				Date dNow = new Date();
 				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String statementString;
-				if (OFF_LINE.equalsIgnoreCase(nowShowing) || getContent() == null )
+				if (OFF_LINE.equalsIgnoreCase(nowShowing) || getContent() == null)
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='Off Line' where DisplayID="
 							+ getDBDisplayNumber();
 				else
@@ -362,36 +362,48 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 *            The channel number to look up
 	 * @return The channel that is specified by this channel number
 	 */
-	public static SignageContent getChannelFromNumber(final int channelNumber) {
-		String query = "SELECT * from Channel where Number=" + channelNumber;
-		SignageContent retval = null;
-		Connection connection;
-		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-		} catch (DatabaseNotVisibleException e1) {
-			e1.printStackTrace();
-			return null;
+	public static SignageContent getChannelFromNumber(int channelNumber) {
+		Channel retval = null;
+		if (channelNumber >= 100)
+			channelNumber = 1;
+		while ((retval == null || retval.getURI() == null) && channelNumber < 100) {
+			String query = "SELECT * from Channel where Number=" + channelNumber;
+			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel: [" + query + "]");
+			Connection connection;
+			try {
+				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			} catch (DatabaseNotVisibleException e1) {
+				e1.printStackTrace();
+				return null;
+			}
+
+			try (Statement stmt = connection.createStatement();) {
+				try (ResultSet rs = stmt.executeQuery(query);) {
+					if (rs.first()) { // Move to first returned row (there should only be one)
+						String url = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("URL"));
+						int dwell = rs.getInt("DwellTime");
+						String desc = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
+						String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Name"));
+
+						retval = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, dwell);
+
+						stmt.close();
+						rs.close();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} catch (SQLException ex) {
+				System.err.println("It is likely that the DB server is down.  We'll try again later.");
+				ex.printStackTrace();
+			}
+			++channelNumber;
 		}
 
-		try (Statement stmt = connection.createStatement();) {
-			try (ResultSet rs = stmt.executeQuery(query);) {
-				if (rs.first()) { // Move to first returned row (there should only be one)
-					String url = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("URL"));
-					int dwell = rs.getInt("DwellTime");
-					String desc = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
-					String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Name"));
-
-					retval = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, dwell);
-
-					stmt.close();
-					rs.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} catch (SQLException ex) {
-			System.err.println("It is likely that the DB server is down.  We'll try again later.");
-			ex.printStackTrace();
+		// If retval is null here, we're screwed!!
+		if (retval == null) {
+			println(DisplayControllerMessagingAbstract.class,
+					" -- NO IDEA WHAT IS GOING ON HERE!  Cannot find a single default channel!");
 		}
 		return retval;
 	}

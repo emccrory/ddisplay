@@ -15,9 +15,9 @@ en-us</language>
 <copyright>
 Copyright 2015 The New York Times Company</copyright>
 <pubDate>
-Tue, 21 Apr 2015 16:55:05 GMT</pubDate>
+Tue, 21 Apr 2015 17:57:34 GMT</pubDate>
 <lastBuildDate>
-Tue, 21 Apr 2015 16:55:05 GMT</lastBuildDate>
+Tue, 21 Apr 2015 17:57:34 GMT</lastBuildDate>
 <ttl>
 2</ttl>
 <image>
@@ -28,6 +28,85 @@ http://graphics8.nytimes.com/images/misc/NYT_logo_rss_250x40.png</url>
 <link>
 http://www.nytimes.com/pages/index.html?partner=rss&amp;emc=rss</link>
 </image>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/us/supreme-court-limits-drug-sniffing-dog-use-in-traffic-stops.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Supreme Court Limits Drug-Sniffing Dog Use in Traffic Stops</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/459ac379/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cus0Csupreme0Ecourt0Elimits0Edrug0Esniffing0Edog0Euse0Ein0Etraffic0Estops0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The justices, ruling 6 to 3, said that the dogs could be used, but that the stops could not be prolonged to allow the inspections to take place.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Drug Abuse and Traffic</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Thomas, Clarence</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Ginsburg, Ruth Bader</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Police</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Supreme Court (US)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Dogs</category>
+<pubDate>
+Tue, 21 Apr 2015 17:50:23 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/us/supreme-court-limits-drug-sniffing-dog-use-in-traffic-stops.html</guid>
+<creator>
+ADAM LIPTAK</creator>
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/business/dealbook/trader-in-britain-arrested-on-charges-of-manipulation-that-led-to-2010-flash-crash.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Trader Charged With Manipulation That Contributed to ‘Flash Crash’</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/459ac377/sc/16/l/0L0Snytimes0N0C20A150C0A40C220Cbusiness0Cdealbook0Ctrader0Ein0Ebritain0Earrested0Eon0Echarges0Eof0Emanipulation0Ethat0Eled0Eto0E20A10A0Eflash0Ecrash0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Prosecutors said that Navinder Singh Sarao manipulated futures contracts in a way that helped prompt the Dow to plunge 600 points in May 2010.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Securities and Commodities Violations</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Dow Jones Stock Average</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+High-Frequency and Flash Trading</category>
+<pubDate>
+Tue, 21 Apr 2015 17:39:35 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/business/dealbook/trader-in-britain-arrested-on-charges-of-manipulation-that-led-to-2010-flash-crash.html</guid>
+<creator>
+JENNY ANDERSON</creator>
+<credit scheme="urn:ebu">
+Lucas Jackson/Reuters</credit>
+<description>
+The Dow Jones industrial average dropped more than 600 points in minutes on the afternoon of May 6, 2010, then recovered almost immediately.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2010/10/02/business/02flash-web/02flash-web-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/us/baltimore-police-officers-suspended-in-freddie-gray-inquiry-are-identified.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Baltimore Police Officers Suspended in Freddie Gray Inquiry Are Identified</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/459abd9e/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cus0Cbaltimore0Epolice0Eofficers0Esuspended0Ein0Efreddie0Egray0Einquiry0Eare0Eidentified0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The Police Department named the six officers who have been suspended while the death of Freddie Gray, a 25-year-old black man, is investigated.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Police</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Baltimore (Md)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Gray, Freddie (d 2015)</category>
+<pubDate>
+Tue, 21 Apr 2015 17:10:52 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/us/baltimore-police-officers-suspended-in-freddie-gray-inquiry-are-identified.html</guid>
+<creator>
+RICHARD PÉREZ-PEÑA</creator>
+<credit scheme="urn:ebu">
+Matt Roth for The New York Times</credit>
+<description>
+Lt. Col. Melvin T. Russell of the Baltimore police listened to people protesting the death of Freddie Gray outside the Western District police station on Monday.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/us/22POLICEWEB/22POLICEWEB-moth.jpg" />
+</item>
 <item>
 <link href="http://www.nytimes.com/2015/04/22/us/victims-in-boston-marathon-bombings-are-split-on-death-penalty.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
@@ -55,6 +134,40 @@ Katherine Taylor/European Pressphoto Agency</credit>
 <description>
 Dzhokhar Tsarnaev's lead defense attorney, Judy Clarke, leaving the courthouse on April 8 after he was found guilty on 30 counts.</description>
 <content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/22BOSTON/22BOSTON-moth.jpg" />
+</item>
+<item>
+<link href="http://tmagazine.blogs.nytimes.com/2015/04/21/christie-auction-koons-kippenberger/?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+T Magazine: A Christie’s Auction Brings Together the Art, and History, of Jeff Koons and Martin Kippenberger</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/459abdab/sc/15/l/0Ltmagazine0Bblogs0Bnytimes0N0C20A150C0A40C210Cchristie0Eauction0Ekoons0Ekippenberger0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Two works by the artists, owned by the publishing giant Benedikt Taschen (and both formerly in the hands of Koons), are being sold alongside each other next month.</description>
+<category domain="http://www.nytimes.com/namespaces/">
+Art</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Art Matters</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Cologne (Germany)</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Culture</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Koons, Jeff</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Kippenberger, Martin</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Christie's</category>
+<pubDate>
+Tue, 21 Apr 2015 16:35:09 GMT</pubDate>
+<guid isPermaLink="false">
+http://tmagazine.blogs.nytimes.com/2015/04/21/christie-auction-koons-kippenberger/</guid>
+<creator>
+LINDA YABLONSKY</creator>
+<credit scheme="urn:ebu">
+From left: Estate of Martin Kippenberger, Galerie Gisela Capitain, Cologne; Jeff Koons</credit>
+<description>
+From left: an untitled 1988 painting by Martin Kippenberger; a 1986 stainless steel bust of Louis XIV by Jeff Koons.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/17/t-magazine/17christies-yablonsky/17christies-yablonsky-moth.jpg" />
 </item>
 <item>
 <link href="http://www.nytimes.com/2015/04/21/nytnow/latest-news-genetic-testing-google-search-john-muir-day.html?partner=rss&amp;emc=rss" rel="standout" />
@@ -109,6 +222,38 @@ Alessandro Di Meo/European Pressphoto Agency</credit>
 <description>
 Migrants who survived a boat sinking over the weekend arrived at the Sicilian port city of Catania early on Tuesday.</description>
 <content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/world/22migrants1-web/22migrants1-web-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/nyregion/new-york-libraries-citing-dire-need-for-renovation-seek-funds-from-city.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+New York Libraries, Citing Dire Need for Renovation, Seek $1.4 Billion From City</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/459abda5/sc/15/l/0L0Snytimes0N0C20A150C0A40C220Cnyregion0Cnew0Eyork0Elibraries0Eciting0Edire0Eneed0Efor0Erenovation0Eseek0Efunds0Efrom0Ecity0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The libraries have increasingly been unable to meet the growing needs of their patrons, or even to offer as many programs and services as other branches, because they are constrained by aging buildings.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+New York City</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Queens Borough Public Library</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Libraries and Librarians</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Restoration and Renovation</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Brooklyn Public Library</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+New York Public Library</category>
+<pubDate>
+Tue, 21 Apr 2015 15:44:01 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/nyregion/new-york-libraries-citing-dire-need-for-renovation-seek-funds-from-city.html</guid>
+<creator>
+WINNIE HU</creator>
+<credit scheme="urn:ebu">
+Nicole Bengiveno/The New York Times</credit>
+<description>
+The computer area in the Hunts Point Library in the South Bronx. The library, like others in the city, has been unable to meet the growing needs of its patrons because its aging building is badly in need of renovation.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/nyregion/22LIBRARYweb1/22LIBRARYweb1-moth.jpg" />
 </item>
 <item>
 <link href="http://www.nytimes.com/2015/04/21/magazine/the-next-era-of-campaign-finance-craziness-is-already-underway.html?partner=rss&amp;emc=rss" rel="standout" />
@@ -197,7 +342,7 @@ The Russian president, Vladimir V. Putin, in Moscow last week. Workers across Ru
 <item>
 <link href="http://www.nytimes.com/2015/04/22/us/senate-loretta-lynch-confirmation-vote-to-replace-eric-holder.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-Loretta Lynch Confirmation Block Lifts as Senators Agree on Sex Trafficking Bill</title>
+Roadblock to Loretta Lynch Vote Falls After Senators Agree on Sex Trafficking Bill</title>
 <link>
 http://rss.nytimes.com/c/34625/f/640350/s/4599a143/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cus0Csenate0Eloretta0Elynch0Econfirmation0Evote0Eto0Ereplace0Eeric0Eholder0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
@@ -227,7 +372,7 @@ JENNIFER STEINHAUER and EMMARIE HUETTEMAN</creator>
 <credit scheme="urn:ebu">
 Doug Mills/The New York Times</credit>
 <description>
-Senator Mitch McConnell, the Kentucky Republican and majority leader, walked to the Senate floor after announcing the deal on Tuesday.</description>
+Senator Mitch McConnell, the Kentucky Republican and majority leader, after announcing the deal on Tuesday.</description>
 <content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/21firstdraft-mitch-mcconnell/21firstdraft-mitch-mcconnell-moth-v3.jpg" />
 </item>
 <item>
@@ -461,132 +606,6 @@ Tue, 21 Apr 2015 11:00:02 GMT</pubDate>
 http://www.nytimes.com/2015/04/22/us/report-seeks-overhaul-of-postal-service-surveillance-program.html</guid>
 <creator>
 RON NIXON</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/politics/first-draft/2015/04/21/today-in-politics-hillary-clinton-will-always-have-new-hampshire/?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-First Draft: Today in Politics: Hillary Clinton Will Always Have New Hampshire</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4597a2d3/sc/7/l/0L0Snytimes0N0Cpolitics0Cfirst0Edraft0C20A150C0A40C210Ctoday0Ein0Epolitics0Ehillary0Eclinton0Ewill0Ealways0Ehave0Enew0Ehampshire0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Presidential candidates must pretend that they have a special connection to every state they visit, but it’s not hard to see that Hillary Rodham Clinton wishes they all could be like New Hampshire.</description>
-<pubDate>
-Tue, 21 Apr 2015 10:58:16 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/politics/first-draft/2015/04/21/today-in-politics-hillary-clinton-will-always-have-new-hampshire/</guid>
-<creator>
-THE NEW YORK TIMES</creator>
-<credit scheme="urn:ebu">
-Ian Thomas Jansen-Lonnquist for The New York Times</credit>
-<description>
-Hillary Rodham Clinton campaigning in Keene, N.H., on Monday.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/20/us/politics/21firstdraft-newsletter-hillary/20WARREN-web-sub-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/22/world/middleeast/iran-our-man-in-tehran.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-An Eye for an Eye</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4596a1cd/sc/13/l/0L0Snytimes0N0C20A150C0A40C220Cworld0Cmiddleeast0Ciran0Eour0Eman0Ein0Etehran0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-After Ameneh Bahrami was blinded and disfigured by a scorned suitor who poured acid on her face, she fought to punish her attacker in kind.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Islamic Azad University</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Iran</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Bahrami, Ameneh (1978- )</category>
-<pubDate>
-Tue, 21 Apr 2015 10:43:33 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/22/world/middleeast/iran-our-man-in-tehran.html</guid>
-<creator>
-THOMAS ERDBRINK</creator>
-</item>
-<item>
-<title>
-Egyptian Court Sentences Morsi to 20 Years in Prison</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/45969933/sc/40/l/0L0Snytimes0N0Caponline0C20A150C0A40C210Cworld0Cmiddleeast0Cap0Eml0Eegypt0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-A criminal court sentenced Mohammed Morsi, the ousted president, over the killing of protesters in 2012.</description>
-<pubDate>
-Tue, 21 Apr 2015 10:32:22 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/aponline/2015/04/21/world/middleeast/ap-ml-egypt.html</guid>
-<creator>
-THE ASSOCIATED PRESS</creator>
-<credit scheme="urn:ebu">
-Amr Nabil/Associated Press</credit>
-<description>
-Mohamed Morsi, Egypt's ousted Islamist president, inside a makeshift courtroom in Cairo on Tuesday.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/world/22Egypt-web/22Egypt-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/22/realestate/commercial/targets-hasty-exit-from-canada-leaves-anger-behind.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Square Feet: Target’s Hasty Exit From Canada Leaves Anger Behind</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4596a1ee/sc/26/l/0L0Snytimes0N0C20A150C0A40C220Crealestate0Ccommercial0Ctargets0Ehasty0Eexit0Efrom0Ecanada0Eleaves0Eanger0Ebehind0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The American retailer has stirred resentment among landlords, in part, for its use of bankruptcy law in shutting down Canadian operations.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Renting and Leasing (Real Estate)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Shopping and Retail</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Target Corporation</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Real Estate (Commercial)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Bankruptcies</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Canada</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Landlords</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Shopping Centers and Malls</category>
-<pubDate>
-Tue, 21 Apr 2015 09:00:30 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/22/realestate/commercial/targets-hasty-exit-from-canada-leaves-anger-behind.html</guid>
-<creator>
-IAN AUSTEN</creator>
-<credit scheme="urn:ebu">
-Ian Willms for The New York Times</credit>
-<description>
-The final days of operation at a Target store in Toronto early this month.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/business/22CANTARGET/22CANTARGET-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/22/us/politics/hillary-clintons-quest-to-prove-her-populist-edge-is-as-strong-as-elizabeth-warrens.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-A Newcomer to Populism? Hillary Clinton Campaign Begs to Differ</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4596a1d4/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cus0Cpolitics0Chillary0Eclintons0Equest0Eto0Eprove0Eher0Epopulist0Eedge0Eis0Eas0Estrong0Eas0Eelizabeth0Ewarrens0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Mrs. Clinton’s advisers insist that she was the original Elizabeth Warren: a populist fighter who for decades has been an advocate for families and children.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Presidential Election of 2016</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Clinton, Hillary Rodham</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Democratic Party</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Income Inequality</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Warren, Elizabeth</category>
-<pubDate>
-Tue, 21 Apr 2015 09:00:22 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/22/us/politics/hillary-clintons-quest-to-prove-her-populist-edge-is-as-strong-as-elizabeth-warrens.html</guid>
-<creator>
-AMY CHOZICK</creator>
-<credit scheme="urn:ebu">
-Ian Thomas Jansen-Lonnquist for The New York Times</credit>
-<description>
-Hillary Rodham Clinton, in Keene, N.H., on Monday, spoke with David Stabler, president of Whitney Brothers, a manufacturer of children's furniture.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/politics/22WARRENsub/22WARRENsub-moth-v2.jpg" />
 </item>
 </channel>
 </rss>
