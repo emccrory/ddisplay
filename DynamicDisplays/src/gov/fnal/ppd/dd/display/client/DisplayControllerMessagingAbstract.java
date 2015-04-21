@@ -156,39 +156,40 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		Connection connection;
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+
+			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+				Date dNow = new Date();
+				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String statementString;
+				if (OFF_LINE.equalsIgnoreCase(nowShowing))
+					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='Off Line' where DisplayID="
+							+ getDBDisplayNumber();
+				else
+					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
+							+ getContent().getURI() + ")" + "' where DisplayID=" + getDBDisplayNumber();
+				// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
+				int numRows = stmt.executeUpdate(statementString);
+				if (numRows == 0 || numRows > 1) {
+					println(getClass(),
+							"Problem while updating status of Display: Expected to modify exactly one row, but  modified "
+									+ numRows + " rows instead. SQL='" + statementString + "'");
+				}
+				stmt.close();
+				if (statusUpdatePeriod > 0) {
+					println(getClass(),
+							".updateMyStatus(): Status: \n            "
+									+ statementString.substring("UPDATE DisplayStatus set ".length()));
+					statusUpdatePeriod = STATUS_UPDATE_PERIOD;
+				}
+			} catch (Exception ex) {
+				println(getClass(), " -- Unexpected exception in method updateMyStatus.  Skipping this updqate.");
+				ex.printStackTrace();
+				return;
+			}
 		} catch (Exception e) {
 			println(getClass(),
 					" -- Unexpected exception in method updateMyStatus while reestablishing connection to the database.");
 			e.printStackTrace();
-			return;
-		}
-
-		try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-			Date dNow = new Date();
-			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String statementString;
-			if (OFF_LINE.equalsIgnoreCase(nowShowing))
-				statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='Off Line' where DisplayID="
-						+ getDBDisplayNumber();
-			else
-				statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
-						+ getContent().getURI() + ")" + "' where DisplayID=" + getDBDisplayNumber();
-			// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
-			int numRows = stmt.executeUpdate(statementString);
-			if (numRows == 0 || numRows > 1) {
-				println(getClass(), "Problem while updating status of Display: Expected to modify exactly one row, but  modified "
-						+ numRows + " rows instead. SQL='" + statementString + "'");
-			}
-			stmt.close();
-			if (statusUpdatePeriod > 0) {
-				println(getClass(),
-						".updateMyStatus(): Status: \n            "
-								+ statementString.substring("UPDATE DisplayStatus set ".length()));
-				statusUpdatePeriod = STATUS_UPDATE_PERIOD;
-			}
-		} catch (Exception ex) {
-			println(getClass(), " -- Unexpected exception in method updateMyStatus.  Skipping this updqate.");
-			ex.printStackTrace();
 			return;
 		}
 	}
