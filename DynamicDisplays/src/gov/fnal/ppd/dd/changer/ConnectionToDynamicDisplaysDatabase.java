@@ -97,9 +97,9 @@ public class ConnectionToDynamicDisplaysDatabase {
 			return connection;
 
 		} catch (SQLException ex) {
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
+			println(ConnectionToDynamicDisplaysDatabase.class, " -- SQLException: '" + ex.getMessage() + "'");
+			println(ConnectionToDynamicDisplaysDatabase.class, " -- SQLState: " + ex.getSQLState());
+			println(ConnectionToDynamicDisplaysDatabase.class, " -- VendorError: " + ex.getErrorCode());
 			ex.printStackTrace();
 			if (ex.getMessage().contains("Access denied for user")) {
 				System.err.println("Cannont access the Channel/Display database.");
