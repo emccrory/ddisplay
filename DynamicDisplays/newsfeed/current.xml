@@ -17,13 +17,13 @@
 	<station_id>KDPA</station_id>
 	<latitude>41.89639</latitude>
 	<longitude>-88.25111</longitude>
-	<observation_time>Last Updated on Apr 21 2015, 10:52 am CDT</observation_time>
-        <observation_time_rfc822>Tue, 21 Apr 2015 10:52:00 -0500</observation_time_rfc822>
+	<observation_time>Last Updated on Apr 21 2015, 11:52 am CDT</observation_time>
+        <observation_time_rfc822>Tue, 21 Apr 2015 11:52:00 -0500</observation_time_rfc822>
 	<weather>Overcast and Windy</weather>
-	<temperature_string>46.0 F (7.8 C)</temperature_string>
-	<temp_f>46.0</temp_f>
-	<temp_c>7.8</temp_c>
-	<relative_humidity>50</relative_humidity>
+	<temperature_string>50.0 F (10.0 C)</temperature_string>
+	<temp_f>50.0</temp_f>
+	<temp_c>10.0</temp_c>
+	<relative_humidity>44</relative_humidity>
 	<wind_string>from the West at 28.8 gusting to 41.4 MPH (25 gusting to 36 KT)</wind_string>
 	<wind_dir>West</wind_dir>
 	<wind_degrees>270</wind_degrees>
@@ -31,15 +31,15 @@
 	<wind_gust_mph>41.4</wind_gust_mph>
 	<wind_kt>25</wind_kt>
 	<wind_gust_kt>36</wind_gust_kt>
-	<pressure_string>1003.6 mb</pressure_string>
-	<pressure_mb>1003.6</pressure_mb>
+	<pressure_string>1003.5 mb</pressure_string>
+	<pressure_mb>1003.5</pressure_mb>
 	<pressure_in>29.63</pressure_in>
-	<dewpoint_string>28.0 F (-2.2 C)</dewpoint_string>
-	<dewpoint_f>28.0</dewpoint_f>
-	<dewpoint_c>-2.2</dewpoint_c>
-	<windchill_string>37 F (3 C)</windchill_string>
-      	<windchill_f>37</windchill_f>
-      	<windchill_c>3</windchill_c>
+	<dewpoint_string>28.9 F (-1.7 C)</dewpoint_string>
+	<dewpoint_f>28.9</dewpoint_f>
+	<dewpoint_c>-1.7</dewpoint_c>
+	<windchill_string>42 F (6 C)</windchill_string>
+      	<windchill_f>42</windchill_f>
+      	<windchill_c>6</windchill_c>
 	<visibility_mi>10.00</visibility_mi>
  	<icon_url_base>http://forecast.weather.gov/images/wtf/small/</icon_url_base>
 	<two_day_history_url>http://www.weather.gov/data/obhistory/KDPA.html</two_day_history_url>

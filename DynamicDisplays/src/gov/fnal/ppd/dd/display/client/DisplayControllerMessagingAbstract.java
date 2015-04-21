@@ -182,13 +182,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 				}
 			} catch (Exception ex) {
-				println(getClass(), " -- Unexpected exception in method updateMyStatus.  Skipping this updqate.");
+				println(getClass(), " -- Unexpected exception in method updateMyStatus: " + ex.getMessage()
+						+ "  Skipping this update.");
 				ex.printStackTrace();
 				return;
 			}
 		} catch (Exception e) {
-			println(getClass(),
-					" -- Unexpected exception in method updateMyStatus while reestablishing connection to the database.");
+			println(getClass(), " -- Unexpected exception (" + e.getMessage()
+					+ ") in method updateMyStatus while reestablishing connection to the database.");
 			e.printStackTrace();
 			return;
 		}

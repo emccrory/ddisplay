@@ -15,9 +15,9 @@ en-us</language>
 <copyright>
 Copyright 2015 The New York Times Company</copyright>
 <pubDate>
-Tue, 21 Apr 2015 15:52:18 GMT</pubDate>
+Tue, 21 Apr 2015 16:55:05 GMT</pubDate>
 <lastBuildDate>
-Tue, 21 Apr 2015 15:52:18 GMT</lastBuildDate>
+Tue, 21 Apr 2015 16:55:05 GMT</lastBuildDate>
 <ttl>
 2</ttl>
 <image>
@@ -29,6 +29,34 @@ http://graphics8.nytimes.com/images/misc/NYT_logo_rss_250x40.png</url>
 http://www.nytimes.com/pages/index.html?partner=rss&amp;emc=rss</link>
 </image>
 <item>
+<link href="http://www.nytimes.com/2015/04/22/us/victims-in-boston-marathon-bombings-are-split-on-death-penalty.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Making Case for Execution, Prosecutor Calls Boston Bomber ‘Unrepentant’</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4596a1ca/sc/42/l/0L0Snytimes0N0C20A150C0A40C220Cus0Cvictims0Ein0Eboston0Emarathon0Ebombings0Eare0Esplit0Eon0Edeath0Epenalty0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+At the sentencing phase, which began Tuesday, federal prosecutors argued that Dzhokhar Tsarnaev should be sentenced to death.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Capital Punishment</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Tsarnaev, Dzhokhar A</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Tsarnaev, Tamerlan</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Boston Marathon Bombings (2013)</category>
+<pubDate>
+Tue, 21 Apr 2015 16:40:14 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/us/victims-in-boston-marathon-bombings-are-split-on-death-penalty.html</guid>
+<creator>
+KATHARINE Q. SEELYE</creator>
+<credit scheme="urn:ebu">
+Katherine Taylor/European Pressphoto Agency</credit>
+<description>
+Dzhokhar Tsarnaev's lead defense attorney, Judy Clarke, leaving the courthouse on April 8 after he was found guilty on 30 counts.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/22BOSTON/22BOSTON-moth.jpg" />
+</item>
+<item>
 <link href="http://www.nytimes.com/2015/04/21/nytnow/latest-news-genetic-testing-google-search-john-muir-day.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
 Latest News: Loretta Lynch, Mohamed Morsi, John Muir Day</title>
@@ -37,7 +65,7 @@ http://rss.nytimes.com/c/34625/f/640350/s/459717c3/sc/15/l/0L0Snytimes0N0C20A150
 <description>
 Here’s what you need to know to start your day.</description>
 <pubDate>
-Tue, 21 Apr 2015 15:47:38 GMT</pubDate>
+Tue, 21 Apr 2015 16:29:54 GMT</pubDate>
 <guid isPermaLink="false">
 http://www.nytimes.com/2015/04/21/nytnow/latest-news-genetic-testing-google-search-john-muir-day.html</guid>
 <creator>
@@ -47,6 +75,124 @@ Amr Nabil/Associated Press</credit>
 <description>
 The ousted Egyptian president Mohamed Morsi was sentenced to 20 years in prison today over the deaths of protesters in 2012.</description>
 <content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/world/21nytnow-morsi01/21nytnow-morsi01-moth-v2.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/world/europe/italy-libya-migrant-boat-capsize.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Captain of Migrant Boat Hit Rescue Ship, Prosecutors Say</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/45969af7/sc/11/l/0L0Snytimes0N0C20A150C0A40C220Cworld0Ceurope0Citaly0Elibya0Emigrant0Eboat0Ecapsize0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The captain, identified on Tuesday by prosecutors in Sicily as Mohammed Ali Malek, 27, was arrested on suspicion of multiple homicide.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Libya</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Maritime Accidents and Safety</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+European Union</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Illegal Immigration</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Refugees and Displaced Persons</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Italy</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Smuggling</category>
+<pubDate>
+Tue, 21 Apr 2015 16:12:20 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/world/europe/italy-libya-migrant-boat-capsize.html</guid>
+<creator>
+JIM YARDLEY and DAN BILEFSKY</creator>
+<credit scheme="urn:ebu">
+Alessandro Di Meo/European Pressphoto Agency</credit>
+<description>
+Migrants who survived a boat sinking over the weekend arrived at the Sicilian port city of Catania early on Tuesday.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/world/22migrants1-web/22migrants1-web-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/21/magazine/the-next-era-of-campaign-finance-craziness-is-already-underway.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+The Next Era of Campaign-Finance Craziness Is Already Underway</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/459a943c/sc/7/l/0L0Snytimes0N0C20A150C0A40C210Cmagazine0Cthe0Enext0Eera0Eof0Ecampaign0Efinance0Ecraziness0Eis0Ealready0Eunderway0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Wondering what super PACs have in store for 2016? Look at who’s going to be running them.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Presidential Election of 2016</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Forti, Carl</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Political Action Committees</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Clinton, Hillary Rodham</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Benton, Jesse</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Walker, Scott K</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Citizens United v Federal Election Commission (Supreme Court Decision)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Paul, Rand</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Federal Election Commission</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Political Advertising</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Campaign Finance</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Bush, Jeb</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Wertheimer, Fred</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Presidential Election of 2012</category>
+<pubDate>
+Tue, 21 Apr 2015 15:43:40 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/21/magazine/the-next-era-of-campaign-finance-craziness-is-already-underway.html</guid>
+<creator>
+JIM RUTENBERG</creator>
+<credit scheme="urn:ebu">
+Ed Reinke/Associated Press</credit>
+<description>
+Jesse Benton with Rand Paul in May 2010, during Paul's Senate campaign.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/magazine/21mag-superpacs/21mag-superpacs-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/04/22/world/europe/russian-workers-take-aim-at-putin-as-economy-exacts-its-toll.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Russian Workers Take Aim at Putin as Economy Exacts Its Toll</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/459a33dd/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cworld0Ceurope0Crussian0Eworkers0Etake0Eaim0Eat0Eputin0Eas0Eeconomy0Eexacts0Eits0Etoll0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Subdued for a time by a surge in national pride after the annexation of Crimea, discontent over unpaid wages and forced vacations has generated a wave of labor actions.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Russia</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Layoffs and Job Reductions</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Crimea (Ukraine)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Economic Conditions and Trends</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Putin, Vladimir V</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Strikes</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Wages and Salaries</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Labor and Jobs</category>
+<pubDate>
+Tue, 21 Apr 2015 15:38:38 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/04/22/world/europe/russian-workers-take-aim-at-putin-as-economy-exacts-its-toll.html</guid>
+<creator>
+ANDREW E. KRAMER</creator>
+<credit scheme="urn:ebu">
+Alexander Nemenov/Agence France-Presse — Getty Images</credit>
+<description>
+The Russian president, Vladimir V. Putin, in Moscow last week. Workers across Russia are starting to protest against unpaid wages and go on strike, in the first nationwide backlash against Mr. Putin's economic policies.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/world/22Russiaworkers-web/22Russiaworkers-web-moth.jpg" />
 </item>
 <item>
 <link href="http://www.nytimes.com/2015/04/22/us/senate-loretta-lynch-confirmation-vote-to-replace-eric-holder.html?partner=rss&amp;emc=rss" rel="standout" />
@@ -83,40 +229,6 @@ Doug Mills/The New York Times</credit>
 <description>
 Senator Mitch McConnell, the Kentucky Republican and majority leader, walked to the Senate floor after announcing the deal on Tuesday.</description>
 <content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/21firstdraft-mitch-mcconnell/21firstdraft-mitch-mcconnell-moth-v3.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/22/world/europe/italy-libya-migrant-boat-capsize.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Captain of Migrant Boat Hit Rescue Ship, Prosecutors Say</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/45969af7/sc/11/l/0L0Snytimes0N0C20A150C0A40C220Cworld0Ceurope0Citaly0Elibya0Emigrant0Eboat0Ecapsize0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The captain, identified on Tuesday by prosecutors in Sicily as Mohammed Ali Malek, 27, was arrested on suspicion of multiple homicide.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Libya</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Maritime Accidents and Safety</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-European Union</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Illegal Immigration</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Refugees and Displaced Persons</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Italy</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Smuggling</category>
-<pubDate>
-Tue, 21 Apr 2015 15:20:58 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/22/world/europe/italy-libya-migrant-boat-capsize.html</guid>
-<creator>
-JIM YARDLEY and DAN BILEFSKY</creator>
-<credit scheme="urn:ebu">
-Alessandro Di Meo/European Pressphoto Agency</credit>
-<description>
-Migrants who survived a boat sinking over the weekend arrived at the Sicilian port city of Catania early on Tuesday.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/22/world/22migrants1-web/22migrants1-web-moth.jpg" />
 </item>
 <item>
 <link href="http://www.nytimes.com/2015/04/22/world/middleeast/egypt-mohamed-morsi-sentenced.html?partner=rss&amp;emc=rss" rel="standout" />
@@ -475,90 +587,6 @@ Ian Thomas Jansen-Lonnquist for The New York Times</credit>
 <description>
 Hillary Rodham Clinton, in Keene, N.H., on Monday, spoke with David Stabler, president of Whitney Brothers, a manufacturer of children's furniture.</description>
 <content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/politics/22WARRENsub/22WARRENsub-moth-v2.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/22/us/negotiated-at-the-hague-a-child-support-treaty-falters-in-boise.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Negotiated at The Hague, a Child Support Treaty Falters in Boise</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4596a1e1/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cus0Cnegotiated0Eat0Ethe0Ehague0Ea0Echild0Esupport0Etreaty0Efalters0Ein0Eboise0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-A committee of the Idaho Legislature has refused to act on a bill that would enable the United States to take part in a global enforcement pact.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Child Custody and Support</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Idaho</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Hague (Netherlands)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-State Legislatures</category>
-<pubDate>
-Tue, 21 Apr 2015 09:00:21 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/22/us/negotiated-at-the-hague-a-child-support-treaty-falters-in-boise.html</guid>
-<creator>
-KIRK JOHNSON</creator>
-<credit scheme="urn:ebu">
-Rajah Bose for The New York Times</credit>
-<description>
-Taryn Thompson with her daughter Faith. Ms. Thompson, a divorced mother in Kootenai County, Idaho, said she depended on child support.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/22IDAHOWEB1/22IDAHOWEB1-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/22/us/victims-in-boston-marathon-bombings-are-split-on-death-penalty.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Victims in Boston Marathon Bombings Are Split on Death Penalty</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4596a1ca/sc/42/l/0L0Snytimes0N0C20A150C0A40C220Cus0Cvictims0Ein0Eboston0Emarathon0Ebombings0Eare0Esplit0Eon0Edeath0Epenalty0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The sentencing phase, which begins Tuesday, will be far more contentious than the first phase of Dzhokhar Tsarnaev’s trial as the jury weighs his fate.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Capital Punishment</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Tsarnaev, Dzhokhar A</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Tsarnaev, Tamerlan</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Boston Marathon Bombings (2013)</category>
-<pubDate>
-Tue, 21 Apr 2015 09:00:21 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/22/us/victims-in-boston-marathon-bombings-are-split-on-death-penalty.html</guid>
-<creator>
-KATHARINE Q. SEELYE</creator>
-<credit scheme="urn:ebu">
-Katherine Taylor/European Pressphoto Agency</credit>
-<description>
-Dzhokhar Tsarnaev's lead defense attorney, Judy Clarke, leaving the courthouse on April 8 after he was found guilty on 30 counts.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/us/22BOSTON/22BOSTON-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/04/22/us/at-supreme-court-holders-justice-dept-routinely-backs-officers-use-of-force.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-At Supreme Court, Eric Holder’s Justice Dept. Routinely Backs Officers’ Use of Force</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4596a1c6/sc/7/l/0L0Snytimes0N0C20A150C0A40C220Cus0Cat0Esupreme0Ecourt0Eholders0Ejustice0Edept0Eroutinely0Ebacks0Eofficers0Euse0Eof0Eforce0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The attorney general, even as his agency investigates local police departments, is considered more of an ally to them than his frequent criticism would suggest.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Police Brutality, Misconduct and Shootings</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Holder, Eric H Jr</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Supreme Court (US)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Justice Department</category>
-<pubDate>
-Tue, 21 Apr 2015 09:00:17 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/04/22/us/at-supreme-court-holders-justice-dept-routinely-backs-officers-use-of-force.html</guid>
-<creator>
-MATT APUZZO and ADAM LIPTAK</creator>
-<credit scheme="urn:ebu">
-Stephen Crowley/The New York Times</credit>
-<description>
-Attorney General Eric H. Holder Jr. at a cabinet meeting at the White House in February.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/04/21/nyregion/22HOLDERweb1/22HOLDERweb1-moth.jpg" />
 </item>
 </channel>
 </rss>
