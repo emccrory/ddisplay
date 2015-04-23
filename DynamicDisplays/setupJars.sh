@@ -5,3 +5,25 @@ export messagingServer="roc-w-11.fnal.gov"
 
 # Database server is mccrory
 export databaseServer="mccrory.fnal.gov"
+
+# Read the database credentials from the secret file
+array=()
+
+getArray() {
+    i=0
+    while read line
+    do
+	array[i]=$line
+	i=$(($i + 1))
+    done < $1
+}
+
+getArray "$HOME/keystore/credentials.txt"
+
+export databaseServer=${array[0]}:${array[1]}
+export databaseName=${array[2]}
+export databaseUsername=${array[3]}
+export databasePassword=${array[4]}
+
+# echo $databaseServer $databaseUsername $databasePassword 
+

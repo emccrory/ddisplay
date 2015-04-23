@@ -41,6 +41,9 @@ fi
     
     java -Dddisplay.messagingserver=$messagingServer \
 	-Dddisplay.dbserver=$databaseServer \
+	-Dddisplay.dbname=$databaseName \
+	-Dddisplay.dbusername=$databaseUsername \
+	-Dddisplay.dbpassword=$databasePassword \
 	-Dddisplay.wrappertype=$WrapperType \
 	-Xmx512m gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox -screen=$screenNum 
 
