@@ -168,7 +168,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 										if (!firefox.changeURL(url, defaultWrapperType, frameNumber)) {
 											println(DisplayAsConnectionToFireFox.class,
 													".localSetContent(): Failed to REFRESH content");
-											return; // All bets are off!!
+											firefox.resetURL();
+											continue; // TODO -- Figure out what to do when this happens.  For now, just try again later
 										}
 									} catch (UnsupportedEncodingException e) {
 										e.printStackTrace();
