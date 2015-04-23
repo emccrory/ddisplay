@@ -41,6 +41,7 @@ public class GenerateNewKeyPair {
 	private static final String	DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc");
 	private static final String	DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", DEFAULT_SERVER);
 	private static String		serverNode				= DATABASE_SERVER_NAME;
+	private static final String	DATABASE_DBNAME			= System.getProperty("ddisplay.dbdbname", "xoc");
 	private static String		thisNode;
 
 	/**
@@ -79,9 +80,9 @@ public class GenerateNewKeyPair {
 		try {
 
 			String pw = "";
-			for (char C: passwd)
+			for (char C : passwd)
 				pw += C;
-			connection = DriverManager.getConnection("jdbc:mysql://" + serverNode + "/xoc", user, pw);
+			connection = DriverManager.getConnection("jdbc:mysql://" + serverNode + "/" + DATABASE_DBNAME, user, pw);
 			return connection;
 
 		} catch (SQLException ex) {
@@ -90,7 +91,8 @@ public class GenerateNewKeyPair {
 			println(GenerateNewKeyPair.class, " -- VendorError: " + ex.getErrorCode());
 			ex.printStackTrace();
 			if (ex.getMessage().contains("Access denied for user")) {
-				System.err.println("Cannont access the Channel/Display database. DB Host=jdbc:mysql://" + serverNode + "/xoc");
+				System.err.println("Cannont access the Channel/Display database. DB Host=jdbc:mysql://" + serverNode + "/"
+						+ DATABASE_DBNAME);
 				throw new DatabaseNotVisibleException(ex.getMessage());
 			} else {
 				System.err.println("Aborting");
@@ -123,11 +125,9 @@ public class GenerateNewKeyPair {
 				console.printf("Please enter the DB password for user " + userName + ": ");
 				char[] password = console.readPassword();
 
-				
 				OS.writePublicKeyToDatabase(clientName, userName, password);
 				for (int i = 0; i < password.length; i++)
 					password[i] = 0;
-
 
 				System.out.println("Public key has been inserted into the database under client name '" + clientName + "'.");
 			} catch (NoSuchAlgorithmException | IOException e) {
