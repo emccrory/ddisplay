@@ -247,15 +247,22 @@ public class GlobalVariables {
 	 */
 	public static final String		DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", DEFAULT_SERVER);
 	/**
+	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
+	 */
+	public static final String		DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc");
+	/**
+	 * The username for accessing the database
+	 */
+	public static final String		DATABASE_USER_NAME		= System.getProperty("ddisplay.dbusername", "xocuser");
+	/**
+	 * the password corresponding to the username that accesses the database
+	 */
+	public static final String		DATABASE_PASSWORD		= System.getProperty("ddisplay.dbpassword", "DynamicDisplays");
+	/**
 	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
 	 * Controlled by system constant ddisplay.xmlserver
 	 */
 	public static final String		XML_SERVER_NAME			= System.getProperty("ddisplay.xmlserver", DEFAULT_SERVER);
-
-	/**
-	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
-	 */
-	public static final String		DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc");
 	/**
 	 * One second, expressed in milliseconds (e.g., 1000L)
 	 */
