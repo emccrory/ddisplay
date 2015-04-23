@@ -78,10 +78,10 @@ public class ConnectionToFirefoxInstance {
 
 	private static final HashMap<String, String>	colorNames					= GetColorsFromDatabase.get();
 
-	private static final String						BASE_WEB_PAGE				= "http://xoc.fnal.gov/border.php";
-	private static final String						TICKERTAPE_WEB_PAGE			= "http://mccrory.fnal.gov/border1.php";
-	private static final String						EXTRAFRAME_WEB_PAGE			= "http://mccrory.fnal.gov/border2.php";
-	private static final String						EXTRAFRAMENOTICKER_WEB_PAGE	= "http://mccrory.fnal.gov/border3.php";
+	private static final String						BASE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border.php";
+	private static final String						TICKERTAPE_WEB_PAGE			= "http://" + WEB_SERVER_NAME + "/border1.php";
+	private static final String						EXTRAFRAME_WEB_PAGE			= "http://" + WEB_SERVER_NAME + "/border2.php";
+	private static final String						EXTRAFRAMENOTICKER_WEB_PAGE	= "http://" + WEB_SERVER_NAME + "/border3.php";
 
 	/**
 	 * What type of "wrapper" shall we use to show our web pages?
@@ -468,7 +468,7 @@ public class ConnectionToFirefoxInstance {
 			int numRead = in.read(cbuf, 0, DEFAULT_BUFFER_SIZE);
 			lastReplyLine = new String(cbuf).substring(0, numRead - 1);
 			if (debug)
-				println(getClass(), numRead + " chars from server: " + lastReplyLine);
+				println(getClass(), ".waitForServer(): " + numRead + " chars from server: " + lastReplyLine);
 
 			/*
 			 * It looks like the reply expected here is something like this:
@@ -479,7 +479,7 @@ public class ConnectionToFirefoxInstance {
 			 */
 
 			/*
-			 * I have never seen anything returned except the thing described above. So this is a guess.
+			 * Generally, when the return value contains "error", there was a problem.
 			 */
 			connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
 		}
@@ -505,6 +505,13 @@ public class ConnectionToFirefoxInstance {
 			e.printStackTrace();
 			connected = false;
 		}
+	}
+
+	/**
+	 * Force to refresh the controlling URL.
+	 */
+	public void resetURL() {
+		showingCanonicalSite.set(false);		
 	}
 
 }
