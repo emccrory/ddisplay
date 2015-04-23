@@ -135,6 +135,9 @@ public class Channel {
 	public static void main(String[] args) {
 		Path path = FileSystems.getDefault().getPath(args[0]);
 		String xml = "";
+		int limit = 9999;
+		if (args.length > 1)
+			limit = Integer.parseInt(args[1]);
 		try {
 			List<String> lines = Files.readAllLines(path, Charset.defaultCharset());
 			boolean start = false;
@@ -166,7 +169,7 @@ public class Channel {
 			Channel c = (Channel) MyXMLMarshaller.unmarshall(Channel.class, xml);
 
 			System.out.println("<em>" + mychop(c.getTitle()) + " -- " + mychop(c.getCopyright()) + " (" + (new Date()) + ")</em>");
-			if (c.item != null)
+			if (c.item != null) {
 				for (Item I : c.item) {
 					if (I == null || I.getTitle() == null)
 						continue;
@@ -176,7 +179,10 @@ public class Channel {
 						System.out.println("<b>" + mychop(I.getTitle()) + "</b>");
 					else
 						System.out.println("<b>" + mychop(I.getTitle()) + "</b>: " + mychop(I.getDescription()));
+					if (limit-- <= 0)
+						break;
 				}
+			}
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
