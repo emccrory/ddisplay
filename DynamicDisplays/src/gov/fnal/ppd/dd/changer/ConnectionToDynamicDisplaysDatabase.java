@@ -5,7 +5,10 @@
  */
 package gov.fnal.ppd.dd.changer;
 
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_PASSWORD;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_SERVER_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_USER_NAME;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
@@ -88,10 +91,11 @@ public class ConnectionToDynamicDisplaysDatabase {
 			System.exit(1);
 		}
 		try {
-
-			String url = "jdbc:mysql://" + serverNode + "/xoc";
-			String user = "xocuser";
-			String passwd = "DynamicDisplays";
+			String url = "jdbc:mysql://" + serverNode + "/" + DATABASE_NAME;
+			String user = DATABASE_USER_NAME;
+			String passwd = DATABASE_PASSWORD;
+			println(ConnectionToDynamicDisplaysDatabase.class, ":\n\t\t\t\tConnection is through [" + url
+					+ "]\n\t\t\t\twith username [" + user + "] and password (hidden)");
 			connection = DriverManager.getConnection(url, user, passwd);
 			lastConnection = System.currentTimeMillis();
 			return connection;
