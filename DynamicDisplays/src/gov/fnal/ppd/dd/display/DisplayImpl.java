@@ -251,7 +251,7 @@ public abstract class DisplayImpl implements Display {
 		retval += " <b>Location:</b> " + location + "<br />";
 		retval += (getContent() == null ? "<em>No channel selected</em>" : "<b>Channel:</b> '" + getContent().getName() + "'");
 		retval += " <br /><b>IP:</b> (" + getIPAddress() + ")";
-		retval += " <br /><b>Color:</b> " + getPreferredHighlightColor().toString().replace("gov.fnal.ppd.xoc.util.HSBColor", "");
+		retval += " <br /><b>Color:</b> " + getPreferredHighlightColor().toString().replace("gov.fnal.ppd.dd.util.HSBColor", "");
 		return retval;
 	}
 
