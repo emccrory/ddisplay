@@ -23,4 +23,6 @@ java -Dddisplay.selector.inwindow=$window \
      -Dddisplay.selector.public=$public \
      -Dddisplay.messagingserver=$messagingServer \
      -Dddisplay.dbserver=$databaseServer \
+     -Dddisplay.dbusername=$databaseUsername \
+     -Dddisplay.dbpassword=$databasePassword \
      -Xmx512m  gov.fnal.ppd.dd.MakeChannelSelector > ../../log/selector_${d}_$$.log 2>&1  &
