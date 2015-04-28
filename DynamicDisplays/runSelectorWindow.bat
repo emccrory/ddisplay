@@ -3,6 +3,7 @@ call config.cmd
 set "public=false"
 
 java -Dddisplay.selector.inwindow=TRUE ^
+     -Dddisplay.virtualdisplaynumbers=true ^
      -Dddisplay.selector.public=%public% ^
      -Dddisplay.messagingserver=%messagingServer% ^
      -Dddisplay.dbserver=%databaseServer% ^
