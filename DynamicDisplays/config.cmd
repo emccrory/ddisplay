@@ -15,7 +15,7 @@ set /p dp=
 
 set "databaseServer=%ds%:%dport%"
 set databaseName=%dn%
-set databaseUsername=%dn%
-set datbasePassword=%dp%
+set databaseUsername=%du%
+set databasePassword=%dp%
 
 

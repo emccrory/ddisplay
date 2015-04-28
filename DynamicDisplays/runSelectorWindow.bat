@@ -6,5 +6,8 @@ java -Dddisplay.selector.inwindow=TRUE ^
      -Dddisplay.selector.public=%public% ^
      -Dddisplay.messagingserver=%messagingServer% ^
      -Dddisplay.dbserver=%databaseServer% ^
+     -Dddisplay.dbname=%databaseName% ^
+	 -Dddisplay.dbusername=%databaseUsername% ^
+	 -Dddisplay.dbpassword=%databasePassword% ^
      -Xmx512m gov.fnal.ppd.dd.MakeChannelSelector 
 
