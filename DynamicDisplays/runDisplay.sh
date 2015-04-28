@@ -13,6 +13,27 @@ d=`date +%F`
 
 log=../../log/display_${d}_$$.log
 
+# Do not begin until we can ping the database server
+
+dbs=`echo $databaseServer | sed 's/:/ /g' | awk '{ print $1 }'`
+C=0
+{
+    while [ $C -lt 30 ]; do
+	if ping -c 1 $dbs 
+	then
+	    break
+	else
+	    echo Waiting for DB server $dbs to be visible
+	    sleep 5;
+	fi
+	let C=C+1;
+    done
+    if [ $C -ge 30 ]; then
+	echo Database server is not reachable.  Goodbye.
+	exit
+    fi
+} 2>&1 >> $log
+
 MyName=`uname -n`
 WrapperType=NORMAL
 
@@ -47,4 +68,4 @@ fi
 	-Dddisplay.wrappertype=$WrapperType \
 	-Xmx512m gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox -screen=$screenNum 
 
-} 2>&1 > $log
+} 2>&1 >> $log

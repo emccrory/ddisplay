@@ -404,6 +404,11 @@ public class MessagingServer {
 				}
 			}
 
+			if ( ObjectSigning.dropClient(this.username) ) 
+				display(this.getClass().getSimpleName() + ": '" + this.username + "' Removed from ObjectSigning cache");
+			else 
+				display(this.getClass().getSimpleName() + ": '" + this.username + "' NOT IN THE ObjectSigning cache");
+			
 			display(this.getClass().getSimpleName() + ": Number of remaining clients: " + listOfMessagingClients.size());
 			close();
 		}

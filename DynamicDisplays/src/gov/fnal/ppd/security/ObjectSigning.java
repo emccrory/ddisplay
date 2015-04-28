@@ -65,7 +65,7 @@ public class ObjectSigning {
 	private static Map<String, List<String>>	clientControlList	= new HashMap<String, List<String>>();
 
 	/**
-	 * @return the instance of this ObjectSigning object for this JVM 
+	 * @return the instance of this ObjectSigning object for this JVM
 	 */
 	public static ObjectSigning getInstance() {
 		return me;
@@ -84,7 +84,7 @@ public class ObjectSigning {
 	// disk of the sender, but not in a place that can normally be read. For example, ~/.keystore
 
 	/**
-	 * Initialize the object signing mechanism -- PRIVATE class.  Use getInstance();
+	 * Initialize the object signing mechanism -- PRIVATE class. Use getInstance();
 	 */
 	private ObjectSigning() {
 		try {
@@ -111,6 +111,21 @@ public class ObjectSigning {
 		}
 		keys.remove(client);
 		return null;
+	}
+
+	/**
+	 * Remove a client from the cache of public keys so it can reconnect with different credentials
+	 * 
+	 * @param client
+	 *            The name of the client to remove
+	 * @return if this client was actually in the list.
+	 */
+	public static boolean dropClient(final String client) {
+		if (keys.containsKey(client) && keys.get(client) != null) {
+			keys.remove(client);
+			return true;
+		}
+		return false;
 	}
 
 	/**

@@ -264,9 +264,6 @@ public class ConnectionToFirefoxInstance {
 			// e.printStackTrace();
 			// }
 
-			// send("window.location=\"http://mccrory.fnal.gov/border.php?url=" + URLEncoder.encode(urlString) + "&display="
-			// + displayID + "&color=" + colorCode + "\";\n");
-
 			// An experiment: Can I turn off the scroll bars? The answer is no (it seems)
 			// send("document.documentElement.style.overflow = 'hidden';\n");
 			// send("document.body.scroll='no';\n");

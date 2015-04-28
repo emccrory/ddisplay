@@ -223,7 +223,7 @@ public class GlobalVariables {
 	/**
 	 * The location of the default server for everything in this system
 	 */
-	public static final String		DEFAULT_SERVER			= "mccrory.fnal.gov";
+	public static final String		DEFAULT_SERVER			= "xoc.fnal.gov";
 
 	/**
 	 * Where is the messaging server? Controlled by system constant, ddisplay.messagingserver
@@ -245,7 +245,7 @@ public class GlobalVariables {
 	/**
 	 * Where is the Database server? Controlled by system constant ddisplay.dbserver
 	 */
-	public static final String		DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", DEFAULT_SERVER);
+	public static final String		DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", "fnalmysqldev.fnal.gov:3311");
 	/**
 	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
 	 */
@@ -255,9 +255,10 @@ public class GlobalVariables {
 	 */
 	public static final String		DATABASE_USER_NAME		= System.getProperty("ddisplay.dbusername", "xocuser");
 	/**
-	 * the password corresponding to the username that accesses the database
+	 * the password corresponding to the username that accesses the database.  Note that this MUST be entered by hand for each
+	 * time one runs an application.  (This is not the actual password.)
 	 */
-	public static final String		DATABASE_PASSWORD		= System.getProperty("ddisplay.dbpassword", "DynamicDisplays");
+	public static final String		DATABASE_PASSWORD		= System.getProperty("ddisplay.dbpassword", "I'm not telling :-)");
 	/**
 	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
 	 * Controlled by system constant ddisplay.xmlserver
