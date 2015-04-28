@@ -109,7 +109,7 @@ public class DisplayButtons extends JPanel {
 	// private static List<Display> displayList;
 	static final int				INSET_SIZE				= 5;
 	static final float				LOCAL_FONT_SIZE			= 40.0f;
-	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 20;
+	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 30;
 	private static final long		serialVersionUID		= 4096502469001848381L;
 	protected static final Color	sliderBG				= new Color(0xe0e0e0);
 	static final float				WINDOW_FONT_SIZE		= 12.0f;
@@ -121,6 +121,8 @@ public class DisplayButtons extends JPanel {
 	 *            The Display to use for this tool tip
 	 */
 	public static void setToolTip(final Display disp) {
+		if (buttonList.size() == 0)
+			return;
 		int index = 0;
 		for (Display d : displayList) {
 			if (d == disp) {
@@ -159,6 +161,7 @@ public class DisplayButtons extends JPanel {
 		if (displayList.size() <= MAXIMUM_DISPLAY_BUTTONS)
 			makeScreenGrid();
 		else
+			// TODO -- Things have changed a lot since this was first implemented--there are some problems now!
 			makeScreenGridSlider();
 		if (SHOW_IN_WINDOW)
 			setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
