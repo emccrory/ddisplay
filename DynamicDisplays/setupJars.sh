@@ -27,3 +27,4 @@ export databasePassword=${array[4]}
 
 # echo $databaseServer $databaseUsername $databasePassword 
 
+export PATH=$PATH:/Applications/Firefox.app/Contents/MacOS

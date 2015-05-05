@@ -4,6 +4,8 @@ set classpath=bin;lib/mysql-connector-java-5.1.27.jar;lib/slf4j-api-1.5.8.jar;li
 
 set "messagingServer=roc-w-11.fnal.gov"
 
+set HOME=\Users\%USERNAME%.FERMI
+
 :read
 ( 
 set /p ds=
@@ -11,7 +13,7 @@ set /p dport=
 set /p dn=
 set /p du=
 set /p dp=
-) <%HOMEPATH%\keystore\credentials.txt
+) <%HOME%\keystore\credentials.txt
 
 set "databaseServer=%ds%:%dport%"
 set databaseName=%dn%
