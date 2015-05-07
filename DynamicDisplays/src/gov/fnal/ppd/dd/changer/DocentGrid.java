@@ -7,8 +7,7 @@ package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_FOLDER;
-import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -223,7 +222,7 @@ public class DocentGrid extends DetailedInformationGrid {
 					String descr = ConnectionToDynamicDisplaysDatabase.makeString(rsPort.getAsciiStream("Description"));
 					String exp = ConnectionToDynamicDisplaysDatabase.makeString(rsPort.getAsciiStream("Experiment"));
 
-					String url = "http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/portfolioOneSlide.php?photo="
+					String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo="
 							+ URLEncoder.encode(name, "UTF-8") + "&caption=" + URLEncoder.encode(descr, "UTF-8");
 					SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
 
@@ -268,7 +267,7 @@ public class DocentGrid extends DetailedInformationGrid {
 					if (content instanceof ChannelImage) {
 						ChannelImage imageChannel = (ChannelImage) content;
 						String name = imageChannel.getName(); // This is the URL end
-						String url = "http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/" + name;
+						String url = getFullURLPrefix() + "/" + name;
 						// if (index++ % 10 == 0)
 						// System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): resizing " + index + " -- " +
 						// url);
