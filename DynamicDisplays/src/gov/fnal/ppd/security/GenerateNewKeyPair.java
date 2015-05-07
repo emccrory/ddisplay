@@ -5,8 +5,6 @@
  */
 package gov.fnal.ppd.security;
 
-import static gov.fnal.ppd.dd.util.Util.println;
-
 import java.io.Console;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,6 +22,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 /**
  * <p>
@@ -100,6 +99,16 @@ public class GenerateNewKeyPair {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @param clazz
+	 *            The type of the caller
+	 * @param message
+	 *            the message to print
+	 */
+	private static void println(Class<?> clazz, String message) {
+		System.out.println(new Date() + " -- " + clazz.getSimpleName() + message);
 	}
 
 	/**
