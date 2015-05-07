@@ -1,5 +1,6 @@
 package gov.fnal.ppd.dd.display.client;
 
+import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;
 import static gov.fnal.ppd.dd.GlobalVariables.DEFAULT_DWELL_TIME;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -221,6 +222,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 *            Expect one command line argument
 	 */
 	public static void main(final String[] args) {
+		getMessagingServerNameDisplay();
+		
 		@SuppressWarnings("unused")
 		DisplayAsConnectionToFireFox add;
 

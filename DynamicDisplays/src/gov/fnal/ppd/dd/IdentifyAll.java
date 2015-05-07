@@ -38,7 +38,7 @@ public class IdentifyAll implements ActionListener {
 
 	private static float		fontSize;
 	private static Insets		inset			= null;
-	private static String		title			= "Identify All Displays: " + getLocationName(locationCode);
+	private static String		title			= "Identify All Displays: " + getLocationName();
 
 	private List<Display>		displays;
 

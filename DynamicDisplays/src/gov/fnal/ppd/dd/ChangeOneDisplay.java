@@ -90,7 +90,8 @@ public class ChangeOneDisplay {
 			}
 
 			InetAddress ip = InetAddress.getLocalHost();
-			String query = "SELECT * FROM SelectorLocation where IPAddress='" + ip.getHostAddress() + "'";
+			String ipName = ip.getHostName().replace(".dhcp", "");
+			String query = "SELECT * FROM SelectorLocation where IPName='" + ipName + "'";
 			try (ResultSet rs = stmt.executeQuery(query);) {
 				if (rs.first())
 					try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)

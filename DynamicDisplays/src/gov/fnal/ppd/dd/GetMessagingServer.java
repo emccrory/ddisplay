@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class GetMessagingServer {
+	private static final String	ms	= System.getProperty("ddisplay.messagingserver", "X");
 
 	private GetMessagingServer() {
 	}
@@ -25,32 +26,37 @@ public class GetMessagingServer {
 	}
 
 	private static String getMessagingServerName(String table) {
-		Connection connection = null;
-		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-		} catch (DatabaseNotVisibleException e1) {
-			e1.printStackTrace();
-			System.err.println("\nNo connection to the Signage/Displays database.");
-			System.exit(-1);
-		}
-
-		// Use ARM to simplify these try blocks.
-		try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-
-			InetAddress ip = InetAddress.getLocalHost();
-			String query = "select MessagingServerName from LocationInformation," + table + " where "
-					+ "LocationInformation.LocationCode=" + table + ".LocationCode and IPName='"
-					+ ip.getHostName().replace(".dhcp", "") + "'";
-			try (ResultSet rs2 = stmt.executeQuery(query);) {
-				if (rs2.first()) {
-					messagingServerName = rs2.getString("MessagingServerName");
-					System.out.println("MessagingServer= " + messagingServerName);
-				}
+		if (ms.equals("X")) {
+			System.err.println("Overriding messaging server to be '" + ms + "'");
+			messagingServerName = ms;
+		} else {
+			Connection connection = null;
+			try {
+				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			} catch (DatabaseNotVisibleException e1) {
+				e1.printStackTrace();
+				System.err.println("\nNo connection to the Signage/Displays database.");
+				System.exit(-1);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
+
+			// Use ARM to simplify these try blocks.
+			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+
+				InetAddress ip = InetAddress.getLocalHost();
+				String query = "select MessagingServerName from LocationInformation," + table + " where "
+						+ "LocationInformation.LocationCode=" + table + ".LocationCode and IPName='"
+						+ ip.getHostName().replace(".dhcp", "") + "'";
+				try (ResultSet rs2 = stmt.executeQuery(query);) {
+					if (rs2.first()) {
+						messagingServerName = rs2.getString("MessagingServerName");
+						System.out.println("MessagingServer= " + messagingServerName);
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
 		}
 		return messagingServerName;
 	}

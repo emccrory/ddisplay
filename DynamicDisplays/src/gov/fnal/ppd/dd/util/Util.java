@@ -6,8 +6,7 @@
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
-import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_FOLDER;
-import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.signage.Display;
@@ -36,17 +35,16 @@ public class Util {
 	/**
 	 * The list of default URLs
 	 */
-	public static final String		DEFAULT_URLS[]	= {
-			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=MINOS",
-			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=MINERvA",
-			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=MiniBooNE",
-			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=MicroBooNE",
-			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=Mu2e",
-			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=gMinus2",
-			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=SeaQuest",
-			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=NOvA",
-			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=DUNE-LBNF",
-			"http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/kenburns/portfolioDisplay.php?exp=NuMI", //
+	public static final String		DEFAULT_URLS[]	= { getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MINOS",
+			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MINERvA",
+			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MiniBooNE",
+			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MicroBooNE",
+			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=Mu2e",
+			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=gMinus2",
+			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=SeaQuest",
+			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NOvA",
+			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=DUNE-LBNF",
+			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NuMI", //
 			"http://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none", //
 			"http://elliottmccrory.com/clock/five.html", };
 

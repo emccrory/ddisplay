@@ -5,9 +5,9 @@
  */
 package gov.fnal.ppd.dd.util;
 
-import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
+import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.chat.MessagingClient;
@@ -65,7 +65,7 @@ public class WhoIsInChatRoom extends Thread {
 			final String myName = InetAddress.getLocalHost().getCanonicalHostName() + "_" + ran;
 
 			System.out.println("\n**Starting messaging client named '" + myName + "' for listening to who is in the system");
-			client = new MessagingClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName) {
+			client = new MessagingClient(getMessagingServerName(), MESSAGING_SERVER_PORT, myName) {
 				@Override
 				public void displayIncomingMessage(final MessageCarrier msg) {
 					String clientName = msg.getFrom();

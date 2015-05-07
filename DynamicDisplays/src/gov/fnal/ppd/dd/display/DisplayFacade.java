@@ -1,9 +1,9 @@
 package gov.fnal.ppd.dd.display;
 
-import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
+import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
@@ -173,7 +173,7 @@ public class DisplayFacade extends DisplayImpl {
 		// }
 		System.out.println(DisplayFacade.class.getSimpleName() + ": The messaging name of Display " + vNumber + "/" + dbNumber
 				+ " is expected to be '" + myExpectedName + "'");
-		FacadeMessagingClient.registerClient(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myExpectedName, this);
+		FacadeMessagingClient.registerClient(getMessagingServerName(), MESSAGING_SERVER_PORT, myExpectedName, this);
 		FacadeMessagingClient.addListener(this);
 		FacadeMessagingClient.doStart();
 	}

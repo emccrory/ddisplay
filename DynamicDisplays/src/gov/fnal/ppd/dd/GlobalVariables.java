@@ -113,50 +113,10 @@ public class GlobalVariables {
 	}
 
 	/**
-	 * Which set of Displays are we controlling here? Controlled by system constant, ddisplay.selector.location
-	 */
-	public static int			locationCode			= Integer.getInteger("ddisplay.selector.location", 0);
-
-	/**
-	 * Short name for the location of the displays
-	 */
-	private static String[]		locationName			= { "ROC-West", "ROC-East", "Elliott's Office Test", "WH Second Floor",
-			"Fermilab"									};
-
-	/**
-	 * Long name for the location of the displays
-	 */
-	private static String[]		locationDescription		= { "Fermilab Experiments' Remote Operations Center, West Side",
-			"Fermilab CMS/LHC Remote Operations Center, East Side", //
-			"Fermilab Transfer Gallery", //
-			"Second Floor of Wilson Hall", "All Dynamic Displays at Fermilab", //
-														};
-
-	/**
-	 * @param index
-	 * @return the location (short) name corresponding to this index value
-	 */
-	public static String getLocationName(final int index) {
-		if (index < 0 || index >= locationName.length)
-			return locationName[locationName.length - 1];
-		return locationName[index];
-	}
-
-	/**
 	 * @return Should the display show its number (all the time) on itself?
 	 */
 	public static boolean showNumberOnDisplay() {
 		return locationCode != 3;
-	}
-
-	/**
-	 * @param index
-	 * @return The location (long) description corresponding to this index value
-	 */
-	public static String getLocationDescription(final int index) {
-		if (index < 0 || index >= locationDescription.length)
-			return locationDescription[locationDescription.length - 1];
-		return locationDescription[index];
 	}
 
 	/**
@@ -225,10 +185,11 @@ public class GlobalVariables {
 	 */
 	public static final String		DEFAULT_SERVER			= "xoc.fnal.gov";
 
-	/**
-	 * Where is the messaging server? Controlled by system constant, ddisplay.messagingserver
-	 */
-	public static final String		MESSAGING_SERVER_NAME	= System.getProperty("ddisplay.messagingserver", DEFAULT_SERVER);
+	// /**
+	// * Where is the messaging server? Controlled by system constant, ddisplay.messagingserver
+	// */
+	// public static final String MESSAGING_SERVER_NAME = System.getProperty("ddisplay.messagingserver", DEFAULT_SERVER);
+
 	/**
 	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) prime number in the range of unassigned
 	 * port number (49152 - 65535) Controlled by system constant ddisplay.messagingserver
@@ -241,72 +202,82 @@ public class GlobalVariables {
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	public static final String		WEB_SERVER_FOLDER		= System.getProperty("ddisplay.webfolder", "XOC");
+	private static final String		WEB_SERVER_FOLDER		= System.getProperty("ddisplay.webfolder", "XOC");
+
+	/**
+	 * @return The web server prefix, dealing with whether or not there is a folder in there, too.
+	 */
+	public static final String getFullURLPrefix() {
+		if (WEB_SERVER_FOLDER.length() > 0)
+			return "http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER;
+		return "http://" + WEB_SERVER_NAME;
+	}
+
 	/**
 	 * Where is the Database server? Controlled by system constant ddisplay.dbserver
 	 */
-	public static final String		DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", "fnalmysqldev.fnal.gov:3311");
+	public static final String	DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", "fnalmysqldev.fnal.gov:3311");
 	/**
 	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
 	 */
-	public static final String		DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc");
+	public static final String	DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc");
 	/**
 	 * The username for accessing the database
 	 */
-	public static final String		DATABASE_USER_NAME		= System.getProperty("ddisplay.dbusername", "xocuser");
+	public static final String	DATABASE_USER_NAME		= System.getProperty("ddisplay.dbusername", "xocuser");
 	/**
-	 * the password corresponding to the username that accesses the database.  Note that this MUST be entered by hand for each
-	 * time one runs an application.  (This is not the actual password.)
+	 * the password corresponding to the username that accesses the database. Note that this MUST be entered by hand for each time
+	 * one runs an application. (This is not the actual password.)
 	 */
-	public static final String		DATABASE_PASSWORD		= System.getProperty("ddisplay.dbpassword", "I'm not telling :-)");
+	public static final String	DATABASE_PASSWORD		= System.getProperty("ddisplay.dbpassword", "I'm not telling :-)");
 	/**
 	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
 	 * Controlled by system constant ddisplay.xmlserver
 	 */
-	public static final String		XML_SERVER_NAME			= System.getProperty("ddisplay.xmlserver", DEFAULT_SERVER);
+	public static final String	XML_SERVER_NAME			= System.getProperty("ddisplay.xmlserver", DEFAULT_SERVER);
 	/**
 	 * One second, expressed in milliseconds (e.g., 1000L)
 	 */
-	public static final long		ONE_SECOND				= 1000L;
+	public static final long	ONE_SECOND				= 1000L;
 	/**
 	 * One Minute, expressed in milliseconds (e.g., 60000L)
 	 */
-	public static final long		ONE_MINUTE				= 60L * ONE_SECOND;
+	public static final long	ONE_MINUTE				= 60L * ONE_SECOND;
 	/**
 	 * 15 minutes, expressed in milliseconds (e.g., 900000L)
 	 */
-	public static final long		FIFTEEN_MINUTES			= 15L * ONE_MINUTE;
+	public static final long	FIFTEEN_MINUTES			= 15L * ONE_MINUTE;
 	/**
 	 * One hour, expressed in milliseconds (e.g., 3600000L)
 	 */
-	public static final long		ONE_HOUR				= 60L * ONE_MINUTE;
+	public static final long	ONE_HOUR				= 60L * ONE_MINUTE;
 	/**
 	 * One day (24 hours), expressed in milliseconds (e.g., 86400000L)
 	 */
-	public static final long		ONE_DAY					= 24L * ONE_HOUR;
+	public static final long	ONE_DAY					= 24L * ONE_HOUR;
 	/**
 	 * Used in ChannelSelector to go to the splash screen
 	 */
-	public static final long		INACTIVITY_TIMEOUT		= 120L * ONE_SECOND;
+	public static final long	INACTIVITY_TIMEOUT		= 120L * ONE_SECOND;
 	/**
 	 * Used in ChannelSelector
 	 */
-	public static final long		PING_INTERVAL			= 5L * ONE_SECOND;
+	public static final long	PING_INTERVAL			= 5L * ONE_SECOND;
 
 	/**
 	 * An identifier for the display facades
 	 */
-	public static String			PROGRAM_NAME			= "ChannelSelector";
+	public static String		PROGRAM_NAME			= "ChannelSelector";
 
 	/**
 	 * The string that means "show me your colors"
 	 */
-	public static final String		SELF_IDENTIFY			= "http://identify";
+	public static final String	SELF_IDENTIFY			= "http://identify";
 
 	/**
 	 * The list of Displays in this instance of whatever program you are running. This is used in a couple of places.
 	 */
-	public static List<Display>		displayList;
+	public static List<Display>	displayList;
 
 	/**
 	 * <p>
@@ -319,7 +290,75 @@ public class GlobalVariables {
 	 * <ol>
 	 * </p>
 	 */
-	public static final long		DEFAULT_DWELL_TIME		= 2 * ONE_HOUR;
+	public static final long	DEFAULT_DWELL_TIME		= 2 * ONE_HOUR;
+
+	/**
+	 * Which set of Displays are we controlling here? Controlled by system constant, ddisplay.selector.location
+	 */
+	public static int			locationCode			= Integer.getInteger("ddisplay.selector.location", 0);
+
+	/**
+	 * Short name for the location of the displays
+	 */
+	private static String		locationName;
+	// {
+	// "ROC-West",
+	// "ROC-East",
+	// "Elliott's Office Test",
+	// "WH Second Floor",
+	// "Accelerator Division",
+	// "FESS Operations",
+	// "Fermilab"
+	// };
+
+	/**
+	 * Long name for the location of the displays
+	 */
+	private static String		locationDescription;
+
+	// { "Fermilab Experiments' Remote Operations Center, West Side",
+	// "Fermilab CMS/LHC Remote Operations Center, East Side", //
+	// "Fermilab Transfer Gallery", //
+	// "Second Floor of Wilson Hall", //
+	// "Accelerator Division Computer Room Displays", //
+	// "FESS Operations at Site 38", //
+	// "All Dynamic Displays at Fermilab", //
+	// };
+
+	/**
+	 * @param index
+	 * @return the location (short) name corresponding to this index value
+	 */
+	public static String getLocationName() {
+		checkName(); 
+		return locationName;
+	}
+
+	/**
+	 * @param index
+	 * @return The location (long) description corresponding to this index value
+	 */
+	public static String getLocationDescription() {
+		checkName(); // Be sure to read the database
+		return locationDescription;
+	}
+
+	private static void checkName() {
+		if (messagingServerName == null) {
+			System.err.println("ERROR in construction of your program!  You have to run "
+					+ GetMessagingServer.class.getCanonicalName() + ".getMessagingServerName*() (where * is either "
+					+ "Selector or Display, depending on what you are) first");
+			System.exit(-1);
+		}
+
+	}
+
+	static String	messagingServerName	= null;
+
+	public static String getMessagingServerName() {
+		checkName(); 
+		return messagingServerName;
+	}
 
 	private GlobalVariables() {
 	}

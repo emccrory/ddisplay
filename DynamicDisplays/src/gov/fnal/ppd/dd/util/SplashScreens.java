@@ -15,7 +15,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.imageHeight;
 import static gov.fnal.ppd.dd.GlobalVariables.imageNames;
 import static gov.fnal.ppd.dd.GlobalVariables.imageWidth;
 import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
-import static gov.fnal.ppd.dd.GlobalVariables.locationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.offsets;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
@@ -104,9 +103,9 @@ public class SplashScreens extends Thread {
 				h = 100;
 			// System.out.println("Splash screen " + index + " has vertical offset of " + h);
 			splash.add(Box.createRigidArea(new Dimension(100, h)));
-			splash.add(new JLabelCenter("   Welcome to " + getLocationName(locationCode) + "!   ", headline));
+			splash.add(new JLabelCenter("   Welcome to " + getLocationName() + "!   ", headline));
 			splash.add(Box.createRigidArea(new Dimension(50, gap)));
-			splash.add(new JLabelCenter("   " + getLocationDescription(locationCode) + "   ", subHead));
+			splash.add(new JLabelCenter("   " + getLocationDescription() + "   ", subHead));
 			splash.add(Box.createRigidArea(new Dimension(50, gap)));
 			splash.add(new JLabelCenter("<html><em>Touch to continue</em></html>", subHead));
 			if (index == splashWithCredits0 || index == splashWithCredits1) {

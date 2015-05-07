@@ -2,9 +2,9 @@ package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
-import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
+import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -83,7 +83,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			throw new IllegalArgumentException("No content defined!");
 
 		myName = ipName + ":" + screenNumber + " (" + getVirtualDisplayNumber() + ")";
-		messagingClient = new MessagingClientLocal(MESSAGING_SERVER_NAME, MESSAGING_SERVER_PORT, myName);
+		messagingClient = new MessagingClientLocal(getMessagingServerName(), MESSAGING_SERVER_PORT, myName);
 		// , getVirtualDisplayNumber(), getScreenNumber());
 	}
 
@@ -287,7 +287,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
 						Color color = new Color(Integer.parseInt(colorString, 16));
 
-						int portNumber = rs.getInt("Port");
+						// int portNumber = rs.getInt("Port");
+						int portNumber = 0;  // NOT USED like this.  The "Port number" has become the LocationCode
 						int screenNumber = rs.getInt("ScreenNumber");
 						int channelNumber = rs.getInt("Content");
 						SignageContent cont = getChannelFromNumber(channelNumber);

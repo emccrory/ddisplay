@@ -6,6 +6,7 @@
 package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
+import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
@@ -45,6 +46,8 @@ public class MakeChannelSelector {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
+		boolean missing = true;
+		getMessagingServerNameSelector();
 
 		Connection connection = null;
 		try {
@@ -56,18 +59,16 @@ public class MakeChannelSelector {
 		}
 
 		// Use ARM to simplify these try blocks.
-		try (Statement stmt = connection.createStatement();) {
-			try (ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME)) {
-			}
+		try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
 
 			InetAddress ip = InetAddress.getLocalHost();
-			String query = "SELECT * FROM SelectorLocation where IPAddress='" + ip.getHostAddress() + "'";
-			try (ResultSet rs = stmt.executeQuery(query);) {
-				if (rs.first())
+			String query = "SELECT * FROM SelectorLocation where IPName='" + ip.getHostName().replace(".dhcp", "") + "'";
+			try (ResultSet rs2 = stmt.executeQuery(query);) {
+				if (rs2.first())
 					try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)
-						locationCode = rs.getInt("LocationCode");
+						locationCode = rs2.getInt("LocationCode");
 						System.out.println("Location code is " + locationCode);
-						String myClassification = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
+						String myClassification = ConnectionToDynamicDisplaysDatabase.makeString(rs2.getAsciiStream("Type"));
 
 						IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
 
@@ -110,7 +111,7 @@ public class MakeChannelSelector {
 							f.setSize(screenDimension);
 						}
 						f.setVisible(true);
-
+						missing = false;
 					} catch (Exception e) {
 						e.printStackTrace();
 						System.exit(-2);
@@ -122,7 +123,12 @@ public class MakeChannelSelector {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 			System.exit(-4);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-5);
 		}
+		if (missing)
+			JOptionPane.showMessageDialog(null, "This device is not listed in the Dynamics Display database; "
+					+ "It cannot start an instance of ChannelSelector.", "Cannot Continue", JOptionPane.ERROR_MESSAGE);
 	}
-
 }
