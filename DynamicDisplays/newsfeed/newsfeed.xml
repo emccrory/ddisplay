@@ -15,9 +15,9 @@ en-us</language>
 <copyright>
 Copyright 2015 The New York Times Company</copyright>
 <pubDate>
-Thu, 07 May 2015 20:58:33 GMT</pubDate>
+Thu, 07 May 2015 21:49:15 GMT</pubDate>
 <lastBuildDate>
-Thu, 07 May 2015 20:58:33 GMT</lastBuildDate>
+Thu, 07 May 2015 21:49:15 GMT</lastBuildDate>
 <ttl>
 2</ttl>
 <image>
@@ -28,6 +28,51 @@ http://graphics8.nytimes.com/images/misc/NYT_logo_rss_250x40.png</url>
 <link>
 http://www.nytimes.com/pages/index.html?partner=rss&amp;emc=rss</link>
 </image>
+<item>
+<link href="http://www.nytimes.com/2015/05/08/world/europe/britain-election.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+British Exit Poll Projects Gains for Conservatives</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/46181e70/sc/3/l/0L0Snytimes0N0C20A150C0A50C0A80Cworld0Ceurope0Cbritain0Eelection0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Prime Minister David Cameron’s party appeared to have won 316 seats, according to the poll, 10 short of the 326 necessary to win an outright majority.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Cameron, David</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Miliband, Edward S</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Conservative Party (Great Britain)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Great Britain</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Elections</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Labour Party (Great Britain)</category>
+<pubDate>
+Thu, 07 May 2015 21:35:31 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/08/world/europe/britain-election.html</guid>
+<creator>
+STEVEN ERLANGER and STEPHEN CASTLE</creator>
+<credit scheme="urn:ebu">
+Justin Tallis/Agence France-Presse — Getty Images</credit>
+<description>
+Nuns after casting their votes in London on Thursday.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/world/08UKelection2-web/08UKelection2-web-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/live/uk-elections-2015/?partner=rss&amp;emc=rss" rel="standout" />
+<title />
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/461a0501/sc/7/l/0L0Snytimes0N0Clive0Cuk0Eelections0E20A150C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+</description>
+<pubDate>
+Thu, 07 May 2015 21:17:51 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/live/uk-elections-2015/</guid>
+<creator />
+</item>
 <item>
 <link href="http://www.nytimes.com/2015/05/08/arts/music/review-mariah-carey-and-her-cant-look-away-debut-in-las-vegas.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
@@ -45,7 +90,7 @@ Las Vegas (Nev)</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
 Carey, Mariah</category>
 <pubDate>
-Thu, 07 May 2015 20:56:51 GMT</pubDate>
+Thu, 07 May 2015 20:56:52 GMT</pubDate>
 <guid isPermaLink="false">
 http://www.nytimes.com/2015/05/08/arts/music/review-mariah-carey-and-her-cant-look-away-debut-in-las-vegas.html</guid>
 <creator>
@@ -522,61 +567,6 @@ Donald Miralle/Donald Miralle, via Getty Images</credit>
 <description>
 Tom Brady with the Patriots' backup quarterback Jimmy Garoppolo.</description>
 <content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/sports/08penalties-web/08penalties-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/08/us/nsa-phone-records-collection-ruled-illegal-by-appeals-court.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-N.S.A. Phone Data Collection Is Illegal, Appeals Court Rules</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4618e62c/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A80Cus0Cnsa0Ephone0Erecords0Ecollection0Eruled0Eillegal0Eby0Eappeals0Ecourt0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The judges ruled that the U.S.A. Patriot Act cannot be legitimately interpreted to permit the systematic gathering of domestic calling records.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Decisions and Verdicts</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Courts and the Judiciary</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Appeals Courts (US)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-USA PATRIOT Act</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Lynch, Gerard E</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-National Security Agency</category>
-<pubDate>
-Thu, 07 May 2015 17:36:23 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/us/nsa-phone-records-collection-ruled-illegal-by-appeals-court.html</guid>
-<creator>
-CHARLIE SAVAGE and JONATHAN WEISMAN</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/08/business/international/alibaba-q4-earnings-new-ceo.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Alibaba Names New Chief Executive and Reports Revenue Rise</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/46174572/sc/21/l/0L0Snytimes0N0C20A150C0A50C0A80Cbusiness0Cinternational0Calibaba0Eq40Eearnings0Enew0Eceo0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The Chinese e-commerce giant said its chief operating officer would succeed its chief executive, Jonathan Lu, who will remain on the board.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Science and Technology</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Alibaba.com</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Alibaba Group Holding Ltd.</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Computers and the Internet</category>
-<pubDate>
-Thu, 07 May 2015 17:02:51 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/business/international/alibaba-q4-earnings-new-ceo.html</guid>
-<creator>
-PAUL MOZUR</creator>
-<credit scheme="urn:ebu">
-Aly Song/Reuters</credit>
-<description>
-Alibaba said that its chief operating officer, Daniel Zhang will replace Jonathan Lu as chief executive on Sunday.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/10/business/alibaba-web1/alibaba-web1-moth.jpg" />
 </item>
 </channel>
 </rss>

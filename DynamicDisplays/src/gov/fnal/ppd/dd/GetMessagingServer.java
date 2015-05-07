@@ -26,7 +26,7 @@ public class GetMessagingServer {
 	}
 
 	private static String getMessagingServerName(String table) {
-		if (ms.equals("X")) {
+		if (!ms.equals("X")) {
 			System.err.println("Overriding messaging server to be '" + ms + "'");
 			messagingServerName = ms;
 		} else {
@@ -68,7 +68,10 @@ public class GetMessagingServer {
 		return getMessagingServerName("SelectorLocation");
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
 		getMessagingServerNameDisplay();
 	}
 }
