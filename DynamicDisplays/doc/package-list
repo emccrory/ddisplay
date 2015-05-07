@@ -1,15 +1,1 @@
 gov.fnal.ppd.dd
-gov.fnal.ppd.dd.changer
-gov.fnal.ppd.dd.channel
-gov.fnal.ppd.dd.chat
-gov.fnal.ppd.dd.display
-gov.fnal.ppd.dd.display.client
-gov.fnal.ppd.dd.signage
-gov.fnal.ppd.dd.testing
-gov.fnal.ppd.dd.util
-gov.fnal.ppd.dd.util.attic
-gov.fnal.ppd.dd.util.attic.jxbrowser
-gov.fnal.ppd.dd.util.attic.xml
-gov.fnal.ppd.dd.xml
-gov.fnal.ppd.dd.xml.news
-gov.fnal.ppd.security

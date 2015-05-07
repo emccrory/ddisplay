@@ -47,6 +47,15 @@ if [ "$1 X" != " X" ]; then
     screenNum=$1;
 fi
 {
+# Get the messaging server for me
+
+    messagingServer=`java -Dddisplay.dbserver=$databaseServer \
+			-Dddisplay.dbname=$databaseName \
+			-Dddisplay.dbusername=$databaseUsername \
+			-Dddisplay.dbpassword=$databasePassword \
+			-Xmx512m gov.fnal.ppd.dd.GetMessagingServer | grep "MessagingServer=" | awk '{ print $2 }'`
+
+
     /bin/date
     # Is this node the messaging server??
     if [ $messagingServer = $MyName ]; then

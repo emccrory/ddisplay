@@ -326,7 +326,6 @@ public class GlobalVariables {
 	// };
 
 	/**
-	 * @param index
 	 * @return the location (short) name corresponding to this index value
 	 */
 	public static String getLocationName() {
@@ -335,7 +334,6 @@ public class GlobalVariables {
 	}
 
 	/**
-	 * @param index
 	 * @return The location (long) description corresponding to this index value
 	 */
 	public static String getLocationDescription() {
