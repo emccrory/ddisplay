@@ -62,7 +62,7 @@ public class MakeChannelSelector {
 		try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
 
 			InetAddress ip = InetAddress.getLocalHost();
-			myIPName = ip.getHostName().replace(".dhcp", "");
+			myIPName = ip.getCanonicalHostName().replace(".dhcp", "");
 			String query = "SELECT * FROM SelectorLocation where IPName='" + myIPName + "'";
 			try (ResultSet rs2 = stmt.executeQuery(query);) {
 				if (rs2.first())
