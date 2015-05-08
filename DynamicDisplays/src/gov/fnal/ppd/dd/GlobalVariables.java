@@ -300,7 +300,7 @@ public class GlobalVariables {
 	/**
 	 * Short name for the location of the displays
 	 */
-	private static String		locationName;
+	static String		locationName;
 	// {
 	// "ROC-West",
 	// "ROC-East",
@@ -314,7 +314,7 @@ public class GlobalVariables {
 	/**
 	 * Long name for the location of the displays
 	 */
-	private static String		locationDescription;
+	static String		locationDescription;
 
 	// { "Fermilab Experiments' Remote Operations Center, West Side",
 	// "Fermilab CMS/LHC Remote Operations Center, East Side", //

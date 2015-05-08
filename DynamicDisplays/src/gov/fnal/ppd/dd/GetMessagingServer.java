@@ -1,6 +1,8 @@
 package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.locationDescription;
+import static gov.fnal.ppd.dd.GlobalVariables.locationName;
 import static gov.fnal.ppd.dd.GlobalVariables.messagingServerName;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
@@ -26,38 +28,44 @@ public class GetMessagingServer {
 	}
 
 	private static String getMessagingServerName(String table) {
+
+		Connection connection = null;
+		try {
+			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+		} catch (DatabaseNotVisibleException e1) {
+			e1.printStackTrace();
+			System.err.println("\nNo connection to the Signage/Displays database.");
+			System.exit(-1);
+		}
+
+		// Use ARM to simplify these try blocks.
+		try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+
+			InetAddress ip = InetAddress.getLocalHost();
+			String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description "
+					+ "from LocationInformation," + table + " where " + "LocationInformation.LocationCode=" + table
+					+ ".LocationCode and IPName='" + ip.getHostName().replace(".dhcp", "") + "'";
+			try (ResultSet rs2 = stmt.executeQuery(query);) {
+				if (rs2.first()) {
+					messagingServerName = rs2.getString("MessagingServerName");
+					System.out.println("MessagingServer= " + messagingServerName);
+					locationName = rs2.getString("LocationName");
+					System.out.println("LocationName= " + locationName);
+					locationDescription = rs2.getString("Description");
+					System.out.println("LocationDescription= " + locationDescription);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+
 		if (!ms.equals("X")) {
 			System.err.println("Overriding messaging server to be '" + ms + "'");
 			messagingServerName = ms;
-		} else {
-			Connection connection = null;
-			try {
-				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-			} catch (DatabaseNotVisibleException e1) {
-				e1.printStackTrace();
-				System.err.println("\nNo connection to the Signage/Displays database.");
-				System.exit(-1);
-			}
-
-			// Use ARM to simplify these try blocks.
-			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-
-				InetAddress ip = InetAddress.getLocalHost();
-				String query = "select MessagingServerName from LocationInformation," + table + " where "
-						+ "LocationInformation.LocationCode=" + table + ".LocationCode and IPName='"
-						+ ip.getHostName().replace(".dhcp", "") + "'";
-				try (ResultSet rs2 = stmt.executeQuery(query);) {
-					if (rs2.first()) {
-						messagingServerName = rs2.getString("MessagingServerName");
-						System.out.println("MessagingServer= " + messagingServerName);
-					}
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			}
 		}
+
 		return messagingServerName;
 	}
 
