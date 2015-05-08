@@ -208,7 +208,7 @@ public class GenerateNewKeyPair {
 			connection = getDbConnection(user, password);
 
 			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-				String statementString = "INSERT INTO PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
+				String statementString = "REPLACE PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
 						+ InetAddress.getLocalHost().getHostAddress() + "');";
 
 				int numRows = stmt.executeUpdate(statementString);
