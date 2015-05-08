@@ -15,9 +15,9 @@ en-us</language>
 <copyright>
 Copyright 2015 The New York Times Company</copyright>
 <pubDate>
-Thu, 07 May 2015 21:49:15 GMT</pubDate>
+Fri, 08 May 2015 18:38:59 GMT</pubDate>
 <lastBuildDate>
-Thu, 07 May 2015 21:49:15 GMT</lastBuildDate>
+Fri, 08 May 2015 18:38:59 GMT</lastBuildDate>
 <ttl>
 2</ttl>
 <image>
@@ -29,19 +29,223 @@ http://graphics8.nytimes.com/images/misc/NYT_logo_rss_250x40.png</url>
 http://www.nytimes.com/pages/index.html?partner=rss&amp;emc=rss</link>
 </image>
 <item>
-<link href="http://www.nytimes.com/2015/05/08/world/europe/britain-election.html?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/05/09/world/middleeast/saudia-arabia-announces-cease-fire-in-yemen.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-British Exit Poll Projects Gains for Conservatives</title>
+Saudia Arabia Announces Cease-Fire in Yemen</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/46181e70/sc/3/l/0L0Snytimes0N0C20A150C0A50C0A80Cworld0Ceurope0Cbritain0Eelection0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/46236acf/sc/11/l/0L0Snytimes0N0C20A150C0A50C0A90Cworld0Cmiddleeast0Csaudia0Earabia0Eannounces0Ecease0Efire0Ein0Eyemen0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-Prime Minister David Cameron’s party appeared to have won 316 seats, according to the poll, 10 short of the 326 necessary to win an outright majority.</description>
+The Saudi foreign minister said the five-day cease-fire could be renewed, and called upon Houthi rebels to “come to their senses.”</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Yemen</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Cameron, David</category>
+Jubeir, Adel al-</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Saudi Arabia</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Houthis</category>
+<pubDate>
+Fri, 08 May 2015 18:11:23 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/09/world/middleeast/saudia-arabia-announces-cease-fire-in-yemen.html</guid>
+<creator>
+ALISSA J. RUBIN and KAREEM FAHIM</creator>
+<credit scheme="urn:ebu">
+Andrew Harnik/Agence France-Presse — Getty Images</credit>
+<description>
+The Saudi foreign minister, Adel al-Jubeir, accompanied by Secretary of State John Kerry,  in Paris on Friday. Mr. Jubeir announced a cease--fire in Yemen.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/09/world/09YEMEN/09YEMEN-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/09/business/economy/jobs-report-unemployment-april.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+U.S. Economy Added 223,000 Jobs in April; Unemployment Rate at 5.4%</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/461f9edb/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A90Cbusiness0Ceconomy0Cjobs0Ereport0Eunemployment0Eapril0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The gain was in line with the consensus forecast of 230,000 jobs added, and the expectation had been that the unemployment rate would tick down slightly.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Hiring and Promotion</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+United States Economy</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Labor Department (US)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Labor and Jobs</category>
+<pubDate>
+Fri, 08 May 2015 17:04:56 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/09/business/economy/jobs-report-unemployment-april.html</guid>
+<creator>
+NELSON D. SCHWARTZ</creator>
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/09/world/europe/scottish-national-party-beats-labour-in-britain-election.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Scottish Nationalists Rejoice in Big British Election Win</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4622d17b/sc/3/l/0L0Snytimes0N0C20A150C0A50C0A90Cworld0Ceurope0Cscottish0Enational0Eparty0Ebeats0Elabour0Ein0Ebritain0Eelection0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The bid for Scottish independence from Britain may have failed last year, but it set in motion forces that ended Labour Party dominance in Scotland.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Scottish National Party</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Legislatures and Parliaments</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Miliband, Edward S</category>
+Black, Mhairi</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Scotland</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Elections</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Labour Party (Great Britain)</category>
+<pubDate>
+Fri, 08 May 2015 17:04:30 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/09/world/europe/scottish-national-party-beats-labour-in-britain-election.html</guid>
+<creator>
+KATRIN BENNHOLD</creator>
+<credit scheme="urn:ebu">
+Lesley Martin/Agence France-Presse — Getty Images</credit>
+<description>
+Mhairi Black, a Scottish National Party member,  spoke on Friday after winning a seat in Parliament.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/09/world/09Scotland2-web/09Scotland2-web-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/09/nyregion/nypd-officer-brian-moore-funeral.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Thousands Honor N.Y.P.D. Officer Brian Moore in a Grimly Familiar Ritual</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4621b7bb/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A90Cnyregion0Cnypd0Eofficer0Ebrian0Emoore0Efuneral0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Nearly a week after he was shot and killed while on patrol in Queens, Officer Moore was to be laid to rest on Friday surrounded by a sea of blue.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Murders, Attempted Murders and Homicides</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Funerals and Memorials</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Long Island (NY)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Police Department (NYC)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Moore, Brian (1989-2015)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Attacks on Police</category>
+<pubDate>
+Fri, 08 May 2015 17:03:21 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/09/nyregion/nypd-officer-brian-moore-funeral.html</guid>
+<creator>
+MARC SANTORA</creator>
+<credit scheme="urn:ebu">
+Josh Haner/The New York Times</credit>
+<description>
+Police officers from across the city and around the region gathered Friday outside St. James Roman Catholic Church in Seaford, N.Y., on Long Island.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/09/nyregion/09FUNERAL4web/09FUNERAL4web-moth.jpg" />
+</item>
+<item>
+<link href="http://artsbeat.blogs.nytimes.com/2015/05/08/b-b-king-in-hospice-care-at-home-is-focus-of-court-battle/?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+ArtsBeat: B.B. King, in Hospice Care at Home, Is Focus of Court Battle</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/46236ace/sc/28/l/0Lartsbeat0Bblogs0Bnytimes0N0C20A150C0A50C0A80Cb0Eb0Eking0Ein0Ehospice0Ecare0Eat0Ehome0Eis0Efocus0Eof0Ecourt0Ebattle0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+B.B. King, 89 and ailing, will remain under the guardianship of his longtime manager.</description>
+<category domain="http://www.nytimes.com/namespaces/">
+Music</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Associated Press</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Hospice Care</category>
+<category domain="http://www.nytimes.com/namespaces/">
+King, B B</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Las Vegas (Nev)</category>
+<pubDate>
+Fri, 08 May 2015 16:48:42 GMT</pubDate>
+<guid isPermaLink="false">
+http://artsbeat.blogs.nytimes.com/2015/05/08/b-b-king-in-hospice-care-at-home-is-focus-of-court-battle/</guid>
+<creator>
+JOE COSCARELLI</creator>
+<credit scheme="urn:ebu">
+Brian Jones/Las Vegas News Bureau, via European Pressphoto Agency</credit>
+<description />
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/09/arts/BBKINGWEB/BBKINGWEB-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/09/us/illinois-supreme-court-rejects-lawmakers-pension-overhaul.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Illinois Supreme Court Rejects Lawmakers’ Pension Overhaul</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/46230e2f/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A90Cus0Cillinois0Esupreme0Ecourt0Erejects0Elawmakers0Epension0Eoverhaul0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The court found that the proposed fixes lawmakers had agreed to over a year ago diminished the pension and violated the Illinois Constitution.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Illinois</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Supreme Courts (State)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Pensions and Retirement Plans</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Budgets and Budgeting</category>
+<pubDate>
+Fri, 08 May 2015 16:30:22 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/09/us/illinois-supreme-court-rejects-lawmakers-pension-overhaul.html</guid>
+<creator>
+MONICA DAVEY</creator>
+<credit scheme="urn:ebu">
+M. Spencer Green/Associated Press</credit>
+<description>
+Gov. Pat Quinn signed the bill to overhaul the Illinois pension system in Chicago in December 2013.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/09/us/09ILLINOISWEB/09ILLINOISWEB-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/09/world/africa/liberia-ravaged-by-ebola-faces-a-future-without-it.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Liberia, Ravaged by Ebola, Faces a Future Without It</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/46234ef7/sc/28/l/0L0Snytimes0N0C20A150C0A50C0A90Cworld0Cafrica0Cliberia0Eravaged0Eby0Eebola0Efaces0Ea0Efuture0Ewithout0Eit0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The West African nation, which is improving its health care systems, now has Ebola under control after being overwhelmed by the disease last year.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Hygiene and Cleanliness</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Epidemics</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Liberia</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Deaths (Fatalities)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Ebola Virus</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Hospitals</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Humanitarian Aid</category>
+<pubDate>
+Fri, 08 May 2015 16:24:15 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/09/world/africa/liberia-ravaged-by-ebola-faces-a-future-without-it.html</guid>
+<creator>
+NORIMITSU ONISHI</creator>
+<credit scheme="urn:ebu">
+Daniel Berehulak for The New York Times</credit>
+<description>
+Health care workers in February at the Logan Town clinic in Monrovia, Liberia. On Saturday, Liberia is expected to be declared free of Ebola by the World Health Organization.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/09/world/09EBOLA1/09EBOLA1-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/09/upshot/how-labour-gained-votes-but-still-lost-seats.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Political Calculus: How Labour Gained Votes but Still Lost Seats</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4622a50b/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A90Cupshot0Chow0Elabour0Egained0Evotes0Ebut0Estill0Elost0Eseats0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+This week’s U.K. election was a disaster for the Labour Party, even though it got a bigger share of the vote than last time around.</description>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
 Conservative Party (Great Britain)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Legislatures and Parliaments</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
 Great Britain</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/des">
@@ -49,524 +253,356 @@ Elections</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
 Labour Party (Great Britain)</category>
 <pubDate>
-Thu, 07 May 2015 21:35:31 GMT</pubDate>
+Fri, 08 May 2015 16:12:35 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/world/europe/britain-election.html</guid>
+http://www.nytimes.com/2015/05/09/upshot/how-labour-gained-votes-but-still-lost-seats.html</guid>
 <creator>
-STEVEN ERLANGER and STEPHEN CASTLE</creator>
+JOSH BARRO</creator>
 <credit scheme="urn:ebu">
 Justin Tallis/Agence France-Presse — Getty Images</credit>
 <description>
-Nuns after casting their votes in London on Thursday.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/world/08UKelection2-web/08UKelection2-web-moth.jpg" />
+Ed Miliband, the leader of the Labour Party, arriving at the party headquarters in London on Friday.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/09/upshot/09UP-UK/09UP-UK-moth.jpg" />
 </item>
 <item>
-<link href="http://www.nytimes.com/live/uk-elections-2015/?partner=rss&amp;emc=rss" rel="standout" />
-<title />
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/461a0501/sc/7/l/0L0Snytimes0N0Clive0Cuk0Eelections0E20A150C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-</description>
-<pubDate>
-Thu, 07 May 2015 21:17:51 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/live/uk-elections-2015/</guid>
-<creator />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/08/arts/music/review-mariah-carey-and-her-cant-look-away-debut-in-las-vegas.html?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/05/13/dining/in-paris-craft-cocktails-sidle-up-to-the-bar.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-Review: Mariah Carey and Her Can’t-Look-Away Debut in Las Vegas</title>
+In Paris, Craft Cocktails Sidle Up to the Bar</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/461899f2/sc/13/l/0L0Snytimes0N0C20A150C0A50C0A80Carts0Cmusic0Creview0Emariah0Ecarey0Eand0Eher0Ecant0Elook0Eaway0Edebut0Ein0Elas0Evegas0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/462335e9/sc/26/l/0L0Snytimes0N0C20A150C0A50C130Cdining0Cin0Eparis0Ecraft0Ecocktails0Esidle0Eup0Eto0Ethe0Ebar0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-Ms. Carey opens “#1 to Infinity,” a two-year residency at the Colosseum at Caesars Palace featuring a tour of her top hits.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Music</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Caesars Palace Hotel and Casino (Las Vegas, Nev)</category>
+The French capital was slow to join the modern cocktail revival, but now many bars are blooming, with French products finding their way onto cocktail menus.</description>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Las Vegas (Nev)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Carey, Mariah</category>
-<pubDate>
-Thu, 07 May 2015 20:56:52 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/arts/music/review-mariah-carey-and-her-cant-look-away-debut-in-las-vegas.html</guid>
-<creator>
-JON CARAMANICA</creator>
-<credit scheme="urn:ebu">
-Isaac Brekken for The New York Times</credit>
-<description>
-Mariah Carey at the Colosseum at Caesars Palace.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/arts/08MARIAHALT/08MARIAHALT-moth-v2.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/08/world/middleeast/netanyahu-israel-government.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Israeli Premier, Seeking to Broaden Coalition, Reserves Crucial Post for Rival</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4618e631/sc/3/l/0L0Snytimes0N0C20A150C0A50C0A80Cworld0Cmiddleeast0Cnetanyahu0Eisrael0Egovernment0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Prime Minister Benjamin Netanyahu hopes to assign the position of foreign minister to Isaac Herzog of the center-left Zionist Union, and to expand his razor-thin majority government.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Israeli Settlements</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Netanyahu, Benjamin</category>
+Paris (France)</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/des">
-Legislatures and Parliaments</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Israel</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Herzog, Isaac</category>
-<pubDate>
-Thu, 07 May 2015 20:43:27 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/world/middleeast/netanyahu-israel-government.html</guid>
-<creator>
-JODI RUDOREN</creator>
-<credit scheme="urn:ebu">
-Uriel Sinai for The New York Times</credit>
-<description>
-Isaac Herzog, the co-leader of the Zionist Union party, in February in Beit Shean, Israel.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/world/08Israel-web/08Israel-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/08/health/weeks-after-his-recovery-ebola-lurked-in-a-doctors-eye.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-He Beat Back Ebola, but It Lurked in an Unlikely Spot</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/461b7fc8/sc/23/l/0L0Snytimes0N0C20A150C0A50C0A80Chealth0Cweeks0Eafter0Ehis0Erecovery0Eebola0Elurked0Ein0Ea0Edoctors0Eeye0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Less than two months after a long, brutal fight with Ebola nearly ended his life, Dr. Ian Crozier was back in the hospital: His eye was teeming with the virus.</description>
-<pubDate>
-Thu, 07 May 2015 20:04:01 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/health/weeks-after-his-recovery-ebola-lurked-in-a-doctors-eye.html</guid>
-<creator>
-DENISE GRADY</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/08/us/san-francisco-police-department-racial-bias-investigation.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-San Francisco Expands Racial Bias Inquiry Into Police</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/461afa69/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A80Cus0Csan0Efrancisco0Epolice0Edepartment0Eracial0Ebias0Einvestigation0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The case began when racially biased text messages among 14 officers were found and will be broadened to determine if systemic bias exists.</description>
+Bars and Nightclubs</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/des">
-Blacks</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Prisons and Prisoners</category>
+Cocktails</category>
+<pubDate>
+Fri, 08 May 2015 16:08:16 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/13/dining/in-paris-craft-cocktails-sidle-up-to-the-bar.html</guid>
+<creator>
+ROBERT SIMONSON</creator>
+<credit scheme="urn:ebu">
+Owen Franken for The New York Times</credit>
+<description>
+Sullivan Doh at Le Syndicat in the Faubourg St.-Denis neighborhood of Paris.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/13/dining/13FRENCH2/13FRENCH2-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/09/us/justice-department-begins-civil-rights-inquiry-into-baltimore-police.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Justice Department Begins Civil Rights Inquiry Into Baltimore Police</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/46225bba/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A90Cus0Cjustice0Edepartment0Ebegins0Ecivil0Erights0Einquiry0Einto0Ebaltimore0Epolice0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The investigation will focus on whether the Baltimore police exhibit a pattern or practice of discriminatory policing.</description>
 <category domain="http://www.nytimes.com/namespaces/keywords/des">
 Police Brutality, Misconduct and Shootings</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Civil Rights and Liberties</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-San Francisco (Calif)</category>
+Baltimore (Md)</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-San Francisco Police Department</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Ian Furminger</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Corruption (Institutional)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Gascon, George</category>
+Justice Department</category>
 <pubDate>
-Thu, 07 May 2015 20:02:47 GMT</pubDate>
+Fri, 08 May 2015 16:03:07 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/us/san-francisco-police-department-racial-bias-investigation.html</guid>
+http://www.nytimes.com/2015/05/09/us/justice-department-begins-civil-rights-inquiry-into-baltimore-police.html</guid>
 <creator>
-TIMOTHY WILLIAMS</creator>
+RICHARD PÉREZ-PEÑA</creator>
 <credit scheme="urn:ebu">
-Jim Wilson/The New York Times</credit>
+Jim Bourg/Reuters</credit>
 <description>
-George Gascón, the San Francisco district attorney, said, “If just one individual was wrongly imprisoned because of bias on the part of these officers, that’s one too many.”</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/us/08POLICEWEB/08POLICEWEB-moth.jpg" />
+Attorney General Loretta E. Lynch announced a federal civil rights investigation of the Baltimore's Police Department's use of force and whether there are "systemic violations."</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/09/us/09BALTIMOREweb02/09BALTIMOREweb02-moth.jpg" />
 </item>
 <item>
-<link href="http://www.nytimes.com/2015/05/08/health/ebola-eye-color-change-mystery.html?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/05/09/sports/baseball/in-alex-rodriguezs-big-moments-yankees-start-to-look-small.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-The Mystery Behind an Eye That Changed Color</title>
+Sports of The Times: In Alex Rodriguez’s Big Moments, Yankees Start to Look Small</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/461b05c5/sc/31/l/0L0Snytimes0N0C20A150C0A50C0A80Chealth0Cebola0Eeye0Ecolor0Echange0Emystery0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/46235578/sc/35/l/0L0Snytimes0N0C20A150C0A50C0A90Csports0Cbaseball0Cin0Ealex0Erodriguezs0Ebig0Emoments0Eyankees0Estart0Eto0Elook0Esmall0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-It is rare for an iris to change color, but it can happen during some viral infections. Most of the time, the changes in hue are permanent.</description>
+Something was missing when Rodriguez passed Willie Mays on the career home run list: the heartfelt joy when player and organization are of one accord.</description>
 <category domain="http://www.nytimes.com/namespaces/keywords/des">
-Eyes and Eyesight</category>
+Baseball</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Crozier, Ian</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Viruses</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Ebola Virus</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Medicine and Health</category>
+Rodriguez, Alex</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+New York Yankees</category>
 <pubDate>
-Thu, 07 May 2015 19:56:14 GMT</pubDate>
+Fri, 08 May 2015 15:41:47 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/health/ebola-eye-color-change-mystery.html</guid>
+http://www.nytimes.com/2015/05/09/sports/baseball/in-alex-rodriguezs-big-moments-yankees-start-to-look-small.html</guid>
 <creator>
-DENISE GRADY</creator>
+WILLIAM C. RHODEN</creator>
 <credit scheme="urn:ebu">
-Emory Eye Center</credit>
+Al Bello/Getty Images</credit>
 <description>
-The left eye of Dr. Ian Crozier, an Ebola survivor, on Dec. 30, 2014. It turned green after he was believed to be free of the disease.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/science/08EBOLEYE6/08EBOLEYE6-moth.jpg" />
+Most of the Yankee Stadium crowd stood and cheered Alex Rodriguez after he hit his 661st home run Thursday night.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/09/sports/09rhoden-1/09rhoden-1-moth.jpg" />
 </item>
 <item>
-<link href="http://www.nytimes.com/2015/05/08/arts/design/review-in-china-through-the-looking-glass-eastern-culture-meets-western-fashion.html?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/05/09/us/missouri-lawmakers-agree-to-limit-revenue-from-traffic-fines.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-Review: In ‘China: Through the Looking Glass,’ Eastern Culture Meets Western Fashion</title>
+Missouri Lawmakers Agree to Limit Revenue From Traffic Fines</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/4616657b/sc/38/l/0L0Snytimes0N0C20A150C0A50C0A80Carts0Cdesign0Creview0Ein0Echina0Ethrough0Ethe0Elooking0Eglass0Eeastern0Eculture0Emeets0Ewestern0Efashion0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/462286e7/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A90Cus0Cmissouri0Elawmakers0Eagree0Eto0Elimit0Erevenue0Efrom0Etraffic0Efines0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-Designed to illustrate the influence of Chinese culture on Western fashion, this Metropolitan Museum of Art show, organized by a Costume Institute curator, is one of the museum’s largest ever.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Art</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Metropolitan Museum of Art</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Fashion and Apparel</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Costume Institute</category>
+The bill seeks to address complaints of excessive ticketing raised by black residents after the death of Michael Brown in Ferguson last year.</description>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-China</category>
+St Louis County (Mo)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Police Brutality, Misconduct and Shootings</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Brown, Michael (1996-2014)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Police Executive Research Forum</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Nixon, Jay</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Traffic and Parking Violations</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Holder, Eric H Jr</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Ferguson (Mo)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Justice Department</category>
 <pubDate>
-Thu, 07 May 2015 19:39:12 GMT</pubDate>
+Fri, 08 May 2015 15:14:18 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/arts/design/review-in-china-through-the-looking-glass-eastern-culture-meets-western-fashion.html</guid>
+http://www.nytimes.com/2015/05/09/us/missouri-lawmakers-agree-to-limit-revenue-from-traffic-fines.html</guid>
 <creator>
-HOLLAND COTTER</creator>
+MITCH SMITH</creator>
+<credit scheme="urn:ebu">
+Whitney Curtis for The New York Times</credit>
+<description>
+Protesters on March 5 outside the Police Department and Municipal Court in Pine Lawn, Mo., which is in St. Louis County. They accused the court of forcing citizens to pay large fines and serve jail time for minor traffic offenses.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/09/us/09FERGUSONweb01/09FERGUSONweb01-moth.jpg" />
 </item>
 <item>
-<link href="http://www.nytimes.com/politics/first-draft/2015/05/07/n-s-a-ruling-divides-republican-candidates/?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/05/09/sports/bill-simmons-and-espn-are-parting-ways.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-First Draft: N.S.A. Ruling Divides Republican Candidates</title>
+Bill Simmons and ESPN to Part Ways</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/461afe15/sc/7/l/0L0Snytimes0N0Cpolitics0Cfirst0Edraft0C20A150C0A50C0A70Cn0Es0Ea0Eruling0Edivides0Erepublican0Ecandidates0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/4621bf71/sc/28/l/0L0Snytimes0N0C20A150C0A50C0A90Csports0Cbill0Esimmons0Eand0Eespn0Eare0Eparting0Eways0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-The Republican candidates for president lined up on different sides of the debate over whether the nation’s intelligence agencies should be allowed to collect data about Americans after a court ruled Thursday that the National Security Agency had acted outside the law.</description>
+John Skipper, the president of ESPN, said on Friday that the company would not renew its contract with Simmons, who built himself into a major brand, when it expires in the fall.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Simmons, Bill</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Media</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Grantland</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+ESPN</category>
+<pubDate>
+Fri, 08 May 2015 14:38:40 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/09/sports/bill-simmons-and-espn-are-parting-ways.html</guid>
+<creator>
+RICHARD SANDOMIR</creator>
+<credit scheme="urn:ebu">
+Joe Murphy/NBAE via/Getty Images</credit>
+<description>
+Bill Simmons’s contract with ESPN expires at the end of September.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/09/sports/09espn-1/09espn-1-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/09/world/europe/cameron-election-uk-scotland-europe-austerity-referendum.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+News Analysis: Cameron’s Victory Sets Stage for Fights Over Europe, Scotland and Austerity</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4621bc8e/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A90Cworld0Ceurope0Ccameron0Eelection0Euk0Escotland0Eeurope0Eausterity0Ereferendum0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The Conservatives have such a narrow majority that Prime Minister David Cameron will have to tread carefully over thorny issues that could redefine 21st-century Britain.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Cameron, David</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Conservative Party (Great Britain)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Legislatures and Parliaments</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+European Union</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Great Britain</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Elections</category>
+<pubDate>
+Fri, 08 May 2015 14:31:40 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/09/world/europe/cameron-election-uk-scotland-europe-austerity-referendum.html</guid>
+<creator>
+STEVEN ERLANGER</creator>
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/08/nytnow/latest-news-conservatives-in-britain-us-jobs-day-and-more.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Your Friday Briefing</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/461fcde3/sc/23/l/0L0Snytimes0N0C20A150C0A50C0A80Cnytnow0Clatest0Enews0Econservatives0Ein0Ebritain0Eus0Ejobs0Eday0Eand0Emore0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Here’s what you need to know to start your day.</description>
+<pubDate>
+Fri, 08 May 2015 14:15:43 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/08/nytnow/latest-news-conservatives-in-britain-us-jobs-day-and-more.html</guid>
+<creator>
+ADEEL HASSAN</creator>
+<credit scheme="urn:ebu">
+Jack Taylor/Agence France-Presse — Getty Images</credit>
+<description>
+People watched the election results in a pub in North London on Friday morning.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/world/08nytnow-ukelection01/08nytnow-ukelection01-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/politics/first-draft/2015/05/08/today-in-politics-jeb-bush-heads-to-liberty-university-to-court-a-wary-crowd/?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+First Draft: Today in Politics: Jeb Bush Heads to Liberty University to Court a Wary Crowd</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4620c645/sc/7/l/0L0Snytimes0N0Cpolitics0Cfirst0Edraft0C20A150C0A50C0A80Ctoday0Ein0Epolitics0Ejeb0Ebush0Eheads0Eto0Eliberty0Euniversity0Eto0Ecourt0Ea0Ewary0Ecrowd0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Jeb Bush is heading to Virginia to smooth a recent trouble spot among grass-roots evangelicals.</description>
 <category domain="http://www.nytimes.com/namespaces/">
 Presidential Election of 2016</category>
+<category domain="http://www.nytimes.com/namespaces/">
+South Carolina</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Reid, Harry</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Liberty University</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Graham, Lindsey</category>
 <category domain="http://www.nytimes.com/namespaces/">
 United States Politics and Government</category>
 <category domain="http://www.nytimes.com/namespaces/">
 Paul, Rand</category>
 <category domain="http://www.nytimes.com/namespaces/">
-2016</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Espionage and Intelligence Services</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Cruz, Ted</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Rubio, Marco</category>
-<category domain="http://www.nytimes.com/namespaces/">
-National Security Agency</category>
+Bush, Jeb</category>
 <pubDate>
-Thu, 07 May 2015 19:38:14 GMT</pubDate>
+Fri, 08 May 2015 13:27:21 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/politics/first-draft/2015/05/07/n-s-a-ruling-divides-republican-candidates/</guid>
+http://www.nytimes.com/politics/first-draft/2015/05/08/today-in-politics-jeb-bush-heads-to-liberty-university-to-court-a-wary-crowd/</guid>
 <creator>
-JEREMY W. PETERS</creator>
+THE NEW YORK TIMES</creator>
 <credit scheme="urn:ebu">
-Zach Gibson/The New York Times</credit>
+Dennis M. Rivera Pichardo for The New York Times</credit>
 <description>
-Senator Rand Paul of Kentucky on Capitol Hill this week.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/07/us/politics/07firstdraft-rand-paul/07firstdraft-rand-paul-moth.jpg" />
+Jeb Bush, speaking in San Juan, Puerto Rico, last week.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/us/politics/08firstdraft-newsletter-jeb/08firstdraft-newsletter-jeb-moth.jpg" />
 </item>
 <item>
-<link href="http://www.nytimes.com/2015/05/08/nyregion/queens-pizzeria-owners-are-charged-in-cocaine-smuggling-operation.html?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/05/09/upshot/april-jobs-not-good-news-not-bad-news-relieving-news.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-Queens Pizzeria Owners Charged in Cocaine Smuggling Operation</title>
+The Jobs Report: April Jobs: Not Good News. Not Bad News. Relieving News.</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/4619fe4a/sc/16/l/0L0Snytimes0N0C20A150C0A50C0A80Cnyregion0Cqueens0Epizzeria0Eowners0Eare0Echarged0Ein0Ecocaine0Esmuggling0Eoperation0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/46216cbe/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A90Cupshot0Capril0Ejobs0Enot0Egood0Enews0Enot0Ebad0Enews0Erelieving0Enews0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-The husband-and-wife team running the restaurant in Corona hid shipments of cocaine as part of a ring that stretched from Costa Rica to Italy, the authorities said.</description>
+The 223,000 jobs added are the latest evidence that the steady-as-she-goes recovery remains exactly that, for both optimists and pessimists.</description>
 <category domain="http://www.nytimes.com/namespaces/keywords/des">
-Drug Abuse and Traffic</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Costa Rica</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Corona (Queens, NY)</category>
+Unemployment</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/des">
-Cocaine and Crack Cocaine</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Italy</category>
+United States Economy</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Wages and Salaries</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Labor and Jobs</category>
 <pubDate>
-Thu, 07 May 2015 19:26:48 GMT</pubDate>
+Fri, 08 May 2015 13:18:42 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/nyregion/queens-pizzeria-owners-are-charged-in-cocaine-smuggling-operation.html</guid>
+http://www.nytimes.com/2015/05/09/upshot/april-jobs-not-good-news-not-bad-news-relieving-news.html</guid>
 <creator>
-STEPHANIE CLIFFORD and ELISABETTA POVOLEDO</creator>
-<credit scheme="urn:ebu">
-Bryan Thomas for The New York Times</credit>
-<description>
-The Corona pizzeria Cucino a Modo Mio. Its owners face charges.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/nyregion/MOBweb1/MOBweb1-moth.jpg" />
+NEIL IRWIN</creator>
 </item>
 <item>
-<link href="http://well.blogs.nytimes.com/2015/05/07/living-with-cancer-becoming-a-caregiver/?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://cityroom.blogs.nytimes.com/2015/05/08/new-york-today-the-price-of-a-mothers-day-pedicure/?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-Well: Living With Cancer: Becoming a Caregiver</title>
+City Room: New York Today: The Price of a Mother’s Day Pedicure</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/461afe1b/sc/3/l/0Lwell0Bblogs0Bnytimes0N0C20A150C0A50C0A70Cliving0Ewith0Ecancer0Ebecoming0Ea0Ecaregiver0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/462002e4/sc/23/l/0Lcityroom0Bblogs0Bnytimes0N0C20A150C0A50C0A80Cnew0Eyork0Etoday0Ethe0Eprice0Eof0Ea0Emothers0Eday0Epedicure0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-A supreme privilege: to care for this resolute man who cared for me.</description>
+Friday and the weekend: The risks of cheap nails, balmy weather, and the bust of Edward Snowden is freed.</description>
 <category domain="http://www.nytimes.com/namespaces/">
-Cancer</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Voices</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Living With Cancer</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Featured</category>
+New York Today</category>
 <pubDate>
-Thu, 07 May 2015 18:59:43 GMT</pubDate>
+Fri, 08 May 2015 11:51:58 GMT</pubDate>
 <guid isPermaLink="false">
-http://well.blogs.nytimes.com/2015/05/07/living-with-cancer-becoming-a-caregiver/</guid>
+http://cityroom.blogs.nytimes.com/2015/05/08/new-york-today-the-price-of-a-mothers-day-pedicure/</guid>
 <creator>
-SUSAN GUBAR</creator>
-<credit scheme="urn:ebu">
-Getty Images</credit>
-<description />
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/health/08gubar/08gubar-moth.jpg" />
+BENJAMIN MUELLER and TATIANA SCHLOSSBERG</creator>
 </item>
 <item>
-<link href="http://www.nytimes.com/2015/05/08/technology/facebook-study-disputes-theory-of-political-polarization-among-users.html?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/05/09/world/europe/uk-british-election-polling.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-Facebook Study Disputes Theory of Political Polarization Among Users</title>
+British Election’s Other Losers: Pollsters</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/461a5720/sc/28/l/0L0Snytimes0N0C20A150C0A50C0A80Ctechnology0Cfacebook0Estudy0Edisputes0Etheory0Eof0Epolitical0Epolarization0Eamong0Eusers0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/4620c9a8/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A90Cworld0Ceurope0Cuk0Ebritish0Eelection0Epolling0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-Almost 29 percent of the news stories displayed by Facebook’s News Feed present views that conflict with the user’s own ideology, the study found.</description>
+Before the election, nearly every poll showed the race as a near-tie, but Prime Minister David Cameron and his Conservative Party instead delivered a convincing victory.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Liberal Democrats (Great Britain)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Conservative Party (Great Britain)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Great Britain</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/des">
-Social Media</category>
+Elections</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Voting and Voters</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/des">
 Polls and Public Opinion</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Facebook Inc</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Computers and the Internet</category>
+Labour Party (Great Britain)</category>
 <pubDate>
-Thu, 07 May 2015 18:56:04 GMT</pubDate>
+Fri, 08 May 2015 11:49:27 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/technology/facebook-study-disputes-theory-of-political-polarization-among-users.html</guid>
+http://www.nytimes.com/2015/05/09/world/europe/uk-british-election-polling.html</guid>
 <creator>
-FARHAD MANJOO</creator>
+DAN BILEFSKY</creator>
 <credit scheme="urn:ebu">
-Mike Segar/Reuters</credit>
+Eddie Keogh/Reuters</credit>
 <description>
-A mobile phone shows a Facebook page promoting Hillary Rodham Clinton's candidacy.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/technology/08facebook-web/08facebook-web-moth.jpg" />
+The results of an exit poll were projected onto BBC's Broadcasting House early on Friday in London.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/09/world/09UKpolls-web/09UKpolls-web-moth.jpg" />
 </item>
 <item>
-<link href="http://www.nytimes.com/2015/05/08/business/dealbook/blackstone-said-to-raise-17-billion-for-buyout-fund.html?partner=rss&amp;emc=rss" rel="standout" />
+<link href="http://www.nytimes.com/2015/05/09/world/asia/pakistan-helicopter-crash-kills-2-ambassadors.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-Blackstone Said to Raise $17 Billion for Buyout Fund</title>
+Pakistan Helicopter Crash Kills 2 Ambassadors</title>
 <link>
-http://rss.nytimes.com/c/34625/f/640350/s/461afe16/sc/31/l/0L0Snytimes0N0C20A150C0A50C0A80Cbusiness0Cdealbook0Cblackstone0Esaid0Eto0Eraise0E170Ebillion0Efor0Ebuyout0Efund0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+http://rss.nytimes.com/c/34625/f/640350/s/4620c651/sc/16/l/0L0Snytimes0N0C20A150C0A50C0A90Cworld0Casia0Cpakistan0Ehelicopter0Ecrash0Ekills0E20Eambassadors0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
-The enthusiasm of investors for the new fund reflects the sense that private equity firms are poised to strike big deals — and mint money.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Real Estate (Commercial)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Private Equity</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Mergers, Acquisitions and Divestitures</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Blackstone Group, The</category>
-<pubDate>
-Thu, 07 May 2015 18:49:43 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/business/dealbook/blackstone-said-to-raise-17-billion-for-buyout-fund.html</guid>
-<creator>
-MICHAEL J. de la MERCED</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/08/nyregion/3-ways-to-be-a-socially-conscious-nail-salon-customer.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-3 Ways to Be a Socially Conscious Nail Salon Customer</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/461af7c7/sc/38/l/0L0Snytimes0N0C20A150C0A50C0A80Cnyregion0C30Eways0Eto0Ebe0Ea0Esocially0Econscious0Enail0Esalon0Ecustomer0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-In interviews with over 125 manicurists across the New York region, only three spoke of salons that appeared to obey the letter of the law. Here’s what you can do.</description>
-<pubDate>
-Thu, 07 May 2015 18:48:32 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/nyregion/3-ways-to-be-a-socially-conscious-nail-salon-customer.html</guid>
-<creator>
-SARAH MASLIN NIR</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/08/us/politics/iran-bill-republicans.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Senate Easily Passes Iran Nuclear Bill</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/46167115/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A80Cus0Cpolitics0Ciran0Ebill0Erepublicans0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The Senate voted to give Congress a say in the nuclear agreement with Iran, despite Republican infighting.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Senate</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-House of Representatives</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Embargoes and Sanctions</category>
+The ambassadors to Pakistan from the Philippines and Norway and the wives of two other envoys were among those killed when a military helicopter crashed in a northern valley.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Hussain, Mamnoon</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Iran</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-United States Politics and Government</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Nuclear Weapons</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Republican Party</category>
-<pubDate>
-Thu, 07 May 2015 18:36:12 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/us/politics/iran-bill-republicans.html</guid>
-<creator>
-JENNIFER STEINHAUER</creator>
-<credit scheme="urn:ebu">
-Doug Mills/The New York Times</credit>
-<description>
-Senator David Vitter, Republican of Louisiana on Capitol Hill in April.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/us/politics/08CONG-web/08CONG-web-moth.jpg" />
-</item>
-<item>
-<link href="http://artsbeat.blogs.nytimes.com/2015/05/07/chris-rock-to-direct-amy-schumer-special/?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-ArtsBeat: Chris Rock to Direct Amy Schumer Special</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/461afe17/sc/28/l/0Lartsbeat0Bblogs0Bnytimes0N0C20A150C0A50C0A70Cchris0Erock0Eto0Edirect0Eamy0Eschumer0Especial0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The program will be taped at the Apollo and shown later this year on HBO.</description>
-<category domain="http://www.nytimes.com/namespaces/">
-comedy</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Inside Amy Schumer (TV Program)</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Television</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Rock, Chris</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Schumer, Amy</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Home Box Office</category>
-<pubDate>
-Thu, 07 May 2015 18:35:33 GMT</pubDate>
-<guid isPermaLink="false">
-http://artsbeat.blogs.nytimes.com/2015/05/07/chris-rock-to-direct-amy-schumer-special/</guid>
-<creator>
-DAVE ITZKOFF</creator>
-<credit scheme="urn:ebu">
-Danny Moloshok/Reuters; Ethan Miller/Getty Images</credit>
-<description>
-Chris Rock and Amy Schumer</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/07/arts/television/07ARTSBEAT-ROCK/07ARTSBEAT-ROCK-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/08/technology/facebook-study-disputes-theory-of-politcal-polarization-among-users.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Facebook Study Disputes Theory of Political Polarization Among Users</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/461ad0af/sc/28/l/0L0Snytimes0N0C20A150C0A50C0A80Ctechnology0Cfacebook0Estudy0Edisputes0Etheory0Eof0Epolitcal0Epolarization0Eamong0Eusers0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Almost 29 percent of the news stories displayed by Facebook’s News Feed present views that conflict with the user’s own ideology, the study found.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Social Media</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Polls and Public Opinion</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Facebook Inc</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Computers and the Internet</category>
-<pubDate>
-Thu, 07 May 2015 18:00:16 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/technology/facebook-study-disputes-theory-of-politcal-polarization-among-users.html</guid>
-<creator>
-FARHAD MANJOO</creator>
-<credit scheme="urn:ebu">
-Mike Segar/Reuters</credit>
-<description>
-A mobile phone shows a Facebook page promoting Hillary Rodham Clinton's candidacy.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/technology/08facebook-web/08facebook-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/08/nyregion/2-workers-killed-in-oil-tank-explosion-in-westchester-county.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-2 Workers Killed in Westchester County Oil Tank Explosion</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4619f576/sc/7/l/0L0Snytimes0N0C20A150C0A50C0A80Cnyregion0C20Eworkers0Ekilled0Ein0Eoil0Etank0Eexplosion0Ein0Ewestchester0Ecounty0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The workers were removing an old tank at a home in Hastings-on-Hudson when the tank exploded, the mayor said; the cause has not yet been determined.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Explosions (Accidental)</category>
+Malaysia</category>
 <category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Hastings-on-Hudson (NY)</category>
+Pakistan</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Tehrik-e-Taliban</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Netherlands</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Helicopters</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Aviation Accidents, Safety and Disasters</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Philippines</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Indonesia</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Norway</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Sharif, Nawaz</category>
 <pubDate>
-Thu, 07 May 2015 17:53:20 GMT</pubDate>
+Fri, 08 May 2015 11:22:18 GMT</pubDate>
 <guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/nyregion/2-workers-killed-in-oil-tank-explosion-in-westchester-county.html</guid>
+http://www.nytimes.com/2015/05/09/world/asia/pakistan-helicopter-crash-kills-2-ambassadors.html</guid>
 <creator>
-BENJAMIN MUELLER</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/07/sports/football/now-the-pressure-is-on-roger-goodell-poor-commissioner.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Sports of The Times: Now the Pressure Is on Roger Goodell. Poor Commissioner.</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/461640a4/sc/13/l/0L0Snytimes0N0C20A150C0A50C0A70Csports0Cfootball0Cnow0Ethe0Epressure0Eis0Eon0Eroger0Egoodell0Epoor0Ecommissioner0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-After the release of a critical report detailing the Patriots’ apparent deflation of footballs, Goodell must determine punishment for the team and its star, Tom Brady.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-New England Patriots</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Cheating</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Brady, Tom</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Football</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Goodell, Roger</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Kraft, Robert K</category>
-<pubDate>
-Thu, 07 May 2015 17:50:23 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/07/sports/football/now-the-pressure-is-on-roger-goodell-poor-commissioner.html</guid>
-<creator>
-MICHAEL POWELL</creator>
-<credit scheme="urn:ebu">
-Ross D. Franklin/Associated Press</credit>
-<description>
-Commissioner Roger Goodell waiting to be introduced at a news conference in March. If he suspends Patriots quarterback Tom Brady, he risks angering the owner Robert K. Kraft.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/07/sports/CITY-POWELL/CITY-POWELL-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/08/sports/football/an-educated-guess-at-the-patriots-penalites.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-An Educated Guess at the Patriots’ Punishment</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/461ad0b3/sc/13/l/0L0Snytimes0N0C20A150C0A50C0A80Csports0Cfootball0Can0Eeducated0Eguess0Eat0Ethe0Epatriots0Epenalites0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Experts in sports law, management or ethics were asked how they thought the N.F.L. would discipline Tom Brady and the Patriots for their role in deflating footballs.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-New England Patriots</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Brady, Tom</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Fines (Penalties)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-National Football League</category>
-<pubDate>
-Thu, 07 May 2015 17:46:09 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/08/sports/football/an-educated-guess-at-the-patriots-penalites.html</guid>
-<creator />
-<credit scheme="urn:ebu">
-Donald Miralle/Donald Miralle, via Getty Images</credit>
-<description>
-Tom Brady with the Patriots' backup quarterback Jimmy Garoppolo.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/08/sports/08penalties-web/08penalties-web-moth.jpg" />
+SALMAN MASOOD</creator>
 </item>
 </channel>
 </rss>
