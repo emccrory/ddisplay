@@ -42,9 +42,10 @@ public class GetMessagingServer {
 		try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
 
 			InetAddress ip = InetAddress.getLocalHost();
+			String myName = ip.getCanonicalHostName().replace(".dhcp", "");
 			String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description "
 					+ "from LocationInformation," + table + " where " + "LocationInformation.LocationCode=" + table
-					+ ".LocationCode and IPName='" + ip.getHostName().replace(".dhcp", "") + "'";
+					+ ".LocationCode and IPName='" + myName + "'";
 			try (ResultSet rs2 = stmt.executeQuery(query);) {
 				if (rs2.first()) {
 					messagingServerName = rs2.getString("MessagingServerName");
@@ -53,6 +54,10 @@ public class GetMessagingServer {
 					System.out.println("LocationName= " + locationName);
 					locationDescription = rs2.getString("Description");
 					System.out.println("LocationDescription= " + locationDescription);
+				} else {
+					System.err.println("No location information for this device, " + myName);
+					new Exception().printStackTrace();
+					System.exit(-1);
 				}
 			}
 		} catch (SQLException e) {
