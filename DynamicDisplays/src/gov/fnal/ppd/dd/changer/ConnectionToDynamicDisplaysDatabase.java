@@ -106,7 +106,7 @@ public class ConnectionToDynamicDisplaysDatabase {
 			println(ConnectionToDynamicDisplaysDatabase.class, " -- VendorError: " + ex.getErrorCode());
 			ex.printStackTrace();
 			if (ex.getMessage().contains("Access denied for user")) {
-				System.err.println("Cannont access the Channel/Display database.");
+				System.err.println("Cannot access the Channel/Display database.");
 				throw new DatabaseNotVisibleException(ex.getMessage());
 			} else {
 				System.err.println("Aborting");

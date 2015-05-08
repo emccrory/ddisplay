@@ -22,6 +22,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -37,10 +38,9 @@ public class GenerateNewKeyPair {
 	private static final String	ALG_TYPE				= "DSA";
 	private static Connection	connection;
 	private static final String	DEFAULT_SERVER			= "mccrory.fnal.gov";
-	private static final String	DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc");
+	private static final String	DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc_dev");
 	private static final String	DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", DEFAULT_SERVER);
 	private static String		serverNode				= DATABASE_SERVER_NAME;
-	private static final String	DATABASE_DBNAME			= System.getProperty("ddisplay.dbdbname", "xoc");
 	private static String		thisNode;
 
 	/**
@@ -77,21 +77,20 @@ public class GenerateNewKeyPair {
 			System.exit(1);
 		}
 		try {
-
 			String pw = "";
 			for (char C : passwd)
 				pw += C;
-			connection = DriverManager.getConnection("jdbc:mysql://" + serverNode + "/" + DATABASE_DBNAME, user, pw);
+			connection = DriverManager.getConnection("jdbc:mysql://" + serverNode + "/" + DATABASE_NAME, user, pw);
 			return connection;
 
 		} catch (SQLException ex) {
-			println(GenerateNewKeyPair.class, " -- SQLException: '" + ex.getMessage() + "'");
-			println(GenerateNewKeyPair.class, " -- SQLState: " + ex.getSQLState());
-			println(GenerateNewKeyPair.class, " -- VendorError: " + ex.getErrorCode());
 			ex.printStackTrace();
+			println(GenerateNewKeyPair.class, " -- SQLException: '" + ex.getMessage() + "'");
+			println(GenerateNewKeyPair.class, " -- SQLState:      " + ex.getSQLState());
+			println(GenerateNewKeyPair.class, " -- VendorError:   " + ex.getErrorCode());
 			if (ex.getMessage().contains("Access denied for user")) {
-				System.err.println("Cannont access the Channel/Display database. DB Host=jdbc:mysql://" + serverNode + "/"
-						+ DATABASE_DBNAME);
+				System.err.println("Cannot access the Channel/Display database. DB Host=jdbc:mysql://" + serverNode + "/"
+						+ DATABASE_NAME + ", user=" + user + ", password=" + Arrays.toString(passwd));
 				throw new DatabaseNotVisibleException(ex.getMessage());
 			} else {
 				System.err.println("Aborting");
@@ -228,7 +227,7 @@ public class GenerateNewKeyPair {
 			}
 		} catch (DatabaseNotVisibleException e) {
 			// not good!
-			System.err.println("No connection.  It is likely that the DB server is down.  Try again later.");
+			System.err.println("No connection.  Either your username/password is wrong or the DB server is down.");
 
 			e.printStackTrace();
 			System.exit(-1);

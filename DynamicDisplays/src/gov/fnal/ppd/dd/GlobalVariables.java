@@ -220,11 +220,11 @@ public class GlobalVariables {
 	/**
 	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
 	 */
-	public static final String	DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc");
+	public static final String	DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc_dev");
 	/**
 	 * The username for accessing the database
 	 */
-	public static final String	DATABASE_USER_NAME		= System.getProperty("ddisplay.dbusername", "xocuser");
+	public static final String	DATABASE_USER_NAME		= System.getProperty("ddisplay.dbusername", "no included here");
 	/**
 	 * the password corresponding to the username that accesses the database. Note that this MUST be entered by hand for each time
 	 * one runs an application. (This is not the actual password.)
