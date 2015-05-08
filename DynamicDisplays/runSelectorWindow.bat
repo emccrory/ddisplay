@@ -1,11 +1,8 @@
 call config.cmd
 
-set "public=false"
-
 java -Dddisplay.selector.inwindow=TRUE ^
-     -Dddisplay.virtualdisplaynumbers=true ^
-     -Dddisplay.selector.public=%public% ^
-     -Dddisplay.messagingserver=%messagingServer% ^
+     -Dddisplay.virtualdisplaynumbers=TRUE ^
+     -Dddisplay.selector.public=FALSE ^
      -Dddisplay.dbserver=%databaseServer% ^
      -Dddisplay.dbname=%databaseName% ^
 	 -Dddisplay.dbusername=%databaseUsername% ^

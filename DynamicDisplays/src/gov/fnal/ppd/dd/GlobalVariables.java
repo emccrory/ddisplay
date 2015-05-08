@@ -346,6 +346,7 @@ public class GlobalVariables {
 			System.err.println("ERROR in construction of your program!  You have to run "
 					+ GetMessagingServer.class.getCanonicalName() + ".getMessagingServerName*() (where * is either "
 					+ "Selector or Display, depending on what you are) first");
+			new Exception("ERROR in construction of your program!").printStackTrace();
 			System.exit(-1);
 		}
 
