@@ -48,7 +48,7 @@ public class MakeChannelSelector {
 	public static void main(final String[] args) {
 		boolean missing = true;
 		getMessagingServerNameSelector();
-
+		String myIPName = "TBD";
 		Connection connection = null;
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
@@ -62,7 +62,8 @@ public class MakeChannelSelector {
 		try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
 
 			InetAddress ip = InetAddress.getLocalHost();
-			String query = "SELECT * FROM SelectorLocation where IPName='" + ip.getHostName().replace(".dhcp", "") + "'";
+			myIPName = ip.getHostName().replace(".dhcp", "");
+			String query = "SELECT * FROM SelectorLocation where IPName='" + myIPName + "'";
 			try (ResultSet rs2 = stmt.executeQuery(query);) {
 				if (rs2.first())
 					try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)
@@ -128,7 +129,7 @@ public class MakeChannelSelector {
 			System.exit(-5);
 		}
 		if (missing)
-			JOptionPane.showMessageDialog(null, "This device is not listed in the Dynamics Display database; "
+			JOptionPane.showMessageDialog(null, "This device, " + myIPName + ", is not listed in the Dynamics Display database; "
 					+ "It cannot start an instance of ChannelSelector.", "Cannot Continue", JOptionPane.ERROR_MESSAGE);
 	}
 }
