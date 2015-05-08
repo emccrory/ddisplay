@@ -289,8 +289,7 @@ public class ObjectSigning {
 		return retval;
 
 	}
-	
-	
+
 	private static List<String> loadDisplayListFromDB(final String clientName) {
 		List<String> retval = new ArrayList<String>();
 
@@ -300,7 +299,8 @@ public class ObjectSigning {
 			int lc = 999;
 
 			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-				String query1 = "SELECT LocationCode from SelectorLocation WHERE IPName like '" + clientName + "%'";
+				String query1 = "SELECT LocationCode from SelectorLocation WHERE IPName like '"
+						+ clientName.substring(0, clientName.indexOf(' ')) + "%'";
 				try (ResultSet rs = stmt.executeQuery(query1);) {
 					if (rs.first()) { // Move to first returned row
 						lc = rs.getInt("LocationCode");
@@ -325,7 +325,8 @@ public class ObjectSigning {
 						} while (rs.next());
 						println(ObjectSigning.class, ": This client has " + retval.size() + " displays it can change.");
 					} else {
-						System.err.println("No displays for IP='" + clientName + "' -- it cannot control any displays.");
+						System.err.println("No displays for IP='" + clientName + "' -- it cannot control any displays. \n\t\t"
+								+ "Query1=[" + query1 + "]\n\t\t" + "Query2=[" + query2 + "]");
 					}
 
 				}
