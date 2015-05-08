@@ -170,7 +170,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 											println(DisplayAsConnectionToFireFox.class,
 													".localSetContent(): Failed to REFRESH content");
 											firefox.resetURL();
-											continue; // TODO -- Figure out what to do when this happens.  For now, just try again later
+											continue; // TODO -- Figure out what to do when this happens. For now, just try again
+														// later
 										}
 									} catch (UnsupportedEncodingException e) {
 										e.printStackTrace();
@@ -223,33 +224,14 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 */
 	public static void main(final String[] args) {
 		getMessagingServerNameDisplay();
+
 		
-		@SuppressWarnings("unused")
-		DisplayAsConnectionToFireFox add;
-
-		if (args.length == 0) {
-			System.err.println("Usage: " + DisplayAsConnectionToFireFox.class.getCanonicalName() + " -display=<displayIDNumber>");
-			System.err.println("       -- or --");
-			System.err.println("       " + DisplayAsConnectionToFireFox.class.getCanonicalName() + " -screen=<displayNumber>");
-			System.exit(-1);
+		try {
+			@SuppressWarnings("unused")
+			DisplayAsConnectionToFireFox add = (DisplayAsConnectionToFireFox) makeTheDisplays(DisplayAsConnectionToFireFox.class);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		if (args.length == 1) {
-			if (args[0].startsWith("-display=")) {
-				int num = Integer.parseInt(args[0].substring("-display=".length()));
-				try {
-					add = (DisplayAsConnectionToFireFox) makeDynamicDisplayByNumber(num, DisplayAsConnectionToFireFox.class);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} else if (args[0].startsWith("-screen=")) {
-				int screen = Integer.parseInt(args[0].substring("-screen=".length()));
-				try {
-					add = (DisplayAsConnectionToFireFox) makeDynamicDisplayByScreen(screen, DisplayAsConnectionToFireFox.class);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		
 	}
 }

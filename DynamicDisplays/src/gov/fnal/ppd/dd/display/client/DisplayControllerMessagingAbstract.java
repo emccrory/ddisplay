@@ -202,51 +202,17 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		localSetContent();
 	}
 
-	// Static methods to create an instance of the class
-
-	/**
-	 * Look up all the information from the database using the number as the DisplayID
-	 * 
-	 * @param number
-	 *            The display number this instance is
-	 * @param clazz
-	 * @return The object that deals with this display
-	 */
-	public static DisplayControllerMessagingAbstract makeDynamicDisplayByNumber(final int number, Class<?> clazz) {
-		try {
-			String query = "SELECT * FROM Display where DisplayID=" + number;
-			InetAddress ip = InetAddress.getLocalHost();
-
-			String myNode = ip.getCanonicalHostName();
-
-			return makeADisplay(myNode, query, clazz);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	/**
-	 * @param screen
-	 *            This screen number
-	 * @param clazz
-	 * @return The Dynamic Display object
-	 */
-	public static DisplayControllerMessagingAbstract makeDynamicDisplayByScreen(int screen, Class<?> clazz) {
-		try {
-			InetAddress ip = InetAddress.getLocalHost();
-
-			String myNode = ip.getCanonicalHostName();
-
-			return makeADisplay(myNode, "SELECT * FROM Display where IPName='" + myNode + "' AND ScreenNumber=" + screen, clazz);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	private static DisplayControllerMessagingAbstract makeADisplay(String myNode, String query, Class<?> clazz) {
+	static DisplayControllerMessagingAbstract makeTheDisplays(Class<?> clazz) {
 		dynamic = true;
+		DisplayControllerMessagingAbstract d = null;
+		String myNode = "localhost";
+		try {
+			myNode = InetAddress.getLocalHost().getCanonicalHostName();
+		} catch (UnknownHostException e2) {
+			e2.printStackTrace();
+		}
+
+		String query = "SELECT * FROM Display where IPName='" + myNode + "'";
 
 		Connection connection;
 		try {
@@ -263,62 +229,66 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			}
 
 			try (ResultSet rs = stmt.executeQuery(query);) {
-				// Move to first returned row (there should only be one)
-				if (rs.first())
-					try {
-						String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
-
-						if (!myName.equals(myNode)) {
-							// TODO This will not work if the IPName in the database is an IP address.
-							System.out.println("The node name of this display, according to the database, is supposed to be '"
-									+ myName + "', but InetAddress.getLocalHost().getCanonicalHostName() says it is '" + myNode
-									+ "'\n\t** We'll try to run anyway, but this should be fixed **");
-							// System.exit(-1);
-						}
-						int dbNumber = rs.getInt("DisplayID");
-						int vNumber = rs.getInt("VirtualDisplayNumber");
-
-						System.out.println("The node name of this display (no. " + vNumber + "/" + dbNumber + ") is '" + myNode
-								+ "'");
-
-						String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
-						SignageType type = SignageType.valueOf(t);
-						String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
-						String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
-						Color color = new Color(Integer.parseInt(colorString, 16));
-
-						// int portNumber = rs.getInt("Port");
-						int portNumber = 0;  // NOT USED like this.  The "Port number" has become the LocationCode
-						int screenNumber = rs.getInt("ScreenNumber");
-						int channelNumber = rs.getInt("Content");
-						SignageContent cont = getChannelFromNumber(channelNumber);
-
-						stmt.close();
-						rs.close();
-
-						// Now create the class object
-
-						Constructor<?> cons;
+				// Move to first returned row (there will be more than one if there are multiple screens on this PC)
+				if (rs.first()) {
+					while (!rs.isAfterLast()) {
 						try {
-							cons = clazz.getConstructor(String.class, int.class, int.class, int.class, int.class, String.class,
-									Color.class, SignageType.class);
-							DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons
-									.newInstance(new Object[] { myName, vNumber, dbNumber, screenNumber, portNumber, location,
-											color, type });
-							d.setContentBypass(cont);
-							d.initiate();
-							return d;
-						} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
-								| IllegalArgumentException | InvocationTargetException e) {
+							String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
+
+							if (!myName.equals(myNode)) {
+								// TODO This will not work if the IPName in the database is an IP address.
+								System.out.println("The node name of this display, according to the database, is supposed to be '"
+										+ myName + "', but InetAddress.getLocalHost().getCanonicalHostName() says it is '" + myNode
+										+ "'\n\t** We'll try to run anyway, but this should be fixed **");
+								// System.exit(-1);
+							}
+							int dbNumber = rs.getInt("DisplayID");
+							int vNumber = rs.getInt("VirtualDisplayNumber");
+
+							System.out.println("The node name of this display (no. " + vNumber + "/" + dbNumber + ") is '" + myNode
+									+ "'");
+
+							String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
+							SignageType type = SignageType.valueOf(t);
+							String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
+							String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
+							Color color = new Color(Integer.parseInt(colorString, 16));
+
+							// int portNumber = rs.getInt("Port");
+							int portNumber = 0; // NOT USED like this. The "Port number" has become the LocationCode
+							int screenNumber = rs.getInt("ScreenNumber");
+							int channelNumber = rs.getInt("Content");
+							SignageContent cont = getChannelFromNumber(channelNumber);
+
+							// stmt.close();
+							// rs.close();
+
+							// Now create the class object
+
+							Constructor<?> cons;
+							try {
+								cons = clazz.getConstructor(String.class, int.class, int.class, int.class, int.class, String.class,
+										Color.class, SignageType.class);
+								d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] { myName, vNumber, dbNumber,
+										screenNumber, portNumber, location, color, type });
+								d.setContentBypass(cont);
+								d.initiate();
+								// return d;
+							} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
+									| IllegalArgumentException | InvocationTargetException e) {
+								e.printStackTrace();
+								System.err.println("Here are the arguments: " + myName + ", " + vNumber + ", " + dbNumber + ", "
+										+ screenNumber + ", " + portNumber + ", " + location + ", " + color + ", " + type);
+							}
+							// Allow it to loop over multiple displays
+							// return null;
+						} catch (Exception e) {
 							e.printStackTrace();
-							System.err.println("Here are the arguments: " + myName + ", " + vNumber + ", " + dbNumber + ", "
-									+ screenNumber + ", " + portNumber + ", " + location + ", " + color + ", " + type);
 						}
-						return null;
-					} catch (Exception e) {
-						e.printStackTrace();
+
+						rs.next();
 					}
-				else {
+				} else {
 					new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
 					System.err.println("\n** Cannot continue! **\nExit");
 					connection.close();
@@ -326,6 +296,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				}
 
 			} catch (SQLException e) {
+				System.err.println("Faulty query is [" + query + "]");
 				e.printStackTrace();
 			}
 		} catch (SQLException ex) {
@@ -333,8 +304,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			return failSafeVersion(clazz);
 		}
 
-		System.err.println("Control passed to a place that is impossible to reach!");
-		return null;
+		return d;
 	}
 
 	private static DisplayControllerMessagingAbstract failSafeVersion(Class<?> clazz) {
