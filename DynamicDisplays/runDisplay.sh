@@ -3,7 +3,14 @@
 # We need something to run on the X display, otherwise the present version of FireFox, with the
 # kiosk mode enabled, won't let us get to the desktop
 cd ~/src/log
-/usr/bin/xterm &
+
+if [ -e /usr/bin/xterm ]; then
+    # SLF
+    /usr/bin/xterm &
+elif [ -e /opt/X11/bin/xterm ]; then
+    # Mac OS
+    /opt/X11/bin/xterm &
+fi
 
 cd ~/src/roc-dynamicdisplays/DynamicDisplays
 
@@ -69,8 +76,7 @@ fi
 	fi
     fi
     
-    java -Dddisplay.messagingserver=$messagingServer \
-	-Dddisplay.dbserver=$databaseServer \
+    java -Dddisplay.dbserver=$databaseServer \
 	-Dddisplay.dbname=$databaseName \
 	-Dddisplay.dbusername=$databaseUsername \
 	-Dddisplay.dbpassword=$databasePassword \
