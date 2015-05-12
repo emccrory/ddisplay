@@ -55,27 +55,6 @@ public class ConnectionToFirefoxInstance {
 	private AtomicBoolean							showingCanonicalSite		= new AtomicBoolean(false);
 	private Rectangle								bounds;
 
-	// @SuppressWarnings("serial")
-	// private static final HashMap<String, String> colorNames = new HashMap<String, String>() {
-	// {
-	// put("003397", "Blue");
-	// put("80A0ff", "Light Blue");
-	// put("ffcc00", "Yellow");
-	// put("f20019", "Red");
-	// put("008000", "Green");
-	// put("71BC78", "Fern");
-	// put("fe8420", "Orange");
-	// put("ffffff", "White");
-	// put("777777", "Gray");
-	// put("800080", "Purple");
-	// put("964b00", "Brown");
-	// put("ffcbdb", "Pink");
-	// put("000000", "Black");
-	// put("ff0055", "Magenta");
-	// put("a0d681", "Light Green");
-	// }
-	// };
-
 	private static final HashMap<String, String>	colorNames					= GetColorsFromDatabase.get();
 
 	private static final String						BASE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border.php";
@@ -300,10 +279,13 @@ public class ConnectionToFirefoxInstance {
 		s += "document.getElementById('iframe').style.width=" + (bounds.width - 220) + ";\n";
 		s += "document.getElementById('iframe').style.height=" + (bounds.height - 208) + ";\n";
 
+		String displayID = "(" + dbID + ") ";
+		if (this.dbID == this.virtualID)
+			displayID = "";
 		if (colorNames.containsKey(colorCode))
-			s += "document.getElementById('colorName').innerHTML = '" + colorNames.get(colorCode) + "';\n";
+			s += "document.getElementById('colorName').innerHTML = '" + displayID + colorNames.get(colorCode) + "';\n";
 		else
-			s += "document.getElementById('colorName').innerHTML = '#" + colorCode + "';\n";
+			s += "document.getElementById('colorName').innerHTML = '" + displayID + "#" + colorCode + "';\n";
 
 		send(s);
 		println(getClass(), " -- Sent: [[" + s + "]]");
@@ -508,7 +490,7 @@ public class ConnectionToFirefoxInstance {
 	 * Force to refresh the controlling URL.
 	 */
 	public void resetURL() {
-		showingCanonicalSite.set(false);		
+		showingCanonicalSite.set(false);
 	}
 
 }
