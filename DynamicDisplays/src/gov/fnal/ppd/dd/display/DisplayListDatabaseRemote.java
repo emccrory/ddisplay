@@ -78,8 +78,9 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 		// Use ARM to simplify this try block
 		List<Integer> dID = new ArrayList<Integer>();
 		try (Statement stmt = getConnection().createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM Display LEFT JOIN DisplaySort "
-						+ "ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;");) {
+				ResultSet rs = stmt.executeQuery("SELECT DisplaySort.LocationCode as LocationCode," +
+						"Display.DisplayID as DisplayID,VirtualDisplayNumber,ScreenNumber,Location,IPName,ColorCode,Type " +
+						"FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;");) {
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
@@ -90,9 +91,8 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 					int vDisplayNum = rs.getInt("VirtualDisplayNumber");
 					int screenNumber = rs.getInt("ScreenNumber");
 					int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
-					if ((locationCode < 0 || locCode == locationCode) && !dID.contains(displayID)) { // Negative locationCode will
-																										// select ALL displays
-																										// everywhere
+					if ((locationCode < 0 || locCode == locationCode) && !dID.contains(displayID)) { 
+						// Negative locationCode will select ALL displays everywhere
 						SignageType type = SignageType.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs
 								.getAsciiStream("Type")));
 
