@@ -180,11 +180,6 @@ public class GlobalVariables {
 	 */
 	public static float				FONT_SIZE				= 40.0f;
 
-	/**
-	 * The location of the default server for everything in this system
-	 */
-	public static final String		DEFAULT_SERVER			= "xoc.fnal.gov";
-
 	// /**
 	// * Where is the messaging server? Controlled by system constant, ddisplay.messagingserver
 	// */
@@ -198,7 +193,7 @@ public class GlobalVariables {
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	public static final String		WEB_SERVER_NAME			= System.getProperty("ddisplay.webserver", DEFAULT_SERVER);
+	public static final String		WEB_SERVER_NAME			= System.getProperty("ddisplay.webserver", "dynamicdisplays.fnal.gov");
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
@@ -234,7 +229,7 @@ public class GlobalVariables {
 	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
 	 * Controlled by system constant ddisplay.xmlserver
 	 */
-	public static final String	XML_SERVER_NAME			= System.getProperty("ddisplay.xmlserver", DEFAULT_SERVER);
+	public static final String	XML_SERVER_NAME			= System.getProperty("ddisplay.xmlserver", "dynamicdisplays.fnal.gov");
 	/**
 	 * One second, expressed in milliseconds (e.g., 1000L)
 	 */
