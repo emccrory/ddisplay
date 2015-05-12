@@ -24,10 +24,24 @@ public class GetMessagingServer {
 	 * @return The name of MY messaging server (if I am a Display)!
 	 */
 	public static String getMessagingServerNameDisplay() {
-		return getMessagingServerName("Display");
+		try {
+			InetAddress ip = InetAddress.getLocalHost();
+			String myName = ip.getCanonicalHostName().replace(".dhcp", "");
+
+			String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description "
+					+ "from LocationInformation,DisplaySort,Display where "
+					+ "LocationInformation.LocationCode=DisplaySort.LocationCode AND "
+					+ "DisplaySort.DisplayID=Display.DisplayID and IPName='" + myName + "'";
+
+			return getMessagingServerName(query, myName);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		return null;
 	}
 
-	private static String getMessagingServerName(String table) {
+	private static String getMessagingServerName(String query, String myName) {
 
 		Connection connection = null;
 		try {
@@ -40,12 +54,6 @@ public class GetMessagingServer {
 
 		// Use ARM to simplify these try blocks.
 		try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-
-			InetAddress ip = InetAddress.getLocalHost();
-			String myName = ip.getCanonicalHostName().replace(".dhcp", "");
-			String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description "
-					+ "from LocationInformation," + table + " where " + "LocationInformation.LocationCode=" + table
-					+ ".LocationCode and IPName='" + myName + "'";
 			try (ResultSet rs2 = stmt.executeQuery(query);) {
 				if (rs2.first()) {
 					messagingServerName = rs2.getString("MessagingServerName");
@@ -62,8 +70,6 @@ public class GetMessagingServer {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
 		}
 
 		if (!ms.equals("X")) {
@@ -78,8 +84,20 @@ public class GetMessagingServer {
 	 * @return The name of MY messaging server (if I am a selector)!
 	 */
 	public static String getMessagingServerNameSelector() {
-		return getMessagingServerName("SelectorLocation");
-	}
+			try {
+				InetAddress ip = InetAddress.getLocalHost();
+				String myName = ip.getCanonicalHostName().replace(".dhcp", "");
+
+				String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description "
+						+ "from LocationInformation,DisplaySort,SelectorLocation where "
+						+ "LocationInformation.LocationCode=SelectorLocation.LocationCode AND IPName='" + myName + "'";
+
+				return getMessagingServerName(query, myName);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
+			return null;	}
 
 	/**
 	 * @param args
