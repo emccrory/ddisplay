@@ -197,7 +197,7 @@ public class GlobalVariables {
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	private static final String		WEB_SERVER_FOLDER		= System.getProperty("ddisplay.webfolder", "XOC");
+	private static final String		WEB_SERVER_FOLDER		= System.getProperty("ddisplay.webfolder", "");
 
 	/**
 	 * @return The web server prefix, dealing with whether or not there is a folder in there, too.
