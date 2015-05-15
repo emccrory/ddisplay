@@ -120,6 +120,9 @@ public class ObjectSigning {
 	 * @return if this client was actually in the list.
 	 */
 	public static boolean dropClient(final String client) {
+		if (clientControlList.containsKey(client) && clientControlList.get(client) != null)
+			clientControlList.remove(client);
+
 		if (keys.containsKey(client) && keys.get(client) != null) {
 			keys.remove(client);
 			return true;
