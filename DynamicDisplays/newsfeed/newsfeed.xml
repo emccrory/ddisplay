@@ -15,9 +15,9 @@ en-us</language>
 <copyright>
 Copyright 2015 The New York Times Company</copyright>
 <pubDate>
-Fri, 15 May 2015 13:52:03 GMT</pubDate>
+Fri, 15 May 2015 17:43:12 GMT</pubDate>
 <lastBuildDate>
-Fri, 15 May 2015 13:52:03 GMT</lastBuildDate>
+Fri, 15 May 2015 17:43:12 GMT</lastBuildDate>
 <ttl>
 2</ttl>
 <image>
@@ -29,15 +29,108 @@ http://graphics8.nytimes.com/images/misc/NYT_logo_rss_250x40.png</url>
 http://www.nytimes.com/pages/index.html?partner=rss&amp;emc=rss</link>
 </image>
 <item>
+<link href="http://www.nytimes.com/2015/05/16/sports/basketball/wnba-suspends-brittney-griner-and-glory-johnson-in-domestic-violence-case.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+W.N.B.A. Suspends Brittney Griner and Glory Johnson in Domestic Violence Case</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4659f868/sc/35/l/0L0Snytimes0N0C20A150C0A50C160Csports0Cbasketball0Cwnba0Esuspends0Ebrittney0Egriner0Eand0Eglory0Ejohnson0Ein0Edomestic0Eviolence0Ecase0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Griner and Johnson, who married last Friday, were suspended for seven games by the W.N.B.A. on Friday after their arrest in April.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Griner, Brittney</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Domestic Violence</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Women's National Basketball Assn</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Basketball</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Johnson, Glory (1990- )</category>
+<pubDate>
+Fri, 15 May 2015 17:20:59 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/16/sports/basketball/wnba-suspends-brittney-griner-and-glory-johnson-in-domestic-violence-case.html</guid>
+<creator>
+VICTOR MATHER</creator>
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/16/business/media/entourage-movie-to-land-in-a-transformed-buttoned-up-hollywood.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+‘Entourage’ Movie to Land in a Transformed, Buttoned-Up Hollywood</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/465a7253/sc/14/l/0L0Snytimes0N0C20A150C0A50C160Cbusiness0Cmedia0Centourage0Emovie0Eto0Eland0Ein0Ea0Etransformed0Ebuttoned0Eup0Ehollywood0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Much has changed since “Entourage” first portrayed Hollywood’s decadent business culture, as private equity has taken the reins and talent agencies have scattered and merged.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Emanuel, Ariel Z</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Movies</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_ttl">
+Entourage (Movie)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Agents (Business)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_ttl">
+Entourage (TV Program)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Home Box Office</category>
+<pubDate>
+Fri, 15 May 2015 16:56:06 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/16/business/media/entourage-movie-to-land-in-a-transformed-buttoned-up-hollywood.html</guid>
+<creator>
+MICHAEL CIEPLY</creator>
+<credit scheme="urn:ebu">
+Claudette Barius/Warner Bros. Pictures</credit>
+<description>
+A scene from the coming movie version of “Entourage,” featuring the consummate Hollywood agent Ari Gold, front right, played by Jeremy Piven.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/15/business/16entourage-web1/16entourage-web1-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/16/nyregion/nail-salon-conditions-for-workers-in-new-york-draw-city-officials-attention.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+De Blasio Says New York Will Investigate Nail Industry Practices</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4659cd03/sc/7/l/0L0Snytimes0N0C20A150C0A50C160Cnyregion0Cnail0Esalon0Econditions0Efor0Eworkers0Ein0Enew0Eyork0Edraw0Ecity0Eofficials0Eattention0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Voicing outrage at the “deplorable conditions” for nail salon workers, Mayor Bill de Blasio vowed to take action, though the city’s powers to regulate the industry are limited.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Consumer Affairs Department (NYC)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+New York City</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Regulation and Deregulation of Industry</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+de Blasio, Bill</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Menin, Julie</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Nails (Body Part)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Beauty Salons</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Labor and Jobs</category>
+<pubDate>
+Fri, 15 May 2015 16:40:15 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/16/nyregion/nail-salon-conditions-for-workers-in-new-york-draw-city-officials-attention.html</guid>
+<creator>
+SARAH MASLIN NIR</creator>
+<credit scheme="urn:ebu">
+Nicole Bengiveno/The New York Times</credit>
+<description>
+City officials will check products at nail salon and disseminate information to workers about their rights.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/16/nyregion/16SALON/16SALON-moth.jpg" />
+</item>
+<item>
 <link href="http://www.nytimes.com/2015/05/15/nytnow/latest-news-asian-migrants-adrift-bb-king-dies-and-more.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
-Latest News: Asian Migrants Adrift, B.B. King Dies and More</title>
+Latest News: Amtrak Inquiry, B.B. King Dies and More</title>
 <link>
 http://rss.nytimes.com/c/34625/f/640350/s/4656c12c/sc/15/l/0L0Snytimes0N0C20A150C0A50C150Cnytnow0Clatest0Enews0Easian0Emigrants0Eadrift0Ebb0Eking0Edies0Eand0Emore0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
 <description>
 Here’s what you need to know to start your day.</description>
 <pubDate>
-Fri, 15 May 2015 13:49:16 GMT</pubDate>
+Fri, 15 May 2015 16:36:33 GMT</pubDate>
 <guid isPermaLink="false">
 http://www.nytimes.com/2015/05/15/nytnow/latest-news-asian-migrants-adrift-bb-king-dies-and-more.html</guid>
 <creator>
@@ -47,6 +140,232 @@ Jim Urquhart/Reuters</credit>
 <description>
 Mitt Romney fights Evander Holyfield in a charity boxing match tonight in Salt Lake City.</description>
 <content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/15/world/15nytnow-romney/15nytnow-romney-moth-v3.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/16/world/middleeast/isis-fighters-seize-government-headquarters-in-ramadi-iraq.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+ISIS Fighters Seize Government Headquarters in Ramadi, Iraq</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4658ae13/sc/7/l/0L0Snytimes0N0C20A150C0A50C160Cworld0Cmiddleeast0Cisis0Efighters0Eseize0Egovernment0Eheadquarters0Ein0Eramadi0Eiraq0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+It was premature to say that the city, capital of Anbar Province, had fallen to the Islamic State, but the advance appeared to represent a significant shift.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
+Ramadi (Iraq)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Islamic State in Iraq and Syria (ISIS)</category>
+<pubDate>
+Fri, 15 May 2015 16:21:40 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/16/world/middleeast/isis-fighters-seize-government-headquarters-in-ramadi-iraq.html</guid>
+<creator>
+TIM ARANGO</creator>
+<credit scheme="urn:ebu">
+Reuters</credit>
+<description>
+Residents of Ramadi, Iraq, began fleeing the city on Friday after Islamic State militants seized the main government headquarters.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/16/world/16Ramadi-web/16Ramadi-web-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/16/technology/carl-icahn-invests-100-million-in-lyft.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Carl Icahn Invests $100 Million in Lyft</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4659cd08/sc/28/l/0L0Snytimes0N0C20A150C0A50C160Ctechnology0Ccarl0Eicahn0Einvests0E10A0A0Emillion0Ein0Elyft0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+The investment is an extension of a $530 million round that the ride-hailing start-up raised in March, valuing it at $2.5 billion.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Car Services and Livery Cabs</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Icahn, Carl C</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
+Start-ups</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Venture Capital</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Uber Technologies Inc</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
+Lyft Inc</category>
+<pubDate>
+Fri, 15 May 2015 16:21:03 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/16/technology/carl-icahn-invests-100-million-in-lyft.html</guid>
+<creator>
+MIKE ISAAC and ALEXANDRA STEVENSON</creator>
+<credit scheme="urn:ebu">
+Justin Sullivan/Getty Images</credit>
+<description>
+A Lyft car in San Francisco last year.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/16/business/16db-lyft-web/16db-lyft-web-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/interactive/2015/05/15/upshot/the-places-that-discourage-marriage-most.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+How Your Hometown Affects Your Chances of Marriage</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4659cd05/sc/7/l/0L0Snytimes0N0Cinteractive0C20A150C0A50C150Cupshot0Cthe0Eplaces0Ethat0Ediscourage0Emarriage0Emost0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+People are less likely to marry if they grow up in certain places, especially liberal ones.</description>
+<pubDate>
+Fri, 15 May 2015 15:58:14 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/interactive/2015/05/15/upshot/the-places-that-discourage-marriage-most.html</guid>
+<creator>
+DAVID LEONHARDT and KEVIN QUEALY</creator>
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/16/sports/preakness-favorites-problem-he-hates-crowds-but-packs-them-in.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Preakness Favorite’s Problem: He Hates Crowds but Packs Them In</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/46597cb8/sc/13/l/0L0Snytimes0N0C20A150C0A50C160Csports0Cpreakness0Efavorites0Eproblem0Ehe0Ehates0Ecrowds0Ebut0Epacks0Ethem0Ein0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+American Pharoah, a gentle horse, is unnerved by big crowds, an unfortunate Achilles’ heel to have during Triple Crown season, when races attract over 100,000 people.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Baffert, Bob</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Preakness Stakes</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_keyword">
+American Pharoah (Race Horse)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Triple Crown (Horse Racing)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
+Zayat, Ahmed</category>
+<pubDate>
+Fri, 15 May 2015 15:15:29 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/16/sports/preakness-favorites-problem-he-hates-crowds-but-packs-them-in.html</guid>
+<creator>
+MELISSA HOPPERT</creator>
+<credit scheme="urn:ebu">
+Matt Roth for The New York Times</credit>
+<description>
+American Pharoah has cotton plugs put in his ears before every race to help with his fear of crowds.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/16/sports/16HORSEweb1/16HORSEweb1-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/16/us/house-passes-military-spending-bill-after-fight-on-cuts.html?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+House Passes Military Spending Bill After Fight on Cuts</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/46593f0f/sc/7/l/0L0Snytimes0N0C20A150C0A50C160Cus0Chouse0Epasses0Emilitary0Espending0Ebill0Eafter0Efight0Eon0Ecuts0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Democrats took issue with Republican moves to exempt the military from the across-the-board government cuts known as sequestration.</description>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+United States Defense and Military Forces</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+Federal Budget (US)</category>
+<category domain="http://www.nytimes.com/namespaces/keywords/des">
+United States Politics and Government</category>
+<pubDate>
+Fri, 15 May 2015 15:04:19 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/16/us/house-passes-military-spending-bill-after-fight-on-cuts.html</guid>
+<creator>
+ASHLEY PARKER</creator>
+</item>
+<item>
+<link href="http://www.nytimes.com/2015/05/16/arts/music/b-b-king-blues-singer-dies-at-89.html?hp&amp;partner=rss&amp;emc=rss" rel="standout" />
+<title>
+Voice of the Blues for Generations</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/46592a61/sc/28/l/0L0Snytimes0N0C20A150C0A50C160Carts0Cmusic0Cb0Eb0Eking0Eblues0Esinger0Edies0Eat0E890Bhtml0Dhp0Gpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Mr. King’s world-weary voice and wailing guitar lifted him from the cotton fields of Mississippi to a global stage and the apex of American blues. He died Thursday at 89.</description>
+<pubDate>
+Fri, 15 May 2015 14:57:38 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/2015/05/16/arts/music/b-b-king-blues-singer-dies-at-89.html?hp</guid>
+<creator>
+TIM WEINER</creator>
+</item>
+<item>
+<link href="http://www.nytimes.com/politics/first-draft/2015/05/15/george-stephanopoulos-apologizes-to-viewers-on-clinton-donations/?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+First Draft: George Stephanopoulos Apologizes to Viewers on Clinton Donations</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/46583ce3/sc/7/l/0L0Snytimes0N0Cpolitics0Cfirst0Edraft0C20A150C0A50C150Cgeorge0Estephanopoulos0Eapologizes0Eto0Eviewers0Eon0Eclinton0Edonations0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+George Stephanopoulos told “Good Morning America” viewers that it was a “mistake” for him to donate $75,000 over the last three years to the Clinton Foundation, and he apologized for not disclosing the contribution.</description>
+<category domain="http://www.nytimes.com/namespaces/">
+Presidential Election of 2016</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Clinton Foundation</category>
+<category domain="http://www.nytimes.com/namespaces/">
+ABC News</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Stephanopoulos, George</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Philanthropy</category>
+<pubDate>
+Fri, 15 May 2015 14:55:20 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/politics/first-draft/2015/05/15/george-stephanopoulos-apologizes-to-viewers-on-clinton-donations/</guid>
+<creator>
+JOHN KOBLIN</creator>
+<credit scheme="urn:ebu">
+Karsten Moran for The New York Times</credit>
+<description>
+George Stephanopoulos on a monitor from the control room at the "Good Morning America" ABC studio in Times Square in December.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/14/us/politics/14firstdraft-George-Stephanopoulos/14firstdraft-George-Stephanopoulos-moth.jpg" />
+</item>
+<item>
+<link href="http://www.nytimes.com/politics/first-draft/2015/05/15/today-in-politics-republicans-head-to-iowa-to-court-activists/?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+First Draft: Today in Politics: Republicans Head to Iowa to Court Activists</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/465780d3/sc/7/l/0L0Snytimes0N0Cpolitics0Cfirst0Edraft0C20A150C0A50C150Ctoday0Ein0Epolitics0Erepublicans0Ehead0Eto0Eiowa0Eto0Ecourt0Eactivists0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Jeb Bush picked a curious week to reveal he would be skipping the Iowa straw poll: just days before he attends a dinner hosted by the straw poll’s sponsor, the Republican Party of Iowa.</description>
+<category domain="http://www.nytimes.com/namespaces/">
+Presidential Election of 2016</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Bush, George W</category>
+<category domain="http://www.nytimes.com/namespaces/">
+United States Politics and Government</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Stewart, Jon</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Paul, Rand</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Holyfield, Evander</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Bush, Jeb</category>
+<category domain="http://www.nytimes.com/namespaces/">
+ABC News</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Romney, Mitt</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Rubio, Marco</category>
+<category domain="http://www.nytimes.com/namespaces/">
+Republican Party</category>
+<pubDate>
+Fri, 15 May 2015 14:51:46 GMT</pubDate>
+<guid isPermaLink="false">
+http://www.nytimes.com/politics/first-draft/2015/05/15/today-in-politics-republicans-head-to-iowa-to-court-activists/</guid>
+<creator>
+THE NEW YORK TIMES</creator>
+<credit scheme="urn:ebu">
+Isaac Brekken for The New York Times</credit>
+<description>
+Jeb Bush spoke to the Clark County Republican Party on Wednesday in Las Vegas.</description>
+<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/15/us/politics/15firstdraft-jeb-iowa/15firstdraft-jeb-iowa-moth.jpg" />
+</item>
+<item>
+<link href="http://cityroom.blogs.nytimes.com/2015/05/15/new-york-today-basking-in-the-spring-sun/?partner=rss&amp;emc=rss" rel="standout" />
+<title>
+City Room: New York Today: Basking in the Spring Sun</title>
+<link>
+http://rss.nytimes.com/c/34625/f/640350/s/4656c12f/sc/14/l/0Lcityroom0Bblogs0Bnytimes0N0C20A150C0A50C150Cnew0Eyork0Etoday0Ebasking0Ein0Ethe0Espring0Esun0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
+<description>
+Friday and the weekend: Where to sunbathe, showers coming, and a shark starring on Twitter.</description>
+<category domain="http://www.nytimes.com/namespaces/">
+New York Today</category>
+<pubDate>
+Fri, 15 May 2015 13:51:53 GMT</pubDate>
+<guid isPermaLink="false">
+http://cityroom.blogs.nytimes.com/2015/05/15/new-york-today-basking-in-the-spring-sun/</guid>
+<creator>
+BENJAMIN MUELLER and TATIANA SCHLOSSBERG</creator>
 </item>
 <item>
 <link href="http://artsbeat.blogs.nytimes.com/2015/05/15/artists-respond-to-b-b-kings-death-on-social-media/?partner=rss&amp;emc=rss" rel="standout" />
@@ -100,42 +419,6 @@ http://www.nytimes.com/2015/05/16/world/asia/kerry-china-south-sea-dispute.html<
 ANDREW JACOBS</creator>
 </item>
 <item>
-<link href="http://cityroom.blogs.nytimes.com/2015/05/15/new-york-today-basking-in-the-spring-sun/?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-City Room: New York Today: Basking in the Spring Sun</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4656c12f/sc/14/l/0Lcityroom0Bblogs0Bnytimes0N0C20A150C0A50C150Cnew0Eyork0Etoday0Ebasking0Ein0Ethe0Espring0Esun0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Friday and the weekend: Where to sunbathe, showers coming, and a shark starring on Twitter.</description>
-<category domain="http://www.nytimes.com/namespaces/">
-New York Today</category>
-<pubDate>
-Fri, 15 May 2015 13:28:46 GMT</pubDate>
-<guid isPermaLink="false">
-http://cityroom.blogs.nytimes.com/2015/05/15/new-york-today-basking-in-the-spring-sun/</guid>
-<creator>
-BENJAMIN MUELLER and TATIANA SCHLOSSBERG</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/16/world/middleeast/isis-fighters-seize-government-headquarters-in-ramadi-iraq.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-ISIS Fighters Seize Government Headquarters in Ramadi, Iraq</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4658ae13/sc/7/l/0L0Snytimes0N0C20A150C0A50C160Cworld0Cmiddleeast0Cisis0Efighters0Eseize0Egovernment0Eheadquarters0Ein0Eramadi0Eiraq0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-It was premature to say that the city, capital of Anbar Province, had fallen to the Islamic State, but the advance appeared to represent a significant shift.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Ramadi (Iraq)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Islamic State in Iraq and Syria (ISIS)</category>
-<pubDate>
-Fri, 15 May 2015 13:21:15 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/16/world/middleeast/isis-fighters-seize-government-headquarters-in-ramadi-iraq.html</guid>
-<creator>
-TIM ARANGO</creator>
-</item>
-<item>
 <link href="http://www.nytimes.com/2015/05/16/arts/international/matisse-gurlitt-collection-femme-assise-seated-woman.html?partner=rss&amp;emc=rss" rel="standout" />
 <title>
 Matisse From Gurlitt Collection Is Returned to Jewish Art Dealer’s Heirs</title>
@@ -166,78 +449,6 @@ Wolf Heider-Sawall/Art Recovery, via Agence France-Presse — Getty Images</cred
 <description>
 Christopher A. Marinello, a lawyer who specializes in tracking down looted and stolen art, with the recovered Matisse, "Femme Assise," in Munich on Friday.</description>
 <content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/16/world/16Gurlitt-web/16Gurlitt-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/politics/first-draft/2015/05/15/today-in-politics-republicans-head-to-iowa-to-court-activists/?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-First Draft: Today in Politics: Republicans Head to Iowa to Court Activists</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/465780d3/sc/7/l/0L0Snytimes0N0Cpolitics0Cfirst0Edraft0C20A150C0A50C150Ctoday0Ein0Epolitics0Erepublicans0Ehead0Eto0Eiowa0Eto0Ecourt0Eactivists0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Jeb Bush picked a curious week to reveal he would be skipping the Iowa straw poll: just days before he attends a dinner hosted by the straw poll’s sponsor, the Republican Party of Iowa.</description>
-<category domain="http://www.nytimes.com/namespaces/">
-Presidential Election of 2016</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Bush, George W</category>
-<category domain="http://www.nytimes.com/namespaces/">
-United States Politics and Government</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Stewart, Jon</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Paul, Rand</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Holyfield, Evander</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Bush, Jeb</category>
-<category domain="http://www.nytimes.com/namespaces/">
-ABC News</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Romney, Mitt</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Rubio, Marco</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Republican Party</category>
-<pubDate>
-Fri, 15 May 2015 12:54:07 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/politics/first-draft/2015/05/15/today-in-politics-republicans-head-to-iowa-to-court-activists/</guid>
-<creator>
-THE NEW YORK TIMES</creator>
-<credit scheme="urn:ebu">
-Isaac Brekken for The New York Times</credit>
-<description>
-Jeb Bush spoke to the Clark County Republican Party on Wednesday in Las Vegas.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/15/us/politics/15firstdraft-jeb-iowa/15firstdraft-jeb-iowa-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/politics/first-draft/2015/05/15/george-stephanopoulos-apologizes-to-viewers-on-clinton-donations/?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-First Draft: George Stephanopoulos Apologizes to Viewers on Clinton Donations</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/46583ce3/sc/7/l/0L0Snytimes0N0Cpolitics0Cfirst0Edraft0C20A150C0A50C150Cgeorge0Estephanopoulos0Eapologizes0Eto0Eviewers0Eon0Eclinton0Edonations0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-George Stephanopoulos told “Good Morning America” viewers that it was a “mistake” for him to donate $75,000 over the last three years to the Clinton Foundation, and he apologized for not disclosing the contribution.</description>
-<category domain="http://www.nytimes.com/namespaces/">
-Presidential Election of 2016</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Clinton Foundation</category>
-<category domain="http://www.nytimes.com/namespaces/">
-ABC News</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Stephanopoulos, George</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Philanthropy</category>
-<pubDate>
-Fri, 15 May 2015 12:36:19 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/politics/first-draft/2015/05/15/george-stephanopoulos-apologizes-to-viewers-on-clinton-donations/</guid>
-<creator>
-JOHN KOBLIN</creator>
-<credit scheme="urn:ebu">
-Karsten Moran for The New York Times</credit>
-<description>
-George Stephanopoulos on a monitor from the control room at the "Good Morning America" ABC studio in Times Square in December.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/14/us/politics/14firstdraft-George-Stephanopoulos/14firstdraft-George-Stephanopoulos-moth.jpg" />
 </item>
 <item>
 <link href="http://publiceditor.blogs.nytimes.com/2015/05/15/a-jewish-litmus-test-was-unacceptable/?partner=rss&amp;emc=rss" rel="standout" />
@@ -337,245 +548,6 @@ Mark Ralston/Agence France-Presse — Getty Images</credit>
 <description>
 Blake Griffin of the Clippers has his shot blocked by Houston's Josh Smith Thursday.</description>
 <content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/16/sports/clippers/clippers-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/16/us/politics/iraq-war-haunts-potential-bush-candidacy-as-it-did-clinton-in-2008.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Morning Memo: Iraq War Haunts Potential Bush Candidacy, as It Did Clinton in 2008</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/465780d0/sc/7/l/0L0Snytimes0N0C20A150C0A50C160Cus0Cpolitics0Ciraq0Ewar0Ehaunts0Epotential0Ebush0Ecandidacy0Eas0Eit0Edid0Eclinton0Ein0E20A0A80Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Jeb Bush is determined to run his all-but-declared campaign on his own terms, but he appears deeply conflicted about his brother’s war legacy.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Clinton, Hillary Rodham</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-United States Politics and Government</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Iraq War (2003-11)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Bush, Jeb</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Iraq</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-American Enterprise Institute for Public Policy Research</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Republican Party</category>
-<pubDate>
-Fri, 15 May 2015 11:06:29 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/16/us/politics/iraq-war-haunts-potential-bush-candidacy-as-it-did-clinton-in-2008.html</guid>
-<creator>
-JONATHAN MARTIN</creator>
-<credit scheme="urn:ebu">
-Isaac Brekken for The New York Times</credit>
-<description>
-Jeb Bush at a Clark County Republican Party event in Las Vegas on Wednesday.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/15/us/17IRAQ/17IRAQ-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/16/world/asia/missing-us-marine-helicopter-is-found-in-nepal-official-says.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Missing U.S. Marine Helicopter Is Found in Nepal, Official Says</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/46560ba7/sc/16/l/0L0Snytimes0N0C20A150C0A50C160Cworld0Casia0Cmissing0Eus0Emarine0Ehelicopter0Eis0Efound0Ein0Enepal0Eofficial0Esays0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Nepal’s defense chief said that three charred bodies had been found in the wreckage of the helicopter, which vanished Tuesday with six Marines and two Nepalese soldiers aboard.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-United States Defense and Military Forces</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Nepal</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Helicopters</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Aviation Accidents, Safety and Disasters</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Earthquakes</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-United States Marine Corps</category>
-<pubDate>
-Fri, 15 May 2015 10:26:31 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/16/world/asia/missing-us-marine-helicopter-is-found-in-nepal-official-says.html</guid>
-<creator>
-BHADRA SHARMA and GARDINER HARRIS</creator>
-<credit scheme="urn:ebu">
-Niranjan Shrestha/Associated Press</credit>
-<description>
-Nepalese soldiers in Kathmandu prepared for a rescue mission to the site of suspected wreckage of a United States Marine helicopter.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/16/world/16rescue-web/16rescue-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/16/world/asia/narendra-modi-urges-china-to-rethink-policies-that-strain-ties-to-india.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Modi Calls on China to Rethink Stances That Strain Ties to India</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/46560b9d/sc/39/l/0L0Snytimes0N0C20A150C0A50C160Cworld0Casia0Cnarendra0Emodi0Eurges0Echina0Eto0Erethink0Epolicies0Ethat0Estrain0Eties0Eto0Eindia0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-After meeting with the Chinese premier in Beijing, Prime Minister Narendra Modi said that improved relations would hinge on how China responds to Indian concerns.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-India</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Beijing (China)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Modi, Narendra</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-China</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Jaishankar, Subrahmanyam</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Xi Jinping</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Li Keqiang</category>
-<pubDate>
-Fri, 15 May 2015 10:17:36 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/16/world/asia/narendra-modi-urges-china-to-rethink-policies-that-strain-ties-to-india.html</guid>
-<creator>
-CHRIS BUCKLEY and ELLEN BARRY</creator>
-<credit scheme="urn:ebu">
-Rolex Dela Pena/European Pressphoto Agency</credit>
-<description>
-Premier Li Keqiang of China welcomed Prime Minister Narendra Modi of India at the Great Hall of the People in Beijing on Friday.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/16/world/16modi_web1/16modi_web1-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/16/world/middleeast/ayelet-shaked-israels-new-justice-minister-shrugs-off-critics-in-her-path.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Ayelet Shaked, Israel’s New Justice Minister, Shrugs Off Critics in Her Path</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/46564e97/sc/7/l/0L0Snytimes0N0C20A150C0A50C160Cworld0Cmiddleeast0Cayelet0Eshaked0Eisraels0Enew0Ejustice0Eminister0Eshrugs0Eoff0Ecritics0Ein0Eher0Epath0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Ms. Shaked has been called the Michele M. Bachmann of Israeli politics and the most prominent politician “who could star in a calendar hanging in garages.”</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Hiring and Promotion</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Netanyahu, Benjamin</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Legislatures and Parliaments</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Israel</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Palestinians</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Shaked, Ayelet (1976- )</category>
-<pubDate>
-Fri, 15 May 2015 09:00:15 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/16/world/middleeast/ayelet-shaked-israels-new-justice-minister-shrugs-off-critics-in-her-path.html</guid>
-<creator>
-JODI RUDOREN</creator>
-<credit scheme="urn:ebu">
-Uriel Sinai for The New York Times</credit>
-<description>
-Ayelet Shaked at her office in the Israeli Parliament in Jerusalem.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/16/world/16SHAKED/16SHAKED-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/16/arts/music/b-b-king-blues-singer-dies-at-89.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-B. B. King, Defining Bluesman for Generations, Dies at 89</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/465555bf/sc/38/l/0L0Snytimes0N0C20A150C0A50C160Carts0Cmusic0Cb0Eb0Eking0Eblues0Esinger0Edies0Eat0E890Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Mr. King’s world-weary voice and wailing guitar lifted him from the cotton fields of Mississippi to a global stage and the apex of American blues.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Music</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Deaths (Obituaries)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-King, B B</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Blues Music</category>
-<pubDate>
-Fri, 15 May 2015 06:21:44 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/16/arts/music/b-b-king-blues-singer-dies-at-89.html</guid>
-<creator>
-TIM WEINER</creator>
-</item>
-<item>
-<title>
-Burundi Authorities Arrest Three Generals Over Coup Attempt: Presidency</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4655e02a/sc/40/l/0L0Snytimes0N0Creuters0C20A150C0A50C150Cworld0Cafrica0C15reuters0Eburundi0Epolitics0Earrest0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The authorities have arrested three generals for their role in an attempted coup in Burundi but the leader of the bid to overthrow President Pierre Nkurunziza was "still on the run", a presidential spokesman said on Friday.</description>
-<pubDate>
-Fri, 15 May 2015 06:01:30 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/reuters/2015/05/15/world/africa/15reuters-burundi-politics-arrest.html</guid>
-<creator>
-REUTERS</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/15/us/the-nuns-spoke-out-but-the-archbishop-listened.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-The Nuns Spoke Out, but the Archbishop Listened</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4654e3be/sc/38/l/0L0Snytimes0N0C20A150C0A50C150Cus0Cthe0Enuns0Espoke0Eout0Ebut0Ethe0Earchbishop0Elistened0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The American nuns’ journey from pariah status to a papal welcome and photo opportunity lasted three years and was conducted behind closed doors.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Congregation for the Doctrine of the Faith</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Leadership Conference of Women Religious</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Roman Catholic Church</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Nuns</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Francis</category>
-<pubDate>
-Fri, 15 May 2015 04:01:02 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/15/us/the-nuns-spoke-out-but-the-archbishop-listened.html</guid>
-<creator>
-LAURIE GOODSTEIN</creator>
-<credit scheme="urn:ebu">
-Mark Makela for The New York Times</credit>
-<description>
-Sister Carol Zinn, a past president of the Leadership Conference of Women Religious, was one of a group of nuns who met with Pope Francis in the Vatican last month.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/14/us/15NUNSWEB1/15NUNSWEB1-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/15/world/americas/colombia-halts-us-backed-spraying-of-illegal-coca-crops.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Defying U.S., Colombia Halts Aerial Spraying of Crops Used to Make Cocaine</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4653f5ed/sc/7/l/0L0Snytimes0N0C20A150C0A50C150Cworld0Camericas0Ccolombia0Ehalts0Eus0Ebacked0Espraying0Eof0Eillegal0Ecoca0Ecrops0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The government’s decision to end the long-running program, a tool in the war on drugs, was made because of a concern that the spray causes cancer.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Colombia</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Drug Abuse and Traffic</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Revolutionary Armed Forces of Colombia</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-White House Office of National Drug Control Policy</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Santos, Juan Manuel</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-United States International Relations</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Cocaine and Crack Cocaine</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Coca (Plant)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_keyword">
-Roundup</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-World Health Organization</category>
-<pubDate>
-Fri, 15 May 2015 02:48:30 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/15/world/americas/colombia-halts-us-backed-spraying-of-illegal-coca-crops.html</guid>
-<creator>
-WILLIAM NEUMAN</creator>
-<credit scheme="urn:ebu">
-Fernando Vergara/Associated Press</credit>
-<description>
-Two planes fumigated fields of coca, the basis for cocaine, in Colombia in 2006. Some fear the chemical causes cancer.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/15/world/15COLOMBIA/15COLOMBIA-moth.jpg" />
 </item>
 </channel>
 </rss>

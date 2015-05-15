@@ -6,6 +6,7 @@
 package gov.fnal.ppd.dd.channel;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -37,6 +38,8 @@ import javax.swing.JSpinner;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * Let the user create a list of channels for a display to play. This is used in CreateListOfChannelsHelper as a GUI element that is
@@ -49,26 +52,6 @@ public class CreateListOfChannels extends JPanel {
 
 	private static final long		serialVersionUID	= 2157704848183269779L;
 	private static final String		NOT_SELECTED		= "                  ";
-
-	private Set<SignageContent>		publicChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
-																ChannelCategory.PUBLIC);
-	private Set<SignageContent>		miscChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
-																ChannelCategory.MISCELLANEOUS);
-	private Set<SignageContent>		details1Channels	= ChannelCatalogFactory.getInstance().getChannelCatalog(
-																ChannelCategory.PUBLIC_DETAILS);
-	private Set<SignageContent>		details2Channels	= ChannelCatalogFactory.getInstance().getChannelCatalog(
-																ChannelCategory.EXPERIMENT_DETAILS);
-
-	private Set<SignageContent>		novaChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
-																ChannelCategory.NOVA_DETAILS);
-	private Set<SignageContent>		numiChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
-																ChannelCategory.NUMI_DETAILS);
-
-	private Set<SignageContent>		beamChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
-																ChannelCategory.ACCELERATOR);
-
-	private Set<SignageContent>		videoChannels		= ChannelCatalogFactory.getInstance().getChannelCatalog(
-																ChannelCategory.VIDEOS);
 
 	private List<SignageContent>	channelList			= new ArrayList<SignageContent>();
 	private List<JLabel>			labelList			= new ArrayList<JLabel>();
@@ -106,313 +89,6 @@ public class CreateListOfChannels extends JPanel {
 
 	@SuppressWarnings("unused")
 	private void makeButtons() {
-		//
-		// TODO Instead of a long vertical list of channels in the "Channel List" GUI, organize them into separate panels, with a
-		// titled border
-		//
-
-		GridBagConstraints bag = new GridBagConstraints();
-		bag.fill = GridBagConstraints.HORIZONTAL;
-		bag.gridx = bag.gridy = 1;
-		if (SHOW_IN_WINDOW)
-			bag.insets = new Insets(2, 2, 2, 2);
-		else
-			bag.insets = new Insets(6, 6, 6, 6);
-		bag.anchor = GridBagConstraints.CENTER;
-
-		add(Box.createRigidArea(new Dimension(10, 10)), bag);
-		bag.gridy++;
-
-		Box bh = Box.createHorizontalBox();
-		bh.add(new BigLabel("Dwell time (msec): ", Font.PLAIN));
-
-		SpinnerModel model = new SpinnerListModel(getDwellStrings());
-		time = new JSpinner(model);
-		time.setValue(new Long(20000l));
-		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		if (!SHOW_IN_WINDOW)
-			time.setFont(new Font("Monospace", Font.PLAIN, 40));
-		bh.add(time);
-		bh.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-
-		bag.gridwidth = 2;
-		add(bh, bag);
-		bag.gridy++;
-
-		add(new BigLabel("---------- Public Channels ----------", Font.BOLD), bag);
-		bag.gridy++;
-
-		bag.gridwidth = 1;
-		for (final SignageContent CONTENT : publicChannels) {
-			final JButton b = new BigButton(CONTENT.getName());
-			add(b, bag);
-			bag.gridx++;
-			final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
-			add(lab, bag);
-			bag.gridx--;
-			bag.gridy++;
-			b.addActionListener(new ActionListener() {
-				boolean	selected	= false;
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (selected) {
-						selected = false;
-						channelList.remove(CONTENT);
-						lab.setText(NOT_SELECTED);
-						labelList.remove(lab);
-					} else {
-						selected = true;
-						channelList.add(CONTENT);
-						lab.setText("XX");
-						labelList.add(lab);
-					}
-					fixLabels();
-				}
-			});
-		}
-
-		bag.gridwidth = 2;
-		add(new JSeparator(), bag);
-		bag.gridy++;
-		add(new BigLabel("---------- Details Channels ----------", Font.BOLD), bag);
-		bag.gridy++;
-		bag.gridwidth = 1;
-		for (final SignageContent CONTENT : details1Channels) {
-			final JButton b = new BigButton(CONTENT.getName());
-			add(b, bag);
-			bag.gridx++;
-			final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
-			add(lab, bag);
-			bag.gridx--;
-			bag.gridy++;
-			b.addActionListener(new ActionListener() {
-				boolean	selected	= false;
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (selected) {
-						selected = false;
-						channelList.remove(CONTENT);
-						lab.setText(NOT_SELECTED);
-						labelList.remove(lab);
-					} else {
-						selected = true;
-						channelList.add(CONTENT);
-						lab.setText("XX");
-						labelList.add(lab);
-					}
-					fixLabels();
-				}
-			});
-		}
-		for (final SignageContent CONTENT : details2Channels) {
-			final JButton b = new BigButton(CONTENT.getName());
-			add(b, bag);
-			bag.gridx++;
-			final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
-			add(lab, bag);
-			bag.gridx--;
-			bag.gridy++;
-			b.addActionListener(new ActionListener() {
-				boolean	selected	= false;
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (selected) {
-						selected = false;
-						channelList.remove(CONTENT);
-						lab.setText(NOT_SELECTED);
-						labelList.remove(lab);
-					} else {
-						selected = true;
-						channelList.add(CONTENT);
-						lab.setText("XX");
-						labelList.add(lab);
-					}
-					fixLabels();
-				}
-			});
-		}
-
-		bag.gridwidth = 2;
-		add(new JSeparator(), bag);
-		bag.gridy++;
-		add(new BigLabel("---------- Miscellaneous Channels ----------", Font.BOLD), bag);
-		bag.gridwidth = 1;
-		bag.gridy++;
-
-		for (final SignageContent CONTENT : miscChannels) {
-			final JButton b = new BigButton(CONTENT.getName());
-			add(b, bag);
-			bag.gridx++;
-			final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
-			add(lab, bag);
-			bag.gridx--;
-			bag.gridy++;
-			b.addActionListener(new ActionListener() {
-				boolean	selected	= false;
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (selected) {
-						selected = false;
-						channelList.remove(CONTENT);
-						lab.setText(NOT_SELECTED);
-						labelList.remove(lab);
-					} else {
-						selected = true;
-						channelList.add(CONTENT);
-						lab.setText("XX");
-						labelList.add(lab);
-					}
-					fixLabels();
-				}
-			});
-		}
-
-		bag.gridwidth = 2;
-		add(new JSeparator(), bag);
-		bag.gridy++;
-		add(new BigLabel("---------- NOvA Channels ----------", Font.BOLD), bag);
-		bag.gridy++;
-		bag.gridwidth = 1;
-		for (final SignageContent CONTENT : novaChannels) {
-			final JButton b = new BigButton(CONTENT.getName());
-			add(b, bag);
-			bag.gridx++;
-			final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
-			add(lab, bag);
-			bag.gridx--;
-			bag.gridy++;
-			b.addActionListener(new ActionListener() {
-				boolean	selected	= false;
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (selected) {
-						selected = false;
-						channelList.remove(CONTENT);
-						lab.setText(NOT_SELECTED);
-						labelList.remove(lab);
-					} else {
-						selected = true;
-						channelList.add(CONTENT);
-						lab.setText("XX");
-						labelList.add(lab);
-					}
-					fixLabels();
-				}
-			});
-		}
-
-		bag.gridwidth = 2;
-		add(new JSeparator(), bag);
-		bag.gridy++;
-		add(new BigLabel("---------- NuMI Channels ----------", Font.BOLD), bag);
-		bag.gridy++;
-		bag.gridwidth = 1;
-		for (final SignageContent CONTENT : numiChannels) {
-			final JButton b = new BigButton(CONTENT.getName());
-			add(b, bag);
-			bag.gridx++;
-			final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
-			add(lab, bag);
-			bag.gridx--;
-			bag.gridy++;
-			b.addActionListener(new ActionListener() {
-				boolean	selected	= false;
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (selected) {
-						selected = false;
-						channelList.remove(CONTENT);
-						lab.setText(NOT_SELECTED);
-						labelList.remove(lab);
-					} else {
-						selected = true;
-						channelList.add(CONTENT);
-						lab.setText("XX");
-						labelList.add(lab);
-					}
-					fixLabels();
-				}
-			});
-		}
-
-		bag.gridwidth = 2;
-		add(new JSeparator(), bag);
-		bag.gridy++;
-		add(new BigLabel("---------- BEAM Channels ----------", Font.BOLD), bag);
-		bag.gridy++;
-		bag.gridwidth = 1;
-		for (final SignageContent CONTENT : beamChannels) {
-			final JButton b = new BigButton(CONTENT.getName());
-			add(b, bag);
-			bag.gridx++;
-			final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
-			add(lab, bag);
-			bag.gridx--;
-			bag.gridy++;
-			b.addActionListener(new ActionListener() {
-				boolean	selected	= false;
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (selected) {
-						selected = false;
-						channelList.remove(CONTENT);
-						lab.setText(NOT_SELECTED);
-						labelList.remove(lab);
-					} else {
-						selected = true;
-						channelList.add(CONTENT);
-						lab.setText("XX");
-						labelList.add(lab);
-					}
-					fixLabels();
-				}
-			});
-		}
-
-		bag.gridwidth = 2;
-		add(new JSeparator(), bag);
-		bag.gridy++;
-		add(new BigLabel("---------- Video Channels ----------", Font.BOLD), bag);
-		bag.gridy++;
-		bag.gridwidth = 1;
-		for (final SignageContent CONTENT : videoChannels) {
-			final JButton b = new BigButton(CONTENT.getName());
-			add(b, bag);
-			bag.gridx++;
-			final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
-			add(lab, bag);
-			bag.gridx--;
-			bag.gridy++;
-			b.addActionListener(new ActionListener() {
-				boolean	selected	= false;
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (selected) {
-						selected = false;
-						channelList.remove(CONTENT);
-						lab.setText(NOT_SELECTED);
-						labelList.remove(lab);
-					} else {
-						selected = true;
-						channelList.add(CONTENT);
-						lab.setText("XX");
-						labelList.add(lab);
-					}
-					fixLabels();
-				}
-			});
-		}
-
-		bag.gridx++;
-		add(Box.createRigidArea(new Dimension(10, 10)), bag);
 	}
 
 	private void alt() {
@@ -438,17 +114,39 @@ public class CreateListOfChannels extends JPanel {
 		Box bh = Box.createHorizontalBox();
 		bh.add(new BigLabel("Dwell time (msec): ", Font.PLAIN));
 
-		SpinnerModel model = new SpinnerListModel(getDwellStrings());
+		final SpinnerModel model = new SpinnerListModel(getDwellStrings());
 		time = new JSpinner(model);
 		time.setValue(new Long(20000l));
 		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		if (!SHOW_IN_WINDOW)
 			time.setFont(new Font("Monospace", Font.PLAIN, 40));
 		bh.add(time);
+		final JLabel timeInterpretLabel = new JLabel("20 seconds");
+		time.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				long val = (Long) model.getValue();
+				String t = val + " milliseconds";
+				if (val < 60000L) {
+					t = (val / 1000) + " seconds";
+				} else if (val < 3600000) {
+					double min = ((double) val) / 60000.0;
+					t = min + " minutes";
+				} else {
+					double hours = ((double) val) / (60 * 60 * 1000.0);
+					t = hours + " hours";
+				}
+				timeInterpretLabel.setText(t);
+			}
+		});
 		bh.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
 		bag.gridwidth = 2;
 		add(bh, bag);
+		bag.gridy++;
+
+		add(timeInterpretLabel, bag);
 		bag.gridy++;
 
 		ChannelCategory categories[] = CategoryDictionary.getCategories();
@@ -482,6 +180,7 @@ public class CreateListOfChannels extends JPanel {
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
+						CONTENT.setTime((Long) time.getValue());
 						if (selected) {
 							selected = false;
 							channelList.remove(CONTENT);
@@ -490,7 +189,7 @@ public class CreateListOfChannels extends JPanel {
 						} else {
 							selected = true;
 							channelList.add(CONTENT);
-							lab.setText("XX");
+							lab.setText("" + CONTENT.getTime());
 							labelList.add(lab);
 						}
 						fixLabels();
@@ -502,7 +201,6 @@ public class CreateListOfChannels extends JPanel {
 
 		bag.gridx++;
 		add(Box.createRigidArea(new Dimension(10, 10)), bag);
-
 	}
 
 	private static List<Long> getDwellStrings() {
@@ -512,7 +210,7 @@ public class CreateListOfChannels extends JPanel {
 		retval.add(7500l);
 		retval.add(8000l);
 		retval.add(9000l);
-		retval.add(10000l);
+		retval.add(10000l); // 10 seconds
 		retval.add(12000l);
 		retval.add(15000l);
 		retval.add(20000l);
@@ -521,23 +219,29 @@ public class CreateListOfChannels extends JPanel {
 		retval.add(60000l);
 		retval.add(75000l);
 		retval.add(90000l);
-		retval.add(100000l);
+		retval.add(100000l); // 100 seconds
 		retval.add(110000l);
-		retval.add(120000l);
+		retval.add(120000l); // 2 minutes
 		retval.add(150000l);
 		retval.add(180000l);
 		retval.add(210000l);
 		retval.add(240000l);
-		retval.add(300000l);
+		retval.add(300000l); // 5 minutes
 		retval.add(360000l);
 		retval.add(420000l);
 		retval.add(480000l);
 		retval.add(540000l);
-		retval.add(600000l);
+		retval.add(600000l); // 10 minutes
 		retval.add(1200000l);
 		retval.add(1800000l);
 		retval.add(2400000l);
-		retval.add(3600000l);
+		retval.add(3600000l); // One hour
+		retval.add(2 * 3600000l);
+		retval.add(3 * 3600000l);
+		retval.add(4 * 3600000l);
+		retval.add(5 * 3600000l);
+		retval.add(6 * 3600000l);
+		retval.add(8 * 3600000l); // 8 hours
 
 		return retval;
 	}
@@ -545,11 +249,18 @@ public class CreateListOfChannels extends JPanel {
 	protected void fixLabels() {
 		int count = 1;
 		for (JLabel LAB : labelList) {
-			if (!LAB.getText().equals(NOT_SELECTED))
-				LAB.setText("** No. " + (count++) + " **");
+			if (!LAB.getText().equals(NOT_SELECTED)) {
+				String t = LAB.getText();
+				if (t.startsWith("**")) {
+					String c = t.substring(t.indexOf('(') + 1, t.indexOf(')'));
+					LAB.setText("** No. " + (count++) + " (" + c + ") **");
+				} else
+					LAB.setText("** No. " + (count++) + " (" + t + ") **");
+			}
 		}
 	}
 
+	// Test this GUI. Note that it exits when you click the button!
 	private static Container getContainer() {
 		final CreateListOfChannelsHelper helper = new CreateListOfChannelsHelper();
 
@@ -560,11 +271,12 @@ public class CreateListOfChannels extends JPanel {
 				int count = 1;
 				for (SignageContent CONTENT : helper.lister.channelList)
 					if (CONTENT instanceof Channel) {
-						System.out.println(count++ + " - Channel no. " + ((Channel) CONTENT).getNumber() + ": " + CONTENT.getName());
+						System.out.println(count++ + " - Channel no. " + ((Channel) CONTENT).getNumber() + ": " + CONTENT.getName()
+								+ ", " + CONTENT.getTime());
 					} else {
-						System.out.println(count++ + " - " + CONTENT.getName());
+						System.out.println(count++ + " - " + CONTENT.getName() + ", dwell=" + CONTENT.getTime() + " msec");
 					}
-				System.out.println("Dwell time: " + helper.lister.getDwellTime() + " milliseconds");
+				System.out.println("Default dwell time: " + helper.lister.getDwellTime() + " milliseconds");
 				System.exit(0);
 			}
 		});
@@ -606,6 +318,8 @@ public class CreateListOfChannels extends JPanel {
 	 */
 	public static void main(final String[] args) {
 		// ChannelCatalogFactory.useRealChannels(true);
+		IS_PUBLIC_CONTROLLER = false;
+		SHOW_IN_WINDOW = true;
 
 		JFrame f = new JFrame(CreateListOfChannels.class.getCanonicalName() + " Testing;");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
