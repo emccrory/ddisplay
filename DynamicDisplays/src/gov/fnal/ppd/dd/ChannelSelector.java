@@ -8,8 +8,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
+import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
-import static gov.fnal.ppd.dd.GlobalVariables.locationCode;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
@@ -705,13 +705,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		}
 		f.setVisible(true);
 
-	}
-
-	/**
-	 * @return the location code for this instance of the channel selector
-	 */
-	public static int getLocationCode() {
-		return locationCode;
 	}
 
 	private static void createRefreshActions(final SignageType sType) {

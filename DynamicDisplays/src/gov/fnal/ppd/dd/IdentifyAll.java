@@ -8,8 +8,8 @@ package gov.fnal.ppd.dd;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PROGRAM_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
+import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
-import static gov.fnal.ppd.dd.GlobalVariables.locationCode;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.channel.PlainURLChannel;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -99,7 +99,7 @@ public class IdentifyAll implements ActionListener {
 		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
 
 		if (d == null)
-			displays = DisplayListFactory.getInstance(sType, locationCode);
+			displays = DisplayListFactory.getInstance(sType, getLocationCode());
 		else {
 			displays = new ArrayList<Display>();
 			displays.addAll(d);

@@ -119,6 +119,9 @@ public class ConnectionToFirefoxInstance {
 
 		port = PORT + screenNumber;
 		openConnection();
+		
+		String moveTo = "window.moveTo(" + ((int) bounds.getX()) + "," + ((int) bounds.getY()) + ");";
+		send(moveTo);
 
 		// Perform a full reset of the browser every now and then.
 		Timer timer = new Timer();
@@ -400,17 +403,16 @@ public class ConnectionToFirefoxInstance {
 					System.out.println(ConnectionToFirefoxInstance.class.getSimpleName() + ": already connected!");
 				while (!connected)
 					try {
-						println(ConnectionToFirefoxInstance.class, ":\n\tOpening connection to FireFox instance to " + LOCALHOST
-								+ ":" + port + " ... ");
+						println(getClass(), ":\n\tOpening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
 						kkSocket = new Socket(LOCALHOST, port);
-						println(ConnectionToFirefoxInstance.class, "\tSocket connection to FF created");
+						println(getClass(), "\tSocket connection to FF created");
 						out = new PrintWriter(kkSocket.getOutputStream(), true);
-						println(ConnectionToFirefoxInstance.class, "\tOutput stream established");
+						println(getClass(), "\tOutput stream established");
 						in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
-						println(ConnectionToFirefoxInstance.class, "\tInput stream established");
+						println(getClass(), "\tInput stream established");
 						connected = true;
-						println(ConnectionToFirefoxInstance.class, " ** Connected to FireFox instance on " + LOCALHOST
-								+ " through port number " + port + " ** -- " + new Date());
+						println(getClass(), " ** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
+								+ " ** -- " + new Date());
 					} catch (UnknownHostException e) {
 						System.err.println("Don't know about host " + LOCALHOST + " --  ignoring.");
 					} catch (IOException e) {

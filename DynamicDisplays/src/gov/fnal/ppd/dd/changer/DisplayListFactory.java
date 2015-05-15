@@ -56,6 +56,8 @@ public class DisplayListFactory {
 			return new DisplayListDatabaseRemote(locationCode);
 		if (type == SignageType.Experiment)
 			throw new RuntimeException("Unimplemented code!");
+		
+		// Public only
 		List<Display> retval = new ArrayList<Display>();
 		List<Display> all = new DisplayListDatabaseRemote(locationCode);
 		for (Display D : all)

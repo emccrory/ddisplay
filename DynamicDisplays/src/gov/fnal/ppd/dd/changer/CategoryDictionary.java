@@ -7,14 +7,14 @@ package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
-import static gov.fnal.ppd.dd.GlobalVariables.locationCode;
+import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
+import static gov.fnal.ppd.dd.GlobalVariables.getNumberOfLocations;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -59,16 +59,34 @@ public class CategoryDictionary {
 
 		String q = "SELECT DISTINCT TabName,Abbreviation FROM LocationTab";
 		try {
-			if (IS_PUBLIC_CONTROLLER) {
-				if (locationCode < 0)
-					q += " WHERE Type='Public'";
-				else
-					q += " WHERE LocationCode=" + locationCode + " AND Type='Public'";
+			// TODO Multiple location code adaptation would be here!
+			if (getNumberOfLocations() == 1) {
+				if (IS_PUBLIC_CONTROLLER) {
+					if (getLocationCode() < 0)
+						q += " WHERE Type='Public'";
+					else
+						q += " WHERE LocationCode=" + getLocationCode() + " AND Type='Public'";
+				} else {
+					if (getLocationCode() >= 0)
+						q += " WHERE LocationCode=" + getLocationCode();
+				}
 			} else {
-				if (locationCode >= 0)
-					q += " WHERE LocationCode=" + locationCode;
+				String extra = " WHERE (";
+				for (int i = 0; i < getNumberOfLocations(); i++) {
+					int lc = getLocationCode(i);
+					if (i > 0)
+						extra += " OR ";
+					extra += " LocationCode=" + lc;
+				}
+				if (IS_PUBLIC_CONTROLLER)
+					extra += ") AND Type='Public'";
+				else
+					extra += ")";
+				if (!extra.equals(" WHERE ()"))
+					q += extra;
 			}
 
+			System.out.println(q);
 			rs = stmt.executeQuery(q);
 			if (rs.first()) // Move to first returned row
 				while (!rs.isAfterLast())
@@ -89,8 +107,8 @@ public class CategoryDictionary {
 						e.printStackTrace();
 					}
 			else {
-				System.err.println("No definition of what tabs to show for locationCode=" + locationCode + " and Controller Type="
-						+ (IS_PUBLIC_CONTROLLER ? "Public" : "XOC"));
+				System.err.println("No definition of what tabs to show for locationCode=" + getLocationCode()
+						+ " and Controller Type=" + (IS_PUBLIC_CONTROLLER ? "Public" : "XOC"));
 				System.exit(-1);
 			}
 			stmt.close();
@@ -154,7 +172,7 @@ public class CategoryDictionary {
 	 * @return Is this experiment relevant to the GUI at the designated locationCode?
 	 */
 	public static boolean isExperiment(final String exp) {
-		switch (locationCode) {
+		switch (getLocationCode()) {
 		case 0:
 			// ROC-West
 			for (String EXP : FermilabExperiments)

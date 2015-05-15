@@ -5,6 +5,7 @@
  */
 package gov.fnal.ppd.dd.display.client;
 
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 
 import java.awt.Rectangle;
@@ -40,7 +41,7 @@ public class BrowserLauncher {
 	 */
 	public enum BrowserInstance {
 		/**
-		 * SUse the Opera browser for the Dynamic Display
+		 * Use the Opera browser for the Dynamic Display
 		 */
 		OPERA,
 
@@ -58,7 +59,7 @@ public class BrowserLauncher {
 	 *            Which sort of Browser to use? Only Firefox is supported at this time.
 	 */
 	public BrowserLauncher(final int screenNumber, final BrowserInstance i) {
-		System.out.println("Launching browser " + i + " on screen #" + screenNumber);
+		println(getClass(), ": Launching browser " + i + " on screen #" + screenNumber);
 		bounds = ScreenLayoutInterpreter.getBounds(screenNumber);
 		whichInstance = i;
 		this.screenNumber = screenNumber;
@@ -90,7 +91,7 @@ public class BrowserLauncher {
 				String geom = bounds.width + "x" + bounds.height + "+" + (int) bounds.getX() + "+" + (int) bounds.getY();
 				browserProcess = new ProcessBuilder("opera", "-nosession", "-geometry", geom, "-fullscreen", url).start();
 				if (debug)
-					System.out.println("Launched " + whichInstance + " browser, geometry=" + geom);
+					println(getClass(), ": Launched " + whichInstance + " browser, geometry=" + geom);
 			} catch (IOException | InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -105,24 +106,26 @@ public class BrowserLauncher {
 				return;
 
 			String geom = bounds.width + "x" + bounds.height + "+" + (int) bounds.getX() + "+" + (int) bounds.getY();
+			String moveTo = "window.moveTo(" + bounds.getX() + "," + bounds.getY() + ");";
 			try {
 				// extensions.remotecontrol.portNumber is the environment variable that gives the port number, I think (9/15/2014)
 				// I tried to set it (and several variations) using System.setProperty(), to no avail.
 				File file = new File(firefoxUser + ".log");
-				ProcessBuilder pb = new ProcessBuilder("firefox", "-new-instance", "-P", firefoxUser, "-remote-control", url);
+				ProcessBuilder pb = new ProcessBuilder("firefox", "-new-instance", "-P", firefoxUser, "-remote-control",
+						"javascript:%20" + moveTo, url);
 				pb.redirectErrorStream(true);
 				pb.redirectOutput(file);
 				List<String> c = pb.command();
 				browserProcess = pb.start();
 
-				System.out.print("Tried to run '");
+				println(getClass(), ": Firefox launch command: '");
 				for (String S : c) {
 					System.out.print(S + " ");
 				}
 				System.out.println("'");
 
 				if (debug)
-					System.out.println("Launched " + whichInstance + " browser, geometry=" + geom);
+					println(getClass(), ": Launched " + whichInstance + " browser, geometry=" + geom);
 			} catch (IOException e) {
 				// This probably failed because it could not find the browser executable.
 				e.printStackTrace();

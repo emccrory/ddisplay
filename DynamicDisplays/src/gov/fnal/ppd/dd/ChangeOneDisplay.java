@@ -14,7 +14,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
-import static gov.fnal.ppd.dd.GlobalVariables.locationCode;
+import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
+import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
@@ -95,8 +96,8 @@ public class ChangeOneDisplay {
 			try (ResultSet rs = stmt.executeQuery(query);) {
 				if (rs.first())
 					try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)
-						locationCode = rs.getInt("LocationCode");
-						System.out.println("Location code is " + locationCode);
+						addLocationCode(rs.getInt("LocationCode"));
+						System.out.println("Location code is " + getLocationCode());
 						String myClassification = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
 
 						IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
@@ -113,7 +114,7 @@ public class ChangeOneDisplay {
 						System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE
 								+ "'\n");
 
-						DisplayListDatabaseRemote g = new DisplayListDatabaseRemote(locationCode, dNum);
+						DisplayListDatabaseRemote g = new DisplayListDatabaseRemote(getLocationCode(), dNum);
 						retval = g.get(0);
 						if (retval.getDBDisplayNumber() == dNum)
 							return retval;

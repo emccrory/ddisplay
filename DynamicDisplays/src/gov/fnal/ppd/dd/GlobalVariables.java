@@ -10,6 +10,7 @@ import gov.fnal.ppd.dd.signage.Display;
 import java.awt.Image;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -211,68 +212,68 @@ public class GlobalVariables {
 	/**
 	 * Where is the Database server? Controlled by system constant ddisplay.dbserver
 	 */
-	public static final String	DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", "fnalmysqldev.fnal.gov:3311");
+	public static final String		DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", "fnalmysqldev.fnal.gov:3311");
 	/**
 	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
 	 */
-	public static final String	DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc_dev");
+	public static final String		DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc_dev");
 	/**
 	 * The username for accessing the database
 	 */
-	public static final String	DATABASE_USER_NAME		= System.getProperty("ddisplay.dbusername", "no included here");
+	public static final String		DATABASE_USER_NAME		= System.getProperty("ddisplay.dbusername", "no included here");
 	/**
 	 * the password corresponding to the username that accesses the database. Note that this MUST be entered by hand for each time
 	 * one runs an application. (This is not the actual password.)
 	 */
-	public static final String	DATABASE_PASSWORD		= System.getProperty("ddisplay.dbpassword", "I'm not telling :-)");
+	public static final String		DATABASE_PASSWORD		= System.getProperty("ddisplay.dbpassword", "I'm not telling :-)");
 	/**
 	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
 	 * Controlled by system constant ddisplay.xmlserver
 	 */
-	public static final String	XML_SERVER_NAME			= System.getProperty("ddisplay.xmlserver", "dynamicdisplays.fnal.gov");
+	public static final String		XML_SERVER_NAME			= System.getProperty("ddisplay.xmlserver", "dynamicdisplays.fnal.gov");
 	/**
 	 * One second, expressed in milliseconds (e.g., 1000L)
 	 */
-	public static final long	ONE_SECOND				= 1000L;
+	public static final long		ONE_SECOND				= 1000L;
 	/**
 	 * One Minute, expressed in milliseconds (e.g., 60000L)
 	 */
-	public static final long	ONE_MINUTE				= 60L * ONE_SECOND;
+	public static final long		ONE_MINUTE				= 60L * ONE_SECOND;
 	/**
 	 * 15 minutes, expressed in milliseconds (e.g., 900000L)
 	 */
-	public static final long	FIFTEEN_MINUTES			= 15L * ONE_MINUTE;
+	public static final long		FIFTEEN_MINUTES			= 15L * ONE_MINUTE;
 	/**
 	 * One hour, expressed in milliseconds (e.g., 3600000L)
 	 */
-	public static final long	ONE_HOUR				= 60L * ONE_MINUTE;
+	public static final long		ONE_HOUR				= 60L * ONE_MINUTE;
 	/**
 	 * One day (24 hours), expressed in milliseconds (e.g., 86400000L)
 	 */
-	public static final long	ONE_DAY					= 24L * ONE_HOUR;
+	public static final long		ONE_DAY					= 24L * ONE_HOUR;
 	/**
 	 * Used in ChannelSelector to go to the splash screen
 	 */
-	public static final long	INACTIVITY_TIMEOUT		= 120L * ONE_SECOND;
+	public static final long		INACTIVITY_TIMEOUT		= 120L * ONE_SECOND;
 	/**
 	 * Used in ChannelSelector
 	 */
-	public static final long	PING_INTERVAL			= 5L * ONE_SECOND;
+	public static final long		PING_INTERVAL			= 5L * ONE_SECOND;
 
 	/**
 	 * An identifier for the display facades
 	 */
-	public static String		PROGRAM_NAME			= "ChannelSelector";
+	public static String			PROGRAM_NAME			= "ChannelSelector";
 
 	/**
 	 * The string that means "show me your colors"
 	 */
-	public static final String	SELF_IDENTIFY			= "http://identify";
+	public static final String		SELF_IDENTIFY			= "http://identify";
 
 	/**
 	 * The list of Displays in this instance of whatever program you are running. This is used in a couple of places.
 	 */
-	public static List<Display>	displayList;
+	public static List<Display>		displayList				= null;
 
 	/**
 	 * <p>
@@ -285,17 +286,61 @@ public class GlobalVariables {
 	 * <ol>
 	 * </p>
 	 */
-	public static final long	DEFAULT_DWELL_TIME		= 2 * ONE_HOUR;
+	public static final long		DEFAULT_DWELL_TIME		= 2 * ONE_HOUR;
+
+	private static int				locationCode;
+	private static List<Integer>	locationCodes			= new ArrayList<Integer>();
 
 	/**
 	 * Which set of Displays are we controlling here? Controlled by system constant, ddisplay.selector.location
+	 * 
+	 * @return The location code we have
 	 */
-	public static int			locationCode			= Integer.getInteger("ddisplay.selector.location", 0);
+	public static int getLocationCode() {
+		if (locationCodes.size() > 0)
+			return locationCodes.get(0);
+		return 0;
+	}
+
+	/**
+	 * @param lc
+	 *            the location code to add to the list
+	 * @return After Collections.add(), returns true if this operation changed the list of location codes.
+	 */
+	public static boolean addLocationCode(final int lc) {
+		assert (lc >= -1);
+		if (lc == -1) {
+			locationCodes.clear();
+			return locationCodes.add(-1);
+		} else {
+			if (locationCodes.contains(lc) || locationCodes.contains(-1))
+				return false;
+			return locationCodes.add(lc);
+		}
+	}
+
+	/**
+	 * @return The number of location codes relevant here
+	 */
+	public static int getNumberOfLocations() {
+		return locationCodes.size();
+	}
+
+	/**
+	 * @param index
+	 *            Which location code to return
+	 * @return the index'th location code
+	 */
+	public static int getLocationCode(final int index) {
+		if (locationCodes.size() > index)
+			return locationCodes.get(index);
+		return getLocationCode();
+	}
 
 	/**
 	 * Short name for the location of the displays
 	 */
-	static String		locationName;
+	static String	locationName;
 	// {
 	// "ROC-West",
 	// "ROC-East",
@@ -309,7 +354,7 @@ public class GlobalVariables {
 	/**
 	 * Long name for the location of the displays
 	 */
-	static String		locationDescription;
+	static String	locationDescription;
 
 	// { "Fermilab Experiments' Remote Operations Center, West Side",
 	// "Fermilab CMS/LHC Remote Operations Center, East Side", //
@@ -324,7 +369,7 @@ public class GlobalVariables {
 	 * @return the location (short) name corresponding to this index value
 	 */
 	public static String getLocationName() {
-		checkName(); 
+		checkName();
 		return locationName;
 	}
 
@@ -350,7 +395,7 @@ public class GlobalVariables {
 	static String	messagingServerName	= null;
 
 	public static String getMessagingServerName() {
-		checkName(); 
+		checkName();
 		return messagingServerName;
 	}
 

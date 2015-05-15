@@ -6,6 +6,7 @@
 package gov.fnal.ppd.dd.display;
 
 import static gov.fnal.ppd.dd.display.client.BrowserLauncher.debug;
+import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -50,8 +51,7 @@ public class ScreenLayoutInterpreter {
 			}
 			++gsNum;
 		}
-		if (debug)
-			System.out.println(Arrays.toString(rects.toArray()));
+		println(ScreenLayoutInterpreter.class, " Display locations: " + Arrays.toString(rects.toArray()));
 	}
 
 	/**

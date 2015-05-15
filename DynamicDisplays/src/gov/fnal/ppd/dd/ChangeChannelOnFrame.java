@@ -8,8 +8,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
+import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
-import static gov.fnal.ppd.dd.GlobalVariables.locationCode;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
@@ -431,7 +431,7 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 		System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
 		System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + "'\n");
 
-		displayList = DisplayListFactory.getInstance(sType, locationCode);
+		displayList = DisplayListFactory.getInstance(sType, getLocationCode());
 		ChangeChannelOnFrame changer = new ChangeChannelOnFrame();
 		changer.start();
 

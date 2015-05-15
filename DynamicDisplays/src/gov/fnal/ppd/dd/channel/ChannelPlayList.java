@@ -205,7 +205,9 @@ public class ChannelPlayList implements Channel {
 
 	@Override
 	public long getTime() {
-		return dwell;
+		if (currentChannel.getTime() <= 0)
+			return dwell;
+		return currentChannel.getTime();
 	}
 
 	@Override
@@ -229,7 +231,8 @@ public class ChannelPlayList implements Channel {
 	}
 
 	/**
-	 * @param frameNumber the frame number to give this content to.
+	 * @param frameNumber
+	 *            the frame number to give this content to.
 	 */
 	public void setFrameNumber(final int frameNumber) {
 		this.frameNumber = frameNumber;
