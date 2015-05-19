@@ -14,7 +14,15 @@ import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * The XML for a channel that transmits an image URL.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014-15
+ * 
+ */
 @XmlRootElement
+@SuppressWarnings("javadoc")
 public class PlainImageChange extends EncodedCarrier {
 
 	private int	displayNum;
@@ -58,7 +66,7 @@ public class PlainImageChange extends EncodedCarrier {
 	}
 
 	private BufferedImage y(String base64String) throws IOException {
-		byte [] bytearray = DatatypeConverter.parseBase64Binary(base64String);
+		byte[] bytearray = DatatypeConverter.parseBase64Binary(base64String);
 		// byte [] bytearray = Base64.decode(base64String);
 
 		return ImageIO.read(new ByteArrayInputStream(bytearray));

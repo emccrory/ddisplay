@@ -6,23 +6,24 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * A request from a console to the Display Server to put (some of) its screen onto a Display
+ * A request from a console to the Display Server to put (some of) its screen onto a Display. This has never been made to work.
  * 
  * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2012
  */
 @XmlRootElement
+@SuppressWarnings("javadoc")
 public class ScreenDump extends EncodedCarrier {
-	private int displayNum;
+	private int		displayNum;
 
 	// Not sure what this is yet
-	private Object screenSpecification;
+	private Object	screenSpecification;
 
 	@XmlElement
 	public int getDisplayNum() {
 		return displayNum;
 	}
 
-	public void setDisplayNum( int displayNum ) {
+	public void setDisplayNum(int displayNum) {
 		this.displayNum = displayNum;
 	}
 
@@ -31,7 +32,7 @@ public class ScreenDump extends EncodedCarrier {
 		return screenSpecification.toString();
 	}
 
-	public void setScreenSpec( Object spec ) {
+	public void setScreenSpec(Object spec) {
 		screenSpecification = spec;
 	}
 }

@@ -7,17 +7,10 @@
  */
 package gov.fnal.ppd.dd.util;
 
-import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.util.Util.println;
-
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +94,7 @@ public class ObjectSigningRepository {
 
 	static List<String> loadDisplayListFromDB(final String clientName) {return null;}
 
+	@SuppressWarnings("unused")
 	private static String getIPName(String ipName) {
 		try {
 			InetAddress address = InetAddress.getByName(ipName);

@@ -237,6 +237,7 @@ public class ObjectSigning {
 		return false;
 	}
 
+	@SuppressWarnings("unused")
 	private static List<String> loadDisplayListFromDB_OLD(final String clientName) {
 		List<String> retval = new ArrayList<String>();
 

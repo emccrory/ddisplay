@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement
+@SuppressWarnings("javadoc")
 public class Pong extends EncodedCarrier {
 	private ChannelSpec showing;
 
