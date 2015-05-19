@@ -41,6 +41,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 	private int							changeCount;
 	protected long						lastFullRestTime;
+	protected long						revertTimeRemaining	= 0L;
 
 	/**
 	 * @param portNumber
@@ -83,13 +84,14 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	}
 
 	protected boolean localSetContent() {
-		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&"); // FIXME This could be risky! But it is
-																						// needed for URL arguments
+		// FIXME This could be risky! But it is needed for URL arguments
+		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&");
 
 		final int frameNumber = getContent().getFrameNumber();
+		final long expiration = getContent().getExpiration();
 
 		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
-		println(getClass(), ": Dwell time is " + dwellTime);
+		println(getClass(), ": Dwell time is " + dwellTime + ", expiration is " + expiration);
 
 		synchronized (firefox) {
 			if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
@@ -115,6 +117,15 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				try {
 					// Someday we may need this: (getContent().getCode() & 1) != 0;
 					changeCount++;
+					if (expiration > 0) {
+						revertTimeRemaining = expiration;
+						if (revertToThisChannel == null) {
+							revertToThisChannel = previousChannel;
+							setRevertThread();
+						}
+					} else {
+						revertToThisChannel = null;
+					}
 					if (firefox.changeURL(url, defaultWrapperType, frameNumber)) {
 						lastChannel = getContent();
 						showingSelfIdentify = false;
@@ -170,8 +181,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 											println(DisplayAsConnectionToFireFox.class,
 													".localSetContent(): Failed to REFRESH content");
 											firefox.resetURL();
-											continue; // TODO -- Figure out what to do when this happens. For now, just try again
-														// later
+											continue; // TODO -- Figure out what to do here. For now, just try again later
 										}
 									} catch (UnsupportedEncodingException e) {
 										e.printStackTrace();
@@ -187,6 +197,38 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				}.start();
 			}
 		}
+	}
+
+	private void setRevertThread() {
+		final String revertURL = revertToThisChannel.getURI().toString();
+
+		new Thread("RevertContent" + getMessagingName()) {
+
+			@Override
+			public void run() {
+				long increment = 15000L;
+				while (true) {
+					for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
+						catchSleep(Math.min(increment, revertTimeRemaining));
+					}
+					revertTimeRemaining = 0L;
+					synchronized (firefox) {
+						println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reverting to web page " + revertURL);
+						try {
+							if (!firefox.changeURL(revertURL, defaultWrapperType, 0)) {
+								println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Failed to REVERT content");
+								firefox.resetURL();
+								continue; // TODO -- Figure out what to do here. For now, just try again later
+							}
+							return;
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+							return;
+						}
+					}
+				}
+			}
+		}.start();
 	}
 
 	@Override
@@ -225,13 +267,12 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	public static void main(final String[] args) {
 		getMessagingServerNameDisplay();
 
-		
 		try {
 			@SuppressWarnings("unused")
 			DisplayAsConnectionToFireFox add = (DisplayAsConnectionToFireFox) makeTheDisplays(DisplayAsConnectionToFireFox.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }

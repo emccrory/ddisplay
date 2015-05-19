@@ -43,6 +43,7 @@ public abstract class DisplayImpl implements Display {
 	protected int					screenNumber		= 0;
 	protected static AtomicInteger	internalThreadID	= new AtomicInteger(0);
 	private SignageContent			channel;
+	protected SignageContent		previousChannel		= null;
 	protected Color					highlightColor;
 	protected List<ActionListener>	listeners			= new ArrayList<ActionListener>();
 	private SignageType				category			= SignageType.Public;
@@ -92,7 +93,7 @@ public abstract class DisplayImpl implements Display {
 	@Override
 	public SignageContent setContent(SignageContent c) {
 		if (getCategory().isVisible(c)) {
-			SignageContent retval = channel;
+			previousChannel = channel;
 			if (c == null)
 				channel = makeEmptyChannel(null);
 			else
@@ -118,7 +119,7 @@ public abstract class DisplayImpl implements Display {
 			else {
 				informListeners(DisplayChangeEvent.Type.ERROR, "Channel change unsuccessful");
 			}
-			return retval;
+			return previousChannel;
 		}
 
 		error("Content type of this Channel (" + c.getType() + ") is not appropriate for this Display (" + getCategory() + ")");

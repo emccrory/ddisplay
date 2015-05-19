@@ -1,4 +1,3 @@
-
 package gov.fnal.ppd.dd.xml;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
@@ -16,14 +15,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
- *            TODO -- We maybe able to let this class implement SingageContent or Channel
+ *         TODO -- We maybe able to let this class implement SingageContent or Channel
  */
 @SuppressWarnings("javadoc")
 @XmlRootElement
 public class ChannelSpec {
 	protected SignageContent	content;
-	private long				time	= 0;
-	private int					code	= 0;
+	private long				time		= 0;
+	private long				expiration	= 0;
+	private int					code		= 0;
 
 	public ChannelSpec() {
 		try {
@@ -37,6 +37,7 @@ public class ChannelSpec {
 		content = c;
 		time = c.getTime();
 		code = c.getCode();
+		expiration = c.getExpiration();
 	}
 
 	@XmlElement
@@ -85,6 +86,7 @@ public class ChannelSpec {
 		this.content = c;
 		this.time = c.getTime();
 		this.code = c.getCode();
+		this.expiration = c.getExpiration();
 	}
 
 	@XmlElement
@@ -94,6 +96,16 @@ public class ChannelSpec {
 
 	public void setTime(final long n) {
 		time = n;
+	}
+
+	@XmlElement
+	public long getExpiration() {
+		return expiration;
+	}
+
+	public void setExpiration(final long n) {
+		expiration = n;
+		content.setExpiration(n);
 	}
 
 	/**

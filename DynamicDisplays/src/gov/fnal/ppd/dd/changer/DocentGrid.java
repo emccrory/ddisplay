@@ -6,6 +6,7 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import gov.fnal.ppd.dd.channel.ChannelImage;
@@ -175,13 +176,14 @@ public class DocentGrid extends DetailedInformationGrid {
 	public DocentGrid(final Display display, final DisplayButtonGroup bg, String docentName) {
 		super(display, bg);
 		// this.docentName = docentName;
+		final long revertTime = 5*ONE_MINUTE;
 
 		// Get the channels associated with this docent.
 		if (buttonList.size() == 0) {
 			try {
 				/**
 				 * FIXME This is the only place that I can think of that requires the Channel and Portfolio tables to be in the same
-				 * database. To break this will require two Docent tables, on that is in the same DB as Channel and the other in the
+				 * database. To break this will require two Docent tables, one that is in the same DB as Channel and the other in the
 				 * same DB as Portfolio.
 				 */
 				Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
@@ -211,6 +213,7 @@ public class DocentGrid extends DetailedInformationGrid {
 
 					SignageContent c = new ChannelImpl(name, new ChannelCategory(category, category), descr, new URI(url), chanNum,
 							dwell);
+					c.setExpiration(revertTime);
 
 					buttonList.add(c);
 					rsChan.next();
@@ -225,6 +228,7 @@ public class DocentGrid extends DetailedInformationGrid {
 					String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo="
 							+ URLEncoder.encode(name, "UTF-8") + "&caption=" + URLEncoder.encode(descr, "UTF-8");
 					SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
+					c.setExpiration(revertTime);
 
 					buttonList.add(c);
 					rsPort.next();

@@ -37,6 +37,7 @@ public class ChannelPlayList implements Channel {
 	// private Thread playThread = null;
 	private Display							myDisplay			= null;
 	private int								frameNumber			= 0;
+	private long							expiration			= 0;
 
 	/**
 	 * Create a channel list to play out on the Display.
@@ -236,5 +237,15 @@ public class ChannelPlayList implements Channel {
 	 */
 	public void setFrameNumber(final int frameNumber) {
 		this.frameNumber = frameNumber;
+	}
+
+	@Override
+	public long getExpiration() {
+		return expiration;
+	}
+
+	@Override
+	public void setExpiration(long expire) {
+		this.expiration = expire;
 	}
 }

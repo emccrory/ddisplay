@@ -302,6 +302,7 @@ public class DCProtocol {
 			c.setName(spec.getName());
 			c.setTime(spec.getTime());
 			c.setFrameNumber(spec.getFrameNumber());
+			c.setExpiration(spec.getExpiration());
 			for (Display L : listeners) {
 				// System.out.println(getClass().getSimpleName() + ": Telling a " + L.getClass().getSimpleName() + " to change to ["
 				// + c + "]");

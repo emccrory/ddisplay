@@ -38,6 +38,7 @@ public class ChannelImpl implements Channel {
 	private SignageType			type				= SignageType.Public;
 
 	private long				time;
+	private long				expiration			= 0L;
 	private int					code				= 0;
 	private int					frameNumber			= 0;
 
@@ -100,7 +101,7 @@ public class ChannelImpl implements Channel {
 		this.frameNumber = c.getFrameNumber();
 		this.time = c.getTime();
 		this.code = c.getCode();
-		
+
 		if (c instanceof Channel) {
 			this.number = ((Channel) c).getNumber();
 		}
@@ -240,5 +241,15 @@ public class ChannelImpl implements Channel {
 	 */
 	public void setFrameNumber(final int f) {
 		frameNumber = f;
+	}
+
+	@Override
+	public long getExpiration() {
+		return expiration;
+	}
+
+	@Override
+	public void setExpiration(long expire) {
+		this.expiration = expire;		
 	}
 }

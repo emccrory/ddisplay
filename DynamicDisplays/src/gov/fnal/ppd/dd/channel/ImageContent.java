@@ -32,6 +32,7 @@ public class ImageContent implements SignageContent {
 	private long				time				= 0L;
 	private int					frameNumber;
 	private int					code;
+	private long				expiration			= 0L;
 
 	/**
 	 * @param name
@@ -171,6 +172,16 @@ public class ImageContent implements SignageContent {
 	@Override
 	public void setFrameNumber(int f) {
 		frameNumber = f;
+	}
+
+	@Override
+	public long getExpiration() {
+		return expiration;
+	}
+
+	@Override
+	public void setExpiration(long expire) {
+		this.expiration = expire;
 	}
 
 }

@@ -98,6 +98,17 @@ public interface SignageContent extends Serializable {
 	public void setTime(long time);
 
 	/**
+	 * @return The expiration time in milliseconds. Negative or zero means no expiration time
+	 */
+	public long getExpiration();
+
+	/**
+	 * @param expire
+	 *            The new expiration time, in milliseconds.
+	 */
+	public void setExpiration(long expire);
+
+	/**
 	 * @return the special code that may be applicable for the content
 	 */
 	public int getCode();
