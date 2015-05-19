@@ -208,14 +208,20 @@ public class MessagingClient {
 			// every time, you'll run out of memory eventually. The call to "reset()" causes the output object to ignore this,
 			// and all previous, messages it has sent.
 			sOutput.reset();
-
+			return;
 		} catch (Exception e) {
 			displayLogMessage(MessagingClient.class.getSimpleName() + ".sendMessage(): Exception writing to server: " + e);
+			System.err.println("Exception writing to server ... ");
+			e.printStackTrace();
+		}
+		try {
 			new Thread("ReconnectToServer") {
 				public void run() {
 					retryConnection();
 				}
 			}.start();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
