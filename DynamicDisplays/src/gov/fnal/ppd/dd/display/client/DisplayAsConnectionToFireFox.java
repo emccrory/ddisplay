@@ -213,8 +213,10 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				long increment = 15000L;
 				while (true) {
 					for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
-						if (revertToThisChannel == null)
+						if (revertToThisChannel == null) {
+							println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): No longer necessary to revert.");
 							return;
+						}
 						catchSleep(Math.min(increment, revertTimeRemaining));
 					}
 					revertTimeRemaining = 0L;
@@ -222,10 +224,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reverting to web page " + revertURL);
 						try {
 							if (!firefox.changeURL(revertURL, defaultWrapperType, 0)) {
-								println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Failed to REVERT content");
+								println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): Failed to REVERT content");
 								firefox.resetURL();
 								continue; // TODO -- Figure out what to do here. For now, just try again later
 							}
+							println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): Reverted to original web page.");
 							return;
 						} catch (UnsupportedEncodingException e) {
 							e.printStackTrace();
