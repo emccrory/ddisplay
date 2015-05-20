@@ -121,10 +121,10 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						revertTimeRemaining = expiration;
 						if (revertToThisChannel == null) {
 							revertToThisChannel = previousChannel;
-							setRevertThread();
 						}
 					} else {
 						revertToThisChannel = null;
+						revertTimeRemaining = 0;
 					}
 					if (firefox.changeURL(url, defaultWrapperType, frameNumber)) {
 						lastChannel = getContent();
@@ -134,7 +134,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						return false;
 					}
 
-					setResetThread(dwellTime, url, frameNumber);
+					if (expiration <= 0)
+						setResetThread(dwellTime, url, frameNumber);
+					else
+						setRevertThread();
+
 					updateMyStatus();
 				} catch (UnsupportedEncodingException e) {
 					System.err.println(getClass().getSimpleName() + ": Somthing is wrong with this URL: [" + url + "]");
@@ -209,6 +213,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				long increment = 15000L;
 				while (true) {
 					for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
+						if (revertToThisChannel == null)
+							return;
 						catchSleep(Math.min(increment, revertTimeRemaining));
 					}
 					revertTimeRemaining = 0L;

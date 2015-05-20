@@ -412,13 +412,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		@Override
 		public void displayIncomingMessage(MessageCarrier msg) {
 			if (debug)
-				System.out.println(DisplayControllerMessagingAbstract.class.getSimpleName() + ":"
-						+ MessagingClientLocal.class.getSimpleName() + ".displayIncomingMessage(): Got this message:\n[" + msg
-						+ "]");
+				println(DisplayControllerMessagingAbstract.class, ":" + MessagingClientLocal.class.getSimpleName()
+						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
 			if (msg.getTo().equals(getName())) {
 				dcp.processInput(msg);
 			} else if (debug)
-				System.out.println("Ignoring a message from [" + msg.getTo() + "] because I am [" + getName() + "]");
+				println(DisplayControllerMessagingAbstract.class, ": Ignoring a message from [" + msg.getTo() + "] because I am ["
+						+ getName() + "]");
 		}
 	}
 }
