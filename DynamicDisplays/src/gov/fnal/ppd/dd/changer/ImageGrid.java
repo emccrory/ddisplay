@@ -5,6 +5,7 @@
  */
 package gov.fnal.ppd.dd.changer;
 
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import gov.fnal.ppd.dd.channel.ChannelImage;
@@ -177,6 +178,8 @@ public class ImageGrid extends DetailedInformationGrid {
 		internalGrid.setOpaque(true);
 		internalGrid.setBackground(display.getPreferredHighlightColor());
 
+		final long revertTime = 5*ONE_MINUTE;
+
 		synchronized (list) {
 			if (firstTime) {
 				System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): resizing " + list.size() + " images.");
@@ -196,8 +199,11 @@ public class ImageGrid extends DetailedInformationGrid {
 			});
 			for (SignageContent P : list) {
 				ChannelImage imageChannel = (ChannelImage) P;
-				if (CategoryDictionary.isExperiment(imageChannel.getExp()))
+				if (CategoryDictionary.isExperiment(imageChannel.getExp())) {
+					// Executive decision: Image web pages expire after five minutes.
+					P.setExpiration(revertTime);
 					newList.add(P);
+				}
 			}
 
 			String colorString = String.format("%06X", display.getPreferredHighlightColor().getRGB() & 0xFFFFFF);
