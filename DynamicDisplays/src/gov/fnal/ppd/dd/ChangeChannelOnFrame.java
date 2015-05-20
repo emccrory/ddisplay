@@ -3,12 +3,8 @@ package gov.fnal.ppd.dd;
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
-import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
-import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
@@ -19,8 +15,6 @@ import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.changer.DetailedInformationGrid;
 import gov.fnal.ppd.dd.changer.DisplayButtons;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
-import gov.fnal.ppd.dd.changer.DisplayListFactory;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
@@ -56,10 +50,9 @@ import javax.swing.event.ChangeListener;
 
 /**
  * <p>
- * Allows the user to select the Channel that is being displayed on each Display in the Dynamic Displays system. This is a
- * pared-down version of the main class, ChannelSelector, that only allows you to send a very restricted subset of channels to the
- * "alternate frames" at each display. The Use Case is that the channel will be a text web page of lab-wide announcements. A
- * seperate mechanism will be provided to change the text in this web page.
+ * This is a pared-down version of the main class, ChannelSelector, that only allows you to send a very restricted subset of
+ * channels to the "alternate frames" at each display. The Use Case is that the channel will be a text web page of lab-wide
+ * announcements. A separate mechanism will be provided to change the text in this web page.
  * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2015
@@ -93,7 +86,13 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 	private List<JTabbedPane>				listOfDisplayTabbedPanes	= new ArrayList<JTabbedPane>();
 
 	/**
-	 * Create the channel selector GUI in the normal way
+	 * Create the channel selector GUI for sending web pages to other frames in the display
+	 * 
+	 * TODO -- Make a command to send the same thing to ALL the displays at once
+	 * 
+	 * TODO -- Probably no need (at this time) to have lots of different frames--one is probably OK
+	 * 
+	 * TODO -- There should be a way to turn off the extra frame (rather than just waiting for it to time out).
 	 */
 	public ChangeChannelOnFrame() {
 		super(new BorderLayout());
@@ -419,19 +418,16 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 	// }
 
 	/**
-	 * Run the ChangeChannelOnFrame application. 
+	 * Run the ChangeChannelOnFrame application.
 	 * 
 	 * @param args
 	 */
 	public static void main(final String[] args) {
 
+		MakeChannelSelector.selectorSetup();
+
 		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
 
-		MessageCarrier.initializeSignature();
-		System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
-		System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + "'\n");
-
-		displayList = DisplayListFactory.getInstance(sType, getLocationCode());
 		ChangeChannelOnFrame changer = new ChangeChannelOnFrame();
 		changer.start();
 
@@ -456,7 +452,6 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 		f.setVisible(true);
 
 	}
-
 
 	@Override
 	public void activateCard(boolean showingSplash) {

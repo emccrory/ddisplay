@@ -49,9 +49,47 @@ public class MakeChannelSelector {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-		boolean missing = true;
+
+		selectorSetup();
+
+		ChannelSelector channelSelector = new ChannelSelector();
+		channelSelector.start();
+
+		// TODO -- Create/fix mechanism for restarting a ChannelSelector
+
+		JFrame f = new JFrame(myClassification + " " + getLocationCode());
+
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		if (SHOW_IN_WINDOW) {
+			f.setContentPane(channelSelector);
+			f.pack();
+		} else {
+			// Full-screen display of this app!
+			Box h = Box.createVerticalBox();
+			h.add(channelSelector);
+			SelectorInstructions label = new SelectorInstructions();
+			label.start();
+			h.add(label);
+			channelSelector.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+			label.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+			f.setUndecorated(true);
+			f.setContentPane(h);
+			f.setSize(screenDimension);
+		}
+		f.setVisible(true);
+
+		if (missing)
+			JOptionPane.showMessageDialog(null, "This device, " + myIPName + ", is not listed in the Dynamics Display database; "
+					+ "It cannot start an instance of ChannelSelector.", "Cannot Continue", JOptionPane.ERROR_MESSAGE);
+	}
+
+	private static String	myClassification	= "XOC";
+	private static boolean	missing				= true;
+	private static String	myIPName			= "TBD";
+
+	 static void selectorSetup() {
 		getMessagingServerNameSelector();
-		String myIPName = "TBD";
 		Connection connection = null;
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
@@ -60,8 +98,6 @@ public class MakeChannelSelector {
 			System.err.println("\nNo connection to the Signage/Displays database.");
 			System.exit(-1);
 		}
-
-		String myClassification = "XOC";
 
 		// Use ARM to simplify these try blocks.
 		try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
@@ -117,35 +153,5 @@ public class MakeChannelSelector {
 		System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
 		System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + "'\n");
 
-		ChannelSelector channelSelector = new ChannelSelector();
-		channelSelector.start();
-
-		// TODO -- Create/fix mechanism for restarting a ChannelSelector
-
-		JFrame f = new JFrame(myClassification + " " + getLocationCode());
-
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		if (SHOW_IN_WINDOW) {
-			f.setContentPane(channelSelector);
-			f.pack();
-		} else {
-			// Full-screen display of this app!
-			Box h = Box.createVerticalBox();
-			h.add(channelSelector);
-			SelectorInstructions label = new SelectorInstructions();
-			label.start();
-			h.add(label);
-			channelSelector.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-			label.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-			f.setUndecorated(true);
-			f.setContentPane(h);
-			f.setSize(screenDimension);
-		}
-		f.setVisible(true);
-
-		if (missing)
-			JOptionPane.showMessageDialog(null, "This device, " + myIPName + ", is not listed in the Dynamics Display database; "
-					+ "It cannot start an instance of ChannelSelector.", "Cannot Continue", JOptionPane.ERROR_MESSAGE);
 	}
 }
