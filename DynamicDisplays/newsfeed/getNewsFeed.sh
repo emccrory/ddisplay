@@ -35,5 +35,5 @@ rm -f temp tempN tempW $xmlNewsFile $logNewsFile $xmlWeatherFile $logWeatherFile
 # --------------------------------------------------------------------------------------
 
 cat headlines.txt weather.txt > /var/www/html/newsfeed/headlines.txt
-cat headlines.txt weather.txt > /web/sites/xoc.fnal.gov/htdocs/newsfeed/headlines.txt
+cat headlines.txt weather.txt > /web/sites/dynamicdisplays.fnal.gov/htdocs/newsfeed/headlines.txt
 

@@ -1,9 +1,12 @@
 package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
+import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.locationDescription;
 import static gov.fnal.ppd.dd.GlobalVariables.locationName;
 import static gov.fnal.ppd.dd.GlobalVariables.messagingServerName;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
@@ -14,6 +17,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * 
+ */
 public class GetMessagingServer {
 	private static final String	ms	= System.getProperty("ddisplay.messagingserver", "X");
 
@@ -28,8 +35,8 @@ public class GetMessagingServer {
 			InetAddress ip = InetAddress.getLocalHost();
 			String myName = ip.getCanonicalHostName().replace(".dhcp", "");
 
-			String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description "
-					+ "from LocationInformation,DisplaySort,Display where "
+			String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description,LocationInformation.LocationCode "
+					+ "as LocationCode from LocationInformation,DisplaySort,Display where "
 					+ "LocationInformation.LocationCode=DisplaySort.LocationCode AND "
 					+ "DisplaySort.DisplayID=Display.DisplayID and IPName='" + myName + "'";
 
@@ -57,11 +64,14 @@ public class GetMessagingServer {
 			try (ResultSet rs2 = stmt.executeQuery(query);) {
 				if (rs2.first()) {
 					messagingServerName = rs2.getString("MessagingServerName");
-					System.out.println("MessagingServer= " + messagingServerName);
 					locationName = rs2.getString("LocationName");
-					System.out.println("LocationName= " + locationName);
 					locationDescription = rs2.getString("Description");
-					System.out.println("LocationDescription= " + locationDescription);
+					int locationCode = rs2.getInt("LocationCode");
+					addLocationCode(locationCode);
+					println(GetMessagingServer.class, "MessagingServer= " + messagingServerName + ", LocationCode="
+							+ getLocationCode() + ", LocationName= " + locationName + ", LocationDescription= "
+							+ locationDescription);
+
 				} else {
 					System.err.println("No location information for this device, " + myName);
 					new Exception().printStackTrace();
@@ -69,6 +79,7 @@ public class GetMessagingServer {
 				}
 			}
 		} catch (SQLException e) {
+			System.err.println(query);
 			e.printStackTrace();
 		}
 
@@ -84,20 +95,21 @@ public class GetMessagingServer {
 	 * @return The name of MY messaging server (if I am a selector)!
 	 */
 	public static String getMessagingServerNameSelector() {
-			try {
-				InetAddress ip = InetAddress.getLocalHost();
-				String myName = ip.getCanonicalHostName().replace(".dhcp", "");
+		try {
+			InetAddress ip = InetAddress.getLocalHost();
+			String myName = ip.getCanonicalHostName().replace(".dhcp", "");
 
-				String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description "
-						+ "from LocationInformation,DisplaySort,SelectorLocation where "
-						+ "LocationInformation.LocationCode=SelectorLocation.LocationCode AND IPName='" + myName + "'";
+			String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description,LocationInformation.LocationCode "
+					+ "as LocationCode from LocationInformation,SelectorLocation where "
+					+ "LocationInformation.LocationCode=SelectorLocation.LocationCode AND IPName='" + myName + "'";
 
-				return getMessagingServerName(query, myName);
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-				System.exit(-1);
-			}
-			return null;	}
+			return getMessagingServerName(query, myName);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		return null;
+	}
 
 	/**
 	 * @param args

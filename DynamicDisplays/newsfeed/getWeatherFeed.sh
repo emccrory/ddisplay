@@ -10,4 +10,5 @@ export PATH=/usr/krb5/bin:/usr/krb5/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/us
 /usr/bin/java gov.fnal.ppd.dd.xml.news.current_observation current.xml > currentTemperature.txt
 
 cp currentTemperature.txt /var/www/html/newsfeed
+cp currentTemperature.txt /web/sites/dynamicdisplays.fnal.gov/htdocs/newsfeed
 

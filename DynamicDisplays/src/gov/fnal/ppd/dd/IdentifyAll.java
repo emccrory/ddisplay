@@ -9,7 +9,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PROGRAM_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
-import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.channel.PlainURLChannel;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -38,7 +37,7 @@ public class IdentifyAll implements ActionListener {
 
 	private static float		fontSize;
 	private static Insets		inset			= null;
-	private static String		title			= "Identify All Displays: " + getLocationName();
+	private static String		title;
 
 	private List<Display>		displays;
 
@@ -140,6 +139,10 @@ public class IdentifyAll implements ActionListener {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
+		gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector();
+
+		title = "Identify all at location=" + getLocationCode();
+
 		JFrame f = new JFrame(IdentifyAll.class.getSimpleName());
 		IdentifyAll.setup(null, 30.0f, new Insets(20, 50, 20, 50));
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

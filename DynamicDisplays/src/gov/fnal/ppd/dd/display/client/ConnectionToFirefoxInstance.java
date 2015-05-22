@@ -5,7 +5,8 @@
  */
 package gov.fnal.ppd.dd.display.client;
 
-import static gov.fnal.ppd.dd.GlobalVariables.*;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
+import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
@@ -34,33 +35,34 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * 
  */
 public class ConnectionToFirefoxInstance {
-	private static final int						DEFAULT_BUFFER_SIZE			= 300;
-	private static final String						LOCALHOST					= "localhost";
-	private static final int						PORT						= 32000;
-	private static final long						WAIT_FOR_CONNECTION_TIME	= 15000;
+	private static final int						DEFAULT_BUFFER_SIZE				= 300;
+	private static final String						LOCALHOST						= "localhost";
+	private static final int						PORT							= 32000;
+	private static final long						WAIT_FOR_CONNECTION_TIME		= 15000;
 
 	// private static final String FullScreenExecute = "var elem = document.body; elem.requestFullScreen();";
 
-	private boolean									connected					= false;
+	private boolean									connected						= false;
 	private BufferedReader							in;
 	private Socket									kkSocket;
 	private String									lastReplyLine;
 	private PrintWriter								out;
 	private final int								port;
 
-	private boolean									debug						= true;
+	private boolean									debug							= true;
 	private int										virtualID, dbID;
 
 	private String									colorCode;
-	private AtomicBoolean							showingCanonicalSite		= new AtomicBoolean(false);
+	private AtomicBoolean							showingCanonicalSite			= new AtomicBoolean(false);
 	private Rectangle								bounds;
 
-	private static final HashMap<String, String>	colorNames					= GetColorsFromDatabase.get();
+	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
 
-	private static final String						BASE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border.php";
-	private static final String						TICKERTAPE_WEB_PAGE			= "http://" + WEB_SERVER_NAME + "/border1.php";
-	private static final String						EXTRAFRAME_WEB_PAGE			= "http://" + WEB_SERVER_NAME + "/border2.php";
-	private static final String						EXTRAFRAMENOTICKER_WEB_PAGE	= "http://" + WEB_SERVER_NAME + "/border3.php";
+	private static final String						BASE_WEB_PAGE					= "http://" + WEB_SERVER_NAME + "/border.php";
+	private static final String						TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border1.php";
+	private static final String						EXTRAFRAME_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border2.php";
+	private static final String						EXTRAFRAMESNOTICKER_WEB_PAGE	= "http://" + WEB_SERVER_NAME + "/border3.php";
+	private static final String						EXTRAFRAMENOTICKER_WEB_PAGE		= "http://" + WEB_SERVER_NAME + "/border4.php";
 
 	/**
 	 * What type of "wrapper" shall we use to show our web pages?
@@ -85,7 +87,13 @@ public class ConnectionToFirefoxInstance {
 		TICKERANDFRAME,
 
 		/**
-		 * There are multiple frames but no ticker.
+		 * There are multiple (4) frames but no ticker.
+		 */
+		FRAMESNOTICKER,
+		
+		
+		/**
+		 * There one extra frame but no ticker.
 		 */
 		FRAMENOTICKER,
 
@@ -119,7 +127,7 @@ public class ConnectionToFirefoxInstance {
 
 		port = PORT + screenNumber;
 		openConnection();
-		
+
 		String moveTo = "window.moveTo(" + ((int) bounds.getX()) + "," + ((int) bounds.getY()) + ");";
 		send(moveTo);
 
@@ -208,6 +216,20 @@ public class ConnectionToFirefoxInstance {
 					println(getClass(), " -- Sending full, new URL to browser, " + EXTRAFRAMENOTICKER_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + EXTRAFRAMENOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
+							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
+							+ bounds.height;
+
+					if (isNumberDiscrete())
+						s += "&shownumber=0";
+					s += "\";\n";
+				}
+				break;			
+				
+			case FRAMESNOTICKER:
+				if (!showingCanonicalSite.get()) {
+					println(getClass(), " -- Sending full, new URL to browser, " + EXTRAFRAMESNOTICKER_WEB_PAGE);
+					showingCanonicalSite.set(true);
+					s = "window.location=\"" + EXTRAFRAMESNOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
 							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
 							+ bounds.height;
 

@@ -42,11 +42,16 @@ C=0
 } 2>&1 >> $log
 
 MyName=`uname -n`
-WrapperType=NORMAL
+# WrapperType=NORMAL
+WrapperType=FRAMENOTICKER
 
 # TODO Remove this bit of hard coding.  Put it in the DB or something
 if [ $MyName = "xocnuc01.fnal.gov" -o $MyName = "wh2e-nuc-14.fnal.gov" ]; then
     WrapperType=TICKER;
+fi
+
+if [ $MyName = "adnetdisplay1-mac.fnal.gov" ]; then
+    WrapperType=FRAMENOTICKER;
 fi
 
 screenNum=0
