@@ -33,12 +33,19 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
+ * Tell each "Special Announcement" frame to show the special announcement.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 public class ChangeAllExtraFrame implements ActionListener {
 
+	/*
+	 * TODO -- Maybe the right thing to do is to ask the user what to say and then send this HTML file to the Displays. Actually,
+	 * asking the user what to say and then pushing that to the web server is the appropriate thing to do. Making this work in
+	 * general might be hard (protections/rights). Make a PHP receiver for the information gathered from the user, which creates a
+	 * new HTML file on the server that the Displays can read.
+	 */
 	private static float				fontSize;
 	private static Insets				inset	= null;
 	private static String				title;
@@ -114,8 +121,7 @@ public class ChangeAllExtraFrame implements ActionListener {
 			// Button two: remove the announcement command
 
 			button = new JButton("Turn off all special announcement frames");
-			button.setToolTipText("That special announcement frame you just made?  "
-					+ "This will turn it off on all the displays");
+			button.setToolTipText("That special announcement frame you just made?  " + "This will turn it off on all the displays");
 			button.setActionCommand(ChangeAllExtraFrame.class.getCanonicalName());
 			if (inset != null) {
 				button.setFont(button.getFont().deriveFont(fontSize));
@@ -139,7 +145,7 @@ public class ChangeAllExtraFrame implements ActionListener {
 			hb.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
 			dwellTimeField.setToolTipText("Five minutes is 300000 milliseconds; One hour is 3600000 ms; etc.");
-			
+
 			JLabel lab = new JLabel("How long to show the announcement (milliseconds): ");
 			lab.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 			hb.add(lab);

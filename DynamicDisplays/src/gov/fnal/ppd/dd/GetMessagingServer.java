@@ -6,7 +6,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.locationDescription;
 import static gov.fnal.ppd.dd.GlobalVariables.locationName;
 import static gov.fnal.ppd.dd.GlobalVariables.messagingServerName;
-import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
@@ -68,9 +67,8 @@ public class GetMessagingServer {
 					locationDescription = rs2.getString("Description");
 					int locationCode = rs2.getInt("LocationCode");
 					addLocationCode(locationCode);
-					println(GetMessagingServer.class, "MessagingServer= " + messagingServerName + ", LocationCode="
-							+ getLocationCode() + ", LocationName= " + locationName + ", LocationDescription= "
-							+ locationDescription);
+					System.out.println("MessagingServer= " + messagingServerName + "\nLocationCode= " + getLocationCode()
+							+ "\nLocationName= " + locationName + "\nLocationDescription= " + locationDescription);
 
 				} else {
 					System.err.println("No location information for this device, " + myName);

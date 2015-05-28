@@ -38,12 +38,17 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- * Use the database to determine what sort of ChannelSelector to actually run
+ * Use the database to determine what sort of ChannelSelector to actually run, and then run it.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 public class MakeChannelSelector {
+
+	/*
+	 * TODO -- Implement a way for this application to check back (with the Mother Ship) to see if these is an updated version of
+	 * the ZIP file available.
+	 */
 
 	/**
 	 * @param args
@@ -88,7 +93,7 @@ public class MakeChannelSelector {
 	private static boolean	missing				= true;
 	private static String	myIPName			= "TBD";
 
-	 static void selectorSetup() {
+	static void selectorSetup() {
 		getMessagingServerNameSelector();
 		Connection connection = null;
 		try {
