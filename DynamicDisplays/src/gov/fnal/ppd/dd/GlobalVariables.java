@@ -5,13 +5,22 @@
  */
 package gov.fnal.ppd.dd;
 
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_PASSWORD;
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_SERVER_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_USER_NAME;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.signage.Display;
 
 import java.awt.Image;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 
@@ -212,20 +221,20 @@ public class GlobalVariables {
 	/**
 	 * Where is the Database server? Controlled by system constant ddisplay.dbserver
 	 */
-	public static final String		DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", "fnalmysqldev.fnal.gov:3311");
+	public static String			DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", "fnalmysqldev.fnal.gov:3311");
 	/**
 	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
 	 */
-	public static final String		DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc_dev");
+	public static String			DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc_dev");
 	/**
 	 * The username for accessing the database
 	 */
-	public static final String		DATABASE_USER_NAME		= System.getProperty("ddisplay.dbusername", "no included here");
+	public static String			DATABASE_USER_NAME		= System.getProperty("ddisplay.dbusername", "no included here");
 	/**
 	 * the password corresponding to the username that accesses the database. Note that this MUST be entered by hand for each time
 	 * one runs an application. (This is not the actual password.)
 	 */
-	public static final String		DATABASE_PASSWORD		= System.getProperty("ddisplay.dbpassword", "I'm not telling :-)");
+	public static String			DATABASE_PASSWORD		= System.getProperty("ddisplay.dbpassword", "I'm not telling :-)");
 	/**
 	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
 	 * Controlled by system constant ddisplay.xmlserver
@@ -394,9 +403,93 @@ public class GlobalVariables {
 
 	static String	messagingServerName	= null;
 
+	/**
+	 * @return  The name of our messaging server, e.g., roc-w-11.fnal.gov
+	 */
 	public static String getMessagingServerName() {
 		checkName();
 		return messagingServerName;
+	}
+
+	private static String[]	credentialsPath	= { "/keystore/", System.getenv("HOME") + "/keystore/",
+			System.getenv("HOMEPATH") + "/keystore/" };
+
+	/**
+	 * Read the file, credentials.txt, for establishing connection to the database
+	 */
+	public static void credentialsSetup() {
+		String fileName = "credentials.txt";
+		File file = null;
+
+		for (String P : credentialsPath) {
+			File f = new File(P + fileName);
+			if (f.exists() && !f.isDirectory()) {
+				file = f;
+				break;
+			}
+		}
+
+		if (file == null) {
+			System.err.println("Cannot find credentials file.  Looked in these folders: " + Arrays.toString(credentialsPath));
+			System.exit(-1);
+			return;
+		}
+
+		try {
+			int lineNumber = 0;
+			String dbServer = "";
+			Scanner scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				String newline = ignoreComments(line);
+				if (newline != null) {
+					switch (lineNumber) {
+					case 0:
+						// MySQL Server name
+						dbServer = newline;
+						break;
+					case 1:
+						// MySQL server port
+						dbServer += ":" + newline;
+						DATABASE_SERVER_NAME = dbServer;
+						break;
+					case 2:
+						// Database name
+						DATABASE_NAME = newline;
+						break;
+					case 3:
+						// Database user
+						DATABASE_USER_NAME = newline;
+						break;
+					case 4:
+						// database password
+						DATABASE_PASSWORD = newline;
+						break;
+					}
+					lineNumber++;
+				}
+				// System.out.println(newline);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		println(GlobalVariables.class, ": Have read database credentials from [" + file.getAbsolutePath() + "]");
+	}
+
+	private static String ignoreComments(String line) {
+		String result_line = null;
+		int upto = line.indexOf('#');
+		if (upto != 0 && upto > 0) {
+			result_line = line.substring(0, upto);
+		} else {
+			if (upto < 0) {
+				result_line = line;
+			}/*
+			 * else{ result_line=""; }
+			 */
+		}
+
+		return result_line;
 	}
 
 	private GlobalVariables() {

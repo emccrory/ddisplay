@@ -1,4 +1,14 @@
 #!/bin/bash
+
+PID=getSymmetryFeed.pid
+
+if [ -a $PID ]; then
+    echo $0 Already running.  Abort.
+    exit -1;
+fi
+
+echo $$ > $PID
+
 . /home/mccrory/.bashrc
 
 export CLASSPATH=.:../bin:../lib/mysql-connector-java-5.1.27.jar:../lib/slf4j-api-1.5.8.jar:../lib/slf4j-log4j12-1.5.8.jar
@@ -21,3 +31,5 @@ rm -f temp tempN tempW $xmlNewsFile $logNewsFile
 
 cp symmetry.txt /var/www/html/newsfeed
 cp symmetry.txt /web/sites/xoc.fnal.gov/htdocs/newsfeed
+
+rm -f $PID

@@ -14,6 +14,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
@@ -55,6 +56,8 @@ public class MakeChannelSelector {
 	 */
 	public static void main(final String[] args) {
 
+		credentialsSetup();
+
 		selectorSetup();
 
 		ChannelSelector channelSelector = new ChannelSelector();
@@ -88,6 +91,8 @@ public class MakeChannelSelector {
 			JOptionPane.showMessageDialog(null, "This device, " + myIPName + ", is not listed in the Dynamics Display database; "
 					+ "It cannot start an instance of ChannelSelector.", "Cannot Continue", JOptionPane.ERROR_MESSAGE);
 	}
+
+	
 
 	private static String	myClassification	= "XOC";
 	private static boolean	missing				= true;
