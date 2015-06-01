@@ -104,25 +104,6 @@ public class GlobalVariables {
 	public static final String	THIS_IP_NAME_INSTANCE	= System.getProperty("ddisplay.selectorinstance", "00");
 
 	/**
-	 * Where is the private key stored on the local file system.
-	 * 
-	 * On Linux (& MAC) the default will be $HOME/keystore/private\<ipname\> selector 00.key
-	 * 
-	 * On Windows the default will be %HOMEDIR%\\keystore\\private\<ipname\> selector 00.key
-	 * 
-	 */
-	public static final String	PRIVATE_KEY_LOCATION;
-
-	static {
-		String def = ("/keystore/private" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key").toLowerCase();
-		if (System.getenv("HOME") != null) // Linux and MAC
-			def = System.getenv("HOME") + def;
-		else if (System.getenv("UserProfile") != null) // Windows
-			def = System.getenv("UserProfile") + def;
-		PRIVATE_KEY_LOCATION = System.getProperty("ddisplay.privatekeyfilename", def);
-	}
-
-	/**
 	 * @return Should the display show its number (all the time) on itself?
 	 */
 	public static boolean showNumberOnDisplay() {
@@ -404,12 +385,31 @@ public class GlobalVariables {
 	static String	messagingServerName	= null;
 
 	/**
-	 * @return  The name of our messaging server, e.g., roc-w-11.fnal.gov
+	 * @return The name of our messaging server, e.g., roc-w-11.fnal.gov
 	 */
 	public static String getMessagingServerName() {
 		checkName();
 		return messagingServerName;
 	}
+
+	/**
+	 * Where is the private key stored on the local file system.
+	 * 
+	 * On Linux (& MAC) the default will be $HOME/keystore/private\<ipname\> selector 00.key
+	 * 
+	 * On Windows the default will be %HOMEDIR%\\keystore\\private\<ipname\> selector 00.key
+	 * 
+	 */
+	public static String	PRIVATE_KEY_LOCATION;
+
+	// static {
+	// String def = ("/keystore/private" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key").toLowerCase();
+	// if (System.getenv("HOME") != null) // Linux and MAC
+	// def = System.getenv("HOME") + def;
+	// else if (System.getenv("UserProfile") != null) // Windows
+	// def = System.getenv("UserProfile") + def;
+	// PRIVATE_KEY_LOCATION = System.getProperty("ddisplay.privatekeyfilename", def);
+	// }
 
 	private static String[]	credentialsPath	= { "/keystore/", System.getenv("HOME") + "/keystore/",
 			System.getenv("HOMEPATH") + "/keystore/" };
@@ -419,12 +419,15 @@ public class GlobalVariables {
 	 */
 	public static void credentialsSetup() {
 		String fileName = "credentials.txt";
+		String key_loc = ("/private" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key").toLowerCase();
+		
 		File file = null;
 
 		for (String P : credentialsPath) {
 			File f = new File(P + fileName);
 			if (f.exists() && !f.isDirectory()) {
 				file = f;
+				PRIVATE_KEY_LOCATION = P + key_loc;
 				break;
 			}
 		}
