@@ -1,8 +1,6 @@
 . setupJars.sh
 
-databaseServer="mccrory.fnal.gov"
-
-java -Dddisplay.messagingserver=$messagingServer \
-     -Dddisplay.dbserver=$databaseServer \
-     -Xmx512m gov.fnal.ppd.DDSystemStatus
+java -Dddisplay.dbusername=$databaseUsername \
+     -Dddisplay.dbpassword=$databasePassword \
+     -Xmx512m gov.fnal.ppd.dd.DDSystemStatus
 
