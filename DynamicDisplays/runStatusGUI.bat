@@ -1,6 +1,8 @@
 call config.cmd
 
-java -Dddisplay.messagingserver=%messagingserver% -Xmx512m gov.fnal.ppd.dd.DDSystemStatus
+java -Dddisplay.dbusername=%databaseUsername% ^
+	 -Dddisplay.dbpassword=%databasePassword% ^
+	 -Xmx512m gov.fnal.ppd.dd.DDSystemStatus
 
 
 
