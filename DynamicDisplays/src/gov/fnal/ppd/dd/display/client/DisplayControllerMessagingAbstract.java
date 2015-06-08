@@ -229,12 +229,17 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			try (ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME)) {
 			}
 
+			int displayCount = 0;
+
 			try (ResultSet rs = stmt.executeQuery(query);) {
 				// Move to first returned row (there will be more than one if there are multiple screens on this PC)
 				if (rs.first()) {
 					while (!rs.isAfterLast()) {
 						try {
 							String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
+
+							System.out.println("\n********** Display number " + (displayCount++) + ", name=" + myName
+									+ " **********\n");
 
 							if (!myName.equals(myNode)) {
 								// TODO This will not work if the IPName in the database is an IP address.
