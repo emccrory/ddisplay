@@ -51,9 +51,10 @@ public class MessagingClient {
 	private boolean				keepGoing			= true;
 
 	private Object				syncReconnects		= new Object();
-	private String				serverName			= SPECIAL_SERVER_MESSAGE_USERNAME;
+	private final String		serverName			= SPECIAL_SERVER_MESSAGE_USERNAME;
 
 	private boolean				readOnly			= true;
+	private Thread				watchServer			= null;
 
 	/**
 	 * Constructor called by console mode server: the server address port: the port number username: the username
@@ -77,38 +78,47 @@ public class MessagingClient {
 	 * @return if we were successful
 	 */
 	public boolean start() {
-		new Thread(username + "ping") {
-			long	lastPingSent	= 0l;
+		if (watchServer == null) {
+			watchServer = new Thread(username + "ping") {
+				long	lastPingSent	= 0l;
 
-			/**
-			 * We need to be sure that the server is still there.
-			 * 
-			 * There have been times when the server disappears (I think this is when the server machine accidentally goes to
-			 * sleep/hibernates) and the client does not notice it.
-			 * 
-			 * This thread does that
-			 */
-			public void run() {
-				long sleep = 5 * ONE_MINUTE; // First sleep is 5 minutes
-				while (keepGoing) {
-					catchSleep(sleep);
-					if (lastMessageReceived + 5 * ONE_MINUTE < System.currentTimeMillis()
-							&& lastPingSent + ONE_MINUTE < System.currentTimeMillis()) {
-						// We haven't heard from the server in a long time! Maybe it is dead or sleeping.
-						sendMessage(MessageCarrier.getIAmAlive(username, serverName, new Date().toString()));
-						displayLogMessage("Sending an unsolicited 'IAmAlive' message from " + username + " to the server ("
-								+ serverName + ") because we last got a message "
-								+ (System.currentTimeMillis() - lastMessageReceived) + " mSec ago.");
-						lastPingSent = System.currentTimeMillis();
+				/**
+				 * We need to be sure that the server is still there.
+				 * 
+				 * There have been times when the server disappears (I think this is when the server machine accidentally goes to
+				 * sleep/hibernates) and the client does not notice it.
+				 * 
+				 * This thread does that
+				 */
+				public void run() {
+					long sleep = (long) (5 * ONE_MINUTE + 1000 * Math.random()); // First sleep is 5 minutes, plus a little bit
+					while (keepGoing) {
+						catchSleep(sleep);
+						if (lastMessageReceived + 5 * ONE_MINUTE < System.currentTimeMillis()
+								&& lastPingSent + ONE_MINUTE < System.currentTimeMillis()) {
+							// We haven't heard from the server in a long time! Maybe it is dead or sleeping.
+							sendMessage(MessageCarrier.getIAmAlive(username, serverName, new Date().toString()));
+							displayLogMessage("Sending an unsolicited 'IAmAlive' message from " + username + " to the server ("
+									+ serverName + ") because we last got a message "
+									+ (System.currentTimeMillis() - lastMessageReceived) + " mSec ago.");
+							lastPingSent = System.currentTimeMillis();
+						}
+						sleep = 9999L; // subsequent sleeps are ten seconds
 					}
-					sleep = 9999L; // subsequent sleeps are ten seconds
+					watchServer = null;
 				}
-			}
-		}.start();
+			};
+			watchServer.start();
+		} else {
+			displayLogMessage("Already running an instance of the 'watch server' thread.");
+			new Exception("watchServer is already running!").printStackTrace();
+		}
 		if (socket != null) {
 			throw new RuntimeException("Already started the server.");
 		}
 		displayLogMessage("Connecting to server '" + server + "' on port " + port + " at " + (new Date()));
+		new Exception("Connecting to server debug").printStackTrace();
+
 		// try to connect to the server
 		try {
 			socket = new Socket(server, port);
@@ -145,6 +155,7 @@ public class MessagingClient {
 		String msg = "Connection accepted to " + socket.getInetAddress() + ", port " + socket.getPort() + ".  Username = '"
 				+ username + "' at " + (new Date());
 		displayLogMessage(msg);
+		new Exception("Connection accepted debug").printStackTrace();
 
 		// creates the Thread to listen from the server
 		listenFromServer = new ListenFromServer();
@@ -253,7 +264,7 @@ public class MessagingClient {
 
 		// Wait until the server returns
 		restartThreadToServer = new Thread(username + "_restart_connection") {
-			long	wait	= 10000L;
+			long	wait	= 9000L + (long) (2000 * Math.random());
 
 			public void run() {
 				synchronized (syncReconnects) {
@@ -461,11 +472,13 @@ public class MessagingClient {
 						continue;
 					}
 
-					serverName = msg.getFrom();
 					if (msg.isThisForMe(username) && msg.getType() == MessageType.ISALIVE) {
+						// serverName = msg.getFrom();
 						sendMessage(MessageCarrier.getIAmAlive(username, msg.getFrom(), "" + new Date()));
-					} else
+					} else {
+						displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got a message that is being ignored.");
 						displayIncomingMessage(msg);
+					}
 				} catch (IOException e) {
 					displayLogMessage("Server has closed the connection: " + e);
 					break; // Leave the forever loop
