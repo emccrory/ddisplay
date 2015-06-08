@@ -472,6 +472,9 @@ public class DDSystemStatus extends JFrame {
 	 *            Command line arguments (none expected()
 	 */
 	public static void main(String[] args) {
+		
+		gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector();
+		
 		int portNumber = MESSAGING_SERVER_PORT;
 		String host = getMessagingServerName();
 		if (args.length == 1) {
