@@ -154,6 +154,14 @@ public class MessagingServer {
 			// System.out.println("Thread trying to create Object Input/Output Streams");
 			try {
 				// create output first
+				/*
+				 * FIXME ??? --- On June 2, 2015, 15:16:33 (approximately) I connected a display server with a mixed-up IP address.
+				 * Its internal reckoning of its IP address was different from what DNS said. I was able to connect to the server
+				 * (and this is the spot where that connection happens on the server), and everything seemed to work. However, at
+				 * that precise moment, the messaging server lost track of ALL of its clients, and all the clients lost track of the
+				 * server. I do not see how this could have happened, unless it is something within the "socket" mechanism of Java.
+				 * So, future self, be warned that this could happen again and foul everything up.
+				 */
 				this.sOutput = new ObjectOutputStream(socket.getOutputStream());
 				this.sInput = new ObjectInputStream(socket.getInputStream());
 
@@ -404,11 +412,11 @@ public class MessagingServer {
 				}
 			}
 
-			if ( ObjectSigning.dropClient(this.username) ) 
+			if (ObjectSigning.dropClient(this.username))
 				display(this.getClass().getSimpleName() + ": '" + this.username + "' Removed from ObjectSigning cache");
-			else 
+			else
 				display(this.getClass().getSimpleName() + ": '" + this.username + "' NOT IN THE ObjectSigning cache");
-			
+
 			display(this.getClass().getSimpleName() + ": Number of remaining clients: " + listOfMessagingClients.size());
 			close();
 		}
@@ -826,7 +834,7 @@ public class MessagingServer {
 					// connect at the same time--either the Channel Selector or when all the Displays reboot.
 
 					showClientList = new Thread("ShowClientList") {
-						long	WAIT_FOR_ALL_TO_CONNECT_TIME	= 3000L;
+						long	WAIT_FOR_ALL_TO_CONNECT_TIME	= 4000L;
 
 						public void run() {
 							catchSleep(WAIT_FOR_ALL_TO_CONNECT_TIME);
