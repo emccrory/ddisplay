@@ -110,9 +110,9 @@ public class SplashScreens extends Thread {
 			splash.add(new JLabelCenter("<html><em>Touch to continue</em></html>", subHead));
 			if (index == splashWithCredits0 || index == splashWithCredits1) {
 				splash.add(Box.createRigidArea(new Dimension(50, gap)));
-				splash.add(new JLabelCenter(
-						"<html><em>Dynamic Display System software written by Elliott McCrory, Fermilab AD/Instrumentation, 2014</em></html>",
-						12));
+				splash.add(new JLabelCenter("<html><p align='center'>"
+						+ "<em>Dynamic Display System software written by Elliott McCrory, Fermilab AD/Instrumentation, 2015<br>"
+						+ "<br>These pictures are available from http://mccrory.fnal.gov/FermiTodayPhoto</em></p></html>", 12));
 			}
 			// splash.add(new JLabelCenter("" + arrow, arrowSize));
 

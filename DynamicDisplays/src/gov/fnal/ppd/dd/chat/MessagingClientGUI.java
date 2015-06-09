@@ -66,7 +66,7 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 		}
 
 		@Override
-		public void displayIncomingMessage(final MessageCarrier msg) {
+		public void receiveIncomingMessage(final MessageCarrier msg) {
 			ta.append(msg.toString() + "\n");
 		};
 

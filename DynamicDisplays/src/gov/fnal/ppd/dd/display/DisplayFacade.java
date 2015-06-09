@@ -5,9 +5,11 @@ import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
+import gov.fnal.ppd.dd.chat.MessageType;
 import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -84,9 +86,9 @@ public class DisplayFacade extends DisplayImpl {
 		}
 
 		@Override
-		public void displayIncomingMessage(final MessageCarrier message) {
-			if (message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME)) {
-				// Need to inform all the listeners about this situation
+		public void receiveIncomingMessage(final MessageCarrier message) {
+			if (message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME) && message.getType() == MessageType.ERROR) {
+				println(getClass(), ".displayIncomingMessage(): Got an error message -- " + message );
 				dcp.errorHandler(message);
 			} else {
 				// DisplayFacade d = clients.get(message.getFrom());

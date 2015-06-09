@@ -67,7 +67,7 @@ public class WhoIsInChatRoom extends Thread {
 			System.out.println("\n**Starting messaging client named '" + myName + "' for listening to who is in the system");
 			client = new MessagingClient(getMessagingServerName(), MESSAGING_SERVER_PORT, myName) {
 				@Override
-				public void displayIncomingMessage(final MessageCarrier msg) {
+				public void receiveIncomingMessage(final MessageCarrier msg) {
 					String clientName = msg.getFrom();
 					// System.out.println("WhoIsInChatRoom: see a message from [" + clientName + "]");
 					if (clientName.toLowerCase().contains("façade"))

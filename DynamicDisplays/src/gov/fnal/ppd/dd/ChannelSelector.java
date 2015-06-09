@@ -311,23 +311,24 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						alive = true;
 						break;
 					case ERROR:
-						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; " + ": "
-								+ display.getContent().getCategory() + "/'" + (display.getContent().getName());
+						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; "
+								+ display.getContent().getCategory() + "/'" + (display.getContent().getName()) + "'";
+						System.out.println("ChannelSelector error from display: " + text);
 						launchErrorMessage(e);
 						break;
 
 					case ALIVE:
 						// These remaining items are not ever reached. (1/28/2015)
 						alive = true;
-						text = "A Display " + display.getVirtualDisplayNumber() + ": " + display.getContent().getCategory() + "/'"
-								+ (display.getContent().getName());
+						text = "Display " + display.getVirtualDisplayNumber() + ": " + display.getContent().getCategory() + "/'"
+								+ (display.getContent().getName()) + " (#" + ((Channel)display.getContent()).getNumber() + ")";
 						break;
 
 					case IDLE:
 						alive = true;
 						if (lastUpdated + 30000l > System.currentTimeMillis())
 							break;
-						text = "G Display " + display.getVirtualDisplayNumber() + " Idle; " + ": "
+						text = "Display " + display.getVirtualDisplayNumber() + " Idle; " + ": "
 								+ display.getContent().getCategory() + "/'" + (display.getContent().getName());
 						break;
 					}
@@ -380,9 +381,14 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			return;
 		errorMessageThread = new Thread("ErrorMessagePopup") {
 			public void run() {
-				JOptionPane.showMessageDialog(null,
-						e.paramString().substring(e.paramString().indexOf("ERROR") + 9, e.paramString().indexOf(",when")),
-						"Error in communications", JOptionPane.ERROR_MESSAGE);
+				int g = e.paramString().indexOf("ERROR") + 9;
+				int h = e.paramString().indexOf(",when");
+				String m = e.paramString().substring(g, h);
+				if (m.length() == 0)
+					JOptionPane.showMessageDialog(null, e, "Error in communications", JOptionPane.ERROR_MESSAGE);
+				else
+					JOptionPane.showMessageDialog(null, e.paramString().substring(g, h), "Error in communications",
+							JOptionPane.ERROR_MESSAGE);
 				// catchSleep(3000L);
 				errorMessageThread = null;
 			}

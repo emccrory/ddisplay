@@ -415,7 +415,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 
 		@Override
-		public void displayIncomingMessage(MessageCarrier msg) {
+		public void receiveIncomingMessage(MessageCarrier msg) {
 			if (debug)
 				println(DisplayControllerMessagingAbstract.class, ":" + MessagingClientLocal.class.getSimpleName()
 						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");

@@ -157,7 +157,7 @@ public class MessagingClient {
 		displayLogMessage(msg);
 		new Exception("Connection accepted debug").printStackTrace();
 
-		// creates the Thread to listen from the server
+		// creates the Thread to listen to the server
 		listenFromServer = new ListenFromServer();
 		listenFromServer.start();
 
@@ -192,10 +192,14 @@ public class MessagingClient {
 	/**
 	 * Overridable to enable other sorts of usages.
 	 * 
+	 * Changed the name from "displayIncomingMessage" in order to convey that this is an important
+	 * aspect of dealing with messages that are received, beyond simply printing it out.  In practice,
+	 * many implementers of this method actually ANALYZE the message and act on it.
+	 * 
 	 * @param msg
 	 *            The message that was received just now.
 	 */
-	public void displayIncomingMessage(final MessageCarrier msg) {
+	public void receiveIncomingMessage(final MessageCarrier msg) {
 		System.out.println(msg);
 	}
 
@@ -422,6 +426,8 @@ public class MessagingClient {
 	 */
 	class ListenFromServer extends Thread {
 
+		private long	nextDisplayTime = System.currentTimeMillis();
+
 		public void run() {
 			boolean showMessage1 = true, showMessage2 = true, showMessage3 = true;
 			while (keepGoing) {
@@ -466,18 +472,35 @@ public class MessagingClient {
 						}
 					} else {
 						System.err.println("Exception caught at " + new Date());
-						new ClassNotFoundException().printStackTrace();
+						new ClassNotFoundException(read.getClass().getCanonicalName()).printStackTrace();
 						// try to continue anyway ...
 						catchSleep(1000L);
 						continue;
 					}
 
-					if (msg.isThisForMe(username) && msg.getType() == MessageType.ISALIVE) {
-						// serverName = msg.getFrom();
-						sendMessage(MessageCarrier.getIAmAlive(username, msg.getFrom(), "" + new Date()));
+					if (msg.isThisForMe(username)) {
+						if (msg.getType() == MessageType.ISALIVE) {
+							// serverName = msg.getFrom();
+							sendMessage(MessageCarrier.getIAmAlive(username, msg.getFrom(), "" + new Date()));
+						} else if (msg.getType() == MessageType.AMALIVE) {
+							// Print out some of these messages for the log file
+							if (System.currentTimeMillis() > nextDisplayTime) {
+								displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got 'AMALIVE' message from "
+										+ msg.getFrom());
+								if (System.currentTimeMillis() > nextDisplayTime + 15000L)
+									// Continue to print these for 15 seconds, and the wait 15 minutes to do it again.
+									nextDisplayTime = System.currentTimeMillis() + 15 * ONE_MINUTE;
+							}
+						} else {
+							displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got a message that is being ignored.");
+							System.out.println("\t\t" + msg);
+						}
+						
+						receiveIncomingMessage(msg);
 					} else {
-						displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got a message that is being ignored.");
-						displayIncomingMessage(msg);
+						displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got a message that is not for me!");
+						System.out.println("\t\t" + msg);
+						receiveIncomingMessage(msg);
 					}
 				} catch (IOException e) {
 					displayLogMessage("Server has closed the connection: " + e);

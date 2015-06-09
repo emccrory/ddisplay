@@ -160,7 +160,7 @@ public class ConnectionToFirefoxInstance {
 			throws UnsupportedEncodingException {
 		if (debug)
 			println(getClass(), ": New URL: " + urlString);
-
+		
 		String frameName = "iframe";
 		if (frameNumber > 0)
 			frameName = "frame" + frameNumber;
@@ -323,6 +323,13 @@ public class ConnectionToFirefoxInstance {
 			e.printStackTrace();
 			connected = false;
 		}
+		
+		// TODO -- Add the PNG image of the QR code here.  Generate it with this:
+		// try {
+		//   BufferedImage image = gov.fnal.ppd.dd.util.CrunchifyQRCode.createQRCodeImage(lastURLString);
+		// } catch (WriterException e) {
+		//   e.printStackTrace();
+		// }
 	}
 
 	/**

@@ -101,7 +101,7 @@ public class DDSystemStatus extends JFrame {
 		}
 
 		@Override
-		public void displayIncomingMessage(final MessageCarrier msg) {
+		public void receiveIncomingMessage(final MessageCarrier msg) {
 			ta.append(msg + "\n");
 
 			// TODO Windows 7 display has a problem with this. Only the first node is ever displayed when this is redrawn.
