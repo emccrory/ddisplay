@@ -21,7 +21,6 @@ d=`date +%F`
 
 java -Dddisplay.selector.inwindow=$window \
      -Dddisplay.selector.public=$public \
-     -Dddisplay.messagingserver=$messagingServer \
      -Dddisplay.dbserver=$databaseServer \
      -Dddisplay.dbusername=$databaseUsername \
      -Dddisplay.dbpassword=$databasePassword \

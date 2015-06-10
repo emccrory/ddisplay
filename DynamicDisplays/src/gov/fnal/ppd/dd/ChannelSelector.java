@@ -311,8 +311,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						alive = true;
 						break;
 					case ERROR:
-						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; "
-								+ display.getContent().getCategory() + "/'" + (display.getContent().getName()) + "'";
+						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; " + display.getContent().getCategory()
+								+ "/'" + (display.getContent().getName()) + "'";
 						System.out.println("ChannelSelector error from display: " + text);
 						launchErrorMessage(e);
 						break;
@@ -321,7 +321,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						// These remaining items are not ever reached. (1/28/2015)
 						alive = true;
 						text = "Display " + display.getVirtualDisplayNumber() + ": " + display.getContent().getCategory() + "/'"
-								+ (display.getContent().getName()) + " (#" + ((Channel)display.getContent()).getNumber() + ")";
+								+ (display.getContent().getName()) + " (#" + ((Channel) display.getContent()).getNumber() + ")";
 						break;
 
 					case IDLE:
@@ -543,7 +543,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					+ "<br>by re-reading this information from the Channel database."
 					+ "<br><em>This will not create new buttons</em></html>");
 			titleBox.add(refreshButton);
-			if (!SHOW_IN_WINDOW)
+			if (SHOW_IN_WINDOW)
+				IdentifyAll.setup("Identify all displays", FONT_SIZE / 3, new Insets(4, 4, 4, 4));
+			else
 				IdentifyAll.setup("ID", FONT_SIZE / 2, new Insets(5, 5, 5, 5));
 			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
 			// titleBox.add(showBorderButton);
@@ -561,7 +563,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			});
 		}
 
-		JButton flipTitles = new JButton(new ImageIcon("bin/gov/fnal/ppd/dd/images/2arrows.png"));
+		ImageIcon ic = new ImageIcon("bin/gov/fnal/ppd/dd/images/2arrows.png");
+		JButton flipTitles = new JButton(ic);
 		flipTitles.setMargin(new Insets(2, 5, 2, 5));
 		flipTitles.setToolTipText("<html><b>Toggle Text</b> -- Toggle between a succinct"
 				+ "<br>Channel button label and one with more details");
