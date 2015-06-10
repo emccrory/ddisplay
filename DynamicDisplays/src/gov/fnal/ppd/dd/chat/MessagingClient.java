@@ -430,6 +430,7 @@ public class MessagingClient {
 
 		public void run() {
 			boolean showMessage1 = true, showMessage2 = true, showMessage3 = true;
+			int aliveCount = 0;
 			while (keepGoing) {
 				try {
 					MessageCarrier msg;
@@ -484,12 +485,13 @@ public class MessagingClient {
 							sendMessage(MessageCarrier.getIAmAlive(username, msg.getFrom(), "" + new Date()));
 						} else if (msg.getType() == MessageType.AMALIVE) {
 							// Print out some of these messages for the log file
+							aliveCount++;
 							if (System.currentTimeMillis() > nextDisplayTime) {
 								displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got 'AMALIVE' message from "
-										+ msg.getFrom());
+										+ msg.getFrom() + " [" + aliveCount + "]");
 								if (System.currentTimeMillis() > nextDisplayTime + 15000L)
-									// Continue to print these for 15 seconds, and the wait 15 minutes to do it again.
-									nextDisplayTime = System.currentTimeMillis() + 15 * ONE_MINUTE;
+									// Continue to print these for 15 seconds, and the wait an hour to do it again.
+									nextDisplayTime = System.currentTimeMillis() + 60 * ONE_MINUTE;
 							}
 						} else {
 							displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got a message that is being ignored.");
