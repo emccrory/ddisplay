@@ -272,28 +272,40 @@ public class MessagingServer {
 						break; // End the while(this.thisSocketIsActive) loop
 					}
 				} catch (Exception e) {
-					String dis = "Client " + this.username + ": Exception reading input stream -- " + e + ";\n          "
-							+ "The received message was '" + read + "'\n          (type=" + read.getClass().getCanonicalName()
-							+ ")";
-					e.printStackTrace();
-					StackTraceElement[] trace = e.getStackTrace();
-					dis += "\n" + trace[trace.length - 1]; // Print only the last line (reducing crap in the printout)
+					if (read == null) {
+						String mes = "The reading of the input stream produced a null object. Client: " + this.username;
+						display(mes);
+						error(mes);
+					} else {
+						String dis = "Client " + this.username + ": Exception reading input stream -- " + e + ";\n          "
+								+ "The received message was '" + read + "'\n          (type=" + read.getClass().getCanonicalName()
+								+ ")";
+						e.printStackTrace();
+						StackTraceElement[] trace = e.getStackTrace();
+						dis += "\n" + trace[trace.length - 1]; // Print only the last line (reducing crap in the printout)
 
-					display(dis);
-					error(dis);
+						display(dis);
+						error(dis);
 
-					// Reply to the client that this message was rejected!
-					writeUnsignedMsg(MessageCarrier
-							.getErrorMessage(
-									SPECIAL_SERVER_MESSAGE_USERNAME,
-									this.cm.getFrom(),
-									"Your message of type "
-											+ this.cm.getType()
-											+ " to client, "
-											+ this.cm.getTo()
-											+ " was not processed because there was an internal error in the messaging server; exception type is "
-											+ e.getClass().getCanonicalName()));
-
+						String frm = "null";
+						String typ = "null";
+						String tto = "null";
+						if (this.cm != null) {
+							frm = this.cm.getFrom();
+							typ = this.cm.getType().toString();
+							tto = this.cm.getTo();
+						}
+						// Reply to the client that this message was rejected!
+						String errorMessage = "Your message of type "
+								+ typ
+								+ " to client, "
+								+ tto
+								+ " was not processed because there was an internal error in the messaging server; exception type is "
+								+ e.getClass().getCanonicalName();
+						display("Sending error message to client: [[[" + errorMessage + "]]]");
+						if (!frm.equals("null"))
+							writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, frm, errorMessage));
+					}
 					break; // End the while(this.thisSocketIsActive) loop
 
 					/*
@@ -310,7 +322,6 @@ public class MessagingServer {
 
 				// The client that sent this message is still alive
 				markClientAsSeen(this.cm.getFrom());
-
 				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())
 						&& showAliveMessages) {
 					display("Got 'I'm Alive' message from " + cm.getFrom().trim());
@@ -556,8 +567,10 @@ public class MessagingServer {
 					if (CT == null || CT.username == null) {
 						display("Unexpected null ClientThread at index=" + index + ": [" + CT + "]");
 						remove(CT); // How did THIS happen??
-					} else if (CT.username.equals(ct.username))
+					} else if (CT.username.equals(ct.username)) {
+						display("Client named " + ct.username + " already in this list");
 						return false; // Duplicate username is not allowed!
+					}
 					index++;
 				}
 			}
@@ -566,7 +579,11 @@ public class MessagingServer {
 			//
 			// BUt I am seeing bugs whereby one client restarts and the server has not dropped the old connection.
 			numConnectionsSeen++;
-			return super.add(ct);
+			boolean retval = super.add(ct);
+			if (!retval) {
+				display("Adding a client named " + ct.username + " gives an error from CopyOnWriteArrayList.add()");
+			}
+			return retval;
 		}
 
 	}
@@ -821,6 +838,7 @@ public class MessagingServer {
 					t.start();
 				else {
 					display("Error! Duplicate username requested, '" + t.username + "'");
+					showAllClientsConnectedNow();
 					t.start();
 					t.writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, t.username,
 							"A client with the name " + t.username + " has already connected.  Disconnecting now."));
@@ -838,13 +856,7 @@ public class MessagingServer {
 
 						public void run() {
 							catchSleep(WAIT_FOR_ALL_TO_CONNECT_TIME);
-
-							String m = "List of connected clients:\n";
-							for (ClientThread CT : listOfMessagingClients) {
-								m += "           " + CT.username + " (" + CT.getRemoteIPAddress() + "), last seen at "
-										+ new Date(CT.getLastSeen()) + " ID=" + CT.id + "\n";
-							}
-							display(m);
+							showAllClientsConnectedNow();
 							performDiagnostics(true);
 							showClientList = null;
 						}
@@ -882,6 +894,15 @@ public class MessagingServer {
 			display(msg);
 			printStackTrace(e);
 		}
+	}
+
+	protected void showAllClientsConnectedNow() {
+		String m = "List of connected clients:\n";
+		for (ClientThread CT : listOfMessagingClients) {
+			m += "           " + CT.username + " (" + CT.getRemoteIPAddress() + "), last seen at " + new Date(CT.getLastSeen())
+					+ " ID=" + CT.id + "\n";
+		}
+		display(m);
 	}
 
 	/**
