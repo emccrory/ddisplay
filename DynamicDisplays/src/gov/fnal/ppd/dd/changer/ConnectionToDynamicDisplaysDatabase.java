@@ -108,8 +108,11 @@ public class ConnectionToDynamicDisplaysDatabase {
 			if (ex.getMessage().contains("Access denied for user")) {
 				System.err.println("Cannot access the Channel/Display database.");
 				throw new DatabaseNotVisibleException(ex.getMessage());
+			} else if (ex.getMessage().contains("Operation timed out")) {
+				System.err.println("Cannot access the Channel/Display database, possibly because we have been idle for a long time.");
+				throw new DatabaseNotVisibleException(ex.getMessage());
 			} else {
-				System.err.println("Aborting");
+				System.err.println("This is an unexpected error. Aborting!");
 				System.exit(1);
 			}
 		}
