@@ -12,6 +12,7 @@ import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
+import gov.fnal.ppd.dd.chat.MessageType;
 import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.display.DisplayImpl;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -416,7 +417,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 		@Override
 		public void receiveIncomingMessage(MessageCarrier msg) {
-			if (debug)
+			if (debug && msg.getType() != MessageType.ISALIVE)
 				println(DisplayControllerMessagingAbstract.class, ":" + MessagingClientLocal.class.getSimpleName()
 						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
 			if (msg.getTo().equals(getName())) {
