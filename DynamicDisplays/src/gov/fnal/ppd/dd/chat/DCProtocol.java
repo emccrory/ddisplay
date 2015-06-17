@@ -252,11 +252,21 @@ public class DCProtocol {
 	// informListeners(spec);
 	// }
 
+	/**
+	 * This is where the channel list is played on a display.
+	 */
 	private void informListenersForever() {
 
 		// TODO -- Alternate way to do this, which is possibly more elegant: Change the way we interpret the time field in the
 		// channel so that it will look for "the next channel" when that time expires. Otherwise, it refreshes this channel.
 
+		// FIXME -- In a world where a temporary channel is played on a Display, it cannot know that the permanent channel
+		// that it had was a list.  That is because the handling of the list is here in the Protocol portion.  The handling 
+		// of the playing of the list, then, needs to be down in the client that is actually talking to the browser.  This
+		// solution is very elegant, so it will be hard to change it.
+		
+		// These two tags seem to be compatible.
+		
 		checkChanger();
 		if (listeners == null || listeners.size() == 0) {
 			println(getClass(), "No listeners, so exiting from informListenersForever()");
@@ -275,14 +285,11 @@ public class DCProtocol {
 				long sleepTime = channelListSpec.getTime();
 				while (keepRunning) {
 					for (ChannelSpec spec : specs) {
-						// System.out.println(DCProtocol.class.getSimpleName() + ": Changing to [" + spec.getName() + "] -- "
-						// + (new Date()));
 						long st = (spec.getTime() > sleepTime ? spec.getTime() : sleepTime);
 						informListeners(spec);
 						for (long i = st; i > 0 && keepRunning; i -= SHORT_INTERVAL)
 							catchSleep(Math.min(i, SHORT_INTERVAL));
-						// System.out.println(DCProtocol.class.getSimpleName() + ": Changing the channel now!");
-
+						// Maybe this next statement needs to be within the inner FOR loop
 						if (!keepRunning)
 							break;
 					}

@@ -63,6 +63,7 @@ public class ConnectionToFirefoxInstance {
 	private static final String						EXTRAFRAME_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border2.php";
 	private static final String						EXTRAFRAMESNOTICKER_WEB_PAGE	= "http://" + WEB_SERVER_NAME + "/border3.php";
 	private static final String						EXTRAFRAMENOTICKER_WEB_PAGE		= "http://" + WEB_SERVER_NAME + "/border4.php";
+	private static final String						FERMI_TICKERTAPE_WEB_PAGE		= "http://" + WEB_SERVER_NAME + "/border5.php";
 
 	/**
 	 * What type of "wrapper" shall we use to show our web pages?
@@ -90,12 +91,16 @@ public class ConnectionToFirefoxInstance {
 		 * There are multiple (4) frames but no ticker.
 		 */
 		FRAMESNOTICKER,
-		
-		
+
 		/**
 		 * There one extra frame but no ticker.
 		 */
 		FRAMENOTICKER,
+
+		/**
+		 * Show the "Fermilab News" ticker
+		 */
+		FERMITICKER,
 
 		/**
 		 * Show naked web pages without the border (untested)
@@ -160,7 +165,7 @@ public class ConnectionToFirefoxInstance {
 			throws UnsupportedEncodingException {
 		if (debug)
 			println(getClass(), ": New URL: " + urlString);
-		
+
 		String frameName = "iframe";
 		if (frameNumber > 0)
 			frameName = "frame" + frameNumber;
@@ -198,6 +203,20 @@ public class ConnectionToFirefoxInstance {
 				}
 				break;
 
+			case FERMITICKER:
+				if (!showingCanonicalSite.get()) {
+					println(getClass(), " -- Sending full, new URL to browser, " + FERMI_TICKERTAPE_WEB_PAGE);
+					showingCanonicalSite.set(true);
+					s = "window.location=\"" + FERMI_TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
+							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
+							+ bounds.height;
+
+					if (isNumberDiscrete())
+						s += "&shownumber=0";
+					s += "\";\n";
+				}
+				break;
+
 			case TICKERANDFRAME:
 				if (!showingCanonicalSite.get()) {
 					println(getClass(), " -- Sending full, new URL to browser, " + EXTRAFRAME_WEB_PAGE);
@@ -223,8 +242,8 @@ public class ConnectionToFirefoxInstance {
 						s += "&shownumber=0";
 					s += "\";\n";
 				}
-				break;			
-				
+				break;
+
 			case FRAMESNOTICKER:
 				if (!showingCanonicalSite.get()) {
 					println(getClass(), " -- Sending full, new URL to browser, " + EXTRAFRAMESNOTICKER_WEB_PAGE);
@@ -323,12 +342,12 @@ public class ConnectionToFirefoxInstance {
 			e.printStackTrace();
 			connected = false;
 		}
-		
-		// TODO -- Add the PNG image of the QR code here.  Generate it with this:
+
+		// TODO -- Add the PNG image of the QR code here. Generate it with this:
 		// try {
-		//   BufferedImage image = gov.fnal.ppd.dd.util.CrunchifyQRCode.createQRCodeImage(lastURLString);
+		// BufferedImage image = gov.fnal.ppd.dd.util.CrunchifyQRCode.createQRCodeImage(lastURLString);
 		// } catch (WriterException e) {
-		//   e.printStackTrace();
+		// e.printStackTrace();
 		// }
 	}
 

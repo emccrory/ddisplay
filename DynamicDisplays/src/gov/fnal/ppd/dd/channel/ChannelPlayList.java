@@ -57,24 +57,6 @@ public class ChannelPlayList implements Channel {
 		currentChannel = chanIterator.next(); // Get to the first channel
 	}
 
-	// public ChannelPlayList(String rawMessage) {
-	// // Read in the list of Channels to play
-	// String[] urls = rawMessage.split(",");
-	// for (String U : urls)
-	// try {
-	// channels.add(new PlainURLChannel(new URL(U)));
-	// } catch (Exception e) {
-	// try {
-	// dwell = Long.parseLong(U);
-	// } catch (Exception el) {
-	// e.printStackTrace();
-	// el.printStackTrace();
-	// }
-	// if (dwell <= 0)
-	// e.printStackTrace();
-	// }
-	// }
-
 	/**
 	 * An empty constructor, as required by XML marshalling
 	 */
