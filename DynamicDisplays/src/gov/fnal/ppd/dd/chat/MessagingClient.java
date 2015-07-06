@@ -117,7 +117,7 @@ public class MessagingClient {
 			throw new RuntimeException("Already started the server.");
 		}
 		displayLogMessage("Connecting to server '" + server + "' on port " + port + " at " + (new Date()));
-		new Exception("Connecting to server debug").printStackTrace();
+		// new Exception("Connecting to server debug").printStackTrace();
 
 		// try to connect to the server
 		try {
@@ -155,7 +155,7 @@ public class MessagingClient {
 		String msg = "Connection accepted to " + socket.getInetAddress() + ", port " + socket.getPort() + ".  Username = '"
 				+ username + "' at " + (new Date());
 		displayLogMessage(msg);
-		new Exception("Connection accepted debug").printStackTrace();
+		// new Exception("Connection accepted debug").printStackTrace();
 
 		// creates the Thread to listen to the server
 		listenFromServer = new ListenFromServer();
