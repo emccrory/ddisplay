@@ -13,38 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that contains static methods for retrieving the displays in the system.  {@link DisplayListDatabaseRemote}
+ * Class that contains static methods for retrieving the displays in the system. {@link DisplayListDatabaseRemote}
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 public class DisplayListFactory {
 
-	// Once used during initial testing
-	// public static enum DisplayDebugTypes {
-	// TESTING,
-	// REAL_BUT_LOCAL,
-	// REAL_AND_REMOTE
-	// };
-
 	private DisplayListFactory() {
 	}
-
-	// public static void useRealDisplays(DisplayDebugTypes real) {
-	// switch (real) {
-	// case TESTING:
-	// me = new DisplayListTesting();
-	// break;
-	//
-	// case REAL_BUT_LOCAL:
-	// me = new DisplayListDatabase();
-	// break;
-	//
-	// case REAL_AND_REMOTE:
-	// me = new DisplayListDatabaseRemote();
-	// break;
-	// }
-	// }
 
 	/**
 	 * @param type
@@ -56,7 +33,7 @@ public class DisplayListFactory {
 			return new DisplayListDatabaseRemote(locationCode);
 		if (type == SignageType.Experiment)
 			throw new RuntimeException("Unimplemented code!");
-		
+
 		// Public only
 		List<Display> retval = new ArrayList<Display>();
 		List<Display> all = new DisplayListDatabaseRemote(locationCode);
