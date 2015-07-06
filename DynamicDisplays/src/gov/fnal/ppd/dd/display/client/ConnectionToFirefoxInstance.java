@@ -59,7 +59,7 @@ public class ConnectionToFirefoxInstance {
 	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
 
 	private static final String						BASE_WEB_PAGE					= "http://" + WEB_SERVER_NAME + "/border.php";
-	private static final String						TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border1.php";
+	private static final String						TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
 	private static final String						EXTRAFRAME_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border2.php";
 	private static final String						EXTRAFRAMESNOTICKER_WEB_PAGE	= "http://" + WEB_SERVER_NAME + "/border3.php";
 	private static final String						EXTRAFRAMENOTICKER_WEB_PAGE		= "http://" + WEB_SERVER_NAME + "/border4.php";
