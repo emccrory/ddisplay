@@ -130,7 +130,7 @@ public class CreateListOfChannels extends JPanel {
 	}
 
 	/**
-	 * @return
+	 * @return the save-restore widget
 	 */
 	public SaveRestoreListOfChannels getSaveRestore() {
 		return saveRestore;
@@ -641,7 +641,6 @@ public class CreateListOfChannels extends JPanel {
 
 		bag.gridx++;
 		add(Box.createRigidArea(new Dimension(10, 10)), bag);
-
 	}
 
 	private static List<Long> getDwellStrings() {
