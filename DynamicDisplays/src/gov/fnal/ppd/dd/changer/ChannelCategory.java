@@ -152,6 +152,6 @@ public class ChannelCategory {
 
 	@Override
 	public String toString() {
-		return value + "[" + abbreviation + "]";
+		return value + " [" + abbreviation + "]";
 	}
 }
