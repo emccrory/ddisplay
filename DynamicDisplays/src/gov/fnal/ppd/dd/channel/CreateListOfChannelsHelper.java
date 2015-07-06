@@ -9,10 +9,14 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.dd.channel.CreateListOfChannels.BigButton;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,7 +24,7 @@ import javax.swing.ScrollPaneConstants;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- *
+ * 
  */
 public class CreateListOfChannelsHelper {
 	/**
@@ -42,20 +46,35 @@ public class CreateListOfChannelsHelper {
 	public CreateListOfChannelsHelper() {
 		listerPanel = new JPanel(new BorderLayout());
 		lister = new CreateListOfChannels();
-		accept = new BigButton("Accept This Channel List Sequence");
-		JLabel instructions = new JLabel("<html><p align='center'>This page allows you to play a sequence of content on a Display.  " +
-				"Create the sequence by selecting the Channels in order below.  Also, set the dwell time.<br>" +
-				"Click \"Accept This Channel List Sequence\" and the Display will play these Channels in sequence.</html>");
+		JComponent sr = lister.getSaveRestore();
+		sr.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
+		accept = new BigButton("Accept This Channel List Sequence");
+		if (SHOW_IN_WINDOW) {
+			accept.setFont(accept.getFont().deriveFont(20.0f));
+		}
+		accept.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		JLabel instructions = new JLabel(
+				"<html><p align='center'>This page allows you to play a sequence of Channels on a Display.<br>"
+						+ "Create the sequence by selecting the Channels in order below.  Also, set the dwell time.<br>"
+						+ "Click \"Accept This Channel List Sequence\" (above) and the Display will play these Channels in sequence.</p></html>",
+				JLabel.CENTER);
+
+		instructions.setFont(instructions.getFont().deriveFont(Font.PLAIN, 11));
+		instructions.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		Box v = Box.createVerticalBox();
+		v.add(accept);
 		v.add(instructions);
+		v.add(sr);
+		v.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		JScrollPane scroller = new JScrollPane(lister, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroller.getVerticalScrollBar().setUnitIncrement(12);
-		v.add(scroller);
+		scroller.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		listerPanel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		if (!SHOW_IN_WINDOW)
 			scroller.getVerticalScrollBar().setPreferredSize(new Dimension(40, 0));
-		listerPanel.add(v, BorderLayout.CENTER);
-		listerPanel.add(accept, BorderLayout.NORTH);
+		listerPanel.add(scroller, BorderLayout.CENTER);
+		listerPanel.add(v, BorderLayout.NORTH);
 	}
 }
