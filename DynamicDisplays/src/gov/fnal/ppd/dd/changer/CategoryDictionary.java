@@ -57,67 +57,68 @@ public class CategoryDictionary {
 			System.exit(1);
 		}
 
-		String q = "SELECT DISTINCT TabName,Abbreviation FROM LocationTab";
-		try {
-			// TODO Multiple location code adaptation would be here!
-			if (getNumberOfLocations() == 1) {
-				if (IS_PUBLIC_CONTROLLER) {
-					if (getLocationCode() < 0)
-						q += " WHERE Type='Public'";
-					else
-						q += " WHERE LocationCode=" + getLocationCode() + " AND Type='Public'";
-				} else {
-					if (getLocationCode() >= 0)
-						q += " WHERE LocationCode=" + getLocationCode();
-				}
-			} else {
-				String extra = " WHERE (";
-				for (int i = 0; i < getNumberOfLocations(); i++) {
-					int lc = getLocationCode(i);
-					if (i > 0)
-						extra += " OR ";
-					extra += " LocationCode=" + lc;
-				}
-				if (IS_PUBLIC_CONTROLLER)
-					extra += ") AND Type='Public'";
-				else
-					extra += ")";
-				if (!extra.equals(" WHERE ()"))
-					q += extra;
-			}
-
-			System.out.println(q);
-			rs = stmt.executeQuery(q);
-			if (rs.first()) // Move to first returned row
-				while (!rs.isAfterLast())
-					try {
-
-						// | TabName | char(64)
-						// | LocationCode | int(11)
-						// | LocalID | int(11)
-						// | Type | enum('Public','Experiment','XOC')
-						// | Abbreviation | char(15)
-
-						String cat = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("TabName"));
-						String abb = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Abbreviation"));
-						cats.add(new ChannelCategory(cat, abb));
-
-						rs.next();
-					} catch (Exception e) {
-						e.printStackTrace();
+		synchronized (connection) {
+			String q = "SELECT DISTINCT TabName,Abbreviation FROM LocationTab";
+			try {
+				// TODO Multiple location code adaptation would be here!
+				if (getNumberOfLocations() == 1) {
+					if (IS_PUBLIC_CONTROLLER) {
+						if (getLocationCode() < 0)
+							q += " WHERE Type='Public'";
+						else
+							q += " WHERE LocationCode=" + getLocationCode() + " AND Type='Public'";
+					} else {
+						if (getLocationCode() >= 0)
+							q += " WHERE LocationCode=" + getLocationCode();
 					}
-			else {
-				System.err.println("No definition of what tabs to show for locationCode=" + getLocationCode()
-						+ " and Controller Type=" + (IS_PUBLIC_CONTROLLER ? "Public" : "XOC"));
-				System.exit(-1);
-			}
-			stmt.close();
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.err.println("Query was '" + q + "'");
-		}
+				} else {
+					String extra = " WHERE (";
+					for (int i = 0; i < getNumberOfLocations(); i++) {
+						int lc = getLocationCode(i);
+						if (i > 0)
+							extra += " OR ";
+						extra += " LocationCode=" + lc;
+					}
+					if (IS_PUBLIC_CONTROLLER)
+						extra += ") AND Type='Public'";
+					else
+						extra += ")";
+					if (!extra.equals(" WHERE ()"))
+						q += extra;
+				}
 
+				System.out.println(q);
+				rs = stmt.executeQuery(q);
+				if (rs.first()) // Move to first returned row
+					while (!rs.isAfterLast())
+						try {
+
+							// | TabName | char(64)
+							// | LocationCode | int(11)
+							// | LocalID | int(11)
+							// | Type | enum('Public','Experiment','XOC')
+							// | Abbreviation | char(15)
+
+							String cat = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("TabName"));
+							String abb = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Abbreviation"));
+							cats.add(new ChannelCategory(cat, abb));
+
+							rs.next();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+				else {
+					System.err.println("No definition of what tabs to show for locationCode=" + getLocationCode()
+							+ " and Controller Type=" + (IS_PUBLIC_CONTROLLER ? "Public" : "XOC"));
+					System.exit(-1);
+				}
+				stmt.close();
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.err.println("Query was '" + q + "'");
+			}
+		}
 		categories = cats.toArray(new ChannelCategory[0]);
 	}
 

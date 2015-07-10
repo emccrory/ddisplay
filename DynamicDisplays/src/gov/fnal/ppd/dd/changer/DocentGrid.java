@@ -176,64 +176,65 @@ public class DocentGrid extends DetailedInformationGrid {
 	public DocentGrid(final Display display, final DisplayButtonGroup bg, String docentName) {
 		super(display, bg);
 		// this.docentName = docentName;
-		final long revertTime = 5*ONE_MINUTE;
+		final long revertTime = 5 * ONE_MINUTE;
 
 		// Get the channels associated with this docent.
 		if (buttonList.size() == 0) {
 			try {
 				/**
 				 * FIXME This is the only place that I can think of that requires the Channel and Portfolio tables to be in the same
-				 * database. To break this will require two Docent tables, one that is in the same DB as Channel and the other in the
-				 * same DB as Portfolio.
+				 * database. To break this will require two Docent tables, one that is in the same DB as Channel and the other in
+				 * the same DB as Portfolio.
 				 */
 				Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 
-				Statement stmt = connection.createStatement();
-				Statement stmt1 = connection.createStatement();
-				Statement stmt2 = connection.createStatement();
-				@SuppressWarnings("unused")
-				ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
+				synchronized (connection) {
+					Statement stmt = connection.createStatement();
+					Statement stmt1 = connection.createStatement();
+					Statement stmt2 = connection.createStatement();
+					@SuppressWarnings("unused")
+					ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
 
-				String query1 = "select ChannelNumber,Name,Description,URL,DwellTime,Category from Docent,Channel "
-						+ "where ChannelNumber=Number and DocentName='" + docentName + "'";
-				String query2 = "select PortfolioNumber,Filename,Description,Experiment from Docent,Portfolio "
-						+ "where PortfolioNumber=PortfolioID and DocentName='" + docentName + "'";
+					String query1 = "select ChannelNumber,Name,Description,URL,DwellTime,Category from Docent,Channel "
+							+ "where ChannelNumber=Number and DocentName='" + docentName + "'";
+					String query2 = "select PortfolioNumber,Filename,Description,Experiment from Docent,Portfolio "
+							+ "where PortfolioNumber=PortfolioID and DocentName='" + docentName + "'";
 
-				ResultSet rsChan = stmt1.executeQuery(query1);
-				ResultSet rsPort = stmt2.executeQuery(query2);
+					ResultSet rsChan = stmt1.executeQuery(query1);
+					ResultSet rsPort = stmt2.executeQuery(query2);
 
-				rsChan.first(); // Move to first returned row
-				while (!rsChan.isAfterLast()) {
-					String name = ConnectionToDynamicDisplaysDatabase.makeString(rsChan.getAsciiStream("Name"));
-					String descr = ConnectionToDynamicDisplaysDatabase.makeString(rsChan.getAsciiStream("Description"));
-					String url = ConnectionToDynamicDisplaysDatabase.makeString(rsChan.getAsciiStream("URL"));
-					String category = ConnectionToDynamicDisplaysDatabase.makeString(rsChan.getAsciiStream("Category"));
-					long dwell = rsChan.getLong("DwellTime");
-					int chanNum = rsChan.getInt("ChannelNumber");
+					rsChan.first(); // Move to first returned row
+					while (!rsChan.isAfterLast()) {
+						String name = ConnectionToDynamicDisplaysDatabase.makeString(rsChan.getAsciiStream("Name"));
+						String descr = ConnectionToDynamicDisplaysDatabase.makeString(rsChan.getAsciiStream("Description"));
+						String url = ConnectionToDynamicDisplaysDatabase.makeString(rsChan.getAsciiStream("URL"));
+						String category = ConnectionToDynamicDisplaysDatabase.makeString(rsChan.getAsciiStream("Category"));
+						long dwell = rsChan.getLong("DwellTime");
+						int chanNum = rsChan.getInt("ChannelNumber");
 
-					SignageContent c = new ChannelImpl(name, new ChannelCategory(category, category), descr, new URI(url), chanNum,
-							dwell);
-					c.setExpiration(revertTime);
+						SignageContent c = new ChannelImpl(name, new ChannelCategory(category, category), descr, new URI(url),
+								chanNum, dwell);
+						c.setExpiration(revertTime);
 
-					buttonList.add(c);
-					rsChan.next();
+						buttonList.add(c);
+						rsChan.next();
+					}
+
+					rsPort.first(); // Move to first returned row
+					while (!rsPort.isAfterLast()) {
+						String name = ConnectionToDynamicDisplaysDatabase.makeString(rsPort.getAsciiStream("FileName"));
+						String descr = ConnectionToDynamicDisplaysDatabase.makeString(rsPort.getAsciiStream("Description"));
+						String exp = ConnectionToDynamicDisplaysDatabase.makeString(rsPort.getAsciiStream("Experiment"));
+
+						String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
+								+ "&caption=" + URLEncoder.encode(descr, "UTF-8");
+						SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
+						c.setExpiration(revertTime);
+
+						buttonList.add(c);
+						rsPort.next();
+					}
 				}
-
-				rsPort.first(); // Move to first returned row
-				while (!rsPort.isAfterLast()) {
-					String name = ConnectionToDynamicDisplaysDatabase.makeString(rsPort.getAsciiStream("FileName"));
-					String descr = ConnectionToDynamicDisplaysDatabase.makeString(rsPort.getAsciiStream("Description"));
-					String exp = ConnectionToDynamicDisplaysDatabase.makeString(rsPort.getAsciiStream("Experiment"));
-
-					String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo="
-							+ URLEncoder.encode(name, "UTF-8") + "&caption=" + URLEncoder.encode(descr, "UTF-8");
-					SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
-					c.setExpiration(revertTime);
-
-					buttonList.add(c);
-					rsPort.next();
-				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

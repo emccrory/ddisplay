@@ -76,9 +76,11 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		} catch (DatabaseNotVisibleException e) {
 			e.printStackTrace();
 		}
-		getChannels();
-		getImages();
-
+		synchronized (connection) {
+			getChannels();
+			getImages();
+		}
+		
 		defaultChannel = get(keySet().iterator().next()); // The first channel (whatever!)
 	}
 
@@ -149,8 +151,8 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 					String descr = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
 					String exp = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Experiment"));
 
-					String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo="
-							+ URLEncoder.encode(name, "UTF-8") + "&caption=" + URLEncoder.encode(descr, "UTF-8");
+					String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
+							+ "&caption=" + URLEncoder.encode(descr, "UTF-8");
 					SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
 
 					put(name, c);

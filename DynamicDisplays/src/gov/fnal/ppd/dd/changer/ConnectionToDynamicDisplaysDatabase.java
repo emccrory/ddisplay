@@ -34,7 +34,7 @@ public class ConnectionToDynamicDisplaysDatabase {
 	private static String		serverNode		= DATABASE_SERVER_NAME;
 
 	/**
-	 * @return the DB connection object
+	 * @return the DB connection object.  All clients should synchronize this object in order to use it!
 	 * 
 	 * @throws DatabaseNotVisibleException
 	 *             if it cannot connect to the database server
@@ -104,19 +104,47 @@ public class ConnectionToDynamicDisplaysDatabase {
 			println(ConnectionToDynamicDisplaysDatabase.class, " -- SQLException: '" + ex.getMessage() + "'");
 			println(ConnectionToDynamicDisplaysDatabase.class, " -- SQLState: " + ex.getSQLState());
 			println(ConnectionToDynamicDisplaysDatabase.class, " -- VendorError: " + ex.getErrorCode());
-			ex.printStackTrace();
-			if (ex.getMessage().contains("Access denied for user")) {
-				System.err.println("Cannot access the Channel/Display database.");
+			try {
+				ex.printStackTrace();
+				if (ex.getMessage().contains("Access denied for user")) {
+					println(ConnectionToDynamicDisplaysDatabase.class, "ERROR Cannot access the Channel/Display database.");
+				} else if (ex.getMessage().contains("Operation timed out")) {
+					println(ConnectionToDynamicDisplaysDatabase.class,
+							"ERROR Cannot access the Channel/Display database, possibly because we have been idle for a long time.");
+
+				} else if (ex.getMessage().contains("Communications link failure")) {
+					println(ConnectionToDynamicDisplaysDatabase.class,
+							"ERROR The database seems to have reset.  Let's try again later.");
+					//
+					// Bug fix. There was a call to System.exit() here. This call seems to have been made, but then it blocked
+					// and did not actually exit the Java VM. I am not sure about this, but here is the Oracle doc on it:
+					// http://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html#exit%28int%29
+					//
+					// It says:
+					//
+					// "If this method is invoked after the virtual machine has begun its shutdown sequence then if shutdown hooks
+					// are being run this method will block indefinitely. If shutdown hooks have already been run and on-exit
+					// finalization has been enabled then this method halts the virtual machine with the given status code if the
+					// status is nonzero; otherwise, it blocks indefinitely."
+					//
+					// The displays are behaving consistent with the "block indefinitely" part. Moreover, I have seen cases where an
+					// OS "kill $PID" does not work either (it requires a "kill -9 $PID").
+					//
+					// This would require that this method (right here) be called in quick succession (REAL quick) and the same
+					// error condition was obtained. Not sure about this!
+					//
+				} else {
+					println(ConnectionToDynamicDisplaysDatabase.class, "ERROR This is an unexpected error. Oh well.");
+				}
 				throw new DatabaseNotVisibleException(ex.getMessage());
-			} else if (ex.getMessage().contains("Operation timed out")) {
-				System.err.println("Cannot access the Channel/Display database, possibly because we have been idle for a long time.");
+
+			} catch (Exception e2) {
+				println(ConnectionToDynamicDisplaysDatabase.class, " -- Exception within the exception!! " + e2.getMessage());
+				e2.printStackTrace();
 				throw new DatabaseNotVisibleException(ex.getMessage());
-			} else {
-				System.err.println("This is an unexpected error. Aborting!");
-				System.exit(1);
 			}
 		}
-		return null;
+		// return null;
 	}
 
 	/**
