@@ -179,9 +179,12 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					if (OFF_LINE.equalsIgnoreCase(nowShowing) || getContent() == null)
 						statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow)
 								+ "',Content='Off Line' where DisplayID=" + getDBDisplayNumber();
-					else
-						statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
-								+ getContent().getURI() + ")' where DisplayID=" + getDBDisplayNumber();
+					else {
+						String cont = getStatus() + " (" + getContent().getURI() + ")";
+						cont.replace("'", "\'");
+						statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + cont
+								+ "' where DisplayID=" + getDBDisplayNumber();
+					}
 					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 					int numRows = stmt.executeUpdate(statementString);
 					if (numRows == 0 || numRows > 1) {
@@ -191,9 +194,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					}
 					stmt.close();
 					if (statusUpdatePeriod > 0) {
-						println(getClass(),
-								".updateMyStatus() screen " + screenNumber + " Status: \n            "
-										+ statementString.substring("UPDATE DisplayStatus set ".length()));
+						println(getClass(), ".updateMyStatus() screen " + screenNumber + " Status: \n            "
+								+ statementString.substring("UPDATE DisplayStatus set ".length()));
 						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 					}
 				} catch (Exception ex) {
