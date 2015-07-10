@@ -38,9 +38,11 @@ public class ConnectionToFirefoxInstance {
 	private static final int						DEFAULT_BUFFER_SIZE				= 300;
 	private static final String						LOCALHOST						= "localhost";
 	private static final int						PORT							= 32000;
-	private static final long						WAIT_FOR_CONNECTION_TIME		= 15000;
 
 	// private static final String FullScreenExecute = "var elem = document.body; elem.requestFullScreen();";
+
+	private static int								numberOfScreens					= 0;
+	private String									instance						= "";
 
 	private boolean									connected						= false;
 	private BufferedReader							in;
@@ -126,11 +128,32 @@ public class ConnectionToFirefoxInstance {
 
 		this.virtualID = virtualID;
 		this.dbID = dbID;
+		numberOfScreens++;
+
+		port = PORT + screenNumber;
+
+		if (numberOfScreens > 1)
+			instance = " (port #" + port + ")";
+		else {
+			new Thread("CheckInstances") {
+				public void run() {
+					long sleepTime = 200;
+					for (int i = 0; i < 100; i++) {
+						catchSleep(sleepTime);
+						if (numberOfScreens > 1) {
+							instance = " (port #" + port + ")";
+							return;
+						}
+						System.out.println("              Number of screens = " + numberOfScreens);
+						sleepTime = 100;
+					}
+				}
+			}.start();
+		}
 
 		colorCode = Integer.toHexString(color.getRGB() & 0x00ffffff);
 		colorCode = "000000".substring(colorCode.length()) + colorCode;
 
-		port = PORT + screenNumber;
 		openConnection();
 
 		String moveTo = "window.moveTo(" + ((int) bounds.getX()) + "," + ((int) bounds.getY()) + ");";
@@ -140,12 +163,18 @@ public class ConnectionToFirefoxInstance {
 		Timer timer = new Timer();
 		TimerTask tt = new TimerTask() {
 			public void run() {
-				// The next time there is a channel change (even for a refresh), it will do a full reset.
-				showingCanonicalSite.set(false);
-				println(ConnectionToFirefoxInstance.class, ": next refresh of URL will be a FULL reset");
+				try {
+					// The next time there is a channel change (even for a refresh), it will do a full reset.
+					showingCanonicalSite.set(false);
+					println(ConnectionToFirefoxInstance.class, ": next refresh of URL will be a FULL reset");
+				} catch (Exception e) {
+					println(ConnectionToFirefoxInstance.class, "Exception caught in diagnostic thread, " + e.getLocalizedMessage());
+					e.printStackTrace();
+				}
 			}
 		};
 		timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
+
 	}
 
 	/**
@@ -164,7 +193,7 @@ public class ConnectionToFirefoxInstance {
 	public boolean changeURL(final String urlString, final WrapperType theWrapper, final int frameNumber)
 			throws UnsupportedEncodingException {
 		if (debug)
-			println(getClass(), ": New URL: " + urlString);
+			println(getClass(), ":" + instance + " New URL: " + urlString);
 
 		String frameName = "iframe";
 		if (frameNumber > 0)
@@ -179,7 +208,7 @@ public class ConnectionToFirefoxInstance {
 
 			case NORMAL:
 				if (!showingCanonicalSite.get()) {
-					println(getClass(), " -- Sending full, new URL to browser, " + BASE_WEB_PAGE);
+					println(getClass(), " " + instance + "-- Sending full, new URL to browser, " + BASE_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + BASE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
@@ -192,7 +221,7 @@ public class ConnectionToFirefoxInstance {
 
 			case TICKER:
 				if (!showingCanonicalSite.get()) {
-					println(getClass(), " -- Sending full, new URL to browser, " + TICKERTAPE_WEB_PAGE);
+					println(getClass(), " -- Sending full, new URL to browser" + instance + ", " + TICKERTAPE_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
@@ -205,7 +234,7 @@ public class ConnectionToFirefoxInstance {
 
 			case FERMITICKER:
 				if (!showingCanonicalSite.get()) {
-					println(getClass(), " -- Sending full, new URL to browser, " + FERMI_TICKERTAPE_WEB_PAGE);
+					println(getClass(), " -- Sending full, new URL to browser" + instance + ", " + FERMI_TICKERTAPE_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + FERMI_TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
 							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
@@ -219,7 +248,7 @@ public class ConnectionToFirefoxInstance {
 
 			case TICKERANDFRAME:
 				if (!showingCanonicalSite.get()) {
-					println(getClass(), " -- Sending full, new URL to browser, " + EXTRAFRAME_WEB_PAGE);
+					println(getClass(), " -- Sending full, new URL to browser" + instance + ", " + EXTRAFRAME_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + EXTRAFRAME_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
@@ -232,7 +261,7 @@ public class ConnectionToFirefoxInstance {
 
 			case FRAMENOTICKER:
 				if (!showingCanonicalSite.get()) {
-					println(getClass(), " -- Sending full, new URL to browser, " + EXTRAFRAMENOTICKER_WEB_PAGE);
+					println(getClass(), " -- Sending full, new URL to browser" + instance + ", " + EXTRAFRAMENOTICKER_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + EXTRAFRAMENOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
 							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
@@ -246,7 +275,7 @@ public class ConnectionToFirefoxInstance {
 
 			case FRAMESNOTICKER:
 				if (!showingCanonicalSite.get()) {
-					println(getClass(), " -- Sending full, new URL to browser, " + EXTRAFRAMESNOTICKER_WEB_PAGE);
+					println(getClass(), " -- Sending full, new URL to browser" + instance + ", " + EXTRAFRAMESNOTICKER_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + EXTRAFRAMESNOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
 							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
@@ -260,13 +289,13 @@ public class ConnectionToFirefoxInstance {
 
 			case NONE:
 				s = "window.location=\"" + urlString + "\";\n";
-				println(getClass(), "Wrapper not used, new URL is " + urlString);
+				println(getClass(), "Wrapper not used, new URL is " + urlString + instance);
 				showingCanonicalSite.set(false);
 				break;
 			}
 
 			send(s);
-			println(getClass(), " -- Sent: [[" + s + "]]");
+			println(getClass(), " " + instance + "-- Sent: [[" + s + "]]");
 
 			// I have tried to do this in a local file, in order to remove some load from the web server. But
 			// this has not worked for me. (10/2014) First, it seems that the "window.location" Javascript command
@@ -295,6 +324,8 @@ public class ConnectionToFirefoxInstance {
 			try {
 				return waitForServer();
 			} catch (IOException e) {
+				if (numberOfScreens > 1)
+					System.err.println("Exception on port #" + port);
 				e.printStackTrace();
 				connected = false;
 				return false;
@@ -305,6 +336,7 @@ public class ConnectionToFirefoxInstance {
 
 	private boolean isNumberDiscrete() {
 		// TODO Put this information into the database
+		// 7/8/15: I think maybe it is already?
 		return (dbID == 13 || dbID == 14 || dbID == 15 || dbID == 16);
 	}
 
@@ -332,12 +364,12 @@ public class ConnectionToFirefoxInstance {
 			s += "document.getElementById('colorName').innerHTML = '" + displayID + "#" + colorCode + "';\n";
 
 		send(s);
-		println(getClass(), " -- Sent: [[" + s + "]]");
+		println(getClass(), " -- Sent" + instance + ": [[" + s + "]]");
 
 		try {
 			waitForServer();
 			if (!connected)
-				System.err.println(getClass().getName() + ".showIdentity() -- error from Display server!");
+				System.err.println(getClass().getName() + ".showIdentity()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
 			connected = false;
@@ -368,12 +400,12 @@ public class ConnectionToFirefoxInstance {
 		s += "document.getElementById('colorName').innerHTML = '';\n";
 
 		send(s);
-		println(getClass(), " -- Sent: [[" + s + "]]");
+		println(getClass(), " -- Sent" + instance + ": [[" + s + "]]");
 
 		try {
 			waitForServer();
 			if (!connected)
-				System.err.println(getClass().getName() + ".removeIdentity() -- error from Display server!");
+				System.err.println(getClass().getName() + ".removeIdentity()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
 			connected = false;
@@ -387,12 +419,12 @@ public class ConnectionToFirefoxInstance {
 	public void showFrame(final int frameNumber) {
 		String s = "document.getElementById('frame" + frameNumber + "').style.visibility=visible;\n";
 		send(s);
-		println(getClass(), " -- Sent: [[" + s + "]]");
+		println(getClass(), " -- Sent" + instance + ": [[" + s + "]]");
 
 		try {
 			waitForServer();
 			if (!connected)
-				System.err.println(getClass().getName() + ".showFrame() -- error from Display server!");
+				System.err.println(getClass().getName() + ".showFrame()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
 			connected = false;
@@ -406,12 +438,12 @@ public class ConnectionToFirefoxInstance {
 	public void hideFrame(final int frameNumber) {
 		String s = "document.getElementById('frame" + frameNumber + "').style.visibility=hidden;\n";
 		send(s);
-		println(getClass(), " -- Sent: [[" + s + "]]");
+		println(getClass(), " -- Sent" + instance + ": [[" + s + "]]");
 
 		try {
 			waitForServer();
 			if (!connected)
-				System.err.println(getClass().getName() + ".hideFrame() -- error from Display server!");
+				System.err.println(getClass().getName() + ".hideFrame()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
 			connected = false;
@@ -449,6 +481,7 @@ public class ConnectionToFirefoxInstance {
 			public void run() {
 				if (connected)
 					System.out.println(ConnectionToFirefoxInstance.class.getSimpleName() + ": already connected!");
+				long delay = 1000L;
 				while (!connected)
 					try {
 						println(getClass(), ":\n\tOpening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
@@ -468,25 +501,27 @@ public class ConnectionToFirefoxInstance {
 							System.err.println("Couldn't get I/O for the connection to " + LOCALHOST + ":" + port + " -- ("
 									+ e.getMessage() + ").");
 						else {
-							System.err.println("Unrecognized error!");
+							System.err.println(instance + "Unrecognized error!");
 							e.printStackTrace();
 						}
-						long delay = 10;
-						catchSleep(delay * 1000l);
+						catchSleep(delay);
+						delay += 1000L;
 					}
 			}
 		}.start();
 	}
 
 	private void send(String s) {
+		long sleepTime = 1000L;
 		while (!connected && out == null) {
 			println(getClass(), " -- Not connected to FireFox instance at " + LOCALHOST + ":" + port + ".  Will try again in "
-					+ WAIT_FOR_CONNECTION_TIME + " milliseconds");
-			catchSleep(WAIT_FOR_CONNECTION_TIME);
+					+ sleepTime + " milliseconds");
+			catchSleep(sleepTime);
+			sleepTime += 1000L;
 		}
 		synchronized (out) {
 			if (debug)
-				println(getClass(), " [" + s + "]");
+				println(getClass(), instance + " [" + s + "]");
 			out.println(s);
 		}
 	}
@@ -497,7 +532,7 @@ public class ConnectionToFirefoxInstance {
 			int numRead = in.read(cbuf, 0, DEFAULT_BUFFER_SIZE);
 			lastReplyLine = new String(cbuf).substring(0, numRead - 1);
 			if (debug)
-				println(getClass(), ".waitForServer(): " + numRead + " chars from server: " + lastReplyLine);
+				println(getClass(), ".waitForServer()" + instance + ": " + numRead + " chars from server: " + lastReplyLine);
 
 			/*
 			 * It looks like the reply expected here is something like this:
@@ -512,7 +547,7 @@ public class ConnectionToFirefoxInstance {
 			 */
 			connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
 		}
-		println(getClass(), " -- Returning from waitForServer(), connected=" + connected);
+		println(getClass(), " " + instance + "-- Returning from waitForServer(), connected=" + connected);
 		return connected;
 	}
 
@@ -524,12 +559,12 @@ public class ConnectionToFirefoxInstance {
 		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
 
 		send(s);
-		println(getClass(), " -- Sent: [[" + s + "]]");
+		println(getClass(), " -- Sent" + instance + ": [[" + s + "]]");
 
 		try {
 			waitForServer();
 			if (!connected)
-				System.err.println(getClass().getName() + ".removeIdentity() -- error from Display server!");
+				System.err.println(getClass().getName() + ".removeIdentity()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
 			connected = false;
