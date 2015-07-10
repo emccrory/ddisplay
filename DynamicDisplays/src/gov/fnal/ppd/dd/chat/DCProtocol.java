@@ -58,7 +58,8 @@ import java.util.List;
  * This is the protocol for the messages between a Channel Changer and a Display.
  * </p>
  * <p>
- * <em>DC</em> stands for <em>Display Communications</em></p>
+ * <em>DC</em> stands for <em>Display Communications</em>
+ * </p>
  * 
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -198,11 +199,13 @@ public class DCProtocol {
 				}
 
 				if (theMessage instanceof ChangeChannelList) {
+					disableListThread();
 					informListenersForever();
 				} else if (theMessage instanceof ChangeChannel) {
+					disableListThread();
 					informListeners();
 				} else if (theMessage instanceof ChannelSpec) {
-					checkChanger();
+					disableListThread();
 					informListeners((ChannelSpec) theMessage);
 				} else {
 					println(getClass(), "The message is of type " + theMessage.getClass().getCanonicalName()
@@ -239,7 +242,7 @@ public class DCProtocol {
 	}
 
 	private void informListeners() {
-		checkChanger();
+		assert (changerThread == null);
 		informListeners(((ChangeChannel) theMessage).getChannelSpec());
 	}
 
@@ -256,18 +259,25 @@ public class DCProtocol {
 	 * This is where the channel list is played on a display.
 	 */
 	private void informListenersForever() {
+		assert (changerThread == null);
 
 		// TODO -- Alternate way to do this, which is possibly more elegant: Change the way we interpret the time field in the
 		// channel so that it will look for "the next channel" when that time expires. Otherwise, it refreshes this channel.
 
 		// FIXME -- In a world where a temporary channel is played on a Display, it cannot know that the permanent channel
-		// that it had was a list.  That is because the handling of the list is here in the Protocol portion.  The handling 
-		// of the playing of the list, then, needs to be down in the client that is actually talking to the browser.  This
+		// that it had was a list. That is because the handling of the list is here in the Protocol portion. The handling
+		// of the playing of the list, then, needs to be down in the client that is actually talking to the browser. This
 		// solution is very elegant, so it will be hard to change it.
-		
+
 		// These two tags seem to be compatible.
-		
-		checkChanger();
+
+		// HOWEVER,
+		//
+		// There is a glitch in this because a channel can have a refresh time that is different from the dwell time in a list.
+		// For example, the FESS folks like to refresh a channel every 15 seconds or so. But they may want this to be in a
+		// list with this fast-refresh channel being on the screen for several minutes (15 or so refreshes). Thus, combining
+		// these two functionalities would (might?) not work right.
+
 		if (listeners == null || listeners.size() == 0) {
 			println(getClass(), "No listeners, so exiting from informListenersForever()");
 			return;
@@ -275,30 +285,42 @@ public class DCProtocol {
 		keepRunning = true;
 		final ChangeChannelList channelListSpec = ((ChangeChannelList) theMessage);
 		final ChannelSpec[] specs = channelListSpec.getChannelSpec();
-		changerThread = new Thread("ChannelChanger") {
-			public void run() {
-				println(DCProtocol.class,
-						": We will be changing the channel automatically based on the list we just received.\n\tThere are "
-								+ specs.length + " channels in the list, and the dwell time is " + channelListSpec.getTime() / 1000
-								+ " secs -- " + (new Date()));
+		if (specs.length == 0) {
+			println(DCProtocol.class, " -- Empty list received. Abort.");
+			return;
+		}
+		if (specs.length == 1) {
+			// There is only one channel in this list. Hmmm. Don't to send this over and over to the client. The timeout in the
+			// channel itself will cause it to refresh from within the client.
+			informListeners(specs[0]);
+		} else {
+			changerThread = new Thread("ChannelChanger") {
+				public void run() {
+					println(DCProtocol.class,
+							": We will be changing the channel automatically based on the list we just received.\n"
+									+ "\t\t\tThere are " + specs.length + " channels in the list -- " + (new Date()));
 
-				long sleepTime = channelListSpec.getTime();
-				while (keepRunning) {
-					for (ChannelSpec spec : specs) {
-						long st = (spec.getTime() > sleepTime ? spec.getTime() : sleepTime);
-						informListeners(spec);
-						for (long i = st; i > 0 && keepRunning; i -= SHORT_INTERVAL)
-							catchSleep(Math.min(i, SHORT_INTERVAL));
-						// Maybe this next statement needs to be within the inner FOR loop
-						if (!keepRunning)
-							break;
+					// long sleepTime = channelListSpec.getTime();
+					while (keepRunning) {
+						for (ChannelSpec spec : specs) {
+							// long st = (spec.getTime() > sleepTime ? spec.getTime() : sleepTime);
+
+							// ASSUME spec.getTime() is always non-zero. The way the code is today, this is an appropriate
+							// assumption.
+							informListeners(spec);
+							for (long sleepTime = spec.getTime(); sleepTime > 0 && keepRunning; sleepTime -= SHORT_INTERVAL)
+								catchSleep(Math.min(sleepTime, SHORT_INTERVAL));
+
+							if (!keepRunning)
+								break;
+						}
+
 					}
-
+					println(DCProtocol.class, ": Channel list has exited -- " + (new Date()));
 				}
-				println(DCProtocol.class, ": Channel list has exited -- " + (new Date()));
-			}
-		};
-		changerThread.start();
+			};
+			changerThread.start();
+		}
 	}
 
 	private void informListeners(ChannelSpec spec) {
@@ -311,8 +333,7 @@ public class DCProtocol {
 			c.setFrameNumber(spec.getFrameNumber());
 			c.setExpiration(spec.getExpiration());
 			for (Display L : listeners) {
-				// System.out.println(getClass().getSimpleName() + ": Telling a " + L.getClass().getSimpleName() + " to change to ["
-				// + c + "]");
+				// println(getClass().getSimpleName(), + " Telling a "+L.getClass().getSimpleName()+" to change to ["+c+"]");
 				L.setContent(c);
 			}
 		} catch (MalformedURLException e1) {
@@ -322,8 +343,7 @@ public class DCProtocol {
 		}
 	}
 
-	private void checkChanger() {
-		// Hmmm. This seems to have been neutered (11/2014)
+	private void disableListThread() {
 		keepRunning = false;
 		while (changerThread != null && changerThread.isAlive()) {
 			catchSleep(2 * SHORT_INTERVAL);
@@ -338,7 +358,8 @@ public class DCProtocol {
 	 *            The message to consider
 	 */
 	public void errorHandler(final MessageCarrier message) {
-		// println(DCProtocol.class, " $$$ Error handler, message is to '" + message.getTo() + "', from '" + message.getFrom() + "'");
+		// println(DCProtocol.class, " $$$ Error handler, message is to '" + message.getTo() + "', from '" + message.getFrom() +
+		// "'");
 		for (Display L : listeners) {
 			if (L.getMessagingName().equals(message.getTo()) || message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME)) {
 				// println(DCProtocol.class, " $$$ Sending to " + L);
