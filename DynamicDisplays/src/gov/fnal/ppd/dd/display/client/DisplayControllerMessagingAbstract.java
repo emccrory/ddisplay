@@ -181,7 +181,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								+ "',Content='Off Line' where DisplayID=" + getDBDisplayNumber();
 					else {
 						String cont = getStatus() + " (" + getContent().getURI() + ")";
-						cont.replace("'", "\'");
+						cont.replace("'", "\\'");
 						statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + cont
 								+ "' where DisplayID=" + getDBDisplayNumber();
 					}
