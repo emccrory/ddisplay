@@ -25,6 +25,7 @@ import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.changer.DocentGrid;
 import gov.fnal.ppd.dd.changer.ImageGrid;
 import gov.fnal.ppd.dd.changer.InformationBox;
+import gov.fnal.ppd.dd.channel.CreateListOfChannels;
 import gov.fnal.ppd.dd.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.display.DisplayFacade;
@@ -263,19 +264,19 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					lastDisplayChange = System.currentTimeMillis();
 					setAllTabs(displayTabPane.getSelectedIndex());
 				}
-
 			});
 
 			final CreateListOfChannelsHelper channelLister = new CreateListOfChannelsHelper();
-			displayTabPane.add(channelLister.listerPanel, " Lists ");
-			channelLister.accept.addActionListener(new ActionListener() {
+			ActionListener listener = new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					System.out.println("Channel list accepted");
 					display.setContent(channelLister.lister.getChannelList());
 				}
-			});
+			};
+			
+			displayTabPane.add(CreateListOfChannels.getContainer(channelLister, listener), " Lists ");
 
 			if (SHOW_IN_WINDOW) {
 				// Do not include the "wrap your own" URL until someone asks for it.
