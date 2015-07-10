@@ -210,26 +210,28 @@ public class ObjectSigning {
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 
-			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-				String query = "SELECT PublicKey from PublicKeys WHERE ClientName= '" + clientName + "'";
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+					String query = "SELECT PublicKey from PublicKeys WHERE ClientName= '" + clientName + "'";
 
-				try (ResultSet rs = stmt.executeQuery(query);) {
-					if (rs.first()) { // Move to first returned row (there should only be one)
-						Blob pk = rs.getBlob("PublicKey");
-						int len = (int) pk.length();
-						byte[] bytes = pk.getBytes(1, len);
-						publicKey = KeyFactory.getInstance(ALG_TYPE).generatePublic(new X509EncodedKeySpec(bytes));
-						println(getClass(), ": Got the public key for client " + clientName);
-						return true;
-					} else {
-						// Likely culprit here: The source of this message does not have a public key in the DB
-						publicKey = null;
-						System.err.println("No public key for client='" + clientName + "' -- it cannot have signed messages.");
+					try (ResultSet rs = stmt.executeQuery(query);) {
+						if (rs.first()) { // Move to first returned row (there should only be one)
+							Blob pk = rs.getBlob("PublicKey");
+							int len = (int) pk.length();
+							byte[] bytes = pk.getBytes(1, len);
+							publicKey = KeyFactory.getInstance(ALG_TYPE).generatePublic(new X509EncodedKeySpec(bytes));
+							println(getClass(), ": Got the public key for client " + clientName);
+							return true;
+						} else {
+							// Likely culprit here: The source of this message does not have a public key in the DB
+							publicKey = null;
+							System.err.println("No public key for client='" + clientName + "' -- it cannot have signed messages.");
+						}
+
 					}
-
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
-			} catch (Exception e1) {
-				e1.printStackTrace();
 			}
 		} catch (Exception e2) {
 			e2.printStackTrace();
@@ -254,38 +256,40 @@ public class ObjectSigning {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 			int lc = 999;
 
-			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-				String query1 = "SELECT LocationCode from SelectorLocation WHERE IPAddress='" + clientIP + "'";
-				try (ResultSet rs = stmt.executeQuery(query1);) {
-					if (rs.first()) { // Move to first returned row
-						lc = rs.getInt("LocationCode");
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+					String query1 = "SELECT LocationCode from SelectorLocation WHERE IPAddress='" + clientIP + "'";
+					try (ResultSet rs = stmt.executeQuery(query1);) {
+						if (rs.first()) { // Move to first returned row
+							lc = rs.getInt("LocationCode");
+						}
 					}
-				}
-				if (lc < 0) {
-					retval.add("-1");
-					println(ObjectSigning.class, ": This client can control all the displays!");
-					return retval;
-				}
-
-				String query2 = "SELECT VirtualDisplayNumber,IPName,ScreenNumber FROM DisplaySort,Display WHERE "
-						+ "DisplaySort.DisplayID=Display.DisplayID AND DisplaySort.LocationCode=" + lc;
-
-				try (ResultSet rs = stmt.executeQuery(query2);) {
-					if (rs.first()) { // Move to first returned row
-						do {
-							String ipName = rs.getString("IPname");
-							int scr = rs.getInt("ScreenNumber");
-							int vID = rs.getInt("VirtualDisplayNumber");
-							retval.add(ipName + ":" + scr + " (" + vID + ")");
-						} while (rs.next());
-						println(ObjectSigning.class, ": This client has " + retval.size() + " displays it can change.");
-					} else {
-						System.err.println("No displays for IP='" + clientIP + "' -- it cannot control any displays.");
+					if (lc < 0) {
+						retval.add("-1");
+						println(ObjectSigning.class, ": This client can control all the displays!");
+						return retval;
 					}
 
+					String query2 = "SELECT VirtualDisplayNumber,IPName,ScreenNumber FROM DisplaySort,Display WHERE "
+							+ "DisplaySort.DisplayID=Display.DisplayID AND DisplaySort.LocationCode=" + lc;
+
+					try (ResultSet rs = stmt.executeQuery(query2);) {
+						if (rs.first()) { // Move to first returned row
+							do {
+								String ipName = rs.getString("IPname");
+								int scr = rs.getInt("ScreenNumber");
+								int vID = rs.getInt("VirtualDisplayNumber");
+								retval.add(ipName + ":" + scr + " (" + vID + ")");
+							} while (rs.next());
+							println(ObjectSigning.class, ": This client has " + retval.size() + " displays it can change.");
+						} else {
+							System.err.println("No displays for IP='" + clientIP + "' -- it cannot control any displays.");
+						}
+
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
-			} catch (Exception e1) {
-				e1.printStackTrace();
 			}
 		} catch (Exception e2) {
 			e2.printStackTrace();
@@ -302,40 +306,42 @@ public class ObjectSigning {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 			int lc = 999;
 
-			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-				String query1 = "SELECT LocationCode from SelectorLocation WHERE IPName like '"
-						+ clientName.substring(0, clientName.indexOf(' ')) + "%'";
-				try (ResultSet rs = stmt.executeQuery(query1);) {
-					if (rs.first()) { // Move to first returned row
-						lc = rs.getInt("LocationCode");
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+					String query1 = "SELECT LocationCode from SelectorLocation WHERE IPName like '"
+							+ clientName.substring(0, clientName.indexOf(' ')) + "%'";
+					try (ResultSet rs = stmt.executeQuery(query1);) {
+						if (rs.first()) { // Move to first returned row
+							lc = rs.getInt("LocationCode");
+						}
 					}
-				}
-				if (lc < 0) {
-					retval.add("-1");
-					println(ObjectSigning.class, ": This client can control all the displays!");
-					return retval;
-				}
-
-				String query2 = "SELECT VirtualDisplayNumber,IPName,ScreenNumber FROM DisplaySort,Display WHERE "
-						+ "DisplaySort.DisplayID=Display.DisplayID AND DisplaySort.LocationCode=" + lc;
-
-				try (ResultSet rs = stmt.executeQuery(query2);) {
-					if (rs.first()) { // Move to first returned row
-						do {
-							String ipName = rs.getString("IPname");
-							int scr = rs.getInt("ScreenNumber");
-							int vID = rs.getInt("VirtualDisplayNumber");
-							retval.add(ipName + ":" + scr + " (" + vID + ")");
-						} while (rs.next());
-						println(ObjectSigning.class, ": This client has " + retval.size() + " displays it can change.");
-					} else {
-						System.err.println("No displays for IP='" + clientName + "' -- it cannot control any displays. \n\t\t"
-								+ "Query1=[" + query1 + "]\n\t\t" + "Query2=[" + query2 + "]");
+					if (lc < 0) {
+						retval.add("-1");
+						println(ObjectSigning.class, ": This client can control all the displays!");
+						return retval;
 					}
 
+					String query2 = "SELECT VirtualDisplayNumber,IPName,ScreenNumber FROM DisplaySort,Display WHERE "
+							+ "DisplaySort.DisplayID=Display.DisplayID AND DisplaySort.LocationCode=" + lc;
+
+					try (ResultSet rs = stmt.executeQuery(query2);) {
+						if (rs.first()) { // Move to first returned row
+							do {
+								String ipName = rs.getString("IPname");
+								int scr = rs.getInt("ScreenNumber");
+								int vID = rs.getInt("VirtualDisplayNumber");
+								retval.add(ipName + ":" + scr + " (" + vID + ")");
+							} while (rs.next());
+							println(ObjectSigning.class, ": This client has " + retval.size() + " displays it can change.");
+						} else {
+							System.err.println("No displays for IP='" + clientName + "' -- it cannot control any displays. \n\t\t"
+									+ "Query1=[" + query1 + "]\n\t\t" + "Query2=[" + query2 + "]");
+						}
+
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
-			} catch (Exception e1) {
-				e1.printStackTrace();
 			}
 		} catch (Exception e2) {
 			e2.printStackTrace();
@@ -612,23 +618,25 @@ public class ObjectSigning {
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 
-			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-				String statementString = "INSERT INTO PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
-						+ InetAddress.getLocalHost().getHostAddress() + "');";
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+					String statementString = "INSERT INTO PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
+							+ InetAddress.getLocalHost().getHostAddress() + "');";
 
-				int numRows = stmt.executeUpdate(statementString);
-				if (numRows == 0 || numRows > 1) {
-					System.err
-							.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
-									+ numRows + " rows instead. SQL='" + statementString + "'");
+					int numRows = stmt.executeUpdate(statementString);
+					if (numRows == 0 || numRows > 1) {
+						System.err
+								.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
+										+ numRows + " rows instead. SQL='" + statementString + "'");
+					}
+					stmt.close();
+				} catch (SQLException ex) {
+					System.err.println("cannot execute a query. Is the DB server down?  Try again later.");
+					ex.printStackTrace();
+					System.exit(-1);
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
 				}
-				stmt.close();
-			} catch (SQLException ex) {
-				System.err.println("cannot execute a query. Is the DB server down?  Try again later.");
-				ex.printStackTrace();
-				System.exit(-1);
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
 			}
 		} catch (DatabaseNotVisibleException e) {
 			// not good!
