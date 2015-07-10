@@ -39,7 +39,7 @@ C=0
 	echo Database server is not reachable.  Goodbye.
 	exit
     fi
-} 2>&1 >> $log
+} >> $log 2>&1
 
 MyName=`uname -n`
 # WrapperType=NORMAL
@@ -92,4 +92,4 @@ fi
 	-Dddisplay.wrappertype=$WrapperType \
 	-Xmx512m gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox -screen=$screenNum 
 
-} 2>&1 >> $log
+} >> $log 2>&1 
