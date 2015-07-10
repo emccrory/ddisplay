@@ -144,7 +144,7 @@ public class ConnectionToFirefoxInstance {
 							instance = " (port #" + port + ")";
 							return;
 						}
-						System.out.println("              Number of screens = " + numberOfScreens);
+						// System.out.println("              Number of screens = " + numberOfScreens);
 						sleepTime = 100;
 					}
 				}

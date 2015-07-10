@@ -171,37 +171,38 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 
+			String statementString = "";
 			synchronized (connection) {
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 					Date dNow = new Date();
 					SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					String statementString;
 					if (OFF_LINE.equalsIgnoreCase(nowShowing) || getContent() == null)
 						statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow)
 								+ "',Content='Off Line' where DisplayID=" + getDBDisplayNumber();
 					else
 						statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
-								+ getContent().getURI() + ")" + "' where DisplayID=" + getDBDisplayNumber();
+								+ getContent().getURI() + ")' where DisplayID=" + getDBDisplayNumber();
 					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 					int numRows = stmt.executeUpdate(statementString);
 					if (numRows == 0 || numRows > 1) {
-						println(getClass(), screenNumber
+						println(getClass(), " screen " + screenNumber
 								+ ": Problem while updating status of Display: Expected to modify exactly one row, but  modified "
 								+ numRows + " rows instead. SQL='" + statementString + "'");
 					}
 					stmt.close();
 					if (statusUpdatePeriod > 0) {
 						println(getClass(),
-								".updateMyStatus(): " + screenNumber + " Status: \n            "
+								".updateMyStatus() screen " + screenNumber + " Status: \n            "
 										+ statementString.substring("UPDATE DisplayStatus set ".length()));
 						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 					}
 				} catch (Exception ex) {
-					println(getClass(), screenNumber + " -- Unexpected exception in method updateMyStatus: " + ex
-							+ "  Skipping this update.");
+					String mess = " screen " + screenNumber + " -- Unexpected exception in method updateMyStatus: " + ex
+							+ "\n\t\t\tLast query: [" + statementString + "]\n\t\t\tSkipping this update.";
 					for (StackTraceElement F : ex.getStackTrace()) {
-						println(getClass(), "\t\t -- " + F);
+						mess += "\n\t\t\t -- " + F;
 					}
+					println(getClass(), mess);
 					ex.printStackTrace();
 					return;
 				}
