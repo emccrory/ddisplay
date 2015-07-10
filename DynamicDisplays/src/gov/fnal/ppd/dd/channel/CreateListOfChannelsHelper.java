@@ -11,6 +11,8 @@ import gov.fnal.ppd.dd.channel.CreateListOfChannels.BigButton;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -44,15 +46,17 @@ public class CreateListOfChannelsHelper {
 	public CreateListOfChannelsHelper() {
 		listerPanel = new JPanel(new BorderLayout());
 		lister = new CreateListOfChannels();
+		JButton hide = new JButton("?");
+
 		JComponent sr = lister.getSaveRestore();
 		sr.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
-		accept = new BigButton("Accept This Channel List Sequence");
+		accept = new BigButton("Send this Channel List Sequence to the Display");
 		if (SHOW_IN_WINDOW) {
 			accept.setFont(accept.getFont().deriveFont(20.0f));
 		}
 		accept.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		JLabel instructions = new JLabel(
+		final JLabel instructions = new JLabel(
 				"<html><p align='center'>This page allows you to play a sequence of Channels on a Display.<br>"
 						+ "Create the sequence by selecting the Channels in order below.  Also, set the dwell time.<br>"
 						+ "Click \"Accept This Channel List Sequence\" (above) and the Display will play these Channels in sequence.</p></html>",
@@ -60,8 +64,12 @@ public class CreateListOfChannelsHelper {
 
 		instructions.setFont(instructions.getFont().deriveFont(Font.PLAIN, 11));
 		instructions.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		instructions.setVisible(false);
+		Box h = Box.createHorizontalBox();
+		h.add(accept);
+		h.add(hide);
 		Box v = Box.createVerticalBox();
-		v.add(accept);
+		v.add(h);
 		v.add(instructions);
 		v.add(sr);
 		v.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -74,5 +82,17 @@ public class CreateListOfChannelsHelper {
 			scroller.getVerticalScrollBar().setPreferredSize(new Dimension(40, 0));
 		listerPanel.add(scroller, BorderLayout.CENTER);
 		listerPanel.add(v, BorderLayout.NORTH);
+
+		hide.addActionListener(new ActionListener() {
+			boolean	visible	= false;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				visible = !visible;
+				instructions.setVisible(visible);
+				
+			}
+		});
+
 	}
 }
