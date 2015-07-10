@@ -42,6 +42,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	private int							changeCount;
 	protected long						lastFullRestTime;
 	protected long						revertTimeRemaining	= 0L;
+	private Thread						revertThread		= null;
 
 	/**
 	 * @param portNumber
@@ -73,7 +74,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		new Thread() {
 			public void run() {
 				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number=" + getVirtualDisplayNumber());
-				catchSleep(4000); // Wait a bit before trying to contact the instance of FireFox.
+				catchSleep(2000); // Wait a bit before trying to contact the instance of FireFox.
 				firefox = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
 						highlightColor);
 				lastFullRestTime = System.currentTimeMillis();
@@ -206,38 +207,61 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	private void setRevertThread() {
 		final String revertURL = revertToThisChannel.getURI().toString();
 
-		new Thread("RevertContent" + getMessagingName()) {
+		if (revertThread != null) {
+			// Do not create a new thread, just reset the counter in it.
+			revertTimeRemaining = getContent().getExpiration();
+		} else {
+			revertThread = new Thread("RevertContent" + getMessagingName()) {
 
-			@Override
-			public void run() {
-				long increment = 15000L;
-				while (true) {
-					for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
-						if (revertToThisChannel == null) {
-							println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): No longer necessary to revert.");
-							return;
-						}
-						catchSleep(Math.min(increment, revertTimeRemaining));
-					}
-					revertTimeRemaining = 0L;
-					synchronized (firefox) {
-						println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reverting to web page " + revertURL);
-						try {
-							if (!firefox.changeURL(revertURL, defaultWrapperType, 0)) {
-								println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): Failed to REVERT content");
-								firefox.resetURL();
-								continue; // TODO -- Figure out what to do here. For now, just try again later
+				/*
+				 * 7/6/15 -------------------------------------------------------------------------------------------------------
+				 * Something is getting messed up here, between a channel expiring and a channel that might need to be refreshed.
+				 * Also in the mix, potentially, is when a channel change to a fixed image is requested and this launches a full
+				 * refresh of the browser.
+				 * 
+				 * Ugh! not sure what is going on here.
+				 * ----------------------------------------------------------------------------------------------------------------
+				 * 
+				 * Update 7/9/15: It looks like there are can be several of these threads run at once, and when they all expire,
+				 * something bad seems to happen. New code added to only let one of these thread be created (and it can be "renewed"
+				 * if necessary, before it expires).
+				 * 
+				 */
+
+				@Override
+				public void run() {
+					long increment = 15000L;
+					while (true) {
+						for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
+							if (revertToThisChannel == null) {
+								println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): No longer necessary to revert.");
+								revertThread = null;
+								return;
 							}
-							println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): Reverted to original web page.");
-							return;
-						} catch (UnsupportedEncodingException e) {
-							e.printStackTrace();
-							return;
+							catchSleep(Math.min(increment, revertTimeRemaining));
+						}
+						revertTimeRemaining = 0L;
+						synchronized (firefox) {
+							println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reverting to web page " + revertURL);
+							try {
+								if (!firefox.changeURL(revertURL, defaultWrapperType, 0)) {
+									println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): Failed to REVERT content");
+									firefox.resetURL();
+									continue; // TODO -- Figure out what to do here. For now, just try again later
+								}
+								println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): Reverted to original web page.");
+								return;
+							} catch (UnsupportedEncodingException e) {
+								e.printStackTrace();
+								revertThread = null;
+								return;
+							}
 						}
 					}
 				}
-			}
-		}.start();
+			};
+			revertThread.start();
+		}
 	}
 
 	@Override
