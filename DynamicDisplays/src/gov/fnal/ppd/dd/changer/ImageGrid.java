@@ -91,7 +91,9 @@ public class ImageGrid extends DetailedInformationGrid {
 					// This does not work unless we cache the images (we run out of space!)
 					// System.out.println(DrawingPanel.class.getSimpleName() + ": fetching image at " + url);
 
-					ImageIcon icon0 = new ImageIcon(new URL(url.replace("upload/items", "upload/items/thumbs")));
+					String modifiedURL = url.replace("upload/items", "upload/items/thumbs");
+					modifiedURL = modifiedURL.replace("upload/items/thumbs/otheritems", "upload/items/otheritems/thumbs");
+					ImageIcon icon0 = new ImageIcon(new URL(modifiedURL));
 					int h = icon0.getIconHeight();
 					int w = icon0.getIconWidth();
 					if (h > w) {
@@ -178,7 +180,7 @@ public class ImageGrid extends DetailedInformationGrid {
 		internalGrid.setOpaque(true);
 		internalGrid.setBackground(display.getPreferredHighlightColor());
 
-		final long revertTime = 5*ONE_MINUTE;
+		final long revertTime = 5 * ONE_MINUTE;
 
 		synchronized (list) {
 			if (firstTime) {
@@ -212,9 +214,8 @@ public class ImageGrid extends DetailedInformationGrid {
 					ChannelImage imageChannel = (ChannelImage) content;
 					String name = imageChannel.getName(); // This is the URL end
 					String url = getFullURLPrefix() + "/" + name;
-					// if (index++ % 10 == 0)
-					// System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): resizing " + index + " -- " +
-					// url);
+					// System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): resizing " + url);
+					
 					DrawingPanel dp = new DrawingPanel(url, display.getPreferredHighlightColor());
 
 					url += "&color=" + colorString;
