@@ -168,7 +168,8 @@ public class Channel {
 		try {
 			Channel c = (Channel) MyXMLMarshaller.unmarshall(Channel.class, xml);
 
-			System.out.println("<em>" + mychop(c.getTitle()) + " -- " + mychop(c.getCopyright()) + " (" + (new Date()) + ")</em>");
+			System.out.println("<em>" + mychop(c.getTitle()) + ", " + mychop(c.getLink()) + " (Retrieved " + (new Date())
+					+ ")</em>");
 			if (c.item != null) {
 				for (Item I : c.item) {
 					if (I == null || I.getTitle() == null)
@@ -192,14 +193,14 @@ public class Channel {
 
 	private static String mychop(String s) {
 		if (s == null)
-			return null;
+			return "";
 		if (s.length() - 2 <= 0)
 			return "";
 
 		if (s.startsWith("\n"))
 			s = s.substring(1);
 		if (s.endsWith("\n"))
-			return s.substring(0, s.length() - 2);
+			return s.substring(0, s.length() - 1);
 
 		return s;
 	}
