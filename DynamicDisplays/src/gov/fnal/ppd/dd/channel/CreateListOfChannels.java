@@ -10,6 +10,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -80,11 +81,10 @@ public class CreateListOfChannels extends JPanel {
 	private JSpinner					time;
 	private SaveRestoreListOfChannels	saveRestore;
 
-	
-
 	protected String					defaultName			= System.getProperty("user.name");
 	protected String					lastListName		= "A list name";
 	private Map<String, JLabel>			allLabels			= new HashMap<String, JLabel>();
+	private Box							timeWidgets			= Box.createVerticalBox();
 
 	static class BigButton extends JButton {
 		private static final long	serialVersionUID	= 6517317474435639087L;
@@ -135,7 +135,7 @@ public class CreateListOfChannels extends JPanel {
 	public SaveRestoreListOfChannels getSaveRestore() {
 		return saveRestore;
 	}
-	
+
 	/**
 	 * 
 	 * Inner class to deal with the saving and restoring of a list of channels to/from the database
@@ -161,23 +161,29 @@ public class CreateListOfChannels extends JPanel {
 		}
 
 		private void initComponents() {
-			JButton saveIt = new JButton("Save this list");
+			JButton saveIt = new JButton("Save this list to a file");
 			saveIt.setActionCommand("SAVE");
 			saveIt.addActionListener(this);
 
-			JButton restoreOne = new JButton("Restore a list");
+			JButton restoreOne = new JButton("Restore a list from a file");
 			restoreOne.setActionCommand("RESTORE");
 			restoreOne.addActionListener(this);
 
-			setAlignmentX(CENTER_ALIGNMENT);
-			JLabel lab = new JLabel("Just below this text are buttons to save and to restore this list to the database");
-			lab.setFont(lab.getFont().deriveFont(Font.PLAIN, 11));
 			GridBagConstraints gbag = new GridBagConstraints();
+
+			setAlignmentX(CENTER_ALIGNMENT);
+			JLabel lab = new JLabel("Archiving and restoring lists");
 			gbag.gridx = gbag.gridy = 1;
 			gbag.gridwidth = 2;
 			gbag.fill = GridBagConstraints.HORIZONTAL;
 			add(lab, gbag);
-			gbag.gridy = 2;
+
+			lab = new JLabel("Just below this text are buttons to save and to restore lists to persistant storage");
+			lab.setFont(lab.getFont().deriveFont(Font.PLAIN, 11));
+			gbag.gridy++;
+			gbag.fill = GridBagConstraints.HORIZONTAL;
+			add(lab, gbag);
+			gbag.gridy++;
 			gbag.gridwidth = 1;
 			add(saveIt, gbag);
 			gbag.gridx = 2;
@@ -195,6 +201,7 @@ public class CreateListOfChannels extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent ev) {
 					channelListHolder.clear();
+					listOfChannelsArea.setText("");
 					int totalDwell = 0;
 
 					String selected = (String) listComboBox.getSelectedItem();
@@ -211,52 +218,53 @@ public class CreateListOfChannels extends JPanel {
 					String query = "Select ChannelList.Number as Number,Name,SequenceNumber,Dwell, URL, Category, Description from ChannelList,Channel "
 							+ "WHERE ListNumber=" + listNumber + " AND Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
 
-					try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-						try (ResultSet rs2 = stmt.executeQuery(query)) {
-							if (rs2.first())
-								do {
-									int chanNumber = rs2.getInt("Number");
-									int seq = rs2.getInt("SequenceNumber");
-									long dwell = rs2.getLong("Dwell");
-									totalDwell += dwell;
-									// TODO -- The abbreviation argument (next line) is wrong.
-									ChannelCategory cat = new ChannelCategory(rs2.getString("Category"), "ABB");
-									String name = rs2.getString("Name");
-									String url = rs2.getString("URL");
-									String desc = rs2.getString("Description");
-									try {
-										URI uri = new URI(url);
-										ChannelInfoHolder cih = new ChannelInfoHolder(chanNumber, seq, dwell, name);
-										System.out.println(cih);
-										internalScrollPanel.add(new JLabel(cih.toString()));
-										Channel channel = new ChannelImpl(name, cat, desc, uri, chanNumber, dwell);
-										channelListHolder.add(channel);
-										listOfChannelsArea.append(cih + "\n");
-									} catch (URISyntaxException e) {
-										e.printStackTrace();
-									}
+					synchronized (connection) {
+						try (Statement stmt = connection.createStatement();
+								ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+							try (ResultSet rs2 = stmt.executeQuery(query)) {
+								if (rs2.first())
+									do {
+										int chanNumber = rs2.getInt("Number");
+										int seq = rs2.getInt("SequenceNumber");
+										long dwell = rs2.getLong("Dwell");
+										totalDwell += dwell;
+										// TODO -- The abbreviation argument (next line) is wrong.
+										ChannelCategory cat = new ChannelCategory(rs2.getString("Category"), "ABB");
+										String name = rs2.getString("Name");
+										String url = rs2.getString("URL");
+										String desc = rs2.getString("Description");
+										try {
+											URI uri = new URI(url);
+											ChannelInfoHolder cih = new ChannelInfoHolder(chanNumber, seq, dwell, name);
+											System.out.println(cih);
+											internalScrollPanel.add(new JLabel(cih.toString()));
+											Channel channel = new ChannelImpl(name, cat, desc, uri, chanNumber, dwell);
+											channelListHolder.add(channel);
+											listOfChannelsArea.append(cih + "\n");
+										} catch (URISyntaxException e) {
+											e.printStackTrace();
+										}
 
-								} while (rs2.next());
-							else {
-								// Oops. no first element!?
-								System.err.println("No elements in the save/restore database!");
-								return;
+									} while (rs2.next());
+								else {
+									// Oops. no first element!?
+									System.err.println("No elements in the save/restore database!");
+									return;
+								}
 							}
+						} catch (SQLException e) {
+							System.err.println(query);
+							e.printStackTrace();
 						}
-					} catch (SQLException e) {
-						System.err.println(query);
-						e.printStackTrace();
 					}
 					DecimalFormat myFormatter = new DecimalFormat("#.0");
-					String output = myFormatter.format(totalDwell/1000.0/60.0);
-					listOfChannelsArea.append("\nTotal duration of this list: " + totalDwell + " msec (" + output +  " minutes)\n");
+					String output = myFormatter.format(totalDwell / 1000.0 / 60.0);
+					listOfChannelsArea.append("\nTotal duration of this list: " + totalDwell + " msec (" + output + " minutes)\n");
 
 					retval.validate();
 					// retval.repaint();
 				}
 			});
-			
-
 
 			internalScrollPanel.setPreferredSize(new Dimension(500, 200));
 			internalScrollPanel.add(new JLabel("Select a list, please"));
@@ -270,26 +278,28 @@ public class CreateListOfChannels extends JPanel {
 			Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 			String query = "Select * from ChannelListName";
 
-			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-				try (ResultSet rs2 = stmt.executeQuery(query)) {
-					if (rs2.first())
-						do {
-							String listName = rs2.getString("ListName");
-							String listAuthor = rs2.getString("ListAuthor");
-							int listNumber = rs2.getInt("ListNumber");
-							retval.add(listNumber + ": " + listName + " (" + listAuthor + ")");
-						} while (rs2.next());
-					else {
-						// Oops. no first element!?
-						throw new Exception("No elements in the save/restore database!");
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+					try (ResultSet rs2 = stmt.executeQuery(query)) {
+						if (rs2.first())
+							do {
+								String listName = rs2.getString("ListName");
+								String listAuthor = rs2.getString("ListAuthor");
+								int listNumber = rs2.getInt("ListNumber");
+								retval.add(listNumber + ": " + listName + " (" + listAuthor + ")");
+							} while (rs2.next());
+						else {
+							// Oops. no first element!?
+							throw new Exception("No elements in the save/restore database!");
+						}
+					} catch (SQLException e) {
+						System.err.println(query);
+						e.printStackTrace();
 					}
 				} catch (SQLException e) {
 					System.err.println(query);
 					e.printStackTrace();
 				}
-			} catch (SQLException e) {
-				System.err.println(query);
-				e.printStackTrace();
 			}
 			return retval;
 		}
@@ -451,54 +461,55 @@ public class CreateListOfChannels extends JPanel {
 			if (userValue == JOptionPane.OK_OPTION)
 				try {
 					Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+					synchronized (connection) {
+						int listNumber = 0;
 
-					int listNumber = 0;
+						String list = lastListName = listName.getText();
+						String author = defaultName = myName.getText();
 
-					String list = lastListName = listName.getText();
-					String author = defaultName = myName.getText();
+						String insert = "INSERT INTO ChannelListName VALUES (NULL, '" + list + "', '" + author + "')";
 
-					String insert = "INSERT INTO ChannelListName VALUES (NULL, '" + list + "', '" + author + "')";
+						String retrieve = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "' AND ListAuthor='"
+								+ author + "'";
 
-					String retrieve = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "' AND ListAuthor='"
-							+ author + "'";
+						try (Statement stmt = connection.createStatement();
+								ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+							if (stmt.executeUpdate(insert) == 1) {
+								// OK, the insert worked.
+								System.out.println("Successful: " + insert);
+							} else {
+								new Exception("Got the wrong number of lines inserted into the DB").printStackTrace();
+								return "Insert of new list name into the database failed";
+							}
+							try (ResultSet rs2 = stmt.executeQuery(retrieve)) {
+								System.out.println("Successful: " + retrieve);
+								if (rs2.first())
+									listNumber = rs2.getInt(1);
 
-					try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-						if (stmt.executeUpdate(insert) == 1) {
-							// OK, the insert worked.
-							System.out.println("Successful: " + insert);
-						} else {
-							new Exception("Got the wrong number of lines inserted into the DB").printStackTrace();
-							return "Insert of new list name into the database failed";
-						}
-						try (ResultSet rs2 = stmt.executeQuery(retrieve)) {
-							System.out.println("Successful: " + retrieve);
-							if (rs2.first())
-								listNumber = rs2.getInt(1);
+							} catch (Exception e) {
+								e.printStackTrace();
+								return "Reading the list number, which we just created, failed";
+							}
 
-						} catch (Exception e) {
-							e.printStackTrace();
-							return "Reading the list number, which we just created, failed";
-						}
+							// Use the exiting channel list from the GUI
+							int sequence = 0;
+							for (SignageContent SC : channelList) {
+								if (SC instanceof Channel) {
+									Channel c = (Channel) SC;
+									insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + c.getNumber() + ", "
+											+ c.getTime() + ", NULL, " + (sequence++) + ")";
+									if (stmt.executeUpdate(insert) == 1) {
+										// OK, the insert worked.
+										System.out.println("Successful: " + insert);
+									} else {
+										new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
+										return "Insert of list element number " + sequence + " failed";
+									}
 
-						// Use the exiting channel list from the GUI
-						int sequence = 0;
-						for (SignageContent SC : channelList) {
-							if (SC instanceof Channel) {
-								Channel c = (Channel) SC;
-								insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + c.getNumber() + ", "
-										+ c.getTime() + ", NULL, " + (sequence++) + ")";
-								if (stmt.executeUpdate(insert) == 1) {
-									// OK, the insert worked.
-									System.out.println("Successful: " + insert);
-								} else {
-									new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
-									return "Insert of list element number " + sequence + " failed";
 								}
-
 							}
 						}
 					}
-
 				} catch (Exception e) {
 					e.printStackTrace();
 					return "Some exception caused this to fail.";
@@ -551,6 +562,7 @@ public class CreateListOfChannels extends JPanel {
 		bag.gridy++;
 
 		Box bh = Box.createHorizontalBox();
+		bh.add(Box.createHorizontalGlue());
 		bh.add(new BigLabel("Dwell time (msec): ", Font.PLAIN));
 
 		final SpinnerModel model = new SpinnerListModel(getDwellStrings());
@@ -561,31 +573,34 @@ public class CreateListOfChannels extends JPanel {
 			time.setFont(new Font("Monospace", Font.PLAIN, 40));
 		bh.add(time);
 		final JLabel timeInterpretLabel = new JLabel("20 seconds");
+		timeInterpretLabel.setFont(new Font(Font.MONOSPACED, Font.ITALIC, 12));
+		bh.add(Box.createRigidArea(new Dimension(10, 10)));
+		bh.add(timeInterpretLabel);
 		time.addChangeListener(new ChangeListener() {
+			DecimalFormat	format	= new DecimalFormat("#.0");
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				long val = (Long) model.getValue();
 				String t = val + " milliseconds";
 				if (val < 60000L) {
-					t = (val / 1000) + " seconds";
+					t = (val / 1000) + " sec";
 				} else if (val < 3600000) {
 					double min = ((double) val) / 60000.0;
-					t = min + " minutes";
+					t = format.format(min) + " min";
 				} else {
 					double hours = ((double) val) / (60 * 60 * 1000.0);
-					t = hours + " hours";
+					t = format.format(hours) + " hr";
 				}
 				timeInterpretLabel.setText(t);
 			}
 		});
 		bh.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		bh.add(Box.createHorizontalGlue());
+		timeWidgets.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		timeWidgets.add(Box.createRigidArea(new Dimension(10, 10)));
+		timeWidgets.add(bh);
 
-		bag.gridwidth = 2;
-		add(bh, bag);
-		bag.gridy++;
-
-		add(timeInterpretLabel, bag);
 		bag.gridy++;
 
 		ChannelCategory categories[] = CategoryDictionary.getCategories();
@@ -706,39 +721,58 @@ public class CreateListOfChannels extends JPanel {
 		}
 	}
 
-	// Test this GUI. Note that it exits when you click the button!
-	private static Container getContainer() {
-		final CreateListOfChannelsHelper helper = new CreateListOfChannelsHelper();
+	/**
+	 * Get the pre-assembled GUI widgets for doing the list of channels.
+	 * 
+	 * @param listener
+	 *            the listener for when the "Accept this list" button get pressed. Leave this null, and it will exit when the button
+	 *            is pressed.
+	 * @return The JPanel that contains all the GUI widgets
+	 * 
+	 */
+	public static Container getContainer(CreateListOfChannelsHelper h, final ActionListener listener) {
+		if (h == null) {
+			h = new CreateListOfChannelsHelper();
+		}
+		final CreateListOfChannelsHelper helper = h;
 
-		helper.accept.addActionListener(new ActionListener() {
+		if (listener == null)
+			helper.accept.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int count = 1;
-				for (SignageContent CONTENT : helper.lister.channelList)
-					if (CONTENT instanceof Channel) {
-						System.out.println(count++ + " - Channel no. " + ((Channel) CONTENT).getNumber() + ": " + CONTENT.getName()
-								+ ", " + CONTENT.getTime());
-					} else {
-						System.out.println(count++ + " - " + CONTENT.getName() + ", dwell=" + CONTENT.getTime() + " msec");
-					}
-				System.out.println("Default dwell time: " + helper.lister.getDwellTime() + " milliseconds");
-				System.exit(0);
-			}
-		});
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					int count = 1;
+					for (SignageContent CONTENT : helper.lister.channelList)
+						if (CONTENT instanceof Channel) {
+							System.out.println(count++ + " - Channel no. " + ((Channel) CONTENT).getNumber() + ": "
+									+ CONTENT.getName() + ", " + CONTENT.getTime());
+						} else {
+							System.out.println(count++ + " - " + CONTENT.getName() + ", dwell=" + CONTENT.getTime() + " msec");
+						}
+					System.out.println("Default dwell time: " + helper.lister.getDwellTime() + " milliseconds");
+					catchSleep(10);
+					System.exit(0);
+				}
+			});
+		else
+			helper.accept.addActionListener(listener);
+
 		JScrollPane scroller = new JScrollPane(helper.lister, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroller.getVerticalScrollBar().setUnitIncrement(16);
 		if (!SHOW_IN_WINDOW)
 			scroller.getVerticalScrollBar().setPreferredSize(new Dimension(40, 0));
 		JPanel retval = new JPanel(new BorderLayout());
-		
+
 		retval.add(scroller, BorderLayout.CENTER);
 		Box vb = Box.createVerticalBox();
 		vb.add(helper.listerPanel);
-		vb.add(helper.lister.saveRestore);
+		vb.add(helper.lister.timeWidgets);
+		// vb.add(helper.lister.timeWidgets);
 
 		retval.add(vb, BorderLayout.NORTH);
+
+		retval.add(helper.lister.saveRestore, BorderLayout.SOUTH);
 		return retval;
 	}
 
@@ -764,6 +798,14 @@ public class CreateListOfChannels extends JPanel {
 	}
 
 	/**
+	 * 
+	 * @return the Component that contains the time widgets
+	 */
+	public JComponent getTimeWidgets() {
+		return timeWidgets;
+	}
+
+	/**
 	 * @param args
 	 *            Command line arguments (none expected)
 	 */
@@ -780,7 +822,7 @@ public class CreateListOfChannels extends JPanel {
 		JFrame f = new JFrame(CreateListOfChannels.class.getCanonicalName() + " Testing;");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		f.setContentPane(getContainer());
+		f.setContentPane(getContainer(null, null));
 		f.setSize(900, 900);
 		f.setVisible(true);
 	}
