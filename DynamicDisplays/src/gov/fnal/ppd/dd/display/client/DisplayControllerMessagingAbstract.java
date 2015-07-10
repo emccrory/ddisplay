@@ -64,7 +64,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private String					myName;
 	private int						statusUpdatePeriod		= 10;
 
-	// / Use messaging to get change requests from the changers -->
+	// Use messaging to get change requests from the changers -->
 	// private boolean actAsServerNoMessages = true;
 
 	/**
@@ -120,22 +120,34 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
-				if (statusUpdatePeriod-- <= 0) {
-					updateMyStatus();
-					statusUpdatePeriod = STATUS_UPDATE_PERIOD;
+				try {
+					if (statusUpdatePeriod-- <= 0) {
+						updateMyStatus();
+						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
+					}
+				} catch (Exception e) {
+					println(DisplayControllerMessagingAbstract.class,
+							" !! Exception caught in status update thread, " + e.getLocalizedMessage());
+					e.printStackTrace();
 				}
 			}
 		}, 20000L, 1000L);
 
 		timer.scheduleAtFixedRate(new TimerTask() {
+			// Once an hour, print something meaningful in the log
 			public void run() {
-				// Once an hour, print something meaningful in the log
-				System.out.print(new Date() + " -- " + DisplayControllerMessagingAbstract.this.getClass().getSimpleName()
-						+ " showing: " + (getContent() == null ? " *null* " : getContent().getName()));
-				if (getContent() instanceof Channel)
-					System.out.print(" (" + ((Channel) getContent()).getURI() + ")");
-				System.out.println("\n                             -- Last communication with server: "
-						+ new Date(((MessagingClientLocal) messagingClient).getServerTimeStamp()));
+				try {
+					String message = screenNumber + " showing: " + (getContent() == null ? " *null* " : getContent().getName());
+					if (getContent() instanceof Channel)
+						message += "\n                             -- (" + ((Channel) getContent()).getURI() + ")";
+					message += "\n                             -- Last communication with server: "
+							+ new Date(((MessagingClientLocal) messagingClient).getServerTimeStamp());
+					println(DisplayControllerMessagingAbstract.this.getClass(), message);
+				} catch (Exception e) {
+					println(DisplayControllerMessagingAbstract.this.getClass(),
+							" !! Exception caught in diagnostic thread, " + e.getLocalizedMessage());
+					e.printStackTrace();
+				}
 			}
 		}, FIFTEEN_MINUTES, ONE_HOUR);
 
@@ -159,40 +171,43 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 
-			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-				Date dNow = new Date();
-				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String statementString;
-				if (OFF_LINE.equalsIgnoreCase(nowShowing) || getContent() == null)
-					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='Off Line' where DisplayID="
-							+ getDBDisplayNumber();
-				else
-					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
-							+ getContent().getURI() + ")" + "' where DisplayID=" + getDBDisplayNumber();
-				// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
-				int numRows = stmt.executeUpdate(statementString);
-				if (numRows == 0 || numRows > 1) {
-					println(getClass(),
-							"Problem while updating status of Display: Expected to modify exactly one row, but  modified "
-									+ numRows + " rows instead. SQL='" + statementString + "'");
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+					Date dNow = new Date();
+					SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					String statementString;
+					if (OFF_LINE.equalsIgnoreCase(nowShowing) || getContent() == null)
+						statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow)
+								+ "',Content='Off Line' where DisplayID=" + getDBDisplayNumber();
+					else
+						statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + getStatus() + " ("
+								+ getContent().getURI() + ")" + "' where DisplayID=" + getDBDisplayNumber();
+					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
+					int numRows = stmt.executeUpdate(statementString);
+					if (numRows == 0 || numRows > 1) {
+						println(getClass(), screenNumber
+								+ ": Problem while updating status of Display: Expected to modify exactly one row, but  modified "
+								+ numRows + " rows instead. SQL='" + statementString + "'");
+					}
+					stmt.close();
+					if (statusUpdatePeriod > 0) {
+						println(getClass(),
+								".updateMyStatus(): " + screenNumber + " Status: \n            "
+										+ statementString.substring("UPDATE DisplayStatus set ".length()));
+						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
+					}
+				} catch (Exception ex) {
+					println(getClass(), screenNumber + " -- Unexpected exception in method updateMyStatus: " + ex
+							+ "  Skipping this update.");
+					for (StackTraceElement F : ex.getStackTrace()) {
+						println(getClass(), "\t\t -- " + F);
+					}
+					ex.printStackTrace();
+					return;
 				}
-				stmt.close();
-				if (statusUpdatePeriod > 0) {
-					println(getClass(),
-							".updateMyStatus(): Status: \n            "
-									+ statementString.substring("UPDATE DisplayStatus set ".length()));
-					statusUpdatePeriod = STATUS_UPDATE_PERIOD;
-				}
-			} catch (Exception ex) {
-				println(getClass(), " -- Unexpected exception in method updateMyStatus: " + ex + "  Skipping this update.");
-				for (StackTraceElement F : ex.getStackTrace()) {
-					println(getClass(), "\t\t -- " + F);
-				}
-				ex.printStackTrace();
-				return;
 			}
 		} catch (Exception e) {
-			println(getClass(), " -- Unexpected exception (" + e
+			println(getClass(), screenNumber + " -- Unexpected exception (" + e
 					+ ") in method updateMyStatus while reestablishing connection to the database.");
 			e.printStackTrace();
 			return;
@@ -225,92 +240,96 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			return failSafeVersion(clazz);
 		}
 
-		// Use ARM to simplify these try blocks.
-		try (Statement stmt = connection.createStatement();) {
-			try (ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME)) {
-			}
-
-			int displayCount = 0;
-
-			try (ResultSet rs = stmt.executeQuery(query);) {
-				// Move to first returned row (there will be more than one if there are multiple screens on this PC)
-				if (rs.first()) {
-					while (!rs.isAfterLast()) {
-						try {
-							String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
-
-							System.out.println("\n********** Display number " + (displayCount++) + ", name=" + myName
-									+ " **********\n");
-
-							if (!myName.equals(myNode)) {
-								// TODO This will not work if the IPName in the database is an IP address.
-								System.out.println("The node name of this display, according to the database, is supposed to be '"
-										+ myName + "', but InetAddress.getLocalHost().getCanonicalHostName() says it is '" + myNode
-										+ "'\n\t** We'll try to run anyway, but this should be fixed **");
-								// System.exit(-1);
-							}
-							int dbNumber = rs.getInt("DisplayID");
-							int vNumber = rs.getInt("VirtualDisplayNumber");
-
-							System.out.println("The node name of this display (no. " + vNumber + "/" + dbNumber + ") is '" + myNode
-									+ "'");
-
-							String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
-							SignageType type = SignageType.valueOf(t);
-							String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
-							String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
-							Color color = new Color(Integer.parseInt(colorString, 16));
-
-							// int portNumber = rs.getInt("Port");
-							int portNumber = 0; // NOT USED like this. The "Port number" has become the LocationCode
-							int screenNumber = rs.getInt("ScreenNumber");
-							int channelNumber = rs.getInt("Content");
-							SignageContent cont = getChannelFromNumber(channelNumber);
-
-							// stmt.close();
-							// rs.close();
-
-							// Now create the class object
-
-							Constructor<?> cons;
-							try {
-								cons = clazz.getConstructor(String.class, int.class, int.class, int.class, int.class, String.class,
-										Color.class, SignageType.class);
-								d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] { myName, vNumber, dbNumber,
-										screenNumber, portNumber, location, color, type });
-								d.setContentBypass(cont);
-								d.initiate();
-								// return d;
-							} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
-									| IllegalArgumentException | InvocationTargetException e) {
-								e.printStackTrace();
-								System.err.println("Here are the arguments: " + myName + ", " + vNumber + ", " + dbNumber + ", "
-										+ screenNumber + ", " + portNumber + ", " + location + ", " + color + ", " + type);
-							}
-							// Allow it to loop over multiple displays
-							// return null;
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-
-						rs.next();
-					}
-				} else {
-					new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
-					System.err.println("\n** Cannot continue! **\nExit");
-					connection.close();
-					return failSafeVersion(clazz);
+		synchronized (connection) {
+			// Use ARM to simplify these try blocks.
+			try (Statement stmt = connection.createStatement();) {
+				try (ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME)) {
 				}
 
-			} catch (SQLException e) {
-				System.err.println("Faulty query is [" + query + "]");
-				e.printStackTrace();
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			return failSafeVersion(clazz);
-		}
+				int displayCount = 0;
 
+				try (ResultSet rs = stmt.executeQuery(query);) {
+					// Move to first returned row (there will be more than one if there are multiple screens on this PC)
+					if (rs.first()) {
+						while (!rs.isAfterLast()) {
+							try {
+								String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
+
+								System.out.println("\n********** Display number " + (displayCount++) + ", name=" + myName
+										+ " **********\n");
+
+								if (!myName.equals(myNode)) {
+									// TODO This will not work if the IPName in the database is an IP address.
+									System.out
+											.println("The node name of this display, according to the database, is supposed to be '"
+													+ myName
+													+ "', but InetAddress.getLocalHost().getCanonicalHostName() says it is '"
+													+ myNode + "'\n\t** We'll try to run anyway, but this should be fixed **");
+									// System.exit(-1);
+								}
+								int dbNumber = rs.getInt("DisplayID");
+								int vNumber = rs.getInt("VirtualDisplayNumber");
+
+								System.out.println("The node name of this display (no. " + vNumber + "/" + dbNumber + ") is '"
+										+ myNode + "'");
+
+								String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
+								SignageType type = SignageType.valueOf(t);
+								String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
+								String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
+								Color color = new Color(Integer.parseInt(colorString, 16));
+
+								// int portNumber = rs.getInt("Port");
+								int portNumber = 0; // NOT USED like this. The "Port number" has become the LocationCode
+								int screenNumber = rs.getInt("ScreenNumber");
+								int channelNumber = rs.getInt("Content");
+								SignageContent cont = getChannelFromNumber(channelNumber);
+
+								// stmt.close();
+								// rs.close();
+
+								// Now create the class object
+
+								Constructor<?> cons;
+								try {
+									cons = clazz.getConstructor(String.class, int.class, int.class, int.class, int.class,
+											String.class, Color.class, SignageType.class);
+									d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] { myName, vNumber,
+											dbNumber, screenNumber, portNumber, location, color, type });
+									d.setContentBypass(cont);
+									d.initiate();
+									// return d;
+								} catch (NoSuchMethodException | SecurityException | IllegalAccessException
+										| InstantiationException | IllegalArgumentException | InvocationTargetException e) {
+									e.printStackTrace();
+									System.err.println("Here are the arguments: " + myName + ", " + vNumber + ", " + dbNumber
+											+ ", " + screenNumber + ", " + portNumber + ", " + location + ", " + color + ", "
+											+ type);
+								}
+								// Allow it to loop over multiple displays
+								// return null;
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							rs.next();
+						}
+					} else {
+						new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
+						System.err.println("\n** Cannot continue! **\nExit");
+						connection.close();
+						return failSafeVersion(clazz);
+					}
+
+				} catch (SQLException e) {
+					System.err.println("Faulty query is [" + query + "]");
+					e.printStackTrace();
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				return failSafeVersion(clazz);
+			}
+		}
 		return d;
 	}
 
@@ -355,25 +374,27 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				return null;
 			}
 
-			try (Statement stmt = connection.createStatement();) {
-				try (ResultSet rs = stmt.executeQuery(query);) {
-					if (rs.first()) { // Move to first returned row (there should only be one)
-						String url = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("URL"));
-						int dwell = rs.getInt("DwellTime");
-						String desc = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
-						String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Name"));
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement();) {
+					try (ResultSet rs = stmt.executeQuery(query);) {
+						if (rs.first()) { // Move to first returned row (there should only be one)
+							String url = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("URL"));
+							int dwell = rs.getInt("DwellTime");
+							String desc = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
+							String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Name"));
 
-						retval = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, dwell);
+							retval = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, dwell);
 
-						stmt.close();
-						rs.close();
+							stmt.close();
+							rs.close();
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (SQLException ex) {
+					System.err.println("It is likely that the DB server is down.  We'll try again later.");
+					ex.printStackTrace();
 				}
-			} catch (SQLException ex) {
-				System.err.println("It is likely that the DB server is down.  We'll try again later.");
-				ex.printStackTrace();
 			}
 			++channelNumber;
 		}
@@ -418,12 +439,12 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		@Override
 		public void receiveIncomingMessage(MessageCarrier msg) {
 			if (debug && msg.getType() != MessageType.ISALIVE)
-				println(DisplayControllerMessagingAbstract.class, ":" + MessagingClientLocal.class.getSimpleName()
+				println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
 						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
 			if (msg.getTo().equals(getName())) {
 				dcp.processInput(msg);
 			} else if (debug)
-				println(DisplayControllerMessagingAbstract.class, ": Ignoring a message from [" + msg.getTo() + "] because I am ["
+				println(this.getClass(), screenNumber + ": Ignoring a message from [" + msg.getTo() + "] because I am ["
 						+ getName() + "]");
 		}
 	}

@@ -36,8 +36,10 @@ public class GetColorsFromDatabase {
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 
-			stmt = connection.createStatement();
-			rs = stmt.executeQuery("USE " + DATABASE_NAME);
+			synchronized (connection) {
+				stmt = connection.createStatement();
+				rs = stmt.executeQuery("USE " + DATABASE_NAME);
+			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			System.exit(1);
