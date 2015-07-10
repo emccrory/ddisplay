@@ -58,32 +58,34 @@ public class GetMessagingServer {
 			System.exit(-1);
 		}
 
-		// Use ARM to simplify these try blocks.
-		try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-			try (ResultSet rs2 = stmt.executeQuery(query);) {
-				if (rs2.first()) {
-					messagingServerName = rs2.getString("MessagingServerName");
-					locationName = rs2.getString("LocationName");
-					locationDescription = rs2.getString("Description");
-					int locationCode = rs2.getInt("LocationCode");
-					addLocationCode(locationCode);
-					System.out.println("MessagingServer= " + messagingServerName + "\nLocationCode= " + getLocationCode()
-							+ "\nLocationName= " + locationName + "\nLocationDescription= " + locationDescription);
+		synchronized (connection) {
+			// Use ARM to simplify these try blocks.
+			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+				try (ResultSet rs2 = stmt.executeQuery(query);) {
+					if (rs2.first()) {
+						messagingServerName = rs2.getString("MessagingServerName");
+						locationName = rs2.getString("LocationName");
+						locationDescription = rs2.getString("Description");
+						int locationCode = rs2.getInt("LocationCode");
+						addLocationCode(locationCode);
+						System.out.println("MessagingServer= " + messagingServerName + "\nLocationCode= " + getLocationCode()
+								+ "\nLocationName= " + locationName + "\nLocationDescription= " + locationDescription);
 
-				} else {
-					System.err.println("No location information for this device, " + myName);
-					new Exception().printStackTrace();
-					System.exit(-1);
+					} else {
+						System.err.println("No location information for this device, " + myName);
+						new Exception().printStackTrace();
+						System.exit(-1);
+					}
 				}
+			} catch (SQLException e) {
+				System.err.println(query);
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			System.err.println(query);
-			e.printStackTrace();
-		}
 
-		if (!ms.equals("X")) {
-			System.err.println("Overriding messaging server to be '" + ms + "'");
-			messagingServerName = ms;
+			if (!ms.equals("X")) {
+				System.err.println("Overriding messaging server to be '" + ms + "'");
+				messagingServerName = ms;
+			}
 		}
 
 		return messagingServerName;

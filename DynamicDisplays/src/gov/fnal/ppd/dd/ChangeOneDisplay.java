@@ -48,11 +48,11 @@ public class ChangeOneDisplay {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		if ( args.length != 2) {
+		if (args.length != 2) {
 			System.err.println("Usage: java " + ChangeOneDisplay.class.getCanonicalName() + " <displayID> <channelNumber>");
 			return;
 		}
-		
+
 		int targetDisplayNumber = Integer.parseInt(args[0]);
 		Display display = getControllableDisplay(targetDisplayNumber);
 
@@ -85,46 +85,48 @@ public class ChangeOneDisplay {
 			System.exit(-1);
 		}
 
-		// Use ARM to simplify these try blocks.
-		try (Statement stmt = connection.createStatement();) {
-			try (ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME)) {
-			}
+		synchronized (connection) {
+			// Use ARM to simplify these try blocks.
+			try (Statement stmt = connection.createStatement();) {
+				try (ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME)) {
+				}
 
-			InetAddress ip = InetAddress.getLocalHost();
-			String ipName = ip.getHostName().replace(".dhcp", "");
-			String query = "SELECT * FROM SelectorLocation where IPName='" + ipName + "'";
-			try (ResultSet rs = stmt.executeQuery(query);) {
-				if (rs.first())
-					try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)
-						addLocationCode(rs.getInt("LocationCode"));
-						System.out.println("Location code is " + getLocationCode());
-						String myClassification = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
+				InetAddress ip = InetAddress.getLocalHost();
+				String ipName = ip.getHostName().replace(".dhcp", "");
+				String query = "SELECT * FROM SelectorLocation where IPName='" + ipName + "'";
+				try (ResultSet rs = stmt.executeQuery(query);) {
+					if (rs.first())
+						try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)
+							addLocationCode(rs.getInt("LocationCode"));
+							System.out.println("Location code is " + getLocationCode());
+							String myClassification = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
 
-						IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
+							IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
 
-						final SignageType sType = SignageType.valueOf(myClassification);
+							final SignageType sType = SignageType.valueOf(myClassification);
 
-						if (!MessageCarrier.initializeSignature()) {
-							JOptionPane.showMessageDialog(null, "The private key file, for security, cannot be found.\n"
-									+ "Click 'Dismiss' to close the GUI.\nThen get help to fix this problem.", "No Private Key",
-									JOptionPane.ERROR_MESSAGE);
-							System.exit(-1);
+							if (!MessageCarrier.initializeSignature()) {
+								JOptionPane.showMessageDialog(null, "The private key file, for security, cannot be found.\n"
+										+ "Click 'Dismiss' to close the GUI.\nThen get help to fix this problem.",
+										"No Private Key", JOptionPane.ERROR_MESSAGE);
+								System.exit(-1);
+							}
+							System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
+							System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector "
+									+ THIS_IP_NAME_INSTANCE + "'\n");
+
+							DisplayListDatabaseRemote g = new DisplayListDatabaseRemote(getLocationCode(), dNum);
+							retval = g.get(0);
+							if (retval.getDBDisplayNumber() == dNum)
+								return retval;
+
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
-						System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
-						System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE
-								+ "'\n");
-
-						DisplayListDatabaseRemote g = new DisplayListDatabaseRemote(getLocationCode(), dNum);
-						retval = g.get(0);
-						if (retval.getDBDisplayNumber() == dNum)
-							return retval;
-
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		System.err.println("Not sure why, but the display number " + dNum + " was not found.  Sorry.");
 		return null;

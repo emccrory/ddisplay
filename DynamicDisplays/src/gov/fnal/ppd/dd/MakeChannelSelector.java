@@ -92,8 +92,6 @@ public class MakeChannelSelector {
 					+ "It cannot start an instance of ChannelSelector.", "Cannot Continue", JOptionPane.ERROR_MESSAGE);
 	}
 
-	
-
 	private static String	myClassification	= "XOC";
 	private static boolean	missing				= true;
 	private static String	myIPName			= "TBD";
@@ -109,59 +107,60 @@ public class MakeChannelSelector {
 			System.exit(-1);
 		}
 
-		// Use ARM to simplify these try blocks.
-		try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+		synchronized (connection) {
+			// Use ARM to simplify these try blocks.
+			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
 
-			InetAddress ip = InetAddress.getLocalHost();
-			myIPName = ip.getCanonicalHostName().replace(".dhcp", "");
+				InetAddress ip = InetAddress.getLocalHost();
+				myIPName = ip.getCanonicalHostName().replace(".dhcp", "");
 
-			String query = "SELECT * FROM SelectorLocation where IPName='" + myIPName + "'";
+				String query = "SELECT * FROM SelectorLocation where IPName='" + myIPName + "'";
 
-			try (ResultSet rs2 = stmt.executeQuery(query);) {
-				if (rs2.first())
-					while (!rs2.isAfterLast())
-						try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)
-							int lc = rs2.getInt("LocationCode");
-							addLocationCode(lc);
-							System.out.println("Location code is " + lc);
-							myClassification = ConnectionToDynamicDisplaysDatabase.makeString(rs2.getAsciiStream("Type"));
+				try (ResultSet rs2 = stmt.executeQuery(query);) {
+					if (rs2.first())
+						while (!rs2.isAfterLast())
+							try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)
+								int lc = rs2.getInt("LocationCode");
+								addLocationCode(lc);
+								System.out.println("Location code is " + lc);
+								myClassification = ConnectionToDynamicDisplaysDatabase.makeString(rs2.getAsciiStream("Type"));
 
-							IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
+								IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
 
-							final SignageType sType = SignageType.valueOf(myClassification);
+								final SignageType sType = SignageType.valueOf(myClassification);
 
-							if (displayList == null)
-								displayList = DisplayListFactory.getInstance(sType, lc);
-							else {
-								List<Display> moreDisplays = DisplayListFactory.getInstance(sType, lc);
-								displayList.addAll(moreDisplays);
+								if (displayList == null)
+									displayList = DisplayListFactory.getInstance(sType, lc);
+								else {
+									List<Display> moreDisplays = DisplayListFactory.getInstance(sType, lc);
+									displayList.addAll(moreDisplays);
+								}
+								rs2.next();
+								missing = false;
+							} catch (Exception e) {
+								e.printStackTrace();
+								System.exit(-2);
 							}
-							rs2.next();
-							missing = false;
-						} catch (Exception e) {
-							e.printStackTrace();
-							System.exit(-2);
-						}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.exit(-3);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				System.exit(-4);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-5);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.exit(-3);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			System.exit(-4);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(-5);
-		}
 
-		if (!MessageCarrier.initializeSignature()) {
-			JOptionPane.showMessageDialog(null, "The private key file, for security, cannot be found.\n"
-					+ "Click 'Dismiss' to close the GUI.\nThen get help to fix this problem.", "No Private Key",
-					JOptionPane.ERROR_MESSAGE);
-			System.exit(-1);
+			if (!MessageCarrier.initializeSignature()) {
+				JOptionPane.showMessageDialog(null, "The private key file, for security, cannot be found.\n"
+						+ "Click 'Dismiss' to close the GUI.\nThen get help to fix this problem.", "No Private Key",
+						JOptionPane.ERROR_MESSAGE);
+				System.exit(-1);
+			}
+			System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
+			System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + "'\n");
 		}
-		System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
-		System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + "'\n");
-
 	}
 }
