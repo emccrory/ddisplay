@@ -192,9 +192,9 @@ public class MessagingClient {
 	/**
 	 * Overridable to enable other sorts of usages.
 	 * 
-	 * Changed the name from "displayIncomingMessage" in order to convey that this is an important
-	 * aspect of dealing with messages that are received, beyond simply printing it out.  In practice,
-	 * many implementers of this method actually ANALYZE the message and act on it.
+	 * Changed the name from "displayIncomingMessage" in order to convey that this is an important aspect of dealing with messages
+	 * that are received, beyond simply printing it out. In practice, many implementers of this method actually ANALYZE the message
+	 * and act on it.
 	 * 
 	 * @param msg
 	 *            The message that was received just now.
@@ -426,7 +426,7 @@ public class MessagingClient {
 	 */
 	class ListenFromServer extends Thread {
 
-		private long	nextDisplayTime = System.currentTimeMillis();
+		private long	nextDisplayTime	= System.currentTimeMillis();
 
 		public void run() {
 			boolean showMessage1 = true, showMessage2 = true, showMessage3 = true;
@@ -480,10 +480,12 @@ public class MessagingClient {
 					}
 
 					if (msg.isThisForMe(username)) {
-						if (msg.getType() == MessageType.ISALIVE) {
-							// serverName = msg.getFrom();
+						switch (msg.getType()) {
+						case ISALIVE:
 							sendMessage(MessageCarrier.getIAmAlive(username, msg.getFrom(), "" + new Date()));
-						} else if (msg.getType() == MessageType.AMALIVE) {
+							break;
+
+						case AMALIVE:
 							// Print out some of these messages for the log file
 							aliveCount++;
 							if (System.currentTimeMillis() > nextDisplayTime) {
@@ -493,12 +495,23 @@ public class MessagingClient {
 									// Continue to print these for 15 seconds, and the wait an hour to do it again.
 									nextDisplayTime = System.currentTimeMillis() + 60 * ONE_MINUTE;
 							}
-						} else {
+							break;
+
+						case LOGIN:
+						case LOGOUT:
+						case WHOISIN:
 							displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got a message that is being ignored.");
 							System.out.println("\t\t" + msg);
+							continue;
+
+						case ERROR:
+						case MESSAGE:
+							// Normal stuff here
+							break;
 						}
-						
+
 						receiveIncomingMessage(msg);
+
 					} else {
 						displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got a message that is not for me!");
 						System.out.println("\t\t" + msg);
