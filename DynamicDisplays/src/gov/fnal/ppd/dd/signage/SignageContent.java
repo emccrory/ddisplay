@@ -27,18 +27,6 @@ public interface SignageContent extends Serializable {
 	public void setName(String name);
 
 	/**
-	 * The actual content (if applicable)
-	 * 
-	 * @return The content
-	 */
-	public Object getContent();
-
-	/**
-	 * @param content
-	 */
-	public void setContent(Serializable content);
-
-	/**
 	 * A nice description of the content. This should (IMHO) be lengthy.
 	 * 
 	 * @return The description

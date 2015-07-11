@@ -11,6 +11,7 @@ import gov.fnal.ppd.dd.channel.CreateListOfChannels.BigButton;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -46,7 +47,9 @@ public class CreateListOfChannelsHelper {
 	public CreateListOfChannelsHelper() {
 		listerPanel = new JPanel(new BorderLayout());
 		lister = new CreateListOfChannels();
-		JButton hide = new JButton("?");
+		JButton hide = new JButton("S/R & Help");
+		hide.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 9));
+		//hide.setMargin(new Insets(2, 2, 2, 2));
 
 		JComponent sr = lister.getSaveRestore();
 		sr.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -66,7 +69,14 @@ public class CreateListOfChannelsHelper {
 		instructions.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		instructions.setVisible(false);
 		Box h = Box.createHorizontalBox();
+		h.add(Box.createHorizontalGlue());
 		h.add(accept);
+		
+		Dimension minSize = new Dimension(5, 5);
+		Dimension prefSize = new Dimension(5, 5);
+		Dimension maxSize = new Dimension(Short.MAX_VALUE, 5);
+		h.add(new Box.Filler(minSize, prefSize, maxSize));
+
 		h.add(hide);
 		Box v = Box.createVerticalBox();
 		v.add(h);
@@ -84,15 +94,14 @@ public class CreateListOfChannelsHelper {
 		listerPanel.add(v, BorderLayout.NORTH);
 
 		hide.addActionListener(new ActionListener() {
-			boolean	visible	= false;
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				visible = !visible;
-				instructions.setVisible(visible);
-				
+				boolean visible = instructions.isVisible();
+				instructions.setVisible(!visible);
+				lister.getSaveRestore().setVisible(!visible);
 			}
 		});
-
+		lister.getSaveRestore().setVisible(instructions.isVisible());
 	}
 }

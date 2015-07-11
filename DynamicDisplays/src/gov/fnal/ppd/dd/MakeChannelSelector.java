@@ -17,6 +17,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
+import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
@@ -65,7 +66,7 @@ public class MakeChannelSelector {
 
 		// TODO -- Create/fix mechanism for restarting a ChannelSelector
 
-		JFrame f = new JFrame(myClassification + " " + getLocationCode());
+		JFrame f = new JFrame(myClassification + " " + getLocationName() +" ("+ getLocationCode()+")");
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

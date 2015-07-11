@@ -68,11 +68,6 @@ public class ChannelPlayList implements Channel {
 		return currentChannel.getName() + " (List)";
 	}
 
-	@Override
-	public Object getContent() {
-		return currentChannel.getContent();
-	}
-
 	protected void informDisplay() {
 		if (myDisplay != null) {
 			myDisplay.setContent(currentChannel);
@@ -144,11 +139,6 @@ public class ChannelPlayList implements Channel {
 	@Override
 	public void setName(String name) {
 		// Not relevant for a list of channels
-	}
-
-	@Override
-	public void setContent(Serializable content) {
-		// Not relevant for a list of content
 	}
 
 	@Override

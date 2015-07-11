@@ -266,17 +266,17 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				}
 			});
 
-			final CreateListOfChannelsHelper channelLister = new CreateListOfChannelsHelper();
+			final CreateListOfChannelsHelper channelListHelper = new CreateListOfChannelsHelper();
 			ActionListener listener = new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					System.out.println("Channel list accepted");
-					display.setContent(channelLister.lister.getChannelList());
+					display.setContent(channelListHelper.lister.getChannelList());
 				}
 			};
 			
-			displayTabPane.add(CreateListOfChannels.getContainer(channelLister, listener), " Lists ");
+			displayTabPane.add(CreateListOfChannels.getContainer(channelListHelper, listener), " Lists ");
 
 			if (SHOW_IN_WINDOW) {
 				// Do not include the "wrap your own" URL until someone asks for it.

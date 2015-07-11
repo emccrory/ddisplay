@@ -89,11 +89,6 @@ public class ImageContent implements SignageContent {
 	}
 
 	@Override
-	public Object getContent() {
-		return image;
-	}
-
-	@Override
 	public String getDescription() {
 		return description;
 	}
@@ -116,11 +111,6 @@ public class ImageContent implements SignageContent {
 	@Override
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public void setContent(Serializable content) {
-		// TODO Hmmmm. not sure what to do here.
 	}
 
 	@Override

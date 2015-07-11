@@ -132,7 +132,7 @@ public class CreateListOfChannels extends JPanel {
 	/**
 	 * @return the save-restore widget
 	 */
-	public SaveRestoreListOfChannels getSaveRestore() {
+	public JPanel getSaveRestore() {
 		return saveRestore;
 	}
 
@@ -572,7 +572,7 @@ public class CreateListOfChannels extends JPanel {
 		if (!SHOW_IN_WINDOW)
 			time.setFont(new Font("Monospace", Font.PLAIN, 40));
 		bh.add(time);
-		final JLabel timeInterpretLabel = new JLabel("20 seconds");
+		final JLabel timeInterpretLabel = new JLabel("20 secs");
 		timeInterpretLabel.setFont(new Font(Font.MONOSPACED, Font.ITALIC, 12));
 		bh.add(Box.createRigidArea(new Dimension(10, 10)));
 		bh.add(timeInterpretLabel);
@@ -631,18 +631,16 @@ public class CreateListOfChannels extends JPanel {
 				bag.gridx--;
 				bag.gridy++;
 				b.addActionListener(new ActionListener() {
-					boolean	selected	= false;
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						CONTENT.setTime((Long) time.getValue());
+						boolean selected = channelList.contains(CONTENT);
 						if (selected) {
-							selected = false;
 							channelList.remove(CONTENT);
 							lab.setText(NOT_SELECTED);
 							labelList.remove(lab);
 						} else {
-							selected = true;
 							channelList.add(CONTENT);
 							lab.setText("" + CONTENT.getTime());
 							labelList.add(lab);
