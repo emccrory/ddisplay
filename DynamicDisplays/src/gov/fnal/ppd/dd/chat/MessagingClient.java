@@ -73,7 +73,7 @@ public class MessagingClient {
 	}
 
 	/**
-	 * To start the dialog
+	 * Start the dialog between the client, here, and the server.
 	 * 
 	 * @return if we were successful
 	 */
@@ -98,9 +98,10 @@ public class MessagingClient {
 								&& lastPingSent + ONE_MINUTE < System.currentTimeMillis()) {
 							// We haven't heard from the server in a long time! Maybe it is dead or sleeping.
 							sendMessage(MessageCarrier.getIAmAlive(username, serverName, new Date().toString()));
-							displayLogMessage("Sending an unsolicited 'IAmAlive' message from " + username + " to the server ("
-									+ serverName + ") because we last got a message "
-									+ (System.currentTimeMillis() - lastMessageReceived) + " mSec ago.");
+							displayLogMessage("Sending unsolicited 'IAmAlive' message from " + username + " to the server ("
+									+ serverName + ") because last message was "
+									+ (System.currentTimeMillis() - lastMessageReceived) + " mSec ago ("
+									+ new Date(lastMessageReceived) + ")");
 							lastPingSent = System.currentTimeMillis();
 						}
 						sleep = 9999L; // subsequent sleeps are ten seconds
@@ -161,8 +162,7 @@ public class MessagingClient {
 		listenFromServer = new ListenFromServer();
 		listenFromServer.start();
 
-		// Send our username to the server this is the only message that we
-		// will send as a String. All other messages will be ChatMessage objects
+		// Send our username to the server 
 
 		try {
 			sOutput.writeObject(MessageCarrier.getLogin(username));
@@ -176,7 +176,7 @@ public class MessagingClient {
 
 		connectionAccepted();
 
-		// success we inform the caller that it worked
+		// success! Inform the caller that it worked
 		return true;
 	}
 
@@ -436,6 +436,7 @@ public class MessagingClient {
 					MessageCarrier msg;
 					Object read = sInput.readObject();
 					lastMessageReceived = System.currentTimeMillis();
+					dumpMessage(read);
 
 					if (read instanceof MessageCarrier) {
 						msg = (MessageCarrier) read;
@@ -472,7 +473,8 @@ public class MessagingClient {
 							}
 						}
 					} else {
-						System.err.println("Exception caught at " + new Date());
+						System.err.println("Got a message that was not of an expected type " + read.getClass().getCanonicalName()
+								+ " at " + new Date());
 						new ClassNotFoundException(read.getClass().getCanonicalName()).printStackTrace();
 						// try to continue anyway ...
 						catchSleep(1000L);
@@ -529,7 +531,24 @@ public class MessagingClient {
 					e.printStackTrace();
 				}
 			}
+			displayLogMessage(ListenFromServer.class.getSimpleName() + ": Disconnecting from server.");
 			disconnect();
+		}
+
+		long	nextDump	= 0L;
+
+		/**
+		 * Dump this to the diagnostics stream every 10 minutes or so, for about 30 seconds.
+		 * 
+		 * @param read
+		 *            The message to dump
+		 */
+		private void dumpMessage(Object read) {
+			if (nextDump > System.currentTimeMillis())
+				return;
+			displayLogMessage("Received message: [" + read + "]");
+			if (nextDump + 30000L < System.currentTimeMillis())
+				nextDump = System.currentTimeMillis() + 10 * 60 * 1000L;
 		}
 	}
 }
