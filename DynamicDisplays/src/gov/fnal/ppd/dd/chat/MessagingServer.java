@@ -17,14 +17,15 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
-
 import gov.fnal.ppd.dd.util.ObjectSigning;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.security.SignedObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -174,6 +175,7 @@ public class MessagingServer {
 					}
 					this.username = ((MessageCarrier) read).getMessage();
 					display("'" + this.username + "' (" + id + ") wants to connect.");
+					setName("ClientThread_of_MessagingServer_" + MessagingServer.uniqueId + "_" + username);
 				} else {
 					display("Unexpected response from client '" + ((MessageCarrier) read).getFrom() + ": Type="
 							+ read.getClass().getCanonicalName());
@@ -226,17 +228,30 @@ public class MessagingServer {
 			setOnNotice(false);
 		}
 
-		// This method will run for as long as this client is connected
+		/**
+		 * This is the heart of the messaging server: The place where all of the incoming messages are received and processed.
+		 * 
+		 * This method will run for as long as this client is connected.
+		 * 
+		 * Historically, this is where the most difficult problems are encountered. So, beware!
+		 * 
+		 */
 		public void run() {
 			// to loop until LOGOUT or we hit an unrecoverable exception
 			// Bug fix for input and output objects: call "reset" after every read and write to not let these objects
 			// remember their state. After a few hours, we run out of memory!
+
+			// This block of code is continuing to make problems (7/17/2015). One way to handle it is to simplify it
+			// somehow. There is a lot of diagnostics mixed in with the processing. Maybe I need to pull that out in some way.
+			// Bottom line: Simplify!!
+
 			this.thisSocketIsActive = true;
 			while (this.thisSocketIsActive) {
 				// Create this Object here so it can be seen by the catch blocks
 				Object read = new Object();
 				try {
 					read = this.sInput.readObject();
+					// Make all the other incoming messages wait until the processing here is done.
 					if (read instanceof MessageCarrier) {
 						this.cm = (MessageCarrier) read;
 						this.cmSigned = null;
@@ -271,21 +286,25 @@ public class MessagingServer {
 						new ClassNotFoundException().printStackTrace();
 						break; // End the while(this.thisSocketIsActive) loop
 					}
+				} catch (SocketException | EOFException e) {
+					String dis = "Client " + this.username + ": " + e.getClass().getName() + " reading input stream\n          "
+							+ "The received message was '" + read + "'\n          (type=" + read.getClass().getCanonicalName()
+							+ ") ";
+					error(dis + exceptionString(e));
+					break;
 				} catch (Exception e) {
+					e.printStackTrace();
+					String dis = e.getClass().getName() + ", Message=[" + e.getMessage() + "], client=" + this.username + " ";
+					error(dis + exceptionString(e));
+
+					// Make all the other incoming messages wait until the processing here is done.
 					if (read == null) {
 						String mes = "The reading of the input stream produced a null object. Client: " + this.username;
-						display(mes);
 						error(mes);
 					} else {
-						String dis = "Client " + this.username + ": Exception reading input stream -- " + e + ";\n          "
+						dis = "Client " + this.username + ": Exception reading input stream -- " + e + ";\n          "
 								+ "The received message was '" + read + "'\n          (type=" + read.getClass().getCanonicalName()
 								+ ")";
-						e.printStackTrace();
-						StackTraceElement[] trace = e.getStackTrace();
-						dis += "\n" + trace[trace.length - 1]; // Print only the last line (reducing crap in the printout)
-
-						display(dis);
-						error(dis);
 
 						String frm = "null";
 						String typ = "null";
@@ -425,8 +444,9 @@ public class MessagingServer {
 
 			if (ObjectSigning.dropClient(this.username))
 				display(this.getClass().getSimpleName() + ": '" + this.username + "' Removed from ObjectSigning cache");
-			else
-				display(this.getClass().getSimpleName() + ": '" + this.username + "' NOT IN THE ObjectSigning cache");
+			// else
+			// display(this.getClass().getSimpleName() + ": '" + this.username +
+			// "' NOT IN THE ObjectSigning cache, so it was not removed");
 
 			display(this.getClass().getSimpleName() + ": Number of remaining clients: " + listOfMessagingClients.size());
 			close();
@@ -441,6 +461,10 @@ public class MessagingServer {
 		 * Write an unsigned object to the Client output stream
 		 */
 		boolean writeUnsignedMsg(MessageCarrier msg) {
+			if (socket == null) {
+				error("Socket object is null--cannot send the message " + msg);
+				return false;
+			}
 			// if Client is still connected send the message to it
 			if (!socket.isConnected()) {
 				close();
@@ -642,7 +666,7 @@ public class MessagingServer {
 	// an ArrayList to keep the list of the Client
 	// private ArrayList<ClientThread> al; This Template is supposed to help with ConcurrentModificationException
 	ClientThreadList			listOfMessagingClients;
-	private Object				broadcasting			= "An Object for Java synchronization";
+	private Object				broadcasting			= "Object 1 for Java synchronization";
 	// the boolean that will be turned of to stop the server
 	private boolean				keepGoing;
 
@@ -762,9 +786,26 @@ public class MessagingServer {
 	}
 
 	protected void printStackTrace(Exception e) {
+		if (e == null)
+			System.out.println("NULL Exception!");
 		synchronized (sdf) { // Only print one message at a time
 			e.printStackTrace();
 		}
+	}
+
+	protected String exceptionString(Exception e) {
+		if (e == null)
+			return "NULL Exception!";
+
+		StackTraceElement[] trace = e.getStackTrace();
+		String retval = (e.getMessage() == null ? "" : e.getMessage());
+		if (trace != null) {
+			for (StackTraceElement T : trace)
+				retval += "\n" + T;
+		} else {
+			retval += " -- Stack trace is null!?";
+		}
+		return retval;
 	}
 
 	protected void performDiagnostics(boolean show) {
