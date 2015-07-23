@@ -52,7 +52,7 @@ public class DisplayColorSliderUI extends BasicSliderUI {
 
 		System.out.println(Color.white + ", " + Color.gray.brighter() + ", " + myWhite + ", " + myGray);
 		slider.setUI(new DisplayColorSliderUI(slider,
-				new Color[] { Color.red, Color.white, Color.orange, Color.white, Color.blue }, new int[] { 1, 5, 9, 22, 23 }));
+				new Color[] { Color.red, Color.white, Color.orange, Color.white, Color.blue }, new String[] { "1", "5", "9", "22", "23" }));
 
 		slider.setSnapToTicks(true);
 		slider.setPaintTicks(true);
@@ -78,7 +78,7 @@ public class DisplayColorSliderUI extends BasicSliderUI {
 	 * @param labels
 	 *            The labels (Display descriptions, presumably) for the individual elements in the JSlider
 	 */
-	public DisplayColorSliderUI(final JSlider slider, final Color[] c, final int[] labels) {
+	public DisplayColorSliderUI(final JSlider slider, final Color[] c, final String[] labels) {
 		super(slider);
 		assert (c != null);
 		colors = c;

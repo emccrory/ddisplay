@@ -63,10 +63,10 @@ public class DisplayButtons extends JPanel {
 			setToolTipText("initializing...");
 
 			Color[] colorArray = new Color[displayList.size()];
-			int[] labels = new int[displayList.size()];
+			String[] labels = new String[displayList.size()];
 			for (int i = 0; i < colorArray.length; i++) {
 				colorArray[i] = displayList.get(i).getPreferredHighlightColor();
-				labels[i] = displayList.get(i).getVirtualDisplayNumber();
+				labels[i] = displayList.get(i).getVirtualDisplayNumber() + " (" + displayList.get(i).getDBDisplayNumber() + ")";
 			}
 
 			BasicSliderUI sliderUI = new DisplayColorSliderUI(this, colorArray, labels);
@@ -74,10 +74,10 @@ public class DisplayButtons extends JPanel {
 
 			addChangeListener(new ChangeListener() {
 
-				public void stateChanged(ChangeEvent e) {
+				public void stateChanged(ChangeEvent e) {					
 					Display disp = displayList.get(getValue());
 					// FIXME The listener is part of the surrounding class--I don't like this
-					listener.actionPerformed(new ActionEvent(disp, getValue(), disp.toString(), System.currentTimeMillis(),
+					listener.actionPerformed(new ActionEvent(disp, getValue(), getDisplayID(disp), System.currentTimeMillis(),
 							java.awt.event.MouseEvent.BUTTON1_MASK | java.awt.event.MouseEvent.BUTTON1_DOWN_MASK));
 				}
 			});
@@ -109,7 +109,7 @@ public class DisplayButtons extends JPanel {
 	// private static List<Display> displayList;
 	static final int				INSET_SIZE				= 5;
 	static final float				LOCAL_FONT_SIZE			= 40.0f;
-	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 30;
+	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 20;
 	private static final long		serialVersionUID		= 4096502469001848381L;
 	protected static final Color	sliderBG				= new Color(0xe0e0e0);
 	static final float				WINDOW_FONT_SIZE		= 12.0f;
@@ -124,18 +124,20 @@ public class DisplayButtons extends JPanel {
 		if (buttonList.size() == 0)
 			return;
 		int index = 0;
-		for (Display d : displayList) {
-			if (d == disp) {
-				String toolTip = "<html><b>Display:</b> " + disp.getVirtualDisplayNumber();
-				toolTip += " (index=" + disp.getDBDisplayNumber() + ", num=" + disp.getVirtualDisplayNumber() + ")";
-				toolTip += " -- " + disp.getDescription();
-				toolTip += "<br /><b>Last status update:</b> " + shortDate();
-				toolTip += "<br />Press to select this display.";
-				toolTip += "</p></html>";
-				// button.setToolTipText(toolTip);
-				buttonList.get(index).setToolTipText(toolTip);
+		synchronized (displayList) {
+			for (Display d : displayList) {
+				if (d == disp) {
+					String toolTip = "<html><b>Display:</b> " + disp.getVirtualDisplayNumber();
+					toolTip += " (index=" + disp.getDBDisplayNumber() + ", num=" + disp.getVirtualDisplayNumber() + ")";
+					toolTip += " -- " + disp.getDescription();
+					toolTip += "<br /><b>Last status update:</b> " + shortDate();
+					toolTip += "<br />Press to select this display.";
+					toolTip += "</p></html>";
+					// button.setToolTipText(toolTip);
+					buttonList.get(index).setToolTipText(toolTip);
+				}
+				index++;
 			}
-			index++;
 		}
 	}
 
@@ -182,49 +184,52 @@ public class DisplayButtons extends JPanel {
 		// if (rigidHeight <= 0)
 		// rigidHeight = 1;
 		buttonBox.add(Box.createVerticalGlue());
-		for (int i = 0; i < displayList.size(); i++) {
-			final Display disp = displayList.get(i);
-			final DDButton button = new DDButton(disp);
-			buttonList.add(button);
+		synchronized (buttonList) {
+			for (int i = 0; i < displayList.size(); i++) {
+				final Display disp = displayList.get(i);
+				final DDButton button = new DDButton(disp);
+				buttonList.add(button);
 
-			button.setFont(button.getFont().deriveFont(fs));
-			// if (!SHOW_IN_WINDOW)
-			// button.setMargin(new Insets(INSET_SIZE, INSET_SIZE, INSET_SIZE, INSET_SIZE));
-			button.setSelected(i == 0);
-			bg.add(button);
+				button.setFont(button.getFont().deriveFont(fs));
+				// if (!SHOW_IN_WINDOW)
+				// button.setMargin(new Insets(INSET_SIZE, INSET_SIZE, INSET_SIZE, INSET_SIZE));
+				button.setSelected(i == 0);
+				bg.add(button);
 
-			final int fi = i;
-			button.addActionListener(new ActionListener() {
+				final int fi = i;
+				button.addActionListener(new ActionListener() {
 
-				public void actionPerformed(ActionEvent e) {
-					// AbstractButton b = (AbstractButton) e.getSource();
-					listener.actionPerformed(new ActionEvent(disp, fi, getDisplayID(disp), e.getWhen(), e.getModifiers()));
+					public void actionPerformed(ActionEvent e) {
+						// AbstractButton b = (AbstractButton) e.getSource();
+						listener.actionPerformed(new ActionEvent(disp, fi, getDisplayID(disp), e.getWhen(), e.getModifiers()));
 
-					// Gets updated when the button is clicked
-					setToolTip(disp);
-				}
-			});
+						// Gets updated when the button is clicked
+						setToolTip(disp);
+					}
+				});
 
-			JPanel p = new JPanel(new BorderLayout());
-			p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(0xcccccc)),
-					BorderFactory.createLineBorder(disp.getPreferredHighlightColor(), 2)));
-			p.add(button, BorderLayout.CENTER);
-			buttonBox.add(p);
-		}
-		if (displayList.size() > 1) {
-			setOpaque(true);
-			setBackground(Color.black);
+				JPanel p = new JPanel(new BorderLayout());
+				p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(0xcccccc)),
+						BorderFactory.createLineBorder(disp.getPreferredHighlightColor(), 2)));
+				p.add(button, BorderLayout.CENTER);
+				buttonBox.add(p);
+			}
 
-			JPanel outerPanel = new JPanel(new BorderLayout());
-			outerPanel.setOpaque(true);
-			outerPanel.setBackground(Color.black);
+			if (displayList.size() > 1) {
+				setOpaque(true);
+				setBackground(Color.black);
 
-			int blackBand = (SHOW_IN_WINDOW ? 2 : 20);
-			outerPanel.add(Box.createRigidArea(new Dimension(blackBand, blackBand)), BorderLayout.WEST);
-			outerPanel.add(buttonBox, BorderLayout.CENTER);
-			outerPanel.add(Box.createRigidArea(new Dimension(blackBand, blackBand)), BorderLayout.EAST);
+				JPanel outerPanel = new JPanel(new BorderLayout());
+				outerPanel.setOpaque(true);
+				outerPanel.setBackground(Color.black);
 
-			add(outerPanel, BorderLayout.CENTER);
+				int blackBand = (SHOW_IN_WINDOW ? 2 : 20);
+				outerPanel.add(Box.createRigidArea(new Dimension(blackBand, blackBand)), BorderLayout.WEST);
+				outerPanel.add(buttonBox, BorderLayout.CENTER);
+				outerPanel.add(Box.createRigidArea(new Dimension(blackBand, blackBand)), BorderLayout.EAST);
+
+				add(outerPanel, BorderLayout.CENTER);
+			}
 		}
 	}
 
@@ -263,15 +268,24 @@ public class DisplayButtons extends JPanel {
 	 *            Is this Display alive?
 	 */
 	public void setIsAlive(final int displayNum, final boolean alive) {
+		if (buttonList == null | buttonList.size() == 0)
+			return;
+
 		new Thread("SetAliveDisplay" + displayNum) {
 			public void run() {
 				catchSleep(100);
 				int index = 0;
-				for (Display d : displayList) {
-					if (d.getDBDisplayNumber() == displayNum) {
-						buttonList.get(index).setEnabled(alive);
+				synchronized (buttonList) {
+					for (Display d : displayList) {
+						if (d.getDBDisplayNumber() == displayNum) {
+							if (buttonList.size() > index)
+								buttonList.get(index).setEnabled(alive);
+							else
+								System.err.println(DisplayButtons.class.getSimpleName() + " -- DisplayNum=" + displayNum
+										+ ", index=" + index + ", but size of buttonList is only " + buttonList.size());
+						}
+						index++;
 					}
-					index++;
 				}
 			}
 		}.start();
