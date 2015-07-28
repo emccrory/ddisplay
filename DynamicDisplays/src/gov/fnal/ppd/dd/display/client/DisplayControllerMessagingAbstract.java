@@ -63,27 +63,29 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	protected MessagingClient		messagingClient;
 	private String					myName;
 	private int						statusUpdatePeriod		= 10;
+	protected boolean				showNumber				= true;
 
 	// Use messaging to get change requests from the changers -->
 	// private boolean actAsServerNoMessages = true;
 
 	/**
-	 * @param portNumber
 	 * @param ipName
 	 * @param vNumber
 	 * @param dbNumber
 	 * @param screenNumber
+	 * @param showNumber
 	 * @param location
 	 * @param color
 	 * @param type
 	 */
 	public DisplayControllerMessagingAbstract(final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
-			final int portNumber, final String location, final Color color, final SignageType type) {
+			final boolean showNumber, final String location, final Color color, final SignageType type) {
 		super(ipName, vNumber, dbNumber, screenNumber, location, color, type);
 
 		if (getContent() == null)
 			throw new IllegalArgumentException("No content defined!");
 
+		this.showNumber = showNumber;
 		myName = ipName + ":" + screenNumber + " (" + getVirtualDisplayNumber() + ")";
 		messagingClient = new MessagingClientLocal(getMessagingServerName(), MESSAGING_SERVER_PORT, myName);
 		// , getVirtualDisplayNumber(), getScreenNumber());
@@ -281,8 +283,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
 								Color color = new Color(Integer.parseInt(colorString, 16));
 
-								// int portNumber = rs.getInt("Port");
-								int portNumber = 0; // NOT USED like this. The "Port number" has become the LocationCode
+								boolean showNumber = rs.getInt("Port") == 0;
 								int screenNumber = rs.getInt("ScreenNumber");
 								int channelNumber = rs.getInt("Content");
 								SignageContent cont = getChannelFromNumber(channelNumber);
@@ -294,10 +295,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 								Constructor<?> cons;
 								try {
-									cons = clazz.getConstructor(String.class, int.class, int.class, int.class, int.class,
+									cons = clazz.getConstructor(String.class, int.class, int.class, int.class, boolean.class,
 											String.class, Color.class, SignageType.class);
 									d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] { myName, vNumber,
-											dbNumber, screenNumber, portNumber, location, color, type });
+											dbNumber, screenNumber, showNumber, location, color, type });
 									d.setContentBypass(cont);
 									d.initiate();
 									// return d;
@@ -305,8 +306,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 										| InstantiationException | IllegalArgumentException | InvocationTargetException e) {
 									e.printStackTrace();
 									System.err.println("Here are the arguments: " + myName + ", " + vNumber + ", " + dbNumber
-											+ ", " + screenNumber + ", " + portNumber + ", " + location + ", " + color + ", "
-											+ type);
+											+ ", " + screenNumber + ", " + (showNumber ? "ShowNum" : "HideNum") + ", " + location
+											+ ", " + color + ", " + type);
 								}
 								// Allow it to loop over multiple displays
 								// return null;

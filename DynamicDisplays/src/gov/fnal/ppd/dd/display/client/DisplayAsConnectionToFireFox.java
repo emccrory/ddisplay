@@ -45,7 +45,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	private Thread						revertThread		= null;
 
 	/**
-	 * @param portNumber
+	 * @param showNumber
 	 * @param ipName
 	 * @param vNumber
 	 * @param dbNumber
@@ -55,8 +55,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 * @param type
 	 */
 	public DisplayAsConnectionToFireFox(final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
-			final int portNumber, final String location, final Color color, final SignageType type) {
-		super(ipName, vNumber, dbNumber, screenNumber, portNumber, location, color, type);
+			final boolean showNumber, final String location, final Color color, final SignageType type) {
+		super(ipName, vNumber, dbNumber, screenNumber, showNumber, location, color, type);
 
 		if (getContent() == null)
 			throw new IllegalArgumentException("No content defined!");
@@ -73,10 +73,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		new Thread() {
 			public void run() {
-				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number=" + getVirtualDisplayNumber());
+				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number=" + getVirtualDisplayNumber()
+						+ " (" + getDBDisplayNumber() + ") " + (showNumber ? "Showing display num" : "Hiding display num"));
 				catchSleep(2000); // Wait a bit before trying to contact the instance of FireFox.
 				firefox = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
-						highlightColor);
+						highlightColor, showNumber);
 				lastFullRestTime = System.currentTimeMillis();
 				catchSleep(500); // Wait a bit more before trying to tell it to go to a specific page
 				localSetContent();
@@ -225,7 +226,6 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				 * Update 7/9/15: It looks like there are can be several of these threads run at once, and when they all expire,
 				 * something bad seems to happen. New code added to only let one of these thread be created (and it can be "renewed"
 				 * if necessary, before it expires).
-				 * 
 				 */
 
 				@Override

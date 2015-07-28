@@ -57,6 +57,7 @@ public class ConnectionToFirefoxInstance {
 	private String									colorCode;
 	private AtomicBoolean							showingCanonicalSite			= new AtomicBoolean(false);
 	private Rectangle								bounds;
+	private boolean									showNumber						= true;
 
 	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
 
@@ -117,9 +118,12 @@ public class ConnectionToFirefoxInstance {
 	 * @param virtualID
 	 * @param dbID
 	 * @param color
+	 * @param showNumber
+	 *            Should the display number be shown on the screen?
 	 * 
 	 */
-	public ConnectionToFirefoxInstance(final int screenNumber, final int virtualID, final int dbID, final Color color) {
+	public ConnectionToFirefoxInstance(final int screenNumber, final int virtualID, final int dbID, final Color color,
+			final boolean showNumber) {
 		// Create a connection to the instance of FireFox that is being targeted here
 
 		bounds = ScreenLayoutInterpreter.getBounds(screenNumber);
@@ -128,6 +132,7 @@ public class ConnectionToFirefoxInstance {
 
 		this.virtualID = virtualID;
 		this.dbID = dbID;
+		this.showNumber = showNumber;
 		numberOfScreens++;
 
 		port = PORT + screenNumber;
@@ -213,7 +218,7 @@ public class ConnectionToFirefoxInstance {
 					s = "window.location=\"" + BASE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
-					if (isNumberDiscrete())
+					if (isNumberHidden())
 						s += "&shownumber=0";
 					s += "\";\n";
 				}
@@ -226,7 +231,7 @@ public class ConnectionToFirefoxInstance {
 					s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
-					if (isNumberDiscrete())
+					if (isNumberHidden())
 						s += "&shownumber=0";
 					s += "\";\n";
 				}
@@ -240,7 +245,7 @@ public class ConnectionToFirefoxInstance {
 							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
 							+ bounds.height;
 
-					if (isNumberDiscrete())
+					if (isNumberHidden())
 						s += "&shownumber=0";
 					s += "\";\n";
 				}
@@ -253,7 +258,7 @@ public class ConnectionToFirefoxInstance {
 					s = "window.location=\"" + EXTRAFRAME_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
-					if (isNumberDiscrete())
+					if (isNumberHidden())
 						s += "&shownumber=0";
 					s += "\";\n";
 				}
@@ -267,7 +272,7 @@ public class ConnectionToFirefoxInstance {
 							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
 							+ bounds.height;
 
-					if (isNumberDiscrete())
+					if (isNumberHidden())
 						s += "&shownumber=0";
 					s += "\";\n";
 				}
@@ -281,7 +286,7 @@ public class ConnectionToFirefoxInstance {
 							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
 							+ bounds.height;
 
-					if (isNumberDiscrete())
+					if (isNumberHidden())
 						s += "&shownumber=0";
 					s += "\";\n";
 				}
@@ -334,10 +339,9 @@ public class ConnectionToFirefoxInstance {
 		// return true;
 	}
 
-	private boolean isNumberDiscrete() {
-		// TODO Put this information into the database
-		// 7/8/15: I think maybe it is already?
-		return (dbID == 13 || dbID == 14 || dbID == 15 || dbID == 16);
+	private boolean isNumberHidden() {
+		return !showNumber;
+		// return (dbID == 13 || dbID == 14 || dbID == 15 || dbID == 16);
 	}
 
 	/**
@@ -387,7 +391,7 @@ public class ConnectionToFirefoxInstance {
 	 * Remove the self-identify dressings on the Display
 	 */
 	public void removeIdentify() {
-		String s = "document.getElementById('numeral').style.opacity=" + (isNumberDiscrete() ? "0.0" : "0.4") + ";\n";
+		String s = "document.getElementById('numeral').style.opacity=" + (isNumberHidden() ? "0.0" : "0.4") + ";\n";
 		s += "document.getElementById('numeral').style.font='bold 120px sans-serif';\n";
 		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'padding:0; margin: 0;');\n";
 		s += "document.getElementById('numeral').style.textShadow='0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 6px 6px 2px #"
