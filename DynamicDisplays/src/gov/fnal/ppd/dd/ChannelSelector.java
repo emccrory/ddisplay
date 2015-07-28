@@ -91,6 +91,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private static final long				serialVersionUID			= 5044030472140151291L;
 
 	/**
+	 * Soes this instance (of the Channel selector) need to show the docent tab?
+	 */
+	public static boolean					SHOW_DOCENT_TAB				= false;
+
+	/**
 	 * 
 	 */
 	public static final Dimension			screenDimension				= Toolkit.getDefaultToolkit().getScreenSize();
@@ -244,11 +249,13 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			display.addListener(grid);
 			displayTabPane.add(grid, " Images ");
 
-			grid = new DocentGrid(display, bg, "Default");
-			grid.makeGrid(ChannelCategory.IMAGE);
-			allGrids.add(grid);
-			display.addListener(grid);
-			displayTabPane.add(grid, " Docent ");
+			if (SHOW_DOCENT_TAB) {
+				grid = new DocentGrid(display, bg, "Default");
+				grid.makeGrid(ChannelCategory.IMAGE);
+				allGrids.add(grid);
+				display.addListener(grid);
+				displayTabPane.add(grid, " Docent ");
+			}
 
 			final JPanel inner = new JPanel(new BorderLayout());
 			int wid1 = 6;
@@ -275,7 +282,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					display.setContent(channelListHelper.lister.getChannelList());
 				}
 			};
-			
+
 			displayTabPane.add(CreateListOfChannels.getContainer(channelListHelper, listener), " Lists ");
 
 			if (SHOW_IN_WINDOW) {

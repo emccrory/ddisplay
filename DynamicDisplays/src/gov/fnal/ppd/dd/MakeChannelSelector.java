@@ -5,6 +5,7 @@
  */
 package gov.fnal.ppd.dd;
 
+import static gov.fnal.ppd.dd.ChannelSelector.SHOW_DOCENT_TAB;
 import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
@@ -124,6 +125,9 @@ public class MakeChannelSelector {
 								int lc = rs2.getInt("LocationCode");
 								addLocationCode(lc);
 								System.out.println("Location code is " + lc);
+								
+								SHOW_DOCENT_TAB = rs2.getBoolean("DocentTab");
+								
 								myClassification = ConnectionToDynamicDisplaysDatabase.makeString(rs2.getAsciiStream("Type"));
 
 								IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
