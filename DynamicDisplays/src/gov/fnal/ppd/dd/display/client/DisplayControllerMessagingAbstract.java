@@ -10,6 +10,7 @@ import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.chat.MessageType;
@@ -25,15 +26,17 @@ import java.awt.event.ActionEvent;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
-import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -344,17 +347,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] {
 					"Failsafe Display", 99, 0, 0, "Failsafe location", Color.red, SignageType.XOC });
 			d.initiate();
-			d.setDefaultContent(makeEmptyChannel(null).getURI().toURL().toString());
+			d.setContentBypass(makeEmptyChannel(null));
+
+			// TODO -- Change this default content to be able to handle a default LIST of channels.
 			return d;
 		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
-				| IllegalArgumentException | InvocationTargetException | MalformedURLException e) {
+				| IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	private void setDefaultContent(String url) {
-		setContentBypass((Channel) makeEmptyChannel(url));
 	}
 
 	/**
@@ -364,11 +365,71 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 */
 	public static SignageContent getChannelFromNumber(int channelNumber) {
 		Channel retval = null;
-		if (channelNumber >= 100)
-			channelNumber = 1;
-		while ((retval == null || retval.getURI() == null) && channelNumber < 100) {
+		try {
+			retval = new ChannelImpl("Fermilab", ChannelCategory.PUBLIC, "Fermilab", new URI("http://www.fnal.gov"), 0, 360000L);
+		} catch (URISyntaxException e2) {
+			e2.printStackTrace();
+		}
+		;
+
+		if (channelNumber == 0) {
+			return retval;
+		} else if (channelNumber < 0) {
+			// This is a list of channels
+
+			// FIXME -- This does NOT work because the management of traversing a channel list resides in the chat client
+			// that receives the channel list. Either we have to give this list to the chat client (not sure how THAT would work)
+			// or implement the traversing of the channel list lower down (which is a suggestion that can be seen elsewhere
+			// in the code, DCProtocol.informListenersForever()).
+
+			String query = "select Channel.Number as Number,Dwell,Name,Description,URL from Channel,ChannelList where ListNumber="
+					+ (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
+
+			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
+			Connection connection;
+			try {
+				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			} catch (DatabaseNotVisibleException e1) {
+				e1.printStackTrace();
+				return null;
+			}
+
+			List<SignageContent> channelList = new ArrayList<SignageContent>();
+
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement();) {
+					try (ResultSet rs = stmt.executeQuery(query);) {
+						if (!rs.first()) {
+							return retval;
+						}
+						do {
+							int chanNum = rs.getInt("Number");
+							int dwell = rs.getInt("Dwell");
+							String name = rs.getString("Name");
+							String desc = rs.getString("Description");
+							String url = rs.getString("URL");
+
+							Channel c = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), chanNum, dwell);
+							channelList.add(c);
+
+						} while (rs.next());
+
+						retval = new ChannelPlayList(channelList, 60000L);
+						stmt.close();
+						rs.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} catch (SQLException ex) {
+					System.err.println("It is likely that the DB server is down.  We'll try again later.");
+					ex.printStackTrace();
+				}
+			}
+		} else {
+			// Channel number is positive!
+			// String query = "SELECT * from ChannelList where ListNumber=" + (-channelNumber) + " ORDER BY SequenceNumber";
 			String query = "SELECT * from Channel where Number=" + channelNumber;
-			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel: [" + query + "]");
+			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
 			Connection connection;
 			try {
 				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
@@ -399,14 +460,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					ex.printStackTrace();
 				}
 			}
-			++channelNumber;
 		}
 
-		// If retval is null here, we're screwed!!
-		if (retval == null) {
-			println(DisplayControllerMessagingAbstract.class,
-					" -- NO IDEA WHAT IS GOING ON HERE!  Cannot find a single default channel!");
-		}
 		return retval;
 	}
 
