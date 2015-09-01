@@ -23,22 +23,23 @@ log=../../log/display_${d}_$$.log
 # Do not begin until we can ping the database server
 
 dbs=`echo $databaseServer | sed 's/:/ /g' | awk '{ print $1 }'`
-C=0
+sleepTime=5
 {
-    while [ $C -lt 30 ]; do
+    while :
+    do
+    # Forever loop. The DB server HAS TO appear eventually!
 	if ping -c 1 $dbs 
 	then
 	    break
 	else
-	    echo Waiting for DB server $dbs to be visible
-	    sleep 5;
+	    echo `date` Waiting for DB server $dbs to be visible $sleepTime
+	    sleep $sleepTime;
 	fi
-	let C=C+1;
+	let sleepTime=sleepTime+1;
+	if [ $sleepTime -gt 300 ]; then
+	    sleepTime=300;
+	fi
     done
-    if [ $C -ge 30 ]; then
-	echo Database server is not reachable.  Goodbye.
-	exit
-    fi
 } >> $log 2>&1
 
 MyName=`uname -n`
@@ -73,7 +74,7 @@ fi
 
 
     /bin/date
-    # Is this node the messaging server??
+    # Am I the messaging server??
     if [ $messagingServer = $MyName ]; then
 	if java -Dddisplay.messagingserver=$messagingServer \
                 -Xmx512m gov.fnal.ppd.dd.chat.MessagingServerTest; then
