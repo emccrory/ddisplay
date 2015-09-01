@@ -27,6 +27,8 @@ import javax.swing.JPanel;
 /**
  * Helper class for adding a new URL, temporarily, to the system.
  * 
+ * THIS IS NOT ACTUALLY ALLOWED ANY MORE
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
