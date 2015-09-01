@@ -3,10 +3,12 @@ package gov.fnal.ppd.dd.display.client;
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;
 import static gov.fnal.ppd.dd.GlobalVariables.DEFAULT_DWELL_TIME;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.display.client.BrowserLauncher.BrowserInstance;
 import gov.fnal.ppd.dd.display.client.ConnectionToFirefoxInstance.WrapperType;
+import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.awt.Color;
@@ -43,6 +45,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	protected long						lastFullRestTime;
 	protected long						revertTimeRemaining	= 0L;
 	private Thread						revertThread		= null;
+
+	private ListOfValidChannels			listOfValidURLs		= new ListOfValidChannels();
 
 	/**
 	 * @param showNumber
@@ -292,12 +296,18 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	public void setUseWrapper(final WrapperType useWrapper) {
 		this.defaultWrapperType = useWrapper;
 	}
+	
+	protected boolean isVerifiedChannel(SignageContent c) {
+		return listOfValidURLs.contains(c);
+	}
 
 	/**
 	 * @param args
 	 *            Expect one command line argument
 	 */
 	public static void main(final String[] args) {
+		credentialsSetup();
+
 		getMessagingServerNameDisplay();
 
 		try {
