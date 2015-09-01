@@ -92,7 +92,7 @@ public abstract class DisplayImpl implements Display {
 
 	@Override
 	public SignageContent setContent(SignageContent c) {
-		if (getCategory().isVisible(c)) {
+		if (getCategory().isVisible(c) && isVerifiedChannel(c)) {
 			previousChannel = channel;
 			if (c == null)
 				channel = makeEmptyChannel(null);
@@ -124,6 +124,15 @@ public abstract class DisplayImpl implements Display {
 
 		error("Content type of this Channel (" + c.getType() + ") is not appropriate for this Display (" + getCategory() + ")");
 		return channel;
+	}
+
+	/**
+	 * Override if this is something you need to check
+	 * @param c
+	 * @return
+	 */
+	protected boolean isVerifiedChannel(SignageContent c) {
+		return true;
 	}
 
 	/**
