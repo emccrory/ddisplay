@@ -99,7 +99,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		int count = 0;
 		try {
 			rs = stmt.executeQuery("SELECT Channel.Number as Number,Name,Description,URL,Category,Type,DwellTime "
-					+ "FROM Channel LEFT JOIN ChannelTabSort ON (Channel.Number=ChannelTabSort.Number)");
+					+ "FROM Channel LEFT JOIN ChannelTabSort ON (Channel.Number=ChannelTabSort.Number) WHERE Approval=1");
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
