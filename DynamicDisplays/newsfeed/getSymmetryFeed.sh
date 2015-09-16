@@ -19,7 +19,7 @@
   
   /usr/bin/wget -o $logNewsFile -O tempN $newsURL # 2>/dev/null
   
-  /bin/sed 's/>/>\n/g' tempN | sed 's-<br/>--g' | sed 's/dc://g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | sed 's/&lt;img .*&gt;//g' > $xmlNewsFile
+  /bin/sed 's/>/>\n/g' tempN | sed 's-<br/>--g' | sed 's/ \& / /g' | sed 's/dc://g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | sed 's/&lt;img .*&gt;//g' > $xmlNewsFile
   
   /usr/bin/java gov.fnal.ppd.dd.xml.news.Channel $xmlNewsFile 10 | head -n 15 | sed 's/null//g' | sed 's/--//g' | sed 's/  //g' > symmetry.txt
   
