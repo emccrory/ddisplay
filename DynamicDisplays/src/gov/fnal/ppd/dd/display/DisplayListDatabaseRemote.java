@@ -78,7 +78,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 		// Use ARM to simplify this try block
 		List<Integer> dID = new ArrayList<Integer>();
 		try (Statement stmt = getConnection().createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT DisplaySort.LocationCode as LocationCode," +
+				ResultSet rs = stmt.executeQuery("SELECT DisplaySort.LocationCode as LocationCode,Display.LocationCode as TickerCode" +
 						"Display.DisplayID as DisplayID,VirtualDisplayNumber,ScreenNumber,Location,IPName,ColorCode,Type " +
 						"FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;");) {
 			rs.first(); // Move to first returned row
@@ -121,13 +121,15 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 		int count = 0;
 		// Use ARM to simplify this try block
 		try (Statement stmt = getConnection().createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM Display LEFT JOIN DisplaySort "
-						+ "ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;");) {
+				ResultSet rs = stmt.executeQuery(
+						"SELECT Location,IPName,Display.DisplayID as DisplayID,VirtualDisplayNumber,DisplaySort.LocationCode as LocationCode," +
+						"ScreenNumber,ColorCode,Type FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) " +
+						"ORDER BY VirtualDisplayNumber");) {
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
 					String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
-					String ipName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPname"));
+					String ipName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
 					int locCode = rs.getInt("LocationCode");
 					int displayID = rs.getInt("DisplayID");
 					int vDisplayNum = rs.getInt("VirtualDisplayNumber");

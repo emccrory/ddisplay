@@ -38,8 +38,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 	private ConnectionToFirefoxInstance	firefox;
 	private boolean						showingSelfIdentify	= false;
-	private WrapperType					defaultWrapperType	= WrapperType.valueOf(System.getProperty("ddisplay.wrappertype",
-																	"NORMAL"));
+	// private WrapperType defaultWrapperType = WrapperType.valueOf(System.getProperty("ddisplay.wrappertype",
+	// "NORMAL"));
 
 	private int							changeCount;
 	protected long						lastFullRestTime;
@@ -47,6 +47,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	private Thread						revertThread		= null;
 
 	private ListOfValidChannels			listOfValidURLs		= new ListOfValidChannels();
+	private WrapperType					wrapperType;
 
 	/**
 	 * @param showNumber
@@ -132,7 +133,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						revertToThisChannel = null;
 						revertTimeRemaining = 0;
 					}
-					if (firefox.changeURL(url, defaultWrapperType, frameNumber)) {
+					if (firefox.changeURL(url, wrapperType, frameNumber)) {
 						lastChannel = getContent();
 						showingSelfIdentify = false;
 					} else {
@@ -187,7 +188,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 								synchronized (firefox) {
 									println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reloading web page " + url);
 									try {
-										if (!firefox.changeURL(url, defaultWrapperType, frameNumber)) {
+										if (!firefox.changeURL(url, wrapperType, frameNumber)) {
 											println(DisplayAsConnectionToFireFox.class,
 													".localSetContent(): Failed to REFRESH content");
 											firefox.resetURL();
@@ -248,7 +249,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						synchronized (firefox) {
 							println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reverting to web page " + revertURL);
 							try {
-								if (!firefox.changeURL(revertURL, defaultWrapperType, 0)) {
+								if (!firefox.changeURL(revertURL, wrapperType, 0)) {
 									println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): Failed to REVERT content");
 									firefox.resetURL();
 									continue; // TODO -- Figure out what to do here. For now, just try again later
@@ -285,18 +286,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 * @return will the next URL request go through the normal wrapper page?
 	 */
 	public boolean isUsingWrapper() {
-		return defaultWrapperType != WrapperType.NONE;
+		return wrapperType != WrapperType.NONE;
 	}
 
-	/**
-	 * @param useWrapper
-	 *            Do you want to use the standard URL wrapper page? Be very careful if you set this to false; not tested at this
-	 *            time (12/2014)
-	 */
-	public void setUseWrapper(final WrapperType useWrapper) {
-		this.defaultWrapperType = useWrapper;
-	}
-	
 	protected boolean isVerifiedChannel(SignageContent c) {
 		return listOfValidURLs.contains(c);
 	}
@@ -317,5 +309,10 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	protected void setWrapperType(WrapperType wrapperType) {
+		this.wrapperType = wrapperType;
 	}
 }

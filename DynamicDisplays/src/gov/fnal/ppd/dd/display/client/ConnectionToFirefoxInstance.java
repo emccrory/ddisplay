@@ -108,7 +108,47 @@ public class ConnectionToFirefoxInstance {
 		/**
 		 * Show naked web pages without the border (untested)
 		 */
-		NONE
+		NONE;
+
+		public static WrapperType getWrapperType(int val) {
+			switch (val) {
+			case 0:
+				 return NORMAL;
+			case 1:
+				 return TICKER;
+			case 2:
+				 return TICKERANDFRAME;
+			case 3:
+				 return FRAMESNOTICKER;
+			case 4:
+				 return FRAMENOTICKER;
+			case 5:
+				 return FERMITICKER;
+			default:
+				return NONE;
+			}
+		}
+		
+		public boolean equals(int val) {
+			switch (val) {
+			case 0:
+				return this==NORMAL;
+			case 1:
+				return this==TICKER;
+			case 2:
+				return this==TICKERANDFRAME;
+			case 3:
+				return this==FRAMESNOTICKER;
+			case 4:
+				return this==FRAMENOTICKER;
+			case 5:
+				return this==FERMITICKER;
+			case 6:
+				return this==NONE;
+			default:
+				return false;
+			}
+		}
 	};
 
 	/**
@@ -581,5 +621,4 @@ public class ConnectionToFirefoxInstance {
 	public void resetURL() {
 		showingCanonicalSite.set(false);
 	}
-
 }

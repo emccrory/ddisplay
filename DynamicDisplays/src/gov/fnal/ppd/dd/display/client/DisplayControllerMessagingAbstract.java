@@ -16,6 +16,7 @@ import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.chat.MessageType;
 import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.display.DisplayImpl;
+import gov.fnal.ppd.dd.display.client.ConnectionToFirefoxInstance.WrapperType;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -231,7 +232,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		DisplayControllerMessagingAbstract d = null;
 		String myNode = "localhost";
 		try {
-			myNode = InetAddress.getLocalHost().getCanonicalHostName();
+			myNode = InetAddress.getLocalHost().getCanonicalHostName().replace(".dhcp.", ".");
 		} catch (UnknownHostException e2) {
 			e2.printStackTrace();
 		}
@@ -280,6 +281,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								System.out.println("The node name of this display (no. " + vNumber + "/" + dbNumber + ") is '"
 										+ myNode + "'");
 
+								int tickerCode = rs.getInt("LocationCode");
 								String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
 								SignageType type = SignageType.valueOf(t);
 								String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
@@ -303,6 +305,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 									d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] { myName, vNumber,
 											dbNumber, screenNumber, showNumber, location, color, type });
 									d.setContentBypass(cont);
+									d.setWrapperType(WrapperType.getWrapperType(tickerCode));
 									d.initiate();
 									// return d;
 								} catch (NoSuchMethodException | SecurityException | IllegalAccessException
@@ -338,6 +341,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 		return d;
 	}
+
+	protected abstract void setWrapperType(WrapperType wrapperType);
 
 	private static DisplayControllerMessagingAbstract failSafeVersion(Class<?> clazz) {
 		Constructor<?> cons;
