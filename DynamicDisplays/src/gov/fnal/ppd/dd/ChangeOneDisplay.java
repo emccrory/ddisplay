@@ -15,7 +15,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
+import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
@@ -52,6 +54,10 @@ public class ChangeOneDisplay {
 			System.err.println("Usage: java " + ChangeOneDisplay.class.getCanonicalName() + " <displayID> <channelNumber>");
 			return;
 		}
+
+		credentialsSetup();
+
+		selectorSetup();
 
 		int targetDisplayNumber = Integer.parseInt(args[0]);
 		Display display = getControllableDisplay(targetDisplayNumber);
