@@ -4,6 +4,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -423,6 +424,7 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 	 * @param args
 	 */
 	public static void main(final String[] args) {
+		credentialsSetup();
 
 		MakeChannelSelector.selectorSetup();
 
