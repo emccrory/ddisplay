@@ -10,7 +10,6 @@ import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
 
-import java.io.Serializable;
 import java.net.URI;
 
 /**

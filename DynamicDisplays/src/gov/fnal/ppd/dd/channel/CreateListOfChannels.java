@@ -722,6 +722,9 @@ public class CreateListOfChannels extends JPanel {
 	/**
 	 * Get the pre-assembled GUI widgets for doing the list of channels.
 	 * 
+	 * @param h
+	 *            the helper object
+	 * 
 	 * @param listener
 	 *            the listener for when the "Accept this list" button get pressed. Leave this null, and it will exit when the button
 	 *            is pressed.

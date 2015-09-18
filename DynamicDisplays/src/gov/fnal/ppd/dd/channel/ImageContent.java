@@ -10,7 +10,6 @@ import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.awt.Image;
-import java.io.Serializable;
 import java.net.URI;
 import java.net.URL;
 
