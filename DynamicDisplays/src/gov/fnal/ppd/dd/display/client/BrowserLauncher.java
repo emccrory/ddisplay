@@ -106,7 +106,7 @@ public class BrowserLauncher {
 				return;
 
 			String geom = bounds.width + "x" + bounds.height + "+" + (int) bounds.getX() + "+" + (int) bounds.getY();
-			String moveTo = "window.moveTo(" + bounds.getX() + "," + bounds.getY() + ");";
+
 			try {
 				// extensions.remotecontrol.portNumber is the environment variable that gives the port number, I think (9/15/2014)
 				// I tried to set it (and several variations) using System.setProperty(), to no avail.
