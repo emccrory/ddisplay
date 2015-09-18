@@ -93,7 +93,10 @@ public class ListOfValidChannels extends HashSet<String> {
 		return r;
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
 		credentialsSetup();
 
 		ListOfValidChannels v = new ListOfValidChannels();

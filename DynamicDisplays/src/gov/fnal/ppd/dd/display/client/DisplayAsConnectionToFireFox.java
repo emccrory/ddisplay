@@ -7,7 +7,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.display.client.BrowserLauncher.BrowserInstance;
-import gov.fnal.ppd.dd.display.client.ConnectionToFirefoxInstance.WrapperType;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
 
@@ -78,8 +77,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		new Thread() {
 			public void run() {
-				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number=" + getVirtualDisplayNumber()
-						+ " (" + getDBDisplayNumber() + ") " + (showNumber ? "Showing display num" : "Hiding display num"));
+				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number="
+						+ getVirtualDisplayNumber() + " (" + getDBDisplayNumber() + ") "
+						+ (showNumber ? "Showing display num" : "Hiding display num"));
 				catchSleep(2000); // Wait a bit before trying to contact the instance of FireFox.
 				firefox = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
 						highlightColor, showNumber);
@@ -98,7 +98,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		final long expiration = getContent().getExpiration();
 
 		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
-		println(getClass(), ": Dwell time is " + dwellTime + ", expiration is " + expiration);
+		println(getClass(), firefox.getInstance() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
 
 		synchronized (firefox) {
 			if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
@@ -137,7 +137,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						lastChannel = getContent();
 						showingSelfIdentify = false;
 					} else {
-						System.err.println(getClass().getSimpleName() + ".localSetContent(): Failed to set content");
+						println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
 						return false;
 					}
 
@@ -148,7 +148,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 					updateMyStatus();
 				} catch (UnsupportedEncodingException e) {
-					System.err.println(getClass().getSimpleName() + ": Somthing is wrong with this URL: [" + url + "]");
+					System.err.println(getClass().getSimpleName() + ":" + firefox.getInstance() + " Somthing is wrong with this URL: [" + url + "]");
 					e.printStackTrace();
 					return false;
 				}
@@ -169,7 +169,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					public void run() {
 						catchSleep(dwellTime);
 						synchronized (firefox) {
-							println(DisplayAsConnectionToFireFox.class, ".localSetContent(): turning off the announcement frame");
+							println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
+									+ " turning off the announcement frame");
 							firefox.turnOffFrame(frameNumber);
 						}
 					}
@@ -186,7 +187,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 							}
 							if (changeCount == thisChangeCount) {
 								synchronized (firefox) {
-									println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reloading web page " + url);
+									println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
+											+ " Reloading web page " + url);
 									try {
 										if (!firefox.changeURL(url, wrapperType, frameNumber)) {
 											println(DisplayAsConnectionToFireFox.class,
@@ -199,8 +201,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 									}
 								}
 							} else {
-								println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Not necessary to refresh " + url
-										+ " because the channel was changed.  Bye!");
+								println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
+										+ " Not necessary to refresh " + url + " because the channel was changed.  Bye!");
 								return;
 							}
 						}
@@ -239,7 +241,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					while (true) {
 						for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
 							if (revertToThisChannel == null) {
-								println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): No longer necessary to revert.");
+								println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
+										+ " No longer necessary to revert.");
 								revertThread = null;
 								return;
 							}
@@ -247,14 +250,17 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						}
 						revertTimeRemaining = 0L;
 						synchronized (firefox) {
-							println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Reverting to web page " + revertURL);
+							println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
+									+ " Reverting to web page " + revertURL);
 							try {
 								if (!firefox.changeURL(revertURL, wrapperType, 0)) {
-									println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): Failed to REVERT content");
+									println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
+											+ " Failed to REVERT content");
 									firefox.resetURL();
 									continue; // TODO -- Figure out what to do here. For now, just try again later
 								}
-								println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): Reverted to original web page.");
+								println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
+										+ " Reverted to original web page.");
 								return;
 							} catch (UnsupportedEncodingException e) {
 								e.printStackTrace();

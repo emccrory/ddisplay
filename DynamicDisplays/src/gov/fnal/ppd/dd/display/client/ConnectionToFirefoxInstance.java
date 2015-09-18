@@ -66,90 +66,8 @@ public class ConnectionToFirefoxInstance {
 	private static final String						EXTRAFRAME_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border2.php";
 	private static final String						EXTRAFRAMESNOTICKER_WEB_PAGE	= "http://" + WEB_SERVER_NAME + "/border3.php";
 	private static final String						EXTRAFRAMENOTICKER_WEB_PAGE		= "http://" + WEB_SERVER_NAME + "/border4.php";
-	private static final String						FERMI_TICKERTAPE_WEB_PAGE		= "http://" + WEB_SERVER_NAME + "/border5.php";
 
-	/**
-	 * What type of "wrapper" shall we use to show our web pages?
-	 * 
-	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 * 
-	 */
-	public enum WrapperType {
-		/**
-		 * Use the normal border.php web page (with no ticker or extra frame)
-		 */
-		NORMAL,
-
-		/**
-		 * Use the border web page that includes the News Ticker
-		 */
-		TICKER,
-
-		/**
-		 * Use the border web page that includes the News Ticker AND one or more extra iFrames for announcements
-		 */
-		TICKERANDFRAME,
-
-		/**
-		 * There are multiple (4) frames but no ticker.
-		 */
-		FRAMESNOTICKER,
-
-		/**
-		 * There one extra frame but no ticker.
-		 */
-		FRAMENOTICKER,
-
-		/**
-		 * Show the "Fermilab News" ticker
-		 */
-		FERMITICKER,
-
-		/**
-		 * Show naked web pages without the border (untested)
-		 */
-		NONE;
-
-		public static WrapperType getWrapperType(int val) {
-			switch (val) {
-			case 0:
-				 return NORMAL;
-			case 1:
-				 return TICKER;
-			case 2:
-				 return TICKERANDFRAME;
-			case 3:
-				 return FRAMESNOTICKER;
-			case 4:
-				 return FRAMENOTICKER;
-			case 5:
-				 return FERMITICKER;
-			default:
-				return NONE;
-			}
-		}
-		
-		public boolean equals(int val) {
-			switch (val) {
-			case 0:
-				return this==NORMAL;
-			case 1:
-				return this==TICKER;
-			case 2:
-				return this==TICKERANDFRAME;
-			case 3:
-				return this==FRAMESNOTICKER;
-			case 4:
-				return this==FRAMENOTICKER;
-			case 5:
-				return this==FERMITICKER;
-			case 6:
-				return this==NONE;
-			default:
-				return false;
-			}
-		}
-	};
+	// private static final String FERMI_TICKERTAPE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border5.php";
 
 	/**
 	 * Create a connection to the instance of FireFox that is being targeted here
@@ -204,6 +122,9 @@ public class ConnectionToFirefoxInstance {
 		String moveTo = "window.moveTo(" + ((int) bounds.getX()) + "," + ((int) bounds.getY()) + ");";
 		send(moveTo);
 
+		String resizeTo = "window.resizeTo(" + ((int) bounds.getWidth()) + "," + ((int) bounds.getHeight()) + ");";
+		send(resizeTo);
+
 		// Perform a full reset of the browser every now and then.
 		Timer timer = new Timer();
 		TimerTask tt = new TimerTask() {
@@ -238,7 +159,7 @@ public class ConnectionToFirefoxInstance {
 	public boolean changeURL(final String urlString, final WrapperType theWrapper, final int frameNumber)
 			throws UnsupportedEncodingException {
 		if (debug)
-			println(getClass(), ":" + instance + " New URL: " + urlString);
+			println(getClass(), instance + " New URL: " + urlString);
 
 		String frameName = "iframe";
 		if (frameNumber > 0)
@@ -253,7 +174,7 @@ public class ConnectionToFirefoxInstance {
 
 			case NORMAL:
 				if (!showingCanonicalSite.get()) {
-					println(getClass(), " " + instance + "-- Sending full, new URL to browser, " + BASE_WEB_PAGE);
+					println(getClass(), instance + " Sending full, new URL to browser, " + BASE_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + BASE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
@@ -265,35 +186,36 @@ public class ConnectionToFirefoxInstance {
 				break;
 
 			case TICKER:
-				if (!showingCanonicalSite.get()) {
-					println(getClass(), " -- Sending full, new URL to browser" + instance + ", " + TICKERTAPE_WEB_PAGE);
-					showingCanonicalSite.set(true);
-					s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
-
-					if (isNumberHidden())
-						s += "&shownumber=0";
-					s += "\";\n";
-				}
-				break;
-
 			case FERMITICKER:
 				if (!showingCanonicalSite.get()) {
-					println(getClass(), " -- Sending full, new URL to browser" + instance + ", " + FERMI_TICKERTAPE_WEB_PAGE);
+					println(getClass(), instance + " Sending full, new URL to browser " + TICKERTAPE_WEB_PAGE);
 					showingCanonicalSite.set(true);
-					s = "window.location=\"" + FERMI_TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
-							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
-							+ bounds.height;
+					s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height + "&feed="
+							+ theWrapper.getTickerName();
 
 					if (isNumberHidden())
 						s += "&shownumber=0";
 					s += "\";\n";
 				}
 				break;
+
+			// if (!showingCanonicalSite.get()) {
+			// println(getClass(), instance + " Sending full, new URL to browser" + instance + ", " + FERMI_TICKERTAPE_WEB_PAGE);
+			// showingCanonicalSite.set(true);
+			// s = "window.location=\"" + FERMI_TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
+			// + "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
+			// + bounds.height;
+			//
+			// if (isNumberHidden())
+			// s += "&shownumber=0";
+			// s += "\";\n";
+			// }
+			// break;
 
 			case TICKERANDFRAME:
 				if (!showingCanonicalSite.get()) {
-					println(getClass(), " -- Sending full, new URL to browser" + instance + ", " + EXTRAFRAME_WEB_PAGE);
+					println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAME_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + EXTRAFRAME_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
@@ -306,7 +228,7 @@ public class ConnectionToFirefoxInstance {
 
 			case FRAMENOTICKER:
 				if (!showingCanonicalSite.get()) {
-					println(getClass(), " -- Sending full, new URL to browser" + instance + ", " + EXTRAFRAMENOTICKER_WEB_PAGE);
+					println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAMENOTICKER_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + EXTRAFRAMENOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
 							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
@@ -320,7 +242,7 @@ public class ConnectionToFirefoxInstance {
 
 			case FRAMESNOTICKER:
 				if (!showingCanonicalSite.get()) {
-					println(getClass(), " -- Sending full, new URL to browser" + instance + ", " + EXTRAFRAMESNOTICKER_WEB_PAGE);
+					println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAMESNOTICKER_WEB_PAGE);
 					showingCanonicalSite.set(true);
 					s = "window.location=\"" + EXTRAFRAMESNOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
 							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
@@ -334,13 +256,13 @@ public class ConnectionToFirefoxInstance {
 
 			case NONE:
 				s = "window.location=\"" + urlString + "\";\n";
-				println(getClass(), "Wrapper not used, new URL is " + urlString + instance);
+				println(getClass(), instance + " Wrapper not used, new URL is " + urlString + instance);
 				showingCanonicalSite.set(false);
 				break;
 			}
 
 			send(s);
-			println(getClass(), " " + instance + "-- Sent: [[" + s + "]]");
+			println(getClass(), instance + " Sent: [" + s + "]");
 
 			// I have tried to do this in a local file, in order to remove some load from the web server. But
 			// this has not worked for me. (10/2014) First, it seems that the "window.location" Javascript command
@@ -524,7 +446,7 @@ public class ConnectionToFirefoxInstance {
 		new Thread("OpenConToFirefox") {
 			public void run() {
 				if (connected)
-					System.out.println(ConnectionToFirefoxInstance.class.getSimpleName() + ": already connected!");
+					println(getClass(), " -- already connected!");
 				long delay = 1000L;
 				while (!connected)
 					try {
@@ -576,7 +498,7 @@ public class ConnectionToFirefoxInstance {
 			int numRead = in.read(cbuf, 0, DEFAULT_BUFFER_SIZE);
 			lastReplyLine = new String(cbuf).substring(0, numRead - 1);
 			if (debug)
-				println(getClass(), ".waitForServer()" + instance + ": " + numRead + " chars from server: " + lastReplyLine);
+				println(getClass(), ".waitForServer()" + instance + ": " + numRead + " chars from server: [" + lastReplyLine + "]");
 
 			/*
 			 * It looks like the reply expected here is something like this:
@@ -591,7 +513,7 @@ public class ConnectionToFirefoxInstance {
 			 */
 			connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
 		}
-		println(getClass(), " " + instance + "-- Returning from waitForServer(), connected=" + connected);
+		println(getClass(), instance + " Returning from waitForServer(), connected=" + connected);
 		return connected;
 	}
 
@@ -620,5 +542,12 @@ public class ConnectionToFirefoxInstance {
 	 */
 	public void resetURL() {
 		showingCanonicalSite.set(false);
+	}
+
+	/**
+	 * @return a string that tells which connection instance this is (e.g., " (port #32000)")
+	 */
+	String getInstance() {
+		return instance;
 	}
 }
