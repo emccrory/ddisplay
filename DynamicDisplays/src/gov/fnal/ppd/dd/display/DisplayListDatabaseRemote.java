@@ -78,7 +78,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 		// Use ARM to simplify this try block
 		List<Integer> dID = new ArrayList<Integer>();
 		try (Statement stmt = getConnection().createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT DisplaySort.LocationCode as LocationCode,Display.LocationCode as TickerCode" +
+				ResultSet rs = stmt.executeQuery("SELECT DisplaySort.LocationCode as LocationCode,Display.LocationCode as TickerCode," +
 						"Display.DisplayID as DisplayID,VirtualDisplayNumber,ScreenNumber,Location,IPName,ColorCode,Type " +
 						"FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;");) {
 			rs.first(); // Move to first returned row
