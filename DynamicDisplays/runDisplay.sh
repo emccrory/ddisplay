@@ -44,19 +44,19 @@ sleepTime=5
 
 MyName=`uname -n`
 # WrapperType=NORMAL
-WrapperType=FRAMENOTICKER
+WrapperType=FRAMENOTICKER # 3
 
 # TODO Remove this bit of hard coding.  Put it in the DB or something
 if [ $MyName = "xocnuc01.fnal.gov" -o $MyName = "wh2e-nuc-14.fnal.gov" ]; then
-    WrapperType=TICKER;
+    WrapperType=TICKER; # 1
 fi
 
 if [ $MyName = "roc-w-01.fnal.gov" -o $MyName = "mccrory.fnal.gov" ]; then
-    WrapperType=FERMITICKER;
+    WrapperType=FERMITICKER; # 5
 fi
 
 if [ $MyName = "adnetdisplay1-mac.fnal.gov" ]; then
-    WrapperType=FRAMENOTICKER;
+    WrapperType=FRAMENOTICKER; # 3
 fi
 
 screenNum=0
