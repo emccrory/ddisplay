@@ -35,7 +35,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 
 	private static final long							serialVersionUID	= 8020508216810250903L;
 
-	private Connection									connection;
+	private final Connection							connection;
 
 	private SignageContent								defaultChannel;
 
@@ -70,17 +70,13 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		ChannelsFromDatabase.comparator = comparator;
 	}
 
-	ChannelsFromDatabase() {
-		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-		} catch (DatabaseNotVisibleException e) {
-			e.printStackTrace();
-		}
+	ChannelsFromDatabase() throws DatabaseNotVisibleException {
+		connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 		synchronized (connection) {
 			getChannels();
 			getImages();
 		}
-		
+
 		defaultChannel = get(keySet().iterator().next()); // The first channel (whatever!)
 	}
 
@@ -89,8 +85,10 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		ResultSet rs = null;
 
 		try {
-			stmt = connection.createStatement();
-			rs = stmt.executeQuery("USE " + DATABASE_NAME);
+			synchronized (connection) {
+				stmt = connection.createStatement();
+				rs = stmt.executeQuery("USE " + DATABASE_NAME);
+			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			System.exit(1);

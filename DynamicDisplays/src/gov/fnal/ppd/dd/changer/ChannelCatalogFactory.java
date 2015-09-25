@@ -5,6 +5,8 @@
  */
 package gov.fnal.ppd.dd.changer;
 
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+
 /**
  * Singleton class to deal with getting the Channel Catalog to the client.
  * 
@@ -13,9 +15,14 @@ package gov.fnal.ppd.dd.changer;
  */
 public class ChannelCatalogFactory {
 
-	private static ChannelCatalog	me	= new ChannelsFromDatabase();
+	private static ChannelCatalog	me;
 
 	private ChannelCatalogFactory() {
+		try {
+			me	= new ChannelsFromDatabase();
+		} catch (DatabaseNotVisibleException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -51,7 +58,11 @@ public class ChannelCatalogFactory {
 	public static ChannelCatalog refresh() {
 		me = null;
 		System.gc();
-		me = new ChannelsFromDatabase();
+		try {
+			me = new ChannelsFromDatabase();
+		} catch (DatabaseNotVisibleException e) {
+			e.printStackTrace();
+		}
 		return me;
 	}
 }

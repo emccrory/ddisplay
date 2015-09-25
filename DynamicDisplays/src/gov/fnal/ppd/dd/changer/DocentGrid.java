@@ -192,8 +192,9 @@ public class DocentGrid extends DetailedInformationGrid {
 					Statement stmt = connection.createStatement();
 					Statement stmt1 = connection.createStatement();
 					Statement stmt2 = connection.createStatement();
-					@SuppressWarnings("unused")
-					ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
+//					@SuppressWarnings("unused")
+//					ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
+					stmt.executeQuery("USE " + DATABASE_NAME);
 
 					String query1 = "select ChannelNumber,Name,Description,URL,DwellTime,Category from Docent,Channel "
 							+ "where ChannelNumber=Number and DocentName='" + docentName + "'";

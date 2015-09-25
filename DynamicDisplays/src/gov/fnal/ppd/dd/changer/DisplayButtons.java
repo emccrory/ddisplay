@@ -66,7 +66,8 @@ public class DisplayButtons extends JPanel {
 			String[] labels = new String[displayList.size()];
 			for (int i = 0; i < colorArray.length; i++) {
 				colorArray[i] = displayList.get(i).getPreferredHighlightColor();
-				labels[i] = displayList.get(i).getVirtualDisplayNumber() + " (" + displayList.get(i).getDBDisplayNumber() + ")";
+				labels[i] = displayList.get(i).getVirtualDisplayNumber() + ": " + displayList.get(i).getLocation() + " ("
+						+ displayList.get(i).getDBDisplayNumber() + ")";
 			}
 
 			BasicSliderUI sliderUI = new DisplayColorSliderUI(this, colorArray, labels);
@@ -74,7 +75,7 @@ public class DisplayButtons extends JPanel {
 
 			addChangeListener(new ChangeListener() {
 
-				public void stateChanged(ChangeEvent e) {					
+				public void stateChanged(ChangeEvent e) {
 					Display disp = displayList.get(getValue());
 					// FIXME The listener is part of the surrounding class--I don't like this
 					listener.actionPerformed(new ActionEvent(disp, getValue(), getDisplayID(disp), System.currentTimeMillis(),
@@ -268,7 +269,7 @@ public class DisplayButtons extends JPanel {
 	 *            Is this Display alive?
 	 */
 	public void setIsAlive(final int displayNum, final boolean alive) {
-		if (buttonList == null | buttonList.size() == 0)
+		if (buttonList == null || buttonList.size() == 0)
 			return;
 
 		new Thread("SetAliveDisplay" + displayNum) {
