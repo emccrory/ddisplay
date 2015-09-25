@@ -126,7 +126,7 @@ public interface Display extends ActionListener {
 	// public void setLocation( String location );
 
 	/**
-	 * @return A description of the location of this Display
+	 * @return A description of the precise location of this Display
 	 */
 	public String getLocation();
 
