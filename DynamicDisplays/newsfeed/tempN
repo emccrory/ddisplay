@@ -7,68 +7,68 @@
     <link>http://news.sciencemag.org/rss/current.xml</link>
     <description>Up to the minute news and features from Science.</description>
                 <item>
-	<title><![CDATA[Squid houses bacteria to keep its eggs safe]]></title>
-	<link>http://news.sciencemag.org/biology/2015/09/squid-houses-bacteria-keep-its-eggs-safe</link>
-	<pubDate>Fri, 18 Sep 2015 11:45:00 -0400</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/biology/2015/09/squid-houses-bacteria-keep-its-eggs-safe?rss=1</guid>
-	<description>Squid’s microbial guests pay their way with egg protection</description>
-        <media:description>Squid’s microbial guests pay their way with egg protection</media:description>
-        <media:credit role="author">Elizabeth Pennisi</media:credit>
+	<title><![CDATA[How societies learn to count to 10]]></title>
+	<link>http://news.sciencemag.org/brain-behavior/2015/09/how-societies-learn-count-10</link>
+	<pubDate>Fri, 25 Sep 2015 03:00:00 -0400</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/brain-behavior/2015/09/how-societies-learn-count-10?rss=1</guid>
+	<description>Once cultures begin to add numerals beyond five to their language, they quickly jump to higher numbers</description>
+        <media:description>Once cultures begin to add numerals beyond five to their language, they quickly jump to higher numbers</media:description>
+        <media:credit role="author">Michael Erard </media:credit>
+        <media:category><![CDATA[Brain & Behavior]]></media:category>
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-language.jpg?itok=GVSiAeF1" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-language.jpg?itok=GVSiAeF1" height="60" width="60" />
+    </item>
+
+            <item>
+	<title><![CDATA[Ecology’s megaproblem]]></title>
+	<link>http://news.sciencemag.org/climate/2015/09/how-neon-will-work</link>
+	<pubDate>Thu, 24 Sep 2015 06:30:00 -0400</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/climate/2015/09/how-neon-will-work?rss=1</guid>
+	<description>A graphical journey through the observatory’s terrestrial and aquatic sites</description>
+        <media:description>A graphical journey through the observatory’s terrestrial and aquatic sites</media:description>
+        <media:credit role="author"></media:credit>
+        <media:category><![CDATA[Climate]]></media:category>
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/rt.neon-feature1_1.jpg?itok=yWBrgSo4" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/rt.neon-feature1_1.jpg?itok=yWBrgSo4" height="60" width="60" />
+    </item>
+
+            <item>
+	<title><![CDATA[A closer look at the nerves that slim down your fat cells]]></title>
+	<link>http://news.sciencemag.org/biology/2015/09/closer-look-nerves-slim-down-your-fat-cells</link>
+	<pubDate>Thu, 24 Sep 2015 05:30:00 -0400</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/biology/2015/09/closer-look-nerves-slim-down-your-fat-cells?rss=1</guid>
+	<description>A better understanding of the nerve fibers that carry signals from the brain to fat tissues could lead to new obesity drugs</description>
+        <media:description>A better understanding of the nerve fibers that carry signals from the brain to fat tissues could lead to new obesity drugs</media:description>
+        <media:credit role="author">Sarah C. P. Williams</media:credit>
         <media:category><![CDATA[Biology]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-squideggs.jpg?itok=YhYjJFQk" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-squideggs.jpg?itok=YhYjJFQk" height="60" width="60" />
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-fatlayers.jpg?itok=HJn4Wzmq" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-fatlayers.jpg?itok=HJn4Wzmq" height="60" width="60" />
     </item>
 
             <item>
-	<title><![CDATA[An IQ test for animals?]]></title>
-	<link>http://news.sciencemag.org/plants-animals/2015/09/iq-test-animals</link>
-	<pubDate>Fri, 18 Sep 2015 09:00:00 -0400</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/plants-animals/2015/09/iq-test-animals?rss=1</guid>
-	<description>Robins show their smarts by performing a battery of tests to get worms</description>
-        <media:description>Robins show their smarts by performing a battery of tests to get worms</media:description>
-        <media:credit role="author">Michael Balter</media:credit>
-        <media:category><![CDATA[Plants & Animals]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-birdbrainz.jpg?itok=xfIkmjZx" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-birdbrainz.jpg?itok=xfIkmjZx" height="60" width="60" />
+	<title><![CDATA[Q&A: Francis Crick’s granddaughter on her genomic sculpture]]></title>
+	<link>http://news.sciencemag.org/people-events/2015/09/qa-francis-crick-s-granddaughter-her-genomic-sculpture</link>
+	<pubDate>Thu, 24 Sep 2015 04:30:00 -0400</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/people-events/2015/09/qa-francis-crick-s-granddaughter-her-genomic-sculpture?rss=1</guid>
+	<description>Artist donates work to raise funds for new Francis Crick Institute</description>
+        <media:description>Artist donates work to raise funds for new Francis Crick Institute</media:description>
+        <media:credit role="author">Aparna Vidyasagar</media:credit>
+        <media:category><![CDATA[People & Events]]></media:category>
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/si-DNA%20sculptures.png?itok=-WfD4_ol" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/si-DNA%20sculptures.png?itok=-WfD4_ol" height="60" width="60" />
     </item>
 
             <item>
-	<title><![CDATA[Blueprint in hand, NIH embarks on study of a million people]]></title>
-	<link>http://news.sciencemag.org/scientific-community/2015/09/blueprint-hand-nih-embarks-study-million-people</link>
-	<pubDate>Thu, 17 Sep 2015 10:45:00 -0400</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/scientific-community/2015/09/blueprint-hand-nih-embarks-study-million-people?rss=1</guid>
-	<description>Advisers lay out framework for ambitious U.S. long-term study of genes, environment, and health</description>
-        <media:description>Advisers lay out framework for ambitious U.S. long-term study of genes, environment, and health</media:description>
-        <media:credit role="author">Jocelyn Kaiser</media:credit>
+	<title><![CDATA[Podcast: The smell of death, Earth’s destruction, and measuring IQ in animals]]></title>
+	<link>http://news.sciencemag.org/scientific-community/2015/09/podcast-smell-death-earth-s-destruction-and-measuring-iq-animals</link>
+	<pubDate>Thu, 24 Sep 2015 03:00:00 -0400</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/scientific-community/2015/09/podcast-smell-death-earth-s-destruction-and-measuring-iq-animals?rss=1</guid>
+	<description>Listen to a roundup of some of our favorite stories from the week</description>
+        <media:description>Listen to a roundup of some of our favorite stories from the week</media:description>
+        <media:credit role="author">David Grimm, Sarah Crespi</media:credit>
         <media:category><![CDATA[Scientific Community]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/si-obamaDNA%282%29.jpg?itok=pP-8FNRt" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/si-obamaDNA%282%29.jpg?itok=pP-8FNRt" height="60" width="60" />
-    </item>
-
-            <item>
-	<title><![CDATA[Ig Nobel prizes honor bee stings, elephant urination]]></title>
-	<link>http://news.sciencemag.org/scientific-community/2015/09/ig-nobel-prizes-honor-bee-stings-elephant-urination</link>
-	<pubDate>Thu, 17 Sep 2015 10:15:00 -0400</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/scientific-community/2015/09/ig-nobel-prizes-honor-bee-stings-elephant-urination?rss=1</guid>
-	<description>Ceremony rewards discoveries that make you laugh and think</description>
-        <media:description>Ceremony rewards discoveries that make you laugh and think</media:description>
-        <media:credit role="author">John Bohannon</media:credit>
-        <media:category><![CDATA[Scientific Community]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/ant%20crop.jpg?itok=sOcw8gwk" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/ant%20crop.jpg?itok=sOcw8gwk" height="60" width="60" />
-    </item>
-
-            <item>
-	<title><![CDATA[Wasps have injected new genes into butterflies]]></title>
-	<link>http://news.sciencemag.org/biology/2015/09/wasps-have-injected-new-genes-butterflies</link>
-	<pubDate>Thu, 17 Sep 2015 04:45:00 -0400</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/biology/2015/09/wasps-have-injected-new-genes-butterflies?rss=1</guid>
-	<description>Wasp virus may protect butterflies from a second virus</description>
-        <media:description>Wasp virus may protect butterflies from a second virus</media:description>
-        <media:credit role="author">David Shultz</media:credit>
-        <media:category><![CDATA[Biology]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-gmbutterflies.jpg?itok=oY3e8IX3" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-gmbutterflies.jpg?itok=oY3e8IX3" height="60" width="60" />
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/new-science-podcast-ipad-h.png?itok=qkeIX72e" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/new-science-podcast-ipad-h.png?itok=qkeIX72e" height="60" width="60" />
     </item>
 
 </channel>
