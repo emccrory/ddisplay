@@ -22,7 +22,19 @@ public class TranslateGITHashCodeToDate {
 	private Date		timeStamp;
 
 	/**
+	 * Simply return the newest hash code and time stamp
+	 */
+	public TranslateGITHashCodeToDate() {
+		try {
+			getNewest();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * @param code
+	 *            The hash code to find
 	 */
 	public TranslateGITHashCodeToDate(final String code) {
 		hashCode = new BigInteger(code, 16);
@@ -91,6 +103,36 @@ public class TranslateGITHashCodeToDate {
 		return timeStamp;
 	}
 
+	public void getNewest() throws Exception {
+		// Look it up in the database
+
+		Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+		String query = "Select HashDate,HashCode from GitHashDecode ORDER BY HashDate DESC LIMIT 1";
+
+		synchronized (connection) {
+			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+				try (ResultSet rs = stmt.executeQuery(query)) {
+					if (rs.first())
+						do {
+							timeStamp = rs.getTimestamp("HashDate");
+							hashCode = new BigInteger(rs.getString("HashCode"), 16);
+
+						} while (rs.next());
+					else {
+						// Oops. no first element!?
+						throw new Exception("No elements in the GITHash table!");
+					}
+				} catch (SQLException e) {
+					System.err.println(query);
+					e.printStackTrace();
+				}
+			} catch (SQLException e) {
+				System.err.println(query);
+				e.printStackTrace();
+			}
+		}
+	}
+
 	/**
 	 * @param timeStamp
 	 *            the timeStamp to set
@@ -104,23 +146,39 @@ public class TranslateGITHashCodeToDate {
 
 		credentialsSetup();
 
-		TranslateGITHashCodeToDate hashcodeTranslation = new TranslateGITHashCodeToDate(args[0]);
-		for (String ARG : args)
+		if (args.length == 0)
 			try {
-				hashcodeTranslation.setHashCode(ARG);
-				if (succinct)
-					System.out.println(hashcodeTranslation.getTimeStamp());
-				else
-					System.out.println("Hash Code of '" + hashcodeTranslation.getHashCode().toString(16) + "' has a timestamp of "
-							+ hashcodeTranslation.getTimeStamp());
-			} catch (Exception e) {
-				if (succinct)
-					System.out.println("(    No Time Stamp  )");
-				else {
-					e.printStackTrace();
-					System.out.println("The hash code '" + hashcodeTranslation.getHashCode()
-							+ "' has no corresponding time stamp in the DB");
+				TranslateGITHashCodeToDate hashcodeTranslation = new TranslateGITHashCodeToDate();
+				if (succinct) {
+					System.out.println(hashcodeTranslation.getHashCode().toString(16) + "\t" + hashcodeTranslation.getTimeStamp());
+				} else {
+					System.out.println("The newest time stamp is " + hashcodeTranslation.getHashCode().toString(16)
+							+ ".  the hash code for this time is " + hashcodeTranslation.getTimeStamp());
+
 				}
+				return;
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+		else {
+			TranslateGITHashCodeToDate hashcodeTranslation = new TranslateGITHashCodeToDate(args[0]);
+			for (String ARG : args)
+				try {
+					hashcodeTranslation.setHashCode(ARG);
+					if (succinct)
+						System.out.println(hashcodeTranslation.getTimeStamp());
+					else
+						System.out.println("Hash Code of '" + hashcodeTranslation.getHashCode().toString(16)
+								+ "' has a timestamp of " + hashcodeTranslation.getTimeStamp());
+				} catch (Exception e) {
+					if (succinct)
+						System.out.println("(    No Time Stamp  )");
+					else {
+						e.printStackTrace();
+						System.out.println("The hash code '" + hashcodeTranslation.getHashCode()
+								+ "' has no corresponding time stamp in the DB");
+					}
+				}
+		}
 	}
 }
