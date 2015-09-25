@@ -230,7 +230,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			DisplayButtonGroup bg = new DisplayButtonGroup();
 
 			final List<ChannelButtonGrid> allGrids = new ArrayList<ChannelButtonGrid>();
-			channelButtonGridList.add(allGrids);
+			synchronized (channelButtonGridList) {
+				channelButtonGridList.add(allGrids);
+			}
 
 			for (int cat = 0; cat < categories.length; cat++) {
 				ChannelButtonGrid grid = new DetailedInformationGrid(display, bg);
@@ -422,12 +424,14 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		// " is NOT alive"));
 		displaySelector.setIsAlive(number, alive);
 
-		// Enable the Channel buttons, too
-		for (List<ChannelButtonGrid> allGrids : channelButtonGridList)
-			if (allGrids.get(0).getDisplay().getDBDisplayNumber() == number)
-				for (ChannelButtonGrid cbg : allGrids)
-					if (cbg != null)
-						cbg.setAlive(alive);
+		synchronized (channelButtonGridList) {
+			// Enable the Channel buttons, too
+			for (List<ChannelButtonGrid> allGrids : channelButtonGridList)
+				if (allGrids.get(0).getDisplay().getDBDisplayNumber() == number)
+					for (ChannelButtonGrid cbg : allGrids)
+						if (cbg != null)
+							cbg.setAlive(alive);
+		}
 	}
 
 	protected static Border getTitleBorder(Color c) {
@@ -583,12 +587,14 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			public void actionPerformed(ActionEvent arg0) {
 				nowShowing = (nowShowing == DDButton.USE_NAME_FIELD ? DDButton.USE_DESCRIPTION_FIELD : DDButton.USE_NAME_FIELD);
 
-				for (List<ChannelButtonGrid> gridList : channelButtonGridList) {
-					for (ChannelButtonGrid grid : gridList) {
-						DisplayButtonGroup dbg = grid.getBg();
-						for (int i = 0; i < dbg.getNumButtons(); i++) {
-							DDButton ddb = dbg.getAButton(i);
-							ddb.setText(nowShowing);
+				synchronized (channelButtonGridList) {
+					for (List<ChannelButtonGrid> gridList : channelButtonGridList) {
+						for (ChannelButtonGrid grid : gridList) {
+							DisplayButtonGroup dbg = grid.getBg();
+							for (int i = 0; i < dbg.getNumButtons(); i++) {
+								DDButton ddb = dbg.getAButton(i);
+								ddb.setText(nowShowing);
+							}
 						}
 					}
 				}
@@ -725,64 +731,64 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	private static void createRefreshActions(final SignageType sType) {
-		@SuppressWarnings("unused")
-		ActionListener fullRefreshAction = new ActionListener() {
+		// @SuppressWarnings("unused")
+		// ActionListener fullRefreshAction = new ActionListener() {
 
 			// FIXME This operation does not work! I suspect this is because of the globals and the socket connections (maybe they
 			// don't get closed properly?)
 			// Another attempt on 8/25/14, and I get a "Socket Closed" exception. (?)
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(new Runnable() {
-
-					@Override
-					public void run() {
-						DisplayFacade.tryToConnectToDisplaysNow = true;
-						System.out.println("\n\nRefreshing Channel Selector\n\n");
-						f.setVisible(false);
-						f.dispose();
-						f = null;
-
-						channelSelector.destroy();
-						for (Display D : displayList) {
-							D.disconnect();
-						}
-						displayList.clear();
-
-						channelSelector = null;
-						displayList = null;
-						Runtime.getRuntime().gc();
-						catchSleep(1000);
-
-						// Regenerate the Display list and the Channel list
-						// DisplayListFactory.useRealDisplays(realDisplays);
-						// ChannelCatalogFactory.useRealChannels(true);
-						displayList = DisplayListFactory.getInstance(sType, getLocationCode());
-
-						channelSelector = new ChannelSelector();
-						channelSelector.start();
-						// channelSelector.setRefreshAction(fullRefreshAction);
-
-						f = new JFrame("XOC Display Channel Selector");
-						f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-						f.setUndecorated(!SHOW_IN_WINDOW);
-
-						// DisplayListFactory.useRealDisplays(realDisplays);
-						// ChannelCatalogFactory.useRealChannels(true);
-
-						f.setContentPane(channelSelector);
-						if (SHOW_IN_WINDOW)
-							f.pack();
-						else
-							f.setSize(screenDimension);
-						f.setVisible(true);
-
-					}
-				});
-			}
-		};
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// SwingUtilities.invokeLater(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// DisplayFacade.tryToConnectToDisplaysNow = true;
+		// System.out.println("\n\nRefreshing Channel Selector\n\n");
+		// f.setVisible(false);
+		// f.dispose();
+		// f = null;
+		//
+		// channelSelector.destroy();
+		// for (Display D : displayList) {
+		// D.disconnect();
+		// }
+		// displayList.clear();
+		//
+		// channelSelector = null;
+		// displayList = null;
+		// Runtime.getRuntime().gc();
+		// catchSleep(1000);
+		//
+		// // Regenerate the Display list and the Channel list
+		// // DisplayListFactory.useRealDisplays(realDisplays);
+		// // ChannelCatalogFactory.useRealChannels(true);
+		// displayList = DisplayListFactory.getInstance(sType, getLocationCode());
+		//
+		// channelSelector = new ChannelSelector();
+		// channelSelector.start();
+		// // channelSelector.setRefreshAction(fullRefreshAction);
+		//
+		// f = new JFrame("XOC Display Channel Selector");
+		// f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//
+		// f.setUndecorated(!SHOW_IN_WINDOW);
+		//
+		// // DisplayListFactory.useRealDisplays(realDisplays);
+		// // ChannelCatalogFactory.useRealChannels(true);
+		//
+		// f.setContentPane(channelSelector);
+		// if (SHOW_IN_WINDOW)
+		// f.pack();
+		// else
+		// f.setSize(screenDimension);
+		// f.setVisible(true);
+		//
+		// }
+		// });
+		// }
+		// };
 
 		channelRefreshAction = new ActionListener() {
 
@@ -816,32 +822,34 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						// that are attached to all the buttons in our realm
 						int numButtons = 0;
 						int numChanged = 0;
-						for (List<ChannelButtonGrid> gridList : channelSelector.channelButtonGridList) {
-							for (ChannelButtonGrid grid : gridList) {
-								DisplayButtonGroup dbg = grid.getBg();
-								for (int i = 0; i < dbg.getNumButtons(); i++) {
-									numButtons++;
-									DDButton ddb = dbg.getAButton(i);
-									int channelNumber = ddb.getChannel().getNumber();
-									// Loop over the new channels to see if the URL has changed for the exiting channel
-									for (SignageContent CONTENT : list)
-										if (CONTENT instanceof Channel) {
-											Channel chan = (Channel) CONTENT;
-											if (chan.getNumber() == channelNumber) {
-												if (!ddb.getChannel().getURI().toString().equals(chan.getURI().toString())) {
-													System.out.println("URI '" + ddb.getChannel().getURI() + "' changed to '"
-															+ chan.getURI() + "'");
-													numChanged++;
+						synchronized (channelSelector.channelButtonGridList) {
+							for (List<ChannelButtonGrid> gridList : channelSelector.channelButtonGridList) {
+								for (ChannelButtonGrid grid : gridList) {
+									DisplayButtonGroup dbg = grid.getBg();
+									for (int i = 0; i < dbg.getNumButtons(); i++) {
+										numButtons++;
+										DDButton ddb = dbg.getAButton(i);
+										int channelNumber = ddb.getChannel().getNumber();
+										// Loop over the new channels to see if the URL has changed for the exiting channel
+										for (SignageContent CONTENT : list)
+											if (CONTENT instanceof Channel) {
+												Channel chan = (Channel) CONTENT;
+												if (chan.getNumber() == channelNumber) {
+													if (!ddb.getChannel().getURI().toString().equals(chan.getURI().toString())) {
+														System.out.println("URI '" + ddb.getChannel().getURI() + "' changed to '"
+																+ chan.getURI() + "'");
+														numChanged++;
+													}
+													ddb.getChannel().setURI(chan.getURI());
 												}
-												ddb.getChannel().setURI(chan.getURI());
-											}
-											// if (channelNumber == 75 || chan.getNumber() == 75)
-											// System.out.println("Existing button for chan #" + channelNumber + " says URL="
-											// + ddb.getChannel().getURI().toString() + "\n\t\tNew information for channel #"
-											// + chan.getNumber() + " is " + chan.getURI());
-										} else
-											System.out.println("Hmmm.  Got a " + CONTENT.getClass().getCanonicalName()
-													+ " instead of a Channel");
+												// if (channelNumber == 75 || chan.getNumber() == 75)
+												// System.out.println("Existing button for chan #" + channelNumber + " says URL="
+												// + ddb.getChannel().getURI().toString() + "\n\t\tNew information for channel #"
+												// + chan.getNumber() + " is " + chan.getURI());
+											} else
+												System.out.println("Hmmm.  Got a " + CONTENT.getClass().getCanonicalName()
+														+ " instead of a Channel");
+									}
 								}
 							}
 						}
