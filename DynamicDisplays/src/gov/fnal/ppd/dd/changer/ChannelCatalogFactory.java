@@ -19,7 +19,7 @@ public class ChannelCatalogFactory {
 
 	private ChannelCatalogFactory() {
 		try {
-			me	= new ChannelsFromDatabase();
+			me = new ChannelsFromDatabase();
 		} catch (DatabaseNotVisibleException e) {
 			e.printStackTrace();
 		}
@@ -45,8 +45,8 @@ public class ChannelCatalogFactory {
 	 * @return The singleton
 	 */
 	public static ChannelCatalog getInstance() {
-		// if (me == null)
-		// useRealChannels(false);
+		if (me == null)
+			refresh();
 		return me;
 	}
 
