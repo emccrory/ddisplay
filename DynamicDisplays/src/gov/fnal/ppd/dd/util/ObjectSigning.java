@@ -553,9 +553,12 @@ public class ObjectSigning {
 			return null;
 		}
 
+		if (publicKey == null)
+			return "No public key!";
+
 		try {
 			// System.err.println(getClass().getSimpleName() + ".verifySignature(): really and truly checking the signature!");
-			if (sig == null && publicKey != null)
+			if (sig == null)
 				sig = Signature.getInstance(publicKey.getAlgorithm());
 			boolean retval = signedMess.verify(publicKey, sig);
 			if (!retval) {

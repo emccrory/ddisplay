@@ -786,10 +786,11 @@ public class MessagingServer {
 	}
 
 	protected void printStackTrace(Exception e) {
-		if (e == null)
-			System.out.println("NULL Exception!");
 		synchronized (sdf) { // Only print one message at a time
-			e.printStackTrace();
+			if (e == null)
+				System.out.println("NULL Exception encountered!!");
+			else
+				e.printStackTrace();
 		}
 	}
 

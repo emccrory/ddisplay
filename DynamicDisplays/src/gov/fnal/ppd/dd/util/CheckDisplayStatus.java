@@ -80,6 +80,8 @@ public class CheckDisplayStatus extends Thread {
 									DisplayButtons.setToolTip(display);
 
 									// Enable the Channel buttons, too
+									if (grids == null || grids.size() == 0)
+										continue;
 									synchronized (grids) {
 										for (List<ChannelButtonGrid> allGrids : grids)
 											if (allGrids.get(0).getDisplay().getDBDisplayNumber() == display.getDBDisplayNumber())

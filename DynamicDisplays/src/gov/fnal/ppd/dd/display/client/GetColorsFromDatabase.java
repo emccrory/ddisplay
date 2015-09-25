@@ -45,6 +45,7 @@ public class GetColorsFromDatabase {
 			System.exit(1);
 		} catch (DatabaseNotVisibleException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
 
 		int count = 0;
