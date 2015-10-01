@@ -156,7 +156,7 @@ public class ConnectionToFirefoxInstance {
 	 * @throws UnsupportedEncodingException
 	 *             -- if the url we have been given is bogus
 	 */
-	public boolean changeURL(final String urlString, final WrapperType theWrapper, final int frameNumber)
+	public synchronized boolean changeURL(final String urlString, final WrapperType theWrapper, final int frameNumber)
 			throws UnsupportedEncodingException {
 		if (debug)
 			println(getClass(), instance + " New URL: " + urlString);
@@ -169,135 +169,136 @@ public class ConnectionToFirefoxInstance {
 		if (frameNumber > 0)
 			s += "document.getElementById('" + frameName + "').style.visibility='visible';\n";
 
-		synchronized (showingCanonicalSite) {
-			switch (theWrapper) {
+		// "FastBugs" frowns on using an internally-synchronized object for synchronization. The intent is to prevent
+		// multiple instances of this method from running at the same time, so we put the "synchronized" on the method, where it
+		// should be.
+		// synchronized (showingCanonicalSite) {
+		switch (theWrapper) {
 
-			case NORMAL:
-				if (!showingCanonicalSite.get()) {
-					println(getClass(), instance + " Sending full, new URL to browser, " + BASE_WEB_PAGE);
-					showingCanonicalSite.set(true);
-					s = "window.location=\"" + BASE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+		case NORMAL:
+			if (!showingCanonicalSite.get()) {
+				println(getClass(), instance + " Sending full, new URL to browser, " + BASE_WEB_PAGE);
+				showingCanonicalSite.set(true);
+				s = "window.location=\"" + BASE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
-					if (isNumberHidden())
-						s += "&shownumber=0";
-					s += "\";\n";
-				}
-				break;
-
-			case TICKER:
-			case FERMITICKER:
-				if (!showingCanonicalSite.get()) {
-					println(getClass(), instance + " Sending full, new URL to browser " + TICKERTAPE_WEB_PAGE);
-					showingCanonicalSite.set(true);
-					s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height + "&feed="
-							+ theWrapper.getTickerName();
-
-					if (isNumberHidden())
-						s += "&shownumber=0";
-					s += "\";\n";
-				}
-				break;
-
-			// if (!showingCanonicalSite.get()) {
-			// println(getClass(), instance + " Sending full, new URL to browser" + instance + ", " + FERMI_TICKERTAPE_WEB_PAGE);
-			// showingCanonicalSite.set(true);
-			// s = "window.location=\"" + FERMI_TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
-			// + "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
-			// + bounds.height;
-			//
-			// if (isNumberHidden())
-			// s += "&shownumber=0";
-			// s += "\";\n";
-			// }
-			// break;
-
-			case TICKERANDFRAME:
-				if (!showingCanonicalSite.get()) {
-					println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAME_WEB_PAGE);
-					showingCanonicalSite.set(true);
-					s = "window.location=\"" + EXTRAFRAME_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-							+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
-
-					if (isNumberHidden())
-						s += "&shownumber=0";
-					s += "\";\n";
-				}
-				break;
-
-			case FRAMENOTICKER:
-				if (!showingCanonicalSite.get()) {
-					println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAMENOTICKER_WEB_PAGE);
-					showingCanonicalSite.set(true);
-					s = "window.location=\"" + EXTRAFRAMENOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
-							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
-							+ bounds.height;
-
-					if (isNumberHidden())
-						s += "&shownumber=0";
-					s += "\";\n";
-				}
-				break;
-
-			case FRAMESNOTICKER:
-				if (!showingCanonicalSite.get()) {
-					println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAMESNOTICKER_WEB_PAGE);
-					showingCanonicalSite.set(true);
-					s = "window.location=\"" + EXTRAFRAMESNOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
-							+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
-							+ bounds.height;
-
-					if (isNumberHidden())
-						s += "&shownumber=0";
-					s += "\";\n";
-				}
-				break;
-
-			case NONE:
-				s = "window.location=\"" + urlString + "\";\n";
-				println(getClass(), instance + " Wrapper not used, new URL is " + urlString + instance);
-				showingCanonicalSite.set(false);
-				break;
+				if (isNumberHidden())
+					s += "&shownumber=0";
+				s += "\";\n";
 			}
+			break;
 
-			send(s);
-			println(getClass(), instance + " Sent: [" + s + "]");
+		case TICKER:
+		case FERMITICKER:
+			if (!showingCanonicalSite.get()) {
+				println(getClass(), instance + " Sending full, new URL to browser " + TICKERTAPE_WEB_PAGE);
+				showingCanonicalSite.set(true);
+				s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height + "&feed="
+						+ theWrapper.getTickerName();
 
-			// I have tried to do this in a local file, in order to remove some load from the web server. But
-			// this has not worked for me. (10/2014) First, it seems that the "window.location" Javascript command
-			// does not work for local files. Second, if I load the local file by hand, the Javascript timeout
-			// function never gets called.
-
-			// try {
-			// FileOutputStream out = new FileOutputStream(LOCAL_FILE_NAME);
-			// out.write(htmlTemplate.replace(URL_MARKER, urlString).getBytes());
-			// out.close();
-			//
-			// String sendString = "window.location=\"file://localhost" + LOCAL_FILE_NAME + "\";\n";
-			// System.out.println("changeURL(): " + sendString);
-			// send(sendString);
-			// //
-			//
-			// } catch (Exception e) {
-			// e.printStackTrace();
-			// }
-
-			// An experiment: Can I turn off the scroll bars? The answer is no (it seems)
-			// send("document.documentElement.style.overflow = 'hidden';\n");
-			// send("document.body.scroll='no';\n");
-			// send(FullScreenExecute);
-
-			try {
-				return waitForServer();
-			} catch (IOException e) {
-				if (numberOfScreens > 1)
-					System.err.println("Exception on port #" + port);
-				e.printStackTrace();
-				connected = false;
-				return false;
+				if (isNumberHidden())
+					s += "&shownumber=0";
+				s += "\";\n";
 			}
+			break;
+
+		// if (!showingCanonicalSite.get()) {
+		// println(getClass(), instance + " Sending full, new URL to browser" + instance + ", " + FERMI_TICKERTAPE_WEB_PAGE);
+		// showingCanonicalSite.set(true);
+		// s = "window.location=\"" + FERMI_TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
+		// + "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
+		// + bounds.height;
+		//
+		// if (isNumberHidden())
+		// s += "&shownumber=0";
+		// s += "\";\n";
+		// }
+		// break;
+
+		case TICKERANDFRAME:
+			if (!showingCanonicalSite.get()) {
+				println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAME_WEB_PAGE);
+				showingCanonicalSite.set(true);
+				s = "window.location=\"" + EXTRAFRAME_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+
+				if (isNumberHidden())
+					s += "&shownumber=0";
+				s += "\";\n";
+			}
+			break;
+
+		case FRAMENOTICKER:
+			if (!showingCanonicalSite.get()) {
+				println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAMENOTICKER_WEB_PAGE);
+				showingCanonicalSite.set(true);
+				s = "window.location=\"" + EXTRAFRAMENOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
+						+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+
+				if (isNumberHidden())
+					s += "&shownumber=0";
+				s += "\";\n";
+			}
+			break;
+
+		case FRAMESNOTICKER:
+			if (!showingCanonicalSite.get()) {
+				println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAMESNOTICKER_WEB_PAGE);
+				showingCanonicalSite.set(true);
+				s = "window.location=\"" + EXTRAFRAMESNOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
+						+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+
+				if (isNumberHidden())
+					s += "&shownumber=0";
+				s += "\";\n";
+			}
+			break;
+
+		case NONE:
+			s = "window.location=\"" + urlString + "\";\n";
+			println(getClass(), instance + " Wrapper not used, new URL is " + urlString + instance);
+			showingCanonicalSite.set(false);
+			break;
 		}
+
+		send(s);
+		println(getClass(), instance + " Sent: [" + s + "]");
+
+		// I have tried to do this in a local file, in order to remove some load from the web server. But
+		// this has not worked for me. (10/2014) First, it seems that the "window.location" Javascript command
+		// does not work for local files. Second, if I load the local file by hand, the Javascript timeout
+		// function never gets called.
+
+		// try {
+		// FileOutputStream out = new FileOutputStream(LOCAL_FILE_NAME);
+		// out.write(htmlTemplate.replace(URL_MARKER, urlString).getBytes());
+		// out.close();
+		//
+		// String sendString = "window.location=\"file://localhost" + LOCAL_FILE_NAME + "\";\n";
+		// System.out.println("changeURL(): " + sendString);
+		// send(sendString);
+		// //
+		//
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+
+		// An experiment: Can I turn off the scroll bars? The answer is no (it seems)
+		// send("document.documentElement.style.overflow = 'hidden';\n");
+		// send("document.body.scroll='no';\n");
+		// send(FullScreenExecute);
+
+		try {
+			return waitForServer();
+		} catch (IOException e) {
+			if (numberOfScreens > 1)
+				System.err.println("Exception on port #" + port);
+			e.printStackTrace();
+			connected = false;
+			return false;
+		}
+		// }
 		// return true;
 	}
 
