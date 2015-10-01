@@ -33,12 +33,29 @@ public class GetColorsFromDatabase {
 		Statement stmt = null;
 		ResultSet rs = null;
 		Connection connection;
+		int count = 0;
+
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 
 			synchronized (connection) {
 				stmt = connection.createStatement();
 				rs = stmt.executeQuery("USE " + DATABASE_NAME);
+				rs = stmt.executeQuery("select * from ColorNames");
+				rs.first(); // Move to first returned row
+				while (!rs.isAfterLast())
+					try {
+						String code = rs.getString("ColorCode");
+						String name = rs.getString("ColorName");
+
+						retval.put(code, name);
+						rs.next();
+						count++;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				stmt.close();
+				rs.close();
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -48,26 +65,6 @@ public class GetColorsFromDatabase {
 			System.exit(1);
 		}
 
-		int count = 0;
-		try {
-			rs = stmt.executeQuery("select * from ColorNames");
-			rs.first(); // Move to first returned row
-			while (!rs.isAfterLast())
-				try {
-					String code = rs.getString("ColorCode");
-					String name = rs.getString("ColorName");
-
-					retval.put(code, name);
-					rs.next();
-					count++;
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			stmt.close();
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		System.out.println(GetColorsFromDatabase.class.getSimpleName() + ": Found " + count + " color names.");
 		return retval;
 	}
