@@ -5,6 +5,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
+import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.shortDate;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -106,7 +107,7 @@ public class DisplayButtons extends JPanel {
 		}
 	}
 
-	private static List<DDButton>	buttonList				= new ArrayList<DDButton>();
+	private static List<JComponent>	buttonList				= new ArrayList<JComponent>();
 	// private static List<Display> displayList;
 	static final int				INSET_SIZE				= 5;
 	static final float				LOCAL_FONT_SIZE			= 40.0f;
@@ -122,23 +123,22 @@ public class DisplayButtons extends JPanel {
 	 *            The Display to use for this tool tip
 	 */
 	public static void setToolTip(final Display disp) {
-		if (buttonList.size() == 0)
+		if (buttonList.size() == 0) {
+			println(DisplayButtons.class, ".setToolTip() for display " + disp.getDBDisplayNumber() + " -- nothing in buttonList.");
 			return;
-		int index = 0;
+		}
+
+		// TODO This does not work with the Slider selector. So what?!
 		synchronized (displayList) {
-			for (Display d : displayList) {
-				if (d == disp) {
-					String toolTip = "<html><b>Display:</b> " + disp.getVirtualDisplayNumber();
-					toolTip += " (index=" + disp.getDBDisplayNumber() + ", num=" + disp.getVirtualDisplayNumber() + ")";
-					toolTip += " -- " + disp.getDescription();
-					toolTip += "<br /><b>Last status update:</b> " + shortDate();
-					toolTip += "<br />Press to select this display.";
-					toolTip += "</p></html>";
-					// button.setToolTipText(toolTip);
-					buttonList.get(index).setToolTipText(toolTip);
-				}
-				index++;
-			}
+			int index = displayList.indexOf(disp);
+
+			String toolTip = "<html><b>Display:</b> " + disp.getVirtualDisplayNumber();
+			toolTip += " (index=" + disp.getDBDisplayNumber() + ", num=" + disp.getVirtualDisplayNumber() + ")";
+			toolTip += " -- " + disp.getDescription();
+			toolTip += "<br /><b>Last status update:</b> " + shortDate();
+			toolTip += "<br />Press to select this display.";
+			toolTip += "</p></html>";
+			buttonList.get(index).setToolTipText(toolTip);
 		}
 	}
 
