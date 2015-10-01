@@ -548,6 +548,8 @@ public class ObjectSigning {
 	 * @return -- null if the message is signed properly; a string explaining why if it is not.
 	 */
 	public String verifySignature(final SignedObject signedMess) {
+		assert(signedMess != null);
+		
 		if (!checkSignedMessages()) {
 			System.err.println(getClass().getSimpleName() + ".verifySignature(): Ignoring the signature and returning 'true'");
 			return null;
@@ -560,6 +562,7 @@ public class ObjectSigning {
 			// System.err.println(getClass().getSimpleName() + ".verifySignature(): really and truly checking the signature!");
 			if (sig == null)
 				sig = Signature.getInstance(publicKey.getAlgorithm());
+			// The "FastBugs" error for this line is illogical.
 			boolean retval = signedMess.verify(publicKey, sig);
 			if (!retval) {
 				for (String k : keys.keySet()) {
