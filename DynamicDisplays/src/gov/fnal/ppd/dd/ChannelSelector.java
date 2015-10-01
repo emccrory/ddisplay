@@ -385,12 +385,14 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	private static Thread	errorMessageThread	= null;
+	private static boolean	threadIsMade		= false;
 
 	private static void launchErrorMessage(final ActionEvent e) {
-		if (errorMessageThread != null)
+		if (threadIsMade)
 			return;
 		errorMessageThread = new Thread("ErrorMessagePopup") {
 			public void run() {
+				threadIsMade = true;
 				int g = e.paramString().indexOf("ERROR") + 9;
 				int h = e.paramString().indexOf(",when");
 				String m = e.paramString().substring(g, h);
@@ -401,6 +403,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 							JOptionPane.ERROR_MESSAGE);
 				// catchSleep(3000L);
 				errorMessageThread = null;
+				threadIsMade = false;
 			}
 		};
 		errorMessageThread.start();
@@ -734,9 +737,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		// @SuppressWarnings("unused")
 		// ActionListener fullRefreshAction = new ActionListener() {
 
-			// FIXME This operation does not work! I suspect this is because of the globals and the socket connections (maybe they
-			// don't get closed properly?)
-			// Another attempt on 8/25/14, and I get a "Socket Closed" exception. (?)
+		// FIXME This operation does not work! I suspect this is because of the globals and the socket connections (maybe they
+		// don't get closed properly?)
+		// Another attempt on 8/25/14, and I get a "Socket Closed" exception. (?)
 
 		// @Override
 		// public void actionPerformed(ActionEvent e) {
