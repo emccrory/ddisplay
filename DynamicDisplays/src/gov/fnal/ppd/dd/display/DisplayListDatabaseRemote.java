@@ -78,23 +78,23 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 		// Use ARM to simplify this try block
 		List<Integer> dID = new ArrayList<Integer>();
 		try (Statement stmt = getConnection().createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT DisplaySort.LocationCode as LocationCode,Display.LocationCode as TickerCode," +
-						"Display.DisplayID as DisplayID,VirtualDisplayNumber,ScreenNumber,Location,IPName,ColorCode,Type " +
-						"FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;");) {
+				ResultSet rs = stmt
+						.executeQuery("SELECT DisplaySort.LocationCode as LocationCode,Display.LocationCode as TickerCode,"
+								+ "Display.DisplayID as DisplayID,VirtualDisplayNumber,ScreenNumber,Location,IPName,ColorCode,Type "
+								+ "FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;");) {
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
-					String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
-					String ipName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPname"));
+					String location = rs.getString("Location");
+					String ipName = rs.getString("IPname");
 					int locCode = rs.getInt("LocationCode");
 					int displayID = rs.getInt("DisplayID");
 					int vDisplayNum = rs.getInt("VirtualDisplayNumber");
 					int screenNumber = rs.getInt("ScreenNumber");
 					int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
-					if ((locationCode < 0 || locCode == locationCode) && !dID.contains(displayID)) { 
+					if ((locationCode < 0 || locCode == locationCode) && !dID.contains(displayID)) {
 						// Negative locationCode will select ALL displays everywhere
-						SignageType type = SignageType.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs
-								.getAsciiStream("Type")));
+						SignageType type = SignageType.valueOf(rs.getString("Type"));
 
 						dID.add(displayID);
 						Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location, new Color(
@@ -121,23 +121,22 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 		int count = 0;
 		// Use ARM to simplify this try block
 		try (Statement stmt = getConnection().createStatement();
-				ResultSet rs = stmt.executeQuery(
-						"SELECT Location,IPName,Display.DisplayID as DisplayID,VirtualDisplayNumber,DisplaySort.LocationCode as LocationCode," +
-						"ScreenNumber,ColorCode,Type FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) " +
-						"ORDER BY VirtualDisplayNumber");) {
+				ResultSet rs = stmt
+						.executeQuery("SELECT Location,IPName,Display.DisplayID as DisplayID,VirtualDisplayNumber,DisplaySort.LocationCode as LocationCode,"
+								+ "ScreenNumber,ColorCode,Type FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) "
+								+ "ORDER BY VirtualDisplayNumber");) {
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
-					String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
-					String ipName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
+					String location = rs.getString("Location");
+					String ipName = rs.getString("IPName");
 					int locCode = rs.getInt("LocationCode");
 					int displayID = rs.getInt("DisplayID");
 					int vDisplayNum = rs.getInt("VirtualDisplayNumber");
 					int screenNumber = rs.getInt("ScreenNumber");
 					int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
 					if ((locationCode < 0 || locCode == locationCode) && displayDBNumber == displayID) {
-						SignageType type = SignageType.valueOf(ConnectionToDynamicDisplaysDatabase.makeString(rs
-								.getAsciiStream("Type")));
+						SignageType type = SignageType.valueOf(rs.getString("Type"));
 
 						Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location, new Color(
 								colorCode), type);

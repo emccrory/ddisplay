@@ -53,7 +53,7 @@ public class ListOfValidChannels extends HashSet<String> {
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
-					String theURL = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("URL"));
+					String theURL = rs.getString("URL");
 					add(theURL);
 
 					rs.next();

@@ -54,8 +54,8 @@ public class GetColorsFromDatabase {
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
-					String code = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
-					String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorName"));
+					String code = rs.getString("ColorCode");
+					String name = rs.getString("ColorName");
 
 					retval.put(code, name);
 					rs.next();

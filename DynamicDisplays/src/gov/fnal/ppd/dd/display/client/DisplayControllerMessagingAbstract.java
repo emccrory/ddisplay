@@ -260,7 +260,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					if (rs.first()) {
 						while (!rs.isAfterLast()) {
 							try {
-								String myName = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("IPName"));
+								String myName = rs.getString("IPName");
 
 								System.out.println("\n********** Display number " + (displayCount++) + ", name=" + myName
 										+ " **********\n");
@@ -281,10 +281,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 										+ myNode + "'");
 
 								int tickerCode = rs.getInt("LocationCode");
-								String t = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
+								String t = rs.getString("Type");
 								SignageType type = SignageType.valueOf(t);
-								String location = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Location"));
-								String colorString = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("ColorCode"));
+								String location = rs.getString("Location");
+								String colorString = rs.getString("ColorCode");
 								Color color = new Color(Integer.parseInt(colorString, 16));
 
 								boolean showNumber = rs.getInt("Port") == 0;
@@ -446,10 +446,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				try (Statement stmt = connection.createStatement();) {
 					try (ResultSet rs = stmt.executeQuery(query);) {
 						if (rs.first()) { // Move to first returned row (there should only be one)
-							String url = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("URL"));
+							String url = rs.getString("URL");
 							int dwell = rs.getInt("DwellTime");
-							String desc = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
-							String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Name"));
+							String desc = rs.getString("Description");
+							String name = rs.getString("Name");
 
 							retval = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, dwell);
 
