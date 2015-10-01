@@ -30,4 +30,4 @@ d=`date +%F`
 java -Dddisplay.selector.inwindow=$window \
      -Dddisplay.selector.public=$public \
      -Dddisplay.virtualdisplaynumbers=TRUE \
-     -Xmx512m  gov.fnal.ppd.dd.MakeChannelSelector > ../../log/selector_${d}_$$.log 2>&1  &
+     -Xmx1024m  gov.fnal.ppd.dd.MakeChannelSelector > ../../log/selector_${d}_$$.log 2>&1  &

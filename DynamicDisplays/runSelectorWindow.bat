@@ -7,5 +7,5 @@ java -Dddisplay.selector.inwindow=TRUE ^
      -Dddisplay.dbname=%databaseName% ^
 	 -Dddisplay.dbusername=%databaseUsername% ^
 	 -Dddisplay.dbpassword=%databasePassword% ^
-     -Xmx512m gov.fnal.ppd.dd.MakeChannelSelector 
+     -Xmx1024m gov.fnal.ppd.dd.MakeChannelSelector 
 
