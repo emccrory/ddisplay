@@ -182,9 +182,9 @@ public class DCMulitServerThread extends Thread {
 
 		try {
 			// dcp.removeListener(myChangeListener);
-			in.close();
-			synchronized (out) {
-				out.close();
+			this.in.close();
+			synchronized (this.out) {
+				this.out.close();
 			}
 			socket.close();
 			sleep(5000);

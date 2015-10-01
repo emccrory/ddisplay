@@ -93,7 +93,6 @@ public class ChannelCatalogTesting extends HashMap<String, SignageContent> imple
 			new ChannelDesc("Weather", "Current weather conditions at Fermilab and all the far sites"),
 			new ChannelDesc("Football", "World Cup coverage, or Sunday NFL"), };
 
-	private SignageContent									defaultChannel;
 
 	private static final Comparator<? super SignageContent>	comparator		= new Comparator<SignageContent>() {
 
@@ -204,6 +203,12 @@ public class ChannelCatalogTesting extends HashMap<String, SignageContent> imple
 	 */
 	@Override
 	public SignageContent getDefaultChannel() {
-		return defaultChannel;
+		try {
+			return new ChannelImpl("Nothing",ChannelCategory.ACCELERATOR, "No description", new URI("http://www.fnal.gov"), 99, 360000);
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
