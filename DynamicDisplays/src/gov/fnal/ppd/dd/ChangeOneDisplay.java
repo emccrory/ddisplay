@@ -105,7 +105,7 @@ public class ChangeOneDisplay {
 						try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)
 							addLocationCode(rs.getInt("LocationCode"));
 							System.out.println("Location code is " + getLocationCode());
-							String myClassification = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type"));
+							String myClassification = rs.getString("Type");
 
 							IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
 

@@ -206,10 +206,10 @@ public class DocentGrid extends DetailedInformationGrid {
 
 					rsChan.first(); // Move to first returned row
 					while (!rsChan.isAfterLast()) {
-						String name = ConnectionToDynamicDisplaysDatabase.makeString(rsChan.getAsciiStream("Name"));
-						String descr = ConnectionToDynamicDisplaysDatabase.makeString(rsChan.getAsciiStream("Description"));
-						String url = ConnectionToDynamicDisplaysDatabase.makeString(rsChan.getAsciiStream("URL"));
-						String category = ConnectionToDynamicDisplaysDatabase.makeString(rsChan.getAsciiStream("Category"));
+						String name = rsChan.getString("Name");
+						String descr = rsChan.getString("Description");
+						String url = rsChan.getString("URL");
+						String category = rsChan.getString("Category");
 						long dwell = rsChan.getLong("DwellTime");
 						int chanNum = rsChan.getInt("ChannelNumber");
 
@@ -223,9 +223,9 @@ public class DocentGrid extends DetailedInformationGrid {
 
 					rsPort.first(); // Move to first returned row
 					while (!rsPort.isAfterLast()) {
-						String name = ConnectionToDynamicDisplaysDatabase.makeString(rsPort.getAsciiStream("FileName"));
-						String descr = ConnectionToDynamicDisplaysDatabase.makeString(rsPort.getAsciiStream("Description"));
-						String exp = ConnectionToDynamicDisplaysDatabase.makeString(rsPort.getAsciiStream("Experiment"));
+						String name = rsPort.getString("FileName");
+						String descr = rsPort.getString("Description");
+						String exp = rsPort.getString("Experiment");
 
 						String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
 								+ "&caption=" + URLEncoder.encode(descr, "UTF-8");

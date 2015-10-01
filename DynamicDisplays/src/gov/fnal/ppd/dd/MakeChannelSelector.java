@@ -128,7 +128,7 @@ public class MakeChannelSelector {
 								
 								SHOW_DOCENT_TAB = rs2.getBoolean("DocentTab");
 								
-								myClassification = ConnectionToDynamicDisplaysDatabase.makeString(rs2.getAsciiStream("Type"));
+								myClassification = rs2.getString("Type");
 
 								IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
 

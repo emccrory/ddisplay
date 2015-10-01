@@ -101,14 +101,14 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
-					String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Name"));
+					String name = rs.getString("Name");
 					ChannelCategory category = ChannelCategory.MISCELLANEOUS;
 					if (rs.getAsciiStream("Type") != null) {
-						String cat = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Type")).toUpperCase();
+						String cat = rs.getString("Type").toUpperCase();
 						category = new ChannelCategory(cat);
 					}
-					String description = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
-					String url = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("URL"));
+					String description = rs.getString("Description");
+					String url = rs.getString("URL");
 					int number = rs.getInt("Number");
 					int dwellTime = rs.getInt("DwellTime");
 					SignageContent c = new ChannelImpl(name, category, description, new URI(url), number, dwellTime);
@@ -145,9 +145,9 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
-					String name = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("FileName"));
-					String descr = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Description"));
-					String exp = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Experiment"));
+					String name = rs.getString("FileName");
+					String descr = rs.getString("Description");
+					String exp = rs.getString("Experiment");
 
 					String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
 							+ "&caption=" + URLEncoder.encode(descr, "UTF-8");

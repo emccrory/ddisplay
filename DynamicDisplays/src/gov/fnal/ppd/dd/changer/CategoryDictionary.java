@@ -99,8 +99,8 @@ public class CategoryDictionary {
 							// | Type | enum('Public','Experiment','XOC')
 							// | Abbreviation | char(15)
 
-							String cat = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("TabName"));
-							String abb = ConnectionToDynamicDisplaysDatabase.makeString(rs.getAsciiStream("Abbreviation"));
+							String cat = rs.getString("TabName");
+							String abb = rs.getString("Abbreviation");
 							cats.add(new ChannelCategory(cat, abb));
 
 							rs.next();
