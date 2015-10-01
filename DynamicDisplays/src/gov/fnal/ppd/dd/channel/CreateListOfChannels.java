@@ -18,6 +18,8 @@ import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.ListSelectionForSaveList;
+import gov.fnal.ppd.dd.util.ListSelectionForSaveList.SpecialLocalListChangeListener;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -46,10 +48,10 @@ import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -158,6 +160,7 @@ public class CreateListOfChannels extends JPanel {
 			super(new GridBagLayout());
 			initComponents();
 			listOfChannelsArea.setEditable(false);
+			listOfChannelsArea.setBorder(BorderFactory.createTitledBorder(" The channels in this list "));
 		}
 
 		private void initComponents() {
@@ -191,86 +194,106 @@ public class CreateListOfChannels extends JPanel {
 		}
 
 		protected JComponent getExistingListsComponent() throws Exception {
-			final JPanel retval = new JPanel(new BorderLayout());
-			List<String> existingLists = getExistingList();
-			listOfChannelsArea.setText("");
+			JList<String> list = new JList<String>(getExistingList().toArray(new String[0]));
+			ListSelectionForSaveList retval = new ListSelectionForSaveList(list, listOfChannelsArea);
 
-			final JComboBox<String> listComboBox = new JComboBox<String>(existingLists.toArray(new String[0]));
-			listComboBox.addActionListener(new ActionListener() {
+			retval.addListener(new SpecialLocalListChangeListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent ev) {
+				public void setListValue(int listValue) {
 					channelListHolder.clear();
 					listOfChannelsArea.setText("");
-					int totalDwell = 0;
-
-					String selected = (String) listComboBox.getSelectedItem();
-					int listNumber = Integer.parseInt(selected.substring(0, selected.indexOf(':')));
-
-					Connection connection;
-					try {
-						connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-					} catch (DatabaseNotVisibleException e) {
-						e.printStackTrace();
-						return;
-					}
-
-					String query = "Select ChannelList.Number as Number,Name,SequenceNumber,Dwell, URL, Category, Description from ChannelList,Channel "
-							+ "WHERE ListNumber=" + listNumber + " AND Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
-
-					synchronized (connection) {
-						try (Statement stmt = connection.createStatement();
-								ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-							try (ResultSet rs2 = stmt.executeQuery(query)) {
-								if (rs2.first())
-									do {
-										int chanNumber = rs2.getInt("Number");
-										int seq = rs2.getInt("SequenceNumber");
-										long dwell = rs2.getLong("Dwell");
-										totalDwell += dwell;
-										// TODO -- The abbreviation argument (next line) is wrong.
-										ChannelCategory cat = new ChannelCategory(rs2.getString("Category"), "ABB");
-										String name = rs2.getString("Name");
-										String url = rs2.getString("URL");
-										String desc = rs2.getString("Description");
-										try {
-											URI uri = new URI(url);
-											ChannelInfoHolder cih = new ChannelInfoHolder(chanNumber, seq, dwell, name);
-											System.out.println(cih);
-											internalScrollPanel.add(new JLabel(cih.toString()));
-											Channel channel = new ChannelImpl(name, cat, desc, uri, chanNumber, dwell);
-											channelListHolder.add(channel);
-											listOfChannelsArea.append(cih + "\n");
-										} catch (URISyntaxException e) {
-											e.printStackTrace();
-										}
-
-									} while (rs2.next());
-								else {
-									// Oops. no first element!?
-									System.err.println("No elements in the save/restore database!");
-									return;
-								}
-							}
-						} catch (SQLException e) {
-							System.err.println(query);
-							e.printStackTrace();
-						}
-					}
-					DecimalFormat myFormatter = new DecimalFormat("#.0");
-					String output = myFormatter.format(totalDwell / 1000.0 / 60.0);
-					listOfChannelsArea.append("\nTotal duration of this list: " + totalDwell + " msec (" + output + " minutes)\n");
-
-					retval.validate();
-					// retval.repaint();
+					getThisList(listValue);
 				}
 			});
 
-			internalScrollPanel.setPreferredSize(new Dimension(500, 200));
-			internalScrollPanel.add(new JLabel("Select a list, please"));
-			retval.add(BorderLayout.NORTH, listComboBox);
-			retval.add(BorderLayout.CENTER, internalScrollPanel);
 			return retval;
+		}
+
+		// protected JComponent getExistingListsComponent() throws Exception {
+		// final JPanel retval = new JPanel(new BorderLayout());
+		// List<String> existingLists = getExistingList();
+		// listOfChannelsArea.setText("");
+		//
+		// final JComboBox<String> listComboBox = new JComboBox<String>(existingLists.toArray(new String[0]));
+		// listComboBox.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent ev) {
+		// channelListHolder.clear();
+		// listOfChannelsArea.setText("");
+		//
+		// String selected = (String) listComboBox.getSelectedItem();
+		// int listNumber = Integer.parseInt(selected.substring(0, selected.indexOf(':')));
+		//
+		// getThisList(listNumber);
+		//
+		// retval.validate();
+		// // retval.repaint();
+		// }
+		// });
+		//
+		// internalScrollPanel.setPreferredSize(new Dimension(500, 200));
+		// internalScrollPanel.add(new JLabel("Select a list, please"));
+		// retval.add(BorderLayout.NORTH, listComboBox);
+		// retval.add(BorderLayout.CENTER, internalScrollPanel);
+		// return retval;
+		// }
+
+		protected void getThisList(int listNumber) {
+			Connection connection;
+			try {
+				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			} catch (DatabaseNotVisibleException e) {
+				e.printStackTrace();
+				return;
+			}
+			int totalDwell = 0;
+
+			String query = "Select ChannelList.Number as Number,Name,SequenceNumber,Dwell, URL, Category, Description from ChannelList,Channel "
+					+ "WHERE ListNumber=" + listNumber + " AND Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
+
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+					try (ResultSet rs2 = stmt.executeQuery(query)) {
+						if (rs2.first())
+							do {
+								int chanNumber = rs2.getInt("Number");
+								int seq = rs2.getInt("SequenceNumber");
+								long dwell = rs2.getLong("Dwell");
+								totalDwell += dwell;
+								// TODO -- The abbreviation argument (next line) is wrong.
+								ChannelCategory cat = new ChannelCategory(rs2.getString("Category"), "ABB");
+								String name = rs2.getString("Name");
+								String url = rs2.getString("URL");
+								String desc = rs2.getString("Description");
+								try {
+									URI uri = new URI(url);
+									ChannelInfoHolder cih = new ChannelInfoHolder(chanNumber, seq, dwell, name);
+									System.out.println(cih);
+									internalScrollPanel.add(new JLabel(cih.toString()));
+									Channel channel = new ChannelImpl(name, cat, desc, uri, chanNumber, dwell);
+									channelListHolder.add(channel);
+									listOfChannelsArea.append(cih + "\n");
+								} catch (URISyntaxException e) {
+									e.printStackTrace();
+								}
+
+							} while (rs2.next());
+						else {
+							// Oops. no first element!?
+							System.err.println("No elements in the save/restore database for list number " + listNumber + "!");
+							return;
+						}
+					}
+				} catch (SQLException e) {
+					System.err.println(query);
+					e.printStackTrace();
+				}
+			}
+			DecimalFormat myFormatter = new DecimalFormat("#.0");
+			String output = myFormatter.format(totalDwell / 1000.0 / 60.0);
+			listOfChannelsArea.append("\nTotal duration of this list: " + totalDwell + " msec (" + output + " minutes)\n");
 		}
 
 		private List<String> getExistingList() throws Exception {
