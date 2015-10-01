@@ -134,6 +134,24 @@ public class GlobalVariables {
 			"bin/gov/fnal/ppd/dd/images/fermilab19.jpg", //
 			"bin/gov/fnal/ppd/dd/images/fermilab20.jpg", //
 			"bin/gov/fnal/ppd/dd/images/fermilab21.jpg", //
+			"bin/gov/fnal/ppd/dd/images/american-lotus-2.jpg", //
+			"bin/gov/fnal/ppd/dd/images/auditorium-stairs.jpg", //
+			"bin/gov/fnal/ppd/dd/images/behind-tall-grass.jpg", //
+			"bin/gov/fnal/ppd/dd/images/bright-tevatron-tunnel.jpg", //
+			"bin/gov/fnal/ppd/dd/images/coyote-wilson-hall.jpg", //
+			"bin/gov/fnal/ppd/dd/images/egret-spots.jpg", //
+			"bin/gov/fnal/ppd/dd/images/feynman-fountain.jpg", //
+			"bin/gov/fnal/ppd/dd/images/iarc-angles.jpg", //
+			"bin/gov/fnal/ppd/dd/images/july-fourth-coyote.jpg", //
+			"bin/gov/fnal/ppd/dd/images/lightning-storm-over-fermilab.jpg", //
+			"bin/gov/fnal/ppd/dd/images/main-ring-magnets.jpg", //
+			"bin/gov/fnal/ppd/dd/images/pom-pom.jpg", //
+			"bin/gov/fnal/ppd/dd/images/ramsey-wilson.jpg", //
+			"bin/gov/fnal/ppd/dd/images/sunset-at-caseys-pond.jpg", //
+			"bin/gov/fnal/ppd/dd/images/water-moon-venus.jpg", //
+			"bin/gov/fnal/ppd/dd/images/wilson-hall-moon-airplane.jpg", //
+			"bin/gov/fnal/ppd/dd/images/yellow-flowers.jpg", //
+			"bin/gov/fnal/ppd/dd/images/yellowwildflowers.jpg", //
 															};
 
 	/**
@@ -420,7 +438,7 @@ public class GlobalVariables {
 	public static void credentialsSetup() {
 		String fileName = "credentials.txt";
 		String key_loc = ("/private" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key").toLowerCase();
-		
+
 		File file = null;
 
 		for (String P : credentialsPath) {
