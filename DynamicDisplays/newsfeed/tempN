@@ -33,19 +33,6 @@
     </item>
 
             <item>
-	<title><![CDATA[Is an ancient virus responsible for some cases of Lou Gehrig’s disease?]]></title>
-	<link>http://news.sciencemag.org/health/2015/09/ancient-virus-responsible-some-cases-lou-gehrig-s-disease</link>
-	<pubDate>Wed, 30 Sep 2015 02:00:00 -0400</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/health/2015/09/ancient-virus-responsible-some-cases-lou-gehrig-s-disease?rss=1</guid>
-	<description>New evidence supports the controversial link between a viral remnant buried in our DNA and amyotrophic lateral sclerosis</description>
-        <media:description>New evidence supports the controversial link between a viral remnant buried in our DNA and amyotrophic lateral sclerosis</media:description>
-        <media:credit role="author">Jon Cohen</media:credit>
-        <media:category><![CDATA[Health]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-ALS_0.jpg?itok=5i0gUdfR" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-ALS_0.jpg?itok=5i0gUdfR" height="60" width="60" />
-    </item>
-
-            <item>
 	<title><![CDATA[Gut bacteria could predict asthma in kids]]></title>
 	<link>http://news.sciencemag.org/biology/2015/09/gut-bacteria-could-predict-asthma-kids</link>
 	<pubDate>Wed, 30 Sep 2015 02:00:00 -0400</pubDate>
@@ -56,6 +43,19 @@
         <media:category><![CDATA[Biology]]></media:category>
         <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-asthma_0.jpg?itok=oLlhQHru" height="60" width="60" />
 	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-asthma_0.jpg?itok=oLlhQHru" height="60" width="60" />
+    </item>
+
+            <item>
+	<title><![CDATA[Is an ancient virus responsible for some cases of Lou Gehrig’s disease?]]></title>
+	<link>http://news.sciencemag.org/health/2015/09/ancient-virus-responsible-some-cases-lou-gehrig-s-disease</link>
+	<pubDate>Wed, 30 Sep 2015 02:00:00 -0400</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/health/2015/09/ancient-virus-responsible-some-cases-lou-gehrig-s-disease?rss=1</guid>
+	<description>New evidence supports the controversial link between a viral remnant buried in our DNA and amyotrophic lateral sclerosis</description>
+        <media:description>New evidence supports the controversial link between a viral remnant buried in our DNA and amyotrophic lateral sclerosis</media:description>
+        <media:credit role="author">Jon Cohen</media:credit>
+        <media:category><![CDATA[Health]]></media:category>
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-ALS_0.jpg?itok=5i0gUdfR" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-ALS_0.jpg?itok=5i0gUdfR" height="60" width="60" />
     </item>
 
             <item>
