@@ -42,7 +42,7 @@ public abstract class DisplayImpl implements Display {
 
 	protected int					screenNumber		= 0;
 	protected static AtomicInteger	internalThreadID	= new AtomicInteger(0);
-	private SignageContent			channel;
+	protected SignageContent		channel;
 	protected SignageContent		previousChannel		= null;
 	protected Color					highlightColor;
 	protected List<ActionListener>	listeners			= new ArrayList<ActionListener>();
@@ -128,6 +128,7 @@ public abstract class DisplayImpl implements Display {
 
 	/**
 	 * Override if this is something you need to check
+	 * 
 	 * @param c
 	 * @return
 	 */

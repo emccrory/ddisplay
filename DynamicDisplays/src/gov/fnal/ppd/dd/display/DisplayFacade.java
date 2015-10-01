@@ -7,6 +7,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.channel.SkeletonChannel;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.chat.MessageType;
@@ -88,7 +89,7 @@ public class DisplayFacade extends DisplayImpl {
 		@Override
 		public void receiveIncomingMessage(final MessageCarrier message) {
 			if (message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME) && message.getType() == MessageType.ERROR) {
-				println(getClass(), ".displayIncomingMessage(): Got an error message -- " + message );
+				println(getClass(), ".displayIncomingMessage(): Got an error message -- " + message);
 				dcp.errorHandler(message);
 			} else {
 				// DisplayFacade d = clients.get(message.getFrom());
@@ -236,6 +237,17 @@ public class DisplayFacade extends DisplayImpl {
 	public void disconnect() {
 		alreadyWaiting.set(false);
 		FacadeMessagingClient.me.disconnect();
+	}
+
+	/**
+	 * A kludged-up method FO USE ONLY by the status mechanism to set the apparent content, as obtained from elsewhere (like from
+	 * a database read).
+	 * 
+	 * @param contentName
+	 *            -- A string that describes the apparent content on this display
+	 */
+	public void setContentValueBackdoor(final String contentName) {
+		channel = new SkeletonChannel(contentName);
 	}
 
 }
