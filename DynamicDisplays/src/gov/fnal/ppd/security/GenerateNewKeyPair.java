@@ -35,13 +35,13 @@ import java.util.Date;
  */
 public class GenerateNewKeyPair {
 
-	private static final String	ALG_TYPE				= "DSA";
-	private static Connection	connection;
-	private static final String	DEFAULT_SERVER			= "mccrory.fnal.gov";
-	private static final String	DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc_dev");
-	private static final String	DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", DEFAULT_SERVER);
-	private static String		serverNode				= DATABASE_SERVER_NAME;
-	private static String		thisNode;
+	private static final String			ALG_TYPE				= "DSA";
+	private volatile static Connection	connection;
+	private static final String			DEFAULT_SERVER			= "mccrory.fnal.gov";
+	private static final String			DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc_dev");
+	private static final String			DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", DEFAULT_SERVER);
+	private static String				serverNode				= DATABASE_SERVER_NAME;
+	private static String				thisNode;
 
 	/**
 	 * @param user
