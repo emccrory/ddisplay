@@ -33,12 +33,28 @@ public class ListOfValidChannels extends HashSet<String> {
 		Statement stmt = null;
 		ResultSet rs = null;
 		Connection connection;
+		int count = 0;
+
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 
 			synchronized (connection) {
 				stmt = connection.createStatement();
 				rs = stmt.executeQuery("USE " + DATABASE_NAME);
+				rs = stmt.executeQuery("SELECT URL FROM Channel");
+				rs.first(); // Move to first returned row
+				while (!rs.isAfterLast())
+					try {
+						String theURL = rs.getString("URL");
+						add(theURL);
+
+						rs.next();
+						count++;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				stmt.close();
+				rs.close();
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -47,25 +63,6 @@ public class ListOfValidChannels extends HashSet<String> {
 			e.printStackTrace();
 		}
 
-		int count = 0;
-		try {
-			rs = stmt.executeQuery("SELECT URL FROM Channel");
-			rs.first(); // Move to first returned row
-			while (!rs.isAfterLast())
-				try {
-					String theURL = rs.getString("URL");
-					add(theURL);
-
-					rs.next();
-					count++;
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			stmt.close();
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		println(this.getClass(), "Found " + count + " URLs.");
 	}
 

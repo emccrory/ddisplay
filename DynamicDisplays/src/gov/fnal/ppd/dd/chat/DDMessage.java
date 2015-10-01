@@ -43,44 +43,44 @@ public class DDMessage {
 			if (rawMessage == null || rawMessage.length() == 0) {
 				// Nothing there!
 				System.err.println(DDMessage.class + ": No characters received!");
-			} else
-				decode();
+			} else {
+				if (rawMessage.startsWith(XMLPRE)) {
+					// We have to have one of the XML classes defined here: Ping, Pong, ChangeChannel, ChangeChannelList, or
+					// ChannelSpec
+					try {
+						// These sorts of XML messages are not used
+						// if (rawMessage.contains(PING)) {
+						// receivedMessage = MyXMLMarshaller.unmarshall(Ping.class, rawMessage);
+						// } else if (rawMessage.contains(PONG)) {
+						// receivedMessage = MyXMLMarshaller.unmarshall(Pong.class, rawMessage);
+						// } else if (rawMessage.contains(HEARTBEAT)) {
+						// receivedMessage = MyXMLMarshaller.unmarshall(HeartBeat.class, rawMessage);
+						// } else
+
+						if (rawMessage.contains(CHANGE_CHANNEL)) {
+							receivedMessage = MyXMLMarshaller.unmarshall(ChangeChannel.class, rawMessage);
+						} else if (rawMessage.contains(CHANGE_CHANNEL_LIST)) {
+							receivedMessage = MyXMLMarshaller.unmarshall(ChangeChannelList.class, rawMessage);
+						} else if (rawMessage.contains(CHANNEL_SPEC)) {
+							receivedMessage = MyXMLMarshaller.unmarshall(ChannelSpec.class, rawMessage);
+						} else {
+							System.err.println(getClass().getSimpleName() + ".decode(): Unrecognized XML message received.");
+						}
+					} catch (JAXBException e) {
+						e.printStackTrace();
+					}
+					if (receivedMessage != null) {
+						System.out.println(getClass().getSimpleName()
+								+ ".decode(): Incoming message interpreted as an object of type "
+								+ receivedMessage.getClass().getCanonicalName());
+					} else if (rawMessage != null)
+						throw new RuntimeErrorException(new Error("Unknown XML data type within this XML document: [" + rawMessage
+								+ "]"));
+				}
+			}
 		} else {
 			rawMessage = "nothing";
 			receivedMessage = null;
-		}
-	}
-
-	private void decode() {
-		if (rawMessage.startsWith(XMLPRE)) {
-			// We have to have one of the XML classes defined here: Ping, Pong, ChangeChannel, ChangeChannelList, or ChannelSpec
-			try {
-				// These sorts of XML messages are not used
-				// if (rawMessage.contains(PING)) {
-				// receivedMessage = MyXMLMarshaller.unmarshall(Ping.class, rawMessage);
-				// } else if (rawMessage.contains(PONG)) {
-				// receivedMessage = MyXMLMarshaller.unmarshall(Pong.class, rawMessage);
-				// } else if (rawMessage.contains(HEARTBEAT)) {
-				// receivedMessage = MyXMLMarshaller.unmarshall(HeartBeat.class, rawMessage);
-				// } else
-
-				if (rawMessage.contains(CHANGE_CHANNEL)) {
-					receivedMessage = MyXMLMarshaller.unmarshall(ChangeChannel.class, rawMessage);
-				} else if (rawMessage.contains(CHANGE_CHANNEL_LIST)) {
-					receivedMessage = MyXMLMarshaller.unmarshall(ChangeChannelList.class, rawMessage);
-				} else if (rawMessage.contains(CHANNEL_SPEC)) {
-					receivedMessage = MyXMLMarshaller.unmarshall(ChannelSpec.class, rawMessage);
-				} else {
-					System.err.println(getClass().getSimpleName() + ".decode(): Unrecognized XML message received.");
-				}
-			} catch (JAXBException e) {
-				e.printStackTrace();
-			}
-			if (receivedMessage != null) {
-				System.out.println(getClass().getSimpleName() + ".decode(): Incoming message interpreted as an object of type "
-						+ receivedMessage.getClass().getCanonicalName());
-			} else if (rawMessage != null)
-				throw new RuntimeErrorException(new Error("Unknown XML data type within this XML document: [" + rawMessage + "]"));
 		}
 	}
 

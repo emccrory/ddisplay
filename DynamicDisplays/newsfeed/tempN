@@ -7,6 +7,32 @@
     <link>http://news.sciencemag.org/rss/current.xml</link>
     <description>Up to the minute news and features from Science.</description>
                 <item>
+	<title><![CDATA[Physicists observe weird quantum fluctuations of empty space—maybe]]></title>
+	<link>http://news.sciencemag.org/physics/2015/10/physicists-observe-weird-quantum-fluctuations-empty-space-maybe</link>
+	<pubDate>Thu, 01 Oct 2015 02:00:00 -0400</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/physics/2015/10/physicists-observe-weird-quantum-fluctuations-empty-space-maybe?rss=1</guid>
+	<description>Like the subtle phenomenon itself, exactly what was measured is uncertain</description>
+        <media:description>Like the subtle phenomenon itself, exactly what was measured is uncertain</media:description>
+        <media:credit role="author">Adrian Cho</media:credit>
+        <media:category><![CDATA[Physics]]></media:category>
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-vacuum.jpg?itok=C39D1Ngn" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-vacuum.jpg?itok=C39D1Ngn" height="60" width="60" />
+    </item>
+
+            <item>
+	<title><![CDATA[Why beauty is in the eye of the beholder]]></title>
+	<link>http://news.sciencemag.org/brain-behavior/2015/10/why-beauty-eye-beholder</link>
+	<pubDate>Thu, 01 Oct 2015 12:00:00 -0400</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/brain-behavior/2015/10/why-beauty-eye-beholder?rss=1</guid>
+	<description>Study finds life experiences shape our opinions of attractiveness</description>
+        <media:description>Study finds life experiences shape our opinions of attractiveness</media:description>
+        <media:credit role="author">Kelli Whitlock Burton</media:credit>
+        <media:category><![CDATA[Brain & Behavior]]></media:category>
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-beauty_0.jpg?itok=PbC5VFPO" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-beauty_0.jpg?itok=PbC5VFPO" height="60" width="60" />
+    </item>
+
+            <item>
 	<title><![CDATA[Predatory publishers earned $75 million last year, study finds]]></title>
 	<link>http://news.sciencemag.org/education/2015/09/predatory-publishers-earned-75-million-last-year-study-finds</link>
 	<pubDate>Wed, 30 Sep 2015 08:00:00 -0400</pubDate>
@@ -33,19 +59,6 @@
     </item>
 
             <item>
-	<title><![CDATA[Gut bacteria could predict asthma in kids]]></title>
-	<link>http://news.sciencemag.org/biology/2015/09/gut-bacteria-could-predict-asthma-kids</link>
-	<pubDate>Wed, 30 Sep 2015 02:00:00 -0400</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/biology/2015/09/gut-bacteria-could-predict-asthma-kids?rss=1</guid>
-	<description>Giving babies a probiotic “cocktail” could one day prevent asthma</description>
-        <media:description>Giving babies a probiotic “cocktail” could one day prevent asthma</media:description>
-        <media:credit role="author">Sarah C. P. Williams</media:credit>
-        <media:category><![CDATA[Biology]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-asthma_0.jpg?itok=oLlhQHru" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-asthma_0.jpg?itok=oLlhQHru" height="60" width="60" />
-    </item>
-
-            <item>
 	<title><![CDATA[Is an ancient virus responsible for some cases of Lou Gehrig’s disease?]]></title>
 	<link>http://news.sciencemag.org/health/2015/09/ancient-virus-responsible-some-cases-lou-gehrig-s-disease</link>
 	<pubDate>Wed, 30 Sep 2015 02:00:00 -0400</pubDate>
@@ -56,21 +69,6 @@
         <media:category><![CDATA[Health]]></media:category>
         <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-ALS_0.jpg?itok=5i0gUdfR" height="60" width="60" />
 	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-ALS_0.jpg?itok=5i0gUdfR" height="60" width="60" />
-    </item>
-
-            <item>
-	<title><![CDATA[Treat all HIV-infected people, says new WHO guideline]]></title>
-	<link>http://news.sciencemag.org/health/2015/09/treat-all-hiv-infected-people-says-new-who-guideline</link>
-	<pubDate>Wed, 30 Sep 2015 12:30:00 -0400</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/health/2015/09/treat-all-hiv-infected-people-says-new-who-guideline?rss=1</guid>
-	<description>Nine million more people will be eligible for antiretrovirals, but funding remains a challenge
-</description>
-        <media:description>Nine million more people will be eligible for antiretrovirals, but funding remains a challenge
-</media:description>
-        <media:credit role="author">Jon Cohen</media:credit>
-        <media:category><![CDATA[Health]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/AIDS.jpg?itok=mgpro09V" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/AIDS.jpg?itok=mgpro09V" height="60" width="60" />
     </item>
 
 </channel>
