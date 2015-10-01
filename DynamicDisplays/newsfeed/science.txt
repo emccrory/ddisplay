@@ -1,6 +1,6 @@
-<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Fri Sep 25 15:04:01 CDT 2015)</em>
-<b>Video: Bat’s tongue baffles researchers</b>: Novel feeding mechanism in bats works like conveyor belt
-<b>Popular gene-editing technique gets sharper molecular scissors</b>: Bacteria are proving a rich source of new useful editing proteins
-<b>Light-based memory chip is first to permanently store data</b>: Advance could help bring about dramatically faster computer speeds 
-<b>X-ray signal from outer space points to dark matter</b>: Definitive sighting of mysterious substance may be on the horizon
-<b>How societies learn to count to 10</b>: Once cultures begin to add numerals beyond five to their language, they quickly jump to higher numbers
+<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Thu Oct 01 08:04:02 CDT 2015)</em>
+<b>Predatory publishers earned $75 million last year, study finds</b>: Nearly half a million papers went to titles with lax standards
+<b>Venus and a bizarre metal asteroid are leading destinations for low-cost NASA missions</b>: Agency selects five Discovery missions for further funding
+<b>Is an ancient virus responsible for some cases of Lou Gehrig’s disease?</b>: New evidence supports the controversial link between a viral remnant buried in our DNA and amyotrophic lateral sclerosis
+<b>Gut bacteria could predict asthma in kids</b>: Giving babies a probiotic “cocktail” could one day prevent asthma
+<b>Treat all HIV-infected people, says new WHO guideline</b>: Nine million more people will be eligible for antiretrovirals, but funding remains a challenge
