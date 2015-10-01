@@ -86,6 +86,7 @@ public class DisplayColorSliderUI extends BasicSliderUI {
 		Hashtable<Integer, JComponent> dict = new Hashtable<Integer, JComponent>();
 		for (Integer I = 0; I < labels.length; I++)
 			dict.put(I, new JLabel("" + labels[I]));
+		// TODO -- add this top DisplayButtons.buttonList (somehow).
 		slider.setLabelTable(dict);
 	}
 
