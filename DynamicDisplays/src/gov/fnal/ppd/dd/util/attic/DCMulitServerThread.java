@@ -151,21 +151,21 @@ public class DCMulitServerThread extends Thread {
 					// System.out.println(getClass().getSimpleName() + " --DEBUG-- Got a blank line. Leaving now.");
 					// break;
 					// }
-					
-// Removed the following block so there are no compile errors
-//					if (dcp.processInput(inputLine)) {
-//						// We now have the received message object. Send a reply, if warranted.
-//						Object mes = dcp.getTheReply();
-//						if (mes != null) {
-//							synchronized (out) {
-//								String xmlMessage = MyXMLMarshaller.getXML(mes);
-//								out.println(xmlMessage);
-//								System.out.println(getClass().getSimpleName() + " --Normal Reply-- Sent '" + xmlMessage + "'");
-//							}
-//						}
-//					} else {
-//						System.err.println(getClass().getSimpleName() + ": Processing the input failed");
-//					}
+
+					// Removed the following block so there are no compile errors
+					// if (dcp.processInput(inputLine)) {
+					// // We now have the received message object. Send a reply, if warranted.
+					// Object mes = dcp.getTheReply();
+					// if (mes != null) {
+					// synchronized (out) {
+					// String xmlMessage = MyXMLMarshaller.getXML(mes);
+					// out.println(xmlMessage);
+					// System.out.println(getClass().getSimpleName() + " --Normal Reply-- Sent '" + xmlMessage + "'");
+					// }
+					// }
+					// } else {
+					// System.err.println(getClass().getSimpleName() + ": Processing the input failed");
+					// }
 				} catch (SocketException e) {
 					// This exception occurs when the connection to the Channel Selector is broken.
 					System.err.println("Received " + e.getClass().getSimpleName() + " (" + e.getLocalizedMessage()
@@ -183,9 +183,9 @@ public class DCMulitServerThread extends Thread {
 		try {
 			// dcp.removeListener(myChangeListener);
 			this.in.close();
-			synchronized (this.out) {
-				this.out.close();
-			}
+			// synchronized (this.out) {
+			this.out.close();
+			// }
 			socket.close();
 			sleep(5000);
 		} catch (Exception e2) {
