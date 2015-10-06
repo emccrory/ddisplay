@@ -13,16 +13,20 @@ myHashCode=`git rev-parse HEAD`
 # The newest hash code in the database
 both=`java gov.fnal.ppd.dd.util.TranslateGITHashCodeToDate | tail -1`
 newestHashCode=`echo $both |  awk '{ print $1 }'`
-newestTimeStamp=`echo $both |  awk '{ print $2 }'`
+newestTimeStamp=`echo $both |  awk '{ print $2 $3 }'`
 
 # Now, check if my hash code is equal to the hash code of the newest in the repository
-
-echo $both $myHashCode $newestHashCode
+# echo $both $myHashCode $newestHashCode
 
 if [ $myHashCode = $newestHashCode ]; then
-    echo The local repository is up to date
+    echo The local repository hash matches the newest hash in the database
 else
-    echo NEED TO UPDATE LOCAL REPOSITORY
+    echo 'The local repository hash *** DOES NOT MATCH *** the newest hash in the database'
+    
+    myDate=`java gov.fnal.ppd.dd.util.TranslateGITHashCodeToDate $myHashCode | tail -1`
+    
+    echo "Database newest is $newestTimeStamp, the date for my hash, if it exists, is $myDate"
+
 fi
 
 
