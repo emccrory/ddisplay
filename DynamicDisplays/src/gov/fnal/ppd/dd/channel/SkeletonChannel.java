@@ -33,10 +33,8 @@ public class SkeletonChannel implements SignageContent {
 				this.name = name.substring(0, name.indexOf("https://") - 1);
 			}
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
