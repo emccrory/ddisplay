@@ -1,6 +1,6 @@
-<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Tue Oct 06 08:04:02 CDT 2015)</em>
-<b>European Union helps match refugees with science jobs</b>: A new program will connect researchers with universities but won't give them preferential treatment
-<b>Proof that neutrinos change identity bags physics Nobel</b>: Observation by Japanese and Canadian teams proved ghostly particle have mass
-<b>Climate scientist requesting federal investigation feels heat from House Republicans</b>: Letter to White House spurs action by House science panel
-<b>Humans are worse than radiation for Chernobyl animals, study finds</b>: But extent of radiation damage to individual animals still an open question
-<b>DNA ‘vaccine’ sterilizes mice, could lead to one-shot birth control</b>: New contraception could be used to control feral populations of cats and dogs
+<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Tue Oct 13 10:04:02 CDT 2015)</em>
+<b>Test your smarts on worker ants, kitty contraception, and more on this week’s science news quiz!</b>
+<b>Economics Nobel honors study of consumption differences between rich and poor</b>: British-American economist Agnus Deaton developed key tools for fighting poverty
+<b>Gene-editing method revives hopes for transplanting pig organs into people</b>: DNA-cutting technique called CRISPR lets scientists engineer potentially dangerous viral genes out of pig cells
+<b>Cancer Research UK announces grand challenges competition</b>: £100 million program hopes to foster collaborations on risky ideas
+<b>Belly button gel based on a mouthwash ingredient could save thousands of newborns</b>: GlaxoSmtihKline asks European regulatory agency to approve new antiseptic for cord care
