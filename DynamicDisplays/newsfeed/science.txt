@@ -1,6 +1,6 @@
-<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Tue Oct 13 14:04:02 CDT 2015)</em>
+<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Tue Oct 13 15:04:01 CDT 2015)</em>
+<b>Most animal research studies may not avoid key biases</b>: Common bias safeguards used in clinical trials not always followed in animal research, study suggests
 <b>How to take a dinosaur’s temperature</b>: Eggshells show some dinos were as warm-blooded as today’s birds 
 <b>Test your smarts on worker ants, kitty contraception, and more on this week’s science news quiz!</b>
 <b>Economics Nobel honors study of consumption differences between rich and poor</b>: British-American economist Agnus Deaton developed key tools for fighting poverty
 <b>Gene-editing method revives hopes for transplanting pig organs into people</b>: DNA-cutting technique called CRISPR lets scientists engineer potentially dangerous viral genes out of pig cells
-<b>Cancer Research UK announces grand challenges competition</b>: £100 million program hopes to foster collaborations on risky ideas
