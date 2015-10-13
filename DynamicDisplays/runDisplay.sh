@@ -6,7 +6,7 @@ cd ~/src/log
 
 if [ -e /usr/bin/xterm ]; then
     # SLF
-    /usr/bin/xterm &
+    /usr/bin/xterm -geometry 200x30 &
 elif [ -e /opt/X11/bin/xterm ]; then
     # Mac OS
     /opt/X11/bin/xterm &
@@ -64,14 +64,8 @@ if [ "$1 X" != " X" ]; then
     screenNum=$1;
 fi
 {
-# Get the messaging server for me
-
-    messagingServer=`java -Dddisplay.dbserver=$databaseServer \
-			-Dddisplay.dbname=$databaseName \
-			-Dddisplay.dbusername=$databaseUsername \
-			-Dddisplay.dbpassword=$databasePassword \
-			-Xmx512m gov.fnal.ppd.dd.GetMessagingServer | grep "MessagingServer=" | awk '{ print $2 }'`
-
+    # Get the messaging server for me
+    messagingServer=`java -Xmx512m gov.fnal.ppd.dd.GetMessagingServer | grep "MessagingServer=" | awk '{ print $2 }'`
 
     /bin/date
     # Am I the messaging server??
@@ -86,11 +80,19 @@ fi
 	fi
     fi
     
-    java -Dddisplay.dbserver=$databaseServer \
-	-Dddisplay.dbname=$databaseName \
-	-Dddisplay.dbusername=$databaseUsername \
-	-Dddisplay.dbpassword=$databasePassword \
-	-Dddisplay.wrappertype=$WrapperType \
-	-Xmx512m gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox -screen=$screenNum 
+    if java gov.fnal.ppd.dd.util.HasChannelSelector; then
+
+	if ps -aef | grep MakeChannelSelector | grep -v grep; then
+	    echo "Already running the ChannelSelector."
+	else
+	    echo "Starting the ChannelSelector";
+	    ./runSelector.sh
+	    sleep 10;
+	fi
+    fi
+
+    java -Dddisplay.wrappertype=$WrapperType \
+	 -Xmx1024m \
+         gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox -screen=$screenNum 
 
 } >> $log 2>&1 
