@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.locationDescription;
 import static gov.fnal.ppd.dd.GlobalVariables.locationName;
@@ -115,6 +116,8 @@ public class GetMessagingServer {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
+		credentialsSetup();
+
 		getMessagingServerNameDisplay();
 	}
 }
