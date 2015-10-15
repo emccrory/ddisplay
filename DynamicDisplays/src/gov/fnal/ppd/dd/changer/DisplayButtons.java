@@ -124,7 +124,7 @@ public class DisplayButtons extends JPanel {
 	 */
 	public static void setToolTip(final Display disp) {
 		if (buttonList.size() == 0) {
-			println(DisplayButtons.class, ".setToolTip() for display " + disp.getDBDisplayNumber() + " -- nothing in buttonList.");
+			println(DisplayButtons.class, ".setToolTip() for display " + disp.getDBDisplayNumber() + " -- nothing in buttonList.  Are we still initializing?");
 			return;
 		}
 
