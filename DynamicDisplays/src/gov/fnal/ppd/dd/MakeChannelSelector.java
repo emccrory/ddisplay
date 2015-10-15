@@ -19,6 +19,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
+import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
@@ -58,6 +59,8 @@ public class MakeChannelSelector {
 	 */
 	public static void main(final String[] args) {
 
+		prepareSaverImages();
+		
 		credentialsSetup();
 
 		selectorSetup();

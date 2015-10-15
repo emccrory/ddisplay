@@ -113,7 +113,7 @@ public class GlobalVariables {
 	/**
 	 * The names of the image files used in the screen saver
 	 */
-	public static final String[]	imageNames				= { "bin/gov/fnal/ppd/dd/images/fermilab3.jpg",
+	public static final String[]	imageNames	= { "bin/gov/fnal/ppd/dd/images/fermilab3.jpg",
 			"bin/gov/fnal/ppd/dd/images/fermilab1.jpg", //
 			"bin/gov/fnal/ppd/dd/images/fermilab2.jpg", //
 			"bin/gov/fnal/ppd/dd/images/fermilab4.jpg", //
@@ -152,26 +152,30 @@ public class GlobalVariables {
 			"bin/gov/fnal/ppd/dd/images/wilson-hall-moon-airplane.jpg", //
 			"bin/gov/fnal/ppd/dd/images/yellow-flowers.jpg", //
 			"bin/gov/fnal/ppd/dd/images/yellowwildflowers.jpg", //
-															};
+												};
 
 	/**
 	 * The images corresponding to the image names specified above
 	 */
-	public final static Image[]		bgImage					= new Image[imageNames.length];
+	public final static Image[]		bgImage		= new Image[imageNames.length];
 	/**
 	 * How wide is each image, nominally?
 	 */
-	public final static int[]		imageWidth				= new int[imageNames.length];
+	public final static int[]		imageWidth	= new int[imageNames.length];
 	/**
 	 * how tall is each image, nominally?
 	 */
-	public final static int[]		imageHeight				= new int[imageNames.length];
+	public final static int[]		imageHeight	= new int[imageNames.length];
 	/**
 	 * The offset from the top of the screen to put the text
 	 */
-	public final static int[]		offsets					= new int[imageNames.length];
+	public final static int[]		offsets		= new int[imageNames.length];
 
-	static {
+	/**
+	 * Must be called by the ChannelSelector prior to startup! This was simply a "static" block, but this is entirely unnecessary
+	 * for the Displays
+	 */
+	public static final void prepareSaverImages() {
 		for (int i = 0; i < imageNames.length; i++) {
 			ImageIcon icon = new ImageIcon(imageNames[i]);
 			bgImage[i] = icon.getImage();
@@ -180,14 +184,15 @@ public class GlobalVariables {
 			offsets[i] = (int) (50.0 + 500.0 * Math.random());
 		}
 	}
+
 	/**
 	 * 
 	 */
-	public static int				INSET_SIZE				= 4;
+	public static int			INSET_SIZE				= 4;
 	/**
 	 * 
 	 */
-	public static float				FONT_SIZE				= 40.0f;
+	public static float			FONT_SIZE				= 40.0f;
 
 	// /**
 	// * Where is the messaging server? Controlled by system constant, ddisplay.messagingserver
@@ -198,15 +203,15 @@ public class GlobalVariables {
 	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) prime number in the range of unassigned
 	 * port number (49152 - 65535) Controlled by system constant ddisplay.messagingserver
 	 */
-	public static final int			MESSAGING_SERVER_PORT	= Integer.getInteger("ddisplay.messagingport", 49999);
+	public static final int		MESSAGING_SERVER_PORT	= Integer.getInteger("ddisplay.messagingport", 49999);
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	public static final String		WEB_SERVER_NAME			= System.getProperty("ddisplay.webserver", "dynamicdisplays.fnal.gov");
+	public static final String	WEB_SERVER_NAME			= System.getProperty("ddisplay.webserver", "dynamicdisplays.fnal.gov");
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	private static final String		WEB_SERVER_FOLDER		= System.getProperty("ddisplay.webfolder", "");
+	private static final String	WEB_SERVER_FOLDER		= System.getProperty("ddisplay.webfolder", "");
 
 	/**
 	 * @return The web server prefix, dealing with whether or not there is a folder in there, too.
@@ -239,6 +244,13 @@ public class GlobalVariables {
 	 * Controlled by system constant ddisplay.xmlserver
 	 */
 	public static final String		XML_SERVER_NAME			= System.getProperty("ddisplay.xmlserver", "dynamicdisplays.fnal.gov");
+
+	/**
+	 * The URL that is the single image display web page. This is a bit of a kludge!
+	 */
+	public static final String		SINGLE_IMAGE_DISPLAY	= System.getProperty("ddisplay.singleimagedisplay",
+																	"http://dynamicdisplays.fnal.gov/portfolioOneSlide.php?photo=");
+
 	/**
 	 * One second, expressed in milliseconds (e.g., 1000L)
 	 */
