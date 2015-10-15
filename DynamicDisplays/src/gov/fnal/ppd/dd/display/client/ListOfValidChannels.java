@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
@@ -80,7 +81,9 @@ public class ListOfValidChannels extends HashSet<String> {
 	 * @return If this bit of content is "approved"
 	 */
 	public boolean contains(SignageContent c) {
-		boolean r = contains(c.getURI().toString());
+		// FIXME -- this next line is partially right. The check if this hash contains this URL is OK, but the check of a fixed URL
+		// against the given URL is inelegant!
+		boolean r = contains(c.getURI().toString()) || c.getURI().toString().startsWith(SINGLE_IMAGE_DISPLAY);
 		if (!r) {
 			System.out.println("----- signage content " + c + "\n----- REJECTED!  Reloading the list");
 			resetChannelList();
