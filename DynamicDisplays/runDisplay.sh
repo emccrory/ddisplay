@@ -64,6 +64,7 @@ if [ "$1 X" != " X" ]; then
     screenNum=$1;
 fi
 {
+    echo "Obtaining my messaging server, and determining if it is I ... "
     # Get the messaging server for me
     messagingServer=`java -Xmx512m gov.fnal.ppd.dd.GetMessagingServer | grep "MessagingServer=" | awk '{ print $2 }'`
 
@@ -78,10 +79,12 @@ fi
 	    ./runMessagingServer.sh & 
 	    sleep 10;
 	fi
+    else
+	echo "The messaging server is " $messagingServer " which is not I"
     fi
     
+    echo "Determining if I should run a ChannelSelector"
     if java gov.fnal.ppd.dd.util.HasChannelSelector; then
-
 	if ps -aef | grep MakeChannelSelector | grep -v grep; then
 	    echo "Already running the ChannelSelector."
 	else
@@ -91,8 +94,8 @@ fi
 	fi
     fi
 
-    java -Dddisplay.wrappertype=$WrapperType \
-	 -Xmx1024m \
+    echo "Running the display software ..."
+    java -Dddisplay.wrappertype=$WrapperType -Xmx1024m \
          gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox -screen=$screenNum 
 
 } >> $log 2>&1 
