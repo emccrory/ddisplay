@@ -1,6 +1,6 @@
-<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Tue Oct 13 15:04:01 CDT 2015)</em>
-<b>Most animal research studies may not avoid key biases</b>: Common bias safeguards used in clinical trials not always followed in animal research, study suggests
-<b>How to take a dinosaur’s temperature</b>: Eggshells show some dinos were as warm-blooded as today’s birds 
-<b>Test your smarts on worker ants, kitty contraception, and more on this week’s science news quiz!</b>
-<b>Economics Nobel honors study of consumption differences between rich and poor</b>: British-American economist Agnus Deaton developed key tools for fighting poverty
-<b>Gene-editing method revives hopes for transplanting pig organs into people</b>: DNA-cutting technique called CRISPR lets scientists engineer potentially dangerous viral genes out of pig cells
+<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Thu Oct 15 16:04:05 CDT 2015)</em>
+<b>Sensors may soon give prosthetics a lifelike sense of touch</b>: ‘Pyramid’ sensors with carbon nanotubes show promise in mouse studies
+<b>Feature: Can we build an ‘Iron Man’ suit that gives soldiers a robotic boost?</b>: A longstanding quest to augment human performance with robotic exoskeletons takes a softer approach
+<b>Egg-counting lets parasitic wasps know if a host is ‘taken’ </b>: A simple taste test can count how many eggs are in a potential host
+<b>Neuroscientist team calls for a National Brain Observatory</b>: Group behind presidential BRAIN Initiative offers ambitious new proposal
+<b>Chances are, you’re getting enough sleep</b>: New study finds hunter-gatherers get no more sleep than industrialized societies

@@ -145,8 +145,10 @@ public class ObjectSigning {
 		}
 		List<String> thisClientsDisplays = clientControlList.get(client);
 		// return thisClientsDisplays.contains("-1") || thisClientsDisplays.contains(displayName);
-		if (thisClientsDisplays.contains("-1") || thisClientsDisplays.contains(displayName))
+		if (thisClientsDisplays.contains("-1") || thisClientsDisplays.contains(displayName)) {
+			println(ObjectSigning.class, ": " + client + " *IS* authorized to send to display '" + displayName + "'");
 			return true;
+		}
 
 		String theList = "";
 		for (String S : thisClientsDisplays)

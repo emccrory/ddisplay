@@ -18,8 +18,8 @@ import java.util.Date;
  * 
  */
 public class TranslateGITHashCodeToDate {
-	private BigInteger	hashCode;
-	private Date		timeStamp;
+	private String	hashCode;
+	private Date	timeStamp;
 
 	/**
 	 * Simply return the newest hash code and time stamp
@@ -37,29 +37,21 @@ public class TranslateGITHashCodeToDate {
 	 *            The hash code to find
 	 */
 	public TranslateGITHashCodeToDate(final String code) {
-		hashCode = new BigInteger(code, 16);
+		hashCode = code;
 	}
 
 	/**
 	 * @return the hashCode
 	 */
-	public BigInteger getHashCode() {
+	public String getHashCode() {
 		return hashCode;
-	}
-
-	/**
-	 * @param code
-	 *            the hash code as a String
-	 */
-	public void setHashCode(final String code) {
-		setHashCode(new BigInteger(code, 16));
 	}
 
 	/**
 	 * @param hashCode
 	 *            the hashCode to set
 	 */
-	public void setHashCode(BigInteger hashCode) {
+	public void setHashCode(String hashCode) {
 		this.hashCode = hashCode;
 		timeStamp = null;
 	}
@@ -76,7 +68,7 @@ public class TranslateGITHashCodeToDate {
 		// Look it up in the database
 
 		Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-		String query = "Select HashDate from GitHashDecode where HashCode='" + hashCode.toString(16) + "'";
+		String query = "Select HashDate from GitHashDecode where HashCode='" + hashCode + "'";
 
 		synchronized (connection) {
 			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
@@ -84,7 +76,6 @@ public class TranslateGITHashCodeToDate {
 					if (rs.first())
 						do {
 							timeStamp = rs.getTimestamp("HashDate");
-
 						} while (rs.next());
 					else {
 						// Oops. no first element!?
@@ -115,7 +106,7 @@ public class TranslateGITHashCodeToDate {
 					if (rs.first())
 						do {
 							timeStamp = rs.getTimestamp("HashDate");
-							hashCode = new BigInteger(rs.getString("HashCode"), 16);
+							hashCode = rs.getString("HashCode");
 
 						} while (rs.next());
 					else {
@@ -150,9 +141,9 @@ public class TranslateGITHashCodeToDate {
 			try {
 				TranslateGITHashCodeToDate hashcodeTranslation = new TranslateGITHashCodeToDate();
 				if (succinct) {
-					System.out.println(hashcodeTranslation.getHashCode().toString(16) + "\t" + hashcodeTranslation.getTimeStamp());
+					System.out.println(hashcodeTranslation.getHashCode() + "\t" + hashcodeTranslation.getTimeStamp());
 				} else {
-					System.out.println("The newest time stamp is " + hashcodeTranslation.getHashCode().toString(16)
+					System.out.println("The newest time stamp is " + hashcodeTranslation.getHashCode()
 							+ ".  the hash code for this time is " + hashcodeTranslation.getTimeStamp());
 
 				}
@@ -168,8 +159,8 @@ public class TranslateGITHashCodeToDate {
 					if (succinct)
 						System.out.println(hashcodeTranslation.getTimeStamp());
 					else
-						System.out.println("Hash Code of '" + hashcodeTranslation.getHashCode().toString(16)
-								+ "' has a timestamp of " + hashcodeTranslation.getTimeStamp());
+						System.out.println("Hash Code of '" + hashcodeTranslation.getHashCode() + "' has a timestamp of "
+								+ hashcodeTranslation.getTimeStamp());
 				} catch (Exception e) {
 					if (succinct)
 						System.out.println("(    No Time Stamp  )");
