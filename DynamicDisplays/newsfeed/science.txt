@@ -1,6 +1,6 @@
-<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Thu Oct 15 16:04:05 CDT 2015)</em>
-<b>Sensors may soon give prosthetics a lifelike sense of touch</b>: ‘Pyramid’ sensors with carbon nanotubes show promise in mouse studies
-<b>Feature: Can we build an ‘Iron Man’ suit that gives soldiers a robotic boost?</b>: A longstanding quest to augment human performance with robotic exoskeletons takes a softer approach
-<b>Egg-counting lets parasitic wasps know if a host is ‘taken’ </b>: A simple taste test can count how many eggs are in a potential host
-<b>Neuroscientist team calls for a National Brain Observatory</b>: Group behind presidential BRAIN Initiative offers ambitious new proposal
-<b>Chances are, you’re getting enough sleep</b>: New study finds hunter-gatherers get no more sleep than industrialized societies
+<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Fri Oct 16 14:04:04 CDT 2015)</em>
+<b> Video: Giant guitarfish eye gymnastics</b>: Specialized eye muscle is the key, scientists say 
+<b>Hooke opened up the world of the unseen 350 years ago</b>: His illustrations of parasites painted a world people couldn’t forget
+<b>Podcast: Pre-industrial sleep, Pluto flyby, and making pig organs fit for humans</b>: Listen to a roundup of some of our favorite stories from the week
+<b>U.S. nuclear physicists push for new neutrino experiment</b>: Road map for U.S. program also envisions new collider—someday
+<b>Climate cycles didn’t shape ocean’s abyssal hills </b>: New study says faulting, not Earth’s ice ages, shaped sea floor patterns

@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;
 import static gov.fnal.ppd.dd.GlobalVariables.DEFAULT_DWELL_TIME;
+import static gov.fnal.ppd.dd.GlobalVariables.FORCE_REFRESH;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -77,9 +78,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		new Thread() {
 			public void run() {
-				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number="
-						+ getVirtualDisplayNumber() + " (" + getDBDisplayNumber() + ") "
-						+ (showNumber ? "Showing display num" : "Hiding display num"));
+				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number=" + getVirtualDisplayNumber()
+						+ " (" + getDBDisplayNumber() + ") " + (showNumber ? "Showing display num" : "Hiding display num"));
 				catchSleep(2000); // Wait a bit before trying to contact the instance of FireFox.
 				firefox = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
 						highlightColor, showNumber);
@@ -120,6 +120,26 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					}.start();
 					// }
 				}
+			} else if (url.equalsIgnoreCase(FORCE_REFRESH)) {
+				try {
+
+					// First, do a brute-force refresh to the browser
+					firefox.forceRefresh(frameNumber);
+					
+					// Now tell the lower-level code that we need a full reset
+					firefox.resetURL();
+					
+					// Finally, re-send the last URL we knew about
+					if (!firefox.changeURL(lastChannel.getURI().toASCIIString(), wrapperType, frameNumber)) {
+						println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
+						return false;
+					}
+				} catch (UnsupportedEncodingException e) {
+					System.err.println(getClass().getSimpleName() + ":" + firefox.getInstance()
+							+ " Somthing is wrong with this re-used URL: [" + lastChannel.getURI().toASCIIString() + "]");
+					e.printStackTrace();
+					return false;
+				}
 			} else
 				try {
 					// Someday we may need this: (getContent().getCode() & 1) != 0;
@@ -148,7 +168,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 					updateMyStatus();
 				} catch (UnsupportedEncodingException e) {
-					System.err.println(getClass().getSimpleName() + ":" + firefox.getInstance() + " Somthing is wrong with this URL: [" + url + "]");
+					System.err.println(getClass().getSimpleName() + ":" + firefox.getInstance()
+							+ " Somthing is wrong with this URL: [" + url + "]");
 					e.printStackTrace();
 					return false;
 				}

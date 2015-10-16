@@ -289,6 +289,11 @@ public class GlobalVariables {
 	 * The string that means "show me your colors"
 	 */
 	public static final String		SELF_IDENTIFY			= "http://identify";
+	
+	/**
+	 * The string of a URL that means, perform a full and complete refresh of the page you are shwowing now
+	 */
+	public static final String		FORCE_REFRESH			= "http://refresh";
 
 	/**
 	 * The list of Displays in this instance of whatever program you are running. This is used in a couple of places.

@@ -58,6 +58,7 @@ public class ConnectionToFirefoxInstance {
 	private AtomicBoolean							showingCanonicalSite			= new AtomicBoolean(false);
 	private Rectangle								bounds;
 	private boolean									showNumber						= true;
+	private String									lastURL							= null;
 
 	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
 
@@ -161,6 +162,8 @@ public class ConnectionToFirefoxInstance {
 		if (debug)
 			println(getClass(), instance + " New URL: " + urlString);
 
+		lastURL = urlString;
+
 		String frameName = "iframe";
 		if (frameNumber > 0)
 			frameName = "frame" + frameNumber;
@@ -263,7 +266,6 @@ public class ConnectionToFirefoxInstance {
 		}
 
 		send(s);
-		println(getClass(), instance + " Sent: [" + s + "]");
 
 		// I have tried to do this in a local file, in order to remove some load from the web server. But
 		// this has not worked for me. (10/2014) First, it seems that the "window.location" Javascript command
@@ -308,6 +310,51 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	/**
+	 * Ask the browser to completely refresh itself
+	 * 
+	 * @param frameNumber
+	 */
+	public void forceRefresh(int frameNumber) {
+		// Send the refresh
+
+		String s = "window.location.reload();";
+
+		send(s);
+
+		try {
+			waitForServer();
+			if (!connected)
+				System.err.println(getClass().getName() + ".forceRefresh()" + instance + " -- error from Display server!");
+		} catch (IOException e) {
+			e.printStackTrace();
+			connected = false;
+		}
+
+//		if (lastURL == null)
+//			return;
+//		// Send the last URL back to the display
+//
+//		String frameName = "iframe";
+//		if (frameNumber > 0)
+//			frameName = "frame" + frameNumber;
+//
+//		s = "document.getElementById('" + frameName + "').src = '" + lastURL + "';\n";
+//		if (frameNumber > 0)
+//			s += "document.getElementById('" + frameName + "').style.visibility='visible';\n";
+//
+//		send(s);
+//
+//		try {
+//			waitForServer();
+//			if (!connected)
+//				System.err.println(getClass().getName() + ".forceRefresh()" + instance + " -- error from Display server!");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			connected = false;
+//		}
+	}
+
+	/**
 	 * Modify the actual display to self-identify, showing the Display number and the highlight color.
 	 */
 	public void showIdentity() {
@@ -331,7 +378,6 @@ public class ConnectionToFirefoxInstance {
 			s += "document.getElementById('colorName').innerHTML = '" + displayID + "#" + colorCode + "';\n";
 
 		send(s);
-		println(getClass(), " -- Sent" + instance + ": [[" + s + "]]");
 
 		try {
 			waitForServer();
@@ -367,7 +413,6 @@ public class ConnectionToFirefoxInstance {
 		s += "document.getElementById('colorName').innerHTML = '';\n";
 
 		send(s);
-		println(getClass(), " -- Sent" + instance + ": [[" + s + "]]");
 
 		try {
 			waitForServer();
@@ -386,7 +431,6 @@ public class ConnectionToFirefoxInstance {
 	public void showFrame(final int frameNumber) {
 		String s = "document.getElementById('frame" + frameNumber + "').style.visibility=visible;\n";
 		send(s);
-		println(getClass(), " -- Sent" + instance + ": [[" + s + "]]");
 
 		try {
 			waitForServer();
@@ -405,7 +449,6 @@ public class ConnectionToFirefoxInstance {
 	public void hideFrame(final int frameNumber) {
 		String s = "document.getElementById('frame" + frameNumber + "').style.visibility=hidden;\n";
 		send(s);
-		println(getClass(), " -- Sent" + instance + ": [[" + s + "]]");
 
 		try {
 			waitForServer();
@@ -488,7 +531,7 @@ public class ConnectionToFirefoxInstance {
 		}
 		synchronized (out) {
 			if (debug)
-				println(getClass(), instance + " [" + s + "]");
+				println(getClass(), instance + " sending [" + s + "]");
 			out.println(s);
 		}
 	}
@@ -526,7 +569,6 @@ public class ConnectionToFirefoxInstance {
 		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
 
 		send(s);
-		println(getClass(), " -- Sent" + instance + ": [[" + s + "]]");
 
 		try {
 			waitForServer();
