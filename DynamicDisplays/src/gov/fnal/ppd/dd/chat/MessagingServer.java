@@ -253,8 +253,8 @@ public class MessagingServer {
 					read = this.sInput.readObject();
 					// Make all the other incoming messages wait until the processing here is done.
 					if (read instanceof MessageCarrier) {
-						this.cm = (MessageCarrier) read;
 						this.cmSigned = null;
+						this.cm = (MessageCarrier) read;
 					} else if (read instanceof SignedObject) {
 						this.cmSigned = (SignedObject) read;
 						this.cm = (MessageCarrier) cmSigned.getObject();
@@ -271,19 +271,13 @@ public class MessagingServer {
 											+ "' does not have a correct cryptographic signature; it has been rejected."));
 							continue;
 						}
-					} else if (read instanceof String) {
-						display(this.username + ": Received message of type String, '" + read + "'");
-						if ("NULL".equalsIgnoreCase((String) read))
-							continue;
-						display("\t\t -- This may be an old client trying to connect.");
-						cm = MessageCarrier.getIAmAlive((String) read, "NULL", new Date().toString());
 					} else if (read instanceof MessageType) {
 						display(this.username + ": Unexpectedly received message of type MessageType, value='" + read + "'");
 						continue;
 					} else {
-						display(this.username + ": A class not found exception -- " + read + ". returned object of type "
-								+ read.getClass().getCanonicalName());
-						new ClassNotFoundException().printStackTrace();
+						display(this.username + ": An object of type " + read.getClass().getCanonicalName()
+								+ " received; message is -- [" + read + "].\n\t\t**Ignored**");
+						new Exception("unexpected object seen of type " + read.getClass().getCanonicalName()).printStackTrace();
 						break; // End the while(this.thisSocketIsActive) loop
 					}
 				} catch (SocketException | EOFException e) {
@@ -885,7 +879,25 @@ public class MessagingServer {
 					t.writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, t.username,
 							"A client with the name " + t.username + " has already connected.  Disconnecting now."));
 					t.close();
-					continue;
+
+					// We should probably remove BOTH clients from the permanent list. There are two cases seen so far
+					// where this happens: 1. The user tries to start a second ChannelSelector from the same place; 2. Something
+					// I don't understand happens to a client and (a) we don't drop it here and (b) it tries to reconnect. In
+					// both cases, the real client will eventually try to reconnect.
+
+					int index = 0;
+					for (ClientThread CT : listOfMessagingClients) {
+						if (CT == null || CT.username == null) {
+							display("start(): Unexpected null ClientThread at index=" + index + ": [" + CT + "]");
+							listOfMessagingClients.remove(CT); // How did THIS happen??
+						} else if (CT.username.equals(t.username)) {
+							display("start(): Removing duplicate client " + CT.username + " from the client list");
+							listOfMessagingClients.remove(CT); // Duplicate username is not allowed!
+						}
+						index++;
+					}
+
+					// continue; No, I think (now) that fall through is appropriate.
 				}
 				if (showClientList == null) {
 
