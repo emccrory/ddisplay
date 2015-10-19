@@ -70,7 +70,7 @@ public class DCProtocol {
 	// WAITING, READY, DISPLAYING
 	// };
 
-	private static final long	MESSAGE_AGE_IS_TOO_OLD	= 30000L;
+	private static final long	MESSAGE_AGE_IS_TOO_OLD	= 180000L; // Three minutes
 	private Object				theMessage;
 	private Object				theReply;
 	private List<Display>		listeners				= new ArrayList<Display>();
