@@ -209,13 +209,44 @@ public class MessageCarrier implements Serializable {
 	}
 
 	/**
+	 * @param theNameFromTheServer
+	 * @param theNameFromTheClient
+	 * @return Do these names match?
+	 */
+	public static boolean isUsernameMatch(final String theNameFromTheServer, final String theNameFromTheClient) {
+		if (theNameFromTheServer == null || theNameFromTheClient == null) {
+			System.out.println("MessageCarrier.isUsernameMatch() -- one of the names is null");
+			return false;
+		}
+		if ("NULL".equalsIgnoreCase(theNameFromTheServer) || "NULL".equalsIgnoreCase(theNameFromTheClient)) {
+			System.out.println("MessageCarrier.isUsernameMatch() -- one of the names is \"NULL\"");
+			return true;
+		}
+		boolean rv = theNameFromTheServer.equals(theNameFromTheClient) || theNameFromTheServer.startsWith(theNameFromTheClient);
+		System.out.println("MessageCarrier.isUsernameMatch() -- the names are [" + theNameFromTheServer + "] and [" + theNameFromTheClient + "] -- returning " + rv);
+		if ( (!rv) &&theNameFromTheClient.startsWith(theNameFromTheServer) ) 
+		{
+			System.err.println("BACKWARDS");
+			new Exception().printStackTrace();
+		}
+		return rv;
+	}
+
+	/**
 	 * @param username
 	 *            The user name to check
 	 * @return Is this message intended for this user?
 	 */
-	public boolean isThisForMe(final String username) {
-		return to == null || to.equalsIgnoreCase("NULL") || to.equals(username);
-	}
+	// public boolean isThisForMe(final String username) {
+	// boolean rv = to == null || to.equalsIgnoreCase("NULL") || to.equals(username) || to.startsWith(username);
+	//
+	// if ((!rv) && username.startsWith(to)) {
+	// System.out.println("MessageCarrier.isForMe(): Things are backwards, msg.to=[" + to + "], username=[" + username + "]");
+	// new Exception().printStackTrace();
+	// }
+	//
+	// return rv;
+	// }
 
 	/**
 	 * Read the private key so we can initialize out signature

@@ -103,6 +103,15 @@ public class MessagingClient {
 									+ (System.currentTimeMillis() - lastMessageReceived) + " mSec ago ("
 									+ new Date(lastMessageReceived) + ")");
 							lastPingSent = System.currentTimeMillis();
+
+							// 10/19/2015 -- This is almost always an indication that our connection to the server is dead. Pinging
+							// it does not really seem to help.
+
+							// I have found a situation where the socket seems to stay alive, but there is nothing at the other end.
+							// If there are two clients at this network location that are trying to connect with the same name, the
+							// server says, "no way" and then disconnects them both. The client that was already connected (the
+							// first client) is now forgotten by the server, but it does not notice it. Eventually the first client
+							// will get to this segment of the code.
 						}
 						sleep = 9999L; // subsequent sleeps are ten seconds
 					}
@@ -162,7 +171,7 @@ public class MessagingClient {
 		listenFromServer = new ListenFromServer();
 		listenFromServer.start();
 
-		// Send our username to the server 
+		// Send our username to the server
 
 		try {
 			sOutput.writeObject(MessageCarrier.getLogin(username));
@@ -481,11 +490,14 @@ public class MessagingClient {
 						continue;
 					}
 
-					if (msg.isThisForMe(username)) {
+					// if (msg.isThisForMe(username)) {
+					if ( MessageCarrier.isUsernameMatch(msg.getTo(), username)) {
 						switch (msg.getType()) {
 						case ISALIVE:
+							// displayLogMessage("Replying that I am alive to " + msg.getFrom());
 							sendMessage(MessageCarrier.getIAmAlive(username, msg.getFrom(), "" + new Date()));
-							break;
+							// All done with this iteration of the loop.
+							continue;
 
 						case AMALIVE:
 							// Print out some of these messages for the log file
@@ -515,7 +527,8 @@ public class MessagingClient {
 						receiveIncomingMessage(msg);
 
 					} else {
-						displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got a message that is not for me!");
+						displayLogMessage(ListenFromServer.class.getSimpleName()
+								+ ": Got a message that is not for me! Intended for " + msg.getTo() + ", I am " + username);
 						System.out.println("\t\t" + msg);
 						receiveIncomingMessage(msg);
 					}
