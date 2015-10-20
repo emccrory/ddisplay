@@ -423,8 +423,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	@Override
 	public void setDisplayIsAlive(int number, boolean alive) {
-		// System.out.println(ChannelSelector.class.getSimpleName() + ": Display " + number + (alive ? " is alive" :
-		// " is NOT alive"));
+		System.out.println(ChannelSelector.class.getSimpleName() + ": Display " + number + (alive ? " is alive" : " is NOT alive"));
 		displaySelector.setIsAlive(number, alive);
 
 		synchronized (channelButtonGridList) {
