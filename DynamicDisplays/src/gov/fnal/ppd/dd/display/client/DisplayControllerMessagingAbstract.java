@@ -503,10 +503,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			if (debug && msg.getType() != MessageType.ISALIVE)
 				println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
 						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
-			if (msg.getTo().equals(getName())) {
+			if (msg.getTo().equals(getName()) ){ //  || msg.getTo().startsWith(getName())) {
 				dcp.processInput(msg);
 			} else if (debug)
-				println(this.getClass(), screenNumber + ": Ignoring a message from [" + msg.getTo() + "] because I am ["
+				println(this.getClass(), screenNumber + ": Ignoring a message of type " + msg.getType() + ", sent to [" + msg.getTo() + "] because I am ["
 						+ getName() + "]");
 		}
 	}
