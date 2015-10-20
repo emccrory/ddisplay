@@ -163,6 +163,8 @@ public class MessagingServer {
 				 * server. I do not see how this could have happened, unless it is something within the "socket" mechanism of Java.
 				 * So, future self, be warned that this could happen again and foul everything up.
 				 */
+
+				display("Starting client at uniqueID=" + id);
 				this.sOutput = new ObjectOutputStream(socket.getOutputStream());
 				this.sInput = new ObjectInputStream(socket.getInputStream());
 
@@ -173,9 +175,10 @@ public class MessagingServer {
 						error("Expected LOGIN message from " + ((MessageCarrier) read).getMessage() + ", but got a "
 								+ ((MessageCarrier) read).getType() + " message");
 					}
-					this.username = ((MessageCarrier) read).getMessage();
-					display("'" + this.username + "' (" + id + ") wants to connect.");
-					setName("ClientThread_of_MessagingServer_" + MessagingServer.uniqueId + "_" + username);
+					String un = ((MessageCarrier) read).getMessage();
+					this.username = un + "_" + id;
+					display("'" + this.username + " wants to connect.");
+					setName("ClientThread_of_MessagingServer_" + username);
 				} else {
 					display("Unexpected response from client '" + ((MessageCarrier) read).getFrom() + ": Type="
 							+ read.getClass().getCanonicalName());
@@ -196,6 +199,7 @@ public class MessagingServer {
 
 		// try to close everything
 		protected void close() {
+			display("Closing client " + username);
 			try {
 				if (this.sOutput != null)
 					this.sOutput.close();
@@ -334,7 +338,8 @@ public class MessagingServer {
 				}
 
 				// The client that sent this message is still alive
-				markClientAsSeen(this.cm.getFrom());
+				// markClientAsSeen(this.cm.getFrom());
+				markClientAsSeen(username);
 				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())
 						&& showAliveMessages) {
 					display("Got 'I'm Alive' message from " + cm.getFrom().trim());
@@ -448,7 +453,7 @@ public class MessagingServer {
 
 		@Override
 		public String toString() {
-			return this.username + ", id=" + id + ", socket=[" + socket + "], date=" + date;
+			return this.username + ", socket=[" + socket + "], date=" + date;
 		}
 
 		/**
@@ -653,8 +658,10 @@ public class MessagingServer {
 
 	private void markClientAsSeen(String from) {
 		for (ClientThread CT : listOfMessagingClients)
-			if (from.equals(CT.username))
+			if (from.equals(CT.username) || CT.username.startsWith(from) || from.startsWith(CT.username)) {
+				display("Marking client " + from + "/" + CT.username + " as seen");
 				CT.setLastSeen();
+			}
 	}
 
 	// an ArrayList to keep the list of the Client
@@ -716,7 +723,8 @@ public class MessagingServer {
 			for (int i = listOfMessagingClients.size(); --i >= 0;) {
 				ClientThread ct = listOfMessagingClients.get(i);
 				// try to write to the Client if it fails remove it from the list
-				if (mc.isThisForMe(ct.username))
+				// if (mc.isThisForMe(ct.username)) // The message and the username will be the same (extended name)
+				if (MessageCarrier.isUsernameMatch(mc.getTo(), ct.username))
 					if (!ct.writeUnsignedMsg(mc)) {
 						listOfMessagingClients.remove(i);
 						display("Disconnected Client " + ct.username + " removed from list.");
@@ -743,7 +751,8 @@ public class MessagingServer {
 				for (int i = listOfMessagingClients.size(); --i >= 0;) {
 					ClientThread ct = listOfMessagingClients.get(i);
 					// try to write to the Client if it fails remove it from the list
-					if (mc.isThisForMe(ct.username))
+					// if (mc.isThisForMe(ct.username))
+					if (MessageCarrier.isUsernameMatch(ct.username, mc.getTo()))
 						if (!ct.writeMsg(message)) {
 							listOfMessagingClients.remove(i);
 							display("Disconnected Client " + ct.username + " removed from list.");
@@ -1007,6 +1016,7 @@ public class MessagingServer {
 
 						for (String S : clist) {
 							catchSleep(1);
+							display("Sending isAlive message to " + S);
 							MessageCarrier mc = MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, S);
 							// This is a read-only message and DOES NOT NEED a signature.
 							broadcast(mc);
