@@ -17,7 +17,7 @@ import java.net.UnknownHostException;
 import java.util.Date;
 
 /**
- * Helper class to keep track of who is in the chat room.  Used by the top-level GUI(s) to say if a Display is available.
+ * Helper class to keep track of who is in the chat room. Used by the top-level GUI(s) to say if a Display is available.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -72,16 +72,16 @@ public class WhoIsInChatRoom extends Thread {
 					// System.out.println("WhoIsInChatRoom: see a message from [" + clientName + "]");
 					if (clientName.toLowerCase().contains("façade"))
 						return;
+					System.out.println("WhoIsInChatRoom: see a message from [" + clientName + "]");
 					for (int i = 0; i < displayList.size(); i++)
-						// if (getRootName(displayList.get(i).getMessagingName()).equals(clientName))
-						if (displayList.get(i).getMessagingName().equals(clientName))
+						if (displayList.get(i).getMessagingName().equals(clientName)
+								|| clientName.startsWith(displayList.get(i).getMessagingName())) {
 							aliveList[i] = true;
+							System.out.println("WhoIsInChatRoom: Display no. " + displayList.get(i).getDBDisplayNumber() + " is alive");
+						}
 				}
-
-				// private String getRootName(String n) {
-				// return n.substring(0, n.indexOf(" -- "));
-				// }
 			};
+			
 			// start the Client
 			if (!client.start())
 				return;
