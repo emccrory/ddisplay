@@ -13,6 +13,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
@@ -28,7 +29,6 @@ import gov.fnal.ppd.dd.changer.InformationBox;
 import gov.fnal.ppd.dd.channel.CreateListOfChannels;
 import gov.fnal.ppd.dd.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -423,7 +423,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	@Override
 	public void setDisplayIsAlive(int number, boolean alive) {
-		System.out.println(ChannelSelector.class.getSimpleName() + ": Display " + number + (alive ? " is alive" : " is NOT alive"));
+		println(getClass(), ": Display " + number + (alive ? " is alive" : " is NOT alive"));
 		displaySelector.setIsAlive(number, alive);
 
 		synchronized (channelButtonGridList) {
