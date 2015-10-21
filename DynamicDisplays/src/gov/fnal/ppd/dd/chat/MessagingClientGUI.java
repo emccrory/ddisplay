@@ -254,6 +254,8 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		String host = "localhost";
+		if (args.length > 0 ) 
+			host = args[0];
 
 		new MessagingClientGUI(host, MESSAGING_SERVER_PORT);
 	}
