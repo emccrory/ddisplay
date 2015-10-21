@@ -23,6 +23,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -130,6 +131,7 @@ public class MessagingServer {
 
 		// If this client has been absent for too long, we put it "on notice"
 		boolean				onNotice			= false;
+		int					numOutstandingPings	= 0;
 
 		// the input stream for our conversation
 		ObjectInputStream	sInput;
@@ -143,13 +145,24 @@ public class MessagingServer {
 
 		// the Username of the Client
 		String				username;
+		private InetAddress	theIPAddress;
+		private Thread	myShutdownHook;
 
 		// Constructor
 		ClientThread(Socket socket) {
 			super("ClientThread_of_MessagingServer_" + MessagingServer.uniqueId);
+			this.myShutdownHook = new Thread("ShutdownHook_of_MessagingServer_" + MessagingServer.uniqueId) {
+				public void run() {
+					close();
+				}
+			};
+			Runtime.getRuntime().addShutdownHook(this.myShutdownHook);
 			// a unique id
 			this.id = MessagingServer.uniqueId++;
 			this.socket = socket;
+
+			theIPAddress = socket.getInetAddress();
+
 			Object read = null;
 			/* Creating both Data Stream */
 			// System.out.println("Thread trying to create Object Input/Output Streams");
@@ -164,7 +177,7 @@ public class MessagingServer {
 				 * So, future self, be warned that this could happen again and foul everything up.
 				 */
 
-				display("Starting client at uniqueID=" + id);
+				display("Starting client at uniqueID=" + id + " connected to " + theIPAddress);
 				this.sOutput = new ObjectOutputStream(socket.getOutputStream());
 				this.sInput = new ObjectInputStream(socket.getInputStream());
 
@@ -174,6 +187,7 @@ public class MessagingServer {
 					if (((MessageCarrier) read).getType() != MessageType.LOGIN) {
 						error("Expected LOGIN message from " + ((MessageCarrier) read).getMessage() + ", but got a "
 								+ ((MessageCarrier) read).getType() + " message");
+						return;
 					}
 					String un = ((MessageCarrier) read).getMessage();
 					this.username = un + "_" + id;
@@ -195,11 +209,13 @@ public class MessagingServer {
 				printStackTrace(e);
 			}
 			this.date = new Date().toString();
+			
 		}
 
 		// try to close everything
 		protected void close() {
 			display("Closing client " + username);
+			thisSocketIsActive = false;
 			try {
 				if (this.sOutput != null)
 					this.sOutput.close();
@@ -221,6 +237,9 @@ public class MessagingServer {
 			this.sInput = null;
 			this.sOutput = null;
 			this.socket = null;
+			
+			Runtime.getRuntime().removeShutdownHook(this.myShutdownHook);
+			this.myShutdownHook = null;
 		}
 
 		public long getLastSeen() {
@@ -230,10 +249,12 @@ public class MessagingServer {
 		public void setLastSeen() {
 			this.lastSeen = System.currentTimeMillis();
 			setOnNotice(false);
+			resetNumOutstandingPings();
 		}
 
 		/**
-		 * This is the heart of the messaging server: The place where all of the incoming messages are received and processed.
+		 * This is the heart of the messaging server: The place where all of the incoming messages are received and processed. each
+		 * instance of this inner class corresponds, one-to-one, to a specific client.
 		 * 
 		 * This method will run for as long as this client is connected.
 		 * 
@@ -251,17 +272,30 @@ public class MessagingServer {
 
 			this.thisSocketIsActive = true;
 			while (this.thisSocketIsActive) {
-				// Create this Object here so it can be seen by the catch blocks
+				// Create the read Object here so it can be seen by the catch blocks
 				Object read = new Object();
 				try {
 					read = this.sInput.readObject();
+					setLastSeen();
+
 					// Make all the other incoming messages wait until the processing here is done.
 					if (read instanceof MessageCarrier) {
 						this.cmSigned = null;
 						this.cm = (MessageCarrier) read;
+
+						// Idiot check:
+						if (!MessageCarrier.isUsernameMatch(username, cm.getFrom()))
+							error("Oops (a).  My assumption is wrong.  This thread is for '" + username
+									+ "' and the from field on the message is '" + cm.getFrom() + "'");
+
 					} else if (read instanceof SignedObject) {
 						this.cmSigned = (SignedObject) read;
 						this.cm = (MessageCarrier) cmSigned.getObject();
+						// Idiot check:
+						if (!MessageCarrier.isUsernameMatch(username, cm.getFrom()))
+							error("Oops (b).  My assumption is wrong.  This thread is for '" + username
+									+ "' and the from field on the message is '" + cm.getFrom() + "'");
+
 						String signatureString = this.cm.verifySignedObject(cmSigned);
 						if (signatureString == null)
 							event("Message is properly signed: " + this.cm);
@@ -337,9 +371,16 @@ public class MessagingServer {
 					 */
 				}
 
-				// The client that sent this message is still alive
+				// The client that sent this message is still alive *** This is the wrong way to view this!!! (10/20/15) ***
+				//
 				// markClientAsSeen(this.cm.getFrom());
-				markClientAsSeen(username);
+				// markClientAsSeen(username);
+				//
+				// What is really going on here is taht this thread is uniquerly connected to a specific client (remember, this
+				// thread runs as part of the messaging server). So when this thread gets a message, that means that this client is
+				// alive (and nothing else.)
+				//
+
 				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())
 						&& showAliveMessages) {
 					display("Got 'I'm Alive' message from " + cm.getFrom().trim());
@@ -460,14 +501,26 @@ public class MessagingServer {
 		 * Write an unsigned object to the Client output stream
 		 */
 		boolean writeUnsignedMsg(MessageCarrier msg) {
+			System.out.println(new Date() + " " + getClass().getSimpleName() + ".writeUnsignedMsg() for " + username + ": message is [" + msg
+					+ "]");
 			if (socket == null) {
 				error("Socket object is null--cannot send the message " + msg);
+				System.out.println(new Date() + " " + getClass() + ".writeUnsignedMsg(): Position 1 (failure)");
 				return false;
 			}
 			// if Client is still connected send the message to it
-			if (!socket.isConnected()) {
+			if (!socket.isConnected() || socket.isClosed() || socket.isOutputShutdown() || socket.isInputShutdown()) {
 				close();
+				System.out.println(new Date() + " " + getClass() + ".writeUnsignedMsg(): Position 2 (failure)");
 				return false;
+
+				// ***** Important Note on the limitations of this bit of the code! *****
+
+				/*
+				 * It is not possible to detect when a client on a socket is killed due to, say, a sudden reboot. This code seems to
+				 * handle all the other situations, but not the reboot one. (I tested "kill -9" on a client, and that seemed to be
+				 * caught by this code.) See, for example, http://stackoverflow.com/questions/969866/java-detect-lost-connection
+				 */
 			}
 
 			// write the message to the stream
@@ -485,6 +538,7 @@ public class MessagingServer {
 				display(e.getLocalizedMessage() + ", Error sending message to " + this.username);
 				printStackTrace(e);
 			}
+			System.out.println(new Date() + " " + getClass() + ".writeUnsignedMsg(): Position 3 (failure)");
 			return false;
 		}
 
@@ -532,6 +586,14 @@ public class MessagingServer {
 		 */
 		public void setOnNotice(boolean onNotice) {
 			this.onNotice = onNotice;
+		}
+
+		public boolean incrementNumOutstandingPings() {
+			return ++numOutstandingPings > 4;
+		}
+
+		public void resetNumOutstandingPings() {
+			numOutstandingPings = 0;
 		}
 
 		public String getRemoteIPAddress() {
@@ -656,13 +718,13 @@ public class MessagingServer {
 		server.start();
 	}
 
-	private void markClientAsSeen(String from) {
-		for (ClientThread CT : listOfMessagingClients)
-			if (from.equals(CT.username) || CT.username.startsWith(from) || from.startsWith(CT.username)) {
-				display("Marking client " + from + "/" + CT.username + " as seen");
-				CT.setLastSeen();
-			}
-	}
+	// private void markClientAsSeen(String from) {
+	// for (ClientThread CT : listOfMessagingClients)
+	// if (from.equals(CT.username) || CT.username.startsWith(from) || from.startsWith(CT.username)) {
+	// display("Marking client " + from + "/" + CT.username + " as seen");
+	// CT.setLastSeen();
+	// }
+	// }
 
 	// an ArrayList to keep the list of the Client
 	// private ArrayList<ClientThread> al; This Template is supposed to help with ConcurrentModificationException
@@ -681,7 +743,7 @@ public class MessagingServer {
 	private long				startTime				= System.currentTimeMillis();
 
 	private long				sleepPeriodBtwPings		= 2000L;
-	private long				tooOldTime				= 100L * sleepPeriodBtwPings;
+	private long				tooOldTime				= 60000L;								// "Too old" is 60 seconds
 
 	protected int				totalMesssagesHandled	= 0;
 	private int					numClientsRemoved		= 0;
@@ -882,6 +944,9 @@ public class MessagingServer {
 				if (listOfMessagingClients.add(t)) // save it in the ArrayList
 					t.start();
 				else {
+					
+					// This code is never reached, I think (10/21/15)
+					
 					display("Error! Duplicate username requested, '" + t.username + "'");
 					showAllClientsConnectedNow();
 					t.start();
@@ -968,6 +1033,8 @@ public class MessagingServer {
 		display(m);
 	}
 
+	private ClientThread	lastOldestClientName	= null;
+
 	/**
 	 * Ping each client from time to time to assure that it is (still) alive
 	 */
@@ -981,13 +1048,22 @@ public class MessagingServer {
 
 				while (keepGoing)
 					try {
-						catchSleep(sleepPeriodBtwPings); // Defaults: 200 seconds is "too old"; Two seconds between pings
+						catchSleep(sleepPeriodBtwPings); // Defaults: 60 seconds is "too old"; Two seconds between pings
 
 						if (listOfMessagingClients.size() == 0)
 							continue;
 
-						// This sleep period assures that each client is pinged at least twice before it is "too old"
-						sleepPeriodBtwPings = Math.min(tooOldTime / listOfMessagingClients.size() / 2L, 2000L);
+						// This sleep period assures that each client is ping'ed at least three times before it is "too old"
+						sleepPeriodBtwPings = Math.min(tooOldTime / listOfMessagingClients.size() / 3L, 1500L);
+
+						if (sleepPeriodBtwPings < 100L) { // Idiot check
+							if (sleepPeriodBtwPings <= 1L)
+								display("DANGER: The time between pings in 'startPinger()' is 1 msec, probably because there are "
+										+ listOfMessagingClients.size() + " clients.  This is new, untested territory!");
+							else
+								display("CAUTION: The time between pings in 'startPinger()' is rather short: "
+										+ sleepPeriodBtwPings + " msec");
+						}
 
 						/*
 						 * This boolean turns on the diagnostic message (in ClientThread.run()) that echos when a client says
@@ -997,27 +1073,45 @@ public class MessagingServer {
 						showAliveMessages = (lastPrint + 13 * ONE_MINUTE) < System.currentTimeMillis();
 
 						// Figure out which client(s) to ping
-						List<String> clist = new ArrayList<String>();
+						List<ClientThread> clist = new ArrayList<ClientThread>();
 
-						long oldestTime = listOfMessagingClients.get(0).getLastSeen();
-						String oldestClientName = listOfMessagingClients.get(0).username;
+						long oldestTime = System.currentTimeMillis();
+						ClientThread oldestClientName = null;
 						// Ping any client that is "on notice", plus the oldest one that is not on notice
-						for (int i = 1; i < listOfMessagingClients.size(); i++) {
+						for (int i = 0; i < listOfMessagingClients.size(); i++) {
 							ClientThread CT = listOfMessagingClients.get(i);
+							String tabs = (CT.username.length() > 28 ? "\t" : "\t\t");
+							System.out.println("------------ Client " + CT.username + tabs + "lastSeen " + new Date(CT.lastSeen)
+									+ ", " + (System.currentTimeMillis() - CT.lastSeen) / 1000L
+									+ " secs ago; num pings=" + CT.numOutstandingPings);
 							if (CT.isOnNotice())
-								clist.add(CT.username);
-							else if (CT.getLastSeen() < oldestTime) {
+								clist.add(CT);
+							else if (CT.getLastSeen() < oldestTime && !CT.equals(lastOldestClientName)) {
 								oldestTime = CT.getLastSeen();
-								oldestClientName = CT.username;
+								oldestClientName = CT;
 							}
 						}
 
 						clist.add(oldestClientName);
+						lastOldestClientName = oldestClientName;
 
-						for (String S : clist) {
+						for (ClientThread S : clist) {
+							if (S == null)
+								continue;
 							catchSleep(1);
 							display("Sending isAlive message to " + S);
-							MessageCarrier mc = MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, S);
+							MessageCarrier mc = MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, S.username);
+							if (S.incrementNumOutstandingPings()) {
+								System.out.println("             Too many pings to the client " + S.username + "; removing it!");
+
+								listOfMessagingClients.remove(S);
+								S.close();
+								numClientsRemoved++;
+								S = null; // Not really necessary, but it makes me feel better.
+
+								continue;
+							}
+
 							// This is a read-only message and DOES NOT NEED a signature.
 							broadcast(mc);
 						}
