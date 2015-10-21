@@ -51,11 +51,15 @@ public class WhoIsInChatRoom extends Thread {
 
 			client.sendMessage(MessageCarrier.getWhoIsIn(client.getName()));
 
-			catchSleep(2000); // Wait long enough for all the messages to come in.
+			catchSleep(2000); // Wait long enough for all the messages to come in. This is almost always enough. In fact, less than
+								// one second is almost always enough. But there is the occasional time when even 2 seconds is not
+								// enough
 
-			for (int i = 0; i < displayList.size(); i++)
-				if (lastAliveList == null || lastAliveList[i] != aliveList[i])
+			synchronized (aliveList) {
+				for (int i = 0; i < displayList.size(); i++)
+					// if (lastAliveList == null || lastAliveList[i] != aliveList[i])
 					alive.setDisplayIsAlive(displayList.get(i).getDBDisplayNumber(), aliveList[i]);
+			}
 		}
 	}
 
@@ -72,16 +76,19 @@ public class WhoIsInChatRoom extends Thread {
 					// System.out.println("WhoIsInChatRoom: see a message from [" + clientName + "]");
 					if (clientName.toLowerCase().contains("façade"))
 						return;
-					System.out.println("WhoIsInChatRoom: see a message from [" + clientName + "]");
-					for (int i = 0; i < displayList.size(); i++)
-						if (displayList.get(i).getMessagingName().equals(clientName)
-								|| clientName.startsWith(displayList.get(i).getMessagingName())) {
-							aliveList[i] = true;
-							System.out.println("WhoIsInChatRoom: Display no. " + displayList.get(i).getDBDisplayNumber() + " is alive");
-						}
+					System.out.println(new Date() + " WhoIsInChatRoom: see a message from [" + clientName + "]");
+					synchronized (aliveList) {
+						for (int i = 0; i < displayList.size(); i++)
+							if (displayList.get(i).getMessagingName().equals(clientName)
+									|| clientName.startsWith(displayList.get(i).getMessagingName())) {
+								aliveList[i] = true;
+								System.out.println(new Date() + " WhoIsInChatRoom: Display no. "
+										+ displayList.get(i).getDBDisplayNumber() + " is alive");
+							}
+					}
 				}
 			};
-			
+
 			// start the Client
 			if (!client.start())
 				return;
