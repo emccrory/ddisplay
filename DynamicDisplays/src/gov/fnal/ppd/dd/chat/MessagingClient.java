@@ -301,9 +301,17 @@ public class MessagingClient {
 	}
 
 	/**
-	 * When something goes wrong Close the Input/Output streams and disconnect not much to do in the catch clause
+	 * When something goes wrong Close the Input/Output streams, disconnect and then try to reconnect
 	 */
 	public void disconnect() {
+		close();
+		connectionFailed();
+	}
+
+	/**
+	 * Disconnect from the server.
+	 */
+	protected void close() {
 		try {
 			if (sInput != null)
 				sInput.close();
@@ -324,7 +332,6 @@ public class MessagingClient {
 		sOutput = null;
 		socket = null;
 		listenFromServer = null;
-		connectionFailed();
 	}
 
 	/**
@@ -491,7 +498,7 @@ public class MessagingClient {
 					}
 
 					// if (msg.isThisForMe(username)) {
-					if ( MessageCarrier.isUsernameMatch(msg.getTo(), username)) {
+					if (MessageCarrier.isUsernameMatch(msg.getTo(), username)) {
 						switch (msg.getType()) {
 						case ISALIVE:
 							// displayLogMessage("Replying that I am alive to " + msg.getFrom());
