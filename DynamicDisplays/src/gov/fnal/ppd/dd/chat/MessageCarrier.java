@@ -223,9 +223,9 @@ public class MessageCarrier implements Serializable {
 			return true;
 		}
 		boolean rv = theNameFromTheServer.equals(theNameFromTheClient) || theNameFromTheServer.startsWith(theNameFromTheClient);
-		System.out.println("MessageCarrier.isUsernameMatch() -- the names are [" + theNameFromTheServer + "] and [" + theNameFromTheClient + "] -- returning " + rv);
-		if ( (!rv) &&theNameFromTheClient.startsWith(theNameFromTheServer) ) 
-		{
+		// System.out.println(new Date() + " MessageCarrier.isUsernameMatch() -- the names are [" + theNameFromTheServer + "] and ["
+		// + theNameFromTheClient + "] -- returning " + rv);
+		if ((!rv) && theNameFromTheClient.startsWith(theNameFromTheServer)) {
 			System.err.println("BACKWARDS");
 			new Exception().printStackTrace();
 		}
