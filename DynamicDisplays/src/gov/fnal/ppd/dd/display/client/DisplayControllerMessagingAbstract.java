@@ -479,6 +479,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private class MessagingClientLocal extends MessagingClient {
 		private boolean		debug	= true;
 		private DCProtocol	dcp		= new DCProtocol();
+		private Thread		myShutdownHook;
 
 		// private int myDisplayNumber, myScreenNumber;
 
@@ -487,6 +488,16 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			dcp.addListener(DisplayControllerMessagingAbstract.this);
 			// this.myDisplayNumber = myDisplayNumber;
 			// this.myScreenNumber = myScreenNumber;
+
+			this.myShutdownHook = new Thread("ShutdownHook_of_MessagingClient_" + username) {
+				public void run() {
+					close();
+					Runtime.getRuntime().removeShutdownHook(myShutdownHook);
+					myShutdownHook = null;
+				}
+			};
+
+			Runtime.getRuntime().addShutdownHook(myShutdownHook);
 		}
 
 		public long getServerTimeStamp() {
@@ -503,11 +514,12 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			if (debug && msg.getType() != MessageType.ISALIVE)
 				println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
 						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
-			if (msg.getTo().equals(getName()) ){ //  || msg.getTo().startsWith(getName())) {
+			if (msg.getTo().equals(getName())) { // || msg.getTo().startsWith(getName())) {
 				dcp.processInput(msg);
 			} else if (debug)
-				println(this.getClass(), screenNumber + ": Ignoring a message of type " + msg.getType() + ", sent to [" + msg.getTo() + "] because I am ["
-						+ getName() + "]");
+				println(this.getClass(),
+						screenNumber + ": Ignoring a message of type " + msg.getType() + ", sent to [" + msg.getTo()
+								+ "] because I am [" + getName() + "]");
 		}
 	}
 }
