@@ -153,7 +153,7 @@ public class MessagingServer {
 			super("ClientThread_of_MessagingServer_" + MessagingServer.uniqueId);
 			this.myShutdownHook = new Thread("ShutdownHook_of_MessagingServer_" + MessagingServer.uniqueId) {
 				public void run() {
-					close();
+					close(true);
 				}
 			};
 			Runtime.getRuntime().addShutdownHook(this.myShutdownHook);
@@ -214,6 +214,10 @@ public class MessagingServer {
 
 		// try to close everything
 		protected void close() {
+			close(false);
+		}
+
+		protected void close(boolean duringShutdown) {
 			display("Closing client " + username);
 			thisSocketIsActive = false;
 			try {
@@ -238,8 +242,10 @@ public class MessagingServer {
 			this.sOutput = null;
 			this.socket = null;
 
-			Runtime.getRuntime().removeShutdownHook(this.myShutdownHook);
-			this.myShutdownHook = null;
+			if (!duringShutdown) {
+				Runtime.getRuntime().removeShutdownHook(this.myShutdownHook);
+				this.myShutdownHook = null;
+			}
 		}
 
 		public long getLastSeen() {
@@ -1079,15 +1085,15 @@ public class MessagingServer {
 						long oldestTime = System.currentTimeMillis();
 						ClientThread oldestClientName = null;
 						// Ping any client that is "on notice", plus the oldest one that is not on notice
-						boolean printMe = (counter++ % 10) == 0;
-						if ( printMe)
+						boolean printMe = (counter++ % 100) < 5;
+						if (printMe)
 							System.out.println("---- Cycle no. " + counter);
-						
+
 						for (int i = 0; i < listOfMessagingClients.size(); i++) {
 							ClientThread CT = listOfMessagingClients.get(i);
 							if (printMe) {
 								String spaces = " ";
-								for (int m = (CT.username + i).length(); m < 40; m++)
+								for (int m = (CT.username + i).length(); m < 45; m++)
 									spaces += ' ';
 								System.out.println("---- " + i + " " + CT.username + spaces
 										+ (new Date(CT.lastSeen)).toString().substring(4, 19) + ", "
