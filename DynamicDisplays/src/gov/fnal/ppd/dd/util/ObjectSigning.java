@@ -153,7 +153,9 @@ public class ObjectSigning {
 		String theList = "";
 		for (String S : thisClientsDisplays)
 			theList += "\t\t" + S + "\n";
-		println(ObjectSigning.class, ": I wonder why this client is not in the list.  Here is the list:\n" + theList);
+		println(ObjectSigning.class, ": Client '" + client + "' does not have target '" + displayName
+				+ "' in the list.  Here is the list:\n" + theList + "\tForgetting this client ");
+		dropClient(client);
 		return false;
 	}
 
@@ -550,8 +552,8 @@ public class ObjectSigning {
 	 * @return -- null if the message is signed properly; a string explaining why if it is not.
 	 */
 	public String verifySignature(final SignedObject signedMess) {
-		assert(signedMess != null);
-		
+		assert (signedMess != null);
+
 		if (!checkSignedMessages()) {
 			System.err.println(getClass().getSimpleName() + ".verifySignature(): Ignoring the signature and returning 'true'");
 			return null;
