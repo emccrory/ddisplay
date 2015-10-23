@@ -146,7 +146,7 @@ public class MessagingServer {
 		// the Username of the Client
 		String				username;
 		private InetAddress	theIPAddress;
-		private Thread	myShutdownHook;
+		private Thread		myShutdownHook;
 
 		// Constructor
 		ClientThread(Socket socket) {
@@ -209,7 +209,7 @@ public class MessagingServer {
 				printStackTrace(e);
 			}
 			this.date = new Date().toString();
-			
+
 		}
 
 		// try to close everything
@@ -237,7 +237,7 @@ public class MessagingServer {
 			this.sInput = null;
 			this.sOutput = null;
 			this.socket = null;
-			
+
 			Runtime.getRuntime().removeShutdownHook(this.myShutdownHook);
 			this.myShutdownHook = null;
 		}
@@ -501,8 +501,8 @@ public class MessagingServer {
 		 * Write an unsigned object to the Client output stream
 		 */
 		boolean writeUnsignedMsg(MessageCarrier msg) {
-			System.out.println(new Date() + " " + getClass().getSimpleName() + ".writeUnsignedMsg() for " + username + ": message is [" + msg
-					+ "]");
+			// System.out.println(new Date() + " " + getClass().getSimpleName() + ".writeUnsignedMsg() for " + username
+			// + ": message is [" + msg + "]");
 			if (socket == null) {
 				error("Socket object is null--cannot send the message " + msg);
 				System.out.println(new Date() + " " + getClass() + ".writeUnsignedMsg(): Position 1 (failure)");
@@ -944,9 +944,9 @@ public class MessagingServer {
 				if (listOfMessagingClients.add(t)) // save it in the ArrayList
 					t.start();
 				else {
-					
+
 					// This code is never reached, I think (10/21/15)
-					
+
 					display("Error! Duplicate username requested, '" + t.username + "'");
 					showAllClientsConnectedNow();
 					t.start();
@@ -1045,6 +1045,7 @@ public class MessagingServer {
 
 			public void run() {
 				catchSleep(15000L); // Wait a bit before starting the pinging and the diagnostics
+				int counter = 0;
 
 				while (keepGoing)
 					try {
@@ -1078,12 +1079,21 @@ public class MessagingServer {
 						long oldestTime = System.currentTimeMillis();
 						ClientThread oldestClientName = null;
 						// Ping any client that is "on notice", plus the oldest one that is not on notice
+						boolean printMe = (counter++ % 10) == 0;
+						if ( printMe)
+							System.out.println("---- Cycle no. " + counter);
+						
 						for (int i = 0; i < listOfMessagingClients.size(); i++) {
 							ClientThread CT = listOfMessagingClients.get(i);
-							String tabs = (CT.username.length() > 28 ? "\t" : "\t\t");
-							System.out.println("------------ Client " + CT.username + tabs + "lastSeen " + new Date(CT.lastSeen)
-									+ ", " + (System.currentTimeMillis() - CT.lastSeen) / 1000L
-									+ " secs ago; num pings=" + CT.numOutstandingPings);
+							if (printMe) {
+								String spaces = " ";
+								for (int m = (CT.username + i).length(); m < 40; m++)
+									spaces += ' ';
+								System.out.println("---- " + i + " " + CT.username + spaces
+										+ (new Date(CT.lastSeen)).toString().substring(4, 19) + ", "
+										+ (System.currentTimeMillis() - CT.lastSeen) / 1000L + " secs ago"
+										+ (CT.numOutstandingPings > 0 ? "; num pings=" + CT.numOutstandingPings : ""));
+							}
 							if (CT.isOnNotice())
 								clist.add(CT);
 							else if (CT.getLastSeen() < oldestTime && !CT.equals(lastOldestClientName)) {
@@ -1099,7 +1109,8 @@ public class MessagingServer {
 							if (S == null)
 								continue;
 							catchSleep(1);
-							display("Sending isAlive message to " + S);
+							if (printMe)
+								display("Sending isAlive message to " + S);
 							MessageCarrier mc = MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, S.username);
 							if (S.incrementNumOutstandingPings()) {
 								System.out.println("             Too many pings to the client " + S.username + "; removing it!");
