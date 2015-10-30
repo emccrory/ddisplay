@@ -12,11 +12,11 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
@@ -60,7 +60,7 @@ public class MakeChannelSelector {
 	public static void main(final String[] args) {
 
 		prepareSaverImages();
-		
+
 		credentialsSetup();
 
 		selectorSetup();
@@ -70,7 +70,7 @@ public class MakeChannelSelector {
 
 		// TODO -- Create/fix mechanism for restarting a ChannelSelector
 
-		JFrame f = new JFrame(myClassification + " " + getLocationName() +" ("+ getLocationCode()+")");
+		JFrame f = new JFrame(myClassification + " " + getLocationName() + " (" + getLocationCode() + ")");
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -119,7 +119,9 @@ public class MakeChannelSelector {
 				InetAddress ip = InetAddress.getLocalHost();
 				myIPName = ip.getCanonicalHostName().replace(".dhcp", "");
 
-				String query = "SELECT * FROM SelectorLocation where IPName='" + myIPName + "'";
+				String query = "SELECT * FROM SelectorLocation where IPName='" + myIPName + "' AND Instance='"
+						+ THIS_IP_NAME_INSTANCE + "'";
+				System.out.println(query);
 
 				try (ResultSet rs2 = stmt.executeQuery(query);) {
 					if (rs2.first())
@@ -128,11 +130,9 @@ public class MakeChannelSelector {
 								int lc = rs2.getInt("LocationCode");
 								addLocationCode(lc);
 								System.out.println("Location code is " + lc);
-								
-								SHOW_DOCENT_TAB = rs2.getBoolean("DocentTab");
-								
-								myClassification = rs2.getString("Type");
 
+								SHOW_DOCENT_TAB = rs2.getBoolean("DocentTab");
+								myClassification = rs2.getString("Type");
 								IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
 
 								final SignageType sType = SignageType.valueOf(myClassification);
@@ -168,7 +168,7 @@ public class MakeChannelSelector {
 				System.exit(-1);
 			}
 			System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
-			System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + "'\n");
+			System.out.println("\t Expect my client name to be '" + getFullSelectorName() + "'\n");
 		}
 	}
 }

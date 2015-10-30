@@ -311,9 +311,11 @@ public class ObjectSigning {
 			int lc = 999;
 
 			synchronized (connection) {
+				String ipNameOfClient = clientName.substring(0, clientName.indexOf(' '));
+				String instanceOfClient = clientName.substring(clientName.indexOf("selector ") + "selector ".length());
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-					String query1 = "SELECT LocationCode from SelectorLocation WHERE IPName like '"
-							+ clientName.substring(0, clientName.indexOf(' ')) + "%'";
+					String query1 = "SELECT LocationCode from SelectorLocation WHERE IPName like '" + ipNameOfClient
+							+ "%' AND Instance='" + instanceOfClient + "'";
 					try (ResultSet rs = stmt.executeQuery(query1);) {
 						if (rs.first()) { // Move to first returned row
 							lc = rs.getInt("LocationCode");

@@ -5,10 +5,6 @@
  */
 package gov.fnal.ppd.dd;
 
-import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_PASSWORD;
-import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_SERVER_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_USER_NAME;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.signage.Display;
 
@@ -102,6 +98,13 @@ public class GlobalVariables {
 	 * 
 	 */
 	public static final String	THIS_IP_NAME_INSTANCE	= System.getProperty("ddisplay.selectorinstance", "00");
+
+	/**
+	 * @return The messaging name for this selector client.
+	 */
+	public static final String getFullSelectorName() {
+		return THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE;
+	}
 
 	/**
 	 * @return Should the display show its number (all the time) on itself?
@@ -289,7 +292,7 @@ public class GlobalVariables {
 	 * The string that means "show me your colors"
 	 */
 	public static final String		SELF_IDENTIFY			= "http://identify";
-	
+
 	/**
 	 * The string of a URL that means, perform a full and complete refresh of the page you are shwowing now
 	 */
@@ -454,7 +457,7 @@ public class GlobalVariables {
 	 */
 	public static void credentialsSetup() {
 		String fileName = "credentials.txt";
-		String key_loc = ("/private" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key").toLowerCase();
+		String key_loc = ("/private" + getFullSelectorName() + ".key").toLowerCase();
 
 		File file = null;
 

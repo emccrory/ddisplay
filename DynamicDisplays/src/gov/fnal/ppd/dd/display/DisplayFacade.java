@@ -1,8 +1,7 @@
 package gov.fnal.ppd.dd.display;
 
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
-import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.Util.println;
@@ -76,7 +75,7 @@ public class DisplayFacade extends DisplayImpl {
 		private static boolean					notStarted	= true;
 
 		private FacadeMessagingClient(String server, int port) {
-			super(server, port, THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE);
+			super(server, port, getFullSelectorName());
 			setReadOnly(false);
 		}
 

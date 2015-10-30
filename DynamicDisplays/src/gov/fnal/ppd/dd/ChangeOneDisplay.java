@@ -12,10 +12,9 @@ package gov.fnal.ppd.dd;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
-import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -118,8 +117,7 @@ public class ChangeOneDisplay {
 								System.exit(-1);
 							}
 							System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
-							System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector "
-									+ THIS_IP_NAME_INSTANCE + "'\n");
+							System.out.println("\t Expect my client name to be '" + getFullSelectorName() +  "'\n");
 
 							DisplayListDatabaseRemote g = new DisplayListDatabaseRemote(getLocationCode(), dNum);
 							retval = g.get(0);

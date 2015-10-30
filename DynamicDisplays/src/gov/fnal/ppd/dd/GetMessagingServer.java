@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
@@ -102,7 +103,7 @@ public class GetMessagingServer {
 
 			String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description,LocationInformation.LocationCode "
 					+ "as LocationCode from LocationInformation,SelectorLocation where "
-					+ "LocationInformation.LocationCode=SelectorLocation.LocationCode AND IPName='" + myName + "'";
+					+ "LocationInformation.LocationCode=SelectorLocation.LocationCode AND IPName='" + myName + "' AND Instance='" + THIS_IP_NAME_INSTANCE + "'";
 
 			return getMessagingServerName(query, myName);
 		} catch (UnknownHostException e) {

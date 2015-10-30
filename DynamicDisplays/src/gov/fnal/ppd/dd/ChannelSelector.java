@@ -5,15 +5,13 @@ import static gov.fnal.ppd.dd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
-import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
@@ -305,9 +303,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 				// A simple listener to change the title after the Display has a chance to react.
 				public void actionPerformed(ActionEvent e) {
-					System.out.println(ChannelSelector.class.getSimpleName() + ".actionPerformed(), event=" + e);
+					// System.out.println(ChannelSelector.class.getSimpleName() + ".actionPerformed(), event=" + e);
 					DisplayChangeEvent ev = (DisplayChangeEvent) e;
-					catchSleep(100);
+					// catchSleep(100);
 
 					String text = display.getVirtualDisplayNumber() + " to channel '" + (display.getContent().getName()) + "'";
 					boolean alive = false;
@@ -323,7 +321,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					case ERROR:
 						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; " + display.getContent().getCategory()
 								+ "/'" + (display.getContent().getName()) + "'";
-						System.out.println("ChannelSelector error from display: " + text);
+						// System.out.println("ChannelSelector error from display: " + text);
 						launchErrorMessage(e);
 						break;
 
@@ -423,7 +421,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	@Override
 	public void setDisplayIsAlive(int number, boolean alive) {
-		println(getClass(), ": Display " + number + (alive ? " is alive" : " is NOT alive"));
+		// println(getClass(), ": Display " + number + (alive ? " is alive" : " is NOT alive"));
 		displaySelector.setIsAlive(number, alive);
 
 		synchronized (channelButtonGridList) {
@@ -698,7 +696,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		MessageCarrier.initializeSignature();
 		System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
-		System.out.println("\t Expect my client name to be '" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + "'\n");
+		System.out.println("\t Expect my client name to be '" + getFullSelectorName() + "'\n");
 
 		displayList = DisplayListFactory.getInstance(sType, getLocationCode());
 		channelSelector = new ChannelSelector();

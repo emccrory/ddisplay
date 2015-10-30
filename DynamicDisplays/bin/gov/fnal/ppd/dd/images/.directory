@@ -1,5 +1,3 @@
 [Dolphin]
-SortOrder=1
-Sorting=1
-Timestamp=2015,10,15,16,21,40
-ViewMode=1
+ShowPreview=true
+Timestamp=2014,9,11,12,21,11

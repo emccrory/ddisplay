@@ -1,6 +1,6 @@
-<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Fri Oct 23 10:04:10 CDT 2015)</em>
-<b>This is your brain on love (if you’re a prairie vole)</b>: Scientists measure the neuronal activity of monogamous prairie voles for first time
-<b>Podcast: The origin of dogs, clues to long-term memory, and more</b>: Listen to a roundup of some of our favorite stories from the week
-<b>Alzheimer’s disease tied to brain’s navigation network</b>: In a virtual arena, at-risk populations keep to the edges and appeared to navigate using different brain regions
-<b>Into the light: Restoring vision</b>: Gallery: A series of images from Project Prakash
-<b>Feature: Giving blind people sight illuminates the brain’s secrets</b>: Defying expectations, cataract surgery in Indian children is endowing them with vision—and shedding light on how the brain learns to see
+<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Fri Oct 30 15:04:02 CDT 2015)</em>
+<b>Give U.S. national labs freer rein, commission urges skeptical senators</b>: Department of Energy micromanages its facilities, study concludes
+<b>Small, dim stars could still support life</b>: Study argues that red dwarfs could provide needed light for photosynthesis
+<b>New artificial fingerprints feel texture, hear sound</b>: Electronic material also senses temperature
+<b>Cassini samples an alien ocean</b>: The NASA spacecraft flies through Enceladus’s icy plume 
+<b>U.S. high-containment biosafety labs to get closer scrutiny </b>: White House responds to spate of accidents at federal labs working with dangerous pathogens
