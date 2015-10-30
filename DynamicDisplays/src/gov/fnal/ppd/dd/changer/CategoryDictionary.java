@@ -93,14 +93,14 @@ public class CategoryDictionary {
 					while (!rs.isAfterLast())
 						try {
 
-							// | TabName | char(64)
+							// | TabName .... | char(64)
 							// | LocationCode | int(11)
-							// | LocalID | int(11)
-							// | Type | enum('Public','Experiment','XOC')
+							// | LocalID .... | int(11)
+							// | Type ....... | enum('Public','Experiment','XOC')
 							// | Abbreviation | char(15)
 
-							String cat = rs.getString("TabName");
-							String abb = rs.getString("Abbreviation");
+							String cat = decode(rs.getString("TabName"));
+							String abb = decode(rs.getString("Abbreviation"));
 							cats.add(new ChannelCategory(cat, abb));
 
 							rs.next();
@@ -120,6 +120,26 @@ public class CategoryDictionary {
 			}
 		}
 		categories = cats.toArray(new ChannelCategory[0]);
+	}
+
+	private static final String decode(final String in) {
+		String working = in;
+		int index;
+		index = working.indexOf("\\u");
+		while (index > -1) {
+			int length = working.length();
+			if (index > (length - 6))
+				break;
+			int numStart = index + 2;
+			int numFinish = numStart + 4;
+			String substring = working.substring(numStart, numFinish);
+			int number = Integer.parseInt(substring, 16);
+			String stringStart = working.substring(0, index);
+			String stringEnd = working.substring(numFinish);
+			working = stringStart + ((char) number) + stringEnd;
+			index = working.indexOf("\\u");
+		}
+		return working;
 	}
 
 	// @SuppressWarnings("unused")
