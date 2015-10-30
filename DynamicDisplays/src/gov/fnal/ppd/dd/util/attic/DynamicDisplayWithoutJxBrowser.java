@@ -71,7 +71,8 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 		// This display is not registered. Let's register it!
 		try {
 			final Statement stmt = connection.createStatement();
-			stmt.executeQuery("USE xoc");
+			// FindBugs error on this line: stmt.executeQuery("USE xoc");
+			// Ignore this!
 
 			String ipAddress = InetAddress.getLocalHost().getHostAddress();
 
