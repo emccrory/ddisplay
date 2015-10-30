@@ -28,6 +28,7 @@ public class WhoIsInChatRoom extends Thread {
 	private boolean[]		aliveList		= null;
 	private boolean[]		lastAliveList	= null;
 	private DisplayKeeper	alive;
+	private boolean			debug			= false;
 
 	/**
 	 * @param alive
@@ -76,14 +77,16 @@ public class WhoIsInChatRoom extends Thread {
 					// System.out.println("WhoIsInChatRoom: see a message from [" + clientName + "]");
 					if (clientName.toLowerCase().contains("façade"))
 						return;
-					System.out.println(new Date() + " WhoIsInChatRoom: see a message from [" + clientName + "]");
+					if (debug)
+						System.out.println(new Date() + " WhoIsInChatRoom: see a message from [" + clientName + "]");
 					synchronized (aliveList) {
 						for (int i = 0; i < displayList.size(); i++)
 							if (displayList.get(i).getMessagingName().equals(clientName)
 									|| clientName.startsWith(displayList.get(i).getMessagingName())) {
 								aliveList[i] = true;
-								System.out.println(new Date() + " WhoIsInChatRoom: Display no. "
-										+ displayList.get(i).getDBDisplayNumber() + " is alive");
+								if (debug)
+									System.out.println(new Date() + " WhoIsInChatRoom: Display no. "
+											+ displayList.get(i).getDBDisplayNumber() + " is alive");
 							}
 					}
 				}
