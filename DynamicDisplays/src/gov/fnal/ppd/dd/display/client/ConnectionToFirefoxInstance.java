@@ -95,24 +95,24 @@ public class ConnectionToFirefoxInstance {
 		numberOfScreens++;
 
 		port = PORT + screenNumber;
+		Timer timer = new Timer();
 
 		if (numberOfScreens > 1)
 			instance = " (port #" + port + ")";
 		else {
-			new Thread("CheckInstances") {
+			TimerTask g = new TimerTask() {
 				public void run() {
-					long sleepTime = 200;
 					for (int i = 0; i < 100; i++) {
-						catchSleep(sleepTime);
 						if (numberOfScreens > 1) {
 							instance = " (port #" + port + ")";
 							return;
 						}
 						// System.out.println("              Number of screens = " + numberOfScreens);
-						sleepTime = 100;
+						catchSleep(100);
 					}
 				}
-			}.start();
+			};
+			timer.schedule(g, 500); // Run it once, after a short delay.
 		}
 
 		colorCode = Integer.toHexString(color.getRGB() & 0x00ffffff);
@@ -127,7 +127,6 @@ public class ConnectionToFirefoxInstance {
 		send(resizeTo);
 
 		// Perform a full reset of the browser every now and then.
-		Timer timer = new Timer();
 		TimerTask tt = new TimerTask() {
 			public void run() {
 				try {
@@ -141,7 +140,6 @@ public class ConnectionToFirefoxInstance {
 			}
 		};
 		timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
-
 	}
 
 	/**
