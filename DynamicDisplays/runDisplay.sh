@@ -14,6 +14,8 @@ fi
 
 cd ~/src/roc-dynamicdisplays/DynamicDisplays
 
+./runVersionInformation.sh
+
 . setupJars.sh
 
 d=`date +%F`
