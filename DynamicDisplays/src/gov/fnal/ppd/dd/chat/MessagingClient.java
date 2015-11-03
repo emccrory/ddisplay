@@ -121,6 +121,7 @@ public class MessagingClient {
 			watchServer.start();
 		} else {
 			displayLogMessage("Already running an instance of the 'watch server' thread.");
+			catchSleep(1);
 			new Exception("watchServer is already running!").printStackTrace();
 		}
 		if (socket != null) {
@@ -234,7 +235,8 @@ public class MessagingClient {
 			sOutput.reset();
 			return;
 		} catch (Exception e) {
-			displayLogMessage(MessagingClient.class.getSimpleName() + ".sendMessage(): Exception writing to server: " + e);
+			displayLogMessage(MessagingClient.class.getSimpleName() + ".sendMessage(): Exception writing to server: " + msg);
+			catchSleep(1);
 			System.err.println("Exception writing to server ... ");
 			e.printStackTrace();
 		}
