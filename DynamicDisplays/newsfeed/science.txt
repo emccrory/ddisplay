@@ -1,6 +1,6 @@
-<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Tue Nov 03 09:04:04 CST 2015)</em>
-<b>Human feces from the developing world could power millions of homes</b>: Study argues for the untapped potential of human waste
-<b>Just a nudge could collapse West Antarctic Ice Sheet, raise sea levels 3 meters</b>: Study reveals how juggernaut could unfold
-<b>West Nile virus still wiping out birds across North America</b>: Researchers struggle to explain pathogen’s persistence
-<b>Solar panel shade won’t cool Earth</b>: Study suggests that the panels could make some regions hotter
-<b>Meet the world’s tiniest snail</b>: Minute gastropod appears to live in limestone cracks in Borneo
+<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Mon Nov 09 09:04:01 CST 2015)</em>
+<b>Take the weekly quiz on tumor-killing vitamins, volcanic chambers, and more! </b>: Test your knowledge of the week's hottest science news
+<b>Where did the ‘gay lisp’ stereotype come from?</b>: Although gay men don't lisp more than average, boys with gender dysphoria may
+<b>Restoring coral reefs, with some help from local fish</b>: Researchers harness fish to clean and protect corals
+<b>Top stories: A controversial infertility treatment, tumor-killing vitamins, and Mount St. Helens’s chamber of secrets</b>: The week’s top <i>Science</i> news
+<b>Computers can get an ‘emotional feel’ for fiction</b>: New program can tell you a book’s genre by looking at its "emotional shape"

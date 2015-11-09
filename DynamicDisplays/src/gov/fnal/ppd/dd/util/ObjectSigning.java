@@ -314,37 +314,91 @@ public class ObjectSigning {
 				String ipNameOfClient = clientName.substring(0, clientName.indexOf(' '));
 				String instanceOfClient = clientName.substring(clientName.indexOf("selector ") + "selector ".length());
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-					String query1 = "SELECT LocationCode from SelectorLocation WHERE IPName like '" + ipNameOfClient
-							+ "%' AND Instance='" + instanceOfClient + "'";
-					try (ResultSet rs = stmt.executeQuery(query1);) {
-						if (rs.first()) { // Move to first returned row
-							lc = rs.getInt("LocationCode");
-						}
-					}
-					if (lc < 0) {
-						retval.add("-1");
-						println(ObjectSigning.class, ": This client can control all the displays!");
-						return retval;
-					}
 
-					String query2 = "SELECT VirtualDisplayNumber,IPName,ScreenNumber FROM DisplaySort,Display WHERE "
-							+ "DisplaySort.DisplayID=Display.DisplayID AND DisplaySort.LocationCode=" + lc;
+					// Modified, Nov. 6, 2015, to allow for a controller to control more than one (but less that all of the)
+					// display(s).
 
-					try (ResultSet rs = stmt.executeQuery(query2);) {
-						if (rs.first()) { // Move to first returned row
+					// Using two queries ..
+					//
+					// String query1 = "SELECT LocationCode from SelectorLocation WHERE IPName like '" + ipNameOfClient
+					// + "%' AND Instance='" + instanceOfClient + "'";
+					// try (ResultSet rs1 = stmt.executeQuery(query1);) {
+					// if (rs1.first()) { // Move to first returned row
+					// do {
+					// lc = rs1.getInt("LocationCode");
+					//
+					// if (lc < 0) {
+					// retval = new ArrayList<String>();
+					// retval.add("-1");
+					// println(ObjectSigning.class, ": This client can control all the displays!");
+					// return retval;
+					// }
+					//
+					//
+					// String query2 = "SELECT VirtualDisplayNumber,IPName,ScreenNumber FROM DisplaySort,Display WHERE "
+					// + "DisplaySort.DisplayID=Display.DisplayID AND DisplaySort.LocationCode=" + lc;
+					//
+					// try (ResultSet rs2 = stmt.executeQuery(query2);) {
+					// if (rs2.first()) { // Move to first returned row
+					// do {
+					// String ipName = rs2.getString("IPname");
+					// int scr = rs2.getInt("ScreenNumber");
+					// int vID = rs2.getInt("VirtualDisplayNumber");
+					// retval.add(ipName + ":" + scr + " (" + vID + ")");
+					// } while (rs2.next());
+					//
+					// }
+					// }
+					// } while (rs1.next());
+					// } else {
+					// System.err.println("No displays for IP='" + clientName + "' -- it cannot control any displays.\n\t\t"
+					// + "Query1=[" + query1 + "]");
+					// }
+					// }
+
+					// Using one query ...
+
+					String query0 = "SELECT VirtualDisplayNumber,Display.IPName as IPName,ScreenNumber,Display.DisplayID FROM "
+							+ "DisplaySort,Display,SelectorLocation WHERE DisplaySort.DisplayID=Display.DisplayID and "
+							+ "DisplaySort.LocationCode=SelectorLocation.LocationCode and SelectorLocation.IPName " + "like '"
+							+ ipNameOfClient + "% AND Instance='" + instanceOfClient + "'";
+
+					try (ResultSet rs0 = stmt.executeQuery(query0);) {
+						if (rs0.first()) { // Move to first returned row
 							do {
-								String ipName = rs.getString("IPname");
-								int scr = rs.getInt("ScreenNumber");
-								int vID = rs.getInt("VirtualDisplayNumber");
+								String ipName = rs0.getString("IPname");
+								int scr = rs0.getInt("ScreenNumber");
+								int vID = rs0.getInt("VirtualDisplayNumber");
 								retval.add(ipName + ":" + scr + " (" + vID + ")");
-							} while (rs.next());
-							println(ObjectSigning.class, ": This client has " + retval.size() + " displays it can change.");
+							} while (rs0.next());
 						} else {
-							System.err.println("No displays for IP='" + clientName + "' -- it cannot control any displays. \n\t\t"
-									+ "Query1=[" + query1 + "]\n\t\t" + "Query2=[" + query2 + "]");
-						}
+							// Special case: Is the LocationCode equal to -1, indicating ALL displays are available?
 
+							String query1 = "SELECT LocationCode from SelectorLocation WHERE IPName like '" + ipNameOfClient
+									+ "%' AND Instance='" + instanceOfClient + "'";
+							try (ResultSet rs1 = stmt.executeQuery(query1);) {
+								if (rs1.first()) { // Move to first returned row
+									do {
+										lc = rs1.getInt("LocationCode");
+										if (lc < 0) {
+											retval = new ArrayList<String>();
+											retval.add("-1");
+											println(ObjectSigning.class, ": This client can control all the displays!");
+											return retval;
+										} else {
+											System.err.println("\n\n**********\n\n" + ObjectSigning.class.getSimpleName()
+													+ ": Unanticipated situation!  Got a location code of " + lc + " for client "
+													+ ipNameOfClient
+													+ " but really expecting either a -1 or no location code at all."
+													+ "\n\n**********  Contact code author!");
+											break; // Not sure if we can continue or not. We'll try.
+										}
+									} while (rs1.next());
+								}
+							}
+						}
 					}
+
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -352,6 +406,8 @@ public class ObjectSigning {
 		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
+
+		println(ObjectSigning.class, ": This client has " + retval.size() + " displays it can change.");
 		return retval;
 
 	}

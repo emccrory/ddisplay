@@ -630,10 +630,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			}
 			titleBox.add(lockButton);
 
-			if (!IS_PUBLIC_CONTROLLER) {
-				titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
-				titleBox.add(exitButton);
-			}
+			// NEVER add the exit button to the full-screen version.
+			// if (!IS_PUBLIC_CONTROLLER) {
+			// titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+			// titleBox.add(exitButton);
+			// }
 			// } else {
 			// titleBox.add(addChannelButton);
 		}

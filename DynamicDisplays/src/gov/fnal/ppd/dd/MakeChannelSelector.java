@@ -141,8 +141,12 @@ public class MakeChannelSelector {
 									displayList = DisplayListFactory.getInstance(sType, lc);
 								else {
 									List<Display> moreDisplays = DisplayListFactory.getInstance(sType, lc);
-									displayList.addAll(moreDisplays);
+									if (displayList.addAll(moreDisplays) == false) {
+										System.err.println("Could not add the " + moreDisplays.size()
+												+ " new display instances to displayList!?");
+									}
 								}
+								System.out.println("DisplayList has " + displayList.size() + " entries");
 								rs2.next();
 								missing = false;
 							} catch (Exception e) {
