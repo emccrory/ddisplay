@@ -1,6 +1,10 @@
 #!/bin/bash
 
-# for the display software, use the command line argument, "Y", to just do the update, no questions asked.
+#
+# Script to learn if there is a newer version of the software available from the server.
+#
+
+# for the display software, use the command line argument, "Y" to do the update, no questions asked.
 yes=0;
 if [ "$1 X" = "Y X" ]; then
     yes=1;
@@ -17,21 +21,39 @@ if java gov.fnal.ppd.dd.util.version.VersionInformationComparison; then
 	echo You are running the latest version of the software
     fi
 else
+    doTheUpdate=$yes;
     if [ $yes = 0 ]; then 
 	details=`java gov.fnal.ppd.dd.util.version.VersionInformation`
 	title="New version detected"
-	text="The server has a newer version of the software.\nNew version details:\n\n$details\n\nShall we update to the newest version?";
+	text="The server has a newer version of the Dynamic Displays software.\nNew version details:\n\n$details\n\nShall we update to the newest version?";
 
 	if zenity --question --title="$title" --text="$text"; then 
-	# Insert code HERE to fetch the newset version of the software and then restart
-	    echo At this time, you have to do this update yourself.  Sorry for the misdirection here.
-	    cd ../..
-	    ./refreshSoftware.sh
+	    doTheUpdate=1;
 	fi
-    else
-	echo New version detected and auto yes is on. You have to do this update yourself.  Sorry for the misdirection here.
-	cd ../..
-	./refreshSoftware.sh
-	echo Dynamic Displays Software updated. `date`
     fi
+
+    log=log/update_${d}_$$.log
+
+    if [ $doTheUpdate = 1 ]; then
+	(
+	    cd ../..
+	    echo "10"
+	    date > $log
+	    echo Automatic software update >> $log
+	    ./refreshSoftware.sh >> $log
+	    echo "99"
+	    echo Dynamic Displays Software updated. `date`
+	    echo Automatic software update completed at `date` >> $log
+	    ls -ltd roc* >> $log
+	    sleep 1;
+	    echo "100"
+	    sleep 1;
+	) |
+	zenity --progress \
+	    --title="Updating Dynamic Displays Software" \
+	    --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"80000\">        Updating\nDynamic Displays\n       Software</span>" \
+	    --auto-close \
+	    --percentage=0
+    fi
+
 fi

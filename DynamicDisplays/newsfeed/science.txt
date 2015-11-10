@@ -1,6 +1,6 @@
-<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Mon Nov 09 09:04:01 CST 2015)</em>
-<b>Take the weekly quiz on tumor-killing vitamins, volcanic chambers, and more! </b>: Test your knowledge of the week's hottest science news
-<b>Where did the ‘gay lisp’ stereotype come from?</b>: Although gay men don't lisp more than average, boys with gender dysphoria may
-<b>Restoring coral reefs, with some help from local fish</b>: Researchers harness fish to clean and protect corals
-<b>Top stories: A controversial infertility treatment, tumor-killing vitamins, and Mount St. Helens’s chamber of secrets</b>: The week’s top <i>Science</i> news
-<b>Computers can get an ‘emotional feel’ for fiction</b>: New program can tell you a book’s genre by looking at its "emotional shape"
+<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Tue Nov 10 16:04:02 CST 2015)</em>
+<b>Astronomers spot most distant object in the solar system, could point to other rogue planets</b>: Dwarf planet is three times farther away than Pluto
+<b>European Commission appoints top scientists to fill policy advice gap</b>
+<b>Ice volcanoes spotted on Pluto, suggest internal heat source </b>: New Horizons spacecraft finds evidence for volcanic resurfacing by molten ice
+<b>Q&A: How to encourage more scientific risk-taking—and efficiency</b>: New study finds science becomes less efficient as field matures
+<b>Wanna bet? Gambling could reveal which scientific studies are worth their salt</b>: Researchers use predictions markets to determine reproducibility of studies

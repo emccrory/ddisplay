@@ -14,7 +14,7 @@ fi
 
 cd ~/src/roc-dynamicdisplays/DynamicDisplays
 
-./runVersionInformation.sh
+./runVersionInformation.sh Y
 
 . setupJars.sh
 
