@@ -74,7 +74,7 @@ public class GetMessagingServer {
 								+ "\nLocationName= " + locationName + "\nLocationDescription= " + locationDescription);
 
 					} else {
-						System.err.println("No location information for this device, " + myName);
+						System.err.println("No location information for this device, " + myName + "\n\nQuery:\n" + query);
 						new Exception().printStackTrace();
 						System.exit(-1);
 					}

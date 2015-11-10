@@ -14,6 +14,7 @@ import gov.fnal.ppd.dd.signage.SignageType;
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
 
+
 /**
  * <p>
  * Implement a Dynamic Display using a back-door communication channel to FireFox (see https://github.com/pmorch/FF-remote-control)
@@ -125,10 +126,10 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 					// First, do a brute-force refresh to the browser
 					firefox.forceRefresh(frameNumber);
-					
+
 					// Now tell the lower-level code that we need a full reset
 					firefox.resetURL();
-					
+
 					// Finally, re-send the last URL we knew about
 					if (!firefox.changeURL(lastChannel.getURI().toASCIIString(), wrapperType, frameNumber)) {
 						println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
@@ -319,7 +320,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	protected boolean isVerifiedChannel(SignageContent c) {
 		return listOfValidURLs.contains(c);
 	}
-
+	
 	/**
 	 * @param args
 	 *            Expect one command line argument
