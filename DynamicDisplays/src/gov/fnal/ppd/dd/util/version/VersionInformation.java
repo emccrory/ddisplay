@@ -25,10 +25,13 @@ public class VersionInformation implements Serializable {
 	private static final long			serialVersionUID	= 667424596967348921L;
 	private static final String			FILE_NAME			= "versionInformation.dat";
 	private static final String			WEB_FILE_NAME		= getFullURLPrefix() + "/versionInformation.dat";
-	private long						timeStamp			= 0L;
-	private String						versionDescription	= null;
 	private static ObjectOutputStream	sOutput				= null;
 	private static ObjectInputStream	sInput				= null;
+
+	// Attributes
+	private long						timeStamp			= 0L;
+	private String						versionDescription	= null;
+	private int[]						dotVersion			= new int[3];
 
 	/**
 	 * Create an empty instance in order to save a new one in persistent storage
@@ -64,6 +67,34 @@ public class VersionInformation implements Serializable {
 	 */
 	public void setVersionDescription(String versionDescription) {
 		this.versionDescription = versionDescription;
+	}
+
+	/**
+	 * @return The version as a dot string, e.g., "2.4.109"
+	 */
+	public String getVersionString() {
+		String retval = "";
+		for (int I : dotVersion)
+			retval += I + ".";
+		return retval.substring(0, retval.length() - 1);
+	}
+
+	/**
+	 * @param field
+	 *            the dot field to increment
+	 */
+	public void setVersionVal(final int field, int val) {
+		dotVersion[field] = val;
+	}
+
+	/**
+	 * 
+	 * @param field
+	 *            Which dot field to return
+	 * @return The value of the dot field
+	 */
+	public int getVersionVal(int field) {
+		return dotVersion[field];
 	}
 
 	/**
@@ -144,14 +175,18 @@ public class VersionInformation implements Serializable {
 
 	public static void main(final String[] args) {
 		// For saving ...
-		// VersionInformation vi = new VersionInformation();
-		// vi.setTimeStamp(System.currentTimeMillis());
-		// vi.setVersionDescription("Version description is here.  Blah, blah, blah.");
-		// saveVersionInformation(vi);
+		 VersionInformation vi = new VersionInformation();
+		 vi.setTimeStamp(System.currentTimeMillis());
+		 vi.setVersionDescription("Version description is here.  Blah, blah, blah.");
+		 vi.setVersionVal(0, 2);
+		 vi.setVersionVal(1, 1);
+		 vi.setVersionVal(2, 10);
+		 
+		 saveVersionInformation(vi);
 
 		// for retrieving ...
-		VersionInformation vi = getVersionInformation();
-		System.out.println(vi);
-		System.out.println("Time stamp: " + new Date(vi.getTimeStamp()));
+		//VersionInformation vi = getVersionInformation();
+		//System.out.println(vi);
+		//System.out.println("Time stamp: " + new Date(vi.getTimeStamp()));
 	}
 }
