@@ -123,12 +123,16 @@ public class DisplayButtons extends JPanel {
 	 *            The Display to use for this tool tip
 	 */
 	public static void setToolTip(final Display disp) {
+		if (buttonList == null)
+			return;
+		// TODO This does not work with the Slider selector. So what?!
+
 		if (buttonList.size() == 0) {
-			println(DisplayButtons.class, ".setToolTip() for display " + disp.getDBDisplayNumber() + " -- nothing in buttonList.  Are we still initializing?");
+			println(DisplayButtons.class, ".setToolTip() for display " + disp.getDBDisplayNumber()
+					+ " -- nothing in buttonList.  Are we still initializing?");
 			return;
 		}
 
-		// TODO This does not work with the Slider selector. So what?!
 		synchronized (displayList) {
 			int index = displayList.indexOf(disp);
 
@@ -245,6 +249,7 @@ public class DisplayButtons extends JPanel {
 
 		buttonBox.setAlignmentX(JComponent.TOP_ALIGNMENT);
 		add(buttonBox, BorderLayout.CENTER);
+		buttonList = null;
 	}
 
 	/**

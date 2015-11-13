@@ -205,10 +205,10 @@ public class CategoryDictionary {
 
 		case 1:
 			// ROC-East
-			for (String EXP : CERNExperiments)
-				if (exp.equalsIgnoreCase(EXP))
-					return true;
-			break;
+			// for (String EXP : CERNExperiments)
+			// if (exp.equalsIgnoreCase(EXP))
+			// return true;
+			// break;
 
 		case 2:
 			// Test regime in Elliott's office

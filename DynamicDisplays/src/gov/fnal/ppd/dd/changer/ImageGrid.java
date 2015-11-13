@@ -15,6 +15,7 @@ import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DisplayButtonGroup;
 
 import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -25,8 +26,11 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -40,6 +44,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
 /**
  * Create a tab of images that can be shown on a Display. This is a very different way of giving user content to see because it ties
@@ -77,7 +82,7 @@ public class ImageGrid extends DetailedInformationGrid {
 		private static final long				serialVersionUID	= 8963747596403311688L;
 		private static Map<String, ImageIcon>	cache				= new HashMap<String, ImageIcon>();
 		private ImageIcon						icon;
-		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 300 : 350);
+		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 200 : 250);
 
 		public DrawingPanel(String url, Color bgColor) {
 			int height = LONG_EDGE;
@@ -149,7 +154,7 @@ public class ImageGrid extends DetailedInformationGrid {
 	private static final Set<SignageContent>	list				= ChannelCatalogFactory.getInstance().getChannelCatalog(
 																			ChannelCategory.IMAGE);
 
-	private static final int					MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 33 : 46);
+	private static final int					MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 44 : 47);
 
 	/**
 	 * Create this tab for the ChannelSelector GUI
@@ -164,7 +169,7 @@ public class ImageGrid extends DetailedInformationGrid {
 	private static String trunc(String text) {
 		if (text.length() < MAX_CAPTION_LENGTH)
 			return text;
-		return text.substring(0, MAX_CAPTION_LENGTH - 2) + " ...";
+		return text.substring(0, MAX_CAPTION_LENGTH - 2) + " \u2026";
 	}
 
 	@Override
@@ -176,11 +181,14 @@ public class ImageGrid extends DetailedInformationGrid {
 		// TODO -- Implement touch scrolling for this panel. From a brief search of google, it seems that one must either
 		// (a) Use JavaFX (and use their touch interface stuff) or (b) use the Canvas class (and implement it yourself)
 
-		final JPanel internalGrid = new JPanel(new GridLayout(0, ncol));
-		internalGrid.setOpaque(true);
-		internalGrid.setBackground(display.getPreferredHighlightColor());
+		final JTabbedPane internalTabPane = new JTabbedPane();
+		internalTabPane.setOpaque(true);
+		internalTabPane.setBackground(display.getPreferredHighlightColor());
+		HashMap<String, JPanel> expPanels = new HashMap<String, JPanel>();
 
 		final long revertTime = 5 * ONE_MINUTE;
+		final int WIDTH = (SHOW_IN_WINDOW ? 300 : 350);
+		final int HEIGHT = 3 * WIDTH / 4;
 
 		synchronized (list) {
 			if (firstTime) {
@@ -215,7 +223,7 @@ public class ImageGrid extends DetailedInformationGrid {
 					String name = imageChannel.getName(); // This is the URL end
 					String url = getFullURLPrefix() + "/" + name;
 					// System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): resizing " + url);
-					
+
 					DrawingPanel dp = new DrawingPanel(url, display.getPreferredHighlightColor());
 
 					url += "&color=" + colorString;
@@ -223,12 +231,16 @@ public class ImageGrid extends DetailedInformationGrid {
 					String exp = imageChannel.getExp();
 
 					Box b = Box.createVerticalBox();
+					b.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+					b.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+					b.setMaximumSize(new Dimension(WIDTH, HEIGHT));
+
 					b.setOpaque(true);
 
 					DDButton button = new DDIconButton(imageChannel, display, MAX_CAPTION_LENGTH, dp.getIcon());
 					button.setText(name.replace("upload/items/", ""));
 					button.setAlignmentX(JPanel.LEFT_ALIGNMENT);
-					b.add(new JWhiteLabel(exp, 24.0f));
+					// b.add(new JWhiteLabel(exp, 24.0f));
 					b.add(button);
 					// b.add(dp);
 					b.add(new JWhiteLabel(desc));
@@ -238,22 +250,50 @@ public class ImageGrid extends DetailedInformationGrid {
 
 					bg.add(button);
 
-					internalGrid.add(b);
+					JPanel expInternalGrid;
+					if (expPanels.containsKey(exp)) {
+						expInternalGrid = expPanels.get(exp);
+					} else {
+						expInternalGrid = new JPanel(new GridLayout(0, ncol));
+						expInternalGrid.setOpaque(true);
+						expInternalGrid.setBackground(display.getPreferredHighlightColor());
+						expPanels.put(exp, expInternalGrid);
+					}
+					expInternalGrid.add(b);
+					// internalGrid.add(b);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		}
 
-		expGrid = new JScrollPane(internalGrid);
-		expGrid.setAlignmentX(JComponent.TOP_ALIGNMENT);
-		JScrollBar sb = ((JScrollPane) expGrid).getVerticalScrollBar();
-		sb.setUnitIncrement(20);
-		sb.setBlockIncrement(317);
-		if (!SHOW_IN_WINDOW) {
-			sb.setPreferredSize(new Dimension(40, 0));
-			sb.setBlockIncrement(450);
+		for (String exp : asSortedList(expPanels.keySet())) {
+			// TODO It might be better to sort this
+			JScrollPane sp = new JScrollPane(expPanels.get(exp));
+			JScrollBar sb = sp.getVerticalScrollBar();
+			sb.setUnitIncrement(20);
+			sb.setBlockIncrement(317);
+			if (!SHOW_IN_WINDOW) {
+				sb.setPreferredSize(new Dimension(40, 0));
+				sb.setBlockIncrement(450);
+			}
+			internalTabPane.addTab(exp, sp);
 		}
+
+		if (!SHOW_IN_WINDOW)
+			internalTabPane.setFont(getFont().deriveFont(20.0f));
+
+		expGrid = new JPanel(new BorderLayout());
+		expGrid.add(new JLabel("Experiment images tabs"), BorderLayout.NORTH);
+		expGrid.add(internalTabPane, BorderLayout.CENTER);
+		expGrid.setAlignmentX(JComponent.TOP_ALIGNMENT);
+
 		return expGrid;
+	}
+
+	private static <T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c) {
+		List<T> list = new ArrayList<T>(c);
+		java.util.Collections.sort(list);
+		return list;
 	}
 
 	private static BufferedImage createResizedCopy(Image originalImage, int scaledWidth, int scaledHeight, boolean preserveAlpha) {
