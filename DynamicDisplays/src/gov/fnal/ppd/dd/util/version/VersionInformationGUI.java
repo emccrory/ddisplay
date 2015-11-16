@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.util.version;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -18,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -26,9 +26,10 @@ import javax.swing.JTextField;
  */
 public class VersionInformationGUI extends JFrame {
 
-	private static final long	serialVersionUID	= 1618474079742658363L;
-	private VersionInformation	vi					= VersionInformation.getVersionInformation();
-	private JTextArea			textArea;
+	private static final long			serialVersionUID	= 1618474079742658363L;
+	private VersionInformation			newVI				= VersionInformation.getVersionInformation();
+	private final VersionInformation	oldVI				= VersionInformation.getVersionInformation();
+	private JTextArea					textArea;
 
 	/**
 	 * 
@@ -69,59 +70,103 @@ public class VersionInformationGUI extends JFrame {
 				"<html>If you change this information, you must recommit<br>and then repush the version data file to the repository.</html>"));
 		content.add(Box.createRigidArea(new Dimension(8, 8)));
 
+		Box hb = Box.createHorizontalBox();
+		hb.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+		content.add(hb);
+
 		JButton accept = new JButton("Accept this version information and close");
-		content.add(accept);
+		hb.add(accept);
 
 		accept.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				vi.setVersionDescription(textArea.getText());
+				newVI.setVersionDescription(textArea.getText());
 
-				VersionInformation.saveVersionInformation(vi);
-
-				System.exit(0);
+				if (newVI.equals(oldVI)) {
+					System.out.println("No change in version information");
+					System.exit(-1);
+				} else {
+					VersionInformation.saveVersionInformation(newVI);
+					System.exit(0);
+				}
 			}
 		});
+
+		JButton reject = new JButton("Cancel");
+		reject.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("**CANCELED** (No change in version information)");
+				System.exit(-1);
+			}
+		});
+		hb.add(Box.createRigidArea(new Dimension(10, 10)));
+		hb.add(reject);
 
 		setContentPane(content);
 	}
 
 	private JComponent getVersionNumbers() {
 		Box box = Box.createHorizontalBox();
-		final JTextField f1 = new JTextField("" + vi.getVersionVal(0), 3);
-		final JTextField f2 = new JTextField("" + vi.getVersionVal(1), 3);
-		final JTextField f3 = new JTextField("" + vi.getVersionVal(2), 3);
 
-		final JLabel fullVersion = new JLabel("( " + vi.getVersionString() + " )");
-		ActionListener lis = new ActionListener() {
+		final JButton f1Inc = new JButton(newVI.getVersionVal(0) + " +");
+		final JButton f2Inc = new JButton(newVI.getVersionVal(1) + " +");
+		final JButton f3Inc = new JButton(newVI.getVersionVal(2) + " +");
+		final JLabel fullVersion = new JLabel("( " + newVI.getVersionString() + " )");
+
+		f1Inc.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				newVI.setVersionVal(0, newVI.getVersionVal(0) + 1);
+				newVI.setVersionVal(1, 0);
+				newVI.setVersionVal(2, 1);
 
-				try {
-					vi.setVersionVal(0, Integer.parseInt(f1.getText()));
-					vi.setVersionVal(1, Integer.parseInt(f2.getText()));
-					vi.setVersionVal(2, Integer.parseInt(f3.getText()));
-
-					fullVersion.setText("( " + vi.getVersionString() + " )");
-				} catch (NumberFormatException e) {
-
-				}
+				f1Inc.setText(newVI.getVersionVal(0) + " +");
+				f2Inc.setText(newVI.getVersionVal(1) + " +");
+				f3Inc.setText(newVI.getVersionVal(2) + " +");
+				fullVersion.setText("( " + newVI.getVersionString() + " )");
 			}
-		};
-		f1.addActionListener(lis);
-		f2.addActionListener(lis);
-		f3.addActionListener(lis);
+		});
+		f2Inc.addActionListener(new ActionListener() {
 
-		box.add(Box.createHorizontalGlue());
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				newVI.setVersionVal(1, newVI.getVersionVal(1) + 1);
+				newVI.setVersionVal(2, 1);
+
+				f2Inc.setText(newVI.getVersionVal(1) + " +");
+				f3Inc.setText(newVI.getVersionVal(2) + " +");
+				fullVersion.setText("( " + newVI.getVersionString() + " )");
+			}
+		});
+		f3Inc.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				newVI.setVersionVal(2, newVI.getVersionVal(2) + 1);
+
+				f3Inc.setText(newVI.getVersionVal(2) + " +");
+				fullVersion.setText("( " + newVI.getVersionString() + " )");
+			}
+		});
+
 		box.add(new JLabel("Version number: "));
-		box.add(f1);
-		box.add(new JLabel(" . "));
-		box.add(f2);
-		box.add(new JLabel(" . "));
-		box.add(f3);
+		box.add(Box.createHorizontalGlue());
 		box.add(Box.createRigidArea(new Dimension(8, 8)));
+		box.add(f1Inc);
+		box.add(Box.createRigidArea(new Dimension(8, 8)));
+		box.add(new JLabel("\u2022"));
+		box.add(Box.createRigidArea(new Dimension(8, 8)));
+		box.add(f2Inc);
+		box.add(Box.createRigidArea(new Dimension(8, 8)));
+		box.add(new JLabel("\u2022"));
+		box.add(Box.createRigidArea(new Dimension(8, 8)));
+		box.add(f3Inc);
+		box.add(Box.createRigidArea(new Dimension(20, 20)));
+
 		box.add(fullVersion);
 		box.add(Box.createHorizontalGlue());
 
@@ -135,13 +180,14 @@ public class VersionInformationGUI extends JFrame {
 
 	private Container getRadios() {
 		Box box = Box.createHorizontalBox();
-		box.add(new JLabel("Time stamp to use: "));
+		box.add(Box.createRigidArea(new Dimension(10, 10)));
+		box.add(new JLabel("Time stamp: "));
 		final JRadioButton rb1 = new JRadioButton("Now");
 		rb1.setSelected(false);
-		final JRadioButton rb2 = new JRadioButton("Custom");
-		rb2.setSelected(false);
+		final JRadioButton rb2 = new JRadioButton("No change");
+		rb2.setSelected(true);
 
-		final JLabel timeStampChosen = new JLabel(" " + new Date(vi.getTimeStamp()));
+		final JLabel timeStampChosen = new JLabel(" " + new Date(newVI.getTimeStamp()) + " ");
 
 		ActionListener rbListener = new ActionListener() {
 
@@ -149,12 +195,11 @@ public class VersionInformationGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (rb1.isSelected()) {
 					Date d = new Date(System.currentTimeMillis());
-					vi.setTimeStamp(d.getTime());
-					timeStampChosen.setText(" " + d);
+					newVI.setTimeStamp(d.getTime());
 				} else if (rb2.isSelected()) {
-					// POPUP to get the time stamp they intend
-					System.err.println("Not implemented");
+					newVI.setTimeStamp(oldVI.getTimeStamp());
 				}
+				timeStampChosen.setText("" + new Date(newVI.getTimeStamp()) + " ");
 			}
 		};
 		rb1.addActionListener(rbListener);
@@ -163,12 +208,15 @@ public class VersionInformationGUI extends JFrame {
 		ButtonGroup timeGroup = new ButtonGroup();
 		timeGroup.add(rb1);
 		timeGroup.add(rb2);
+		
 		box.add(rb1);
 		box.add(rb2);
 		box.add(Box.createRigidArea(new Dimension(10, 10)));
 		box.add(new JSeparator(JSeparator.VERTICAL));
 		box.add(Box.createRigidArea(new Dimension(10, 10)));
 		box.add(timeStampChosen);
+		box.add(Box.createRigidArea(new Dimension(10, 10)));
+
 		box.add(Box.createHorizontalGlue());
 
 		box.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -178,7 +226,8 @@ public class VersionInformationGUI extends JFrame {
 	}
 
 	private JComponent getDescription() {
-		textArea = new JTextArea(vi.getVersionDescription(), 10, 60);
+		textArea = new JTextArea(newVI.getVersionDescription(), 10, 60);
+		textArea.setFont(new Font("Courier", Font.PLAIN, 12));
 		textArea.setBorder(BorderFactory.createBevelBorder(2));
 		textArea.setAlignmentX(LEFT_ALIGNMENT);
 		return textArea;
