@@ -328,28 +328,28 @@ public class ConnectionToFirefoxInstance {
 			connected = false;
 		}
 
-//		if (lastURL == null)
-//			return;
-//		// Send the last URL back to the display
-//
-//		String frameName = "iframe";
-//		if (frameNumber > 0)
-//			frameName = "frame" + frameNumber;
-//
-//		s = "document.getElementById('" + frameName + "').src = '" + lastURL + "';\n";
-//		if (frameNumber > 0)
-//			s += "document.getElementById('" + frameName + "').style.visibility='visible';\n";
-//
-//		send(s);
-//
-//		try {
-//			waitForServer();
-//			if (!connected)
-//				System.err.println(getClass().getName() + ".forceRefresh()" + instance + " -- error from Display server!");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			connected = false;
-//		}
+		// if (lastURL == null)
+		// return;
+		// // Send the last URL back to the display
+		//
+		// String frameName = "iframe";
+		// if (frameNumber > 0)
+		// frameName = "frame" + frameNumber;
+		//
+		// s = "document.getElementById('" + frameName + "').src = '" + lastURL + "';\n";
+		// if (frameNumber > 0)
+		// s += "document.getElementById('" + frameName + "').style.visibility='visible';\n";
+		//
+		// send(s);
+		//
+		// try {
+		// waitForServer();
+		// if (!connected)
+		// System.err.println(getClass().getName() + ".forceRefresh()" + instance + " -- error from Display server!");
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// connected = false;
+		// }
 	}
 
 	/**
@@ -538,7 +538,11 @@ public class ConnectionToFirefoxInstance {
 		if (in != null) {
 			char[] cbuf = new char[DEFAULT_BUFFER_SIZE];
 			int numRead = in.read(cbuf, 0, DEFAULT_BUFFER_SIZE);
-			lastReplyLine = new String(cbuf).substring(0, numRead - 1);
+			if (numRead > 2)
+				lastReplyLine = new String(cbuf).substring(0, numRead - 1);
+			else
+				lastReplyLine += "(Unexpectedly short reply of " + numRead + " chars from browser) -- [" + new String(cbuf) + "]";
+			
 			if (debug)
 				println(getClass(), ".waitForServer()" + instance + ": " + numRead + " chars from server: [" + lastReplyLine + "]");
 
