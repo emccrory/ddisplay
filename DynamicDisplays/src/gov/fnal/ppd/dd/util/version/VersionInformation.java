@@ -12,7 +12,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.URL;
-import java.util.Date;
+import java.util.Arrays;
 
 /**
  * Utility class that reads and writes the current version information on this project.
@@ -95,6 +95,45 @@ public class VersionInformation implements Serializable {
 	 */
 	public int getVersionVal(int field) {
 		return dotVersion[field];
+	}
+
+	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 73;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(dotVersion);
+		result = prime * result + (int) (timeStamp ^ (timeStamp >>> 32));
+		result = prime * result + ((versionDescription == null) ? 0 : versionDescription.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof VersionInformation))
+			return false;
+		VersionInformation other = (VersionInformation) obj;
+		if (timeStamp != other.timeStamp)
+			return false;
+		if (!Arrays.equals(dotVersion, other.dotVersion))
+			return false;
+		if (versionDescription == null) {
+			if (other.versionDescription != null)
+				return false;
+		} else if (!versionDescription.equals(other.versionDescription))
+			return false;
+		return true;
 	}
 
 	/**
