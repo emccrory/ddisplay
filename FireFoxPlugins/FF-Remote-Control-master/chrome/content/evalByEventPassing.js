@@ -86,25 +86,10 @@ var evalByEventPassing;
 // Scope limiting
 (function() {
 
-var callbacks = [];
+var callbacks = {};
 var callbackCounter = 0;
 
-// We need a sandbox-eval to safely test if we've initialized the page
-function evalInSandbox(window, command) {
-    // Inspiration for this came from
-    // http://forums.mozillazine.org/viewtopic.php?f=19&t=1517525
-    // and from
-    // http://kailaspatil.blogspot.com/2010/12/firefox-extension.html
-    var sandbox = new Components.utils.Sandbox(
-        window.wrappedJSObject
-    );
-    sandbox.__proto__ = window.wrappedJSObject;
-    // This seems to be the standard use of evalInSandbox in extensions
-    return Components.utils.evalInSandbox(command, sandbox);
-}
-
 function handleResult(body, e) {
-    // Firebug.Console.log("handleResult");
     var result = e.target.getAttribute('result');
     var callbackID = e.target.getAttribute('callbackID');
     body.removeChild(e.target);
@@ -120,12 +105,9 @@ function handleResult(body, e) {
     if (!callbacks[callbackID]) return;
     callbacks[callbackID](result);
     delete(callbacks[callbackID]);
-
-    // Firebug.Console.log(["/handleResult", result]);
 }
 
 function initializeWindow(window) {
-    // Firebug.Console.log("initializeWindow");
     var document = window.document;
 
     // Insert the script element that sets up communication with the
@@ -135,10 +117,7 @@ function initializeWindow(window) {
     var scriptElement = document.createElement('script');
     scriptElement.setAttribute("type","text/javascript");
     function setupEvalByEventPassing() {
-        // console.log('setupEvalByEventPassing');
-
         function evalByEventPassingCommand(e) {
-            // console.log('evalByEventPassingCommand');
             var element = e.target;
             var command = element.getAttribute('command');
             element.removeAttribute('command');
@@ -155,45 +134,23 @@ function initializeWindow(window) {
                     result = { 'error' : exception.message };
                 }
             }
-            function skipCycles() {
-                var seen = new Object(null);
-                return function(key, val) {
-                    if (val instanceof Object) {
-                        if (seen[val] == true) {
-                            return '<cycle>';
-                        } else {
-                            seen[val] = true;
-                        }
-                    }
-                    console.log(typeof(val));
-                    return val;
-                }
-            }
             try {
-                result = JSON.stringify(result,skipCycles());
+                result = JSON.stringify(result);
             } catch (e) {
                 // Try again, but this time just the exception.
                 // (nativeJSON.encode has been known to throw
                 // exceptions - to trigger this, try giving the command
                 // "window" (that would return the window - which is
                 // huge!)
-                result = JSON.stringify({error:
-                    "Error encoding JSON string for result/error. " +
-                    "Was it too large?"
-                });
-                if (e instanceof Error) {
-                    console.log(e.name + ': '+e.message);
-                } else {
-                    console.log(e);
-                }
+                result = JSON.stringify({error: "Error encoding JSON string: " + e });
             }
             element.setAttribute('result', result);
             var event = document.createEvent('Event');
             event.initEvent('evalByEventPassingResultMessage',
                             true, false);
             element.dispatchEvent(event);
-            // console.log('/evalByEventPassingCommand');
         };
+        /* This event listener is called whenever an eval request is received */
         document.addEventListener(
             'evalByEventPassingCommandMessage',
             evalByEventPassingCommand,
@@ -207,25 +164,23 @@ function initializeWindow(window) {
     // evaluated in the page's context
     document.getElementsByTagName("head")[0].appendChild(scriptElement);
 
-    document.addEventListener("evalByEventPassingResultMessage",
-                              function (event) {
-                                // Handle the result in chrome. It needs a
-                                // body so it can remove the element we
-                                // inserted earlier
-                                handleResult(
-                                    document.getElementsByTagName("body")[0],
-                                    event
-                                )
-                              },
-                              false,
-                              true);
-
-    // Firebug.Console.log("/initializeWindow");
+    /* This event listener is called whenever an eval request completes */
+    document.addEventListener(
+        'evalByEventPassingResultMessage',
+        function (event) {
+            // Handle the result in chrome. It needs a
+            // body so it can remove the element we
+            // inserted earlier
+            handleResult(
+                document.getElementsByTagName("body")[0],
+                event
+            )
+        },
+        false,
+        true);
 }
 
 evalByEventPassing = function (window, commandStr, callback) {
-    // Firebug.Console.log("evalByEventPassing");
-
     var document = window.document;
 
     // We must have a document, body and a head for this to work:
@@ -245,8 +200,10 @@ evalByEventPassing = function (window, commandStr, callback) {
     var callbackID = (callbackCounter++);
     callbacks[callbackID] = callback;
 
-    if (evalInSandbox(window, 'typeof setupEvalByEventPassing') ==
-        "undefined") {
+    /* XXX: This used to use a sandbox eval to obtain "typeof setupEvalByEventPassing".
+    For some reason, that would always fail and return undefined on FF >= 33.
+    So, the check is now simplified, but I am not sure what the security implication(s) are! */
+    if (typeof window.wrappedJSObject.setupEvalByEventPassing == "undefined") {
         initializeWindow(window);
     }
 
@@ -260,8 +217,6 @@ evalByEventPassing = function (window, commandStr, callback) {
     var event = document.createEvent("Event");
     event.initEvent("evalByEventPassingCommandMessage", true, false);
     element.dispatchEvent(event);
-
-    // Firebug.Console.log("/evalByEventPassing");
 };
 
 })();

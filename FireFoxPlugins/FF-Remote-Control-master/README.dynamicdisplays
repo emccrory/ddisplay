@@ -1,0 +1,18 @@
+To get this repository:
+
+linux $ git clone https://github.com/FF-Remote-Control/FF-Remote-Control.git
+
+You'll probably have to do som rearranging: This will put it into
+a folder caller FF-Remote-Control, and that folder will include three
+.git* folders that should be removed.
+
+Then you have to do:
+
+linux $ make xpi-dir
+
+That will create: 
+
+-rw-rw-r--. 1 mccrory mccrory 47991 Nov 16 14:42 remote_control-1.3-fx.xpi
+
+Elliott McCrory
+11/16/2015

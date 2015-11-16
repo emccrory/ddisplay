@@ -21,10 +21,10 @@ function deArray(log) {
     return function(msg) {
         if (typeof(msg) != "string") {
             for(var i = 0; i < msg.length; ++i) {
-                log(msg[i]);
+                console.log(msg[i]);
             }
         } else {
-            log(msg);
+            console.log(msg);
         }
     }
 }
@@ -192,8 +192,7 @@ remotecontrol = {
                     Components.interfaces.nsIConverterInputStream.
                         DEFAULT_REPLACEMENT_CHARACTER
                 );
-                // I'm not reall sure what this does, but if it is missing,
-                // then readLine() doesn't work
+                // Ensure readLine() is available
                 utf8Input.QueryInterface(
                     Components.interfaces.nsIUnicharLineInputStream
                 );
@@ -375,9 +374,14 @@ remotecontrol = {
     },
 };
 
-window.addEventListener("load",
-                        function () { remotecontrol.onLoad(); },
-                        false,
-                        false);
+window.addEventListener(
+    "load",
+    function remoteControlOnload() {
+        window.removeEventListener(remoteControlOnload);
+        remotecontrol.onLoad();
+    },
+    false,
+    false
+);
 
 })();
