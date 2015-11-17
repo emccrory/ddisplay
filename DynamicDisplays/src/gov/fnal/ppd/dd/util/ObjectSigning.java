@@ -358,10 +358,10 @@ public class ObjectSigning {
 
 					// Using one query ...
 
-					String query0 = "SELECT VirtualDisplayNumber,Display.IPName as IPName,ScreenNumber,Display.DisplayID FROM "
-							+ "DisplaySort,Display,SelectorLocation WHERE DisplaySort.DisplayID=Display.DisplayID and "
-							+ "DisplaySort.LocationCode=SelectorLocation.LocationCode and SelectorLocation.IPName " + "like '"
-							+ ipNameOfClient + "% AND Instance='" + instanceOfClient + "'";
+					String query0 = "SELECT VirtualDisplayNumber,Display.IPName AS IPName,ScreenNumber,Display.DisplayID FROM "
+							+ "DisplaySort,Display,SelectorLocation WHERE DisplaySort.DisplayID=Display.DisplayID AND "
+							+ "DisplaySort.LocationCode=SelectorLocation.LocationCode AND SelectorLocation.IPName LIKE '"
+							+ ipNameOfClient + "%' AND Instance='" + instanceOfClient + "'";
 
 					try (ResultSet rs0 = stmt.executeQuery(query0);) {
 						if (rs0.first()) { // Move to first returned row
