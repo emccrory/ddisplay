@@ -81,14 +81,18 @@ public class ListOfValidChannels extends HashSet<String> {
 	 * @return If this bit of content is "approved"
 	 */
 	public boolean contains(SignageContent c) {
-		// FIXME -- this next line is partially right. The check if this hash contains this URL is OK, but the check of a fixed URL
-		// against the given URL is inelegant!
+		// FIXME -- this next line is partially right. The check if this hash contains this URL is OK, but the second part, the
+		// check of a fixed URL against the given URL, is inelegant. This should somehow be in the database.
 		boolean r = contains(c.getURI().toString()) || c.getURI().toString().startsWith(SINGLE_IMAGE_DISPLAY);
 		if (!r) {
-			System.out.println("----- signage content " + c + "\n----- REJECTED!  Reloading the list");
+			System.out
+					.println("----- signage content " + c + " " + c.getURI().toString() + "\n----- REJECTED!  Reloading the list");
 			resetChannelList();
 			r = contains(c.getURI().toString());
-			System.out.println("---- " + (r ? "accepted now" : "STILL REJECTED!  later, gator."));
+			System.out
+					.println("---- "
+							+ (r ? "accepted now." : "STILL REJECTED!  The URL " + c.getURI().toString()
+									+ " is deemed to be inappropriate."));
 		}
 		return r;
 	}
