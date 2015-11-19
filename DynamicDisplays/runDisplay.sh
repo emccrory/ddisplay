@@ -6,7 +6,7 @@ cd ~/src/log
 
 if [ -e /usr/bin/xterm ]; then
     # SLF
-    /usr/bin/xterm -geometry 200x30 &
+    /usr/bin/xterm  -geometry 200x30 -fa 'Monospace' -fs 12 &
 elif [ -e /opt/X11/bin/xterm ]; then
     # Mac OS
     /opt/X11/bin/xterm &
@@ -91,7 +91,7 @@ fi
 	    echo "Already running the ChannelSelector."
 	else
 	    echo "Starting the ChannelSelector";
-	    ./runSelector.sh
+	    ./runSelector.sh SKIP
 	    sleep 10;
 	fi
     fi

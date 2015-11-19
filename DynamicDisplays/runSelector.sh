@@ -1,13 +1,17 @@
 #!/bin/bash
 
-cd ~/src/log
-
-if [ -e /usr/bin/xterm ]; then
+if [ "$1 X" = "SKIP X" ]; then
+    shift;
+else
+    cd ~/src/log
+    
+    if [ -e /usr/bin/xterm ]; then
     # SLF
-    /usr/bin/xterm -geometry 200x30 -fa 'Monospace' -fs 12 &
-elif [ -e /opt/X11/bin/xterm ]; then
+	/usr/bin/xterm -geometry 200x30 -fa 'Monospace' -fs 12 &
+    elif [ -e /opt/X11/bin/xterm ]; then
     # Mac OS
-    /opt/X11/bin/xterm &
+	/opt/X11/bin/xterm &
+    fi
 fi
 
 cd ~/src/roc-dynamicdisplays/DynamicDisplays
