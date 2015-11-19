@@ -1,5 +1,8 @@
 package gov.fnal.ppd.dd.util.version;
 
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
+
 import java.util.Date;
 
 /**
@@ -11,14 +14,36 @@ import java.util.Date;
 public class VersionInformationComparison {
 
 	public static void main(final String[] args) {
+		credentialsSetup();
 
-		boolean debug = args.length > 0 && args[0].equalsIgnoreCase("DEBUG");
+		int index = 0;
+		boolean debug = false;
+		FLAVOR flavor = FLAVOR.PRODUCTION;
 
-		VersionInformation viWeb = VersionInformation.getWebVersionInformation();
+		while (args.length > index) {
+			if (args[index].equalsIgnoreCase("DEBUG"))
+				debug = true;
+			else
+				try {
+					flavor = FLAVOR.valueOf(args[index]);
+				} catch (Exception e) {
+					flavor = FLAVOR.DEVELOPMENT;
+				}
+			index++;
+		}
+
+		VersionInformation viWeb = VersionInformation.getDBVersionInformation(flavor);
+		if (viWeb == null) {
+			// No versions are available!
+			if (debug)
+				System.out.println("No version is available from the database (null).");
+
+			System.exit(0);
+		}
 		VersionInformation viLocal = VersionInformation.getVersionInformation();
 
 		if (debug) {
-			System.out.println("WEB VERSION:\n" + viWeb);
+			System.out.println("Database VERSION:\n" + viWeb);
 			System.out.println("Time stamp: " + new Date(viWeb.getTimeStamp()));
 
 			System.out.println();
@@ -30,14 +55,14 @@ public class VersionInformationComparison {
 		if (viWeb.getTimeStamp() > viLocal.getTimeStamp()) {
 			long hours = (viWeb.getTimeStamp() - viLocal.getTimeStamp()) / 3600000L;
 			if (debug)
-				System.out.println("Web version is newer than the local version.  Difference is " + hours + " hours.");
+				System.out.println("Database version is newer than the local version.  Difference is " + hours + " hours.");
 			System.exit(-1);
 		} else if (viWeb.getTimeStamp() == viLocal.getTimeStamp()) {
 			if (debug)
-				System.out.println("Time stamp of web version equals local time stamp.");
+				System.out.println("Time stamp of database version equals local time stamp.");
 		} else {
 			if (debug)
-				System.out.println("Local time stamp is newer than the web version.");
+				System.out.println("Local time stamp is newer than the database version.");
 		}
 		System.exit(0);
 	}

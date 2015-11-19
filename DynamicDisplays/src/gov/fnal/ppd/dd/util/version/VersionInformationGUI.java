@@ -1,11 +1,15 @@
 package gov.fnal.ppd.dd.util.version;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -19,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
+import javax.swing.border.Border;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -54,20 +59,16 @@ public class VersionInformationGUI extends JFrame {
 	private void setMyContent() {
 		Box content = Box.createVerticalBox();
 
-		content.add(getRadios());
+		content.add(getDateComponents());
 		content.add(Box.createRigidArea(new Dimension(8, 8)));
 
-		content.add(getVersionNumbers());
+		content.add(getVersionNumberComponent());
 		content.add(Box.createRigidArea(new Dimension(8, 8)));
 
-		JComponent cp = getDescription();
-		cp.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
-				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-		content.add(cp);
+		content.add(getDescriptionComponent());
 		content.add(Box.createRigidArea(new Dimension(8, 8)));
 
-		content.add(new JLabel(
-				"<html>If you change this information, you must recommit<br>and then repush the version data file to the repository.</html>"));
+		content.add(getGitHashCodeComponent());
 		content.add(Box.createRigidArea(new Dimension(8, 8)));
 
 		Box hb = Box.createHorizontalBox();
@@ -108,7 +109,44 @@ public class VersionInformationGUI extends JFrame {
 		setContentPane(content);
 	}
 
-	private JComponent getVersionNumbers() {
+	private Component getGitHashCodeComponent() {
+		JPanel retval = new JPanel();
+
+		retval.add(new JLabel("Git Hash Code: "));
+		if (oldVI.getGitHashCode() == null) {
+			newVI.setGitHashCode(getGit());
+		}
+
+		JLabel lab = new JLabel(newVI.getGitHashCode());
+		lab.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+		retval.add(lab);
+
+		retval.setAlignmentX(LEFT_ALIGNMENT);
+
+		retval.setBorder(b());
+		return retval;
+	}
+
+	private static String getGit() {
+		String line = "";
+		try {
+			Process p = Runtime.getRuntime().exec("git rev-parse HEAD");
+			p.waitFor();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String L = reader.readLine();
+			while (L != null) {
+				line += L;
+				L = reader.readLine();
+			}
+
+		} catch (IOException e1) {
+		} catch (InterruptedException e2) {
+		}
+
+		return line;
+	}
+
+	private JComponent getVersionNumberComponent() {
 		Box box = Box.createHorizontalBox();
 
 		final JButton f1Inc = new JButton(newVI.getVersionVal(0) + " +");
@@ -170,15 +208,14 @@ public class VersionInformationGUI extends JFrame {
 		box.add(fullVersion);
 		box.add(Box.createHorizontalGlue());
 
-		box.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		box.setBorder(b());
 		JPanel retval = new JPanel();
 		retval.setAlignmentX(LEFT_ALIGNMENT);
 		retval.add(box);
 		return retval;
 	}
 
-	private Container getRadios() {
+	private Container getDateComponents() {
 		Box box = Box.createHorizontalBox();
 		box.add(Box.createRigidArea(new Dimension(10, 10)));
 		box.add(new JLabel("Time stamp: "));
@@ -208,7 +245,7 @@ public class VersionInformationGUI extends JFrame {
 		ButtonGroup timeGroup = new ButtonGroup();
 		timeGroup.add(rb1);
 		timeGroup.add(rb2);
-		
+
 		box.add(rb1);
 		box.add(rb2);
 		box.add(Box.createRigidArea(new Dimension(10, 10)));
@@ -219,17 +256,22 @@ public class VersionInformationGUI extends JFrame {
 
 		box.add(Box.createHorizontalGlue());
 
-		box.setBorder(BorderFactory.createLineBorder(Color.black));
+		box.setBorder(b());
 		box.setAlignmentX(LEFT_ALIGNMENT);
 
 		return box;
 	}
 
-	private JComponent getDescription() {
+	private JComponent getDescriptionComponent() {
 		textArea = new JTextArea(newVI.getVersionDescription(), 10, 60);
 		textArea.setFont(new Font("Courier", Font.PLAIN, 12));
-		textArea.setBorder(BorderFactory.createBevelBorder(2));
 		textArea.setAlignmentX(LEFT_ALIGNMENT);
+		textArea.setBorder(b());
 		return textArea;
+	}
+	
+	private static Border b() {
+		return BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5));
 	}
 }
