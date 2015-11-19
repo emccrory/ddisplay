@@ -18,7 +18,12 @@ d=`date +%F`
 # Evaluate if there is a newer version of the software out there
 #
 
-if java gov.fnal.ppd.dd.util.version.VersionInformationComparison PRODUCTION; then
+flavor="PRODUCTION"
+if [ $hostname = "xocnuc01.fnal.gov" ]; then
+    flavor="TEST"
+fi
+
+if java gov.fnal.ppd.dd.util.version.VersionInformationComparison $flavor; then
     if [ $yes = 0 ]; then
 	echo You are running the latest version of the software
     fi
@@ -43,17 +48,19 @@ else
 	    date > $log
 	    echo Automatic software update >> $log
 
-	    # A little trickery here to make the Zenity progress dialog look better
+	    # A little trickery here to make the Zenity progress dialog look better.  
+            # It takes about 80 seconds on an i3 NUC to get a new version from GIT (11/19/15)
 
 	    ./refreshSoftware.sh >> $log &
 	    pid=$!
 
-	    for i in `seq 10 10 90`; do
-		sleep 2
-		echo $i
+	    for i in 10 20 30 40 50 60 70 80 90; do
+		# Completing this loop will take 72 seconds
+		sleep 8
+		if kill -0 $pid; then echo $i; else break; fi
 	    done
-
-	    wait $pid
+	    echo "95"
+	    wait $pid 2>/dev/null
 	    echo "99"
 	    echo Dynamic Displays Software updated. `date`
 	    echo Automatic software update completed at `date` >> $log
