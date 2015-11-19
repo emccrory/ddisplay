@@ -13,6 +13,9 @@ import java.util.Date;
  */
 public class VersionInformationComparison {
 
+	// Ten seconds should do it. We are forced to at least a one second lee-way as the Database cannot store milliseconds.
+	private static final long	MKAXIMUM_ALLOWABLE_TIME_DIFFERENCE	= 10000;
+
 	/**
 	 * @param args
 	 */
@@ -39,7 +42,7 @@ public class VersionInformationComparison {
 		if (viWeb == null) {
 			// No versions are available!
 			if (debug)
-				System.out.println("No version is available from the database (null).");
+				System.out.println("No version of flavor " + flavor + " is available from the database.");
 
 			System.exit(0);
 		}
@@ -53,19 +56,25 @@ public class VersionInformationComparison {
 
 			System.out.println("LOCAL VERSION:\n" + viLocal);
 			System.out.println("Time stamp: " + new Date(viLocal.getTimeStamp()));
+
+			System.out.println();
 		}
 
-		if (viWeb.getTimeStamp() > viLocal.getTimeStamp()) {
-			long hours = (viWeb.getTimeStamp() - viLocal.getTimeStamp()) / 3600000L;
+		long diff = Math.abs(viWeb.getTimeStamp() - viLocal.getTimeStamp());
+
+		if (diff < MKAXIMUM_ALLOWABLE_TIME_DIFFERENCE) {
 			if (debug)
-				System.out.println("Database version is newer than the local version.  Difference is " + hours + " hours.");
+				System.out.println("Time stamp of database version is the same as the local time stamp.  Delta=" + diff
+						+ " milliseconds");
+		} else if (viWeb.getTimeStamp() > viLocal.getTimeStamp()) {
+			long hours = diff / 3600000L;
+			if (debug)
+				System.out.println("Local version is older than the Database version.  Difference is " + hours + " hours.");
 			System.exit(-1);
-		} else if (viWeb.getTimeStamp() == viLocal.getTimeStamp()) {
-			if (debug)
-				System.out.println("Time stamp of database version equals local time stamp.");
 		} else {
+			long hours = diff / 3600000L;
 			if (debug)
-				System.out.println("Local time stamp is newer than the database version.");
+				System.out.println("Local time stamp is newer than the database version by " + hours + " hours");
 		}
 		System.exit(0);
 	}
