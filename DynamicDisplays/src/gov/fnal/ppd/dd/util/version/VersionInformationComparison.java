@@ -13,6 +13,9 @@ import java.util.Date;
  */
 public class VersionInformationComparison {
 
+	/**
+	 * @param args
+	 */
 	public static void main(final String[] args) {
 		credentialsSetup();
 

@@ -30,6 +30,10 @@ import java.util.TimeZone;
  * 
  * Rewrite to have all of this in the database **AND** in a local file.
  * 
+ * The GIT hash code cannot be part of this class. If we were to create a new "version number" and we want this file to represent
+ * the current version number of the repository when a client machine clones the repository, we won't know the new GIT hash code to
+ * put into this file until this file is saved and committed to GIT.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
@@ -59,7 +63,7 @@ public class VersionInformation implements Serializable {
 		TEST,
 
 		/**
-		 * The final version, which has been "thoroughly" tested.
+		 * The final version, which has been "thoroughly tested" (I am being optimistic here)
 		 */
 		PRODUCTION
 	};
@@ -69,7 +73,6 @@ public class VersionInformation implements Serializable {
 	private String	versionDescription	= null;
 	private int[]	dotVersion			= new int[3];
 	private FLAVOR	disposition			= FLAVOR.DEVELOPMENT;
-	private String	gitHashCode			= null;
 
 	/**
 	 * Create an empty instance in order to save a new one in persistent storage
@@ -159,11 +162,10 @@ public class VersionInformation implements Serializable {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int prime = 83;
 		int result = 1;
 		result = prime * result + ((disposition == null) ? 0 : disposition.hashCode());
 		result = prime * result + Arrays.hashCode(dotVersion);
-		result = prime * result + ((gitHashCode == null) ? 0 : gitHashCode.hashCode());
 		result = prime * result + (int) (timeStamp ^ (timeStamp >>> 32));
 		result = prime * result + ((versionDescription == null) ? 0 : versionDescription.hashCode());
 		return result;
@@ -185,12 +187,6 @@ public class VersionInformation implements Serializable {
 
 		VersionInformation other = (VersionInformation) obj;
 		if (disposition != other.disposition)
-			return false;
-
-		if (gitHashCode == null) {
-			if (other.gitHashCode != null)
-				return false;
-		} else if (!gitHashCode.equals(other.gitHashCode))
 			return false;
 
 		if (timeStamp != other.timeStamp)
@@ -260,6 +256,8 @@ public class VersionInformation implements Serializable {
 	}
 
 	/**
+	 * @param f
+	 *            The sort of version to retrieve
 	 * @return the most recent save of this persistent object as stored on the project's web site
 	 */
 	public static VersionInformation getDBVersionInformation(FLAVOR f) {
@@ -279,14 +277,12 @@ public class VersionInformation implements Serializable {
 					try (ResultSet rs = stmt.executeQuery(query);) {
 						if (rs.first()) { // Move to first returned row
 							do {
-								String theCode = rs.getString("HashCode");
 								Date timeStampSQL = rs.getTimestamp("HashDate");
 								FLAVOR disp = FLAVOR.valueOf(rs.getString("Flavor"));
 								String dotVersion = rs.getString("Version");
 								String description = rs.getString("Description");
 
 								vi = new VersionInformation();
-								vi.setGitHashCode(theCode);
 								vi.setTimeStamp(timeStampSQL.getTime());
 								vi.setDisposition(disp);
 								String[] vs = (dotVersion.split("\\."));
@@ -330,8 +326,10 @@ public class VersionInformation implements Serializable {
 	/**
 	 * @param vi
 	 *            The Version to save in the DB
+	 * @param gitHashCode
+	 *            the present value of the GIT-generated hash code.
 	 */
-	public static void saveDBVersionInformation(final VersionInformation vi) {
+	public static void saveDBVersionInformation(final VersionInformation vi, String gitHashCode) {
 		Connection connection;
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
@@ -347,7 +345,7 @@ public class VersionInformation implements Serializable {
 							+ " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
 
 					String query = "INSERT INTO GitHashDecode (HashCode, HashDate, Flavor, Version, Description) VALUES (" + //
-							"'" + vi.getGitHashCode() + "', " + //
+							"'" + gitHashCode + "', " + //
 							"'" + dateString + "', " + //
 							"'" + vi.getDisposition() + "', " + //
 							"'" + vi.getVersionString() + "', " + //
@@ -363,10 +361,55 @@ public class VersionInformation implements Serializable {
 	}
 
 	public String toString() {
-		return getVersionString() + " " + timeStamp + " " + getDisposition() + " " + getGitHashCode() + "\n" + versionDescription;
+		return getVersionString() + " " + timeStamp + " " + getDisposition() + "\n" + versionDescription;
 	}
 
+	/**
+	 * @param args
+	 */
 	public static void main(final String[] args) {
+		VersionInformation vi;
+		int which = 0;
+		String hash = "";
+
+		if (args.length > 0 && args[0].length() > 1) {
+			hash = args[0];
+			which = 3;
+		} else if (args.length > 0) {
+			which = Integer.parseInt(args[0]);
+		}
+
+		switch (which) {
+		case 0:
+			// READ from disk
+			System.out.println("Reading version information from the local disk");
+			vi = getVersionInformation();
+			System.out.println(vi);
+			System.out.println(new Date(vi.getTimeStamp()));
+			break;
+
+		case 1:
+			// WRITE to disk
+			break;
+
+		case 2:
+			// READ from database
+			System.out.println("Reading version information from the DB");
+			credentialsSetup();
+
+			vi = getDBVersionInformation(FLAVOR.DEVELOPMENT);
+			System.out.println(vi);
+			System.out.println(new Date(vi.getTimeStamp()));
+			break;
+
+		case 3:
+			// WRITE to database
+			System.out.println("First, reading version information from the local disk");
+			vi = getVersionInformation();
+			System.out.println("... Now saving the version to DB, hashCode='" + hash + "'");
+			saveDBVersionInformation(vi, hash);
+			break;
+		}
 		// For saving ...
 		// VersionInformation vi = new VersionInformation();
 		// vi.setTimeStamp(System.currentTimeMillis());
@@ -383,24 +426,6 @@ public class VersionInformation implements Serializable {
 		// System.out.println("Time stamp: " + new Date(vi.getTimeStamp()));
 
 		// From database
-		credentialsSetup();
 
-		VersionInformation vi = getDBVersionInformation(FLAVOR.DEVELOPMENT);
-		System.out.println(vi);
-
-	}
-
-	/**
-	 * @return
-	 */
-	public String getGitHashCode() {
-		return gitHashCode;
-	}
-
-	/**
-	 * @param gitHashCode
-	 */
-	public void setGitHashCode(final String gitHashCode) {
-		this.gitHashCode = gitHashCode;
 	}
 }

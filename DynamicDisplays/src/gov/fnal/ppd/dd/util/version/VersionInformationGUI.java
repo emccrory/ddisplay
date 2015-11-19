@@ -1,15 +1,11 @@
 package gov.fnal.ppd.dd.util.version;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -68,9 +64,6 @@ public class VersionInformationGUI extends JFrame {
 		content.add(getDescriptionComponent());
 		content.add(Box.createRigidArea(new Dimension(8, 8)));
 
-		content.add(getGitHashCodeComponent());
-		content.add(Box.createRigidArea(new Dimension(8, 8)));
-
 		Box hb = Box.createHorizontalBox();
 		hb.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		content.add(hb);
@@ -107,43 +100,6 @@ public class VersionInformationGUI extends JFrame {
 		hb.add(reject);
 
 		setContentPane(content);
-	}
-
-	private Component getGitHashCodeComponent() {
-		JPanel retval = new JPanel();
-
-		retval.add(new JLabel("Git Hash Code: "));
-		if (oldVI.getGitHashCode() == null) {
-			newVI.setGitHashCode(getGit());
-		}
-
-		JLabel lab = new JLabel(newVI.getGitHashCode());
-		lab.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-		retval.add(lab);
-
-		retval.setAlignmentX(LEFT_ALIGNMENT);
-
-		retval.setBorder(b());
-		return retval;
-	}
-
-	private static String getGit() {
-		String line = "";
-		try {
-			Process p = Runtime.getRuntime().exec("git rev-parse HEAD");
-			p.waitFor();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String L = reader.readLine();
-			while (L != null) {
-				line += L;
-				L = reader.readLine();
-			}
-
-		} catch (IOException e1) {
-		} catch (InterruptedException e2) {
-		}
-
-		return line;
 	}
 
 	private JComponent getVersionNumberComponent() {
