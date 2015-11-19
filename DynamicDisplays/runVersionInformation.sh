@@ -12,18 +12,20 @@ fi
 
 . setupJars.sh
 
+d=`date +%F`
+
 #
 # Evaluate if there is a newer version of the software out there
 #
 
-if java gov.fnal.ppd.dd.util.version.VersionInformationComparison; then
+if java gov.fnal.ppd.dd.util.version.VersionInformationComparison PRODUCTION; then
     if [ $yes = 0 ]; then
 	echo You are running the latest version of the software
     fi
 else
     doTheUpdate=$yes;
     if [ $yes = 0 ]; then 
-	details=`java gov.fnal.ppd.dd.util.version.VersionInformation`
+	details=`java gov.fnal.ppd.dd.util.version.VersionInformation 2`
 	title="New version detected"
 	text="The server has a newer version of the Dynamic Displays software.\nNew version details:\n\n$details\n\nShall we update to the newest version?";
 
@@ -37,10 +39,21 @@ else
     if [ $doTheUpdate = 1 ]; then
 	(
 	    cd ../..
-	    echo "10"
+	    echo "5"
 	    date > $log
 	    echo Automatic software update >> $log
-	    ./refreshSoftware.sh >> $log
+
+	    # A little trickery here to make the Zenity progress dialog look better
+
+	    ./refreshSoftware.sh >> $log &
+	    pid=$!
+
+	    for i in `seq 10 10 90`; do
+		sleep 2
+		echo $i
+	    done
+
+	    wait $pid
 	    echo "99"
 	    echo Dynamic Displays Software updated. `date`
 	    echo Automatic software update completed at `date` >> $log
