@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.util.version;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -64,6 +65,9 @@ public class VersionInformationGUI extends JFrame {
 		content.add(getDescriptionComponent());
 		content.add(Box.createRigidArea(new Dimension(8, 8)));
 
+		content.add(getFlavorComponent());
+		content.add(Box.createRigidArea(new Dimension(8, 8)));
+
 		Box hb = Box.createHorizontalBox();
 		hb.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		content.add(hb);
@@ -100,6 +104,17 @@ public class VersionInformationGUI extends JFrame {
 		hb.add(reject);
 
 		setContentPane(content);
+	}
+
+	private Component getFlavorComponent() {
+		JPanel retval = new JPanel();
+
+		retval.add(new JLabel("Disposition: "));
+		retval.add(new JLabel("" + newVI.getDisposition()));
+
+		retval.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+		retval.setBorder(b());
+		return retval;
 	}
 
 	private JComponent getVersionNumberComponent() {
@@ -225,7 +240,7 @@ public class VersionInformationGUI extends JFrame {
 		textArea.setBorder(b());
 		return textArea;
 	}
-	
+
 	private static Border b() {
 		return BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5));

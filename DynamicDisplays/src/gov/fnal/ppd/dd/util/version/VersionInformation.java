@@ -392,6 +392,11 @@ public class VersionInformation implements Serializable {
 
 		case 1:
 			// WRITE to disk
+			System.out.println("First, reading version information from the local disk");
+			vi = getVersionInformation();
+			vi.setDisposition(FLAVOR.DEVELOPMENT);
+			System.out.println("... Saving to disk");
+			saveVersionInformation(vi);
 			break;
 
 		case 2:
