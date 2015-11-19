@@ -55,10 +55,10 @@ else
 	    ./refreshSoftware.sh >> $log &
 	    pid=$!
 
-	    for i in 10 20 30 40 50 60 70 80 90; do
-		# Completing this loop will take 72 seconds
-		sleep 8
-		if kill -0 $pid; then echo $i; else break; fi
+	    for i in `seq 10 2 90`; do
+		# Completing this loop will take 80 seconds
+		sleep 2
+		if kill -0 $pid 2>/dev/null ; then echo $i; else break; fi
 	    done
 	    echo "95"
 	    wait $pid 2>/dev/null
