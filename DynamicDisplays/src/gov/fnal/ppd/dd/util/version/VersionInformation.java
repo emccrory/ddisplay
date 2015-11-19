@@ -107,7 +107,8 @@ public class VersionInformation implements Serializable {
 	 *            the disposition to set
 	 */
 	public void setDisposition(FLAVOR disposition) {
-		this.disposition = disposition;
+		if (disposition != null)
+			this.disposition = disposition;
 	}
 
 	/**
@@ -341,8 +342,9 @@ public class VersionInformation implements Serializable {
 					c.setTimeInMillis(vi.getTimeStamp());
 					c.setTimeZone(TimeZone.getDefault());
 
-					String dateString = c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + "-" + c.get(Calendar.DAY_OF_MONTH)
-							+ " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
+					String dateString = c.get(Calendar.YEAR) + "-" + (1 + c.get(Calendar.MONTH)) + "-"
+							+ c.get(Calendar.DAY_OF_MONTH) + " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":"
+							+ c.get(Calendar.SECOND);
 
 					String query = "INSERT INTO GitHashDecode (HashCode, HashDate, Flavor, Version, Description) VALUES (" + //
 							"'" + gitHashCode + "', " + //
@@ -411,6 +413,7 @@ public class VersionInformation implements Serializable {
 
 			System.out.println("... Now saving the version to DB, hashCode='" + hash + "'");
 			saveDBVersionInformation(vi, hash);
+			System.out.println("... DB save complete.");
 			break;
 		}
 		// For saving ...
