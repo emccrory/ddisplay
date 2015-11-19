@@ -7,6 +7,19 @@
     <link>http://news.sciencemag.org/rss/current.xml</link>
     <description>Up to the minute news and features from Science.</description>
                 <item>
+	<title><![CDATA[Editorial: America’s science legacy]]></title>
+	<link>http://news.sciencemag.org/2015/11/editorial-america-s-science-legacy</link>
+	<pubDate>Thu, 19 Nov 2015 02:15:00 -0500</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/2015/11/editorial-america-s-science-legacy?rss=1</guid>
+	<description>Video featuring Neil deGrasse Tyson&#039;s Gettysburg Address for science</description>
+        <media:description>Video featuring Neil deGrasse Tyson&#039;s Gettysburg Address for science</media:description>
+        <media:credit role="author"></media:credit>
+        <media:category><![CDATA[]]></media:category>
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/NDGT-main-image.jpg?itok=EmazHk4l" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/NDGT-main-image.jpg?itok=EmazHk4l" height="60" width="60" />
+    </item>
+
+            <item>
 	<title><![CDATA[Updated: ITER fusion project to take at least 6 years longer than planned]]></title>
 	<link>http://news.sciencemag.org/europe/2015/11/breaking-iter-fusion-project-take-least-6-years-longer-planned</link>
 	<pubDate>Thu, 19 Nov 2015 12:45:00 -0500</pubDate>
@@ -56,19 +69,6 @@
         <media:category><![CDATA[Europe]]></media:category>
         <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/si-nurse.jpg?itok=VZI8SvyV" height="60" width="60" />
 	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/si-nurse.jpg?itok=VZI8SvyV" height="60" width="60" />
-    </item>
-
-            <item>
-	<title><![CDATA[Video: Songbirds tap dance to seduce their mate]]></title>
-	<link>http://news.sciencemag.org/plants-animals/2015/11/video-songbirds-tap-dance-seduce-their-mate</link>
-	<pubDate>Thu, 19 Nov 2015 09:00:00 -0500</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/plants-animals/2015/11/video-songbirds-tap-dance-seduce-their-mate?rss=1</guid>
-	<description>Blue-capped cordon-bleu has a special talent</description>
-        <media:description>Blue-capped cordon-bleu has a special talent</media:description>
-        <media:credit role="author">Richa Malhotra</media:credit>
-        <media:category><![CDATA[Plants & Animals]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-tapdancing_0.jpg?itok=ULF9TVIJ" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-tapdancing_0.jpg?itok=ULF9TVIJ" height="60" width="60" />
     </item>
 
 </channel>

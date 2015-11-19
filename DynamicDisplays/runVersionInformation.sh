@@ -18,6 +18,7 @@ d=`date +%F`
 # Evaluate if there is a newer version of the software out there
 #
 
+hostname=`hostname`
 flavor="PRODUCTION"
 if [ $hostname = "xocnuc01.fnal.gov" ]; then
     flavor="TEST"
