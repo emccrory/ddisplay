@@ -406,6 +406,9 @@ public class VersionInformation implements Serializable {
 			// WRITE to database
 			System.out.println("First, reading version information from the local disk");
 			vi = getVersionInformation();
+
+			credentialsSetup();
+
 			System.out.println("... Now saving the version to DB, hashCode='" + hash + "'");
 			saveDBVersionInformation(vi, hash);
 			break;
