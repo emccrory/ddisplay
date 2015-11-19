@@ -20,7 +20,7 @@ d=`date +%F`
 
 hostname=`hostname`
 flavor="PRODUCTION"
-if [ $hostname = "xocnuc01.fnal.gov" ]; then
+if [ $hostname = "xocnuc01.fnal.gov" -o $hostname = "roc-w-10.fnal.gov" ]; then
     flavor="TEST"
 fi
 
