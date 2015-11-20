@@ -18,9 +18,12 @@ d=`date +%F`
 # Evaluate if there is a newer version of the software out there
 #
 
+# FIXME The decision on which sort of release to download for a client needs to be put into the database
 hostname=`hostname`
 flavor="PRODUCTION"
-if [ $hostname = "xocnuc01.fnal.gov" -o $hostname = "roc-w-10.fnal.gov" ]; then
+if [ $hostname = "xocnuc01.fnal.gov" ]; then
+    flavor="DEVELOPMENT";
+elif [ $hostname = "roc-w-10.fnal.gov" ]; then
     flavor="TEST"
 fi
 
