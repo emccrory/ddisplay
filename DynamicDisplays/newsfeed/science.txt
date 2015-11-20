@@ -1,6 +1,6 @@
-<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Thu Nov 19 13:04:01 CST 2015)</em>
+<em>News from Science, http://news.sciencemag.org/rss/current.xml (Retrieved Fri Nov 20 10:04:01 CST 2015)</em>
+<b>Podcast: Cancer-detecting pigeons, a toad-killing fungus, and more</b>: Listen to a roundup of some of our favorite stories from the week
+<b>Updated: Genetically modified salmon wins FDA approval</b>: Agency gives long-awaited nod to AquaBounty’s fast-growing fish
 <b>Editorial: America’s science legacy</b>: Video featuring Neil deGrasse Tyson's Gettysburg Address for science
-<b>Updated: ITER fusion project to take at least 6 years longer than planned</b>: Project partners debate new schedule
-<b>Genetically modified salmon wins FDA approval</b>: Agency gives long-awaited nod to AquaBounty’s fast-growing fish
-<b>Why you shouldn’t always listen to dietary guidelines</b>: What’s healthy for someone else may not be healthy for you
-<b>United Kingdom needs a science funding czar, report says</b>: Review of U.K. research councils recommends a new overarching structure for greater efficiency and a high-profile leader 
+<b>Feature: How to hijack a journal</b>: A patient hacker can take control of a journal's website if a publisher isn’t careful—as our correspondent discovered by doing so himself
+<b>Video: Sea creature makes a thousand eyes from its shell</b>: Design may inspire materials scientists
