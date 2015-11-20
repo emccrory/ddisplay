@@ -70,7 +70,7 @@ public class DCProtocol {
 	// WAITING, READY, DISPLAYING
 	// };
 
-	private static final long	MESSAGE_AGE_IS_TOO_OLD	= 180000L; // Three minutes
+	private static final long	MESSAGE_AGE_IS_TOO_OLD	= 180000L;					// Three minutes
 	private Object				theMessage;
 	private Object				theReply;
 	private List<Display>		listeners				= new ArrayList<Display>();
@@ -285,6 +285,7 @@ public class DCProtocol {
 		keepRunning = true;
 		final ChangeChannelList channelListSpec = ((ChangeChannelList) theMessage);
 		final ChannelSpec[] specs = channelListSpec.getChannelSpec();
+		final long[] sleepTimes = new long[specs.length];
 		if (specs.length == 0) {
 			println(DCProtocol.class, " -- Empty list received. Abort.");
 			return;
@@ -294,6 +295,11 @@ public class DCProtocol {
 			// channel itself will cause it to refresh from within the client.
 			informListeners(specs[0]);
 		} else {
+			for (int sl = 0; sl < sleepTimes.length; sl++) {
+				// Increment refresh times (see comment below)
+				sleepTimes[sl] = specs[sl].getTime();
+				specs[sl].setTime(sleepTimes[sl] + 100L);
+			}
 			changerThread = new Thread("ChannelChanger") {
 				public void run() {
 					println(DCProtocol.class,
@@ -302,13 +308,26 @@ public class DCProtocol {
 
 					// long sleepTime = channelListSpec.getTime();
 					while (keepRunning) {
-						for (ChannelSpec spec : specs) {
-							// long st = (spec.getTime() > sleepTime ? spec.getTime() : sleepTime);
+						for (int sl = 0; sl < specs.length; sl++) {
+							ChannelSpec spec = specs[sl];
 
 							// ASSUME spec.getTime() is always non-zero. The way the code is today, this is an appropriate
 							// assumption.
+
+							/*
+							 * The "time" in this ChannelSpec is set forward a bit so that it will be refreshed AFTER we have
+							 * requested the channel change from here. Prior to this, there was a race to see which one got there
+							 * first. Almost all of the time, the refresh happened first, followed immediately with the channel
+							 * change request. this is asking for trouble, I think.
+							 * 
+							 * This is **A KLUDGE** that puts knowledge of the lower class's operation into this upper class. This
+							 * also is asking for trouble!
+							 * 
+							 * See the "fixme" note above.
+							 */
 							informListeners(spec);
-							for (long sleepTime = spec.getTime(); sleepTime > 0 && keepRunning; sleepTime -= SHORT_INTERVAL)
+
+							for (long sleepTime = sleepTimes[sl]; sleepTime > 0 && keepRunning; sleepTime -= SHORT_INTERVAL)
 								catchSleep(Math.min(sleepTime, SHORT_INTERVAL));
 
 							if (!keepRunning)
