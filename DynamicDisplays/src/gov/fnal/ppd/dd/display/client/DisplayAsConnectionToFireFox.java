@@ -14,7 +14,6 @@ import gov.fnal.ppd.dd.signage.SignageType;
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
 
-
 /**
  * <p>
  * Implement a Dynamic Display using a back-door communication channel to FireFox (see https://github.com/pmorch/FF-remote-control)
@@ -31,6 +30,12 @@ import java.io.UnsupportedEncodingException;
  * 
  * <li>BrowserLauncher browserLauncher -- (In base class) Starts an instance of FireFox</li>
  * </ul>
+ * </p>
+ * 
+ * <p>
+ * (November, 2015) Removed all syncronizations to the firefox attribute -- move this functionality into that class. This may be
+ * causing a problem--I saw displays that were trying to run a list of channels get hosed after three or so hours of the (which
+ * would be, in this case, about 10 iterations of the list)
  * </p>
  * 
  * @author Elliott McCrory, Fermilab (2014-15)
@@ -101,80 +106,78 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
 		println(getClass(), firefox.getInstance() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
 
-		synchronized (firefox) {
-			if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
-				if (!showingSelfIdentify) {
-					showingSelfIdentify = true;
-					firefox.showIdentity();
-					new Thread() {
-						public void run() {
-							try {
-								sleep(SHOW_SPLASH_SCREEN_TIME);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							firefox.removeIdentify();
-							showingSelfIdentify = false;
-							setContentBypass(lastChannel);
-							updateMyStatus();
+		if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
+			if (!showingSelfIdentify) {
+				showingSelfIdentify = true;
+				firefox.showIdentity();
+				new Thread() {
+					public void run() {
+						try {
+							sleep(SHOW_SPLASH_SCREEN_TIME);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
-					}.start();
-					// }
-				}
-			} else if (url.equalsIgnoreCase(FORCE_REFRESH)) {
-				try {
-
-					// First, do a brute-force refresh to the browser
-					firefox.forceRefresh(frameNumber);
-
-					// Now tell the lower-level code that we need a full reset
-					firefox.resetURL();
-
-					// Finally, re-send the last URL we knew about
-					if (!firefox.changeURL(lastChannel.getURI().toASCIIString(), wrapperType, frameNumber)) {
-						println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
-						return false;
-					}
-				} catch (UnsupportedEncodingException e) {
-					System.err.println(getClass().getSimpleName() + ":" + firefox.getInstance()
-							+ " Somthing is wrong with this re-used URL: [" + lastChannel.getURI().toASCIIString() + "]");
-					e.printStackTrace();
-					return false;
-				}
-			} else
-				try {
-					// Someday we may need this: (getContent().getCode() & 1) != 0;
-					changeCount++;
-					if (expiration > 0) {
-						revertTimeRemaining = expiration;
-						if (revertToThisChannel == null) {
-							revertToThisChannel = previousChannel;
-						}
-					} else {
-						revertToThisChannel = null;
-						revertTimeRemaining = 0;
-					}
-					if (firefox.changeURL(url, wrapperType, frameNumber)) {
-						lastChannel = getContent();
+						firefox.removeIdentify();
 						showingSelfIdentify = false;
-					} else {
-						println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
-						return false;
+						setContentBypass(lastChannel);
+						updateMyStatus();
 					}
+				}.start();
+				// }
+			}
+		} else if (url.equalsIgnoreCase(FORCE_REFRESH)) {
+			try {
 
-					if (expiration <= 0)
-						setResetThread(dwellTime, url, frameNumber);
-					else
-						setRevertThread();
+				// First, do a brute-force refresh to the browser
+				firefox.forceRefresh(frameNumber);
 
-					updateMyStatus();
-				} catch (UnsupportedEncodingException e) {
-					System.err.println(getClass().getSimpleName() + ":" + firefox.getInstance()
-							+ " Somthing is wrong with this URL: [" + url + "]");
-					e.printStackTrace();
+				// Now tell the lower-level code that we need a full reset
+				firefox.resetURL();
+
+				// Finally, re-send the last URL we knew about
+				if (!firefox.changeURL(lastChannel.getURI().toASCIIString(), wrapperType, frameNumber)) {
+					println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
 					return false;
 				}
-		}
+			} catch (UnsupportedEncodingException e) {
+				System.err.println(getClass().getSimpleName() + ":" + firefox.getInstance()
+						+ " Somthing is wrong with this re-used URL: [" + lastChannel.getURI().toASCIIString() + "]");
+				e.printStackTrace();
+				return false;
+			}
+		} else
+			try {
+				// Someday we may need this: (getContent().getCode() & 1) != 0;
+				changeCount++;
+				if (expiration > 0) {
+					revertTimeRemaining = expiration;
+					if (revertToThisChannel == null) {
+						revertToThisChannel = previousChannel;
+					}
+				} else {
+					revertToThisChannel = null;
+					revertTimeRemaining = 0;
+				}
+				if (firefox.changeURL(url, wrapperType, frameNumber)) {
+					lastChannel = getContent();
+					showingSelfIdentify = false;
+				} else {
+					println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
+					return false;
+				}
+
+				if (expiration <= 0)
+					setResetThread(dwellTime, url, frameNumber);
+				else
+					setRevertThread();
+
+				updateMyStatus();
+			} catch (UnsupportedEncodingException e) {
+				System.err.println(getClass().getSimpleName() + ":" + firefox.getInstance() + " Somthing is wrong with this URL: ["
+						+ url + "]");
+				e.printStackTrace();
+				return false;
+			}
 		return true;
 	}
 
@@ -190,11 +193,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					@Override
 					public void run() {
 						catchSleep(dwellTime);
-						synchronized (firefox) {
-							println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
-									+ " turning off the announcement frame");
-							firefox.turnOffFrame(frameNumber);
-						}
+						println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
+								+ " turning off the announcement frame");
+						firefox.turnOffFrame(frameNumber);
 					}
 				}.start();
 			} else {
@@ -208,19 +209,16 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 								catchSleep(Math.min(increment, t));
 							}
 							if (changeCount == thisChangeCount) {
-								synchronized (firefox) {
-									println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
-											+ " Reloading web page " + url);
-									try {
-										if (!firefox.changeURL(url, wrapperType, frameNumber)) {
-											println(DisplayAsConnectionToFireFox.class,
-													".localSetContent(): Failed to REFRESH content");
-											firefox.resetURL();
-											continue; // TODO -- Figure out what to do here. For now, just try again later
-										}
-									} catch (UnsupportedEncodingException e) {
-										e.printStackTrace();
+								println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
+										+ " Reloading web page " + url);
+								try {
+									if (!firefox.changeURL(url, wrapperType, frameNumber)) {
+										println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Failed to REFRESH content");
+										firefox.resetURL();
+										continue; // TODO -- Figure out what to do here. For now, just try again later
 									}
+								} catch (UnsupportedEncodingException e) {
+									e.printStackTrace();
 								}
 							} else {
 								println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
@@ -271,24 +269,22 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 							catchSleep(Math.min(increment, revertTimeRemaining));
 						}
 						revertTimeRemaining = 0L;
-						synchronized (firefox) {
-							println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
-									+ " Reverting to web page " + revertURL);
-							try {
-								if (!firefox.changeURL(revertURL, wrapperType, 0)) {
-									println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
-											+ " Failed to REVERT content");
-									firefox.resetURL();
-									continue; // TODO -- Figure out what to do here. For now, just try again later
-								}
+						println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
+								+ " Reverting to web page " + revertURL);
+						try {
+							if (!firefox.changeURL(revertURL, wrapperType, 0)) {
 								println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
-										+ " Reverted to original web page.");
-								return;
-							} catch (UnsupportedEncodingException e) {
-								e.printStackTrace();
-								revertThread = null;
-								return;
+										+ " Failed to REVERT content");
+								firefox.resetURL();
+								continue; // TODO -- Figure out what to do here. For now, just try again later
 							}
+							println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
+									+ " Reverted to original web page.");
+							return;
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+							revertThread = null;
+							return;
 						}
 					}
 				}
@@ -320,7 +316,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	protected boolean isVerifiedChannel(SignageContent c) {
 		return listOfValidURLs.contains(c);
 	}
-	
+
 	/**
 	 * @param args
 	 *            Expect one command line argument

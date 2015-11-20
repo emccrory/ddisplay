@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.Date;
@@ -31,11 +32,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Connects to an instance of Firefox browser and sends JavaScript instructions to it. This is the "lowest" level class in the
  * suite.
  * 
+ * (November, 2015) -- Need to be careful about not letting different threads stomp on the activities of this class. Up until now,
+ * there were "synchronize" blocks on the instance(s) of this class.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 public class ConnectionToFirefoxInstance {
-	private static final int						DEFAULT_BUFFER_SIZE				= 300;
+	private static final int						MAXIMUM_BUFFER_SIZE				= 1024;
 	private static final String						LOCALHOST						= "localhost";
 	private static final int						PORT							= 32000;
 
@@ -143,7 +147,10 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	/**
-	 * Change the URL that is showing now
+	 * Change the URL that is showing now.
+	 * 
+	 * Applying "synchronized" here just in case there are back-to-back change requests. Is this necessary, since there are
+	 * synchorizations on the in and the out sockets?
 	 * 
 	 * @param urlString
 	 *            The URL that this instance should show now.
@@ -498,6 +505,7 @@ public class ConnectionToFirefoxInstance {
 						out = new PrintWriter(kkSocket.getOutputStream(), true);
 						println(getClass(), "\tOutput stream established");
 						in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
+						kkSocket.setSoTimeout(10000);
 						println(getClass(), "\tInput stream established");
 						connected = true;
 						println(getClass(), " ** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
@@ -527,37 +535,53 @@ public class ConnectionToFirefoxInstance {
 			catchSleep(sleepTime);
 			sleepTime += 1000L;
 		}
+		if (debug)
+			println(getClass(), instance + " sending [" + s + "]");
 		synchronized (out) {
-			if (debug)
-				println(getClass(), instance + " sending [" + s + "]");
 			out.println(s);
 		}
 	}
 
 	private boolean waitForServer() throws IOException {
 		if (in != null) {
-			char[] cbuf = new char[DEFAULT_BUFFER_SIZE];
-			int numRead = in.read(cbuf, 0, DEFAULT_BUFFER_SIZE);
-			if (numRead > 2)
-				lastReplyLine = new String(cbuf).substring(0, numRead - 1);
-			else
-				lastReplyLine += "(Unexpectedly short reply of " + numRead + " chars from browser) -- [" + new String(cbuf) + "]";
-			
-			if (debug)
-				println(getClass(), ".waitForServer()" + instance + ": " + numRead + " chars from server: [" + lastReplyLine + "]");
+			try {
+				char[] cbuf = new char[MAXIMUM_BUFFER_SIZE];
+				int numRead = 0;
+				synchronized (in) {
+					// TODO It would be nice to time out of this blocking read. (At least I think it is blocking)
+					numRead = in.read(cbuf, 0, MAXIMUM_BUFFER_SIZE);
+				}
+				if (numRead > 2) {
+					if (numRead == MAXIMUM_BUFFER_SIZE) {
+						new Exception("have read the maximum number of bytes, " + numRead
+								+ ", from the Firefox input stream.  This cannot be good").printStackTrace();
+					}
+					lastReplyLine = new String(cbuf).substring(0, numRead - 1);
+				} else
+					lastReplyLine += "(Unexpectedly short reply of " + numRead + " chars from browser) -- [" + new String(cbuf)
+							+ "]";
 
-			/*
-			 * It looks like the reply expected here is something like this:
-			 * 
-			 * {"result":"<whatever we just sent>"}
-			 * 
-			 * If you send more than one line, it sometimes sends more than one {"result":"<value>"} pair, ending in a new line.
-			 */
+				if (debug)
+					println(getClass(), ".waitForServer()" + instance + ": " + numRead + " chars from server: [" + lastReplyLine
+							+ "]");
 
-			/*
-			 * Generally, when the return value contains "error", there was a problem.
-			 */
-			connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
+				/*
+				 * It looks like the reply expected here is something like this:
+				 * 
+				 * {"result":"<whatever we just sent>"}
+				 * 
+				 * If you send more than one line, it sometimes sends more than one {"result":"<value>"} pair, ending in a new line.
+				 */
+
+				/*
+				 * Generally, when the return value contains "error", there was a problem.
+				 */
+				connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
+			} catch (SocketTimeoutException e) {
+				System.err.println(new Date() + " " + ConnectionToFirefoxInstance.class.getSimpleName()
+						+ ".waitForServer(): No response from Firefox plugin");
+				connected = false;
+			}
 		}
 		println(getClass(), instance + " Returning from waitForServer(), connected=" + connected);
 		return connected;
