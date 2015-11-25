@@ -235,6 +235,9 @@ public class VersionInformationGUI extends JFrame {
 
 	private JComponent getDescriptionComponent() {
 		textArea = new JTextArea(newVI.getVersionDescription(), 10, 60);
+		textArea.setWrapStyleWord(true);
+		textArea.setLineWrap(true);
+		
 		textArea.setFont(new Font("Courier", Font.PLAIN, 12));
 		textArea.setAlignmentX(LEFT_ALIGNMENT);
 		textArea.setBorder(b());
