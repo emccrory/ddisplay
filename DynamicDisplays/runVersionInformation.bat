@@ -17,4 +17,9 @@ goto END
 
 :END
 
+ECHO Versioning
+ECHO Versioning
+ECHO Versioning
+
+java gov.fnal.ppd.dd.util.version.VersionInformation 0
 
