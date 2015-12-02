@@ -8,6 +8,7 @@ goto END
 
 :OLD
 	ECHO The local version of the code needs to be updated
+	Msg * "The local version of the Dynamic Display code needs to be updated.  Continuing for now."
 	GOTO END
 
 :NEW

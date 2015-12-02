@@ -66,7 +66,7 @@ if [ "$1 X" != " X" ]; then
     screenNum=$1;
 fi
 {
-    echo "Obtaining my messaging server, and determining if it is I ... "
+    echo "Obtaining my messaging server, and determining if it is this node ... "
     # Get the messaging server for me
     messagingServer=`java -Xmx512m gov.fnal.ppd.dd.GetMessagingServer | grep "MessagingServer=" | awk '{ print $2 }'`
 
@@ -82,7 +82,7 @@ fi
 	    sleep 10;
 	fi
     else
-	echo "The messaging server is " $messagingServer " which is not I"
+	echo "The messaging server is " $messagingServer ", which is not this node"
     fi
     
     echo "Determining if I should run a ChannelSelector"
