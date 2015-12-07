@@ -13,24 +13,30 @@
   
   xmlNewsFile=sciencefeed.xml
   logNewsFile=sciencefeed.log
-    
-  rm -f temp tempN tempW $xmlNewsFile $logNewsFile
+  diff="diff -i -E -w -B "
+
+  rm -f tempN $xmlNewsFile $logNewsFile
   
   /usr/bin/wget -o $logNewsFile -O tempN $newsURL # 2>/dev/null
   
   /bin/sed 's/>/>\n/g' tempN | sed 's-<br/>--g' | sed 's/dc://g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | sed 's/&lt;img .*&gt;//g' > $xmlNewsFile
-  
-  /usr/bin/java gov.fnal.ppd.dd.xml.news.Channel $xmlNewsFile > science.txt
-  
-# --------------------------------------------------------------------------------------
-  
-  cat science.txt > /var/www/html/newsfeed/science.txt
 
+if $diff -q $xmlNewsFile old_$xmlNewsFile > /dev/null ; then
+  echo The news from Science has not changed
+else
+  echo Installing new Science news
+  $diff $xmlNewsFile old_$xmlNewsFile
+
+  /usr/bin/java gov.fnal.ppd.dd.xml.news.Channel $xmlNewsFile > science.txt
+  cp -p $xmlNewsFile old_$xmlNewsFile
+# --------------------------------------------------------------------------------------
+  cat science.txt > /var/www/html/newsfeed/science.txt
   if /usr/krb5/bin/klist > /tmp/k ; then 
       cp science.txt /web/sites/dynamicdisplays.fnal.gov/htdocs/newsfeed
     # echo yes there is a kerberos ticket for me; 
   else 
       echo There seems to be no kerberos ticket, so we cannot copy the newsfeed file to the web directory
+  fi
 fi
 
 ) 200>$HOME/lock/.scienceFeedScript.exclusivelock

@@ -1,548 +1,744 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<?xml-stylesheet type='text/xsl' href='http://rss.nytimes.com/xsl/eng/rss.xsl'?>
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+  xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+  >
 
-<rss xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+
 <channel>
-<link href="http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml" rel="self" type="application/rss+xml" />
-<title>
-NYT &gt; Home Page</title>
-<link>
-http://www.nytimes.com/pages/index.html?partner=rss&amp;emc=rss</link>
-<description>
-HomePage</description>
-<language>
-en-us</language>
-<copyright>
-Copyright 2015 The New York Times Company</copyright>
-<pubDate>
-Mon, 18 May 2015 13:28:57 GMT</pubDate>
-<lastBuildDate>
-Mon, 18 May 2015 13:28:57 GMT</lastBuildDate>
-<ttl>
-2</ttl>
-<image>
-<title>
-NYT &gt; Home Page</title>
-<url>
-http://graphics8.nytimes.com/images/misc/NYT_logo_rss_250x40.png</url>
-<link>
-http://www.nytimes.com/pages/index.html?partner=rss&amp;emc=rss</link>
-</image>
-<item>
-<link href="http://www.nytimes.com/2015/05/18/nytnow/latest-news-waco-shootout-amtrak-service-resumes-and-more.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Latest News: Waco Shootout, Amtrak Service Resumes and More</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/46689beb/sc/28/l/0L0Snytimes0N0C20A150C0A50C180Cnytnow0Clatest0Enews0Ewaco0Eshootout0Eamtrak0Eservice0Eresumes0Eand0Emore0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Here’s what you need to know to start your day.</description>
-<pubDate>
-Mon, 18 May 2015 13:21:28 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/18/nytnow/latest-news-waco-shootout-amtrak-service-resumes-and-more.html</guid>
-<creator>
-ADEEL HASSAN</creator>
-<credit scheme="urn:ebu">
-Rod Aydelotte/Waco Tribune Herald, via A.P.</credit>
-<description>
-Waco, Tex., is on high alert after a shootout between motorcycle gangs left nine dead.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/18/world/18nytnow-waco02/18nytnow-waco02-moth-v2.jpg" />
-</item>
-<item>
-<link href="http://artsbeat.blogs.nytimes.com/2015/05/18/mad-men-series-finale-recap/?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-ArtsBeat: ‘Mad Men’ Series Finale Recap: The Door Closes, The Light Goes Off</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4666be72/sc/19/l/0Lartsbeat0Bblogs0Bnytimes0N0C20A150C0A50C180Cmad0Emen0Eseries0Efinale0Erecap0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Farewell, Don. Farewell, Pete. Farewell, Peggy. Om.</description>
-<category domain="http://www.nytimes.com/namespaces/">
-'Mad Men'</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Television</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Mad Men (TV Program)</category>
-<category domain="http://www.nytimes.com/namespaces/">
-TV RECAPS</category>
-<pubDate>
-Mon, 18 May 2015 13:11:41 GMT</pubDate>
-<guid isPermaLink="false">
-http://artsbeat.blogs.nytimes.com/2015/05/18/mad-men-series-finale-recap/</guid>
-<creator>
-LOGAN HILL</creator>
-<credit scheme="urn:ebu">
-Michael Yarish/AMC</credit>
-<description>
-Vincent Kartheiser as Pete Campbell in the season finale of "Mad Men"</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/17/arts/17MADMEN-TV-RECAP/17MADMEN-TV-RECAP-moth.jpg" />
-</item>
-<item>
-<link href="http://cityroom.blogs.nytimes.com/2015/05/18/new-york-today-edible-joys-of-spring/?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-City Room: New York Today: Edible Joys of Spring</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4668e6a9/sc/14/l/0Lcityroom0Bblogs0Bnytimes0N0C20A150C0A50C180Cnew0Eyork0Etoday0Eedible0Ejoys0Eof0Espring0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Monday: Ramps and radishes flood the markets, cooler weather, and Amtrak service resumes.</description>
-<category domain="http://www.nytimes.com/namespaces/">
-New York Today</category>
-<pubDate>
-Mon, 18 May 2015 12:58:16 GMT</pubDate>
-<guid isPermaLink="false">
-http://cityroom.blogs.nytimes.com/2015/05/18/new-york-today-edible-joys-of-spring/</guid>
-<creator>
-TATIANA SCHLOSSBERG and ANDY NEWMAN</creator>
-<credit scheme="urn:ebu">
-Fred R. Conrad/The New York Times</credit>
-<description>
-Thank you, asparagus.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/18/nyregion/18NYTODAY1/18NYTODAY1-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/19/us/waco-texas-biker-gang-shooting.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-192 to Be Charged in Biker Gang Shootout in Waco</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/466a0d22/sc/3/l/0L0Snytimes0N0C20A150C0A50C190Cus0Cwaco0Etexas0Ebiker0Egang0Eshooting0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-They will face charges of engaging in organized crime in the shootout among rival gangs that broke out on Sunday, leaving at least nine bikers dead, a police spokesman said.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Murders, Attempted Murders and Homicides</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Gangs</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Waco (Tex)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Motorcycles, Motor Bikes and Motorscooters</category>
-<pubDate>
-Mon, 18 May 2015 12:37:29 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/19/us/waco-texas-biker-gang-shooting.html</guid>
-<creator>
-DAVID MONTGOMERY, MANNY FERNANDEZ and LIAM STACK</creator>
-<credit scheme="urn:ebu">
-Rod Aydelotte/Waco Tribune-Herald, via Associated Press</credit>
-<description>
-Police officers and a group of bikers near the restaurant where gunfire erupted between rival motorcycle gangs on Sunday in Waco, Tex.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/18/us/19WACO/19WACO-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/politics/first-draft/2015/05/18/presiding-at-same-sex-wedding-ruth-bader-ginsburg-emphasizes-a-key-word/?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-First Draft: Presiding at Same-Sex Wedding, Ruth Bader Ginsburg Emphasizes the Word ‘Constitution’</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/466a2a17/sc/7/l/0L0Snytimes0N0Cpolitics0Cfirst0Edraft0C20A150C0A50C180Cpresiding0Eat0Esame0Esex0Ewedding0Eruth0Ebader0Eginsburg0Eemphasizes0Ea0Ekey0Eword0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-With a sly look and special emphasis on the word “Constitution,” Justice Ruth Bader Ginsburg said she was pronouncing two men married by the powers vested in her by the Constitution of the United States.</description>
-<category domain="http://www.nytimes.com/namespaces/">
-Constitution (US)</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Ginsburg, Ruth Bader</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Weddings and Engagements</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Supreme Court (US)</category>
-<category domain="http://www.nytimes.com/namespaces/">
-Same-Sex Marriage, Civil Unions and Domestic Partnerships</category>
-<pubDate>
-Mon, 18 May 2015 12:13:08 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/politics/first-draft/2015/05/18/presiding-at-same-sex-wedding-ruth-bader-ginsburg-emphasizes-a-key-word/</guid>
-<creator>
-MAUREEN DOWD</creator>
-<credit scheme="urn:ebu">
-Stephen Crowley/The New York Times</credit>
-<description>
-Justice Ruth Bader Ginsburg arriving for President Obama's State of the Union address in January.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/18/us/18firstdraft-rginsburg/18firstdraft-rginsburg-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/interactive/2015/05/13/us/elections/2016-presidential-campaigns-staff-connections-clinton-bush-cruz-paul-rubio-walker.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Connecting the Dots Behind the 2016 Candidates</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4669d9d9/sc/7/l/0L0Snytimes0N0Cinteractive0C20A150C0A50C130Cus0Celections0C20A160Epresidential0Ecampaigns0Estaff0Econnections0Eclinton0Ebush0Ecruz0Epaul0Erubio0Ewalker0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-How the teams behind some likely and announced 2016 candidates are connected to previous campaigns, administrations and organizations.</description>
-<pubDate>
-Mon, 18 May 2015 11:45:04 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/interactive/2015/05/13/us/elections/2016-presidential-campaigns-staff-connections-clinton-bush-cruz-paul-rubio-walker.html</guid>
-<creator>
-GREGOR AISCH and KAREN YOURISH</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/politics/first-draft/2015/05/18/today-in-politics-clintons-busy-week-presents-more-opportunities-for-no-questions/?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-First Draft: Today in Politics: Hillary Clinton’s Busy Week Presents More Opportunities for No Questions</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4669391f/sc/7/l/0L0Snytimes0N0Cpolitics0Cfirst0Edraft0C20A150C0A50C180Ctoday0Ein0Epolitics0Eclintons0Ebusy0Eweek0Epresents0Emore0Eopportunities0Efor0Eno0Equestions0C0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Hillary Rodham Clinton begins a full week of events while maintaining her relative silence toward the news media.</description>
-<category domain="http://www.nytimes.com/namespaces/">
-Clinton, Hillary Rodham</category>
-<category domain="http://www.nytimes.com/namespaces/">
-United States Politics and Government</category>
-<pubDate>
-Mon, 18 May 2015 11:21:55 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/politics/first-draft/2015/05/18/today-in-politics-clintons-busy-week-presents-more-opportunities-for-no-questions/</guid>
-<creator>
-THE NEW YORK TIMES</creator>
-<credit scheme="urn:ebu">
-Ian Thomas Jansen-Lonnquist for The New York Times</credit>
-<description>
-Hillary Rodham Clinton will visit Iowa and New Hampshire this week, seen here on her last trip in April in Keene, NH.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/18/us/18FirstDraft-Hillary/18FirstDraft-Hillary-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/19/upshot/the-in-state-tuition-break-slowly-disappearing.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-The Cost of College: The In-State Tuition Break, Slowly Disappearing</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/466a0d24/sc/35/l/0L0Snytimes0N0C20A150C0A50C190Cupshot0Cthe0Ein0Estate0Etuition0Ebreak0Eslowly0Edisappearing0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-One of the most important paths to upward mobility, open on a meritocratic basis to people from all economic classes, is narrowing.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Tuition</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Budgets and Budgeting</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Colleges and Universities</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Admissions Standards</category>
-<pubDate>
-Mon, 18 May 2015 10:47:01 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/19/upshot/the-in-state-tuition-break-slowly-disappearing.html</guid>
-<creator>
-KEVIN CAREY</creator>
-<credit scheme="urn:ebu">
-Icon Sportswire, via Associated Press</credit>
-<description>
-Fans rejoiced after Alabama's football team defeated Tennessee last October. A shrinking percentage of University of Alabama students are actually from the state.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/16/upshot/18UP-College/18UP-College-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/19/arts/music/fka-twigs-congregata-sunset-park-brooklyn-hangar.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Review: Movement Drives the Music at FKA twigs’s ‘Congregata’</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4669d9db/sc/15/l/0L0Snytimes0N0C20A150C0A50C190Carts0Cmusic0Cfka0Etwigs0Econgregata0Esunset0Epark0Ebrooklyn0Ehangar0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-After the performance, featuring a dozen male dancers, you may have left with flashes of body language in your head. Only on further recall would you connect them to sound.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Music</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Sunset Park (Brooklyn, NY)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-FKA twigs</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Brooklyn (NYC)</category>
-<pubDate>
-Mon, 18 May 2015 10:25:16 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/19/arts/music/fka-twigs-congregata-sunset-park-brooklyn-hangar.html</guid>
-<creator>
-BEN RATLIFF</creator>
-<credit scheme="urn:ebu">
-Jacob Blickenstaff for The New York Times</credit>
-<description>
-FKA twigs performing at Brooklyn Hangar in Sunset Park on Sunday.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/19/world/19FKAtwigs2-web/19FKAtwigs2-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/19/us/politics/obama-to-limit-military-style-equipment-for-police-forces.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Obama to Limit Military-Style Equipment for Police Forces</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4668e4e7/sc/7/l/0L0Snytimes0N0C20A150C0A50C190Cus0Cpolitics0Cobama0Eto0Elimit0Emilitary0Estyle0Eequipment0Efor0Epolice0Eforces0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The ban is one of the steps the president has made to try to build trust between citizens and law enforcement agencies.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Camden (NJ)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Obama, Barack</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Federal Aid (US)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Police</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Baltimore (Md)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Ferguson (Mo)</category>
-<pubDate>
-Mon, 18 May 2015 10:00:02 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/19/us/politics/obama-to-limit-military-style-equipment-for-police-forces.html</guid>
-<creator>
-JULIE HIRSCHFELD DAVIS</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/19/us/roaming-elk-at-point-reyes-bedevil-ranchers-in-california.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Roaming Elk at Point Reyes Bedevil Ranchers in California</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/466890c6/sc/31/l/0L0Snytimes0N0C20A150C0A50C190Cus0Croaming0Eelk0Eat0Epoint0Ereyes0Ebedevil0Eranchers0Ein0Ecalifornia0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Tule elk in a refuge have been dying off while a thriving herd outside it has encroached on pastures, rekindling a dispute over the management of the creatures.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Agriculture and Farming</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Drought</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Animals</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Point Reyes National Seashore (Calif)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Elk</category>
-<pubDate>
-Mon, 18 May 2015 09:00:19 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/19/us/roaming-elk-at-point-reyes-bedevil-ranchers-in-california.html</guid>
-<creator>
-RONNIE COHEN</creator>
-<credit scheme="urn:ebu">
-Jason Henry for The New York Times</credit>
-<description>
-Tule elk at Point Reyes National Seashore in California. While some elk are fenced in, others roam freely, and they have been encroaching on ranch land.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/16/us/00elk-web01/00elk-web01-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/19/world/asia/john-kerry-north-korea.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Kerry Calls for More Pressure on North Korea Over ‘Horrendous’ Acts</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/466849b2/sc/31/l/0L0Snytimes0N0C20A150C0A50C190Cworld0Casia0Cjohn0Ekerry0Enorth0Ekorea0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Citing public executions, Secretary of State John Kerry said the North Korean leader’s behavior increased the likelihood he would face charges at The Hague.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-South Korea</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Human Rights and Human Rights Violations</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Kerry, John</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-United States International Relations</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Nuclear Weapons</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-North Korea</category>
-<pubDate>
-Mon, 18 May 2015 08:22:58 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/19/world/asia/john-kerry-north-korea.html</guid>
-<creator>
-CHOE SANG-HUN</creator>
-<credit scheme="urn:ebu">
-Saul Loeb/Agence France-Presse — Getty Images</credit>
-<description>
-Secretary of State John Kerry with his South Korean counterpart, Yun Byung-se, in Seoul on Monday.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/19/world/19Korea-web/19Korea-web-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/18/sports/dean-potter-extreme-climber-dies-in-jumping-accident-at-yosemite.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Dean Potter, Extreme Climber, Dies in BASE-Jumping Accident at Yosemite</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/466615bd/sc/3/l/0L0Snytimes0N0C20A150C0A50C180Csports0Cdean0Epotter0Eextreme0Eclimber0Edies0Ein0Ejumping0Eaccident0Eat0Eyosemite0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-After Potter and Graham Hunt leapt off Taft Point, about 3,000 feet above the floor of Yosemite Valley, they tried to clear a notch in the cliffs but smashed into the rocks.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Rock Climbing</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-National Parks, Monuments and Seashores</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Accidents and Safety</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Parks and Other Recreation Areas</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Yosemite National Park (Calif)</category>
-<pubDate>
-Mon, 18 May 2015 04:43:45 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/18/sports/dean-potter-extreme-climber-dies-in-jumping-accident-at-yosemite.html</guid>
-<creator>
-JOHN BRANCH</creator>
-<credit scheme="urn:ebu">
-Jim Hurst for The New York Times</credit>
-<description>
-Dean Potter was one of two men killed while BASE jumping in Yosemite National Park.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/18/sports/18POTTER/18POTTER-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/18/us/marine-is-killed-and-21-are-hurt-in-aircraft-mishap.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Marine Is Killed and 21 Are Hurt in Aircraft Mishap</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4666ab55/sc/16/l/0L0Snytimes0N0C20A150C0A50C180Cus0Cmarine0Eis0Ekilled0Eand0E210Eare0Ehurt0Ein0Eaircraft0Emishap0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-An MV-22 Osprey made what was described as a hard landing during a training exercise in Hawaii.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-Hawaii</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Aviation Accidents, Safety and Disasters</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Military Aircraft</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-United States Marine Corps</category>
-<pubDate>
-Mon, 18 May 2015 04:07:00 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/18/us/marine-is-killed-and-21-are-hurt-in-aircraft-mishap.html</guid>
-<creator>
-LIAM STACK</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/18/nyregion/picassos-stage-curtain-is-unfurled-at-its-new-home.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Picasso’s Stage Curtain Is Unfurled at Its New Home</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/46666248/sc/14/l/0L0Snytimes0N0C20A150C0A50C180Cnyregion0Cpicassos0Estage0Ecurtain0Eis0Eunfurled0Eat0Eits0Enew0Ehome0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-In an hourslong operation of practiced precision, “Le Tricorne,” a stage curtain painted by the Spanish master, arrived in its new home at the New-York Historical Society.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-New York City</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Museums</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Art</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Picasso, Pablo</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-New-York Historical Society</category>
-<pubDate>
-Mon, 18 May 2015 03:07:48 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/18/nyregion/picassos-stage-curtain-is-unfurled-at-its-new-home.html</guid>
-<creator>
-ANNIE CORREAL</creator>
-<credit scheme="urn:ebu">
-Victor J. Blue for The New York Times</credit>
-<description>
-Shepherded by a team of art handlers, Picasso’s “Le Tricorne,” once a fixture at the Four Seasons restaurant, was unfurled on Sunday at the New-York Historical Society in Manhattan.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/18/nyregion/18PICASSOY/18PICASSOY-moth-v3.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/18/nyregion/cuomo-to-offer-2-measures-to-improve-conditions-in-the-nail-salon-industry.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Cuomo to Offer New Measures to Improve Conditions in the Nail Salon Industry</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4666615f/sc/28/l/0L0Snytimes0N0C20A150C0A50C180Cnyregion0Ccuomo0Eto0Eoffer0E20Emeasures0Eto0Eimprove0Econditions0Ein0Ethe0Enail0Esalon0Eindustry0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The legislation would subject salons in New York to some of the strictest health regulations in the country and give regulators greater authority to punish those that mistreat workers.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Cuomo, Andrew M</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-New York State</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Nails (Body Part)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Beauty Salons</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Law and Legislation</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Labor and Jobs</category>
-<pubDate>
-Mon, 18 May 2015 02:47:35 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/18/nyregion/cuomo-to-offer-2-measures-to-improve-conditions-in-the-nail-salon-industry.html</guid>
-<creator>
-SARAH MASLIN NIR</creator>
-</item>
-<item>
-<title>
-Marines: 1 Killed, 21 Taken to Hospitals After Hard Landing</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/4665eab3/sc/16/l/0L0Snytimes0N0Caponline0C20A150C0A50C170Cus0Cap0Eus0Eair0Eforce0Estation0Ecrash0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Honolulu fire crews are responding to a report of an aircraft crash at Bellows Air Force Station.</description>
-<pubDate>
-Mon, 18 May 2015 02:43:41 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/aponline/2015/05/17/us/ap-us-air-force-station-crash.html</guid>
-<creator>
-THE ASSOCIATED PRESS</creator>
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/18/nyregion/black-leaders-showing-signs-of-frustration-with-mayor-de-blasio.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Black Leaders Showing Signs of Frustration With Mayor de Blasio</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/46681483/sc/7/l/0L0Snytimes0N0C20A150C0A50C180Cnyregion0Cblack0Eleaders0Eshowing0Esigns0Eof0Efrustration0Ewith0Emayor0Ede0Eblasio0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-Mayor Bill de Blasio remains popular with black constituents, but some community ministers and activists have complained that he has been slow to address their concerns.</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_geo">
-New York City</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Blacks</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-de Blasio, Bill</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Police Brutality, Misconduct and Shootings</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/mdes">
-Demonstrations, Protests and Riots</category>
-<pubDate>
-Mon, 18 May 2015 01:56:06 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/18/nyregion/black-leaders-showing-signs-of-frustration-with-mayor-de-blasio.html</guid>
-<creator>
-NIKITA STEWART and ALEXANDER BURNS</creator>
-<credit scheme="urn:ebu">
-Yana Paskova for The New York Times</credit>
-<description>
-Mayor Bill de Blasio and his wife, Chirlane McCray, in 2013.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/18/nyregion/18BDBBLACKS/18BDBBLACKS-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/18/us/revisiting-a-world-war-ii-internment-camp-as-others-try-to-keep-its-story-from-fading.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Revisiting a World War II Internment Camp, as Others Try to Keep Its Story From Fading</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/46668fbd/sc/11/l/0L0Snytimes0N0C20A150C0A50C180Cus0Crevisiting0Ea0Eworld0Ewar0Eii0Einternment0Ecamp0Eas0Eothers0Etry0Eto0Ekeep0Eits0Estory0Efrom0Efading0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-In the past, busloads of former detainees have attended a remembrance ceremony at the Granada War Relocation Center. But this year only two people who had lived there could make the trek.</description>
-<pubDate>
-Mon, 18 May 2015 01:26:10 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/18/us/revisiting-a-world-war-ii-internment-camp-as-others-try-to-keep-its-story-from-fading.html</guid>
-<creator>
-JULIE TURKEWITZ</creator>
-<credit scheme="urn:ebu">
-Benjamin Rasmussen for The New York Times</credit>
-<description>
-A replica of the camp's guard tower was constructed by students as part of a Granada schools project on Amache.</description>
-<content height="151" lang="" width="151" url="http://graphics8.nytimes.com/images/2015/05/18/us/18amache-web02/18amache-web02-moth.jpg" />
-</item>
-<item>
-<link href="http://www.nytimes.com/2015/05/18/business/media/success-of-an-ember-in-the-ashes-leads-publisher-to-a-sequel.html?partner=rss&amp;emc=rss" rel="standout" />
-<title>
-Success of ‘An Ember in the Ashes’ Leads Publisher to a Sequel</title>
-<link>
-http://rss.nytimes.com/c/34625/f/640350/s/46660f87/sc/27/l/0L0Snytimes0N0C20A150C0A50C180Cbusiness0Cmedia0Csuccess0Eof0Ean0Eember0Ein0Ethe0Eashes0Eleads0Epublisher0Eto0Ea0Esequel0Bhtml0Dpartner0Frss0Gemc0Frss/story01.htm</link>
-<description>
-The fantasy novel has drawn comparisons to several of the biggest publishing blockbusters of the last decade, including “The Hunger Games” and “Harry Potter.”</description>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Razorbill</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Paramount Pictures</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_org_all">
-Penguin Group</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_per">
-Tahir, Sabaa</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/nyt_ttl">
-An Ember in the Ashes (Book)</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Books and Literature</category>
-<category domain="http://www.nytimes.com/namespaces/keywords/des">
-Book Trade and Publishing</category>
-<pubDate>
-Mon, 18 May 2015 01:24:21 GMT</pubDate>
-<guid isPermaLink="false">
-http://www.nytimes.com/2015/05/18/business/media/success-of-an-ember-in-the-ashes-leads-publisher-to-a-sequel.html</guid>
-<creator>
-ALEXANDRA ALTER</creator>
-</item>
-</channel>
-</rss>
 
+  <title>
+Fermilab at Work</title>
+
+  <link href="http://news.fnal.gov/rss-faw" rel="self" type="application/rss+xml" />
+
+  <link>
+http://news.fnal.gov</link>
+
+  <!-- Feed Logo (optional) -->
+
+    <image>
+
+      <url>
+http://news.fnal.gov/wp-content/themes/fermilab-newsroom/img/icons/fnal-logomark-blue.png</url>
+
+      <title>
+
+        The latest news from News Center.      </title>
+
+      <link>
+http://news.fnal.gov</link>
+
+    </image>
+
+  <description>
+Fermilab news</description>
+
+
+  <language>
+en-US</language>
+
+  <updatePeriod>
+hourly</updatePeriod>
+
+  <updateFrequency>
+1</updateFrequency>
+
+  <generator>
+http://wordpress.org/?v=4.3.1</generator>
+
+  <item>
+
+    <title>
+All-hands meeting and labwide party &#8211; Dec. 18</title>
+
+    <link>
+http://news.fnal.gov/2015/12/all-hands-meeting-and-labwide-party-dec-18/</link>
+
+    <pubDate>
+Mon, 07 Dec 2015 14:06:19 +0000</pubDate>
+
+    <creator>
+<![CDATA[leah]]>
+</creator>
+
+    		<category>
+<![CDATA[Announcements and notices]]>
+</category>
+
+		<category>
+<![CDATA[News you need]]>
+</category>
+
+
+    <guid isPermaLink="false">
+http://news.fnal.gov/?p=26498</guid>
+
+                <description>
+<![CDATA[An all-hands meeting will be held on Friday, Dec. 18, at 2 p.m. in Ramsey Auditorium. A labwide party will follow in the Wilson Hall atrium.]]>
+</description>
+
+                          <comment>
+<![CDATA[<p>
+An all-hands meeting will be held on Friday, Dec. 18, at 2 p.m. in Ramsey Auditorium. A labwide party will follow in the Wilson Hall atrium.</p>
+
+]]>
+</comment>
+
+                        </item>
+
+    <item>
+
+    <title>
+Fermilab email migration this weekend</title>
+
+    <link>
+http://news.fnal.gov/2015/12/fermilab-email-migration-this-weekend/</link>
+
+    <pubDate>
+Mon, 07 Dec 2015 14:04:58 +0000</pubDate>
+
+    <creator>
+<![CDATA[leah]]>
+</creator>
+
+    		<category>
+<![CDATA[Announcements and notices]]>
+</category>
+
+		<category>
+<![CDATA[News you need]]>
+</category>
+
+
+    <guid isPermaLink="false">
+http://news.fnal.gov/?p=26483</guid>
+
+                <description>
+<![CDATA[From Dec. 13-14, the Core Computing Division will upgrade all Fermilab email users to Office 365 Exchange Online, a cloud-based version of Microsoft Exchange that offers significant increases in storage from the current on-site server.]]>
+</description>
+
+                          <comment>
+<![CDATA[<p>
+The Core Computing Division will upgrade all Fermilab email users to Office 365 Exchange Online, a cloud-based version of Microsoft Exchange that offers significant increases in storage from the current on-site server. This migration will occur between Sunday, Dec. 13, at 10 a.m. and Monday, Dec. 14, at 7 a.m.</p>
+
+<p>
+Your action is required to complete the migration of your mailbox. In order to make this migration as simple as possible, here is the most important information you need to know:</p>
+
+<ol>
+
+<li>
+Your username will change to &lt;username&gt;@<strong>
+services</strong>
+.fnal.gov.</li>
+
+<li>
+Your email address will not You will not lose any emails.</li>
+
+<li>
+<a href="https://mail-migration.fnal.gov" target="_blank">
+https://mail-migration.fnal.gov</a>
+ provides more detailed instructions.</li>
+
+</ol>
+
+<p>
+&nbsp;</p>
+
+<p>
+<strong>
+After migration, to access your mailbox you must:</strong>
+</p>
+
+<ul>
+
+<li>
+Enter your SERVICES username in the form username@<strong>
+services</strong>
+.fnal.gov.</li>
+
+<li>
+Enter your SERVICES password.</li>
+
+<li>
+<strong>
+Windows users: click &#8220;USE ANOTHER ACCOUNT&#8221;</strong>
+<strong>
+ before you enter your login information.</strong>
+</li>
+
+</ul>
+
+<ul>
+
+<li>
+<strong>
+Webmail users:</strong>
+ go to fermimail.fnal.gov. Log in using your new username format (username@<strong>
+services</strong>
+.fnal.gov) and your Services password.</li>
+
+</ul>
+
+<ul>
+
+<li>
+<strong>
+Non-Outlook users:</strong>
+ reconfigure your mail clients to access your new mailbox. Instructions are at <a href="https://mail-migration.fnal.gov" target="_blank">
+https://mail-migration.fnal.gov</a>
+.</li>
+
+</ul>
+
+<p>
+The Service Desk will be available at x2345 and will have extended hours Sunday, Dec. 13, from 10 a.m. to 8 p.m. and Monday, Dec. 14, to Friday, Dec. 18, from 6:30 a.m. to 5 p.m.</p>
+
+<p>
+Local support teams will be in the Accelerator Division, Feynman Computing Center, Illinois Accelerator Research Center, Technical Division and Wilson Hall from Monday, Dec. 14, to Friday, Dec. 18.</p>
+
+<p>
+There will be an Ask Me About Email booth in the Wilson Hall atrium from Monday, Dec. 14, to Friday, Dec. 18, from 11:30 a.m. to 1:30 p.m.</p>
+
+]]>
+</comment>
+
+                        </item>
+
+    <item>
+
+    <title>
+Free Health Screenings for Active Employees</title>
+
+    <link>
+http://news.fnal.gov/2015/12/free-health-screenings-active-employees/</link>
+
+    <pubDate>
+Mon, 07 Dec 2015 12:55:28 +0000</pubDate>
+
+    <creator>
+<![CDATA[leah]]>
+</creator>
+
+    		<category>
+<![CDATA[Announcements and notices]]>
+</category>
+
+
+    <guid isPermaLink="false">
+https://news.fnal.gov/?p=26438</guid>
+
+                <description>
+<![CDATA[Sign up now for your free health screening on January 12 or 13, 7:30am-12pm, at the Training Center. This screening offers active employees an opportunity to have their cholesterol, blood glucose, blood pressure and body composition checked. You will meet one-on-one with a Health Coach to review results, ask questions, and discuss health and wellness resources. A reminder e-mail will be sent to you. Employees that signed up last year should sign in as an Existing Customer using their Fermi... <a class="more-link" href="http://news.fnal.gov/2015/12/free-health-screenings-active-employees/">
+ More &#187;</a>
+]]>
+</description>
+
+                          <comment>
+<![CDATA[<p>
+Sign up now for your free health screening on January 12 or 13, 7:30am-12pm, at the Training Center. This screening offers active employees an opportunity to have their cholesterol, blood glucose, blood pressure and body composition checked. You will meet one-on-one with a Health Coach to review results, ask questions, and discuss health and wellness resources. A reminder e-mail will be sent to you. Employees that signed up last year should sign in as an Existing Customer using their Fermi email and ID# (digits only). This 25 minute health screening is voluntary, confidential and offered at no charge to active employees. Your test results will not be shared with your company. To schedule your health screening* appointment, register at <a href="https://www.hsscreeningreg.com">
+https://www.hsscreeningreg.com</a>
+ and enter the following username (fermi) and password (healthy). Contact Jeanne in the Wellness Office at <a href="mailto:jecker@fnal.gov">
+jecker@fnal.gov</a>
+ or x2548 for more information.</p>
+
+]]>
+</comment>
+
+                        </item>
+
+    <item>
+
+    <title>
+Winter pond</title>
+
+    <link>
+http://news.fnal.gov/2015/12/winter-pond/</link>
+
+    <pubDate>
+Mon, 07 Dec 2015 09:00:29 +0000</pubDate>
+
+    <creator>
+<![CDATA[leah]]>
+</creator>
+
+    		<category>
+<![CDATA[Photo]]>
+</category>
+
+
+    <guid isPermaLink="false">
+http://news.fnal.gov/?p=26152</guid>
+
+                <description>
+<![CDATA[Snow-covered branches and twigs reach over the water near the Lederman Science Center.]]>
+</description>
+
+                          <comment>
+<![CDATA[<div id="attachment_26155" style="width: 1162px" class="wp-caption alignleft">
+<a href="http://news.fnal.gov/wp-content/uploads/2015/12/winter-by-the-pond.jpg">
+<img src="http://news.fnal.gov/wp-content/uploads/2015/12/winter-by-the-pond.jpg" alt="Snow-covered branches and twigs reach over the water near the Lederman Science Center. Photo: Amy Scroggins, Abri Credit Union" width="1152" height="864" class="size-full wp-image-26155" />
+</a>
+<p class="wp-caption-text">
+Snow-covered branches and twigs reach over the water near the Lederman Science Center. Photo: Amy Scroggins, Abri Credit Union</p>
+</div>
+
+]]>
+</comment>
+
+                        </item>
+
+    <item>
+
+    <title>
+“Harmonics” exhibit shares excitement of physics mysteries</title>
+
+    <link>
+http://news.fnal.gov/2015/12/harmonics-exhisics-mysteries/</link>
+
+    <pubDate>
+Mon, 07 Dec 2015 09:00:09 +0000</pubDate>
+
+    <creator>
+<![CDATA[leah]]>
+</creator>
+
+    		<category>
+<![CDATA[Feature]]>
+</category>
+
+		<category>
+<![CDATA[Story]]>
+</category>
+
+
+    <guid isPermaLink="false">
+http://news.fnal.gov/?p=25621</guid>
+
+                <description>
+<![CDATA[“Harmonics,” a new art exhibit currently on display in the Fermilab Art Gallery, showcases the work of Chicagoland painter and mixed-media artist Michelle Thrane.]]>
+</description>
+
+                          <comment>
+<![CDATA[<div id="attachment_25624" style="width: 310px" class="wp-caption alignleft">
+<a href="http://news.fnal.gov/wp-content/uploads/2015/12/Spherical-Harmonics9.jpg">
+<img class="size-medium wp-image-25624" src="http://news.fnal.gov/wp-content/uploads/2015/12/Spherical-Harmonics9-300x284.jpg" alt="Spherical Harmonics No. 9 by Michele Thrane is now in display in the Fermilab Art Gallery." width="300" height="284" />
+</a>
+<p class="wp-caption-text">
+Spherical Harmonics No. 9 by Michele Thrane is now in display in the Fermilab Art Gallery.</p>
+</div>
+
+<p>
+“Harmonics,” a new art exhibit currently on display in the <a href="http://www.fnal.gov/pub/Art_Gallery/index.html">
+Fermilab Art Gallery</a>
+, showcases the work of Chicagoland painter and mixed-media artist <a href="http://www.michelethranesart.com">
+Michele Thrane</a>
+.</p>
+
+<p>
+An artist reception will be held on Friday, Dec. 11, from 5-7 p.m. in the gallery.</p>
+
+<p>
+Thrane’s “Harmonics” series is about family, art and physics. Her artwork is influenced by her son’s research. A physicist, his current work involves the search for gravitational waves. As he tries to better understand the universe, she is trying to share the excitement and awe he finds in the mysteries beyond what the eye can see.</p>
+
+<p>
+The work in the exhibit was created using the encaustic process. The encaustic medium consists of natural beeswax and damar resin combined with pigment. Heat is used throughout the process to keep the encaustic medium in a liquid state.</p>
+
+<p>
+Equations and graphs taken from her son’s published papers are also used in some of the artwork. The encaustic process is especially effective in creating depths and layers of mystery along with luminous colors—a good medium to explore the many-layered mysteries of the universe.</p>
+
+<p>
+Thrane’s artwork has been shown nationally and has been included in several exhibitions at the International Encaustic Conference. She is represented in the permanent collection of the Encaustic Art Institute in Santa Fe, New Mexico. She is one of the featured artists in the third edition of Linda Womack’s eBook, Embracing Encaustic, Volume 2.</p>
+
+<p>
+&nbsp;</p>
+
+<p>
+&nbsp;</p>
+
+]]>
+</comment>
+
+                        </item>
+
+    <item>
+
+    <title>
+LabVIEW User Group Meeting</title>
+
+    <link>
+http://news.fnal.gov/2015/12/labview-user-group-meeting/</link>
+
+    <pubDate>
+Fri, 04 Dec 2015 16:47:07 +0000</pubDate>
+
+    <creator>
+<![CDATA[leah]]>
+</creator>
+
+    		<category>
+<![CDATA[Announcements and notices]]>
+</category>
+
+
+    <guid isPermaLink="false">
+https://news.fnal.gov/?p=26384</guid>
+
+                <description>
+<![CDATA[What’s New in LabVIEW 2015? CompactDAQ or CompactRIO? Could you Repeat the Question? New to LabVIEW? Existing LabVIEW User? Come to this event to meet your colleagues across the lab who use LabVIEW for their projects. In this session you will learn about the latest innovations in LabVIEW that increase code development efficiency and productivity. You will get the latest instrumentation technology updates from NI Week and NI Days. In the second part of the meeting, we focus on differentiating... <a class="more-link" href="http://news.fnal.gov/2015/12/labview-user-group-meeting/">
+ More &#187;</a>
+]]>
+</description>
+
+                          <comment>
+<![CDATA[<p>
+What’s New in LabVIEW 2015? CompactDAQ or CompactRIO? Could you Repeat the Question? New to LabVIEW? Existing LabVIEW User? Come to this event to meet your colleagues across the lab who use LabVIEW for their projects. In this session you will learn about the latest innovations in LabVIEW that increase code development efficiency and productivity. You will get the latest instrumentation technology updates from NI Week and NI Days. In the second part of the meeting, we focus on differentiating between CompactDAQ and CompactRIO hardware as we discuss data acquisition, remote monitoring, and control applications. Bring your questions. Coffee and donuts will be available. For more information and to enroll visit <a href="http://www-esh.fnal.gov/pls/default/schedule.show_course_details?cid=9381">
+http://www-esh.fnal.gov/pls/default/schedule.show_course_details?cid=9381</a>
+</p>
+
+]]>
+</comment>
+
+                        </item>
+
+    <item>
+
+    <title>
+Electrical products and NRTLs</title>
+
+    <link>
+http://news.fnal.gov/2015/12/electrical-products-nrtls/</link>
+
+    <pubDate>
+Fri, 04 Dec 2015 14:00:49 +0000</pubDate>
+
+    <creator>
+<![CDATA[asands]]>
+</creator>
+
+    		<category>
+<![CDATA[Safety]]>
+</category>
+
+
+    <guid isPermaLink="false">
+http://news.fnal.gov/?p=26044</guid>
+
+                <description>
+<![CDATA[There are tens, if not hundreds of thousands of electrical appliances and products across the Fermilab site. We expect that if a product comes with a cord and a plug, we can plug it into a receptacle and be safe. That’s not always true, though.]]>
+</description>
+
+                          <comment>
+<![CDATA[<div id="attachment_26146" style="width: 227px" class="wp-caption alignleft">
+<a href="http://news.fnal.gov/wp-content/uploads/2015/12/NRTL.png">
+<img class="wp-image-26146 size-medium" src="http://news.fnal.gov/wp-content/uploads/2015/12/NRTL-217x300.png" alt="Logos courtesy of OSHA and the European Commission on Enterprise." width="217" height="300" />
+</a>
+<p class="wp-caption-text">
+Logos courtesy of OSHA and the European Commission on Enterprise.</p>
+</div>
+
+<p>
+There are tens if not hundreds of thousands of electrical appliances and products across the Fermilab site. We expect that if a product comes with a cord and a plug, we can plug it into a receptacle and be safe. That’s not always true, though. Electrical products of inferior quality can be legally sold and bought that may not be safe to use.</p>
+
+<p>
+The Department of Energy, which owns the Fermilab site, has a higher standard that we, by contract, must follow. All electrical products here must be listed by a Nationally Recognized Testing Laboratory (NRTL) or pass a special inspection by electrical and fire protection SMEs. The special inspections are reserved for experimental apparatus and unique or limited-production equipment, such as the ones that power our accelerators.</p>
+
+<p>
+If a product plugs into an electrical receptacle (outlet), it must be listed by a NRTL if you want to use it at Fermilab. This applies to items that you bring onto the lab site (even a cell phone charger), as well as products that the laboratory buys. If something is NRTL-listed, it will bear that NRTL’s seal on a label or embossed into its case. You can see examples of some of the more common NRTL seals to the left. Please note that a CE (European Conformity) mark is not a NRTL seal and does not meet this requirement.</p>
+
+<p>
+A NRTL seal alone is no guarantee that a product will meet your needs. You may want a product to meet higher standards, but those standards have to be in addition to, not in place of, a NRTL listing.</p>
+
+<p>
+If you buy electrical products for the laboratory, it is your responsibility to be sure that the products you buy are NRTL-listed prior to purchase. If you use electrical products, it is your responsibility to check for that NRTL seal before placing a product into service.</p>
+
+<p>
+There is an increasing problem with counterfeit NRTL seals. Many seals are now printed on holographic stickers to make counterfeiting more difficult. If you have or receive products with an odd-looking NRTL seal or that otherwise don’t look right, please do not use that product and notify your <a href="http://esh-docdb.fnal.gov/cgi-bin/ShowDocument?docid=2626">
+Suspect / Counterfeit Item (S/CI) coordinator</a>
+.</p>
+
+<p>
+If you have any questions or concerns about electrical products and NRTL listings, please contact your <a href="http://www-esh.fnal.gov/pls/default/esh_home_page.contacts">
+Electrical Coordinators or Division Safety Officers</a>
+.</p>
+
+]]>
+</comment>
+
+                        </item>
+
+    <item>
+
+    <title>
+Snowball season</title>
+
+    <link>
+http://news.fnal.gov/2015/12/snowball-season/</link>
+
+    <pubDate>
+Fri, 04 Dec 2015 09:00:13 +0000</pubDate>
+
+    <creator>
+<![CDATA[leah]]>
+</creator>
+
+    		<category>
+<![CDATA[Photo]]>
+</category>
+
+
+    <guid isPermaLink="false">
+http://news.fnal.gov/?p=26137</guid>
+
+                <description>
+<![CDATA[Getting ready to pitch a snowball in the Fermilab village.]]>
+</description>
+
+                          <comment>
+<![CDATA[<div id="attachment_26143" style="width: 2458px" class="wp-caption alignleft">
+<a href="http://news.fnal.gov/wp-content/uploads/2015/12/20151122_1322431.jpg">
+<img src="http://news.fnal.gov/wp-content/uploads/2015/12/20151122_1322431.jpg" alt="The nine-year-old son of Tapasi Ghosh, Fermilab visiting scientist, gets ready to pitch a snowball in the Fermilab village. Photo: Tapasi Ghosh, Federal University of Goias" width="2448" height="3264" class="size-full wp-image-26143" />
+</a>
+<p class="wp-caption-text">
+The nine-year-old son of Tapasi Ghosh, Fermilab visiting scientist, gets ready to pitch a snowball in the Fermilab village. Photo: Tapasi Ghosh, Federal University of Goias</p>
+</div>
+
+]]>
+</comment>
+
+                        </item>
+
+    <item>
+
+    <title>
+Holometer rules out first theory of space-time correlations</title>
+
+    <link>
+http://news.fnal.gov/2015/12/holometer-rules-out-first-theory-of-space-time-correlations/</link>
+
+    <pubDate>
+Fri, 04 Dec 2015 03:05:52 +0000</pubDate>
+
+    <creator>
+<![CDATA[asalles]]>
+</creator>
+
+    		<category>
+<![CDATA[Feature]]>
+</category>
+
+		<category>
+<![CDATA[Fermilab at Work]]>
+</category>
+
+		<category>
+<![CDATA[Newsroom]]>
+</category>
+
+		<category>
+<![CDATA[Result]]>
+</category>
+
+		<category>
+<![CDATA[Story]]>
+</category>
+
+		<category>
+<![CDATA[Top News]]>
+</category>
+
+
+    <guid isPermaLink="false">
+http://news.fnal.gov/?p=26207</guid>
+
+                <description>
+<![CDATA[The extremely sensitive quantum-spacetime-measuring tool will serve as a template for scientific exploration in the years to come.]]>
+</description>
+
+                          <comment>
+<![CDATA[<div id="attachment_26351" style="width: 1034px" class="wp-caption alignnone">
+<a href="http://news.fnal.gov/wp-content/uploads/2015/12/Holometer-1.jpg">
+<img class="wp-image-26351 size-large" src="http://news.fnal.gov/wp-content/uploads/2015/12/Holometer-1-1024x683.jpg" alt="A member of the Holometer collaboration works on the sensitive space-time measuring device, located at Fermilab in Illinois. " width="1024" height="683" />
+</a>
+<p class="wp-caption-text">
+A member of the Holometer collaboration works on the sensitive space-time measuring device, located at Fermilab in Illinois. <em>
+Photo: Fermilab</em>
+</p>
+</div>
+
+<h4>
+<em>
+The extremely sensitive quantum-spacetime-measuring tool will serve as a template for scientific exploration in the years to come.</em>
+</h4>
+
+<p>
+There has never been anything like the Holometer.</p>
+
+<p>
+Based at the U.S. Department of Energy’s Fermilab in Illinois, the Holometer isn’t much to look at. It’s a small array of lasers and mirrors with a trailer for a control room. But the low-tech look of the device belies the fact that it is an unprecedentedly sensitive instrument, able to measure movements that last only a millionth of a second and distances that are a billionth of a billionth of a meter – a thousand times smaller than a single proton.</p>
+
+<p>
+Our common sense, and the laws of physics, assumes that space and time are continuous. The Holometer challenges this assumption. We know that energy on the atomic level, for instance, is not continuous and comes in small, indivisible amounts. The Holometer was built to test if space and time behave the same way.</p>
+
+<p>
+If they do, this would mean that everything is pixelated, like a digital image. When you zoom in far enough, you see that a digital image is not smooth, but made up of individual pixels. An image can only store as much data as the number of pixels allows. If the universe is similarly segmented, and hence more blurry than we think, then there would be a limit to the amount of information space-time can contain.</p>
+
+<p>
+The main theory the Holometer was built to test was posited by Craig Hogan, a professor of astronomy and physics at the University of Chicago and the head of Fermilab’s Center for Particle Astrophysics. In a new result released this week after a year of data-taking, the Holometer collaboration <a href="http://arxiv.org/abs/1512.01216">
+has announced</a>
+ that it has ruled out Hogan’s theory of a pixelated universe to a high level of statistical significance. This means the Holometer did not detect the amount of correlated holographic noise – quantum jitter – that this particular model of space-time predicts.</p>
+
+<p>
+But as Hogan emphasizes, that&#8217;s just one theory, and with the Holometer, this team of scientists has proven that space-time can be probed at an unprecedented level.</p>
+
+<p>
+“This is just the beginning of the story,” Hogan said. “We’ve developed a new way of studying space and time that we didn’t have before. We weren’t even sure we could attain the sensitivity we did.”</p>
+
+<p>
+The Holometer is a deceptively simple device. It uses a pair of laser interferometers placed close to one another, each sending a one-kilowatt beam of light through a beam splitter and down two perpendicular arms, 40 meters each. The light is then reflected back into the beam splitter where the two beams recombine. If no motion has occurred, then the recombined beam will be the same as the original beam. But if fluctuations in brightness are observed, researchers will then analyze these fluctuations to see if the splitter is moving in a certain way, being carried along on a jitter of space itself.</p>
+
+<p>
+According to Fermilab’s Aaron Chou, project manager of the Holometer experiment, the collaboration looked to the work done to design other, similar instruments, such as the one used in the Laser Interferometer Gravitational-Wave Observatory (LIGO) experiment. Chou said that once the Holometer team realized that this technology could be used to study the quantum fluctuation they were after, the work of other collaborations using laser interferometers (including LIGO) was invaluable.</p>
+
+<p>
+“No one has ever applied this technology in this way before,” Chou said. “A small team, mostly students, built an instrument nearly as sensitive as LIGO’s to look for something completely different.”</p>
+
+<p>
+The challenge for researchers using the Holometer is to eliminate all other sources of movement until they are left with a fluctuation they cannot explain. According to Fermilab’s Chris Stoughton, scientist on the Holometer experiment, the process of taking data was one of constantly adjusting the machine to remove more noise.</p>
+
+<p>
+“You would run the machine for a while, take data, and then try to get rid of all the fluctuation you could see before running it again,” he said. “The origin of the phenomenon we’re looking for is a billion billion times smaller than a proton, and the Holometer is extremely sensitive, so it picks up a lot of outside sources, such as wind and traffic.”</p>
+
+<p>
+If the Holometer were to see holographic noise that researchers could not eliminate, it might be detecting noise that is intrinsic to space-time, which may mean that information in our universe could actually be encoded in tiny packets in two dimensions.</p>
+
+<p>
+The fact that the Holometer ruled out his theory to a high level of significance proves that it can probe time and space at previously unimagined scales, Hogan said. It also proves that if this quantum jitter exists, it is either much smaller than the Holometer can detect, or is moving in directions the current instrument is not configured to observe.</p>
+
+<p>
+So what’s next? Hogan said the Holometer team will continue to take and analyze data, and will publish more general and more sensitive studies of holographic noise. The collaboration already <a href="http://www.fnal.gov/pub/today/archive/archive_2015/today15-04-09.html">
+released a result</a>
+ related to the study of gravitational waves.</p>
+
+<p>
+And Hogan is already putting forth a new model of holographic structure that would require similar instruments of the same sensitivity, but different configurations sensitive to the rotation of space. The Holometer, he said, will serve as a template for an entirely new field of experimental science.</p>
+
+<p>
+“It’s new technology, and the Holometer is just the first example of a new way of studying exotic correlations,” Hogan said. “It is just the first glimpse through a newly invented microscope.”</p>
+
+<p>
+The Holometer experiment is supported by funding from the U.S. Department of Energy Office of Science. The Holometer collaboration includes scientists from Fermilab, the University of Chicago, the Massachusetts Institute of Technology and the University of Michigan.</p>
+
+
+		<style type='text/css'>
+
+			#gallery-1 {
+				margin: auto;
+			}
+			#gallery-1 .gallery-item {
+				float: left;
+				margin-top: 10px;
+				text-align: center;
+				width: 50%;
+			}
+			#gallery-1 img {
+				border: 2px solid #cfcfcf;
+			}
+			#gallery-1 .gallery-caption {
+				margin-left: 0;
+			}
+			/* see gallery_shortcode() in wp-includes/media.php */
+		</style>
+
+		<div id='gallery-1' class='gallery galleryid-26207 gallery-columns-2 gallery-size-medium'>
+<dl class='gallery-item'>
+
+			<dt class='gallery-icon landscape'>
+
+				<a href='http://news.fnal.gov/wp-content/uploads/2015/12/Holometer-2.jpg'>
+<img width="300" height="200" src="http://news.fnal.gov/wp-content/uploads/2015/12/Holometer-2-300x200.jpg" class="attachment-medium" alt="Aaron Chou, project manager of the Holometer, and grad student Brittany Kamai work on the laser beam that powers the Holometer. Photo: Fermilab." aria-describedby="gallery-1-26354" />
+</a>
+
+			</dt>
+
+				<dd class='wp-caption-text gallery-caption' id='gallery-1-26354'>
+
+				Aaron Chou, project manager of the Holometer, and grad student Brittany Kamai work on the laser beam that powers the Holometer. Photo: Fermilab. 
+				</dd>
+</dl>
+<dl class='gallery-item'>
+
+			<dt class='gallery-icon landscape'>
+
+				<a href='http://news.fnal.gov/wp-content/uploads/2015/12/Holometer-3.jpg'>
+<img width="300" height="200" src="http://news.fnal.gov/wp-content/uploads/2015/12/Holometer-3-300x200.jpg" class="attachment-medium" alt="A scientist works on the laser interferometer at the heart of the Holometer experiment. Photo: Fermilab." aria-describedby="gallery-1-26357" />
+</a>
+
+			</dt>
+
+				<dd class='wp-caption-text gallery-caption' id='gallery-1-26357'>
+
+				A scientist works on the laser interferometer at the heart of the Holometer experiment. Photo: Fermilab. 
+				</dd>
+</dl>
+<br style="clear: both" />
+
+		</div>
+
+
+]]>
+</comment>
+
+                        </item>
+
+    <item>
+
+    <title>
+Tagged</title>
+
+    <link>
+http://news.fnal.gov/2015/12/kandziorski/</link>
+
+    <pubDate>
+Thu, 03 Dec 2015 09:00:56 +0000</pubDate>
+
+    <creator>
+<![CDATA[leah]]>
+</creator>
+
+    		<category>
+<![CDATA[Photo]]>
+</category>
+
+
+    <guid isPermaLink="false">
+https://news.fnal.gov/?p=24780</guid>
+
+                <description>
+<![CDATA[This deer was spotted near Wilson Road last week.]]>
+</description>
+
+                          <comment>
+<![CDATA[<div id="attachment_24783" style="width: 2602px" class="wp-caption alignleft">
+<a href="http://news.fnal.gov/wp-content/uploads/2015/11/2015-11-30_565ca0b538491_IMGP5702.JPG">
+<img class="size-full wp-image-24783" src="http://news.fnal.gov/wp-content/uploads/2015/11/2015-11-30_565ca0b538491_IMGP5702.JPG" alt="This deer was spotted near Wilson Road last week. Marty Jones, IDNR's Urban Deer Project Manager, confirmed that the deer was captured, collared and ear-tagged by the Cook County Forest Preserve District biologists on a preserve probably three winters ago. The deer moved to Fermilab shortly after being captured and has remained here. Photo: Al Kandziorski, TD" width="2592" height="1944" />
+</a>
+<p class="wp-caption-text">
+This deer was spotted near Wilson Road last week. Marty Jones, Urban Deer Project Manager for the Illinois Department of Natural Resources, confirmed that the deer was captured, collared and ear-tagged by the Cook County Forest Preserve District biologists on a preserve probably three winters ago. The deer moved to Fermilab shortly after being captured and has remained here. Photo: Al Kandziorski, TD</p>
+</div>
+
+<p>
+&nbsp;</p>
+
+]]>
+</comment>
+
+                        </item>
+
+  </channel>
+
+</rss>
