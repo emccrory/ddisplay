@@ -492,8 +492,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			this.myShutdownHook = new Thread("ShutdownHook_of_MessagingClient_" + username) {
 				public void run() {
 					close();
-					Runtime.getRuntime().removeShutdownHook(myShutdownHook);
-					myShutdownHook = null;
+					// Runtime.getRuntime().removeShutdownHook(myShutdownHook);  One does not remove the shutdown hook during a shutdown
+					// myShutdownHook = null;
 				}
 			};
 
