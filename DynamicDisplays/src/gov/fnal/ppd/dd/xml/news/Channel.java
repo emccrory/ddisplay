@@ -174,8 +174,17 @@ public class Channel {
 				for (Item I : c.item) {
 					if (I == null || I.getTitle() == null)
 						continue;
-					if (I.getTitle().length() < 10)
+					if (I.getTitle().length() < 2)
 						continue;
+
+					if (I.getTitle().toLowerCase().contains("for sale")) {
+						// System.err.println("A FOR SALE entry: " + mychop(I.getTitle()) + "</b>: " + mychop(I.getDescription()));
+						continue;
+					}
+					if (I.getTitle().toLowerCase().contains("full time work") || I.getTitle().toLowerCase().contains("part time work")) {
+						// System.err.println("A want ad entry: " + mychop(I.getTitle()) + "</b>: " + mychop(I.getDescription()));
+						continue;
+					}
 					if (I.getDescription() == null || I.getDescription().length() < 10)
 						System.out.println("<b>" + mychop(I.getTitle()) + "</b>");
 					else
