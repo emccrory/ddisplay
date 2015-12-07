@@ -397,10 +397,14 @@ public class ObjectSigning {
 								}
 							}
 						}
+					} catch (Exception e3) {
+						e3.printStackTrace();
+						System.err.println("Query0 = " + query0);
 					}
 
 				} catch (Exception e1) {
 					e1.printStackTrace();
+					System.err.println("Query was (likely): USE " + DATABASE_NAME);
 				}
 			}
 		} catch (Exception e2) {
