@@ -339,4 +339,17 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	protected void setWrapperType(WrapperType wrapperType) {
 		this.wrapperType = wrapperType;
 	}
+
+	@Override
+	protected String getStatusString() {
+		String retval = "";
+		if (!firefox.isConnected()) {
+			retval = "*NOT CONNECTED TO BROWSER* Last page " + getContent().getURI();
+		} else if (getContent() == null)
+			retval = "Off Line";
+		else {
+			retval = (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
+		}
+		return retval;
+	}
 }
