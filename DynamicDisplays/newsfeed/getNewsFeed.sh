@@ -38,14 +38,13 @@ rm -f tempN $xmlNewsFile $logNewsFile
 /bin/sed 's/>/>\n/g' tempN | grep -v "lastBuildDate" | sed 's-<br/>--g' | sed 's/dc://g' | sed 's/sy://g' | sed 's/content:encoded/comment/g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | sed 's/&lt;img .*&gt;//g' | /bin/sed 's///g'> $xmlNewsFile
 
 if $diff -q $xmlNewsFile old_$xmlNewsFile > /dev/null ; then
-  echo The Fermilab news has not changed
+    echo The Fermilab news has not changed >/dev/null
 else
-  echo Installing new Fermilab news
+    # echo Installing new Fermilab news
+    # $diff $xmlNewsFile old_$xmlNewsFile
 
-  $diff $xmlNewsFile old_$xmlNewsFile
-
-  /usr/bin/java gov.fnal.ppd.dd.xml.news.Channel $xmlNewsFile >> $interimFile
-  cp $interimFile $existingFile
-  cp -p $xmlNewsFile old_$xmlNewsFile
+    /usr/bin/java gov.fnal.ppd.dd.xml.news.Channel $xmlNewsFile >> $interimFile
+    cp $interimFile $existingFile
+    cp -p $xmlNewsFile old_$xmlNewsFile
 fi
 

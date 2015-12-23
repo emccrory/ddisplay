@@ -1,247 +1,75 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
-  xmlns:content="http://purl.org/rss/1.0/modules/content/"
-  xmlns:wfw="http://wellformedweb.org/CommentAPI/"
-  xmlns:dc="http://purl.org/dc/elements/1.1/"
-  xmlns:atom="http://www.w3.org/2005/Atom"
-  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
-  xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
-  >
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
 
 <channel>
-  <title>Fermilab at Work</title>
-  <atom:link href="http://news.fnal.gov/rss-faw" rel="self" type="application/rss+xml" />
-  <link>http://news.fnal.gov</link>
-  <!-- Feed Logo (optional) -->
-    <image>
-      <url>http://news.fnal.gov/wp-content/themes/fermilab-newsroom/img/icons/fnal-logomark-blue.png</url>
-      <title>
-        The latest news from News Center.      </title>
-      <link>http://news.fnal.gov</link>
-    </image>
-  <description>Fermilab news</description>
-  <lastBuildDate>Mon, 07 Dec 2015 15:30:41 +0000</lastBuildDate>
-  <language>en-US</language>
-  <sy:updatePeriod>hourly</sy:updatePeriod>
-  <sy:updateFrequency>1</sy:updateFrequency>
-  <generator>http://wordpress.org/?v=4.3.1</generator>
-  <item>
-    <title>All-hands meeting and labwide party &#8211; Dec. 18</title>
-    <link>http://news.fnal.gov/2015/12/all-hands-meeting-and-labwide-party-dec-18/</link>
-    <pubDate>Mon, 07 Dec 2015 14:06:19 +0000</pubDate>
-    <dc:creator><![CDATA[leah]]></dc:creator>
-    		<category><![CDATA[Announcements and notices]]></category>
-		<category><![CDATA[News you need]]></category>
 
-    <guid isPermaLink="false">http://news.fnal.gov/?p=26498</guid>
-                <description><![CDATA[An all-hands meeting will be held on Friday, Dec. 18, at 2 p.m. in Ramsey Auditorium. A labwide party will follow in the Wilson Hall atrium.]]></description>
-                          <content:encoded><![CDATA[<p>An all-hands meeting will be held on Friday, Dec. 18, at 2 p.m. in Ramsey Auditorium. A labwide party will follow in the Wilson Hall atrium.</p>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>Fermilab email migration this weekend</title>
-    <link>http://news.fnal.gov/2015/12/fermilab-email-migration-this-weekend/</link>
-    <pubDate>Mon, 07 Dec 2015 14:04:58 +0000</pubDate>
-    <dc:creator><![CDATA[leah]]></dc:creator>
-    		<category><![CDATA[Announcements and notices]]></category>
-		<category><![CDATA[News you need]]></category>
+    <title>News from Science</title>
+    <link>http://news.sciencemag.org/rss/current.xml</link>
+    <description>Up to the minute news and features from Science.</description>
+                <item>
+	<title><![CDATA[Top 10 images of 2015]]></title>
+	<link>http://news.sciencemag.org/scientific-community/2015/12/top-10-images-2015</link>
+	<pubDate>Wed, 23 Dec 2015 02:45:00 -0500</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/scientific-community/2015/12/top-10-images-2015?rss=1</guid>
+	<description>Some of the best of 2015</description>
+        <media:description>Some of the best of 2015</media:description>
+        <media:credit role="author">Nala Rogers</media:credit>
+        <media:category><![CDATA[Scientific Community]]></media:category>
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/composite.jpg?itok=0BczbWun" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/composite.jpg?itok=0BczbWun" height="60" width="60" />
+    </item>
 
-    <guid isPermaLink="false">http://news.fnal.gov/?p=26483</guid>
-                <description><![CDATA[From Dec. 13-14, the Core Computing Division will upgrade all Fermilab email users to Office 365 Exchange Online, a cloud-based version of Microsoft Exchange that offers significant increases in storage from the current on-site server.]]></description>
-                          <content:encoded><![CDATA[<p>The Core Computing Division will upgrade all Fermilab email users to Office 365 Exchange Online, a cloud-based version of Microsoft Exchange that offers significant increases in storage from the current on-site server. This migration will occur between Sunday, Dec. 13, at 10 a.m. and Monday, Dec. 14, at 7 a.m.</p>
-<p>Your action is required to complete the migration of your mailbox. In order to make this migration as simple as possible, here is the most important information you need to know:</p>
-<ol>
-<li>Your username will change to &lt;username&gt;@<strong>services</strong>.fnal.gov.</li>
-<li>Your email address will not You will not lose any emails.</li>
-<li><a href="https://mail-migration.fnal.gov" target="_blank">https://mail-migration.fnal.gov</a> provides more detailed instructions.</li>
-</ol>
-<p>&nbsp;</p>
-<p><strong>After migration, to access your mailbox you must:</strong></p>
-<ul>
-<li>Enter your SERVICES username in the form username@<strong>services</strong>.fnal.gov.</li>
-<li>Enter your SERVICES password.</li>
-<li><strong>Windows users: click &#8220;USE ANOTHER ACCOUNT&#8221;</strong><strong> before you enter your login information.</strong></li>
-</ul>
-<ul>
-<li><strong>Webmail users:</strong> go to fermimail.fnal.gov. Log in using your new username format (username@<strong>services</strong>.fnal.gov) and your Services password.</li>
-</ul>
-<ul>
-<li><strong>Non-Outlook users:</strong> reconfigure your mail clients to access your new mailbox. Instructions are at <a href="https://mail-migration.fnal.gov" target="_blank">https://mail-migration.fnal.gov</a>.</li>
-</ul>
-<p>The Service Desk will be available at x2345 and will have extended hours Sunday, Dec. 13, from 10 a.m. to 8 p.m. and Monday, Dec. 14, to Friday, Dec. 18, from 6:30 a.m. to 5 p.m.</p>
-<p>Local support teams will be in the Accelerator Division, Feynman Computing Center, Illinois Accelerator Research Center, Technical Division and Wilson Hall from Monday, Dec. 14, to Friday, Dec. 18.</p>
-<p>There will be an Ask Me About Email booth in the Wilson Hall atrium from Monday, Dec. 14, to Friday, Dec. 18, from 11:30 a.m. to 1:30 p.m.</p>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>Free Health Screenings for Active Employees</title>
-    <link>http://news.fnal.gov/2015/12/free-health-screenings-active-employees/</link>
-    <pubDate>Mon, 07 Dec 2015 12:55:28 +0000</pubDate>
-    <dc:creator><![CDATA[leah]]></dc:creator>
-    		<category><![CDATA[Announcements and notices]]></category>
+            <item>
+	<title><![CDATA[ScienceInsider’s top 15 stories of 2015]]></title>
+	<link>http://news.sciencemag.org/scientific-community/2015/12/scienceinsider-s-top-15-stories-2015</link>
+	<pubDate>Wed, 23 Dec 2015 02:30:00 -0500</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/scientific-community/2015/12/scienceinsider-s-top-15-stories-2015?rss=1</guid>
+	<description>From dangerous diseases to sexist peer reviewers, the stories you flocked to read.</description>
+        <media:description>From dangerous diseases to sexist peer reviewers, the stories you flocked to read.</media:description>
+        <media:credit role="author">David Malakoff</media:credit>
+        <media:category><![CDATA[Scientific Community]]></media:category>
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/si-tedcruzmotioning.jpg?itok=BaxB6aeU" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/si-tedcruzmotioning.jpg?itok=BaxB6aeU" height="60" width="60" />
+    </item>
 
-    <guid isPermaLink="false">https://news.fnal.gov/?p=26438</guid>
-                <description><![CDATA[Sign up now for your free health screening on January 12 or 13, 7:30am-12pm, at the Training Center. This screening offers active employees an opportunity to have their cholesterol, blood glucose, blood pressure and body composition checked. You will meet one-on-one with a Health Coach to review results, ask questions, and discuss health and wellness resources. A reminder e-mail will be sent to you. Employees that signed up last year should sign in as an Existing Customer using their Fermi... <a class="more-link" href="http://news.fnal.gov/2015/12/free-health-screenings-active-employees/"> More &#187;</a>]]></description>
-                          <content:encoded><![CDATA[<p>Sign up now for your free health screening on January 12 or 13, 7:30am-12pm, at the Training Center. This screening offers active employees an opportunity to have their cholesterol, blood glucose, blood pressure and body composition checked. You will meet one-on-one with a Health Coach to review results, ask questions, and discuss health and wellness resources. A reminder e-mail will be sent to you. Employees that signed up last year should sign in as an Existing Customer using their Fermi email and ID# (digits only). This 25 minute health screening is voluntary, confidential and offered at no charge to active employees. Your test results will not be shared with your company. To schedule your health screening* appointment, register at <a href="https://www.hsscreeningreg.com">https://www.hsscreeningreg.com</a> and enter the following username (fermi) and password (healthy). Contact Jeanne in the Wellness Office at <a href="mailto:jecker@fnal.gov">jecker@fnal.gov</a> or x2548 for more information.</p>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>Winter pond</title>
-    <link>http://news.fnal.gov/2015/12/winter-pond/</link>
-    <pubDate>Mon, 07 Dec 2015 09:00:29 +0000</pubDate>
-    <dc:creator><![CDATA[leah]]></dc:creator>
-    		<category><![CDATA[Photo]]></category>
+            <item>
+	<title><![CDATA[South Korea finally MERS-free]]></title>
+	<link>http://news.sciencemag.org/asia/2015/12/south-korea-finally-mers-free</link>
+	<pubDate>Wed, 23 Dec 2015 09:30:00 -0500</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/asia/2015/12/south-korea-finally-mers-free?rss=1</guid>
+	<description>One patient harbored virus for 6 months because of underlying condition</description>
+        <media:description>One patient harbored virus for 6 months because of underlying condition</media:description>
+        <media:credit role="author">Dennis Normile</media:credit>
+        <media:category><![CDATA[Asia]]></media:category>
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/si-MERSvirus.jpg?itok=0a6VnxxC" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/si-MERSvirus.jpg?itok=0a6VnxxC" height="60" width="60" />
+    </item>
 
-    <guid isPermaLink="false">http://news.fnal.gov/?p=26152</guid>
-                <description><![CDATA[Snow-covered branches and twigs reach over the water near the Lederman Science Center.]]></description>
-                          <content:encoded><![CDATA[<div id="attachment_26155" style="width: 1162px" class="wp-caption alignleft"><a href="http://news.fnal.gov/wp-content/uploads/2015/12/winter-by-the-pond.jpg"><img src="http://news.fnal.gov/wp-content/uploads/2015/12/winter-by-the-pond.jpg" alt="Snow-covered branches and twigs reach over the water near the Lederman Science Center. Photo: Amy Scroggins, Abri Credit Union" width="1152" height="864" class="size-full wp-image-26155" /></a><p class="wp-caption-text">Snow-covered branches and twigs reach over the water near the Lederman Science Center. Photo: Amy Scroggins, Abri Credit Union</p></div>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>“Harmonics” exhibit shares excitement of physics mysteries</title>
-    <link>http://news.fnal.gov/2015/12/harmonics-exhisics-mysteries/</link>
-    <pubDate>Mon, 07 Dec 2015 09:00:09 +0000</pubDate>
-    <dc:creator><![CDATA[leah]]></dc:creator>
-    		<category><![CDATA[Feature]]></category>
-		<category><![CDATA[Story]]></category>
+            <item>
+	<title><![CDATA[Video: Dogs show empathy during play]]></title>
+	<link>http://news.sciencemag.org/brain-behavior/2015/12/video-dogs-show-empathy-during-play</link>
+	<pubDate>Tue, 22 Dec 2015 07:15:00 -0500</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/brain-behavior/2015/12/video-dogs-show-empathy-during-play?rss=1</guid>
+	<description>Canines match each other’s facial expressions when having a good time</description>
+        <media:description>Canines match each other’s facial expressions when having a good time</media:description>
+        <media:credit role="author">Virginia Morell</media:credit>
+        <media:category><![CDATA[Brain & Behavior]]></media:category>
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/Play-Bow-by-Giada-Cordoni.jpg?itok=TEgIjyfc" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/Play-Bow-by-Giada-Cordoni.jpg?itok=TEgIjyfc" height="60" width="60" />
+    </item>
 
-    <guid isPermaLink="false">http://news.fnal.gov/?p=25621</guid>
-                <description><![CDATA[“Harmonics,” a new art exhibit currently on display in the Fermilab Art Gallery, showcases the work of Chicagoland painter and mixed-media artist Michelle Thrane.]]></description>
-                          <content:encoded><![CDATA[<div id="attachment_25624" style="width: 310px" class="wp-caption alignleft"><a href="http://news.fnal.gov/wp-content/uploads/2015/12/Spherical-Harmonics9.jpg"><img class="size-medium wp-image-25624" src="http://news.fnal.gov/wp-content/uploads/2015/12/Spherical-Harmonics9-300x284.jpg" alt="Spherical Harmonics No. 9 by Michele Thrane is now in display in the Fermilab Art Gallery." width="300" height="284" /></a><p class="wp-caption-text">Spherical Harmonics No. 9 by Michele Thrane is now in display in the Fermilab Art Gallery.</p></div>
-<p>“Harmonics,” a new art exhibit currently on display in the <a href="http://www.fnal.gov/pub/Art_Gallery/index.html">Fermilab Art Gallery</a>, showcases the work of Chicagoland painter and mixed-media artist <a href="http://www.michelethranesart.com">Michele Thrane</a>.</p>
-<p>An artist reception will be held on Friday, Dec. 11, from 5-7 p.m. in the gallery.</p>
-<p>Thrane’s “Harmonics” series is about family, art and physics. Her artwork is influenced by her son’s research. A physicist, his current work involves the search for gravitational waves. As he tries to better understand the universe, she is trying to share the excitement and awe he finds in the mysteries beyond what the eye can see.</p>
-<p>The work in the exhibit was created using the encaustic process. The encaustic medium consists of natural beeswax and damar resin combined with pigment. Heat is used throughout the process to keep the encaustic medium in a liquid state.</p>
-<p>Equations and graphs taken from her son’s published papers are also used in some of the artwork. The encaustic process is especially effective in creating depths and layers of mystery along with luminous colors—a good medium to explore the many-layered mysteries of the universe.</p>
-<p>Thrane’s artwork has been shown nationally and has been included in several exhibitions at the International Encaustic Conference. She is represented in the permanent collection of the Encaustic Art Institute in Santa Fe, New Mexico. She is one of the featured artists in the third edition of Linda Womack’s eBook, Embracing Encaustic, Volume 2.</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>LabVIEW User Group Meeting</title>
-    <link>http://news.fnal.gov/2015/12/labview-user-group-meeting/</link>
-    <pubDate>Fri, 04 Dec 2015 16:47:07 +0000</pubDate>
-    <dc:creator><![CDATA[leah]]></dc:creator>
-    		<category><![CDATA[Announcements and notices]]></category>
+            <item>
+	<title><![CDATA[Updated: NASA delays Mars InSight mission]]></title>
+	<link>http://news.sciencemag.org/space/2015/12/nasa-delays-mars-insight-mission</link>
+	<pubDate>Tue, 22 Dec 2015 05:00:00 -0500</pubDate>
+        <guid isPermaLink="true">http://news.sciencemag.org/space/2015/12/nasa-delays-mars-insight-mission?rss=1</guid>
+	<description>Leak in container holding seismometers forces suspension</description>
+        <media:description>Leak in container holding seismometers forces suspension</media:description>
+        <media:credit role="author">Eric Hand</media:credit>
+        <media:category><![CDATA[Space]]></media:category>
+        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/Mars%20InSight%20lander.jpg?itok=wza6BgeH" height="60" width="60" />
+	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/Mars%20InSight%20lander.jpg?itok=wza6BgeH" height="60" width="60" />
+    </item>
 
-    <guid isPermaLink="false">https://news.fnal.gov/?p=26384</guid>
-                <description><![CDATA[What’s New in LabVIEW 2015? CompactDAQ or CompactRIO? Could you Repeat the Question? New to LabVIEW? Existing LabVIEW User? Come to this event to meet your colleagues across the lab who use LabVIEW for their projects. In this session you will learn about the latest innovations in LabVIEW that increase code development efficiency and productivity. You will get the latest instrumentation technology updates from NI Week and NI Days. In the second part of the meeting, we focus on differentiating... <a class="more-link" href="http://news.fnal.gov/2015/12/labview-user-group-meeting/"> More &#187;</a>]]></description>
-                          <content:encoded><![CDATA[<p>What’s New in LabVIEW 2015? CompactDAQ or CompactRIO? Could you Repeat the Question? New to LabVIEW? Existing LabVIEW User? Come to this event to meet your colleagues across the lab who use LabVIEW for their projects. In this session you will learn about the latest innovations in LabVIEW that increase code development efficiency and productivity. You will get the latest instrumentation technology updates from NI Week and NI Days. In the second part of the meeting, we focus on differentiating between CompactDAQ and CompactRIO hardware as we discuss data acquisition, remote monitoring, and control applications. Bring your questions. Coffee and donuts will be available. For more information and to enroll visit <a href="http://www-esh.fnal.gov/pls/default/schedule.show_course_details?cid=9381">http://www-esh.fnal.gov/pls/default/schedule.show_course_details?cid=9381</a></p>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>Electrical products and NRTLs</title>
-    <link>http://news.fnal.gov/2015/12/electrical-products-nrtls/</link>
-    <pubDate>Fri, 04 Dec 2015 14:00:49 +0000</pubDate>
-    <dc:creator><![CDATA[asands]]></dc:creator>
-    		<category><![CDATA[Safety]]></category>
-
-    <guid isPermaLink="false">http://news.fnal.gov/?p=26044</guid>
-                <description><![CDATA[There are tens, if not hundreds of thousands of electrical appliances and products across the Fermilab site. We expect that if a product comes with a cord and a plug, we can plug it into a receptacle and be safe. That’s not always true, though.]]></description>
-                          <content:encoded><![CDATA[<div id="attachment_26146" style="width: 227px" class="wp-caption alignleft"><a href="http://news.fnal.gov/wp-content/uploads/2015/12/NRTL.png"><img class="wp-image-26146 size-medium" src="http://news.fnal.gov/wp-content/uploads/2015/12/NRTL-217x300.png" alt="Logos courtesy of OSHA and the European Commission on Enterprise." width="217" height="300" /></a><p class="wp-caption-text">Logos courtesy of OSHA and the European Commission on Enterprise.</p></div>
-<p>There are tens if not hundreds of thousands of electrical appliances and products across the Fermilab site. We expect that if a product comes with a cord and a plug, we can plug it into a receptacle and be safe. That’s not always true, though. Electrical products of inferior quality can be legally sold and bought that may not be safe to use.</p>
-<p>The Department of Energy, which owns the Fermilab site, has a higher standard that we, by contract, must follow. All electrical products here must be listed by a Nationally Recognized Testing Laboratory (NRTL) or pass a special inspection by electrical and fire protection SMEs. The special inspections are reserved for experimental apparatus and unique or limited-production equipment, such as the ones that power our accelerators.</p>
-<p>If a product plugs into an electrical receptacle (outlet), it must be listed by a NRTL if you want to use it at Fermilab. This applies to items that you bring onto the lab site (even a cell phone charger), as well as products that the laboratory buys. If something is NRTL-listed, it will bear that NRTL’s seal on a label or embossed into its case. You can see examples of some of the more common NRTL seals to the left. Please note that a CE (European Conformity) mark is not a NRTL seal and does not meet this requirement.</p>
-<p>A NRTL seal alone is no guarantee that a product will meet your needs. You may want a product to meet higher standards, but those standards have to be in addition to, not in place of, a NRTL listing.</p>
-<p>If you buy electrical products for the laboratory, it is your responsibility to be sure that the products you buy are NRTL-listed prior to purchase. If you use electrical products, it is your responsibility to check for that NRTL seal before placing a product into service.</p>
-<p>There is an increasing problem with counterfeit NRTL seals. Many seals are now printed on holographic stickers to make counterfeiting more difficult. If you have or receive products with an odd-looking NRTL seal or that otherwise don’t look right, please do not use that product and notify your <a href="http://esh-docdb.fnal.gov/cgi-bin/ShowDocument?docid=2626">Suspect / Counterfeit Item (S/CI) coordinator</a>.</p>
-<p>If you have any questions or concerns about electrical products and NRTL listings, please contact your <a href="http://www-esh.fnal.gov/pls/default/esh_home_page.contacts">Electrical Coordinators or Division Safety Officers</a>.</p>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>Snowball season</title>
-    <link>http://news.fnal.gov/2015/12/snowball-season/</link>
-    <pubDate>Fri, 04 Dec 2015 09:00:13 +0000</pubDate>
-    <dc:creator><![CDATA[leah]]></dc:creator>
-    		<category><![CDATA[Photo]]></category>
-
-    <guid isPermaLink="false">http://news.fnal.gov/?p=26137</guid>
-                <description><![CDATA[Getting ready to pitch a snowball in the Fermilab village.]]></description>
-                          <content:encoded><![CDATA[<div id="attachment_26143" style="width: 2458px" class="wp-caption alignleft"><a href="http://news.fnal.gov/wp-content/uploads/2015/12/20151122_1322431.jpg"><img src="http://news.fnal.gov/wp-content/uploads/2015/12/20151122_1322431.jpg" alt="The nine-year-old son of Tapasi Ghosh, Fermilab visiting scientist, gets ready to pitch a snowball in the Fermilab village. Photo: Tapasi Ghosh, Federal University of Goias" width="2448" height="3264" class="size-full wp-image-26143" /></a><p class="wp-caption-text">The nine-year-old son of Tapasi Ghosh, Fermilab visiting scientist, gets ready to pitch a snowball in the Fermilab village. Photo: Tapasi Ghosh, Federal University of Goias</p></div>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>Holometer rules out first theory of space-time correlations</title>
-    <link>http://news.fnal.gov/2015/12/holometer-rules-out-first-theory-of-space-time-correlations/</link>
-    <pubDate>Fri, 04 Dec 2015 03:05:52 +0000</pubDate>
-    <dc:creator><![CDATA[asalles]]></dc:creator>
-    		<category><![CDATA[Feature]]></category>
-		<category><![CDATA[Fermilab at Work]]></category>
-		<category><![CDATA[Newsroom]]></category>
-		<category><![CDATA[Result]]></category>
-		<category><![CDATA[Story]]></category>
-		<category><![CDATA[Top News]]></category>
-
-    <guid isPermaLink="false">http://news.fnal.gov/?p=26207</guid>
-                <description><![CDATA[The extremely sensitive quantum-spacetime-measuring tool will serve as a template for scientific exploration in the years to come.]]></description>
-                          <content:encoded><![CDATA[<div id="attachment_26351" style="width: 1034px" class="wp-caption alignnone"><a href="http://news.fnal.gov/wp-content/uploads/2015/12/Holometer-1.jpg"><img class="wp-image-26351 size-large" src="http://news.fnal.gov/wp-content/uploads/2015/12/Holometer-1-1024x683.jpg" alt="A member of the Holometer collaboration works on the sensitive space-time measuring device, located at Fermilab in Illinois. " width="1024" height="683" /></a><p class="wp-caption-text">A member of the Holometer collaboration works on the sensitive space-time measuring device, located at Fermilab in Illinois. <em>Photo: Fermilab</em></p></div>
-<h4><em>The extremely sensitive quantum-spacetime-measuring tool will serve as a template for scientific exploration in the years to come.</em></h4>
-<p>There has never been anything like the Holometer.</p>
-<p>Based at the U.S. Department of Energy’s Fermilab in Illinois, the Holometer isn’t much to look at. It’s a small array of lasers and mirrors with a trailer for a control room. But the low-tech look of the device belies the fact that it is an unprecedentedly sensitive instrument, able to measure movements that last only a millionth of a second and distances that are a billionth of a billionth of a meter – a thousand times smaller than a single proton.</p>
-<p>Our common sense, and the laws of physics, assumes that space and time are continuous. The Holometer challenges this assumption. We know that energy on the atomic level, for instance, is not continuous and comes in small, indivisible amounts. The Holometer was built to test if space and time behave the same way.</p>
-<p>If they do, this would mean that everything is pixelated, like a digital image. When you zoom in far enough, you see that a digital image is not smooth, but made up of individual pixels. An image can only store as much data as the number of pixels allows. If the universe is similarly segmented, and hence more blurry than we think, then there would be a limit to the amount of information space-time can contain.</p>
-<p>The main theory the Holometer was built to test was posited by Craig Hogan, a professor of astronomy and physics at the University of Chicago and the head of Fermilab’s Center for Particle Astrophysics. In a new result released this week after a year of data-taking, the Holometer collaboration <a href="http://arxiv.org/abs/1512.01216">has announced</a> that it has ruled out Hogan’s theory of a pixelated universe to a high level of statistical significance. This means the Holometer did not detect the amount of correlated holographic noise – quantum jitter – that this particular model of space-time predicts.</p>
-<p>But as Hogan emphasizes, that&#8217;s just one theory, and with the Holometer, this team of scientists has proven that space-time can be probed at an unprecedented level.</p>
-<p>“This is just the beginning of the story,” Hogan said. “We’ve developed a new way of studying space and time that we didn’t have before. We weren’t even sure we could attain the sensitivity we did.”</p>
-<p>The Holometer is a deceptively simple device. It uses a pair of laser interferometers placed close to one another, each sending a one-kilowatt beam of light through a beam splitter and down two perpendicular arms, 40 meters each. The light is then reflected back into the beam splitter where the two beams recombine. If no motion has occurred, then the recombined beam will be the same as the original beam. But if fluctuations in brightness are observed, researchers will then analyze these fluctuations to see if the splitter is moving in a certain way, being carried along on a jitter of space itself.</p>
-<p>According to Fermilab’s Aaron Chou, project manager of the Holometer experiment, the collaboration looked to the work done to design other, similar instruments, such as the one used in the Laser Interferometer Gravitational-Wave Observatory (LIGO) experiment. Chou said that once the Holometer team realized that this technology could be used to study the quantum fluctuation they were after, the work of other collaborations using laser interferometers (including LIGO) was invaluable.</p>
-<p>“No one has ever applied this technology in this way before,” Chou said. “A small team, mostly students, built an instrument nearly as sensitive as LIGO’s to look for something completely different.”</p>
-<p>The challenge for researchers using the Holometer is to eliminate all other sources of movement until they are left with a fluctuation they cannot explain. According to Fermilab’s Chris Stoughton, scientist on the Holometer experiment, the process of taking data was one of constantly adjusting the machine to remove more noise.</p>
-<p>“You would run the machine for a while, take data, and then try to get rid of all the fluctuation you could see before running it again,” he said. “The origin of the phenomenon we’re looking for is a billion billion times smaller than a proton, and the Holometer is extremely sensitive, so it picks up a lot of outside sources, such as wind and traffic.”</p>
-<p>If the Holometer were to see holographic noise that researchers could not eliminate, it might be detecting noise that is intrinsic to space-time, which may mean that information in our universe could actually be encoded in tiny packets in two dimensions.</p>
-<p>The fact that the Holometer ruled out his theory to a high level of significance proves that it can probe time and space at previously unimagined scales, Hogan said. It also proves that if this quantum jitter exists, it is either much smaller than the Holometer can detect, or is moving in directions the current instrument is not configured to observe.</p>
-<p>So what’s next? Hogan said the Holometer team will continue to take and analyze data, and will publish more general and more sensitive studies of holographic noise. The collaboration already <a href="http://www.fnal.gov/pub/today/archive/archive_2015/today15-04-09.html">released a result</a> related to the study of gravitational waves.</p>
-<p>And Hogan is already putting forth a new model of holographic structure that would require similar instruments of the same sensitivity, but different configurations sensitive to the rotation of space. The Holometer, he said, will serve as a template for an entirely new field of experimental science.</p>
-<p>“It’s new technology, and the Holometer is just the first example of a new way of studying exotic correlations,” Hogan said. “It is just the first glimpse through a newly invented microscope.”</p>
-<p>The Holometer experiment is supported by funding from the U.S. Department of Energy Office of Science. The Holometer collaboration includes scientists from Fermilab, the University of Chicago, the Massachusetts Institute of Technology and the University of Michigan.</p>
-
-		<style type='text/css'>
-			#gallery-1 {
-				margin: auto;
-			}
-			#gallery-1 .gallery-item {
-				float: left;
-				margin-top: 10px;
-				text-align: center;
-				width: 50%;
-			}
-			#gallery-1 img {
-				border: 2px solid #cfcfcf;
-			}
-			#gallery-1 .gallery-caption {
-				margin-left: 0;
-			}
-			/* see gallery_shortcode() in wp-includes/media.php */
-		</style>
-		<div id='gallery-1' class='gallery galleryid-26207 gallery-columns-2 gallery-size-medium'><dl class='gallery-item'>
-			<dt class='gallery-icon landscape'>
-				<a href='http://news.fnal.gov/wp-content/uploads/2015/12/Holometer-2.jpg'><img width="300" height="200" src="http://news.fnal.gov/wp-content/uploads/2015/12/Holometer-2-300x200.jpg" class="attachment-medium" alt="Aaron Chou, project manager of the Holometer, and grad student Brittany Kamai work on the laser beam that powers the Holometer. Photo: Fermilab." aria-describedby="gallery-1-26354" /></a>
-			</dt>
-				<dd class='wp-caption-text gallery-caption' id='gallery-1-26354'>
-				Aaron Chou, project manager of the Holometer, and grad student Brittany Kamai work on the laser beam that powers the Holometer. Photo: Fermilab. 
-				</dd></dl><dl class='gallery-item'>
-			<dt class='gallery-icon landscape'>
-				<a href='http://news.fnal.gov/wp-content/uploads/2015/12/Holometer-3.jpg'><img width="300" height="200" src="http://news.fnal.gov/wp-content/uploads/2015/12/Holometer-3-300x200.jpg" class="attachment-medium" alt="A scientist works on the laser interferometer at the heart of the Holometer experiment. Photo: Fermilab." aria-describedby="gallery-1-26357" /></a>
-			</dt>
-				<dd class='wp-caption-text gallery-caption' id='gallery-1-26357'>
-				A scientist works on the laser interferometer at the heart of the Holometer experiment. Photo: Fermilab. 
-				</dd></dl><br style="clear: both" />
-		</div>
-
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>Tagged</title>
-    <link>http://news.fnal.gov/2015/12/kandziorski/</link>
-    <pubDate>Thu, 03 Dec 2015 09:00:56 +0000</pubDate>
-    <dc:creator><![CDATA[leah]]></dc:creator>
-    		<category><![CDATA[Photo]]></category>
-
-    <guid isPermaLink="false">https://news.fnal.gov/?p=24780</guid>
-                <description><![CDATA[This deer was spotted near Wilson Road last week.]]></description>
-                          <content:encoded><![CDATA[<div id="attachment_24783" style="width: 2602px" class="wp-caption alignleft"><a href="http://news.fnal.gov/wp-content/uploads/2015/11/2015-11-30_565ca0b538491_IMGP5702.JPG"><img class="size-full wp-image-24783" src="http://news.fnal.gov/wp-content/uploads/2015/11/2015-11-30_565ca0b538491_IMGP5702.JPG" alt="This deer was spotted near Wilson Road last week. Marty Jones, IDNR's Urban Deer Project Manager, confirmed that the deer was captured, collared and ear-tagged by the Cook County Forest Preserve District biologists on a preserve probably three winters ago. The deer moved to Fermilab shortly after being captured and has remained here. Photo: Al Kandziorski, TD" width="2592" height="1944" /></a><p class="wp-caption-text">This deer was spotted near Wilson Road last week. Marty Jones, Urban Deer Project Manager for the Illinois Department of Natural Resources, confirmed that the deer was captured, collared and ear-tagged by the Cook County Forest Preserve District biologists on a preserve probably three winters ago. The deer moved to Fermilab shortly after being captured and has remained here. Photo: Al Kandziorski, TD</p></div>
-<p>&nbsp;</p>
-]]></content:encoded>
-                        </item>
-  </channel>
+</channel>
 </rss>

@@ -22,10 +22,10 @@
   /bin/sed 's/>/>\n/g' tempN | sed 's-<br/>--g' | sed 's/dc://g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | sed 's/&lt;img .*&gt;//g' > $xmlNewsFile
 
 if $diff -q $xmlNewsFile old_$xmlNewsFile > /dev/null ; then
-  echo The news from Science has not changed
+  echo The news from Science has not changed > /dev/null
 else
-  echo Installing new Science news
-  $diff $xmlNewsFile old_$xmlNewsFile
+  # echo Installing new Science news
+  # $diff $xmlNewsFile old_$xmlNewsFile
 
   /usr/bin/java gov.fnal.ppd.dd.xml.news.Channel $xmlNewsFile > science.txt
   cp -p $xmlNewsFile old_$xmlNewsFile
