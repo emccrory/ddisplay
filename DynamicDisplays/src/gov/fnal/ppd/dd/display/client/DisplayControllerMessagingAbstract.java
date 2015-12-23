@@ -20,6 +20,7 @@ import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.version.VersionInformation;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -51,7 +52,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	protected static final long		SOCKET_ALIVE_INTERVAL	= 2500l;
 	protected static final long		SHOW_SPLASH_SCREEN_TIME	= 15000l;
 
-	private String					nowShowing				= "Startup Splash Screen";
+	private boolean					offLine					= false;
 
 	protected static final String	OFF_LINE				= "Off Line";
 
@@ -67,6 +68,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private String					myName;
 	private int						statusUpdatePeriod		= 10;
 	protected boolean				showNumber				= true;
+	protected VersionInformation	versionInfo				= VersionInformation.getVersionInformation();
 
 	// Use messaging to get change requests from the changers -->
 	// private boolean actAsServerNoMessages = true;
@@ -160,7 +162,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			public void run() {
 				System.err.println("Exit hook called."); // This does not actually get printed.
 				keepGoing = false;
-				nowShowing = OFF_LINE;
+				offLine = true;
 				updateMyStatus();
 
 				endAllConnections();
@@ -181,14 +183,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 					Date dNow = new Date();
 					SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					if (OFF_LINE.equalsIgnoreCase(nowShowing) || getContent() == null)
-						statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow)
-								+ "',Content='Off Line' where DisplayID=" + getDBDisplayNumber();
-					else {
-						String cont = (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
-						statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + cont
-								+ "' where DisplayID=" + getDBDisplayNumber();
-					}
+					String statusString = getStatusString();
+					if (offLine)
+						statusString = "Off Line";
+					statusString = "V" + versionInfo.getVersionString() + " " + statusString;
+
+					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + statusString
+							+ "' where DisplayID=" + getDBDisplayNumber();
+
 					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 					int numRows = stmt.executeUpdate(statementString);
 					if (numRows == 0 || numRows > 1) {
@@ -220,6 +222,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			return;
 		}
 	}
+
+	protected abstract String getStatusString();
 
 	public final void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
@@ -492,7 +496,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			this.myShutdownHook = new Thread("ShutdownHook_of_MessagingClient_" + username) {
 				public void run() {
 					close();
-					// Runtime.getRuntime().removeShutdownHook(myShutdownHook);  One does not remove the shutdown hook during a shutdown
+					// Runtime.getRuntime().removeShutdownHook(myShutdownHook); One does not remove the shutdown hook during a
+					// shutdown
 					// myShutdownHook = null;
 				}
 			};
