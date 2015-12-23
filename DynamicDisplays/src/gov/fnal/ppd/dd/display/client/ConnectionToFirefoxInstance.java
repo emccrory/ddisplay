@@ -302,16 +302,42 @@ public class ConnectionToFirefoxInstance {
 			if (numberOfScreens > 1)
 				System.err.println("Exception on port #" + port);
 			e.printStackTrace();
-			connected = false;
+			setConnected(false);
 			return false;
 		}
 		// }
 		// return true;
 	}
 
+	private boolean	tryingToCloseNow	= false;
+
+	private synchronized void setConnected(boolean con) {
+		if (!con && !tryingToCloseNow) {
+			tryingToCloseNow = true;
+			println(ConnectionToFirefoxInstance.class, "\n\n\t\tCLOSING connection to FireFox\n\n");
+			try {
+				kkSocket.close();
+				out.close();
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			kkSocket = null;
+			out = null;
+			in = null;
+			new Thread("RestartConnectionToFireFox") {
+				public void run() {
+					catchSleep(2000L);
+					openConnection();
+					tryingToCloseNow = false;
+				}
+			}.start();
+		}
+		connected = con;
+	}
+
 	private boolean isNumberHidden() {
 		return !showNumber;
-		// return (dbID == 13 || dbID == 14 || dbID == 15 || dbID == 16);
 	}
 
 	/**
@@ -327,12 +353,11 @@ public class ConnectionToFirefoxInstance {
 		send(s);
 
 		try {
-			waitForServer();
-			if (!connected)
+			if (!waitForServer())
 				System.err.println(getClass().getName() + ".forceRefresh()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			connected = false;
+			setConnected(false);
 		}
 
 		// if (lastURL == null)
@@ -355,7 +380,7 @@ public class ConnectionToFirefoxInstance {
 		// System.err.println(getClass().getName() + ".forceRefresh()" + instance + " -- error from Display server!");
 		// } catch (IOException e) {
 		// e.printStackTrace();
-		// connected = false;
+		// setConnected(false;
 		// }
 	}
 
@@ -385,12 +410,11 @@ public class ConnectionToFirefoxInstance {
 		send(s);
 
 		try {
-			waitForServer();
-			if (!connected)
+			if (!waitForServer())
 				System.err.println(getClass().getName() + ".showIdentity()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			connected = false;
+			setConnected(false);
 		}
 
 		// TODO -- Add the PNG image of the QR code here. Generate it with this:
@@ -420,12 +444,11 @@ public class ConnectionToFirefoxInstance {
 		send(s);
 
 		try {
-			waitForServer();
-			if (!connected)
+			if (!waitForServer())
 				System.err.println(getClass().getName() + ".removeIdentity()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			connected = false;
+			setConnected(false);
 		}
 	}
 
@@ -438,12 +461,11 @@ public class ConnectionToFirefoxInstance {
 		send(s);
 
 		try {
-			waitForServer();
-			if (!connected)
+			if (!waitForServer())
 				System.err.println(getClass().getName() + ".showFrame()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			connected = false;
+			setConnected(false);
 		}
 	}
 
@@ -456,12 +478,11 @@ public class ConnectionToFirefoxInstance {
 		send(s);
 
 		try {
-			waitForServer();
-			if (!connected)
+			if (!waitForServer())
 				System.err.println(getClass().getName() + ".hideFrame()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			connected = false;
+			setConnected(false);
 		}
 	}
 
@@ -494,8 +515,10 @@ public class ConnectionToFirefoxInstance {
 	private void openConnection() {
 		new Thread("OpenConToFirefox") {
 			public void run() {
-				if (connected)
+				if (connected) {
 					println(getClass(), " -- already connected!");
+					return;
+				}
 				long delay = 1000L;
 				while (!connected)
 					try {
@@ -507,7 +530,7 @@ public class ConnectionToFirefoxInstance {
 						in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
 						kkSocket.setSoTimeout(10000);
 						println(getClass(), "\tInput stream established");
-						connected = true;
+						setConnected(true);
 						println(getClass(), " ** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
 								+ " ** -- " + new Date());
 					} catch (UnknownHostException e) {
@@ -521,7 +544,7 @@ public class ConnectionToFirefoxInstance {
 							e.printStackTrace();
 						}
 						catchSleep(delay);
-						delay += 1000L;
+						delay = Math.min(delay + 1000L, 30000L);
 					}
 			}
 		}.start();
@@ -576,11 +599,11 @@ public class ConnectionToFirefoxInstance {
 				/*
 				 * Generally, when the return value contains "error", there was a problem.
 				 */
-				connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
+				setConnected(numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\""));
 			} catch (SocketTimeoutException e) {
 				System.err.println(new Date() + " " + ConnectionToFirefoxInstance.class.getSimpleName()
 						+ ".waitForServer(): No response from Firefox plugin");
-				connected = false;
+				setConnected(false);
 			}
 		}
 		println(getClass(), instance + " Returning from waitForServer(), connected=" + connected);
@@ -597,12 +620,11 @@ public class ConnectionToFirefoxInstance {
 		send(s);
 
 		try {
-			waitForServer();
-			if (!connected)
+			if (!waitForServer())
 				System.err.println(getClass().getName() + ".removeIdentity()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			connected = false;
+			setConnected(false);
 		}
 	}
 
