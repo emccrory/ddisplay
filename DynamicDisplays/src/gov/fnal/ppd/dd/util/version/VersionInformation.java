@@ -262,8 +262,9 @@ public class VersionInformation implements Serializable {
 	 * @return the most recent save of this persistent object as stored on the project's web site
 	 */
 	public static VersionInformation getDBVersionInformation(FLAVOR f) {
+		assert(f != null);
 		VersionInformation vi = null;
-
+			
 		Connection connection;
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
@@ -271,9 +272,20 @@ public class VersionInformation implements Serializable {
 			synchronized (connection) {
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 
-					String query = "SELECT * from GitHashDecode ORDER BY HashDate DESC LIMIT 1";
-					if (f != null)
-						query = "SELECT * from GitHashDecode WHERE Flavor='" + f + "' ORDER BY HashDate DESC LIMIT 1";
+					String whereClause = "";
+					switch (f) {
+					case PRODUCTION:
+						whereClause += "WHERE Flavor='" + FLAVOR.PRODUCTION + "'";
+						break						;
+						
+					case TEST:
+						whereClause += "WHERE Flavor='" + FLAVOR.PRODUCTION + "' OR Flavor='" + FLAVOR.TEST + "'";
+						break;
+						
+					case DEVELOPMENT:
+						break;
+					}
+					String query = "SELECT * from GitHashDecode " + whereClause + " ORDER BY HashDate DESC LIMIT 1";
 
 					try (ResultSet rs = stmt.executeQuery(query);) {
 						if (rs.first()) { // Move to first returned row
