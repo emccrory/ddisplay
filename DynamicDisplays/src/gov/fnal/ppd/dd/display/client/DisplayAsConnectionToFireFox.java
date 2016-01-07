@@ -343,7 +343,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	@Override
 	protected String getStatusString() {
 		String retval = "";
-		if (!firefox.isConnected()) {
+		if (firefox == null) {
+				retval = "*NOT CONNECTED TO BROWSER* Initializing ...";
+		} else if (!firefox.isConnected()) {
 			retval = "*NOT CONNECTED TO BROWSER* Last page " + getContent().getURI();
 		} else if (getContent() == null)
 			retval = "Off Line";
