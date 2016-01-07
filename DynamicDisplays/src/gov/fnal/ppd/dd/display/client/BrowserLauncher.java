@@ -140,11 +140,9 @@ public class BrowserLauncher {
 					e1.printStackTrace();
 					System.exit(-1);
 				}
-
 			}
 			break;
 		}
-
 	}
 
 	/**
