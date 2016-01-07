@@ -23,11 +23,13 @@ import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
+import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.SelectorInstructions;
 
+import java.awt.Rectangle;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Connection;
@@ -90,7 +92,11 @@ public class MakeChannelSelector {
 			f.setContentPane(h);
 			f.setSize(screenDimension);
 		}
+		// If there is no "screen number 1", this call will return the same rectangle as a call to getBounds(0).
+		Rectangle bounds = ScreenLayoutInterpreter.getBounds(1);
+		
 		f.setVisible(true);
+		f.setLocation(bounds.x, 0);
 
 		if (missing)
 			JOptionPane.showMessageDialog(null, "This device, " + myIPName + ", is not listed in the Dynamics Display database; "
