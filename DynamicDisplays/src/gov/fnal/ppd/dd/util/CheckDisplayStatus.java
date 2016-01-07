@@ -6,15 +6,14 @@
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.PING_INTERVAL;
+import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.changer.DisplayButtons;
 import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.display.DisplayListDatabaseRemote;
 import gov.fnal.ppd.dd.signage.Display;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,10 +30,11 @@ import javax.swing.JLabel;
  */
 public class CheckDisplayStatus extends Thread {
 
-	private Display							display;
-	private int								index;
-	private JLabel							footer;
-	// private List<List<ChannelButtonGrid>>	grids;
+	private Display	display;
+	private int		index;
+	private JLabel	footer;
+
+	// private List<List<ChannelButtonGrid>> grids;
 
 	/**
 	 * @param display
@@ -79,9 +79,11 @@ public class CheckDisplayStatus extends Thread {
 									footer.setToolTipText(contentName);
 
 									if (display instanceof DisplayFacade) {
-										// It should fall here; all displays on this side are DisplayFacade's
-										DisplayFacade myDisplay = (DisplayFacade) display;
-										myDisplay.setContentValueBackdoor(contentName);
+										if (!contentName.equals(SELF_IDENTIFY)) {
+											// It should fall here; all displays on this side are DisplayFacade's
+											DisplayFacade myDisplay = (DisplayFacade) display;
+											myDisplay.setContentValueBackdoor(contentName);
+										}
 									}
 
 									DisplayButtons.setToolTip(display);
