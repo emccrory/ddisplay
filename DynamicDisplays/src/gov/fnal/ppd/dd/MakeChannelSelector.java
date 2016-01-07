@@ -96,7 +96,7 @@ public class MakeChannelSelector {
 		Rectangle bounds = ScreenLayoutInterpreter.getBounds(1);
 		
 		f.setVisible(true);
-		f.setLocation(bounds.x, 0);
+		f.setLocation(bounds.x, bounds.y);
 
 		if (missing)
 			JOptionPane.showMessageDialog(null, "This device, " + myIPName + ", is not listed in the Dynamics Display database; "
