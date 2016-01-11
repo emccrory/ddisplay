@@ -16,7 +16,7 @@ import javax.swing.border.Border;
 /**
  * Create a JButton that can be put into a ButtonGroup. represents a Channel for a Display or a Display
  * 
- * @author Elliott McCrory, Fermilab AD/Instrumentation, 2012
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2012-16
  */
 public class DDButton extends JButton {
 
