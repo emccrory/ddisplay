@@ -37,9 +37,19 @@ public class GlobalVariables {
 	public static boolean		IS_PUBLIC_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.public");
 
 	/**
+	 * Is this a controller that is thought to be used by a docent?
+	 */
+	public static boolean		IS_DOCENT_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.docent");
+
+	/**
 	 * Does the user want to have the database index for the display shown (default) or the virtual display numbers?
 	 */
 	public static boolean		SHOW_VIRTUAL_DISPLAY_NUMS	= Boolean.getBoolean("ddisplay.virtualdisplaynumbers");
+
+	/**
+	 * Does the user want to show and extended display name on the display buttons?
+	 */
+	public static boolean		SHOW_EXTENDED_DISPLAY_NAMES	= Boolean.getBoolean("ddisplay.extendeddisplaynnames");
 
 	/**
 	 * How long since last user activity?
@@ -92,6 +102,9 @@ public class GlobalVariables {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
+
+		if (IS_PUBLIC_CONTROLLER)
+			SHOW_EXTENDED_DISPLAY_NAMES = true;
 	}
 
 	/**

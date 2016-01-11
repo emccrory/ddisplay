@@ -31,8 +31,9 @@ public class DisplayListFactory {
 	public static List<Display> getInstance(final SignageType type, final int locationCode) {
 		if (type == SignageType.XOC)
 			return new DisplayListDatabaseRemote(locationCode);
-		if (type == SignageType.Experiment)
-			throw new RuntimeException("Unimplemented code!");
+		// if (type == SignageType.Experiment)
+		// throw new RuntimeException("Unimplemented code!");
+		// SignageType == Experiment means a "Public" controller for a Docent.
 
 		// Public only
 		List<Display> retval = new ArrayList<Display>();

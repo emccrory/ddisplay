@@ -9,8 +9,10 @@ import static gov.fnal.ppd.dd.ChannelSelector.SHOW_DOCENT_TAB;
 import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.IS_DOCENT_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_EXTENDED_DISPLAY_NAMES;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
@@ -139,7 +141,10 @@ public class MakeChannelSelector {
 
 								SHOW_DOCENT_TAB = rs2.getBoolean("DocentTab");
 								myClassification = rs2.getString("Type");
-								IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
+								IS_PUBLIC_CONTROLLER = "Public".equals(myClassification) || "Experiment".equals(myClassification);
+								IS_DOCENT_CONTROLLER = "Experiment".equals(myClassification);
+								if ( IS_PUBLIC_CONTROLLER ) 
+									SHOW_EXTENDED_DISPLAY_NAMES = true;
 
 								final SignageType sType = SignageType.valueOf(myClassification);
 

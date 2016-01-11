@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.INSET_SIZE;
+import static gov.fnal.ppd.dd.GlobalVariables.IS_DOCENT_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
@@ -630,13 +631,13 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			}
 			titleBox.add(lockButton);
 
-			// NEVER add the exit button to the full-screen version.
-			// if (!IS_PUBLIC_CONTROLLER) {
-			// titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
-			// titleBox.add(exitButton);
-			// }
-			// } else {
-			// titleBox.add(addChannelButton);
+			// Do not add the exit button to the full-screen version for a truly public controller.
+			if (IS_DOCENT_CONTROLLER) {
+				titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+				titleBox.add(exitButton);
+			}
+//		} else {
+//			titleBox.add(addChannelButton);
 		}
 
 		titleBox.setOpaque(true);

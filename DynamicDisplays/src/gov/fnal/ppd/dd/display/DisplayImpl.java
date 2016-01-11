@@ -5,6 +5,7 @@
  */
 package gov.fnal.ppd.dd.display;
 
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_EXTENDED_DISPLAY_NAMES;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_VIRTUAL_DISPLAY_NUMS;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -152,32 +153,35 @@ public abstract class DisplayImpl implements Display {
 
 	@Override
 	public String toString() {
-		int displayNumber = getDBDisplayNumber();
-		if (SHOW_VIRTUAL_DISPLAY_NUMS)
-			displayNumber = getVirtualDisplayNumber();
+		if (SHOW_EXTENDED_DISPLAY_NAMES) {
+			return "<html>Display " + getVirtualDisplayNumber()  + " | " + getDBDisplayNumber() + "<br>" + getLocation() + "</html>";
+		} else {
+			int displayNumber = getDBDisplayNumber();
+			if (SHOW_VIRTUAL_DISPLAY_NUMS)
+				displayNumber = getVirtualDisplayNumber();
 
-		// FIXME Only works correctly up to 9999 total displays. That should be enough for now. :-)
-		if (displayCount >= 1000) {
-			if (displayNumber < 10)
-				return "Display 000" + displayNumber;
-			else if (displayNumber < 100)
-				return "Display 00" + displayNumber;
-			else if (displayNumber < 1000)
-				return "Display 0" + displayNumber;
+			// FIXME Only works correctly up to 9999 total displays. That should be enough for now. :-)
+			if (displayCount >= 1000) {
+				if (displayNumber < 10)
+					return "Display 000" + displayNumber;
+				else if (displayNumber < 100)
+					return "Display 00" + displayNumber;
+				else if (displayNumber < 1000)
+					return "Display 0" + displayNumber;
 
-		} else if (displayCount >= 100) {
-			if (displayNumber < 10)
-				return "Display 00" + displayNumber;
-			else if (displayNumber < 100)
-				return "Display 0" + displayNumber;
+			} else if (displayCount >= 100) {
+				if (displayNumber < 10)
+					return "Display 00" + displayNumber;
+				else if (displayNumber < 100)
+					return "Display 0" + displayNumber;
 
-		} else if (displayCount >= 10) {
-			if (displayNumber < 10)
-				return "Display 0" + displayNumber;
+			} else if (displayCount >= 10) {
+				if (displayNumber < 10)
+					return "Display 0" + displayNumber;
+			}
 
+			return "Display " + displayNumber;
 		}
-
-		return "Display " + displayNumber;
 	}
 
 	// @Override
