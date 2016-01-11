@@ -35,9 +35,9 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
 
 /**
- * Create the widget of the available displays for the Dynamic Displays "Channel Changer"
+ * Create the widget of the available displays for the Dynamic Displays "Channel Selector"
  * 
- * @author Elliott McCrory, Fermilab AD, 2012-14
+ * @author Elliott McCrory, Fermilab AD, 2012-16
  */
 public class DisplayButtons extends JPanel {
 
