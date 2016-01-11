@@ -154,7 +154,9 @@ public abstract class DisplayImpl implements Display {
 	@Override
 	public String toString() {
 		if (SHOW_EXTENDED_DISPLAY_NAMES) {
-			return "<html>Display " + getVirtualDisplayNumber()  + " | " + getDBDisplayNumber() + "<br>" + getLocation() + "</html>";
+			return "<html>Display "
+					+ (getVirtualDisplayNumber() + " | " + getDBDisplayNumber() + "<br>" + getLocation())
+							.replace("Display", "Disp").replace("Dynamic", "Dyn") + "</html>";
 		} else {
 			int displayNumber = getDBDisplayNumber();
 			if (SHOW_VIRTUAL_DISPLAY_NUMS)

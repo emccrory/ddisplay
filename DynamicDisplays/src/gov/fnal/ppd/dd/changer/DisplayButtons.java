@@ -1,6 +1,8 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
+import static gov.fnal.ppd.dd.GlobalVariables.IS_DOCENT_CONTROLLER;
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_EXTENDED_DISPLAY_NAMES;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -184,6 +186,9 @@ public class DisplayButtons extends JPanel {
 		float fs = displayList.size() > 10 ? 0.6f * LOCAL_FONT_SIZE - 2 * (displayList.size() - 10) : LOCAL_FONT_SIZE;
 		if (SHOW_IN_WINDOW)
 			fs = WINDOW_FONT_SIZE;
+		if (SHOW_EXTENDED_DISPLAY_NAMES || IS_DOCENT_CONTROLLER) {
+			fs /= 2;
+		}
 
 		// int rigidHeight = INSET_SIZE + (11 - displayList.size());
 		// if (rigidHeight <= 0)

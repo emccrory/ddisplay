@@ -1,5 +1,6 @@
 package gov.fnal.ppd.dd.changer;
 
+import static gov.fnal.ppd.dd.GlobalVariables.IS_DOCENT_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -101,7 +102,7 @@ public class DDButton extends JButton {
 	 * @param display
 	 */
 	public DDButton(final Display display) {
-		this(null, display, MAX_STRING_LENGTH);
+		this(null, display, MAX_STRING_LENGTH * (IS_DOCENT_CONTROLLER ? 2 : 1));
 	}
 
 	@Override
