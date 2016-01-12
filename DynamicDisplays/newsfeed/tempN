@@ -1,75 +1,156 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+  xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+  >
 
 <channel>
+  <title>Fermilab at Work</title>
+  <atom:link href="http://news.fnal.gov/rss-faw" rel="self" type="application/rss+xml" />
+  <link>http://news.fnal.gov</link>
+  <!-- Feed Logo (optional) -->
+    <image>
+      <url>http://news.fnal.gov/wp-content/themes/fermilab-newsroom/img/icons/fnal-logomark-blue.png</url>
+      <title>
+        The latest news from News Center.      </title>
+      <link>http://news.fnal.gov</link>
+    </image>
+  <description>Fermilab news</description>
+  <lastBuildDate>Tue, 12 Jan 2016 18:53:59 +0000</lastBuildDate>
+  <language>en-US</language>
+  <sy:updatePeriod>hourly</sy:updatePeriod>
+  <sy:updateFrequency>1</sy:updateFrequency>
+  <generator>https://wordpress.org/?v=4.4.1</generator>
+  <item>
+    <title>Car for sale</title>
+    <link>http://news.fnal.gov/2016/01/car-for-sale/</link>
+    <pubDate>Tue, 12 Jan 2016 18:53:59 +0000</pubDate>
+    <dc:creator><![CDATA[johnsonc]]></dc:creator>
+    		<category><![CDATA[Classifieds]]></category>
 
-    <title>News from Science</title>
-    <link>http://news.sciencemag.org/rss/current.xml</link>
-    <description>Up to the minute news and features from Science.</description>
-                <item>
-	<title><![CDATA[Singapore lavishes big money on its scientists]]></title>
-	<link>http://news.sciencemag.org/asiapacific/2016/01/singapore-lavishes-big-money-its-scientists</link>
-	<pubDate>Mon, 11 Jan 2016 11:45:00 -0500</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/asiapacific/2016/01/singapore-lavishes-big-money-its-scientists?rss=1</guid>
-	<description>Researchers in tiny island nation get 18% budget boost</description>
-        <media:description>Researchers in tiny island nation get 18% budget boost</media:description>
-        <media:credit role="author">XiaoZhi Lim</media:credit>
-        <media:category><![CDATA[Asia/Pacific]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-singapore.jpg?itok=w0qea9Uk" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-singapore.jpg?itok=w0qea9Uk" height="60" width="60" />
-    </item>
+    <guid isPermaLink="false">https://news.fnal.gov/?p=30308</guid>
+                <description><![CDATA[2000 Oldsmobile Intrigue, four doors, white with beige leather interior, 159,000 miles, fully loaded (heated seats, Bose audio system, etc.) one owner, garage kept, very clean, never smoked in car. $1,800.00, contact Bob at 630-842-7642, or email: cjohnson837e@gmail.com.]]></description>
+                          <content:encoded><![CDATA[<p>2000 Oldsmobile Intrigue, four doors, white with beige leather interior, 159,000 miles, fully loaded (heated seats, Bose audio system, etc.) one owner, garage kept, very clean, never smoked in car. $1,800.00, contact Bob at 630-842-7642, or email: <a href="mailto:cjohnson837e@gmail.com">cjohnson837e@gmail.com</a>.</p>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>Black holes</title>
+    <link>http://www.symmetrymagazine.org/article/black-holes</link>
+    <pubDate>Tue, 12 Jan 2016 18:24:56 +0000</pubDate>
+    <dc:creator><![CDATA[leah]]></dc:creator>
+    		<category><![CDATA[Story]]></category>
+		<category><![CDATA[Symmetry]]></category>
 
-            <item>
-	<title><![CDATA[How to get that old-fashioned light bulb glow without wasting so much energy ]]></title>
-	<link>http://news.sciencemag.org/technology/2016/01/how-get-old-fashioned-lightbulb-glow-without-wasting-so-much-energy</link>
-	<pubDate>Mon, 11 Jan 2016 11:00:00 -0500</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/technology/2016/01/how-get-old-fashioned-lightbulb-glow-without-wasting-so-much-energy?rss=1</guid>
-	<description>Recycled light could make incandescent bulbs more efficient than LEDs</description>
-        <media:description>Recycled light could make incandescent bulbs more efficient than LEDs</media:description>
-        <media:credit role="author">Robert F. Service</media:credit>
-        <media:category><![CDATA[Technology]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-light.jpg?itok=9Tfc8CxM" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-light.jpg?itok=9Tfc8CxM" height="60" width="60" />
-    </item>
+    <guid isPermaLink="false">http://news.fnal.gov/?p=30467</guid>
+                <description><![CDATA[Let yourself be pulled into the weird world of black holes.]]></description>
+                          <content:encoded><![CDATA[Let yourself be pulled into the weird world of black holes.]]></content:encoded>
+                        </item>
+    <item>
+    <title>The Office for Professional and Organization Development 2016 winter/spring course schedule</title>
+    <link>http://news.fnal.gov/2016/01/office-professional-organization-development-2016-winterspring-course-schedule/</link>
+    <pubDate>Tue, 12 Jan 2016 17:24:10 +0000</pubDate>
+    <dc:creator><![CDATA[karlix]]></dc:creator>
+    		<category><![CDATA[Announcements and notices]]></category>
 
-            <item>
-	<title><![CDATA[Icebergs are fighting climate change]]></title>
-	<link>http://news.sciencemag.org/environment/2016/01/icebergs-are-fighting-climate-change</link>
-	<pubDate>Mon, 11 Jan 2016 11:00:00 -0500</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/environment/2016/01/icebergs-are-fighting-climate-change?rss=1</guid>
-	<description>Large Antarctic bergs release minerals, spurring the growth of greenhouse gas–sucking organisms</description>
-        <media:description>Large Antarctic bergs release minerals, spurring the growth of greenhouse gas–sucking organisms</media:description>
-        <media:credit role="author">Sid Perkins</media:credit>
-        <media:category><![CDATA[Environment]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-icebergs.jpg?itok=Qlhwhdkz" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-icebergs.jpg?itok=Qlhwhdkz" height="60" width="60" />
-    </item>
+    <guid isPermaLink="false">https://news.fnal.gov/?p=30314</guid>
+                <description><![CDATA[The Office for Professional and Organization Development 2016 winter/spring course schedule is available online. The schedule includes management, professional development, technical and computing courses, including all Microsoft 2013 application courses.]]></description>
+                          <content:encoded><![CDATA[<p>The Office for Professional and Organization Development 2016 winter/spring course schedule is available <a href="http://wdrs.fnal.gov/train-dev/index.html">online</a>. The schedule includes management, professional development, technical and computing courses, including all Microsoft 2013 application courses.</p>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>Light through yonder windows</title>
+    <link>http://news.fnal.gov/2016/01/light-through-yonder-windows/</link>
+    <pubDate>Tue, 12 Jan 2016 09:00:41 +0000</pubDate>
+    <dc:creator><![CDATA[stancari]]></dc:creator>
+    		<category><![CDATA[Photo]]></category>
 
-            <item>
-	<title><![CDATA[Cheap plastic film prevents batteries from catching fire]]></title>
-	<link>http://news.sciencemag.org/chemistry/2016/01/cheap-plastic-film-prevents-batteries-catching-fire</link>
-	<pubDate>Mon, 11 Jan 2016 09:00:00 -0500</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/chemistry/2016/01/cheap-plastic-film-prevents-batteries-catching-fire?rss=1</guid>
-	<description>Nanotech allows power sources to restart when cool</description>
-        <media:description>Nanotech allows power sources to restart when cool</media:description>
-        <media:credit role="author">Robert F. Service</media:credit>
-        <media:category><![CDATA[Chemistry]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-batteries.jpg?itok=O5G2zEw_" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-batteries.jpg?itok=O5G2zEw_" height="60" width="60" />
-    </item>
+    <guid isPermaLink="false">https://news.fnal.gov/?p=28831</guid>
+                <description><![CDATA[A golden Wilson Hall shines on a November night.]]></description>
+                          <content:encoded><![CDATA[<div id="attachment_28834" style="width: 3664px" class="wp-caption alignleft"><img class="size-full wp-image-28834" src="http://news.fnal.gov/wp-content/uploads/2015/12/2015-12-22_56799d156d433_Giulio_Stancari_Wilson_Hall.jpg" alt="A golden Wilson Hall shines on a November night. Photo: Giulio Stancari, AD" width="3654" height="1827" srcset="http://news.fnal.gov/wp-content/uploads/2015/12/2015-12-22_56799d156d433_Giulio_Stancari_Wilson_Hall-300x150.jpg 300w, http://news.fnal.gov/wp-content/uploads/2015/12/2015-12-22_56799d156d433_Giulio_Stancari_Wilson_Hall-768x384.jpg 768w, http://news.fnal.gov/wp-content/uploads/2015/12/2015-12-22_56799d156d433_Giulio_Stancari_Wilson_Hall-1024x512.jpg 1024w, http://news.fnal.gov/wp-content/uploads/2015/12/2015-12-22_56799d156d433_Giulio_Stancari_Wilson_Hall-450x225.jpg 450w, http://news.fnal.gov/wp-content/uploads/2015/12/2015-12-22_56799d156d433_Giulio_Stancari_Wilson_Hall.jpg 3654w" sizes="(max-width: 3654px) 100vw, 3654px" /><p class="wp-caption-text">A golden Wilson Hall shines on a November night. Photo: Giulio Stancari, AD</p></div>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>REAL ID Act and access to Fermilab</title>
+    <link>http://news.fnal.gov/2016/01/real-id-act-and-access-to-fermilab/</link>
+    <pubDate>Mon, 11 Jan 2016 20:25:36 +0000</pubDate>
+    <dc:creator><![CDATA[debseb]]></dc:creator>
+    		<category><![CDATA[Announcements and notices]]></category>
+		<category><![CDATA[Fermilab at Work]]></category>
+		<category><![CDATA[News you need]]></category>
 
-            <item>
-	<title><![CDATA[Wake-up call for obscure but deadly infection]]></title>
-	<link>http://news.sciencemag.org/biology/2016/01/wake-call-obscure-deadly-infection</link>
-	<pubDate>Mon, 11 Jan 2016 09:00:00 -0500</pubDate>
-        <guid isPermaLink="true">http://news.sciencemag.org/biology/2016/01/wake-call-obscure-deadly-infection?rss=1</guid>
-	<description>Melioidosis is hard to treat and kills thousands, yet remains little known</description>
-        <media:description>Melioidosis is hard to treat and kills thousands, yet remains little known</media:description>
-        <media:credit role="author">Kai Kupferschmidt</media:credit>
-        <media:category><![CDATA[Biology]]></media:category>
-        <media:content url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-melioidosis.jpg?itok=-KD4pXg5" height="60" width="60" />
-	<media:thumbnail url="http://news.sciencemag.org/sites/default/files/styles/square_60x60/public/sn-melioidosis.jpg?itok=-KD4pXg5" height="60" width="60" />
-    </item>
+    <guid isPermaLink="false">http://news.fnal.gov/?p=30294</guid>
+                <description><![CDATA[You may have heard in the news recently about the REAL ID Act and its potential impact on access to federal property and air travel for residents of certain states, including Illinois. Access to air travel for ID holders of REAL ID Act-non-compliant states has been extended to 2018; however, access to federal facilities has not been extended.]]></description>
+                          <content:encoded><![CDATA[<p>You may have heard in the news recently about the <a href="http://www.dhs.gov/real-id-public-faqs" target="_blank">REAL ID Act</a> and its potential impact on access to federal property and air travel for residents of certain states, including Illinois. Access to air travel for ID holders of REAL ID Act-non-compliant states has been extended to 2018; however, access to federal facilities has not been extended.</p>
+<p>What does this mean for Fermilab employees?<br />
+Employee access to the lab will not change. You will still be able to enter the Fermilab site with your Fermilab- or DOE-issued badge or, if you forget your badge, with a valid photo ID, including an Illinois driver’s license. If you need a new badge, the key and ID office will be able to issue you a new badge with a valid ID, which includes a driver’s license issued by the state of Illinois.</p>
+<p>What does this mean for contractors and visitors?<br />
+Contractors and visitors who require access to Property Protection Areas will need to be issued a badge using <a href="https://www.tsa.gov/travel/security-screening/identification" target="_blank">identification that is compliant with the REAL ID Act</a> or they need to be escorted by a badged Fermilab employee. A driver’s license issued by the state of Illinois is not considered DHS-approved identification for a contractor or visitor to obtain a Fermilab badge for Property Protection Areas.</p>
+<p>What does this mean for the public?<br />
+Public access to the lab will not change, with all valid U.S. drivers’ licenses accepted at the security checkpoints.</p>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>From bosons to Bigfoot: six science mysteries that might be solved in 2016</title>
+    <link>http://www.iflscience.com/physics/bosons-bigfoot-six-science-mysteries-might-be-solved-2016</link>
+    <pubDate>Mon, 11 Jan 2016 18:48:18 +0000</pubDate>
+    <dc:creator><![CDATA[asalles]]></dc:creator>
+    		<category><![CDATA[Fermilab at Work]]></category>
+		<category><![CDATA[In the news]]></category>
 
-</channel>
+    <guid isPermaLink="false">http://news.fnal.gov/?p=30282</guid>
+                <description><![CDATA[<em>IFLScience</em>, Jan. 4, 2016: From the origin of life to the fate of the universe, there’s plenty scientists simply don’t know. But they are making progress. 2015 has been a great year for science. So what will happen in 2016? ]]></description>
+                          <content:encoded><![CDATA[<em>IFLScience</em>, Jan. 4, 2016: From the origin of life to the fate of the universe, there’s plenty scientists simply don’t know. But they are making progress. 2015 has been a great year for science. So what will happen in 2016? ]]></content:encoded>
+                        </item>
+    <item>
+    <title>LHC photon readings hint at Higgs boson’s big brother, but it’s too early to tell</title>
+    <link>http://www.geekwire.com/2016/lhc-photon-readings-hint-higgs-bosons-big-brother-early-tell/</link>
+    <pubDate>Mon, 11 Jan 2016 18:46:02 +0000</pubDate>
+    <dc:creator><![CDATA[asalles]]></dc:creator>
+    		<category><![CDATA[Fermilab at Work]]></category>
+		<category><![CDATA[In the news]]></category>
+
+    <guid isPermaLink="false">http://news.fnal.gov/?p=30276</guid>
+                <description><![CDATA[<em>GeekWire</em>, Jan. 6, 2016: The Higgs boson is the biggest find of the century in particle physics, but for the past few weeks, physicists at the Large Hadron Collider have been considering whether there’s a mystery that’s even bigger. Or at least more massive. Fermilab's Don Lincoln is quoted in this article. ]]></description>
+                          <content:encoded><![CDATA[<em>GeekWire</em>, Jan. 6, 2016: The Higgs boson is the biggest find of the century in particle physics, but for the past few weeks, physicists at the Large Hadron Collider have been considering whether there’s a mystery that’s even bigger. Or at least more massive. Fermilab's Don Lincoln is quoted in this article. ]]></content:encoded>
+                        </item>
+    <item>
+    <title>Tupperware open house</title>
+    <link>http://news.fnal.gov/2016/01/tupperware-open-house/</link>
+    <pubDate>Mon, 11 Jan 2016 13:41:34 +0000</pubDate>
+    <dc:creator><![CDATA[eflumerf]]></dc:creator>
+    		<category><![CDATA[Classifieds]]></category>
+
+    <guid isPermaLink="false">https://news.fnal.gov/?p=30153</guid>
+                <description><![CDATA[We are hosting a Tupperware open house. Stop by to see what is new with Tupperware! Everyone is welcome, snacks will be provided. There will be demonstrations of Tupperware products, as well as door prizes and raffles. Event is Saturday, Jan. 16 from 1-4 PM, in Warrenville (just outside the lab) For more information, call (727) 430-5913, email eflumerf@fnal.gov, or see my.Tupperware.com/JFlumerfelt]]></description>
+                          <content:encoded><![CDATA[<p>We are hosting a Tupperware open house. Stop by to see what is new with Tupperware! Everyone is welcome, snacks will be provided. There will be demonstrations of Tupperware products, as well as door prizes and raffles. Event is Saturday, Jan. 16 from 1-4 PM, in Warrenville (just outside the lab) For more information, call (727) 430-5913, email <a href="mailto:eflumerf@fnal.gov">eflumerf@fnal.gov</a>, or see <a href="http://my.Tupperware.com/JFlumerfelt">my.Tupperware.com/JFlumerfelt</a></p>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>Hawk in flight</title>
+    <link>http://news.fnal.gov/2016/01/hawk-flight/</link>
+    <pubDate>Mon, 11 Jan 2016 09:00:00 +0000</pubDate>
+    <dc:creator><![CDATA[leah]]></dc:creator>
+    		<category><![CDATA[Photo]]></category>
+
+    <guid isPermaLink="false">http://news.fnal.gov/?p=30052</guid>
+                <description><![CDATA[A hawk takes on the classic V.]]></description>
+                          <content:encoded><![CDATA[<div id="attachment_29905" style="width: 1449px" class="wp-caption alignleft"><a href="http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82795ab_IMG_9086.JPG"><img class="size-full wp-image-29905" src="http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82795ab_IMG_9086.JPG" alt="A hawk takes on the classic V. Photo: Jeff Artel, WDRS" width="1439" height="1236" srcset="http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82795ab_IMG_9086-300x258.jpg 300w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82795ab_IMG_9086-768x660.jpg 768w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82795ab_IMG_9086-1024x880.jpg 1024w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82795ab_IMG_9086-450x387.jpg 450w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82795ab_IMG_9086.JPG 1439w" sizes="(max-width: 1439px) 100vw, 1439px" /></a><p class="wp-caption-text">A hawk takes on the classic V. Photo: Jeff Artel, WDRS</p></div>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>Society of Philosophy, open discussion on the last two talks</title>
+    <link>http://news.fnal.gov/2016/01/society-philosophy-open-discussion-last-two-talks/</link>
+    <pubDate>Sun, 10 Jan 2016 21:03:00 +0000</pubDate>
+    <dc:creator><![CDATA[burov]]></dc:creator>
+    		<category><![CDATA[Announcements and notices]]></category>
+
+    <guid isPermaLink="false">https://news.fnal.gov/?p=30136</guid>
+                <description><![CDATA[Next meeting of the Fermi Society of Philosophy will be Thu, Jan 14, 12:00, at Req. Room (WH4NW). We&#8217;ll have an open discussion of the last two talks: 1. &#8220;Experiment in physics. Early views&#8221;; 2. &#8220;Atheism of Richard Feynman&#8221;. Slides of both talks are at our site https://fermisocietyofphilosophy.wordpress.com/ . Think about your questions, comments, objections and compliments . Everybody is welcome. Feel free to come with your lunch. Ask Alexey burov@fnal.gov if any questions.]]></description>
+                          <content:encoded><![CDATA[<p>Next meeting of the Fermi Society of Philosophy will be Thu, Jan 14, 12:00, at Req. Room (WH4NW). We&#8217;ll have an open discussion of the last two talks: 1. &#8220;Experiment in physics. Early views&#8221;; 2. &#8220;Atheism of Richard Feynman&#8221;. Slides of both talks are at our site <a href="https://fermisocietyofphilosophy.wordpress.com/">https://fermisocietyofphilosophy.wordpress.com/</a> . Think about your questions, comments, objections and compliments <img src="http://news.fnal.gov/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> . Everybody is welcome. Feel free to come with your lunch. Ask Alexey burov@fnal.gov if any questions.</p>
+]]></content:encoded>
+                        </item>
+  </channel>
 </rss>
