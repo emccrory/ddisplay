@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Message from a Control Panel to the Display Server to change the channel on a Display to a LIST of Channels
  * 
- * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2012
+ * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2012-16
  */
 @SuppressWarnings("javadoc")
 @XmlRootElement
