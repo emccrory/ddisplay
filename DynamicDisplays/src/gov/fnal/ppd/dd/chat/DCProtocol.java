@@ -38,9 +38,11 @@ package gov.fnal.ppd.dd.chat;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.PlainURLChannel;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.ChangeChannelReply;
@@ -200,7 +202,8 @@ public class DCProtocol {
 
 				if (theMessage instanceof ChangeChannelList) {
 					disableListThread();
-					informListenersForever();
+					// informListenersForever();
+					createChannelListAndInform((ChangeChannelList) theMessage);
 				} else if (theMessage instanceof ChangeChannel) {
 					disableListThread();
 					informListeners();
@@ -239,6 +242,47 @@ public class DCProtocol {
 			return false;
 		}
 		return true;
+	}
+
+	private void createChannelListAndInform(ChangeChannelList theMessage) {
+		final ChannelSpec[] specs = theMessage.getChannelSpec();
+		if (specs.length == 0) {
+			println(DCProtocol.class, " -- Empty list received. Abort.");
+			return;
+		}
+		if (specs.length == 1) {
+			// There is only one channel in this list. Hmmm. Don't to send this over and over to the client. The timeout in the
+			// channel itself will cause it to refresh from within the client.
+			informListeners(specs[0]);
+		} else {
+			long dwellTime = 5000;
+			List<SignageContent> channelList = new ArrayList<SignageContent>();
+
+			for (ChannelSpec spec : specs) {
+				try {
+					// NOTE : Lists of lists are not supported
+					URL url = spec.getUri().toURL();
+					Channel c = new PlainURLChannel(url);
+					c.setCategory(spec.getCategory());
+					c.setName(spec.getName());
+					c.setTime(spec.getTime());
+					c.setFrameNumber(spec.getFrameNumber());
+					c.setExpiration(spec.getExpiration());
+					c.setCode(spec.getCode());
+					channelList.add(c);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			ChannelPlayList playList = new ChannelPlayList(channelList, dwellTime);
+			for (Display L : listeners) {
+				L.setContent(playList);
+			}
+		}
 	}
 
 	private void informListeners() {

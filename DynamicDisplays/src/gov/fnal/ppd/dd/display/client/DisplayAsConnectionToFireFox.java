@@ -7,6 +7,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.display.client.BrowserLauncher.BrowserInstance;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -54,6 +55,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 	private ListOfValidChannels			listOfValidURLs		= new ListOfValidChannels();
 	private WrapperType					wrapperType;
+	protected boolean					newListIsPlaying	= false;
 
 	/**
 	 * @param showNumber
@@ -96,7 +98,65 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		}.start();
 	}
 
+	private class ThreadWithStop extends Thread {
+		boolean	stopMe	= false;
+
+		public ThreadWithStop(String name) {
+			super(name);
+		}
+	}
+
+	private ThreadWithStop	playlistThread	= null;
+
 	protected boolean localSetContent() {
+		if (playlistThread != null) {
+			playlistThread.stopMe = true;
+			playlistThread = null;
+		}
+
+		if (getContent() instanceof ChannelPlayList) {
+			final ChannelPlayList playList = (ChannelPlayList) getContent();
+
+			playlistThread = new ThreadWithStop("PlayChannelList_" + DisplayAsConnectionToFireFox.class.getSimpleName()) {
+				public void run() {
+					println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + " : starting to play a list of length "
+							+ playList.getChannels().size());
+
+					// NOTE : This implementation does not support lists of lists.
+
+					while (!stopMe)
+						for (SignageContent CHAN : playList.getChannels()) {
+							println(DisplayAsConnectionToFireFox.class, " -- " + hashCode()
+									+ " : List play continues with channel=[" + CHAN + "]");
+
+							if (stopMe)
+								break;
+
+							setContentBypass(CHAN);
+							localSetContent_notLists();
+
+							catchSleep(CHAN.getTime());
+
+							// TODO -- There needs to be a way to specify when the playing of a channel in a list ends in a list
+							// **and** when a channel needs to be refreshed.
+
+							if (stopMe)
+								break;
+						}
+					println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + " : Exiting the list player.");
+				}
+			};
+			playlistThread.start();
+
+		} else
+			return localSetContent_notLists();
+
+		return true;
+	}
+
+	private boolean localSetContent_notLists() {
+		assert (!(getContent() instanceof ChannelPlayList));
+
 		// FIXME This could be risky! But it is needed for URL arguments
 		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&");
 
@@ -344,7 +404,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	protected String getStatusString() {
 		String retval = "";
 		if (firefox == null) {
-				retval = "*NOT CONNECTED TO BROWSER* Initializing ...";
+			retval = "*NOT CONNECTED TO BROWSER* Initializing ...";
 		} else if (!firefox.isConnected()) {
 			retval = "*NOT CONNECTED TO BROWSER* Last page " + getContent().getURI();
 		} else if (getContent() == null)
