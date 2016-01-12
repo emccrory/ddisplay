@@ -10,7 +10,7 @@ import java.net.URI;
  * 
  * In order to be fully serializable, the concrete classes must implement all the getters and setters.
  * 
- * @author Elliott McCrory, Fermilab, 2012
+ * @author Elliott McCrory, Fermilab, 2012-16
  */
 public interface SignageContent extends Serializable {
 
@@ -86,7 +86,8 @@ public interface SignageContent extends Serializable {
 	public void setTime(long time);
 
 	/**
-	 * @return The expiration time in milliseconds. Negative or zero means no expiration time
+	 * @return The expiration time in milliseconds. Negative or zero means no expiration time. This is interpreted as the length of
+	 *         time that this content will be shown, after which the previous content is to be reinstated.
 	 */
 	public long getExpiration();
 
@@ -102,9 +103,7 @@ public interface SignageContent extends Serializable {
 	public int getCode();
 
 	/**
-	 * Gives the Content an attribute that can be interpreted in a number of ways. Initially, this code is either 0 or 1; 0 means
-	 * show the URL in the normal way; 1 means show the URL in a wrapper web page, which (presumably) has color and Display number
-	 * information on it, somehow.
+	 * Gives the Content an attribute that can be interpreted in a number of ways. At this time, it is not used.
 	 * 
 	 * @param n
 	 *            The new user-defined code
