@@ -187,6 +187,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					if (offLine)
 						statusString = "Off Line";
 					statusString = "V" + versionInfo.getVersionString() + " " + statusString;
+					if ( statusString.length() > 255 )
+						// The Content field is limited to 255 characters.
+						statusString = statusString.substring(0, 249) + " ...";
 
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + statusString
 							+ "' where DisplayID=" + getDBDisplayNumber();
