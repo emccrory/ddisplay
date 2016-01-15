@@ -19,7 +19,7 @@
   
   /usr/bin/wget -o $logNewsFile -O tempN $newsURL # 2>/dev/null
   
-  /bin/sed 's/>/>\n/g' tempN | sed 's-<br/>--g' | sed 's/dc://g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | sed 's/&lt;img .*&gt;//g' > $xmlNewsFile
+  /bin/sed 's/>/>\n/g' tempN | sed 's-<channel rdf:about.*>-<channel>-g' | sed 's-<br/>--g' | sed 's/dc://g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | sed 's/&lt;img .*&gt;//g' > $xmlNewsFile
 
 if $diff -q $xmlNewsFile old_$xmlNewsFile > /dev/null ; then
   echo The news from Science has not changed > /dev/null

@@ -6,18 +6,4 @@
 <b>Feature: Solving the mystery of dog domestication</b>: An unprecedented alliance hopes to figure out where and when our canine pals arose
 <b>U.S. oversight of risky pathogen research could be better, draft report concludes</b>: But dangerous “gain of function” studies likely to be few, biosecurity panel finds
 <b>Physicists figure out how to retrieve information from a black hole</b>: But clever technique alone can't solve famed black hole information problem
-<b>Fermi Today Headlines</b> Retrieved Tue Jan 12 13:00:01 CST 2016
-<em>Fermilab at Work, http://news.fnal.gov (Retrieved Tue Jan 12 13:00:02 CST 2016)</em>
-<b>Black holes</b>: Let yourself be pulled into the weird world of black holes.
-<b>The Office for Professional and Organization Development 2016 winter/spring course schedule</b>: The Office for Professional and Organization Development 2016 winter/spring course schedule is available online. The schedule includes management, professional development, technical and computing courses, including all Microsoft 2013 application courses.
-<b>Light through yonder windows</b>: A golden Wilson Hall shines on a November night.
-<b>REAL ID Act and access to Fermilab</b>: You may have heard in the news recently about the REAL ID Act and its potential impact on access to federal property and air travel for residents of certain states, including Illinois. Access to air travel for ID holders of REAL ID Act-non-compliant states has been extended to 2018; however, access to federal facilities has not been extended.
-<b>From bosons to Bigfoot: six science mysteries that might be solved in 2016</b>: <em>
-IFLScience</em>
-, Jan. 4, 2016: From the origin of life to the fate of the universe, there’s plenty scientists simply don’t know. But they are making progress. 2015 has been a great year for science. So what will happen in 2016? 
-<b>LHC photon readings hint at Higgs boson’s big brother, but it’s too early to tell</b>: <em>
-GeekWire</em>
-, Jan. 6, 2016: The Higgs boson is the biggest find of the century in particle physics, but for the past few weeks, physicists at the Large Hadron Collider have been considering whether there’s a mystery that’s even bigger. Or at least more massive. Fermilab's Don Lincoln is quoted in this article. 
-<b>Tupperware open house</b>: We are hosting a Tupperware open house. Stop by to see what is new with Tupperware! Everyone is welcome, snacks will be provided. There will be demonstrations of Tupperware products, as well as door prizes and raffles. Event is Saturday, Jan. 16 from 1-4 PM, in Warrenville (just outside the lab) For more information, call (727) 430-5913, email eflumerf@fnal.gov, or see my.Tupperware.com/JFlumerfelt
-<b>Hawk in flight</b>: A hawk takes on the classic V.
-<b>Society of Philosophy, open discussion on the last two talks</b>: Next meeting of the Fermi Society of Philosophy will be Thu, Jan 14, 12:00, at Req. Room (WH4NW). We&#8217;ll have an open discussion of the last two talks: 1. &#8220;Experiment in physics. Early views&#8221;; 2. &#8220;Atheism of Richard Feynman&#8221;. Slides of both talks are at our site https://fermisocietyofphilosophy.wordpress.com/ . Think about your questions, comments, objections and compliments . Everybody is welcome. Feel free to come with your lunch. Ask Alexey burov@fnal.gov if any questions.
+<b>Fermi Today Headlines</b> Retrieved Fri Jan 15 13:00:01 CST 2016
