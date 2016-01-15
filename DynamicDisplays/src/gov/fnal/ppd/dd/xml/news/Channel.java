@@ -141,8 +141,9 @@ public class Channel {
 		try {
 			List<String> lines = Files.readAllLines(path, Charset.defaultCharset());
 			boolean start = false;
+			String channelLine ="";
 			for (String L : lines) {
-				if (L.contains("<channel>"))
+				if (L.contains("<channel"))
 					start = true;
 				if (start && L.length() > 0 && !L.contains("</rss>") && !L.contains("<atom:link") && !L.contains("dc:creator")) {
 					if (L.contains("<feedburner") && L.contains("</item>"))
@@ -153,18 +154,24 @@ public class Channel {
 						xml += "<item>\n";
 					else if (L.contains("<atom") && L.contains("<item>"))
 						xml += "<item>\n";
-					else if (!L.contains("<media:"))
+					else if (L.contains("<item rdf:"))
+						xml += "<item>\n";
+					else if (L.contains("<rdf:") || L.contains("</rdf:"))
+						;
+					else if (L.contains("</channel"))
+						channelLine = L;
+					else if (!L.contains("<media:") && !L.contains("<rdf:about="))
 						xml += L + "\n";
 				} // else
 					// System.out.println("-- skipping " + L);
 			}
-
+			xml += channelLine;
 		} catch (IOException e) {
 			System.err.println(path.toAbsolutePath());
 			e.printStackTrace();
 		}
 
-		// System.out.println(xml);
+		// System.out.println("The xml file is : [\n" + xml + "\n]");
 		try {
 			Channel c = (Channel) MyXMLMarshaller.unmarshall(Channel.class, xml);
 
@@ -181,7 +188,8 @@ public class Channel {
 						// System.err.println("A FOR SALE entry: " + mychop(I.getTitle()) + "</b>: " + mychop(I.getDescription()));
 						continue;
 					}
-					if (I.getTitle().toLowerCase().contains("full time work") || I.getTitle().toLowerCase().contains("part time work")) {
+					if (I.getTitle().toLowerCase().contains("full time work")
+							|| I.getTitle().toLowerCase().contains("part time work")) {
 						// System.err.println("A want ad entry: " + mychop(I.getTitle()) + "</b>: " + mychop(I.getDescription()));
 						continue;
 					}
