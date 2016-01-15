@@ -57,6 +57,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	private WrapperType					wrapperType;
 	protected boolean					newListIsPlaying	= false;
 
+	private ThreadWithStop				playlistThread		= null;
+	private boolean						skipRevert			= false;
+
 	/**
 	 * @param showNumber
 	 * @param ipName
@@ -88,25 +91,56 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			public void run() {
 				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number=" + getVirtualDisplayNumber()
 						+ " (" + getDBDisplayNumber() + ") " + (showNumber ? "Showing display num" : "Hiding display num"));
-				catchSleep(2000); // Wait a bit before trying to contact the instance of FireFox.
+				catchSleep(1000); // Wait a bit before trying to contact the instance of FireFox.
 				firefox = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
 						highlightColor, showNumber);
 				lastFullRestTime = System.currentTimeMillis();
-				catchSleep(500); // Wait a bit more before trying to tell it to go to a specific page
+				catchSleep(200); // Wait a bit more before trying to tell it to go to a specific page
 				localSetContent();
 			}
 		}.start();
 	}
 
+	/**
+	 * trivial extension to the Thread class to allow me to stop it later, gracefully.
+	 * 
+	 * @author Elliott McCrory, Fermilab AD/Instrumentation
+	 * 
+	 */
 	private class ThreadWithStop extends Thread {
-		boolean	stopMe	= false;
+		boolean					stopMe	= false;
+		private ChannelPlayList	localPlayListCopy;
 
-		public ThreadWithStop(String name) {
-			super(name);
+		public ThreadWithStop(final ChannelPlayList pl) {
+			super("PlayChannelList_" + DisplayAsConnectionToFireFox.class.getSimpleName());
+			this.localPlayListCopy = pl;
+		}
+
+		public void run() {
+			println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + firefox.getInstance()
+					+ " : starting to play a list of length " + localPlayListCopy.getChannels().size());
+
+			// NOTE : This implementation does not support lists of lists. And this does not make logical sense if we assume
+			// that a list will play forever.
+
+			int count = 0;
+			while (!stopMe) {
+				localPlayListCopy.advanceChannel();
+				println(DisplayAsConnectionToFireFox.class,
+						" -- " + hashCode() + firefox.getInstance() + " : List play continues with channel=["
+								+ localPlayListCopy.getDescription() + ", " + localPlayListCopy.getTime() + "msec] " + count++);
+				if (stopMe) // Add this in to reduce possibility of a race condition.
+					break;
+				localSetContent_notLists();
+				catchSleep(localPlayListCopy.getTime());
+
+				// TODO -- There needs to be a way to specify when the playing of a channel in a list ends in a list
+				// **and** when a channel needs to be refreshed.
+			}
+			println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + firefox.getInstance()
+					+ " : Exiting the list player. " + count);
 		}
 	}
-
-	private ThreadWithStop	playlistThread	= null;
 
 	protected boolean localSetContent() {
 		if (playlistThread != null) {
@@ -115,39 +149,22 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		}
 
 		if (getContent() instanceof ChannelPlayList) {
-			final ChannelPlayList playList = (ChannelPlayList) getContent();
 
-			playlistThread = new ThreadWithStop("PlayChannelList_" + DisplayAsConnectionToFireFox.class.getSimpleName()) {
-				public void run() {
-					println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + " : starting to play a list of length "
-							+ playList.getChannels().size());
-
-					// NOTE : This implementation does not support lists of lists.
-
-					while (!stopMe)
-						for (SignageContent CHAN : playList.getChannels()) {
-							println(DisplayAsConnectionToFireFox.class, " -- " + hashCode()
-									+ " : List play continues with channel=[" + CHAN + "]");
-
-							if (stopMe)
-								break;
-
-							setContentBypass(CHAN);
-							localSetContent_notLists();
-
-							catchSleep(CHAN.getTime());
-
-							// TODO -- There needs to be a way to specify when the playing of a channel in a list ends in a list
-							// **and** when a channel needs to be refreshed.
-
-							if (stopMe)
-								break;
-						}
-					println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + " : Exiting the list player.");
-				}
-			};
+			/**
+			 * FIXME -- There might be a way to implement this that does not require this "instanceof" check.
+			 * 
+			 * The basic idea is that when a channel is accessed, it would be given the opportunity to adjust itself. This is
+			 * obviously useful for a list of channels, but would/could this be useful for a regular channel? I'm not sure at this
+			 * time if this can be completely hidden in the current signature of a SignageContent, or if we would have to change the
+			 * signature. e.g., signageContent.finished(), or singageContent.prepare() (or something equivalent). As you see here,
+			 * the idea is to notice that this is a play list and then set up a thread specifically to advance the channel. There is
+			 * already a thread below to refresh the channel when the dwell time is completed--maybe we just use that thread, as
+			 * suggested here.
+			 * 
+			 */
+			
+			playlistThread = new ThreadWithStop((ChannelPlayList) getContent());
 			playlistThread.start();
-
 		} else
 			return localSetContent_notLists();
 
@@ -155,8 +172,6 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	}
 
 	private boolean localSetContent_notLists() {
-		assert (!(getContent() instanceof ChannelPlayList));
-
 		// FIXME This could be risky! But it is needed for URL arguments
 		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&");
 
@@ -172,11 +187,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				firefox.showIdentity();
 				new Thread() {
 					public void run() {
-						try {
-							sleep(SHOW_SPLASH_SCREEN_TIME);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+						catchSleep(SHOW_SPLASH_SCREEN_TIME);
 						firefox.removeIdentify();
 						showingSelfIdentify = false;
 						setContentBypass(lastChannel);
@@ -211,12 +222,10 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				changeCount++;
 				if (expiration > 0) {
 					revertTimeRemaining = expiration;
-					if (revertToThisChannel == null) {
-						revertToThisChannel = previousChannel;
-					}
+					skipRevert = false;
 				} else {
-					revertToThisChannel = null;
 					revertTimeRemaining = 0;
+					skipRevert = true;
 				}
 				if (firefox.changeURL(url, wrapperType, frameNumber)) {
 					lastChannel = getContent();
@@ -227,7 +236,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				}
 
 				if (expiration <= 0)
-					setResetThread(dwellTime, url, frameNumber);
+					setupRefreshThread(dwellTime, url, frameNumber);
 				else
 					setRevertThread();
 
@@ -241,8 +250,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		return true;
 	}
 
-	private void setResetThread(final long dwellTime, final String url, final int frameNumber) {
-
+	/**
+	 * This method handles the setup and the execution of the thread that refreshes the content after content.getTime()
+	 * milliseconds.
+	 */
+	private void setupRefreshThread(final long dwellTime, final String url, final int frameNumber) {
 		if (dwellTime > 0) {
 			final int thisChangeCount = changeCount;
 
@@ -260,7 +272,6 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				}.start();
 			} else {
 				new Thread("RefreshContent" + getMessagingName()) {
-
 					@Override
 					public void run() {
 						long increment = 15000L;
@@ -293,7 +304,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	}
 
 	private void setRevertThread() {
-		final String revertURL = revertToThisChannel.getURI().toString();
+		// final String revertURL = revertToThisChannel.getURI().toString();
 
 		if (revertThread != null) {
 			// Do not create a new thread, just reset the counter in it.
@@ -307,12 +318,17 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				 * Also in the mix, potentially, is when a channel change to a fixed image is requested and this launches a full
 				 * refresh of the browser.
 				 * 
-				 * Ugh! not sure what is going on here.
 				 * ----------------------------------------------------------------------------------------------------------------
 				 * 
 				 * Update 7/9/15: It looks like there are can be several of these threads run at once, and when they all expire,
 				 * something bad seems to happen. New code added to only let one of these thread be created (and it can be "renewed"
 				 * if necessary, before it expires).
+				 * 
+				 * ----------------------------------------------------------------------------------------------------------------
+				 * 
+				 * 1/14/2016: This is all resolved now. Also, changed to handling the channel list down here. This ends up making
+				 * the channel list class behave almost identically to all the other SingnageContent classes, except for right here
+				 * where (as they say) the rubber meets the road.
 				 */
 
 				@Override
@@ -320,28 +336,29 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					long increment = 15000L;
 					while (true) {
 						for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
-							if (revertToThisChannel == null) {
+							catchSleep(Math.min(increment, revertTimeRemaining));
+							if (skipRevert) {
 								println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
 										+ " No longer necessary to revert.");
 								revertThread = null;
 								return;
 							}
-							catchSleep(Math.min(increment, revertTimeRemaining));
 						}
 						revertTimeRemaining = 0L;
 						println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
-								+ " Reverting to web page " + revertURL);
+								+ " Reverting to channel " + previousChannel);
 						try {
-							if (!firefox.changeURL(revertURL, wrapperType, 0)) {
-								println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
-										+ " Failed to REVERT content");
-								firefox.resetURL();
-								continue; // TODO -- Figure out what to do here. For now, just try again later
-							}
+							setContent(previousChannel);
+							// if (!firefox.changeURL(revertURL, wrapperType, 0)) {
+							// println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
+							// + " Failed to REVERT content");
+							// firefox.resetURL();
+							// continue;
+							// }
 							println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
-									+ " Reverted to original web page.");
+									+ " Reverted to original web page, " + previousChannel);
 							return;
-						} catch (UnsupportedEncodingException e) {
+						} catch (Exception e) {
 							e.printStackTrace();
 							revertThread = null;
 							return;
@@ -374,6 +391,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	}
 
 	protected boolean isVerifiedChannel(SignageContent c) {
+		if (c == null)
+			return false;
 		return listOfValidURLs.contains(c);
 	}
 
@@ -410,7 +429,12 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		} else if (getContent() == null)
 			retval = "Off Line";
 		else {
-			retval = (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
+			if (getContent().getURI().toString().equalsIgnoreCase(SELF_IDENTIFY)) {
+				retval = "Doing a self-identify ... ";
+			} else if (getContent().getURI().toString().equalsIgnoreCase(FORCE_REFRESH)) {
+				retval = "Refreshed " + lastChannel.getURI().toASCIIString().replace("'", "\\'");
+			} else
+				retval = (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
 		}
 		return retval;
 	}

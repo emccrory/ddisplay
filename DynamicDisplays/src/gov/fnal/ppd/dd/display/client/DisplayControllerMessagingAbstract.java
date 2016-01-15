@@ -380,17 +380,12 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		} catch (URISyntaxException e2) {
 			e2.printStackTrace();
 		}
-		;
+		
 
 		if (channelNumber == 0) {
 			return retval;
 		} else if (channelNumber < 0) {
-			// This is a list of channels
-
-			// FIXME -- This does NOT work because the management of traversing a channel list resides in the chat client
-			// that receives the channel list. Either we have to give this list to the chat client (not sure how THAT would work)
-			// or implement the traversing of the channel list lower down (which is a suggestion that can be seen elsewhere
-			// in the code, DCProtocol.informListenersForever()).
+			// The default channel is a list of channels.  Build it!
 
 			String query = "select Channel.Number as Number,Dwell,Name,Description,URL from Channel,ChannelList where ListNumber="
 					+ (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
@@ -436,10 +431,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				}
 			}
 		} else {
-			// Channel number is positive!
-			// String query = "SELECT * from ChannelList where ListNumber=" + (-channelNumber) + " ORDER BY SequenceNumber";
+			// Channel number is positive: this is a single channel.
 			String query = "SELECT * from Channel where Number=" + channelNumber;
-			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
+			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel: [" + query + "]");
 			Connection connection;
 			try {
 				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
