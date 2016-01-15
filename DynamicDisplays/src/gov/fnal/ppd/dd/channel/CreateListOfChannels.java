@@ -657,14 +657,28 @@ public class CreateListOfChannels extends JPanel {
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						CONTENT.setTime((Long) time.getValue());
 						boolean selected = channelList.contains(CONTENT);
 						if (selected) {
-							channelList.remove(CONTENT);
+							while (channelList.remove(CONTENT))
+								; // Remove them all
 							lab.setText(NOT_SELECTED);
 							labelList.remove(lab);
 						} else {
-							channelList.add(CONTENT);
+							long defaultDwell = (Long) time.getValue();
+							if (CONTENT.getTime() == 0 || CONTENT.getTime() > defaultDwell) {
+								CONTENT.setTime(defaultDwell);
+								channelList.add(CONTENT);
+							} else {
+								// Simple change here: Based on the internal refresh time of the channel, add 1 or more instances of
+								// this channel the the list. E.g., if the user is asking for a dwell of an hour, but the channel
+								// has a refresh of 20 minutes, it will put the channel in the list 3 times, at 20 minutes per.
+
+								long tm = defaultDwell;
+								for (; tm >= CONTENT.getTime(); tm -= CONTENT.getTime())
+									channelList.add(CONTENT);
+
+								// TODO -- Add a copy of this channel that gets refreshed at time=(the remaining value of) tm.
+							}
 							lab.setText("" + CONTENT.getTime());
 							labelList.add(lab);
 						}
