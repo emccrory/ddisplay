@@ -28,7 +28,14 @@ import java.util.Scanner;
  * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
  * </p>
  * <p>
- * Extensively modified by Elliott McCrory, Fermilab AD/Instrumentation, 2014
+ * Extensively modified by Elliott McCrory, Fermilab AD/Instrumentation, 2014-16
+ * </p>
+ * <p>
+ * TODO -- Is there a way for two clients on the same node to talk directly to each other without a server? There is a use case that
+ * has emerged whereby the user interacts with a display directly on that display through the Channel Selector. When a choice is
+ * made, it sends this to the messaging server, which sends it right back to the same node but communicating with the display. This
+ * would only work if there was some way to short-circuit this communication here in the messaging client. At this time (January,
+ * 2016), the solution is not at all obvious (if it is possible at all).
  * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
