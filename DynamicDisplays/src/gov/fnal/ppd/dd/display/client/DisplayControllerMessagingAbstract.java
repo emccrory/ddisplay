@@ -63,7 +63,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	protected SignageContent		lastChannel				= null;
 	protected static boolean		dynamic					= false;
 
-	protected MessagingClient		messagingClient;
+	protected MessagingClientLocal	messagingClient;
 	private String					myName;
 	private int						statusUpdatePeriod		= 10;
 	protected boolean				showNumber				= true;
@@ -147,7 +147,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					if (getContent() instanceof Channel)
 						message += "\n                             -- (" + ((Channel) getContent()).getURI() + ")";
 					message += "\n                             -- Last communication with server: "
-							+ new Date(((MessagingClientLocal) messagingClient).getServerTimeStamp());
+							+ new Date(getServerTimeStamp());
 					println(DisplayControllerMessagingAbstract.this.getClass(), message);
 				} catch (Exception e) {
 					println(DisplayControllerMessagingAbstract.this.getClass(),
@@ -186,7 +186,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					if (offLine)
 						statusString = "Off Line";
 					statusString = "V" + versionInfo.getVersionString() + " " + statusString;
-					if ( statusString.length() > 255 )
+					if (statusString.length() > 255)
 						// The Content field is limited to 255 characters.
 						statusString = statusString.substring(0, 249) + " ...";
 
@@ -380,12 +380,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		} catch (URISyntaxException e2) {
 			e2.printStackTrace();
 		}
-		
 
 		if (channelNumber == 0) {
 			return retval;
 		} else if (channelNumber < 0) {
-			// The default channel is a list of channels.  Build it!
+			// The default channel is a list of channels. Build it!
 
 			String query = "select Channel.Number as Number,Dwell,Name,Description,URL from Channel,ChannelList where ListNumber="
 					+ (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
@@ -476,7 +475,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		statusUpdatePeriod = 0;
 	}
 
-	private class MessagingClientLocal extends MessagingClient {
+	class MessagingClientLocal extends MessagingClient {
 		private boolean		debug	= true;
 		private DCProtocol	dcp		= new DCProtocol();
 		private Thread		myShutdownHook;
@@ -506,6 +505,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 
 		@Override
+		public void displayLogMessage(final String msg) {
+			System.out.println(new Date() + " (" + getName() + "): " + msg);
+		}
+
+		@Override
 		public void connectionAccepted() {
 			displayLogMessage("Connection accepted at " + (new Date()));
 		}
@@ -523,4 +527,5 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								+ "] because I am [" + getName() + "]");
 		}
 	}
+	
 }

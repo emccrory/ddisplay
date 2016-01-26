@@ -14,6 +14,7 @@ import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 
 /**
  * <p>
@@ -162,7 +163,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			 * suggested here.
 			 * 
 			 */
-			
+
 			playlistThread = new ThreadWithStop((ChannelPlayList) getContent());
 			playlistThread.start();
 		} else
@@ -434,7 +435,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			} else if (getContent().getURI().toString().equalsIgnoreCase(FORCE_REFRESH)) {
 				retval = "Refreshed " + lastChannel.getURI().toASCIIString().replace("'", "\\'");
 			} else
-				retval = (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
+				retval = (new Date(messagingClient.getServerTimeStamp())).toString().substring(0, 20) + " "
+						+ (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
 		}
 		return retval;
 	}

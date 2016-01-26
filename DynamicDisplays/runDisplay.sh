@@ -9,18 +9,23 @@ if [ -e /usr/bin/xterm ]; then
     /usr/bin/xterm  -geometry 200x30 -fa 'Monospace' -fs 12 &
 elif [ -e /opt/X11/bin/xterm ]; then
     # Mac OS
-    /opt/X11/bin/xterm -e 'echo "Starting X11"'&
+    # First, wait for the X Server to initialize
+    /opt/X11/bin/xterm -e 'echo "Starting X11"'
+    # Now start up an X terminal so we can use it to look at log files and stuff
+    /opt/X11/bin/xterm -geometry 200x30 &
 fi
 
 cd ~/src/roc-dynamicdisplays/DynamicDisplays
 
-./runVersionInformation.sh Y
-
-. setupJars.sh
-
 d=`date +%F`
 
 log=../../log/display_${d}_$$.log
+
+echo `date` `pwd` > $log
+
+./runVersionInformation.sh Y >> $log 2>&1
+
+. setupJars.sh
 
 # Do not begin until we can ping the database server
 
@@ -29,17 +34,17 @@ sleepTime=5
 {
     while :
     do
-    # Forever loop. The DB server HAS TO appear eventually!
+    # Forever loop. Really need to assume that the DB server will appear eventually
 	if ping -c 1 $dbs 
 	then
 	    break
 	else
-	    echo `date` Waiting for DB server $dbs to be visible $sleepTime
+	    echo `date` Waiting $sleepTime seconds for the DB server $dbs to be visible 
 	    sleep $sleepTime;
 	fi
-	let sleepTime=sleepTime+1;
+	let sleepTime=sleepTime+2;
 	if [ $sleepTime -gt 300 ]; then
-	    sleepTime=300;
+	    sleepTime=300; # It looks like we are going to be here a while.  Limit the sleep time to 5 minutes.
 	fi
     done
 } >> $log 2>&1
@@ -66,15 +71,14 @@ if [ "$1 X" != " X" ]; then
     screenNum=$1;
 fi
 {
-    echo "Obtaining my messaging server, and determining if it is this node ... "
+    echo `date` "Obtaining my messaging server, and determining if it is this node ... "
     # Get the messaging server for me
     messagingServer=`java -Xmx512m gov.fnal.ppd.dd.GetMessagingServer | grep "MessagingServer=" | awk '{ print $2 }'`
 
-    /bin/date
     # Am I the messaging server??
     if [ $messagingServer = $MyName ]; then
 	if java -Dddisplay.messagingserver=$messagingServer \
-                -Xmx512m gov.fnal.ppd.dd.chat.MessagingServerTest; then
+	    -Xmx512m gov.fnal.ppd.dd.chat.MessagingServerTest; then
 	    echo Messaging server already running;
 	else
 	    echo Messaging server is not present so we shall start it
@@ -85,14 +89,14 @@ fi
 	echo "The messaging server is " $messagingServer ", which is not this node"
     fi
     
-    echo "Determining if I should run a ChannelSelector"
+    echo `date` "Determining if I should run a ChannelSelector"
     if java gov.fnal.ppd.dd.util.HasChannelSelector; then
 	if ps -aef | grep MakeChannelSelector | grep -v grep; then
 	    echo "Already running the ChannelSelector."
 	else
 	    echo "Starting the ChannelSelector";
 	    ./runSelector.sh SKIP
-	    sleep 10;
+	    sleep 20;
 	fi
     fi
 
@@ -100,4 +104,4 @@ fi
     java -Dddisplay.wrappertype=$WrapperType -Xmx1024m \
          gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox -screen=$screenNum 
 
-} >> $log 2>&1 
+} >> $log 2>&1 &

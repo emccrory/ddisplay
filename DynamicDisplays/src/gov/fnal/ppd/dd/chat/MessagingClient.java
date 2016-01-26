@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.security.SignedObject;
 import java.util.Date;
 import java.util.Scanner;
@@ -43,9 +44,9 @@ import java.util.Scanner;
 public class MessagingClient {
 
 	// for I/O
-	private ObjectInputStream	sInput;												// to read from the socket
-	private ObjectOutputStream	sOutput;												// to write on the socket
-	private Socket				socket				= null;
+	private ObjectInputStream	sInput;															// to read from the socket
+	private ObjectOutputStream	sOutput;															// to write on the socket
+	private Socket				socket							= null;
 
 	// the server, the port and the username
 	private String				server, username;
@@ -54,14 +55,15 @@ public class MessagingClient {
 	private ListenFromServer	listenFromServer;
 	private Thread				restartThreadToServer;
 
-	protected long				lastMessageReceived	= 0l;
-	private boolean				keepGoing			= true;
+	protected long				lastMessageReceived				= 0l;
+	private boolean				keepGoing						= true;
 
-	private Object				syncReconnects		= new Object();
-	private final String		serverName			= SPECIAL_SERVER_MESSAGE_USERNAME;
+	private Boolean				syncReconnects					= false;
+	private final String		serverName						= SPECIAL_SERVER_MESSAGE_USERNAME;
 
-	private boolean				readOnly			= true;
-	private Thread				watchServer			= null;
+	private boolean				readOnly						= true;
+	private Thread				watchServer						= null;
+	private long				dontTryToConnectAgainUntilNow	= System.currentTimeMillis();
 
 	/**
 	 * Constructor called by console mode server: the server address port: the port number username: the username
@@ -140,11 +142,19 @@ public class MessagingClient {
 		// try to connect to the server
 		try {
 			socket = new Socket(server, port);
-		}
-		// if it failed not much I can so
-		catch (Exception ec) {
+		} catch (UnknownHostException ec) {
+			displayLogMessage("The messaging server just does not exist at this time!! '" + server + ":" + port
+					+ "'.  Exception is " + ec);
+			disconnect();
+			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 30 * ONE_MINUTE;
+			displayLogMessage("We will wait THIRTY MINUTES (30 min.) before trying to connect to the server again!");
+			return false;
+		} catch (Exception ec) {
+			// if it failed not much I can so
 			displayLogMessage("Error connecting to messaging server, '" + server + ":" + port + "'.  Exception is " + ec);
 			disconnect();
+			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 2 * ONE_MINUTE;
+			displayLogMessage("We will wait at least two minutes (120 seconds) before trying again!");
 			return false;
 		}
 
@@ -164,9 +174,18 @@ public class MessagingClient {
 			 * So, if new ObjectInputStream blocks, it is because the server has not responded yet.
 			 */
 		} catch (IOException eIO) {
-			displayLogMessage("Exception creating new Input/output Streams: " + eIO);
+			displayLogMessage("IOException creating new Input/output Streams: " + eIO);
 			socket = null;
 			disconnect();
+			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 2 * ONE_MINUTE;
+			displayLogMessage("We will wait at least two minutes (120 seconds) before trying again!");
+			return false;
+		} catch (Exception ex) {
+			displayLogMessage("A non IO Exception creating new Input/output Streams: " + ex);
+			socket = null;
+			disconnect();
+			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 2 * ONE_MINUTE;
+			displayLogMessage("We will wait at least two minutes (120 seconds) before trying again!");
 			return false;
 		}
 
@@ -286,15 +305,19 @@ public class MessagingClient {
 
 		// Wait until the server returns
 		restartThreadToServer = new Thread(username + "_restart_connection") {
-			long	wait	= 9000L + (long) (2000 * Math.random());
+			long	wait	= dontTryToConnectAgainUntilNow - System.currentTimeMillis();
 
 			public void run() {
 				synchronized (syncReconnects) {
+					syncReconnects = true;
 					while (socket == null) {
+						if (wait < 0)
+							wait = ONE_MINUTE;
+
 						displayLogMessage("Will wait " + (wait / 1000L)
 								+ " seconds for server to return and then try to connect again.");
 						catchSleep(wait);
-						wait = (wait + 10000L > ONE_MINUTE ? ONE_MINUTE : wait + 10000L);
+						wait = ONE_MINUTE;
 						if (!MessagingClient.this.start()) {
 							displayLogMessage(MessagingClient.class.getSimpleName()
 									+ ".connectionFailed(): Server start failed again at " + (new Date()) + "...");
@@ -304,6 +327,7 @@ public class MessagingClient {
 							+ "]; connection has been restored at " + (new Date()));
 					restartThreadToServer = null;
 				}
+				syncReconnects = false;
 			}
 		};
 		restartThreadToServer.start();
@@ -321,20 +345,24 @@ public class MessagingClient {
 	 * Disconnect from the server.
 	 */
 	protected void close() {
+		keepGoing = false;
 		try {
 			if (sInput != null)
 				sInput.close();
 		} catch (Exception e) {
+			System.err.println("Exception caught while closing sInput! " + e.getLocalizedMessage());
 		} // not much else I can do
 		try {
 			if (sOutput != null)
 				sOutput.close();
 		} catch (Exception e) {
+			System.err.println("Exception caught while closing sOutput! " + e.getLocalizedMessage());
 		} // not much else I can do
 		try {
 			if (socket != null)
 				socket.close();
 		} catch (Exception e) {
+			System.err.println("Exception caught while closing socket! " + e.getLocalizedMessage());
 		} // not much else I can do
 
 		sInput = null;
