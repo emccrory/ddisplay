@@ -25,6 +25,8 @@ echo `date` `pwd` > $log
 
 ./runVersionInformation.sh Y >> $log 2>&1
 
+cd ~/src/roc-dynamicdisplays/DynamicDisplays
+
 . setupJars.sh
 
 # Do not begin until we can ping the database server

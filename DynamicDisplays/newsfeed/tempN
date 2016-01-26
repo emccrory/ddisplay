@@ -1,188 +1,203 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
-  xmlns:content="http://purl.org/rss/1.0/modules/content/"
-  xmlns:wfw="http://wellformedweb.org/CommentAPI/"
-  xmlns:dc="http://purl.org/dc/elements/1.1/"
-  xmlns:atom="http://www.w3.org/2005/Atom"
-  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
-  xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
-  >
-
-<channel>
-  <title>Fermilab at Work</title>
-  <atom:link href="http://news.fnal.gov/rss-faw" rel="self" type="application/rss+xml" />
-  <link>http://news.fnal.gov</link>
-  <!-- Feed Logo (optional) -->
-    <image>
-      <url>http://news.fnal.gov/wp-content/themes/fermilab-newsroom/img/icons/fnal-logomark-blue.png</url>
-      <title>
-        The latest news from News Center.      </title>
-      <link>http://news.fnal.gov</link>
-    </image>
-  <description>Fermilab news</description>
-  <lastBuildDate>Tue, 26 Jan 2016 18:40:23 +0000</lastBuildDate>
-  <language>en-US</language>
-  <sy:updatePeriod>hourly</sy:updatePeriod>
-  <sy:updateFrequency>1</sy:updateFrequency>
-  <generator>https://wordpress.org/?v=4.4.1</generator>
-  <item>
-    <title>Hawk seen on a walk</title>
-    <link>http://news.fnal.gov/2016/01/hawk-seen-on-a-walk/</link>
-    <pubDate>Tue, 26 Jan 2016 09:00:18 +0000</pubDate>
-    <dc:creator><![CDATA[leah]]></dc:creator>
-    		<category><![CDATA[Photo]]></category>
-
-    <guid isPermaLink="false">http://news.fnal.gov/?p=29929</guid>
-                <description><![CDATA[This hawk practically flew into the photographer as he was taking a walk one afternoon.]]></description>
-                          <content:encoded><![CDATA[<div id="attachment_29908" style="width: 1833px" class="wp-caption alignleft"><a href="http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82796ad_IMG_9087.JPG"><img class="wp-image-29908 size-full" src="http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82796ad_IMG_9087.JPG" alt="This hawk practically flew into the photographer as he was taking a walk one afternoon. Photo: Jeff Artel, WDRS" width="1823" height="925" srcset="http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82796ad_IMG_9087-300x152.jpg 300w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82796ad_IMG_9087-768x390.jpg 768w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82796ad_IMG_9087-1024x520.jpg 1024w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82796ad_IMG_9087-450x228.jpg 450w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-05_568c2c82796ad_IMG_9087.JPG 1823w" sizes="(max-width: 1823px) 100vw, 1823px" /></a><p class="wp-caption-text">This hawk practically flew into the photographer as he was taking a walk one afternoon. Photo: Jeff Artel, WDRS</p></div>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>Fermilab&#8217;s second artist in residence mixes tech and art</title>
-    <link>https://soundcloud.com/wdcbnews/fermi-labs-2nd-artist-in-residence-mixes-tech-and-art</link>
-    <pubDate>Tue, 26 Jan 2016 02:47:15 +0000</pubDate>
-    <dc:creator><![CDATA[leah]]></dc:creator>
-    		<category><![CDATA[In the news]]></category>
-
-    <guid isPermaLink="false">http://news.fnal.gov/?p=31415</guid>
-                <description><![CDATA[From WDCB 90.9, Jan. 25, 2016: Fermilab artist-in-residence Ellen Sandor is no stranger to translating science into visual media. She's worked with Jet Propulsion Laboratory and NASA to visualize the invisible. Now she'll do the same at Fermilab. Listen to this eight-minute radio piece featuring Sandor and Art Gallery curator Georgia Schwender.]]></description>
-                          <content:encoded><![CDATA[From WDCB 90.9, Jan. 25, 2016: Fermilab artist-in-residence Ellen Sandor is no stranger to translating science into visual media. She's worked with Jet Propulsion Laboratory and NASA to visualize the invisible. Now she'll do the same at Fermilab. Listen to this eight-minute radio piece featuring Sandor and Art Gallery curator Georgia Schwender.]]></content:encoded>
-                        </item>
-    <item>
-    <title>Jan 28, noon, Fermi Society of Philosophy, Al Brunsting: &#8220;Science and God Existence,&#8221; first talk</title>
-    <link>http://news.fnal.gov/2016/01/jan-28-noon-fermi-society-of-philosophy/</link>
-    <pubDate>Tue, 26 Jan 2016 02:19:49 +0000</pubDate>
-    <dc:creator><![CDATA[burov]]></dc:creator>
-    		<category><![CDATA[Announcements and notices]]></category>
-
-    <guid isPermaLink="false">https://news.fnal.gov/?p=31376</guid>
-                <description><![CDATA[Starting Jan 28, we’ll have a series of four talks of Al Brunsting based on his book on science and God&#8217;s existence. Details about the book and its authors are on our website https://fermisocietyofphilosophy.wordpress.com/. Everybody is welcome. Feel free to come with your lunch. Note the room: Racetrack (WH7X). Time is the same as always, 12 noon.]]></description>
-                          <content:encoded><![CDATA[<p>Starting Jan 28, we’ll have a series of four talks of Al Brunsting based on his book on science and God&#8217;s existence. Details about the book and its authors are on our website <a href="https://fermisocietyofphilosophy.wordpress.com/">https://fermisocietyofphilosophy.wordpress.com/</a>. Everybody is welcome. Feel free to come with your lunch. Note the room: Racetrack (WH7X). Time is the same as always, 12 noon.</p>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>February wellness</title>
-    <link>http://news.fnal.gov/2016/01/february-wellness/</link>
-    <pubDate>Tue, 26 Jan 2016 02:14:34 +0000</pubDate>
-    <dc:creator><![CDATA[jkoester]]></dc:creator>
-    		<category><![CDATA[Announcements and notices]]></category>
-		<category><![CDATA[Story]]></category>
-
-    <guid isPermaLink="false">https://news.fnal.gov/?p=31139</guid>
-                <description><![CDATA[Check out February's wellness offerings, including a free Lunch and Learn session on preventing and alleviating neck pain.]]></description>
-                          <content:encoded><![CDATA[<p><a href="http://news.fnal.gov/wp-content/uploads/2016/01/2016-february-wellness.jpg" ><img src="http://news.fnal.gov/wp-content/uploads/2016/01/2016-february-wellness-102x300.jpg" alt="februarywellness" width="102" height="300" class="alignleft size-medium wp-image-31385" srcset="http://news.fnal.gov/wp-content/uploads/2016/01/2016-february-wellness-102x300.jpg 102w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-february-wellness-768x2259.jpg 768w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-february-wellness-348x1024.jpg 348w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-february-wellness-450x1324.jpg 450w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-february-wellness-85x250.jpg 85w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-february-wellness-300x882.jpg 300w" sizes="(max-width: 102px) 100vw, 102px" /></a></p>
-<p>COMPLIMENTARY WELLNESS</p>
-<p><strong>Lunch &amp; Learn</strong>: Tech Neck<br />
-Are electronics a pain in the neck? Technology has improved our lives in many ways. Unfortunately, it may be a detriment to our necks. Spending two-thirds of the day with our necks angled down while we work at computers, text from phones, and play on tablets can lead to chronic neck pain,and result in a more serious long-term condition. Attend this educational workshop about common conditions caused from this repetitive stress. Learn tips to prevent the onset of pain and find relief from the pain and discomfort you might already be experiencing.</p>
-<p>Tuesday, February 23, Curia II: 12-1 p.m. Lunch will be provided. Limited to 25. RSVP by Feb. 22 to <a href="mailto:megan.diehm@airrosti.com">megan.diehm@airrosti.com</a>.</p>
-<p>&nbsp;</p>
-<p>FITNESS CLASSES</p>
-<p><strong>Mat Pilates</strong><br />
-Mondays: March 7 – April 18<br />
-Fitness Center Exercise Room: 12-12:45pm<br />
-Fee: $87 (Register by February 29)</p>
-<p><strong>Zumba Fitness</strong><br />
-Thursdays: March 3 – April 28 (no class 3/31)<br />
-Fitness Center Exercise Room: noon-12:45 p.m. Fee: $50 (Register by February 25)</p>
-<p><strong>Zumba Toning</strong><br />
-Tuesdays: March 1 – April 26 (no class March 29)<br />
-Fitness Center Exercise Room: noon-12:45 p.m. Fee: $50 (Register by February 23)</p>
-<p>&nbsp;</p>
-<p>EMPLOYEE DISCOUNTS</p>
-<p><strong>Fermi Fridays with Chicago Steel Hockey Team</strong><br />
-Experience Chicagoland’s only Tier 1 Junior Team on Fermilab Fridays (Jan. 29, Feb. 26, March 25, April 8) with the Chicago Steel at the Fox Valley Ice Arena in Geneva! Puck drops at 7:30 p.m. Defense Preferred Tickets are $12 ($16.75 value). Purchase discounted tickets at <a href="http://www.steelgroups.com">www.steelgroups.com</a> and enter password Fermilab. $1.50/ticket processing fee applied to online orders. Tickets purchased on day of game are an additional $2. Contact Dave Campione 855-51-STEEL. <a href="mailto:dcampione@chicagosteelhockeyteam.com">dcampione@chicagosteelhockeyteam.com</a></p>
-<p><strong>Regal Cinema &amp; AMC Theater Movie Tickets</strong><br />
-$9 tickets sold in Wellness Office, WH15W.</p>
-<p><a href="http://wdrs.fnal.gov/wellness/convenience.html">http://wdrs.fnal.gov/wellness/convenience.html</a></p>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>ACA 1095-C and 1095-B mailed to employees</title>
-    <link>http://news.fnal.gov/2016/01/aca-1095-c-and-1095-b-mailed-to-employees/</link>
-    <pubDate>Mon, 25 Jan 2016 19:13:22 +0000</pubDate>
-    <dc:creator><![CDATA[debseb]]></dc:creator>
-    		<category><![CDATA[Announcements and notices]]></category>
-		<category><![CDATA[Fermilab at Work]]></category>
-		<category><![CDATA[News you need]]></category>
-
-    <guid isPermaLink="false">http://news.fnal.gov/?p=31358</guid>
-                <description><![CDATA[Affordable Care Act (ACA) forms have been mailed to employees’ home addresses. If you receive one, be sure to keep the form, as you may be required to provide it when filing your 2015 Federal tax return.]]></description>
-                          <content:encoded><![CDATA[<p>Affordable Care Act (ACA) forms have been mailed to employees’ home addresses. If you receive one, be sure to keep the form, as you may be required to provide it when filing your 2015 federal tax return.</p>
-<p><strong>Who will receive a 1095-C?</strong></p>
-<p>Any full-time employees or part-time employees and enrolled in benefits will receive a 1095-C from Fermilab. The ACA requires employers to provide a statement to employees that includes information about the type of healthcare coverage offered to the employees, if any, during the prior year.</p>
-<p><strong>Who will receive a 1095-B?</strong></p>
-<p>Employees enrolled in the Blue Cross Blue Shield Blue Advantage HMO at any point during 2015 will receive a 1095-C from Fermilab with parts I and II completed. Blue Cross Blue Shield Blue Advantage HMO will send anyone enrolled in the HMO a 1095-B with only part III completed.</p>
-<p><strong>What action needs to be taken?</strong></p>
-<p>You should retain your Form for your records. You may be required to provide a copy of your Form 1095-C and Form 1095-B if you are in the HMO with your personal income tax filing. In addition, you or your tax preparer will enter information contained on your Form on your federal income tax return for 2015 to demonstrate that you satisfied the ACA’s obligation to have health insurance.</p>
-<p>The IRS will also receive copies of your form so that it can verify the information you report on your federal income tax return about your health coverage for 2015. The 1095 form is your proof that you had the required coverage. If you are covering family members, their information will be included on your 1095.</p>
-<p><strong>For more information, please attend the ACA 1095 Lunch and Learn on Feb. 1 at noon in One West or review the <a href="http://wdrs.fnal.gov/benefits/ACA-1095-C-B_FAQs.pdf">frequently asked questions guide</a>.</strong> The Lunch and Learn will be <a href="http://vms.fnal.gov/asset/livevideo">live streamed and recorded</a>.</p>
-<p>Questions? Contact the Fermilab Benefits Office (<a href="mailto:benefitsoffice@fnal.gov">benefitsoffice@fnal.gov</a>) and your question will be researched and answered within 24 hours.</p>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>Upcoming professional development courses</title>
-    <link>http://news.fnal.gov/2016/01/upcoming-professional-development-courses/</link>
-    <pubDate>Mon, 25 Jan 2016 16:00:40 +0000</pubDate>
-    <dc:creator><![CDATA[bbrooks]]></dc:creator>
-    		<category><![CDATA[Announcements and notices]]></category>
-
-    <guid isPermaLink="false">https://news.fnal.gov/?p=31349</guid>
-                <description><![CDATA[Courses on the Professional Development schedule for February include: -Excel 2013 Shortcuts &#8211; Feb 2 -Interpersonal Communication Skills &#8211; Feb 3 -Word 2013: Tips, Tricks &#38; Techniques &#8211; Feb 9 -PowerPoint 2013: Tips &#38; Tricks &#8211; Feb 16 -Excel 2013: Power User &#8211; Feb 23 For more information and enrollment go to: http://wdrs.fnal.gov/train-dev/index.html#computer]]></description>
-                          <content:encoded><![CDATA[<p>Courses on the Professional Development schedule for February include:</p>
-<p>-Excel 2013 Shortcuts &#8211; Feb 2</p>
-<p>-Interpersonal Communication Skills &#8211; Feb 3</p>
-<p>-Word 2013: Tips, Tricks &amp; Techniques &#8211; Feb 9</p>
-<p>-PowerPoint 2013: Tips &amp; Tricks &#8211; Feb 16</p>
-<p>-Excel 2013: Power User &#8211; Feb 23</p>
-<p>For more information and enrollment go to: <a href="http://wdrs.fnal.gov/train-dev/index.html#computer">http://wdrs.fnal.gov/train-dev/index.html#computer</a></p>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>Why I Love Neutrinos &#8211; Naba Mondal</title>
-    <link>https://youtu.be/LEyVsGGqsVg</link>
-    <pubDate>Mon, 25 Jan 2016 15:51:16 +0000</pubDate>
-    <dc:creator><![CDATA[leah]]></dc:creator>
-    		<category><![CDATA[Story]]></category>
-		<category><![CDATA[Video]]></category>
-
-    <guid isPermaLink="false">http://news.fnal.gov/?p=31343</guid>
-                <description><![CDATA[Why I Love Neutrinos is a series spotlighting those mysterious, abundant, ghostly particles that are all around us. This installment features Professor Naba Mondal.]]></description>
-                          <content:encoded><![CDATA[Why I Love Neutrinos is a series spotlighting those mysterious, abundant, ghostly particles that are all around us. This installment features Professor Naba Mondal.]]></content:encoded>
-                        </item>
-    <item>
-    <title>DVD Storage Unit for sale</title>
-    <link>http://news.fnal.gov/2016/01/dvd-storage-unit-sale/</link>
-    <pubDate>Mon, 25 Jan 2016 13:13:40 +0000</pubDate>
-    <dc:creator><![CDATA[votava]]></dc:creator>
-    		<category><![CDATA[Classifieds]]></category>
-
-    <guid isPermaLink="false">https://news.fnal.gov/?p=31316</guid>
-                <description><![CDATA[DVD Storage unit for sale &#8211; $20. Approximately 65 inches tall and 24 inches wide. It&#8217;s lockable, but we have lost the keys. Please contact Margaret at votava@fnal.gov or x2625 if interested.http://2016-01-24_56a595953647a_IMG_0391.JPG http://2016-01-24_56a59595365c9_IMG_0392.JPG]]></description>
-                          <content:encoded><![CDATA[<p>DVD Storage unit for sale &#8211; $20. Approximately 65 inches tall and 24 inches wide. It&#8217;s lockable, but we have lost the keys. Please contact Margaret at <a href="mailto:votava@fnal.gov">votava@fnal.gov</a> or x2625 if interested.<a href="http://2016-01-24_56a595953647a_IMG_0391.JPG">http://2016-01-24_56a595953647a_IMG_0391.JPG</a> <a href="http://2016-01-24_56a59595365c9_IMG_0392.JPG">http://2016-01-24_56a59595365c9_IMG_0392.JPG</a></p>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>URA Thesis Award Competition</title>
-    <link>http://news.fnal.gov/2016/01/ura-thesis-award-competition/</link>
-    <pubDate>Mon, 25 Jan 2016 13:09:12 +0000</pubDate>
-    <dc:creator><![CDATA[lenny]]></dc:creator>
-    		<category><![CDATA[Announcements and notices]]></category>
-
-    <guid isPermaLink="false">https://news.fnal.gov/?p=31313</guid>
-                <description><![CDATA[Fermilab and the Universities Research Association invite submissions for the nineteenth annual URA Thesis Award competition. Nominations must be submitted to Lenny Spiegel at lenny@fnal.gov by March 18, 2016 and should include two letters supporting the merits of the thesis being nominated. At least one letter should be from a member of the thesis committee of the PhD granting institution and, for work carried out in collaboration with Fermilab scientists, at least one of the letters should come from one... <a class="more-link" href="http://news.fnal.gov/2016/01/ura-thesis-award-competition/"> More &#187;</a>]]></description>
-                          <content:encoded><![CDATA[<p>Fermilab and the Universities Research Association invite submissions for the nineteenth annual URA Thesis Award competition. Nominations must be submitted to Lenny Spiegel at <a href="mailto:lenny@fnal.gov">lenny@fnal.gov</a> by March 18, 2016 and should include two letters supporting the merits of the thesis being nominated. At least one letter should be from a member of the thesis committee of the PhD granting institution and, for work carried out in collaboration with Fermilab scientists, at least one of the letters should come from one of those scientists. For further details consult the URA Thesis Award website at: <a href="http://www.fnal.gov/pub/forphysicists/fellowships/ura_thesis/index.html">http://www.fnal.gov/pub/forphysicists/fellowships/ura_thesis/index.html</a>.</p>
-]]></content:encoded>
-                        </item>
-    <item>
-    <title>Geese make a neutrino topology</title>
-    <link>http://news.fnal.gov/2016/01/geese-make-a-neutrino-topology/</link>
-    <pubDate>Mon, 25 Jan 2016 09:00:28 +0000</pubDate>
-    <dc:creator><![CDATA[leah]]></dc:creator>
-    		<category><![CDATA[Photo]]></category>
-
-    <guid isPermaLink="false">http://news.fnal.gov/?p=31130</guid>
-                <description><![CDATA[Did a goose-sized particle just interact with an air molecule? The geese's flying pattern as the pass over Wilson hall is reminiscent of a typical neutrino interaction topology in a neutrino detector.]]></description>
-                          <content:encoded><![CDATA[<div id="attachment_31133" style="width: 3274px" class="wp-caption alignleft"><a href="http://news.fnal.gov/wp-content/uploads/2016/01/neutrino-geese.jpg" ><img src="http://news.fnal.gov/wp-content/uploads/2016/01/neutrino-geese.jpg" alt="Did a goose-sized particle just interact with an air molecule? The geese&#039;s flying pattern as the pass over Wilson hall is reminiscent of a typical neutrino interaction topology in a neutrino detector. Photo: Nitin Yadav, Indian Institute of Technology - Kandur" width="3264" height="2448" class="size-full wp-image-31133" srcset="http://news.fnal.gov/wp-content/uploads/2016/01/neutrino-geese-300x225.jpg 300w, http://news.fnal.gov/wp-content/uploads/2016/01/neutrino-geese-768x576.jpg 768w, http://news.fnal.gov/wp-content/uploads/2016/01/neutrino-geese-1024x768.jpg 1024w, http://news.fnal.gov/wp-content/uploads/2016/01/neutrino-geese-450x338.jpg 450w, http://news.fnal.gov/wp-content/uploads/2016/01/neutrino-geese.jpg 3264w" sizes="(max-width: 3264px) 100vw, 3264px" /></a><p class="wp-caption-text">Did a goose-sized particle just interact with an air molecule? The geese&#8217;s flying pattern as the pass over Wilson hall is reminiscent of a typical neutrino interaction topology in a neutrino detector. Photo: Nitin Yadav, Indian Institute of Technology &#8211; Kandur</p></div>
-]]></content:encoded>
-                        </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/">
+<channel rdf:about="http://www.sciencemag.org/about"><title>Science This Week in Science TOC RSS Feed</title>
+<link>http://www.sciencemag.org</link>
+<description><![CDATA[Research highlights from the current issue of Science Magazine]]></description>
+<dc:publisher>American Association for the Advancement of Science</dc:publisher>
+<dc:creator>Science Magazine (mailto:soleditor@aaas.org)</dc:creator>
+<dc:rights>Copyright 2014 American Association for the Advancement of Science</dc:rights>
+<dc:date>2016-01-21T13:45:44-05:00</dc:date>
+<dc:language>en</dc:language>
+<items>
+<rdf:Seq>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.1"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.2"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.3"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.4"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.5"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.6"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.7"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.8"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.9"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.10"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.11"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.12"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.13"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.14"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.15"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.16"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.17"/>
+</rdf:Seq>
+</items>
+</channel>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.1">
+<title>[Gut Microbiota] Social activity alters gut microbiomes</title>
+<link>http://science.sciencemag.org/content/351/6271/350.1</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Philip Yeagle</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Social behavior affects which bacterial species populate the gut microbiome in primate societies. Moeller <em>et al.</em> combined thousands of hours of behavioral observation of the – <a href='http://science.sciencemag.org/content/351/6271/350.1'>[Read More]</a>]]></description>
+<dc:subject>Gut Microbiota</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-a</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.2">
+<title>[Gene Editing] Editing can help build stronger muscles</title>
+<link>http://science.sciencemag.org/content/351/6271/350.2</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Paula A. Kiberstis</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Much of the controversy surrounding the gene-editing technology called CRISPR/Cas9 centers on the ethics of germline editing of human embryos to correct disease-causing mutations. For – <a href='http://science.sciencemag.org/content/351/6271/350.2'>[Read More]</a>]]></description>
+<dc:subject>Gene Editing</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-b</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.3">
+<title>[Radio Astronomy] Identifying live radio scattering events</title>
+<link>http://science.sciencemag.org/content/351/6271/350.3</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Keith T. Smith</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Radio emissions from distant quasars are occasionally modified for a few weeks by foreground interstellar plasma, in an extreme scattering event (ESE). Understanding this process has – <a href='http://science.sciencemag.org/content/351/6271/350.3'>[Read More]</a>]]></description>
+<dc:subject>Radio Astronomy</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-c</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.4">
+<title>[Molecular Frameworks] Weaving organic threads</title>
+<link>http://science.sciencemag.org/content/351/6271/350.4</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Phil Szuromi</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Woven fabrics are inherently flexible. Liu <em>et al.</em> created a molecular fabric analog using metal-organic frameworks (see the Perspective by Gutierrez-Puebla). Phenanthroline – <a href='http://science.sciencemag.org/content/351/6271/350.4'>[Read More]</a>]]></description>
+<dc:subject>Molecular Frameworks</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-d</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.5">
+<title>[Photophysics] A different way to put triplets in play</title>
+<link>http://science.sciencemag.org/content/351/6271/350.5</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Jake Yeston</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Most molecules adopt a singlet spin configuration: All their electrons are arranged in pairs. Unpaired triplet states engage in a variety of useful reactions but are hard to produce. – <a href='http://science.sciencemag.org/content/351/6271/350.5'>[Read More]</a>]]></description>
+<dc:subject>Photophysics</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-e</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.6">
+<title>[Geochemistry] New crustal clues from old rocks</title>
+<link>http://science.sciencemag.org/content/351/6271/350.6</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Brent Grocholski</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">The ghost of continental crust long eroded away may exist in certain element ratios found in Archean rocks. Tang <em>et al.</em> used Ni/Co and Cr/Zn ratios as a proxy for the magnesium – <a href='http://science.sciencemag.org/content/351/6271/350.6'>[Read More]</a>]]></description>
+<dc:subject>Geochemistry</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-f</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.7">
+<title>[Vascular Biology] Raising blood pressure with age</title>
+<link>http://science.sciencemag.org/content/351/6271/350.7</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Wei Wong</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Hypertrophy of vascular smooth muscle cells increases blood pressure. The activation of angiotensin AT1 receptors in vascular smooth muscle cells by angiotensin II can trigger either – <a href='http://science.sciencemag.org/content/351/6271/350.7'>[Read More]</a>]]></description>
+<dc:subject>Vascular Biology</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-g</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.8">
+<title>[Comparative Behavior] Let me comfort you</title>
+<link>http://science.sciencemag.org/content/351/6271/350.8</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Sacha Vignieri</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Consolation behavior promotes stress reduction of one by another. We know that consolation occurs in humans and apes. Burkett <em>et al.</em> observed that within a pair of monogamous – <a href='http://science.sciencemag.org/content/351/6271/350.8'>[Read More]</a>]]></description>
+<dc:subject>Comparative Behavior</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-h</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.9">
+<title>[Neurodevelopment] Neuronal migrations follow vascular pathways</title>
+<link>http://science.sciencemag.org/content/351/6271/350.9</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Pamela J. Hines</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">In the developing brain, various types of cells migrate from their birthplaces to their workplaces. Oligodendrocyte precursors, which develop to form the insulating sheaths that make – <a href='http://science.sciencemag.org/content/351/6271/350.9'>[Read More]</a>]]></description>
+<dc:subject>Neurodevelopment</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-i</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.10">
+<title>[Solar Energy] Relying more on the Sun</title>
+<link>http://science.sciencemag.org/content/351/6271/350.10</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Phil Szuromi</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Improved technologies for harnessing solar energy are not limited to creating more efficient solar cells. The associated hardware of delivering power from solar cells to homes and businesses, – <a href='http://science.sciencemag.org/content/351/6271/350.10'>[Read More]</a>]]></description>
+<dc:subject>Solar Energy</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-j</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.11">
+<title>[Applied Optics] Timing on a chip</title>
+<link>http://science.sciencemag.org/content/351/6271/350.11</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Ian S. Osborne</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Laser-induced optical frequency combs allow precision measurements and affect a broad range of technologies. Brasch <em>et al.</em> generated optical frequency combs on an optical chip – <a href='http://science.sciencemag.org/content/351/6271/350.11'>[Read More]</a>]]></description>
+<dc:subject>Applied Optics</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-k</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.12">
+<title>[Electrochemisty] The right kind of dopant</title>
+<link>http://science.sciencemag.org/content/351/6271/350.12</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Marc S. Lavine</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">The oxygen reduction reaction is an important step in fuel cells and other electrochemical processes but is still largely dependent on precious metal-containing catalysts. Recently – <a href='http://science.sciencemag.org/content/351/6271/350.12'>[Read More]</a>]]></description>
+<dc:subject>Electrochemisty</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-l</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.13">
+<title>[Plant Development] Cell death establishes a site for development</title>
+<link>http://science.sciencemag.org/content/351/6271/350.13</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Pamela J. Hines</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">As plant roots grow through the soil, lateral roots emerge to reach more resources. Xuan <em>et al.</em> now show that programmed cell death sets the course for lateral root development. – <a href='http://science.sciencemag.org/content/351/6271/350.13'>[Read More]</a>]]></description>
+<dc:subject>Plant Development</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-m</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.14">
+<title>[Pollinator Diversity] More-diverse pollinators improve crop yields</title>
+<link>http://science.sciencemag.org/content/351/6271/350.14</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Sacha Vignieri</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">It is known that increased pollinator diversity can improve the yield of agricultural crops. However, how best to both produce food and maintain diversity is still debated. Garibaldi – <a href='http://science.sciencemag.org/content/351/6271/350.14'>[Read More]</a>]]></description>
+<dc:subject>Pollinator Diversity</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-n</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.15">
+<title>[Small RNAs] Offspring affected by sperm small RNAs</title>
+<link>http://science.sciencemag.org/content/351/6271/350.15</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Beverly A. Purnell</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Paternal dietary conditions in mammals influence the metabolic phenotypes of offspring. Although prior work suggests the involvement of epigenetic pathways, the mechanisms remains unclear. – <a href='http://science.sciencemag.org/content/351/6271/350.15'>[Read More]</a>]]></description>
+<dc:subject>Small RNAs</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-o</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.16">
+<title>[Microbiology] Two steps in one</title>
+<link>http://science.sciencemag.org/content/351/6271/350.16</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Julia Fahrenkamp-Uppenbrink</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Bacteria play key roles in the global nitrogen cycle; for example, by converting ammonia (NH<sub>3</sub>) to nitrate (NO<sub>4</sub><sup>−</sup>). This conversion is typically performed b – <a href='http://science.sciencemag.org/content/351/6271/350.16'>[Read More]</a>]]></description>
+<dc:subject>Microbiology</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-p</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6271/350.17">
+<title>[Medical Genomics] Share trumps rare</title>
+<link>http://science.sciencemag.org/content/351/6271/350.17</link>
+<dc:date>2016-01-22</dc:date>
+<dc:creator>Kelly LaMarco</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">No longer just buzz words, “patient empowerment” and “data sharing” are enabling breakthrough research on rare genetic diseases. Although more than 100,000 genetic variants are bel – <a href='http://science.sciencemag.org/content/351/6271/350.17'>[Read More]</a>]]></description>
+<dc:subject>Medical Genomics</dc:subject>
+<dc:identifier>10.1126/science.351.6271.350-q</dc:identifier>
+</item>
+</rdf:RDF>

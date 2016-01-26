@@ -344,6 +344,7 @@ public class VersionInformation implements Serializable {
 	 */
 	public static void saveDBVersionInformation(final VersionInformation vi, String gitHashCode) {
 		Connection connection;
+		String query="";
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 
@@ -358,18 +359,19 @@ public class VersionInformation implements Serializable {
 							+ c.get(Calendar.DAY_OF_MONTH) + " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":"
 							+ c.get(Calendar.SECOND);
 
-					String query = "INSERT INTO GitHashDecode (HashCode, HashDate, Flavor, Version, Description) VALUES (" + //
+					query = "INSERT INTO GitHashDecode (HashCode, HashDate, Flavor, Version, Description) VALUES (" + //
 							"'" + gitHashCode + "', " + //
 							"'" + dateString + "', " + //
 							"'" + vi.getDisposition() + "', " + //
 							"'" + vi.getVersionString() + "', " + //
-							"'" + vi.getVersionDescription() + "'" + //
+							"'" + vi.getVersionDescription().replace("'", "\\'") + "'" + //
 							")";
 
 					stmt.executeUpdate(query);
 				}
 			}
 		} catch (Exception e) {
+			System.err.println("Query was [" + query + "]");
 			e.printStackTrace();
 		}
 	}
