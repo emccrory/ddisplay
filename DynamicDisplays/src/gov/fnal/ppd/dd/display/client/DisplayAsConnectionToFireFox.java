@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.display.client;
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;
 import static gov.fnal.ppd.dd.GlobalVariables.DEFAULT_DWELL_TIME;
 import static gov.fnal.ppd.dd.GlobalVariables.FORCE_REFRESH;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -14,6 +15,7 @@ import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -422,21 +424,25 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 	@Override
 	protected String getStatusString() {
-		String retval = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if ( messagingClient.getServerTimeStamp() + 6*ONE_HOUR > System.currentTimeMillis() ) 
+			sdf = new SimpleDateFormat("HH:mm:ss");
+
+		String retval = sdf.format(new Date(messagingClient.getServerTimeStamp())) + " ";
+		
 		if (firefox == null) {
-			retval = "*NOT CONNECTED TO BROWSER* Initializing ...";
+			retval += "*NOT CONNECTED TO BROWSER* Initializing ...";
 		} else if (!firefox.isConnected()) {
-			retval = "*NOT CONNECTED TO BROWSER* Last page " + getContent().getURI();
+			retval += "*NOT CONNECTED TO BROWSER* Last page " + getContent().getURI();
 		} else if (getContent() == null)
-			retval = "Off Line";
+			retval += "Off Line";
 		else {
 			if (getContent().getURI().toString().equalsIgnoreCase(SELF_IDENTIFY)) {
-				retval = "Doing a self-identify ... ";
+				retval += "Doing a self-identify ... ";
 			} else if (getContent().getURI().toString().equalsIgnoreCase(FORCE_REFRESH)) {
-				retval = "Refreshed " + lastChannel.getURI().toASCIIString().replace("'", "\\'");
-			} else
-				retval = (new Date(messagingClient.getServerTimeStamp())).toString().substring(0, 20) + " "
-						+ (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
+				retval += "Refreshed " + lastChannel.getURI().toASCIIString().replace("'", "\\'");
+			} else 
+				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
 		}
 		return retval;
 	}

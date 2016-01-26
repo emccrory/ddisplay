@@ -147,7 +147,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					if (getContent() instanceof Channel)
 						message += "\n                             -- (" + ((Channel) getContent()).getURI() + ")";
 					message += "\n                             -- Last communication with server: "
-							+ new Date(getServerTimeStamp());
+							+ new Date(messagingClient.getServerTimeStamp());
 					println(DisplayControllerMessagingAbstract.this.getClass(), message);
 				} catch (Exception e) {
 					println(DisplayControllerMessagingAbstract.this.getClass(),
@@ -527,5 +527,5 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								+ "] because I am [" + getName() + "]");
 		}
 	}
-	
+
 }
