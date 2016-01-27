@@ -586,7 +586,7 @@ public class CreateListOfChannels extends JPanel {
 
 		Box bh = Box.createHorizontalBox();
 		bh.add(Box.createHorizontalGlue());
-		bh.add(new BigLabel("Dwell time (msec): ", Font.PLAIN));
+		bh.add(new BigLabel("Approximate Dwell time (msec): ", Font.PLAIN));
 
 		final SpinnerModel model = new SpinnerListModel(getDwellStrings());
 		time = new JSpinner(model);
@@ -665,21 +665,25 @@ public class CreateListOfChannels extends JPanel {
 							labelList.remove(lab);
 						} else {
 							long defaultDwell = (Long) time.getValue();
+							long actualDwell = 0;
 							if (CONTENT.getTime() == 0 || CONTENT.getTime() > defaultDwell) {
 								CONTENT.setTime(defaultDwell);
 								channelList.add(CONTENT);
+								actualDwell = defaultDwell;
 							} else {
 								// Simple change here: Based on the internal refresh time of the channel, add 1 or more instances of
 								// this channel the the list. E.g., if the user is asking for a dwell of an hour, but the channel
 								// has a refresh of 20 minutes, it will put the channel in the list 3 times, at 20 minutes per.
 
 								long tm = defaultDwell;
-								for (; tm >= CONTENT.getTime(); tm -= CONTENT.getTime())
+								for (; tm >= CONTENT.getTime(); tm -= CONTENT.getTime()) {
 									channelList.add(CONTENT);
+									actualDwell += CONTENT.getTime();
+								}
 
 								// TODO -- Add a copy of this channel that gets refreshed at time=(the remaining value of) tm.
 							}
-							lab.setText("" + CONTENT.getTime());
+							lab.setText("" + actualDwell);
 							labelList.add(lab);
 						}
 						fixLabels();
