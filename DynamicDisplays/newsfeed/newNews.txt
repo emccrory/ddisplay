@@ -1,4 +1,14 @@
 ﻿<b>Fermilab News</b>
 <b>CERN and U.S. increase cooperation</b> <em>December 18, 2015</em> -- The United States and the European physics laboratory have formally agreed to partner on continued LHC research, upcoming neutrino research and a future collider.
 <b>Accelerator update</b> -- Main Injector/Recycler 4+6 slip-stacking beam to NuMI; Booster has set an all-time intensity record of 1.9E17 (one hundred ninety quadrillion) protons per hour.
-<b>Fermi Today Headlines</b> Retrieved Tue Jan 26 13:00:01 CST 2016
+<b>Fermi Today Headlines</b> Retrieved Wed Jan 27 11:00:01 CST 2016
+<em>Fermilab at Work, http://news.fnal.gov (Retrieved Wed Jan 27 11:00:02 CST 2016)</em>
+<b>Space heater recall and space heater safety</b>: Check your offices and homes for a Vornado portable space heater.  There is one Vornado space heater that has been recently recalled, and this type space heater was involved in a fire at a national laboratory.  View the recall information and space heater safety information here: http://esh-docdb.fnal.gov/cgi-bin/ShowDocument?docid=3186
+<b>Particles and unparticles</b>: CMS goes looking for unparticles and dark matter, studying events in which a Z boson was created, as well as undetected energy that would be the signal of either a dark matter particle or unparticle escaping.
+<b>Snowflakes by Lederman Science Center</b>: These delicate snowflakes fell near the Lederman Science Center on Jan. 20. 
+<b>The genetic purity and diversity of the Fermilab bison herd</b>: The Fermilab bison herd, a symbol of the laboratory's pioneering spirit, are genetically pure, with not a bit of cattle genetics in evidence.
+<b>Our imperfect vacuum</b>: The emptiest parts of the universe aren’t so empty after all.
+<b>Hawk seen on a walk</b>: This hawk practically flew into the photographer as he was taking a walk one afternoon.
+<b>Fermilab’s second artist in residence mixes tech and art</b>: From WDCB 90.9, Jan. 25, 2016: Fermilab artist-in-residence Ellen Sandor is no stranger to translating science into visual media. She's worked with Jet Propulsion Laboratory and NASA to visualize the invisible. Now she'll do the same at Fermilab. Listen to this eight-minute radio piece featuring Sandor and Art Gallery curator Georgia Schwender.
+<b>Jan 28, noon, Fermi Society of Philosophy, Al Brunsting: “Science and God Existence,” first talk</b>: Starting Jan 28, we’ll have a series of four talks of Al Brunsting based on his book on science and God&#8217;s existence. Details about the book and its authors are on our website https://fermisocietyofphilosophy.wordpress.com/. Everybody is welcome. Feel free to come with your lunch. Note the room: Racetrack (WH7X). Time is the same as always, 12 noon.
+<b>February wellness</b>: Check out February's wellness offerings, including a free Lunch and Learn session on preventing and alleviating neck pain.
