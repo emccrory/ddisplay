@@ -218,11 +218,6 @@ public class ChannelPlayList implements Channel {
 	 * Point to the next channel in the list
 	 */
 	public void advanceChannel() {
-		if (lastAdvanceTime + channels.get(currentChannel).getTime() < System.currentTimeMillis()) {
-			// This channel is still valid, keep playing it.
-			return;
-		}
-		lastAdvanceTime = System.currentTimeMillis();
 		currentChannel++;
 		if (currentChannel >= channels.size())
 			currentChannel = 0;
@@ -230,9 +225,13 @@ public class ChannelPlayList implements Channel {
 
 	@Override
 	public String toString() {
-		String retval = "List of length " + channels.size() + ": [" ;
-		for (SignageContent SC: channels) 
-			retval += "(" + SC.getName() + " @ " + SC.getTime() + "msec) ";
-		return retval;
+		String retval = "List of length " + channels.size() + ": {";
+		// for (SignageContent SC: channels) {
+		for (int k = 0; k < channels.size(); k++) {
+			int index = (k + currentChannel) % channels.size();
+			SignageContent SC = channels.get(index);
+			retval += "([" + index + "] " + SC.getName() + " @ " + SC.getTime() + "msec) ";
+		}
+		return retval + "}";
 	}
 }
