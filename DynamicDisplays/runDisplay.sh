@@ -1,5 +1,15 @@
 #!/bin/bash
 
+d=`date +%F`
+log=~/src/log/display_${d}_$$.log
+workingDirectory=~/src/roc-dynamicdisplays/DynamicDisplays
+
+# first verify that this script is not running now
+if ps -aef | grep $workingDirectory/$0 | grep -v grep ; then
+    echo `date` It looks like this script is already running > $log
+    exit 1;
+fi
+
 # We need something to run on the X display, otherwise the present version of FireFox, with the
 # kiosk mode enabled, won't let us get to the desktop
 cd ~/src/log
@@ -15,17 +25,13 @@ elif [ -e /opt/X11/bin/xterm ]; then
     /opt/X11/bin/xterm -geometry 200x30 &
 fi
 
-cd ~/src/roc-dynamicdisplays/DynamicDisplays
-
-d=`date +%F`
-
-log=../../log/display_${d}_$$.log
+cd $workingDirectory
 
 echo `date` `pwd` > $log
 
 ./runVersionInformation.sh Y >> $log 2>&1
 
-cd ~/src/roc-dynamicdisplays/DynamicDisplays
+cd $workingDirectory
 
 . setupJars.sh
 
