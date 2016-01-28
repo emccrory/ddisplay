@@ -6,198 +6,220 @@
 <dc:publisher>American Association for the Advancement of Science</dc:publisher>
 <dc:creator>Science Magazine (mailto:soleditor@aaas.org)</dc:creator>
 <dc:rights>Copyright 2014 American Association for the Advancement of Science</dc:rights>
-<dc:date>2016-01-21T13:45:44-05:00</dc:date>
+<dc:date>2016-01-28T13:03:57-05:00</dc:date>
 <dc:language>en</dc:language>
 <items>
 <rdf:Seq>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.1"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.2"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.3"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.4"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.5"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.6"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.7"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.8"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.9"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.10"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.11"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.12"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.13"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.14"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.15"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.16"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6271/350.17"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.1"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.2"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.3"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.4"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.5"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.6"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.7"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.8"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.9"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.10"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.11"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.12"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.13"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.14"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.15"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.16"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.17"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.18"/>
+<rdf:li resource="http://science.sciencemag.org/content/351/6272/461.19"/>
 </rdf:Seq>
 </items>
 </channel>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.1">
-<title>[Gut Microbiota] Social activity alters gut microbiomes</title>
-<link>http://science.sciencemag.org/content/351/6271/350.1</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Philip Yeagle</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Social behavior affects which bacterial species populate the gut microbiome in primate societies. Moeller <em>et al.</em> combined thousands of hours of behavioral observation of the – <a href='http://science.sciencemag.org/content/351/6271/350.1'>[Read More]</a>]]></description>
-<dc:subject>Gut Microbiota</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-a</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.2">
-<title>[Gene Editing] Editing can help build stronger muscles</title>
-<link>http://science.sciencemag.org/content/351/6271/350.2</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Paula A. Kiberstis</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Much of the controversy surrounding the gene-editing technology called CRISPR/Cas9 centers on the ethics of germline editing of human embryos to correct disease-causing mutations. For – <a href='http://science.sciencemag.org/content/351/6271/350.2'>[Read More]</a>]]></description>
-<dc:subject>Gene Editing</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-b</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.3">
-<title>[Radio Astronomy] Identifying live radio scattering events</title>
-<link>http://science.sciencemag.org/content/351/6271/350.3</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Keith T. Smith</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Radio emissions from distant quasars are occasionally modified for a few weeks by foreground interstellar plasma, in an extreme scattering event (ESE). Understanding this process has – <a href='http://science.sciencemag.org/content/351/6271/350.3'>[Read More]</a>]]></description>
-<dc:subject>Radio Astronomy</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-c</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.4">
-<title>[Molecular Frameworks] Weaving organic threads</title>
-<link>http://science.sciencemag.org/content/351/6271/350.4</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Phil Szuromi</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Woven fabrics are inherently flexible. Liu <em>et al.</em> created a molecular fabric analog using metal-organic frameworks (see the Perspective by Gutierrez-Puebla). Phenanthroline – <a href='http://science.sciencemag.org/content/351/6271/350.4'>[Read More]</a>]]></description>
-<dc:subject>Molecular Frameworks</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-d</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.5">
-<title>[Photophysics] A different way to put triplets in play</title>
-<link>http://science.sciencemag.org/content/351/6271/350.5</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Jake Yeston</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Most molecules adopt a singlet spin configuration: All their electrons are arranged in pairs. Unpaired triplet states engage in a variety of useful reactions but are hard to produce. – <a href='http://science.sciencemag.org/content/351/6271/350.5'>[Read More]</a>]]></description>
-<dc:subject>Photophysics</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-e</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.6">
-<title>[Geochemistry] New crustal clues from old rocks</title>
-<link>http://science.sciencemag.org/content/351/6271/350.6</link>
-<dc:date>2016-01-22</dc:date>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.1">
+<title>[Geophysics] A silent and periodic earthquake trigger</title>
+<link>http://science.sciencemag.org/content/351/6272/461.1</link>
+<dc:date>2016-01-29</dc:date>
 <dc:creator>Brent Grocholski</dc:creator>
 <description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">The ghost of continental crust long eroded away may exist in certain element ratios found in Archean rocks. Tang <em>et al.</em> used Ni/Co and Cr/Zn ratios as a proxy for the magnesium – <a href='http://science.sciencemag.org/content/351/6271/350.6'>[Read More]</a>]]></description>
-<dc:subject>Geochemistry</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-f</dc:identifier>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Large earthquakes that hit places such as Japan seem to be preceded by subtle and silent deformation. Uchida <em>et al.</em> show that these “slow-slip events” are quasi-periodic in  – <a href='http://science.sciencemag.org/content/351/6272/461.1'>[Read More]</a>]]></description>
+<dc:subject>Geophysics</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-a</dc:identifier>
 </item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.7">
-<title>[Vascular Biology] Raising blood pressure with age</title>
-<link>http://science.sciencemag.org/content/351/6271/350.7</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Wei Wong</dc:creator>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.2">
+<title>[History of Science] Babylonian astronomers tracked Jupiter</title>
+<link>http://science.sciencemag.org/content/351/6272/461.2</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Keith T. Smith</dc:creator>
 <description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Hypertrophy of vascular smooth muscle cells increases blood pressure. The activation of angiotensin AT1 receptors in vascular smooth muscle cells by angiotensin II can trigger either – <a href='http://science.sciencemag.org/content/351/6271/350.7'>[Read More]</a>]]></description>
-<dc:subject>Vascular Biology</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-g</dc:identifier>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Ancient Babylonian astronomers developed many important concepts that are still in use, including the division of the sky into 360 degrees. They could also predict the positions of – <a href='http://science.sciencemag.org/content/351/6272/461.2'>[Read More]</a>]]></description>
+<dc:subject>History of Science</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-b</dc:identifier>
 </item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.8">
-<title>[Comparative Behavior] Let me comfort you</title>
-<link>http://science.sciencemag.org/content/351/6271/350.8</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Sacha Vignieri</dc:creator>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.3">
+<title>[Superconductivity] Going to extremes to find superconductivity</title>
+<link>http://science.sciencemag.org/content/351/6272/461.3</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Jelena Stajic</dc:creator>
 <description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Consolation behavior promotes stress reduction of one by another. We know that consolation occurs in humans and apes. Burkett <em>et al.</em> observed that within a pair of monogamous – <a href='http://science.sciencemag.org/content/351/6271/350.8'>[Read More]</a>]]></description>
-<dc:subject>Comparative Behavior</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-h</dc:identifier>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Quantum phase transitions (QPTs) occur at zero temperature when parameters such as magnetic field or pressure are varied. In heavy fermion compounds, superconductivity often accompanies – <a href='http://science.sciencemag.org/content/351/6272/461.3'>[Read More]</a>]]></description>
+<dc:subject>Superconductivity</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-c</dc:identifier>
 </item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.9">
-<title>[Neurodevelopment] Neuronal migrations follow vascular pathways</title>
-<link>http://science.sciencemag.org/content/351/6271/350.9</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Pamela J. Hines</dc:creator>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.4">
+<title>[Cystic Fibrosis] Airway infections put to an acid test</title>
+<link>http://science.sciencemag.org/content/351/6272/461.4</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Paula A. Kiberstis</dc:creator>
 <description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">In the developing brain, various types of cells migrate from their birthplaces to their workplaces. Oligodendrocyte precursors, which develop to form the insulating sheaths that make – <a href='http://science.sciencemag.org/content/351/6271/350.9'>[Read More]</a>]]></description>
-<dc:subject>Neurodevelopment</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-i</dc:identifier>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Most people with cystic fibrosis suffer from chronic respiratory infections. The mechanistic link between this symptom and the genetic cause of the disease (mutations that compromise – <a href='http://science.sciencemag.org/content/351/6272/461.4'>[Read More]</a>]]></description>
+<dc:subject>Cystic Fibrosis</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-d</dc:identifier>
 </item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.10">
-<title>[Solar Energy] Relying more on the Sun</title>
-<link>http://science.sciencemag.org/content/351/6271/350.10</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Phil Szuromi</dc:creator>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.5">
+<title>[Immunology] All T cells can remember</title>
+<link>http://science.sciencemag.org/content/351/6272/461.5</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Kristen L. Mueller</dc:creator>
 <description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Improved technologies for harnessing solar energy are not limited to creating more efficient solar cells. The associated hardware of delivering power from solar cells to homes and businesses, – <a href='http://science.sciencemag.org/content/351/6271/350.10'>[Read More]</a>]]></description>
-<dc:subject>Solar Energy</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-j</dc:identifier>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">One of the hallmarks of adaptive immunity is that T and B lymphocytes “remember” previous infections, protecting the host from subsequent infections. When T cells respond to a pathogen, the – <a href='http://science.sciencemag.org/content/351/6272/461.5'>[Read More]</a>]]></description>
+<dc:subject>Immunology</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-e</dc:identifier>
 </item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.11">
-<title>[Applied Optics] Timing on a chip</title>
-<link>http://science.sciencemag.org/content/351/6271/350.11</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Ian S. Osborne</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Laser-induced optical frequency combs allow precision measurements and affect a broad range of technologies. Brasch <em>et al.</em> generated optical frequency combs on an optical chip – <a href='http://science.sciencemag.org/content/351/6271/350.11'>[Read More]</a>]]></description>
-<dc:subject>Applied Optics</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-k</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.12">
-<title>[Electrochemisty] The right kind of dopant</title>
-<link>http://science.sciencemag.org/content/351/6271/350.12</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Marc S. Lavine</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">The oxygen reduction reaction is an important step in fuel cells and other electrochemical processes but is still largely dependent on precious metal-containing catalysts. Recently – <a href='http://science.sciencemag.org/content/351/6271/350.12'>[Read More]</a>]]></description>
-<dc:subject>Electrochemisty</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-l</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.13">
-<title>[Plant Development] Cell death establishes a site for development</title>
-<link>http://science.sciencemag.org/content/351/6271/350.13</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Pamela J. Hines</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">As plant roots grow through the soil, lateral roots emerge to reach more resources. Xuan <em>et al.</em> now show that programmed cell death sets the course for lateral root development. – <a href='http://science.sciencemag.org/content/351/6271/350.13'>[Read More]</a>]]></description>
-<dc:subject>Plant Development</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-m</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.14">
-<title>[Pollinator Diversity] More-diverse pollinators improve crop yields</title>
-<link>http://science.sciencemag.org/content/351/6271/350.14</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Sacha Vignieri</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">It is known that increased pollinator diversity can improve the yield of agricultural crops. However, how best to both produce food and maintain diversity is still debated. Garibaldi – <a href='http://science.sciencemag.org/content/351/6271/350.14'>[Read More]</a>]]></description>
-<dc:subject>Pollinator Diversity</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-n</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.15">
-<title>[Small RNAs] Offspring affected by sperm small RNAs</title>
-<link>http://science.sciencemag.org/content/351/6271/350.15</link>
-<dc:date>2016-01-22</dc:date>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.6">
+<title>[Sex Chromosome] Replacing the Y chromosome</title>
+<link>http://science.sciencemag.org/content/351/6272/461.6</link>
+<dc:date>2016-01-29</dc:date>
 <dc:creator>Beverly A. Purnell</dc:creator>
 <description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Paternal dietary conditions in mammals influence the metabolic phenotypes of offspring. Although prior work suggests the involvement of epigenetic pathways, the mechanisms remains unclear. – <a href='http://science.sciencemag.org/content/351/6271/350.15'>[Read More]</a>]]></description>
-<dc:subject>Small RNAs</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-o</dc:identifier>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">The mammalian Y chromosome encodes a specialized set of genes that are essential for male viability and fertility. In particular, the sex-determining region Y (SRY) protein is necessary – <a href='http://science.sciencemag.org/content/351/6272/461.6'>[Read More]</a>]]></description>
+<dc:subject>Sex Chromosome</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-f</dc:identifier>
 </item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.16">
-<title>[Microbiology] Two steps in one</title>
-<link>http://science.sciencemag.org/content/351/6271/350.16</link>
-<dc:date>2016-01-22</dc:date>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.7">
+<title>[Lunar Formation] Rehomogenizing the Earth-Moon system</title>
+<link>http://science.sciencemag.org/content/351/6272/461.7</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Brent Grocholski</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">A giant impact formed the Moon, and lunar rocks provide insight into that process. Young <em>et al.</em> found that rocks on Earth and the Moon have identical oxygen isotopes. This – <a href='http://science.sciencemag.org/content/351/6272/461.7'>[Read More]</a>]]></description>
+<dc:subject>Lunar Formation</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-g</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.8">
+<title>[Metabolism] Antisense now makes sense</title>
+<link>http://science.sciencemag.org/content/351/6272/461.8</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Megan Frisk</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Mipomersen is a U.S. Food and Drug Administration-approved antisense oligonucleotide that lowers low-density lipoprotein (LDL) in patients with high cholesterol by targeting apolipoprotein – <a href='http://science.sciencemag.org/content/351/6272/461.8'>[Read More]</a>]]></description>
+<dc:subject>Metabolism</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-h</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.9">
+<title>[Developmental Biology] A MEK threshold in the placenta</title>
+<link>http://science.sciencemag.org/content/351/6272/461.9</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Nancy R. Gough</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">The kinases MEK1 and MEK2 have the same substrates, but mice lacking <em>Mek1</em> die as embryos because of placental defects, whereas mice lacking <em>Mek2</em> are viable. Aoidi – <a href='http://science.sciencemag.org/content/351/6272/461.9'>[Read More]</a>]]></description>
+<dc:subject>Developmental Biology</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-i</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.10">
+<title>[Melanoma Initiation] Visualizing the beginnings of melanoma</title>
+<link>http://science.sciencemag.org/content/351/6272/461.10</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Beverly A. Purnell</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">In cancer biology, a tumor begins from a single cell within a group of precancerous cells that share genetic mutations. Kaufman <em>et al.</em> used a zebrafish melanoma model to visualize – <a href='http://science.sciencemag.org/content/351/6272/461.10'>[Read More]</a>]]></description>
+<dc:subject>Melanoma Initiation</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-j</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.11">
+<title>[Polymers] Doubling down on polymerization</title>
+<link>http://science.sciencemag.org/content/351/6272/461.11</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Phil Szuromi</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">In biology, structural polymers such as cytoskeletal fibers assemble from covalently polymerized monomers through weaker supramolecular interactions such as hydrogen bonds. Yu <em>et – <a href='http://science.sciencemag.org/content/351/6272/461.11'>[Read More]</a>]]></description>
+<dc:subject>Polymers</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-k</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.12">
+<title>[Stress Response] How cells keep going in the face of adversity</title>
+<link>http://science.sciencemag.org/content/351/6272/461.12</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Stella M. Hurtley</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">When cells experience stresses that affect their ability to process newly synthesized proteins, they turn down their rates of translation to help them survive the stress. They also – <a href='http://science.sciencemag.org/content/351/6272/461.12'>[Read More]</a>]]></description>
+<dc:subject>Stress Response</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-l</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.13">
+<title>[Structural Biology] Structure of a key spliceosomal complex</title>
+<link>http://science.sciencemag.org/content/351/6272/461.13</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Valda Vinson</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">In eukaryotes, when DNA is transcribed into RNA, the primary transcript has protein-coding sequences interrupted by noncoding sequences called introns. Introns are removed by a complex – <a href='http://science.sciencemag.org/content/351/6272/461.13'>[Read More]</a>]]></description>
+<dc:subject>Structural Biology</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-m</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.14">
+<title>[Surface Science] Nanoclusters just by adding CO</title>
+<link>http://science.sciencemag.org/content/351/6272/461.14</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Phil Szuromi</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">The most closely packed surfaces of transition metals are usually stable under vacuum, but during catalytic reactions, energetic changes that result from adsorbing molecules could change – <a href='http://science.sciencemag.org/content/351/6272/461.14'>[Read More]</a>]]></description>
+<dc:subject>Surface Science</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-n</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.15">
+<title>[Oceanography] Searching sediment for climate signals</title>
+<link>http://science.sciencemag.org/content/351/6272/461.15</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Brent Grocholski</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Sediments on the ocean floor may provide clues about the interplay between ice ages and mid-ocean ridge magma production. Lund <em>et al.</em> present well-dated and detailed sediment – <a href='http://science.sciencemag.org/content/351/6272/461.15'>[Read More]</a>]]></description>
+<dc:subject>Oceanography</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-o</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.16">
+<title>[Biochemistry] A special way to make T</title>
+<link>http://science.sciencemag.org/content/351/6272/461.16</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Guy Riddihough</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">The genomes of all cell-based life consist of DNA. Blocking DNA synthesis is thus lethal, and if targeted selectively, its inhibition can provide cancer and antibiotic treatments. For – <a href='http://science.sciencemag.org/content/351/6272/461.16'>[Read More]</a>]]></description>
+<dc:subject>Biochemistry</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-p</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.17">
+<title>[Conservation] Patterns of biodiversity change</title>
+<link>http://science.sciencemag.org/content/351/6272/461.17</link>
+<dc:date>2016-01-29</dc:date>
 <dc:creator>Julia Fahrenkamp-Uppenbrink</dc:creator>
 <description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Bacteria play key roles in the global nitrogen cycle; for example, by converting ammonia (NH<sub>3</sub>) to nitrate (NO<sub>4</sub><sup>−</sup>). This conversion is typically performed b – <a href='http://science.sciencemag.org/content/351/6271/350.16'>[Read More]</a>]]></description>
-<dc:subject>Microbiology</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-p</dc:identifier>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Invasive species and climate change are altering the composition of ecosystems worldwide. In a Perspective, Magurran considers the effects of these changes, which come in addition to – <a href='http://science.sciencemag.org/content/351/6272/461.17'>[Read More]</a>]]></description>
+<dc:subject>Conservation</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-q</dc:identifier>
 </item>
-<item rdf:about="http://science.sciencemag.org/content/351/6271/350.17">
-<title>[Medical Genomics] Share trumps rare</title>
-<link>http://science.sciencemag.org/content/351/6271/350.17</link>
-<dc:date>2016-01-22</dc:date>
-<dc:creator>Kelly LaMarco</dc:creator>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.18">
+<title>[Evolution] Genetics of bird mating systems</title>
+<link>http://science.sciencemag.org/content/351/6272/461.18</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Julia Fahrenkamp-Uppenbrink</dc:creator>
 <description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">No longer just buzz words, “patient empowerment” and “data sharing” are enabling breakthrough research on rare genetic diseases. Although more than 100,000 genetic variants are bel – <a href='http://science.sciencemag.org/content/351/6271/350.17'>[Read More]</a>]]></description>
-<dc:subject>Medical Genomics</dc:subject>
-<dc:identifier>10.1126/science.351.6271.350-q</dc:identifier>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Elaborate courtship behaviors are no rarity in birds, but some species even have differently colored types of males and females—or morphs—with different reproductive strategies. In  – <a href='http://science.sciencemag.org/content/351/6272/461.18'>[Read More]</a>]]></description>
+<dc:subject>Evolution</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-r</dc:identifier>
+</item>
+<item rdf:about="http://science.sciencemag.org/content/351/6272/461.19">
+<title>[Molecular Evolution] Environmental changes bridge evolutionary valleys</title>
+<link>http://science.sciencemag.org/content/351/6272/461.19</link>
+<dc:date>2016-01-29</dc:date>
+<dc:creator>Philip Yeagle</dc:creator>
+<description><![CDATA[<?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Molecular evolution of individual protein molecules can be described in a “landscape” of possible amino acid sequences containing peaks and valleys. Peaks characterize the beneficial nat – <a href='http://science.sciencemag.org/content/351/6272/461.19'>[Read More]</a>]]></description>
+<dc:subject>Molecular Evolution</dc:subject>
+<dc:identifier>10.1126/science.351.6272.461-s</dc:identifier>
 </item>
 </rdf:RDF>
