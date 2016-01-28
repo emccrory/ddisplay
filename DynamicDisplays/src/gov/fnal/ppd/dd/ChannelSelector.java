@@ -17,6 +17,7 @@ import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelsFromDatabase;
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.changer.DetailedInformationGrid;
 import gov.fnal.ppd.dd.changer.DisplayButtons;
@@ -51,8 +52,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -101,7 +102,13 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private static JFrame					f							= new JFrame("Dynamic Display Channel Selector");
 
 	// private static ActionListener fullRefreshAction = null;
-	private static ActionListener			channelRefreshAction		= null;
+	private static ActionListener			channelRefreshAction		= new ActionListener() {
+																			@Override
+																			public void actionPerformed(ActionEvent e) {
+																				System.out
+																						.println("Default, unfunctional channel refresh action called");
+																			}
+																		};
 	private static ChannelSelector			channelSelector;
 
 	private List<List<ChannelButtonGrid>>	channelButtonGridList		= new ArrayList<List<ChannelButtonGrid>>();
@@ -129,6 +136,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	private SplashScreens					splashScreens;
 	private int								nowShowing					= DDButton.USE_NAME_FIELD;
+	private int								numURLButtonsChanged;
 
 	/**
 	 * Create the channel selector GUI in the normal way
@@ -465,8 +473,18 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), refreshButton, "Channels refreshed",
-						"The URLs of all the channels have been refreshed");
+				new Thread("RefreshURLPopupWait") {
+					public void run() {
+						catchSleep(2000);
+						int numURLs = numURLButtonsChanged / displayList.size();
+						String mess = "<html>The URLs of all the channels have been refreshed, " + numURLButtonsChanged
+								+ " URL buttons changed.";
+						if (numURLButtonsChanged > 0)
+							mess += "  <br>This is " + numURLs + " specific URLs that changed, distributed over the "
+									+ displayList.size() + " displays in the system";
+						new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), refreshButton, "Channels refreshed", mess + "</html>");
+					}
+				}.start();
 			}
 		});
 
@@ -636,8 +654,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
 				titleBox.add(exitButton);
 			}
-//		} else {
-//			titleBox.add(addChannelButton);
+			// } else {
+			// titleBox.add(addChannelButton);
 		}
 
 		titleBox.setOpaque(true);
@@ -706,7 +724,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		// SHOW_IN_WINDOW = args.length > 0 && "WINDOW".equals(args[0]);
 
-		createRefreshActions(sType);
+		channelSelector.createRefreshActions();
 
 		channelSelector.setRefreshAction(channelRefreshAction);
 
@@ -732,117 +750,49 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	}
 
-	private static void createRefreshActions(final SignageType sType) {
-		// @SuppressWarnings("unused")
-		// ActionListener fullRefreshAction = new ActionListener() {
-
-		// FIXME This operation does not work! I suspect this is because of the globals and the socket connections (maybe they
-		// don't get closed properly?)
-		// Another attempt on 8/25/14, and I get a "Socket Closed" exception. (?)
-
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// SwingUtilities.invokeLater(new Runnable() {
-		//
-		// @Override
-		// public void run() {
-		// DisplayFacade.tryToConnectToDisplaysNow = true;
-		// System.out.println("\n\nRefreshing Channel Selector\n\n");
-		// f.setVisible(false);
-		// f.dispose();
-		// f = null;
-		//
-		// channelSelector.destroy();
-		// for (Display D : displayList) {
-		// D.disconnect();
-		// }
-		// displayList.clear();
-		//
-		// channelSelector = null;
-		// displayList = null;
-		// Runtime.getRuntime().gc();
-		// catchSleep(1000);
-		//
-		// // Regenerate the Display list and the Channel list
-		// // DisplayListFactory.useRealDisplays(realDisplays);
-		// // ChannelCatalogFactory.useRealChannels(true);
-		// displayList = DisplayListFactory.getInstance(sType, getLocationCode());
-		//
-		// channelSelector = new ChannelSelector();
-		// channelSelector.start();
-		// // channelSelector.setRefreshAction(fullRefreshAction);
-		//
-		// f = new JFrame("XOC Display Channel Selector");
-		// f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//
-		// f.setUndecorated(!SHOW_IN_WINDOW);
-		//
-		// // DisplayListFactory.useRealDisplays(realDisplays);
-		// // ChannelCatalogFactory.useRealChannels(true);
-		//
-		// f.setContentPane(channelSelector);
-		// if (SHOW_IN_WINDOW)
-		// f.pack();
-		// else
-		// f.setSize(screenDimension);
-		// f.setVisible(true);
-		//
-		// }
-		// });
-		// }
-		// };
-
+	public void createRefreshActions() {
 		channelRefreshAction = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Preparing to refreshing all of the URLs of the channel buttons in this world");
 				SwingUtilities.invokeLater(new Runnable() {
-
 					@Override
 					public void run() {
 						System.out.println("Refreshing URLs of the channel buttons in this world");
-						// An alternate idea on how to implement the refresh
-						/*
-						 * Rather than doing a full refresh, maybe we can just refresh the URLs of the channels that we already
-						 * have. This does not fix the problem of adding channels to the system, but it helps somewhat.
-						 */
 
-						Set<SignageContent> list = ChannelCatalogFactory.refresh()
-								.getChannelCatalog(ChannelCategory.PUBLIC_DETAILS);
-						Set<SignageContent> subList = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.PUBLIC);
-						list.addAll(subList);
-						subList = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.EXPERIMENT_DETAILS);
-						list.addAll(subList);
-						subList = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.NOVA_DETAILS);
-						list.addAll(subList);
-						subList = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.NUMI_DETAILS);
-						list.addAll(subList);
-						subList = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.MISCELLANEOUS);
-						list.addAll(subList);
+						Collection<SignageContent> list = ((ChannelsFromDatabase) ChannelCatalogFactory.refresh()).values();
 
 						// list contains all the channels from the database Now check the URLs in the DB versus the ones we have now
 						// that are attached to all the buttons in our realm
 						int numButtons = 0;
-						int numChanged = 0;
-						synchronized (channelSelector.channelButtonGridList) {
-							for (List<ChannelButtonGrid> gridList : channelSelector.channelButtonGridList) {
+						numURLButtonsChanged = 0;
+						synchronized (channelButtonGridList) {
+							for (List<ChannelButtonGrid> gridList : channelButtonGridList) {
 								for (ChannelButtonGrid grid : gridList) {
 									DisplayButtonGroup dbg = grid.getBg();
 									for (int i = 0; i < dbg.getNumButtons(); i++) {
 										numButtons++;
 										DDButton ddb = dbg.getAButton(i);
 										int channelNumber = ddb.getChannel().getNumber();
+										if (channelNumber <= 0)
+											// This is a flag that this is some sort of special channel. At this time (1/28/2016),
+											// channel 0 is used by the individual photos "channels". It will be appropriate (in the
+											// future) to pay attention to these channels, too, in this update. But for now, things
+											// are not set up to deal with this.
+											continue;
 										// Loop over the new channels to see if the URL has changed for the exiting channel
 										for (SignageContent CONTENT : list)
 											if (CONTENT instanceof Channel) {
 												Channel chan = (Channel) CONTENT;
 												if (chan.getNumber() == channelNumber) {
 													if (!ddb.getChannel().getURI().toString().equals(chan.getURI().toString())) {
-														System.out.println("URI '" + ddb.getChannel().getURI() + "' changed to '"
-																+ chan.getURI() + "'");
-														numChanged++;
+														System.out.println(channelNumber + "/" + chan.getNumber() + " URI '"
+																+ ddb.getChannel().getURI() + "' changed to '" + chan.getURI()
+																+ "'");
+														ddb.getChannel().setURI(chan.getURI());
+														numURLButtonsChanged++;
 													}
-													ddb.getChannel().setURI(chan.getURI());
 												}
 												// if (channelNumber == 75 || chan.getNumber() == 75)
 												// System.out.println("Existing button for chan #" + channelNumber + " says URL="
@@ -855,11 +805,12 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 								}
 							}
 						}
-						System.out.println("Looked at " + numButtons + " buttons and changed " + numChanged + " URLs");
+						System.out.println("Looked at " + numButtons + " buttons and changed " + numURLButtonsChanged + " URLs");
 					}
 				});
 			}
 		};
+		refreshButton.addActionListener(channelRefreshAction);
 	}
 
 	protected void destroy() {

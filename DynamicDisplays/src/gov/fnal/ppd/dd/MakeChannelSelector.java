@@ -71,8 +71,8 @@ public class MakeChannelSelector {
 
 		ChannelSelector channelSelector = new ChannelSelector();
 		channelSelector.start();
-
-		// TODO -- Create/fix mechanism for restarting a ChannelSelector
+		
+		channelSelector.createRefreshActions();
 
 		JFrame f = new JFrame(myClassification + " " + getLocationName() + " (" + getLocationCode() + ")");
 
