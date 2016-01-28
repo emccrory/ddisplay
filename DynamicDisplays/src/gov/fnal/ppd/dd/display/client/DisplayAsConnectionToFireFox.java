@@ -128,17 +128,12 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 			int count = 0;
 			while (!stopMe) {
+				localSetContent_notLists();
+				catchSleep(localPlayListCopy.getTime());
 				localPlayListCopy.advanceChannel();
 				println(DisplayAsConnectionToFireFox.class,
 						" -- " + hashCode() + firefox.getInstance() + " : List play continues with channel=["
 								+ localPlayListCopy.getDescription() + ", " + localPlayListCopy.getTime() + "msec] " + count++);
-				if (stopMe) // Add this in to reduce possibility of a race condition.
-					break;
-				localSetContent_notLists();
-				catchSleep(localPlayListCopy.getTime());
-
-				// TODO -- There needs to be a way to specify when the playing of a channel in a list ends in a list
-				// **and** when a channel needs to be refreshed.
 			}
 			println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + firefox.getInstance()
 					+ " : Exiting the list player. " + count);
@@ -425,11 +420,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	@Override
 	protected String getStatusString() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if ( messagingClient.getServerTimeStamp() + 6*ONE_HOUR > System.currentTimeMillis() ) 
+		if (messagingClient.getServerTimeStamp() + 6 * ONE_HOUR > System.currentTimeMillis())
 			sdf = new SimpleDateFormat("HH:mm:ss");
 
 		String retval = sdf.format(new Date(messagingClient.getServerTimeStamp())) + " ";
-		
+
 		if (firefox == null) {
 			retval += "*NOT CONNECTED TO BROWSER* Initializing ...";
 		} else if (!firefox.isConnected()) {
@@ -441,7 +436,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				retval += "Doing a self-identify ... ";
 			} else if (getContent().getURI().toString().equalsIgnoreCase(FORCE_REFRESH)) {
 				retval += "Refreshed " + lastChannel.getURI().toASCIIString().replace("'", "\\'");
-			} else 
+			} else
 				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
 		}
 		return retval;
