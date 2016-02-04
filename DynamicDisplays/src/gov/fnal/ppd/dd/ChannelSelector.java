@@ -7,6 +7,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
+import static gov.fnal.ppd.dd.GlobalVariables.docentName;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
@@ -259,7 +260,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			displayTabPane.add(grid, " Images ");
 
 			if (SHOW_DOCENT_TAB) {
-				grid = new DocentGrid(display, bg, "Default");
+				GetMessagingServer.getDocentNameSelector();
+				grid = new DocentGrid(display, bg, docentName);
 				grid.makeGrid(ChannelCategory.IMAGE);
 				allGrids.add(grid);
 				display.addListener(grid);

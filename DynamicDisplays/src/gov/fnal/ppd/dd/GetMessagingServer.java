@@ -4,6 +4,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import static gov.fnal.ppd.dd.GlobalVariables.docentName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.locationDescription;
 import static gov.fnal.ppd.dd.GlobalVariables.locationName;
@@ -103,7 +104,10 @@ public class GetMessagingServer {
 
 			String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description,LocationInformation.LocationCode "
 					+ "as LocationCode from LocationInformation,SelectorLocation where "
-					+ "LocationInformation.LocationCode=SelectorLocation.LocationCode AND IPName='" + myName + "' AND Instance='" + THIS_IP_NAME_INSTANCE + "'";
+					+ "LocationInformation.LocationCode=SelectorLocation.LocationCode AND IPName='"
+					+ myName
+					+ "' AND Instance='"
+					+ THIS_IP_NAME_INSTANCE + "'";
 
 			return getMessagingServerName(query, myName);
 		} catch (UnknownHostException e) {
@@ -111,6 +115,52 @@ public class GetMessagingServer {
 			System.exit(-1);
 		}
 		return null;
+	}
+
+	/**
+	 * Get the name of my docent for the Channel Selector
+	 */
+	public static void getDocentNameSelector() {
+		try {
+			InetAddress ip = InetAddress.getLocalHost();
+			String myName = ip.getCanonicalHostName().replace(".dhcp", "");
+
+			String query = "select DocentName from SelectorLocation where IPName='" + myName + "' AND Instance='"
+					+ THIS_IP_NAME_INSTANCE + "'";
+
+			Connection connection = null;
+			try {
+				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			} catch (DatabaseNotVisibleException e1) {
+				e1.printStackTrace();
+				System.err.println("\nNo connection to the Signage/Displays database.");
+				System.exit(-1);
+			}
+
+			synchronized (connection) {
+				// Use ARM to simplify these try blocks.
+				try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+					try (ResultSet rs2 = stmt.executeQuery(query);) {
+						if (rs2.first()) {
+							docentName = rs2.getString("DocentName");
+						} else {
+							System.err.println("No location information for this device, " + myName + "\n\nQuery:\n" + query);
+							new Exception().printStackTrace();
+							System.exit(-1);
+						}
+					}
+				} catch (SQLException e) {
+					System.err.println(query);
+					e.printStackTrace();
+				}
+
+			}
+
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		System.out.println("Docent tab name is '" + docentName + "'");
 	}
 
 	/**

@@ -97,7 +97,12 @@ public class DocentGrid extends DetailedInformationGrid {
 					// This does not work unless we cache the images (we run out of space!)
 					// System.out.println(DrawingPanel.class.getSimpleName() + ": fetching image at " + url);
 
-					ImageIcon icon0 = new ImageIcon(new URL(url.replace("upload/items", "upload/items/thumbs")));
+					String filename = url.replace("upload/items", "upload/items/thumbs");
+					if ( url.contains("otheritems"))
+						filename = url.replace("upload/items/otheritems", "upload/items/otheritems/thumbs");
+					
+					ImageIcon icon0 = new ImageIcon(new URL(filename));
+					
 					int h = icon0.getIconHeight();
 					int w = icon0.getIconWidth();
 					if (h > w) {
@@ -197,9 +202,9 @@ public class DocentGrid extends DetailedInformationGrid {
 					stmt.executeQuery("USE " + DATABASE_NAME);
 
 					String query1 = "select ChannelNumber,Name,Description,URL,DwellTime,Category from Docent,Channel "
-							+ "where ChannelNumber=Number and DocentName='" + docentName + "'";
+							+ "where ChannelNumber=Number AND DocentName='" + docentName + "' AND Approval=1";
 					String query2 = "select PortfolioNumber,Filename,Description,Experiment from Docent,Portfolio "
-							+ "where PortfolioNumber=PortfolioID and DocentName='" + docentName + "'";
+							+ "where PortfolioNumber=PortfolioID AND DocentName='" + docentName + "' AND Approval='Approved'";
 
 					ResultSet rsChan = stmt1.executeQuery(query1);
 					ResultSet rsPort = stmt2.executeQuery(query2);

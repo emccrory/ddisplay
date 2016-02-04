@@ -453,6 +453,9 @@ public class GlobalVariables {
 	 */
 	public static String	PRIVATE_KEY_LOCATION;
 
+	
+	public static String	docentName	= "Default";
+
 	// static {
 	// String def = ("/keystore/private" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key").toLowerCase();
 	// if (System.getenv("HOME") != null) // Linux and MAC
