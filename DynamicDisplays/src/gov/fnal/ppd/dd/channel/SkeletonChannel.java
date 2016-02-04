@@ -24,7 +24,6 @@ public class SkeletonChannel implements SignageContent {
 	public SkeletonChannel(final String name) {
 		this.name = name;
 		try {
-
 			if (name.contains("http://")) {
 				uri = new URI(name.substring(name.indexOf("http://"), name.length() - 1));
 				this.name = name.substring(0, name.indexOf("http://") - 1);
