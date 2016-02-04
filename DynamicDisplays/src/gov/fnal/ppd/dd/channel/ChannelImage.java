@@ -11,7 +11,7 @@ import gov.fnal.ppd.dd.signage.SignageContent;
 import java.net.URI;
 
 /**
- * Simple extension to ChannelImpl to add an experiment attribute.
+ * Simple extension to ChannelImpl to add an image.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
