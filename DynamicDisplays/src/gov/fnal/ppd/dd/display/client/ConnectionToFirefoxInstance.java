@@ -552,7 +552,7 @@ public class ConnectionToFirefoxInstance {
 
 	private void send(String s) {
 		long sleepTime = 1000L;
-		while (!connected && out == null) {
+		while (!connected || out == null) {
 			println(getClass(), " -- Not connected to FireFox instance at " + LOCALHOST + ":" + port + ".  Will try again in "
 					+ sleepTime + " milliseconds");
 			catchSleep(sleepTime);
