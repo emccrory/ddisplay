@@ -304,12 +304,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	private void setRevertThread() {
 		// final String revertURL = revertToThisChannel.getURI().toString();
 
-		if (revertThread != null) {
-			// Do not create a new thread, just reset the counter in it.
-			revertTimeRemaining = getContent().getExpiration();
-		} else {
-			revertThread = new Thread("RevertContent" + getMessagingName()) {
+		revertTimeRemaining = getContent().getExpiration();
+		println(getClass(), firefox.getInstance() + " Setting the revert time for this temporary channel to " + revertTimeRemaining);
 
+		if (revertThread == null) {
+			revertThread = new Thread("RevertContent" + getMessagingName()) {
 				/*
 				 * 7/6/15 -------------------------------------------------------------------------------------------------------
 				 * Something is getting messed up here, between a channel expiring and a channel that might need to be refreshed.
