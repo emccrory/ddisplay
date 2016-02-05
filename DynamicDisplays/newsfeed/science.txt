@@ -1,109 +1,84 @@
-<em>Science This Week in Science TOC RSS Feed, http://www.sciencemag.org (Retrieved Thu Jan 28 16:04:02 CST 2016)</em>
-<b>[Geophysics] A silent and periodic earthquake trigger</b>: <?xml version="1.0"?>
+<em>Science This Week in Science TOC RSS Feed, http://www.sciencemag.org (Retrieved Thu Feb 04 16:04:02 CST 2016)</em>
+<b>[Emerging Diseases] Small bats in damp places doomed</b>: <?xml version="1.0"?>
 <section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Large earthquakes that hit places such as Japan seem to be preceded by subtle and silent deformation. Uchida <em>
+Emerging diseases are often selective killers. White nose syndrome (WNS), for example, is caused by a fungal pathogen that kills bats by disrupting hibernation. Introduced to North – <a href='http://science.sciencemag.org/content/351/6273/571.1'>
+[Read More]</a>
+
+<b>[Structural Biology] A bacterial defense mechanism</b>: <?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
+Polymoxins are antibiotics that disrupt the bacterial cell membrane and are used to treat multidrug-resistant infections. A bacterial enzyme called ArnT can mediate resistance to polymoxins – <a href='http://science.sciencemag.org/content/351/6273/571.2'>
+[Read More]</a>
+
+<b>[Materials Science] Controlled colloid bonding using DNA</b>: <?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
+Colloidal particles can act as analogs of atoms for studying crystallization and packing behavior, but they don't naturally bond together the way atoms do. Short strands of DNA are – <a href='http://science.sciencemag.org/content/351/6273/571.3'>
+[Read More]</a>
+
+<b>[Spintronics] Manipulating a stubborn magnet</b>: <?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
+Spintronics is an alternative to conventional electronics, based on using the electron's spin rather than its charge. Spintronic devices, such as magnetic memory, have traditionally – <a href='http://science.sciencemag.org/content/351/6273/571.4'>
+[Read More]</a>
+
+<b>[Forest Management] Europe's managed forests contribute to warming</b>: <?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
+For most of the past 250 years, surprisingly it seems that Europe's managed forests have been a net source of carbon, contributing to climate warming rather than mitigating it. Naudts – <a href='http://science.sciencemag.org/content/351/6273/571.5'>
+[Read More]</a>
+
+<b>[Honey Bee Disease] Varroa-vectored virus pandemic</b>: <?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
+Bees are facing several threats that are causing population collapses. Wilfert <em>
 et al.</em>
- show that these “slow-slip events” are quasi-periodic in  – <a href='http://science.sciencemag.org/content/351/6272/461.1'>
+ found that European honey bees are the primary source of deformed wing virus (DWV) (see – <a href='http://science.sciencemag.org/content/351/6273/571.6'>
 [Read More]</a>
 
-<b>[History of Science] Babylonian astronomers tracked Jupiter</b>: <?xml version="1.0"?>
+<b>[Heart Disease] Powering down yields a healthier heart</b>: <?xml version="1.0"?>
 <section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Ancient Babylonian astronomers developed many important concepts that are still in use, including the division of the sky into 360 degrees. They could also predict the positions of – <a href='http://science.sciencemag.org/content/351/6272/461.2'>
+In hypertrophic cardiomyopathy (HCM), the heart muscle enlarges and becomes progressively less efficient at pumping blood. HCM can be caused by mutations in components of the sarcomere – <a href='http://science.sciencemag.org/content/351/6273/571.7'>
 [Read More]</a>
 
-<b>[Superconductivity] Going to extremes to find superconductivity</b>: <?xml version="1.0"?>
+<b>[Cancer] Metastatic breast tumors break down bone</b>: <?xml version="1.0"?>
 <section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Quantum phase transitions (QPTs) occur at zero temperature when parameters such as magnetic field or pressure are varied. In heavy fermion compounds, superconductivity often accompanies – <a href='http://science.sciencemag.org/content/351/6272/461.3'>
-[Read More]</a>
-
-<b>[Cystic Fibrosis] Airway infections put to an acid test</b>: <?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Most people with cystic fibrosis suffer from chronic respiratory infections. The mechanistic link between this symptom and the genetic cause of the disease (mutations that compromise – <a href='http://science.sciencemag.org/content/351/6272/461.4'>
-[Read More]</a>
-
-<b>[Immunology] All T cells can remember</b>: <?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-One of the hallmarks of adaptive immunity is that T and B lymphocytes “remember” previous infections, protecting the host from subsequent infections. When T cells respond to a pathogen, the – <a href='http://science.sciencemag.org/content/351/6272/461.5'>
-[Read More]</a>
-
-<b>[Sex Chromosome] Replacing the Y chromosome</b>: <?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-The mammalian Y chromosome encodes a specialized set of genes that are essential for male viability and fertility. In particular, the sex-determining region Y (SRY) protein is necessary – <a href='http://science.sciencemag.org/content/351/6272/461.6'>
-[Read More]</a>
-
-<b>[Lunar Formation] Rehomogenizing the Earth-Moon system</b>: <?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-A giant impact formed the Moon, and lunar rocks provide insight into that process. Young <em>
+Most breast cancer cells activate the breakdown of bone to promote metastases. Wang <em>
 et al.</em>
- found that rocks on Earth and the Moon have identical oxygen isotopes. This – <a href='http://science.sciencemag.org/content/351/6272/461.7'>
+ found that the ABL kinases enhanced the ability of breast cancer cells to invade – <a href='http://science.sciencemag.org/content/351/6273/571.8'>
 [Read More]</a>
 
-<b>[Metabolism] Antisense now makes sense</b>: <?xml version="1.0"?>
+<b>[Batteries] Why batteries go bad</b>: <?xml version="1.0"?>
 <section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Mipomersen is a U.S. Food and Drug Administration-approved antisense oligonucleotide that lowers low-density lipoprotein (LDL) in patients with high cholesterol by targeting apolipoprotein – <a href='http://science.sciencemag.org/content/351/6272/461.8'>
+Rechargeable batteries are found in a range of everyday devices, from shavers and laptops to cars and airplanes. Over time, these batteries can fail, either through a gradual loss of – <a href='http://science.sciencemag.org/content/351/6273/571.9'>
 [Read More]</a>
 
-<b>[Developmental Biology] A MEK threshold in the placenta</b>: <?xml version="1.0"?>
+<b>[Stem Cells] Quiescent and aging hair follicle stem cells</b>: <?xml version="1.0"?>
 <section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-The kinases MEK1 and MEK2 have the same substrates, but mice lacking <em>
-Mek1</em>
- die as embryos because of placental defects, whereas mice lacking <em>
-Mek2</em>
- are viable. Aoidi – <a href='http://science.sciencemag.org/content/351/6272/461.9'>
+Stem cells enable normal cell homeostasis, but they also exist in a quiescent state, ready to proliferate and differentiate after tissue damage. Now, two studies reveal features of – <a href='http://science.sciencemag.org/content/351/6273/571.10'>
 [Read More]</a>
 
-<b>[Melanoma Initiation] Visualizing the beginnings of melanoma</b>: <?xml version="1.0"?>
+<b>[Superconductivity] Disentangling intertwined orders</b>: <?xml version="1.0"?>
 <section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-In cancer biology, a tumor begins from a single cell within a group of precancerous cells that share genetic mutations. Kaufman <em>
+In copper oxide superconductors, several types of order compete for supremacy. In addition to superconductivity, researchers have found periodic patterns in charge density (CDW order), – <a href='http://science.sciencemag.org/content/351/6273/571.11'>
+[Read More]</a>
+
+<b>[Ice Sheets] Keeping a stiff upper layer</b>: <?xml version="1.0"?>
+<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
+The interior of the Greenland Ice Sheet is growing thicker, in contrast to the thinning that is occurring at its edges. Why? MacGregor <em>
 et al.</em>
- used a zebrafish melanoma model to visualize – <a href='http://science.sciencemag.org/content/351/6272/461.10'>
+ conclude that more snow is accumulating – <a href='http://science.sciencemag.org/content/351/6273/571.12'>
 [Read More]</a>
 
-<b>[Polymers] Doubling down on polymerization</b>: <?xml version="1.0"?>
+<b>[Cancer] The more the merrier</b>: <?xml version="1.0"?>
 <section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-In biology, structural polymers such as cytoskeletal fibers assemble from covalently polymerized monomers through weaker supramolecular interactions such as hydrogen bonds. Yu <em>
-et – <a href='http://science.sciencemag.org/content/351/6272/461.11'>
+Monoclonal antibodies against the epidermal growth factor receptor (EGFR), which drives tumor growth, are frequently used to treat colorectal cancer. Unfortunately, the cancers commonly – <a href='http://science.sciencemag.org/content/351/6273/571.13'>
 [Read More]</a>
 
-<b>[Stress Response] How cells keep going in the face of adversity</b>: <?xml version="1.0"?>
+<b>[Climate Change] It's not only the carbon in the trees</b>: <?xml version="1.0"?>
 <section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-When cells experience stresses that affect their ability to process newly synthesized proteins, they turn down their rates of translation to help them survive the stress. They also – <a href='http://science.sciencemag.org/content/351/6272/461.12'>
+Forest loss affects climate not just because of the impacts it has on the carbon cycle, but also because of how it affects the fluxes of energy and water between the land and the atmosphere. – <a href='http://science.sciencemag.org/content/351/6273/571.14'>
 [Read More]</a>
 
-<b>[Structural Biology] Structure of a key spliceosomal complex</b>: <?xml version="1.0"?>
+<b>[Cancer Therapeutics] Cancer therapy by entrapment</b>: <?xml version="1.0"?>
 <section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-In eukaryotes, when DNA is transcribed into RNA, the primary transcript has protein-coding sequences interrupted by noncoding sequences called introns. Introns are removed by a complex – <a href='http://science.sciencemag.org/content/351/6272/461.13'>
-[Read More]</a>
-
-<b>[Surface Science] Nanoclusters just by adding CO</b>: <?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-The most closely packed surfaces of transition metals are usually stable under vacuum, but during catalytic reactions, energetic changes that result from adsorbing molecules could change – <a href='http://science.sciencemag.org/content/351/6272/461.14'>
-[Read More]</a>
-
-<b>[Oceanography] Searching sediment for climate signals</b>: <?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Sediments on the ocean floor may provide clues about the interplay between ice ages and mid-ocean ridge magma production. Lund <em>
-et al.</em>
- present well-dated and detailed sediment – <a href='http://science.sciencemag.org/content/351/6272/461.15'>
-[Read More]</a>
-
-<b>[Biochemistry] A special way to make T</b>: <?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-The genomes of all cell-based life consist of DNA. Blocking DNA synthesis is thus lethal, and if targeted selectively, its inhibition can provide cancer and antibiotic treatments. For – <a href='http://science.sciencemag.org/content/351/6272/461.16'>
-[Read More]</a>
-
-<b>[Conservation] Patterns of biodiversity change</b>: <?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Invasive species and climate change are altering the composition of ecosystems worldwide. In a Perspective, Magurran considers the effects of these changes, which come in addition to – <a href='http://science.sciencemag.org/content/351/6272/461.17'>
-[Read More]</a>
-
-<b>[Evolution] Genetics of bird mating systems</b>: <?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Elaborate courtship behaviors are no rarity in birds, but some species even have differently colored types of males and females—or morphs—with different reproductive strategies. In  – <a href='http://science.sciencemag.org/content/351/6272/461.18'>
-[Read More]</a>
-
-<b>[Molecular Evolution] Environmental changes bridge evolutionary valleys</b>: <?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Molecular evolution of individual protein molecules can be described in a “landscape” of possible amino acid sequences containing peaks and valleys. Peaks characterize the beneficial nat – <a href='http://science.sciencemag.org/content/351/6272/461.19'>
+Mutations in the <em>
+KRAS</em>
+ oncogene occur at high frequency in several of the most lethal human cancers, including lung and pancreatic cancer. Substantial effort has thus been directed – <a href='http://science.sciencemag.org/content/351/6273/571.15'>
 [Read More]</a>
 
