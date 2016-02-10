@@ -141,7 +141,7 @@ public class Channel {
 		try {
 			List<String> lines = Files.readAllLines(path, Charset.defaultCharset());
 			boolean start = false;
-			String channelLine ="";
+			String channelLine = "";
 			for (String L : lines) {
 				if (L.contains("<channel"))
 					start = true;
@@ -160,12 +160,15 @@ public class Channel {
 						;
 					else if (L.contains("</channel"))
 						channelLine = L;
+					else if (L.contains("</em>") || L.contains("<em>")) 
+						xml += L;
 					else if (!L.contains("<media:") && !L.contains("<rdf:about="))
 						xml += L + "\n";
 				} // else
 					// System.out.println("-- skipping " + L);
 			}
 			xml += channelLine;
+			xml = xml.replace("<em>et al.</em>", "et al.");
 		} catch (IOException e) {
 			System.err.println(path.toAbsolutePath());
 			e.printStackTrace();
@@ -199,6 +202,9 @@ public class Channel {
 						System.out.println("<b>" + mychop(I.getTitle()) + "</b>: " + mychop(I.getDescription()));
 					if (limit-- <= 0)
 						break;
+
+//					if (mychop(I.getTitle()).contains("[Ice"))
+//						System.out.println("hi");
 				}
 			}
 		} catch (JAXBException e) {
@@ -214,11 +220,13 @@ public class Channel {
 		if (s.length() - 2 <= 0)
 			return "";
 
-		if (s.startsWith("\n"))
-			s = s.substring(1);
-		if (s.endsWith("\n"))
-			return s.substring(0, s.length() - 1);
+		return s.replace('\n', ' ');
 
-		return s;
+		// if (s.startsWith("\n"))
+		// s = s.substring(1);
+		// if (s.endsWith("\n"))
+		// return s.substring(0, s.length() - 1);
+		//
+		// return s;
 	}
 }
