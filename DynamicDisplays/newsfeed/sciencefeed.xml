@@ -10,7 +10,6 @@ Science This Week in Science TOC RSS Feed</title>
 http://www.sciencemag.org</link>
 
 <description>
-<![CDATA[Research highlights from the current issue of Science Magazine]]>
 </description>
 
 <publisher>
@@ -30,45 +29,28 @@ en</language>
 
 <items>
 
-<rdf:Seq>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.1"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.2"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.3"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.4"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.5"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.6"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.7"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.8"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.9"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.10"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.11"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.12"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.13"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.14"/>
 
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.15"/>
 
-</rdf:Seq>
 
 </items>
 
 </channel>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.1">
+<item>
 
 <title>
 [Emerging Diseases] Small bats in damp places doomed</title>
@@ -83,12 +65,8 @@ http://science.sciencemag.org/content/351/6273/571.1</link>
  SN</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Emerging diseases are often selective killers. White nose syndrome (WNS), for example, is caused by a fungal pathogen that kills bats by disrupting hibernation. Introduced to North – <a href='http://science.sciencemag.org/content/351/6273/571.1'>
-[Read More]</a>
-]]>
+Emerging diseases are often selective killers. White nose syndrome (WNS), for example, is caused by a fungal pathogen that kills bats by disrupting hibernation. Introduced to North ...
 </description>
 
 <subject>
@@ -99,7 +77,7 @@ Emerging Diseases</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.2">
+<item>
 
 <title>
 [Structural Biology] A bacterial defense mechanism</title>
@@ -114,12 +92,8 @@ http://science.sciencemag.org/content/351/6273/571.2</link>
 Valda Vinson</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Polymoxins are antibiotics that disrupt the bacterial cell membrane and are used to treat multidrug-resistant infections. A bacterial enzyme called ArnT can mediate resistance to polymoxins – <a href='http://science.sciencemag.org/content/351/6273/571.2'>
-[Read More]</a>
-]]>
+Polymoxins are antibiotics that disrupt the bacterial cell membrane and are used to treat multidrug-resistant infections. A bacterial enzyme called ArnT can mediate resistance to polymoxins ...
 </description>
 
 <subject>
@@ -130,7 +104,7 @@ Structural Biology</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.3">
+<item>
 
 <title>
 [Materials Science] Controlled colloid bonding using DNA</title>
@@ -145,12 +119,8 @@ http://science.sciencemag.org/content/351/6273/571.3</link>
 Marc S. Lavine</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Colloidal particles can act as analogs of atoms for studying crystallization and packing behavior, but they don't naturally bond together the way atoms do. Short strands of DNA are – <a href='http://science.sciencemag.org/content/351/6273/571.3'>
-[Read More]</a>
-]]>
+Colloidal particles can act as analogs of atoms for studying crystallization and packing behavior, but they don't naturally bond together the way atoms do. Short strands of DNA are ...
 </description>
 
 <subject>
@@ -161,7 +131,7 @@ Materials Science</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.4">
+<item>
 
 <title>
 [Spintronics] Manipulating a stubborn magnet</title>
@@ -176,12 +146,8 @@ http://science.sciencemag.org/content/351/6273/571.4</link>
 Jelena Stajic</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Spintronics is an alternative to conventional electronics, based on using the electron's spin rather than its charge. Spintronic devices, such as magnetic memory, have traditionally – <a href='http://science.sciencemag.org/content/351/6273/571.4'>
-[Read More]</a>
-]]>
+Spintronics is an alternative to conventional electronics, based on using the electron's spin rather than its charge. Spintronic devices, such as magnetic memory, have traditionally ...
 </description>
 
 <subject>
@@ -192,7 +158,7 @@ Spintronics</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.5">
+<item>
 
 <title>
 [Forest Management] Europe's managed forests contribute to warming</title>
@@ -207,12 +173,8 @@ http://science.sciencemag.org/content/351/6273/571.5</link>
 Andrew M. Sugden</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-For most of the past 250 years, surprisingly it seems that Europe's managed forests have been a net source of carbon, contributing to climate warming rather than mitigating it. Naudts – <a href='http://science.sciencemag.org/content/351/6273/571.5'>
-[Read More]</a>
-]]>
+For most of the past 250 years, surprisingly it seems that Europe's managed forests have been a net source of carbon, contributing to climate warming rather than mitigating it. Naudts ...
 </description>
 
 <subject>
@@ -223,7 +185,7 @@ Forest Management</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.6">
+<item>
 
 <title>
 [Honey Bee Disease] Varroa-vectored virus pandemic</title>
@@ -238,14 +200,10 @@ http://science.sciencemag.org/content/351/6273/571.6</link>
 Caroline Ash</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
 Bees are facing several threats that are causing population collapses. Wilfert <em>
 et al.</em>
- found that European honey bees are the primary source of deformed wing virus (DWV) (see – <a href='http://science.sciencemag.org/content/351/6273/571.6'>
-[Read More]</a>
-]]>
+ found that European honey bees are the primary source of deformed wing virus (DWV) (see ...
 </description>
 
 <subject>
@@ -256,7 +214,7 @@ Honey Bee Disease</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.7">
+<item>
 
 <title>
 [Heart Disease] Powering down yields a healthier heart</title>
@@ -271,12 +229,8 @@ http://science.sciencemag.org/content/351/6273/571.7</link>
 Paula A. Kiberstis</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-In hypertrophic cardiomyopathy (HCM), the heart muscle enlarges and becomes progressively less efficient at pumping blood. HCM can be caused by mutations in components of the sarcomere – <a href='http://science.sciencemag.org/content/351/6273/571.7'>
-[Read More]</a>
-]]>
+In hypertrophic cardiomyopathy (HCM), the heart muscle enlarges and becomes progressively less efficient at pumping blood. HCM can be caused by mutations in components of the sarcomere ...
 </description>
 
 <subject>
@@ -287,7 +241,7 @@ Heart Disease</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.8">
+<item>
 
 <title>
 [Cancer] Metastatic breast tumors break down bone</title>
@@ -302,14 +256,10 @@ http://science.sciencemag.org/content/351/6273/571.8</link>
 Wei Wong</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
 Most breast cancer cells activate the breakdown of bone to promote metastases. Wang <em>
 et al.</em>
- found that the ABL kinases enhanced the ability of breast cancer cells to invade – <a href='http://science.sciencemag.org/content/351/6273/571.8'>
-[Read More]</a>
-]]>
+ found that the ABL kinases enhanced the ability of breast cancer cells to invade ...
 </description>
 
 <subject>
@@ -320,7 +270,7 @@ Cancer</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.9">
+<item>
 
 <title>
 [Batteries] Why batteries go bad</title>
@@ -335,12 +285,8 @@ http://science.sciencemag.org/content/351/6273/571.9</link>
 Marc S. Lavine</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Rechargeable batteries are found in a range of everyday devices, from shavers and laptops to cars and airplanes. Over time, these batteries can fail, either through a gradual loss of – <a href='http://science.sciencemag.org/content/351/6273/571.9'>
-[Read More]</a>
-]]>
+Rechargeable batteries are found in a range of everyday devices, from shavers and laptops to cars and airplanes. Over time, these batteries can fail, either through a gradual loss of ...
 </description>
 
 <subject>
@@ -351,7 +297,7 @@ Batteries</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.10">
+<item>
 
 <title>
 [Stem Cells] Quiescent and aging hair follicle stem cells</title>
@@ -366,12 +312,8 @@ http://science.sciencemag.org/content/351/6273/571.10</link>
 Beverly A. Purnell</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Stem cells enable normal cell homeostasis, but they also exist in a quiescent state, ready to proliferate and differentiate after tissue damage. Now, two studies reveal features of – <a href='http://science.sciencemag.org/content/351/6273/571.10'>
-[Read More]</a>
-]]>
+Stem cells enable normal cell homeostasis, but they also exist in a quiescent state, ready to proliferate and differentiate after tissue damage. Now, two studies reveal features of ...
 </description>
 
 <subject>
@@ -382,7 +324,7 @@ Stem Cells</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.11">
+<item>
 
 <title>
 [Superconductivity] Disentangling intertwined orders</title>
@@ -397,12 +339,8 @@ http://science.sciencemag.org/content/351/6273/571.11</link>
 Jelena Stajic</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-In copper oxide superconductors, several types of order compete for supremacy. In addition to superconductivity, researchers have found periodic patterns in charge density (CDW order), – <a href='http://science.sciencemag.org/content/351/6273/571.11'>
-[Read More]</a>
-]]>
+In copper oxide superconductors, several types of order compete for supremacy. In addition to superconductivity, researchers have found periodic patterns in charge density (CDW order), ...
 </description>
 
 <subject>
@@ -413,7 +351,7 @@ Superconductivity</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.12">
+<item>
 
 <title>
 [Ice Sheets] Keeping a stiff upper layer</title>
@@ -428,14 +366,10 @@ http://science.sciencemag.org/content/351/6273/571.12</link>
 H. Jesse Smith</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
 The interior of the Greenland Ice Sheet is growing thicker, in contrast to the thinning that is occurring at its edges. Why? MacGregor <em>
 et al.</em>
- conclude that more snow is accumulating – <a href='http://science.sciencemag.org/content/351/6273/571.12'>
-[Read More]</a>
-]]>
+ conclude that more snow is accumulating ...
 </description>
 
 <subject>
@@ -446,7 +380,7 @@ Ice Sheets</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.13">
+<item>
 
 <title>
 [Cancer] The more the merrier</title>
@@ -461,12 +395,8 @@ http://science.sciencemag.org/content/351/6273/571.13</link>
 Yevgeniya Nusinovich</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Monoclonal antibodies against the epidermal growth factor receptor (EGFR), which drives tumor growth, are frequently used to treat colorectal cancer. Unfortunately, the cancers commonly – <a href='http://science.sciencemag.org/content/351/6273/571.13'>
-[Read More]</a>
-]]>
+Monoclonal antibodies against the epidermal growth factor receptor (EGFR), which drives tumor growth, are frequently used to treat colorectal cancer. Unfortunately, the cancers commonly ...
 </description>
 
 <subject>
@@ -477,7 +407,7 @@ Cancer</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.14">
+<item>
 
 <title>
 [Climate Change] It's not only the carbon in the trees</title>
@@ -492,12 +422,8 @@ http://science.sciencemag.org/content/351/6273/571.14</link>
 H. Jesse Smith</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
-Forest loss affects climate not just because of the impacts it has on the carbon cycle, but also because of how it affects the fluxes of energy and water between the land and the atmosphere. – <a href='http://science.sciencemag.org/content/351/6273/571.14'>
-[Read More]</a>
-]]>
+Forest loss affects climate not just because of the impacts it has on the carbon cycle, but also because of how it affects the fluxes of energy and water between the land and the atmosphere. ...
 </description>
 
 <subject>
@@ -508,7 +434,7 @@ Climate Change</subject>
 
 </item>
 
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.15">
+<item>
 
 <title>
 [Cancer Therapeutics] Cancer therapy by entrapment</title>
@@ -523,14 +449,10 @@ http://science.sciencemag.org/content/351/6273/571.15</link>
 Paula A. Kiberstis</creator>
 
 <description>
-<![CDATA[<?xml version="1.0"?>
 
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">
 Mutations in the <em>
 KRAS</em>
- oncogene occur at high frequency in several of the most lethal human cancers, including lung and pancreatic cancer. Substantial effort has thus been directed – <a href='http://science.sciencemag.org/content/351/6273/571.15'>
-[Read More]</a>
-]]>
+ oncogene occur at high frequency in several of the most lethal human cancers, including lung and pancreatic cancer. Substantial effort has thus been directed ...
 </description>
 
 <subject>

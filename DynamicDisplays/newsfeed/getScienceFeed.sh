@@ -17,27 +17,39 @@
 
   rm -f tempN $xmlNewsFile $logNewsFile
   
-  /usr/bin/wget -o $logNewsFile -O tempN $newsURL # 2>/dev/null
+  /usr/bin/wget -o $logNewsFile -O tempN1 $newsURL # 2>/dev/null
   
-  /bin/sed 's/>/>\n/g' tempN | sed 's-<channel rdf:about.*>-<channel>-g' | sed 's-<br/>--g' | sed 's/dc://g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | sed 's/&lt;img .*&gt;//g' > $xmlNewsFile
+  /bin/sed 's/>/>\n/g' tempN1 | sed 's-<channel rdf:about.*>-<channel>-g' | sed 's-<item rdf.*>-<item>-g' | sed 's-<em>et al.</em>--g' | sed 's-<description>.*-<description>-g' | sed 's-<br/>--g' | sed 's/dc://g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | sed 's- – <a href=.*>- \.\.\.-g' | sed 's/&lt;img .*&gt;//g' > tempN2
 
-if $diff -q $xmlNewsFile old_$xmlNewsFile > /dev/null ; then
-  echo The news from Science has not changed > /dev/null
+  grep -v "\<section xmlns:php=" tempN2 | grep -v "\]\]>" | grep -v "\<rdf:li resource=" | grep -v "rdf:Seq\>" | grep -v "\[Read More\]</a>" | grep -v CDATA > $xmlNewsFile
+
+replaceIt=0
+if [ -s $xmlNewsFile ]; then
+    if $diff -q $xmlNewsFile old_$xmlNewsFile > /dev/null ; then
+	echo The news from Science has not changed > /dev/null
+    else
+	replaceIt=1;
+    fi
 else
-  # echo Installing new Science news
-  # $diff $xmlNewsFile old_$xmlNewsFile
-
-  /usr/bin/java gov.fnal.ppd.dd.xml.news.Channel $xmlNewsFile > science.txt
-  cp -p $xmlNewsFile old_$xmlNewsFile
-# --------------------------------------------------------------------------------------
-  cat science.txt > /var/www/html/newsfeed/science.txt
-  if /usr/krb5/bin/klist > /tmp/k ; then 
-      cp science.txt /web/sites/dynamicdisplays.fnal.gov/htdocs/newsfeed
-    # echo yes there is a kerberos ticket for me; 
-  else 
-      echo There seems to be no kerberos ticket, so we cannot copy the newsfeed file to the web directory
-  fi
+    replaceIt=1;
 fi
+
+if [ $replaceIt -gt 0 ]; then
+    echo Installing new Science news > /dev/null
+    # $diff $xmlNewsFile old_$xmlNewsFile
+
+    /usr/bin/java gov.fnal.ppd.dd.xml.news.Channel $xmlNewsFile > science.txt
+    cp -p $xmlNewsFile old_$xmlNewsFile
+    # --------------------------------------------------------------------------------------
+    cat science.txt > /var/www/html/newsfeed/science.txt
+    if /usr/krb5/bin/klist > /tmp/k ; then 
+        cp science.txt /web/sites/dynamicdisplays.fnal.gov/htdocs/newsfeed
+	echo yes there is a kerberos ticket for me > /dev/null
+    else 
+        echo There seems to be no kerberos ticket, so we cannot copy the newsfeed file to the web directory
+    fi
+fi
+
 
 ) 200>$HOME/lock/.scienceFeedScript.exclusivelock
 

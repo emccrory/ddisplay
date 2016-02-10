@@ -1,181 +1,158 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/">
-<channel rdf:about="http://www.sciencemag.org/about"><title>Science This Week in Science TOC RSS Feed</title>
-<link>http://www.sciencemag.org</link>
-<description><![CDATA[Research highlights from the current issue of Science Magazine]]></description>
-<dc:publisher>American Association for the Advancement of Science</dc:publisher>
-<dc:creator>Science Magazine (mailto:soleditor@aaas.org)</dc:creator>
-<dc:rights>Copyright 2014 American Association for the Advancement of Science</dc:rights>
-<dc:date>2016-02-04T14:05:03-05:00</dc:date>
-<dc:language>en</dc:language>
-<items>
-<rdf:Seq>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.1"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.2"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.3"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.4"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.5"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.6"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.7"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.8"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.9"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.10"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.11"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.12"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.13"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.14"/>
-<rdf:li resource="http://science.sciencemag.org/content/351/6273/571.15"/>
-</rdf:Seq>
-</items>
-</channel>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.1">
-<title>[Emerging Diseases] Small bats in damp places doomed</title>
-<link>http://science.sciencemag.org/content/351/6273/571.1</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator> SN</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Emerging diseases are often selective killers. White nose syndrome (WNS), for example, is caused by a fungal pathogen that kills bats by disrupting hibernation. Introduced to North – <a href='http://science.sciencemag.org/content/351/6273/571.1'>[Read More]</a>]]></description>
-<dc:subject>Emerging Diseases</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-a</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.2">
-<title>[Structural Biology] A bacterial defense mechanism</title>
-<link>http://science.sciencemag.org/content/351/6273/571.2</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>Valda Vinson</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Polymoxins are antibiotics that disrupt the bacterial cell membrane and are used to treat multidrug-resistant infections. A bacterial enzyme called ArnT can mediate resistance to polymoxins – <a href='http://science.sciencemag.org/content/351/6273/571.2'>[Read More]</a>]]></description>
-<dc:subject>Structural Biology</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-b</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.3">
-<title>[Materials Science] Controlled colloid bonding using DNA</title>
-<link>http://science.sciencemag.org/content/351/6273/571.3</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>Marc S. Lavine</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Colloidal particles can act as analogs of atoms for studying crystallization and packing behavior, but they don't naturally bond together the way atoms do. Short strands of DNA are – <a href='http://science.sciencemag.org/content/351/6273/571.3'>[Read More]</a>]]></description>
-<dc:subject>Materials Science</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-c</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.4">
-<title>[Spintronics] Manipulating a stubborn magnet</title>
-<link>http://science.sciencemag.org/content/351/6273/571.4</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>Jelena Stajic</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Spintronics is an alternative to conventional electronics, based on using the electron's spin rather than its charge. Spintronic devices, such as magnetic memory, have traditionally – <a href='http://science.sciencemag.org/content/351/6273/571.4'>[Read More]</a>]]></description>
-<dc:subject>Spintronics</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-d</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.5">
-<title>[Forest Management] Europe's managed forests contribute to warming</title>
-<link>http://science.sciencemag.org/content/351/6273/571.5</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>Andrew M. Sugden</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">For most of the past 250 years, surprisingly it seems that Europe's managed forests have been a net source of carbon, contributing to climate warming rather than mitigating it. Naudts – <a href='http://science.sciencemag.org/content/351/6273/571.5'>[Read More]</a>]]></description>
-<dc:subject>Forest Management</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-e</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.6">
-<title>[Honey Bee Disease] Varroa-vectored virus pandemic</title>
-<link>http://science.sciencemag.org/content/351/6273/571.6</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>Caroline Ash</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Bees are facing several threats that are causing population collapses. Wilfert <em>et al.</em> found that European honey bees are the primary source of deformed wing virus (DWV) (see – <a href='http://science.sciencemag.org/content/351/6273/571.6'>[Read More]</a>]]></description>
-<dc:subject>Honey Bee Disease</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-f</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.7">
-<title>[Heart Disease] Powering down yields a healthier heart</title>
-<link>http://science.sciencemag.org/content/351/6273/571.7</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>Paula A. Kiberstis</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">In hypertrophic cardiomyopathy (HCM), the heart muscle enlarges and becomes progressively less efficient at pumping blood. HCM can be caused by mutations in components of the sarcomere – <a href='http://science.sciencemag.org/content/351/6273/571.7'>[Read More]</a>]]></description>
-<dc:subject>Heart Disease</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-g</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.8">
-<title>[Cancer] Metastatic breast tumors break down bone</title>
-<link>http://science.sciencemag.org/content/351/6273/571.8</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>Wei Wong</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Most breast cancer cells activate the breakdown of bone to promote metastases. Wang <em>et al.</em> found that the ABL kinases enhanced the ability of breast cancer cells to invade – <a href='http://science.sciencemag.org/content/351/6273/571.8'>[Read More]</a>]]></description>
-<dc:subject>Cancer</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-h</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.9">
-<title>[Batteries] Why batteries go bad</title>
-<link>http://science.sciencemag.org/content/351/6273/571.9</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>Marc S. Lavine</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Rechargeable batteries are found in a range of everyday devices, from shavers and laptops to cars and airplanes. Over time, these batteries can fail, either through a gradual loss of – <a href='http://science.sciencemag.org/content/351/6273/571.9'>[Read More]</a>]]></description>
-<dc:subject>Batteries</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-i</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.10">
-<title>[Stem Cells] Quiescent and aging hair follicle stem cells</title>
-<link>http://science.sciencemag.org/content/351/6273/571.10</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>Beverly A. Purnell</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Stem cells enable normal cell homeostasis, but they also exist in a quiescent state, ready to proliferate and differentiate after tissue damage. Now, two studies reveal features of – <a href='http://science.sciencemag.org/content/351/6273/571.10'>[Read More]</a>]]></description>
-<dc:subject>Stem Cells</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-j</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.11">
-<title>[Superconductivity] Disentangling intertwined orders</title>
-<link>http://science.sciencemag.org/content/351/6273/571.11</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>Jelena Stajic</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">In copper oxide superconductors, several types of order compete for supremacy. In addition to superconductivity, researchers have found periodic patterns in charge density (CDW order), – <a href='http://science.sciencemag.org/content/351/6273/571.11'>[Read More]</a>]]></description>
-<dc:subject>Superconductivity</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-k</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.12">
-<title>[Ice Sheets] Keeping a stiff upper layer</title>
-<link>http://science.sciencemag.org/content/351/6273/571.12</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>H. Jesse Smith</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">The interior of the Greenland Ice Sheet is growing thicker, in contrast to the thinning that is occurring at its edges. Why? MacGregor <em>et al.</em> conclude that more snow is accumulating – <a href='http://science.sciencemag.org/content/351/6273/571.12'>[Read More]</a>]]></description>
-<dc:subject>Ice Sheets</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-l</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.13">
-<title>[Cancer] The more the merrier</title>
-<link>http://science.sciencemag.org/content/351/6273/571.13</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>Yevgeniya Nusinovich</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Monoclonal antibodies against the epidermal growth factor receptor (EGFR), which drives tumor growth, are frequently used to treat colorectal cancer. Unfortunately, the cancers commonly – <a href='http://science.sciencemag.org/content/351/6273/571.13'>[Read More]</a>]]></description>
-<dc:subject>Cancer</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-m</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.14">
-<title>[Climate Change] It's not only the carbon in the trees</title>
-<link>http://science.sciencemag.org/content/351/6273/571.14</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>H. Jesse Smith</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Forest loss affects climate not just because of the impacts it has on the carbon cycle, but also because of how it affects the fluxes of energy and water between the land and the atmosphere. – <a href='http://science.sciencemag.org/content/351/6273/571.14'>[Read More]</a>]]></description>
-<dc:subject>Climate Change</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-n</dc:identifier>
-</item>
-<item rdf:about="http://science.sciencemag.org/content/351/6273/571.15">
-<title>[Cancer Therapeutics] Cancer therapy by entrapment</title>
-<link>http://science.sciencemag.org/content/351/6273/571.15</link>
-<dc:date>2016-02-05</dc:date>
-<dc:creator>Paula A. Kiberstis</dc:creator>
-<description><![CDATA[<?xml version="1.0"?>
-<section xmlns:php="http://www.w3.org/1999/XSL/Transform">Mutations in the <em>KRAS</em> oncogene occur at high frequency in several of the most lethal human cancers, including lung and pancreatic cancer. Substantial effort has thus been directed – <a href='http://science.sciencemag.org/content/351/6273/571.15'>[Read More]</a>]]></description>
-<dc:subject>Cancer Therapeutics</dc:subject>
-<dc:identifier>10.1126/science.351.6273.571-o</dc:identifier>
-</item>
-</rdf:RDF>
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+  xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+  >
+
+<channel>
+  <title>Fermilab at Work</title>
+  <atom:link href="http://news.fnal.gov/rss-faw" rel="self" type="application/rss+xml" />
+  <link>http://news.fnal.gov</link>
+  <!-- Feed Logo (optional) -->
+    <image>
+      <url>http://news.fnal.gov/wp-content/themes/fermilab-newsroom/img/icons/fnal-logomark-blue.png</url>
+      <title>
+        The latest news from News Center.      </title>
+      <link>http://news.fnal.gov</link>
+    </image>
+  <description>Fermilab news</description>
+  <lastBuildDate>Wed, 10 Feb 2016 22:40:28 +0000</lastBuildDate>
+  <language>en-US</language>
+  <sy:updatePeriod>hourly</sy:updatePeriod>
+  <sy:updateFrequency>1</sy:updateFrequency>
+  <generator>https://wordpress.org/?v=4.4.2</generator>
+  <item>
+    <title>Employee Stress Relief Massages Feb. 24</title>
+    <link>http://news.fnal.gov/2016/02/employee-stress-relief-massages-feb-24/</link>
+    <pubDate>Wed, 10 Feb 2016 18:42:48 +0000</pubDate>
+    <dc:creator><![CDATA[jkoester]]></dc:creator>
+    		<category><![CDATA[Announcements and notices]]></category>
+
+    <guid isPermaLink="false">https://news.fnal.gov/?p=32961</guid>
+                <description><![CDATA[Complimentary Stress Relief Massages will be available to employees on Wednesday, February 24th from 12pm &#8211; 2pm in WH Small Dining Room. Limited appointments available. Contact Jeanne in the Wellness Office at jecker@fnal.gov or x2548 to reserve your 10-minute chair massage hosted by Brinka Chiropractic Center.]]></description>
+                          <content:encoded><![CDATA[<p>Complimentary Stress Relief Massages will be available to employees on Wednesday, February 24th from 12pm &#8211; 2pm in WH Small Dining Room. Limited appointments available.</p>
+<p>Contact Jeanne in the Wellness Office at <a href="jecker@fnal.gov">jecker@fnal.gov</a> or x2548 to reserve your 10-minute chair massage hosted by Brinka Chiropractic Center.</p>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>Recall on AC power cords for Microsoft Surface Pros</title>
+    <link>http://news.fnal.gov/2016/02/recall-ac-power-cords/</link>
+    <pubDate>Wed, 10 Feb 2016 15:53:24 +0000</pubDate>
+    <dc:creator><![CDATA[marcia]]></dc:creator>
+    		<category><![CDATA[Announcements and notices]]></category>
+
+    <guid isPermaLink="false">https://news.fnal.gov/?p=32931</guid>
+                <description><![CDATA[Microsoft has issued a recall on all AC power cords for Microsoft Surface Pro, Microsoft Surface Pro 2 and Microsoft Surface Pro 3 devices sold before March 15, 2015. See recall details on the Microsoft website at https://www.microsoft.com/surface/en-us/support/warranty-service-and-recovery/powercord. If you have a lab-issued cord that falls within the parameters of this recall, you should have received email from the Fermilab Service Desk. If you did not receive this email, please contact the Service Desk. If you have one of these... <a class="more-link" href="http://news.fnal.gov/2016/02/recall-ac-power-cords/"> More &#187;</a>]]></description>
+                          <content:encoded><![CDATA[<p>Microsoft has issued a recall on all AC power cords for Microsoft Surface Pro, Microsoft Surface Pro 2 and Microsoft Surface Pro 3 devices sold before March 15, 2015. See recall details on the Microsoft website at <a href="https://www.microsoft.com/surface/en-us/support/warranty-service-and-recovery/powercord">https://www.microsoft.com/surface/en-us/support/warranty-service-and-recovery/powercord</a>.</p>
+<p>If you have a lab-issued cord that falls within the parameters of this recall, you should have received email from the Fermilab Service Desk. If you did not receive this email, please contact the Service Desk. If you have one of these cords at home, please follow the instructions on the website above.</p>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>Wilson Hall reaches sky high</title>
+    <link>http://news.fnal.gov/2016/02/wilson-hall-reaches-sky-high/</link>
+    <pubDate>Wed, 10 Feb 2016 09:00:36 +0000</pubDate>
+    <dc:creator><![CDATA[leah]]></dc:creator>
+    		<category><![CDATA[Photo]]></category>
+
+    <guid isPermaLink="false">http://news.fnal.gov/?p=31820</guid>
+                <description><![CDATA[Wilson Hall towers on a clear winter day.]]></description>
+                          <content:encoded><![CDATA[<div id="attachment_31823" style="width: 1946px" class="wp-caption alignleft"><a href="http://news.fnal.gov/wp-content/uploads/2016/01/wilson-hall-sky-high.jpg" ><img src="http://news.fnal.gov/wp-content/uploads/2016/01/wilson-hall-sky-high.jpg" alt="Wilson Hall towers on a clear winter day. Photo: Amy Scroggins, Abri Credit Union" width="1936" height="2592" class="size-full wp-image-31823" srcset="http://news.fnal.gov/wp-content/uploads/2016/01/wilson-hall-sky-high-224x300.jpg 224w, http://news.fnal.gov/wp-content/uploads/2016/01/wilson-hall-sky-high-768x1028.jpg 768w, http://news.fnal.gov/wp-content/uploads/2016/01/wilson-hall-sky-high-765x1024.jpg 765w, http://news.fnal.gov/wp-content/uploads/2016/01/wilson-hall-sky-high-450x602.jpg 450w, http://news.fnal.gov/wp-content/uploads/2016/01/wilson-hall-sky-high-187x250.jpg 187w, http://news.fnal.gov/wp-content/uploads/2016/01/wilson-hall-sky-high-300x402.jpg 300w, http://news.fnal.gov/wp-content/uploads/2016/01/wilson-hall-sky-high.jpg 1936w" sizes="(max-width: 1936px) 100vw, 1936px" /></a><p class="wp-caption-text">Wilson Hall towers on a clear winter day. Photo: Amy Scroggins, Abri Credit Union</p></div>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>Neutrinos on a seesaw</title>
+    <link>http://www.symmetrymagazine.org/article/neutrinos-on-a-seesaw</link>
+    <pubDate>Tue, 09 Feb 2016 19:43:57 +0000</pubDate>
+    <dc:creator><![CDATA[leah]]></dc:creator>
+    		<category><![CDATA[Story]]></category>
+		<category><![CDATA[Symmetry]]></category>
+
+    <guid isPermaLink="false">http://news.fnal.gov/?p=32922</guid>
+                <description><![CDATA[A possible explanation for the lightness of neutrinos could help answer some big questions about the universe.]]></description>
+                          <content:encoded><![CDATA[A possible explanation for the lightness of neutrinos could help answer some big questions about the universe.]]></content:encoded>
+                        </item>
+    <item>
+    <title>Barn Dance Feb. 14</title>
+    <link>http://news.fnal.gov/2016/02/barn-dance-feb-14/</link>
+    <pubDate>Tue, 09 Feb 2016 17:30:59 +0000</pubDate>
+    <dc:creator><![CDATA[garren]]></dc:creator>
+    		<category><![CDATA[Announcements and notices]]></category>
+
+    <guid isPermaLink="false">https://news.fnal.gov/?p=32910</guid>
+                <description><![CDATA[The Fermilab Folk Club presents a Barn Dance on Sunday, Feb. 14 at 6:30 p.m. in the Kuhn Village Barn with music by Blind Squirrel and calling by Cheryl Joyal. Everyone is welcome. You don&#8217;t need to know anything, just come and have fun! Admission is $6, children under 12 are free, 12 to 18 year olds and people over 65 are $3. More info and directions at http://www.fnal.gov/orgs/folkclub/]]></description>
+                          <content:encoded><![CDATA[<p>The Fermilab Folk Club presents a Barn Dance on Sunday, Feb. 14 at 6:30 p.m. in the Kuhn Village Barn with music by Blind Squirrel and calling by Cheryl Joyal. Everyone is welcome. You don&#8217;t need to know anything, just come and have fun! Admission is $6, children under 12 are free, 12 to 18 year olds and people over 65 are $3. More info and directions at <a href="http://www.fnal.gov/orgs/folkclub/">http://www.fnal.gov/orgs/folkclub/</a></p>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>Spring 2016 Innovation $20 million fund application</title>
+    <link>http://news.fnal.gov/2016/02/spring-2016-innovation-20-million-fund-application/</link>
+    <pubDate>Tue, 09 Feb 2016 16:02:59 +0000</pubDate>
+    <dc:creator><![CDATA[dstaszak]]></dc:creator>
+    		<category><![CDATA[Announcements and notices]]></category>
+
+    <guid isPermaLink="false">https://news.fnal.gov/?p=32901</guid>
+                <description><![CDATA[We’re excited to announce the opening of the Spring 2016 Innovation Fund Application. The University of Chicago Innovation Fund is a $20 million fund that invests in early business development and proof-of-concept work for projects or ventures created by faculty, students and staff. The Innovation Fund awards grants and invests in promising technologies and start-ups with high potential for societal and commercial impact, helping them to bridge the gap between basic research funding and commercial investment. The Innovation Fund makes... <a class="more-link" href="http://news.fnal.gov/2016/02/spring-2016-innovation-20-million-fund-application/"> More &#187;</a>]]></description>
+                          <content:encoded><![CDATA[<p>We’re excited to announce the opening of the Spring 2016 Innovation Fund Application.</p>
+<p>The University of Chicago Innovation Fund is a $20 million fund that invests in early business development and proof-of-concept work for projects or ventures created by faculty, students and staff. The Innovation Fund awards grants and invests in promising technologies and start-ups with high potential for societal and commercial impact, helping them to bridge the gap between basic research funding and commercial investment.</p>
+<p>The Innovation Fund makes investments ranging from $20,000 to $250,000 that enable the teams to reach a critical milestones, paving the way for commercialization, market validation or external funding.</p>
+<p>The Innovation Fund staff will host information sessions across campus during the week of February 29. Please RSVP by completing the following form: <a href="http://bit.ly/ifs16infofermi">http://bit.ly/ifs16infofermi</a>. The deadline for the Spring Cohort is Wednesday, March 9, 2016. You may apply online at: <a href="http://bit.ly/ifs16appfermi">http://bit.ly/ifs16appfermi</a>.</p>
+<p>If you have any questions about the application, please contact Wolfgang Connell &#8211; Assistant Director, Programming, Chicago Innovation Exchange, <a href="mailto:wolfgangc16@uchicago.edu">wolfgangc16@uchicago.edu</a>, or sign up for an IF Application Q&amp;A meeting (2/10 &#8211; 3/4) with the director of the fund.</p>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>Mobius, facing south</title>
+    <link>http://news.fnal.gov/2016/02/mobius-facing-south/</link>
+    <pubDate>Tue, 09 Feb 2016 09:00:29 +0000</pubDate>
+    <dc:creator><![CDATA[mccrory]]></dc:creator>
+    		<category><![CDATA[Photo]]></category>
+
+    <guid isPermaLink="false">https://news.fnal.gov/?p=30716</guid>
+                <description><![CDATA[The warm light from inside Wilson Hall contrasts with the cold, late afternoon light on the roof of Ramsey.]]></description>
+                          <content:encoded><![CDATA[<div id="attachment_30719" style="width: 5076px" class="wp-caption alignleft"><a href="http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-14_5697ef9f0e11a_2016-01-09_15.07.40_004.jpg"><img class="size-full wp-image-30719" src="http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-14_5697ef9f0e11a_2016-01-09_15.07.40_004.jpg" alt="The warm light from inside Wilson Hall contrasts with the cold, late afternoon light on the roof of Ramsey. Photo: Elliott McCrory, AD" width="5066" height="3623" srcset="http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-14_5697ef9f0e11a_2016-01-09_15.07.40_004-300x215.jpg 300w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-14_5697ef9f0e11a_2016-01-09_15.07.40_004-768x549.jpg 768w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-14_5697ef9f0e11a_2016-01-09_15.07.40_004-1024x732.jpg 1024w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-14_5697ef9f0e11a_2016-01-09_15.07.40_004-450x322.jpg 450w, http://news.fnal.gov/wp-content/uploads/2016/01/2016-01-14_5697ef9f0e11a_2016-01-09_15.07.40_004.jpg 5066w" sizes="(max-width: 5066px) 100vw, 5066px" /></a><p class="wp-caption-text">The warm light from inside Wilson Hall contrasts with the cold, late afternoon light on the roof of Ramsey. Photo: Elliott McCrory, AD</p></div>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>Lunch &#038; Learn: Are Electronics a Pain in the Neck?</title>
+    <link>http://news.fnal.gov/2016/02/lunch-learn-electronics-pain-neck/</link>
+    <pubDate>Mon, 08 Feb 2016 20:51:05 +0000</pubDate>
+    <dc:creator><![CDATA[jkoester]]></dc:creator>
+    		<category><![CDATA[Announcements and notices]]></category>
+
+    <guid isPermaLink="false">https://news.fnal.gov/?p=32874</guid>
+                <description><![CDATA[Technology has improved our lives in many ways. Unfortunately, it could be to the detriment to our necks. Spending two-thirds of the day with our necks angled downwards, while working on computers, texting on our phones, or playing on our tablets can lead to chronic pain and even result in a more serious long term condition. Join us for an educational session to learn about the common conditions caused by repetitive neck stress. You will learn valuable tips that can... <a class="more-link" href="http://news.fnal.gov/2016/02/lunch-learn-electronics-pain-neck/"> More &#187;</a>]]></description>
+                          <content:encoded><![CDATA[<p>Technology has improved our lives in many ways. Unfortunately, it could be to the detriment to our necks.</p>
+<p>Spending two-thirds of the day with our necks angled downwards, while working on computers, texting on our phones, or playing on our tablets can lead to chronic pain and even result in a more serious long term condition.</p>
+<p>Join us for an educational session to learn about the common conditions caused by repetitive neck stress. You will learn valuable tips that can be applied to prevent the onset of pain. Those currently suffering from a related condition will be shown best practices and exercises to help relieve the pain and discomfort.</p>
+<p>Attend this Tech Neck Lunch &amp; Learn on Tuesday, February 23, Wilson Hall, Curia II, 2nd floor, 12-1pm. Lunch will be provided for the first 25 attendees to RSVP to Megan Diehm at <a href="mailto:megan.diehm@airrosti.com">megan.diehm@airrosti.com</a>. For more info contact Jeanne in the Wellness Office at <a href="mailto:jecker@fnal.gov">jecker@fnal.gov</a> or x2548.</p>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>Al Brunsting: Design or Accident? &#8211; Feb. 11 at noon</title>
+    <link>http://news.fnal.gov/2016/02/al-brunsting-design-accident-feb-11-noon/</link>
+    <pubDate>Mon, 08 Feb 2016 18:38:43 +0000</pubDate>
+    <dc:creator><![CDATA[vspron]]></dc:creator>
+    		<category><![CDATA[Announcements and notices]]></category>
+
+    <guid isPermaLink="false">https://news.fnal.gov/?p=32853</guid>
+                <description><![CDATA[Fermi Society of Philosophy, Al Brunsting: Design or Accident? Thursday Feb 11, 12:00 Req Room (WH4NW) At his 2nd talk, based on his book, Al Brunsting will respond on some criticism expressed in his address two weeks ago. After that, he will continue his thoughts, pro and contra, on a designer on the basis of rational arguments. Everybody is welcome. Feel free to come with your lunch.]]></description>
+                          <content:encoded><![CDATA[<p>Fermi Society of Philosophy, Al Brunsting: Design or Accident? Thursday Feb 11, 12:00 Req Room (WH4NW)</p>
+<p>At his 2nd talk, based on his book, Al Brunsting will respond on some criticism expressed in his address two weeks ago. After that, he will continue his thoughts, pro and contra, on a designer on the basis of rational arguments. Everybody is welcome. Feel free to come with your lunch.</p>
+]]></content:encoded>
+                        </item>
+    <item>
+    <title>Pronunciator online language learning software available through Library</title>
+    <link>http://news.fnal.gov/2016/02/pronunciator-online-language-learning-software-available-library/</link>
+    <pubDate>Mon, 08 Feb 2016 14:53:40 +0000</pubDate>
+    <dc:creator><![CDATA[marcia]]></dc:creator>
+    		<category><![CDATA[Announcements and notices]]></category>
+
+    <guid isPermaLink="false">https://news.fnal.gov/?p=32814</guid>
+                <description><![CDATA[The Fermilab Library, located on the Wilson Hall third floor crossover (WH3X), has an abundance of services and resources for Fermilab users. One of these is the online language learning software, Pronunciator. This software offers over 80 language courses, most of which have 10,000 learnable phrases. Additionally, Pronunciator offers English as a second language (ESL) courses for 50 non-English languages. Fermilab users who wish to use Pronunciator must register on-site. Once registered, users can access this software anywhere, even on... <a class="more-link" href="http://news.fnal.gov/2016/02/pronunciator-online-language-learning-software-available-library/"> More &#187;</a>]]></description>
+                          <content:encoded><![CDATA[<p>The Fermilab Library, located on the Wilson Hall third floor crossover (WH3X), has an abundance of services and resources for Fermilab users. One of these is the online language learning software, Pronunciator. This software offers over 80 language courses, most of which have 10,000 learnable phrases. Additionally, Pronunciator offers English as a second language (ESL) courses for 50 non-English languages. Fermilab users who wish to use Pronunciator must register on-site. Once registered, users can access this software anywhere, even on their mobile devices. For assistance with or questions about Pronunciator, please contact the Library at <a href="mailto:library@fnal.gov">library@fnal.gov</a>, (630) 840-3401 or visit WH3X.</p>
+]]></content:encoded>
+                        </item>
+  </channel>
+</rss>
