@@ -218,33 +218,37 @@ public class MessagingServer {
 		}
 
 		protected void close(boolean duringShutdown) {
-			display("Closing client " + username);
-			thisSocketIsActive = false;
 			try {
-				if (this.sOutput != null)
-					this.sOutput.close();
-			} catch (Exception e) {
-				printStackTrace(e);
-			}
-			try {
-				if (this.sInput != null)
-					this.sInput.close();
-			} catch (Exception e) {
-				printStackTrace(e);
-			}
-			try {
-				if (this.socket != null)
-					this.socket.close();
-			} catch (Exception e) {
-				printStackTrace(e);
-			}
-			this.sInput = null;
-			this.sOutput = null;
-			this.socket = null;
+				display("Closing client " + username);
+				thisSocketIsActive = false;
+				try {
+					if (this.sOutput != null)
+						this.sOutput.close();
+				} catch (Exception e) {
+					printStackTrace(e);
+				}
+				try {
+					if (this.sInput != null)
+						this.sInput.close();
+				} catch (Exception e) {
+					printStackTrace(e);
+				}
+				try {
+					if (this.socket != null)
+						this.socket.close();
+				} catch (Exception e) {
+					printStackTrace(e);
+				}
+				this.sInput = null;
+				this.sOutput = null;
+				this.socket = null;
 
-			if (!duringShutdown) {
-				Runtime.getRuntime().removeShutdownHook(this.myShutdownHook);
-				this.myShutdownHook = null;
+				if (!duringShutdown && this.myShutdownHook != null) {
+					Runtime.getRuntime().removeShutdownHook(this.myShutdownHook);
+					this.myShutdownHook = null;
+				}
+			} catch (Exception e) {
+				printStackTrace(e);
 			}
 		}
 
@@ -389,7 +393,7 @@ public class MessagingServer {
 
 				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())
 						&& showAliveMessages) {
-					display("Got 'I'm Alive' message from " + cm.getFrom().trim());
+					display("Alive msg " + cm.getFrom().trim().replace(".fnal.gov", ""));
 					continue; // That's all for this loop iteration.
 				}
 
@@ -1085,7 +1089,7 @@ public class MessagingServer {
 						long oldestTime = System.currentTimeMillis();
 						ClientThread oldestClientName = null;
 						// Ping any client that is "on notice", plus the oldest one that is not on notice
-						boolean printMe = (counter++ % 100) < 5;
+						boolean printMe = (counter++ % 200) < 3;
 						if (printMe)
 							System.out.println("---- Cycle no. " + counter);
 
@@ -1095,7 +1099,7 @@ public class MessagingServer {
 								String spaces = " ";
 								for (int m = (CT.username + i).length(); m < 45; m++)
 									spaces += ' ';
-								System.out.println("---- " + i + " " + CT.username + spaces
+								System.out.println("---- " + i + " " + CT.username.replace(".fnal.gov", "") + spaces
 										+ (new Date(CT.lastSeen)).toString().substring(4, 19) + ", "
 										+ (System.currentTimeMillis() - CT.lastSeen) / 1000L + " secs ago"
 										+ (CT.numOutstandingPings > 0 ? "; num pings=" + CT.numOutstandingPings : ""));
