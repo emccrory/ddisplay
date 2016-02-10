@@ -56,7 +56,7 @@ public class MessagingClient {
 	private Thread				restartThreadToServer;
 
 	protected long				lastMessageReceived				= 0l;
-	private boolean				keepGoing						= true;
+	private boolean				keepMessagingClientGoing		= true;
 
 	private Boolean				syncReconnects					= false;
 	private final String		serverName						= SPECIAL_SERVER_MESSAGE_USERNAME;
@@ -101,7 +101,8 @@ public class MessagingClient {
 				 */
 				public void run() {
 					long sleep = (long) (5 * ONE_MINUTE + 1000 * Math.random()); // First sleep is 5 minutes, plus a little bit
-					while (keepGoing) {
+					keepMessagingClientGoing = true;
+					while (keepMessagingClientGoing) {
 						catchSleep(sleep);
 						if (lastMessageReceived + 5 * ONE_MINUTE < System.currentTimeMillis()
 								&& lastPingSent + ONE_MINUTE < System.currentTimeMillis()) {
@@ -345,7 +346,7 @@ public class MessagingClient {
 	 * Disconnect from the server.
 	 */
 	protected void close() {
-		keepGoing = false;
+		keepMessagingClientGoing = false;
 		try {
 			if (sInput != null)
 				sInput.close();
@@ -357,7 +358,7 @@ public class MessagingClient {
 				sOutput.close();
 		} catch (Exception e) {
 			System.err.println("Exception caught while closing sOutput! " + e.getLocalizedMessage());
-		} // not much else I can do
+		} // not much else I can do, although it might just be that it is already closed.
 		try {
 			if (socket != null)
 				socket.close();
@@ -484,7 +485,9 @@ public class MessagingClient {
 		public void run() {
 			boolean showMessage1 = true, showMessage2 = true, showMessage3 = true;
 			int aliveCount = 0;
-			while (keepGoing) {
+			if (!keepMessagingClientGoing)
+				System.err.println("ListenFromServer.run(): internal error encountered; keepMessagingClientGoing is false.");
+			while (keepMessagingClientGoing) {
 				try {
 					MessageCarrier msg;
 					Object read = sInput.readObject();
