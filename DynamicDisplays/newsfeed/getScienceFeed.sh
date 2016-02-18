@@ -19,7 +19,7 @@
   
   /usr/bin/wget -o $logNewsFile -O tempN1 $newsURL # 2>/dev/null
   
-  /bin/sed 's/>/>\n/g' tempN1 | sed 's-<channel rdf:about.*>-<channel>-g' | sed 's-<item rdf.*>-<item>-g' | sed 's-<em>et al.</em>--g' | sed 's-<description>.*-<description>-g' | sed 's-<br/>--g' | sed 's/dc://g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | sed 's- – <a href=.*>- \.\.\.-g' | sed 's/&lt;img .*&gt;//g' > tempN2
+  /bin/sed 's/>/>\n/g' tempN1 | sed 's-<channel rdf:about.*>-<channel>-g' | sed 's-<item rdf.*>-<item>-g' | sed 's-<em>--g' | sed 's-</em>--g' | sed 's-<description>.*-<description>-g' | sed 's-<br/>--g' | sed 's/dc://g' | sed 's/atom://g' | sed 's/media://g' | sed 's/, left,//g' | sed 's/, right,//g' | sed 's/, center,//g' | sed 's- – <a href=.*>- \.\.\.-g' | sed 's/&lt;img .*&gt;//g' > tempN2
 
   grep -v "\<section xmlns:php=" tempN2 | grep -v "\]\]>" | grep -v "\<rdf:li resource=" | grep -v "rdf:Seq\>" | grep -v "\[Read More\]</a>" | grep -v CDATA > $xmlNewsFile
 

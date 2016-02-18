@@ -22,12 +22,18 @@ Science Magazine (mailto:soleditor@aaas.org)</creator>
 Copyright 2014 American Association for the Advancement of Science</rights>
 
 <date>
-2016-02-04T14:05:03-05:00</date>
+2016-02-11T11:16:41-05:00</date>
 
 <language>
 en</language>
 
 <items>
+
+
+
+
+
+
 
 
 
@@ -53,413 +59,582 @@ en</language>
 <item>
 
 <title>
-[Emerging Diseases] Small bats in damp places doomed</title>
+[Cancer] Helping cancer cells exit blood vessels</title>
 
 <link>
-http://science.sciencemag.org/content/351/6273/571.1</link>
+http://science.sciencemag.org/content/351/6274/676.1</link>
 
 <date>
-2016-02-05</date>
+2016-02-12</date>
 
 <creator>
- SN</creator>
+Nancy R. Gough</creator>
 
 <description>
 
-Emerging diseases are often selective killers. White nose syndrome (WNS), for example, is caused by a fungal pathogen that kills bats by disrupting hibernation. Introduced to North ...
+Metastasizing cancer cells must migrate into the bloodstream to colonize secondary sites. Locard-Paulet 
+et al.
+ cocultured breast cancer cells with endothelial cells, a system ...
 </description>
 
 <subject>
-Emerging Diseases</subject>
+Cancer</subject>
 
 <identifier>
-10.1126/science.351.6273.571-a</identifier>
+10.1126/science.351.6274.676-a</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Structural Biology] A bacterial defense mechanism</title>
+[Photocatalysis] Copper's light touch forges C-N bonds</title>
 
 <link>
-http://science.sciencemag.org/content/351/6273/571.2</link>
+http://science.sciencemag.org/content/351/6274/676.2</link>
 
 <date>
-2016-02-05</date>
+2016-02-12</date>
 
 <creator>
-Valda Vinson</creator>
+Jake Yeston</creator>
 
 <description>
 
-Polymoxins are antibiotics that disrupt the bacterial cell membrane and are used to treat multidrug-resistant infections. A bacterial enzyme called ArnT can mediate resistance to polymoxins ...
+Organic photochemistry has traditionally relied on excitation in the ultraviolet, where carbon-based compounds tend to absorb. Over the past decade, the field has undergone a renaissance ...
 </description>
 
 <subject>
-Structural Biology</subject>
+Photocatalysis</subject>
 
 <identifier>
-10.1126/science.351.6273.571-b</identifier>
+10.1126/science.351.6274.676-b</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Materials Science] Controlled colloid bonding using DNA</title>
+[Transcription] The SAGA of removing nucleosomal ubiquitin</title>
 
 <link>
-http://science.sciencemag.org/content/351/6273/571.3</link>
+http://science.sciencemag.org/content/351/6274/676.3</link>
 
 <date>
-2016-02-05</date>
+2016-02-12</date>
+
+<creator>
+Guy Riddihough</creator>
+
+<description>
+
+Covalent modifications of histones play a critical role in gene regulation. The addition of the small protein ubiquitin to histone H2B in nucleosomes is a mark of actively transcribed ...
+</description>
+
+<subject>
+Transcription</subject>
+
+<identifier>
+10.1126/science.351.6274.676-c</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Human Genomics] The legacy of human-Neandertal interbreeding</title>
+
+<link>
+http://science.sciencemag.org/content/351/6274/676.4</link>
+
+<date>
+2016-02-12</date>
+
+<creator>
+Laura M. Zahn</creator>
+
+<description>
+
+Non-African humans are estimated to have inherited on average 1.5 to 4% of their genomes from Neandertals. However, how this genetic legacy affects human traits is unknown. Simonti ...
+</description>
+
+<subject>
+Human Genomics</subject>
+
+<identifier>
+10.1126/science.351.6274.676-d</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Metabolism] Controlling supplies for DNA and RNA synthesis</title>
+
+<link>
+http://science.sciencemag.org/content/351/6274/676.5</link>
+
+<date>
+2016-02-12</date>
+
+<creator>
+L. Bryan Ray</creator>
+
+<description>
+
+The mTORC1 protein kinase complex regulates anabolic metabolism and coordinates cellular signals that promote growth with availability of required precursor metabolites. Signaling through ...
+</description>
+
+<subject>
+Metabolism</subject>
+
+<identifier>
+10.1126/science.351.6274.676-e</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Global Water Cycle] By land or by sea</title>
+
+<link>
+http://science.sciencemag.org/content/351/6274/676.6</link>
+
+<date>
+2016-02-12</date>
+
+<creator>
+H. Jesse Smith</creator>
+
+<description>
+
+How much of an effect does terrestrial groundwater storage have on sea-level rise? Reager 
+et al.
+ used gravity measurements made between 2002 and 2014 by NASA's Gravity Recovery ...
+</description>
+
+<subject>
+Global Water Cycle</subject>
+
+<identifier>
+10.1126/science.351.6274.676-f</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Immunology] An unconventional route to protection</title>
+
+<link>
+http://science.sciencemag.org/content/351/6274/676.7</link>
+
+<date>
+2016-02-12</date>
+
+<creator>
+Kristen L. Mueller</creator>
+
+<description>
+
+One promising approach toward an HIV-1 vaccine involves infecting people with cytomegalovirus engineered to express proteins from HIV-1. This approach, which works by eliciting virus-killing ...
+</description>
+
+<subject>
+Immunology</subject>
+
+<identifier>
+10.1126/science.351.6274.676-g</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Astronomy] How stars grow</title>
+
+<link>
+http://science.sciencemag.org/content/351/6274/676.8</link>
+
+<date>
+2016-02-12</date>
+
+<creator>
+Kip Hodges</creator>
+
+<description>
+
+Conventional wisdom has long held that young stars grow gradually through the inward migration of mass within their protoplanetary disks. Liu 
+et al.
+ now show that the process ...
+</description>
+
+<subject>
+Astronomy</subject>
+
+<identifier>
+10.1126/science.351.6274.676-h</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Carbon Cycle] Warming making bigger CO2 swings</title>
+
+<link>
+http://science.sciencemag.org/content/351/6274/676.9</link>
+
+<date>
+2016-02-12</date>
+
+<creator>
+H. Jesse Smith</creator>
+
+<description>
+
+The combined effects of climate change and vegetation dynamics at high northern latitudes have amplified the seasonal variation of atmospheric CO<sub>
+2</sub>
+ concentrations over the ...
+</description>
+
+<subject>
+Carbon Cycle</subject>
+
+<identifier>
+10.1126/science.351.6274.676-i</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Gene Regulation] Parasitic DNAs help and hinder evolution</title>
+
+<link>
+http://science.sciencemag.org/content/351/6274/676.10</link>
+
+<date>
+2016-02-12</date>
+
+<creator>
+Guy Riddihough</creator>
+
+<description>
+
+Transposable elements are parasitic DNAs that can duplicate themselves and jump around their host genomes. They can both disrupt gene function and drive genome evolution. Elbarbary ...
+</description>
+
+<subject>
+Gene Regulation</subject>
+
+<identifier>
+10.1126/science.351.6274.676-j</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Valleytronics] Stacking to prolong valley lifetime</title>
+
+<link>
+http://science.sciencemag.org/content/351/6274/676.11</link>
+
+<date>
+2016-02-12</date>
+
+<creator>
+Jelena Stajic</creator>
+
+<description>
+
+In the material MoSe<sub>
+2</sub>
+, which, like graphene, has a two-dimensional honeycomb crystal lattice, the electronic structure has two “valleys.” Electrons can be distinguished by  ...
+</description>
+
+<subject>
+Valleytronics</subject>
+
+<identifier>
+10.1126/science.351.6274.676-k</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Gene Regulation] Genetic programming for self-renewal</title>
+
+<link>
+http://science.sciencemag.org/content/351/6274/676.12</link>
+
+<date>
+2016-02-12</date>
+
+<creator>
+Kristen L. Mueller</creator>
+
+<description>
+
+Instead of repopulating themselves from tissue-resident stem cell pools like most types of differentiated cells, tissue macrophages maintain themselves by self-renewing. The underlying ...
+</description>
+
+<subject>
+Gene Regulation</subject>
+
+<identifier>
+10.1126/science.351.6274.676-l</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Materials Science] Flexible power for flexible electronics</title>
+
+<link>
+http://science.sciencemag.org/content/351/6274/676.13</link>
+
+<date>
+2016-02-12</date>
 
 <creator>
 Marc S. Lavine</creator>
 
 <description>
 
-Colloidal particles can act as analogs of atoms for studying crystallization and packing behavior, but they don't naturally bond together the way atoms do. Short strands of DNA are ...
+A challenge for flexible electronics is to couple devices with power sources that are also flexible. Ideally, they could also be processed in a way that is compatible with current microfabrication ...
 </description>
 
 <subject>
 Materials Science</subject>
 
 <identifier>
-10.1126/science.351.6273.571-c</identifier>
+10.1126/science.351.6274.676-m</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Spintronics] Manipulating a stubborn magnet</title>
+[Microbial Physiology] Long-term partners uncoupled</title>
 
 <link>
-http://science.sciencemag.org/content/351/6273/571.4</link>
+http://science.sciencemag.org/content/351/6274/676.14</link>
 
 <date>
-2016-02-05</date>
+2016-02-12</date>
 
 <creator>
-Jelena Stajic</creator>
+Nicholas S. Wigginton</creator>
 
 <description>
 
-Spintronics is an alternative to conventional electronics, based on using the electron's spin rather than its charge. Spintronic devices, such as magnetic memory, have traditionally ...
+Methane-munching archaea in marine sediments live closely coupled to sulfate-reducing bacteria in a syntrophic relationship. Surprisingly, however, these archaea do not necessarily ...
 </description>
 
 <subject>
-Spintronics</subject>
+Microbial Physiology</subject>
 
 <identifier>
-10.1126/science.351.6273.571-d</identifier>
+10.1126/science.351.6274.676-n</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Forest Management] Europe's managed forests contribute to warming</title>
+[Lung Physiology] Neuroendocrine cells as air sensors</title>
 
 <link>
-http://science.sciencemag.org/content/351/6273/571.5</link>
+http://science.sciencemag.org/content/351/6274/676.15</link>
 
 <date>
-2016-02-05</date>
-
-<creator>
-Andrew M. Sugden</creator>
-
-<description>
-
-For most of the past 250 years, surprisingly it seems that Europe's managed forests have been a net source of carbon, contributing to climate warming rather than mitigating it. Naudts ...
-</description>
-
-<subject>
-Forest Management</subject>
-
-<identifier>
-10.1126/science.351.6273.571-e</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Honey Bee Disease] Varroa-vectored virus pandemic</title>
-
-<link>
-http://science.sciencemag.org/content/351/6273/571.6</link>
-
-<date>
-2016-02-05</date>
-
-<creator>
-Caroline Ash</creator>
-
-<description>
-
-Bees are facing several threats that are causing population collapses. Wilfert <em>
-et al.</em>
- found that European honey bees are the primary source of deformed wing virus (DWV) (see ...
-</description>
-
-<subject>
-Honey Bee Disease</subject>
-
-<identifier>
-10.1126/science.351.6273.571-f</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Heart Disease] Powering down yields a healthier heart</title>
-
-<link>
-http://science.sciencemag.org/content/351/6273/571.7</link>
-
-<date>
-2016-02-05</date>
-
-<creator>
-Paula A. Kiberstis</creator>
-
-<description>
-
-In hypertrophic cardiomyopathy (HCM), the heart muscle enlarges and becomes progressively less efficient at pumping blood. HCM can be caused by mutations in components of the sarcomere ...
-</description>
-
-<subject>
-Heart Disease</subject>
-
-<identifier>
-10.1126/science.351.6273.571-g</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Cancer] Metastatic breast tumors break down bone</title>
-
-<link>
-http://science.sciencemag.org/content/351/6273/571.8</link>
-
-<date>
-2016-02-05</date>
-
-<creator>
-Wei Wong</creator>
-
-<description>
-
-Most breast cancer cells activate the breakdown of bone to promote metastases. Wang <em>
-et al.</em>
- found that the ABL kinases enhanced the ability of breast cancer cells to invade ...
-</description>
-
-<subject>
-Cancer</subject>
-
-<identifier>
-10.1126/science.351.6273.571-h</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Batteries] Why batteries go bad</title>
-
-<link>
-http://science.sciencemag.org/content/351/6273/571.9</link>
-
-<date>
-2016-02-05</date>
-
-<creator>
-Marc S. Lavine</creator>
-
-<description>
-
-Rechargeable batteries are found in a range of everyday devices, from shavers and laptops to cars and airplanes. Over time, these batteries can fail, either through a gradual loss of ...
-</description>
-
-<subject>
-Batteries</subject>
-
-<identifier>
-10.1126/science.351.6273.571-i</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Stem Cells] Quiescent and aging hair follicle stem cells</title>
-
-<link>
-http://science.sciencemag.org/content/351/6273/571.10</link>
-
-<date>
-2016-02-05</date>
+2016-02-12</date>
 
 <creator>
 Beverly A. Purnell</creator>
 
 <description>
 
-Stem cells enable normal cell homeostasis, but they also exist in a quiescent state, ready to proliferate and differentiate after tissue damage. Now, two studies reveal features of ...
+Liters of air pass through the lung every minute. Signals in the atmospheric environment are processed into physiological outputs, including the immune response. Branchfield 
+et ...
 </description>
 
 <subject>
-Stem Cells</subject>
+Lung Physiology</subject>
 
 <identifier>
-10.1126/science.351.6273.571-j</identifier>
+10.1126/science.351.6274.676-o</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Superconductivity] Disentangling intertwined orders</title>
+[Epigenetics] Quantitative analysis of epigenetic memory</title>
 
 <link>
-http://science.sciencemag.org/content/351/6273/571.11</link>
+http://science.sciencemag.org/content/351/6274/676.16</link>
 
 <date>
-2016-02-05</date>
+2016-02-12</date>
 
 <creator>
-Jelena Stajic</creator>
+L. Bryan Ray</creator>
 
 <description>
 
-In copper oxide superconductors, several types of order compete for supremacy. In addition to superconductivity, researchers have found periodic patterns in charge density (CDW order), ...
+To explore quantitative and dynamic properties of transcriptional regulation by epigenetic modifications, Bintu 
+et al.
+ monitored a transcriptional reporter gene carried on ...
 </description>
 
 <subject>
-Superconductivity</subject>
+Epigenetics</subject>
 
 <identifier>
-10.1126/science.351.6273.571-k</identifier>
+10.1126/science.351.6274.676-p</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Ice Sheets] Keeping a stiff upper layer</title>
+[Autoimmunity] T cells target peptide combos</title>
 
 <link>
-http://science.sciencemag.org/content/351/6273/571.12</link>
+http://science.sciencemag.org/content/351/6274/676.17</link>
 
 <date>
-2016-02-05</date>
+2016-02-12</date>
 
 <creator>
-H. Jesse Smith</creator>
+Kristen L. Mueller</creator>
 
 <description>
 
-The interior of the Greenland Ice Sheet is growing thicker, in contrast to the thinning that is occurring at its edges. Why? MacGregor <em>
-et al.</em>
- conclude that more snow is accumulating ...
+One of the enduring mysteries of autoimmunity is the identity of the specific proteins targeted by autoimmune T cells. Delong 
+et al.
+ used mass spectrometry to elucidate the ...
 </description>
 
 <subject>
-Ice Sheets</subject>
+Autoimmunity</subject>
 
 <identifier>
-10.1126/science.351.6273.571-l</identifier>
+10.1126/science.351.6274.676-q</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Cancer] The more the merrier</title>
+[Biochemistry] Spatial control of cellular enzymes</title>
 
 <link>
-http://science.sciencemag.org/content/351/6273/571.13</link>
+http://science.sciencemag.org/content/351/6274/676.18</link>
 
 <date>
-2016-02-05</date>
+2016-02-12</date>
 
 <creator>
-Yevgeniya Nusinovich</creator>
+Valda Vinson</creator>
 
 <description>
 
-Monoclonal antibodies against the epidermal growth factor receptor (EGFR), which drives tumor growth, are frequently used to treat colorectal cancer. Unfortunately, the cancers commonly ...
+Purine is a building block of DNA and also a component of ATP that is used as an energy source in the cell. Enzymes involved in purine biosynthesis organize into dynamic bodies called ...
 </description>
 
 <subject>
-Cancer</subject>
+Biochemistry</subject>
 
 <identifier>
-10.1126/science.351.6273.571-m</identifier>
+10.1126/science.351.6274.676-r</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Climate Change] It's not only the carbon in the trees</title>
+[Evolution] Finding the organelles' ancestors</title>
 
 <link>
-http://science.sciencemag.org/content/351/6273/571.14</link>
+http://science.sciencemag.org/content/351/6274/676.19</link>
 
 <date>
-2016-02-05</date>
+2016-02-12</date>
 
 <creator>
-H. Jesse Smith</creator>
+Julia Fahrenkamp-Uppenbrink</creator>
 
 <description>
 
-Forest loss affects climate not just because of the impacts it has on the carbon cycle, but also because of how it affects the fluxes of energy and water between the land and the atmosphere. ...
+In contrast to bacteria and archaea, eukaryotic cells contain organelles called mitochondria that generate chemical energy; plant cells also contain plastids, the sites of photosynthesis. ...
 </description>
 
 <subject>
-Climate Change</subject>
+Evolution</subject>
 
 <identifier>
-10.1126/science.351.6273.571-n</identifier>
+10.1126/science.351.6274.676-s</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Cancer Therapeutics] Cancer therapy by entrapment</title>
+[Allergy] Bringing atopic dermatitis up to scratch</title>
 
 <link>
-http://science.sciencemag.org/content/351/6273/571.15</link>
+http://science.sciencemag.org/content/351/6274/676.20</link>
 
 <date>
-2016-02-05</date>
+2016-02-12</date>
 
 <creator>
-Paula A. Kiberstis</creator>
+Angela Colmone</creator>
 
 <description>
 
-Mutations in the <em>
-KRAS</em>
- oncogene occur at high frequency in several of the most lethal human cancers, including lung and pancreatic cancer. Substantial effort has thus been directed ...
+Targeted therapies are transforming medicine, but complex diseases such as atopic dermatitis are difficult to target. Now, Jarrett et al. report a mechanism that links two contributors ...
 </description>
 
 <subject>
-Cancer Therapeutics</subject>
+Allergy</subject>
 
 <identifier>
-10.1126/science.351.6273.571-o</identifier>
+10.1126/science.351.6274.676-t</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Plant Immunity] Improving plant disease responses</title>
+
+<link>
+http://science.sciencemag.org/content/351/6274/676.21</link>
+
+<date>
+2016-02-12</date>
+
+<creator>
+Pamela J. Hines</creator>
+
+<description>
+
+Disease resistance in plants depends on genes that allow them to recognize when they are infected by a pathogen so that they can mount a timely defense response. Unfortunately, pathogens ...
+</description>
+
+<subject>
+Plant Immunity</subject>
+
+<identifier>
+10.1126/science.351.6274.676-u</identifier>
 
 </item>
 
