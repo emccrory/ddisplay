@@ -48,13 +48,8 @@ public class SplashScreens extends Thread {
 		SimpleMouseListener splashListener = new SimpleMouseListener(listener);
 
 		// char arrow = '\u21E8';
-		float headline = 30, subHead = 18;
+		float headline = 70, subHead = 30;
 		int gap = 25;
-		if (!SHOW_IN_WINDOW) {
-			headline = 72;
-			subHead = 32;
-			gap = 50;
-		}
 
 		int splashWithCredits0 = (int) (((double) splashPanel.length) * Math.random());
 		int splashWithCredits1 = (splashWithCredits0 + splashPanel.length / 2) % splashPanel.length;

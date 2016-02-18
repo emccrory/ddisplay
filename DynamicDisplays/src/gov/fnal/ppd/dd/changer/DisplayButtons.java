@@ -61,7 +61,7 @@ public class DisplayButtons extends JPanel {
 			setBackground(sliderBG);
 			setOpaque(true);
 
-			setFont(getFont().deriveFont((SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : theFS)));
+			setFont(getFont().deriveFont((SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : LOCAL_FONT_SIZE / 2)));
 			// setFont(new Font("Arial", Font.BOLD, (SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : theFS)));
 			setToolTipText("initializing...");
 
@@ -88,7 +88,7 @@ public class DisplayButtons extends JPanel {
 
 			if (displayList.size() < 26) {
 				setMajorTickSpacing(1);
-				setFont(getFont().deriveFont((SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : theFS)));
+				setFont(getFont().deriveFont((SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : LOCAL_FONT_SIZE / 2)));
 				// setFont(new Font("Courier", Font.PLAIN, (SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : theFS)));
 			} else {
 				setMajorTickSpacing(10);
@@ -112,7 +112,7 @@ public class DisplayButtons extends JPanel {
 	private static List<JComponent>	buttonList				= new ArrayList<JComponent>();
 	// private static List<Display> displayList;
 	static final int				INSET_SIZE				= 5;
-	static final float				LOCAL_FONT_SIZE			= 40.0f;
+	static float					LOCAL_FONT_SIZE			= 0.0f;
 	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 20;
 	private static final long		serialVersionUID		= 4096502469001848381L;
 	protected static final Color	sliderBG				= new Color(0xe0e0e0);
@@ -152,8 +152,6 @@ public class DisplayButtons extends JPanel {
 
 	private ActionListener	listener;
 
-	private int				theFS	= (FONT_SIZE > 20.0f ? 20 : (int) FONT_SIZE);
-
 	/**
 	 * @param cat
 	 *            The type of Display to allow control of, here
@@ -161,6 +159,8 @@ public class DisplayButtons extends JPanel {
 	 */
 	public DisplayButtons(final SignageType cat, final ActionListener listener) {
 		super(new BorderLayout());
+		if (LOCAL_FONT_SIZE == 0)
+			LOCAL_FONT_SIZE = FONT_SIZE;
 		this.listener = listener;
 
 		// displayList = DisplayListFactory.getInstance(cat, ChannelSelector.getLocationCode());
@@ -170,7 +170,6 @@ public class DisplayButtons extends JPanel {
 		if (displayList.size() <= MAXIMUM_DISPLAY_BUTTONS)
 			makeScreenGrid();
 		else
-			// TODO -- Things have changed a lot since this was first implemented--there are some problems now!
 			makeScreenGridSlider();
 		if (SHOW_IN_WINDOW)
 			setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));

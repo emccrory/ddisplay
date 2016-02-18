@@ -152,22 +152,24 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			INSET_SIZE = 3;
 		} else {
 			int width = screenDimension.width;
-			System.out.println("My screen is " + screenDimension);
+			int height = screenDimension.height;
 
-			if (width < 801) {
-				// An older phone
-				FONT_SIZE = 20.0f;
-				INSET_SIZE = 5;
-			} else if (width < 1000) {
-				// An older iPad or a newer phone
-				FONT_SIZE = 30.0f;
-				INSET_SIZE = 16;
-			} else if (width < 1400) {
-				// An older screen
-				FONT_SIZE = 40.0f;
-				INSET_SIZE = 24;
+			if (height < 500) {
+				FONT_SIZE = 14.0f;
+				INSET_SIZE = 1;
+			} else if (width < 801 || height < 600) {
+				FONT_SIZE = 18.0f;
+				INSET_SIZE = 1;
+			} else if (width < 1000 || height < 800) {
+				FONT_SIZE = 24.0f;
+				INSET_SIZE = 2;
+			} else if (width < 1400 || height < 1000) {
+				FONT_SIZE = 36.0f;
+				INSET_SIZE = 6;
 			}
 		}
+		System.out.println("My screen is " + screenDimension + ". Font_Size=" + FONT_SIZE + ", Inset_Size=" + INSET_SIZE);
+
 	}
 
 	/**
@@ -191,7 +193,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		add(displayChannelPanel, BorderLayout.CENTER);
 		if (SHOW_IN_WINDOW) {
-			displayChannelPanel.setPreferredSize(new Dimension(700, 640));
+			int height = screenDimension.height;
+			if (height < 1000)
+				displayChannelPanel.setPreferredSize(new Dimension(600, 525));
+			else if (height < 1500)
+				displayChannelPanel.setPreferredSize(new Dimension(700, 640));
 		}
 
 		add(displaySelector, BorderLayout.EAST);
@@ -295,13 +301,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			};
 
 			displayTabPane.add(CreateListOfChannels.getContainer(channelListHelper, listener), " Lists ");
-
-			if (SHOW_IN_WINDOW) {
-				// Do not include the "wrap your own" URL until someone asks for it.
-				// AddYourOwnURL yourOwn = new AddYourOwnURL(display, bg);
-				// allGrids.add(yourOwn);
-				// displayTabPane.add(yourOwn, "New URL");
-			}
 
 			// Add the Display Tabbed Pane to the main screen
 			inner.setBorder(BorderFactory.createCompoundBorder(

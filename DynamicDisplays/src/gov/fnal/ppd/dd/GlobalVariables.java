@@ -197,14 +197,14 @@ public class GlobalVariables {
 			bgImage[i] = icon.getImage();
 			imageWidth[i] = icon.getIconWidth();
 			imageHeight[i] = icon.getIconHeight();
-			offsets[i] = (int) (50.0 + 500.0 * Math.random());
+			offsets[i] = (int) (50.0 + 100.0 * Math.random());
 		}
 	}
 
 	/**
 	 * 
 	 */
-	public static int			INSET_SIZE				= 4;
+	public static int			INSET_SIZE				= 10;
 	/**
 	 * 
 	 */
@@ -453,8 +453,10 @@ public class GlobalVariables {
 	 */
 	public static String	PRIVATE_KEY_LOCATION;
 
-	
-	public static String	docentName	= "Default";
+	/**
+	 * This is the name of the "Docent" in the central database.
+	 */
+	public static String	docentName		= "Default";
 
 	// static {
 	// String def = ("/keystore/private" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key").toLowerCase();

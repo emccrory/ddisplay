@@ -5,6 +5,7 @@
  */
 package gov.fnal.ppd.dd.changer;
 
+import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
@@ -83,9 +84,25 @@ public class DocentGrid extends DetailedInformationGrid {
 		private static final long				serialVersionUID	= 8963747596403311688L;
 		private static Map<String, ImageIcon>	cache				= new HashMap<String, ImageIcon>();
 		private ImageIcon						icon;
-		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 180 : 240);
+		private static int						LONG_EDGE			= 220;
+		private static boolean					firstTime			= true;
 
 		public DrawingPanel(String url, Color bgColor) {
+			if (firstTime) {
+				firstTime = false;
+				int width = screenDimension.width;
+				int height = screenDimension.height;
+
+				if (height < 500) {
+					LONG_EDGE = 100;
+				} else if (width < 801 || height < 600) {
+					LONG_EDGE = 120;
+				} else if (width < 1000 || height < 800) {
+					LONG_EDGE = 160;
+				} else if (width < 1400 || height < 1000) {
+					LONG_EDGE = 200;
+				}
+			}
 			int height = LONG_EDGE;
 			int width = LONG_EDGE;
 			if (cache.containsKey(url)) {
@@ -98,11 +115,11 @@ public class DocentGrid extends DetailedInformationGrid {
 					// System.out.println(DrawingPanel.class.getSimpleName() + ": fetching image at " + url);
 
 					String filename = url.replace("upload/items", "upload/items/thumbs");
-					if ( url.contains("otheritems"))
+					if (url.contains("otheritems"))
 						filename = url.replace("upload/items/otheritems", "upload/items/otheritems/thumbs");
-					
+
 					ImageIcon icon0 = new ImageIcon(new URL(filename));
-					
+
 					int h = icon0.getIconHeight();
 					int w = icon0.getIconWidth();
 					if (h > w) {
@@ -197,8 +214,8 @@ public class DocentGrid extends DetailedInformationGrid {
 					Statement stmt = connection.createStatement();
 					Statement stmt1 = connection.createStatement();
 					Statement stmt2 = connection.createStatement();
-//					@SuppressWarnings("unused")
-//					ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
+					// @SuppressWarnings("unused")
+					// ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
 					stmt.executeQuery("USE " + DATABASE_NAME);
 
 					String query1 = "select ChannelNumber,Name,Description,URL,DwellTime,Category from Docent,Channel "
