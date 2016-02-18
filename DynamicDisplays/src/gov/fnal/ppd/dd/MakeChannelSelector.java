@@ -71,7 +71,7 @@ public class MakeChannelSelector {
 
 		ChannelSelector channelSelector = new ChannelSelector();
 		channelSelector.start();
-		
+
 		channelSelector.createRefreshActions();
 
 		JFrame f = new JFrame(myClassification + " " + getLocationName() + " (" + getLocationCode() + ")");
@@ -96,7 +96,7 @@ public class MakeChannelSelector {
 		}
 		// If there is no "screen number 1", this call will return the same rectangle as a call to getBounds(0).
 		Rectangle bounds = ScreenLayoutInterpreter.getBounds(1);
-		
+
 		f.setVisible(true);
 		f.setLocation(bounds.x, bounds.y);
 
@@ -143,7 +143,7 @@ public class MakeChannelSelector {
 								myClassification = rs2.getString("Type");
 								IS_PUBLIC_CONTROLLER = "Public".equals(myClassification) || "Experiment".equals(myClassification);
 								IS_DOCENT_CONTROLLER = "Experiment".equals(myClassification);
-								if ( IS_PUBLIC_CONTROLLER ) 
+								if (IS_PUBLIC_CONTROLLER)
 									SHOW_EXTENDED_DISPLAY_NAMES = true;
 
 								final SignageType sType = SignageType.valueOf(myClassification);
