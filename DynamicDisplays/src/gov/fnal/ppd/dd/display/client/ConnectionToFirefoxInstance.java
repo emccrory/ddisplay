@@ -314,7 +314,7 @@ public class ConnectionToFirefoxInstance {
 	private synchronized void setConnected(boolean con) {
 		if (!con && !tryingToCloseNow) {
 			tryingToCloseNow = true;
-			println(ConnectionToFirefoxInstance.class, "\n\n\t\tCLOSING connection to FireFox\n\n");
+			println(ConnectionToFirefoxInstance.class, "\n\n\t\tCLOSING connection to FireFox " + getInstance() + "\n\n");
 			try {
 				kkSocket.close();
 				out.close();
@@ -328,8 +328,10 @@ public class ConnectionToFirefoxInstance {
 			new Thread("RestartConnectionToFireFox") {
 				public void run() {
 					catchSleep(2000L);
-					openConnection();
+					println(ConnectionToFirefoxInstance.class, "\t\tAttempting to re-open the connection to FireFox "
+							+ getInstance() + "\n\n");
 					tryingToCloseNow = false;
+					openConnection();
 				}
 			}.start();
 		}
@@ -514,13 +516,16 @@ public class ConnectionToFirefoxInstance {
 
 	private void openConnection() {
 		new Thread("OpenConToFirefox") {
+			int	numFailures	= 0;
+
 			public void run() {
 				if (connected) {
 					println(getClass(), " -- already connected!");
 					return;
 				}
 				long delay = 1000L;
-				while (!connected)
+				numFailures = 0;
+				while (!connected) {
 					try {
 						println(getClass(), ":\n\tOpening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
 						kkSocket = new Socket(LOCALHOST, port);
@@ -533,19 +538,32 @@ public class ConnectionToFirefoxInstance {
 						setConnected(true);
 						println(getClass(), " ** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
 								+ " ** -- " + new Date());
+						connected = true;
 					} catch (UnknownHostException e) {
 						System.err.println("Don't know about host " + LOCALHOST + " --  ignoring.");
+						numFailures++;
 					} catch (IOException e) {
-						if ("Connection refused".equals(e.getMessage()) || "Connection timed out".equals(e.getMessage()))
+						if ("Connection refused".equals(e.getMessage()) || "Connection timed out".equals(e.getMessage())) {
 							System.err.println("Couldn't get I/O for the connection to " + LOCALHOST + ":" + port + " -- ("
 									+ e.getMessage() + ").");
-						else {
+							numFailures++;
+						} else {
 							System.err.println(instance + "Unrecognized error!");
 							e.printStackTrace();
 						}
 						catchSleep(delay);
-						delay = Math.min(delay + 1000L, 30000L);
+						delay = Math.min(delay + 5000L, 15000L);
+						numFailures++;
 					}
+				}
+				if (numFailures > 30) {
+					// We give up after about 7 minutes
+					System.err.println(ConnectionToFirefoxInstance.class.getSimpleName()
+							+ ".openConnection().Thread.run(): Firefox instance is not responding.  ABORT!");
+					System.exit(-1);
+					// This limit was put in at the same time as a "while loop" in the canonical (Linux) shell script that
+					// re-executes the "run display" class when an error exit status happens.
+				}
 			}
 		}.start();
 	}
@@ -553,7 +571,7 @@ public class ConnectionToFirefoxInstance {
 	private void send(String s) {
 		long sleepTime = 1000L;
 		while (!connected || out == null) {
-			println(getClass(), " -- Not connected to FireFox instance at " + LOCALHOST + ":" + port + ".  Will try again in "
+			println(getClass(), " -- Not connected to FireFox instance at " + LOCALHOST + ":" + port + ".  Will look again in "
 					+ sleepTime + " milliseconds");
 			catchSleep(sleepTime);
 			sleepTime += 1000L;
