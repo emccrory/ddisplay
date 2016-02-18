@@ -5,7 +5,7 @@
  */
 package gov.fnal.ppd.dd.chat;
 
-import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
+import static gov.fnal.ppd.dd.GlobalVariables.*;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -147,15 +147,14 @@ public class MessagingClient {
 			displayLogMessage("The messaging server just does not exist at this time!! '" + server + ":" + port
 					+ "'.  Exception is " + ec);
 			disconnect();
-			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 30 * ONE_MINUTE;
+			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_MINUTE;
 			displayLogMessage("We will wait THIRTY MINUTES (30 min.) before trying to connect to the server again!");
 			return false;
 		} catch (Exception ec) {
 			// if it failed not much I can so
 			displayLogMessage("Error connecting to messaging server, '" + server + ":" + port + "'.  Exception is " + ec);
 			disconnect();
-			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 2 * ONE_MINUTE;
-			displayLogMessage("We will wait at least two minutes (120 seconds) before trying again!");
+			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_SECOND;
 			return false;
 		}
 
@@ -178,15 +177,13 @@ public class MessagingClient {
 			displayLogMessage("IOException creating new Input/output Streams: " + eIO);
 			socket = null;
 			disconnect();
-			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 2 * ONE_MINUTE;
-			displayLogMessage("We will wait at least two minutes (120 seconds) before trying again!");
+			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_SECOND;
 			return false;
 		} catch (Exception ex) {
 			displayLogMessage("A non IO Exception creating new Input/output Streams: " + ex);
 			socket = null;
 			disconnect();
-			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 2 * ONE_MINUTE;
-			displayLogMessage("We will wait at least two minutes (120 seconds) before trying again!");
+			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_SECOND;
 			return false;
 		}
 
@@ -196,6 +193,7 @@ public class MessagingClient {
 		// new Exception("Connection accepted debug").printStackTrace();
 
 		// creates the Thread to listen to the server
+		keepMessagingClientGoing = true;
 		listenFromServer = new ListenFromServer();
 		listenFromServer.start();
 
