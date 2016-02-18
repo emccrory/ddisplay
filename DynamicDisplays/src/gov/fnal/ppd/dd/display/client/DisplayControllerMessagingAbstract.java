@@ -186,12 +186,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					if (offLine)
 						statusString = "Off Line";
 					statusString = "V" + versionInfo.getVersionString() + " " + statusString;
+					statusString = statusString.replace("'", "").replace("\"", "").replace(";", "").replace("\\", "");
 					if (statusString.length() > 255)
 						// The Content field is limited to 255 characters.
 						statusString = statusString.substring(0, 249) + " ...";
 
+					String contentName = getContent().getName().replace("'", "").replace("\"", "").replace(";", "").replace("\\", "");
+
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + statusString
-							+ "' where DisplayID=" + getDBDisplayNumber();
+							+ "',ContentName='" + contentName + "' where DisplayID=" + getDBDisplayNumber();
 
 					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 					int numRows = stmt.executeUpdate(statementString);
