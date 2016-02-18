@@ -280,11 +280,21 @@ public class MessagingServer {
 			// somehow. There is a lot of diagnostics mixed in with the processing. Maybe I need to pull that out in some way.
 			// Bottom line: Simplify!!
 
+			// TODO -- Streaming Java objects is great and all, but when the class definition changes, one has to update the
+			// clients and this server at the same time. It would be better, it seems, to stream a java.lang.String object so that
+			// the server can continue to run when changes are made to the client code.
+
 			this.thisSocketIsActive = true;
 			while (this.thisSocketIsActive) {
 				// Create the read Object here so it can be seen by the catch blocks
-				Object read = new Object();
+				Object resetObj = new Object() {
+					public String toString() {
+						return "An empty object.";
+					}
+				};
+				Object read = null;
 				try {
+					read = resetObj;
 					read = this.sInput.readObject();
 					setLastSeen();
 
@@ -329,9 +339,14 @@ public class MessagingServer {
 						break; // End the while(this.thisSocketIsActive) loop
 					}
 				} catch (SocketException | EOFException e) {
+					String theType = read.getClass().getCanonicalName();
+					if (resetObj.toString().equals(read.toString())) {
+						error("Client " + this.username + ": " + e.getClass().getName()
+								+ " reading input stream\n          Received nothing. " + exceptionString(e));
+						break;
+					}
 					String dis = "Client " + this.username + ": " + e.getClass().getName() + " reading input stream\n          "
-							+ "The received message was '" + read + "'\n          (type=" + read.getClass().getCanonicalName()
-							+ ") ";
+							+ "The received message was '" + read + "'\n          (type=" + theType + ") ";
 					error(dis + exceptionString(e));
 					break;
 				} catch (Exception e) {
@@ -1005,16 +1020,22 @@ public class MessagingServer {
 			// I was asked to stop
 			display("Closing the server port");
 			try {
-				serverSocket.close();
+				if (serverSocket != null)
+					serverSocket.close();
 				for (int i = 0; i < listOfMessagingClients.size(); ++i) {
 					ClientThread tc = listOfMessagingClients.get(i);
 					try {
-						tc.sInput.close();
-						tc.sOutput.close();
-						tc.socket.close();
-					} catch (IOException ioE) {
+						if (tc != null) {
+							if (tc.sInput != null)
+								tc.sInput.close();
+							if (tc.sOutput != null)
+								tc.sOutput.close();
+							if (tc.socket != null)
+								tc.socket.close();
+						}
+					} catch (Exception ee) {
 						// not much I can do
-						printStackTrace(ioE);
+						printStackTrace(ee);
 					}
 				}
 			} catch (Exception e) {
@@ -1065,7 +1086,7 @@ public class MessagingServer {
 							continue;
 
 						// This sleep period assures that each client is ping'ed at least three times before it is "too old"
-						sleepPeriodBtwPings = Math.min(tooOldTime / listOfMessagingClients.size() / 3L, 1500L);
+						sleepPeriodBtwPings = Math.min(tooOldTime / listOfMessagingClients.size() / 3L, 10000L);
 
 						if (sleepPeriodBtwPings < 100L) { // Idiot check
 							if (sleepPeriodBtwPings <= 1L)
@@ -1091,16 +1112,16 @@ public class MessagingServer {
 						// Ping any client that is "on notice", plus the oldest one that is not on notice
 						boolean printMe = (counter++ % 200) < 3;
 						if (printMe)
-							System.out.println("---- Cycle no. " + counter);
+							System.out.println(new Date() + "\n---- Cycle no. " + counter);
 
 						for (int i = 0; i < listOfMessagingClients.size(); i++) {
 							ClientThread CT = listOfMessagingClients.get(i);
-							if (printMe) {
-								String spaces = " ";
-								for (int m = (CT.username + i).length(); m < 45; m++)
-									spaces += ' ';
-								System.out.println("---- " + i + " " + CT.username.replace(".fnal.gov", "") + spaces
-										+ (new Date(CT.lastSeen)).toString().substring(4, 19) + ", "
+							if (printMe || CT.numOutstandingPings > 2) {
+								String firstPart = "---- " + i + " " + CT.username.replace(".fnal.gov", "") + " ";
+								int initialLength = firstPart.length();
+								for (int m = initialLength; m < 40; m++)
+									firstPart += ' ';
+								System.out.println(firstPart + (new Date(CT.lastSeen)).toString().substring(4, 19) + ", "
 										+ (System.currentTimeMillis() - CT.lastSeen) / 1000L + " secs ago"
 										+ (CT.numOutstandingPings > 0 ? "; num pings=" + CT.numOutstandingPings : ""));
 							}
@@ -1115,20 +1136,21 @@ public class MessagingServer {
 						clist.add(oldestClientName);
 						lastOldestClientName = oldestClientName;
 
-						for (ClientThread S : clist) {
-							if (S == null)
+						for (ClientThread CT : clist) {
+							if (CT == null)
 								continue;
 							catchSleep(1);
 							if (printMe)
-								display("Sending isAlive message to " + S);
-							MessageCarrier mc = MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, S.username);
-							if (S.incrementNumOutstandingPings()) {
-								System.out.println("             Too many pings to the client " + S.username + "; removing it!");
+								display("Sending isAlive message to " + CT);
+							MessageCarrier mc = MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, CT.username);
+							if (CT.incrementNumOutstandingPings()) {
+								System.out.println("             Too many pings (" + CT.numOutstandingPings + "( to the client "
+										+ CT.username + "; removing it!");
 
-								listOfMessagingClients.remove(S);
-								S.close();
+								listOfMessagingClients.remove(CT);
+								CT.close();
 								numClientsRemoved++;
-								S = null; // Not really necessary, but it makes me feel better.
+								CT = null; // Not really necessary, but it makes me feel better.
 
 								continue;
 							}
