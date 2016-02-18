@@ -109,7 +109,28 @@ fi
     fi
 
     echo "Running the display software ..."
-    java -Dddisplay.wrappertype=$WrapperType -Xmx1024m \
-         gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox -screen=$screenNum 
+
+    # An exit code of -1 (255 here) is going to mean that there was a problem from which we should try to recover.
+
+    while {
+	java -Xmx1024m gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox 
+	test $? -eq 255
+    }
+    do
+	echo ""
+	echo ""
+	echo ""
+	echo `date` " Display program exited with failure ..."
+	sleep 15
+	echo `date` " Trying again now."
+	echo ""
+	echo ""
+	echo ""
+    done
+
+    echo ""
+    echo ""
+    echo ""
+    echo "Display program was killed.  Bye."
 
 } >> $log 2>&1 &
