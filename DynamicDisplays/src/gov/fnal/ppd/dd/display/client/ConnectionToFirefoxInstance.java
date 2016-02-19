@@ -150,7 +150,7 @@ public class ConnectionToFirefoxInstance {
 	 * Change the URL that is showing now.
 	 * 
 	 * Applying "synchronized" here just in case there are back-to-back change requests. Is this necessary, since there are
-	 * synchorizations on the in and the out sockets?
+	 * synchonizations on the in and the out sockets?
 	 * 
 	 * @param urlString
 	 *            The URL that this instance should show now.
@@ -494,7 +494,8 @@ public class ConnectionToFirefoxInstance {
 	public void exit() {
 		// Remove the FireFox window that was created earlier.
 		try {
-			kkSocket.close();
+			if (kkSocket != null)
+				kkSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -527,42 +528,43 @@ public class ConnectionToFirefoxInstance {
 				numFailures = 0;
 				while (!connected) {
 					try {
-						println(getClass(), ":\n\tOpening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
+						println(getClass(), ":\tOpening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
 						kkSocket = new Socket(LOCALHOST, port);
-						println(getClass(), "\tSocket connection to FF created");
+						println(getClass(), ":\tSocket connection to FF created");
 						out = new PrintWriter(kkSocket.getOutputStream(), true);
-						println(getClass(), "\tOutput stream established");
+						println(getClass(), ":\tOutput stream established");
 						in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
 						kkSocket.setSoTimeout(10000);
-						println(getClass(), "\tInput stream established");
+						println(getClass(), ":\tInput stream established");
 						setConnected(true);
-						println(getClass(), " ** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
+						println(getClass(), ": ** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
 								+ " ** -- " + new Date());
 						connected = true;
+						break;
 					} catch (UnknownHostException e) {
-						System.err.println("Don't know about host " + LOCALHOST + " --  ignoring.");
+						System.err.println("Don't know about host " + LOCALHOST + " --  ignoring. (" + numFailures + ")");
 						numFailures++;
 					} catch (IOException e) {
+						numFailures++;
 						if ("Connection refused".equals(e.getMessage()) || "Connection timed out".equals(e.getMessage())) {
 							System.err.println("Couldn't get I/O for the connection to " + LOCALHOST + ":" + port + " -- ("
-									+ e.getMessage() + ").");
-							numFailures++;
+									+ e.getMessage() + ") (" + numFailures + ")");
 						} else {
-							System.err.println(instance + "Unrecognized error!");
+							System.err.println(instance + "Unrecognized error! (" + numFailures + ")");
 							e.printStackTrace();
 						}
-						catchSleep(delay);
-						delay = Math.min(delay + 5000L, 15000L);
-						numFailures++;
 					}
-				}
-				if (numFailures > 30) {
-					// We give up after about 7 minutes
-					System.err.println(ConnectionToFirefoxInstance.class.getSimpleName()
-							+ ".openConnection().Thread.run(): Firefox instance is not responding.  ABORT!");
-					System.exit(-1);
-					// This limit was put in at the same time as a "while loop" in the canonical (Linux) shell script that
-					// re-executes the "run display" class when an error exit status happens.
+					if (numFailures >= 22) {
+						// We give up after about 5 minutes
+						System.err.println(ConnectionToFirefoxInstance.class.getSimpleName()
+								+ ".openConnection().Thread.run(): Firefox instance is not responding.  ABORT!");
+						System.exit(-1);
+						// This limit was put in at the same time as a "while loop" in the canonical (Linux) shell script that
+						// re-executes the "run display" class when an error exit status happens.
+					}
+					System.err.println("Will sleep for " + delay + " msec and then try again");
+					catchSleep(delay);
+					delay = Math.min(delay + 5000L, 15000L);
 				}
 			}
 		}.start();
@@ -571,10 +573,10 @@ public class ConnectionToFirefoxInstance {
 	private void send(String s) {
 		long sleepTime = 1000L;
 		while (!connected || out == null) {
-			println(getClass(), " -- Not connected to FireFox instance at " + LOCALHOST + ":" + port + ".  Will look again in "
-					+ sleepTime + " milliseconds");
+			println(getClass(), ".send() -- Not connected to FireFox instance at " + LOCALHOST + ":" + port
+					+ ".  Will look again in " + sleepTime + " milliseconds");
 			catchSleep(sleepTime);
-			sleepTime += 1000L;
+			sleepTime = Math.min(sleepTime + 5000L, 15000L);
 		}
 		if (debug)
 			println(getClass(), instance + " sending [" + s + "]");
@@ -617,6 +619,16 @@ public class ConnectionToFirefoxInstance {
 				/*
 				 * Generally, when the return value contains "error", there was a problem.
 				 */
+
+				/*
+				 * A special error is returned if the Firefox Tab has disappeared: "tab navigated or closed"
+				 */
+				if (lastReplyLine.toLowerCase().contains("tab navigated or closed")) {
+					println(getClass(), "\n\n******************************************************\n\nRecevied this line: ["
+							+ lastReplyLine + "]\n\n******************************************************\n\n"
+							+ "ABORTING APPLICATION!\n******************************************************");
+					System.exit(-1);
+				}
 				setConnected(numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\""));
 			} catch (SocketTimeoutException e) {
 				System.err.println(new Date() + " " + ConnectionToFirefoxInstance.class.getSimpleName()
