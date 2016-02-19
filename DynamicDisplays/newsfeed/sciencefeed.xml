@@ -22,17 +22,12 @@ Science Magazine (mailto:soleditor@aaas.org)</creator>
 Copyright 2014 American Association for the Advancement of Science</rights>
 
 <date>
-2016-02-11T11:16:41-05:00</date>
+2016-02-18T12:24:46-05:00</date>
 
 <language>
 en</language>
 
 <items>
-
-
-
-
-
 
 
 
@@ -59,582 +54,440 @@ en</language>
 <item>
 
 <title>
-[Cancer] Helping cancer cells exit blood vessels</title>
+[Structural Biology] CRISPR Cas9 molecular scissors</title>
 
 <link>
-http://science.sciencemag.org/content/351/6274/676.1</link>
+http://science.sciencemag.org/content/351/6275/827.1</link>
 
 <date>
-2016-02-12</date>
+2016-02-19</date>
 
 <creator>
-Nancy R. Gough</creator>
+Guy Riddihough</creator>
 
 <description>
 
-Metastasizing cancer cells must migrate into the bloodstream to colonize secondary sites. Locard-Paulet 
-et al.
- cocultured breast cancer cells with endothelial cells, a system ...
+The CRISPR-associated (Cas) protein Cas9 is a molecular scissor for cutting DNA. The first step in the cutting reaction is the RNA-guided unwinding of the DNA double helix. Jiang 
+et ...
 </description>
 
 <subject>
-Cancer</subject>
+Structural Biology</subject>
 
 <identifier>
-10.1126/science.351.6274.676-a</identifier>
+10.1126/science.351.6275.827-a</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Photocatalysis] Copper's light touch forges C-N bonds</title>
+[Organic Chemistry] A route to nitrile that bypasses cyanide</title>
 
 <link>
-http://science.sciencemag.org/content/351/6274/676.2</link>
+http://science.sciencemag.org/content/351/6275/827.2</link>
 
 <date>
-2016-02-12</date>
+2016-02-19</date>
 
 <creator>
 Jake Yeston</creator>
 
 <description>
 
-Organic photochemistry has traditionally relied on excitation in the ultraviolet, where carbon-based compounds tend to absorb. Over the past decade, the field has undergone a renaissance ...
+The toxicity of hydrogen cyanide (HCN) is well known. Nonetheless, numerous useful nitrile compounds contain CN groups, and the reaction of HCN with C=C double bonds is often used. ...
 </description>
 
 <subject>
-Photocatalysis</subject>
+Organic Chemistry</subject>
 
 <identifier>
-10.1126/science.351.6274.676-b</identifier>
+10.1126/science.351.6275.827-b</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Transcription] The SAGA of removing nucleosomal ubiquitin</title>
+[Applied Physics] Sensing single proteins with diamonds</title>
 
 <link>
-http://science.sciencemag.org/content/351/6274/676.3</link>
+http://science.sciencemag.org/content/351/6275/827.3</link>
 
 <date>
-2016-02-12</date>
+2016-02-19</date>
 
 <creator>
-Guy Riddihough</creator>
+Ian S. Osborne</creator>
 
 <description>
 
-Covalent modifications of histones play a critical role in gene regulation. The addition of the small protein ubiquitin to histone H2B in nucleosomes is a mark of actively transcribed ...
+Nuclear magnetic resonance is a powerful technique for medical imaging and the structural analysis of materials, but is usually associated with large-volume samples. Lovchinsky 
+et ...
 </description>
 
 <subject>
-Transcription</subject>
+Applied Physics</subject>
 
 <identifier>
-10.1126/science.351.6274.676-c</identifier>
+10.1126/science.351.6275.827-c</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Human Genomics] The legacy of human-Neandertal interbreeding</title>
+[Nanomaterials] Dynamic DNA clustering of nanoparticles</title>
 
 <link>
-http://science.sciencemag.org/content/351/6274/676.4</link>
+http://science.sciencemag.org/content/351/6275/827.4</link>
 
 <date>
-2016-02-12</date>
-
-<creator>
-Laura M. Zahn</creator>
-
-<description>
-
-Non-African humans are estimated to have inherited on average 1.5 to 4% of their genomes from Neandertals. However, how this genetic legacy affects human traits is unknown. Simonti ...
-</description>
-
-<subject>
-Human Genomics</subject>
-
-<identifier>
-10.1126/science.351.6274.676-d</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Metabolism] Controlling supplies for DNA and RNA synthesis</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.5</link>
-
-<date>
-2016-02-12</date>
-
-<creator>
-L. Bryan Ray</creator>
-
-<description>
-
-The mTORC1 protein kinase complex regulates anabolic metabolism and coordinates cellular signals that promote growth with availability of required precursor metabolites. Signaling through ...
-</description>
-
-<subject>
-Metabolism</subject>
-
-<identifier>
-10.1126/science.351.6274.676-e</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Global Water Cycle] By land or by sea</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.6</link>
-
-<date>
-2016-02-12</date>
-
-<creator>
-H. Jesse Smith</creator>
-
-<description>
-
-How much of an effect does terrestrial groundwater storage have on sea-level rise? Reager 
-et al.
- used gravity measurements made between 2002 and 2014 by NASA's Gravity Recovery ...
-</description>
-
-<subject>
-Global Water Cycle</subject>
-
-<identifier>
-10.1126/science.351.6274.676-f</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Immunology] An unconventional route to protection</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.7</link>
-
-<date>
-2016-02-12</date>
-
-<creator>
-Kristen L. Mueller</creator>
-
-<description>
-
-One promising approach toward an HIV-1 vaccine involves infecting people with cytomegalovirus engineered to express proteins from HIV-1. This approach, which works by eliciting virus-killing ...
-</description>
-
-<subject>
-Immunology</subject>
-
-<identifier>
-10.1126/science.351.6274.676-g</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Astronomy] How stars grow</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.8</link>
-
-<date>
-2016-02-12</date>
-
-<creator>
-Kip Hodges</creator>
-
-<description>
-
-Conventional wisdom has long held that young stars grow gradually through the inward migration of mass within their protoplanetary disks. Liu 
-et al.
- now show that the process ...
-</description>
-
-<subject>
-Astronomy</subject>
-
-<identifier>
-10.1126/science.351.6274.676-h</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Carbon Cycle] Warming making bigger CO2 swings</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.9</link>
-
-<date>
-2016-02-12</date>
-
-<creator>
-H. Jesse Smith</creator>
-
-<description>
-
-The combined effects of climate change and vegetation dynamics at high northern latitudes have amplified the seasonal variation of atmospheric CO<sub>
-2</sub>
- concentrations over the ...
-</description>
-
-<subject>
-Carbon Cycle</subject>
-
-<identifier>
-10.1126/science.351.6274.676-i</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Gene Regulation] Parasitic DNAs help and hinder evolution</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.10</link>
-
-<date>
-2016-02-12</date>
-
-<creator>
-Guy Riddihough</creator>
-
-<description>
-
-Transposable elements are parasitic DNAs that can duplicate themselves and jump around their host genomes. They can both disrupt gene function and drive genome evolution. Elbarbary ...
-</description>
-
-<subject>
-Gene Regulation</subject>
-
-<identifier>
-10.1126/science.351.6274.676-j</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Valleytronics] Stacking to prolong valley lifetime</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.11</link>
-
-<date>
-2016-02-12</date>
-
-<creator>
-Jelena Stajic</creator>
-
-<description>
-
-In the material MoSe<sub>
-2</sub>
-, which, like graphene, has a two-dimensional honeycomb crystal lattice, the electronic structure has two “valleys.” Electrons can be distinguished by  ...
-</description>
-
-<subject>
-Valleytronics</subject>
-
-<identifier>
-10.1126/science.351.6274.676-k</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Gene Regulation] Genetic programming for self-renewal</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.12</link>
-
-<date>
-2016-02-12</date>
-
-<creator>
-Kristen L. Mueller</creator>
-
-<description>
-
-Instead of repopulating themselves from tissue-resident stem cell pools like most types of differentiated cells, tissue macrophages maintain themselves by self-renewing. The underlying ...
-</description>
-
-<subject>
-Gene Regulation</subject>
-
-<identifier>
-10.1126/science.351.6274.676-l</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Materials Science] Flexible power for flexible electronics</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.13</link>
-
-<date>
-2016-02-12</date>
+2016-02-19</date>
 
 <creator>
 Marc S. Lavine</creator>
 
 <description>
 
-A challenge for flexible electronics is to couple devices with power sources that are also flexible. Ideally, they could also be processed in a way that is compatible with current microfabrication ...
-</description>
-
-<subject>
-Materials Science</subject>
-
-<identifier>
-10.1126/science.351.6274.676-m</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Microbial Physiology] Long-term partners uncoupled</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.14</link>
-
-<date>
-2016-02-12</date>
-
-<creator>
-Nicholas S. Wigginton</creator>
-
-<description>
-
-Methane-munching archaea in marine sediments live closely coupled to sulfate-reducing bacteria in a syntrophic relationship. Surprisingly, however, these archaea do not necessarily ...
-</description>
-
-<subject>
-Microbial Physiology</subject>
-
-<identifier>
-10.1126/science.351.6274.676-n</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Lung Physiology] Neuroendocrine cells as air sensors</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.15</link>
-
-<date>
-2016-02-12</date>
-
-<creator>
-Beverly A. Purnell</creator>
-
-<description>
-
-Liters of air pass through the lung every minute. Signals in the atmospheric environment are processed into physiological outputs, including the immune response. Branchfield 
-et ...
-</description>
-
-<subject>
-Lung Physiology</subject>
-
-<identifier>
-10.1126/science.351.6274.676-o</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Epigenetics] Quantitative analysis of epigenetic memory</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.16</link>
-
-<date>
-2016-02-12</date>
-
-<creator>
-L. Bryan Ray</creator>
-
-<description>
-
-To explore quantitative and dynamic properties of transcriptional regulation by epigenetic modifications, Bintu 
+The size and shape of nanoparticles can increase the cellular uptake and delivery of contrast agents and therapeutics. Ohta 
 et al.
- monitored a transcriptional reporter gene carried on ...
+ created gold nanoparticles partly covered ...
 </description>
 
 <subject>
-Epigenetics</subject>
+Nanomaterials</subject>
 
 <identifier>
-10.1126/science.351.6274.676-p</identifier>
+10.1126/science.351.6275.827-d</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Autoimmunity] T cells target peptide combos</title>
+[Mucosal Immunology] Keeping immune cells quiet on a diet</title>
 
 <link>
-http://science.sciencemag.org/content/351/6274/676.17</link>
+http://science.sciencemag.org/content/351/6275/827.5</link>
 
 <date>
-2016-02-12</date>
+2016-02-19</date>
 
 <creator>
 Kristen L. Mueller</creator>
 
 <description>
 
-One of the enduring mysteries of autoimmunity is the identity of the specific proteins targeted by autoimmune T cells. Delong 
-et al.
- used mass spectrometry to elucidate the ...
+Over thousands of years, our immune systems has evolved to distinguish self from foreign, perpetrating attacks on microbes but not ourselves. Given this, why do we fail to mount an ...
 </description>
 
 <subject>
-Autoimmunity</subject>
+Mucosal Immunology</subject>
 
 <identifier>
-10.1126/science.351.6274.676-q</identifier>
+10.1126/science.351.6275.827-e</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Biochemistry] Spatial control of cellular enzymes</title>
+[DNA Repair] The real cause of cancer in Fanconi anemia</title>
 
 <link>
-http://science.sciencemag.org/content/351/6274/676.18</link>
+http://science.sciencemag.org/content/351/6275/827.6</link>
 
 <date>
-2016-02-12</date>
+2016-02-19</date>
+
+<creator>
+Guy Riddihough</creator>
+
+<description>
+
+Mutations that covalently link the two strands of the DNA double helix together are highly toxic, because they block DNA replication. Failure to repair such damage results in Fanconi ...
+</description>
+
+<subject>
+DNA Repair</subject>
+
+<identifier>
+10.1126/science.351.6275.827-f</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Neuroscience] Glial cell properties dictated by neurons</title>
+
+<link>
+http://science.sciencemag.org/content/351/6275/827.7</link>
+
+<date>
+2016-02-19</date>
+
+<creator>
+L. Bryan Ray</creator>
+
+<description>
+
+Neurons in the brain coexist with astrocytes, a type of glial cell, which help support many functions of their neighboring nerve cells. Farmer 
+et al.
+ now show that the support ...
+</description>
+
+<subject>
+Neuroscience</subject>
+
+<identifier>
+10.1126/science.351.6275.827-g</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Seismology] Crowdsourcing earthquake early warnings</title>
+
+<link>
+http://science.sciencemag.org/content/351/6275/827.8</link>
+
+<date>
+2016-02-19</date>
+
+<creator>
+Kip Hodges</creator>
+
+<description>
+
+The rapid distribution of earthquake warnings can reduce resulting loss of life and injury. Most earthquake early warning systems are based on data from specially designed seismic and ...
+</description>
+
+<subject>
+Seismology</subject>
+
+<identifier>
+10.1126/science.351.6275.827-h</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Cancer] Killing cancer with a soft touch</title>
+
+<link>
+http://science.sciencemag.org/content/351/6275/827.9</link>
+
+<date>
+2016-02-19</date>
+
+<creator>
+Yevgeniya Nusinovich</creator>
+
+<description>
+
+Bleomycin is an effective chemotherapy drug that is used against multiple types of cancer. Unfortunately, it often causes lung fibrosis (or stiffening of the lungs), the severity of ...
+</description>
+
+<subject>
+Cancer</subject>
+
+<identifier>
+10.1126/science.351.6275.827-i</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Microbiome] Microbiota and infant development</title>
+
+<link>
+http://science.sciencemag.org/content/351/6275/827.10</link>
+
+<date>
+2016-02-19</date>
+
+<creator>
+Caroline Ash</creator>
+
+<description>
+
+Malnutrition in children is a persistent challenge that is not always remedied by improvements in nutrition. This is because a characteristic community of gut microbes seems to mediate ...
+</description>
+
+<subject>
+Microbiome</subject>
+
+<identifier>
+10.1126/science.351.6275.827-j</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Proteasome] The yin and yang of proteasomal regulation</title>
+
+<link>
+http://science.sciencemag.org/content/351/6275/827.11</link>
+
+<date>
+2016-02-19</date>
+
+<creator>
+Stella M. Hurtley</creator>
+
+<description>
+
+The ubiquitin-proteasome pathway regulates myriad proteins through their selective proteolysis. The small protein ubiquitin is attached, typically in many copies, to the target protein, ...
+</description>
+
+<subject>
+Proteasome</subject>
+
+<identifier>
+10.1126/science.351.6275.827-k</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Structural Biology] AAA ATPase conformational high jinks</title>
+
+<link>
+http://science.sciencemag.org/content/351/6275/827.12</link>
+
+<date>
+2016-02-19</date>
 
 <creator>
 Valda Vinson</creator>
 
 <description>
 
-Purine is a building block of DNA and also a component of ATP that is used as an energy source in the cell. Enzymes involved in purine biosynthesis organize into dynamic bodies called ...
+The protein p97 is an AAA adenosine triphosphatase (ATPase) that uses energy from ATP hydrolysis to regulate substrates involved in intracellular protein quality control. Its role in ...
 </description>
 
 <subject>
-Biochemistry</subject>
+Structural Biology</subject>
 
 <identifier>
-10.1126/science.351.6274.676-r</identifier>
+10.1126/science.351.6275.827-l</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Evolution] Finding the organelles' ancestors</title>
+[Structural Biology] Insight into a bacterial membrane protease</title>
 
 <link>
-http://science.sciencemag.org/content/351/6274/676.19</link>
+http://science.sciencemag.org/content/351/6275/827.13</link>
 
 <date>
-2016-02-12</date>
+2016-02-19</date>
+
+<creator>
+Valda Vinson</creator>
+
+<description>
+
+Lipoproteins have key functions in many bacteria. They are synthesized in a precursor form that requires processing by enzymes that are essential in many pathogenic bacteria but have ...
+</description>
+
+<subject>
+Structural Biology</subject>
+
+<identifier>
+10.1126/science.351.6275.827-m</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Ion Channels] Calcium channels deliver a one-two punch</title>
+
+<link>
+http://science.sciencemag.org/content/351/6275/827.14</link>
+
+<date>
+2016-02-19</date>
+
+<creator>
+Stella M. Hurtley</creator>
+
+<description>
+
+To help generate long-lasting neuronal plasticity, CaV1.2 (L-type) calcium channels link electrical activity to nuclear gene expression. However, exactly how this coupling works is ...
+</description>
+
+<subject>
+Ion Channels</subject>
+
+<identifier>
+10.1126/science.351.6275.827-n</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Infectious Diseases] Preparing for the next epidemic</title>
+
+<link>
+http://science.sciencemag.org/content/351/6275/827.15</link>
+
+<date>
+2016-02-19</date>
 
 <creator>
 Julia Fahrenkamp-Uppenbrink</creator>
 
 <description>
 
-In contrast to bacteria and archaea, eukaryotic cells contain organelles called mitochondria that generate chemical energy; plant cells also contain plastids, the sites of photosynthesis. ...
+As West Africa emerges from the Ebola epidemic that caused over 11,000 deaths, the next epidemic is emerging in Central and South America, where the rapid spread of Zika virus infections ...
 </description>
 
 <subject>
-Evolution</subject>
+Infectious Diseases</subject>
 
 <identifier>
-10.1126/science.351.6274.676-s</identifier>
+10.1126/science.351.6275.827-o</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Allergy] Bringing atopic dermatitis up to scratch</title>
+[Immunometabolism] Unleashing natural killer cells</title>
 
 <link>
-http://science.sciencemag.org/content/351/6274/676.20</link>
+http://science.sciencemag.org/content/351/6275/827.16</link>
 
 <date>
-2016-02-12</date>
+2016-02-19</date>
 
 <creator>
-Angela Colmone</creator>
+John F. Foley</creator>
 
 <description>
 
-Targeted therapies are transforming medicine, but complex diseases such as atopic dermatitis are difficult to target. Now, Jarrett et al. report a mechanism that links two contributors ...
+The cytokine TGF-β can resolve inflammation and prevent autoimmunity, but it can also inhibit anti-tumor immune responses. Viel 
+et al.
+ found that TGF-β signaling suppressed t ...
 </description>
 
 <subject>
-Allergy</subject>
+Immunometabolism</subject>
 
 <identifier>
-10.1126/science.351.6274.676-t</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Plant Immunity] Improving plant disease responses</title>
-
-<link>
-http://science.sciencemag.org/content/351/6274/676.21</link>
-
-<date>
-2016-02-12</date>
-
-<creator>
-Pamela J. Hines</creator>
-
-<description>
-
-Disease resistance in plants depends on genes that allow them to recognize when they are infected by a pathogen so that they can mount a timely defense response. Unfortunately, pathogens ...
-</description>
-
-<subject>
-Plant Immunity</subject>
-
-<identifier>
-10.1126/science.351.6274.676-u</identifier>
+10.1126/science.351.6275.827-p</identifier>
 
 </item>
 
