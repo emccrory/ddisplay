@@ -23,13 +23,14 @@ public class SkeletonChannel implements SignageContent {
 	 */
 	public SkeletonChannel(final String name) {
 		this.name = name;
+	
 		try {
 			if (name.contains("http://")) {
-				uri = new URI(name.substring(name.indexOf("http://"), name.length() - 1));
-				this.name = name.substring(0, name.indexOf("http://") - 1);
+				this.name = name.substring(0, name.indexOf("http://") - 1).replace(" ...", "");
+				uri = new URI(name.substring(name.indexOf("http://"), name.length() - 1).replace(" ...", ""));
 			} else if (name.contains("https://")) {
-				uri = new URI(name.substring(name.indexOf("https://"), name.length() - 1));
-				this.name = name.substring(0, name.indexOf("https://") - 1);
+				this.name = name.substring(0, name.indexOf("https://") - 1).replace(" ...", "");
+				uri = new URI(name.substring(name.indexOf("https://"), name.length() - 1).replace(" ...", ""));
 			}
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
