@@ -15,6 +15,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_EXTENDED_DISPLAY_NAMES;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
+import static gov.fnal.ppd.dd.GlobalVariables.WAIT_FOR_SERVER_TIME;
 import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
@@ -68,6 +69,8 @@ public class MakeChannelSelector {
 		credentialsSetup();
 
 		selectorSetup();
+
+		WAIT_FOR_SERVER_TIME = 2500L; // Be impatient when a ChannelSelector cannot reach the server
 
 		ChannelSelector channelSelector = new ChannelSelector();
 		channelSelector.start();

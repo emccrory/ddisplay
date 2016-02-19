@@ -307,16 +307,16 @@ public class MessagingClient {
 			long	wait	= dontTryToConnectAgainUntilNow - System.currentTimeMillis();
 
 			public void run() {
+				// An observation (2/19/2016): It takes about two cycles of this while loop to reconnect to the server
 				synchronized (syncReconnects) {
 					syncReconnects = true;
 					while (socket == null) {
 						if (wait < 0)
-							wait = ONE_MINUTE;
+							wait = WAIT_FOR_SERVER_TIME;
 
-						displayLogMessage("Will wait " + (wait / 1000L)
-								+ " seconds for server to return and then try to connect again.");
+						displayLogMessage("Will wait " + (wait / 1000L) + " secs before trying to connect to the server again.");
 						catchSleep(wait);
-						wait = ONE_MINUTE;
+						wait = WAIT_FOR_SERVER_TIME;
 						if (!MessagingClient.this.start()) {
 							displayLogMessage(MessagingClient.class.getSimpleName()
 									+ ".connectionFailed(): Server start failed again at " + (new Date()) + "...");

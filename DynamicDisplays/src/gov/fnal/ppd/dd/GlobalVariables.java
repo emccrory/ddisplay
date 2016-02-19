@@ -297,6 +297,11 @@ public class GlobalVariables {
 	public static final long		PING_INTERVAL			= 5L * ONE_SECOND;
 
 	/**
+	 * How long should the client wait between attempts to reconnect to the server. For displays, ONE_MINUTE is good. For
+	 * Controllers, the user is going to be less patient!
+	 */
+	public static long				WAIT_FOR_SERVER_TIME	= ONE_MINUTE;
+	/**
 	 * An identifier for the display facades
 	 */
 	public static String			PROGRAM_NAME			= "ChannelSelector";
