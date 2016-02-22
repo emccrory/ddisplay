@@ -62,7 +62,6 @@ public class ConnectionToFirefoxInstance {
 	private AtomicBoolean							showingCanonicalSite			= new AtomicBoolean(false);
 	private Rectangle								bounds;
 	private boolean									showNumber						= true;
-	private String									lastURL							= null;
 
 	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
 
@@ -166,8 +165,6 @@ public class ConnectionToFirefoxInstance {
 			throws UnsupportedEncodingException {
 		if (debug)
 			println(getClass(), instance + " New URL: " + urlString);
-
-		lastURL = urlString;
 
 		String frameName = "iframe";
 		if (frameNumber > 0)
@@ -302,7 +299,7 @@ public class ConnectionToFirefoxInstance {
 			if (numberOfScreens > 1)
 				System.err.println("Exception on port #" + port);
 			e.printStackTrace();
-			setConnected(false);
+			setIsNotConnected();
 			return false;
 		}
 		// }
@@ -311,22 +308,27 @@ public class ConnectionToFirefoxInstance {
 
 	private boolean	tryingToCloseNow	= false;
 
-	private synchronized void setConnected(boolean con) {
-		if (!con && !tryingToCloseNow) {
+	private void setIsNotConnected() {
+		connected = false;
+		if (tryingToCloseNow == false) {
 			tryingToCloseNow = true;
-			println(ConnectionToFirefoxInstance.class, "\n\n\t\tCLOSING connection to FireFox " + getInstance() + "\n\n");
-			try {
-				kkSocket.close();
-				out.close();
-				in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			kkSocket = null;
-			out = null;
-			in = null;
 			new Thread("RestartConnectionToFireFox") {
 				public void run() {
+					println(ConnectionToFirefoxInstance.class, "\n\n\t\tCLOSING connection to FireFox " + getInstance() + "\n\n");
+					try {
+						if (kkSocket != null)
+							kkSocket.close();
+						if (out != null)
+							out.close();
+						if (in != null)
+							in.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					kkSocket = null;
+					out = null;
+					in = null;
+
 					catchSleep(2000L);
 					println(ConnectionToFirefoxInstance.class, "\t\tAttempting to re-open the connection to FireFox "
 							+ getInstance() + "\n\n");
@@ -335,7 +337,6 @@ public class ConnectionToFirefoxInstance {
 				}
 			}.start();
 		}
-		connected = con;
 	}
 
 	private boolean isNumberHidden() {
@@ -359,7 +360,7 @@ public class ConnectionToFirefoxInstance {
 				System.err.println(getClass().getName() + ".forceRefresh()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			setConnected(false);
+			setIsNotConnected();
 		}
 
 		// if (lastURL == null)
@@ -416,7 +417,7 @@ public class ConnectionToFirefoxInstance {
 				System.err.println(getClass().getName() + ".showIdentity()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			setConnected(false);
+			setIsNotConnected();
 		}
 
 		// TODO -- Add the PNG image of the QR code here. Generate it with this:
@@ -450,7 +451,7 @@ public class ConnectionToFirefoxInstance {
 				System.err.println(getClass().getName() + ".removeIdentity()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			setConnected(false);
+			setIsNotConnected();
 		}
 	}
 
@@ -467,7 +468,7 @@ public class ConnectionToFirefoxInstance {
 				System.err.println(getClass().getName() + ".showFrame()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			setConnected(false);
+			setIsNotConnected();
 		}
 	}
 
@@ -484,7 +485,7 @@ public class ConnectionToFirefoxInstance {
 				System.err.println(getClass().getName() + ".hideFrame()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			setConnected(false);
+			setIsNotConnected();
 		}
 	}
 
@@ -516,6 +517,10 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	private void openConnection() {
+		if (connected) {
+			println(getClass(), " -- already connected!");
+			return;
+		}
 		new Thread("OpenConToFirefox") {
 			int	numFailures	= 0;
 
@@ -536,7 +541,6 @@ public class ConnectionToFirefoxInstance {
 						in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
 						kkSocket.setSoTimeout(10000);
 						println(getClass(), ":\tInput stream established");
-						setConnected(true);
 						println(getClass(), ": ** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
 								+ " ** -- " + new Date());
 						connected = true;
@@ -629,11 +633,13 @@ public class ConnectionToFirefoxInstance {
 							+ "ABORTING APPLICATION!\n******************************************************");
 					System.exit(-1);
 				}
-				setConnected(numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\""));
+				connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
+				if (!connected)
+					setIsNotConnected();
 			} catch (SocketTimeoutException e) {
 				System.err.println(new Date() + " " + ConnectionToFirefoxInstance.class.getSimpleName()
 						+ ".waitForServer(): No response from Firefox plugin");
-				setConnected(false);
+				setIsNotConnected();
 			}
 		}
 		println(getClass(), instance + " Returning from waitForServer(), connected=" + connected);
@@ -654,7 +660,7 @@ public class ConnectionToFirefoxInstance {
 				System.err.println(getClass().getName() + ".removeIdentity()" + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			setConnected(false);
+			setIsNotConnected();
 		}
 	}
 
