@@ -116,7 +116,7 @@ public class DisplayButtons extends JPanel {
 	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 20;
 	private static final long		serialVersionUID		= 4096502469001848381L;
 	protected static final Color	sliderBG				= new Color(0xe0e0e0);
-	static final float				WINDOW_FONT_SIZE		= 12.0f;
+	static final float				WINDOW_FONT_SIZE		= 18.0f;
 
 	/**
 	 * Find this Display in the list and then set the ToolTip for it based on the status of the Display.
@@ -182,13 +182,13 @@ public class DisplayButtons extends JPanel {
 
 		DisplayButtonGroup bg = new DisplayButtonGroup();
 		// int is = displayList.size() > 10 ? 2 * INSET_SIZE / 3 : INSET_SIZE;
-		float fs = displayList.size() > 10 ? 0.6f * LOCAL_FONT_SIZE - 2 * (displayList.size() - 10) : LOCAL_FONT_SIZE;
+		// float fs = displayList.size() > 10 ? LOCAL_FONT_SIZE - (displayList.size() - 10)/2 : LOCAL_FONT_SIZE;
+		float fs = LOCAL_FONT_SIZE;  // In small atom tablet, full-screen: 24.0f
 		if (SHOW_IN_WINDOW)
 			fs = WINDOW_FONT_SIZE;
-		if (SHOW_EXTENDED_DISPLAY_NAMES || IS_DOCENT_CONTROLLER) {
-			fs /= 2;
-		}
+		fs = Math.min(LOCAL_FONT_SIZE, fs - (displayList.size() - 5)); // In small atom tablet, full-screen with 11 Displays: 19.0f
 
+		System.out.println("** Font size is " + fs);
 		// int rigidHeight = INSET_SIZE + (11 - displayList.size());
 		// if (rigidHeight <= 0)
 		// rigidHeight = 1;
