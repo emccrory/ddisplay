@@ -14,6 +14,12 @@ import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -94,14 +100,84 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			public void run() {
 				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number=" + getVirtualDisplayNumber()
 						+ " (" + getDBDisplayNumber() + ") " + (showNumber ? "Showing display num" : "Hiding display num"));
-				catchSleep(1000); // Wait a bit before trying to contact the instance of FireFox.
+
 				firefox = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
 						highlightColor, showNumber);
+
+				catchSleep(2000); // Wait a bit before trying to talk to this instance of Firefox.
+
 				lastFullRestTime = System.currentTimeMillis();
-				catchSleep(200); // Wait a bit more before trying to tell it to go to a specific page
+				if (initializeSavedChannelObject())
+					return;
+
 				localSetContent();
 			}
 		}.start();
+	}
+
+	/**
+	 * Set up the final channel object save (prior to an unexpected exit)
+	 * 
+	 * @return did we manage to set a channel from the save file?
+	 */
+	protected boolean initializeSavedChannelObject() {
+		boolean retval = false;
+		final String filename = "lastChannel_display" + getDBDisplayNumber() + ".ser";
+
+		FileInputStream fin = null;
+		ObjectInputStream ois = null;
+		try {
+			// read the last channel object, if it is there.
+			fin = new FileInputStream(filename);
+			ois = new ObjectInputStream(fin);
+			Object content = ois.readObject();
+
+			println(DisplayAsConnectionToFireFox.class, ": Retrieved a channel from the file system: [" + content + "]");
+
+			if (content instanceof SignageContent) {
+				// TODO -- Do we use localSetContent() here??
+				setContent((SignageContent) content);
+				retval = true;
+			}
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		if (fin != null)
+			try {
+				fin.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+		if (ois != null)
+			try {
+				ois.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+		(new File(filename)).delete(); // Make sure this file is deleted now that the object stream has been used.
+
+		firefox.setFinalCommand(new Command() {
+
+			@Override
+			public void execute() {
+				try {
+					FileOutputStream fout = new FileOutputStream(filename);
+					ObjectOutputStream oos = new ObjectOutputStream(fout);
+					oos.writeObject(getContent());
+
+					println(DisplayAsConnectionToFireFox.class, ": Saved a channel to the file system: [" + getContent() + "]");
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				// Can ignore closing all this because we ASSUME that this is happening at the end of the life of the VM.
+			}
+
+		});
+		return retval;
 	}
 
 	/**

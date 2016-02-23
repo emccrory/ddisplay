@@ -63,6 +63,8 @@ public class ConnectionToFirefoxInstance {
 	private Rectangle								bounds;
 	private boolean									showNumber						= true;
 
+	private Command									finalCommand					= null;
+
 	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
 
 	private static final String						BASE_WEB_PAGE					= "http://" + WEB_SERVER_NAME + "/border.php";
@@ -562,7 +564,7 @@ public class ConnectionToFirefoxInstance {
 						// We give up after about 5 minutes
 						System.err.println(ConnectionToFirefoxInstance.class.getSimpleName()
 								+ ".openConnection().Thread.run(): Firefox instance is not responding.  ABORT!");
-						System.exit(-1);
+						saveAndExit();
 						// This limit was put in at the same time as a "while loop" in the canonical (Linux) shell script that
 						// re-executes the "run display" class when an error exit status happens.
 					}
@@ -631,7 +633,7 @@ public class ConnectionToFirefoxInstance {
 					println(getClass(), "\n\n******************************************************\n\nRecevied this line: ["
 							+ lastReplyLine + "]\n\n******************************************************\n\n"
 							+ "ABORTING APPLICATION!\n******************************************************");
-					System.exit(-1);
+					saveAndExit();
 				}
 				connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
 				if (!connected)
@@ -676,5 +678,29 @@ public class ConnectionToFirefoxInstance {
 	 */
 	String getInstance() {
 		return instance;
+	}
+
+	private void saveAndExit() {
+		// Save the current channel and close the Java VM
+
+		if (finalCommand != null)
+			finalCommand.execute();
+
+		System.exit(-1);
+	}
+
+	/**
+	 * @return the finalCommand
+	 */
+	public Command getFinalCommand() {
+		return finalCommand;
+	}
+
+	/**
+	 * @param finalCommand
+	 *            the finalCommand to set
+	 */
+	public void setFinalCommand(Command finalCommand) {
+		this.finalCommand = finalCommand;
 	}
 }
