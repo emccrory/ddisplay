@@ -184,7 +184,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					String statusString = getStatusString();
 					if (offLine)
-						statusString = "Off Line";
+						statusString = OFF_LINE;
 					statusString = "V" + versionInfo.getVersionString() + " " + statusString;
 					statusString = statusString.replace("'", "").replace("\"", "").replace(";", "").replace("\\", "");
 					if (statusString.length() > 255)
