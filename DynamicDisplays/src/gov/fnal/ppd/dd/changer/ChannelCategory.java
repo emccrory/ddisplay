@@ -5,6 +5,8 @@
  */
 package gov.fnal.ppd.dd.changer;
 
+import java.io.Serializable;
+
 /**
  * The way the channels are organized/sorted for the user.
  * 
@@ -16,7 +18,10 @@ package gov.fnal.ppd.dd.changer;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-public class ChannelCategory {
+public class ChannelCategory implements Serializable {
+	
+	private static final long	serialVersionUID	= 7118118150912431599L;
+
 	// This enum corresponds exactly to the names chosen for the values in the Database table, ChannelTabSort
 
 	/**
