@@ -55,6 +55,9 @@ import javax.swing.event.ChangeListener;
  * channels to the "alternate frames" at each display. The Use Case is that the channel will be a text web page of lab-wide
  * announcements. A separate mechanism will be provided to change the text in this web page.
  * </p>
+ * <p>
+ * TODO -- Turn off the extra frame
+ * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2015
  */
