@@ -1109,14 +1109,14 @@ public class MessagingServer {
 
 						long oldestTime = System.currentTimeMillis();
 						ClientThread oldestClientName = null;
-						// Ping any client that is "on notice", plus the oldest one that is not on notice
-						boolean printMe = (counter++ % 200) < 3;
+						// Ping any client that is "on notice", plus the oldest one that is not on notice.  200 is about 9 minutes; 500 is about 22 minutes
+						boolean printMe = (++counter % 200) < 2;
 						if (printMe)
 							System.out.println(new Date() + "\n---- Cycle no. " + counter);
 
 						for (int i = 0; i < listOfMessagingClients.size(); i++) {
 							ClientThread CT = listOfMessagingClients.get(i);
-							if (printMe || CT.numOutstandingPings > 2) {
+							if (printMe || CT.numOutstandingPings > 1) {
 								String firstPart = "---- " + i + " " + CT.username.replace(".fnal.gov", "") + " ";
 								int initialLength = firstPart.length();
 								for (int m = initialLength; m < 40; m++)
