@@ -22,8 +22,10 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -63,7 +65,7 @@ public class ConnectionToFirefoxInstance {
 	private Rectangle								bounds;
 	private boolean									showNumber						= true;
 
-	private Command									finalCommand					= null;
+	private static List<Command>					finalCommand					= new ArrayList<Command>();
 
 	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
 
@@ -681,26 +683,31 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	private void saveAndExit() {
-		// Save the current channel and close the Java VM
+		// Save the current channel(s) and close the Java VM
+		for (Command C : finalCommand)
+			if (C != null)
+				C.execute();
 
-		if (finalCommand != null)
-			finalCommand.execute();
-
+		System.out.println("\n\n********** EXITING **********\n");
 		System.exit(-1);
 	}
 
 	/**
-	 * @return the finalCommand
+	 * Remove this command from the list -- not needed anymore.
+	 * 
+	 * @param c
+	 *            The command to remove
 	 */
-	public Command getFinalCommand() {
-		return finalCommand;
+	public void removeFinalCommand(final Command c) {
+		finalCommand.remove(c);
 	}
 
 	/**
 	 * @param finalCommand
 	 *            the finalCommand to set
 	 */
-	public void setFinalCommand(Command finalCommand) {
-		this.finalCommand = finalCommand;
+	public Command addFinalCommand(Command c) {
+		finalCommand.add(c);
+		return c;
 	}
 }

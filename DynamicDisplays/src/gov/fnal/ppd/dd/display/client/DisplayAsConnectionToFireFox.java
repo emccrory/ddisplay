@@ -52,22 +52,25 @@ import java.util.Date;
  */
 public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbstract {
 
+	private static final long			FRAME_DISAPPEAR_TIME	= 2 * ONE_HOUR;
 	private ConnectionToFirefoxInstance	firefox;
-	private boolean						showingSelfIdentify	= false;
+	private boolean						showingSelfIdentify		= false;
 	// private WrapperType defaultWrapperType = WrapperType.valueOf(System.getProperty("ddisplay.wrappertype",
 	// "NORMAL"));
 
 	private int							changeCount;
 	protected long						lastFullRestTime;
-	protected long						revertTimeRemaining	= 0L;
-	private Thread						revertThread		= null;
+	protected long						revertTimeRemaining		= 0L;
+	private Thread						revertThread			= null;
 
-	private ListOfValidChannels			listOfValidURLs		= new ListOfValidChannels();
+	private ListOfValidChannels			listOfValidURLs			= new ListOfValidChannels();
 	private WrapperType					wrapperType;
-	protected boolean					newListIsPlaying	= false;
+	protected boolean					newListIsPlaying		= false;
 
-	private ThreadWithStop				playlistThread		= null;
-	private boolean						skipRevert			= false;
+	private ThreadWithStop				playlistThread			= null;
+	private boolean						skipRevert				= false;
+	private long						frameRemovalTime;
+	private Command						lastCommand;
 
 	/**
 	 * @param showNumber
@@ -159,7 +162,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		(new File(filename)).delete(); // Make sure this file is deleted now that the object stream has been used.
 
-		firefox.setFinalCommand(new Command() {
+		firefox.removeFinalCommand(lastCommand);
+		lastCommand = firefox.addFinalCommand(new Command() {
 
 			@Override
 			public void execute() {
@@ -173,7 +177,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				// Can ignore closing all this because we ASSUME that this is happening at the end of the life of the VM.
+				// Can ignore closing all these open connections because we ASSUME that this is happening at the end of the life of
+				// the VM.
 			}
 
 		});
@@ -253,6 +258,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		final long expiration = getContent().getExpiration();
 
 		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
+		if (frameNumber > 0)
+			frameRemovalTime = System.currentTimeMillis() + FRAME_DISAPPEAR_TIME;
 		println(getClass(), firefox.getInstance() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
 
 		if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
@@ -301,6 +308,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					revertTimeRemaining = 0;
 					skipRevert = true;
 				}
+
+				// TODO Turn off the extra frame(s) someday...
+
 				if (firefox.changeURL(url, wrapperType, frameNumber)) {
 					lastChannel = getContent();
 					showingSelfIdentify = false;
