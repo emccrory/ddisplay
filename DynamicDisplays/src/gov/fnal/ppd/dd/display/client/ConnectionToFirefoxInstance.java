@@ -65,6 +65,9 @@ public class ConnectionToFirefoxInstance {
 	private Rectangle								bounds;
 	private boolean									showNumber						= true;
 
+	private boolean									tryingToCloseNow				= false;
+	protected boolean								firstTimeOpeningConnection		= true;
+
 	private static List<Command>					finalCommand					= new ArrayList<Command>();
 
 	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
@@ -310,8 +313,6 @@ public class ConnectionToFirefoxInstance {
 		// return true;
 	}
 
-	private boolean	tryingToCloseNow	= false;
-
 	private void setIsNotConnected() {
 		connected = false;
 		if (tryingToCloseNow == false) {
@@ -526,7 +527,9 @@ public class ConnectionToFirefoxInstance {
 			return;
 		}
 		new Thread("OpenConToFirefox") {
-			int	numFailures	= 0;
+			int	numFailures					= 0;
+			int	iterationsToWaitFirstTime	= 12;
+			int	iterationsToWaitOtherTimes	= 22;
 
 			public void run() {
 				if (connected) {
@@ -535,6 +538,11 @@ public class ConnectionToFirefoxInstance {
 				}
 				long delay = 1000L;
 				numFailures = 0;
+				int iterationsWait = iterationsToWaitOtherTimes; // We give up after about 5 minutes
+				if (firstTimeOpeningConnection) {
+					iterationsWait = iterationsToWaitFirstTime; // First time through, we give up after about 2 minutes
+					firstTimeOpeningConnection = false;
+				}
 				while (!connected) {
 					try {
 						println(getClass(), ":\tOpening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
@@ -562,8 +570,7 @@ public class ConnectionToFirefoxInstance {
 							e.printStackTrace();
 						}
 					}
-					if (numFailures >= 22) {
-						// We give up after about 5 minutes
+					if (numFailures >= iterationsWait) {
 						System.err.println(ConnectionToFirefoxInstance.class.getSimpleName()
 								+ ".openConnection().Thread.run(): Firefox instance is not responding.  ABORT!");
 						saveAndExit();
