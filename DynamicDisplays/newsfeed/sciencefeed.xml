@@ -22,12 +22,13 @@ Science Magazine (mailto:soleditor@aaas.org)</creator>
 Copyright 2014 American Association for the Advancement of Science</rights>
 
 <date>
-2016-02-18T12:24:46-05:00</date>
+2016-02-25T13:45:59-05:00</date>
 
 <language>
 en</language>
 
 <items>
+
 
 
 
@@ -54,440 +55,467 @@ en</language>
 <item>
 
 <title>
-[Structural Biology] CRISPR Cas9 molecular scissors</title>
+[Cell Nucleus] Close-up view of the nuclear periphery</title>
 
 <link>
-http://science.sciencemag.org/content/351/6275/827.1</link>
+http://science.sciencemag.org/content/351/6276/929.1</link>
 
 <date>
-2016-02-19</date>
+2016-02-26</date>
 
 <creator>
-Guy Riddihough</creator>
+Stella M. Hurtley</creator>
 
 <description>
 
-The CRISPR-associated (Cas) protein Cas9 is a molecular scissor for cutting DNA. The first step in the cutting reaction is the RNA-guided unwinding of the DNA double helix. Jiang 
-et ...
+Cell biologists would like to be able to visualize complexes inside cells at molecular resolution. Several limitations, however, have prevented the field from realizing this goal. The ...
 </description>
 
 <subject>
-Structural Biology</subject>
+Cell Nucleus</subject>
 
 <identifier>
-10.1126/science.351.6275.827-a</identifier>
+10.1126/science.351.6276.929-a</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Organic Chemistry] A route to nitrile that bypasses cyanide</title>
+[Neuroimmunology] A T cell cause for autism?</title>
 
 <link>
-http://science.sciencemag.org/content/351/6275/827.2</link>
+http://science.sciencemag.org/content/351/6276/929.2</link>
 
 <date>
-2016-02-19</date>
-
-<creator>
-Jake Yeston</creator>
-
-<description>
-
-The toxicity of hydrogen cyanide (HCN) is well known. Nonetheless, numerous useful nitrile compounds contain CN groups, and the reaction of HCN with C=C double bonds is often used. ...
-</description>
-
-<subject>
-Organic Chemistry</subject>
-
-<identifier>
-10.1126/science.351.6275.827-b</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Applied Physics] Sensing single proteins with diamonds</title>
-
-<link>
-http://science.sciencemag.org/content/351/6275/827.3</link>
-
-<date>
-2016-02-19</date>
-
-<creator>
-Ian S. Osborne</creator>
-
-<description>
-
-Nuclear magnetic resonance is a powerful technique for medical imaging and the structural analysis of materials, but is usually associated with large-volume samples. Lovchinsky 
-et ...
-</description>
-
-<subject>
-Applied Physics</subject>
-
-<identifier>
-10.1126/science.351.6275.827-c</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Nanomaterials] Dynamic DNA clustering of nanoparticles</title>
-
-<link>
-http://science.sciencemag.org/content/351/6275/827.4</link>
-
-<date>
-2016-02-19</date>
-
-<creator>
-Marc S. Lavine</creator>
-
-<description>
-
-The size and shape of nanoparticles can increase the cellular uptake and delivery of contrast agents and therapeutics. Ohta 
-et al.
- created gold nanoparticles partly covered ...
-</description>
-
-<subject>
-Nanomaterials</subject>
-
-<identifier>
-10.1126/science.351.6275.827-d</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Mucosal Immunology] Keeping immune cells quiet on a diet</title>
-
-<link>
-http://science.sciencemag.org/content/351/6275/827.5</link>
-
-<date>
-2016-02-19</date>
+2016-02-26</date>
 
 <creator>
 Kristen L. Mueller</creator>
 
 <description>
 
-Over thousands of years, our immune systems has evolved to distinguish self from foreign, perpetrating attacks on microbes but not ourselves. Given this, why do we fail to mount an ...
+The causes of autism spectrum disorder (ASD) are complex and not entirely clear. Alterations in the mother's immune system during pregnancy, especially during key early periods of fetal ...
 </description>
 
 <subject>
-Mucosal Immunology</subject>
+Neuroimmunology</subject>
 
 <identifier>
-10.1126/science.351.6275.827-e</identifier>
+10.1126/science.351.6276.929-b</identifier>
 
 </item>
 
 <item>
 
 <title>
-[DNA Repair] The real cause of cancer in Fanconi anemia</title>
+[Organic Lewis Acids] Silicon marries a chiral counterion</title>
 
 <link>
-http://science.sciencemag.org/content/351/6275/827.6</link>
+http://science.sciencemag.org/content/351/6276/929.3</link>
 
 <date>
-2016-02-19</date>
+2016-02-26</date>
 
 <creator>
-Guy Riddihough</creator>
+Jake Yeston</creator>
 
 <description>
 
-Mutations that covalently link the two strands of the DNA double helix together are highly toxic, because they block DNA replication. Failure to repair such damage results in Fanconi ...
+Acid is among the oldest and most versatile of chemical catalysts, but its symmetrical protons can't guide reactions to favor a product over its mirror image. Chemists have resolved ...
 </description>
 
 <subject>
-DNA Repair</subject>
+Organic Lewis Acids</subject>
 
 <identifier>
-10.1126/science.351.6275.827-f</identifier>
+10.1126/science.351.6276.929-c</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Neuroscience] Glial cell properties dictated by neurons</title>
+[Quantum Simulation] Watching fermions transition on site</title>
 
 <link>
-http://science.sciencemag.org/content/351/6275/827.7</link>
+http://science.sciencemag.org/content/351/6276/929.4</link>
 
 <date>
-2016-02-19</date>
+2016-02-26</date>
 
 <creator>
-L. Bryan Ray</creator>
+Jelena Stajic</creator>
 
 <description>
 
-Neurons in the brain coexist with astrocytes, a type of glial cell, which help support many functions of their neighboring nerve cells. Farmer 
+Optical lattices are a promising platform for simulating the many-body physics that occurs in solids. In lattices filled with cold bosonic atoms, “quantum microscopy” makes it possible to  ...
+</description>
+
+<subject>
+Quantum Simulation</subject>
+
+<identifier>
+10.1126/science.351.6276.929-d</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Thin Films] A golden opportunity for graphene</title>
+
+<link>
+http://science.sciencemag.org/content/351/6276/929.5</link>
+
+<date>
+2016-02-26</date>
+
+<creator>
+Brent Grocholski</creator>
+
+<description>
+
+Reducing friction can limit wear and improve the energy efficiency of mechanical devices. Graphene is a promising lubricant because the friction between sheets is minuscule under certain ...
+</description>
+
+<subject>
+Thin Films</subject>
+
+<identifier>
+10.1126/science.351.6276.929-e</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Forest Ecology] Leaf seasonality in Amazon forests</title>
+
+<link>
+http://science.sciencemag.org/content/351/6276/929.6</link>
+
+<date>
+2016-02-26</date>
+
+<creator>
+Andrew M. Sugden</creator>
+
+<description>
+
+Models assume that lower precipitation in tropical forests means less plant-available water and less photosynthesis. Direct measurements in the Amazon, however, show that production ...
+</description>
+
+<subject>
+Forest Ecology</subject>
+
+<identifier>
+10.1126/science.351.6276.929-f</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Cancer] Managing metastasis</title>
+
+<link>
+http://science.sciencemag.org/content/351/6276/929.7</link>
+
+<date>
+2016-02-26</date>
+
+<creator>
+Angela Colmone</creator>
+
+<description>
+
+Because of the poor prognosis of metastatic cancer, it is critical to determine exactly how various factors contribute to cancer spread. Mlecnik 
 et al.
- now show that the support ...
-</description>
-
-<subject>
-Neuroscience</subject>
-
-<identifier>
-10.1126/science.351.6275.827-g</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Seismology] Crowdsourcing earthquake early warnings</title>
-
-<link>
-http://science.sciencemag.org/content/351/6275/827.8</link>
-
-<date>
-2016-02-19</date>
-
-<creator>
-Kip Hodges</creator>
-
-<description>
-
-The rapid distribution of earthquake warnings can reduce resulting loss of life and injury. Most earthquake early warning systems are based on data from specially designed seismic and ...
-</description>
-
-<subject>
-Seismology</subject>
-
-<identifier>
-10.1126/science.351.6275.827-h</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Cancer] Killing cancer with a soft touch</title>
-
-<link>
-http://science.sciencemag.org/content/351/6275/827.9</link>
-
-<date>
-2016-02-19</date>
-
-<creator>
-Yevgeniya Nusinovich</creator>
-
-<description>
-
-Bleomycin is an effective chemotherapy drug that is used against multiple types of cancer. Unfortunately, it often causes lung fibrosis (or stiffening of the lungs), the severity of ...
+ examined the impact ...
 </description>
 
 <subject>
 Cancer</subject>
 
 <identifier>
-10.1126/science.351.6275.827-i</identifier>
+10.1126/science.351.6276.929-g</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Microbiome] Microbiota and infant development</title>
+[Cell Migration] Control cAMP to control migration</title>
 
 <link>
-http://science.sciencemag.org/content/351/6275/827.10</link>
+http://science.sciencemag.org/content/351/6276/929.8</link>
 
 <date>
-2016-02-19</date>
-
-<creator>
-Caroline Ash</creator>
-
-<description>
-
-Malnutrition in children is a persistent challenge that is not always remedied by improvements in nutrition. This is because a characteristic community of gut microbes seems to mediate ...
-</description>
-
-<subject>
-Microbiome</subject>
-
-<identifier>
-10.1126/science.351.6275.827-j</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Proteasome] The yin and yang of proteasomal regulation</title>
-
-<link>
-http://science.sciencemag.org/content/351/6275/827.11</link>
-
-<date>
-2016-02-19</date>
-
-<creator>
-Stella M. Hurtley</creator>
-
-<description>
-
-The ubiquitin-proteasome pathway regulates myriad proteins through their selective proteolysis. The small protein ubiquitin is attached, typically in many copies, to the target protein, ...
-</description>
-
-<subject>
-Proteasome</subject>
-
-<identifier>
-10.1126/science.351.6275.827-k</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Structural Biology] AAA ATPase conformational high jinks</title>
-
-<link>
-http://science.sciencemag.org/content/351/6275/827.12</link>
-
-<date>
-2016-02-19</date>
-
-<creator>
-Valda Vinson</creator>
-
-<description>
-
-The protein p97 is an AAA adenosine triphosphatase (ATPase) that uses energy from ATP hydrolysis to regulate substrates involved in intracellular protein quality control. Its role in ...
-</description>
-
-<subject>
-Structural Biology</subject>
-
-<identifier>
-10.1126/science.351.6275.827-l</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Structural Biology] Insight into a bacterial membrane protease</title>
-
-<link>
-http://science.sciencemag.org/content/351/6275/827.13</link>
-
-<date>
-2016-02-19</date>
-
-<creator>
-Valda Vinson</creator>
-
-<description>
-
-Lipoproteins have key functions in many bacteria. They are synthesized in a precursor form that requires processing by enzymes that are essential in many pathogenic bacteria but have ...
-</description>
-
-<subject>
-Structural Biology</subject>
-
-<identifier>
-10.1126/science.351.6275.827-m</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Ion Channels] Calcium channels deliver a one-two punch</title>
-
-<link>
-http://science.sciencemag.org/content/351/6275/827.14</link>
-
-<date>
-2016-02-19</date>
-
-<creator>
-Stella M. Hurtley</creator>
-
-<description>
-
-To help generate long-lasting neuronal plasticity, CaV1.2 (L-type) calcium channels link electrical activity to nuclear gene expression. However, exactly how this coupling works is ...
-</description>
-
-<subject>
-Ion Channels</subject>
-
-<identifier>
-10.1126/science.351.6275.827-n</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Infectious Diseases] Preparing for the next epidemic</title>
-
-<link>
-http://science.sciencemag.org/content/351/6275/827.15</link>
-
-<date>
-2016-02-19</date>
-
-<creator>
-Julia Fahrenkamp-Uppenbrink</creator>
-
-<description>
-
-As West Africa emerges from the Ebola epidemic that caused over 11,000 deaths, the next epidemic is emerging in Central and South America, where the rapid spread of Zika virus infections ...
-</description>
-
-<subject>
-Infectious Diseases</subject>
-
-<identifier>
-10.1126/science.351.6275.827-o</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Immunometabolism] Unleashing natural killer cells</title>
-
-<link>
-http://science.sciencemag.org/content/351/6275/827.16</link>
-
-<date>
-2016-02-19</date>
+2016-02-26</date>
 
 <creator>
 John F. Foley</creator>
 
 <description>
 
-The cytokine TGF-β can resolve inflammation and prevent autoimmunity, but it can also inhibit anti-tumor immune responses. Viel 
-et al.
- found that TGF-β signaling suppressed t ...
+Activation of the G protein-coupled receptors that stimulate cellular migration generates active G protein α and βγ subunits. These subunits then interact with distinct effector mo ...
 </description>
 
 <subject>
-Immunometabolism</subject>
+Cell Migration</subject>
 
 <identifier>
-10.1126/science.351.6275.827-p</identifier>
+10.1126/science.351.6276.929-h</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Circadian Rhythms] Layered versatility atop circadian clocks</title>
+
+<link>
+http://science.sciencemag.org/content/351/6276/929.9</link>
+
+<date>
+2016-02-26</date>
+
+<creator>
+L. Bryan Ray</creator>
+
+<description>
+
+The circadian clock evolved to allow cells or organisms to anticipate changes in physiological requirements associated with Earth's 24-hour light/dark cycle. Some activities, however, ...
+</description>
+
+<subject>
+Circadian Rhythms</subject>
+
+<identifier>
+10.1126/science.351.6276.929-i</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Gene Editing] CRISPR-Cas captures invading RNA</title>
+
+<link>
+http://science.sciencemag.org/content/351/6276/929.10</link>
+
+<date>
+2016-02-26</date>
+
+<creator>
+Guy Riddihough</creator>
+
+<description>
+
+The CRISPR (clustered regularly interspaced short palindromic repeat) system provides bacteria with an adaptive immune response. DNA captured from viruses and plasmids by CRISPR-associated ...
+</description>
+
+<subject>
+Gene Editing</subject>
+
+<identifier>
+10.1126/science.351.6276.929-j</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Organic Chemistry] Competition for binaphthyl catalysts</title>
+
+<link>
+http://science.sciencemag.org/content/351/6276/929.11</link>
+
+<date>
+2016-02-26</date>
+
+<creator>
+Jake Yeston</creator>
+
+<description>
+
+The binaphthyl framework has proven extremely effective in biasing a broad range of chemical reactions toward just one of two mirror-image products. The motif was first applied as a ...
+</description>
+
+<subject>
+Organic Chemistry</subject>
+
+<identifier>
+10.1126/science.351.6276.929-k</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Water Infrastructure] Improving drinking water safety</title>
+
+<link>
+http://science.sciencemag.org/content/351/6276/929.12</link>
+
+<date>
+2016-02-26</date>
+
+<creator>
+Julia Fahrenkamp-Uppenbrink</creator>
+
+<description>
+
+In many countries, such as the United States and the United Kingdom, drinking water contains a residual disinfectant to guard against microbial contamination. Yet others, such as the ...
+</description>
+
+<subject>
+Water Infrastructure</subject>
+
+<identifier>
+10.1126/science.351.6276.929-l</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Clinical Neuroscience] Treating Alzheimer's from the start</title>
+
+<link>
+http://science.sciencemag.org/content/351/6276/929.13</link>
+
+<date>
+2016-02-26</date>
+
+<creator>
+Ali Shilatifard</creator>
+
+<description>
+
+The formation of beta-amyloid plaques, known as Aβ aggregates, is implicated as a driving force of Alzheimer's disease. Vendruscolo 
+et al.
+ applied chemical kinetic approaches  ...
+</description>
+
+<subject>
+Clinical Neuroscience</subject>
+
+<identifier>
+10.1126/science.351.6276.929-m</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Catalysis] Direct hydrogen peroxide synthesis</title>
+
+<link>
+http://science.sciencemag.org/content/351/6276/929.14</link>
+
+<date>
+2016-02-26</date>
+
+<creator>
+Phil Szuromi</creator>
+
+<description>
+
+Hydrogen peroxide is synthesized industrially without direct contact of hydrogen and oxygen in order to achieve high concentrations. For many applications, only dilute aqueous solutions ...
+</description>
+
+<subject>
+Catalysis</subject>
+
+<identifier>
+10.1126/science.351.6276.929-n</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Conservation] Beyond utilitarian management</title>
+
+<link>
+http://science.sciencemag.org/content/351/6276/929.15</link>
+
+<date>
+2016-02-26</date>
+
+<creator>
+Julia Fahrenkamp-Uppenbrink</creator>
+
+<description>
+
+Efforts to conserve species and ecosystems tend to focus on their perceived social, cultural, and economic value to humans. In a Perspective, Sarrazin and Lecomte argue that these conservation ...
+</description>
+
+<subject>
+Conservation</subject>
+
+<identifier>
+10.1126/science.351.6276.929-o</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Synaptic Vesicles] Neurotransmitter uptake one vesicle at a time</title>
+
+<link>
+http://science.sciencemag.org/content/351/6276/929.16</link>
+
+<date>
+2016-02-26</date>
+
+<creator>
+Stella M. Hurtley</creator>
+
+<description>
+
+Despite opposing ionic gradients, synaptic vesicles are able to accumulate neurotransmitters. To resolve the mystery of how this happens, Farsi 
+et al.
+ made parallel measurements ...
+</description>
+
+<subject>
+Synaptic Vesicles</subject>
+
+<identifier>
+10.1126/science.351.6276.929-p</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Meiosis] A partner protein for meiotic snip</title>
+
+<link>
+http://science.sciencemag.org/content/351/6276/929.17</link>
+
+<date>
+2016-02-26</date>
+
+<creator>
+Guy Riddihough</creator>
+
+<description>
+
+Eukaryotes generate germ cells through meiotic recombination. This process initiates through breaks in genomic DNA catalyzed by the SPO11 protein. Vrielynck 
+et al.
+ and Robert ...
+</description>
+
+<subject>
+Meiosis</subject>
+
+<identifier>
+10.1126/science.351.6276.929-q</identifier>
 
 </item>
 
