@@ -9,21 +9,21 @@ import java.net.URISyntaxException;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- *
+ * 
  */
 public class SkeletonChannel implements SignageContent {
-	
+
 	private static final long	serialVersionUID	= 6188374436280281827L;
-	private String	name;
-	private String	desc	= null;
-	private URI		uri		= null;
+	private String				name;
+	private String				desc				= null;
+	private URI					uri					= null;
 
 	/**
 	 * @param name
 	 */
 	public SkeletonChannel(final String name) {
 		this.name = name;
-	
+
 		try {
 			if (name.contains("http://")) {
 				this.name = name.substring(0, name.indexOf("http://") - 1).replace(" ...", "");
@@ -33,7 +33,10 @@ public class SkeletonChannel implements SignageContent {
 				uri = new URI(name.substring(name.indexOf("https://"), name.length() - 1).replace(" ...", ""));
 			}
 		} catch (URISyntaxException e) {
-			e.printStackTrace();
+			if (!e.getLocalizedMessage().contains("Illegal character in path"))
+				e.printStackTrace();
+			// When the URL is too long (e.g., within a list oc channels), it ends with " ...", which causes this exception.
+			// Ignore it
 		}
 	}
 
