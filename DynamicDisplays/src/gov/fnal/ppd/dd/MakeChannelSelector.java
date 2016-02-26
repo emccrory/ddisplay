@@ -12,6 +12,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_DOCENT_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
+import static gov.fnal.ppd.dd.GlobalVariables.RUN_RAISE_SELECTOR_BUTTON;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_EXTENDED_DISPLAY_NAMES;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
@@ -32,7 +33,10 @@ import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.SelectorInstructions;
 
+import java.awt.EventQueue;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Connection;
@@ -41,7 +45,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -58,12 +64,12 @@ public class MakeChannelSelector {
 	 * TODO -- Implement a way for this application to check back (with the Mother Ship) to see if these is an updated version of
 	 * the ZIP file available.
 	 */
+	static boolean	theControllerIsProbablyInFront	= true;
 
 	/**
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-
 		prepareSaverImages();
 
 		credentialsSetup();
@@ -74,16 +80,15 @@ public class MakeChannelSelector {
 
 		ChannelSelector channelSelector = new ChannelSelector();
 		channelSelector.start();
-
 		channelSelector.createRefreshActions();
 
-		JFrame f = new JFrame(myClassification + " " + getLocationName() + " (" + getLocationCode() + ")");
-
+		final JFrame f = new JFrame(myClassification + " " + getLocationName() + " (" + getLocationCode() + ")");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		if (SHOW_IN_WINDOW) {
 			f.setContentPane(channelSelector);
 			f.pack();
+			theControllerIsProbablyInFront = true;
 		} else {
 			// Full-screen display of this app!
 			Box h = Box.createVerticalBox();
@@ -99,6 +104,46 @@ public class MakeChannelSelector {
 		}
 		// If there is no "screen number 1", this call will return the same rectangle as a call to getBounds(0).
 		Rectangle bounds = ScreenLayoutInterpreter.getBounds(1);
+
+		if (RUN_RAISE_SELECTOR_BUTTON) {
+			final String RAISE_ME = "Raise Dynamic Display Controller";
+			final String LOWER_ME = "Hide Dynamic Displays Controller";
+			String s = (theControllerIsProbablyInFront ? LOWER_ME : RAISE_ME);
+			JFrame ff = new JFrame(s);
+			final JButton show = new JButton(s);
+			show.setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+							BorderFactory.createRaisedBevelBorder()), show.getBorder()));
+			show.setFont(show.getFont().deriveFont(10.0F));
+			show.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// Raise/lower the controller that is being made here
+					EventQueue.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							if (theControllerIsProbablyInFront) {
+								f.toBack();
+								show.setText(RAISE_ME);
+							} else {
+								f.toFront();
+								show.setText(LOWER_ME);
+							}
+							f.repaint();
+							theControllerIsProbablyInFront = !theControllerIsProbablyInFront;
+						}
+					});
+				}
+			});
+
+			ff.setAlwaysOnTop(true);
+			ff.setUndecorated(true);
+			ff.setContentPane(show); // May need to add some border
+			ff.setLocation(210, 5); // What is the right position for this?
+			ff.pack();
+			ff.setVisible(true);
+		}
 
 		f.setVisible(true);
 		f.setLocation(bounds.x, bounds.y);

@@ -68,6 +68,10 @@ public class GlobalVariables {
 	public static final String	CHECK_SIGNED_MESSAGE		= "check";
 
 	/**
+     */
+	public static final boolean	RUN_RAISE_SELECTOR_BUTTON	= Boolean.getBoolean("ddisplay.selector.showraisebutton");
+
+	/**
 	 * <p>
 	 * How should we deal with signed messages? The options are
 	 * <ol>
@@ -204,11 +208,11 @@ public class GlobalVariables {
 	/**
 	 * 
 	 */
-	public static int			INSET_SIZE				= 10;
+	public static int				INSET_SIZE					= 10;
 	/**
 	 * 
 	 */
-	public static float			FONT_SIZE				= 40.0f;
+	public static float				FONT_SIZE					= 40.0f;
 
 	// /**
 	// * Where is the messaging server? Controlled by system constant, ddisplay.messagingserver
@@ -219,15 +223,16 @@ public class GlobalVariables {
 	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) prime number in the range of unassigned
 	 * port number (49152 - 65535) Controlled by system constant ddisplay.messagingserver
 	 */
-	public static final int		MESSAGING_SERVER_PORT	= Integer.getInteger("ddisplay.messagingport", 49999);
+	public static final int			MESSAGING_SERVER_PORT		= Integer.getInteger("ddisplay.messagingport", 49999);
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	public static final String	WEB_SERVER_NAME			= System.getProperty("ddisplay.webserver", "dynamicdisplays.fnal.gov");
+	public static final String		WEB_SERVER_NAME				= System.getProperty("ddisplay.webserver",
+																		"dynamicdisplays.fnal.gov");
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	private static final String	WEB_SERVER_FOLDER		= System.getProperty("ddisplay.webfolder", "");
+	private static final String		WEB_SERVER_FOLDER			= System.getProperty("ddisplay.webfolder", "");
 
 	/**
 	 * @return The web server prefix, dealing with whether or not there is a folder in there, too.
