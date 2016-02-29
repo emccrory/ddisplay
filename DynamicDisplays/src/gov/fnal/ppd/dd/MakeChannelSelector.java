@@ -108,55 +108,7 @@ public class MakeChannelSelector {
 		// If there is no "screen number 1", this call will return the same rectangle as a call to getBounds(0).
 		Rectangle bounds = ScreenLayoutInterpreter.getBounds(1);
 
-		if (SHOW_IN_WINDOW && RUN_RAISE_SELECTOR_BUTTON) {
-			final String RAISE_ME = "Raise Dynamic Display Controller";
-			final String LOWER_ME = "Hide Dynamic Displays Controller";
-			String s = (theControllerIsProbablyInFront ? LOWER_ME : RAISE_ME);
-			final JFrame ff = new JFrame(s);
-			final JButton show = new JButton(s);
-			show.setBorder(BorderFactory.createCompoundBorder(
-					BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
-							BorderFactory.createRaisedBevelBorder()), show.getBorder()));
-			show.setFont(show.getFont().deriveFont(10.0F));
-			show.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// Raise/lower the controller that is being made here
-					EventQueue.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							if (theControllerIsProbablyInFront) {
-								f.toBack();
-								show.setText(RAISE_ME);
-							} else {
-								f.toFront();
-								show.setText(LOWER_ME);
-							}
-							f.repaint();
-							theControllerIsProbablyInFront = !theControllerIsProbablyInFront;
-						}
-					});
-				}
-			});
-
-			ff.setAlwaysOnTop(true);
-			ff.setUndecorated(true);
-			ff.setContentPane(show); // May need to add some border
-			ff.setLocation(210, 5); // What is the right position for this?
-			ff.pack();
-			ff.setVisible(true);
-			
-			// A kludge: Make sure this button is always on top.  
-			Timer timer = new Timer();
-
-			TimerTask tt = new TimerTask() {
-				public void run() {
-					ff.toFront();
-				}
-			};
-			timer.scheduleAtFixedRate(tt, 2*ONE_MINUTE, ONE_MINUTE);		}
-
+		makeRaiseMeButton(f);
 		f.setVisible(true);
 		f.setLocation(bounds.x, bounds.y);
 
@@ -244,6 +196,67 @@ public class MakeChannelSelector {
 			}
 			System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
 			System.out.println("\t Expect my client name to be '" + getFullSelectorName() + "'\n");
+		}
+	}
+
+	static private void makeRaiseMeButton(final JFrame f) {
+
+		/**
+		 * This code was used in an attempt to have an always-visible button on the screens that have both a Display and a Selector.
+		 * This did not work--this button could not get in front of the full-screen Firefox window. The TimerTask at the bottom had
+		 * no effect on the visibility. If one were to select this special window from the window manager, it would bring it to the
+		 * front and keep it there, but the WM dressings (the menu bars, etc.) would become visible.
+		 */
+
+		if (SHOW_IN_WINDOW && RUN_RAISE_SELECTOR_BUTTON) {
+			final String RAISE_ME = "Raise Dynamic Display Controller";
+			final String LOWER_ME = "Hide Dynamic Displays Controller";
+			String s = (theControllerIsProbablyInFront ? LOWER_ME : RAISE_ME);
+			final JFrame ff = new JFrame(s);
+			final JButton show = new JButton(s);
+			show.setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
+							BorderFactory.createRaisedBevelBorder()), show.getBorder()));
+			show.setFont(show.getFont().deriveFont(10.0F));
+			show.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// Raise/lower the controller that is being made here
+					EventQueue.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							if (theControllerIsProbablyInFront) {
+								f.toBack();
+								show.setText(RAISE_ME);
+							} else {
+								f.toFront();
+								show.setText(LOWER_ME);
+							}
+							f.repaint();
+							theControllerIsProbablyInFront = !theControllerIsProbablyInFront;
+						}
+					});
+				}
+			});
+
+			ff.setAlwaysOnTop(true);
+			ff.setUndecorated(true);
+			ff.setContentPane(show); // May need to add some border
+			ff.setLocation(210, 5); // What is the right position for this?
+			ff.pack();
+			ff.setVisible(true);
+
+			// A kludge: Make sure this button is always on top.
+			Timer timer = new Timer();
+
+			TimerTask tt = new TimerTask() {
+				public void run() {
+					ff.toFront();
+					ff.repaint();
+				}
+			};
+			timer.scheduleAtFixedRate(tt, 2 * ONE_MINUTE, ONE_MINUTE);
 		}
 	}
 }

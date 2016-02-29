@@ -431,6 +431,7 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 
 		MakeChannelSelector.selectorSetup();
 
+		@SuppressWarnings("unused")
 		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
 
 		ChangeChannelOnFrame changer = new ChangeChannelOnFrame();

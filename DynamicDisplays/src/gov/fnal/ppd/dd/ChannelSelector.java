@@ -751,6 +751,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	}
 
+	/**
+	 * 
+	 */
 	public void createRefreshActions() {
 		channelRefreshAction = new ActionListener() {
 

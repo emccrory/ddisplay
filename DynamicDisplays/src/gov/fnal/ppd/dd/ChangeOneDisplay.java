@@ -108,6 +108,7 @@ public class ChangeOneDisplay {
 
 							IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
 
+							@SuppressWarnings("unused")
 							final SignageType sType = SignageType.valueOf(myClassification);
 
 							if (!MessageCarrier.initializeSignature()) {

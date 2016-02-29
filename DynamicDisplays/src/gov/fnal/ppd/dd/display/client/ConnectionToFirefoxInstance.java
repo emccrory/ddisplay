@@ -712,6 +712,7 @@ public class ConnectionToFirefoxInstance {
 	/**
 	 * @param finalCommand
 	 *            the finalCommand to set
+	 * @return The command is returned back to the sender
 	 */
 	public Command addFinalCommand(Command c) {
 		finalCommand.add(c);
