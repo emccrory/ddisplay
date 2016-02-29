@@ -108,11 +108,11 @@ public class MakeChannelSelector {
 		// If there is no "screen number 1", this call will return the same rectangle as a call to getBounds(0).
 		Rectangle bounds = ScreenLayoutInterpreter.getBounds(1);
 
-		if (RUN_RAISE_SELECTOR_BUTTON) {
+		if (SHOW_IN_WINDOW && RUN_RAISE_SELECTOR_BUTTON) {
 			final String RAISE_ME = "Raise Dynamic Display Controller";
 			final String LOWER_ME = "Hide Dynamic Displays Controller";
 			String s = (theControllerIsProbablyInFront ? LOWER_ME : RAISE_ME);
-			JFrame ff = new JFrame(s);
+			final JFrame ff = new JFrame(s);
 			final JButton show = new JButton(s);
 			show.setBorder(BorderFactory.createCompoundBorder(
 					BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
@@ -147,12 +147,12 @@ public class MakeChannelSelector {
 			ff.pack();
 			ff.setVisible(true);
 			
-			// A kludge: Make sure this button is always on top
+			// A kludge: Make sure this button is always on top.  
 			Timer timer = new Timer();
 
 			TimerTask tt = new TimerTask() {
 				public void run() {
-					f.toFront();
+					ff.toFront();
 				}
 			};
 			timer.scheduleAtFixedRate(tt, 2*ONE_MINUTE, ONE_MINUTE);		}
