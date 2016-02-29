@@ -11,6 +11,7 @@ import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_DOCENT_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.RUN_RAISE_SELECTOR_BUTTON;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_EXTENDED_DISPLAY_NAMES;
@@ -44,6 +45,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -143,7 +146,16 @@ public class MakeChannelSelector {
 			ff.setLocation(210, 5); // What is the right position for this?
 			ff.pack();
 			ff.setVisible(true);
-		}
+			
+			// A kludge: Make sure this button is always on top
+			Timer timer = new Timer();
+
+			TimerTask tt = new TimerTask() {
+				public void run() {
+					f.toFront();
+				}
+			};
+			timer.scheduleAtFixedRate(tt, 2*ONE_MINUTE, ONE_MINUTE);		}
 
 		f.setVisible(true);
 		f.setLocation(bounds.x, bounds.y);
