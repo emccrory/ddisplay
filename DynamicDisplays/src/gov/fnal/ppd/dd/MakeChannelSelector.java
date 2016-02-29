@@ -105,10 +105,12 @@ public class MakeChannelSelector {
 			f.setContentPane(h);
 			f.setSize(screenDimension);
 		}
+
+		// makeRaiseMeButton(f);
+
 		// If there is no "screen number 1", this call will return the same rectangle as a call to getBounds(0).
 		Rectangle bounds = ScreenLayoutInterpreter.getBounds(1);
 
-		makeRaiseMeButton(f);
 		f.setVisible(true);
 		f.setLocation(bounds.x, bounds.y);
 
@@ -199,13 +201,14 @@ public class MakeChannelSelector {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	static private void makeRaiseMeButton(final JFrame f) {
 
 		/**
-		 * This code was used in an attempt to have an always-visible button on the screens that have both a Display and a Selector.
-		 * This did not work--this button could not get in front of the full-screen Firefox window. The TimerTask at the bottom had
-		 * no effect on the visibility. If one were to select this special window from the window manager, it would bring it to the
-		 * front and keep it there, but the WM dressings (the menu bars, etc.) would become visible.
+		 * This code was created in an attempt to have an always-visible button on the screens that have both a Display and a
+		 * Selector. This did not work--this button could not get in front of the full-screen Firefox window. The TimerTask at the
+		 * bottom had no effect on the visibility. If one were to select this special window from the window manager, it would bring
+		 * it to the front and keep it there, but the WM dressings (the menu bars, etc.) would become visible.
 		 */
 
 		if (SHOW_IN_WINDOW && RUN_RAISE_SELECTOR_BUTTON) {
