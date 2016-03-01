@@ -138,9 +138,14 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			println(DisplayAsConnectionToFireFox.class, ": Retrieved a channel from the file system: [" + content + "]");
 
 			if (content instanceof SignageContent) {
-				// TODO -- Do we use localSetContent() here??
-				setContent((SignageContent) content);
-				retval = true;
+				if (specialURI((SignageContent) content))
+					// An error condition from Feb, 2016 that (otherwise) really fouled things up!
+					retval = false;
+				else {
+					// TODO -- Do we use localSetContent() here??
+					setContent((SignageContent) content);
+					retval = true;
+				}
 			}
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
@@ -168,9 +173,14 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			@Override
 			public void execute() {
 				try {
+					SignageContent c = getContent();
+					if (specialURI(c))
+						c = previousChannel;
+					if (c == null)
+						return;
 					FileOutputStream fout = new FileOutputStream(filename);
 					ObjectOutputStream oos = new ObjectOutputStream(fout);
-					oos.writeObject(getContent());
+					oos.writeObject(c);
 
 					println(DisplayAsConnectionToFireFox.class, ": Saved a channel to the file system: [" + getContent() + "]");
 
@@ -183,6 +193,12 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		});
 		return retval;
+	}
+
+	private static boolean specialURI(SignageContent content) {
+		return content != null
+				&& ((content).getURI().toASCIIString().equals(FORCE_REFRESH) || (content).getURI().toASCIIString()
+						.equals(SELF_IDENTIFY));
 	}
 
 	/**
@@ -271,7 +287,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						catchSleep(SHOW_SPLASH_SCREEN_TIME);
 						firefox.removeIdentify();
 						showingSelfIdentify = false;
-						setContentBypass(lastChannel);
+						setContentBypass(previousChannel);
 						updateMyStatus();
 					}
 				}.start();
@@ -286,14 +302,16 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				// Now tell the lower-level code that we need a full reset
 				firefox.resetURL();
 
+				setContentBypass(previousChannel);
+
 				// Finally, re-send the last URL we knew about
-				if (!firefox.changeURL(lastChannel.getURI().toASCIIString(), wrapperType, frameNumber)) {
+				if (!firefox.changeURL(previousChannel.getURI().toASCIIString(), wrapperType, frameNumber)) {
 					println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
 					return false;
 				}
 			} catch (UnsupportedEncodingException e) {
 				System.err.println(getClass().getSimpleName() + ":" + firefox.getInstance()
-						+ " Somthing is wrong with this re-used URL: [" + lastChannel.getURI().toASCIIString() + "]");
+						+ " Somthing is wrong with this re-used URL: [" + previousChannel.getURI().toASCIIString() + "]");
 				e.printStackTrace();
 				return false;
 			}
@@ -312,7 +330,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				// TODO Turn off the extra frame(s) someday...
 
 				if (firefox.changeURL(url, wrapperType, frameNumber)) {
-					lastChannel = getContent();
+					previousChannel = getContent();
 					showingSelfIdentify = false;
 				} else {
 					println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
@@ -520,7 +538,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			if (getContent().getURI().toString().equalsIgnoreCase(SELF_IDENTIFY)) {
 				retval += "Doing a self-identify ... ";
 			} else if (getContent().getURI().toString().equalsIgnoreCase(FORCE_REFRESH)) {
-				retval += "Refreshed " + lastChannel.getURI().toASCIIString().replace("'", "\\'");
+				retval += "Refreshed " + previousChannel.getURI().toASCIIString().replace("'", "\\'");
 			} else
 				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
 		}

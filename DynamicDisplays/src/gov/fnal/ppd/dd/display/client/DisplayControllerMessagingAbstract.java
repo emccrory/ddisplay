@@ -60,7 +60,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	// protected static int number;
 	protected boolean				keepGoing				= true;
-	protected SignageContent		lastChannel				= null;
 	protected static boolean		dynamic					= false;
 
 	protected MessagingClientLocal	messagingClient;

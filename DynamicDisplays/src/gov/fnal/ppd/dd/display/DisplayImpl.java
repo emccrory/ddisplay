@@ -10,6 +10,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_VIRTUAL_DISPLAY_NUMS;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -86,24 +87,23 @@ public abstract class DisplayImpl implements Display {
 		this.vDisplayNumber = vDisplay;
 		this.highlightColor = color;
 		this.category = type;
-		this.channel = makeEmptyChannel(null);
+		this.previousChannel = this.channel = makeEmptyChannel(null);
 	}
 
 	protected abstract boolean localSetContent();
 
 	@Override
-	public SignageContent setContent(SignageContent c) {
+	public SignageContent setContent(final SignageContent c) {
 		if (getCategory().isVisible(c) && isVerifiedChannel(c)) {
-			previousChannel = channel;
+			// Take care of a null argument and remembering the previous channel.
+			if (!channel.equals(c))
+				previousChannel = channel;
 			if (c == null)
 				channel = makeEmptyChannel(null);
 			else
 				channel = (Channel) c;
-			System.out.println(getClass().getSimpleName() + ": Display " + getVirtualDisplayNumber() + " changed to [" + channel
-					+ "] at " + (new Date()));
 
-			// ----- Do we put this channel in a wrapper?
-			// channel.setCode(channel.getCode() | 1);
+			println(getClass(), ": Display " + getVirtualDisplayNumber() + " changed to [" + channel + "] at " + (new Date()));
 
 			informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
 			if (localSetContent())
