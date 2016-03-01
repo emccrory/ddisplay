@@ -110,6 +110,9 @@ fi
 
     echo "Running the display software ..."
 
+    # Remove the old Channel serialzed files that might still exist
+    rm -f *.ser 
+
     # An exit code of -1 (255 here) is going to mean that there was a problem from which we should try to recover.
 
     while {
