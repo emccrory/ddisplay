@@ -10,10 +10,15 @@ import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.DisplayButtons;
+import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.display.DisplayListDatabaseRemote;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,9 +35,11 @@ import javax.swing.JLabel;
  */
 public class CheckDisplayStatus extends Thread {
 
-	private Display	display;
-	private int		index;
-	private JLabel	footer;
+	private Display							display;
+	private int								index;
+	private JLabel							footer;
+
+	private static ListOfExistingContent	contentOnDisplays	= new ListOfExistingContent();
 
 	// private List<List<ChannelButtonGrid>> grids;
 
@@ -55,7 +62,8 @@ public class CheckDisplayStatus extends Thread {
 		// bit.
 		Connection connection = DisplayListDatabaseRemote.getConnection();
 		// read from the database to see what's up with this Display
-		String query = "SELECT Content,ContentName FROM DisplayStatus WHERE DisplayID=" + display.getDBDisplayNumber();
+		String query = "SELECT Content,ContentName,SignageContent FROM DisplayStatus WHERE DisplayID="
+				+ display.getDBDisplayNumber();
 		String startText = "Disp " + display.getVirtualDisplayNumber() + ": ";
 		String isBeingDisplayed = " is being displayed";
 
@@ -68,6 +76,20 @@ public class CheckDisplayStatus extends Thread {
 				try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query);) {
 					if (rs.first()) { // Move to first returned row
 						while (!rs.isAfterLast()) {
+							Blob sc = rs.getBlob("SignageContent");
+							if (sc != null && sc.length() > 0)
+								try {
+									int len = (int) sc.length();
+									byte[] bytes = sc.getBytes(1, len);
+
+									ByteArrayInputStream fin = new ByteArrayInputStream(bytes);
+									ObjectInputStream ois = new ObjectInputStream(fin);
+									SignageContent currentContent = (SignageContent) ois.readObject();
+									contentOnDisplays.put(display, currentContent);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+
 							String contentName = rs.getString("Content");
 							if (contentName != null)
 								try {
