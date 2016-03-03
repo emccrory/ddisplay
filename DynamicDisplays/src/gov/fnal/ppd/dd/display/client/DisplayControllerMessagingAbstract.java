@@ -24,6 +24,9 @@ import gov.fnal.ppd.dd.util.version.VersionInformation;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
@@ -190,10 +193,18 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						// The Content field is limited to 255 characters.
 						statusString = statusString.substring(0, 249) + " ...";
 
-					String contentName = getContent().getName().replace("'", "").replace("\"", "").replace(";", "").replace("\\", "");
+					String contentName = getContent().getName().replace("'", "").replace("\"", "").replace(";", "")
+							.replace("\\", "");
+
+					// Create the stream of the current content object
+					String blob =  convertObjectToHexBlob(getContent());
 
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + statusString
-							+ "',ContentName='" + contentName + "' where DisplayID=" + getDBDisplayNumber();
+							+ "',ContentName='" + contentName + "', SignageContent=x'" + blob + "' where DisplayID="
+							+ getDBDisplayNumber();
+					String succinctString = "Time='" + ft.format(dNow) + "',Content='" + statusString
+							+ "',ContentName='" + contentName + "', SignageContent=x'...' where DisplayID="
+							+ getDBDisplayNumber();
 
 					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 					int numRows = stmt.executeUpdate(statementString);
@@ -204,8 +215,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					}
 					stmt.close();
 					if (statusUpdatePeriod > 0) {
-						println(getClass(), ".updateMyStatus() screen " + screenNumber + " Status: \n            "
-								+ statementString.substring("UPDATE DisplayStatus set ".length()));
+						println(getClass(), ".updateMyStatus() screen " + screenNumber + " Status: \n            " + succinctString);
 						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 					}
 				} catch (Exception ex) {
@@ -225,6 +235,31 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			e.printStackTrace();
 			return;
 		}
+	}
+
+	private static String convertObjectToHexBlob(Serializable content) {
+		String blob = "";
+		try {
+			ByteArrayOutputStream fout = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(fout);
+			oos.writeObject(content);
+
+			byte[] bytes = fout.toByteArray();
+
+			for (int i = 0; i < bytes.length; i++) {
+				if ((0x000000ff & bytes[i]) < 16)
+					blob += "0";
+				blob += Integer.toHexString(0x000000ff & bytes[i]);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return blob;
+	}
+
+	private Object convertHexBlobToObject(byte[] bytes) {
+		Object o = new Object();
+		return o;
 	}
 
 	protected abstract String getStatusString();
