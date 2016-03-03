@@ -22,7 +22,7 @@ Science Magazine (mailto:soleditor@aaas.org)</creator>
 Copyright 2014 American Association for the Advancement of Science</rights>
 
 <date>
-2016-02-25T13:45:59-05:00</date>
+2016-03-03T11:12:00-05:00</date>
 
 <language>
 en</language>
@@ -55,467 +55,467 @@ en</language>
 <item>
 
 <title>
-[Cell Nucleus] Close-up view of the nuclear periphery</title>
+[Electron Transport] Electrons that flow like a fluid</title>
 
 <link>
-http://science.sciencemag.org/content/351/6276/929.1</link>
+http://science.sciencemag.org/content/351/6277/1038.1</link>
 
 <date>
-2016-02-26</date>
-
-<creator>
-Stella M. Hurtley</creator>
-
-<description>
-
-Cell biologists would like to be able to visualize complexes inside cells at molecular resolution. Several limitations, however, have prevented the field from realizing this goal. The ...
-</description>
-
-<subject>
-Cell Nucleus</subject>
-
-<identifier>
-10.1126/science.351.6276.929-a</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Neuroimmunology] A T cell cause for autism?</title>
-
-<link>
-http://science.sciencemag.org/content/351/6276/929.2</link>
-
-<date>
-2016-02-26</date>
-
-<creator>
-Kristen L. Mueller</creator>
-
-<description>
-
-The causes of autism spectrum disorder (ASD) are complex and not entirely clear. Alterations in the mother's immune system during pregnancy, especially during key early periods of fetal ...
-</description>
-
-<subject>
-Neuroimmunology</subject>
-
-<identifier>
-10.1126/science.351.6276.929-b</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Organic Lewis Acids] Silicon marries a chiral counterion</title>
-
-<link>
-http://science.sciencemag.org/content/351/6276/929.3</link>
-
-<date>
-2016-02-26</date>
-
-<creator>
-Jake Yeston</creator>
-
-<description>
-
-Acid is among the oldest and most versatile of chemical catalysts, but its symmetrical protons can't guide reactions to favor a product over its mirror image. Chemists have resolved ...
-</description>
-
-<subject>
-Organic Lewis Acids</subject>
-
-<identifier>
-10.1126/science.351.6276.929-c</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Quantum Simulation] Watching fermions transition on site</title>
-
-<link>
-http://science.sciencemag.org/content/351/6276/929.4</link>
-
-<date>
-2016-02-26</date>
+2016-03-04</date>
 
 <creator>
 Jelena Stajic</creator>
 
 <description>
 
-Optical lattices are a promising platform for simulating the many-body physics that occurs in solids. In lattices filled with cold bosonic atoms, “quantum microscopy” makes it possible to  ...
+Electrons inside a conductor are often described as flowing in response to an electric field. This flow rarely resembles anything like the familiar flow of water through a pipe, but ...
 </description>
 
 <subject>
-Quantum Simulation</subject>
+Electron Transport</subject>
 
 <identifier>
-10.1126/science.351.6276.929-d</identifier>
+10.1126/science.351.6277.1038-a</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Thin Films] A golden opportunity for graphene</title>
+[Superconductivity] Resolving the thermoelectric paradox</title>
 
 <link>
-http://science.sciencemag.org/content/351/6276/929.5</link>
+http://science.sciencemag.org/content/351/6277/1038.2</link>
 
 <date>
-2016-02-26</date>
+2016-03-04</date>
 
 <creator>
-Brent Grocholski</creator>
+Zakya H. Kafafi</creator>
 
 <description>
 
-Reducing friction can limit wear and improve the energy efficiency of mechanical devices. Graphene is a promising lubricant because the friction between sheets is minuscule under certain ...
+The existence of thermoelectric effects in superconductors has posed a particularly difficult challenge for physicists. Not only have experiments and theory been in paradoxical discrepancy ...
 </description>
 
 <subject>
-Thin Films</subject>
+Superconductivity</subject>
 
 <identifier>
-10.1126/science.351.6276.929-e</identifier>
+10.1126/science.351.6277.1038-b</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Forest Ecology] Leaf seasonality in Amazon forests</title>
+[Ebola Virus] Profiling the antibody response to Ebola</title>
 
 <link>
-http://science.sciencemag.org/content/351/6276/929.6</link>
+http://science.sciencemag.org/content/351/6277/1038.3</link>
 
 <date>
-2016-02-26</date>
+2016-03-04</date>
 
 <creator>
-Andrew M. Sugden</creator>
+Kristen L. Mueller</creator>
 
 <description>
 
-Models assume that lower precipitation in tropical forests means less plant-available water and less photosynthesis. Direct measurements in the Amazon, however, show that production ...
+The recent Ebola virus outbreak in West Africa illustrates the need not only for a vaccine but for potential therapies, too. One promising therapy is monoclonal antibodies that target ...
 </description>
 
 <subject>
-Forest Ecology</subject>
+Ebola Virus</subject>
 
 <identifier>
-10.1126/science.351.6276.929-f</identifier>
+10.1126/science.351.6277.1038-c</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Cancer] Managing metastasis</title>
+[Immunology] Diversity reigns in antibody responses</title>
 
 <link>
-http://science.sciencemag.org/content/351/6276/929.7</link>
+http://science.sciencemag.org/content/351/6277/1038.4</link>
 
 <date>
-2016-02-26</date>
+2016-03-04</date>
 
 <creator>
-Angela Colmone</creator>
+Kristen L. Mueller</creator>
 
 <description>
 
-Because of the poor prognosis of metastatic cancer, it is critical to determine exactly how various factors contribute to cancer spread. Mlecnik 
-et al.
- examined the impact ...
+During the course of an immune response, B cells specific for an invading pathogen divide. The antibodies they produce increase in affinity via somatic mutation in specialized lymph ...
 </description>
 
 <subject>
-Cancer</subject>
+Immunology</subject>
 
 <identifier>
-10.1126/science.351.6276.929-g</identifier>
+10.1126/science.351.6277.1038-d</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Cell Migration] Control cAMP to control migration</title>
+[Gene Expression] Doubling DNA but not expression</title>
 
 <link>
-http://science.sciencemag.org/content/351/6276/929.8</link>
+http://science.sciencemag.org/content/351/6277/1038.5</link>
 
 <date>
-2016-02-26</date>
-
-<creator>
-John F. Foley</creator>
-
-<description>
-
-Activation of the G protein-coupled receptors that stimulate cellular migration generates active G protein α and βγ subunits. These subunits then interact with distinct effector mo ...
-</description>
-
-<subject>
-Cell Migration</subject>
-
-<identifier>
-10.1126/science.351.6276.929-h</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Circadian Rhythms] Layered versatility atop circadian clocks</title>
-
-<link>
-http://science.sciencemag.org/content/351/6276/929.9</link>
-
-<date>
-2016-02-26</date>
-
-<creator>
-L. Bryan Ray</creator>
-
-<description>
-
-The circadian clock evolved to allow cells or organisms to anticipate changes in physiological requirements associated with Earth's 24-hour light/dark cycle. Some activities, however, ...
-</description>
-
-<subject>
-Circadian Rhythms</subject>
-
-<identifier>
-10.1126/science.351.6276.929-i</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Gene Editing] CRISPR-Cas captures invading RNA</title>
-
-<link>
-http://science.sciencemag.org/content/351/6276/929.10</link>
-
-<date>
-2016-02-26</date>
+2016-03-04</date>
 
 <creator>
 Guy Riddihough</creator>
 
 <description>
 
-The CRISPR (clustered regularly interspaced short palindromic repeat) system provides bacteria with an adaptive immune response. DNA captured from viruses and plasmids by CRISPR-associated ...
+As the genome replicates, and before the cell divides, the copy number of the replicated portions of the genome doubles. In bacteria and archaea, gene expression tracks with gene dosage, ...
 </description>
 
 <subject>
-Gene Editing</subject>
+Gene Expression</subject>
 
 <identifier>
-10.1126/science.351.6276.929-j</identifier>
+10.1126/science.351.6277.1038-e</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Organic Chemistry] Competition for binaphthyl catalysts</title>
+[Cell Biology] Separating dividing cells into two</title>
 
 <link>
-http://science.sciencemag.org/content/351/6276/929.11</link>
+http://science.sciencemag.org/content/351/6277/1038.6</link>
 
 <date>
-2016-02-26</date>
+2016-03-04</date>
 
 <creator>
-Jake Yeston</creator>
+Wei Wong</creator>
 
 <description>
 
-The binaphthyl framework has proven extremely effective in biasing a broad range of chemical reactions toward just one of two mirror-image products. The motif was first applied as a ...
-</description>
-
-<subject>
-Organic Chemistry</subject>
-
-<identifier>
-10.1126/science.351.6276.929-k</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Water Infrastructure] Improving drinking water safety</title>
-
-<link>
-http://science.sciencemag.org/content/351/6276/929.12</link>
-
-<date>
-2016-02-26</date>
-
-<creator>
-Julia Fahrenkamp-Uppenbrink</creator>
-
-<description>
-
-In many countries, such as the United States and the United Kingdom, drinking water contains a residual disinfectant to guard against microbial contamination. Yet others, such as the ...
-</description>
-
-<subject>
-Water Infrastructure</subject>
-
-<identifier>
-10.1126/science.351.6276.929-l</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Clinical Neuroscience] Treating Alzheimer's from the start</title>
-
-<link>
-http://science.sciencemag.org/content/351/6276/929.13</link>
-
-<date>
-2016-02-26</date>
-
-<creator>
-Ali Shilatifard</creator>
-
-<description>
-
-The formation of beta-amyloid plaques, known as Aβ aggregates, is implicated as a driving force of Alzheimer's disease. Vendruscolo 
+By activating genes involved in cell growth and proliferation, the transcriptional coactivator YAP can act as a tumor promoter. Bui 
 et al.
- applied chemical kinetic approaches  ...
+ uncovered a nontranscriptional role ...
 </description>
 
 <subject>
-Clinical Neuroscience</subject>
+Cell Biology</subject>
 
 <identifier>
-10.1126/science.351.6276.929-m</identifier>
+10.1126/science.351.6277.1038-f</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Catalysis] Direct hydrogen peroxide synthesis</title>
+[Catalysis] Small olefins from syngas</title>
 
 <link>
-http://science.sciencemag.org/content/351/6276/929.14</link>
+http://science.sciencemag.org/content/351/6277/1038.7</link>
 
 <date>
-2016-02-26</date>
+2016-03-04</date>
 
 <creator>
 Phil Szuromi</creator>
 
 <description>
 
-Hydrogen peroxide is synthesized industrially without direct contact of hydrogen and oxygen in order to achieve high concentrations. For many applications, only dilute aqueous solutions ...
+The conversion of coal or natural gas to liquid fuels or chemicals often proceeds through the production of CO and H<sub>
+2</sub>
+. This mixture, known as syngas, is then converted to ...
 </description>
 
 <subject>
 Catalysis</subject>
 
 <identifier>
-10.1126/science.351.6276.929-n</identifier>
+10.1126/science.351.6277.1038-g</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Conservation] Beyond utilitarian management</title>
+[Human Altruism] Brain activity shows underlying motives</title>
 
 <link>
-http://science.sciencemag.org/content/351/6276/929.15</link>
+http://science.sciencemag.org/content/351/6277/1038.8</link>
 
 <date>
-2016-02-26</date>
+2016-03-04</date>
 
 <creator>
-Julia Fahrenkamp-Uppenbrink</creator>
+Peter Stern</creator>
 
 <description>
 
-Efforts to conserve species and ecosystems tend to focus on their perceived social, cultural, and economic value to humans. In a Perspective, Sarrazin and Lecomte argue that these conservation ...
+In humans, two completely different motives may nevertheless lead to exactly the same behavior. Because we can't directly observe motives, modern economists often completely disregard ...
 </description>
 
 <subject>
-Conservation</subject>
+Human Altruism</subject>
 
 <identifier>
-10.1126/science.351.6276.929-o</identifier>
+10.1126/science.351.6277.1038-h</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Synaptic Vesicles] Neurotransmitter uptake one vesicle at a time</title>
+[Flexible Electronics] Make it stretch, make it glow</title>
 
 <link>
-http://science.sciencemag.org/content/351/6276/929.16</link>
+http://science.sciencemag.org/content/351/6277/1038.9</link>
 
 <date>
-2016-02-26</date>
+2016-03-04</date>
 
 <creator>
-Stella M. Hurtley</creator>
+Marc S. Lavine</creator>
 
 <description>
 
-Despite opposing ionic gradients, synaptic vesicles are able to accumulate neurotransmitters. To resolve the mystery of how this happens, Farsi 
+The skins of some cephalopods, such as the octopus, are highly flexible and contain color-changing cells. These cells are loaded with pigments that enable rapid and detailed camouflaging ...
+</description>
+
+<subject>
+Flexible Electronics</subject>
+
+<identifier>
+10.1126/science.351.6277.1038-i</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Structural Biology] A more complete look at the HIV-1 envelope</title>
+
+<link>
+http://science.sciencemag.org/content/351/6277/1038.10</link>
+
+<date>
+2016-03-04</date>
+
+<creator>
+Kristen L. Mueller</creator>
+
+<description>
+
+HIV-1 uses its envelope protein (Env), a large glycoprotein present on the viral surface, to enter target cells. Env forms trimers on the viral surface. Structural studies of solubilized ...
+</description>
+
+<subject>
+Structural Biology</subject>
+
+<identifier>
+10.1126/science.351.6277.1038-j</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Immunogenomics] Regulatory use of endogenous retroviruses</title>
+
+<link>
+http://science.sciencemag.org/content/351/6277/1038.11</link>
+
+<date>
+2016-03-04</date>
+
+<creator>
+Laura M. Zahn</creator>
+
+<description>
+
+Mammalian genomes contain many endogenous retroviruses (ERVs), which have a range of evolutionary ages. The propagation and maintenance of these genetic elements have been attributed ...
+</description>
+
+<subject>
+Immunogenomics</subject>
+
+<identifier>
+10.1126/science.351.6277.1038-k</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Fibrosis] SRC shows it stripes</title>
+
+<link>
+http://science.sciencemag.org/content/351/6277/1038.12</link>
+
+<date>
+2016-03-04</date>
+
+<creator>
+Angela Colmone</creator>
+
+<description>
+
+The nonreceptor tyrosine kinase SRC is a proto-oncogene that has been associated with cancer progression. Turro 
 et al.
- made parallel measurements ...
+ found a gain-of-function mutation in SRC in nine patients ...
 </description>
 
 <subject>
-Synaptic Vesicles</subject>
+Fibrosis</subject>
 
 <identifier>
-10.1126/science.351.6276.929-p</identifier>
+10.1126/science.351.6277.1038-l</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Meiosis] A partner protein for meiotic snip</title>
+[Neural Computation] Credit assignment in the brain</title>
 
 <link>
-http://science.sciencemag.org/content/351/6276/929.17</link>
+http://science.sciencemag.org/content/351/6277/1038.13</link>
 
 <date>
-2016-02-26</date>
+2016-03-04</date>
+
+<creator>
+Peter Stern</creator>
+
+<description>
+
+To discover relevant clues for survival, an organism must bridge the gap between the short time periods when a clue occurs and the potentially long waiting times after which feedback ...
+</description>
+
+<subject>
+Neural Computation</subject>
+
+<identifier>
+10.1126/science.351.6277.1038-m</identifier>
+
+</item>
+
+<item>
+
+<title>
+[DNA Repair] To have or have not determines DNA repair</title>
+
+<link>
+http://science.sciencemag.org/content/351/6277/1038.14</link>
+
+<date>
+2016-03-04</date>
+
+<creator>
+L. Bryan Ray</creator>
+
+<description>
+
+Cells presumably try to protect DNA from damage at all costs. But Uphof 
+et al.
+ show that they do not, because the cost is too high. Single-molecule and single-cell measurements ...
+</description>
+
+<subject>
+DNA Repair</subject>
+
+<identifier>
+10.1126/science.351.6277.1038-n</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Transcription] Choosing where to start transcription</title>
+
+<link>
+http://science.sciencemag.org/content/351/6277/1038.15</link>
+
+<date>
+2016-03-04</date>
 
 <creator>
 Guy Riddihough</creator>
 
 <description>
 
-Eukaryotes generate germ cells through meiotic recombination. This process initiates through breaks in genomic DNA catalyzed by the SPO11 protein. Vrielynck 
-et al.
- and Robert ...
+The RNA polymerase enzyme complex binds to the promoter of a gene and separates the two DNA strands. The subsequently formed “transcription bubble” is required for RNA synthesis to  ...
 </description>
 
 <subject>
-Meiosis</subject>
+Transcription</subject>
 
 <identifier>
-10.1126/science.351.6276.929-q</identifier>
+10.1126/science.351.6277.1038-o</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Quantum Computing] Reducing quantum overhead</title>
+
+<link>
+http://science.sciencemag.org/content/351/6277/1038.16</link>
+
+<date>
+2016-03-04</date>
+
+<creator>
+Ian S. Osborne</creator>
+
+<description>
+
+A quantum computer is expected to outperform its classical counterpart in certain tasks. One such task is the factorization of large integers, the technology that underpins the security ...
+</description>
+
+<subject>
+Quantum Computing</subject>
+
+<identifier>
+10.1126/science.351.6277.1038-p</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Cancer Biology] Have cancer stem cells MET their match?</title>
+
+<link>
+http://science.sciencemag.org/content/351/6277/1038.17</link>
+
+<date>
+2016-03-04</date>
+
+<creator>
+Paula A. Kiberstis</creator>
+
+<description>
+
+Solid tumors have been hypothesized to contain a subset of highly aggressive cells that fuel tumor growth and metastasis. The search is on for drugs that selectively kill or diminish ...
+</description>
+
+<subject>
+Cancer Biology</subject>
+
+<identifier>
+10.1126/science.351.6277.1038-q</identifier>
 
 </item>
 
