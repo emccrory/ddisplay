@@ -394,25 +394,26 @@ public class MessagingServer {
 					 * 
 					 * http://stackoverflow.com/questions/12684072/eofexception-when-reading-files-with-objectinputstream
 					 */
-				}
+				} // ----- End of "try" block overseeing the read, this time, of the socket -----
 
 				// The client that sent this message is still alive *** This is the wrong way to view this!!! (10/20/15) ***
 				//
 				// markClientAsSeen(this.cm.getFrom());
 				// markClientAsSeen(username);
 				//
-				// What is really going on here is taht this thread is uniquerly connected to a specific client (remember, this
+				// What is really going on here is that this thread is uniquely connected to a specific client (remember, this
 				// thread runs as part of the messaging server). So when this thread gets a message, that means that this client is
 				// alive (and nothing else.)
 				//
 
-				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())
-						&& showAliveMessages) {
-					display("Alive msg " + cm.getFrom().trim().replace(".fnal.gov", ""));
-					continue; // That's all for this loop iteration.
+				totalMesssagesHandled++;
+
+				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())) {
+					if (showAliveMessages)
+						display("Alive msg " + cm.getFrom().trim().replace(".fnal.gov", ""));
+					continue; // That's all for this while-loop iteration.  Go read the socket again...
 				}
 
-				totalMesssagesHandled++;
 				// Switch for the type of message receive
 				switch (this.cm.getType()) {
 
@@ -1109,7 +1110,8 @@ public class MessagingServer {
 
 						long oldestTime = System.currentTimeMillis();
 						ClientThread oldestClientName = null;
-						// Ping any client that is "on notice", plus the oldest one that is not on notice.  200 is about 9 minutes; 500 is about 22 minutes
+						// Ping any client that is "on notice", plus the oldest one that is not on notice. 200 is about 9 minutes;
+						// 500 is about 22 minutes
 						boolean printMe = (++counter % 200) < 2;
 						if (printMe)
 							System.out.println(new Date() + "\n---- Cycle no. " + counter);
