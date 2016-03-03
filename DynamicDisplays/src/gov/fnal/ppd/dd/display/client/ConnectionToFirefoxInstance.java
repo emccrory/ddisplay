@@ -171,7 +171,10 @@ public class ConnectionToFirefoxInstance {
 	public synchronized boolean changeURL(final String urlString, final WrapperType theWrapper, final int frameNumber)
 			throws UnsupportedEncodingException {
 		if (debug)
-			println(getClass(), instance + " New URL: " + urlString);
+			if (frameNumber == 0)
+				println(getClass(), instance + " New URL: " + urlString);
+			else 
+				println(getClass(), instance + " New URL for frame number " + frameNumber + ": " + urlString);
 
 		String frameName = "iframe";
 		if (frameNumber > 0)
@@ -482,7 +485,7 @@ public class ConnectionToFirefoxInstance {
 	 *            the frame number to hide in the HTML file
 	 */
 	public void hideFrame(final int frameNumber) {
-		String s = "document.getElementById('frame" + frameNumber + "').style.visibility=hidden;\n";
+		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
 		send(s);
 
 		try {
