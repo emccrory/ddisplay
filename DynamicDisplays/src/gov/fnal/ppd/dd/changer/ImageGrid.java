@@ -5,7 +5,6 @@
  */
 package gov.fnal.ppd.dd.changer;
 
-import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import gov.fnal.ppd.dd.channel.ChannelImage;
@@ -71,10 +70,10 @@ public class ImageGrid extends DetailedInformationGrid {
 			setAlignmentX(JPanel.LEFT_ALIGNMENT);
 		}
 
-		public JWhiteLabel(String text, float size) {
-			this(text);
-			setFont(getFont().deriveFont(size));
-		}
+		// public JWhiteLabel(final String text, final float size) {
+		// this(text);
+		// setFont(getFont().deriveFont(size));
+		// }
 	}
 
 	private static class DrawingPanel extends JPanel {
@@ -186,7 +185,7 @@ public class ImageGrid extends DetailedInformationGrid {
 		internalTabPane.setBackground(display.getPreferredHighlightColor());
 		HashMap<String, JPanel> expPanels = new HashMap<String, JPanel>();
 
-		final long revertTime = 5 * ONE_MINUTE;
+		// final long revertTime = 5 * ONE_MINUTE;
 		final int WIDTH = (SHOW_IN_WINDOW ? 300 : 350);
 		final int HEIGHT = 3 * WIDTH / 4;
 
@@ -207,14 +206,14 @@ public class ImageGrid extends DetailedInformationGrid {
 					return o1.getName().compareTo(o2.getName());
 				}
 			});
-			for (SignageContent P : list) {
-				ChannelImage imageChannel = (ChannelImage) P;
-				if (CategoryDictionary.isExperiment(imageChannel.getExp())) {
-					// Executive decision: Image web pages expire after five minutes.
-					P.setExpiration(revertTime);
-					newList.add(P);
-				}
-			}
+			// for (SignageContent P : list) {
+			// ChannelImage imageChannel = (ChannelImage) P;
+			// if (CategoryDictionary.isExperiment(imageChannel.getExp())) {
+			// // Executive decision: Image web pages expire after five minutes.
+			// P.setExpiration(revertTime);
+			// newList.add(P);
+			// }
+			// }
 
 			String colorString = String.format("%06X", display.getPreferredHighlightColor().getRGB() & 0xFFFFFF);
 			for (SignageContent content : newList)
