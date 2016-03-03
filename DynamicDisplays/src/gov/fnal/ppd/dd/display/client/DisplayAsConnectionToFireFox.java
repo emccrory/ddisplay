@@ -4,6 +4,7 @@ import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;
 import static gov.fnal.ppd.dd.GlobalVariables.DEFAULT_DWELL_TIME;
 import static gov.fnal.ppd.dd.GlobalVariables.FORCE_REFRESH;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -52,7 +53,7 @@ import java.util.Date;
  */
 public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbstract {
 
-	private static final long			FRAME_DISAPPEAR_TIME	= 2 * ONE_HOUR;
+	private static final long			FRAME_DISAPPEAR_TIME	= 2 * ONE_MINUTE;							// ONE_HOUR;
 	private ConnectionToFirefoxInstance	firefox;
 	private boolean						showingSelfIdentify		= false;
 	// private WrapperType defaultWrapperType = WrapperType.valueOf(System.getProperty("ddisplay.wrappertype",
@@ -69,8 +70,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 	private ThreadWithStop				playlistThread			= null;
 	private boolean						skipRevert				= false;
-	private long						frameRemovalTime;
 	private Command						lastCommand;
+	protected SignageContent			previousPreviousChannel	= null;
+	private boolean[]					removeFrame				= { false, false, false, false, false };
+	private long[]						frameRemovalTime		= { 0L, 0L, 0L, 0L, 0L };
+	private Thread[]					frameRemovalThread		= { null, null, null, null, null };
 
 	/**
 	 * @param showNumber
@@ -275,7 +279,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
 		if (frameNumber > 0)
-			frameRemovalTime = System.currentTimeMillis() + FRAME_DISAPPEAR_TIME;
+			frameRemovalTime[frameNumber] = FRAME_DISAPPEAR_TIME;
 		println(getClass(), firefox.getInstance() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
 
 		if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
@@ -317,9 +321,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			}
 		} else
 			try {
-				// Someday we may need this: (getContent().getCode() & 1) != 0;
-				changeCount++;
 				if (expiration > 0) {
+					if (previousPreviousChannel == null)
+						previousPreviousChannel = previousChannel;
 					revertTimeRemaining = expiration;
 					skipRevert = false;
 				} else {
@@ -327,20 +331,39 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					skipRevert = true;
 				}
 
-				// TODO Turn off the extra frame(s) someday...
-
-				if (firefox.changeURL(url, wrapperType, frameNumber)) {
-					previousChannel = getContent();
-					showingSelfIdentify = false;
+				/*
+				 * TODO -- Issues with multiple frames
+				 * 
+				 * 1. the previousChannel gets lost because there is only one "previousChannel"
+				 * 
+				 * 2. The status will read the contents of this extra frame
+				 */
+				if (frameNumber > 0 && frameRemovalTime[frameNumber] > 0) {
+					if (firefox.changeURL(url, wrapperType, frameNumber)) {
+						removeFrame[frameNumber] = false;
+						setupRemoveFrameThread(frameNumber);
+					} else {
+						println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set frame " + frameNumber
+								+ " content");
+						return false;
+					}
 				} else {
-					println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
-					return false;
-				}
+					changeCount++;
+					// ******************** Normal channel change here ********************
+					if (firefox.changeURL(url, wrapperType, frameNumber)) {
+						previousChannel = getContent();
+						showingSelfIdentify = false;
+					} else {
+						println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
+						return false;
+					}
 
-				if (expiration <= 0)
-					setupRefreshThread(dwellTime, url, frameNumber);
-				else
-					setRevertThread();
+					if (expiration <= 0)
+						setupRefreshThread(dwellTime, url, frameNumber);
+					else
+						setRevertThread();
+
+				}
 
 				updateMyStatus();
 			} catch (UnsupportedEncodingException e) {
@@ -435,6 +458,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				@Override
 				public void run() {
 					long increment = 15000L;
+					println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): Revert thread started.");
+
 					while (true) {
 						for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
 							catchSleep(Math.min(increment, revertTimeRemaining));
@@ -442,33 +467,65 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 								println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
 										+ " No longer necessary to revert.");
 								revertThread = null;
+								revertTimeRemaining = 0L;
 								return;
 							}
 						}
-						revertTimeRemaining = 0L;
 						println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
-								+ " Reverting to channel " + previousChannel);
+								+ " Reverting to channel " + previousPreviousChannel);
 						try {
-							setContent(previousChannel);
-							// if (!firefox.changeURL(revertURL, wrapperType, 0)) {
-							// println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
-							// + " Failed to REVERT content");
-							// firefox.resetURL();
-							// continue;
-							// }
+							setContent(previousPreviousChannel);
+							// TODO -- Do we need to have a stack of previous channels so one can traverse backwards in a situation
+							// like this??
+							previousChannel = previousPreviousChannel;
+							previousPreviousChannel = null;
 							println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
 									+ " Reverted to original web page, " + previousChannel);
-							return;
 						} catch (Exception e) {
 							e.printStackTrace();
-							revertThread = null;
-							return;
 						}
+						revertThread = null;
+						revertTimeRemaining = 0L;
+						return;
 					}
 				}
 			};
 			revertThread.start();
+		} else {
+			println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): revert thread is already running.");
 		}
+	}
+
+	private void setupRemoveFrameThread(final int frameNumber) {
+		if (frameRemovalTime[frameNumber] <= 0)
+			return;
+
+		if (frameRemovalThread[frameNumber] != null) {
+			println(this.getClass(), ".setupRemovalFrameThread() Already running.");
+			return;
+		}
+		println(getClass(), firefox.getInstance() + " Will turn off frame " + frameNumber + " in " + frameRemovalTime[frameNumber]
+				+ " msec.");
+
+		Thread t = new Thread("RemoveExtraFrame") {
+			@Override
+			public void run() {
+				long increment = 15000L;
+				while (removeFrame[frameNumber] == false && frameRemovalTime[frameNumber] > 0) {
+					println(DisplayAsConnectionToFireFox.class, firefox.getInstance() + " Continuing; frame off in  " + frameNumber
+							+ " in " + frameRemovalTime[frameNumber] + " msec");
+					catchSleep(Math.min(increment, frameRemovalTime[frameNumber]));
+					frameRemovalTime[frameNumber] -= increment;
+				}
+				println(DisplayAsConnectionToFireFox.class, ".setupRemovalFrameThread() removing frame " + frameNumber + " now.");
+
+				firefox.hideFrame(frameNumber);
+				frameRemovalThread[frameNumber] = null;
+				removeFrame[frameNumber] = false;
+			}
+		};
+		frameRemovalThread[frameNumber] = t;
+		t.start();
 	}
 
 	@Override
