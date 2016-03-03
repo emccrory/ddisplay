@@ -306,4 +306,39 @@ public abstract class DisplayImpl implements Display {
 	public void disconnect() {
 		// Nothing to do except for facade displays
 	}
+
+	/*
+	 * (non-Javadoc) The dbDisplayNumber is guaranteed by the database to be unique.
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + dbDisplayNumber;
+		result = prime * result + getClass().getCanonicalName().hashCode();
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc) The dbDisplayNumber is guaranteed by the database to be unique.
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof DisplayImpl))
+			return false;
+		if (!(obj.getClass().getCanonicalName().equals(getClass().getCanonicalName())))
+			return false;
+		DisplayImpl other = (DisplayImpl) obj;
+		if (dbDisplayNumber != other.dbDisplayNumber)
+			return false;
+		return true;
+	}
 }
