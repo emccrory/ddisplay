@@ -34,6 +34,7 @@ import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.SelectorInstructions;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -90,7 +91,7 @@ public class MakeChannelSelector {
 
 		if (SHOW_IN_WINDOW) {
 			f.setContentPane(channelSelector);
-			f.pack();
+			f.setSize(new Dimension(950, 710));
 			theControllerIsProbablyInFront = true;
 		} else {
 			// Full-screen display of this app!
