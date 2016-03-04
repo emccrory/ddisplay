@@ -1,5 +1,7 @@
 package gov.fnal.ppd.dd.util.version;
 
+import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -13,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -65,7 +68,14 @@ public class VersionInformationGUI extends JFrame {
 		content.add(getDescriptionComponent());
 		content.add(Box.createRigidArea(new Dimension(8, 8)));
 
-		content.add(getFlavorComponent());
+		content.add(getFlavorComponent(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JComboBox<FLAVOR> menu = (JComboBox<FLAVOR>) e.getSource();
+				newVI.setDisposition((FLAVOR) menu.getSelectedItem());
+			}
+		}));
 		content.add(Box.createRigidArea(new Dimension(8, 8)));
 
 		Box hb = Box.createHorizontalBox();
@@ -97,6 +107,7 @@ public class VersionInformationGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("**CANCELED** (No change in version information)");
+				System.out.println("Would have saved this information: " + newVI);
 				System.exit(-1);
 			}
 		});
@@ -106,11 +117,19 @@ public class VersionInformationGUI extends JFrame {
 		setContentPane(content);
 	}
 
-	private Component getFlavorComponent() {
+	private Component getFlavorComponent(ActionListener listener) {
+		FLAVOR[] description = { FLAVOR.TEST, FLAVOR.DEVELOPMENT, FLAVOR.PRODUCTION };
+		JComboBox<FLAVOR> c = new JComboBox<FLAVOR>();
+		for (FLAVOR D : description)
+			c.addItem(D);
+
+		c.setSelectedItem("" + newVI.getDisposition());
+		c.addActionListener(listener);
+
 		JPanel retval = new JPanel();
 
 		retval.add(new JLabel("Disposition: "));
-		retval.add(new JLabel("" + newVI.getDisposition()));
+		retval.add(c);
 
 		retval.setAlignmentX(JLabel.LEFT_ALIGNMENT);
 		retval.setBorder(b());
@@ -237,7 +256,7 @@ public class VersionInformationGUI extends JFrame {
 		textArea = new JTextArea(newVI.getVersionDescription(), 10, 60);
 		textArea.setWrapStyleWord(true);
 		textArea.setLineWrap(true);
-		
+
 		textArea.setFont(new Font("Courier", Font.PLAIN, 12));
 		textArea.setAlignmentX(LEFT_ALIGNMENT);
 		textArea.setBorder(b());

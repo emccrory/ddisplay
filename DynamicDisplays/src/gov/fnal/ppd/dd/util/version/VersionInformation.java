@@ -377,7 +377,7 @@ public class VersionInformation implements Serializable {
 	}
 
 	public String toString() {
-		return getVersionString() + " " + timeStamp + " " + getDisposition() + "\n" + versionDescription;
+		return "[" + getVersionString() + ", " + timeStamp + ", " + getDisposition() + "]\n" + versionDescription;
 	}
 
 	/**
@@ -408,7 +408,8 @@ public class VersionInformation implements Serializable {
 			// WRITE to disk
 			System.out.println("First, reading version information from the local disk");
 			vi = getVersionInformation();
-			vi.setDisposition(FLAVOR.DEVELOPMENT);
+			vi.setDisposition(FLAVOR.TEST);
+			vi.setVersionVal(1, 4);
 			System.out.println("... Saving to disk");
 			saveVersionInformation(vi);
 			break;
