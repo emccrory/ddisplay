@@ -242,12 +242,12 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	}
 
 	protected boolean localSetContent() {
-		if (playlistThread != null) {
-			playlistThread.stopMe = true;
-			playlistThread = null;
-		}
 
 		if (getContent() instanceof ChannelPlayList) {
+			if (playlistThread != null) {
+				playlistThread.stopMe = true;
+				playlistThread = null;
+			}
 
 			/**
 			 * FIXME -- There might be a way to implement this that does not require this "instanceof" check.
@@ -283,6 +283,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		println(getClass(), firefox.getInstance() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
 
 		if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
+			if (previousPreviousChannel == null)
+				previousPreviousChannel = previousChannel;
+			
 			if (!showingSelfIdentify) {
 				showingSelfIdentify = true;
 				firefox.showIdentity();
@@ -299,6 +302,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			}
 		} else if (url.equalsIgnoreCase(FORCE_REFRESH)) {
 			try {
+				if (previousPreviousChannel == null)
+					previousPreviousChannel = previousChannel;
 
 				// First, do a brute-force refresh to the browser
 				firefox.forceRefresh(frameNumber);
@@ -349,6 +354,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					}
 				} else {
 					changeCount++;
+					if (playlistThread != null) {
+						playlistThread.stopMe = true;
+						playlistThread = null;
+					}
+
 					// ******************** Normal channel change here ********************
 					if (firefox.changeURL(url, wrapperType, frameNumber)) {
 						previousChannel = getContent();
