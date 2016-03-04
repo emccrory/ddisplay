@@ -1,14 +1,16 @@
 /*
- * IdentifyAll
+ * ChangeAllExtraFrame
  *
- * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ * Copyright (c) 2013-16 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
 package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.PROGRAM_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
+import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
@@ -81,7 +83,7 @@ public class ChangeAllExtraFrame implements ActionListener {
 	}
 
 	/**
-	 * @return the button that launches the "identify all" procedure
+	 * @return the button that launches the "launch special message" procedure
 	 */
 	public static JComponent getButtons() {
 		if (me == null)
@@ -91,6 +93,7 @@ public class ChangeAllExtraFrame implements ActionListener {
 			buttons = Box.createVerticalBox();
 
 			final JTextField dwellTimeField = new JTextField();
+			dwellTimeField.setFont(dwellTimeField.getFont().deriveFont(18.0f));
 
 			// Button one: Send out the announcement command
 
@@ -108,7 +111,7 @@ public class ChangeAllExtraFrame implements ActionListener {
 				@Override
 				public void actionPerformed(ActionEvent ev) {
 					try {
-						long dwellTime = Long.parseLong(dwellTimeField.getText());
+						long dwellTime = 1000L * Long.parseLong(dwellTimeField.getText());
 						me.announcementChannel.setTime(dwellTime);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -120,7 +123,7 @@ public class ChangeAllExtraFrame implements ActionListener {
 
 			// Button two: remove the announcement command
 
-			button = new JButton("Turn off all special announcement frames");
+			button = new JButton("<html>Turn off special announcement</html>");
 			button.setToolTipText("That special announcement frame you just made?  " + "This will turn it off on all the displays");
 			button.setActionCommand(ChangeAllExtraFrame.class.getCanonicalName());
 			if (inset != null) {
@@ -136,7 +139,6 @@ public class ChangeAllExtraFrame implements ActionListener {
 				}
 			});
 			button.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-			// button.setEnabled(false);
 			buttons.add(button);
 
 			// Entry: How long to keep this announcement up?
@@ -144,24 +146,24 @@ public class ChangeAllExtraFrame implements ActionListener {
 			Box hb = Box.createHorizontalBox();
 			hb.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
-			dwellTimeField.setToolTipText("Five minutes is 300000 milliseconds; One hour is 3600000 ms; etc.");
 
-			JLabel lab = new JLabel("How long to show the announcement (milliseconds): ");
+			JLabel lab = new JLabel("How long to show the announcement (seconds): ");
 			lab.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+			lab.setFont(lab.getFont().deriveFont(14.0f));
 			hb.add(lab);
 			dwellTimeField.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						long dwellTime = Long.parseLong(dwellTimeField.getText());
+						long dwellTime = 1000L * Long.parseLong(dwellTimeField.getText());
 						me.announcementChannel.setTime(dwellTime);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			});
-			dwellTimeField.setText(me.announcementChannel.getTime() + "");
+			dwellTimeField.setText((me.announcementChannel.getTime()/1000L) + "");
 			dwellTimeField.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
 			hb.add(Box.createRigidArea(new Dimension(10, 10)));
@@ -223,9 +225,12 @@ public class ChangeAllExtraFrame implements ActionListener {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-		gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector();
+		// gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector();
+		credentialsSetup();
 
-		title = "<html>Show special message at<br>location=" + getLocationCode() + " (<em>" + getLocationName() + "</em>)</html>";
+		selectorSetup();
+
+		title = "<html>Show special announcment at<br>location=" + getLocationCode() + " (<em>" + getLocationName() + "</em>)</html>";
 
 		JFrame f = new JFrame(ChangeAllExtraFrame.class.getSimpleName());
 		ChangeAllExtraFrame.setup(null, 20.0f, new Insets(20, 50, 20, 50));
