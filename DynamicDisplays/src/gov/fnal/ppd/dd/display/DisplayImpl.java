@@ -45,6 +45,8 @@ public abstract class DisplayImpl implements Display {
 	protected int					screenNumber		= 0;
 	protected static AtomicInteger	internalThreadID	= new AtomicInteger(0);
 	protected SignageContent		channel;
+	// May need to change this attribute to a stack, so we can pop off to older "previous channels". Things like "IDENTIFY" and
+	// "REFRESH" screw this up.
 	protected SignageContent		previousChannel		= null;
 	protected Color					highlightColor;
 	protected List<ActionListener>	listeners			= new ArrayList<ActionListener>();
