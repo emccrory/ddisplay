@@ -46,5 +46,5 @@ public class ListOfExistingContent extends HashMap<Display, SignageContent> impl
 		super(m);
 	}
 
-	// It might be necessary to create a method that returns the content as a function of the Display number
+	// It might be necessary to create a method that returns the content as a function of the Display _number_, rather than the Display object itself
 }
