@@ -242,12 +242,12 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	}
 
 	protected boolean localSetContent() {
+		if (playlistThread != null) {
+			playlistThread.stopMe = true;
+			playlistThread = null;
+		}
 
 		if (getContent() instanceof ChannelPlayList) {
-			if (playlistThread != null) {
-				playlistThread.stopMe = true;
-				playlistThread = null;
-			}
 
 			/**
 			 * FIXME -- There might be a way to implement this that does not require this "instanceof" check.
@@ -255,7 +255,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			 * The basic idea is that when a channel is accessed, it would be given the opportunity to adjust itself. This is
 			 * obviously useful for a list of channels, but would/could this be useful for a regular channel? I'm not sure at this
 			 * time if this can be completely hidden in the current signature of a SignageContent, or if we would have to change the
-			 * signature. e.g., signageContent.finished(), or singageContent.prepare() (or something equivalent). As you see here,
+			 * signature. e.g., signageContent.finished(), or signageContent.prepare() (or something equivalent). As you see here,
 			 * the idea is to notice that this is a play list and then set up a thread specifically to advance the channel. There is
 			 * already a thread below to refresh the channel when the dwell time is completed--maybe we just use that thread, as
 			 * suggested here.
@@ -285,7 +285,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
 			if (previousPreviousChannel == null)
 				previousPreviousChannel = previousChannel;
-			
+
 			if (!showingSelfIdentify) {
 				showingSelfIdentify = true;
 				firefox.showIdentity();
