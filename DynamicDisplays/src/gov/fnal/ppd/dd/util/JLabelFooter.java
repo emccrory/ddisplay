@@ -14,8 +14,9 @@ import java.awt.Dimension;
 import javax.swing.JLabel;
 
 /**
- * A single-purpose instance of JLabel to show the status of the Display at the bottom of the ChannelSelector screen Adjusts the
- * text within the label to fit in the provided space.
+ * A single-purpose instance of JLabel to show the status of the Display at the bottom of the ChannelSelector screen
+ * 
+ * Adjusts the text within the label to fit in the provided space.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
