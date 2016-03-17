@@ -22,12 +22,13 @@ Science Magazine (mailto:soleditor@aaas.org)</creator>
 Copyright 2014 American Association for the Advancement of Science</rights>
 
 <date>
-2016-03-03T11:12:00-05:00</date>
+2016-03-17T13:15:28-04:00</date>
 
 <language>
 en</language>
 
 <items>
+
 
 
 
@@ -55,467 +56,507 @@ en</language>
 <item>
 
 <title>
-[Electron Transport] Electrons that flow like a fluid</title>
+[Feeding Behavior] When enough isn't enough</title>
 
 <link>
-http://science.sciencemag.org/content/351/6277/1038.1</link>
+http://science.sciencemag.org/content/351/6279/1276.1</link>
 
 <date>
-2016-03-04</date>
+2016-03-18</date>
+
+<creator>
+Peter Stern</creator>
+
+<description>
+
+Overeating and obesity are rapidly becoming worldwide problems. Normally, mice do not overeat—they balance their caloric intake with their caloric needs. Lagerlöf 
+et al.
+ de ...
+</description>
+
+<subject>
+Feeding Behavior</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-a</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Superconductivity] Peeking into a diamond pressure cell</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.2</link>
+
+<date>
+2016-03-18</date>
 
 <creator>
 Jelena Stajic</creator>
 
 <description>
 
-Electrons inside a conductor are often described as flowing in response to an electric field. This flow rarely resembles anything like the familiar flow of water through a pipe, but ...
-</description>
-
-<subject>
-Electron Transport</subject>
-
-<identifier>
-10.1126/science.351.6277.1038-a</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Superconductivity] Resolving the thermoelectric paradox</title>
-
-<link>
-http://science.sciencemag.org/content/351/6277/1038.2</link>
-
-<date>
-2016-03-04</date>
-
-<creator>
-Zakya H. Kafafi</creator>
-
-<description>
-
-The existence of thermoelectric effects in superconductors has posed a particularly difficult challenge for physicists. Not only have experiments and theory been in paradoxical discrepancy ...
+A defining characteristic of a superconductor is that it expels an external magnetic field. Demonstrating this effect can be tricky when the sample is under enormous pressures in a ...
 </description>
 
 <subject>
 Superconductivity</subject>
 
 <identifier>
-10.1126/science.351.6277.1038-b</identifier>
+10.1126/science.351.6279.1276-b</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Ebola Virus] Profiling the antibody response to Ebola</title>
+[Vascular Biology] Reelin in leukocytes for atherosclerosis</title>
 
 <link>
-http://science.sciencemag.org/content/351/6277/1038.3</link>
+http://science.sciencemag.org/content/351/6279/1276.3</link>
 
 <date>
-2016-03-04</date>
-
-<creator>
-Kristen L. Mueller</creator>
-
-<description>
-
-The recent Ebola virus outbreak in West Africa illustrates the need not only for a vaccine but for potential therapies, too. One promising therapy is monoclonal antibodies that target ...
-</description>
-
-<subject>
-Ebola Virus</subject>
-
-<identifier>
-10.1126/science.351.6277.1038-c</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Immunology] Diversity reigns in antibody responses</title>
-
-<link>
-http://science.sciencemag.org/content/351/6277/1038.4</link>
-
-<date>
-2016-03-04</date>
-
-<creator>
-Kristen L. Mueller</creator>
-
-<description>
-
-During the course of an immune response, B cells specific for an invading pathogen divide. The antibodies they produce increase in affinity via somatic mutation in specialized lymph ...
-</description>
-
-<subject>
-Immunology</subject>
-
-<identifier>
-10.1126/science.351.6277.1038-d</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Gene Expression] Doubling DNA but not expression</title>
-
-<link>
-http://science.sciencemag.org/content/351/6277/1038.5</link>
-
-<date>
-2016-03-04</date>
-
-<creator>
-Guy Riddihough</creator>
-
-<description>
-
-As the genome replicates, and before the cell divides, the copy number of the replicated portions of the genome doubles. In bacteria and archaea, gene expression tracks with gene dosage, ...
-</description>
-
-<subject>
-Gene Expression</subject>
-
-<identifier>
-10.1126/science.351.6277.1038-e</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Cell Biology] Separating dividing cells into two</title>
-
-<link>
-http://science.sciencemag.org/content/351/6277/1038.6</link>
-
-<date>
-2016-03-04</date>
+2016-03-18</date>
 
 <creator>
 Wei Wong</creator>
 
 <description>
 
-By activating genes involved in cell growth and proliferation, the transcriptional coactivator YAP can act as a tumor promoter. Bui 
+In the circulation, the secreted protein Reelin acts to stem bleeding after injury. Receptors for Reelin are found on the endothelial cells that line blood vessels. Ding 
 et al.
- uncovered a nontranscriptional role ...
+ ...
 </description>
 
 <subject>
-Cell Biology</subject>
+Vascular Biology</subject>
 
 <identifier>
-10.1126/science.351.6277.1038-f</identifier>
+10.1126/science.351.6279.1276-c</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Catalysis] Small olefins from syngas</title>
+[Microbiota] Mom's bugs shape of spring immunity</title>
 
 <link>
-http://science.sciencemag.org/content/351/6277/1038.7</link>
+http://science.sciencemag.org/content/351/6279/1276.4</link>
 
 <date>
-2016-03-04</date>
-
-<creator>
-Phil Szuromi</creator>
-
-<description>
-
-The conversion of coal or natural gas to liquid fuels or chemicals often proceeds through the production of CO and H<sub>
-2</sub>
-. This mixture, known as syngas, is then converted to ...
-</description>
-
-<subject>
-Catalysis</subject>
-
-<identifier>
-10.1126/science.351.6277.1038-g</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Human Altruism] Brain activity shows underlying motives</title>
-
-<link>
-http://science.sciencemag.org/content/351/6277/1038.8</link>
-
-<date>
-2016-03-04</date>
-
-<creator>
-Peter Stern</creator>
-
-<description>
-
-In humans, two completely different motives may nevertheless lead to exactly the same behavior. Because we can't directly observe motives, modern economists often completely disregard ...
-</description>
-
-<subject>
-Human Altruism</subject>
-
-<identifier>
-10.1126/science.351.6277.1038-h</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Flexible Electronics] Make it stretch, make it glow</title>
-
-<link>
-http://science.sciencemag.org/content/351/6277/1038.9</link>
-
-<date>
-2016-03-04</date>
-
-<creator>
-Marc S. Lavine</creator>
-
-<description>
-
-The skins of some cephalopods, such as the octopus, are highly flexible and contain color-changing cells. These cells are loaded with pigments that enable rapid and detailed camouflaging ...
-</description>
-
-<subject>
-Flexible Electronics</subject>
-
-<identifier>
-10.1126/science.351.6277.1038-i</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Structural Biology] A more complete look at the HIV-1 envelope</title>
-
-<link>
-http://science.sciencemag.org/content/351/6277/1038.10</link>
-
-<date>
-2016-03-04</date>
+2016-03-18</date>
 
 <creator>
 Kristen L. Mueller</creator>
 
 <description>
 
-HIV-1 uses its envelope protein (Env), a large glycoprotein present on the viral surface, to enter target cells. Env forms trimers on the viral surface. Structural studies of solubilized ...
+In utero, babies are relatively microbe-free but are quickly colonized at birth. These early microbial residents help to shape our immune systems. Gomez de Agüero 
+et al.
+ wondered  ...
 </description>
 
 <subject>
-Structural Biology</subject>
+Microbiota</subject>
 
 <identifier>
-10.1126/science.351.6277.1038-j</identifier>
+10.1126/science.351.6279.1276-d</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Immunogenomics] Regulatory use of endogenous retroviruses</title>
+[Hydrogen Bonding] Gear-like rotation by a wobbly water duo</title>
 
 <link>
-http://science.sciencemag.org/content/351/6277/1038.11</link>
+http://science.sciencemag.org/content/351/6279/1276.5</link>
 
 <date>
-2016-03-04</date>
+2016-03-18</date>
 
 <creator>
-Laura M. Zahn</creator>
+Jake Yeston</creator>
 
 <description>
 
-Mammalian genomes contain many endogenous retroviruses (ERVs), which have a range of evolutionary ages. The propagation and maintenance of these genetic elements have been attributed ...
+The molecules in liquid water move about constantly, but on average they cling to each other through hydrogen bonds, like dancers who keep switching partners. Richardson 
+et al.
+ ...
 </description>
 
 <subject>
-Immunogenomics</subject>
+Hydrogen Bonding</subject>
 
 <identifier>
-10.1126/science.351.6277.1038-k</identifier>
+10.1126/science.351.6279.1276-e</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Fibrosis] SRC shows it stripes</title>
+[Gas Infrastructure] The magnitude of a major methane leak</title>
 
 <link>
-http://science.sciencemag.org/content/351/6277/1038.12</link>
+http://science.sciencemag.org/content/351/6279/1276.6</link>
 
 <date>
-2016-03-04</date>
+2016-03-18</date>
+
+<creator>
+Nicholas S. Wigginton</creator>
+
+<description>
+
+The Aliso Canyon underground gas storage facility outside Los Angeles, CA, houses enormous natural gas reserves. One well at the site experienced a blowout in late October 2015 and ...
+</description>
+
+<subject>
+Gas Infrastructure</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-f</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Ebola Virus] Antibodies block Ebola virus entry</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.7</link>
+
+<date>
+2016-03-18</date>
+
+<creator>
+Kristen L. Mueller</creator>
+
+<description>
+
+The recent Ebola virus outbreak in West Africa illustrates the need for both an effective vaccine and therapies to treat infected individuals. Corti 
+et al.
+ isolated two monoclonal ...
+</description>
+
+<subject>
+Ebola Virus</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-g</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Inflammation] A prostaglandin barrier to inflammation</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.8</link>
+
+<date>
+2016-03-18</date>
+
+<creator>
+Kristen L. Mueller</creator>
+
+<description>
+
+Blood-borne bacterial infections and severe trauma can send the immune system into overdrive, causing it to pump out inflammatory mediators, sometimes at lethal doses. Duffin 
+et ...
+</description>
+
+<subject>
+Inflammation</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-h</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Surface Science] Durable coatings that repel ice</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.9</link>
+
+<date>
+2016-03-18</date>
+
+<creator>
+Zakya H. Kafafi</creator>
+
+<description>
+
+Preventing ice buildup on surfaces is crucial for ensuring the proper operation and safety of airplanes, ships, communication towers, and wind turbines. Golovin 
+et al.
+ studied ...
+</description>
+
+<subject>
+Surface Science</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-i</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Chemistry] Temporarily caught in a bind</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.10</link>
+
+<date>
+2016-03-18</date>
+
+<creator>
+Marc S. Lavine</creator>
+
+<description>
+
+When an atom or molecular fragment is covalently bonded, its release is controlled by the rate of degradation of the bond or by the rate of degradation of the matrix or shell material ...
+</description>
+
+<subject>
+Chemistry</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-j</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Planetary Science] New Horizons unveils the Pluto system</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.11</link>
+
+<date>
+2016-03-18</date>
+
+<creator>
+Keith T. Smith</creator>
+
+<description>
+
+In July 2015, the New Horizons spacecraft flew through the Pluto system at high speed, humanity's first close look at this enigmatic system on the outskirts of our solar system. In ...
+</description>
+
+<subject>
+Planetary Science</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-k</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Nanomaterials] Creating semiconductor nanocages</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.12</link>
+
+<date>
+2016-03-18</date>
+
+<creator>
+Phil Szuromi</creator>
+
+<description>
+
+The surface area of nanomaterials can be increased by creating open cage structures. Now it seems that the shape of nanocrystals can be used as a tool to manipulate crystal structure ...
+</description>
+
+<subject>
+Nanomaterials</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-l</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Ionic Materials] Transporting the hydrogen anion</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.13</link>
+
+<date>
+2016-03-18</date>
+
+<creator>
+Marc S. Lavine</creator>
+
+<description>
+
+Hydrogen cation (H<sup>
++</sup>
+) transport is common in both biological systems and engineered ones such as fuel cells. In contrast, the transport of hydrogen anions (H<sup>
+−</sup>
+) i ...
+</description>
+
+<subject>
+Ionic Materials</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-m</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Biochemistry] A radical carboxyl migration</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.14</link>
+
+<date>
+2016-03-18</date>
+
+<creator>
+Nicholas S. Wigginton</creator>
+
+<description>
+
+The antibiotic nosiheptide, produced by 
+Streptomyces actuosus
+, has high activity against multidrug-resistant pathogens. The enzymes involved in its biosynthesis include NosL, ...
+</description>
+
+<subject>
+Biochemistry</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-n</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Neuroinflammation] Linking neurodegeneration and immune cells</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.15</link>
+
+<date>
+2016-03-18</date>
+
+<creator>
+Stella M. Hurtley</creator>
+
+<description>
+
+The expansion of a repetitive DNA sequence in the C9orf72 gene is the major genetic cause of amyotrophic lateral sclerosis and frontotemporal dementia. Although the expansion decreases ...
+</description>
+
+<subject>
+Neuroinflammation</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-o</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Mucosal Immunity] Tuft cells help contain parasites</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.16</link>
+
+<date>
+2016-03-18</date>
+
+<creator>
+Kristen L. Mueller</creator>
+
+<description>
+
+Trillions of microbes inhabit our guts, including worms and other parasites. Epithelial cells that line the gut orchestrate parasite-targeted immune responses. Howitt 
+et al.
+ ...
+</description>
+
+<subject>
+Mucosal Immunity</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-p</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Antibiotic Resistance] The spectre of untreatable infections</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.17</link>
+
+<date>
+2016-03-18</date>
+
+<creator>
+Julia Fahrenkamp-Uppenbrink</creator>
+
+<description>
+
+Antimicrobial resistance is on the rise around the world, in some cases leaving few treatment options. Recent evidence for antimicrobial resistance against a treatment of last resort, ...
+</description>
+
+<subject>
+Antibiotic Resistance</subject>
+
+<identifier>
+10.1126/science.351.6279.1276-q</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Infectious Disease] Dengue model rises to the challenge</title>
+
+<link>
+http://science.sciencemag.org/content/351/6279/1276.18</link>
+
+<date>
+2016-03-18</date>
 
 <creator>
 Angela Colmone</creator>
 
 <description>
 
-The nonreceptor tyrosine kinase SRC is a proto-oncogene that has been associated with cancer progression. Turro 
-et al.
- found a gain-of-function mutation in SRC in nine patients ...
+Human efficacy testing remains a major hurdle in bringing new vaccine candidates to the clinic. Without accepted correlates of protection, rounds of safety trials must be performed ...
 </description>
 
 <subject>
-Fibrosis</subject>
+Infectious Disease</subject>
 
 <identifier>
-10.1126/science.351.6277.1038-l</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Neural Computation] Credit assignment in the brain</title>
-
-<link>
-http://science.sciencemag.org/content/351/6277/1038.13</link>
-
-<date>
-2016-03-04</date>
-
-<creator>
-Peter Stern</creator>
-
-<description>
-
-To discover relevant clues for survival, an organism must bridge the gap between the short time periods when a clue occurs and the potentially long waiting times after which feedback ...
-</description>
-
-<subject>
-Neural Computation</subject>
-
-<identifier>
-10.1126/science.351.6277.1038-m</identifier>
-
-</item>
-
-<item>
-
-<title>
-[DNA Repair] To have or have not determines DNA repair</title>
-
-<link>
-http://science.sciencemag.org/content/351/6277/1038.14</link>
-
-<date>
-2016-03-04</date>
-
-<creator>
-L. Bryan Ray</creator>
-
-<description>
-
-Cells presumably try to protect DNA from damage at all costs. But Uphof 
-et al.
- show that they do not, because the cost is too high. Single-molecule and single-cell measurements ...
-</description>
-
-<subject>
-DNA Repair</subject>
-
-<identifier>
-10.1126/science.351.6277.1038-n</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Transcription] Choosing where to start transcription</title>
-
-<link>
-http://science.sciencemag.org/content/351/6277/1038.15</link>
-
-<date>
-2016-03-04</date>
-
-<creator>
-Guy Riddihough</creator>
-
-<description>
-
-The RNA polymerase enzyme complex binds to the promoter of a gene and separates the two DNA strands. The subsequently formed “transcription bubble” is required for RNA synthesis to  ...
-</description>
-
-<subject>
-Transcription</subject>
-
-<identifier>
-10.1126/science.351.6277.1038-o</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Quantum Computing] Reducing quantum overhead</title>
-
-<link>
-http://science.sciencemag.org/content/351/6277/1038.16</link>
-
-<date>
-2016-03-04</date>
-
-<creator>
-Ian S. Osborne</creator>
-
-<description>
-
-A quantum computer is expected to outperform its classical counterpart in certain tasks. One such task is the factorization of large integers, the technology that underpins the security ...
-</description>
-
-<subject>
-Quantum Computing</subject>
-
-<identifier>
-10.1126/science.351.6277.1038-p</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Cancer Biology] Have cancer stem cells MET their match?</title>
-
-<link>
-http://science.sciencemag.org/content/351/6277/1038.17</link>
-
-<date>
-2016-03-04</date>
-
-<creator>
-Paula A. Kiberstis</creator>
-
-<description>
-
-Solid tumors have been hypothesized to contain a subset of highly aggressive cells that fuel tumor growth and metastasis. The search is on for drugs that selectively kill or diminish ...
-</description>
-
-<subject>
-Cancer Biology</subject>
-
-<identifier>
-10.1126/science.351.6277.1038-q</identifier>
+10.1126/science.351.6279.1276-r</identifier>
 
 </item>
 
