@@ -7,10 +7,10 @@ package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.PING_INTERVAL;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
+import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.DisplayButtons;
-import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.display.DisplayListDatabaseRemote;
 import gov.fnal.ppd.dd.signage.Display;
@@ -35,11 +35,11 @@ import javax.swing.JLabel;
  */
 public class CheckDisplayStatus extends Thread {
 
-	private Display							display;
-	private int								index;
-	private JLabel							footer;
-
-	private static ListOfExistingContent	contentOnDisplays	= new ListOfExistingContent();
+	private Display			display;
+	private int				index;
+	private JLabel			footer;
+	private static boolean	doDisplayButtons	= true;
+	private final long		initialSleep;
 
 	// private List<List<ChannelButtonGrid>> grids;
 
@@ -55,17 +55,38 @@ public class CheckDisplayStatus extends Thread {
 		this.index = index;
 		this.footer = footer;
 		// this.grids = grids;
+		initialSleep = 5 * index + 20000L;
+	}
+
+	/**
+	 * @param display
+	 * @param footer
+	 */
+	public CheckDisplayStatus(final Display display, final JLabel footer) {
+		super("Display." + display.getDBDisplayNumber() + "." + display.getScreenNumber() + ".StatusUpdateGrabber");
+		this.display = display;
+		this.footer = footer;
+		initialSleep = 10000L + (long) (Math.random() * 3000L);
+	}
+
+	/**
+	 * @param doDisplayButtons
+	 *            the doDisplayButtons to set
+	 */
+	public static void setDoDisplayButtons(boolean doDisplayButtons) {
+		CheckDisplayStatus.doDisplayButtons = doDisplayButtons;
 	}
 
 	public void run() {
-		catchSleep(25 * index + 20000L); // Put in a delay to get the Pings to each Display offset from each other a little
+		catchSleep(Math.max(1000L, initialSleep - PING_INTERVAL)); // Put in a delay to get the Pings to each Display offset from
+																	// each other a little
 		// bit.
 		Connection connection = DisplayListDatabaseRemote.getConnection();
 		// read from the database to see what's up with this Display
 		String query = "SELECT Content,ContentName,SignageContent FROM DisplayStatus WHERE DisplayID="
 				+ display.getDBDisplayNumber();
-		String startText = "Disp " + display.getVirtualDisplayNumber() + ": ";
-		String isBeingDisplayed = " is being displayed";
+		final String startText = "Disp " + display.getVirtualDisplayNumber() + ": ";
+		final String isBeingDisplayed = " is being displayed";
 
 		while (true) {
 			try {
@@ -77,6 +98,8 @@ public class CheckDisplayStatus extends Thread {
 					if (rs.first()) { // Move to first returned row
 						while (!rs.isAfterLast()) {
 							Blob sc = rs.getBlob("SignageContent");
+							String contentName = rs.getString("Content");
+
 							if (sc != null && sc.length() > 0)
 								try {
 									int len = (int) sc.length();
@@ -85,21 +108,22 @@ public class CheckDisplayStatus extends Thread {
 									ByteArrayInputStream fin = new ByteArrayInputStream(bytes);
 									ObjectInputStream ois = new ObjectInputStream(fin);
 									SignageContent currentContent = (SignageContent) ois.readObject();
-									contentOnDisplays.put(display, currentContent);
+									getContentOnDisplays().put(display, currentContent);
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
 
-							String contentName = rs.getString("Content");
 							if (contentName != null)
 								try {
 									if (contentName.startsWith("0: "))
 										contentName = contentName.substring(3);
 									contentName = contentName.replace(isBeingDisplayed, "");
 									// Create a new footer
-									footer.setText(startText + contentName);
-									footer.setToolTipText(contentName);
-
+									if (getContentOnDisplays().get(display) != null)
+										footer.setText(startText + getContentOnDisplays().get(display));
+									else
+										footer.setText(startText + contentName);
+									
 									if (display instanceof DisplayFacade) {
 										if (!contentName.equals(SELF_IDENTIFY)) {
 											// It should fall here; all displays on this side are DisplayFacade's
@@ -108,7 +132,8 @@ public class CheckDisplayStatus extends Thread {
 										}
 									}
 
-									DisplayButtons.setToolTip(display);
+									if (doDisplayButtons)
+										DisplayButtons.setToolTip(display);
 
 									// Enable the Channel buttons, too
 									// synchronized (grids) {
