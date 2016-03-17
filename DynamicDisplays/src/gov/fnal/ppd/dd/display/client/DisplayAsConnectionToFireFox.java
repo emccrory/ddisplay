@@ -354,10 +354,10 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					}
 				} else {
 					changeCount++;
-					if (playlistThread != null) {
-						playlistThread.stopMe = true;
-						playlistThread = null;
-					}
+					// if (playlistThread != null) {
+					// playlistThread.stopMe = true;
+					// playlistThread = null;
+					// }
 
 					// ******************** Normal channel change here ********************
 					if (firefox.changeURL(url, wrapperType, frameNumber)) {
