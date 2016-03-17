@@ -6,6 +6,7 @@
 package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.util.Util.println;
+import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.signage.Display;
 
 import java.awt.Image;
@@ -559,6 +560,15 @@ public class GlobalVariables {
 		}
 
 		return result_line;
+	}
+	
+	private static ListOfExistingContent	contentOnDisplays	= new ListOfExistingContent();
+
+	/**
+	 * @return the contentOnDisplays
+	 */
+	public static ListOfExistingContent getContentOnDisplays() {
+		return contentOnDisplays;
 	}
 
 	private GlobalVariables() {
