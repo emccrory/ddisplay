@@ -124,7 +124,7 @@ public class MakeChannelSelector {
 	private static boolean	missing				= true;
 	private static String	myIPName			= "TBD";
 
-	static void selectorSetup() {
+	public static void selectorSetup() {
 		getMessagingServerNameSelector();
 		Connection connection = null;
 		try {
