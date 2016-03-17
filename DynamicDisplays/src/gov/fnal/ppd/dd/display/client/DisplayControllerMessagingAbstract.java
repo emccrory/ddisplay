@@ -197,14 +197,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							.replace("\\", "");
 
 					// Create the stream of the current content object
-					String blob =  convertObjectToHexBlob(getContent());
+					String blob = convertObjectToHexBlob(getContent());
 
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + statusString
 							+ "',ContentName='" + contentName + "', SignageContent=x'" + blob + "' where DisplayID="
 							+ getDBDisplayNumber();
-					String succinctString = "Time='" + ft.format(dNow) + "',Content='" + statusString
-							+ "',ContentName='" + contentName + "', SignageContent=x'...' where DisplayID="
-							+ getDBDisplayNumber();
+					String succinctString = "Time='" + ft.format(dNow) + "',Content='" + statusString + "',ContentName='"
+							+ contentName + "', SignageContent=x'...' where DisplayID=" + getDBDisplayNumber();
 
 					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 					int numRows = stmt.executeUpdate(statementString);
@@ -238,6 +237,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	private static String convertObjectToHexBlob(Serializable content) {
+		if (content == null)
+			return null;
 		String blob = "";
 		try {
 			ByteArrayOutputStream fout = new ByteArrayOutputStream();
@@ -255,11 +256,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			e.printStackTrace();
 		}
 		return blob;
-	}
-
-	private Object convertHexBlobToObject(byte[] bytes) {
-		Object o = new Object();
-		return o;
 	}
 
 	protected abstract String getStatusString();
