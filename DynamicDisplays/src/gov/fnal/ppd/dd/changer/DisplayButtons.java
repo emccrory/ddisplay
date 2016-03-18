@@ -162,8 +162,7 @@ public class DisplayButtons extends JPanel {
 		this.listener = listener;
 
 		// displayList = DisplayListFactory.getInstance(cat, ChannelSelector.getLocationCode());
-
-		System.out.println("Number of displays: " + displayList.size());
+		println(getClass(), "Number of displays: " + displayList.size());
 
 		if (displayList.size() <= MAXIMUM_DISPLAY_BUTTONS)
 			makeScreenGrid();
@@ -181,12 +180,13 @@ public class DisplayButtons extends JPanel {
 		DisplayButtonGroup bg = new DisplayButtonGroup();
 		// int is = displayList.size() > 10 ? 2 * INSET_SIZE / 3 : INSET_SIZE;
 		// float fs = displayList.size() > 10 ? LOCAL_FONT_SIZE - (displayList.size() - 10)/2 : LOCAL_FONT_SIZE;
-		float fs = LOCAL_FONT_SIZE;  // In small atom tablet, full-screen: 24.0f
+		float fs = LOCAL_FONT_SIZE; // In small atom tablet, full-screen: 24.0f
 		if (SHOW_IN_WINDOW)
 			fs = WINDOW_FONT_SIZE;
 		fs = Math.min(LOCAL_FONT_SIZE, fs - (displayList.size() - 5)); // In small atom tablet, full-screen with 11 Displays: 19.0f
 
-		System.out.println("** Font size is " + fs);
+		// println(getClass(), "** Font size is " + fs);
+		
 		// int rigidHeight = INSET_SIZE + (11 - displayList.size());
 		// if (rigidHeight <= 0)
 		// rigidHeight = 1;

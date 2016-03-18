@@ -185,7 +185,6 @@ public class ImageGrid extends DetailedInformationGrid {
 		internalTabPane.setBackground(display.getPreferredHighlightColor());
 		HashMap<String, JPanel> expPanels = new HashMap<String, JPanel>();
 
-		// final long revertTime = 5 * ONE_MINUTE;
 		final int WIDTH = (SHOW_IN_WINDOW ? 300 : 350);
 		final int HEIGHT = 3 * WIDTH / 4;
 
@@ -206,14 +205,14 @@ public class ImageGrid extends DetailedInformationGrid {
 					return o1.getName().compareTo(o2.getName());
 				}
 			});
-			// for (SignageContent P : list) {
-			// ChannelImage imageChannel = (ChannelImage) P;
-			// if (CategoryDictionary.isExperiment(imageChannel.getExp())) {
-			// // Executive decision: Image web pages expire after five minutes.
-			// P.setExpiration(revertTime);
-			// newList.add(P);
-			// }
-			// }
+			for (SignageContent P : list) {
+				ChannelImage imageChannel = (ChannelImage) P;
+				if (CategoryDictionary.isExperiment(imageChannel.getExp())) {
+					// Image web pages expire after five minutes.
+					// P.setExpiration( 5 * ONE_MINUTE);
+					newList.add(P);
+				}
+			}
 
 			String colorString = String.format("%06X", display.getPreferredHighlightColor().getRGB() & 0xFFFFFF);
 			for (SignageContent content : newList)
