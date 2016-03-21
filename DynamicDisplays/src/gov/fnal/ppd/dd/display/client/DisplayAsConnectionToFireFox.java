@@ -11,6 +11,7 @@ import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.display.client.BrowserLauncher.BrowserInstance;
+import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
 
@@ -247,7 +248,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			playlistThread = null;
 		}
 
-		if (getContent() instanceof ChannelPlayList) {
+		if (getContent() instanceof EmergencyCommunication) {
+			// Emergency communication!!!!
+			return firefox.showEmergencyCommunication(((EmergencyCommunication) getContent()).getMessage());
+
+		} else if (getContent() instanceof ChannelPlayList) {
 
 			/**
 			 * FIXME -- There might be a way to implement this that does not require this "instanceof" check.
