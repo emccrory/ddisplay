@@ -42,6 +42,7 @@ import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.PlainURLChannel;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
@@ -145,6 +146,8 @@ public class DCProtocol {
 			// We are being told that such-and-such a client is alive right now.
 			break;
 
+		case EMERGENCY:
+			return processEmergencyMessage(body);
 		}
 		return true;
 	}
@@ -156,7 +159,7 @@ public class DCProtocol {
 	 * <li>(client) -- the machine that tells the displays what to show asynchronous message from a human, or from a channel script.
 	 * This client receives a "ready" message, and the it can send a URL to the server</li>
 	 * <li>
-	 * <server) -- the machine that controls a display. This server waits for a URL from the client. When it gets it and displays
+	 * (server) -- the machine that controls a display. This server waits for a URL from the client. When it gets it and displays
 	 * the URL successfully, it replies, "Ready".</li>
 	 * </ul>
 	 * </p>
@@ -242,6 +245,38 @@ public class DCProtocol {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * <p>
+	 * There are two agents in this conversation
+	 * <ul>
+	 * <li>(client) -- the machine that tells the displays what to show asynchronous message from a human, or from a channel script.
+	 * </li>
+	 * <li>(server) -- the machine that controls a display.</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * @param message
+	 *            The emergency message to process
+	 * @return Was the processing successful?
+	 */
+	private boolean processEmergencyMessage(Object message) {
+
+		try {
+			println(getClass(), ".processEmergencyMessage(): processing '" + message + "'");
+
+			if (message != null && message instanceof EmergencyCommunication) {
+				informListeners((EmergencyCommunication) message);
+			}
+
+		} catch (NullPointerException e) {
+			System.err.println("It looks like we may have lost the connection to the Display");
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+
 	}
 
 	private void createChannelListAndInform(ChangeChannelList theMessage) {
@@ -401,6 +436,17 @@ public class DCProtocol {
 			}
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void informListeners(final EmergencyCommunication spec) {
+		try {
+			for (Display L : listeners) {
+				// println(getClass().getSimpleName(), + " Telling a "+L.getClass().getSimpleName()+" to change to ["+c+"]");
+				L.setContent(spec);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
