@@ -137,6 +137,21 @@ public class MessageCarrier implements Serializable {
 		return new MessageCarrier(MessageType.ERROR, from, to, message);
 	}
 
+	/**
+	 * This is an emergency message for all clients in the system.
+	 * 
+	 * @param from
+	 *            The originator of the message
+	 * @param to
+	 *            The recipient of the message
+	 * @param message
+	 *            The message itself. It is anticipated that this will be an HTML-encoded message that can be shown by the client.
+	 * @return A message to the messaging server that conveys the emergency
+	 */
+	public static MessageCarrier getEmergencyMessage(final String from, final String to, final String message) {
+		return new MessageCarrier(MessageType.EMERGENCY, from, to, message);
+	}
+
 	private MessageCarrier(final MessageType type, final String message) {
 		this(type, "NULL", "NULL", message);
 	}
