@@ -67,16 +67,20 @@ public class ConnectionToFirefoxInstance {
 
 	private boolean									tryingToCloseNow				= false;
 	protected boolean								firstTimeOpeningConnection		= true;
+	private boolean									showingEmergencyCommunication	= false;
 
 	private static List<Command>					finalCommand					= new ArrayList<Command>();
 
 	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
+
+	private static final boolean					testEmergencyStuff				= false;
 
 	private static final String						BASE_WEB_PAGE					= "http://" + WEB_SERVER_NAME + "/border.php";
 	private static final String						TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
 	private static final String						EXTRAFRAME_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border2.php";
 	private static final String						EXTRAFRAMESNOTICKER_WEB_PAGE	= "http://" + WEB_SERVER_NAME + "/border3.php";
 	private static final String						EXTRAFRAMENOTICKER_WEB_PAGE		= "http://" + WEB_SERVER_NAME + "/border4.php";
+	private static final String						WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border7.php";
 
 	// private static final String FERMI_TICKERTAPE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border5.php";
 
@@ -150,6 +154,29 @@ public class ConnectionToFirefoxInstance {
 			}
 		};
 		timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
+
+		if (testEmergencyStuff) {
+			// TESTING of Emergency message thing
+			TimerTask g = new TimerTask() {
+				boolean	on	= false;
+
+				public void run() {
+					if (on) {
+						String test = "<img src='http://dynamicdisplays.fnal.gov/emergency/fermilabLogo.jpg' class='logo'>";
+						test += "<h1 class='alert'>ALERT Message</h1>";
+						test += "<p class='message'>";
+						test += "This is a test of the Fermilab Dynamic Displays emergency alert system.</p>";
+
+						showEmergencyCommunication(test);
+						on = false;
+					} else {
+						removeEmergencyCommunication();
+						on = true;
+					}
+				}
+			};
+			timer.schedule(g, 15000, 20000);
+		}
 	}
 
 	/**
@@ -173,8 +200,12 @@ public class ConnectionToFirefoxInstance {
 		if (debug)
 			if (frameNumber == 0)
 				println(getClass(), instance + " New URL: " + urlString);
-			else 
+			else
 				println(getClass(), instance + " New URL for frame number " + frameNumber + ": " + urlString);
+
+		if (showingEmergencyCommunication) {
+			removeEmergencyCommunication();
+		}
 
 		String frameName = "iframe";
 		if (frameNumber > 0)
@@ -245,11 +276,14 @@ public class ConnectionToFirefoxInstance {
 			break;
 
 		case FRAMENOTICKER:
+			// String borderPage = EXTRAFRAMENOTICKER_WEB_PAGE;
+			String borderPage = (testEmergencyStuff ? WEB_PAGE_EMERGENCY_FRAME : EXTRAFRAMENOTICKER_WEB_PAGE);
+			
 			if (!showingCanonicalSite.get()) {
-				println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAMENOTICKER_WEB_PAGE);
+				println(getClass(), instance + " Sending full, new URL to browser " + borderPage);
 				showingCanonicalSite.set(true);
-				s = "window.location=\"" + EXTRAFRAMENOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
-						+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+				s = "window.location=\"" + borderPage + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display=" + virtualID
+						+ "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
 				if (isNumberHidden())
 					s += "&shownumber=0";
@@ -468,7 +502,7 @@ public class ConnectionToFirefoxInstance {
 	 *            the frame number to show in the HTML file
 	 */
 	public void showFrame(final int frameNumber) {
-		String s = "document.getElementById('frame" + frameNumber + "').style.visibility=visible;\n";
+		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='visible';\n";
 		send(s);
 
 		try {
@@ -713,12 +747,60 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	/**
-	 * @param finalCommand
+	 * @param c
 	 *            the finalCommand to set
 	 * @return The command is returned back to the sender
 	 */
-	public Command addFinalCommand(Command c) {
+	public Command addFinalCommand(final Command c) {
 		finalCommand.add(c);
 		return c;
+	}
+
+	/**
+	 * Force an emergency message onto the screen!
+	 * 
+	 * @param message
+	 *            -- The message, which is (presumably) formatted HTML
+	 * 
+	 * @return Did it work?
+	 */
+	public boolean showEmergencyCommunication(final String message) {
+		String mess = message + "<p class='date'>Last update: " + new Date() + "</p>";
+		String s = "document.getElementById('emergencyframe1').innerHTML='" + mess.replace("'", "\\'") + "';\n";
+		s += "document.getElementById('emergencyframe1').style.visibility='visible';\n";
+
+		send(s);
+		showingEmergencyCommunication = true;
+
+		try {
+			return waitForServer();
+		} catch (IOException e) {
+			if (numberOfScreens > 1)
+				System.err.println("Exception for EMERGENCY MESSAGE on port #" + port);
+			e.printStackTrace();
+			setIsNotConnected();
+			return false;
+		}
+	}
+
+	/**
+	 * @return Did it work>?
+	 */
+	public boolean removeEmergencyCommunication() {
+		String s = "document.getElementById('emergencyframe1').innerHTML='';\n";
+		s += "document.getElementById('emergencyframe1').style.visibility='hidden';\n";
+
+		send(s);
+		showingEmergencyCommunication = false;
+
+		try {
+			return waitForServer();
+		} catch (IOException e) {
+			if (numberOfScreens > 1)
+				System.err.println("Exception EMERGENCY MESSAGE on port #" + port);
+			e.printStackTrace();
+			setIsNotConnected();
+			return false;
+		}
 	}
 }
