@@ -411,7 +411,7 @@ public class MessagingServer {
 				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())) {
 					if (showAliveMessages)
 						display("Alive msg " + cm.getFrom().trim().replace(".fnal.gov", ""));
-					continue; // That's all for this while-loop iteration.  Go read the socket again...
+					continue; // That's all for this while-loop iteration. Go read the socket again...
 				}
 
 				// Switch for the type of message receive
@@ -488,6 +488,21 @@ public class MessagingServer {
 								CT.thisSocketIsActive = false;
 							}
 						}
+					break;
+
+				case EMERGENCY:
+					if (isAuthorized(this.cm.getFrom(), this.cm.getTo())) {
+						broadcast(this);
+						// broadcast(this.cmSigned);
+					} else {
+						display("Message rejected!  '" + this.username + "' asked to send message of type " + this.cm.getType()
+								+ " to '" + this.cm.getTo() + "'\n\t\tbut it is not authorized to send a message to this client");
+
+						// Reply to the client that this message was rejected!
+						writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, this.cm.getFrom(),
+								"You are not authorized to change the channel on the display called " + this.cm.getTo()
+										+ ".\nThis directive has been rejected."));
+					}
 					break;
 				}
 			}

@@ -569,6 +569,10 @@ public class MessagingClient {
 						case MESSAGE:
 							// Normal stuff here
 							break;
+							
+						case EMERGENCY:
+							// Emergency?  What do we do with this information?!!
+							break;
 						}
 
 						receiveIncomingMessage(msg);

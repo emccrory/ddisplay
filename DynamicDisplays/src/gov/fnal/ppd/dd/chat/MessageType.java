@@ -41,11 +41,17 @@ public enum MessageType {
 	 * This client is actually alive [Or do I use "PONG"?]
 	 */
 	AMALIVE,
-	
+
 	/**
 	 * There is an error of some sort here.
 	 */
-	ERROR;
+	ERROR,
+
+	/**
+	 * This is a message that specifies an emergency situation. It is not clear yet what this means, but it is likely to be
+	 * something from the Office of Communications that needs to go to every client in the system (especially the displays).
+	 */
+	EMERGENCY;
 
 	/**
 	 * @return -- Is this sort of message read-only?
