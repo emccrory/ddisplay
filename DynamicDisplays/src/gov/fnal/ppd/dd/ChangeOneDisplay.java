@@ -18,10 +18,10 @@ import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.display.DisplayListDatabaseRemote;
-import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -67,7 +67,7 @@ public class ChangeOneDisplay {
 		}
 
 		int targetChannelumber = Integer.parseInt(args[1]);
-		SignageContent content = DisplayControllerMessagingAbstract.getChannelFromNumber(targetChannelumber);
+		SignageContent content = getChannelFromNumber(targetChannelumber);
 
 		// Set this content to this display
 		display.setContent(content);

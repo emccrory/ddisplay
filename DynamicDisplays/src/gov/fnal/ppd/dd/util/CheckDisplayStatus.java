@@ -99,6 +99,7 @@ public class CheckDisplayStatus extends Thread {
 						while (!rs.isAfterLast()) {
 							Blob sc = rs.getBlob("SignageContent");
 							String contentName = rs.getString("Content");
+							SignageContent currentContent = null;
 
 							if (sc != null && sc.length() > 0)
 								try {
@@ -107,11 +108,21 @@ public class CheckDisplayStatus extends Thread {
 
 									ByteArrayInputStream fin = new ByteArrayInputStream(bytes);
 									ObjectInputStream ois = new ObjectInputStream(fin);
-									SignageContent currentContent = (SignageContent) ois.readObject();
+									currentContent = (SignageContent) ois.readObject();
 									getContentOnDisplays().put(display, currentContent);
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
+
+							if (display instanceof DisplayFacade && currentContent != null) {
+								if (!contentName.equals(SELF_IDENTIFY)) {
+									// It should fall here; all displays on this side are DisplayFacade's
+									DisplayFacade myDisplay = (DisplayFacade) display;
+									myDisplay.setContentValueBackdoor(currentContent);
+									// System.out.println("Status of Display " + display.getDBDisplayNumber() + " is being set to "
+									// + currentContent + "\t(" + currentContent.getClass().getSimpleName() + ")");
+								}
+							}
 
 							if (contentName != null)
 								try {
@@ -123,14 +134,6 @@ public class CheckDisplayStatus extends Thread {
 										footer.setText(startText + getContentOnDisplays().get(display));
 									else
 										footer.setText(startText + contentName);
-									
-									if (display instanceof DisplayFacade) {
-										if (!contentName.equals(SELF_IDENTIFY)) {
-											// It should fall here; all displays on this side are DisplayFacade's
-											DisplayFacade myDisplay = (DisplayFacade) display;
-											myDisplay.setContentValueBackdoor(contentName);
-										}
-									}
 
 									if (doDisplayButtons)
 										DisplayButtons.setToolTip(display);

@@ -6,7 +6,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
-import gov.fnal.ppd.dd.channel.SkeletonChannel;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.chat.MessageType;
@@ -239,14 +238,14 @@ public class DisplayFacade extends DisplayImpl {
 	}
 
 	/**
-	 * A kludged-up method FO USE ONLY by the status mechanism to set the apparent content, as obtained from elsewhere (like from
-	 * a database read).
+	 * A kludged-up method FO USE ONLY by the status mechanism to set the apparent content, as obtained from elsewhere (like from a
+	 * database read).
 	 * 
-	 * @param contentName
-	 *            -- A string that describes the apparent content on this display
+	 * @param content
+	 *            -- The apparent content on this display
 	 */
-	public void setContentValueBackdoor(final String contentName) {
-		channel = new SkeletonChannel(contentName);
+	public void setContentValueBackdoor(final SignageContent content) {
+		channel = content;
 	}
 
 }

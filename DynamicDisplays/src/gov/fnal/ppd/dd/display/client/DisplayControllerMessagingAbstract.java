@@ -5,12 +5,11 @@ import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
+import static gov.fnal.ppd.dd.util.Util.convertObjectToHexBlob;
+import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
-import gov.fnal.ppd.dd.channel.ChannelImpl;
-import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.chat.MessageType;
@@ -24,23 +23,16 @@ import gov.fnal.ppd.dd.util.version.VersionInformation;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -236,27 +228,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 	}
 
-	private static String convertObjectToHexBlob(Serializable content) {
-		if (content == null)
-			return null;
-		String blob = "";
-		try {
-			ByteArrayOutputStream fout = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(fout);
-			oos.writeObject(content);
-
-			byte[] bytes = fout.toByteArray();
-
-			for (int i = 0; i < bytes.length; i++) {
-				if ((0x000000ff & bytes[i]) < 16)
-					blob += "0";
-				blob += Integer.toHexString(0x000000ff & bytes[i]);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return blob;
-	}
+	
 
 	protected abstract String getStatusString();
 
@@ -401,105 +373,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		return null;
 	}
 
-	/**
-	 * @param channelNumber
-	 *            The channel number to look up
-	 * @return The channel that is specified by this channel number
-	 */
-	public static SignageContent getChannelFromNumber(int channelNumber) {
-		Channel retval = null;
-		try {
-			retval = new ChannelImpl("Fermilab", ChannelCategory.PUBLIC, "Fermilab", new URI("http://www.fnal.gov"), 0, 360000L);
-		} catch (URISyntaxException e2) {
-			e2.printStackTrace();
-		}
 
-		if (channelNumber == 0) {
-			return retval;
-		} else if (channelNumber < 0) {
-			// The default channel is a list of channels. Build it!
-
-			String query = "select Channel.Number as Number,Dwell,Name,Description,URL from Channel,ChannelList where ListNumber="
-					+ (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
-
-			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
-			Connection connection;
-			try {
-				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-			} catch (DatabaseNotVisibleException e1) {
-				e1.printStackTrace();
-				return null;
-			}
-
-			List<SignageContent> channelList = new ArrayList<SignageContent>();
-
-			synchronized (connection) {
-				try (Statement stmt = connection.createStatement();) {
-					try (ResultSet rs = stmt.executeQuery(query);) {
-						if (!rs.first()) {
-							return retval;
-						}
-						do {
-							int chanNum = rs.getInt("Number");
-							int dwell = rs.getInt("Dwell");
-							String name = rs.getString("Name");
-							String desc = rs.getString("Description");
-							String url = rs.getString("URL");
-
-							Channel c = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), chanNum, dwell);
-							channelList.add(c);
-
-						} while (rs.next());
-
-						retval = new ChannelPlayList(channelList, 60000L);
-						stmt.close();
-						rs.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				} catch (SQLException ex) {
-					System.err.println("It is likely that the DB server is down.  We'll try again later.");
-					ex.printStackTrace();
-				}
-			}
-		} else {
-			// Channel number is positive: this is a single channel.
-			String query = "SELECT * from Channel where Number=" + channelNumber;
-			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel: [" + query + "]");
-			Connection connection;
-			try {
-				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-			} catch (DatabaseNotVisibleException e1) {
-				e1.printStackTrace();
-				return null;
-			}
-
-			synchronized (connection) {
-				try (Statement stmt = connection.createStatement();) {
-					try (ResultSet rs = stmt.executeQuery(query);) {
-						if (rs.first()) { // Move to first returned row (there should only be one)
-							String url = rs.getString("URL");
-							int dwell = rs.getInt("DwellTime");
-							String desc = rs.getString("Description");
-							String name = rs.getString("Name");
-
-							retval = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, dwell);
-
-							stmt.close();
-							rs.close();
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				} catch (SQLException ex) {
-					System.err.println("It is likely that the DB server is down.  We'll try again later.");
-					ex.printStackTrace();
-				}
-			}
-		}
-
-		return retval;
-	}
 
 	/**
 	 * Ask for a status update to the database

@@ -46,5 +46,18 @@ public class ListOfExistingContent extends HashMap<Display, SignageContent> impl
 		super(m);
 	}
 
-	// It might be necessary to create a method that returns the content as a function of the Display _number_, rather than the Display object itself
+	// It might be necessary to create a method that returns the content as a function of the Display _number_, rather than the
+	// Display object itself
+
+	/**
+	 * @param displayID
+	 *            The Display to return, based on the database ID number.
+	 * @return the Display object that has the database ID of displayID
+	 */
+	public Display get(final int displayID) {
+		for (Display D : keySet())
+			if (D.getDBDisplayNumber() == displayID)
+				return D;
+		return null;
+	}
 }

@@ -1,7 +1,7 @@
 package gov.fnal.ppd.dd.channel;
 
 import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.net.URI;
@@ -11,17 +11,21 @@ import java.net.URISyntaxException;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-public class SkeletonChannel implements SignageContent {
+public class SkeletonChannel implements Channel {
 
 	private static final long	serialVersionUID	= 6188374436280281827L;
 	private String				name;
 	private String				desc				= null;
 	private URI					uri					= null;
 
+	private SkeletonChannel() {
+		new Exception().printStackTrace();
+	}
 	/**
 	 * @param name
 	 */
 	public SkeletonChannel(final String name) {
+		new Exception().printStackTrace();
 		this.name = name;
 
 		try {
@@ -124,6 +128,11 @@ public class SkeletonChannel implements SignageContent {
 
 	@Override
 	public void setFrameNumber(int frameNumber) {
+	}
+
+	@Override
+	public int getNumber() {
+		return -1;
 	}
 
 }

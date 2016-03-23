@@ -27,6 +27,7 @@ import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.changer.DocentGrid;
 import gov.fnal.ppd.dd.changer.ImageGrid;
 import gov.fnal.ppd.dd.changer.InformationBox;
+import gov.fnal.ppd.dd.changer.SaveRestoreDefaultChannels;
 import gov.fnal.ppd.dd.channel.CreateListOfChannels;
 import gov.fnal.ppd.dd.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
@@ -125,6 +126,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private JButton							refreshButton				= new JButton("↺");
 	private JButton							exitButton					= new JButton("X");
 	private JButton							lockButton;
+	private JButton							changeDefaultsButton		= new JButton("S/R");
 	// private JButton addChannelButton = new JButton("+");
 	// private JCheckBox showBorderButton = new JCheckBox("Border?");
 	private DisplayButtons					displaySelector;
@@ -467,7 +469,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		titleBox = Box.createHorizontalBox();
 		adjustTitle(displayList.get(0));
 
-		refreshButton.setMargin(new Insets(5, 5, 5, 5));
 		// Add this in when I get it to work!! refreshButton.addActionListener(fullRefreshAction);
 		refreshButton.addActionListener(channelRefreshAction);
 		refreshButton.addActionListener(new ActionListener() {
@@ -486,6 +487,20 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), refreshButton, "Channels refreshed", mess + "</html>");
 					}
 				}.start();
+			}
+		});
+
+		SaveRestoreDefaultChannels.setup("Change Default Configurations", 30.0f, new Insets(20, 50, 20, 50));
+
+		changeDefaultsButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame f = new JFrame("SaveRestoreDefaultChannels");
+				f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				f.setContentPane(SaveRestoreDefaultChannels.getGUI());
+				f.pack();
+				f.setVisible(true);
 			}
 		});
 
@@ -574,12 +589,21 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			refreshButton.setToolTipText("<html><b>Refresh URLs</b> -- Refresh the URLs on each Channel button "
 					+ "<br>by re-reading this information from the Channel database."
 					+ "<br><em>This will not create new buttons</em></html>");
+			refreshButton.setFont(changeDefaultsButton.getFont().deriveFont(FONT_SIZE / 3));
+			refreshButton.setMargin(new Insets(12, 4, 12, 4));
 			titleBox.add(refreshButton);
-			if (SHOW_IN_WINDOW)
-				IdentifyAll.setup("Identify all displays", FONT_SIZE / 3, new Insets(4, 4, 4, 4));
-			else
-				IdentifyAll.setup("ID", FONT_SIZE / 2, new Insets(5, 5, 5, 5));
 			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+
+			changeDefaultsButton.setToolTipText("Save, restore and/or change the configuration defaults");
+			changeDefaultsButton.setFont(changeDefaultsButton.getFont().deriveFont(FONT_SIZE / 3));
+			changeDefaultsButton.setMargin(new Insets(12, 4, 12, 4));
+			titleBox.add(changeDefaultsButton);
+			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+
+			if (SHOW_IN_WINDOW)
+				IdentifyAll.setup("Identify all displays", FONT_SIZE / 3, new Insets(12, 4, 12, 4));
+			else
+				IdentifyAll.setup("ID", FONT_SIZE / 2, new Insets(12, 4, 12, 4));
 			// titleBox.add(showBorderButton);
 
 			IdentifyAll.setListOfDisplays(displayList);
