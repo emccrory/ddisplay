@@ -18,6 +18,8 @@ import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -33,13 +35,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -49,7 +55,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 
 /**
@@ -94,8 +99,10 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		SaveRestoreDefaultChannels.setup(null, 30.0f, new Insets(20, 50, 20, 50));
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setContentPane(SaveRestoreDefaultChannels.getGUI());
-		f.pack();
+		f.setSize(700, 445);
 		f.setVisible(true);
+
+		// height = 205 + 20*(numDisplays+1)
 	}
 
 	/**
@@ -217,7 +224,6 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JFrame f;
 		switch (e.getActionCommand()) {
 		case SAVE_ACTION:
 			new Thread("SaveDisplayConfiguration") {
@@ -403,7 +409,9 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 			// Nothing to to!
 		} else {
 			Box theRestorePanel = Box.createVerticalBox();
-			for (Display D : restoreMap.keySet()) {
+			Display[] sorted = getSortedDisplays(restoreMap.keySet());
+
+			for (Display D : sorted) {
 				JLabel label = new JLabel("Display " + D.getVirtualDisplayNumber() + " | " + D.getDBDisplayNumber() + " :  "
 						+ restoreMap.get(D));
 				theRestorePanel.add(label);
@@ -420,6 +428,20 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		}
 	}
 
+	private static Display[] getSortedDisplays(Set<Display> keySet) {
+		Display[] sorted = (Display[]) keySet.toArray(new Display[keySet.size()]);
+		Arrays.sort(sorted, new Comparator<Display>() {
+
+			@Override
+			public int compare(Display o1, Display o2) {
+				Integer d1 = o1.getVirtualDisplayNumber();
+				Integer d2 = o2.getVirtualDisplayNumber();
+				return d1.compareTo(d2);
+			}
+		});
+		return sorted;
+	}
+
 	protected Container getStatusFooter() {
 		final JPanel outer = new JPanel();
 
@@ -433,30 +455,26 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 				int maxLength = 0;
 
 				JPanel status = new JPanel(new GridBagLayout());
-				GridBagConstraints constraints = new GridBagConstraints();
+				GridBagConstraints constraints = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.BASELINE,
+						GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 1, 1);
 
 				constraints.gridx = 1;
-				constraints.gridy = 1;
+				constraints.gridy = 0;
 				constraints.gridwidth = 2;
 				constraints.anchor = GridBagConstraints.WEST;
 				status.add(new AlignedLabel("Updated at " + new Date()), constraints);
 
 				constraints.gridx = 1;
 				constraints.gridy++;
-				constraints.gridwidth = 2;
-				constraints.anchor = GridBagConstraints.CENTER;
-				status.add(new JSeparator(), constraints);
-
-				constraints.gridx = 1;
-				constraints.gridy++;
 				constraints.gridwidth = 1;
-				constraints.anchor = GridBagConstraints.WEST;
 				ListOfExistingContent h = getContentOnDisplays();
 
 				if (h.size() == 0) {
 					status.add(new AlignedLabel("No display statuses"), constraints);
-				} else
-					for (Display D : h.keySet()) {
+				} else {
+					Display[] sorted = getSortedDisplays(h.keySet());
+
+					for (Display D : sorted) {
 						constraints.gridx = 1;
 						status.add(new AlignedLabel("Display " + D.getVirtualDisplayNumber() + " | " + D.getDBDisplayNumber()
 								+ " :  "), constraints);
@@ -467,7 +485,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 						status.add(new AlignedLabel(title), constraints);
 						constraints.gridy++;
 					}
-
+				}
 				outer.removeAll();
 				if (h.size() > 4 || maxLength > 50) {
 					JScrollPane sp = new JScrollPane(status);
@@ -481,8 +499,12 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 						outer.validate();
 						outer.repaint();
 						if (me != null && me.theGUI != null) {
-							me.theGUI.validate();
-							me.theGUI.repaint();
+							Object comp = me.theGUI;
+							while (comp != null && comp instanceof Component) {
+								((Component) comp).validate();
+								((Component) comp).repaint();
+								comp = ((Component) comp).getParent();
+							}
 						}
 					}
 				});
@@ -503,24 +525,19 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		GridBagConstraints constraints = new GridBagConstraints();
 
 		constraints.gridx = 1;
-		constraints.gridy = 1;
+		constraints.gridy = 0;
 		constraints.gridwidth = 2;
 		constraints.anchor = GridBagConstraints.WEST;
 		status.add(new AlignedLabel("Retrieved at " + new Date()), constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy++;
-		constraints.gridwidth = 2;
-		constraints.anchor = GridBagConstraints.CENTER;
-		status.add(new JSeparator(), constraints);
-
-		constraints.gridx = 1;
-		constraints.gridy++;
 		constraints.gridwidth = 1;
-		constraints.anchor = GridBagConstraints.WEST;
 		ListOfExistingContent h = getContentOnDisplays();
 
-		for (Display D : h.keySet()) {
+		Display[] sorted = getSortedDisplays(h.keySet());
+
+		for (Display D : sorted) {
 			constraints.gridx = 1;
 			status.add(new AlignedLabel("Display " + D.getVirtualDisplayNumber() + " | " + D.getDBDisplayNumber() + " :  "),
 					constraints);

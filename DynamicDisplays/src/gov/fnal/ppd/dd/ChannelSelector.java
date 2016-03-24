@@ -53,6 +53,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -493,14 +495,62 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		SaveRestoreDefaultChannels.setup("Change Default Configurations", 30.0f, new Insets(20, 50, 20, 50));
 
 		changeDefaultsButton.addActionListener(new ActionListener() {
+			boolean	visible	= false, firstTime = true;
+			JFrame	f		= new JFrame("SaveRestoreDefaultChannels");
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFrame f = new JFrame("SaveRestoreDefaultChannels");
-				f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				f.setContentPane(SaveRestoreDefaultChannels.getGUI());
-				f.pack();
-				f.setVisible(true);
+				if (firstTime) {
+					firstTime = false;
+					f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					f.setContentPane(SaveRestoreDefaultChannels.getGUI());
+					int height = 210 + 20 * (displayList.size() + 1);
+					if (height > 900)
+						height = 900;
+					f.setSize(700, height);
+
+					f.addWindowListener(new WindowListener() {
+
+						@Override
+						public void windowOpened(WindowEvent e) {
+						}
+
+						@Override
+						public void windowIconified(WindowEvent e) {
+							visible = false;
+						}
+
+						@Override
+						public void windowDeiconified(WindowEvent e) {
+							visible = true;
+						}
+
+						@Override
+						public void windowDeactivated(WindowEvent e) {
+						}
+
+						@Override
+						public void windowClosing(WindowEvent e) {
+
+						}
+
+						@Override
+						public void windowClosed(WindowEvent e) {
+							visible = false;
+							f.setVisible(false);
+						}
+
+						@Override
+						public void windowActivated(WindowEvent e) {
+						}
+					});
+				}
+				visible = !visible;
+				f.setVisible(visible);
+				if (visible) {
+					f.toFront();
+					f.repaint();
+				}
 			}
 		});
 
