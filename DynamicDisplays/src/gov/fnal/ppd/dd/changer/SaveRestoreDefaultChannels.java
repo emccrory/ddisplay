@@ -10,8 +10,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.convertObjectToHexBlob;
-import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -20,6 +20,8 @@ import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -43,8 +47,10 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -67,7 +73,6 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	private static SaveRestoreDefaultChannels	me;
 	private static JButton						saveButton;
 	private static JButton						restoreButton;
-	private static JButton						statusButton;
 	private JComponent							theGUI;
 
 	/**
@@ -129,10 +134,32 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		return me.theGUI;
 	}
 
+	private static class AlignedButton extends JButton {
+		private static final long	serialVersionUID	= -2706383316922397811L;
+
+		public AlignedButton(String string) {
+			super(string);
+			setHorizontalAlignment(CENTER);
+			setAlignmentX(CENTER_ALIGNMENT);
+		}
+
+	}
+
+	private static class AlignedLabel extends JLabel {
+		private static final long	serialVersionUID	= 3724397217603917724L;
+
+		public AlignedLabel(String string) {
+			super(string);
+			setHorizontalAlignment(CENTER);
+			setAlignmentX(CENTER_ALIGNMENT);
+		}
+
+	}
+
 	private void getTheGUI() {
 		theGUI = Box.createVerticalBox();
 
-		saveButton = new JButton("<html>Save this configuration ...</html>");
+		saveButton = new AlignedButton("<html>Save this configuration ...</html>");
 		saveButton.setActionCommand(SAVE_ACTION);
 		saveButton.setToolTipText("No tip");
 		if (inset != null) {
@@ -143,7 +170,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		saveButton.setEnabled(false);
 		theGUI.add(saveButton);
 
-		restoreButton = new JButton("<html>Restore a configuration ...</html>");
+		restoreButton = new AlignedButton("<html>Restore a configuration ...</html>");
 		restoreButton.setActionCommand(RESTORE_ACTION);
 		restoreButton.setToolTipText("No tip");
 		if (inset != null) {
@@ -154,18 +181,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		restoreButton.setEnabled(false);
 		theGUI.add(restoreButton);
 
-		statusButton = new JButton("<html>What is showing now?</html>");
-		statusButton.setActionCommand(STATUS_ACTION);
-		statusButton.setToolTipText("No tip");
-		if (inset != null) {
-			statusButton.setFont(statusButton.getFont().deriveFont(fontSize));
-			statusButton.setMargin(inset);
-		}
-		statusButton.addActionListener(me);
-		statusButton.setEnabled(false);
-		theGUI.add(statusButton);
-
-		theGUI.add(me.footer);
+		theGUI.add(getStatusFooter());
 	}
 
 	/**
@@ -195,7 +211,6 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 					catchSleep(1000);
 				saveButton.setEnabled(true);
 				restoreButton.setEnabled(true);
-				statusButton.setEnabled(true);
 			}
 		}.start();
 	}
@@ -237,7 +252,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 	protected void getSavePanel() {
 		Box box = Box.createVerticalBox();
-		box.add(new JScrollPane(getStatusPanel()));
+		box.add(getStatusPanel());
 		box.add(Box.createRigidArea(new Dimension(50, 50)));
 		box.add(new JLabel(
 				"Please enter a name for this configuration save set, or hit 'cancel' to skip it. (Limit: 255 characters)"));
@@ -389,7 +404,8 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		} else {
 			Box theRestorePanel = Box.createVerticalBox();
 			for (Display D : restoreMap.keySet()) {
-				JLabel label = new JLabel("Display " + D.getDBDisplayNumber() + ": " + restoreMap.get(D));
+				JLabel label = new JLabel("Display " + D.getVirtualDisplayNumber() + " | " + D.getDBDisplayNumber() + " :  "
+						+ restoreMap.get(D));
 				theRestorePanel.add(label);
 			}
 			if ((JOptionPane.showConfirmDialog(null, theRestorePanel, "Really restore these displays to these channels?",
@@ -404,12 +420,126 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		}
 	}
 
-	protected Container getStatusPanel() {
-		JTextArea text = new JTextArea("Status of the displays at " + new Date() + "\n", 30, 80);
+	protected Container getStatusFooter() {
+		final JPanel outer = new JPanel();
+
+		outer.setMinimumSize(new Dimension(400, 100));
+		outer.setPreferredSize(new Dimension(400, 100));
+		outer.add(new AlignedLabel("Initializing ..."));
+		Timer timer = new Timer();
+
+		TimerTask g = new TimerTask() {
+			public void run() {
+				int maxLength = 0;
+
+				JPanel status = new JPanel(new GridBagLayout());
+				GridBagConstraints constraints = new GridBagConstraints();
+
+				constraints.gridx = 1;
+				constraints.gridy = 1;
+				constraints.gridwidth = 2;
+				constraints.anchor = GridBagConstraints.WEST;
+				status.add(new AlignedLabel("Updated at " + new Date()), constraints);
+
+				constraints.gridx = 1;
+				constraints.gridy++;
+				constraints.gridwidth = 2;
+				constraints.anchor = GridBagConstraints.CENTER;
+				status.add(new JSeparator(), constraints);
+
+				constraints.gridx = 1;
+				constraints.gridy++;
+				constraints.gridwidth = 1;
+				constraints.anchor = GridBagConstraints.WEST;
+				ListOfExistingContent h = getContentOnDisplays();
+
+				if (h.size() == 0) {
+					status.add(new AlignedLabel("No display statuses"), constraints);
+				} else
+					for (Display D : h.keySet()) {
+						constraints.gridx = 1;
+						status.add(new AlignedLabel("Display " + D.getVirtualDisplayNumber() + " | " + D.getDBDisplayNumber()
+								+ " :  "), constraints);
+						constraints.gridx = 2;
+						String title = h.get(D).toString();
+						if (title.length() > maxLength)
+							maxLength = title.length();
+						status.add(new AlignedLabel(title), constraints);
+						constraints.gridy++;
+					}
+
+				outer.removeAll();
+				if (h.size() > 4 || maxLength > 50) {
+					JScrollPane sp = new JScrollPane(status);
+					sp.setPreferredSize(new Dimension(500, 20 * h.size() + 30));
+					outer.add(sp);
+				} else
+					outer.add(status);
+
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						outer.validate();
+						outer.repaint();
+						if (me != null && me.theGUI != null) {
+							me.theGUI.validate();
+							me.theGUI.repaint();
+						}
+					}
+				});
+
+			}
+		};
+		timer.schedule(g, 10000, 5000); // Run it every 5 seconds
+
+		return outer;
+	}
+
+	private static Container getStatusPanel() {
+		final JPanel outer = new JPanel();
+
+		int maxLength = 0;
+
+		JPanel status = new JPanel(new GridBagLayout());
+		GridBagConstraints constraints = new GridBagConstraints();
+
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+		constraints.gridwidth = 2;
+		constraints.anchor = GridBagConstraints.WEST;
+		status.add(new AlignedLabel("Retrieved at " + new Date()), constraints);
+
+		constraints.gridx = 1;
+		constraints.gridy++;
+		constraints.gridwidth = 2;
+		constraints.anchor = GridBagConstraints.CENTER;
+		status.add(new JSeparator(), constraints);
+
+		constraints.gridx = 1;
+		constraints.gridy++;
+		constraints.gridwidth = 1;
+		constraints.anchor = GridBagConstraints.WEST;
 		ListOfExistingContent h = getContentOnDisplays();
+
 		for (Display D : h.keySet()) {
-			text.append(D + " : " + h.get(D) + "\n");
+			constraints.gridx = 1;
+			status.add(new AlignedLabel("Display " + D.getVirtualDisplayNumber() + " | " + D.getDBDisplayNumber() + " :  "),
+					constraints);
+			constraints.gridx = 2;
+			String title = h.get(D).toString();
+			if (title.length() > maxLength)
+				maxLength = title.length();
+			status.add(new AlignedLabel(title), constraints);
+			constraints.gridy++;
 		}
-		return new JScrollPane(text);
+
+		outer.removeAll();
+		if (h.size() > 4 || maxLength > 50) {
+			JScrollPane sp = new JScrollPane(status);
+			// sp.setPreferredSize(new Dimension(500, 20 * h.size() + 30));
+			outer.add(sp);
+		} else
+			outer.add(status);
+
+		return outer;
 	}
 }
