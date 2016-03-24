@@ -603,7 +603,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			if (SHOW_IN_WINDOW)
 				IdentifyAll.setup("Identify all displays", FONT_SIZE / 3, new Insets(12, 4, 12, 4));
 			else
-				IdentifyAll.setup("ID", FONT_SIZE / 2, new Insets(12, 4, 12, 4));
+				IdentifyAll.setup("ID", FONT_SIZE / 2, new Insets(8, 4, 8, 4));
 			// titleBox.add(showBorderButton);
 
 			IdentifyAll.setListOfDisplays(displayList);
@@ -621,7 +621,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		ImageIcon ic = new ImageIcon("bin/gov/fnal/ppd/dd/images/2arrows.png");
 		JButton flipTitles = new JButton(ic);
-		flipTitles.setMargin(new Insets(2, 5, 2, 5));
+		if (SHOW_IN_WINDOW)
+			flipTitles.setMargin(new Insets(2, 5, 2, 5));
+		else
+			flipTitles.setMargin(new Insets(4, 5, 4, 5));
 		flipTitles.setToolTipText("<html><b>Toggle Text</b> -- Toggle between a succinct"
 				+ "<br>Channel button label and one with more details");
 
