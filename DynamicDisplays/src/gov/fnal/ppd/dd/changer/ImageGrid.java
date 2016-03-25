@@ -180,9 +180,24 @@ public class ImageGrid extends DetailedInformationGrid {
 		// TODO -- Implement touch scrolling for this panel. From a brief search of google, it seems that one must either
 		// (a) Use JavaFX (and use their touch interface stuff) or (b) use the Canvas class (and implement it yourself)
 
-		final JTabbedPane internalTabPane = new JTabbedPane();
+		final Color displaySelectedColor = display.getPreferredHighlightColor();
+		final JTabbedPane internalTabPane = new JTabbedPane() {
+			private static final long	serialVersionUID	= -8241902366493820040L;
+			private final float			brightness			= (Color.RGBtoHSB(displaySelectedColor.getRed(),
+																	displaySelectedColor.getGreen(),
+																	displaySelectedColor.getBlue(), null))[2];
+			private final Color			unselectedColor		= (brightness < 0.6f ? Color.WHITE : Color.BLACK);
+
+			public Color getForegroundAt(int index) {
+				// If the background color is dark, make the font color white.
+				if (getSelectedIndex() == index)
+					return Color.BLACK;
+				return unselectedColor;
+			}
+		};
 		internalTabPane.setOpaque(true);
-		internalTabPane.setBackground(display.getPreferredHighlightColor());
+		internalTabPane.setBackground(displaySelectedColor);
+
 		HashMap<String, JPanel> expPanels = new HashMap<String, JPanel>();
 
 		final int WIDTH = (SHOW_IN_WINDOW ? 300 : 350);
