@@ -221,12 +221,16 @@ public class ImageGrid extends DetailedInformationGrid {
 				}
 			});
 			for (SignageContent P : list) {
-				ChannelImage imageChannel = (ChannelImage) P;
-				if (CategoryDictionary.isExperiment(imageChannel.getExp())) {
-					// Image web pages expire after five minutes.
-					// P.setExpiration( 5 * ONE_MINUTE);
-					newList.add(P);
-				}
+				// Prior to 3/1/2016, it was assumed that each location woould want a different set of images, based on
+				// the focus of that location (e.g., Neutrino versus CERN). The bad part of this is that when someone thinks
+				// of a new "experiment", the code has to be modified. So we abandon this sorting.
+
+				// ChannelImage imageChannel = (ChannelImage) P;
+				// if (CategoryDictionary.isExperiment(imageChannel.getExp())) {
+				// Image web pages expire after five minutes.
+				// P.setExpiration( 5 * ONE_MINUTE);
+				newList.add(P);
+				// }
 			}
 
 			String colorString = String.format("%06X", display.getPreferredHighlightColor().getRGB() & 0xFFFFFF);
