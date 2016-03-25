@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.util;
+package gov.fnal.ppd.dd.testing;
 
 import java.net.URI;
 
