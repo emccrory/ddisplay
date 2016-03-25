@@ -22,12 +22,13 @@ Science Magazine (mailto:soleditor@aaas.org)</creator>
 Copyright 2014 American Association for the Advancement of Science</rights>
 
 <date>
-2016-03-17T13:15:28-04:00</date>
+2016-03-24T14:32:11-04:00</date>
 
 <language>
 en</language>
 
 <items>
+
 
 
 
@@ -56,507 +57,523 @@ en</language>
 <item>
 
 <title>
-[Feeding Behavior] When enough isn't enough</title>
+[Magnetohydrodynamics] Simulating turbulent solar magnetic fields</title>
 
 <link>
-http://science.sciencemag.org/content/351/6279/1276.1</link>
+http://science.sciencemag.org/content/351/6280/1411.1</link>
 
 <date>
-2016-03-18</date>
-
-<creator>
-Peter Stern</creator>
-
-<description>
-
-Overeating and obesity are rapidly becoming worldwide problems. Normally, mice do not overeat—they balance their caloric intake with their caloric needs. Lagerlöf 
-et al.
- de ...
-</description>
-
-<subject>
-Feeding Behavior</subject>
-
-<identifier>
-10.1126/science.351.6279.1276-a</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Superconductivity] Peeking into a diamond pressure cell</title>
-
-<link>
-http://science.sciencemag.org/content/351/6279/1276.2</link>
-
-<date>
-2016-03-18</date>
-
-<creator>
-Jelena Stajic</creator>
-
-<description>
-
-A defining characteristic of a superconductor is that it expels an external magnetic field. Demonstrating this effect can be tricky when the sample is under enormous pressures in a ...
-</description>
-
-<subject>
-Superconductivity</subject>
-
-<identifier>
-10.1126/science.351.6279.1276-b</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Vascular Biology] Reelin in leukocytes for atherosclerosis</title>
-
-<link>
-http://science.sciencemag.org/content/351/6279/1276.3</link>
-
-<date>
-2016-03-18</date>
-
-<creator>
-Wei Wong</creator>
-
-<description>
-
-In the circulation, the secreted protein Reelin acts to stem bleeding after injury. Receptors for Reelin are found on the endothelial cells that line blood vessels. Ding 
-et al.
- ...
-</description>
-
-<subject>
-Vascular Biology</subject>
-
-<identifier>
-10.1126/science.351.6279.1276-c</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Microbiota] Mom's bugs shape of spring immunity</title>
-
-<link>
-http://science.sciencemag.org/content/351/6279/1276.4</link>
-
-<date>
-2016-03-18</date>
-
-<creator>
-Kristen L. Mueller</creator>
-
-<description>
-
-In utero, babies are relatively microbe-free but are quickly colonized at birth. These early microbial residents help to shape our immune systems. Gomez de Agüero 
-et al.
- wondered  ...
-</description>
-
-<subject>
-Microbiota</subject>
-
-<identifier>
-10.1126/science.351.6279.1276-d</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Hydrogen Bonding] Gear-like rotation by a wobbly water duo</title>
-
-<link>
-http://science.sciencemag.org/content/351/6279/1276.5</link>
-
-<date>
-2016-03-18</date>
-
-<creator>
-Jake Yeston</creator>
-
-<description>
-
-The molecules in liquid water move about constantly, but on average they cling to each other through hydrogen bonds, like dancers who keep switching partners. Richardson 
-et al.
- ...
-</description>
-
-<subject>
-Hydrogen Bonding</subject>
-
-<identifier>
-10.1126/science.351.6279.1276-e</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Gas Infrastructure] The magnitude of a major methane leak</title>
-
-<link>
-http://science.sciencemag.org/content/351/6279/1276.6</link>
-
-<date>
-2016-03-18</date>
-
-<creator>
-Nicholas S. Wigginton</creator>
-
-<description>
-
-The Aliso Canyon underground gas storage facility outside Los Angeles, CA, houses enormous natural gas reserves. One well at the site experienced a blowout in late October 2015 and ...
-</description>
-
-<subject>
-Gas Infrastructure</subject>
-
-<identifier>
-10.1126/science.351.6279.1276-f</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Ebola Virus] Antibodies block Ebola virus entry</title>
-
-<link>
-http://science.sciencemag.org/content/351/6279/1276.7</link>
-
-<date>
-2016-03-18</date>
-
-<creator>
-Kristen L. Mueller</creator>
-
-<description>
-
-The recent Ebola virus outbreak in West Africa illustrates the need for both an effective vaccine and therapies to treat infected individuals. Corti 
-et al.
- isolated two monoclonal ...
-</description>
-
-<subject>
-Ebola Virus</subject>
-
-<identifier>
-10.1126/science.351.6279.1276-g</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Inflammation] A prostaglandin barrier to inflammation</title>
-
-<link>
-http://science.sciencemag.org/content/351/6279/1276.8</link>
-
-<date>
-2016-03-18</date>
-
-<creator>
-Kristen L. Mueller</creator>
-
-<description>
-
-Blood-borne bacterial infections and severe trauma can send the immune system into overdrive, causing it to pump out inflammatory mediators, sometimes at lethal doses. Duffin 
-et ...
-</description>
-
-<subject>
-Inflammation</subject>
-
-<identifier>
-10.1126/science.351.6279.1276-h</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Surface Science] Durable coatings that repel ice</title>
-
-<link>
-http://science.sciencemag.org/content/351/6279/1276.9</link>
-
-<date>
-2016-03-18</date>
-
-<creator>
-Zakya H. Kafafi</creator>
-
-<description>
-
-Preventing ice buildup on surfaces is crucial for ensuring the proper operation and safety of airplanes, ships, communication towers, and wind turbines. Golovin 
-et al.
- studied ...
-</description>
-
-<subject>
-Surface Science</subject>
-
-<identifier>
-10.1126/science.351.6279.1276-i</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Chemistry] Temporarily caught in a bind</title>
-
-<link>
-http://science.sciencemag.org/content/351/6279/1276.10</link>
-
-<date>
-2016-03-18</date>
-
-<creator>
-Marc S. Lavine</creator>
-
-<description>
-
-When an atom or molecular fragment is covalently bonded, its release is controlled by the rate of degradation of the bond or by the rate of degradation of the matrix or shell material ...
-</description>
-
-<subject>
-Chemistry</subject>
-
-<identifier>
-10.1126/science.351.6279.1276-j</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Planetary Science] New Horizons unveils the Pluto system</title>
-
-<link>
-http://science.sciencemag.org/content/351/6279/1276.11</link>
-
-<date>
-2016-03-18</date>
+2016-03-25</date>
 
 <creator>
 Keith T. Smith</creator>
 
 <description>
 
-In July 2015, the New Horizons spacecraft flew through the Pluto system at high speed, humanity's first close look at this enigmatic system on the outskirts of our solar system. In ...
+An accurate simulation of solar magnetic fields must reproduce both the large-scale dynamo and small-scale turbulence. Simply increasing the computational resolution does not always ...
 </description>
 
 <subject>
-Planetary Science</subject>
+Magnetohydrodynamics</subject>
 
 <identifier>
-10.1126/science.351.6279.1276-k</identifier>
+10.1126/science.351.6280.1411-a</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Nanomaterials] Creating semiconductor nanocages</title>
+[C–H Bond Activation] Methane borylation in a cyclohexane sea</title>
 
 <link>
-http://science.sciencemag.org/content/351/6279/1276.12</link>
+http://science.sciencemag.org/content/351/6280/1411.2</link>
 
 <date>
-2016-03-18</date>
+2016-03-25</date>
+
+<creator>
+Jake Yeston</creator>
+
+<description>
+
+Although methane combusts readily at high temperatures, it is generally the hardest hydrocarbon to transform under gentler conditions, owing to its particularly strong C–H bonds. C ...
+</description>
+
+<subject>
+C–H Bond Activation</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-b</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Solar Cells] Perovskite solar cells recycle photons</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.3</link>
+
+<date>
+2016-03-25</date>
 
 <creator>
 Phil Szuromi</creator>
 
 <description>
 
-The surface area of nanomaterials can be increased by creating open cage structures. Now it seems that the shape of nanocrystals can be used as a tool to manipulate crystal structure ...
+Inorganic-organic perovskite solar cells are very efficient in part because the charge carriers exhibit very long path lengths. Pazos-Outón 
+et al.
+ show that photon recycling,  ...
 </description>
 
 <subject>
-Nanomaterials</subject>
+Solar Cells</subject>
 
 <identifier>
-10.1126/science.351.6279.1276-l</identifier>
+10.1126/science.351.6280.1411-c</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Ionic Materials] Transporting the hydrogen anion</title>
+[Structural Biology] A human spliceosomal subcomplex</title>
 
 <link>
-http://science.sciencemag.org/content/351/6279/1276.13</link>
+http://science.sciencemag.org/content/351/6280/1411.4</link>
 
 <date>
-2016-03-18</date>
+2016-03-25</date>
+
+<creator>
+Guy Riddihough</creator>
+
+<description>
+
+The spliceosome is an RNA and protein molecular machine that cuts out introns from messenger RNAs. Agafonov 
+et al.
+ used cryo-electron microscopy to determine the structure ...
+</description>
+
+<subject>
+Structural Biology</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-d</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Economics] Another social science looks at itself</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.5</link>
+
+<date>
+2016-03-25</date>
+
+<creator>
+Gilbert Chin</creator>
+
+<description>
+
+Experimental economists have joined the reproducibility discussion by replicating selected published experiments from two top-tier journals in economics. Camerer 
+et al.
+ found ...
+</description>
+
+<subject>
+Economics</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-e</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Memory Formation] Coding what is known and what is new</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.6</link>
+
+<date>
+2016-03-25</date>
+
+<creator>
+Peter Stern</creator>
+
+<description>
+
+Do neural activity patterns during sleep reflect the replay of a novel experience or an invariant preexisting dynamic? Grosmark and Buzsáki observed that both familiar and novel aspects  ...
+</description>
+
+<subject>
+Memory Formation</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-f</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Cloud Formation] Organic contributions to cloud theory</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.7</link>
+
+<date>
+2016-03-25</date>
+
+<creator>
+H. Jesse Smith</creator>
+
+<description>
+
+Current theories about the formation of cloud droplets from aerosol particles containing organic components assume that the organic molecules are distributed throughout the droplet. ...
+</description>
+
+<subject>
+Cloud Formation</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-g</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Tumor Immunology] The cellular ancestry of tumor antigens</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.8</link>
+
+<date>
+2016-03-25</date>
+
+<creator>
+Paula A. Kiberstis</creator>
+
+<description>
+
+One contributing factor in antitumor immunity is the repertoire of neoantigens created by genetic mutations within tumor cells. Like the corresponding mutations, these neoantigens show ...
+</description>
+
+<subject>
+Tumor Immunology</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-h</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Cancer] The spread of bad neighborhoods</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.9</link>
+
+<date>
+2016-03-25</date>
+
+<creator>
+Guy Riddihough</creator>
+
+<description>
+
+Our genomes have complex three-dimensional (3D) arrangements that partition and regulate gene expression. Cancer cells frequently have their genomes grossly rearranged, disturbing this ...
+</description>
+
+<subject>
+Cancer</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-i</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Forest Ecosystems] Forest recovery in China is not so clear cut</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.10</link>
+
+<date>
+2016-03-25</date>
+
+<creator>
+Shahid Naeem</creator>
+
+<description>
+
+Frequently in developing nations, forests shrink as trees are cut and agriculture expands. This trend does not tend to reverse until significant economic development and urbanization ...
+</description>
+
+<subject>
+Forest Ecosystems</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-j</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Synthetic Biology] Designing and building a minimal genome</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.11</link>
+
+<date>
+2016-03-25</date>
+
+<creator>
+Valda Vinson</creator>
+
+<description>
+
+A goal in biology is to understand the molecular and biological function of every gene in a cell. One way to approach this is to build a minimal genome that includes only the genes ...
+</description>
+
+<subject>
+Synthetic Biology</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-k</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Transporter Function] A proton pump in action</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.12</link>
+
+<date>
+2016-03-25</date>
+
+<creator>
+Valda Vinson</creator>
+
+<description>
+
+P-type adenosine triphosphatases (ATPases) use the energy from ATP hydrolysis to pump cations across biological membranes. The electrochemical gradients that are generated control many ...
+</description>
+
+<subject>
+Transporter Function</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-l</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Physiological Ecology] Variability for a day or a season</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.13</link>
+
+<date>
+2016-03-25</date>
+
+<creator>
+Sacha Vignieri</creator>
+
+<description>
+
+Species that experience larger seasonal climatic fluctuations are likely to be more physiologically flexible and thus likely to occur across a wider elevational range. Daily changes ...
+</description>
+
+<subject>
+Physiological Ecology</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-m</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Protein Evolution] Variation and transcription factor binding</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.14</link>
+
+<date>
+2016-03-25</date>
+
+<creator>
+Laura M. Zahn</creator>
+
+<description>
+
+Little is known about the phenotypic and functional effects of genetic variants that result in amino acid changes within functional proteins. Barrera 
+et al.
+ investigated whether ...
+</description>
+
+<subject>
+Protein Evolution</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-n</identifier>
+
+</item>
+
+<item>
+
+<title>
+[DFT Methods] A comparison of DFT methods</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.15</link>
+
+<date>
+2016-03-25</date>
 
 <creator>
 Marc S. Lavine</creator>
 
 <description>
 
-Hydrogen cation (H<sup>
-+</sup>
-) transport is common in both biological systems and engineered ones such as fuel cells. In contrast, the transport of hydrogen anions (H<sup>
-−</sup>
-) i ...
+Density functional theory (DFT) is now routinely used for simulating material properties. Many software packages are available, which makes it challenging to know which are the best ...
 </description>
 
 <subject>
-Ionic Materials</subject>
+DFT Methods</subject>
 
 <identifier>
-10.1126/science.351.6279.1276-m</identifier>
+10.1126/science.351.6280.1411-o</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Biochemistry] A radical carboxyl migration</title>
+[HIV-1 Vaccines] Baby steps toward bNAbs</title>
 
 <link>
-http://science.sciencemag.org/content/351/6279/1276.14</link>
+http://science.sciencemag.org/content/351/6280/1411.16</link>
 
 <date>
-2016-03-18</date>
-
-<creator>
-Nicholas S. Wigginton</creator>
-
-<description>
-
-The antibiotic nosiheptide, produced by 
-Streptomyces actuosus
-, has high activity against multidrug-resistant pathogens. The enzymes involved in its biosynthesis include NosL, ...
-</description>
-
-<subject>
-Biochemistry</subject>
-
-<identifier>
-10.1126/science.351.6279.1276-n</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Neuroinflammation] Linking neurodegeneration and immune cells</title>
-
-<link>
-http://science.sciencemag.org/content/351/6279/1276.15</link>
-
-<date>
-2016-03-18</date>
-
-<creator>
-Stella M. Hurtley</creator>
-
-<description>
-
-The expansion of a repetitive DNA sequence in the C9orf72 gene is the major genetic cause of amyotrophic lateral sclerosis and frontotemporal dementia. Although the expansion decreases ...
-</description>
-
-<subject>
-Neuroinflammation</subject>
-
-<identifier>
-10.1126/science.351.6279.1276-o</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Mucosal Immunity] Tuft cells help contain parasites</title>
-
-<link>
-http://science.sciencemag.org/content/351/6279/1276.16</link>
-
-<date>
-2016-03-18</date>
+2016-03-25</date>
 
 <creator>
 Kristen L. Mueller</creator>
 
 <description>
 
-Trillions of microbes inhabit our guts, including worms and other parasites. Epithelial cells that line the gut orchestrate parasite-targeted immune responses. Howitt 
-et al.
- ...
+Some HIV-infected individuals develop heavily mutated, broadly neutralizing antibodies (bNAbs) that target HIV. Scientists aim to design vaccines that would elicit such antibodies. ...
 </description>
 
 <subject>
-Mucosal Immunity</subject>
+HIV-1 Vaccines</subject>
 
 <identifier>
-10.1126/science.351.6279.1276-p</identifier>
+10.1126/science.351.6280.1411-p</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Antibiotic Resistance] The spectre of untreatable infections</title>
+[Neurodevelopment] Tracking neuronal transcriptional programs</title>
 
 <link>
-http://science.sciencemag.org/content/351/6279/1276.17</link>
+http://science.sciencemag.org/content/351/6280/1411.17</link>
 
 <date>
-2016-03-18</date>
+2016-03-25</date>
 
 <creator>
-Julia Fahrenkamp-Uppenbrink</creator>
+Pamela J. Hines</creator>
 
 <description>
 
-Antimicrobial resistance is on the rise around the world, in some cases leaving few treatment options. Recent evidence for antimicrobial resistance against a treatment of last resort, ...
+Early in brain development, cortical neurons are born near the ventricles, then migrate to their functional destinations. Telley 
+et al.
+ used a fluorescent labeling technique ...
 </description>
 
 <subject>
-Antibiotic Resistance</subject>
+Neurodevelopment</subject>
 
 <identifier>
-10.1126/science.351.6279.1276-q</identifier>
+10.1126/science.351.6280.1411-q</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Infectious Disease] Dengue model rises to the challenge</title>
+[Cardiovascular Biology] A GRK2 peptide prevents heart failure</title>
 
 <link>
-http://science.sciencemag.org/content/351/6279/1276.18</link>
+http://science.sciencemag.org/content/351/6280/1411.18</link>
 
 <date>
-2016-03-18</date>
+2016-03-25</date>
+
+<creator>
+Wei Wong</creator>
+
+<description>
+
+During cardiac hypertrophy, sustained high blood pressure causes the heart walls to thicken to deal with the increased load. If left unchecked, cardiac hypertrophy leads to heart failure. ...
+</description>
+
+<subject>
+Cardiovascular Biology</subject>
+
+<identifier>
+10.1126/science.351.6280.1411-r</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Autoimmunity] A glucose balancing act</title>
+
+<link>
+http://science.sciencemag.org/content/351/6280/1411.19</link>
+
+<date>
+2016-03-25</date>
 
 <creator>
 Angela Colmone</creator>
 
 <description>
 
-Human efficacy testing remains a major hurdle in bringing new vaccine candidates to the clinic. Without accepted correlates of protection, rounds of safety trials must be performed ...
+In autoimmune diseases, T cells engage their hyperdrive, both proliferating and secreting inflammatory cytokines at greater rates than normal. Little is known about the metabolic changes ...
 </description>
 
 <subject>
-Infectious Disease</subject>
+Autoimmunity</subject>
 
 <identifier>
-10.1126/science.351.6279.1276-r</identifier>
+10.1126/science.351.6280.1411-s</identifier>
 
 </item>
 
