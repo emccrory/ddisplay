@@ -10,6 +10,10 @@ import java.net.URI;
  * 
  * In order to be fully serializable, the concrete classes must implement all the getters and setters.
  * 
+ * TODO -- This should be pared down a bit more, e.g., get rid of the URI.  This will allow a cleaner implementation
+ * of other sorts of content, e.g., sending an image directly to a display, emergency messages, ... Also, we never used the
+ * whole "code" thing, so that should be dumped, too.
+ * 
  * @author Elliott McCrory, Fermilab, 2012-16
  */
 public interface SignageContent extends Serializable {

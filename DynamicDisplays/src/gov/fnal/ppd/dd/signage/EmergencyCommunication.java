@@ -1,5 +1,7 @@
 package gov.fnal.ppd.dd.signage;
 
+import gov.fnal.ppd.dd.emergency.EmergencyMessage;
+
 /**
  * Abstraction for the XOC Dynamic Display "Emergency" Channel
  * 
@@ -10,11 +12,11 @@ public interface EmergencyCommunication extends SignageContent {
 	/**
 	 * @return the message that is to be communicated
 	 */
-	public String getMessage();
+	public EmergencyMessage getMessage();
 
 	/**
 	 * @param theMessage
 	 *            The message that is to be communicated
 	 */
-	public void setMessage(final String theMessage);
+	public void setMessage(final EmergencyMessage theMessage);
 }

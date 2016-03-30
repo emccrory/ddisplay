@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.testing;
+package gov.fnal.ppd.dd.emergency;
 
 import java.net.URI;
 
@@ -12,7 +12,7 @@ import gov.fnal.ppd.dd.signage.SignageType;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-public class EmergMessageTest implements EmergencyCommunication {
+public class EmergCommunicationImpl implements EmergencyCommunication {
 
 	private static final long	serialVersionUID	= 4875847440423308800L;
 
@@ -125,13 +125,13 @@ public class EmergMessageTest implements EmergencyCommunication {
 	}
 
 	@Override
-	public String getMessage() {
+	public EmergencyMessage getMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setMessage(String theMessage) {
+	public void setMessage(EmergencyMessage theMessage) {
 		// TODO Auto-generated method stub
 
 	}

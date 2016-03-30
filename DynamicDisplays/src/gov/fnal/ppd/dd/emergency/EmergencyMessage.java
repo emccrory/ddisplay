@@ -1,4 +1,5 @@
-package gov.fnal.ppd.dd.testing;
+package gov.fnal.ppd.dd.emergency;
+
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation

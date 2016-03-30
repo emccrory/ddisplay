@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.testing;
+package gov.fnal.ppd.dd.emergency;
 
 public enum Severity {
 	
