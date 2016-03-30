@@ -143,6 +143,68 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private int								nowShowing					= DDButton.USE_NAME_FIELD;
 	private int								numURLButtonsChanged;
 
+	private ActionListener					changeDefaultsListener		= new ActionListener() {
+																			boolean	visible	= false, firstTime = true;
+																			JFrame	f		= new JFrame(
+																									"SaveRestoreDefaultChannels");
+
+																			@Override
+																			public void actionPerformed(ActionEvent e) {
+																				if (firstTime) {
+																					firstTime = false;
+																					f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+																					f.setContentPane(SaveRestoreDefaultChannels
+																							.getGUI());
+																					int height = 210 + 20 * (displayList.size() + 1);
+																					if (height > 900)
+																						height = 900;
+																					System.out.println("\n\nHeight of popup is "
+																							+ height);
+																					f.setSize(700, height);
+																					f.addWindowListener(new WindowListener() {
+
+																						@Override
+																						public void windowOpened(WindowEvent e) {
+																						}
+
+																						@Override
+																						public void windowIconified(WindowEvent e) {
+																							visible = false;
+																						}
+
+																						@Override
+																						public void windowDeiconified(WindowEvent e) {
+																							visible = true;
+																						}
+
+																						@Override
+																						public void windowDeactivated(WindowEvent e) {
+																						}
+
+																						@Override
+																						public void windowClosing(WindowEvent e) {
+																						}
+
+																						@Override
+																						public void windowClosed(WindowEvent e) {
+																							visible = false;
+																							f.setVisible(false);
+																						}
+
+																						@Override
+																						public void windowActivated(WindowEvent e) {
+																						}
+																					});
+																				}
+																				visible = !visible;
+																				f.setVisible(visible);
+																				if (visible) {
+																					f.toFront();
+																					f.repaint();
+																				}
+																			}
+																		};
+
 	/**
 	 * Create the channel selector GUI in the normal way
 	 */
@@ -494,65 +556,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		SaveRestoreDefaultChannels.setup("Change Default Configurations", 30.0f, new Insets(20, 50, 20, 50));
 
-		changeDefaultsButton.addActionListener(new ActionListener() {
-			boolean	visible	= false, firstTime = true;
-			JFrame	f		= new JFrame("SaveRestoreDefaultChannels");
+		changeDefaultsButton.addActionListener(changeDefaultsListener);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (firstTime) {
-					firstTime = false;
-					f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-					f.setContentPane(SaveRestoreDefaultChannels.getGUI());
-					int height = 210 + 20 * (displayList.size() + 1);
-					if (height > 900)
-						height = 900;
-					f.setSize(700, height);
-
-					f.addWindowListener(new WindowListener() {
-
-						@Override
-						public void windowOpened(WindowEvent e) {
-						}
-
-						@Override
-						public void windowIconified(WindowEvent e) {
-							visible = false;
-						}
-
-						@Override
-						public void windowDeiconified(WindowEvent e) {
-							visible = true;
-						}
-
-						@Override
-						public void windowDeactivated(WindowEvent e) {
-						}
-
-						@Override
-						public void windowClosing(WindowEvent e) {
-
-						}
-
-						@Override
-						public void windowClosed(WindowEvent e) {
-							visible = false;
-							f.setVisible(false);
-						}
-
-						@Override
-						public void windowActivated(WindowEvent e) {
-						}
-					});
-				}
-				visible = !visible;
-				f.setVisible(visible);
-				if (visible) {
-					f.toFront();
-					f.repaint();
-				}
-			}
-		});
+		changeDefaultsButton.setToolTipText("Save, restore, and/or change the configuration defaults");
+		changeDefaultsButton.setFont(changeDefaultsButton.getFont().deriveFont(FONT_SIZE / 3));
 
 		// The "Add Channel Button" opens the possibility of someone adding an inappropriate URL to the system.
 		// This can be added back if the need arises 9and we figure out how to secure it).
@@ -639,16 +646,16 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			refreshButton.setToolTipText("<html><b>Refresh URLs</b> -- Refresh the URLs on each Channel button "
 					+ "<br>by re-reading this information from the Channel database."
 					+ "<br><em>This will not create new buttons</em></html>");
-			refreshButton.setFont(changeDefaultsButton.getFont().deriveFont(FONT_SIZE / 3));
+			refreshButton.setFont(refreshButton.getFont().deriveFont(FONT_SIZE / 3));
 			refreshButton.setMargin(new Insets(12, 4, 12, 4));
 			titleBox.add(refreshButton);
 			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
 
-			changeDefaultsButton.setToolTipText("Save, restore and/or change the configuration defaults");
-			changeDefaultsButton.setFont(changeDefaultsButton.getFont().deriveFont(FONT_SIZE / 3));
-			changeDefaultsButton.setMargin(new Insets(12, 4, 12, 4));
-			titleBox.add(changeDefaultsButton);
-			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+			if (displayList.size() > 1) {
+				changeDefaultsButton.setMargin(new Insets(12, 4, 12, 4));
+				titleBox.add(changeDefaultsButton);
+				titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+			}
 
 			if (SHOW_IN_WINDOW)
 				IdentifyAll.setup("Identify all displays", FONT_SIZE / 3, new Insets(12, 4, 12, 4));
