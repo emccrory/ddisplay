@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.changer;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PROGRAM_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
@@ -18,16 +19,17 @@ import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.sql.Blob;
 import java.sql.Connection;
@@ -45,7 +47,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -56,6 +57,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -129,6 +132,11 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 			return;
 		me = new SaveRestoreDefaultChannels(null);
 		me.getTheGUI();
+
+		if (!SHOW_IN_WINDOW) {
+			UIManager.put("OptionPane.buttonFont", new FontUIResource(new Font("ARIAL", Font.PLAIN, 30)));
+			UIManager.put("OptionPane.font", new FontUIResource(new Font("Arial", Font.PLAIN, 26)));
+		}
 	}
 
 	/**
@@ -262,7 +270,21 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		box.add(Box.createRigidArea(new Dimension(50, 50)));
 		box.add(new JLabel(
 				"Please enter a name for this configuration save set, or hit 'cancel' to skip it. (Limit: 255 characters)"));
+
+		Process onscreenKeyboardProcess = null;
+		if (!SHOW_IN_WINDOW)
+			try {
+				onscreenKeyboardProcess = Runtime.getRuntime().exec("osk");
+			} catch (IOException e1) {
+				if (!e1.getMessage().contains("No such file"))
+					e1.printStackTrace();
+				else
+					println(getClass(), ": No on-screen keyboard available. (Best guess: we're running Linux)");
+			}
 		String s = (String) JOptionPane.showInputDialog(null, box, "Save Display Configuration", JOptionPane.QUESTION_MESSAGE);
+		if (onscreenKeyboardProcess != null)
+			onscreenKeyboardProcess.destroy();
+
 		if (s == null || s.length() == 0)
 			return;
 		System.out.println(s);
@@ -343,6 +365,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		}
 
 		JComboBox<String> combo = new JComboBox<String>(all);
+		combo.setFont(new Font("Arial", Font.PLAIN, 30));
 
 		int s = JOptionPane.showConfirmDialog(null, combo, "Restore Display Configuration", JOptionPane.OK_CANCEL_OPTION);
 		if (s == JOptionPane.CANCEL_OPTION)
