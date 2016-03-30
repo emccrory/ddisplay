@@ -121,46 +121,49 @@ public class GetMessagingServer {
 	 * Get the name of my docent for the Channel Selector
 	 */
 	public static void getDocentNameSelector() {
-		try {
-			InetAddress ip = InetAddress.getLocalHost();
-			String myName = ip.getCanonicalHostName().replace(".dhcp", "");
-
-			String query = "select DocentName from SelectorLocation where IPName='" + myName + "' AND Instance='"
-					+ THIS_IP_NAME_INSTANCE + "'";
-
-			Connection connection = null;
+		if (docentName == null) {
+			docentName = "Default";
 			try {
-				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-			} catch (DatabaseNotVisibleException e1) {
-				e1.printStackTrace();
-				System.err.println("\nNo connection to the Signage/Displays database.");
-				System.exit(-1);
-			}
+				InetAddress ip = InetAddress.getLocalHost();
+				String myName = ip.getCanonicalHostName().replace(".dhcp", "");
 
-			synchronized (connection) {
-				// Use ARM to simplify these try blocks.
-				try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-					try (ResultSet rs2 = stmt.executeQuery(query);) {
-						if (rs2.first()) {
-							docentName = rs2.getString("DocentName");
-						} else {
-							System.err.println("No location information for this device, " + myName + "\n\nQuery:\n" + query);
-							new Exception().printStackTrace();
-							System.exit(-1);
-						}
-					}
-				} catch (SQLException e) {
-					System.err.println(query);
-					e.printStackTrace();
+				String query = "select DocentName from SelectorLocation where IPName='" + myName + "' AND Instance='"
+						+ THIS_IP_NAME_INSTANCE + "'";
+
+				Connection connection = null;
+				try {
+					connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+				} catch (DatabaseNotVisibleException e1) {
+					e1.printStackTrace();
+					System.err.println("\nNo connection to the Signage/Displays database.");
+					System.exit(-1);
 				}
 
-			}
+				synchronized (connection) {
+					// Use ARM to simplify these try blocks.
+					try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+						try (ResultSet rs2 = stmt.executeQuery(query);) {
+							if (rs2.first()) {
+								docentName = rs2.getString("DocentName");
+							} else {
+								System.err.println("No location information for this device, " + myName + "\n\nQuery:\n" + query);
+								new Exception().printStackTrace();
+								System.exit(-1);
+							}
+						}
+					} catch (SQLException e) {
+						System.err.println(query);
+						e.printStackTrace();
+					}
 
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			System.exit(-1);
+				}
+
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
+			System.out.println("Docent tab name is '" + docentName + "'");
 		}
-		System.out.println("Docent tab name is '" + docentName + "'");
 	}
 
 	/**
