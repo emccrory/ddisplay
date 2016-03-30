@@ -10,6 +10,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
+import gov.fnal.ppd.dd.emergency.EmergencyMessage;
+import gov.fnal.ppd.dd.emergency.Severity;
 
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -162,11 +164,11 @@ public class ConnectionToFirefoxInstance {
 
 				public void run() {
 					if (on) {
-						String test = "<img src='http://dynamicdisplays.fnal.gov/emergency/fermilabLogo.jpg' class='logo'>";
-						test += "<h1 class='alert'>ALERT Message</h1>";
-						test += "<p class='message'>";
-						test += "This is a test of the Fermilab Dynamic Displays emergency alert system.</p>";
-
+						EmergencyMessage test = new EmergencyMessage();
+						test.setHeadline("Test Message");
+						test.setMessage("This is a test of the Fermilab Dynamic Displays emergency alert system.");
+						test.setSeverity(Severity.TESTING);
+						
 						showEmergencyCommunication(test);
 						on = false;
 					} else {
@@ -764,8 +766,8 @@ public class ConnectionToFirefoxInstance {
 	 * 
 	 * @return Did it work?
 	 */
-	public boolean showEmergencyCommunication(final String message) {
-		String mess = message + "<p class='date'>Last update: " + new Date() + "</p>";
+	public boolean showEmergencyCommunication(final EmergencyMessage message) {
+		String mess = message.toHTML() + "<p class='date'>Last update: " + new Date() + "</p>";
 		String s = "document.getElementById('emergencyframe1').innerHTML='" + mess.replace("'", "\\'") + "';\n";
 		s += "document.getElementById('emergencyframe1').style.visibility='visible';\n";
 
