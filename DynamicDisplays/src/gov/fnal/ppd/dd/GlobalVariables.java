@@ -467,7 +467,7 @@ public class GlobalVariables {
 	/**
 	 * This is the name of the "Docent" in the central database.
 	 */
-	public static String	docentName		= "Default";
+	public static String	docentName		= null;
 
 	// static {
 	// String def = ("/keystore/private" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key").toLowerCase();
