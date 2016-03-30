@@ -17,6 +17,7 @@ import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -81,7 +82,7 @@ public class ImageGrid extends DetailedInformationGrid {
 		private static final long				serialVersionUID	= 8963747596403311688L;
 		private static Map<String, ImageIcon>	cache				= new HashMap<String, ImageIcon>();
 		private ImageIcon						icon;
-		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 200 : 250);
+		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 150 : 250);
 
 		public DrawingPanel(String url, Color bgColor) {
 			int height = LONG_EDGE;
@@ -206,9 +207,11 @@ public class ImageGrid extends DetailedInformationGrid {
 		synchronized (list) {
 			if (firstTime) {
 				System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): resizing " + list.size() + " images.");
+				System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): working on the images for display number "
+						+ display.getVirtualDisplayNumber() + " ...");
 				firstTime = false;
 			} else
-				System.out.print(".");
+				System.out.print(display.getVirtualDisplayNumber() + " ");
 
 			TreeSet<SignageContent> newList = new TreeSet<SignageContent>(new Comparator<SignageContent>() {
 				public int compare(SignageContent o1, SignageContent o2) {
@@ -256,6 +259,7 @@ public class ImageGrid extends DetailedInformationGrid {
 
 					DDButton button = new DDIconButton(imageChannel, display, MAX_CAPTION_LENGTH, dp.getIcon());
 					button.setText(name.replace("upload/items/", ""));
+					button.setToolTipText(name.replace("upload/items/", ""));
 					button.setAlignmentX(JPanel.LEFT_ALIGNMENT);
 					// b.add(new JWhiteLabel(exp, 24.0f));
 					b.add(button);
@@ -300,7 +304,21 @@ public class ImageGrid extends DetailedInformationGrid {
 			internalTabPane.setFont(getFont().deriveFont(20.0f));
 
 		expGrid = new JPanel(new BorderLayout());
-		expGrid.add(new JLabel("Experiment images tabs"), BorderLayout.NORTH);
+		JLabel lab = new JLabel("Experiment images tabs");
+		lab.setFont(new Font("Arial", Font.ITALIC, 24));
+		Box box = Box.createHorizontalBox();
+		box.setOpaque(true);
+		box.setBackground(displaySelectedColor);
+
+		float brightness = (Color.RGBtoHSB(displaySelectedColor.getRed(), displaySelectedColor.getGreen(),
+				displaySelectedColor.getBlue(), null))[2];
+
+		if (brightness < 0.6)
+			lab.setForeground(Color.white);
+		box.add(Box.createGlue());
+		box.add(lab);
+		box.add(Box.createGlue());
+		expGrid.add(box, BorderLayout.NORTH);
 		expGrid.add(internalTabPane, BorderLayout.CENTER);
 		expGrid.setAlignmentX(JComponent.TOP_ALIGNMENT);
 
