@@ -117,6 +117,11 @@ public class DisplayButtons extends JPanel {
 	static final float				WINDOW_FONT_SIZE		= 18.0f;
 
 	/**
+	 * Make this false if this is some special application, one that does not have display buttons (for some reason)
+	 */
+	public static boolean			normalOperations		= true;
+
+	/**
 	 * Find this Display in the list and then set the ToolTip for it based on the status of the Display.
 	 * 
 	 * @param disp
@@ -128,8 +133,9 @@ public class DisplayButtons extends JPanel {
 		// TODO This does not work with the Slider selector. So what?!
 
 		if (buttonList.size() == 0) {
-			println(DisplayButtons.class, ".setToolTip() for display " + disp.getDBDisplayNumber()
-					+ " -- nothing in buttonList.  Are we still initializing?");
+			if (normalOperations)
+				println(DisplayButtons.class, ".setToolTip() for display " + disp.getDBDisplayNumber()
+						+ " -- nothing in buttonList.  Are we still initializing?");
 			return;
 		}
 
@@ -186,7 +192,7 @@ public class DisplayButtons extends JPanel {
 		fs = Math.min(LOCAL_FONT_SIZE, fs - (displayList.size() - 5)); // In small atom tablet, full-screen with 11 Displays: 19.0f
 
 		// println(getClass(), "** Font size is " + fs);
-		
+
 		// int rigidHeight = INSET_SIZE + (11 - displayList.size());
 		// if (rigidHeight <= 0)
 		// rigidHeight = 1;
