@@ -1,14 +1,27 @@
 package gov.fnal.ppd.dd.emergency;
 
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
+import static gov.fnal.ppd.dd.GlobalVariables.getLocationDescription;
+import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
+import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
+import static gov.fnal.ppd.dd.changer.DisplayButtons.normalOperations;
+import gov.fnal.ppd.dd.changer.DisplayListFactory;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageType;
+import gov.fnal.ppd.dd.util.CheckDisplayStatus;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -29,6 +42,9 @@ import javax.swing.border.BevelBorder;
 public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
 	private static final long			serialVersionUID	= -4454406761200912692L;
+
+	public static boolean				SHOW_MORE_STUFF		= Boolean.getBoolean("ddisplay.extendedinformation");
+
 	private EmergencyMessage			message				= new EmergencyMessage();
 	private JTextField					headlineText		= new JTextField(45);
 	private JTextArea					messageArea			= new JTextArea(5, 65);
@@ -40,9 +56,30 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	private JRadioButton				checkTesting		= new JRadioButton("" + Severity.TESTING);
 	private ButtonGroup					checkButtonGroup	= new ButtonGroup();
 
+	private ActionListener				radioActionListener	= new ActionListener() {
+
+																@Override
+																public void actionPerformed(ActionEvent e) {
+																	if (checkEmergency.isSelected()) {
+																		setBackground(new Color(255, 100, 100));
+																	} else if (checkAlert.isSelected()) {
+																		setBackground(new Color(220, 160, 160));
+																	} else if (checkInformation.isSelected()) {
+																		setBackground(new Color(160, 160, 255));
+																	} else if (checkTesting.isSelected()) {
+																		setBackground(new Color(200, 200, 200));
+																	}
+																}
+															};
+
 	private EmergencyMessageDistributor	emergencyMessageDistributor;
+	private List<Display>				displays;
+	private List<JLabel>				footers				= new ArrayList<JLabel>();
 
 	public static void main(String[] args) {
+		credentialsSetup();
+
+		selectorSetup();
 
 		EmergencyLaunchGUI elg = new EmergencyLaunchGUI(new EmergencyMessageDistributor() {
 
@@ -65,11 +102,24 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	public EmergencyLaunchGUI(EmergencyMessageDistributor emd) {
 		super(new GridBagLayout());
 		this.emergencyMessageDistributor = emd;
+		normalOperations = false;
+
+		displays = DisplayListFactory.getInstance(SignageType.XOC, getLocationCode());
+
+		for (Display D : displays) {
+			JLabel footer = new JLabel("Waiting to hear from Display " + D.getDBDisplayNumber() + " ...");
+			footer.setFont(new Font("Arial", Font.PLAIN, 10));
+			footer.setOpaque(true);
+			footer.setBorder(BorderFactory.createLineBorder(Color.black));
+			(new CheckDisplayStatus(D, footer)).start();
+			footers.add(footer);
+		}
+
 	}
 
 	public void initialize() {
 		setOpaque(true);
-		setBackground(new Color(255, 160, 160));
+		setBackground(new Color(200, 200, 200));
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -78,6 +128,14 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		constraints.gridx = 1;
 		constraints.gridy = 1;
 		constraints.insets = new Insets(5, 5, 5, 5);
+		constraints.gridwidth = 2;
+		JLabel big = new JLabel("Emergency Notification System for Digital Displays");
+		big.setFont(new Font("Arial", Font.BOLD, 28));
+		add(big, constraints);
+
+		constraints.gridx = 1;
+		constraints.gridy++;
+		constraints.gridwidth = 1;
 		JLabel label = new JLabel("Headline: ");
 		label.setFont(new Font("Arial", Font.BOLD, 16));
 
@@ -108,10 +166,19 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
 		// TODO add radio buttons for the severity
 		Box box = Box.createHorizontalBox();
+		box.setOpaque(true);
+		box.setBackground(Color.white);
+		box.setBorder(BorderFactory.createLineBorder(Color.black));
+		box.add(Box.createRigidArea(new Dimension(30, 10)));
+		box.add(new JLabel("Message type:"));
+		box.add(Box.createRigidArea(new Dimension(30, 10)));
 		JRadioButton[] bbs = { checkEmergency, checkAlert, checkInformation, checkTesting };
 		for (JRadioButton JRB : bbs) {
 			JRB.setActionCommand(JRB.getText());
+			JRB.addActionListener(radioActionListener);
+			JRB.setFont(new Font("Arial", Font.PLAIN, 20));
 			box.add(JRB);
+			box.add(Box.createRigidArea(new Dimension(30, 10)));
 			checkButtonGroup.add(JRB);
 		}
 		checkTesting.setSelected(true);
@@ -120,6 +187,40 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		constraints.gridy++;
 		constraints.gridwidth = 2;
 		add(box, constraints);
+
+		if (SHOW_MORE_STUFF) {
+			constraints.gridx = 1;
+			constraints.gridy++;
+			constraints.gridwidth = 2;
+			box = Box.createHorizontalBox();
+
+			box.add(new JLabel("Location: '" + getLocationName() + "'"));
+			box.add(new JLabel(" (code=" + getLocationCode() + ")"));
+			box.add(new JLabel(", description -- '" + getLocationDescription() + "'"));
+			add(box, constraints);
+
+			constraints.gridx = 1;
+			constraints.gridy++;
+			constraints.gridwidth = 2;
+			int numCols = 1;
+			if (footers.size() < 10)
+				numCols = 1;
+			else if (footers.size() < 20)
+				numCols = 2;
+			else if (footers.size() < 30)
+				numCols = 3;
+			else if (footers.size() < 40)
+				numCols = 4;
+			else if (footers.size() < 50)
+				numCols = 5;
+			else
+				numCols = 6;
+			JPanel footerPanel = new JPanel(new GridLayout(0, numCols, 2, 2));
+			for (JLabel L : footers)
+				footerPanel.add(L);
+
+			add(footerPanel, constraints);
+		}
 
 		constraints.gridx = 1;
 		constraints.gridy++;
