@@ -1,13 +1,18 @@
 package gov.fnal.ppd.dd.emergency;
 
+import java.io.Serializable;
+
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-public class EmergencyMessage {
-	private String		headline, message, footnote;
-	private Severity	severity;
+public class EmergencyMessage implements Serializable {
+	
+	private static final long	serialVersionUID	= 7099415687513564803L;
+	
+	private String		headline = "", message = "", footnote = "";
+	private Severity	severity = Severity.TESTING;
 
 	/**
 	 * 
@@ -27,7 +32,7 @@ public class EmergencyMessage {
 	 * @param footnote
 	 */
 	public void setFootnote(final String footnote) {
-		this.footnote = footnote;
+		this.footnote = footnote.replaceAll("(\\r|\\n)", " ");;
 	}
 
 	/**
@@ -41,7 +46,7 @@ public class EmergencyMessage {
 	 * @param headline
 	 */
 	public void setHeadline(final String headline) {
-		this.headline = headline;
+		this.headline = headline.replaceAll("(\\r|\\n)", " ");;
 	}
 
 	/**
@@ -55,7 +60,7 @@ public class EmergencyMessage {
 	 * @param message
 	 */
 	public void setMessage(final String message) {
-		this.message = message;
+		this.message = message.replaceAll("(\\r|\\n)", " ");
 	}
 
 	/**

@@ -57,6 +57,6 @@ public enum MessageType {
 	 * @return -- Is this sort of message read-only?
 	 */
 	public boolean isReadOnly() {
-		return this != MESSAGE;
+		return this != MESSAGE && this != EMERGENCY;
 	}
 }

@@ -4,6 +4,7 @@ import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.attic.xml.Ping;
 import gov.fnal.ppd.dd.util.attic.xml.Pong;
@@ -65,12 +66,21 @@ public class WriteXMLFile {
 					// PlainImageChange imageContent = new PlainImageChange();
 					// imageContent.setEncodedId(id++);
 					// stuff = imageContent;
+
+					// Use it to do Emnergency message
+
+					EmergencyMessXML emx = new EmergencyMessXML();
+					emx.setHeadline("This is the headline");
+					emx.setMessage("This is the message");
+					emx.setSeverity(Severity.EMERGENCY);
+					emx.setFootnote("A footnote");
+					stuff = emx;
 					break;
 
 				case 3:
 					ChannelSpec cs = new ChannelSpec();
-					cs.setContent(new ChannelImpl("Test Channel", ChannelCategory.PUBLIC_DETAILS, "This is the desription", new URI(
-							"http://www.fnal.gov"), 23, System.currentTimeMillis() % (24L*3600L*1000L)));
+					cs.setContent(new ChannelImpl("Test Channel", ChannelCategory.PUBLIC_DETAILS, "This is the desription",
+							new URI("http://www.fnal.gov"), 23, System.currentTimeMillis() % (24L * 3600L * 1000L)));
 					stuff = cs;
 					break;
 

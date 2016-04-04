@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.emergency;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
@@ -15,125 +16,130 @@ import gov.fnal.ppd.dd.signage.SignageType;
 public class EmergCommunicationImpl implements EmergencyCommunication {
 
 	private static final long	serialVersionUID	= 4875847440423308800L;
+	private EmergencyMessage	message;
+	private String				name				= "Energency Communication";
+	private String				desc				= "Emergency Communication message";
+	private ChannelCategory		category			= ChannelCategory.MISCELLANEOUS;
+	private SignageType			sType				= SignageType.XOC;
+	private long				dwell				= 3600000L;
+	private URI					uri;
+	private long				expire				= 0L;
+	private int					code;
+
+	/**
+	 * 
+	 */
+	public EmergCommunicationImpl() {
+		try {
+			uri = new URI("http://emergency.message");
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 	@Override
 	public void setName(String name) {
-		// TODO Auto-generated method stub
-
+		this.name = name;
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return desc;
 	}
 
 	@Override
 	public void setDescription(String d) {
-		// TODO Auto-generated method stub
-
+		this.desc = d;
 	}
 
 	@Override
 	public ChannelCategory getCategory() {
-		// TODO Auto-generated method stub
-		return null;
+		return category;
 	}
 
 	@Override
 	public void setCategory(ChannelCategory c) {
-		// TODO Auto-generated method stub
-
+		this.category = c;
 	}
 
 	@Override
 	public SignageType getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return sType;
 	}
 
 	@Override
 	public void setType(SignageType t) {
-		// TODO Auto-generated method stub
-
+		this.sType = t;
 	}
 
 	@Override
 	public URI getURI() {
-		// TODO Auto-generated method stub
-		return null;
+		return uri;
 	}
 
 	@Override
 	public void setURI(URI i) {
-		// TODO Auto-generated method stub
-
+		this.uri = i;
 	}
 
 	@Override
 	public long getTime() {
-		// TODO Auto-generated method stub
-		return 0;
+		return dwell;
 	}
 
 	@Override
 	public void setTime(long time) {
-		// TODO Auto-generated method stub
-
+		this.dwell = time;
 	}
 
 	@Override
 	public long getExpiration() {
-		// TODO Auto-generated method stub
-		return 0;
+		return expire;
 	}
 
 	@Override
 	public void setExpiration(long expire) {
-		// TODO Auto-generated method stub
-
+		this.expire = expire;
 	}
 
 	@Override
 	public int getCode() {
-		// TODO Auto-generated method stub
-		return 0;
+		return code;
 	}
 
 	@Override
 	public void setCode(int n) {
-		// TODO Auto-generated method stub
-
+		this.code = n;
 	}
 
 	@Override
 	public int getFrameNumber() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void setFrameNumber(int frameNumber) {
-		// TODO Auto-generated method stub
+		// Irrelevant!!
 
 	}
 
 	@Override
 	public EmergencyMessage getMessage() {
-		// TODO Auto-generated method stub
-		return null;
+		return message;
 	}
 
 	@Override
 	public void setMessage(EmergencyMessage theMessage) {
-		// TODO Auto-generated method stub
-
+		this.message = theMessage;
 	}
 
+	@Override
+	public String toString() {
+		return message.toString();
+	}
 }

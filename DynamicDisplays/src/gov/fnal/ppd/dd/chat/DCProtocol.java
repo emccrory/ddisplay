@@ -40,6 +40,8 @@ import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.PlainURLChannel;
+import gov.fnal.ppd.dd.emergency.EmergCommunicationImpl;
+import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
@@ -48,7 +50,9 @@ import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
+import gov.fnal.ppd.dd.xml.EmergencyMessXML;
 import gov.fnal.ppd.dd.xml.EncodedCarrier;
+import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -120,9 +124,10 @@ public class DCProtocol {
 	 */
 	public boolean processInput(final MessageCarrier message) {
 		String body = message.getMessage();
+		String xmlDocument;
 		switch (message.getType()) {
 		case MESSAGE:
-			String xmlDocument = body.substring(body.indexOf("<?xml"));
+			xmlDocument = body.substring(body.indexOf("<?xml"));
 			DDMessage myMessage = new DDMessage(xmlDocument);
 			return processInput(myMessage);
 
@@ -147,7 +152,16 @@ public class DCProtocol {
 			break;
 
 		case EMERGENCY:
-			return processEmergencyMessage(body);
+			xmlDocument = body.substring(body.indexOf("<?xml"));
+			try {
+				EmergencyMessXML emXML = (EmergencyMessXML) MyXMLMarshaller.unmarshall(EmergencyMessXML.class, xmlDocument);
+
+				return processEmergencyMessage(emXML);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
 		return true;
 	}
@@ -261,13 +275,24 @@ public class DCProtocol {
 	 *            The emergency message to process
 	 * @return Was the processing successful?
 	 */
-	private boolean processEmergencyMessage(Object message) {
+	private boolean processEmergencyMessage(EmergencyMessXML message) {
 
 		try {
-			println(getClass(), ".processEmergencyMessage(): processing '" + message + "'");
+			println(getClass(), ".processEmergencyMessage(): processing ...");
 
-			if (message != null && message instanceof EmergencyCommunication) {
-				informListeners((EmergencyCommunication) message);
+			if (message != null) {
+
+				EmergencyMessage em = new EmergencyMessage();
+				em.setFootnote(message.getFootnote());
+				em.setHeadline(message.getHeadline());
+				em.setSeverity(message.getSeverity());
+				em.setMessage(message.getMessage());
+
+				println(getClass(), ".processEmergencyMessage(): Emergency message is " + em);
+
+				EmergencyCommunication ec = new EmergCommunicationImpl();
+				ec.setMessage(em);
+				informListeners(ec);
 			}
 
 		} catch (NullPointerException e) {

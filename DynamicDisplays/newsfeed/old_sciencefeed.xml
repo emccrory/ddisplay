@@ -22,7 +22,7 @@ Science Magazine (mailto:soleditor@aaas.org)</creator>
 Copyright 2014 American Association for the Advancement of Science</rights>
 
 <date>
-2016-03-24T14:32:11-04:00</date>
+2016-03-31T13:36:08-04:00</date>
 
 <language>
 en</language>
@@ -57,523 +57,532 @@ en</language>
 <item>
 
 <title>
-[Magnetohydrodynamics] Simulating turbulent solar magnetic fields</title>
+[Ice Sheets] Sensitive ice sheets</title>
 
 <link>
-http://science.sciencemag.org/content/351/6280/1411.1</link>
+http://science.sciencemag.org/content/352/6281/48.1</link>
 
 <date>
-2016-03-25</date>
-
-<creator>
-Keith T. Smith</creator>
-
-<description>
-
-An accurate simulation of solar magnetic fields must reproduce both the large-scale dynamo and small-scale turbulence. Simply increasing the computational resolution does not always ...
-</description>
-
-<subject>
-Magnetohydrodynamics</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-a</identifier>
-
-</item>
-
-<item>
-
-<title>
-[C–H Bond Activation] Methane borylation in a cyclohexane sea</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.2</link>
-
-<date>
-2016-03-25</date>
-
-<creator>
-Jake Yeston</creator>
-
-<description>
-
-Although methane combusts readily at high temperatures, it is generally the hardest hydrocarbon to transform under gentler conditions, owing to its particularly strong C–H bonds. C ...
-</description>
-
-<subject>
-C–H Bond Activation</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-b</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Solar Cells] Perovskite solar cells recycle photons</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.3</link>
-
-<date>
-2016-03-25</date>
-
-<creator>
-Phil Szuromi</creator>
-
-<description>
-
-Inorganic-organic perovskite solar cells are very efficient in part because the charge carriers exhibit very long path lengths. Pazos-Outón 
-et al.
- show that photon recycling,  ...
-</description>
-
-<subject>
-Solar Cells</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-c</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Structural Biology] A human spliceosomal subcomplex</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.4</link>
-
-<date>
-2016-03-25</date>
-
-<creator>
-Guy Riddihough</creator>
-
-<description>
-
-The spliceosome is an RNA and protein molecular machine that cuts out introns from messenger RNAs. Agafonov 
-et al.
- used cryo-electron microscopy to determine the structure ...
-</description>
-
-<subject>
-Structural Biology</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-d</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Economics] Another social science looks at itself</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.5</link>
-
-<date>
-2016-03-25</date>
-
-<creator>
-Gilbert Chin</creator>
-
-<description>
-
-Experimental economists have joined the reproducibility discussion by replicating selected published experiments from two top-tier journals in economics. Camerer 
-et al.
- found ...
-</description>
-
-<subject>
-Economics</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-e</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Memory Formation] Coding what is known and what is new</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.6</link>
-
-<date>
-2016-03-25</date>
-
-<creator>
-Peter Stern</creator>
-
-<description>
-
-Do neural activity patterns during sleep reflect the replay of a novel experience or an invariant preexisting dynamic? Grosmark and Buzsáki observed that both familiar and novel aspects  ...
-</description>
-
-<subject>
-Memory Formation</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-f</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Cloud Formation] Organic contributions to cloud theory</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.7</link>
-
-<date>
-2016-03-25</date>
+2016-04-01</date>
 
 <creator>
 H. Jesse Smith</creator>
 
 <description>
 
-Current theories about the formation of cloud droplets from aerosol particles containing organic components assume that the organic molecules are distributed throughout the droplet. ...
+Why did the Antarctic Ice Sheet begin to grow 34 million years ago, and what does that have to do with us? Galeotti 
+et al.
+ studied a marine sediment core recovered from just ...
 </description>
 
 <subject>
-Cloud Formation</subject>
+Ice Sheets</subject>
 
 <identifier>
-10.1126/science.351.6280.1411-g</identifier>
+10.1126/science.352.6281.48-a</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Tumor Immunology] The cellular ancestry of tumor antigens</title>
+[Obesity] Cell-free DNA and adipose tissue inflammation</title>
 
 <link>
-http://science.sciencemag.org/content/351/6280/1411.8</link>
+http://science.sciencemag.org/content/352/6281/48.2</link>
 
 <date>
-2016-03-25</date>
+2016-04-01</date>
+
+<creator>
+Philip Yeagle</creator>
+
+<description>
+
+Obesity can induce chronic inflammation and subsequent insulin resistance (type 2 diabetes), but how this happens has been a nagging question. Nishimoto 
+et al.
+ found that degenerating ...
+</description>
+
+<subject>
+Obesity</subject>
+
+<identifier>
+10.1126/science.352.6281.48-b</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Mitochondrial Disease] Thriving on a breath of low oxygen</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.3</link>
+
+<date>
+2016-04-01</date>
 
 <creator>
 Paula A. Kiberstis</creator>
 
 <description>
 
-One contributing factor in antitumor immunity is the repertoire of neoantigens created by genetic mutations within tumor cells. Like the corresponding mutations, these neoantigens show ...
+Mitochondrial diseases are debilitating and largely untreatable. Most are caused by genetic mutations that impair the mitochondrial respiratory chain, which generates cellular energy. ...
 </description>
 
 <subject>
-Tumor Immunology</subject>
+Mitochondrial Disease</subject>
 
 <identifier>
-10.1126/science.351.6280.1411-h</identifier>
+10.1126/science.352.6281.48-c</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Cancer] The spread of bad neighborhoods</title>
+[Flow Chemistry] Drug manufacturing in a fridge-sized box</title>
 
 <link>
-http://science.sciencemag.org/content/351/6280/1411.9</link>
+http://science.sciencemag.org/content/352/6281/48.4</link>
 
 <date>
-2016-03-25</date>
+2016-04-01</date>
 
 <creator>
-Guy Riddihough</creator>
+Jake Yeston</creator>
 
 <description>
 
-Our genomes have complex three-dimensional (3D) arrangements that partition and regulate gene expression. Cancer cells frequently have their genomes grossly rearranged, disturbing this ...
+Commodity chemicals tend to be manufactured in a continuous fashion. However, the preparation of pharmaceuticals still proceeds batch by batch, partly on account of the complexity of ...
 </description>
 
 <subject>
-Cancer</subject>
+Flow Chemistry</subject>
 
 <identifier>
-10.1126/science.351.6280.1411-i</identifier>
+10.1126/science.352.6281.48-d</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Forest Ecosystems] Forest recovery in China is not so clear cut</title>
+[Immune Regulation] Long noncoding RNAs in inflammation</title>
 
 <link>
-http://science.sciencemag.org/content/351/6280/1411.10</link>
+http://science.sciencemag.org/content/352/6281/48.5</link>
 
 <date>
-2016-03-25</date>
-
-<creator>
-Shahid Naeem</creator>
-
-<description>
-
-Frequently in developing nations, forests shrink as trees are cut and agriculture expands. This trend does not tend to reverse until significant economic development and urbanization ...
-</description>
-
-<subject>
-Forest Ecosystems</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-j</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Synthetic Biology] Designing and building a minimal genome</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.11</link>
-
-<date>
-2016-03-25</date>
-
-<creator>
-Valda Vinson</creator>
-
-<description>
-
-A goal in biology is to understand the molecular and biological function of every gene in a cell. One way to approach this is to build a minimal genome that includes only the genes ...
-</description>
-
-<subject>
-Synthetic Biology</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-k</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Transporter Function] A proton pump in action</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.12</link>
-
-<date>
-2016-03-25</date>
-
-<creator>
-Valda Vinson</creator>
-
-<description>
-
-P-type adenosine triphosphatases (ATPases) use the energy from ATP hydrolysis to pump cations across biological membranes. The electrochemical gradients that are generated control many ...
-</description>
-
-<subject>
-Transporter Function</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-l</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Physiological Ecology] Variability for a day or a season</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.13</link>
-
-<date>
-2016-03-25</date>
-
-<creator>
-Sacha Vignieri</creator>
-
-<description>
-
-Species that experience larger seasonal climatic fluctuations are likely to be more physiologically flexible and thus likely to occur across a wider elevational range. Daily changes ...
-</description>
-
-<subject>
-Physiological Ecology</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-m</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Protein Evolution] Variation and transcription factor binding</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.14</link>
-
-<date>
-2016-03-25</date>
-
-<creator>
-Laura M. Zahn</creator>
-
-<description>
-
-Little is known about the phenotypic and functional effects of genetic variants that result in amino acid changes within functional proteins. Barrera 
-et al.
- investigated whether ...
-</description>
-
-<subject>
-Protein Evolution</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-n</identifier>
-
-</item>
-
-<item>
-
-<title>
-[DFT Methods] A comparison of DFT methods</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.15</link>
-
-<date>
-2016-03-25</date>
-
-<creator>
-Marc S. Lavine</creator>
-
-<description>
-
-Density functional theory (DFT) is now routinely used for simulating material properties. Many software packages are available, which makes it challenging to know which are the best ...
-</description>
-
-<subject>
-DFT Methods</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-o</identifier>
-
-</item>
-
-<item>
-
-<title>
-[HIV-1 Vaccines] Baby steps toward bNAbs</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.16</link>
-
-<date>
-2016-03-25</date>
+2016-04-01</date>
 
 <creator>
 Kristen L. Mueller</creator>
 
 <description>
 
-Some HIV-infected individuals develop heavily mutated, broadly neutralizing antibodies (bNAbs) that target HIV. Scientists aim to design vaccines that would elicit such antibodies. ...
-</description>
-
-<subject>
-HIV-1 Vaccines</subject>
-
-<identifier>
-10.1126/science.351.6280.1411-p</identifier>
-
-</item>
-
-<item>
-
-<title>
-[Neurodevelopment] Tracking neuronal transcriptional programs</title>
-
-<link>
-http://science.sciencemag.org/content/351/6280/1411.17</link>
-
-<date>
-2016-03-25</date>
-
-<creator>
-Pamela J. Hines</creator>
-
-<description>
-
-Early in brain development, cortical neurons are born near the ventricles, then migrate to their functional destinations. Telley 
+Growing evidence suggests that long noncoding RNAs (lncRNAs) are important modulators of gene expression. Castellanos-Rubio 
 et al.
- used a fluorescent labeling technique ...
+ identified a lncRNA, lnc13, that suppresses ...
 </description>
 
 <subject>
-Neurodevelopment</subject>
+Immune Regulation</subject>
 
 <identifier>
-10.1126/science.351.6280.1411-q</identifier>
+10.1126/science.352.6281.48-e</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Cardiovascular Biology] A GRK2 peptide prevents heart failure</title>
+[Conflict Behavior] How to win a fish fight</title>
 
 <link>
-http://science.sciencemag.org/content/351/6280/1411.18</link>
+http://science.sciencemag.org/content/352/6281/48.6</link>
 
 <date>
-2016-03-25</date>
+2016-04-01</date>
 
 <creator>
-Wei Wong</creator>
+Peter Stern</creator>
 
 <description>
 
-During cardiac hypertrophy, sustained high blood pressure causes the heart walls to thicken to deal with the increased load. If left unchecked, cardiac hypertrophy leads to heart failure. ...
+When to cease aggression and escape is an important decision that fighting animals must make. Chou 
+et al.
+ characterized the role of two nuclei in a brain area of the zebrafish ...
 </description>
 
 <subject>
-Cardiovascular Biology</subject>
+Conflict Behavior</subject>
 
 <identifier>
-10.1126/science.351.6280.1411-r</identifier>
+10.1126/science.352.6281.48-f</identifier>
 
 </item>
 
 <item>
 
 <title>
-[Autoimmunity] A glucose balancing act</title>
+[Stellar Evolution] Discovery of an oxygen white dwarf</title>
 
 <link>
-http://science.sciencemag.org/content/351/6280/1411.19</link>
+http://science.sciencemag.org/content/352/6281/48.7</link>
 
 <date>
-2016-03-25</date>
+2016-04-01</date>
+
+<creator>
+Keith T. Smith</creator>
+
+<description>
+
+The vast majority of stars will eventually evolve into a white dwarf, a small, hot, and extremely dense object made of leftover material from the star's core. Stellar evolution theory ...
+</description>
+
+<subject>
+Stellar Evolution</subject>
+
+<identifier>
+10.1126/science.352.6281.48-g</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Mammalian Germ Cells] Mouse oocytes receive sister cell factors</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.8</link>
+
+<date>
+2016-04-01</date>
+
+<creator>
+Beverly A. Purnell</creator>
+
+<description>
+
+Mammalian mature oocytes, the largest cells in the body, are capable of programming and reprogramming embryogenesis. Only about 20% of developing mouse germ cells become oocytes. Lei ...
+</description>
+
+<subject>
+Mammalian Germ Cells</subject>
+
+<identifier>
+10.1126/science.352.6281.48-h</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Pain] “WNK”ing away chronic pain</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.9</link>
+
+<date>
+2016-04-01</date>
+
+<creator>
+Nancy R. Gough</creator>
+
+<description>
+
+WNK1 is a kinase found in the spinal cord's dorsal horn, which transmits pain signals from the periphery to the brainstem. Mutations in the 
+HSN2
+ exon in the gene encoding WNK1 ...
+</description>
+
+<subject>
+Pain</subject>
+
+<identifier>
+10.1126/science.352.6281.48-i</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Cell Death Pathways] Apoptosis, necrosis, and pyroptosis</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.10</link>
+
+<date>
+2016-04-01</date>
+
+<creator>
+Stella M. Hurtley</creator>
+
+<description>
+
+The routes to cell death are many, and distinguishing which path a particular cell may have taken remains a challenge. Wallach 
+et al.
+ review current understanding of how programmed ...
+</description>
+
+<subject>
+Cell Death Pathways</subject>
+
+<identifier>
+10.1126/science.352.6281.48-j</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Nonhuman Genomics] Improving on the gorilla genome</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.11</link>
+
+<date>
+2016-04-01</date>
+
+<creator>
+Laura M. Zahn</creator>
+
+<description>
+
+Access to complete, high-quality genomes of nonhuman primates will also help us understand human biology. Gordon 
+et al.
+ used long-read sequencing technology to improve genome ...
+</description>
+
+<subject>
+Nonhuman Genomics</subject>
+
+<identifier>
+10.1126/science.352.6281.48-k</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Synthetic Biology] Programming circuitry for synthetic biology</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.12</link>
+
+<date>
+2016-04-01</date>
+
+<creator>
+L. Bryan Ray</creator>
+
+<description>
+
+As synthetic biology techniques become more powerful, researchers are anticipating a future in which the design of biological circuits will be similar to the design of integrated circuits ...
+</description>
+
+<subject>
+Synthetic Biology</subject>
+
+<identifier>
+10.1126/science.352.6281.48-l</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Colloidal Ordering] Competing forces drive ordering</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.13</link>
+
+<date>
+2016-04-01</date>
+
+<creator>
+Marc S. Lavine</creator>
+
+<description>
+
+The power and beauty of liquid crystals come from their tendency to order loosely over long length scales. This ordering can be tweaked using external fields, or via tailored boundary ...
+</description>
+
+<subject>
+Colloidal Ordering</subject>
+
+<identifier>
+10.1126/science.352.6281.48-m</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Electrocatalysis] A lanthanide boost for platinum</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.14</link>
+
+<date>
+2016-04-01</date>
+
+<creator>
+Phil Szuromi</creator>
+
+<description>
+
+High loadings of precious platinum are needed for automotive fuel cells, because the kinetics of the oxygen reduction reaction (ORR) are relatively slow. Escudero-Escribano 
+et al.
+ ...
+</description>
+
+<subject>
+Electrocatalysis</subject>
+
+<identifier>
+10.1126/science.352.6281.48-n</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Organic Chemistry] Beyond textbook SN2 chemistry</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.15</link>
+
+<date>
+2016-04-01</date>
+
+<creator>
+Julia Fahrenkamp-Uppenbrink</creator>
+
+<description>
+
+In one of best-studied organic reactions, a negatively charged ion such as chlorine replaces another atom or group of atoms in an organic molecule. According to the traditional understanding ...
+</description>
+
+<subject>
+Organic Chemistry</subject>
+
+<identifier>
+10.1126/science.352.6281.48-o</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Atmospheric Methane] Getting a rise out of agriculture</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.16</link>
+
+<date>
+2016-04-01</date>
+
+<creator>
+H. Jesse Smith</creator>
+
+<description>
+
+Methane, a powerful and important greenhouse gas, has been accumulating nearly uninterruptedly in the atmosphere for the past 200 years, with the exception of a mysterious plateau between ...
+</description>
+
+<subject>
+Atmospheric Methane</subject>
+
+<identifier>
+10.1126/science.352.6281.48-p</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Climate Change] Birds populations allied in abundance</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.17</link>
+
+<date>
+2016-04-01</date>
+
+<creator>
+Sacha Vignieri</creator>
+
+<description>
+
+Changes in climate can cause populations of species to decline, to increase, or to remain steady. Stephens 
+et al.
+ looked across species of common birds in Europe and the United ...
+</description>
+
+<subject>
+Climate Change</subject>
+
+<identifier>
+10.1126/science.352.6281.48-q</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Inflammation] Guarding inflammation</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.18</link>
+
+<date>
+2016-04-01</date>
 
 <creator>
 Angela Colmone</creator>
 
 <description>
 
-In autoimmune diseases, T cells engage their hyperdrive, both proliferating and secreting inflammatory cytokines at greater rates than normal. Little is known about the metabolic changes ...
+The innate immune system is genetically hardwired in each of us to protect against infection. Mutations in these protective genes can lead to uncontrolled inflammation and disease. ...
 </description>
 
 <subject>
-Autoimmunity</subject>
+Inflammation</subject>
 
 <identifier>
-10.1126/science.351.6280.1411-s</identifier>
+10.1126/science.352.6281.48-r</identifier>
+
+</item>
+
+<item>
+
+<title>
+[Immunology] Dialing down allergic responses</title>
+
+<link>
+http://science.sciencemag.org/content/352/6281/48.19</link>
+
+<date>
+2016-04-01</date>
+
+<creator>
+Kristen L. Mueller</creator>
+
+<description>
+
+Immunity to parasites and worms, termed type 2 immunity, is a double-edged sword. The same immune cells that keep these pests at bay can go awry, causing allergy and asthma. Chan 
+et ...
+</description>
+
+<subject>
+Immunology</subject>
+
+<identifier>
+10.1126/science.352.6281.48-s</identifier>
 
 </item>
 

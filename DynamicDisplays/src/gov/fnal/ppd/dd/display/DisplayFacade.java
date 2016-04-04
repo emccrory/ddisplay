@@ -10,10 +10,13 @@ import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.chat.MessageType;
 import gov.fnal.ppd.dd.chat.MessagingClient;
+import gov.fnal.ppd.dd.emergency.EmergencyMessage;
+import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
+import gov.fnal.ppd.dd.xml.EmergencyMessXML;
 import gov.fnal.ppd.dd.xml.EncodedCarrier;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
@@ -143,7 +146,7 @@ public class DisplayFacade extends DisplayImpl {
 	 * @param portNumber
 	 *            -- Ignored
 	 * @param ipName
-	 *            The name of the dispay
+	 *            The name of the display
 	 * @param vNumber
 	 *            The virtual display number (for local consumption)
 	 * @param dbNumber
@@ -189,6 +192,21 @@ public class DisplayFacade extends DisplayImpl {
 				((ChangeChannelList) cc).setDisplayNumber(getVirtualDisplayNumber());
 				((ChangeChannelList) cc).setScreenNumber(getScreenNumber());
 				((ChangeChannelList) cc).setContent(getContent());
+			} else if (content instanceof EmergencyCommunication) {
+				EmergencyMessage em = ((EmergencyCommunication) content).getMessage();
+				System.out.println(getClass().getSimpleName() + ": Request to send an EMERGENCY MESSAGE");
+
+				EmergencyMessXML emx = new EmergencyMessXML();
+				emx.setFootnote(em.getFootnote());
+				emx.setHeadline(em.getHeadline());
+				emx.setMessage(em.getMessage());
+				emx.setSeverity(em.getSeverity());
+				
+				String xmlMessage = MyXMLMarshaller.getXML(emx);
+				FacadeMessagingClient.sendAMessage(MessageCarrier.getEmergencyMessage(FacadeMessagingClient.getMyName(),
+						FacadeMessagingClient.getTargetName(this), xmlMessage));
+				
+				return true;
 			} else {
 				System.out.println(getClass().getSimpleName() + ": Have a simple channel");
 				cc = new ChangeChannel();

@@ -149,6 +149,7 @@ public class MessageCarrier implements Serializable {
 	 * @return A message to the messaging server that conveys the emergency
 	 */
 	public static MessageCarrier getEmergencyMessage(final String from, final String to, final String message) {
+		// Stream the Emergency Message
 		return new MessageCarrier(MessageType.EMERGENCY, from, to, message);
 	}
 

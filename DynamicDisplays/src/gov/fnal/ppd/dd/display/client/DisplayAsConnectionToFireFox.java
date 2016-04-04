@@ -11,6 +11,8 @@ import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.display.client.BrowserLauncher.BrowserInstance;
+import gov.fnal.ppd.dd.emergency.EmergencyMessage;
+import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -76,6 +78,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	private boolean[]					removeFrame				= { false, false, false, false, false };
 	private long[]						frameRemovalTime		= { 0L, 0L, 0L, 0L, 0L };
 	private Thread[]					frameRemovalThread		= { null, null, null, null, null };
+	private EmergencyMessage			em;
 
 	/**
 	 * @param showNumber
@@ -201,9 +204,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	}
 
 	private static boolean specialURI(SignageContent content) {
-		return content != null
-				&& ((content).getURI().toASCIIString().equals(FORCE_REFRESH) || (content).getURI().toASCIIString()
-						.equals(SELF_IDENTIFY));
+		return content == null || content instanceof EmergencyCommunication
+				|| (content).getURI().toASCIIString().equals(FORCE_REFRESH)
+				|| (content).getURI().toASCIIString().equals(SELF_IDENTIFY);
 	}
 
 	/**
@@ -250,7 +253,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		if (getContent() instanceof EmergencyCommunication) {
 			// Emergency communication!!!!
-			return firefox.showEmergencyCommunication(((EmergencyCommunication) getContent()).getMessage());
+			em = ((EmergencyCommunication) getContent()).getMessage();
+			boolean retval = firefox.showEmergencyCommunication(em);
+			if (em.getSeverity() == Severity.REMOVE)
+				setContent(previousChannel);
+			return retval;
 
 		} else if (getContent() instanceof ChannelPlayList) {
 
@@ -416,6 +423,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					public void run() {
 						long increment = 15000L;
 						while (true) {
+
+							// TODO -- If there is an emergency message up, we don't want to refresh and make it go away!
+
 							for (long t = dwellTime; t > 0 && changeCount == thisChangeCount; t -= increment) {
 								catchSleep(Math.min(increment, t));
 							}
@@ -607,10 +617,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		} else if (getContent() == null)
 			retval += "Off Line";
 		else {
-			if (getContent().getURI().toString().equalsIgnoreCase(SELF_IDENTIFY)) {
-				retval += "Doing a self-identify ... ";
-			} else if (getContent().getURI().toString().equalsIgnoreCase(FORCE_REFRESH)) {
-				retval += "Refreshed " + previousChannel.getURI().toASCIIString().replace("'", "\\'");
+			if (specialURI(getContent())) {
+				retval += "Special content: " + getContent();
 			} else
 				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
 		}

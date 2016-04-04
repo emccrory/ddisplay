@@ -20,6 +20,10 @@ public enum Severity {
 	/**
 	 * 
 	 */
-	TESTING;
+	TESTING,
 
+	/**
+	 * remove the message
+	 */
+	REMOVE;
 }

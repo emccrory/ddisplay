@@ -75,8 +75,6 @@ public class ConnectionToFirefoxInstance {
 
 	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
 
-	private static final boolean					testEmergencyStuff				= false;
-
 	private static final String						BASE_WEB_PAGE					= "http://" + WEB_SERVER_NAME + "/border.php";
 	private static final String						TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
 	private static final String						EXTRAFRAME_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border2.php";
@@ -157,28 +155,28 @@ public class ConnectionToFirefoxInstance {
 		};
 		timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
 
-		if (testEmergencyStuff) {
-			// TESTING of Emergency message thing
-			TimerTask g = new TimerTask() {
-				boolean	on	= false;
-
-				public void run() {
-					if (on) {
-						EmergencyMessage test = new EmergencyMessage();
-						test.setHeadline("Test Message");
-						test.setMessage("This is a test of the Fermilab Dynamic Displays emergency alert system.");
-						test.setSeverity(Severity.TESTING);
-						
-						showEmergencyCommunication(test);
-						on = false;
-					} else {
-						removeEmergencyCommunication();
-						on = true;
-					}
-				}
-			};
-			timer.schedule(g, 15000, 20000);
-		}
+		// if (testEmergencyStuff) {
+		// // TESTING of Emergency message thing
+		// TimerTask g = new TimerTask() {
+		// boolean on = false;
+		//
+		// public void run() {
+		// if (on) {
+		// EmergencyMessage test = new EmergencyMessage();
+		// test.setHeadline("Test Message");
+		// test.setMessage("This is a test of the Fermilab Dynamic Displays emergency alert system.");
+		// test.setSeverity(Severity.TESTING);
+		//
+		// showEmergencyCommunication(test);
+		// on = false;
+		// } else {
+		// removeEmergencyCommunication();
+		// on = true;
+		// }
+		// }
+		// };
+		// timer.schedule(g, 15000, 20000);
+		// }
 	}
 
 	/**
@@ -278,9 +276,8 @@ public class ConnectionToFirefoxInstance {
 			break;
 
 		case FRAMENOTICKER:
-			// String borderPage = EXTRAFRAMENOTICKER_WEB_PAGE;
-			String borderPage = (testEmergencyStuff ? WEB_PAGE_EMERGENCY_FRAME : EXTRAFRAMENOTICKER_WEB_PAGE);
-			
+			String borderPage = WEB_PAGE_EMERGENCY_FRAME; // EXTRAFRAMENOTICKER_WEB_PAGE);
+
 			if (!showingCanonicalSite.get()) {
 				println(getClass(), instance + " Sending full, new URL to browser " + borderPage);
 				showingCanonicalSite.set(true);
@@ -767,6 +764,9 @@ public class ConnectionToFirefoxInstance {
 	 * @return Did it work?
 	 */
 	public boolean showEmergencyCommunication(final EmergencyMessage message) {
+		if (message.getSeverity() == Severity.REMOVE)
+			return removeEmergencyCommunication();
+
 		String mess = message.toHTML() + "<p class='date'>Last update: " + new Date() + "</p>";
 		String s = "document.getElementById('emergencyframe1').innerHTML='" + mess.replace("'", "\\'") + "';\n";
 		s += "document.getElementById('emergencyframe1').style.visibility='visible';\n";

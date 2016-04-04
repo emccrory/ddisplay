@@ -13,8 +13,8 @@ import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
-import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
 
@@ -96,6 +96,23 @@ public abstract class DisplayImpl implements Display {
 
 	@Override
 	public SignageContent setContent(final SignageContent c) {
+
+		// TODO -- When an emergency message is up, we should (probably) not allow the channel to change.
+		// I think the ideal way would be to change the underlying channel while keeping the emergency message up.
+
+		if (c instanceof EmergencyCommunication) {
+			EmergencyCommunication ec = (EmergencyCommunication) c;
+			println(getClass(), ": Display " + getVirtualDisplayNumber() + " being sent an EMERGENCY MESSAGE [" + ec.getMessage()
+					+ "] at " + (new Date()));
+			informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
+
+			channel = c;
+
+			if (localSetContent())
+				;
+
+			return channel;
+		}
 		if (getCategory().isVisible(c) && isVerifiedChannel(c)) {
 			// Take care of a null argument and remembering the previous channel.
 			if (!channel.equals(c))
@@ -103,7 +120,8 @@ public abstract class DisplayImpl implements Display {
 			if (c == null)
 				channel = makeEmptyChannel(null);
 			else
-				channel = (Channel) c;
+				channel = c;
+			
 
 			println(getClass(), ": Display " + getVirtualDisplayNumber() + " changed to [" + channel + "] at " + (new Date()));
 
