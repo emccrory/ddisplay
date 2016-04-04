@@ -141,7 +141,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		int count = 0;
 		try {
 			rs = stmt
-					.executeQuery("select Filename,Experiment,Description from Portfolio where Type='Image' and Approval='Approved'");
+					.executeQuery("SELECT Filename,Experiment,Description FROM Portfolio WHERE Type='Image' AND Approval='Approved' ORDER BY Sequence");
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
