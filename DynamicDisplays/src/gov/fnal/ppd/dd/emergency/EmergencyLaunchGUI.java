@@ -12,6 +12,7 @@ import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -35,6 +36,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
@@ -50,11 +52,17 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	/**
 	 * Set to true to show a more complex UI
 	 */
-	public static boolean				SHOW_MORE_STUFF		= Boolean.getBoolean("ddisplay.extendedinformation");
+	public static final boolean			SHOW_MORE_STUFF		= Boolean.getBoolean("ddisplay.extendedinformation");
 
 	private JTextField					headlineText		= new JTextField(45);
 	private JTextArea					messageArea			= new JTextArea(5, 65);
 	private JTextArea					footerArea			= new JTextArea(2, 65);
+
+	private JLabel						emergencyStatus		= new JLabel("No emergency message showing");
+
+	private JButton						accept				= new JButton("Send Test Message");
+	private JButton						cancel				= new JButton("Exit");
+	private JButton						remove				= new JButton("Remove Message");
 
 	private JRadioButton				checkEmergency		= new JRadioButton("" + Severity.EMERGENCY);
 	private JRadioButton				checkAlert			= new JRadioButton("" + Severity.ALERT);
@@ -68,12 +76,16 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 																public void actionPerformed(ActionEvent e) {
 																	if (checkEmergency.isSelected()) {
 																		setBackground(new Color(255, 100, 100));
+																		accept.setText("Send Emergency Message");
 																	} else if (checkAlert.isSelected()) {
 																		setBackground(new Color(220, 160, 160));
+																		accept.setText("Send Alert Message");
 																	} else if (checkInformation.isSelected()) {
 																		setBackground(new Color(160, 160, 255));
+																		accept.setText("Send Information Message");
 																	} else if (checkTesting.isSelected()) {
 																		setBackground(new Color(200, 200, 200));
+																		accept.setText("Send Test Message");
 																	}
 																}
 															};
@@ -93,7 +105,8 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			@Override
 			public boolean send(EmergencyMessage em) {
 				System.out.println(em);
-				JOptionPane.showMessageDialog(null, "THIS IS A TEST VERSION THAT DOES NOT SEND ANYTHING OUT.\nThe HTML would look like this:\n" + em.toHTML());
+				JOptionPane.showMessageDialog(null,
+						"THIS IS A TEST VERSION THAT DOES NOT SEND ANYTHING OUT.\nThe HTML would look like this:\n" + em.toHTML());
 				return true;
 			}
 		});
@@ -101,6 +114,8 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
 		JFrame f = new JFrame("Emergency Message Distribution");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		elg.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 20),
+				BorderFactory.createTitledBorder("NOT THE ACTUAL EMERGENCY MESSAGE GUI.")));
 		f.setContentPane(elg);
 		f.pack();
 		f.setVisible(true);
@@ -132,6 +147,16 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
 	}
 
+	private static class MyJScrollPane extends JScrollPane {
+		public MyJScrollPane(Component c, int minWidth, int minHeight) {
+			super(c);
+			setMinimumSize(new Dimension(minWidth, minHeight));
+		}
+	}
+
+	/**
+	 * 
+	 */
 	public void initialize() {
 		setOpaque(true);
 		setBackground(new Color(200, 200, 200));
@@ -139,6 +164,10 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		GridBagConstraints constraints = new GridBagConstraints();
 
 		headlineText.setFont(new Font("Arial", Font.BOLD, 16));
+		headlineText.setMinimumSize(new Dimension(700, 23));
+		messageArea.setMinimumSize(new Dimension(700, 80));
+		footerArea.setMinimumSize(new Dimension(700, 37));
+		emergencyStatus.setFont(new Font("Arial", Font.PLAIN, 18));
 
 		constraints.gridx = 1;
 		constraints.gridy = 1;
@@ -166,7 +195,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		messageArea.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		messageArea.setLineWrap(true);
 		messageArea.setWrapStyleWord(true);
-		add(new JScrollPane(messageArea), constraints);
+		add(new MyJScrollPane(messageArea, 710, 80), constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy++;
@@ -176,21 +205,23 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		footerArea.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		footerArea.setLineWrap(true);
 		footerArea.setWrapStyleWord(true);
-		add(new JScrollPane(footerArea), constraints);
+		add(new MyJScrollPane(footerArea, 710, 37), constraints);
 
-		JButton accept = new JButton("Send Emergency Message");
-		JButton cancel = new JButton("Exit");
-		JButton remove = new JButton("Remove emergency message");
 		accept.setActionCommand("Accept");
 		cancel.setActionCommand("Cancel");
 		remove.setActionCommand("Remove");
 
 		accept.setFont(new Font("Arial", Font.BOLD, 32));
-		cancel.setFont(new Font("Arial", Font.BOLD, 32));
-		accept.setBackground(Color.RED.darker());
+		accept.setBackground(Color.RED.darker().darker());
 		accept.setForeground(Color.WHITE);
 		accept.addActionListener(this);
+
+		cancel.setFont(new Font("Arial", Font.BOLD, 32));
 		cancel.addActionListener(this);
+
+		remove.setFont(new Font("Arial", Font.BOLD, 18));
+		remove.setBackground(Color.GREEN.darker().darker());
+		remove.setForeground(Color.WHITE);
 		remove.addActionListener(this);
 
 		Box box = Box.createHorizontalBox();
@@ -205,8 +236,10 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			JRB.setActionCommand(JRB.getText());
 			JRB.addActionListener(radioActionListener);
 			JRB.setFont(new Font("Arial", Font.PLAIN, 20));
+			box.add(new JSeparator(JSeparator.VERTICAL));
+			box.add(Box.createRigidArea(new Dimension(10, 10)));
 			box.add(JRB);
-			box.add(Box.createRigidArea(new Dimension(30, 10)));
+			box.add(Box.createRigidArea(new Dimension(10, 10)));
 			checkButtonGroup.add(JRB);
 		}
 		checkTesting.setSelected(true);
@@ -217,14 +250,13 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		add(box, constraints);
 
 		if (SHOW_MORE_STUFF) {
-
 			constraints.gridx = 1;
 			constraints.gridy++;
 			constraints.gridwidth = 2;
 			box = Box.createHorizontalBox();
 			box.add(new JLabel("Location: '" + getLocationName() + "'"));
 			box.add(new JLabel(" (code=" + getLocationCode() + ")"));
-			box.add(new JLabel(", description -- '" + getLocationDescription() + "'"));
+			box.add(new JLabel(" -- '" + getLocationDescription() + "'"));
 			add(box, constraints);
 
 			JButton selectAll = new JButton("Select ALL displays");
@@ -248,9 +280,9 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 							CB.setSelected(false);
 						break;
 					}
-
 				}
 			};
+
 			selectAll.addActionListener(selectListener);
 			selectNone.addActionListener(selectListener);
 
@@ -266,19 +298,27 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			constraints.gridy++;
 			constraints.gridwidth = 2;
 			int numCols = 1;
+			int maxWidth = 230;
 			if (footers.size() < 10)
 				numCols = 1;
 			else if (footers.size() < 20)
 				numCols = 2;
 			else if (footers.size() < 30)
 				numCols = 3;
-			else if (footers.size() < 40)
+			else if (footers.size() < 40) {
 				numCols = 4;
-			else if (footers.size() < 50)
+				maxWidth = 200;
+			} else if (footers.size() < 50) {
 				numCols = 5;
-			else
+				maxWidth = 160;
+			} else {
 				numCols = 6;
+				maxWidth = 130;
+			}
 			JPanel footerPanel = new JPanel(new GridLayout(0, numCols, 2, 2));
+			footerPanel.setMaximumSize(new Dimension(maxWidth * numCols, 20 * footers.size() / numCols));
+			footerPanel.setPreferredSize(new Dimension(maxWidth * numCols, 20 * footers.size() / numCols));
+
 			for (int k = 0; k < footers.size(); k++) {
 				Box b = Box.createHorizontalBox();
 				b.setOpaque(true);
@@ -287,6 +327,8 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 						BorderFactory.createEmptyBorder(1, 2, 1, 2)));
 				b.add(checkBoxes.get(k));
 				b.add(footers.get(k));
+				b.setMaximumSize(new Dimension(maxWidth, 18));
+				b.setPreferredSize(new Dimension(maxWidth, 18));
 				footerPanel.add(b);
 			}
 
@@ -299,10 +341,15 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		box = Box.createHorizontalBox();
 		box.add(accept);
 		box.add(Box.createRigidArea(new Dimension(5, 5)));
-		box.add(cancel);
-		box.add(Box.createRigidArea(new Dimension(5, 5)));
+		// box.add(cancel);
+		// box.add(Box.createRigidArea(new Dimension(5, 5)));
 		box.add(remove);
 		add(box, constraints);
+
+		constraints.gridx = 1;
+		constraints.gridy++;
+		constraints.gridwidth = 2;
+		add(emergencyStatus, constraints);
 	}
 
 	@Override
@@ -339,12 +386,18 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
 				body = box;
 			}
+
+			String text = "Showing Emergency Message!";
 			if (JOptionPane.showConfirmDialog(this, body, "Are you SURE??", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				if (emergencyMessageDistributor.send(message))
 					JOptionPane.showMessageDialog(this, "Emergency message sent at " + new Date());
+				else
+					text = "Not showing message: Send failed";
 			} else {
 				JOptionPane.showMessageDialog(this, "Emergency message NOT CONFIRMED");
+				text = "Not showing message: User rejected";
 			}
+			emergencyStatus.setText(text + " at " + new Date());
 			break;
 
 		case "Cancel":
@@ -352,10 +405,16 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
 		case "Remove":
 			message.setSeverity(Severity.REMOVE);
+			text = "Emergency message has been removed";
 			if (emergencyMessageDistributor.send(message))
 				JOptionPane.showMessageDialog(this, "Emergency message REMOVED at " + new Date());
-			else
+			else {
 				JOptionPane.showMessageDialog(this, "Problem removing emergency message");
+				text = "Unknown state: Message may have been removed";
+			}
+
+			emergencyStatus.setText(text + " at " + new Date());
+
 			break;
 		default:
 			break;
