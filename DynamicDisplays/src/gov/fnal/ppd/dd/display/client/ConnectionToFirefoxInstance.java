@@ -788,7 +788,7 @@ public class ConnectionToFirefoxInstance {
 	/**
 	 * @return Did it work>?
 	 */
-	public boolean removeEmergencyCommunication() {
+	private boolean removeEmergencyCommunication() {
 		String s = "document.getElementById('emergencyframe1').innerHTML='';\n";
 		s += "document.getElementById('emergencyframe1').style.visibility='hidden';\n";
 

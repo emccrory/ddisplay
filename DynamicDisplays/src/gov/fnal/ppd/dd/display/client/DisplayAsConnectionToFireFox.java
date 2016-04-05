@@ -79,6 +79,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	private long[]						frameRemovalTime		= { 0L, 0L, 0L, 0L, 0L };
 	private Thread[]					frameRemovalThread		= { null, null, null, null, null };
 	private EmergencyMessage			em;
+	private boolean						showingEmergencyMessage	= false;
 
 	/**
 	 * @param showNumber
@@ -154,6 +155,10 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					setContent((SignageContent) content);
 					retval = true;
 				}
+			} else {
+				// Why in the world would the streamed content NOT be a SignageContent??
+				throw new RuntimeException("expecting to read a streamed SignageContent but instead got a "
+						+ content.getClass().getCanonicalName());
 			}
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
@@ -233,12 +238,15 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 			int count = 0;
 			while (!stopMe) {
-				localSetContent_notLists();
-				catchSleep(localPlayListCopy.getTime());
-				localPlayListCopy.advanceChannel();
-				println(DisplayAsConnectionToFireFox.class,
-						" -- " + hashCode() + firefox.getInstance() + " : List play continues with channel=["
-								+ localPlayListCopy.getDescription() + ", " + localPlayListCopy.getTime() + "msec] " + count++);
+				if (!showingEmergencyMessage) {
+					localSetContent_notLists();
+					catchSleep(localPlayListCopy.getTime());
+					localPlayListCopy.advanceChannel();
+					println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + firefox.getInstance()
+							+ " : List play continues with channel=[" + localPlayListCopy.getDescription() + ", "
+							+ localPlayListCopy.getTime() + "msec] " + count++);
+				} else
+					catchSleep(Math.min(localPlayListCopy.getTime(), ONE_MINUTE));
 			}
 			println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + firefox.getInstance()
 					+ " : Exiting the list player. " + count);
@@ -255,8 +263,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			// Emergency communication!!!!
 			em = ((EmergencyCommunication) getContent()).getMessage();
 			boolean retval = firefox.showEmergencyCommunication(em);
-			if (em.getSeverity() == Severity.REMOVE)
+			showingEmergencyMessage = true;
+			if (em.getSeverity() == Severity.REMOVE) {
 				setContent(previousChannel);
+				showingEmergencyMessage = false;
+			}
 			return retval;
 
 		} else if (getContent() instanceof ChannelPlayList) {
@@ -422,12 +433,17 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					@Override
 					public void run() {
 						long increment = 15000L;
+						long localDwellTime = dwellTime;
 						while (true) {
 
 							// TODO -- If there is an emergency message up, we don't want to refresh and make it go away!
 
-							for (long t = dwellTime; t > 0 && changeCount == thisChangeCount; t -= increment) {
+							for (long t = localDwellTime; t > 0 && changeCount == thisChangeCount; t -= increment) {
 								catchSleep(Math.min(increment, t));
+							}
+							if ( showingEmergencyMessage ) {
+								localDwellTime = Math.min(dwellTime, ONE_MINUTE);
+								continue;
 							}
 							if (changeCount == thisChangeCount) {
 								println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()

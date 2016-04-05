@@ -115,13 +115,17 @@ public abstract class DisplayImpl implements Display {
 		}
 		if (getCategory().isVisible(c) && isVerifiedChannel(c)) {
 			// Take care of a null argument and remembering the previous channel.
-			if (!channel.equals(c))
-				previousChannel = channel;
+			if (!channel.equals(c)) {
+				if (channel instanceof EmergencyCommunication)
+					println(getClass(), " -- Current channel is an EmergencyCommunication.  Retaining the old previous channel of "
+							+ previousChannel);
+				else
+					previousChannel = channel;
+			}
 			if (c == null)
 				channel = makeEmptyChannel(null);
 			else
 				channel = c;
-			
 
 			println(getClass(), ": Display " + getVirtualDisplayNumber() + " changed to [" + channel + "] at " + (new Date()));
 
