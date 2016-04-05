@@ -19,6 +19,7 @@ import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -47,6 +48,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -101,7 +103,10 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		JFrame f = new JFrame("SaveRestoreDefaultChannels: " + title);
 		SaveRestoreDefaultChannels.setup(null, 30.0f, new Insets(20, 50, 20, 50));
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setContentPane(SaveRestoreDefaultChannels.getGUI());
+		JComponent x = SaveRestoreDefaultChannels.getGUI();
+		x.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 20),
+				BorderFactory.createTitledBorder("NOT THE ACTUAL SAVE/RESTORE GUI.")));
+		f.setContentPane(x);
 		f.setSize(700, 445);
 		f.setVisible(true);
 
@@ -281,7 +286,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 				else
 					println(getClass(), ": No on-screen keyboard available. (Best guess: we're running Linux)");
 			}
-		String s = (String) JOptionPane.showInputDialog(null, box, "Save Display Configuration", JOptionPane.QUESTION_MESSAGE);
+		String s = (String) JOptionPane.showInputDialog(theGUI, box, "Save Display Configuration", JOptionPane.QUESTION_MESSAGE);
 		if (onscreenKeyboardProcess != null)
 			onscreenKeyboardProcess.destroy();
 
@@ -367,8 +372,8 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		JComboBox<String> combo = new JComboBox<String>(all);
 		combo.setFont(new Font("Arial", Font.PLAIN, 30));
 
-		int s = JOptionPane.showConfirmDialog(null, combo, "Restore Display Configuration", JOptionPane.OK_CANCEL_OPTION);
-		if (s == JOptionPane.CANCEL_OPTION)
+		int s = JOptionPane.showConfirmDialog(theGUI, combo, "Restore Display Configuration", JOptionPane.OK_CANCEL_OPTION);
+		if (s != JOptionPane.YES_OPTION)
 			return;
 
 		String setName = (String) combo.getSelectedItem();
@@ -439,7 +444,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 						+ restoreMap.get(D));
 				theRestorePanel.add(label);
 			}
-			if ((JOptionPane.showConfirmDialog(null, theRestorePanel, "Really restore these displays to these channels?",
+			if ((JOptionPane.showConfirmDialog(theGUI, theRestorePanel, "Really restore these displays to these channels?",
 					JOptionPane.YES_NO_OPTION)) == JOptionPane.NO_OPTION)
 				return;
 			for (Display D : restoreMap.keySet()) {
@@ -512,7 +517,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 				outer.removeAll();
 				if (h.size() > 4 || maxLength > 50) {
 					JScrollPane sp = new JScrollPane(status);
-					sp.setPreferredSize(new Dimension(500, 20 * h.size() + 30));
+					sp.setPreferredSize(new Dimension(620, 24 * h.size() + 40));
 					outer.add(sp);
 				} else
 					outer.add(status);
