@@ -4,14 +4,12 @@ import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.emergency.EmergencyLaunchGUI.SHOW_MORE_STUFF;
-
-import java.util.List;
-
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
-import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
+
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -45,8 +43,6 @@ public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 		credentialsSetup();
 
 		selectorSetup();
-
-		SHOW_MORE_STUFF = true;
 	}
 
 	@Override
