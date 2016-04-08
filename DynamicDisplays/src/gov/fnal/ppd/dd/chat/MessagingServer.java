@@ -491,16 +491,23 @@ public class MessagingServer {
 					break;
 
 				case EMERGENCY:
-					if (isAuthorized(this.cm.getFrom(), this.cm.getTo())) {
+					if (isAuthorized(this.cm.getFrom(), this.cm.getTo()) && isClientAnEmergencySource(this.cm.getFrom())) {
 						broadcast(this);
 						// broadcast(this.cmSigned);
 					} else {
-						display("Message rejected!  '" + this.username + "' asked to send message of type " + this.cm.getType()
-								+ " to '" + this.cm.getTo() + "'\n\t\tbut it is not authorized to send a message to this client");
+						String mess = "Message rejected!  '" + this.username + "' asked to send message of type " + this.cm.getType()
+								+ " to '" + this.cm.getTo() + "'\n\t\tbut ";
+						if(isClientAnEmergencySource(this.cm.getFrom()) ) {
+							mess += "it is not authorized to send any sort of message to this client";
+							
+						} else {
+							mess += "it is not authorized to generate an emergency message";
+						}
+						display(mess);
 
 						// Reply to the client that this message was rejected!
 						writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, this.cm.getFrom(),
-								"You are not authorized to change the channel on the display called " + this.cm.getTo()
+								"You are not authorized to put an emergency message on the display called " + this.cm.getTo()
 										+ ".\nThis directive has been rejected."));
 					}
 					break;
@@ -647,8 +654,14 @@ public class MessagingServer {
 				return true;
 			if (cmSigned != null)
 				return ObjectSigning.isClientAuthorized(from, to);
+
 			return false;
 		}
+
+	}
+
+	private boolean isClientAnEmergencySource(String from) {
+		return ObjectSigning.getInstance().isEmergMessAllowed(from);
 	}
 
 	/*
