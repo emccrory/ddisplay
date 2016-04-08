@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 
@@ -209,11 +210,11 @@ public class GlobalVariables {
 	/**
 	 * 
 	 */
-	public static int				INSET_SIZE					= 10;
+	public static int			INSET_SIZE				= 10;
 	/**
 	 * 
 	 */
-	public static float				FONT_SIZE					= 40.0f;
+	public static float			FONT_SIZE				= 40.0f;
 
 	// /**
 	// * Where is the messaging server? Controlled by system constant, ddisplay.messagingserver
@@ -224,16 +225,15 @@ public class GlobalVariables {
 	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) prime number in the range of unassigned
 	 * port number (49152 - 65535) Controlled by system constant ddisplay.messagingserver
 	 */
-	public static final int			MESSAGING_SERVER_PORT		= Integer.getInteger("ddisplay.messagingport", 49999);
+	public static final int		MESSAGING_SERVER_PORT	= Integer.getInteger("ddisplay.messagingport", 49999);
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	public static final String		WEB_SERVER_NAME				= System.getProperty("ddisplay.webserver",
-																		"dynamicdisplays.fnal.gov");
+	public static final String	WEB_SERVER_NAME			= System.getProperty("ddisplay.webserver", "dynamicdisplays.fnal.gov");
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	private static final String		WEB_SERVER_FOLDER			= System.getProperty("ddisplay.webfolder", "");
+	private static final String	WEB_SERVER_FOLDER		= System.getProperty("ddisplay.webfolder", "");
 
 	/**
 	 * @return The web server prefix, dealing with whether or not there is a folder in there, too.
@@ -247,31 +247,54 @@ public class GlobalVariables {
 	/**
 	 * Where is the Database server? Controlled by system constant ddisplay.dbserver
 	 */
-	public static String			DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", "fnalmysqldev.fnal.gov:3311");
+	public static String			DATABASE_SERVER_NAME			= System.getProperty("ddisplay.dbserver",
+																			"fnalmysqldev.fnal.gov:3311");
 	/**
 	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
 	 */
-	public static String			DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc_dev");
+	public static String			DATABASE_NAME					= System.getProperty("ddisplay.dbname", "xoc_dev");
 	/**
 	 * The username for accessing the database
 	 */
-	public static String			DATABASE_USER_NAME		= System.getProperty("ddisplay.dbusername", "no included here");
+	public static String			DATABASE_USER_NAME				= System.getProperty("ddisplay.dbusername", "no included here");
 	/**
 	 * the password corresponding to the username that accesses the database. Note that this MUST be entered by hand for each time
 	 * one runs an application. (This is not the actual password.)
 	 */
-	public static String			DATABASE_PASSWORD		= System.getProperty("ddisplay.dbpassword", "I'm not telling :-)");
+	public static String			DATABASE_PASSWORD				= System.getProperty("ddisplay.dbpassword",
+																			"I'm not telling :-)");
 	/**
 	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
 	 * Controlled by system constant ddisplay.xmlserver
 	 */
-	public static final String		XML_SERVER_NAME			= System.getProperty("ddisplay.xmlserver", "dynamicdisplays.fnal.gov");
+	public static final String		XML_SERVER_NAME					= System.getProperty("ddisplay.xmlserver",
+																			"dynamicdisplays.fnal.gov");
 
 	/**
 	 * The URL that is the single image display web page. This is a bit of a kludge!
 	 */
-	public static final String		SINGLE_IMAGE_DISPLAY	= System.getProperty("ddisplay.singleimagedisplay",
-																	"http://dynamicdisplays.fnal.gov/portfolioOneSlide.php?photo=");
+	public static final String		SINGLE_IMAGE_DISPLAY			= System.getProperty("ddisplay.singleimagedisplay",
+																			"http://dynamicdisplays.fnal.gov/portfolioOneSlide.php?photo=");
+
+	/**
+	 * What is the signature of a URL that can lead to a "Bad NUC" showing a bad web page?
+	 * 
+	 */
+	public static final String		URL_REQUIRING_LOTS_OF_GRAPHICS	= System.getProperty("ddisplay.animationurl",
+																			"^\\S+dynamicdisplays.fnal.gov/kenburns/portfolioDisplayChoice.php\\S+$");
+	private static final Pattern	urlMatchingPattern				= Pattern.compile(URL_REQUIRING_LOTS_OF_GRAPHICS);
+
+	/**
+	 * 
+	 * @param testURL
+	 *            the URL to test
+	 * @return Do we think that this URL is one of the ones that will cause a "bad NUC" to mess up?
+	 */
+	public static boolean isThisURLNeedAnimation(final String testURL) {
+		System.out.println("\n\nREGEX url: '" + URL_REQUIRING_LOTS_OF_GRAPHICS + "'");
+		System.out.println("URL to match: '" + testURL + "'");
+		return urlMatchingPattern.matcher(testURL).matches();
+	}
 
 	/**
 	 * One second, expressed in milliseconds (e.g., 1000L)
@@ -561,7 +584,7 @@ public class GlobalVariables {
 
 		return result_line;
 	}
-	
+
 	private static ListOfExistingContent	contentOnDisplays	= new ListOfExistingContent();
 
 	/**
