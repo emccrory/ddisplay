@@ -13,6 +13,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
+import static gov.fnal.ppd.dd.util.Util.launchErrorMessage;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
@@ -31,8 +32,6 @@ import gov.fnal.ppd.dd.changer.SaveRestoreDefaultChannels;
 import gov.fnal.ppd.dd.channel.CreateListOfChannels;
 import gov.fnal.ppd.dd.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.emergency.EmergencyMessage;
-import gov.fnal.ppd.dd.emergency.EmergencyMessageDistributor;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -460,30 +459,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		progressMonitor.close();
 	}
 
-	private static Thread	errorMessageThread	= null;
-	private static boolean	threadIsMade		= false;
-
-	private static void launchErrorMessage(final ActionEvent e) {
-		if (threadIsMade)
-			return;
-		errorMessageThread = new Thread("ErrorMessagePopup") {
-			public void run() {
-				threadIsMade = true;
-				int g = e.paramString().indexOf("ERROR") + 9;
-				int h = e.paramString().indexOf(",when");
-				String m = e.paramString().substring(g, h);
-				if (m.length() == 0)
-					JOptionPane.showMessageDialog(null, e, "Error in communications", JOptionPane.ERROR_MESSAGE);
-				else
-					JOptionPane.showMessageDialog(null, e.paramString().substring(g, h), "Error in communications",
-							JOptionPane.ERROR_MESSAGE);
-				// catchSleep(3000L);
-				errorMessageThread = null;
-				threadIsMade = false;
-			}
-		};
-		errorMessageThread.start();
-	}
 
 	/**
 	 * Set all tabs for all Displays to the same thing

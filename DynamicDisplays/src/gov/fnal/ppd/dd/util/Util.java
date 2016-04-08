@@ -17,6 +17,7 @@ import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
+import java.awt.event.ActionEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -32,6 +33,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 /**
  * Some general utilities in the DD system
@@ -339,4 +342,36 @@ public class Util {
 
 		return retval;
 	}
+	
+
+	private static Thread	errorMessageThread	= null;
+	private static boolean	threadIsMade		= false;
+
+	/**
+	 * Utility to launch one, and only one, error message
+	 * @param e
+	 */
+	public static void launchErrorMessage(final ActionEvent e) {
+		if (threadIsMade)
+			return;
+		errorMessageThread = new Thread("ErrorMessagePopup") {
+			public void run() {
+				threadIsMade = true;
+				int g = e.paramString().indexOf("ERROR") + 9;
+				int h = e.paramString().indexOf(",when");
+				String m = e.paramString().substring(g, h);
+				if (m.length() == 0)
+					JOptionPane.showMessageDialog(null, e, "Error in communications", JOptionPane.ERROR_MESSAGE);
+				else
+					JOptionPane.showMessageDialog(null, e.paramString().substring(g, h), "Error in communications",
+							JOptionPane.ERROR_MESSAGE);
+				// catchSleep(3000L);
+				errorMessageThread = null;
+				threadIsMade = false;
+			}
+		};
+		errorMessageThread.start();
+	}
+	
+	
 }
