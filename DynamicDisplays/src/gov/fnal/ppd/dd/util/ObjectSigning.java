@@ -70,14 +70,15 @@ public class ObjectSigning {
 		return me;
 	}
 
-	private KeyPairGenerator	keyPairGenerator;
-	private PrivateKey			privateKey	= null;
-	private PublicKey			publicKey	= null;
+	private KeyPairGenerator		keyPairGenerator;
+	private PrivateKey				privateKey			= null;
+	private PublicKey				publicKey			= null;
+	private Map<String, Boolean>	emergMessAllowed	= new HashMap<String, Boolean>();
 
-	private KeyFactory			keyFactory;
-	private Signature			signature	= null;
+	private KeyFactory				keyFactory;
+	private Signature				signature			= null;
 
-	private Signature			sig			= null;
+	private Signature				sig					= null;
 
 	// All the public keys will be stored in the database and the private keys will be stored on the local
 	// disk of the sender, but not in a place that can normally be read. For example, ~/.keystore
@@ -224,6 +225,7 @@ public class ObjectSigning {
 							int len = (int) pk.length();
 							byte[] bytes = pk.getBytes(1, len);
 							publicKey = KeyFactory.getInstance(ALG_TYPE).generatePublic(new X509EncodedKeySpec(bytes));
+
 							println(getClass(), ": Got the public key for client " + clientName);
 							return true;
 						} else {
@@ -519,6 +521,48 @@ public class ObjectSigning {
 	}
 
 	/**
+	 * @param clientName
+	 *            the name of this client, according to the database
+	 * @return Is this client allowed to be the source of an "emergency message"?
+	 */
+	public boolean isEmergMessAllowed(String clientName) {
+		if (!emergMessAllowed.containsKey(clientName)) {
+			Connection connection;
+			boolean ema = false;
+			try {
+				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+
+				synchronized (connection) {
+					try (Statement stmt = connection.createStatement();
+							ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+						String query = "SELECT EmergMessAllowed from PublicKeys WHERE ClientName= '" + clientName + "'";
+
+						try (ResultSet rs = stmt.executeQuery(query);) {
+							if (rs.first()) { // Move to first returned row (there should only be one)
+
+								ema = rs.getInt("EmergMessAllowed") == 1;
+
+								println(getClass(), ": Cient '" + clientName + "' " + (ema ? "IS" : "is NOT")
+										+ " allowed to make emergency messages");
+								emergMessAllowed.put(clientName, ema);
+							} else {
+								// Likely culprit here: The source of this message does not have a public key in the DB
+								publicKey = null;
+								System.err.println("No entry for client='" + clientName + "'");
+							}
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return emergMessAllowed.get(clientName);
+	}
+
+	/**
 	 * @param args
 	 */
 	public static void main(final String[] args) {
@@ -639,7 +683,7 @@ public class ObjectSigning {
 				}
 				return "Signature is invalid";
 			}
-			return null;
+			return null; // The object is properly signed.
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
