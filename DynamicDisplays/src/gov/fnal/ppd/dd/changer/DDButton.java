@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.IS_DOCENT_CONTROLLER;
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
@@ -72,16 +73,16 @@ public class DDButton extends JButton {
 			throw new IllegalArgumentException("Display cannot be null!");
 		this.selectedColor = display.getPreferredHighlightColor();
 
-		// if (SHOW_IN_WINDOW) {
-		BorderA = BorderFactory.createCompoundBorder(
-				BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 2),
-						BorderFactory.createLineBorder(Color.gray, 1)), regularButtonBorder);
-		BorderB = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 3), regularButtonBorder);
-		// } else {
-		// Border c = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black), regularButtonBorder);
-		// BorderA = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.gray, 6), c);
-		// BorderB = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 6), c);
-		// }
+		if (SHOW_IN_WINDOW) {
+			BorderA = BorderFactory.createCompoundBorder(
+					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 1),
+							BorderFactory.createLineBorder(Color.gray, 1)), regularButtonBorder);
+			BorderB = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 2), regularButtonBorder);
+		} else {
+			Border c = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black), regularButtonBorder);
+			BorderA = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.gray, 6), c);
+			BorderB = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 6), c);
+		}
 
 		float brightness = (Color.RGBtoHSB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue(), null))[2];
 		if (brightness < 0.6f) {
