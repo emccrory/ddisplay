@@ -21,7 +21,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
- * Create a grid of the channels that represent "Detailed Information"
+ * Create a grid of the channels for the displays in the Dynamic Displays system
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
