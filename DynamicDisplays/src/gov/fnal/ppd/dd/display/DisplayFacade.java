@@ -179,6 +179,8 @@ public class DisplayFacade extends DisplayImpl {
 				+ " is expected to be '" + myExpectedName + "'");
 		FacadeMessagingClient.registerClient(getMessagingServerName(), MESSAGING_SERVER_PORT, myExpectedName, this);
 		FacadeMessagingClient.addListener(this);
+		// TODO -- It would be better to defer the start of these messaging clients until the whole GUI creation is finished. Not
+		// sure how to make THAT happen
 		FacadeMessagingClient.doStart();
 	}
 
@@ -201,11 +203,11 @@ public class DisplayFacade extends DisplayImpl {
 				emx.setHeadline(em.getHeadline());
 				emx.setMessage(em.getMessage());
 				emx.setSeverity(em.getSeverity());
-				
+
 				String xmlMessage = MyXMLMarshaller.getXML(emx);
 				FacadeMessagingClient.sendAMessage(MessageCarrier.getEmergencyMessage(FacadeMessagingClient.getMyName(),
 						FacadeMessagingClient.getTargetName(this), xmlMessage));
-				
+
 				return true;
 			} else {
 				System.out.println(getClass().getSimpleName() + ": Have a simple channel");
