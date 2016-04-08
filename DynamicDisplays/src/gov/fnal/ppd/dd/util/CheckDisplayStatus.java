@@ -7,6 +7,7 @@ package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.PING_INTERVAL;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_VIRTUAL_DISPLAY_NUMS;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
@@ -85,7 +86,8 @@ public class CheckDisplayStatus extends Thread {
 		// read from the database to see what's up with this Display
 		String query = "SELECT Content,ContentName,SignageContent FROM DisplayStatus WHERE DisplayID="
 				+ display.getDBDisplayNumber();
-		final String startText = "Disp " + display.getVirtualDisplayNumber() + ": ";
+		final String startText = "Disp "
+				+ (SHOW_VIRTUAL_DISPLAY_NUMS ? display.getVirtualDisplayNumber() : display.getDBDisplayNumber()) + ": ";
 		final String isBeingDisplayed = " is being displayed";
 
 		while (true) {
