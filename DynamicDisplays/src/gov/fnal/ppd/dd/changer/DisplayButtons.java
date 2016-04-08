@@ -14,7 +14,9 @@ import gov.fnal.ppd.dd.util.DisplayColorSliderUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -152,7 +154,7 @@ public class DisplayButtons extends JPanel {
 		}
 	}
 
-	private Box				buttonBox;
+	private Container		buttonBox;
 
 	private ActionListener	listener;
 
@@ -172,8 +174,12 @@ public class DisplayButtons extends JPanel {
 
 		if (displayList.size() <= MAXIMUM_DISPLAY_BUTTONS)
 			makeScreenGrid();
-		else
-			makeScreenGridSlider();
+		else {
+			if (SHOW_IN_WINDOW)
+				makeCompactScreenGrid();
+			else
+				makeScreenGridSlider();
+		}
 		if (SHOW_IN_WINDOW)
 			setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		else
@@ -255,9 +261,64 @@ public class DisplayButtons extends JPanel {
 		buttonBox.add(new MyJSlider(SwingConstants.VERTICAL, 0, displayList.size() - 1, 0));
 		buttonBox.add(Box.createRigidArea(new Dimension(10, 10)));
 
-		buttonBox.setAlignmentX(JComponent.TOP_ALIGNMENT);
+		((Box) buttonBox).setAlignmentX(JComponent.TOP_ALIGNMENT);
 		add(buttonBox, BorderLayout.CENTER);
 		buttonList = null;
+	}
+
+	private void makeCompactScreenGrid() {
+		buttonBox = new JPanel(new GridLayout(0, 2));
+
+		DisplayButtonGroup bg = new DisplayButtonGroup();
+
+		float fs = 12.0f;
+		if (displayList.size() > 60)
+			fs = 10.0f;
+		else if (displayList.size() > 40)
+			fs = 11.0f;
+
+		synchronized (buttonList) {
+			for (int i = 0; i < displayList.size(); i++) {
+				final Display disp = displayList.get(i);
+				final DDButton button = new DDButton(disp);
+				button.setText("Disp " + disp.getVirtualDisplayNumber() + " | " + disp.getDBDisplayNumber());
+				buttonList.add(button);
+				button.setFont(button.getFont().deriveFont(fs));
+				button.setSelected(i == 0);
+				bg.add(button);
+
+				final int fi = i;
+				button.addActionListener(new ActionListener() {
+
+					public void actionPerformed(ActionEvent e) {
+						listener.actionPerformed(new ActionEvent(disp, fi, getDisplayID(disp), e.getWhen(), e.getModifiers()));
+						setToolTip(disp);
+					}
+				});
+
+				JPanel p = new JPanel(new BorderLayout());
+				p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(0xcccccc)),
+						BorderFactory.createLineBorder(disp.getPreferredHighlightColor(), 2)));
+				p.add(button, BorderLayout.CENTER);
+				buttonBox.add(p);
+			}
+
+			if (displayList.size() > 1) {
+				setOpaque(true);
+				setBackground(Color.black);
+
+				JPanel outerPanel = new JPanel(new BorderLayout());
+				outerPanel.setOpaque(true);
+				outerPanel.setBackground(Color.black);
+
+				int blackBand = (SHOW_IN_WINDOW ? 2 : 20);
+				outerPanel.add(Box.createRigidArea(new Dimension(blackBand, blackBand)), BorderLayout.WEST);
+				outerPanel.add(buttonBox, BorderLayout.CENTER);
+				outerPanel.add(Box.createRigidArea(new Dimension(blackBand, blackBand)), BorderLayout.EAST);
+
+				add(outerPanel, BorderLayout.CENTER);
+			}
+		}
 	}
 
 	/**

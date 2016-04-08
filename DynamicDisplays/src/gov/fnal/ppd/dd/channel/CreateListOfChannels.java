@@ -28,6 +28,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -109,7 +110,7 @@ public class CreateListOfChannels extends JPanel {
 			setOpaque(true);
 			setBackground(Color.white);
 			if (!SHOW_IN_WINDOW)
-				setFont(new Font("Sans Serif", style, 20));
+				setFont(new Font("Arial", style, 20));
 			setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		}
 	}
@@ -554,23 +555,15 @@ public class CreateListOfChannels extends JPanel {
 	}
 
 	CreateListOfChannels() {
-		super(new GridBagLayout());
+		super();
 		saveRestore = new SaveRestoreListOfChannels();
-		alt();
-
+		// alt();
+		alt_2();
 	}
 
 	@SuppressWarnings("unused")
-	private void makeButtons() {
-	}
-
 	private void alt() {
 		setLayout(new GridBagLayout());
-
-		//
-		// TODO Instead of a long vertical list of channels in the "Channel List" GUI, organize them into separate panels, with a
-		// titled border
-		//
 
 		GridBagConstraints bag = new GridBagConstraints();
 		bag.fill = GridBagConstraints.HORIZONTAL;
@@ -695,6 +688,149 @@ public class CreateListOfChannels extends JPanel {
 
 		bag.gridx++;
 		add(Box.createRigidArea(new Dimension(10, 10)), bag);
+	}
+
+	private void alt_2() {
+		setLayout(new BorderLayout());
+
+		BigLabel bl = new BigLabel("Approximate Dwell time (msec): ", Font.PLAIN);
+
+		final SpinnerModel model = new SpinnerListModel(getDwellStrings());
+		time = new JSpinner(model);
+		time.setValue(new Long(20000l));
+		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		if (!SHOW_IN_WINDOW) {
+			time.setFont(new Font("Monospace", Font.PLAIN, 40));
+			// TODO -- increase the size of the buttons.  It is really complicated (https://community.oracle.com/thread/1357837?start=0&tstart=0) -- later!
+		}
+		final JLabel timeInterpretLabel = new JLabel("20 secs");
+		int ft = (SHOW_IN_WINDOW ? 12 : 20);
+		timeInterpretLabel.setFont(new Font(Font.MONOSPACED, Font.ITALIC, ft));
+
+		time.addChangeListener(new ChangeListener() {
+			DecimalFormat	format	= new DecimalFormat("#.0");
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				long val = (Long) model.getValue();
+				String t = val + " milliseconds";
+				if (val < 60000L) {
+					t = (val / 1000) + " sec";
+				} else if (val < 3600000) {
+					double min = ((double) val) / 60000.0;
+					t = format.format(min) + " min";
+				} else {
+					double hours = ((double) val) / (60 * 60 * 1000.0);
+					t = format.format(hours) + " hr";
+				}
+				timeInterpretLabel.setText(t);
+			}
+		});
+
+		Box bx = Box.createHorizontalBox();
+		bx.add(Box.createGlue());
+		bx.add(bl);
+		bx.add(time);
+		bx.add(Box.createRigidArea(new Dimension(10, 10)));
+		bx.add(timeInterpretLabel);
+		bx.add(Box.createGlue());
+		add(bx, BorderLayout.NORTH);
+
+		// ----------------------------------------
+
+		ChannelCategory categories[] = CategoryDictionary.getCategories();
+		Box mainPanel = Box.createVerticalBox();
+		final Color bg1 = new Color(210, 210, 210);
+		final Color bg2 = new Color(230, 230, 230);
+		Color bgColor = bg2;
+
+		for (ChannelCategory C : categories) {
+			String sep = "--------------- " + C + " ----------------";
+
+			for (int len = C.getValue().length(); len < 18; len += 2)
+				sep = "-" + sep + "--";
+
+			BigLabel catLabel = new BigLabel(sep, Font.BOLD);
+			if (SHOW_IN_WINDOW)
+				catLabel.setFont(new Font("Arial", Font.BOLD, 20));
+			mainPanel.add(catLabel);
+
+			int nc = (SHOW_IN_WINDOW ? 3 : 2);
+			JPanel inner = new JPanel(new GridLayout(0, nc, 5, 5));
+
+			if (bgColor == bg2)
+				bgColor = bg1;
+			else
+				bgColor = bg2;
+
+			inner.setOpaque(true);
+			inner.setBackground(bgColor);
+			catLabel.setBackground(bgColor);
+
+			mainPanel.add(inner);
+			mainPanel.add(Box.createRigidArea(new Dimension(200, 20)));
+			Set<SignageContent> chans = ChannelCatalogFactory.getInstance().getChannelCatalog(C);
+			for (final SignageContent CONTENT : chans) {
+				final JButton bb = new BigButton(CONTENT.getName());
+				if (SHOW_IN_WINDOW)
+					bb.setMargin(new Insets(8, 8, 8, 8));
+
+				final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
+
+				final Box box = Box.createVerticalBox();
+				JPanel p = new JPanel(new BorderLayout(0, 0));
+				p.add(bb);
+				box.add(p);
+				box.add(Box.createRigidArea(new Dimension(5, 5)));
+				p = new JPanel(new BorderLayout(0, 0));
+				p.add(lab);
+				box.add(p);
+				box.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2),
+						BorderFactory.createLineBorder(Color.black)));
+
+				inner.add(box);
+
+				allLabels.put(CONTENT.getName(), lab);
+				bb.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						boolean selected = channelList.contains(CONTENT);
+						if (selected) {
+							while (channelList.remove(CONTENT))
+								; // Remove them all
+							lab.setText(NOT_SELECTED);
+							labelList.remove(lab);
+						} else {
+							long defaultDwell = (Long) time.getValue();
+							long actualDwell = 0;
+							if (CONTENT.getTime() == 0 || CONTENT.getTime() > defaultDwell) {
+								CONTENT.setTime(defaultDwell);
+								channelList.add(CONTENT);
+								actualDwell = defaultDwell;
+							} else {
+								// Simple change here: Based on the internal refresh time of the channel, add 1 or more instances of
+								// this channel the the list. E.g., if the user is asking for a dwell of an hour, but the channel
+								// has a refresh of 20 minutes, it will put the channel in the list 3 times, at 20 minutes per.
+
+								long tm = defaultDwell;
+								for (; tm >= CONTENT.getTime(); tm -= CONTENT.getTime()) {
+									channelList.add(CONTENT);
+									actualDwell += CONTENT.getTime();
+								}
+
+								// TODO -- Add a copy of this channel that gets refreshed at time=(the remaining value of) tm.
+							}
+							lab.setText("" + actualDwell);
+							labelList.add(lab);
+						}
+						fixLabels();
+					}
+				});
+			}
+		}
+
+		add(mainPanel, BorderLayout.CENTER);
 	}
 
 	private static List<Long> getDwellStrings() {
