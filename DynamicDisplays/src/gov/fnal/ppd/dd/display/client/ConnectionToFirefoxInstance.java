@@ -7,6 +7,7 @@ package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.isThisURLNeedAnimation;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
@@ -70,6 +71,7 @@ public class ConnectionToFirefoxInstance {
 	private boolean									tryingToCloseNow				= false;
 	protected boolean								firstTimeOpeningConnection		= true;
 	private boolean									showingEmergencyCommunication	= false;
+	private boolean									badNUC							= false;										;
 
 	private static List<Command>					finalCommand					= new ArrayList<Command>();
 
@@ -183,9 +185,9 @@ public class ConnectionToFirefoxInstance {
 	 * Change the URL that is showing now.
 	 * 
 	 * Applying "synchronized" here just in case there are back-to-back change requests. Is this necessary, since there are
-	 * synchonizations on the in and the out sockets?
+	 * synchronizations on the in and the out sockets?
 	 * 
-	 * @param urlString
+	 * @param urlStrg
 	 *            The URL that this instance should show now.
 	 * @param theWrapper
 	 *            What kind of wrapper page shall this be? Normal, ticker-tape or none ("none" is really not going to work)
@@ -195,8 +197,13 @@ public class ConnectionToFirefoxInstance {
 	 * @throws UnsupportedEncodingException
 	 *             -- if the url we have been given is bogus
 	 */
-	public synchronized boolean changeURL(final String urlString, final WrapperType theWrapper, final int frameNumber)
+	public synchronized boolean changeURL(final String urlStrg, final WrapperType theWrapper, final int frameNumber)
 			throws UnsupportedEncodingException {
+
+		String urlString = urlStrg;
+		if (badNUC && isThisURLNeedAnimation(urlStrg)) {
+			urlString = urlStrg + "&zoom=0";
+		}
 		if (debug)
 			if (frameNumber == 0)
 				println(getClass(), instance + " New URL: " + urlString);
@@ -239,9 +246,9 @@ public class ConnectionToFirefoxInstance {
 			if (!showingCanonicalSite.get()) {
 				println(getClass(), instance + " Sending full, new URL to browser " + TICKERTAPE_WEB_PAGE);
 				showingCanonicalSite.set(true);
-				s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height + "&feed="
-						+ theWrapper.getTickerName();
+				s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
+						+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height
+						+ "&feed=" + theWrapper.getTickerName();
 
 				if (isNumberHidden())
 					s += "&shownumber=0";
@@ -266,8 +273,8 @@ public class ConnectionToFirefoxInstance {
 			if (!showingCanonicalSite.get()) {
 				println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAME_WEB_PAGE);
 				showingCanonicalSite.set(true);
-				s = "window.location=\"" + EXTRAFRAME_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+				s = "window.location=\"" + EXTRAFRAME_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
+						+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
 				if (isNumberHidden())
 					s += "&shownumber=0";
@@ -281,8 +288,8 @@ public class ConnectionToFirefoxInstance {
 			if (!showingCanonicalSite.get()) {
 				println(getClass(), instance + " Sending full, new URL to browser " + borderPage);
 				showingCanonicalSite.set(true);
-				s = "window.location=\"" + borderPage + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display=" + virtualID
-						+ "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+				s = "window.location=\"" + borderPage + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
 				if (isNumberHidden())
 					s += "&shownumber=0";
@@ -768,7 +775,37 @@ public class ConnectionToFirefoxInstance {
 			return removeEmergencyCommunication();
 
 		String mess = message.toHTML() + "<p class='date'>Last update: " + new Date() + "</p>";
-		String s = "document.getElementById('emergencyframe1').innerHTML='" + mess.replace("'", "\\'") + "';\n";
+
+		Color borderColor = null;
+		switch (message.getSeverity()) {
+		case ALERT:
+			borderColor = Color.RED.darker();
+			break;
+
+		case INFORMATION:
+			borderColor = Color.GREEN.darker();
+			break;
+
+		case TESTING:
+			borderColor = Color.GRAY;
+			break;
+
+		case EMERGENCY:
+			borderColor = Color.RED;
+			break;
+
+		case REMOVE:
+			// Already handled above
+			break;
+		}
+
+		String s = "";
+		if (borderColor != null) {
+			String rgb = getHex(borderColor.getRed()) + getHex(borderColor.getGreen()) + getHex(borderColor.getBlue());
+			s = "document.getElementById('emergencyframe1').style.borderColor = '#" + rgb + "';\n";
+		}
+
+		s += "document.getElementById('emergencyframe1').innerHTML='" + mess.replace("'", "\\'") + "';\n";
 		s += "document.getElementById('emergencyframe1').style.visibility='visible';\n";
 
 		send(s);
@@ -783,6 +820,13 @@ public class ConnectionToFirefoxInstance {
 			setIsNotConnected();
 			return false;
 		}
+	}
+
+	private String getHex(int val) {
+		String retval = Integer.toHexString(0x000000ff & val);
+		if (val < 16)
+			return "0" + retval;
+		return retval;
 	}
 
 	/**
@@ -804,5 +848,9 @@ public class ConnectionToFirefoxInstance {
 			setIsNotConnected();
 			return false;
 		}
+	}
+
+	public void setBadNUC(boolean badNUC) {
+		this.badNUC = badNUC;
 	}
 }

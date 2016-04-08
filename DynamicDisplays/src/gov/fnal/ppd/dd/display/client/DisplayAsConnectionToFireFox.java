@@ -115,7 +115,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 				firefox = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
 						highlightColor, showNumber);
-
+				firefox.setBadNUC(badNUC);
 				catchSleep(2000); // Wait a bit before trying to talk to this instance of Firefox.
 
 				lastFullRestTime = System.currentTimeMillis();

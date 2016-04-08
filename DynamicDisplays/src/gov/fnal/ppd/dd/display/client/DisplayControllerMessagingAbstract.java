@@ -62,6 +62,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private int						statusUpdatePeriod		= 10;
 	protected boolean				showNumber				= true;
 	protected VersionInformation	versionInfo				= VersionInformation.getVersionInformation();
+	protected boolean				badNUC;
 
 	// Use messaging to get change requests from the changers -->
 	// private boolean actAsServerNoMessages = true;
@@ -228,8 +229,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 	}
 
-	
-
 	protected abstract String getStatusString();
 
 	public final void actionPerformed(ActionEvent e) {
@@ -303,6 +302,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								int channelNumber = rs.getInt("Content");
 								SignageContent cont = getChannelFromNumber(channelNumber);
 
+								boolean badNUC = rs.getInt("BadNUC") == 1;
+
 								// stmt.close();
 								// rs.close();
 
@@ -316,6 +317,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 											dbNumber, screenNumber, showNumber, location, color, type });
 									d.setContentBypass(cont);
 									d.setWrapperType(WrapperType.getWrapperType(tickerCode));
+									d.setBadNuc(badNUC);
 									d.initiate();
 									// return d;
 								} catch (NoSuchMethodException | SecurityException | IllegalAccessException
@@ -352,6 +354,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		return d;
 	}
 
+	private void setBadNuc(boolean badNUC) {
+		this.badNUC = badNUC;
+	}
+
 	protected abstract void setWrapperType(WrapperType wrapperType);
 
 	private static DisplayControllerMessagingAbstract failSafeVersion(Class<?> clazz) {
@@ -372,8 +378,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 		return null;
 	}
-
-
 
 	/**
 	 * Ask for a status update to the database
