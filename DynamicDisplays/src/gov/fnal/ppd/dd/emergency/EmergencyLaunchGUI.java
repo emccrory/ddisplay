@@ -1,15 +1,20 @@
 package gov.fnal.ppd.dd.emergency;
 
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationDescription;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.changer.DisplayButtons.normalOperations;
+import static gov.fnal.ppd.dd.util.Util.launchErrorMessage;
+import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
+import gov.fnal.ppd.dd.changer.DisplayChangeEvent.Type;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
+import gov.fnal.ppd.dd.util.ObjectSigning;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -58,7 +63,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	private JTextArea					messageArea			= new JTextArea(5, 65);
 	private JTextArea					footerArea			= new JTextArea(2, 65);
 
-	private JLabel						emergencyStatus		= new JLabel("No emergency message showing");
+	private JLabel						emergencyStatus		= new JLabel("Have initiated no emergency messages");
 
 	private JButton						accept				= new JButton("Send Test Message");
 	private JButton						cancel				= new JButton("Exit");
@@ -95,10 +100,20 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	private List<JLabel>				footers				= new ArrayList<JLabel>();
 	private List<JCheckBox>				checkBoxes			= new ArrayList<JCheckBox>();
 
-	public static void main(String[] args) {
+	private boolean						messageSendErrors;
+
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
 		credentialsSetup();
 
 		selectorSetup();
+
+		if (!ObjectSigning.getInstance().isEmergMessAllowed(getFullSelectorName())) {
+			JOptionPane.showMessageDialog(null, "'" + getFullSelectorName() + "' is not allowed to create emergency messages.");
+			System.exit(-1);
+		}
 
 		EmergencyLaunchGUI elg = new EmergencyLaunchGUI(new EmergencyMessageDistributor() {
 
@@ -121,7 +136,10 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		f.setVisible(true);
 	}
 
-	public EmergencyLaunchGUI(EmergencyMessageDistributor emd) {
+	/**
+	 * @param emd
+	 */
+	public EmergencyLaunchGUI(final EmergencyMessageDistributor emd) {
 		super(new GridBagLayout());
 		this.emergencyMessageDistributor = emd;
 		normalOperations = false;
@@ -133,8 +151,6 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 					+ D.getClass().getSimpleName());
 			footer.setFont(new Font("Arial", Font.PLAIN, 10));
 			footer.setMaximumSize(new Dimension(150, 30));
-			// footer.setOpaque(true);
-			// footer.setBorder(BorderFactory.createLineBorder(Color.black));
 			(new CheckDisplayStatus(D, footer)).start();
 			footers.add(footer);
 
@@ -143,11 +159,25 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			cb.setSelected(true);
 			cb.setToolTipText("Display " + D.getVirtualDisplayNumber() + "|" + D.getDBDisplayNumber() + ", " + D.getLocation());
 			checkBoxes.add(cb);
-		}
 
+			// Add listener to know when a message has been rejected.
+			D.addListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					DisplayChangeEvent ev = (DisplayChangeEvent) e;
+					if (ev.getType() == Type.ERROR) {
+						launchErrorMessage(e);
+						messageSendErrors = true;
+					}
+					// else, we really don't care.
+				}
+			});
+		}
 	}
 
 	private static class MyJScrollPane extends JScrollPane {
+		private static final long	serialVersionUID	= 4726817736944861133L;
+
 		public MyJScrollPane(Component c, int minWidth, int minHeight) {
 			super(c);
 			setMinimumSize(new Dimension(minWidth, minHeight));
@@ -365,7 +395,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			if (((String) body).length() > 80) {
 				Box box = Box.createVerticalBox();
 
-				box.add(new JLabel("Headline: '" + headlineText.getText()));
+				box.add(new JLabel("Headline: '" + headlineText.getText() + "'"));
 
 				box.add(Box.createRigidArea(new Dimension(10, 10)));
 
@@ -384,15 +414,18 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 				area.setWrapStyleWord(true);
 				box.add(new JScrollPane(area));
 
+				box.add(new JLabel("Severity = '" + message.getSeverity() + "'"));
 				body = box;
 			}
 
-			String text = "Showing Emergency Message!";
+			String text = "Sent Emergency Message";
+			messageSendErrors = false;
 			if (JOptionPane.showConfirmDialog(this, body, "Are you SURE??", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				if (emergencyMessageDistributor.send(message))
-					JOptionPane.showMessageDialog(this, "Emergency message sent at " + new Date());
-				else
-					text = "Not showing message: Send failed";
+					if (!messageSendErrors)
+						JOptionPane.showMessageDialog(this, "Emergency message sent at " + new Date());
+					else
+						text = "Not showing message: Send failed";
 			} else {
 				JOptionPane.showMessageDialog(this, "Emergency message NOT CONFIRMED");
 				text = "Not showing message: User rejected";
@@ -405,13 +438,15 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
 		case "Remove":
 			message.setSeverity(Severity.REMOVE);
-			text = "Emergency message has been removed";
+			text = "Emergency message was removed";
+			messageSendErrors = false;
 			if (emergencyMessageDistributor.send(message))
-				JOptionPane.showMessageDialog(this, "Emergency message REMOVED at " + new Date());
-			else {
-				JOptionPane.showMessageDialog(this, "Problem removing emergency message");
-				text = "Unknown state: Message may have been removed";
-			}
+				if (!messageSendErrors)
+					JOptionPane.showMessageDialog(this, "Emergency message REMOVED at " + new Date());
+				else {
+					JOptionPane.showMessageDialog(this, "Problem removing emergency message");
+					text = "Unknown state: Message may have been removed";
+				}
 
 			emergencyStatus.setText(text + " at " + new Date());
 

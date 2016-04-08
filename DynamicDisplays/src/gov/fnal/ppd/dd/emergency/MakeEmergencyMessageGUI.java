@@ -1,17 +1,19 @@
 package gov.fnal.ppd.dd.emergency;
 
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
-import static gov.fnal.ppd.dd.emergency.EmergencyLaunchGUI.SHOW_MORE_STUFF;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageType;
+import gov.fnal.ppd.dd.util.ObjectSigning;
 
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -19,9 +21,18 @@ import javax.swing.JFrame;
  */
 public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 
-	public static void main(String[] args) {
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
 
 		MakeEmergencyMessageGUI em = new MakeEmergencyMessageGUI();
+
+		if (!ObjectSigning.getInstance().isEmergMessAllowed(getFullSelectorName())) {
+			JOptionPane.showMessageDialog(null, "You are not allowed to create emergency messages.");
+			System.exit(-1);
+		}
+
 		em.initialize();
 
 		EmergencyLaunchGUI elg = new EmergencyLaunchGUI(em);
