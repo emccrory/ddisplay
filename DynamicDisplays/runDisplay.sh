@@ -15,8 +15,11 @@ fi
 cd ~/src/log
 
 if [ -e /usr/bin/xterm ]; then
-    # SLF
-    /usr/bin/xterm  -geometry 200x30 -fa 'Monospace' -fs 12 &
+    # SLF 6.x
+    /usr/bin/xterm -geometry 200x30 -fa 'Monospace' -fs 12 &
+elifif [ -e /usr/bin/gnome-terminal ]; then
+    # SL 7.x
+    /usr/bin/gnome-terminal --geometry 200x30 --zoom=1.5 &
 elif [ -e /opt/X11/bin/xterm ]; then
     # Mac OS
     # First, wait for the X Server to initialize
