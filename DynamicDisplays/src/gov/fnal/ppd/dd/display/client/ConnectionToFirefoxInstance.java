@@ -77,11 +77,12 @@ public class ConnectionToFirefoxInstance {
 
 	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
 
-	private static final String						BASE_WEB_PAGE					= "http://" + WEB_SERVER_NAME + "/border.php";
+	// private static final String						BASE_WEB_PAGE					= "http://" + WEB_SERVER_NAME + "/border.php";
+	// private static final String EXTRAFRAME_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border2.php";
+	// private static final String EXTRAFRAMESNOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border3.php";
+	// private static final String EXTRAFRAMENOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border4.php";
+	
 	private static final String						TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
-	private static final String						EXTRAFRAME_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border2.php";
-	private static final String						EXTRAFRAMESNOTICKER_WEB_PAGE	= "http://" + WEB_SERVER_NAME + "/border3.php";
-	private static final String						EXTRAFRAMENOTICKER_WEB_PAGE		= "http://" + WEB_SERVER_NAME + "/border4.php";
 	private static final String						WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border7.php";
 
 	// private static final String FERMI_TICKERTAPE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border5.php";
@@ -230,9 +231,9 @@ public class ConnectionToFirefoxInstance {
 
 		case NORMAL:
 			if (!showingCanonicalSite.get()) {
-				println(getClass(), instance + " Sending full, new URL to browser, " + BASE_WEB_PAGE);
+				println(getClass(), instance + " Sending full, new URL to browser, " + WEB_PAGE_EMERGENCY_FRAME);
 				showingCanonicalSite.set(true);
-				s = "window.location=\"" + BASE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+				s = "window.location=\"" + WEB_PAGE_EMERGENCY_FRAME + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
 				if (isNumberHidden())
@@ -242,13 +243,13 @@ public class ConnectionToFirefoxInstance {
 			break;
 
 		case TICKER:
-		case FERMITICKER:
+			// case FERMITICKER:
 			if (!showingCanonicalSite.get()) {
 				println(getClass(), instance + " Sending full, new URL to browser " + TICKERTAPE_WEB_PAGE);
 				showingCanonicalSite.set(true);
-				s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
-						+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height
-						+ "&feed=" + theWrapper.getTickerName();
+				s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height + "&feed="
+						+ theWrapper.getTickerName();
 
 				if (isNumberHidden())
 					s += "&shownumber=0";
@@ -256,65 +257,52 @@ public class ConnectionToFirefoxInstance {
 			}
 			break;
 
+		// case TICKERANDFRAME:
 		// if (!showingCanonicalSite.get()) {
-		// println(getClass(), instance + " Sending full, new URL to browser" + instance + ", " + FERMI_TICKERTAPE_WEB_PAGE);
+		// println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAME_WEB_PAGE);
 		// showingCanonicalSite.set(true);
-		// s = "window.location=\"" + FERMI_TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
-		// + "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height="
-		// + bounds.height;
+		// s = "window.location=\"" + EXTRAFRAME_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
+		// + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 		//
 		// if (isNumberHidden())
 		// s += "&shownumber=0";
 		// s += "\";\n";
 		// }
 		// break;
-
-		case TICKERANDFRAME:
-			if (!showingCanonicalSite.get()) {
-				println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAME_WEB_PAGE);
-				showingCanonicalSite.set(true);
-				s = "window.location=\"" + EXTRAFRAME_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
-						+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
-
-				if (isNumberHidden())
-					s += "&shownumber=0";
-				s += "\";\n";
-			}
-			break;
-
-		case FRAMENOTICKER:
-			String borderPage = WEB_PAGE_EMERGENCY_FRAME; // EXTRAFRAMENOTICKER_WEB_PAGE);
-
-			if (!showingCanonicalSite.get()) {
-				println(getClass(), instance + " Sending full, new URL to browser " + borderPage);
-				showingCanonicalSite.set(true);
-				s = "window.location=\"" + borderPage + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
-
-				if (isNumberHidden())
-					s += "&shownumber=0";
-				s += "\";\n";
-			}
-			break;
-
-		case FRAMESNOTICKER:
-			if (!showingCanonicalSite.get()) {
-				println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAMESNOTICKER_WEB_PAGE);
-				showingCanonicalSite.set(true);
-				s = "window.location=\"" + EXTRAFRAMESNOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
-						+ "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
-
-				if (isNumberHidden())
-					s += "&shownumber=0";
-				s += "\";\n";
-			}
-			break;
-
-		case NONE:
-			s = "window.location=\"" + urlString + "\";\n";
-			println(getClass(), instance + " Wrapper not used, new URL is " + urlString + instance);
-			showingCanonicalSite.set(false);
-			break;
+		//
+		// case FRAMENOTICKER:
+		// String borderPage = WEB_PAGE_EMERGENCY_FRAME; // EXTRAFRAMENOTICKER_WEB_PAGE);
+		//
+		// if (!showingCanonicalSite.get()) {
+		// println(getClass(), instance + " Sending full, new URL to browser " + borderPage);
+		// showingCanonicalSite.set(true);
+		// s = "window.location=\"" + borderPage + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display=" + virtualID
+		// + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+		//
+		// if (isNumberHidden())
+		// s += "&shownumber=0";
+		// s += "\";\n";
+		// }
+		// break;
+		//
+		// case FRAMESNOTICKER:
+		// if (!showingCanonicalSite.get()) {
+		// println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAMESNOTICKER_WEB_PAGE);
+		// showingCanonicalSite.set(true);
+		// s = "window.location=\"" + EXTRAFRAMESNOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
+		// + "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
+		//
+		// if (isNumberHidden())
+		// s += "&shownumber=0";
+		// s += "\";\n";
+		// }
+		// break;
+		//
+		// case NONE:
+		// s = "window.location=\"" + urlString + "\";\n";
+		// println(getClass(), instance + " Wrapper not used.  THIS IS UNTESTED!  New URL is " + urlString + instance);
+		// showingCanonicalSite.set(false);
+		// break;
 		}
 
 		send(s);

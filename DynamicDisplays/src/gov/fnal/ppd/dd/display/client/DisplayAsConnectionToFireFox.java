@@ -441,7 +441,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 							for (long t = localDwellTime; t > 0 && changeCount == thisChangeCount; t -= increment) {
 								catchSleep(Math.min(increment, t));
 							}
-							if ( showingEmergencyMessage ) {
+							if (showingEmergencyMessage) {
 								localDwellTime = Math.min(dwellTime, ONE_MINUTE);
 								continue;
 							}
@@ -580,13 +580,6 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	@Override
 	public void disconnect() {
 		endAllConnections();
-	}
-
-	/**
-	 * @return will the next URL request go through the normal wrapper page?
-	 */
-	public boolean isUsingWrapper() {
-		return wrapperType != WrapperType.NONE;
 	}
 
 	protected boolean isVerifiedChannel(SignageContent c) {

@@ -488,6 +488,7 @@ public class CreateListOfChannels extends JPanel {
 					synchronized (connection) {
 						int listNumber = 0;
 
+						// TODO -- Don't let the user accidentally make a list with a zero-length name.
 						String list = lastListName = listName.getText();
 						String author = defaultName = myName.getText();
 

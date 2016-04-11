@@ -14,6 +14,9 @@ package gov.fnal.ppd.dd.display.client;
  * <p>
  * All wrapper programs should have the capability of multiple frames
  * </p>
+ * <p>
+ * Update 4/8/2016: There is no calling for frames at this time. So eliminate all the frame choices.
+ * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -27,32 +30,32 @@ public enum WrapperType {
 	/**
 	 * Use the border web page that includes the News Ticker
 	 */
-	TICKER,
+	TICKER;
 
-	/**
-	 * Use the border web page that includes the News Ticker AND one or more extra iFrames for announcements
-	 */
-	TICKERANDFRAME,
-
-	/**
-	 * There are multiple (4) frames but no ticker.
-	 */
-	FRAMESNOTICKER,
-
-	/**
-	 * There one extra frame but no ticker.
-	 */
-	FRAMENOTICKER,
-
-	/**
-	 * Show the "Fermilab News" ticker
-	 */
-	FERMITICKER,
-
-	/**
-	 * Show naked web pages without the border (untested)
-	 */
-	NONE;
+	// /**
+	// * Use the border web page that includes the News Ticker AND one or more extra iFrames for announcements
+	// */
+	// TICKERANDFRAME,
+	//
+	// /**
+	// * There are multiple (4) frames but no ticker.
+	// */
+	// FRAMESNOTICKER,
+	//
+	// /**
+	// * There one extra frame but no ticker.
+	// */
+	// FRAMENOTICKER,
+	//
+	// /**
+	// * Show the "Fermilab News" ticker
+	// */
+	// FERMITICKER,
+	//
+	// /**
+	// * Show naked web pages without the border (untested)
+	// */
+	// NONE;
 
 	/**
 	 * @param val
@@ -66,15 +69,15 @@ public enum WrapperType {
 		case 1:
 			return TICKER;
 		case 2:
-			return TICKERANDFRAME;
+			// return TICKERANDFRAME;
 		case 3:
-			return FRAMESNOTICKER;
+			// return FRAMESNOTICKER;
 		case 4:
-			return FRAMENOTICKER;
+			// return FRAMENOTICKER;
 		case 5:
-			return FERMITICKER;
+			// return FERMITICKER;
 		default:
-			return NONE;
+			return NORMAL;
 		}
 	}
 
@@ -106,15 +109,15 @@ public enum WrapperType {
 		case 1:
 			return this == TICKER;
 		case 2:
-			return this == TICKERANDFRAME;
+			// return this == TICKERANDFRAME;
 		case 3:
-			return this == FRAMESNOTICKER;
+			// return this == FRAMESNOTICKER;
 		case 4:
-			return this == FRAMENOTICKER;
+			// return this == FRAMENOTICKER;
 		case 5:
-			return this == FERMITICKER;
+			// return this == FERMITICKER;
 		case 6:
-			return this == NONE;
+			// return this == NONE;
 		default:
 			return false;
 		}
@@ -127,10 +130,10 @@ public enum WrapperType {
 		switch (this) {
 		case NORMAL:
 			return "";
-			
-		case FERMITICKER:
-			return FERMI_NEWS_TICKER;
-			
+
+			// case FERMITICKER:
+			// return FERMI_NEWS_TICKER;
+
 		default:
 			return tickerName;
 		}
