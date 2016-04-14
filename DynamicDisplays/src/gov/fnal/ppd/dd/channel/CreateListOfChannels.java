@@ -87,7 +87,7 @@ public class CreateListOfChannels extends JPanel {
 	protected String					defaultName			= System.getProperty("user.name");
 	protected String					lastListName		= "A list name";
 	private Map<String, JLabel>			allLabels			= new HashMap<String, JLabel>();
-	private Box							timeWidgets			= Box.createVerticalBox();
+	private JPanel						timeWidgets			= new JPanel(new GridLayout(1, 5));
 
 	static class BigButton extends JButton {
 		private static final long	serialVersionUID	= 6517317474435639087L;
@@ -95,8 +95,8 @@ public class CreateListOfChannels extends JPanel {
 		public BigButton(String title) {
 			super(title);
 			if (!SHOW_IN_WINDOW) {
-				setFont(getFont().deriveFont(30.0f));
-				setMargin(new Insets(20, 20, 20, 20));
+				setFont(new Font("Arial", Font.BOLD, 30));
+				setMargin(new Insets(10, 30, 10, 30));
 			}
 			setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		}
@@ -110,7 +110,7 @@ public class CreateListOfChannels extends JPanel {
 			setOpaque(true);
 			setBackground(Color.white);
 			if (!SHOW_IN_WINDOW)
-				setFont(new Font("Arial", style, 20));
+				setFont(new Font("Arial", style, 18));
 			setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		}
 	}
@@ -580,15 +580,16 @@ public class CreateListOfChannels extends JPanel {
 
 		Box bh = Box.createHorizontalBox();
 		bh.add(Box.createHorizontalGlue());
-		bh.add(new BigLabel("Approximate Dwell time (msec): ", Font.PLAIN));
+		bh.add(new BigLabel("Approx Dwell time (sec): ", Font.PLAIN));
 
 		final SpinnerModel model = new SpinnerListModel(getDwellStrings());
 		time = new JSpinner(model);
-		time.setValue(new Long(20000l));
+		time.setValue(new Long(20L));
 		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		if (!SHOW_IN_WINDOW)
 			time.setFont(new Font("Monospace", Font.PLAIN, 40));
 		bh.add(time);
+
 		final JLabel timeInterpretLabel = new JLabel("20 secs");
 		timeInterpretLabel.setFont(new Font(Font.MONOSPACED, Font.ITALIC, 12));
 		bh.add(Box.createRigidArea(new Dimension(10, 10)));
@@ -600,13 +601,13 @@ public class CreateListOfChannels extends JPanel {
 			public void stateChanged(ChangeEvent e) {
 				long val = (Long) model.getValue();
 				String t = val + " milliseconds";
-				if (val < 60000L) {
-					t = (val / 1000) + " sec";
-				} else if (val < 3600000) {
-					double min = ((double) val) / 60000.0;
+				if (val < 60L) {
+					t = val + " sec";
+				} else if (val < 3600) {
+					double min = ((double) val) / 60.0;
 					t = format.format(min) + " min";
 				} else {
-					double hours = ((double) val) / (60 * 60 * 1000.0);
+					double hours = ((double) val) / (60 * 60);
 					t = format.format(hours) + " hr";
 				}
 				timeInterpretLabel.setText(t);
@@ -614,9 +615,9 @@ public class CreateListOfChannels extends JPanel {
 		});
 		bh.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		bh.add(Box.createHorizontalGlue());
-		timeWidgets.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		timeWidgets.add(Box.createRigidArea(new Dimension(10, 10)));
-		timeWidgets.add(bh);
+		// timeWidgets.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		// timeWidgets.add(Box.createRigidArea(new Dimension(10, 10)));
+		// timeWidgets.add(bh);
 
 		bag.gridy++;
 
@@ -658,7 +659,7 @@ public class CreateListOfChannels extends JPanel {
 							lab.setText(NOT_SELECTED);
 							labelList.remove(lab);
 						} else {
-							long defaultDwell = (Long) time.getValue();
+							long defaultDwell = (Long) time.getValue() * 1000L;
 							long actualDwell = 0;
 							if (CONTENT.getTime() == 0 || CONTENT.getTime() > defaultDwell) {
 								CONTENT.setTime(defaultDwell);
@@ -694,17 +695,19 @@ public class CreateListOfChannels extends JPanel {
 	private void alt_2() {
 		setLayout(new BorderLayout());
 
-		BigLabel bl = new BigLabel("Approximate Dwell time (msec): ", Font.PLAIN);
+		BigLabel bl = new BigLabel("Approx Dwell Time (sec): ", Font.PLAIN);
+		bl.setOpaque(false);
 
 		final SpinnerModel model = new SpinnerListModel(getDwellStrings());
 		time = new JSpinner(model);
-		time.setValue(new Long(20000l));
+		time.setValue(new Long(20l));
 		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		if (!SHOW_IN_WINDOW) {
 			time.setFont(new Font("Monospace", Font.PLAIN, 40));
-			// TODO -- increase the size of the buttons.  It is really complicated (https://community.oracle.com/thread/1357837?start=0&tstart=0) -- later!
+			// TODO -- increase the size of the buttons. It is really complicated
+			// (https://community.oracle.com/thread/1357837?start=0&tstart=0) -- later!
 		}
-		final JLabel timeInterpretLabel = new JLabel("20 secs");
+		final JLabel timeInterpretLabel = new JLabel(" 20 seconds");
 		int ft = (SHOW_IN_WINDOW ? 12 : 20);
 		timeInterpretLabel.setFont(new Font(Font.MONOSPACED, Font.ITALIC, ft));
 
@@ -714,28 +717,25 @@ public class CreateListOfChannels extends JPanel {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				long val = (Long) model.getValue();
-				String t = val + " milliseconds";
-				if (val < 60000L) {
-					t = (val / 1000) + " sec";
-				} else if (val < 3600000) {
-					double min = ((double) val) / 60000.0;
-					t = format.format(min) + " min";
+				String t = "" + val;
+				if (val < 60L) {
+					t = (val) + " seconds";
+				} else if (val < 3600) {
+					double min = ((double) val) / 60.0;
+					t = format.format(min) + " minunte" + (min != 1 ? "s" : "");
 				} else {
-					double hours = ((double) val) / (60 * 60 * 1000.0);
-					t = format.format(hours) + " hr";
+					double hours = ((double) val) / (60 * 60);
+					t = format.format(hours) + " hour" + (hours != 1 ? "s" : "");
 				}
-				timeInterpretLabel.setText(t);
+				timeInterpretLabel.setText(" " + t);
 			}
 		});
 
-		Box bx = Box.createHorizontalBox();
-		bx.add(Box.createGlue());
-		bx.add(bl);
-		bx.add(time);
-		bx.add(Box.createRigidArea(new Dimension(10, 10)));
-		bx.add(timeInterpretLabel);
-		bx.add(Box.createGlue());
-		add(bx, BorderLayout.NORTH);
+		timeWidgets.add(Box.createRigidArea(new Dimension(10, 10)));
+		timeWidgets.add(bl);
+		timeWidgets.add(time);
+		timeWidgets.add(timeInterpretLabel);
+		timeWidgets.add(Box.createRigidArea(new Dimension(10, 10)));
 
 		// ----------------------------------------
 
@@ -743,38 +743,46 @@ public class CreateListOfChannels extends JPanel {
 		Box mainPanel = Box.createVerticalBox();
 		final Color bg1 = new Color(210, 210, 210);
 		final Color bg2 = new Color(230, 230, 230);
+		final Color bor1 = Color.blue;
+		final Color bor2 = Color.red.darker();
+
 		Color bgColor = bg2;
+		Color borColor = bor2;
 
 		for (ChannelCategory C : categories) {
-			String sep = "--------------- " + C + " ----------------";
+			bgColor = (bgColor == bg2 ? bg1 : bg2);
+			borColor = (borColor == bor2 ? bor1 : bor2);
 
-			for (int len = C.getValue().length(); len < 18; len += 2)
-				sep = "-" + sep + "--";
+			String sep = "-------- " + C + " --------";
 
-			BigLabel catLabel = new BigLabel(sep, Font.BOLD);
+			for (int len = C.getValue().length(); len < 18; len += 4)
+				sep = "--" + sep + "--";
+
+			BigLabel catLabel = new BigLabel(" " + sep + " ", Font.BOLD);
 			if (SHOW_IN_WINDOW)
 				catLabel.setFont(new Font("Arial", Font.BOLD, 20));
+			catLabel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(borColor),
+					BorderFactory.createEmptyBorder(2, 2, 2, 2)));
 			mainPanel.add(catLabel);
 
 			int nc = (SHOW_IN_WINDOW ? 3 : 2);
-			JPanel inner = new JPanel(new GridLayout(0, nc, 5, 5));
-
-			if (bgColor == bg2)
-				bgColor = bg1;
-			else
-				bgColor = bg2;
+			JPanel inner = new JPanel(new GridLayout(0, nc, 1, 5));
 
 			inner.setOpaque(true);
 			inner.setBackground(bgColor);
 			catLabel.setBackground(bgColor);
 
 			mainPanel.add(inner);
-			mainPanel.add(Box.createRigidArea(new Dimension(200, 20)));
+			// mainPanel.add(Box.createRigidArea(new Dimension(100, 20)));
 			Set<SignageContent> chans = ChannelCatalogFactory.getInstance().getChannelCatalog(C);
 			for (final SignageContent CONTENT : chans) {
-				final JButton bb = new BigButton(CONTENT.getName());
-				if (SHOW_IN_WINDOW)
-					bb.setMargin(new Insets(8, 8, 8, 8));
+				String nm = CONTENT.getName();
+				if (nm.length() > 25) {
+					nm = nm.substring(0, 24) + "...";
+				}
+				final JButton bb = new BigButton(nm);
+				// if (SHOW_IN_WINDOW)
+				// bb.setMargin(new Insets(8, 8, 8, 8));
 
 				final JLabel lab = new BigLabel(NOT_SELECTED, Font.ITALIC);
 
@@ -786,8 +794,8 @@ public class CreateListOfChannels extends JPanel {
 				p = new JPanel(new BorderLayout(0, 0));
 				p.add(lab);
 				box.add(p);
-				box.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2),
-						BorderFactory.createLineBorder(Color.black)));
+				box.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(borColor),
+						BorderFactory.createEmptyBorder(2, 2, 2, 2)));
 
 				inner.add(box);
 
@@ -803,7 +811,7 @@ public class CreateListOfChannels extends JPanel {
 							lab.setText(NOT_SELECTED);
 							labelList.remove(lab);
 						} else {
-							long defaultDwell = (Long) time.getValue();
+							long defaultDwell = (Long) time.getValue() * 1000L;
 							long actualDwell = 0;
 							if (CONTENT.getTime() == 0 || CONTENT.getTime() > defaultDwell) {
 								CONTENT.setTime(defaultDwell);
@@ -822,7 +830,7 @@ public class CreateListOfChannels extends JPanel {
 
 								// TODO -- Add a copy of this channel that gets refreshed at time=(the remaining value of) tm.
 							}
-							lab.setText("" + actualDwell);
+							lab.setText("" + actualDwell / 1000L);
 							labelList.add(lab);
 						}
 						fixLabels();
@@ -831,48 +839,49 @@ public class CreateListOfChannels extends JPanel {
 			}
 		}
 
-		add(mainPanel, BorderLayout.CENTER);
+		add(new JScrollPane(mainPanel), BorderLayout.CENTER);
 	}
 
 	private static List<Long> getDwellStrings() {
 		ArrayList<Long> retval = new ArrayList<Long>();
 
-		retval.add(5000l);
-		retval.add(7500l);
-		retval.add(8000l);
-		retval.add(9000l);
-		retval.add(10000l); // 10 seconds
-		retval.add(12000l);
-		retval.add(15000l);
-		retval.add(20000l);
-		retval.add(30000l);
-		retval.add(45000l);
-		retval.add(60000l);
-		retval.add(75000l);
-		retval.add(90000l);
-		retval.add(100000l); // 100 seconds
-		retval.add(110000l);
-		retval.add(120000l); // 2 minutes
-		retval.add(150000l);
-		retval.add(180000l);
-		retval.add(210000l);
-		retval.add(240000l);
-		retval.add(300000l); // 5 minutes
-		retval.add(360000l);
-		retval.add(420000l);
-		retval.add(480000l);
-		retval.add(540000l);
-		retval.add(600000l); // 10 minutes
-		retval.add(1200000l);
-		retval.add(1800000l);
-		retval.add(2400000l);
-		retval.add(3600000l); // One hour
-		retval.add(2 * 3600000l);
-		retval.add(3 * 3600000l);
-		retval.add(4 * 3600000l);
-		retval.add(5 * 3600000l);
-		retval.add(6 * 3600000l);
-		retval.add(8 * 3600000l); // 8 hours
+		retval.add(5L);
+		retval.add(8L);
+		retval.add(9L);
+		retval.add(10L); // 10 seconds
+		retval.add(12L);
+		retval.add(15L);
+		retval.add(20L);
+		retval.add(30L);
+		retval.add(45L);
+		retval.add(60L);
+		retval.add(75L);
+		retval.add(90L);
+		retval.add(100L); // 100 seconds
+		retval.add(110L);
+		retval.add(120L); // 2 minutes
+		retval.add(150L);
+		retval.add(180L);
+		retval.add(210L);
+		retval.add(240L);
+		retval.add(300L); // 5 minutes
+		retval.add(360L);
+		retval.add(420L);
+		retval.add(480L);
+		retval.add(540L);
+		retval.add(600L); // 10 minutes
+		retval.add(1200L);
+		retval.add(1800L); // 30 minutes
+		retval.add(2400L);
+		retval.add(3600L); // One hour
+		retval.add(2 * 3600L);
+		retval.add(3 * 3600L);
+		retval.add(4 * 3600L);
+		retval.add(5 * 3600L);
+		retval.add(6 * 3600L);
+		retval.add(8 * 3600L); // 8 hours
+		retval.add(10 * 3600L); // 10 hours
+		retval.add(12 * 3600L); // 12 hours
 
 		return retval;
 	}
@@ -884,14 +893,21 @@ public class CreateListOfChannels extends JPanel {
 				String t = LAB.getText();
 				long dwell = 0;
 				if (t.startsWith("**")) {
-					String c = t.substring(t.indexOf('(') + 1, t.indexOf(')'));
+					String c = t.substring(t.indexOf('[') + 1, t.indexOf(']'));
 					dwell = Long.parseLong(c);
 				} else if (t.length() > 0)
 					dwell = Long.parseLong(t);
 
-				if (dwell > 0)
-					LAB.setText("** No. " + (count++) + " (" + dwell + ") **");
-				else
+				if (dwell > 0) {
+					String ordinal = "th";
+					if (count != 11 && (count % 10) == 1)
+						ordinal = "st";
+					if (count != 12 && (count % 10) == 2)
+						ordinal = "nd";
+					if (count != 13 && (count % 10) == 3)
+						ordinal = "rd";
+					LAB.setText("** " + (count++) + ordinal + " channel (show for [" + dwell + "] secs) **");
+				} else
 					LAB.setText(NOT_SELECTED);
 			}
 		}
@@ -963,25 +979,10 @@ public class CreateListOfChannels extends JPanel {
 	}
 
 	/**
-	 * @param channelList
-	 */
-	public void setChannelList(final List<SignageContent> channelList) {
-		this.channelList = channelList;
-	}
-
-	/**
 	 * @return How long (in milliseconds) to stay on each channel
 	 */
 	public long getDwellTime() {
 		return (Long) time.getValue();
-	}
-
-	/**
-	 * 
-	 * @return the Component that contains the time widgets
-	 */
-	public JComponent getTimeWidgets() {
-		return timeWidgets;
 	}
 
 	/**

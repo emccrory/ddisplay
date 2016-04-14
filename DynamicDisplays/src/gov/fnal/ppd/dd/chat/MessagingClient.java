@@ -310,7 +310,7 @@ public class MessagingClient {
 
 			public void run() {
 				// An observation (2/19/2016): It takes about two cycles of this while loop to reconnect to the server
-				synchronized (syncReconnects) {
+				// synchronized (syncReconnects) { I think this sync is not necessary (there can only be one instance of this thread, Ithink)
 					syncReconnects = true;
 					while (socket == null) {
 						if (wait < 0)
@@ -327,7 +327,7 @@ public class MessagingClient {
 					displayLogMessage(MessagingClient.class.getSimpleName() + ": Socket is now viable [" + socket
 							+ "]; connection has been restored at " + (new Date()));
 					restartThreadToServer = null;
-				}
+				// }
 				syncReconnects = false;
 			}
 		};
