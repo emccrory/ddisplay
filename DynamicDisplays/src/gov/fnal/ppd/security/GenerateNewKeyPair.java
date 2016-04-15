@@ -209,7 +209,7 @@ public class GenerateNewKeyPair {
 
 			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 				String statementString = "REPLACE PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
-						+ InetAddress.getLocalHost().getHostAddress() + "');";
+						+ InetAddress.getLocalHost().getHostAddress() + "', 0);";
 
 				int numRows = stmt.executeUpdate(statementString);
 				if (numRows == 0 || numRows > 1) {
