@@ -6,6 +6,7 @@
 package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
@@ -65,7 +66,7 @@ public class GetColorsFromDatabase {
 			System.exit(1);
 		}
 
-		System.out.println(GetColorsFromDatabase.class.getSimpleName() + ": Found " + count + " color names.");
+		println(GetColorsFromDatabase.class, ": Found " + count + " color names.");
 		return retval;
 	}
 }

@@ -7,6 +7,7 @@ package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
@@ -206,9 +207,9 @@ public class ImageGrid extends DetailedInformationGrid {
 
 		synchronized (list) {
 			if (firstTime) {
-				System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): resizing " + list.size() + " images.");
-				System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): working on the images for display number "
-						+ display.getVirtualDisplayNumber() + " ...");
+				println(this.getClass(), ".makeExpGrid(): resizing " + list.size() + " images.");
+				println(this.getClass(),
+						".makeExpGrid(): working on the images for display number " + display.getVirtualDisplayNumber() + " ...");
 				firstTime = false;
 			} else
 				System.out.print(display.getVirtualDisplayNumber() + " ");

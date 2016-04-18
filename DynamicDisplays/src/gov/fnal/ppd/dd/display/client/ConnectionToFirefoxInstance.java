@@ -574,17 +574,18 @@ public class ConnectionToFirefoxInstance {
 					iterationsWait = iterationsToWaitFirstTime; // First time through, we give up after about 2 minutes
 					firstTimeOpeningConnection = false;
 				}
+				Class clazz = ConnectionToFirefoxInstance.class;
 				while (!connected) {
 					try {
-						println(getClass(), ":\tOpening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
+						println(clazz, ":\tOpening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
 						kkSocket = new Socket(LOCALHOST, port);
-						println(getClass(), ":\tSocket connection to FF created");
+						println(clazz, ":\tSocket connection to FF created");
 						out = new PrintWriter(kkSocket.getOutputStream(), true);
-						println(getClass(), ":\tOutput stream established");
+						println(clazz, ":\tOutput stream established");
 						in = new BufferedReader(new InputStreamReader(kkSocket.getInputStream()));
 						kkSocket.setSoTimeout(10000);
-						println(getClass(), ":\tInput stream established");
-						println(getClass(), ": ** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
+						println(clazz, ":\tInput stream established");
+						println(clazz, ": ** Connected to FireFox instance on " + LOCALHOST + " through port number " + port
 								+ " ** -- " + new Date());
 						connected = true;
 						break;

@@ -175,7 +175,7 @@ public class DisplayFacade extends DisplayImpl {
 		// } catch (UnknownHostException e1) {
 		// e1.printStackTrace(); // Really? This should never happen.
 		// }
-		System.out.println(DisplayFacade.class.getSimpleName() + ": The messaging name of Display " + vNumber + "/" + dbNumber
+		println(DisplayFacade.class, ": The messaging name of Display " + vNumber + "/" + dbNumber
 				+ " is expected to be '" + myExpectedName + "'");
 		FacadeMessagingClient.registerClient(getMessagingServerName(), MESSAGING_SERVER_PORT, myExpectedName, this);
 		FacadeMessagingClient.addListener(this);
@@ -189,14 +189,14 @@ public class DisplayFacade extends DisplayImpl {
 			SignageContent content = getContent();
 			EncodedCarrier cc = null;
 			if (content instanceof ChannelPlayList) {
-				System.out.println(getClass().getSimpleName() + ": Have a ChannelPlayList to deal with!");
+				println(getClass(), ": Have a ChannelPlayList to deal with!");
 				cc = new ChangeChannelList();
 				((ChangeChannelList) cc).setDisplayNumber(getVirtualDisplayNumber());
 				((ChangeChannelList) cc).setScreenNumber(getScreenNumber());
 				((ChangeChannelList) cc).setContent(getContent());
 			} else if (content instanceof EmergencyCommunication) {
 				EmergencyMessage em = ((EmergencyCommunication) content).getMessage();
-				System.out.println(getClass().getSimpleName() + ": Request to send an EMERGENCY MESSAGE");
+				println(getClass(), ": Request to send an EMERGENCY MESSAGE");
 
 				EmergencyMessXML emx = new EmergencyMessXML();
 				emx.setFootnote(em.getFootnote());
@@ -210,7 +210,7 @@ public class DisplayFacade extends DisplayImpl {
 
 				return true;
 			} else {
-				System.out.println(getClass().getSimpleName() + ": Have a simple channel");
+				println(getClass(), ": Have a simple channel");
 				cc = new ChangeChannel();
 				((ChangeChannel) cc).setDisplayNumber(getVirtualDisplayNumber());
 				((ChangeChannel) cc).setScreenNumber(getScreenNumber());

@@ -7,6 +7,7 @@ package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -123,7 +124,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(getClass().getSimpleName() + ": Found " + count + " channels.");
+		println(getClass(), ": Found " + count + " channels.");
 	}
 
 	private void getImages() {
@@ -164,7 +165,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(getClass().getSimpleName() + ": Found " + count + " images.");
+		println(getClass(), ": Found " + count + " images.");
 	}
 
 	public Map<String, SignageContent> getPublicChannels() {

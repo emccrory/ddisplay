@@ -15,6 +15,7 @@ import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.launchErrorMessage;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
@@ -48,6 +49,7 @@ import gov.fnal.ppd.dd.util.WhoIsInChatRoom;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
@@ -110,8 +112,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private static ActionListener			channelRefreshAction		= new ActionListener() {
 																			@Override
 																			public void actionPerformed(ActionEvent e) {
-																				System.out
-																						.println("Default, unfunctional channel refresh action called");
+																				println(ChannelSelector.class,
+																						": Default, unfunctional channel refresh action called");
 																			}
 																		};
 	private static ChannelSelector			channelSelector;
@@ -159,8 +161,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 																					int height = 210 + 20 * (displayList.size() + 1);
 																					if (height > 900)
 																						height = 900;
-																					System.out.println("\n\nHeight of popup is "
-																							+ height);
+																					println(ChannelSelector.class,
+																							" -- Height of popup is " + height);
 																					f.setSize(700, height);
 																					f.addWindowListener(new WindowListener() {
 
@@ -235,7 +237,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				INSET_SIZE = 6;
 			}
 		}
-		System.out.println("My screen is " + screenDimension + ". Font_Size=" + FONT_SIZE + ", Inset_Size=" + INSET_SIZE);
+		println(getClass(), " -- My screen is " + screenDimension + ". Font_Size=" + FONT_SIZE + ", Inset_Size=" + INSET_SIZE);
 
 	}
 
@@ -315,6 +317,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				channelButtonGridList.add(allGrids);
 			}
 
+			Component theSelectedTab = null;
 			for (int cat = 0; cat < categories.length; cat++) {
 				ChannelButtonGrid grid = new DetailedInformationGrid(display, bg);
 				grid.makeGrid(categories[cat]);
@@ -322,6 +325,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				display.addListener(grid);
 				String sp = SHOW_IN_WINDOW ? "" : " ";
 				displayTabPane.add(grid, sp + categories[cat].getAbbreviation() + sp);
+				if ("Public".equalsIgnoreCase(categories[cat].getAbbreviation()))
+					theSelectedTab = grid;
 				progressMonitor.setNote(note);
 				progressMonitor.setProgress(index * (1 + categories.length) + cat);
 			}
@@ -362,12 +367,15 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					System.out.println("Channel list accepted");
+					println(ChannelSelector.class, " -- Channel list accepted");
 					display.setContent(channelListHelper.lister.getChannelList());
 				}
 			};
 
 			displayTabPane.add(CreateListOfChannels.getContainer(channelListHelper, listener), " Lists ");
+
+			if (theSelectedTab != null)
+				displayTabPane.setSelectedComponent(theSelectedTab);
 
 			// Add the Display Tabbed Pane to the main screen
 			inner.setBorder(BorderFactory.createCompoundBorder(
@@ -458,7 +466,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		progressMonitor.close();
 	}
-
 
 	/**
 	 * Set all tabs for all Displays to the same thing
@@ -777,8 +784,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
 
 		MessageCarrier.initializeSignature();
-		System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
-		System.out.println("\t Expect my client name to be '" + getFullSelectorName() + "'\n");
+		println(ChannelSelector.class, ": Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
+		println(ChannelSelector.class, ": Expect my client name to be '" + getFullSelectorName() + "'\n");
 
 		displayList = DisplayListFactory.getInstance(sType, getLocationCode());
 		channelSelector = new ChannelSelector();
@@ -820,11 +827,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Preparing to refreshing all of the URLs of the channel buttons in this world");
+				println(ChannelSelector.class, ": Preparing to refreshing all of the URLs of the channel buttons in this world");
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						System.out.println("Refreshing URLs of the channel buttons in this world");
+						println(ChannelSelector.class, ": Refreshing URLs of the channel buttons in this world");
 
 						Collection<SignageContent> list = ((ChannelsFromDatabase) ChannelCatalogFactory.refresh()).values();
 
@@ -852,9 +859,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 												Channel chan = (Channel) CONTENT;
 												if (chan.getNumber() == channelNumber) {
 													if (!ddb.getChannel().getURI().toString().equals(chan.getURI().toString())) {
-														System.out.println(channelNumber + "/" + chan.getNumber() + " URI '"
-																+ ddb.getChannel().getURI() + "' changed to '" + chan.getURI()
-																+ "'");
+														println(ChannelSelector.class,
+																": " + channelNumber + "/" + chan.getNumber() + " URI '"
+																		+ ddb.getChannel().getURI() + "' changed to '"
+																		+ chan.getURI() + "'");
 														ddb.getChannel().setURI(chan.getURI());
 														numURLButtonsChanged++;
 													}
@@ -864,13 +872,14 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 												// + ddb.getChannel().getURI().toString() + "\n\t\tNew information for channel #"
 												// + chan.getNumber() + " is " + chan.getURI());
 											} else
-												System.out.println("Hmmm.  Got a " + CONTENT.getClass().getCanonicalName()
-														+ " instead of a Channel");
+												println(ChannelSelector.class, ": Hmmm.  Got a "
+														+ CONTENT.getClass().getCanonicalName() + " instead of a Channel");
 									}
 								}
 							}
 						}
-						System.out.println("Looked at " + numButtons + " buttons and changed " + numURLButtonsChanged + " URLs");
+						println(ChannelSelector.class, ": Looked at " + numButtons + " buttons and changed " + numURLButtonsChanged
+								+ " URLs");
 					}
 				});
 			}

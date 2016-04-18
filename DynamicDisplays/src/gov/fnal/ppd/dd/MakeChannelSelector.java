@@ -25,6 +25,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
@@ -144,7 +145,7 @@ public class MakeChannelSelector {
 
 				String query = "SELECT * FROM SelectorLocation where IPName='" + myIPName + "' AND Instance='"
 						+ THIS_IP_NAME_INSTANCE + "'";
-				System.out.println(query);
+				println(MakeChannelSelector.class, ": '" + query + "'");
 
 				try (ResultSet rs2 = stmt.executeQuery(query);) {
 					if (rs2.first())
@@ -152,7 +153,7 @@ public class MakeChannelSelector {
 							try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)
 								int lc = rs2.getInt("LocationCode");
 								addLocationCode(lc);
-								System.out.println("Location code is " + lc);
+								println(MakeChannelSelector.class, ":Location code is " + lc);
 
 								SHOW_DOCENT_TAB = rs2.getBoolean("DocentTab");
 								myClassification = rs2.getString("Type");
@@ -172,7 +173,7 @@ public class MakeChannelSelector {
 												+ " new display instances to displayList!?");
 									}
 								}
-								System.out.println("DisplayList has " + displayList.size() + " entries");
+								println(MakeChannelSelector.class, ": DisplayList has " + displayList.size() + " entries");
 								rs2.next();
 								missing = false;
 							} catch (Exception e) {
@@ -197,8 +198,8 @@ public class MakeChannelSelector {
 						JOptionPane.ERROR_MESSAGE);
 				System.exit(-1);
 			}
-			System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
-			System.out.println("\t Expect my client name to be '" + getFullSelectorName() + "'\n");
+			println(MakeChannelSelector.class, ": Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
+			println(MakeChannelSelector.class, ": Expect my client name to be '" + getFullSelectorName() + "'\n");
 		}
 	}
 

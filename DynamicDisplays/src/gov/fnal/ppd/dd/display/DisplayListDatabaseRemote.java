@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.display;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -114,7 +115,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 			e.printStackTrace();
 		}
 
-		System.out.println(getClass().getSimpleName() + ": Found " + count + " displays at locationCode=" + locationCode + ".");
+		println(getClass(), ": Found " + count + " displays at locationCode=" + locationCode + ".");
 	}
 
 	private void getADisplay(int displayDBNumber) {
@@ -155,7 +156,7 @@ public class DisplayListDatabaseRemote extends ArrayList<Display> {
 			e.printStackTrace();
 		}
 
-		System.out.println(getClass().getSimpleName() + ": Found " + count + " displays at locationCode=" + locationCode
+		println(getClass(), ": Found " + count + " displays at locationCode=" + locationCode
 				+ " and displayDBNumber=" + displayDBNumber);
 	}
 
