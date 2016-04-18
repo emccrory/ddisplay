@@ -87,6 +87,7 @@ public class CategoryDictionary {
 						q += extra;
 				}
 
+				q += " ORDER BY Abbreviation";
 				System.out.println(q);
 				rs = stmt.executeQuery(q);
 				if (rs.first()) // Move to first returned row
