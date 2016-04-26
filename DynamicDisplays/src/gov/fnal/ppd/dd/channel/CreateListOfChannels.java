@@ -431,7 +431,7 @@ public class CreateListOfChannels extends JPanel {
 					longest = s;
 			}
 
-			area = new JTextArea(channelList.size() - 1, longest + 15);
+			area = new JTextArea(channelList.size() - 1, longest + 20);
 			area.setEditable(false);
 			area.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 			area.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -449,8 +449,11 @@ public class CreateListOfChannels extends JPanel {
 			}
 
 			gbc.gridy++;
-			gbc.gridheight = channelList.size();
-			inside.add(area, gbc);
+			gbc.gridheight = Math.min(channelList.size(), 5);
+			JScrollPane sp = new JScrollPane(area);
+			sp.setMaximumSize(new Dimension((longest + 22) * 7 + 10, 200));
+			sp.setPreferredSize(new Dimension((longest + 22) * 7 + 10, gbc.gridheight*20));
+			inside.add(sp, gbc);
 
 			final JTextField myName = new JTextField(defaultName, 20);
 			final JTextField listName = new JTextField(lastListName, 40);
@@ -892,7 +895,7 @@ public class CreateListOfChannels extends JPanel {
 			if (!LAB.getText().equals(NOT_SELECTED)) {
 				String t = LAB.getText();
 				long dwell = 0;
-				if (t.startsWith("**")) {
+				if (t.startsWith("* ")) {
 					String c = t.substring(t.indexOf('[') + 1, t.indexOf(']'));
 					dwell = Long.parseLong(c);
 				} else if (t.length() > 0)
@@ -906,7 +909,7 @@ public class CreateListOfChannels extends JPanel {
 						ordinal = "nd";
 					if (count != 13 && (count % 10) == 3)
 						ordinal = "rd";
-					LAB.setText("** " + (count++) + ordinal + " channel (show for [" + dwell + "] secs) **");
+					LAB.setText("* " + (count++) + ordinal + " chan (show for [" + dwell + "] secs) *");
 				} else
 					LAB.setText(NOT_SELECTED);
 			}
