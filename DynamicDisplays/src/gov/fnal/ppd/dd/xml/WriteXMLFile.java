@@ -67,13 +67,14 @@ public class WriteXMLFile {
 					// imageContent.setEncodedId(id++);
 					// stuff = imageContent;
 
-					// Use it to do Emnergency message
+					// Use it to do Emergency message
 
 					EmergencyMessXML emx = new EmergencyMessXML();
 					emx.setHeadline("This is the headline");
 					emx.setMessage("This is the message");
 					emx.setSeverity(Severity.EMERGENCY);
 					emx.setFootnote("A footnote");
+					emx.setDwellTime(45 * 60 * 1000);
 					stuff = emx;
 					break;
 

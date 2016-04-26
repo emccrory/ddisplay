@@ -2,17 +2,17 @@ package gov.fnal.ppd.dd.emergency;
 
 import java.io.Serializable;
 
-
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 public class EmergencyMessage implements Serializable {
-	
+
 	private static final long	serialVersionUID	= 7099415687513564803L;
-	
-	private String		headline = "", message = "", footnote = "";
-	private Severity	severity = Severity.TESTING;
+
+	private String				headline			= "", message = "", footnote = "";
+	private Severity			severity			= Severity.TESTING;
+	private long				dwellTime			= 2 * 60 * 60 * 1000;
 
 	/**
 	 * 
@@ -32,7 +32,8 @@ public class EmergencyMessage implements Serializable {
 	 * @param footnote
 	 */
 	public void setFootnote(final String footnote) {
-		this.footnote = footnote.replaceAll("(\\r|\\n)", " ");;
+		this.footnote = footnote.replaceAll("(\\r|\\n)", " ");
+		;
 	}
 
 	/**
@@ -46,7 +47,8 @@ public class EmergencyMessage implements Serializable {
 	 * @param headline
 	 */
 	public void setHeadline(final String headline) {
-		this.headline = headline.replaceAll("(\\r|\\n)", " ");;
+		this.headline = headline.replaceAll("(\\r|\\n)", " ");
+		;
 	}
 
 	/**
@@ -80,7 +82,7 @@ public class EmergencyMessage implements Serializable {
 	@Override
 	public String toString() {
 		return "EmergencyMessage [headline=" + headline + ", message=" + message + ", footnote=" + footnote + ", severity="
-				+ severity + "]";
+				+ severity + ", dwell=" + dwellTime + "]";
 	}
 
 	/**
@@ -98,5 +100,24 @@ public class EmergencyMessage implements Serializable {
 			retval += "<p class='footnote'>" + footnote.replace("\'", "\"") + "</p>";
 
 		return retval;
+	}
+
+	/**
+	 * 
+	 * @return the dwell time
+	 */
+	public long getDwellTime() {
+		return dwellTime;
+	}
+
+	/**
+	 * IMHO, it makes no sense to show an "emergency message" for days and days. Therefore, there has to be a limit to the time any
+	 * message is shown.
+	 * 
+	 * @param dwellTime
+	 *            the amount of time this message should be seen
+	 */
+	public void setDwellTime(final long dwellTime) {
+		this.dwellTime = dwellTime;
 	}
 }

@@ -10,6 +10,7 @@ public class EmergencyMessXML extends EncodedCarrier {
 
 	private String		headline, message, footnote;
 	private Severity	severity;
+	private long		dwellTime	= 2 * 60 * 60 * 1000;	// two hours is the default
 
 	/**
 	 * @return the headline
@@ -73,6 +74,26 @@ public class EmergencyMessXML extends EncodedCarrier {
 	 */
 	public void setSeverity(Severity severity) {
 		this.severity = severity;
+	}
+
+	/**
+	 * 
+	 * @return How long this emergency message is to be shown
+	 */
+	@XmlElement
+	public long getDwellTime() {
+		return dwellTime;
+	}
+
+	/**
+	 * IMHO, it makes no sense to show an "emergency message" for days and days. Therefore, there has to be a limit to the time any
+	 * message is shown.
+	 * 
+	 * @param dwellTime
+	 *            How long do we need to show this emergency message?
+	 */
+	public void setDwellTime(long dwellTime) {
+		this.dwellTime = dwellTime;
 	}
 
 }

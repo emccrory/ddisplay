@@ -287,6 +287,7 @@ public class DCProtocol {
 				em.setHeadline(message.getHeadline());
 				em.setSeverity(message.getSeverity());
 				em.setMessage(message.getMessage());
+				em.setDwellTime(message.getDwellTime());
 
 				println(getClass(), ".processEmergencyMessage(): Emergency message is " + em);
 

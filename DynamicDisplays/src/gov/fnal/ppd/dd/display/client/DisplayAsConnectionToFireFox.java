@@ -56,30 +56,32 @@ import java.util.Date;
  */
 public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbstract {
 
-	private static final long			FRAME_DISAPPEAR_TIME	= 2 * ONE_MINUTE;							// ONE_HOUR;
+	private static final long			FRAME_DISAPPEAR_TIME		= 2 * ONE_MINUTE;							// ONE_HOUR;
 	private ConnectionToFirefoxInstance	firefox;
-	private boolean						showingSelfIdentify		= false;
+	private boolean						showingSelfIdentify			= false;
 	// private WrapperType defaultWrapperType = WrapperType.valueOf(System.getProperty("ddisplay.wrappertype",
 	// "NORMAL"));
 
 	private int							changeCount;
 	protected long						lastFullRestTime;
-	protected long						revertTimeRemaining		= 0L;
-	private Thread						revertThread			= null;
+	protected long						revertTimeRemaining			= 0L;
+	private Thread						revertThread				= null;
 
-	private ListOfValidChannels			listOfValidURLs			= new ListOfValidChannels();
+	private ListOfValidChannels			listOfValidURLs				= new ListOfValidChannels();
 	private WrapperType					wrapperType;
-	protected boolean					newListIsPlaying		= false;
+	protected boolean					newListIsPlaying			= false;
 
-	private ThreadWithStop				playlistThread			= null;
-	private boolean						skipRevert				= false;
+	private ThreadWithStop				playlistThread				= null;
+	private boolean						skipRevert					= false;
 	private Command						lastCommand;
-	protected SignageContent			previousPreviousChannel	= null;
-	private boolean[]					removeFrame				= { false, false, false, false, false };
-	private long[]						frameRemovalTime		= { 0L, 0L, 0L, 0L, 0L };
-	private Thread[]					frameRemovalThread		= { null, null, null, null, null };
+	protected SignageContent			previousPreviousChannel		= null;
+	private boolean[]					removeFrame					= { false, false, false, false, false };
+	private long[]						frameRemovalTime			= { 0L, 0L, 0L, 0L, 0L };
+	private Thread[]					frameRemovalThread			= { null, null, null, null, null };
 	private EmergencyMessage			em;
-	private boolean						showingEmergencyMessage	= false;
+	private boolean						showingEmergencyMessage		= false;
+	private Thread						emergencyRemoveThread		= null;
+	private long						remainingTimeRemEmergMess	= 0l;
 
 	/**
 	 * @param showNumber
@@ -267,6 +269,24 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			if (em.getSeverity() == Severity.REMOVE) {
 				setContent(previousChannel);
 				showingEmergencyMessage = false;
+			}
+
+			// Remove this message after a while
+			remainingTimeRemEmergMess = em.getDwellTime();
+			if (emergencyRemoveThread == null || !emergencyRemoveThread.isAlive()) {
+				emergencyRemoveThread = new Thread("RemoveEmergencyCommunication") {
+					long	interval	= 2000L;
+
+					public void run() {
+						for (; remainingTimeRemEmergMess > 0; remainingTimeRemEmergMess -= interval) {
+							catchSleep(Math.min(interval, remainingTimeRemEmergMess));
+						}
+						setContent(previousChannel);
+						showingEmergencyMessage = false;
+						emergencyRemoveThread = null;
+					}
+				};
+				emergencyRemoveThread.start();
 			}
 			return retval;
 

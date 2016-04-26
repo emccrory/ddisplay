@@ -71,17 +71,19 @@ public class ConnectionToFirefoxInstance {
 	private boolean									tryingToCloseNow				= false;
 	protected boolean								firstTimeOpeningConnection		= true;
 	private boolean									showingEmergencyCommunication	= false;
-	private boolean									badNUC							= false;										;
+	private boolean									badNUC							= false;
+	private boolean									hasEmergencyCapabilities		= true;
+	private boolean									elementIDError					= false;
 
 	private static List<Command>					finalCommand					= new ArrayList<Command>();
 
 	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
 
-	// private static final String						BASE_WEB_PAGE					= "http://" + WEB_SERVER_NAME + "/border.php";
+	// private static final String BASE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border.php";
 	// private static final String EXTRAFRAME_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border2.php";
 	// private static final String EXTRAFRAMESNOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border3.php";
 	// private static final String EXTRAFRAMENOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border4.php";
-	
+
 	private static final String						TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
 	private static final String						WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border7.php";
 
@@ -676,9 +678,16 @@ public class ConnectionToFirefoxInstance {
 							+ "ABORTING APPLICATION!\n******************************************************");
 					saveAndExit();
 				}
-				connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
-				if (!connected)
-					setIsNotConnected();
+
+				// If we are asking for an element in the web document that does not exist, we'll see this error:
+				if (lastReplyLine.toLowerCase().contains("evaluation error: typetrror: document.getelementbyid(...) is null")) {
+					elementIDError = true;
+					return true;
+				} else {
+					connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
+					if (!connected)
+						setIsNotConnected();
+				}
 			} catch (SocketTimeoutException e) {
 				System.err.println(new Date() + " " + ConnectionToFirefoxInstance.class.getSimpleName()
 						+ ".waitForServer(): No response from Firefox plugin");
@@ -801,7 +810,12 @@ public class ConnectionToFirefoxInstance {
 		showingEmergencyCommunication = true;
 
 		try {
-			return waitForServer();
+			if (waitForServer()) {
+				if (elementIDError)
+					hasEmergencyCapabilities = false;
+				return true;
+			}
+			return false;
 		} catch (IOException e) {
 			if (numberOfScreens > 1)
 				System.err.println("Exception for EMERGENCY MESSAGE on port #" + port);
@@ -819,7 +833,7 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	/**
-	 * @return Did it work>?
+	 * @return Did it work?
 	 */
 	private boolean removeEmergencyCommunication() {
 		String s = "document.getElementById('emergencyframe1').innerHTML='';\n";
@@ -829,7 +843,12 @@ public class ConnectionToFirefoxInstance {
 		showingEmergencyCommunication = false;
 
 		try {
-			return waitForServer();
+			if (waitForServer()) {
+				if (elementIDError)
+					hasEmergencyCapabilities = false;
+				return true;
+			}
+			return false;
 		} catch (IOException e) {
 			if (numberOfScreens > 1)
 				System.err.println("Exception EMERGENCY MESSAGE on port #" + port);
