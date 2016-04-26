@@ -7,7 +7,6 @@ package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.INACTIVITY_TIMEOUT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
-import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.bgImage;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationDescription;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
@@ -22,6 +21,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -56,6 +57,30 @@ public class SplashScreens extends Thread {
 		System.out.println("Splash screen with credits is " + splashWithCredits0 + " & " + splashWithCredits1);
 		for (int index = 0; index < splashPanel.length; index++) {
 			Box splash = splashPanel[index] = Box.createVerticalBox();
+			splash.addMouseListener(new MouseListener() {
+
+				@Override
+				public void mouseReleased(MouseEvent arg0) {
+				}
+
+				@Override
+				public void mousePressed(MouseEvent arg0) {
+				}
+
+				@Override
+				public void mouseExited(MouseEvent arg0) {
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					lastDisplayChange = System.currentTimeMillis();
+				}
+			});
+
 			final int mine = index;
 			JPanel p = new JPanel() {
 
