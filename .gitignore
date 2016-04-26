@@ -47,3 +47,14 @@ headlines.txt
 temp*
 newsfeed.xml
 weather*
+newsfeed/KDPA.xml
+current.xml
+currentTemperature.txt
+newNews.txt
+old_newsfeed.xml
+old_sciencefeed.xml
+science.txt
+sciencefeed.xml
+symfeed.xml
+symmetry.txt
+
