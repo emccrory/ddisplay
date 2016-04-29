@@ -6,7 +6,6 @@
 package gov.fnal.ppd.dd.channel;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-import gov.fnal.ppd.dd.channel.CreateListOfChannels.BigButton;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -48,20 +47,21 @@ public class CreateListOfChannelsHelper {
 		lister = new CreateListOfChannels();
 		JButton hide = new JButton("S/R & Help");
 		hide.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 9));
-		//hide.setMargin(new Insets(2, 2, 2, 2));
+		// hide.setMargin(new Insets(2, 2, 2, 2));
 
 		JComponent sr = lister.getSaveRestore();
 		sr.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
-		accept = new BigButton("Send this Channel List Sequence to the Display");
-		if (SHOW_IN_WINDOW) {
-			accept.setFont(accept.getFont().deriveFont(20.0f));
-		}
+		accept = new JButton("Send this Channel List Sequence to the Display");
+
+		accept.setFont(new Font("Arial", Font.BOLD, (SHOW_IN_WINDOW ? 20 : 30)));
+
 		accept.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		final JLabel instructions = new JLabel(
 				"<html><p align='center'>This page allows you to play a sequence of Channels on a Display.<br>"
 						+ "Create the sequence by selecting the Channels in order below.  Also, set the dwell time.<br>"
-						+ "Click \"Accept This Channel List Sequence\" (above) and the Display will play these Channels in sequence.</p></html>",
+						+ "Click <b>\"Send this Channel List Sequence to the Display\"</b> <em>(above)</em> and the " +
+						"Display will play these Channels in sequence.</p></html>",
 				JLabel.CENTER);
 
 		instructions.setFont(instructions.getFont().deriveFont(Font.PLAIN, 11));
@@ -70,7 +70,7 @@ public class CreateListOfChannelsHelper {
 		Box h = Box.createHorizontalBox();
 		h.add(Box.createHorizontalGlue());
 		h.add(accept);
-		
+
 		Dimension minSize = new Dimension(5, 5);
 		Dimension prefSize = new Dimension(5, 5);
 		Dimension maxSize = new Dimension(Short.MAX_VALUE, 5);
