@@ -362,7 +362,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				}
 			});
 
-			final CreateListOfChannelsHelper channelListHelper = new CreateListOfChannelsHelper();
+			final CreateListOfChannelsHelper channelListHelper = new CreateListOfChannelsHelper(display.getPreferredHighlightColor());
 			ActionListener listener = new ActionListener() {
 
 				@Override
@@ -372,7 +372,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				}
 			};
 
-			displayTabPane.add(CreateListOfChannels.getContainer(channelListHelper, listener), " Lists ");
+			displayTabPane.add(CreateListOfChannels.getContainer(channelListHelper, listener),  " Lists ");
 
 			if (theSelectedTab != null)
 				displayTabPane.setSelectedComponent(theSelectedTab);

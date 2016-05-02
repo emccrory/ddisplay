@@ -8,6 +8,7 @@ package gov.fnal.ppd.dd.channel;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -38,13 +39,15 @@ public class CreateListOfChannelsHelper {
 	 * A button to launch the list of channels
 	 */
 	public JButton				accept;
+	public Color	color;
 
 	/**
 	 * Construct this helper
 	 */
-	public CreateListOfChannelsHelper() {
+	public CreateListOfChannelsHelper(final Color c) {
+		this.color = c;
 		listerPanel = new JPanel(new BorderLayout());
-		lister = new CreateListOfChannels();
+		lister = new CreateListOfChannels(c);
 		JButton hide = new JButton("S/R & Help");
 		hide.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 9));
 		// hide.setMargin(new Insets(2, 2, 2, 2));

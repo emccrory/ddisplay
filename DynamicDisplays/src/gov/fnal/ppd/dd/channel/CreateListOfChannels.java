@@ -84,6 +84,8 @@ public class CreateListOfChannels extends JPanel {
 
 	private List<SignageContent>		channelList			= new ArrayList<SignageContent>();
 	private List<JLabel>				labelList			= new ArrayList<JLabel>();
+	private List<ChanSelectButton>		allChannelButtons	= new ArrayList<ChanSelectButton>();
+	private static List<TinyButton>		allTinyButtons		= new ArrayList<TinyButton>();
 
 	private JSpinner					time;
 	private SaveRestoreListOfChannels	saveRestore;
@@ -94,16 +96,35 @@ public class CreateListOfChannels extends JPanel {
 	private Box							timeWidgets			= Box.createHorizontalBox();
 	private Box							selectedChannels	= Box.createVerticalBox();
 
-	static private class BigButton extends JCheckBox {
+	static private class ChanSelectButton extends JCheckBox {
 		private static final long	serialVersionUID	= 6517317474435639087L;
+		private SignageContent		channel;
+		private JButton				b1;
+		private JButton				b2;
 
-		public BigButton(String title) {
+		public ChanSelectButton(String title, SignageContent c, JButton b1, JButton b2) {
 			super(title);
+			this.channel = c;
+			this.b1 = b1;
+			this.b2 = b2;
 			if (!SHOW_IN_WINDOW) {
 				setFont(new Font("Arial", Font.BOLD, 20));
 				setMargin(new Insets(5, 15, 5, 14));
 			}
 			setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		}
+
+		public boolean isChannel(final SignageContent c) {
+			if (c != null)
+				return c.equals(channel);
+			return channel != null;
+		}
+
+		@Override
+		public void setSelected(boolean s) {
+			super.setSelected(s);
+			b1.setVisible(s);
+			b2.setVisible(s);
 		}
 	}
 
@@ -118,8 +139,9 @@ public class CreateListOfChannels extends JPanel {
 
 	private class TinyButton extends JButton {
 		private static final long	serialVersionUID	= 5525783748090052622L;
+		private SignageContent		content;
 
-		public TinyButton(final char title, final JLabel lab, final SignageContent content) {
+		public TinyButton(final char title, final JLabel lab, SignageContent c) {
 			super("" + (title == '+' ? '▲' : '▼'));
 			if (!SHOW_IN_WINDOW) {
 				setFont(new Font("Arial", Font.BOLD, 14));
@@ -130,16 +152,13 @@ public class CreateListOfChannels extends JPanel {
 			}
 			lab.setOpaque(false);
 
+			this.content = c;
+
 			setAlignmentX(JComponent.CENTER_ALIGNMENT);
 			addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-
-					// FIXME -- If a channel is inserted more than once in the channeList, this incrementing and decrementing will
-					// foul this all up! Either I need to disable these +/- buttons for those sorts of channels, or I need to
-					// implement a complicated mechanism for adding more instances of the channel. Not good.
-
 					if (!lab.getText().equals(NOT_SELECTED)) {
 						String t = lab.getText();
 						String ordinal = "";
@@ -155,27 +174,43 @@ public class CreateListOfChannels extends JPanel {
 							System.out.println("** Have hit the bad spot in TinyButton increment/decrement.  " + dwell + ", "
 									+ content.getTime() / 1000L + " -- PUNT! **");
 						} else {
-							long increment = 1;
-							if (dwell > 4200)
+							long increment = 1L;
+							if (dwell > 10800L)
 								increment = 3600L;
-							else if (dwell > 120)
-								increment = 60;
-							if (title == '+') {
+							else if (dwell > 3600L)
+								dwell = 600L;
+							else if (dwell > 180L)
+								increment = 60L;
+							else if (dwell > 45L)
+								increment = 5L;
+
+							if (title == '+')
 								dwell += increment;
-							} else if (title == '-') {
+							else if (title == '-')
 								dwell -= increment;
-							}
-							if (dwell <= 0) {
+
+							if (dwell <= 0)
 								lab.setText(NOT_SELECTED);
-							} else {
+							else
 								lab.setText("* " + ordinal + " chann (show for [" + dwell + "] secs) *");
-							}
+
 							content.setTime(dwell * 1000L);
 						}
 						fixLabels();
 					}
 				}
 			});
+			allTinyButtons.add(this);
+		}
+
+	}
+
+	private static void checkContent(SignageContent c) {
+		if (c == null)
+			return;
+		for (TinyButton TB : allTinyButtons) {
+			if (c.getName().equals(TB.content.getName()))
+				TB.content = c;
 		}
 	}
 
@@ -257,14 +292,14 @@ public class CreateListOfChannels extends JPanel {
 			gbag.gridx = gbag.gridy = 1;
 			gbag.gridwidth = 2;
 			gbag.fill = GridBagConstraints.HORIZONTAL;
-			gbag.insets = new Insets(1,1,1,1);
+			gbag.insets = new Insets(1, 1, 1, 1);
 			add(lab, gbag);
 
-//			lab = new JLabel("Just below this text are buttons to save and to restore lists to persistant storage");
-//			lab.setFont(lab.getFont().deriveFont(Font.PLAIN, 11));
-//			gbag.gridy++;
-//			gbag.fill = GridBagConstraints.HORIZONTAL;
-//			add(lab, gbag);
+			// lab = new JLabel("Just below this text are buttons to save and to restore lists to persistant storage");
+			// lab.setFont(lab.getFont().deriveFont(Font.PLAIN, 11));
+			// gbag.gridy++;
+			// gbag.fill = GridBagConstraints.HORIZONTAL;
+			// add(lab, gbag);
 			gbag.gridy++;
 			gbag.gridwidth = 1;
 			add(saveIt, gbag);
@@ -353,6 +388,7 @@ public class CreateListOfChannels extends JPanel {
 									internalScrollPanel.add(new JLabel(cih.toString()));
 									Channel channel = new ChannelImpl(name, cat, desc, uri, chanNumber, dwell);
 									channelListHolder.add(channel);
+									checkContent(channel);
 									listOfChannelsArea.append(cih + "\n");
 								} catch (URISyntaxException e) {
 									e.printStackTrace();
@@ -438,12 +474,15 @@ public class CreateListOfChannels extends JPanel {
 						L.setText(NOT_SELECTED);
 						L.setOpaque(false);
 					}
+					for (AbstractButton AB : allChannelButtons) {
+						AB.setSelected(false);
+					}
 
 					for (int seqNum = 0; seqNum < channelListHolder.size(); seqNum++) {
 						Channel C = channelListHolder.get(seqNum);
 						channelList.add(C);
 						JLabel lab = allLabels.get(C.getName());
-						lab.setText("" + C.getTime());
+						lab.setText("" + C.getTime() / 1000L);
 						labelList.add(lab);
 					}
 					fixLabels();
@@ -638,13 +677,13 @@ public class CreateListOfChannels extends JPanel {
 		}
 	}
 
-	CreateListOfChannels() {
+	CreateListOfChannels(Color c) {
 		super();
 		saveRestore = new SaveRestoreListOfChannels();
-		layoutButtons();
+		layoutButtons(c);
 	}
 
-	private void layoutButtons() {
+	private void layoutButtons(Color c) {
 		setLayout(new BorderLayout());
 
 		BigLabel bl = new BigLabel("Approx Dwell Time (sec): ", Font.PLAIN);
@@ -685,8 +724,8 @@ public class CreateListOfChannels extends JPanel {
 		Box mainPanel = Box.createVerticalBox();
 		final Color bg1 = new Color(235, 230, 230);
 		final Color bg2 = new Color(241, 241, 244);
-		final Color bor1 = Color.red.darker();
-		final Color bor2 = Color.blue;
+		final Color bor1 = c; // Color.red.darker();
+		final Color bor2 = Color.black; // Color.blue;
 
 		Color bgColor = bg2;
 		Color borColor = bor2;
@@ -722,11 +761,13 @@ public class CreateListOfChannels extends JPanel {
 				if (nm.length() > 30) {
 					nm = nm.substring(0, 28) + "...";
 				}
-				final AbstractButton bb = new BigButton(nm);
-				// if (SHOW_IN_WINDOW)
-				// bb.setMargin(new Insets(8, 8, 8, 8));
 
 				final JLabel lab = new JLabel(NOT_SELECTED);
+				final TinyButton addTime = new TinyButton('+', lab, CONTENT);
+				final TinyButton subTime = new TinyButton('-', lab, CONTENT);
+				final ChanSelectButton bb = new ChanSelectButton(nm, CONTENT, addTime, subTime);
+
+				allChannelButtons.add(bb);
 				lab.setBackground(Color.white);
 				lab.setOpaque(true);
 				lab.setFont(new Font("Arial", Font.PLAIN, (SHOW_IN_WINDOW ? 11 : 16)));
@@ -740,8 +781,7 @@ public class CreateListOfChannels extends JPanel {
 				Box hb = Box.createHorizontalBox();
 				hb.add(lab);
 				hb.add(Box.createRigidArea(new Dimension(2, 2)));
-				final TinyButton addTime = new TinyButton('+', lab, CONTENT);
-				final TinyButton subTime = new TinyButton('-', lab, CONTENT);
+
 				addTime.setVisible(false);
 				subTime.setVisible(false);
 				hb.add(addTime);
@@ -901,6 +941,11 @@ public class CreateListOfChannels extends JPanel {
 			selectedChannels.add(new JLabelPlain(count + getOrdinalSuffix(count) + ": " + C.getName() + " [" + C.getTime() / 1000L
 					+ " sec]"));
 			count++;
+			for (ChanSelectButton AB : allChannelButtons) {
+				ChanSelectButton bb = (ChanSelectButton) AB;
+				if (bb.isChannel(C))
+					AB.setSelected(true);
+			}
 		}
 		selectedChannels.revalidate();
 		selectedChannels.repaint();
@@ -927,13 +972,12 @@ public class CreateListOfChannels extends JPanel {
 	 * @param listener
 	 *            the listener for when the "Accept this list" button get pressed. Leave this null, and it will exit when the button
 	 *            is pressed.
+	 * @param color
 	 * @return The JPanel that contains all the GUI widgets
 	 * 
 	 */
 	public static Container getContainer(CreateListOfChannelsHelper h, final ActionListener listener) {
-		if (h == null) {
-			h = new CreateListOfChannelsHelper();
-		}
+
 		final CreateListOfChannelsHelper helper = h;
 
 		if (listener == null)
@@ -959,6 +1003,9 @@ public class CreateListOfChannels extends JPanel {
 		else
 			helper.accept.addActionListener(listener);
 
+		helper.accept.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(h.color, 3),
+				helper.accept.getBorder()));
+
 		final JScrollPane mainSelectionScrollPanel = new JScrollPane(helper.lister);
 		mainSelectionScrollPanel.getVerticalScrollBar().setUnitIncrement(16);
 		if (!SHOW_IN_WINDOW)
@@ -982,7 +1029,7 @@ public class CreateListOfChannels extends JPanel {
 		gbc = new GridBagConstraints(2, 1, 3, 1, 3.0, 1.0, GridBagConstraints.EAST, GridBagConstraints.BOTH,
 				new Insets(1, 1, 1, 1), 0, 0);
 		hb.add(mainSelectionScrollPanel, gbc);
-		hb.setBorder(BorderFactory.createLineBorder(Color.RED));
+		hb.setBorder(BorderFactory.createLineBorder(h.color, 2));
 		retval.add(hb, BorderLayout.CENTER);
 
 		Box vb = Box.createVerticalBox();
@@ -1051,7 +1098,9 @@ public class CreateListOfChannels extends JPanel {
 		JFrame f = new JFrame(CreateListOfChannels.class.getCanonicalName() + " Testing;");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		f.setContentPane(getContainer(null, null));
+		CreateListOfChannelsHelper h = new CreateListOfChannelsHelper(Color.green);
+
+		f.setContentPane(getContainer(h, null));
 		if (SHOW_IN_WINDOW) {
 			f.setSize(900, 900);
 		} else {
