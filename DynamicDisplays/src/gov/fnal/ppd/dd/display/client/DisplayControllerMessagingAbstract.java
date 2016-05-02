@@ -18,6 +18,7 @@ import gov.fnal.ppd.dd.display.DisplayImpl;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
+import gov.fnal.ppd.dd.testing.PerformanceMonitor;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 
@@ -31,6 +32,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
@@ -63,6 +65,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	protected boolean				showNumber				= true;
 	protected VersionInformation	versionInfo				= VersionInformation.getVersionInformation();
 	protected boolean				badNUC;
+	private double					cpuUsage				= 0.0;
 
 	// Use messaging to get change requests from the changers -->
 	// private boolean actAsServerNoMessages = true;
@@ -88,6 +91,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		myName = ipName + ":" + screenNumber + " (" + getVirtualDisplayNumber() + ")";
 		messagingClient = new MessagingClientLocal(getMessagingServerName(), MESSAGING_SERVER_PORT, myName);
 		// , getVirtualDisplayNumber(), getScreenNumber());
+
+		cpuUsage = PerformanceMonitor.getCpuUsage();
+
 	}
 
 	/**
@@ -169,6 +175,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 */
 	protected final synchronized void updateMyStatus() {
 		Connection connection;
+		cpuUsage = PerformanceMonitor.getCpuUsage();
+		DecimalFormat dd = new DecimalFormat("#.##");
+		
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 
@@ -180,7 +189,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					String statusString = getStatusString();
 					if (offLine)
 						statusString = OFF_LINE;
-					statusString = "V" + versionInfo.getVersionString() + " " + statusString;
+					statusString = "V" + versionInfo.getVersionString() + " L" + dd.format(cpuUsage) + " " + statusString;
 					statusString = statusString.replace("'", "").replace("\"", "").replace(";", "").replace("\\", "");
 					if (statusString.length() > 255)
 						// The Content field is limited to 255 characters.

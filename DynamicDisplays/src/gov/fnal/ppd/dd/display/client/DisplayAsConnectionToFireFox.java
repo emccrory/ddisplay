@@ -83,6 +83,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	private Thread						emergencyRemoveThread		= null;
 	private long						remainingTimeRemEmergMess	= 0l;
 
+
 	/**
 	 * @param showNumber
 	 * @param ipName
