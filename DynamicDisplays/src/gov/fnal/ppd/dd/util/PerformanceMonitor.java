@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.testing;
+package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
