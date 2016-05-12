@@ -21,6 +21,9 @@ import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.PerformanceMonitor;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
+import gov.fnal.ppd.dd.xml.ChangeChannelReply;
+import gov.fnal.ppd.dd.xml.ChannelSpec;
+import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -37,6 +40,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.xml.bind.JAXBException;
 
 /**
  * Implement a Dynamic Display using an underlying browser through a simple messaging server
@@ -177,7 +182,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		Connection connection;
 		cpuUsage = PerformanceMonitor.getCpuUsage();
 		DecimalFormat dd = new DecimalFormat("#.##");
-		
+
 		try {
 			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 
@@ -242,7 +247,34 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	public final void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
-		localSetContent();
+		respondToContentChange(localSetContent());
+	}
+
+	@Override
+	protected void respondToContentChange(boolean b) {
+		// generate a reply message to the sender
+		println(getClass(), " -- Responding to channel change with " + (b ? "SUCCESS" : "failure"));
+		MessageCarrier msg = null;
+		if (b) {
+			ChangeChannelReply replyMessage = new ChangeChannelReply();
+			ChannelSpec channelSpec = new ChannelSpec(getContent());
+			replyMessage.setChannelSpec(channelSpec);
+			replyMessage.setDate("" + new Date());
+			replyMessage.setDisplayNum(getDBDisplayNumber());
+
+			try {
+				String xmlMessage = MyXMLMarshaller.getXML(replyMessage);
+				msg = MessageCarrier.getReplyMessage(messagingClient.getName(), messagingClient.getLastFrom(), xmlMessage);
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			}
+		} else {
+			msg = MessageCarrier.getErrorMessage(messagingClient.getName(), messagingClient.getLastFrom(),
+					"Channel change not successful");
+		}
+
+		messagingClient.sendMessage(msg);
+
 	}
 
 	static DisplayControllerMessagingAbstract makeTheDisplays(Class<?> clazz) {
@@ -399,6 +431,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		private boolean		debug	= true;
 		private DCProtocol	dcp		= new DCProtocol();
 		private Thread		myShutdownHook;
+		private String		lastFrom;
 
 		// private int myDisplayNumber, myScreenNumber;
 
@@ -420,6 +453,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			Runtime.getRuntime().addShutdownHook(myShutdownHook);
 		}
 
+		public String getLastFrom() {
+			return lastFrom;
+		}
+
 		public long getServerTimeStamp() {
 			return lastMessageReceived;
 		}
@@ -436,9 +473,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 		@Override
 		public void receiveIncomingMessage(MessageCarrier msg) {
-			if (debug && msg.getType() != MessageType.ISALIVE)
-				println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
-						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
+			// TODO -- Should this method be synchronized? Does it make sense to have two messages processed at the same time, or
+			// not?
+
+			// if (debug && msg.getType() != MessageType.ISALIVE)
+			println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
+					+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
+			lastFrom = msg.getFrom();
 			if (msg.getTo().equals(getName())) { // || msg.getTo().startsWith(getName())) {
 				dcp.processInput(msg);
 			} else if (debug)

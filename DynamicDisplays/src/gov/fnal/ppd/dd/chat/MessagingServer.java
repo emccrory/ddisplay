@@ -17,6 +17,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.util.ObjectSigning;
 
 import java.io.EOFException;
@@ -408,6 +409,8 @@ public class MessagingServer {
 
 				totalMesssagesHandled++;
 
+				// System.out.println("MessagingServer.ClientThread: Got message: " + cm);
+
 				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())) {
 					if (showAliveMessages)
 						display("Alive msg " + cm.getFrom().trim().replace(".fnal.gov", ""));
@@ -419,6 +422,7 @@ public class MessagingServer {
 
 				case ISALIVE:
 				case AMALIVE:
+				case REPLY:
 					broadcast(this.cm);
 					break;
 
@@ -495,11 +499,11 @@ public class MessagingServer {
 						broadcast(this);
 						// broadcast(this.cmSigned);
 					} else {
-						String mess = "Message rejected!  '" + this.username + "' asked to send message of type " + this.cm.getType()
-								+ " to '" + this.cm.getTo() + "'\n\t\tbut ";
-						if(isClientAnEmergencySource(this.cm.getFrom()) ) {
+						String mess = "Message rejected!  '" + this.username + "' asked to send message of type "
+								+ this.cm.getType() + " to '" + this.cm.getTo() + "'\n\t\tbut ";
+						if (isClientAnEmergencySource(this.cm.getFrom())) {
 							mess += "it is not authorized to send any sort of message to this client";
-							
+
 						} else {
 							mess += "it is not authorized to generate an emergency message";
 						}
@@ -843,7 +847,10 @@ public class MessagingServer {
 				if (MessageCarrier.isUsernameMatch(mc.getTo(), ct.username))
 					if (!ct.writeUnsignedMsg(mc)) {
 						listOfMessagingClients.remove(i);
+						println(getClass(), ".broadcast() FAILED.  mc=" + mc);
 						display("Disconnected Client " + ct.username + " removed from list.");
+						// } else {
+						// println(getClass(), ".broadcast() succeeded.  mc=" + mc);
 					}
 			}
 		}

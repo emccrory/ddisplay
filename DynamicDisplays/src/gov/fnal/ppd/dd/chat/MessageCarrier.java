@@ -80,6 +80,16 @@ public class MessageCarrier implements Serializable {
 	}
 
 	/**
+	 * @param from
+	 * @param to
+	 * @param message
+	 * @return A reply message from a client back to the requester
+	 */
+	public static MessageCarrier getReplyMessage(final String from, final String to, final String message) {
+		return new MessageCarrier(MessageType.REPLY, from, to, message);
+	}
+
+	/**
 	 * @return A logout message for the messaging server
 	 */
 	public static MessageCarrier getLogout() {
@@ -238,13 +248,14 @@ public class MessageCarrier implements Serializable {
 			System.out.println("MessageCarrier.isUsernameMatch() -- one of the names is \"NULL\"");
 			return true;
 		}
-		boolean rv = theNameFromTheServer.equals(theNameFromTheClient) || theNameFromTheServer.startsWith(theNameFromTheClient);
+		boolean rv = theNameFromTheServer.equals(theNameFromTheClient) || theNameFromTheServer.startsWith(theNameFromTheClient)
+				|| theNameFromTheClient.startsWith(theNameFromTheServer);
 		// System.out.println(new Date() + " MessageCarrier.isUsernameMatch() -- the names are [" + theNameFromTheServer + "] and ["
 		// + theNameFromTheClient + "] -- returning " + rv);
-		if ((!rv) && theNameFromTheClient.startsWith(theNameFromTheServer)) {
-			System.err.println("BACKWARDS");
-			new Exception().printStackTrace();
-		}
+		// if ((!rv) && theNameFromTheClient.startsWith(theNameFromTheServer)) {
+		// System.err.println("BACKWARDS: " + theNameFromTheClient + " " + theNameFromTheServer);
+		// new Exception().printStackTrace();
+		// }
 		return rv;
 	}
 

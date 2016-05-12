@@ -162,6 +162,9 @@ public class DCProtocol {
 				e.printStackTrace();
 			}
 
+		case REPLY:
+			// really, should not need to do this.  This is handled in the place it is needed" DisplayFacade.
+			break;
 		}
 		return true;
 	}
@@ -276,12 +279,10 @@ public class DCProtocol {
 	 * @return Was the processing successful?
 	 */
 	private boolean processEmergencyMessage(EmergencyMessXML message) {
-
 		try {
 			println(getClass(), ".processEmergencyMessage(): processing ...");
 
 			if (message != null) {
-
 				EmergencyMessage em = new EmergencyMessage();
 				em.setFootnote(message.getFootnote());
 				em.setHeadline(message.getHeadline());
@@ -304,6 +305,8 @@ public class DCProtocol {
 		return true;
 
 	}
+	
+	
 
 	private void createChannelListAndInform(ChangeChannelList theMessage) {
 		final ChannelSpec[] specs = theMessage.getChannelSpec();
@@ -361,7 +364,8 @@ public class DCProtocol {
 	// }
 
 	/**
-	 * This is where the channel list is played on a display.
+	 * This is where the channel list used to be played on a display.
+	 * @deprecated
 	 */
 	private void informListenersForever() {
 		assert (changerThread == null);
@@ -438,7 +442,6 @@ public class DCProtocol {
 							if (!keepRunning)
 								break;
 						}
-
 					}
 					println(DCProtocol.class, ": Channel list has exited -- " + (new Date()));
 				}
@@ -447,6 +450,17 @@ public class DCProtocol {
 		}
 	}
 
+	private void informListeners(final EmergencyCommunication spec) {
+		try {
+			for (Display L : listeners) {
+				// println(getClass().getSimpleName(), + " Telling a "+L.getClass().getSimpleName()+" to change to ["+c+"]");
+				L.setContent(spec);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void informListeners(ChannelSpec spec) {
 		try {
 			URL url = spec.getUri().toURL();
@@ -467,16 +481,6 @@ public class DCProtocol {
 		}
 	}
 
-	private void informListeners(final EmergencyCommunication spec) {
-		try {
-			for (Display L : listeners) {
-				// println(getClass().getSimpleName(), + " Telling a "+L.getClass().getSimpleName()+" to change to ["+c+"]");
-				L.setContent(spec);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	private void disableListThread() {
 		keepRunning = false;
@@ -501,8 +505,6 @@ public class DCProtocol {
 				L.errorHandler(message.getMessage());
 			} else
 				;// println(DCProtocol.class, " $$$ SKIPPING " + L);
-
 		}
-
 	}
 }

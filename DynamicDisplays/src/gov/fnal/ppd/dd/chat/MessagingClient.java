@@ -12,6 +12,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
+import gov.fnal.ppd.dd.util.WhoIsInChatRoom;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -248,8 +250,9 @@ public class MessagingClient {
 	 */
 	public void sendMessage(MessageCarrier msg) {
 		try {
-			// System.out.println(MessagingClient.class.getSimpleName() + ".sendMessage(" + msg + ").  isReadOnly() = "
-			// + msg.getType().isReadOnly());
+			if (msg.getType() != MessageType.AMALIVE && msg.getType() != MessageType.WHOISIN)
+				System.out.println(MessagingClient.class.getSimpleName() + ".sendMessage(" + msg + ").  isReadOnly() = "
+						+ msg.getType().isReadOnly());
 			if (msg.getType().isReadOnly())
 				sOutput.writeObject(msg);
 			else
@@ -310,23 +313,24 @@ public class MessagingClient {
 
 			public void run() {
 				// An observation (2/19/2016): It takes about two cycles of this while loop to reconnect to the server
-				// synchronized (syncReconnects) { I think this sync is not necessary (there can only be one instance of this thread, Ithink)
-					syncReconnects = true;
-					while (socket == null) {
-						if (wait < 0)
-							wait = WAIT_FOR_SERVER_TIME;
-
-						displayLogMessage("Will wait " + (wait / 1000L) + " secs before trying to connect to the server again.");
-						catchSleep(wait);
+				// synchronized (syncReconnects) { I think this sync is not necessary (there can only be one instance of this
+				// thread, Ithink)
+				syncReconnects = true;
+				while (socket == null) {
+					if (wait < 0)
 						wait = WAIT_FOR_SERVER_TIME;
-						if (!MessagingClient.this.start()) {
-							displayLogMessage(MessagingClient.class.getSimpleName()
-									+ ".connectionFailed(): Server start failed again at " + (new Date()) + "...");
-						}
+
+					displayLogMessage("Will wait " + (wait / 1000L) + " secs before trying to connect to the server again.");
+					catchSleep(wait);
+					wait = WAIT_FOR_SERVER_TIME;
+					if (!MessagingClient.this.start()) {
+						displayLogMessage(MessagingClient.class.getSimpleName()
+								+ ".connectionFailed(): Server start failed again at " + (new Date()) + "...");
 					}
-					displayLogMessage(MessagingClient.class.getSimpleName() + ": Socket is now viable [" + socket
-							+ "]; connection has been restored at " + (new Date()));
-					restartThreadToServer = null;
+				}
+				displayLogMessage(MessagingClient.class.getSimpleName() + ": Socket is now viable [" + socket
+						+ "]; connection has been restored at " + (new Date()));
+				restartThreadToServer = null;
 				// }
 				syncReconnects = false;
 			}
@@ -546,12 +550,16 @@ public class MessagingClient {
 							// All done with this iteration of the loop.
 							continue;
 
+						case REPLY:
+							// TODO -- Inform our overlords that the channel was, in fact, successfully changed.
+							break;
+
 						case AMALIVE:
 							// Print out some of these messages for the log file
 							aliveCount++;
 							if (System.currentTimeMillis() > nextDisplayTime) {
 								displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got 'AMALIVE' message from "
-										+ msg.getFrom() + " [" + aliveCount + "]");
+										+ msg.getFrom() + ", message=[" + msg.getMessage() + "] [" + aliveCount + "]");
 								if (System.currentTimeMillis() > nextDisplayTime + 15000L)
 									// Continue to print these for 15 seconds, and the wait an hour to do it again.
 									nextDisplayTime = System.currentTimeMillis() + 60 * ONE_MINUTE;
@@ -569,9 +577,9 @@ public class MessagingClient {
 						case MESSAGE:
 							// Normal stuff here
 							break;
-							
+
 						case EMERGENCY:
-							// Emergency?  What do we do with this information?!!
+							// Emergency? What do we do with this information?!!
 							break;
 						}
 

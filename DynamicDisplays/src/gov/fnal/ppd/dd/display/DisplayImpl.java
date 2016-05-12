@@ -128,27 +128,33 @@ public abstract class DisplayImpl implements Display {
 				channel = c;
 
 			println(getClass(), ": Display " + getVirtualDisplayNumber() + " changed to [" + channel + "] at " + (new Date()));
+			// informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
 
-			informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
-			if (localSetContent())
-				new Thread("FakeChangeComplete") {
-					long	sleepTime	= (SHOW_IN_WINDOW ? 1000 : 5000);
-
-					public void run() {
-						// TODO -- This event needs to be triggered by the display actually indicating that it has changed the
-						// channel.
-						catchSleep(sleepTime);
-						informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED, "Channel change succeeded");
-					}
-				}.start();
-			else {
-				informListeners(DisplayChangeEvent.Type.ERROR, "Channel change unsuccessful");
-			}
+			respondToContentChange(localSetContent());
 			return previousChannel;
 		}
 
 		error("Content type of this Channel (" + c.getType() + ") is not appropriate for this Display (" + getCategory() + ")");
 		return channel;
+	}
+
+	// This should be overridden in the real display client
+	protected void respondToContentChange(boolean b) {
+		println(getClass(), " >>>> Setting the content in setConent(): " + (b ? "SUCCESS" : "F-A-I-L-U-R-E"));
+		if (b) {
+			// new Thread("FakeChangeComplete") {
+			// long sleepTime = (SHOW_IN_WINDOW ? 1000 : 5000);
+			//
+			// public void run() {
+			// // TODO -- This event needs to be triggered by the display actually indicating that it has changed the
+			// // channel.
+			// catchSleep(sleepTime);
+			// informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED, "Channel change succeeded");
+			// }
+			// }.start();
+		} else {
+			informListeners(DisplayChangeEvent.Type.ERROR, "Channel change unsuccessful");
+		}
 	}
 
 	/**

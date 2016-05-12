@@ -5,6 +5,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.Util.println;
+import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
@@ -22,6 +23,7 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 import java.awt.Color;
 import java.net.InetAddress;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -92,6 +94,14 @@ public class DisplayFacade extends DisplayImpl {
 			if (message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME) && message.getType() == MessageType.ERROR) {
 				println(getClass(), ".receiveIncomingMessage(): Got an error message -- " + message);
 				dcp.errorHandler(message);
+			} else if (message.getType() == MessageType.REPLY) {
+				DisplayFacade DF = clients.get(message.getFrom());
+				if (DF != null) {
+					DF.informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED, "Channel change succeeded");
+					// println(getClass(), ".receiveIncomingMessage(): Yay!  Got a real confirmation that the channel was changed.");
+				} else
+					println(getClass(), ".receiveIncomingMessage(): No client named " + message.getFrom() + " to which to send the REPLY.\n"
+							+ "t\tThe clients are called: " + Arrays.toString(clients.keySet().toArray()));
 			} else {
 				// DisplayFacade d = clients.get(message.getFrom());
 				dcp.processInput(message);
@@ -175,8 +185,8 @@ public class DisplayFacade extends DisplayImpl {
 		// } catch (UnknownHostException e1) {
 		// e1.printStackTrace(); // Really? This should never happen.
 		// }
-		println(DisplayFacade.class, ": The messaging name of Display " + vNumber + "/" + dbNumber
-				+ " is expected to be '" + myExpectedName + "'");
+		println(DisplayFacade.class, ": The messaging name of Display " + vNumber + "/" + dbNumber + " is expected to be '"
+				+ myExpectedName + "'");
 		FacadeMessagingClient.registerClient(getMessagingServerName(), MESSAGING_SERVER_PORT, myExpectedName, this);
 		FacadeMessagingClient.addListener(this);
 		// TODO -- It would be better to defer the start of these messaging clients until the whole GUI creation is finished. Not
@@ -256,6 +266,10 @@ public class DisplayFacade extends DisplayImpl {
 	public void disconnect() {
 		alreadyWaiting.set(false);
 		FacadeMessagingClient.me.disconnect();
+	}
+
+	protected void respondToContentChange(boolean b) {
+		// Let the real response come in from the client by overriding the faked response in DisplayImpl.
 	}
 
 	/**

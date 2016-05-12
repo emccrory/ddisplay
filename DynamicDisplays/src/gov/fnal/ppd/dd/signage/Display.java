@@ -150,7 +150,7 @@ public interface Display extends ActionListener {
 	public void disconnect();
 
 	/**
-	 * A way foir the Display to handle errors from the messaging system
+	 * A way for the Display to handle errors from the messaging system
 	 * 
 	 * @param message
 	 */
