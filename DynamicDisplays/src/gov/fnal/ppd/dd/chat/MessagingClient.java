@@ -12,8 +12,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
-import gov.fnal.ppd.dd.util.WhoIsInChatRoom;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -62,7 +60,6 @@ public class MessagingClient {
 	protected long				lastMessageReceived				= 0l;
 	private boolean				keepMessagingClientGoing		= true;
 
-	private Boolean				syncReconnects					= false;
 	private final String		serverName						= SPECIAL_SERVER_MESSAGE_USERNAME;
 
 	private boolean				readOnly						= true;
@@ -315,7 +312,6 @@ public class MessagingClient {
 				// An observation (2/19/2016): It takes about two cycles of this while loop to reconnect to the server
 				// synchronized (syncReconnects) { I think this sync is not necessary (there can only be one instance of this
 				// thread, Ithink)
-				syncReconnects = true;
 				while (socket == null) {
 					if (wait < 0)
 						wait = WAIT_FOR_SERVER_TIME;
@@ -332,7 +328,6 @@ public class MessagingClient {
 						+ "]; connection has been restored at " + (new Date()));
 				restartThreadToServer = null;
 				// }
-				syncReconnects = false;
 			}
 		};
 		restartThreadToServer.start();
