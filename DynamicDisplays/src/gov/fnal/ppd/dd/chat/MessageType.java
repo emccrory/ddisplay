@@ -48,11 +48,11 @@ public enum MessageType {
 	ERROR,
 
 	/**
-	 * This is a message that specifies an emergency situation. It is not clear yet what this means, but it is likely to be
-	 * something from the Office of Communications that needs to go to every client in the system (especially the displays).
+	 * This is a message that specifies an emergency situation. It is not completely clear yet what this means, but it is likely to
+	 * be something from the Office of Communications that needs to go to every client in the system (especially the displays).
 	 */
 	EMERGENCY,
-	
+
 	/**
 	 * This is a read-only message that is a reply to a non-read-only message
 	 */
