@@ -1,5 +1,7 @@
 package gov.fnal.ppd.dd.xml;
 
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
@@ -42,6 +44,10 @@ public class WriteXMLFile {
 	 * @param argv
 	 */
 	public static void main(final String argv[]) {
+		credentialsSetup();
+
+		selectorSetup();
+
 		for (int which = 0; which < 10; which++) {
 			Object stuff = null;
 			try {
@@ -79,9 +85,9 @@ public class WriteXMLFile {
 					break;
 
 				case 3:
-					ChannelSpec cs = new ChannelSpec();
-					cs.setContent(new ChannelImpl("Test Channel", ChannelCategory.PUBLIC_DETAILS, "This is the desription",
-							new URI("http://www.fnal.gov"), 23, System.currentTimeMillis() % (24L * 3600L * 1000L)));
+					ChannelSpec cs = new ChannelSpec(new ChannelImpl("Test Channel", ChannelCategory.PUBLIC_DETAILS,
+							"This is the desription", new URI("http://www.fnal.gov"), 23, System.currentTimeMillis()
+									% (24L * 3600L * 1000L)));
 					stuff = cs;
 					break;
 
@@ -94,6 +100,11 @@ public class WriteXMLFile {
 					break;
 
 				case 5:
+					ChannelSpecByNumber csn = new ChannelSpecByNumber(20);
+					csn.setExpiration(1000L);
+					csn.setTime(System.currentTimeMillis());
+
+					stuff = csn;
 					// Not relevant until/unless we implement the DB fetch on the message server
 					// ChannelListRequest clr = new ChannelListRequest();
 					// clr.setEncodedId(id++);
@@ -146,7 +157,7 @@ public class WriteXMLFile {
 
 				if (stuff != null) {
 					String message = MyXMLMarshaller.getXML(stuff);
-					System.out.println(message);
+					System.out.println(which + ": " + message);
 				}
 			} catch (JAXBException e) {
 				e.printStackTrace();
