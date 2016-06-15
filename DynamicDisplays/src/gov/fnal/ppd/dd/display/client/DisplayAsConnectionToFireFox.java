@@ -47,42 +47,42 @@ import java.util.Date;
  * </p>
  * 
  * <p>
- * (November, 2015) Removed all syncronizations to the firefox attribute -- move this functionality into that class. This may be
+ * (November, 2015) Removed all syncronizations to the Firefox attribute -- move this functionality into that class. This may be
  * causing a problem--I saw displays that were trying to run a list of channels get hosed after three or so hours of the (which
  * would be, in this case, about 10 iterations of the list)
  * </p>
  * 
- * @author Elliott McCrory, Fermilab (2014-15)
+ * @author Elliott McCrory, Fermilab (2014-16)
  */
 public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbstract {
 
 	private static final long			FRAME_DISAPPEAR_TIME		= 2 * ONE_MINUTE;							// ONE_HOUR;
-	private ConnectionToFirefoxInstance	firefox;
-	private boolean						showingSelfIdentify			= false;
 	// private WrapperType defaultWrapperType = WrapperType.valueOf(System.getProperty("ddisplay.wrappertype",
 	// "NORMAL"));
 
 	private int							changeCount;
-	protected long						lastFullRestTime;
-	protected long						revertTimeRemaining			= 0L;
-	private Thread						revertThread				= null;
-
-	private ListOfValidChannels			listOfValidURLs				= new ListOfValidChannels();
-	private WrapperType					wrapperType;
-	protected boolean					newListIsPlaying			= false;
-
-	private ThreadWithStop				playlistThread				= null;
 	private boolean						skipRevert					= false;
-	private Command						lastCommand;
-	protected SignageContent			previousPreviousChannel		= null;
+	private boolean						showingEmergencyMessage		= false;
+	private boolean						showingSelfIdentify			= false;
+	private long						remainingTimeRemEmergMess	= 0l;
+	
 	private boolean[]					removeFrame					= { false, false, false, false, false };
 	private long[]						frameRemovalTime			= { 0L, 0L, 0L, 0L, 0L };
 	private Thread[]					frameRemovalThread			= { null, null, null, null, null };
-	private EmergencyMessage			em;
-	private boolean						showingEmergencyMessage		= false;
-	private Thread						emergencyRemoveThread		= null;
-	private long						remainingTimeRemEmergMess	= 0l;
 
+	private Thread						revertThread				= null;
+	private Thread						emergencyRemoveThread		= null;
+	private ListOfValidChannels			listOfValidURLs				= new ListOfValidChannels();
+	private WrapperType					wrapperType;
+	private ThreadWithStop				playlistThread				= null;
+	private Command						lastCommand;
+	private EmergencyMessage			em;
+	private ConnectionToFirefoxInstance	firefox;
+
+	protected boolean					newListIsPlaying			= false;
+	protected SignageContent			previousPreviousChannel		= null;
+	protected long						lastFullRestTime;
+	protected long						revertTimeRemaining			= 0L;
 
 	/**
 	 * @param showNumber
