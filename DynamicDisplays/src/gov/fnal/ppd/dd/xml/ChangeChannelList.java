@@ -52,19 +52,18 @@ public class ChangeChannelList extends EncodedCarrier {
 
 	public void setChannelSpec(ChannelSpec[] cs) {
 		System.out.println(getClass().getSimpleName() + ": Adding a channelSpec list of length " + cs.length);
-		try {
-			for (ChannelSpec spec : cs) {
-				EmptyChannel content = new EmptyChannel(spec.getName(), spec.getCategory());
+		// try {
+		for (ChannelSpec spec : cs) {
+			// EmptyChannel content = new EmptyChannel(spec.getName(), spec.getCategory());
+			// content.setURI(spec.getUri());
+			// content.setCode(spec.getCode());
+			// content.setTime(spec.getTime() > 0 ? spec.getTime() : getTime());
 
-				content.setURI(spec.getUri());
-				content.setCode(spec.getCode());
-				content.setTime(spec.getTime() > 0 ? spec.getTime() : getTime());
-
-				cpl.getChannels().add(content);
-			}
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
+			cpl.getChannels().add(spec.getContent());
 		}
+		// } catch (URISyntaxException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	public void setContent(SignageContent s) {

@@ -1,6 +1,5 @@
 package gov.fnal.ppd.dd.xml;
 
-import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
@@ -9,6 +8,7 @@ import java.net.URISyntaxException;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Message from a Control Panel that specifies a Channel (SignageContent)
@@ -21,9 +21,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class ChannelSpec {
 	protected SignageContent	content;
-	private long				time		= 0;
-	private long				expiration	= 0;
-	private int					code		= 0;
 
 	public ChannelSpec() {
 		try {
@@ -34,10 +31,14 @@ public class ChannelSpec {
 	}
 
 	public ChannelSpec(SignageContent c) {
-		content = c;
-		time = c.getTime();
-		code = c.getCode();
-		expiration = c.getExpiration();
+		if (c == null) {
+			try {
+				content = new EmptyChannel();
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+		} else
+			content = c;
 	}
 
 	@XmlElement
@@ -58,53 +59,39 @@ public class ChannelSpec {
 		content.setName(name);
 	}
 
-	// Not actually needed at this time. May be requested someday
-	// @XmlElement
-	// public int getChannelNumber() {
-	// return content.getNumber();
-	// }
-
 	@XmlElement
 	public URI getUri() {
-		if (content == null) {
-			System.out.println("Oops -- got a bad URI");
-			try {
-				return new URI(SELF_IDENTIFY);
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-				return null;
-			}
-		} else
-			return content.getURI();
+		return content.getURI();
 	}
 
 	public void setUri(URI uri) {
 		content.setURI(uri);
 	}
 
+	@XmlTransient
+	public SignageContent getContent() {
+		return content;
+	}
+
 	public void setContent(final SignageContent c) {
 		this.content = c;
-		this.time = c.getTime();
-		this.code = c.getCode();
-		this.expiration = c.getExpiration();
 	}
 
 	@XmlElement
 	public long getTime() {
-		return time;
+		return content.getTime();
 	}
 
 	public void setTime(final long n) {
-		time = n;
+		content.setTime(n);
 	}
 
 	@XmlElement
 	public long getExpiration() {
-		return expiration;
+		return content.getExpiration();
 	}
 
 	public void setExpiration(final long n) {
-		expiration = n;
 		content.setExpiration(n);
 	}
 
@@ -113,19 +100,17 @@ public class ChannelSpec {
 	 */
 	@XmlElement
 	public int getCode() {
-		return code;
+		return content.getCode();
 	}
 
 	/**
-	 * Gives the channel an attribute that can be interpreted in a number of ways. Initially, this code is either 0 or 1; 0 means
-	 * show the URL in the normal way; 1 means show the URL in a wrapper web page, which (presumably) has color and Display number
-	 * information on it, somehow.
+	 * This value was thought to be useful someday.  But it has not proven to be useful yet.
 	 * 
 	 * @param n
 	 *            The new user-defined code
 	 */
 	public void setCode(final int n) {
-		code = n;
+		content.setCode(n);
 	}
 
 	@XmlElement
