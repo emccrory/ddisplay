@@ -25,6 +25,7 @@ public class EmergCommunicationImpl implements EmergencyCommunication {
 	private URI					uri;
 	private long				expire				= 0L;
 	private int					code;
+	private boolean				debug				= true;
 
 	/**
 	 * 
@@ -64,7 +65,7 @@ public class EmergCommunicationImpl implements EmergencyCommunication {
 
 	@Override
 	public void setCategory(ChannelCategory c) {
-		this.category = c;
+		// this.category = c; Cannot override!
 	}
 
 	@Override
@@ -74,7 +75,8 @@ public class EmergCommunicationImpl implements EmergencyCommunication {
 
 	@Override
 	public void setType(SignageType t) {
-		this.sType = t;
+		// this.sType = t; Cannot override!
+		alertReadOnly();
 	}
 
 	@Override
@@ -84,7 +86,8 @@ public class EmergCommunicationImpl implements EmergencyCommunication {
 
 	@Override
 	public void setURI(URI i) {
-		this.uri = i;
+		// this.uri = i; Cannot override!
+		alertReadOnly();
 	}
 
 	@Override
@@ -124,8 +127,8 @@ public class EmergCommunicationImpl implements EmergencyCommunication {
 
 	@Override
 	public void setFrameNumber(int frameNumber) {
-		// Irrelevant!!
-
+		// Cannot be override!
+		alertReadOnly();
 	}
 
 	@Override
@@ -140,6 +143,13 @@ public class EmergCommunicationImpl implements EmergencyCommunication {
 
 	@Override
 	public String toString() {
-		return message.toString();
+		return "Emergency Message: " + message.toString();
+	}
+
+	private void alertReadOnly() {
+		// Inform the user (somehow) that someone has tried to write to this read-only object.
+		if (debug)
+			throw new RuntimeException("An attempt has been made to change the internals of a read-only "
+					+ getClass().getSimpleName() + " object");
 	}
 }
