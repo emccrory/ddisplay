@@ -84,18 +84,17 @@ public class DDMessage {
 		}
 	}
 
-	/**
-	 * @return The URL that this message specifies
-	 */
-	public String getURL() {
-		if (receivedMessage instanceof ChangeChannelList)
-			return ((ChangeChannelList) receivedMessage).getChannelSpec()[0].getUri().toASCIIString(); // FIXME -- Have to
-																										// increment this index
-																										// sometime
-		if (receivedMessage instanceof ChangeChannel)
-			return ((ChangeChannel) receivedMessage).getChannelSpec().getUri().toASCIIString();
-		return null;
-	}
+	// /**
+	// * @return The URL that this message specifies
+	// */
+	// public String getURL() {
+	// if (receivedMessage instanceof ChangeChannelList)
+	// // FIXME -- Have to increment this index sometime
+	// return ((ChangeChannelList) receivedMessage).getChannelSpec()[0].getContent().getURI().toASCIIString();
+	// if (receivedMessage instanceof ChangeChannel)
+	// return ((ChangeChannel) receivedMessage).getChannelSpec().getContent().getURI().toASCIIString();
+	// return null;
+	// }
 
 	/**
 	 * @return The message that should be sent on the wire
