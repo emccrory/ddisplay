@@ -22,7 +22,7 @@ public class EmergencyMessage implements Serializable {
 	}
 
 	/**
-	 * @return
+	 * @return the sub-text of this message
 	 */
 	public String getFootnote() {
 		return footnote;
@@ -37,7 +37,7 @@ public class EmergencyMessage implements Serializable {
 	}
 
 	/**
-	 * @return
+	 * @return the headline of this message
 	 */
 	public String getHeadline() {
 		return headline;
@@ -48,11 +48,10 @@ public class EmergencyMessage implements Serializable {
 	 */
 	public void setHeadline(final String headline) {
 		this.headline = headline.replaceAll("(\\r|\\n)", " ");
-		;
 	}
 
 	/**
-	 * @return
+	 * @return the message string
 	 */
 	public String getMessage() {
 		return message;
@@ -66,7 +65,7 @@ public class EmergencyMessage implements Serializable {
 	}
 
 	/**
-	 * @return
+	 * @return the severity code of this message
 	 */
 	public Severity getSeverity() {
 		return severity;
