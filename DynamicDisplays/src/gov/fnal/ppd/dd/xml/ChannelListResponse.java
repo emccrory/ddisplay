@@ -28,8 +28,7 @@ public class ChannelListResponse extends EncodedCarrier {
 		ChannelSpec [] retval = new ChannelSpec [list.size()];
 		int i = 0;
 		for (String key: list.keySet()) {
-			ChannelSpec cs = new ChannelSpec();
-			cs.setContent(list.get(key));
+			ChannelSpec cs = new ChannelSpec(list.get(key));
 			retval[i++] = cs;
 		}
 		return retval;
