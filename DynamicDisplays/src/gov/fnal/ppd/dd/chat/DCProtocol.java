@@ -36,10 +36,9 @@
 package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
+import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
-import gov.fnal.ppd.dd.channel.PlainURLChannel;
 import gov.fnal.ppd.dd.emergency.EmergCommunicationImpl;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -54,10 +53,7 @@ import gov.fnal.ppd.dd.xml.EmergencyMessXML;
 import gov.fnal.ppd.dd.xml.EncodedCarrier;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -81,7 +77,7 @@ public class DCProtocol {
 	private Object				theMessage;
 	private Object				theReply;
 	private List<Display>		listeners				= new ArrayList<Display>();
-	protected boolean			keepRunning				= false;
+	// protected boolean keepRunning = false;
 	private Thread				changerThread			= null;
 	protected long				SHORT_INTERVAL			= 100l;
 
@@ -163,7 +159,7 @@ public class DCProtocol {
 			}
 
 		case REPLY:
-			// really, should not need to do this.  This is handled in the place it is needed" DisplayFacade.
+			// really, should not need to do this. This is handled in the place it is needed" DisplayFacade.
 			break;
 		}
 		return true;
@@ -221,14 +217,14 @@ public class DCProtocol {
 				}
 
 				if (theMessage instanceof ChangeChannelList) {
-					disableListThread();
+					// disableListThread();
 					// informListenersForever();
 					createChannelListAndInform((ChangeChannelList) theMessage);
 				} else if (theMessage instanceof ChangeChannel) {
-					disableListThread();
+					// disableListThread();
 					informListeners();
 				} else if (theMessage instanceof ChannelSpec) {
-					disableListThread();
+					// disableListThread();
 					informListeners((ChannelSpec) theMessage);
 				} else {
 					println(getClass(), "The message is of type " + theMessage.getClass().getCanonicalName()
@@ -239,11 +235,12 @@ public class DCProtocol {
 				if (listeners.size() > 0 && listeners.get(0) != null) {
 					// ASSUME that there is one and only one listener here and it is the physical display
 					p.setDisplayNum(listeners.get(0).getDBDisplayNumber());
-					ChannelSpec spec = new ChannelSpec();
-					spec.setUri(listeners.get(0).getContent().getURI());
-					spec.setCategory(listeners.get(0).getContent().getCategory());
-					spec.setName(listeners.get(0).getContent().getName());
-					spec.setTime(listeners.get(0).getContent().getTime());
+					ChannelSpec spec = new ChannelSpec(listeners.get(0).getContent());
+					// spec.setContent(listeners.get(0).getContent());
+					// spec.setUri(listeners.get(0).getContent().getURI());
+					// spec.setCategory(listeners.get(0).getContent().getCategory());
+					// spec.setName(listeners.get(0).getContent().getName());
+					// spec.setTime(listeners.get(0).getContent().getTime());
 					p.setChannelSpec(spec);
 				} else {
 					// System.err.println(getClass().getSimpleName() + ".processInput(): No listeners for a 'Pong' message");
@@ -305,8 +302,6 @@ public class DCProtocol {
 		return true;
 
 	}
-	
-	
 
 	private void createChannelListAndInform(ChangeChannelList theMessage) {
 		final ChannelSpec[] specs = theMessage.getChannelSpec();
@@ -315,32 +310,33 @@ public class DCProtocol {
 			return;
 		}
 		if (specs.length == 1) {
-			// There is only one channel in this list. Hmmm. Don't to send this over and over to the client. The timeout in the
-			// channel itself will cause it to refresh from within the client.
+			// There is only one channel in this list. Hmmm (shouldn't happen). Don't send this over and over to the client. The
+			// timeout in the channel itself will cause it to refresh from within the client.
 			informListeners(specs[0]);
 		} else {
 			long dwellTime = 5000;
 			List<SignageContent> channelList = new ArrayList<SignageContent>();
 
 			for (ChannelSpec spec : specs) {
-				try {
-					// NOTE : Lists of lists are not supported
-					URL url = spec.getUri().toURL();
-					Channel c = new PlainURLChannel(url);
-					c.setCategory(spec.getCategory());
-					c.setName(spec.getName());
-					c.setTime(spec.getTime());
-					c.setFrameNumber(spec.getFrameNumber());
-					c.setExpiration(spec.getExpiration());
-					c.setCode(spec.getCode());
-					channelList.add(c);
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				// try {
+				// NOTE : Lists of lists are not supported
+				// URL url = spec.getUri().toURL();
+				Channel c = new ChannelImpl(spec.getContent());
+				// c.setCategory(spec.getCategory());
+				// c.setName(spec.getName());
+				// c.setTime(spec.getTime());
+				// c.setFrameNumber(spec.getFrameNumber());
+				// c.setExpiration(spec.getExpiration());
+				// c.setCode(spec.getCode());
+				channelList.add(c);
+
+				// } catch (MalformedURLException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// } catch (Exception e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// }
 			}
 			ChannelPlayList playList = new ChannelPlayList(channelList, dwellTime);
 			for (Display L : listeners) {
@@ -365,90 +361,91 @@ public class DCProtocol {
 
 	/**
 	 * This is where the channel list used to be played on a display.
-	 * @deprecated
+	 * 
+	 * This was deprecated, and now it is commented out
 	 */
-	private void informListenersForever() {
-		assert (changerThread == null);
-
-		// TODO -- Alternate way to do this, which is possibly more elegant: Change the way we interpret the time field in the
-		// channel so that it will look for "the next channel" when that time expires. Otherwise, it refreshes this channel.
-
-		// FIXME -- In a world where a temporary channel is played on a Display, it cannot know that the permanent channel
-		// that it had was a list. That is because the handling of the list is here in the Protocol portion. The handling
-		// of the playing of the list, then, needs to be down in the client that is actually talking to the browser. This
-		// solution is very elegant, so it will be hard to change it.
-
-		// These two tags seem to be compatible.
-
-		// HOWEVER,
-		//
-		// There is a glitch in this because a channel can have a refresh time that is different from the dwell time in a list.
-		// For example, the FESS folks like to refresh a channel every 15 seconds or so. But they may want this to be in a
-		// list with this fast-refresh channel being on the screen for several minutes (15 or so refreshes). Thus, combining
-		// these two functionalities would (might?) not work right.
-
-		if (listeners == null || listeners.size() == 0) {
-			println(getClass(), "No listeners, so exiting from informListenersForever()");
-			return;
-		}
-		keepRunning = true;
-		final ChangeChannelList channelListSpec = ((ChangeChannelList) theMessage);
-		final ChannelSpec[] specs = channelListSpec.getChannelSpec();
-		final long[] sleepTimes = new long[specs.length];
-		if (specs.length == 0) {
-			println(DCProtocol.class, " -- Empty list received. Abort.");
-			return;
-		}
-		if (specs.length == 1) {
-			// There is only one channel in this list. Hmmm. Don't to send this over and over to the client. The timeout in the
-			// channel itself will cause it to refresh from within the client.
-			informListeners(specs[0]);
-		} else {
-			for (int sl = 0; sl < sleepTimes.length; sl++) {
-				// Increment refresh times (see comment below)
-				sleepTimes[sl] = specs[sl].getTime();
-				specs[sl].setTime(sleepTimes[sl] + 100L);
-			}
-			changerThread = new Thread("ChannelChanger") {
-				public void run() {
-					println(DCProtocol.class,
-							": We will be changing the channel automatically based on the list we just received.\n"
-									+ "\t\t\tThere are " + specs.length + " channels in the list -- " + (new Date()));
-
-					// long sleepTime = channelListSpec.getTime();
-					while (keepRunning) {
-						for (int sl = 0; sl < specs.length; sl++) {
-							ChannelSpec spec = specs[sl];
-
-							// ASSUME spec.getTime() is always non-zero. The way the code is today, this is an appropriate
-							// assumption.
-
-							/*
-							 * The "time" in this ChannelSpec is set forward a bit so that it will be refreshed AFTER we have
-							 * requested the channel change from here. Prior to this, there was a race to see which one got there
-							 * first. Almost all of the time, the refresh happened first, followed immediately with the channel
-							 * change request. this is asking for trouble, I think.
-							 * 
-							 * This is **A KLUDGE** that puts knowledge of the lower class's operation into this upper class. This
-							 * also is asking for trouble!
-							 * 
-							 * See the "fixme" note above.
-							 */
-							informListeners(spec);
-
-							for (long sleepTime = sleepTimes[sl]; sleepTime > 0 && keepRunning; sleepTime -= SHORT_INTERVAL)
-								catchSleep(Math.min(sleepTime, SHORT_INTERVAL));
-
-							if (!keepRunning)
-								break;
-						}
-					}
-					println(DCProtocol.class, ": Channel list has exited -- " + (new Date()));
-				}
-			};
-			changerThread.start();
-		}
-	}
+	// private void informListenersForever() {
+	// assert (changerThread == null);
+	//
+	// // TODO -- Alternate way to do this, which is possibly more elegant: Change the way we interpret the time field in the
+	// // channel so that it will look for "the next channel" when that time expires. Otherwise, it refreshes this channel.
+	//
+	// // FIXME -- In a world where a temporary channel is played on a Display, it cannot know that the permanent channel
+	// // that it had was a list. That is because the handling of the list is here in the Protocol portion. The handling
+	// // of the playing of the list, then, needs to be down in the client that is actually talking to the browser. This
+	// // solution is very elegant, so it will be hard to change it.
+	//
+	// // These two tags seem to be compatible.
+	//
+	// // HOWEVER,
+	// //
+	// // There is a glitch in this because a channel can have a refresh time that is different from the dwell time in a list.
+	// // For example, the FESS folks like to refresh a channel every 15 seconds or so. But they may want this to be in a
+	// // list with this fast-refresh channel being on the screen for several minutes (15 or so refreshes). Thus, combining
+	// // these two functionalities would (might?) not work right.
+	//
+	// if (listeners == null || listeners.size() == 0) {
+	// println(getClass(), "No listeners, so exiting from informListenersForever()");
+	// return;
+	// }
+	// keepRunning = true;
+	// final ChangeChannelList channelListSpec = ((ChangeChannelList) theMessage);
+	// final ChannelSpec[] specs = channelListSpec.getChannelSpec();
+	// final long[] sleepTimes = new long[specs.length];
+	// if (specs.length == 0) {
+	// println(DCProtocol.class, " -- Empty list received. Abort.");
+	// return;
+	// }
+	// if (specs.length == 1) {
+	// // There is only one channel in this list. Hmmm. Don't to send this over and over to the client. The timeout in the
+	// // channel itself will cause it to refresh from within the client.
+	// informListeners(specs[0]);
+	// } else {
+	// for (int sl = 0; sl < sleepTimes.length; sl++) {
+	// // Increment refresh times (see comment below)
+	// sleepTimes[sl] = specs[sl].getTime();
+	// specs[sl].setTime(sleepTimes[sl] + 100L);
+	// }
+	// changerThread = new Thread("ChannelChanger") {
+	// public void run() {
+	// println(DCProtocol.class,
+	// ": We will be changing the channel automatically based on the list we just received.\n"
+	// + "\t\t\tThere are " + specs.length + " channels in the list -- " + (new Date()));
+	//
+	// // long sleepTime = channelListSpec.getTime();
+	// while (keepRunning) {
+	// for (int sl = 0; sl < specs.length; sl++) {
+	// ChannelSpec spec = specs[sl];
+	//
+	// // ASSUME spec.getTime() is always non-zero. The way the code is today, this is an appropriate
+	// // assumption.
+	//
+	// /*
+	// * The "time" in this ChannelSpec is set forward a bit so that it will be refreshed AFTER we have
+	// * requested the channel change from here. Prior to this, there was a race to see which one got there
+	// * first. Almost all of the time, the refresh happened first, followed immediately with the channel
+	// * change request. this is asking for trouble, I think.
+	// *
+	// * This is **A KLUDGE** that puts knowledge of the lower class's operation into this upper class. This
+	// * also is asking for trouble!
+	// *
+	// * See the "fixme" note above.
+	// */
+	// informListeners(spec);
+	//
+	// for (long sleepTime = sleepTimes[sl]; sleepTime > 0 && keepRunning; sleepTime -= SHORT_INTERVAL)
+	// catchSleep(Math.min(sleepTime, SHORT_INTERVAL));
+	//
+	// if (!keepRunning)
+	// break;
+	// }
+	// }
+	// println(DCProtocol.class, ": Channel list has exited -- " + (new Date()));
+	// }
+	// };
+	// changerThread.start();
+	// }
+	// }
 
 	private void informListeners(final EmergencyCommunication spec) {
 		try {
@@ -460,35 +457,35 @@ public class DCProtocol {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void informListeners(ChannelSpec spec) {
 		try {
-			URL url = spec.getUri().toURL();
-			Channel c = new PlainURLChannel(url);
-			c.setCategory(spec.getCategory());
-			c.setName(spec.getName());
-			c.setTime(spec.getTime());
-			c.setFrameNumber(spec.getFrameNumber());
-			c.setExpiration(spec.getExpiration());
+			// URL url = spec.getUri().toURL();
+			// Channel c = new PlainURLChannel(url);
+			// c.setCategory(spec.getCategory());
+			// c.setName(spec.getName());
+			// c.setTime(spec.getTime());
+			// c.setFrameNumber(spec.getFrameNumber());
+			// c.setExpiration(spec.getExpiration());
+			SignageContent c = spec.getContent();
 			for (Display L : listeners) {
 				// println(getClass().getSimpleName(), + " Telling a "+L.getClass().getSimpleName()+" to change to ["+c+"]");
 				L.setContent(c);
 			}
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
+			// } catch (MalformedURLException e1) {
+			// e1.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-
-	private void disableListThread() {
-		keepRunning = false;
-		while (changerThread != null && changerThread.isAlive()) {
-			catchSleep(2 * SHORT_INTERVAL);
-		}
-		changerThread = null;
-	}
+	// private void disableListThread() {
+	// keepRunning = false;
+	// while (changerThread != null && changerThread.isAlive()) {
+	// catchSleep(2 * SHORT_INTERVAL);
+	// }
+	// changerThread = null;
+	// }
 
 	/**
 	 * An error has been encountered: Deal with it.
