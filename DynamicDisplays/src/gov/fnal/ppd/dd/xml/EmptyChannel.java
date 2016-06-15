@@ -21,7 +21,7 @@ class EmptyChannel extends ChannelImpl {
 	 * Create an Empty Channel
 	 * 
 	 * @throws URISyntaxException
-	 *             (In the unlikely case that the main XOC web page is no longer a valid URI)
+	 *             (In the unlikely case that the default web page is no longer a valid URI)
 	 */
 	public EmptyChannel() throws URISyntaxException {
 		this(MY_NAME, ChannelCategory.PUBLIC);
