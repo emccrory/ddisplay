@@ -10,9 +10,9 @@ import java.net.URI;
  * 
  * In order to be fully serializable, the concrete classes must implement all the getters and setters.
  * 
- * TODO -- This should be pared down a bit more, e.g., get rid of the URI.  This will allow a cleaner implementation
- * of other sorts of content, e.g., sending an image directly to a display, emergency messages, ... Also, we never used the
- * whole "code" thing, so that should be dumped, too.
+ * TODO -- This should be pared down a bit more, e.g., get rid of the URI. This will allow a cleaner implementation of other sorts
+ * of content, e.g., sending an image directly to a display, emergency messages, ... Also, we never used the whole "code" thing, so
+ * that should be dumped, too.
  * 
  * @author Elliott McCrory, Fermilab, 2012-16
  */
@@ -115,6 +115,9 @@ public interface SignageContent extends Serializable {
 	public void setCode(final int n);
 
 	/**
+	 * TODO -- The frame number (really) has nothing to do with the Channel. It should be associated with the directive to CHANGE
+	 * the channel on a display.
+	 * 
 	 * @return The frame number within the browser to which we direct this content
 	 */
 	public int getFrameNumber();
