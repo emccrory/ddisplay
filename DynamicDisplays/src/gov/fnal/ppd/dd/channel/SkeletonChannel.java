@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
+ * @deprecated
  */
 public class SkeletonChannel implements Channel {
 

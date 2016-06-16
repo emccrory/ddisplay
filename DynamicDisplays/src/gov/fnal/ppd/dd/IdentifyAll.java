@@ -9,8 +9,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PROGRAM_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
+import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
-import gov.fnal.ppd.dd.channel.PlainURLChannel;
+import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -45,6 +46,19 @@ public class IdentifyAll implements ActionListener {
 
 	private static IdentifyAll	me;
 
+	private static class PlainURLChannel extends ChannelImpl {
+		/**
+		 * @param theURL
+		 *            The URL that is this Channel
+		 * @throws Exception
+		 *             In the case that the URL passed here is not a valid URI
+		 */
+		public PlainURLChannel(final URL theURL) throws Exception {
+			super(theURL.toString(), ChannelCategory.PUBLIC, "SimpleURL of '" + theURL + "'", theURL.toURI(), 0, 0);
+		}
+
+	}
+	
 	/**
 	 * Add all the displays to the
 	 * 

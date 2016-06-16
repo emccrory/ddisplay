@@ -1,11 +1,6 @@
 package gov.fnal.ppd.dd.xml;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.channel.PlainURLChannel;
 import gov.fnal.ppd.dd.signage.SignageContent;
-
-import java.net.MalformedURLException;
-import java.net.URI;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
