@@ -8,6 +8,7 @@ package gov.fnal.ppd.dd.xml.news;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -160,7 +161,7 @@ public class Channel {
 						;
 					else if (L.contains("</channel"))
 						channelLine = L;
-					else if (L.contains("</em>") || L.contains("<em>")) 
+					else if (L.contains("</em>") || L.contains("<em>"))
 						xml += L;
 					else if (!L.contains("<media:") && !L.contains("<rdf:about="))
 						xml += L + "\n";
@@ -171,6 +172,13 @@ public class Channel {
 			xml = xml.replace("<em>et al.</em>", "et al.");
 		} catch (IOException e) {
 			System.err.println(path.toAbsolutePath());
+			e.printStackTrace();
+		}
+
+		try {
+			PrintWriter writer = new PrintWriter(args[0] + "_tempXMLFile", "UTF-8");
+			writer.append(xml);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -203,8 +211,8 @@ public class Channel {
 					if (limit-- <= 0)
 						break;
 
-//					if (mychop(I.getTitle()).contains("[Ice"))
-//						System.out.println("hi");
+					// if (mychop(I.getTitle()).contains("[Ice"))
+					// System.out.println("hi");
 				}
 			}
 		} catch (JAXBException e) {
