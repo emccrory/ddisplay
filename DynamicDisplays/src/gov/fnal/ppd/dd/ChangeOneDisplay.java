@@ -27,6 +27,8 @@ import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -44,6 +46,9 @@ public class ChangeOneDisplay {
 
 	private ChangeOneDisplay() {
 	}
+
+	private static boolean	success	= false;
+	private static boolean	verbose	= Boolean.getBoolean("ddisplay.onedisplay.verbose");
 
 	/**
 	 * @param args
@@ -65,18 +70,35 @@ public class ChangeOneDisplay {
 			System.err.println("There is no controllable display for displayID=" + targetDisplayNumber);
 			return;
 		}
+		display.addListener(new ActionListener() {
 
-		int targetChannelumber = Integer.parseInt(args[1]);
-		SignageContent content = getChannelFromNumber(targetChannelumber);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getActionCommand().equals("CHANGE_COMPLETED"))
+					success = true;
+				if (verbose)
+					System.out.println(e);
+			}
+		});
+
+		int targetChannelNumber = Integer.parseInt(args[1]);
+		SignageContent content = getChannelFromNumber(targetChannelNumber);
 
 		// Set this content to this display
 		display.setContent(content);
 		// TODO -- Determine if this was successful.
 
-		System.out.println("Attempted to change display [" + display + "] to channel [" + content + "]");
-		catchSleep(5000);
-		System.exit(0);
+		if (verbose)
+			System.out.println("Attempted to change display " + targetDisplayNumber + " [" + display + ", " + display.getLocation()
+					+ "] to channel " + targetChannelNumber + " [" + content + "]");
+		catchSleep(1000);
+		if (verbose)
+			if (success)
+				System.out.println("It was successful!");
+			else
+				System.out.println("XXX   It FAILED!   XXX");
 
+		System.exit(success ? 0 : -1);
 	}
 
 	private static Display getControllableDisplay(int dNum) {
@@ -103,7 +125,8 @@ public class ChangeOneDisplay {
 					if (rs.first())
 						try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)
 							addLocationCode(rs.getInt("LocationCode"));
-							System.out.println("Location code is " + getLocationCode());
+							if (verbose)
+								System.out.println("Location code is " + getLocationCode());
 							String myClassification = rs.getString("Type");
 
 							IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
@@ -117,9 +140,10 @@ public class ChangeOneDisplay {
 										"No Private Key", JOptionPane.ERROR_MESSAGE);
 								System.exit(-1);
 							}
-							System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
-							System.out.println("\t Expect my client name to be '" + getFullSelectorName() +  "'\n");
-
+							if (verbose) {
+								System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
+								System.out.println("\t Expect my client name to be '" + getFullSelectorName() + "'\n");
+							}
 							DisplayListDatabaseRemote g = new DisplayListDatabaseRemote(getLocationCode(), dNum);
 							retval = g.get(0);
 							if (retval.getDBDisplayNumber() == dNum)
