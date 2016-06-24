@@ -12,6 +12,8 @@ import gov.fnal.ppd.dd.signage.SignageType;
 import java.awt.Image;
 import java.net.URI;
 import java.net.URL;
+import java.util.zip.CRC32;
+import java.util.zip.Checksum;
 
 import javax.imageio.ImageIO;
 
@@ -173,4 +175,15 @@ public class ImageContent implements SignageContent {
 		this.expiration = expire;
 	}
 
+	public long getChecksum() {
+		Checksum checksum = new CRC32();
+
+		// Hmmm. Not sure if this is sufficient!
+		byte bytes[] = (image.hashCode() + image.toString()).getBytes();
+		// update the current checksum with the specified array of bytes
+		checksum.update(bytes, 0, bytes.length);
+
+		// get the current checksum value
+		return checksum.getValue();
+	}
 }

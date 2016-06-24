@@ -128,4 +128,11 @@ public interface SignageContent extends Serializable {
 	 */
 	public void setFrameNumber(int frameNumber);
 
+	/**
+	 * Compute and return the checksum (CRC32 assumed) corresponding to the key element of this object. For a URL-based channel, it
+	 * is assumed this will be the checksum of the URL itself.
+	 * 
+	 * @return The checksum
+	 */
+	public long getChecksum();
 }

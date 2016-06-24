@@ -5,6 +5,8 @@
  */
 package gov.fnal.ppd.dd.channel;
 
+import java.util.zip.CRC32;
+import java.util.zip.Checksum;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -39,6 +41,7 @@ public class ChannelImpl implements Channel {
 	private long				expiration			= 0L;
 	private int					code				= 0;
 	private int					frameNumber			= 0;
+
 
 	// public ChannelImpl( String name, ChannelCategory category, String description ) {
 	// this(name, category, description, Count++);
@@ -256,4 +259,19 @@ public class ChannelImpl implements Channel {
 	public void setExpiration(long expire) {
 		this.expiration = expire;
 	}
+
+	/**
+	 * @return the CRC32 checksum of the URL for this channel
+	 */
+	public long getChecksum() {
+		Checksum checksum = new CRC32();
+
+		byte bytes[] = uri.toASCIIString().getBytes();
+		// update the current checksum with the specified array of bytes
+		checksum.update(bytes, 0, bytes.length);
+
+		// get the current checksum value
+		return checksum.getValue();
+	}
+
 }

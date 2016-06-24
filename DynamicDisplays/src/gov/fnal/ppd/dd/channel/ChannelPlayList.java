@@ -13,6 +13,8 @@ import gov.fnal.ppd.dd.signage.SignageType;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.CRC32;
+import java.util.zip.Checksum;
 
 /**
  * This class holds a list of Channels that are to be played on a Display
@@ -233,5 +235,33 @@ public class ChannelPlayList implements Channel {
 			retval += "([" + index + "] " + SC.getName() + " @ " + SC.getTime() + "msec) ";
 		}
 		return retval + "}";
+	}
+
+	public long getChecksum() {
+		// I bet there is a more efficient way than this!  
+		
+		// The string, ["http://1http://2"] WILL NOT return the same checksum as ["http://2http://1"] (verified)
+		
+		Checksum checksum = new CRC32();
+
+		List<byte[]> allBytes = new ArrayList<byte[]>();
+		int totalLength = 0;
+		for (SignageContent C : channels) {
+			byte b[] = C.getURI().toASCIIString().getBytes();
+			totalLength += b.length;
+			allBytes.add(b);
+		}
+		byte ab[] = new byte[totalLength];
+		int index = 0;
+		for (byte[] B : allBytes) {
+			for (int k = 0; k < B.length; k++)
+				ab[index + k] = B[k];
+			index += B.length;
+		}
+		// update the current checksum with the specified array of bytes
+		checksum.update(ab, 0, ab.length);
+
+		// get the current checksum value
+		return checksum.getValue();
 	}
 }

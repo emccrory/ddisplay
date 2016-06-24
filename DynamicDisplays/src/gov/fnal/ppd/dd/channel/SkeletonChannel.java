@@ -6,6 +6,8 @@ import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.zip.CRC32;
+import java.util.zip.Checksum;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -22,6 +24,7 @@ public class SkeletonChannel implements Channel {
 	private SkeletonChannel() {
 		new Exception().printStackTrace();
 	}
+
 	/**
 	 * @param name
 	 */
@@ -136,4 +139,14 @@ public class SkeletonChannel implements Channel {
 		return -1;
 	}
 
+	public long getChecksum() {
+		Checksum checksum = new CRC32();
+
+		byte bytes[] = uri.toASCIIString().getBytes();
+		// update the current checksum with the specified array of bytes
+		checksum.update(bytes, 0, bytes.length);
+
+		// get the current checksum value
+		return checksum.getValue();
+	}
 }
