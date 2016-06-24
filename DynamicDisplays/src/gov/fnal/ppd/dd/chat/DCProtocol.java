@@ -39,6 +39,7 @@ import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNA
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.channel.MapOfChannels;
 import gov.fnal.ppd.dd.emergency.EmergCommunicationImpl;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -46,6 +47,7 @@ import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
+import gov.fnal.ppd.dd.xml.ChangeChannelByNumber;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
@@ -73,13 +75,15 @@ public class DCProtocol {
 	// WAITING, READY, DISPLAYING
 	// };
 
-	private static final long	MESSAGE_AGE_IS_TOO_OLD	= 180000L;					// Three minutes
-	private Object				theMessage;
-	private Object				theReply;
-	private List<Display>		listeners				= new ArrayList<Display>();
+	private static final long		MESSAGE_AGE_IS_TOO_OLD	= 180000L;					// Three minutes
+	private Object					theMessage;
+	private Object					theReply;
+	private List<Display>			listeners				= new ArrayList<Display>();
 	// protected boolean keepRunning = false;
-	private Thread				changerThread			= null;
-	protected long				SHORT_INTERVAL			= 100l;
+	private Thread					changerThread			= null;
+	protected long					SHORT_INTERVAL			= 100l;
+
+	private static MapOfChannels	moc						= new MapOfChannels();
 
 	/**
 	 * @return The message just received
@@ -117,8 +121,9 @@ public class DCProtocol {
 	/**
 	 * @param message
 	 * @return Was this message understood?
+	 * @throws ErrorProcessingMessage
 	 */
-	public boolean processInput(final MessageCarrier message) {
+	public boolean processInput(final MessageCarrier message) throws ErrorProcessingMessage {
 		String body = message.getMessage();
 		String xmlDocument;
 		switch (message.getType()) {
@@ -223,6 +228,32 @@ public class DCProtocol {
 				} else if (theMessage instanceof ChangeChannel) {
 					// disableListThread();
 					informListeners();
+				} else if (theMessage instanceof ChangeChannelByNumber) {
+					// Verify checksum
+					ChangeChannelByNumber ccbn = (ChangeChannelByNumber) theMessage;
+					int num = ccbn.getChannelNumber();
+					SignageContent sc = moc.get(num);
+					if (sc == null || sc.getChecksum() != ccbn.getChecksum()) {
+						if (sc != null)
+							println(getClass(), "Channel checksum from expected channel (" + sc.getChecksum()
+									+ ") does not match the checksum in the XML (" + ccbn.getChecksum()
+									+ ").  Will reload channels.");
+						moc.resetChannelList();
+						sc = moc.get(num);
+						if (sc == null || sc.getChecksum() != ccbn.getChecksum()) {
+							// CHECKSUM FAILED!
+							if (sc == null)
+								println(getClass(), " Channel number " + num + " does not exist.  Abort this request.");
+							else
+								println(getClass(), " Reloaded channel list checksums STILL do not match.  Abort this request.");
+							return false;
+						}
+					}
+
+					// Checksum match between the XML message and the database's URL. We're good to go!
+
+					informListeners(moc.get(num));
+
 				} else if (theMessage instanceof ChannelSpec) {
 					// disableListThread();
 					informListeners((ChannelSpec) theMessage);
@@ -331,10 +362,8 @@ public class DCProtocol {
 				channelList.add(c);
 
 				// } catch (MalformedURLException e) {
-				// // TODO Auto-generated catch block
 				// e.printStackTrace();
 				// } catch (Exception e) {
-				// // TODO Auto-generated catch block
 				// e.printStackTrace();
 				// }
 			}
@@ -458,25 +487,15 @@ public class DCProtocol {
 		}
 	}
 
-	private void informListeners(ChannelSpec spec) {
-		try {
-			// URL url = spec.getUri().toURL();
-			// Channel c = new PlainURLChannel(url);
-			// c.setCategory(spec.getCategory());
-			// c.setName(spec.getName());
-			// c.setTime(spec.getTime());
-			// c.setFrameNumber(spec.getFrameNumber());
-			// c.setExpiration(spec.getExpiration());
-			SignageContent c = spec.getContent();
-			for (Display L : listeners) {
-				// println(getClass().getSimpleName(), + " Telling a "+L.getClass().getSimpleName()+" to change to ["+c+"]");
-				L.setContent(c);
-			}
-			// } catch (MalformedURLException e1) {
-			// e1.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+	private void informListeners(SignageContent c) {
+		for (Display L : listeners) {
+			L.setContent(c);
 		}
+	}
+
+	private void informListeners(ChannelSpec spec) {
+		SignageContent c = spec.getContent();
+		informListeners(c);
 	}
 
 	// private void disableListThread() {

@@ -20,7 +20,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class ChangeChannelReply extends EncodedCarrier {
 	private ChannelSpec	showing;
-
 	private int			displayNum;
 
 	/**

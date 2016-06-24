@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 public class ChannelSpec {
 	protected SignageContent	content;
+	private long				checksum;
 
 	public ChannelSpec() {
 		try {
@@ -104,7 +105,7 @@ public class ChannelSpec {
 	}
 
 	/**
-	 * This value was thought to be useful someday.  But it has not proven to be useful yet.
+	 * This value was thought to be useful someday. But it has not proven to be useful yet.
 	 * 
 	 * @param n
 	 *            The new user-defined code
@@ -120,5 +121,14 @@ public class ChannelSpec {
 
 	public void setFrameNumber(int frameNumber) {
 		content.setFrameNumber(frameNumber);
+	}
+
+	@XmlElement
+	public long getChecksum() {
+		return checksum;
+	}
+
+	public void setChecksum(long checksum) {
+		this.checksum = checksum;
 	}
 }

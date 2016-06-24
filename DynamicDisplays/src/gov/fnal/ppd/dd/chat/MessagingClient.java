@@ -234,8 +234,9 @@ public class MessagingClient {
 	 * 
 	 * @param msg
 	 *            The message that was received just now.
+	 * @throws ErrorProcessingMessage
 	 */
-	public void receiveIncomingMessage(final MessageCarrier msg) {
+	public void receiveIncomingMessage(final MessageCarrier msg) throws ErrorProcessingMessage {
 		System.out.println(msg);
 	}
 
@@ -460,6 +461,16 @@ public class MessagingClient {
 	}
 
 	/**
+	 * Give the sub-classes here the chance to do something complicated when there is an error
+	 * 
+	 * @param why
+	 *            Why was there an error
+	 */
+	public void replyToAnError(final String why) {
+		System.err.println(why);
+	}
+
+	/**
 	 * <p>
 	 * A class that waits for the message from the server and append them to the JTextArea if we have a GUI or simply
 	 * System.out.println() it in console mode
@@ -577,7 +588,6 @@ public class MessagingClient {
 							// Emergency? What do we do with this information?!!
 							break;
 						}
-
 						receiveIncomingMessage(msg);
 
 					} else {
@@ -595,6 +605,9 @@ public class MessagingClient {
 					break; // Leave the forever loop
 				} catch (ClassNotFoundException e) {
 					// can't happen with an Object cast, but need the catch anyhow
+					e.printStackTrace();
+				} catch (ErrorProcessingMessage e) {
+					// TODO -- We are catching a failure from the lowest level. Need to send an error response to the sender.
 					e.printStackTrace();
 				}
 			}

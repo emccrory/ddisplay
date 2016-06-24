@@ -52,4 +52,5 @@ public class ChannelSpecByNumber extends ChannelSpec {
 		content = new ChannelImpl(moc.get(this.number)); // Clone this so the client can do what they want.
 	}
 
+	
 }

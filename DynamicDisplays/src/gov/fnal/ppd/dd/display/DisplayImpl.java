@@ -128,7 +128,7 @@ public abstract class DisplayImpl implements Display {
 			println(getClass(), ": Display " + getVirtualDisplayNumber() + " changed to [" + channel + "] at " + (new Date()));
 			// informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
 
-			respondToContentChange(localSetContent());
+			respondToContentChange(localSetContent(), "");
 			return previousChannel;
 		}
 
@@ -137,7 +137,7 @@ public abstract class DisplayImpl implements Display {
 	}
 
 	// This should be overridden in the real display client
-	protected void respondToContentChange(boolean b) {
+	protected void respondToContentChange(boolean b, final String why) {
 		println(getClass(), " >>>> Setting the content in setConent(): " + (b ? "SUCCESS" : "F-A-I-L-U-R-E"));
 		if (b) {
 			// new Thread("FakeChangeComplete") {
@@ -151,7 +151,7 @@ public abstract class DisplayImpl implements Display {
 			// }
 			// }.start();
 		} else {
-			informListeners(DisplayChangeEvent.Type.ERROR, "Channel change unsuccessful");
+			informListeners(DisplayChangeEvent.Type.ERROR, "Channel change unsuccessful: " + why);
 		}
 	}
 

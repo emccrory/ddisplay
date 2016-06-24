@@ -1,11 +1,11 @@
 package gov.fnal.ppd.dd.chat;
 
 import gov.fnal.ppd.dd.xml.ChangeChannel;
+import gov.fnal.ppd.dd.xml.ChangeChannelByNumber;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
-import javax.management.RuntimeErrorException;
 import javax.xml.bind.JAXBException;
 
 /**
@@ -26,12 +26,14 @@ public class DDMessage {
 	private static final String	CHANGE_CHANNEL		= "<changeChannel ";
 	private static final String	CHANGE_CHANNEL_LIST	= "<changeChannelList ";
 	private static final String	CHANNEL_SPEC		= "<channelSpec ";
+	private static final String	CHANNEL_SPEC_NUMBER	= "<changeChannelByNumber ";
 
 	/**
 	 * @param raw
 	 *            The body of the message to create
+	 * @throws ErrorProcessingMessage When the message cannot be interpreted properly.
 	 */
-	public DDMessage(final String raw) {
+	public DDMessage(final String raw) throws ErrorProcessingMessage {
 		if (raw != null && raw.length() > 0) {
 			// remove all the non-printable characters, but put back in the newlines
 			String resultString = raw.replaceAll("[^\\x20-\\x7F]", "").replaceAll(" +", " ").replace("><", ">\n<")
@@ -63,8 +65,10 @@ public class DDMessage {
 							receivedMessage = MyXMLMarshaller.unmarshall(ChangeChannelList.class, rawMessage);
 						} else if (rawMessage.contains(CHANNEL_SPEC)) {
 							receivedMessage = MyXMLMarshaller.unmarshall(ChannelSpec.class, rawMessage);
+						} else if (rawMessage.contains(CHANNEL_SPEC_NUMBER)) {
+							receivedMessage = MyXMLMarshaller.unmarshall(ChangeChannelByNumber.class, rawMessage);
 						} else {
-							System.err.println(getClass().getSimpleName() + ".decode(): Unrecognized XML message received.");
+							throw new ErrorProcessingMessage("Unknown XML data type within this XML document: [Unrecognized XML message received.");
 						}
 					} catch (JAXBException e) {
 						e.printStackTrace();
@@ -74,8 +78,7 @@ public class DDMessage {
 								+ ".decode(): Incoming message interpreted as an object of type "
 								+ receivedMessage.getClass().getCanonicalName());
 					} else if (rawMessage != null)
-						throw new RuntimeErrorException(new Error("Unknown XML data type within this XML document: [" + rawMessage
-								+ "]"));
+						throw new ErrorProcessingMessage("Unknown XML data type within this XML document: [" + rawMessage + "]");
 				}
 			}
 		} else {

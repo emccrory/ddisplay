@@ -772,7 +772,7 @@ public class ConnectionToFirefoxInstance {
 		if (message.getSeverity() == Severity.REMOVE)
 			return removeEmergencyCommunication();
 
-		String mess = message.toHTML() + "<p class='date'>Last update: " + new Date() + "</p>";
+		String mess = message.toHTML() + "<p class='date'>Message was last updated at this time: " + new Date() + "</p>";
 
 		Color borderColor = null;
 		switch (message.getSeverity()) {

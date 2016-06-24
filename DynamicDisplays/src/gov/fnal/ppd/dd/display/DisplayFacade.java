@@ -8,14 +8,17 @@ import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
+import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.chat.MessageType;
 import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
+import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
+import gov.fnal.ppd.dd.xml.ChangeChannelByNumber;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.EmergencyMessXML;
 import gov.fnal.ppd.dd.xml.EncodedCarrier;
@@ -36,20 +39,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class DisplayFacade extends DisplayImpl {
 
-	// private static final boolean USE_MESSAGING = true;
-	// private static final boolean USE_CLIENT_SERVER = false;
-
+	private static final boolean	CHANNEL_NUMBER_ONLY			= Boolean.getBoolean("ddisplay.transmitchannelnumbers");
 	/**
 	 * 
 	 */
-	public static boolean		tryToConnectToDisplaysNow	= false;
+	public static boolean			tryToConnectToDisplaysNow	= false;
 	/**
 	 * 
 	 */
-	public static AtomicBoolean	alreadyWaiting				= new AtomicBoolean(false);
-	private AtomicBoolean		ready						= new AtomicBoolean(false);
-	private AtomicBoolean		waiting						= new AtomicBoolean(false);
-	private String				myExpectedName;
+	public static AtomicBoolean		alreadyWaiting				= new AtomicBoolean(false);
+	private AtomicBoolean			ready						= new AtomicBoolean(false);
+	private AtomicBoolean			waiting						= new AtomicBoolean(false);
+	private String					myExpectedName;
 
 	/**
 	 * Internal client for handling the direct messaging connection to our Display. There is one connection (through the Messaging
@@ -98,13 +99,20 @@ public class DisplayFacade extends DisplayImpl {
 				DisplayFacade DF = clients.get(message.getFrom());
 				if (DF != null) {
 					DF.informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED, "Channel change succeeded");
-					// println(getClass(), ".receiveIncomingMessage(): Yay!  Got a real confirmation that the channel was changed.");
+					// println(getClass(),
+					// ".receiveIncomingMessage(): Yay!  Got a real confirmation that the channel was changed.");
 				} else
-					println(getClass(), ".receiveIncomingMessage(): No client named " + message.getFrom() + " to which to send the REPLY.\n"
-							+ "t\tThe clients are called: " + Arrays.toString(clients.keySet().toArray()));
+					println(getClass(),
+							".receiveIncomingMessage(): No client named " + message.getFrom() + " to which to send the REPLY.\n"
+									+ "t\tThe clients are called: " + Arrays.toString(clients.keySet().toArray()));
 			} else {
 				// DisplayFacade d = clients.get(message.getFrom());
-				dcp.processInput(message);
+				try {
+					dcp.processInput(message);
+				} catch (ErrorProcessingMessage e) {
+					// Ignore this error on the GUI side
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -221,12 +229,22 @@ public class DisplayFacade extends DisplayImpl {
 
 				return true;
 			} else {
-				println(getClass(), ": Have a simple channel");
-				cc = new ChangeChannel();
-				((ChangeChannel) cc).setDisplayNumber(getVirtualDisplayNumber());
-				((ChangeChannel) cc).setScreenNumber(getScreenNumber());
-				((ChangeChannel) cc).setContent(getContent());
-				((ChangeChannel) cc).setIPAddress(InetAddress.getLocalHost().getHostAddress());
+				if (CHANNEL_NUMBER_ONLY) {
+					println(getClass(), ": Have a simple channel -- sending the channel number only");
+					cc = new ChangeChannelByNumber();
+					((ChangeChannelByNumber) cc).setDisplayNumber(getVirtualDisplayNumber());
+					((ChangeChannelByNumber) cc).setScreenNumber(getScreenNumber());
+					((ChangeChannelByNumber) cc).setIPAddress(InetAddress.getLocalHost().getHostAddress());
+					((ChangeChannelByNumber) cc).setChannelNumber(((Channel) content).getNumber());
+					((ChangeChannelByNumber) cc).setChecksum(content.getChecksum());
+				} else {
+					println(getClass(), ": Have a simple channel");
+					cc = new ChangeChannel();
+					((ChangeChannel) cc).setDisplayNumber(getVirtualDisplayNumber());
+					((ChangeChannel) cc).setScreenNumber(getScreenNumber());
+					((ChangeChannel) cc).setIPAddress(InetAddress.getLocalHost().getHostAddress());
+					((ChangeChannel) cc).setContent(content);
+				}
 			}
 
 			String xmlMessage = MyXMLMarshaller.getXML(cc);

@@ -11,8 +11,8 @@ import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.DCProtocol;
+import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.chat.MessageType;
 import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.display.DisplayImpl;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -247,11 +247,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	public final void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
-		respondToContentChange(localSetContent());
+		respondToContentChange(localSetContent(), "setContent failed");
 	}
 
 	@Override
-	protected void respondToContentChange(boolean b) {
+	protected void respondToContentChange(boolean b, String why) {
 		// generate a reply message to the sender
 		println(getClass(), " -- Responding to channel change with " + (b ? "SUCCESS" : "failure"));
 		MessageCarrier msg = null;
@@ -270,7 +270,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			}
 		} else {
 			msg = MessageCarrier.getErrorMessage(messagingClient.getName(), messagingClient.getLastFrom(),
-					"Channel change not successful");
+					"Channel change not successful: " + why);
 		}
 
 		messagingClient.sendMessage(msg);
@@ -472,7 +472,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 
 		@Override
-		public void receiveIncomingMessage(MessageCarrier msg) {
+		public void receiveIncomingMessage(MessageCarrier msg) throws ErrorProcessingMessage {
 			// TODO -- Should this method be synchronized? Does it make sense to have two messages processed at the same time, or
 			// not?
 
@@ -486,6 +486,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				println(this.getClass(),
 						screenNumber + ": Ignoring a message of type " + msg.getType() + ", sent to [" + msg.getTo()
 								+ "] because I am [" + getName() + "]");
+		}
+		
+		@Override
+		public void replyToAnError(final String why) {
+			respondToContentChange(false, why);
 		}
 	}
 

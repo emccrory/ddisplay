@@ -100,9 +100,10 @@ public class WriteXMLFile {
 					break;
 
 				case 5:
-					ChannelSpecByNumber csn = new ChannelSpecByNumber(20);
-					csn.setExpiration(1000L);
-					csn.setTime(System.currentTimeMillis());
+					ChangeChannelByNumber csn = new ChangeChannelByNumber();
+					csn.setChannelNumber(20);
+					csn.setIPAddress("131.225.101.1");
+					csn.setChecksum(123455678908L);
 
 					stuff = csn;
 					// Not relevant until/unless we implement the DB fetch on the message server
