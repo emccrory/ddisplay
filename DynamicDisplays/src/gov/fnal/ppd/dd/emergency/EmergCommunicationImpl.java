@@ -2,6 +2,8 @@ package gov.fnal.ppd.dd.emergency;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.zip.CRC32;
+import java.util.zip.Checksum;
 
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
@@ -151,5 +153,16 @@ public class EmergCommunicationImpl implements EmergencyCommunication {
 		if (debug)
 			throw new RuntimeException("An attempt has been made to change the internals of a read-only "
 					+ getClass().getSimpleName() + " object");
+	}
+
+	public long getChecksum() {
+		Checksum checksum = new CRC32();
+
+		byte bytes[] = toString().getBytes();
+		// update the current checksum with the specified array of bytes
+		checksum.update(bytes, 0, bytes.length);
+
+		// get the current checksum value
+		return checksum.getValue();
 	}
 }

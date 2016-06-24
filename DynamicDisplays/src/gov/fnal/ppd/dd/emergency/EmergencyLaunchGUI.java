@@ -26,6 +26,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,7 @@ import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -42,9 +44,14 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerListModel;
+import javax.swing.SpinnerModel;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -60,6 +67,8 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	public static final boolean			SHOW_MORE_STUFF		= Boolean.getBoolean("ddisplay.extendedinformation");
 
 	private JTextField					headlineText		= new JTextField(45);
+	private JSpinner					time;
+
 	private JTextArea					messageArea			= new JTextArea(5, 65);
 	private JTextArea					footerArea			= new JTextArea(2, 65);
 
@@ -237,6 +246,12 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		footerArea.setWrapStyleWord(true);
 		add(new MyJScrollPane(footerArea, 710, 37), constraints);
 
+		constraints.gridx = 1;
+		constraints.gridy++;
+		constraints.gridwidth = 2;
+		constraints.anchor = GridBagConstraints.NORTH;
+		add(makeSpinner(), constraints);
+
 		accept.setActionCommand("Accept");
 		cancel.setActionCommand("Cancel");
 		remove.setActionCommand("Remove");
@@ -266,6 +281,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			JRB.setActionCommand(JRB.getText());
 			JRB.addActionListener(radioActionListener);
 			JRB.setFont(new Font("Arial", Font.PLAIN, 20));
+			JRB.setOpaque(false);
 			box.add(new JSeparator(JSeparator.VERTICAL));
 			box.add(Box.createRigidArea(new Dimension(10, 10)));
 			box.add(JRB);
@@ -382,6 +398,77 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		add(emergencyStatus, constraints);
 	}
 
+	private JComponent makeSpinner() {
+
+		final SpinnerModel model = new SpinnerListModel(getDwellStrings());
+		time = new JSpinner(model);
+		time.setValue(new Long(300l));
+		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+
+		JComponent field = ((JSpinner.DefaultEditor) time.getEditor());
+		Dimension prefSize = field.getPreferredSize();
+		field.setPreferredSize(new Dimension(100, prefSize.height));
+
+		final JLabel timeInterpretLabel = new JLabel(interp((Long) time.getValue()));
+
+		time.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				long val = (Long) model.getValue();
+				timeInterpretLabel.setText(interp(val));
+			}
+		});
+
+		JPanel internalBox = new JPanel(new GridLayout(1, 5));
+		internalBox.add(Box.createRigidArea(new Dimension(1, 1)));
+		internalBox.add(new JLabel("Remove the message after "));
+		internalBox.add(time);
+		internalBox.add(timeInterpretLabel);
+		internalBox.add(Box.createRigidArea(new Dimension(1, 1)));
+		internalBox.setOpaque(false);
+
+		return internalBox;
+	}
+
+	protected static String interp(long val) {
+		DecimalFormat format = new DecimalFormat("#.0");
+		String t = "" + val;
+		if (val < 60L) {
+			t = (val) + " seconds";
+		} else if (val < 3600) {
+			double min = ((double) val) / 60.0;
+			t = format.format(min) + " minute" + (min != 1 ? "s" : "");
+		} else {
+			double hours = ((double) val) / (60 * 60);
+			t = format.format(hours) + " hour" + (hours != 1 ? "s" : "");
+		}
+		return " seconds ( " + t + " )";
+	}
+
+	private static List<Long> getDwellStrings() {
+		ArrayList<Long> retval = new ArrayList<Long>();
+
+		retval.add(120L); // 2 minutes
+		retval.add(300L); // 5 minutes
+		retval.add(600L); // 10 minutes
+		retval.add(900L); // 15 minutes
+		retval.add(1200L); // 20 minutes
+		retval.add(1800L); // 30 minutes
+		retval.add(2700L); // 45 minutes
+		retval.add(3600L); // One hour
+		retval.add(2 * 3600L);
+		retval.add(3 * 3600L);
+		retval.add(4 * 3600L);
+		retval.add(5 * 3600L);
+		retval.add(6 * 3600L);
+		retval.add(8 * 3600L); // 8 hours
+		retval.add(10 * 3600L); // 10 hours
+		retval.add(12 * 3600L); // 12 hours
+
+		return retval;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		EmergencyMessage message = new EmergencyMessage();
@@ -390,6 +477,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			message.setHeadline(headlineText.getText());
 			message.setMessage(messageArea.getText());
 			message.setFootnote(footerArea.getText());
+			message.setDwellTime((long) time.getValue() * 1000L);
 			message.setSeverity(Severity.valueOf((checkButtonGroup.getSelection().getActionCommand())));
 			Object body = "Send this? " + message;
 			if (((String) body).length() > 80) {
@@ -415,6 +503,9 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 				box.add(new JScrollPane(area));
 
 				box.add(new JLabel("Severity = '" + message.getSeverity() + "'"));
+
+				box.add(new JLabel("Dwell Time = " + time.getValue() + " seconds"));
+
 				body = box;
 			}
 

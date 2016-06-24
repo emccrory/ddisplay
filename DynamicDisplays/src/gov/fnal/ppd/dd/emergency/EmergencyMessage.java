@@ -80,7 +80,7 @@ public class EmergencyMessage implements Serializable {
 
 	@Override
 	public String toString() {
-		return "EmergencyMessage [headline=" + headline + ", message=" + message + ", footnote=" + footnote + ", severity="
+		return "EmergencyMessage [headline='" + headline + "', message='" + message + "', footnote='" + footnote + "', severity="
 				+ severity + ", dwell=" + dwellTime + "]";
 	}
 
