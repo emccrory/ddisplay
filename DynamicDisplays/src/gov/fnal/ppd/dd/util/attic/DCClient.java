@@ -34,6 +34,7 @@ package gov.fnal.ppd.dd.util.attic;
 import static gov.fnal.ppd.dd.util.attic.DCMulitServerThread.DEFAULT_BUFFER_SIZE;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.DDMessage;
+import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
 import gov.fnal.ppd.dd.signage.Display;
 
 import java.io.BufferedReader;
@@ -106,7 +107,12 @@ public class DCClient {
 			System.out.println(getClass().getSimpleName() + " --DEBUG-- Got " + numRead + " lines from server");
 			String line = new String(cbuf);
 
-			DDMessage fromServer = new DDMessage(line);
+			try {
+				DDMessage fromServer = new DDMessage(line);
+			} catch (ErrorProcessingMessage e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// Removed so there are no compile errors connected = dcp.processInput(fromServer);
 		}
 		return connected;
