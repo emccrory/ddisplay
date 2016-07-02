@@ -43,6 +43,9 @@ if [ $replaceIt -gt 0 ]; then
     /usr/bin/java gov.fnal.ppd.dd.xml.news.Channel $xmlNewsFile > science.txt
     cp -p $xmlNewsFile old_$xmlNewsFile
     # --------------------------------------------------------------------------------------
+    # TODO -- Write this summary into the database rather than across to the Web server.  Then
+    # change the pages on the web to look into the DB for these summaries.
+    #
     cat science.txt > /var/www/html/newsfeed/science.txt
     if /usr/krb5/bin/klist > /tmp/k ; then 
         cp science.txt /web/sites/dynamicdisplays.fnal.gov/htdocs/newsfeed
