@@ -192,7 +192,7 @@ public class MessagingServer {
 					}
 					String un = ((MessageCarrier) read).getMessage();
 					this.username = un + "_" + id;
-					display("'" + this.username + " wants to connect.");
+					display("'" + this.username + "' has connected.");
 					setName("ClientThread_of_MessagingServer_" + username);
 				} else {
 					display("Unexpected response from client '" + ((MessageCarrier) read).getFrom() + ": Type="
@@ -343,7 +343,7 @@ public class MessagingServer {
 					String theType = read.getClass().getCanonicalName();
 					if (resetObj.toString().equals(read.toString())) {
 						error("Client " + this.username + ": " + e.getClass().getName()
-								+ " reading input stream\n          Received nothing. " + exceptionString(e));
+								+ " reading input stream\n          Received an empty object. " + exceptionString(e));
 						break;
 					}
 					String dis = "Client " + this.username + ": " + e.getClass().getName() + " reading input stream\n          "
@@ -528,6 +528,7 @@ public class MessagingServer {
 					// found it
 					if (ct.id == id) {
 						listOfMessagingClients.remove(i);
+						display("Removed id=" + id);
 						// Do not return; I want to see the information message at the end.
 						break;
 					}
@@ -1044,13 +1045,19 @@ public class MessagingServer {
 						long	WAIT_FOR_ALL_TO_CONNECT_TIME	= 4000L;
 
 						public void run() {
-							catchSleep(WAIT_FOR_ALL_TO_CONNECT_TIME);
-							showAllClientsConnectedNow();
-							performDiagnostics(true);
+							try {
+								catchSleep(WAIT_FOR_ALL_TO_CONNECT_TIME);
+								showAllClientsConnectedNow();
+								performDiagnostics(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 							showClientList = null;
 						}
 					};
 					showClientList.start();
+				} else {
+					display("Already waiting to show the client list");
 				}
 			}
 			// I was asked to stop
