@@ -10,6 +10,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_VIRTUAL_DISPLAY_NUMS;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.DisplayButtons;
 import gov.fnal.ppd.dd.display.DisplayFacade;
@@ -113,7 +114,10 @@ public class CheckDisplayStatus extends Thread {
 									currentContent = (SignageContent) ois.readObject();
 									getContentOnDisplays().put(display, currentContent);
 								} catch (Exception e) {
+									println(getClass(), ": Trying to read the content object in the database from display "
+											+ display.getDBDisplayNumber() + ", but it failed.");
 									e.printStackTrace();
+									continue;
 								}
 
 							if (display instanceof DisplayFacade && currentContent != null) {
