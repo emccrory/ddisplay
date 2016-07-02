@@ -47,6 +47,8 @@ public class IdentifyAll implements ActionListener {
 	private static IdentifyAll	me;
 
 	private static class PlainURLChannel extends ChannelImpl {
+		private static final long	serialVersionUID	= 1713902164277236377L;
+
 		/**
 		 * @param theURL
 		 *            The URL that is this Channel
@@ -58,7 +60,7 @@ public class IdentifyAll implements ActionListener {
 		}
 
 	}
-	
+
 	/**
 	 * Add all the displays to the
 	 * 
