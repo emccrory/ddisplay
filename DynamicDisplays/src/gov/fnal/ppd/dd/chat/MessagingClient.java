@@ -96,7 +96,7 @@ public class MessagingClient {
 				 * We need to be sure that the server is still there.
 				 * 
 				 * There have been times when the server disappears (I think this is when the server machine accidentally goes to
-				 * sleep/hibernates) and the client does not notice it.
+				 * sleep/hybernates) and the client does not notice it.
 				 * 
 				 * This thread does that
 				 */
@@ -131,12 +131,12 @@ public class MessagingClient {
 			};
 			watchServer.start();
 		} else {
-			displayLogMessage("Already running an instance of the 'watch server' thread.");
-			catchSleep(1);
-			new Exception("watchServer is already running!").printStackTrace();
+			displayLogMessage("Already running an instance of the 'watch server' thread for " + username);
+			// catchSleep(1);
+			// new Exception("watchServer is already running!").printStackTrace();
 		}
 		if (socket != null) {
-			throw new RuntimeException("Already started the server.");
+			throw new RuntimeException("Already started the server for " + username + ".");
 		}
 		displayLogMessage("Connecting to server '" + server + "' on port " + port + " at " + (new Date()));
 		// new Exception("Connecting to server debug").printStackTrace();
@@ -149,11 +149,12 @@ public class MessagingClient {
 					+ "'.  Exception is " + ec);
 			disconnect();
 			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_MINUTE;
-			displayLogMessage("We will wait THIRTY MINUTES (30 min.) before trying to connect to the server again!");
+			displayLogMessage("We will wait TEN MINUTES (10 min.) before trying to connect to the server again for " + username);
 			return false;
 		} catch (Exception ec) {
 			// if it failed not much I can so
-			displayLogMessage("Error connecting to messaging server, '" + server + ":" + port + "'.  Exception is " + ec);
+			displayLogMessage("Error connecting " + username + " to messaging server, '" + server + ":" + port
+					+ "'.  Exception is " + ec);
 			disconnect();
 			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_SECOND;
 			return false;
@@ -312,23 +313,29 @@ public class MessagingClient {
 			public void run() {
 				// An observation (2/19/2016): It takes about two cycles of this while loop to reconnect to the server
 				// synchronized (syncReconnects) { I think this sync is not necessary (there can only be one instance of this
-				// thread, Ithink)
+				// thread, I think)
+				displayLogMessage(MessagingClient.class.getSimpleName() + " (" + username + "): Starting reconnect thread.");
+				double counter = 0;
 				while (socket == null) {
 					if (wait < 0)
-						wait = WAIT_FOR_SERVER_TIME;
+						wait = WAIT_FOR_SERVER_TIME + (long) (50.0 * Math.random());
 
-					displayLogMessage("Will wait " + (wait / 1000L) + " secs before trying to connect to the server again.");
+					displayLogMessage(username + ": Will wait " + wait
+							+ " milliseconds before trying to connect to the server again.");
 					catchSleep(wait);
-					wait = WAIT_FOR_SERVER_TIME;
+					wait = (long) (WAIT_FOR_SERVER_TIME * (1.0 + Math.log(counter)) + 10.0 * Math.random());
 					if (!MessagingClient.this.start()) {
 						displayLogMessage(MessagingClient.class.getSimpleName()
-								+ ".connectionFailed(): Server start failed again at " + (new Date()) + "...");
+								+ ".connectionFailed(): Server start failed again at " + (new Date()) + " for " + username);
 					}
+					counter += 0.5;
 				}
-				displayLogMessage(MessagingClient.class.getSimpleName() + ": Socket is now viable [" + socket
+				displayLogMessage(MessagingClient.class.getSimpleName() + ": Socket for " + username + " is now viable [" + socket
 						+ "]; connection has been restored at " + (new Date()));
 				restartThreadToServer = null;
 				// }
+
+				displayLogMessage(MessagingClient.class.getSimpleName() + " (" + username + "): ENDING reconnect thread.");
 			}
 		};
 		restartThreadToServer.start();
@@ -613,6 +620,7 @@ public class MessagingClient {
 			}
 			displayLogMessage(ListenFromServer.class.getSimpleName() + ": Disconnecting from server.");
 			disconnect();
+			displayLogMessage(ListenFromServer.class.getSimpleName() + ": Exiting listening thread.");
 		}
 
 		long	nextDump	= 0L;
