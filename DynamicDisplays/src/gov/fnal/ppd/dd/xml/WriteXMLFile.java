@@ -6,13 +6,20 @@ import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.chat.MessageType;
 import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.ObjectSigning;
 import gov.fnal.ppd.dd.util.attic.xml.Ping;
 import gov.fnal.ppd.dd.util.attic.xml.Pong;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
+import java.security.SignedObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +54,6 @@ public class WriteXMLFile {
 		credentialsSetup();
 
 		selectorSetup();
-
 		for (int which = 0; which < 10; which++) {
 			Object stuff = null;
 			try {
@@ -64,6 +70,7 @@ public class WriteXMLFile {
 					pong.setIPAddress("131.225.100.100");
 					pong.setDisplayNum(15);
 					// pong.setChannelSpec((ChannelSpec) ChannelCatalogFactory.getInstance().getDefaultChannel());
+
 					stuff = pong;
 					break;
 
@@ -81,6 +88,7 @@ public class WriteXMLFile {
 					emx.setSeverity(Severity.EMERGENCY);
 					emx.setFootnote("A footnote");
 					emx.setDwellTime(45 * 60 * 1000);
+
 					stuff = emx;
 					break;
 
@@ -96,6 +104,7 @@ public class WriteXMLFile {
 					cc.setIPAddress("131.225.101.1");
 					cc.setContent(ChannelCatalogFactory.getInstance().getDefaultChannel());
 					cc.setDisplayNumber(14);
+
 					stuff = cc;
 					break;
 
@@ -114,10 +123,24 @@ public class WriteXMLFile {
 					break;
 
 				case 6:
-					// Not relevant until/unless we implement the DB fetch on the message server
-					// ChannelListResponse clrs = new ChannelListResponse();
-					// clrs.setEncodedId(id++);
-					// stuff = clrs;
+					
+					// This creates an entirely ASCII XML object, including the signature.
+					EnhancedChangeChannel ecc = new EnhancedChangeChannel();
+					ecc.setIPAddress("131.225.101.1");
+					ecc.setContent(ChannelCatalogFactory.getInstance().getDefaultChannel());
+					ecc.setDisplayNumber(14);
+					ecc.setFrom("Me");
+					ecc.setTo("You");
+					ecc.setType(MessageType.MESSAGE);
+
+					// Signing
+					try {
+						ecc.setSignature(ObjectSigning.getInstance().getSignedObject(ecc).getSignature());
+					} catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException | IOException e) {
+						e.printStackTrace();
+					}
+
+					stuff = ecc;
 					break;
 
 				case 7:
@@ -163,7 +186,6 @@ public class WriteXMLFile {
 			} catch (JAXBException e) {
 				e.printStackTrace();
 			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

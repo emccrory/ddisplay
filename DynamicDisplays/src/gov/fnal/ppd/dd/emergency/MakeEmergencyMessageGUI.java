@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
  */
 public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 
+	private static EmergencyLaunchGUI elg = null;
 	/**
 	 * @param args
 	 */
@@ -29,13 +30,13 @@ public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 		MakeEmergencyMessageGUI em = new MakeEmergencyMessageGUI();
 
 		if (!ObjectSigning.getInstance().isEmergMessAllowed(getFullSelectorName())) {
-			JOptionPane.showMessageDialog(null, "You are not allowed to create emergency messages.");
+			JOptionPane.showMessageDialog(null, "\"" + getFullSelectorName() + "\" is not allowed to create emergency messages.");
 			System.exit(-1);
 		}
 
 		em.initialize();
 
-		EmergencyLaunchGUI elg = new EmergencyLaunchGUI(em);
+		elg = new EmergencyLaunchGUI(em);
 		elg.initialize();
 
 		JFrame f = new JFrame("Emergency Message Distribution");
@@ -45,7 +46,6 @@ public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 		f.setVisible(true);
 	}
 
-	private List<Display>	displays;
 
 	/**
 	 * 
@@ -63,7 +63,7 @@ public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 
 		EmergencyCommunication ec = new EmergCommunicationImpl();
 		ec.setMessage(em);
-		for (Display D : displays) {
+		for (Display D : elg.getTargetedDisplays()) {
 			D.setContent(ec);
 		}
 		return true;
@@ -71,6 +71,6 @@ public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 
 	private void initialize() {
 		// Establish connection(s) to the messaging server(s)
-		displays = DisplayListFactory.getInstance(SignageType.XOC, getLocationCode());
+		// displays = DisplayListFactory.getInstance(SignageType.XOC, getLocationCode());
 	}
 }

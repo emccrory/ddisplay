@@ -479,46 +479,79 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			message.setFootnote(footerArea.getText());
 			message.setDwellTime((long) time.getValue() * 1000L);
 			message.setSeverity(Severity.valueOf((checkButtonGroup.getSelection().getActionCommand())));
-			Object body = "Send this? " + message;
-			if (((String) body).length() > 80) {
-				Box box = Box.createVerticalBox();
 
-				box.add(new JLabel("Headline: '" + headlineText.getText() + "'"));
+			Box box = Box.createVerticalBox();
+			box.setAlignmentX(LEFT_ALIGNMENT);
 
-				box.add(Box.createRigidArea(new Dimension(10, 10)));
+			JLabel warningMessage = new JLabel("Are you SURE you want to send this " + message.getSeverity() + " message?");
+			warningMessage.setFont(new Font("Arial", Font.BOLD, 24));
+			warningMessage.setBackground(Color.white);
+			warningMessage.setOpaque(true);
+			warningMessage.setBorder(BorderFactory.createLineBorder(Color.white, 10));
+			box.add(warningMessage);
+			
+			box.add(Box.createRigidArea(new Dimension(10, 10)));
 
-				box.add(new JLabel("Body text:"));
+			JLabel hl = new JLabel("Headline: '" + headlineText.getText() + "'");
+			hl.setBackground(Color.white);
+			hl.setOpaque(true);
+			hl.setBorder(BorderFactory.createLineBorder(Color.white, 3));
+			hl.setFont(new Font("Arial", Font.BOLD, 16));
 
-				JTextArea area = new JTextArea(messageArea.getText(), 5, 60);
-				area.setLineWrap(true);
-				area.setWrapStyleWord(true);
-				box.add(new JScrollPane(area));
+			box.add(hl);
 
-				box.add(Box.createRigidArea(new Dimension(10, 10)));
+			box.add(Box.createRigidArea(new Dimension(10, 10)));
 
-				box.add(new JLabel("Footnote text:"));
-				area = new JTextArea(footerArea.getText(), 3, 60);
-				area.setLineWrap(true);
-				area.setWrapStyleWord(true);
-				box.add(new JScrollPane(area));
+			box.add(new JLabel("Body text:"));
 
-				box.add(new JLabel("Severity = '" + message.getSeverity() + "'"));
+			JTextArea area = new JTextArea(messageArea.getText(), 5, 60);
+			area.setLineWrap(true);
+			area.setWrapStyleWord(true);
+			area.setEditable(false);
+			box.add(new JScrollPane(area));
 
-				box.add(new JLabel("Dwell Time = " + time.getValue() + " seconds"));
+			box.add(Box.createRigidArea(new Dimension(10, 10)));
 
-				body = box;
+			box.add(new JLabel("Footnote text:"));
+			area = new JTextArea(footerArea.getText(), 3, 60);
+			area.setLineWrap(true);
+			area.setWrapStyleWord(true);
+			area.setEditable(false);
+			box.add(new JScrollPane(area));
+
+			box.add(new JLabel("Severity = '" + message.getSeverity() + "'"));
+			box.add(new JLabel("Dwell Time = " + time.getValue() + " seconds"));
+
+			// box.setBackground(message.getSeverity().);
+
+			Color bg = new Color(200, 200, 200);
+			switch (message.getSeverity()) {
+			case EMERGENCY:
+				bg = new Color(255, 100, 100);
+				break;
+			case ALERT:
+				bg = new Color(220, 160, 160);
+				break;
+			case INFORMATION:
+				bg = new Color(160, 160, 255);
+				break;
+			default:
+				break;
 			}
+			box.setBackground(bg);
+			box.setBorder(BorderFactory.createLineBorder(bg, 20));
+			box.setOpaque(true);
 
 			String text = "Sent Emergency Message";
 			messageSendErrors = false;
-			if (JOptionPane.showConfirmDialog(this, body, "Are you SURE??", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			if (JOptionPane.showConfirmDialog(this, box, "Are you SURE??", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				if (emergencyMessageDistributor.send(message))
 					if (!messageSendErrors)
 						JOptionPane.showMessageDialog(this, "Emergency message sent at " + new Date());
 					else
 						text = "Not showing message: Send failed";
 			} else {
-				JOptionPane.showMessageDialog(this, "Emergency message NOT CONFIRMED");
+				JOptionPane.showMessageDialog(this, "Emergency message delivery NOT CONFIRMED");
 				text = "Not showing message: User rejected";
 			}
 			emergencyStatus.setText(text + " at " + new Date());
@@ -545,5 +578,17 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * @return A list of displays to which we should send the emergency message
+	 */
+	public List<Display> getTargetedDisplays() {
+		List<Display> retval = new ArrayList<Display>();
+		for (int i = 0; i < displays.size(); i++)
+			if (checkBoxes.get(i).isSelected())
+				retval.add(displays.get(i));
+
+		return retval;
 	}
 }
