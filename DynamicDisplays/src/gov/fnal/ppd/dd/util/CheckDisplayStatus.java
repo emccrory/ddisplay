@@ -114,9 +114,9 @@ public class CheckDisplayStatus extends Thread {
 									currentContent = (SignageContent) ois.readObject();
 									getContentOnDisplays().put(display, currentContent);
 								} catch (Exception e) {
-									println(getClass(), ": Trying to read the content object in the database from display "
-											+ display.getDBDisplayNumber() + ", but it failed.");
-									e.printStackTrace();
+									println(getClass(), ": Trying to read streamed content object in database from display "
+											+ display.getDBDisplayNumber() + ", but it failed: " + e.getLocalizedMessage());
+									// e.printStackTrace();
 									continue;
 								}
 
