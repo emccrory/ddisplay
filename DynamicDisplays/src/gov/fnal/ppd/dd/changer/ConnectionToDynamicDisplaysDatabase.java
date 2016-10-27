@@ -55,7 +55,7 @@ public class ConnectionToDynamicDisplaysDatabase {
 		}
 
 		/*
-		 * If the connection is too old, it fails. I got this error on 3/9/2015:
+		 * If the connection is too old, it fails. I got this error on 3/9/2015 (from within the MySQL API):
 		 * 
 		 * The last packet successfully received from the server was 248,955,159 milliseconds [69 hours] ago. The last packet sent
 		 * successfully to the server w as 248,955,160 milliseconds ago. is longer than the server configured value of
