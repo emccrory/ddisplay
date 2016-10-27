@@ -2,6 +2,8 @@ package gov.fnal.ppd.dd.xml;
 
 import static gov.fnal.ppd.dd.GlobalVariables.XML_SERVER_NAME;
 
+import gov.fnal.ppd.dd.display.client.ConnectionToFirefoxInstance;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -61,6 +63,9 @@ public class MyXMLMarshaller {
 					+ "!  This probably means that a new version of Java was recently put onto this system.  "
 					+ "Your best bet now is to restart the Display.");
 			ie.printStackTrace();
+			
+			// All bets are off!  Try to restart.  If it is truly the situation where the Java version has changed, this will fix it.
+			ConnectionToFirefoxInstance.saveAndExit();
 		}
 		return null;
 	}
