@@ -730,7 +730,7 @@ public class ConnectionToFirefoxInstance {
 		return instance;
 	}
 
-	private void saveAndExit() {
+	public static void saveAndExit() {
 		// Save the current channel(s) and close the Java VM
 		for (Command C : finalCommand)
 			if (C != null)
