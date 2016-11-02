@@ -256,7 +256,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			cat = SignageType.Public;
 
 		displaySelector = new DisplayButtons(cat, this);
-		lastActiveDisplay = displaySelector.getFirstDisplay().toString();
+		lastActiveDisplay = getDisplayID(displaySelector.getFirstDisplay());
 		// initChannelSelectors();
 		initializeTabs();
 
