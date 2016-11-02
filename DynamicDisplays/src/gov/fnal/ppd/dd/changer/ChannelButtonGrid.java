@@ -88,6 +88,8 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 		// So, there is a bit of a bug below, in that the buttons in the entire container bg are "enabled" or "disabled" each time,
 		// over and over again.
 
+		lastDisplayChange = System.currentTimeMillis();
+
 		if (e instanceof DisplayChangeEvent) {
 			DisplayChangeEvent ev = (DisplayChangeEvent) e;
 			SignageContent to = null;
@@ -101,7 +103,6 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 					System.err.println(getClass().getSimpleName() + ": Unknown source " + e.getSource().getClass().getSimpleName());
 
 				bg.disableAll(to);
-				lastDisplayChange = System.currentTimeMillis();
 				if (!SHOW_IN_WINDOW)
 					if (imBusy.tryLock()) {
 						// Throw up a dialog box saying,
@@ -113,9 +114,11 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 						}
 					} // else another instance is doing it so I don't have to
 				break;
+
 			case CHANGE_COMPLETED:
 				bg.enableAll();
 				break;
+
 			case ALIVE:
 				setAlive(true);
 				break;
