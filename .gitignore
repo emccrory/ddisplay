@@ -58,3 +58,5 @@ sciencefeed.xml
 symfeed.xml
 symmetry.txt
 *_tempXMLFile
+DynamicDisplays/gov/fnal/ppd/dd/chat/xml/*
+DynamicDisplays/bin/gov/fnal/ppd/dd/chat/xml/*
