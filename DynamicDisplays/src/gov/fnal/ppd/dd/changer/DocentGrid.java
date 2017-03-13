@@ -49,12 +49,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 /**
- * Create a tab of images that can be shown on a Display. This is a very different way of giving user content to see because it ties
- * up the URL from within this class (as opposed to the DB containing the URLs and classes like this just simply read them).
- * 
- * This is likely to be inappropriate when we have thousands of images: All the images are read from the server when the GUi starts.
- * At 151 images (today), it takes the better part of a minute to complete. It may be better to launch this as a separate
- * application, when needed.
+ * Create a tab that is specifically tailored to the use of the Docents (and tour guides) at the Lab.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
