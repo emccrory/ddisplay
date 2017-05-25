@@ -193,10 +193,11 @@ public class DisplayButtons extends JPanel {
 		// int is = displayList.size() > 10 ? 2 * INSET_SIZE / 3 : INSET_SIZE;
 		// float fs = displayList.size() > 10 ? LOCAL_FONT_SIZE - (displayList.size() - 10)/2 : LOCAL_FONT_SIZE;
 		float fs = LOCAL_FONT_SIZE; // In small atom tablet, full-screen: 24.0f
-		if (SHOW_IN_WINDOW)
+		if (SHOW_IN_WINDOW) {
 			fs = WINDOW_FONT_SIZE;
-		fs = Math.min(LOCAL_FONT_SIZE, fs - (displayList.size() - 5)); // In small atom tablet, full-screen with 11 Displays: 19.0f
-
+			fs = Math.min(LOCAL_FONT_SIZE, fs - (displayList.size() - 5)); // In small atom tablet, full-screen with 11 Displays:
+																			// 19.0f
+		}
 		// println(getClass(), "** Font size is " + fs);
 
 		// int rigidHeight = INSET_SIZE + (11 - displayList.size());
