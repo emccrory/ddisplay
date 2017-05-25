@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd.xml;
 
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -15,11 +16,11 @@ import javax.xml.bind.annotation.XmlTransient;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
- *         TODO -- We maybe able to let this class implement SingageContent or Channel
  */
 @SuppressWarnings("javadoc")
 @XmlRootElement
-public class ChannelSpec {
+public class ChannelSpec implements SignageContent {
+	private static final long	serialVersionUID	= -3784860691526919774L;
 	protected SignageContent	content;
 	private long				checksum;
 
@@ -130,5 +131,39 @@ public class ChannelSpec {
 
 	public void setChecksum(long checksum) {
 		this.checksum = checksum;
+	}
+
+	// ----------
+	// The rest of these methods are implementations of the interface SignageContent. These do not need to appear in the XML (I
+	// think)
+	// ----------
+	@Override
+	public String getDescription() {
+		return content.getDescription();
+	}
+
+	@Override
+	public void setDescription(String d) {
+		content.setDescription(d);
+	}
+
+	@Override
+	public SignageType getType() {
+		return content.getType();
+	}
+
+	@Override
+	public void setType(SignageType t) {
+		content.setType(t);
+	}
+
+	@Override
+	public URI getURI() {
+		return content.getURI();
+	}
+
+	@Override
+	public void setURI(URI i) {
+		content.setURI(i);
 	}
 }
