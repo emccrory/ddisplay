@@ -45,12 +45,13 @@ public class ChannelPlayList implements Channel {
 	 * @param millisecondDwellTime
 	 *            - How long to wait on each channel (must be 2 seconds or longer)
 	 */
-	public ChannelPlayList(List<SignageContent> list, long millisecondDwellTime) {
+	public ChannelPlayList(List<? extends SignageContent> list, long millisecondDwellTime) {
 		assert (list.size() > 1);
 		assert (millisecondDwellTime > 2000);
 
 		this.dwell = millisecondDwellTime;
-		this.channels = list;
+		for (SignageContent L : list)
+			this.channels.add(L);
 	}
 
 	/**
@@ -167,8 +168,9 @@ public class ChannelPlayList implements Channel {
 	/**
 	 * @param channels
 	 */
-	public void setChannels(final List<SignageContent> channels) {
-		this.channels = channels;
+	public void setChannels(final List<? extends SignageContent> list) {
+		for (SignageContent L : list)
+			this.channels.add(L);
 	}
 
 	@Override
