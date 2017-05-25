@@ -12,8 +12,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_USER_NAME;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Connection;
