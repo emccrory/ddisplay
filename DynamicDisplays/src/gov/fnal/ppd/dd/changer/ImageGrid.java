@@ -52,8 +52,15 @@ import javax.swing.JTabbedPane;
  * up the URL from within this class (as opposed to the DB containing the URLs and classes like this just simply read them).
  * 
  * This is likely to be inappropriate when we have thousands of images: All the images are read from the server when the GUi starts.
- * At 151 images (today), it takes the better part of a minute to complete. It may be better to launch this as a separate
- * application, when needed.
+ * At 151 images (2015, over 800 in 2017), it takes the better part of a minute to complete. 
+ * 
+ * And then if there are lots of displays being controlled, these images are placed in each display's GUI, multiplying the startup
+ * time by the number of displays.  E.g., for a controller that controls all the displays (42 in May 2017), it takes forever.
+ * 
+ * Changed the nominal thumb-nail image size from 600 pixels @ Quality=75 to 300 pixels @ Q=40.  This makes about a 5X reduction in
+ * the size of these images, but the impact on startup here is minimal.  (5/23/2017)
+ * 
+ * It may be better to launch this as a separate application, when needed.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
