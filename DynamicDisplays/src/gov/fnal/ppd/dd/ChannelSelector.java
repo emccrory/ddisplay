@@ -230,14 +230,27 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				FONT_SIZE = 18.0f;
 				INSET_SIZE = 1;
 			} else if (width < 1000 || height < 800) {
+				// An atom-based thing falls here (2015 testing)
 				FONT_SIZE = 24.0f;
 				INSET_SIZE = 2;
 			} else if (width < 1400 || height < 1000) {
+				FONT_SIZE = 30.0f;
+				INSET_SIZE = 4;
+			} else if (width < 2880 || height < 1620) {
+				// 1080p (HD; "2K") displays fall here.
 				FONT_SIZE = 36.0f;
-				INSET_SIZE = 6;
+				INSET_SIZE = 8;
+			} else if (width < 3840 || height < 2160) {
+				// "3K" displays
+				FONT_SIZE = 40.0f;
+				INSET_SIZE = 10;
+			} else {
+				// 4K and bigger
+				FONT_SIZE = 48.0f;
+				INSET_SIZE = 12;
 			}
 		}
-		println(getClass(), " -- My screen is " + screenDimension + ". Font_Size=" + FONT_SIZE + ", Inset_Size=" + INSET_SIZE);
+		println(getClass(), " -- My screen is " + screenDimension + ". Basic Font_Size=" + FONT_SIZE + ", Inset_Size=" + INSET_SIZE);
 
 	}
 
@@ -373,6 +386,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			};
 
 			displayTabPane.add(CreateListOfChannels.getContainer(channelListHelper, listener),  " Lists ");
+			
+			// The new List GUI that allows lists to contain the same channel many times.
+			// ChannelListGUI clg = new ChannelListGUI();
+			// clg.setBackgroundBypass(display.getPreferredHighlightColor());
+			// displayTabPane.add(clg, " ListsN ");
 
 			if (theSelectedTab != null)
 				displayTabPane.setSelectedComponent(theSelectedTab);
