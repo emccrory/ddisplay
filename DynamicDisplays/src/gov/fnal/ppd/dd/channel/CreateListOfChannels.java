@@ -7,20 +7,17 @@ package gov.fnal.ppd.dd.channel;
 
 import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector;
-import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import static gov.fnal.ppd.dd.channel.ListUtils.getDwellStrings;
+import static gov.fnal.ppd.dd.channel.ListUtils.interp;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
-import gov.fnal.ppd.dd.util.ListSelectionForSaveList;
-import gov.fnal.ppd.dd.util.ListSelectionForSaveList.SpecialLocalListChangeListener;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,17 +27,9 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,13 +44,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerModel;
 import javax.swing.event.ChangeEvent;
@@ -74,29 +59,28 @@ import javax.swing.event.ChangeListener;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-public class CreateListOfChannels extends JPanel {
+public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 
 	private static final long			serialVersionUID	= 2157704848183269779L;
-	private static final String			NOT_SELECTED		= "                  ";
-	private static final String			CANCELLED			= "** CANCELLED **";
+	static final String					NOT_SELECTED		= "                  ";
+	static final String					CANCELLED			= "** CANCELLED **";
 
 	// FIXME -- This kludge job is not working. Adding the Plus and Minus buttons has messed this up.
 
-	private List<SignageContent>		channelList			= new ArrayList<SignageContent>();
-	private List<JLabel>				labelList			= new ArrayList<JLabel>();
-	private List<ChanSelectButton>		allChannelButtons	= new ArrayList<ChanSelectButton>();
+	List<Channel>						channelList			= new ArrayList<Channel>();
+	List<JLabel>						labelList			= new ArrayList<JLabel>();
+	List<ChanSelectButton>				allChannelButtons	= new ArrayList<ChanSelectButton>();
 	private static List<TinyButton>		allTinyButtons		= new ArrayList<TinyButton>();
 
 	private JSpinner					time;
 	private SaveRestoreListOfChannels	saveRestore;
 
-	protected String					defaultName			= System.getProperty("user.name");
-	protected String					lastListName		= "A list name";
-	private Map<String, JLabel>			allLabels			= new HashMap<String, JLabel>();
+	Map<String, JLabel>					allLabels			= new HashMap<String, JLabel>();
 	private Box							timeWidgets			= Box.createHorizontalBox();
 	private Box							selectedChannels	= Box.createVerticalBox();
 
 	static private class ChanSelectButton extends JCheckBox {
+		// TODO -- Change this to a button that can add the same channel over and over again.
 		private static final long	serialVersionUID	= 6517317474435639087L;
 		private SignageContent		channel;
 		private JButton				b1;
@@ -205,7 +189,7 @@ public class CreateListOfChannels extends JPanel {
 
 	}
 
-	private static void checkContent(SignageContent c) {
+	static void checkContent(SignageContent c) {
 		if (c == null)
 			return;
 		for (TinyButton TB : allTinyButtons) {
@@ -214,34 +198,11 @@ public class CreateListOfChannels extends JPanel {
 		}
 	}
 
-	private static class BigLabel extends JLabel {
-		private static final long	serialVersionUID	= 8296427549410976741L;
-
-		public BigLabel(String title, int style) {
-			super(title);
-			setOpaque(true);
-			setBackground(Color.white);
-
-			setFont(new Font("Arial", style, (SHOW_IN_WINDOW ? 16 : 24)));
-			setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		}
-	}
-
-	private class ChannelInfoHolder {
-		public int		channelNumber, sequenceNumber;
-		public long		dwell;
-		public String	name;
-
-		public ChannelInfoHolder(final int chanNum, final int seqNum, final long dwell, final String name) {
-			this.channelNumber = chanNum;
-			this.sequenceNumber = seqNum;
-			this.dwell = dwell;
-			this.name = name;
-		}
-
-		public String toString() {
-			return sequenceNumber + ": Channel #" + channelNumber + " [ " + name + " ] (" + dwell + " milliseconds)";
-		}
+	/**
+	 * @return The number of channels we know about
+	 */
+	public int numberOfChannels() {
+		return channelList.size();
 	}
 
 	/**
@@ -251,435 +212,9 @@ public class CreateListOfChannels extends JPanel {
 		return saveRestore;
 	}
 
-	/**
-	 * 
-	 * Inner class to deal with the saving and restoring of a list of channels to/from the database
-	 * 
-	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 * 
-	 */
-	private class SaveRestoreListOfChannels extends JPanel implements ActionListener {
-
-		private static final long	serialVersionUID	= 6597882652927783449L;
-		private JTextArea			listOfChannelsArea	= new JTextArea(50, 40);
-		private JScrollPane			internalScrollPanel	= new JScrollPane(listOfChannelsArea);
-
-		private List<Channel>		channelListHolder	= new ArrayList<Channel>();
-
-		/**
-		 * 
-		 */
-		public SaveRestoreListOfChannels() {
-			super(new GridBagLayout());
-			initComponents();
-			listOfChannelsArea.setEditable(false);
-			listOfChannelsArea.setBorder(BorderFactory.createTitledBorder(" The channels in this list "));
-		}
-
-		private void initComponents() {
-			JButton saveIt = new JButton("Save this list to a file");
-			saveIt.setActionCommand("SAVE");
-			saveIt.addActionListener(this);
-
-			JButton restoreOne = new JButton("Restore a list from a file");
-			restoreOne.setActionCommand("RESTORE");
-			restoreOne.addActionListener(this);
-
-			GridBagConstraints gbag = new GridBagConstraints();
-
-			setAlignmentX(CENTER_ALIGNMENT);
-			JLabel lab = new JLabel("Archiving and restoring lists");
-			gbag.gridx = gbag.gridy = 1;
-			gbag.gridwidth = 2;
-			gbag.fill = GridBagConstraints.HORIZONTAL;
-			gbag.insets = new Insets(1, 1, 1, 1);
-			add(lab, gbag);
-
-			// lab = new JLabel("Just below this text are buttons to save and to restore lists to persistant storage");
-			// lab.setFont(lab.getFont().deriveFont(Font.PLAIN, 11));
-			// gbag.gridy++;
-			// gbag.fill = GridBagConstraints.HORIZONTAL;
-			// add(lab, gbag);
-			gbag.gridy++;
-			gbag.gridwidth = 1;
-			add(saveIt, gbag);
-			gbag.gridx = 2;
-			add(restoreOne, gbag);
-		}
-
-		protected JComponent getExistingListsComponent() throws Exception {
-			JList<String> list = new JList<String>(getExistingList().toArray(new String[0]));
-			ListSelectionForSaveList retval = new ListSelectionForSaveList(list, listOfChannelsArea);
-
-			retval.addListener(new SpecialLocalListChangeListener() {
-
-				@Override
-				public void setListValue(int listValue) {
-					channelListHolder.clear();
-					listOfChannelsArea.setText("");
-					getThisList(listValue);
-				}
-			});
-
-			return retval;
-		}
-
-		// protected JComponent getExistingListsComponent() throws Exception {
-		// final JPanel retval = new JPanel(new BorderLayout());
-		// List<String> existingLists = getExistingList();
-		// listOfChannelsArea.setText("");
-		//
-		// final JComboBox<String> listComboBox = new JComboBox<String>(existingLists.toArray(new String[0]));
-		// listComboBox.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent ev) {
-		// channelListHolder.clear();
-		// listOfChannelsArea.setText("");
-		//
-		// String selected = (String) listComboBox.getSelectedItem();
-		// int listNumber = Integer.parseInt(selected.substring(0, selected.indexOf(':')));
-		//
-		// getThisList(listNumber);
-		//
-		// retval.validate();
-		// // retval.repaint();
-		// }
-		// });
-		//
-		// internalScrollPanel.setPreferredSize(new Dimension(500, 200));
-		// internalScrollPanel.add(new JLabel("Select a list, please"));
-		// retval.add(BorderLayout.NORTH, listComboBox);
-		// retval.add(BorderLayout.CENTER, internalScrollPanel);
-		// return retval;
-		// }
-
-		protected void getThisList(int listNumber) {
-			Connection connection;
-			try {
-				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-			} catch (DatabaseNotVisibleException e) {
-				e.printStackTrace();
-				return;
-			}
-			int totalDwell = 0;
-
-			String query = "Select ChannelList.Number as Number,Name,SequenceNumber,Dwell, URL, Category, Description from ChannelList,Channel "
-					+ "WHERE ListNumber=" + listNumber + " AND Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
-
-			synchronized (connection) {
-				try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-					try (ResultSet rs2 = stmt.executeQuery(query)) {
-						if (rs2.first())
-							do {
-								int chanNumber = rs2.getInt("Number");
-								int seq = rs2.getInt("SequenceNumber");
-								long dwell = rs2.getLong("Dwell");
-								totalDwell += dwell;
-								// TODO -- The abbreviation argument (next line) is wrong.
-								ChannelCategory cat = new ChannelCategory(rs2.getString("Category"), "ABB");
-								String name = rs2.getString("Name");
-								String url = rs2.getString("URL");
-								String desc = rs2.getString("Description");
-								try {
-									URI uri = new URI(url);
-									ChannelInfoHolder cih = new ChannelInfoHolder(chanNumber, seq, dwell, name);
-									System.out.println(cih);
-									internalScrollPanel.add(new JLabel(cih.toString()));
-									Channel channel = new ChannelImpl(name, cat, desc, uri, chanNumber, dwell);
-									channelListHolder.add(channel);
-									checkContent(channel);
-									listOfChannelsArea.append(cih + "\n");
-								} catch (URISyntaxException e) {
-									e.printStackTrace();
-								}
-
-							} while (rs2.next());
-						else {
-							// Oops. no first element!?
-							System.err.println("No elements in the save/restore database for list number " + listNumber + "!");
-							return;
-						}
-					}
-				} catch (SQLException e) {
-					System.err.println(query);
-					e.printStackTrace();
-				}
-			}
-			DecimalFormat myFormatter = new DecimalFormat("#.0");
-			String output = myFormatter.format(totalDwell / 1000.0 / 60.0);
-			listOfChannelsArea.append("\nTotal duration of this list: " + totalDwell + " msec (" + output + " minutes)\n");
-		}
-
-		private List<String> getExistingList() throws Exception {
-			List<String> retval = new ArrayList<String>();
-			Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-			String query = "Select * from ChannelListName";
-
-			synchronized (connection) {
-				try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-					try (ResultSet rs2 = stmt.executeQuery(query)) {
-						if (rs2.first())
-							do {
-								String listName = rs2.getString("ListName");
-								String listAuthor = rs2.getString("ListAuthor");
-								int listNumber = rs2.getInt("ListNumber");
-								retval.add(listNumber + ": " + listName + " (" + listAuthor + ")");
-							} while (rs2.next());
-						else {
-							// Oops. no first element!?
-							throw new Exception("No elements in the save/restore database!");
-						}
-					} catch (SQLException e) {
-						System.err.println(query);
-						e.printStackTrace();
-					}
-				} catch (SQLException e) {
-					System.err.println(query);
-					e.printStackTrace();
-				}
-			}
-			return retval;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			if (arg0.getActionCommand().equals("SAVE")) {
-				String errMess;
-				if ((errMess = doSaveList()) != null) {
-					if (!errMess.equals(CANCELLED))
-						JOptionPane.showMessageDialog(SaveRestoreListOfChannels.this, errMess);
-					return;
-				}
-			} else if (arg0.getActionCommand().equals("RESTORE")) {
-				doRestoreList();
-				if (channelListHolder.size() == 0) {
-					JOptionPane.showMessageDialog(SaveRestoreListOfChannels.this,
-							"There is no list in the database with the name you specified");
-					return;
-				}
-			}
-		}
-
-		private void doRestoreList() {
-			int userValue;
-			try {
-				userValue = JOptionPane.showConfirmDialog(SaveRestoreListOfChannels.this, getExistingListsComponent(),
-						"Restore a list", JOptionPane.OK_CANCEL_OPTION);
-
-				if (userValue == JOptionPane.OK_OPTION) {
-					channelList.clear();
-					labelList.clear();
-					for (JLabel L : allLabels.values()) {
-						L.setText(NOT_SELECTED);
-						L.setOpaque(false);
-					}
-					for (AbstractButton AB : allChannelButtons) {
-						AB.setSelected(false);
-					}
-
-					for (int seqNum = 0; seqNum < channelListHolder.size(); seqNum++) {
-						Channel C = channelListHolder.get(seqNum);
-						channelList.add(C);
-						JLabel lab = allLabels.get(C.getName());
-						lab.setText("" + C.getTime() / 1000L);
-						labelList.add(lab);
-					}
-					fixLabels();
-
-				} else if (userValue == JOptionPane.CANCEL_OPTION) {
-					// Nothing to do
-				}
-			} catch (HeadlessException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		private String doSaveList() {
-			if (channelList.size() <= 1) {
-				return "The list needs at least two elements!";
-			}
-
-			JPanel inside = new JPanel(new GridBagLayout());
-			GridBagConstraints gbc = new GridBagConstraints();
-			gbc.ipadx = 5;
-			gbc.ipady = 5;
-			gbc.gridwidth = 2;
-			gbc.anchor = GridBagConstraints.CENTER;
-
-			gbc.gridx = gbc.gridy = 1;
-
-			JTextArea area = null;
-			try {
-				List<String> L = getExistingList();
-
-				area = new JTextArea(L.size() - 1, 40);
-				area.setEditable(false);
-				area.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-				area.setBorder(BorderFactory.createLineBorder(Color.black));
-
-				JLabel le = new JLabel("Existing lists in the database:");
-				inside.add(le, gbc);
-				gbc.gridy++;
-
-				for (String S : L)
-					area.append(" " + S + " \n");
-
-				if (L.size() > 10)
-					inside.add(new JScrollPane(area), gbc);
-				else
-					inside.add(area, gbc);
-				gbc.gridy++; // Keep track of how many rows we are adding
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				return "Exception encountered while building list";
-			}
-
-			JLabel title = new JLabel("There " + (channelList.size() == 1 ? "is " : "are ") + channelList.size() + " channel"
-					+ (channelList.size() != 1 ? 's' : "") + " in the list that is about to be saved:");
-			inside.add(title, gbc);
-
-			int longest = 0;
-			for (SignageContent SC : channelList) {
-				Channel C = (Channel) SC;
-				int s = ("(Chan #) " + C.getNumber() + C.getName()).length();
-				if (s > longest)
-					longest = s;
-			}
-
-			area = new JTextArea(channelList.size() - 1, longest + 20);
-			area.setEditable(false);
-			area.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-			area.setBorder(BorderFactory.createLineBorder(Color.black));
-
-			int seq = 1;
-			String space = "";
-			for (SignageContent SC : channelList) {
-				Channel C = (Channel) SC;
-				if (seq < 10 && channelList.size() > 9)
-					space = " ";
-				else
-					space = "";
-				area.append(" " + space + seq++ + ": " + pad("(Chan #" + C.getNumber() + ") " + C.getName(), longest) + " ["
-						+ C.getTime() + " msec] \n");
-			}
-
-			gbc.gridy++;
-			gbc.gridheight = Math.min(channelList.size(), 5);
-			JScrollPane sp = new JScrollPane(area);
-			sp.setMaximumSize(new Dimension((longest + 22) * 7 + 10, 200));
-			sp.setPreferredSize(new Dimension((longest + 22) * 7 + 10, gbc.gridheight * 20));
-			inside.add(sp, gbc);
-
-			final JTextField myName = new JTextField(defaultName, 20);
-			final JTextField listName = new JTextField(lastListName, 40);
-			JLabel n = new JLabel("Your name:");
-			JLabel m = new JLabel("The name for your list:");
-
-			gbc.gridy += channelList.size() + 1;
-			gbc.gridheight = 2;
-			inside.add(Box.createRigidArea(new Dimension(40, 40)), gbc);
-
-			gbc.gridy++;
-			gbc.gridheight = 1;
-			// inside.add(title, gbc);
-			gbc.gridwidth = 1;
-			gbc.gridx = 1;
-			// gbc.gridy++;
-			gbc.anchor = GridBagConstraints.EAST;
-			inside.add(n, gbc);
-			gbc.gridx = 2;
-			gbc.anchor = GridBagConstraints.WEST;
-			inside.add(myName, gbc);
-			gbc.gridx = 1;
-			gbc.gridy++;
-			gbc.anchor = GridBagConstraints.EAST;
-			inside.add(m, gbc);
-			gbc.gridx = 2;
-			gbc.anchor = GridBagConstraints.WEST;
-			inside.add(listName, gbc);
-
-			int userValue = JOptionPane.showConfirmDialog(SaveRestoreListOfChannels.this, inside, "Save the list",
-					JOptionPane.OK_CANCEL_OPTION);
-			if (userValue == JOptionPane.OK_OPTION)
-				try {
-					Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-					synchronized (connection) {
-						int listNumber = 0;
-
-						// TODO -- Don't let the user accidentally make a list with a zero-length name.
-						String list = lastListName = listName.getText();
-						String author = defaultName = myName.getText();
-
-						String insert = "INSERT INTO ChannelListName VALUES (NULL, '" + list + "', '" + author + "')";
-
-						String retrieve = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "' AND ListAuthor='"
-								+ author + "'";
-
-						try (Statement stmt = connection.createStatement();
-								ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-							if (stmt.executeUpdate(insert) == 1) {
-								// OK, the insert worked.
-								System.out.println("Successful: " + insert);
-							} else {
-								new Exception("Got the wrong number of lines inserted into the DB").printStackTrace();
-								return "Insert of new list name into the database failed";
-							}
-							try (ResultSet rs2 = stmt.executeQuery(retrieve)) {
-								System.out.println("Successful: " + retrieve);
-								if (rs2.first())
-									listNumber = rs2.getInt(1);
-
-							} catch (Exception e) {
-								e.printStackTrace();
-								return "Reading the list number, which we just created, failed";
-							}
-
-							// Use the exiting channel list from the GUI
-							int sequence = 0;
-							for (SignageContent SC : channelList) {
-								if (SC instanceof Channel) {
-									Channel c = (Channel) SC;
-									insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + c.getNumber() + ", "
-											+ c.getTime() + ", NULL, " + (sequence++) + ")";
-									if (stmt.executeUpdate(insert) == 1) {
-										// OK, the insert worked.
-										System.out.println("Successful: " + insert);
-									} else {
-										new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
-										return "Insert of list element number " + sequence + " failed";
-									}
-
-								}
-							}
-						}
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-					return "Some exception caused this to fail.";
-				}
-			else if (userValue == JOptionPane.CANCEL_OPTION) {
-				return CANCELLED;
-			}
-			return null;
-		}
-
-		private String pad(String name, int longest) {
-			if (name.length() == longest)
-				return name;
-			String retval = name;
-			for (int i = name.length(); i < longest; i++)
-				retval += " ";
-			return retval;
-		}
-	}
-
 	CreateListOfChannels(Color c) {
 		super();
-		saveRestore = new SaveRestoreListOfChannels();
+		saveRestore = new SaveRestoreListOfChannels(this);
 		layoutButtons(c);
 	}
 
@@ -813,7 +348,7 @@ public class CreateListOfChannels extends JPanel {
 							long actualDwell = 0;
 							if (CONTENT.getTime() == 0 || CONTENT.getTime() > defaultDwell) {
 								CONTENT.setTime(defaultDwell);
-								channelList.add(CONTENT);
+								channelList.add((Channel) CONTENT);
 								actualDwell = defaultDwell;
 								visible = true;
 							} else {
@@ -823,7 +358,7 @@ public class CreateListOfChannels extends JPanel {
 								long tm = defaultDwell;
 								int added = 0;
 								for (; tm >= CONTENT.getTime(); tm -= CONTENT.getTime()) {
-									channelList.add(CONTENT);
+									channelList.add((Channel) CONTENT);
 									actualDwell += CONTENT.getTime();
 									added++;
 								}
@@ -841,65 +376,6 @@ public class CreateListOfChannels extends JPanel {
 		}
 
 		add(new JScrollPane(mainPanel), BorderLayout.CENTER);
-	}
-
-	protected static String interp(long val) {
-		DecimalFormat format = new DecimalFormat("#.0");
-		String t = "" + val;
-		if (val < 60L) {
-			t = (val) + " seconds";
-		} else if (val < 3600) {
-			double min = ((double) val) / 60.0;
-			t = format.format(min) + " minunte" + (min != 1 ? "s" : "");
-		} else {
-			double hours = ((double) val) / (60 * 60);
-			t = format.format(hours) + " hour" + (hours != 1 ? "s" : "");
-		}
-		return " " + t;
-	}
-
-	private static List<Long> getDwellStrings() {
-		ArrayList<Long> retval = new ArrayList<Long>();
-
-		retval.add(5L);
-		retval.add(8L);
-		retval.add(9L);
-		retval.add(10L); // 10 seconds
-		retval.add(12L);
-		retval.add(15L);
-		retval.add(20L);
-		retval.add(30L);
-		retval.add(45L);
-		retval.add(60L);
-		retval.add(75L);
-		retval.add(90L);
-		retval.add(100L); // 100 seconds
-		retval.add(110L);
-		retval.add(120L); // 2 minutes
-		retval.add(150L);
-		retval.add(180L);
-		retval.add(210L);
-		retval.add(240L);
-		retval.add(300L); // 5 minutes
-		retval.add(360L);
-		retval.add(420L);
-		retval.add(480L);
-		retval.add(540L);
-		retval.add(600L); // 10 minutes
-		retval.add(1200L);
-		retval.add(1800L); // 30 minutes
-		retval.add(2400L);
-		retval.add(3600L); // One hour
-		retval.add(2 * 3600L);
-		retval.add(3 * 3600L);
-		retval.add(4 * 3600L);
-		retval.add(5 * 3600L);
-		retval.add(6 * 3600L);
-		retval.add(8 * 3600L); // 8 hours
-		retval.add(10 * 3600L); // 10 hours
-		retval.add(12 * 3600L); // 12 hours
-
-		return retval;
 	}
 
 	protected void fixLabels() {
@@ -982,7 +458,7 @@ public class CreateListOfChannels extends JPanel {
 
 		if (listener == null)
 			helper.accept.addActionListener(new ActionListener() {
-
+				// Used for testing
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					int count = 1;
@@ -1003,15 +479,20 @@ public class CreateListOfChannels extends JPanel {
 		else
 			helper.accept.addActionListener(listener);
 
+		// The thing we are going to return
+		JPanel retval = new JPanel(new BorderLayout());
+
+		// Make the button to accept this list really pretty
 		helper.accept.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(h.color, 3),
 				helper.accept.getBorder()));
 
+		// The scroll panel of all the channels
 		final JScrollPane mainSelectionScrollPanel = new JScrollPane(helper.lister);
 		mainSelectionScrollPanel.getVerticalScrollBar().setUnitIncrement(16);
 		if (!SHOW_IN_WINDOW)
 			mainSelectionScrollPanel.getVerticalScrollBar().setPreferredSize(new Dimension(40, 0));
-		JPanel retval = new JPanel(new BorderLayout());
 
+		// Set up the left-side list of channels that has been created
 		JLabel title = new JLabel("Zero channels in the list");
 		title.setFont(new Font("Arial", Font.BOLD, (SHOW_IN_WINDOW ? 14 : 20)));
 		helper.lister.selectedChannels.add(title);
@@ -1019,9 +500,7 @@ public class CreateListOfChannels extends JPanel {
 		if (!SHOW_IN_WINDOW)
 			listOfChannelScrollPanel.getHorizontalScrollBar().setPreferredSize(new Dimension(40, 0));
 
-		// listOfChannelScrollPanel.setPreferredSize(new Dimension(200, 800));
-		// mainSelectionScrollPanel.setPreferredSize(new Dimension(600, 800));
-
+		// Put all of these panels nicely onto the JPanel we have
 		JPanel hb = new JPanel(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH,
 				new Insets(1, 1, 1, 1), 0, 0);
@@ -1035,7 +514,6 @@ public class CreateListOfChannels extends JPanel {
 		Box vb = Box.createVerticalBox();
 		vb.add(helper.listerPanel);
 		vb.add(helper.lister.timeWidgets);
-		// vb.add(helper.lister.timeWidgets);
 
 		retval.add(vb, BorderLayout.NORTH);
 
@@ -1108,5 +586,39 @@ public class CreateListOfChannels extends JPanel {
 			f.setSize(screenDimension);
 		}
 		f.setVisible(true);
+	}
+
+	@Override
+	public void clear() {
+		channelList.clear();
+		labelList.clear();
+
+		for (JLabel L : allLabels.values()) {
+			L.setText(CreateListOfChannels.NOT_SELECTED);
+			L.setOpaque(false);
+		}
+		for (AbstractButton AB : allChannelButtons) {
+			AB.setSelected(false);
+		}
+	}
+
+	@Override
+	public void channelAdd(Channel c) {
+		System.out.println("Adding channel [" + c + "] to inner list");
+		channelList.add(c);
+
+		JLabel lab = allLabels.get(c.getName());
+		lab.setText("" + c.getTime() / 1000L);
+		labelList.add(lab);
+	}
+
+	@Override
+	public List<Channel> getList() {
+		return channelList;
+	}
+
+	@Override
+	public void fix() {
+		fixLabels();
 	}
 }
