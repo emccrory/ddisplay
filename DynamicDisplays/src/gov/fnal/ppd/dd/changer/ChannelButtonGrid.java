@@ -73,9 +73,8 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	 */
 	public Component add(JPanel comp) {
 		JPanel p = new JPanel(new BorderLayout());
-		int wid = (SHOW_IN_WINDOW ? 2 : 4);
+		int wid = (SHOW_IN_WINDOW ? 1 : 2);
 		p.setBorder(BorderFactory.createLineBorder(display.getPreferredHighlightColor(), wid));
-
 		p.add(comp, BorderLayout.CENTER);
 		return super.add((Component) p);
 	}

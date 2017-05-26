@@ -238,16 +238,16 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				INSET_SIZE = 4;
 			} else if (width < 2880 || height < 1620) {
 				// 1080p (HD; "2K") displays fall here.
-				FONT_SIZE = 36.0f;
-				INSET_SIZE = 8;
+				FONT_SIZE = 34.0f;
+				INSET_SIZE = 6;
 			} else if (width < 3840 || height < 2160) {
 				// "3K" displays
-				FONT_SIZE = 40.0f;
-				INSET_SIZE = 10;
+				FONT_SIZE = 36.0f;
+				INSET_SIZE = 8;
 			} else {
 				// 4K and bigger
-				FONT_SIZE = 48.0f;
-				INSET_SIZE = 12;
+				FONT_SIZE = 40.0f;
+				INSET_SIZE = 10;
 			}
 		}
 		println(getClass(), " -- My screen is " + screenDimension + ". Basic Font_Size=" + FONT_SIZE + ", Inset_Size=" + INSET_SIZE);
@@ -523,12 +523,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		// showBorderButton.setSelected(true);
 		title = new JLabel(" Dynamic Display 00 ");
 		if (!SHOW_IN_WINDOW) {
-			title.setFont(new Font("Serif", Font.ITALIC, (int) (3 * FONT_SIZE / 4)));
+			title.setFont(new Font("Serif", Font.ITALIC, (int) (FONT_SIZE / 2)));
 			refreshButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 2)));
-			// showBorderButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 2)));
 		}
-		// showBorderButton.setOpaque(false);
-		// title.setFont(title.getFont().deriveFont(3 * FONT_SIZE / 4));
 		title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		title.setOpaque(true);
 		title.setBackground(Color.white);
@@ -563,46 +560,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		changeDefaultsButton.setToolTipText("Save, restore, and/or change the configuration defaults");
 		changeDefaultsButton.setFont(changeDefaultsButton.getFont().deriveFont(FONT_SIZE / 3));
 
-		// The "Add Channel Button" opens the possibility of someone adding an inappropriate URL to the system.
-		// This can be added back if the need arises 9and we figure out how to secure it).
-		// if (SHOW_IN_WINDOW) {
-		// titleBox.add(refreshButton);
-		// // Create a button to add a channel to the database
-		// addChannelButton.addActionListener(new ActionListener() {
-		// boolean showDialog = true;
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent arg0) {
-		// int n = 0;
-		// if (showDialog) {
-		// Box dialog = Box.createVerticalBox();
-		// dialog.add(new JLabel(
-		// "<html><center>You are about to launch a browser/web page to add a Channel to database.<br>"
-		// + "You must restart the Channel Selector to see the new Channel once it is added.<br><hr>"
-		// + "<em>This operation should be used sparingly</em></br><br>"
-		// + "Continue with the addition?</center></html>"));
-		// JCheckBox cb = new JCheckBox("Do not show this again");
-		// dialog.add(cb);
-		// n = JOptionPane.showConfirmDialog(addChannelButton, dialog, "Add Channel?", JOptionPane.YES_NO_OPTION);
-		// showDialog = !cb.isSelected();
-		// }
-		// if (n == 0)
-		// try {
-		// Desktop.getDesktop().browse(
-		// new URI("http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER + "/channelAdd.php"));
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// } catch (URISyntaxException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		//
-		// });
-		// addChannelButton.setToolTipText("<html><b>Add a channel to the system</b> -- "
-		// + "<em>use sparingly!</em><br>Launches a web page on your local browser that "
-		// + "<br>will allow you to add a Channel/URL to the system</html>");
-		// addChannelButton.setMargin(new Insets(5, 5, 5, 5));
-		// } else {
 		// Create an exit button
 		exitButton.addActionListener(new ActionListener() {
 
@@ -621,7 +578,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		exitButton.setBackground(new Color(255, 200, 200));
 		exitButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 3)));
 		exitButton.setMargin(new Insets(6, 6, 6, 6));
-		// }
 
 		return titleBox;
 	}
@@ -641,7 +597,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		titleBox.removeAll();
 		titleBox.setOpaque(true);
 		titleBox.setBackground(c);
-		int wid = (SHOW_IN_WINDOW ? 1 : 8);
+		int wid = (SHOW_IN_WINDOW ? 1 : 4);
 		titleBox.setBorder(BorderFactory.createLineBorder(c, wid));
 
 		if (!IS_PUBLIC_CONTROLLER) {
@@ -649,21 +605,20 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					+ "<br>by re-reading this information from the Channel database."
 					+ "<br><em>This will not create new buttons</em></html>");
 			refreshButton.setFont(refreshButton.getFont().deriveFont(FONT_SIZE / 3));
-			refreshButton.setMargin(new Insets(12, 4, 12, 4));
+			refreshButton.setMargin(new Insets(8, 4, 8, 4));
 			titleBox.add(refreshButton);
 			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
 
 			if (displayList.size() > 1) {
-				changeDefaultsButton.setMargin(new Insets(12, 4, 12, 4));
+				changeDefaultsButton.setMargin(new Insets(8, 4, 8, 4));
 				titleBox.add(changeDefaultsButton);
 				titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
 			}
 
 			if (SHOW_IN_WINDOW)
-				IdentifyAll.setup("Identify all displays", FONT_SIZE / 3, new Insets(12, 4, 12, 4));
+				IdentifyAll.setup("Identify all displays", FONT_SIZE / 3, new Insets(8, 4, 8, 4));
 			else
-				IdentifyAll.setup("ID", FONT_SIZE / 2, new Insets(8, 4, 8, 4));
-			// titleBox.add(showBorderButton);
+				IdentifyAll.setup("ID", FONT_SIZE / 2, new Insets(6, 4, 6, 4));
 
 			IdentifyAll.setListOfDisplays(displayList);
 			JButton idAll = IdentifyAll.getButton();
@@ -683,7 +638,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		if (SHOW_IN_WINDOW)
 			flipTitles.setMargin(new Insets(2, 5, 2, 5));
 		else
-			flipTitles.setMargin(new Insets(4, 5, 4, 5));
+			flipTitles.setMargin(new Insets(2, 5, 2, 5)); // Same
 		flipTitles.setToolTipText("<html><b>Toggle Text</b> -- Toggle between a succinct"
 				+ "<br>Channel button label and one with more details");
 
@@ -755,7 +710,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		DisplayButtons.setToolTip(display);
 
 		if (!SHOW_IN_WINDOW) {
-			footer.setFont(new Font("Arial", Font.PLAIN, 25));
+			footer.setFont(new Font("Arial", Font.PLAIN, 18));
 		}
 		footer.setAlignmentX(CENTER_ALIGNMENT);
 		return footer;

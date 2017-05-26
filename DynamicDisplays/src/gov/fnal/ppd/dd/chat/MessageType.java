@@ -56,8 +56,38 @@ public enum MessageType {
 	/**
 	 * This is a read-only message that is a reply to a non-read-only message
 	 */
-	REPLY;
+	REPLY,
+	
+	/*
+	 * TODO - New message types of SubscribeTo and UnsubscribeFrom 
+	 * 
+	 * (Well, I can't really think of a use case for UnsubscribeFrom, but it should probably be there anyway - for completeness)
+	 * 
+	 * Implementing Subscriptions means that the Emergency message type is irrelevant (and maybe some other stuff, too).
+	 * 
+	 * Clients can subscribe to various levels of emergency messages, e.g.,
+	 * /emergency/* -- all emergency messages
+	 * /emergency/[high|medium|low] - or something like that.
+	 * 
+	 * And then regular message subscription titles can be of the form
+	 * /change/[location number]/[display number] - Maybe?
+	 * 
+	 * or
+	 * 
+	 * /change/[display index number]
+	 * 
+	 * I'll have to think about this more.  (3/23/17)
+	 * 
+	 * One interim solution is to change the way the server sorts and distributes these messages.  Instead of having a solitary list of connected clients,
+	 * add a second list that has the possible subscription phrases.  In this initial implementation, that phrase will be, simply, the name of the client.
+	 * 
+	 */
 
+	/**
+	 * This message tells the recipient (presumably the server) which subject they want to subscribe to.
+	 */
+	SUBSCRIBE;
+	
 	/**
 	 * @return -- Is this sort of message read-only?
 	 */

@@ -61,7 +61,7 @@ public class DisplayButtons extends JPanel {
 			setBackground(sliderBG);
 			setOpaque(true);
 
-			setFont(getFont().deriveFont((SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : LOCAL_FONT_SIZE / 2)));
+			setFont(getFont().deriveFont((SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : FONT_SIZE / 2)));
 			// setFont(new Font("Arial", Font.BOLD, (SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : theFS)));
 			setToolTipText("initializing...");
 
@@ -88,7 +88,7 @@ public class DisplayButtons extends JPanel {
 
 			if (displayList.size() < 26) {
 				setMajorTickSpacing(1);
-				setFont(getFont().deriveFont((SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : LOCAL_FONT_SIZE / 2)));
+				setFont(getFont().deriveFont((SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : FONT_SIZE / 2)));
 				// setFont(new Font("Courier", Font.PLAIN, (SHOW_IN_WINDOW ? (int) WINDOW_FONT_SIZE : theFS)));
 			} else {
 				setMajorTickSpacing(10);
@@ -111,8 +111,7 @@ public class DisplayButtons extends JPanel {
 
 	private static List<JComponent>	buttonList				= new ArrayList<JComponent>();
 	// private static List<Display> displayList;
-	static final int				INSET_SIZE				= 5;
-	static float					LOCAL_FONT_SIZE			= 0.0f;
+	// static final int INSET_SIZE = 5;
 	private static final int		MAXIMUM_DISPLAY_BUTTONS	= 20;
 	private static final long		serialVersionUID		= 4096502469001848381L;
 	protected static final Color	sliderBG				= new Color(0xe0e0e0);
@@ -165,8 +164,7 @@ public class DisplayButtons extends JPanel {
 	 */
 	public DisplayButtons(final SignageType cat, final ActionListener listener) {
 		super(new BorderLayout());
-		if (LOCAL_FONT_SIZE == 0)
-			LOCAL_FONT_SIZE = FONT_SIZE;
+
 		this.listener = listener;
 
 		// displayList = DisplayListFactory.getInstance(cat, ChannelSelector.getLocationCode());
@@ -183,7 +181,7 @@ public class DisplayButtons extends JPanel {
 		if (SHOW_IN_WINDOW)
 			setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		else
-			setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
+			setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
 	}
 
 	private void makeScreenGrid() {
@@ -192,12 +190,12 @@ public class DisplayButtons extends JPanel {
 		DisplayButtonGroup bg = new DisplayButtonGroup();
 		// int is = displayList.size() > 10 ? 2 * INSET_SIZE / 3 : INSET_SIZE;
 		// float fs = displayList.size() > 10 ? LOCAL_FONT_SIZE - (displayList.size() - 10)/2 : LOCAL_FONT_SIZE;
-		float fs = LOCAL_FONT_SIZE; // In small atom tablet, full-screen: 24.0f
+		float fs = FONT_SIZE; // In small atom tablet, full-screen: 24.0f
 		if (SHOW_IN_WINDOW) {
 			fs = WINDOW_FONT_SIZE;
-			fs = Math.min(LOCAL_FONT_SIZE, fs - (displayList.size() - 5)); // In small atom tablet, full-screen with 11 Displays:
-																			// 19.0f
 		}
+		fs = Math.max(8.0f, Math.min(FONT_SIZE, fs - (displayList.size() - 5))); // In small atom tablet, full-screen w 11 Disps:
+																					// 19.0f
 		// println(getClass(), "** Font size is " + fs);
 
 		// int rigidHeight = INSET_SIZE + (11 - displayList.size());
@@ -229,10 +227,9 @@ public class DisplayButtons extends JPanel {
 				});
 
 				JPanel p = new JPanel(new BorderLayout());
-				p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(0xcccccc)),
-						BorderFactory.createLineBorder(disp.getPreferredHighlightColor(), 2)));
 				p.add(button, BorderLayout.CENTER);
 				buttonBox.add(p);
+				// buttonBox.add(button);
 			}
 
 			if (displayList.size() > 1) {
@@ -243,7 +240,7 @@ public class DisplayButtons extends JPanel {
 				outerPanel.setOpaque(true);
 				outerPanel.setBackground(Color.black);
 
-				int blackBand = (SHOW_IN_WINDOW ? 2 : 20);
+				int blackBand = (SHOW_IN_WINDOW ? 2 : 10);
 				outerPanel.add(Box.createRigidArea(new Dimension(blackBand, blackBand)), BorderLayout.WEST);
 				outerPanel.add(buttonBox, BorderLayout.CENTER);
 				outerPanel.add(Box.createRigidArea(new Dimension(blackBand, blackBand)), BorderLayout.EAST);

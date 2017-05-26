@@ -59,14 +59,12 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		// int gap = 5;
 		int maxLen = 50;
 
-		if (list.size() > 48) {
+		if (list.size() > 39) {
 			FS = 0.5f * FONT_SIZE;
-			// IS = INSET_SIZE / 6;
-			cols = 4;
+			cols = 5;
 			maxLen = 17;
 		} else if (list.size() > 18) {
 			FS = 0.6f * FONT_SIZE;
-			// IS = INSET_SIZE / 6;
 			cols = 3;
 			maxLen = 15;
 		} else {
@@ -75,22 +73,14 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			case 17:
 			case 16:
 				FS = 0.6f * FONT_SIZE;
-				// IS = INSET_SIZE / 6;
 				cols = 3;
 				maxLen = 13;
 				break;
-
-			// FS = 0.8f * FONT_SIZE;
-			// // IS = INSET_SIZE / 6;
-			// cols = 3;
-			// maxLen = 13;
-			// break;
 
 			case 15:
 			case 14:
 			case 13:
 				FS = 0.75f * FONT_SIZE;
-				// IS = INSET_SIZE / 3;
 				cols = 3;
 				maxLen = 14;
 				break;
@@ -98,34 +88,27 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			case 12:
 			case 11:
 				FS = 0.9f * FONT_SIZE;
-				// IS = INSET_SIZE / 3;
 				cols = 2;
 				maxLen = 14;
 				break;
 
 			case 10:
+			case 9:
+			case 8:
 				FS = 0.94f * FONT_SIZE;
-				// IS = INSET_SIZE / 3;
 				cols = 2;
 				maxLen = 13;
 				break;
 
-			case 9:
-				FS = 0.96f * FONT_SIZE;
-				// IS = INSET_SIZE ;
-				cols = 1;
-				maxLen = 95;
-				break;
-
-			case 8:
+			case 7:
+			case 6:
 				FS = FONT_SIZE;
-				// IS = INSET_SIZE ;
 				cols = 1;
 				maxLen = 90;
 				break;
+				
 			default:
 				FS = 1.2f * FONT_SIZE;
-				// IS = INSET_SIZE;
 				cols = 1;
 				maxLen = 80;
 				break;
@@ -152,7 +135,6 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 			if (SHOW_IN_WINDOW) {
 				button.setFont(button.getFont().deriveFont(FS));
 			} else {
-				// if (!SHOW_IN_WINDOW)
 				switch (button.numLinesInTitle()) {
 				case 2:
 					button.setFont(button.getFont().deriveFont(FS * 0.8300f));

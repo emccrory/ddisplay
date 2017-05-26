@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -65,7 +66,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * <li>MessageType type; -- An enum of the sorts of messages we expect</li>
  * <li>String message; -- The message body (if it is required). in principle, this can be encrypted (and then ASCII-fied). In this
  * architecture, when the message is used, it is usually an XML document</li>
- * <li>String to; -- The name of the client who is supposed to get this message</li>
+ * <li>String to; -- The name of the client who is supposed to get this message.
+ * <em>This could be changed to a <em>"subscription topic."</em></li>
  * <li>String from; -- The name of the client who sent the message (allowing a reply of some sort)</li>
  * </ul>
  * </p>
@@ -304,7 +306,7 @@ public class MessagingServer {
 						this.cmSigned = null;
 						this.cm = (MessageCarrier) read;
 
-						// Idiot check:
+						// Idiot check: (Rarely seen, and never seen if the "username" is not null)
 						if (!MessageCarrier.isUsernameMatch(username, cm.getFrom()))
 							error("Oops (a).  My assumption is wrong.  This thread is for '" + username
 									+ "' and the from field on the message is '" + cm.getFrom() + "'");
@@ -312,7 +314,7 @@ public class MessagingServer {
 					} else if (read instanceof SignedObject) {
 						this.cmSigned = (SignedObject) read;
 						this.cm = (MessageCarrier) cmSigned.getObject();
-						// Idiot check:
+						// Idiot check: (Rarely seen, and never seen if the "username" is not null)
 						if (!MessageCarrier.isUsernameMatch(username, cm.getFrom()))
 							error("Oops (b).  My assumption is wrong.  This thread is for '" + username
 									+ "' and the from field on the message is '" + cm.getFrom() + "'");
@@ -331,6 +333,7 @@ public class MessagingServer {
 							continue;
 						}
 					} else if (read instanceof MessageType) {
+						// Not seen as of 3/2017
 						display(this.username + ": Unexpectedly received message of type MessageType, value='" + read + "'");
 						continue;
 					} else {
@@ -456,8 +459,8 @@ public class MessagingServer {
 					// writeMsg("WHOISIN List of the users connected at " + sdf.format(new Date()) + "\n");
 					// scan all the users connected
 					boolean purge = false;
-					for (int i = 0; i < listOfMessagingClients.size(); ++i) {
-						ClientThread ct = listOfMessagingClients.get(i);
+					// The iterator (implicitly used here) makes a thread-safe copy of the list prior to traversing it.
+					for (ClientThread ct : listOfMessagingClients) {
 						if (ct != null && ct.username != null && ct.date != null) {
 
 							// This message comes from the server, who is acting on behalf of the client to say that it is alive.
@@ -472,8 +475,8 @@ public class MessagingServer {
 
 							writeUnsignedMsg(MessageCarrier.getIAmAlive(ct.username, this.cm.getFrom(), "since " + ct.date));
 						} else {
-							display("Talking to " + this.username + " socket " + this.socket.getLocalAddress() + " (" + (i + 1)
-									+ ") Error!  Have a null client");
+							display("Talking to " + this.username + " socket " + this.socket.getLocalAddress()
+									+ ". Error!  Have a null client");
 							purge = true;
 						}
 					}
@@ -481,14 +484,14 @@ public class MessagingServer {
 						for (ClientThread CT : listOfMessagingClients) {
 							if (CT == null) {
 								display("Removing null ClientThread");
-								listOfMessagingClients.remove(CT);
+								remove(CT);
 							} else if (CT.username == null) {
 								display("Removing ClientThread with null username [" + CT + "]");
-								listOfMessagingClients.remove(CT);
+								remove(CT);
 								CT.thisSocketIsActive = false;
 							} else if (CT.date == null) {
 								display("Removing ClientThread with null date [" + CT + "]");
-								listOfMessagingClients.remove(CT);
+								remove(CT);
 								CT.thisSocketIsActive = false;
 							}
 						}
@@ -515,7 +518,19 @@ public class MessagingServer {
 										+ ".\nThis directive has been rejected."));
 					}
 					break;
+
+				case SUBSCRIBE:
+					String subject = this.cm.getMessage();
+					ClientThreadList ctl = subjectListeners.get(subject);
+					if (ctl == null) {
+						ctl = new ClientThreadList();
+						subjectListeners.put(subject, ctl);
+					}
+					ctl.add(this);
+					break;
 				}
+
+				// TODO Add a message type of "SubscribeTo" and work that into the code.
 			}
 			// remove myself from the arrayList containing the list of the connected Clients
 			display("Exiting forever loop for client '" + this.username + "' (thisSocketIsActive=" + this.thisSocketIsActive
@@ -523,11 +538,10 @@ public class MessagingServer {
 
 			synchronized (listOfMessagingClients) {
 				// scan the array list until we found the Id
-				for (int i = 0; i < listOfMessagingClients.size(); ++i) {
-					ClientThread ct = listOfMessagingClients.get(i);
+				for (ClientThread ct : listOfMessagingClients) {
 					// found it
 					if (ct.id == id) {
-						listOfMessagingClients.remove(i);
+						remove(ct);
 						display("Removed id=" + id);
 						// Do not return; I want to see the information message at the end.
 						break;
@@ -785,28 +799,35 @@ public class MessagingServer {
 	// }
 	// }
 
-	// an ArrayList to keep the list of the Client
-	// private ArrayList<ClientThread> al; This Template is supposed to help with ConcurrentModificationException
-	ClientThreadList			listOfMessagingClients;
-	private Object				broadcasting			= "Object 1 for Java synchronization";
-	// the boolean that will be turned of to stop the server
-	private boolean				keepGoing;
+	// an ArrayList to keep the list of all the Client
+	ClientThreadList							listOfMessagingClients;
 
-	private int					numConnectionsSeen		= 0;
+	ConcurrentHashMap<String, ClientThreadList>	subjectListeners;
+
+	// A hash of the most recent message published on each subject
+	ConcurrentHashMap<String, MessageCarrier>	lastMessage;
+
+	// A synchronization object
+	private Object								broadcasting			= "Object 1 for Java synchronization";
+	// the boolean that will be turned of to stop the server
+	private boolean								keepGoing;
+
+	private int									numConnectionsSeen		= 0;
 	// the port number to listen for connection
-	private int					port;
+	private int									port;
 
 	// to display time (Also used as a synchronization object for writing messages to the local terminal/GUI
-	protected SimpleDateFormat	sdf;
-	private Thread				showClientList			= null;
-	private long				startTime				= System.currentTimeMillis();
+	protected SimpleDateFormat					sdf;
+	private Thread								showClientList			= null;
+	private long								startTime				= System.currentTimeMillis();
 
-	private long				sleepPeriodBtwPings		= 2000L;
-	private long				tooOldTime				= 60000L;								// "Too old" is 60 seconds
+	private long								sleepPeriodBtwPings		= 2000L;
+	private long								tooOldTime				= 60000L;								// "Too old" is 60
+																												// seconds
 
-	protected int				totalMesssagesHandled	= 0;
-	private int					numClientsRemoved		= 0;
-	private int					numClientsputOnNotice	= 0;
+	protected int								totalMesssagesHandled	= 0;
+	private int									numClientsRemoved		= 0;
+	private int									numClientsputOnNotice	= 0;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -816,8 +837,12 @@ public class MessagingServer {
 	public MessagingServer(int port) {
 		this.port = port;
 		sdf = new SimpleDateFormat("dd MMM HH:mm:ss");
+
 		// ArrayList of the Clients
 		listOfMessagingClients = new ClientThreadList();
+		subjectListeners = new ConcurrentHashMap<String, ClientThreadList>();
+		lastMessage = new ConcurrentHashMap<String, MessageCarrier>();
+
 		launchMemoryWatcher();
 	}
 
@@ -840,19 +865,42 @@ public class MessagingServer {
 	 */
 	protected void broadcast(MessageCarrier mc) {
 		synchronized (broadcasting) { // Only send one message at a time
-			// we loop in reverse order in case we would have to remove a Client because it has disconnected
-			for (int i = listOfMessagingClients.size(); --i >= 0;) {
-				ClientThread ct = listOfMessagingClients.get(i);
-				// try to write to the Client if it fails remove it from the list
-				// if (mc.isThisForMe(ct.username)) // The message and the username will be the same (extended name)
-				if (MessageCarrier.isUsernameMatch(mc.getTo(), ct.username))
-					if (!ct.writeUnsignedMsg(mc)) {
-						listOfMessagingClients.remove(i);
-						println(getClass(), ".broadcast() FAILED.  mc=" + mc);
-						display("Disconnected Client " + ct.username + " removed from list.");
-						// } else {
-						// println(getClass(), ".broadcast() succeeded.  mc=" + mc);
-					}
+
+			// for (ClientThread ct : listOfMessagingClients) {
+			// // try to write to the Client if it fails remove it from the list
+			// // if (mc.isThisForMe(ct.username)) // The message and the username will be the same (extended name)
+			// if (MessageCarrier.isUsernameMatch(mc.getTo(), ct.username))
+			// if (!ct.writeUnsignedMsg(mc)) {
+			// remove(ct);
+			// println(getClass(), ".broadcast() FAILED.  mc=" + mc);
+			// // } else {
+			// // println(getClass(), ".broadcast() succeeded.  mc=" + mc);
+			// }
+			// }
+
+			String subject = mc.getTo();
+			for (int m = subject.length() - 1; m >= 0; m--) {
+				if (subject.charAt(m) == '_') { // Find the trailing "_index" and remove it
+					subject = subject.substring(0, m);
+					break;
+				}
+			}
+			if (mc.getType() == MessageType.MESSAGE) {
+				lastMessage.put(subject, mc);
+			}
+
+			ClientThreadList ctl = subjectListeners.get(subject);
+			if (ctl != null) {
+				// would write this message to this client
+				for (ClientThread ct : ctl)
+					if (MessageCarrier.isUsernameMatch(mc.getTo(), ct.username))
+						if (!ct.writeUnsignedMsg(mc)) {
+							remove(ct);
+							println(getClass(), ".broadcast() FAILED.  mc=" + mc);
+						}
+			} else {
+				println(this.getClass(), " Hmm.  We have an unsigned message on '" + subject
+						+ "' but the list of interested clients is empty");
 			}
 		}
 	}
@@ -871,21 +919,59 @@ public class MessagingServer {
 		try {
 			MessageCarrier mc = (MessageCarrier) message.getObject();
 			synchronized (broadcasting) { // Only send one message at a time
-				// we loop in reverse order in case we would have to remove a Client because it has disconnected
-				for (int i = listOfMessagingClients.size(); --i >= 0;) {
-					ClientThread ct = listOfMessagingClients.get(i);
-					// try to write to the Client if it fails remove it from the list
-					// if (mc.isThisForMe(ct.username))
-					if (MessageCarrier.isUsernameMatch(ct.username, mc.getTo()))
-						if (!ct.writeMsg(message)) {
-							listOfMessagingClients.remove(i);
-							display("Disconnected Client " + ct.username + " removed from list.");
-						}
+				// for (ClientThread ct : listOfMessagingClients) {
+				// // try to write to the Client if it fails remove it from the list
+				// // if (mc.isThisForMe(ct.username))
+				// if (MessageCarrier.isUsernameMatch(ct.username, mc.getTo()))
+				// if (!ct.writeMsg(message)) {
+				// remove(ct);
+				// display("Disconnected Client " + ct.username + " removed from list.");
+				// }
+				// }
+
+				String subject = mc.getTo();
+				for (int m = subject.length() - 1; m >= 0; m--) {
+					if (subject.charAt(m) == '_') { // Find the trailing "_index" and remove it
+						subject = subject.substring(0, m);
+						break;
+					}
 				}
+				if (mc.getType() == MessageType.MESSAGE) {
+					lastMessage.put(subject, mc);
+				}
+
+				ClientThreadList ctl = subjectListeners.get(subject);
+				if (ctl != null) {
+					// would write this message to this client
+					for (ClientThread ct : ctl)
+						if (MessageCarrier.isUsernameMatch(ct.username, mc.getTo())) {
+							if (!ct.writeMsg(message)) {
+								remove(ct);
+								display("Disconnected Client " + ct.username + " removed from list.");
+							}
+						}
+				} else {
+					println(this.getClass(), "Hmm.  We have an SIGNED message on '" + subject
+							+ "' but the list of interested clients is empty");
+				}
+
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void remove(final ClientThread ct) {
+		listOfMessagingClients.remove(ct);
+		for (String subject : subjectListeners.keySet()) {
+			ClientThreadList ctl = subjectListeners.get(subject);
+			if (ctl != null) {
+				while (ctl.remove(ct))
+					// Is it really possible that a list will contain two entries that are the same??
+					;
+			}
+		}
+		display("Disconnected Client " + ct.username + " removed from list.");
 	}
 
 	/**
@@ -944,14 +1030,15 @@ public class MessagingServer {
 		for (ClientThread CT : listOfMessagingClients) {
 			if (show && CT.getLastSeen() < oldestTime) {
 				oldestTime = CT.getLastSeen();
-				oldestName = CT.username + " (" + CT.getRemoteIPAddress() + "), last seen " + new Date(CT.getLastSeen());
+				oldestName = CT.username + " (" + CT.getRemoteIPAddress() + ", " + CT.id + "), last seen "
+						+ new Date(CT.getLastSeen());
 			}
 			if ((System.currentTimeMillis() - CT.getLastSeen()) > tooOldTime) {
 
 				// Give this client a second chance.
 
 				if (CT.isOnNotice()) {
-					listOfMessagingClients.remove(CT);
+					remove(CT);
 					CT.close();
 					display("Removed Client [" + CT.username + "] because its last response was more than " + (tooOldTime / 1000L)
 							+ " seconds ago: " + new Date(CT.getLastSeen()));
@@ -973,13 +1060,23 @@ public class MessagingServer {
 			long mins = (aliveTime % ONE_HOUR) / ONE_MINUTE;
 			long secs = (aliveTime % ONE_MINUTE) / ONE_SECOND;
 
+			String subjectInfo = "*There are " + subjectListeners.size() + " subjects*  They are:\n";
+			String LL = " listeners";
+			String NN = "no";
+			for (String subject : subjectListeners.keySet()) {
+				ClientThreadList ctl = subjectListeners.get(subject);
+				subjectInfo += "     " + subject + " [" + (ctl == null ? NN : ctl.size()) + LL + "]\n";
+				LL = "";
+				NN = "none";
+			}
 			display("\n                       " + MessagingServer.class.getSimpleName() + " has been alive " + days + " d " + hours
 					+ " hr " + mins + " min " + secs + " sec (" + aliveTime + " msec)\n                       "
 					+ numConnectionsSeen + " connections accepted, " + listOfMessagingClients.size() + " client"
 					+ (listOfMessagingClients.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
 					+ " messages handled\n" + "                       Oldest client is " + oldestName + "\n"
 					+ "                       Number of clients put 'on notice': " + numClientsputOnNotice + "\n"
-					+ "                       Number of clients removed due to lack of response: " + numClientsRemoved);
+					+ "                       Number of clients removed due to lack of response: " + numClientsRemoved + "\n"
+					+ subjectInfo);
 		}
 	}
 
@@ -1003,9 +1100,18 @@ public class MessagingServer {
 				// if (!keepGoing)
 				// break;
 				ClientThread t = new ClientThread(socket); // make a thread of it
-				if (listOfMessagingClients.add(t)) // save it in the ArrayList
+				if (listOfMessagingClients.add(t)) { // save it in the ArrayList
+
+					// Interim subject, equal to the client name without the appended id number.
+					String subject = t.username.substring(0, t.username.length() - ("_" + t.id).length());
+					ClientThreadList ctl = subjectListeners.get(subject);
+					if (ctl == null) {
+						ctl = new ClientThreadList();
+						subjectListeners.put(subject, ctl);
+					}
+					ctl.add(t);
 					t.start();
-				else {
+				} else {
 
 					// This code is never reached, I think (10/21/15)
 
@@ -1025,10 +1131,10 @@ public class MessagingServer {
 					for (ClientThread CT : listOfMessagingClients) {
 						if (CT == null || CT.username == null) {
 							display("start(): Unexpected null ClientThread at index=" + index + ": [" + CT + "]");
-							listOfMessagingClients.remove(CT); // How did THIS happen??
+							remove(CT); // How did THIS happen??
 						} else if (CT.username.equals(t.username)) {
 							display("start(): Removing duplicate client " + CT.username + " from the client list");
-							listOfMessagingClients.remove(CT); // Duplicate username is not allowed!
+							remove(CT); // Duplicate username is not allowed!
 						}
 						index++;
 					}
@@ -1065,8 +1171,7 @@ public class MessagingServer {
 			try {
 				if (serverSocket != null)
 					serverSocket.close();
-				for (int i = 0; i < listOfMessagingClients.size(); ++i) {
-					ClientThread tc = listOfMessagingClients.get(i);
+				for (ClientThread tc : listOfMessagingClients) {
 					try {
 						if (tc != null) {
 							if (tc.sInput != null)
@@ -1158,8 +1263,9 @@ public class MessagingServer {
 						if (printMe)
 							System.out.println(new Date() + "\n---- Cycle no. " + counter);
 
-						for (int i = 0; i < listOfMessagingClients.size(); i++) {
-							ClientThread CT = listOfMessagingClients.get(i);
+						int i = 0;
+						for (ClientThread CT : listOfMessagingClients) {
+							i++;
 							if (printMe || CT.numOutstandingPings > 1) {
 								String firstPart = "---- " + i + " " + CT.username.replace(".fnal.gov", "") + " ";
 								int initialLength = firstPart.length();
@@ -1191,7 +1297,7 @@ public class MessagingServer {
 								System.out.println("             Too many pings (" + CT.numOutstandingPings + "( to the client "
 										+ CT.username + "; removing it!");
 
-								listOfMessagingClients.remove(CT);
+								remove(CT);
 								CT.close();
 								numClientsRemoved++;
 								CT = null; // Not really necessary, but it makes me feel better.

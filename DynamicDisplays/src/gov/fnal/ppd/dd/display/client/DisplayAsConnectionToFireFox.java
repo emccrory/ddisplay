@@ -654,4 +654,13 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		}
 		return retval;
 	}
+	
+	private String javascriptStringToSendCharToBrowser(char c, boolean ctl, boolean alt, boolean shift, boolean meta) {
+		// 40 seems to be up-arrow; 38 seems to be down-arrow.  See https://jsfiddle.net/5se13tmg/ 
+		String javaScriptCommand = "var keyboardEvent = document.createEvent(\"KeyboardEvent\");\n";
+		javaScriptCommand += "var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? \"initKeyboardEvent\" : \"initKeyEvent\";\n";
+		javaScriptCommand += "keyboardEvent[initMethod](\"keydown\",true,true,window," + ctl  + "," + alt + "," + shift + "," + meta +"," + c + ",0);\n"; 
+		javaScriptCommand += "document.dispatchEvent(keyboardEvent);\n";
+		return javaScriptCommand;
+	}
 }

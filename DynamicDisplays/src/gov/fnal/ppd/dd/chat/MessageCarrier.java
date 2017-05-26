@@ -162,6 +162,16 @@ public class MessageCarrier implements Serializable {
 		// Stream the Emergency Message
 		return new MessageCarrier(MessageType.EMERGENCY, from, to, message);
 	}
+	
+	/**
+	 * @param from
+	 * @param to
+	 * @param subject
+	 * @return the message itself that contains the subscription subject
+	 */
+	public static MessageCarrier getSubscribeMessage(final String from, final String to, final String subject) {
+		return new MessageCarrier(MessageType.SUBSCRIBE, from, to, subject);
+	}
 
 	private MessageCarrier(final MessageType type, final String message) {
 		this(type, "NULL", "NULL", message);

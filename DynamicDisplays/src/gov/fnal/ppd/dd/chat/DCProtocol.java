@@ -166,6 +166,11 @@ public class DCProtocol {
 		case REPLY:
 			// really, should not need to do this. This is handled in the place it is needed" DisplayFacade.
 			break;
+			
+		case SUBSCRIBE:
+			String subject = message.getMessage();
+			// TODO -- What do we do with this??
+			break;
 		}
 		return true;
 	}

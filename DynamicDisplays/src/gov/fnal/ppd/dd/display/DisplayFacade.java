@@ -51,6 +51,10 @@ public class DisplayFacade extends DisplayImpl {
 	private AtomicBoolean			ready						= new AtomicBoolean(false);
 	private AtomicBoolean			waiting						= new AtomicBoolean(false);
 	private String					myExpectedName;
+	private int						locCode;
+
+	static private int				lastLocCode					= Integer.MAX_VALUE;
+	static private boolean			multipleLocations			= false;
 
 	/**
 	 * Internal client for handling the direct messaging connection to our Display. There is one connection (through the Messaging
@@ -161,8 +165,8 @@ public class DisplayFacade extends DisplayImpl {
 	}
 
 	/**
-	 * @param portNumber
-	 *            -- Ignored
+	 * @param locCode
+	 *            -- The location code of this display
 	 * @param ipName
 	 *            The name of the display
 	 * @param vNumber
@@ -178,10 +182,15 @@ public class DisplayFacade extends DisplayImpl {
 	 * @param type
 	 *            the signage type for this display (not really used at this time)
 	 */
-	public DisplayFacade(final int portNumber, final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
+	public DisplayFacade(final int locCode, final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
 			final String location, final Color color, final SignageType type) {
 		super(ipName, vNumber, dbNumber, screenNumber, location, color, type);
 
+		this.locCode = locCode;
+		if (lastLocCode == Integer.MAX_VALUE)
+			lastLocCode = locCode;
+		if (lastLocCode != locCode)
+			multipleLocations = true;
 		// try {
 		// In UNICODE, this is spelled "FA\u00c7ADE"
 		// myExpectedName += " -- " + InetAddress.getLocalHost().getCanonicalHostName() + " Façade".toUpperCase();
@@ -301,4 +310,10 @@ public class DisplayFacade extends DisplayImpl {
 		channel = content;
 	}
 
+	public String toString() {
+		String retval = super.toString();
+		if (multipleLocations && retval.startsWith("Display"))
+			retval += " (Loc=" + locCode + ")";
+		return retval;
+	}
 }

@@ -35,6 +35,7 @@ import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.SelectorInstructions;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
@@ -51,11 +52,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  * Use the database to determine what sort of ChannelSelector to actually run, and then run it.
@@ -96,16 +97,20 @@ public class MakeChannelSelector {
 			theControllerIsProbablyInFront = true;
 		} else {
 			// Full-screen display of this app!
-			Box h = Box.createVerticalBox();
-			h.add(channelSelector);
+			JPanel h = new JPanel(new BorderLayout());
+			h.add(channelSelector, BorderLayout.CENTER);
 			SelectorInstructions label = new SelectorInstructions();
 			label.start();
-			h.add(label);
+			h.add(label, BorderLayout.SOUTH);
+			// Dimension dim = new Dimension(screenDimension.width, screenDimension.height-10);
+			Dimension dim = screenDimension;
+			h.setPreferredSize(dim);
+			h.setMaximumSize(dim);
 			channelSelector.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 			label.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 			f.setUndecorated(true);
 			f.setContentPane(h);
-			f.setSize(screenDimension);
+			f.pack();
 		}
 
 		// makeRaiseMeButton(f);

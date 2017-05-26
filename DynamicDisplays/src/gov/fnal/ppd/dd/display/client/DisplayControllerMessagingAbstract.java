@@ -66,6 +66,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	protected MessagingClientLocal	messagingClient;
 	private String					myName;
+	private String					mySubject;
 	private int						statusUpdatePeriod		= 10;
 	protected boolean				showNumber				= true;
 	protected VersionInformation	versionInfo				= VersionInformation.getVersionInformation();
@@ -93,12 +94,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			throw new IllegalArgumentException("No content defined!");
 
 		this.showNumber = showNumber;
-		myName = ipName + ":" + screenNumber + " (" + getVirtualDisplayNumber() + ")";
+		mySubject = myName = ipName + ":" + screenNumber + " (" + getVirtualDisplayNumber() + ")";
 		messagingClient = new MessagingClientLocal(getMessagingServerName(), MESSAGING_SERVER_PORT, myName);
-		// , getVirtualDisplayNumber(), getScreenNumber());
 
 		cpuUsage = PerformanceMonitor.getCpuUsage();
-
 	}
 
 	/**
@@ -487,7 +486,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						screenNumber + ": Ignoring a message of type " + msg.getType() + ", sent to [" + msg.getTo()
 								+ "] because I am [" + getName() + "]");
 		}
-		
+
 		@Override
 		public void replyToAnError(final String why) {
 			respondToContentChange(false, why);

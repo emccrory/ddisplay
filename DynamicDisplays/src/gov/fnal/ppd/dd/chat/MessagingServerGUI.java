@@ -9,6 +9,7 @@
 package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 
 import gov.fnal.ppd.dd.util.JTextAreaBottom;
 
@@ -180,6 +181,9 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
+		credentialsSetup();
+
 		MessagingServerGUI ms = new MessagingServerGUI(MESSAGING_SERVER_PORT);
 		ms.start();
 	}
