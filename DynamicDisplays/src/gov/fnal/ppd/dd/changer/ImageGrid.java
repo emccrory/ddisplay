@@ -232,7 +232,7 @@ public class ImageGrid extends DetailedInformationGrid {
 				}
 			});
 			for (SignageContent P : list) {
-				// Prior to 3/1/2016, it was assumed that each location woould want a different set of images, based on
+				// Prior to 3/1/2016, it was assumed that each location would want a different set of images, based on
 				// the focus of that location (e.g., Neutrino versus CERN). The bad part of this is that when someone thinks
 				// of a new "experiment", the code has to be modified. So we abandon this sorting.
 
