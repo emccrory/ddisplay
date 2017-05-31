@@ -80,6 +80,8 @@ public class Util {
 	 * The name that is associated with the default URL for a Display
 	 */
 	public static final String		MY_NAME;
+
+	private static final int		ONE_BILLION		= 1000000000;
 	static {
 		int index = (int) (DEFAULT_URLS.length * Math.random());
 		MY_URL = DEFAULT_URLS[index];
@@ -241,8 +243,7 @@ public class Util {
 		}
 		return blob;
 	}
-	
-	
+
 	/**
 	 * @param channelNumber
 	 *            The channel number to look up
@@ -304,8 +305,13 @@ public class Util {
 					ex.printStackTrace();
 				}
 			}
-		} else {
-			// Channel number is positive: this is a single channel.
+		} else if (channelNumber < ONE_BILLION) {
+			// Channel number is positive and "small": this is a single channel.
+			//
+			// WARNING -- We assume here that the automatically-generated "channelNumber" in the database is incremented, as
+			// opposed to chosen randomly. It is possible that some future MySQL implementation will do random index number
+			// generation, although this is unlikely. Something to be aware of!
+			//
 			String query = "SELECT * from Channel where Number=" + channelNumber;
 			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel: [" + query + "]");
 			Connection connection;
@@ -338,17 +344,50 @@ public class Util {
 					ex.printStackTrace();
 				}
 			}
+		} else {
+			// TODO This is an image. Look up that image number and then make the URL that shows this image.
+			int portfolioID = ONE_BILLION - channelNumber;
+			String query = "SELECT Filename,Description from Portfolio where PortfolioID=" + portfolioID + " AND Approval='Approved'";
+			println(DisplayControllerMessagingAbstract.class, " -- Getting a portfolio image: [" + query + "]");
+			Connection connection;
+			try {
+				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			} catch (DatabaseNotVisibleException e1) {
+				e1.printStackTrace();
+				return null;
+			}
+
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement();) {
+					try (ResultSet rs = stmt.executeQuery(query);) {
+						if (rs.first()) { // Move to first returned row (there should only be one)
+							String url = getFullURLPrefix() + "/" + rs.getString("Filename");
+							String desc = rs.getString("Description");
+
+							retval = new ChannelImpl("PortfolioImage", ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, 2*60*60*1000L);
+
+							stmt.close();
+							rs.close();
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} catch (SQLException ex) {
+					System.err.println("It is likely that the DB server is down.  We'll try again later.");
+					ex.printStackTrace();
+				}
+			}
 		}
 
 		return retval;
 	}
-	
 
 	private static Thread	errorMessageThread	= null;
 	private static boolean	threadIsMade		= false;
 
 	/**
 	 * Utility to launch one, and only one, error message
+	 * 
 	 * @param e
 	 */
 	public static void launchErrorMessage(final ActionEvent e) {
@@ -372,6 +411,5 @@ public class Util {
 		};
 		errorMessageThread.start();
 	}
-	
-	
+
 }
