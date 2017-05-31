@@ -158,9 +158,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 																					f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 																					f.setContentPane(SaveRestoreDefaultChannels
 																							.getGUI());
-																					int height = 210 + 20 * (displayList.size() + 1);
-																					if (height > 900)
-																						height = 900;
+																					int height = 400 + 30 * (displayList.size() + 1);
+																					if (height > 1000)
+																						height = 1000;
 																					println(ChannelSelector.class,
 																							" -- Height of popup is " + height);
 																					f.setSize(700, height);
