@@ -13,7 +13,6 @@ import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.convertObjectToHexBlob;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -54,7 +53,6 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -64,6 +62,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.plaf.FontUIResource;
 
 /**
@@ -73,7 +73,6 @@ import javax.swing.plaf.FontUIResource;
 public class SaveRestoreDefaultChannels implements ActionListener {
 
 	private static final String					SAVE_ACTION		= "Save";
-	private static final String					RESTORE_ACTION	= "Restore";
 	private static final String					STATUS_ACTION	= "Status";
 
 	private static float						fontSize;
@@ -84,10 +83,12 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	private List<Display>						displays;
 	private Connection							connection;
 
-	private static SaveRestoreDefaultChannels	me;
+	private static SaveRestoreDefaultChannels	me				= null;
+
 	private static JButton						saveButton;
+	private static boolean						firstTime		= true;
 	// private static JButton restoreButton;
-	private JComponent							theGUI;
+	private JComponent							theGUI			= null;
 
 	/**
 	 * 
@@ -137,24 +138,22 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	 * 
 	 */
 	public static void setup() {
-		if (me != null)
-			return;
-		me = new SaveRestoreDefaultChannels(null);
-		me.getTheGUI();
-
-		if (!SHOW_IN_WINDOW) {
-			UIManager.put("OptionPane.buttonFont", new FontUIResource(new Font("ARIAL", Font.PLAIN, 30)));
-			UIManager.put("OptionPane.font", new FontUIResource(new Font("Arial", Font.PLAIN, 26)));
+		if (firstTime) {
+			me = new SaveRestoreDefaultChannels(null);
+			firstTime = false;
+			if (!SHOW_IN_WINDOW) {
+				UIManager.put("OptionPane.buttonFont", new FontUIResource(new Font("ARIAL", Font.PLAIN, 30)));
+				UIManager.put("OptionPane.font", new FontUIResource(new Font("Arial", Font.PLAIN, 26)));
+			}
 		}
+		me.localSetupTheGUI();
 	}
 
 	/**
 	 * @return the button that launches the "identify all" procedure
 	 */
 	public static JComponent getGUI() {
-		if (me == null) {
-			setup();
-		}
+		setup();
 		return me.theGUI;
 	}
 
@@ -180,49 +179,76 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 	}
 
-	private void getTheGUI() {
-		theGUI = new JPanel(new GridBagLayout());
+	private void localSetupTheGUI() {
+		System.out.println(" -- localSetupTheGUI has been called.");
+		if (theGUI == null) {
+			theGUI = new JPanel(new GridBagLayout());
 
-		saveButton = new AlignedButton("<html>Save this configuration ...</html>");
-		saveButton.setActionCommand(SAVE_ACTION);
-		saveButton
-				.setToolTipText("Take the channel that each display in this location is showing and save it in the database under a name that you will provide.");
-		if (inset != null) {
-			saveButton.setFont(saveButton.getFont().deriveFont(fontSize));
-			saveButton.setMargin(inset);
+			saveButton = new AlignedButton("<html>Save this configuration ...</html>");
+			saveButton.setActionCommand(SAVE_ACTION);
+			saveButton
+					.setToolTipText("Take the channel that each display in this location is showing and save it in the database under a name that you will provide.");
+			if (inset != null) {
+				saveButton.setFont(saveButton.getFont().deriveFont(fontSize));
+				saveButton.setMargin(inset);
+			}
+			saveButton.addActionListener(me);
+			theGUI.addAncestorListener(new AncestorListener() {
+
+				@Override
+				public void ancestorRemoved(AncestorEvent event) {
+					// This component (probably) cannot be seen anymore. Probably not interesting
+				}
+
+				@Override
+				public void ancestorMoved(AncestorEvent event) {
+					// This component has moved on the screen. Probably uninteresting.
+				}
+
+				@Override
+				public void ancestorAdded(AncestorEvent event) {
+					// This component has been made visible. This is interesting!
+					localSetupTheGUI();
+				}
+			});
+		} else {
+			theGUI.removeAll();
 		}
-		saveButton.addActionListener(me);
 		saveButton.setEnabled(false);
-		JPanel saveBox = new JPanel(new BorderLayout());
-		saveBox.add(saveButton, BorderLayout.NORTH);
-		saveBox.add(getStatusFooter(), BorderLayout.CENTER);
+		new Thread("waitForDisplays") {
+			public void run() {
+				while (footer.getText().equals("Status ..."))
+					catchSleep(500);
+				saveButton.setEnabled(true);
+				// restoreButton.setEnabled(true);
+			}
+		}.start();
 
-		// restoreButton = new AlignedButton("<html>Restore a saved configuration ...</html>");
-		// restoreButton.setActionCommand(RESTORE_ACTION);
-		// restoreButton
-		// .setToolTipText("Find a previously saved configuration in the database for this location and restore it to the displays here.");
-		// if (inset != null) {
-		// restoreButton.setFont(restoreButton.getFont().deriveFont(fontSize));
-		// restoreButton.setMargin(inset);
-		// }
-		// restoreButton.addActionListener(me);
-		// restoreButton.setEnabled(false);
+		JPanel saveBox = new JPanel(new BorderLayout());
+		saveBox.add(new JLabel("The confirguation of the displays right now:"), BorderLayout.NORTH);
+		saveBox.add(saveButton, BorderLayout.SOUTH);
+		saveBox.add(getStatusFooter(), BorderLayout.CENTER);
+		saveBox.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.green.darker(), 5),
+				BorderFactory.createEmptyBorder(2, 2, 2, 2)));
 
 		JPanel restorePanel = new JPanel(new BorderLayout());
 		JLabel bb = new JLabel("<html>Restore a saved configuration ...</html>");
+		bb.setOpaque(true);
+		bb.setBackground(Color.blue.darker());
+		bb.setForeground(Color.white);
 		bb.setFont(new Font("Arial", Font.BOLD, 20));
 		restorePanel.add(bb, BorderLayout.NORTH);
 		restorePanel.add(getRestorePanel(), BorderLayout.CENTER);
+		restorePanel.setBorder(BorderFactory.createLineBorder(Color.blue.darker(), 5));
 
 		GridBagConstraints gbc = new GridBagConstraints(1, 1, 1, 1, 1, 0.1, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-				new Insets(1, 1, 1, 1), 1, 1);
+				new Insets(1, 1, 1, 1), 5, 5);
 		theGUI.add(restorePanel, gbc);
 		gbc.gridy = 2;
 		gbc.weighty = 1;
 		theGUI.add(saveBox, gbc);
-		// theGUI.add(saveButton);
-		// theGUI.add(getStatusFooter());
-		// theGUI.add(restoreButton);
+		theGUI.invalidate();
+		theGUI.validate();
 	}
 
 	/**
@@ -238,22 +264,15 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		if (d == null)
 			displays = DisplayListFactory.getInstance(sType, getLocationCode());
 		else {
-			displays = new ArrayList<Display>();
+			displays = new ArrayList<Display>();// theGUI.add(saveButton);
+			// theGUI.add(getStatusFooter());
+			// theGUI.add(restoreButton);
 			displays.addAll(d);
 		}
 
 		footer = new JLabel("Status ...");
 		for (Display D : displays)
 			(new CheckDisplayStatus(D, footer)).start();
-
-		new Thread("waitForDisplays") {
-			public void run() {
-				while (footer.getText().equals("Status ..."))
-					catchSleep(1000);
-				saveButton.setEnabled(true);
-				// restoreButton.setEnabled(true);
-			}
-		}.start();
 	}
 
 	@Override
@@ -360,6 +379,18 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 			e.printStackTrace();
 		}
 
+		new Thread("RewriteSavedLists") {
+			public void run() {
+				catchSleep(1000);
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						localSetupTheGUI();
+					}
+				});
+			}
+		}.start();
+
 	}
 
 	private static class SimpleDialog extends JDialog implements ActionListener {
@@ -428,7 +459,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 			numColumns = 2;
 		}
 		JPanel buts = new JPanel(new GridLayout(0, numColumns, 5, 5));
-		buts.setBackground(Color.black);
+		buts.setBackground(Color.blue.darker());
 
 		Font big = new Font("Arial", Font.BOLD, fontSize);
 		for (String S : all) {
@@ -445,179 +476,11 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		}
 
 		JPanel p = new JPanel();
+		p.setOpaque(true);
+		p.setBackground(Color.blue.darker());
 		p.add(buts);
 		return p;
 
-	}
-
-	protected void getRestorePanelOld() {
-		Vector<String> all = new Vector<String>();
-
-		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-
-			synchronized (connection) {
-				Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
-
-				rs = stmt.executeQuery("SELECT DISTINCT NameOfThisDefaultSet FROM DefaultChannels,DisplaySort WHERE "
-						+ "DefaultChannels.DisplayID=DisplaySort.DisplayID AND LocationCode=" + getLocationCode());
-				rs.first(); // Move to first returned row
-				while (!rs.isAfterLast())
-					try {
-						String theSetName = rs.getString("NameOfThisDefaultSet");
-						all.add(theSetName);
-						rs.next();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				stmt.close();
-				rs.close();
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			System.exit(1);
-		} catch (DatabaseNotVisibleException e) {
-			e.printStackTrace();
-		}
-		boolean useComboBox = false;
-		String setName = "";
-		if (useComboBox) {
-			JComboBox<String> combo = new JComboBox<String>(all);
-			combo.setFont(new Font("Arial", Font.PLAIN, 30));
-			int s = JOptionPane.showConfirmDialog(theGUI, combo, "Restore Display Configuration", JOptionPane.OK_CANCEL_OPTION);
-			if (s != JOptionPane.YES_OPTION)
-				return;
-			setName = (String) combo.getSelectedItem();
-			System.out.println("Ready to retrieve :" + setName);
-		} else {
-			int numColumns = 1;
-			int width = 500;
-			int fontSize = 20;
-			if (all.size() > 20) {
-				numColumns = 5;
-				width = 1200;
-				fontSize = 14;
-			} else if (all.size() > 15) {
-				numColumns = 4;
-				width = 1000;
-				fontSize = 16;
-			} else if (all.size() > 12) {
-				numColumns = 3;
-				width = 900;
-				fontSize = 18;
-			} else if (all.size() > 7) {
-				numColumns = 2;
-				width = 900;
-			}
-			JPanel buts = new JPanel(new GridLayout(0, numColumns, 5, 5));
-			buts.setBackground(Color.black);
-			JPanel panel = new JPanel(new BorderLayout());
-			panel.add(new JLabel("Select the saved configuration to restore"), BorderLayout.NORTH);
-			SimpleDialog sd = new SimpleDialog("Select the saved configuration to restore", panel);
-
-			Font big = new Font("Arial", Font.BOLD, fontSize);
-			for (String S : all) {
-				JButton b = new JButton("<html>" + S + "</html>");
-				b.setActionCommand(S);
-				b.setBackground(new Color(220, 220, 255));
-				if (S.length() > 80) {
-					b.setFont(big.deriveFont(2 * fontSize / 3));
-				} else {
-					b.setFont(big);
-				}
-				buts.add(b);
-				b.addActionListener(sd);
-			}
-
-			panel.add(buts, BorderLayout.CENTER);
-
-			sd.setSize(new Dimension(width, 500));
-			sd.setVisible(true);
-			catchSleep(2000);
-			while (sd.isVisible()) {
-				catchSleep(100);
-			}
-			setName = sd.getLastCommand();
-			if (setName == null)
-				return;
-		}
-
-		// TODO Actually go get these default channels and send it out to the displays
-
-		HashMap<Display, SignageContent> restoreMap = new HashMap<Display, SignageContent>();
-
-		try {
-			synchronized (connection) {
-				Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT DefaultChannels.DisplayID as DisplayID,Channel,SignageContent FROM "
-						+ "DefaultChannels,DisplaySort WHERE DefaultChannels.DisplayID=DisplaySort.DisplayID AND LocationCode="
-						+ getLocationCode() + " AND NameOfThisDefaultSet='" + setName + "'");
-				rs.first(); // Move to first returned row
-				while (!rs.isAfterLast())
-					try {
-						int displayID = rs.getInt("DisplayID");
-						int chanNum = rs.getInt("Channel");
-						SignageContent newContent = null;
-						if (chanNum == 0) {
-							// Set the display by the SignageContent object
-							Blob sc = rs.getBlob("SignageContent");
-
-							if (sc != null && sc.length() > 0)
-								try {
-									int len = (int) sc.length();
-									byte[] bytes = sc.getBytes(1, len);
-
-									ByteArrayInputStream fin = new ByteArrayInputStream(bytes);
-									ObjectInputStream ois = new ObjectInputStream(fin);
-									newContent = (SignageContent) ois.readObject();
-
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-						} else {
-							newContent = getChannelFromNumber(chanNum);
-						}
-
-						Display D;
-						if ((D = getContentOnDisplays().get(displayID)) != null) {
-							restoreMap.put(D, newContent);
-						} else
-							System.err.println("Looking for displayID=" + displayID + ", but could not find it!!");
-
-						rs.next();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				stmt.close();
-				rs.close();
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			System.exit(1);
-		}
-
-		if (restoreMap.size() == 0) {
-			// Nothing to to!
-		} else {
-			Box theRestorePanel = Box.createVerticalBox();
-			Display[] sorted = getSortedDisplays(restoreMap.keySet());
-
-			for (Display D : sorted) {
-				JLabel label = new JLabel("Display " + D.getVirtualDisplayNumber() + " | " + D.getDBDisplayNumber() + " :  "
-						+ restoreMap.get(D));
-				theRestorePanel.add(label);
-			}
-			if ((JOptionPane.showConfirmDialog(theGUI, theRestorePanel, "Really restore these displays to these channels?",
-					JOptionPane.YES_NO_OPTION)) == JOptionPane.NO_OPTION)
-				return;
-			for (Display D : restoreMap.keySet()) {
-				SignageContent newContent = restoreMap.get(D);
-				println(getClass(), " -- Setting display " + D.getDBDisplayNumber() + " to [" + newContent + "] ("
-						+ newContent.getClass().getSimpleName() + ")");
-				D.setContent(newContent);
-			}
-		}
 	}
 
 	private void showSelectedRestoreChoice(final String setName) {
@@ -779,7 +642,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 			}
 		};
-		timer.schedule(g, 10000, 5000); // Run it every 5 seconds
+		timer.schedule(g, 1000, 2000); // Wait one second and the run it every 2 seconds
 
 		return outer;
 	}
