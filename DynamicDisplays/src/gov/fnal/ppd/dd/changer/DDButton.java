@@ -224,9 +224,9 @@ public class DDButton extends JButton {
 			String tx = "<html><b>" + channel.getName() + ":</b> " + channel.getDescription() + " <em>(Channel "
 					+ channel.getNumber() + ")</em></html>";
 			if (alternateFont == null) {
-				float siz = ((float) userDefinedFont.getSize()) / (tx.length() / 50.0f);
-				if (siz < 8.0f)
-					siz = 8.0f;
+				float siz = ((float) userDefinedFont.getSize()) / (tx.length() / 60.0f);
+				if (siz < 7.0f)
+					siz = 7.0f;
 				else if (siz > userDefinedFont.getSize())
 					siz = userDefinedFont.getSize();
 				alternateFont = userDefinedFont.deriveFont(siz);
