@@ -164,6 +164,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 																					println(ChannelSelector.class,
 																							" -- Height of popup is " + height);
 																					f.setSize(900, height);
+																					f.setAlwaysOnTop(true);
 																					f.addWindowListener(new WindowListener() {
 
 																						@Override
