@@ -1,8 +1,10 @@
 package gov.fnal.ppd.dd.channel;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
+import gov.fnal.ppd.dd.channel.list.NewListCreationListener;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
@@ -26,6 +28,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -49,15 +52,16 @@ import javax.swing.JTextField;
  */
 public class SaveRestoreListOfChannels extends JPanel implements ActionListener {
 	// private final CreateListOfChannels theListOfAllChannels;
-	protected String			defaultName			= System.getProperty("user.name");
-	protected String			lastListName		= "A list name";
+	protected String				defaultName			= System.getProperty("user.name");
+	protected String				lastListName		= "A list name";
 
-	private static final long	serialVersionUID	= 6597882652927783449L;
-	private JTextArea			listOfChannelsArea	= new JTextArea(50, 40);
-	private JScrollPane			internalScrollPanel	= new JScrollPane(listOfChannelsArea);
+	private static final long		serialVersionUID	= 6597882652927783449L;
+	private JTextArea				listOfChannelsArea	= new JTextArea(50, 40);
+	private JScrollPane				internalScrollPanel	= new JScrollPane(listOfChannelsArea);
 
-	private List<Channel>		channelListHolder	= new ArrayList<Channel>();
-	private ChannelListHolder	theListOfAllChannels;
+	private List<Channel>			channelListHolder	= new ArrayList<Channel>();
+	private ChannelListHolder		theListOfAllChannels;
+	private NewListCreationListener	newListListener		= null;
 
 	class ChannelInfoHolder {
 		public int		channelNumber, sequenceNumber;
@@ -90,11 +94,11 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 	}
 
 	private void initComponents() {
-		JButton saveIt = new JButton("Save this channel list to the database");
+		JButton saveIt = new JButton("Save this list of channels to the database");
 		saveIt.setActionCommand("SAVE");
 		saveIt.addActionListener(this);
 
-		JButton restoreOne = new JButton("Restore a channel list from the database");
+		JButton restoreOne = new JButton("Retrieve a list of channels from the database");
 		restoreOne.setActionCommand("RESTORE");
 		restoreOne.addActionListener(this);
 
@@ -108,11 +112,6 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		gbag.insets = new Insets(1, 1, 1, 1);
 		add(lab, gbag);
 
-		// lab = new JLabel("Just below this text are buttons to save and to restore lists to persistant storage");
-		// lab.setFont(lab.getFont().deriveFont(Font.PLAIN, 11));
-		// gbag.gridy++;
-		// gbag.fill = GridBagConstraints.HORIZONTAL;
-		// add(lab, gbag);
 		gbag.gridy++;
 		gbag.gridwidth = 1;
 		add(saveIt, gbag);
@@ -192,37 +191,6 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		DecimalFormat myFormatter = new DecimalFormat("#.0");
 		String output = myFormatter.format(totalDwell / 1000.0 / 60.0);
 		listOfChannelsArea.append("\nTotal duration of this list: " + totalDwell + " msec (" + output + " minutes)\n");
-	}
-
-	private List<String> getExistingList() throws Exception {
-		List<String> retval = new ArrayList<String>();
-		Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-		String query = "Select * from ChannelListName";
-
-		synchronized (connection) {
-			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-				try (ResultSet rs2 = stmt.executeQuery(query)) {
-					if (rs2.first())
-						do {
-							String listName = rs2.getString("ListName");
-							String listAuthor = rs2.getString("ListAuthor");
-							int listNumber = rs2.getInt("ListNumber");
-							retval.add(listNumber + ": " + listName + " (" + listAuthor + ")");
-						} while (rs2.next());
-					else {
-						// Oops. no first element!?
-						throw new Exception("No channel lists in the save/restore database!");
-					}
-				} catch (SQLException e) {
-					System.err.println(query);
-					e.printStackTrace();
-				}
-			} catch (SQLException e) {
-				System.err.println(query);
-				e.printStackTrace();
-			}
-		}
-		return retval;
 	}
 
 	@Override
@@ -380,31 +348,52 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 				synchronized (connection) {
 					int listNumber = 0;
 
-					// TODO -- Don't let the user accidentally make a list with a zero-length name.
 					String list = lastListName = listName.getText();
+					if (list == null || list.length() == 0)
+						list = "" + new Date();
 					String author = defaultName = myName.getText();
 
+					// The queries needed here:
+
+					String isItThereAlready = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "'";
+					String retrieve = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "'";
+					String deleteExisting = "DELETE FROM ChannelList WHERE ListNumber="; // To be continued
 					String insert = "INSERT INTO ChannelListName VALUES (NULL, '" + list + "', '" + author + "')";
 
-					String retrieve = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "' AND ListAuthor='"
-							+ author + "'";
-
 					try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-						if (stmt.executeUpdate(insert) == 1) {
-							// OK, the insert worked.
-							System.out.println("Successful: " + insert);
-						} else {
-							new Exception("Got the wrong number of lines inserted into the DB").printStackTrace();
-							return "Insert of new list name into the database failed";
-						}
-						try (ResultSet rs2 = stmt.executeQuery(retrieve)) {
-							System.out.println("Successful: " + retrieve);
-							if (rs2.first())
-								listNumber = rs2.getInt(1);
 
+						// Does this list already exist in the database? If so, warn the user and then overwrite it. Otherwise, just
+						// save it.
+						try (ResultSet rs2 = stmt.executeQuery(isItThereAlready)) {
+							if (rs2.first()) {
+								listNumber = rs2.getInt("ListNumber"); // Got the list number.
+								if (listNumber > 0) {
+									if (JOptionPane.showConfirmDialog(this, "List called '" + list + "' already exists.  Replace?",
+											"Replace existing list?", JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION) {
+										return "User rejected the update";
+									}
+									// Delete the list and move on.
+									println(getClass(), ": Deleting list number " + listNumber);
+									stmt.executeUpdate(deleteExisting + listNumber);
+								}
+							}
 						} catch (Exception e) {
-							e.printStackTrace();
-							return "Reading the list number, which we just created, failed";
+							// Not really a problem -- this list does not exist yet.
+						}
+
+						if (listNumber == 0) {
+							try {
+								println(getClass(), ": Creating a new list called '" + list + "'");
+								stmt.executeUpdate(insert);
+
+								ResultSet rs2 = stmt.executeQuery(retrieve);
+								if (rs2.first())
+									listNumber = rs2.getInt(1);
+
+							} catch (Exception e) {
+								e.printStackTrace();
+								return "Reading the list number, which we just created, failed";
+							}
 						}
 
 						// Use the exiting channel list from the GUI
@@ -416,7 +405,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 										+ c.getTime() + ", NULL, " + (sequence++) + ")";
 								if (stmt.executeUpdate(insert) == 1) {
 									// OK, the insert worked.
-									System.out.println("Successful: " + insert);
+									println(getClass(), ": Successful insert " + insert);
 								} else {
 									new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
 									return "Insert of list element number " + sequence + " failed";
@@ -433,6 +422,10 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		else if (userValue == JOptionPane.CANCEL_OPTION) {
 			return CreateListOfChannels.CANCELLED;
 		}
+
+		// The list was saved. Call the callback to say it should reload
+		if (newListListener != null)
+			newListListener.newListCreationCallback();
 		return null;
 	}
 
@@ -444,4 +437,50 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 			retval += " ";
 		return retval;
 	}
+
+	/**
+	 * Get the list of channels that are currently defined.
+	 * 
+	 * @return A list of strings of these list names
+	 * @throws Exception
+	 */
+	public static List<String> getExistingList() throws Exception {
+		List<String> retval = new ArrayList<String>();
+		Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+		String query = "Select * from ChannelListName";
+
+		synchronized (connection) {
+			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+				try (ResultSet rs2 = stmt.executeQuery(query)) {
+					if (rs2.first())
+						do {
+							String listName = rs2.getString("ListName");
+							String listAuthor = rs2.getString("ListAuthor");
+							int listNumber = rs2.getInt("ListNumber");
+							retval.add(listNumber + ": " + listName + " (" + listAuthor + ")");
+						} while (rs2.next());
+					else {
+						// Oops. no first element!?
+						throw new Exception("No channel lists in the save/restore database!");
+					}
+				} catch (SQLException e) {
+					System.err.println(query);
+					e.printStackTrace();
+				}
+			} catch (SQLException e) {
+				System.err.println(query);
+				e.printStackTrace();
+			}
+		}
+		return retval;
+	}
+
+	/**
+	 * @param newListListener
+	 *            the newListListener to set
+	 */
+	public void setNewListListener(NewListCreationListener newListListener) {
+		this.newListListener = newListListener;
+	}
+
 }
