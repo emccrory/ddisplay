@@ -27,6 +27,7 @@ public class ChannelPlayList implements Channel {
 	// FIXME -- No, the playing of a list of channels has to be handled by the Real Display.
 
 	private static final long		serialVersionUID	= 7785042152443699996L;
+	private String					description			= null;
 	private List<SignageContent>	channels			= new ArrayList<SignageContent>();
 	private int						currentChannel		= 0;
 	private long					dwell				= 5000l;
@@ -62,7 +63,7 @@ public class ChannelPlayList implements Channel {
 
 	@Override
 	public String getName() {
-		return channels.get(currentChannel).getName() + " (List)";
+		return channels.get(currentChannel).getName() + " (Length=" + channels.size() + ")";
 	}
 
 	// protected void informDisplay() {
@@ -80,6 +81,8 @@ public class ChannelPlayList implements Channel {
 
 	@Override
 	public String getDescription() {
+		if (description != null)
+			return description;
 		return "List of channels, now showing " + channels.get(currentChannel).getDescription();
 	}
 
@@ -140,7 +143,7 @@ public class ChannelPlayList implements Channel {
 
 	@Override
 	public void setDescription(String d) {
-		// Not relevant for a list of content
+		description = d;
 	}
 
 	@Override
@@ -229,21 +232,21 @@ public class ChannelPlayList implements Channel {
 
 	@Override
 	public String toString() {
-		String retval = "List of length " + channels.size() + ": {";
+		String retval = "List of length " + channels.size() + ": { ";
 		// for (SignageContent SC: channels) {
 		for (int k = 0; k < channels.size(); k++) {
 			int index = (k + currentChannel) % channels.size();
 			SignageContent SC = channels.get(index);
-			retval += "([" + index + "] " + SC.getName() + " @ " + SC.getTime() + "msec) ";
+			retval += "( [" + index + "] " + SC.getName() + " @ " + SC.getTime()/1000.0 + " sec ) ";
 		}
-		return retval + "}";
+		return retval + " }";
 	}
 
 	public long getChecksum() {
-		// I bet there is a more efficient way than this!  
-		
+		// I bet there is a more efficient way than this!
+
 		// The string, ["http://1http://2"] WILL NOT return the same checksum as ["http://2http://1"] (verified)
-		
+
 		Checksum checksum = new CRC32();
 
 		List<byte[]> allBytes = new ArrayList<byte[]>();
