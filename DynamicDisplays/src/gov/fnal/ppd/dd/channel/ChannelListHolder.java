@@ -31,5 +31,8 @@ public interface ChannelListHolder {
 	 */
 	public void channelAdd(Channel c);
 	
+	/**
+	 * Not really used anymore, but was once used to fix up the internal list (in some way that I cannot recall)
+	 */
 	public void fix();
 }
