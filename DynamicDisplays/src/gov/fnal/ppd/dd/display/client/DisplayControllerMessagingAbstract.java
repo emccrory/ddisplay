@@ -311,8 +311,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						while (!rs.isAfterLast()) {
 							try {
 								String myName = rs.getString("IPName");
-
-								System.out.println("\n********** Display number " + (displayCount++) + ", name=" + myName
+								String ordinal = "First";
+								if ( displayCount++ == 1 ) 
+									ordinal = "Second";
+								else if ( displayCount == 2)
+									ordinal = "Third";
+								else
+									ordinal = ordinal + "th";
+								
+								System.out.println("\n********** " + ordinal + " Display, name=" + myName
 										+ " **********\n");
 
 								if (!myName.equals(myNode)) {
