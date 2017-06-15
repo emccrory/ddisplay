@@ -32,6 +32,8 @@ import gov.fnal.ppd.dd.changer.InformationBox;
 import gov.fnal.ppd.dd.changer.SaveRestoreDefaultChannels;
 import gov.fnal.ppd.dd.channel.CreateListOfChannels;
 import gov.fnal.ppd.dd.channel.CreateListOfChannelsHelper;
+import gov.fnal.ppd.dd.channel.list.ChannelListGUI;
+import gov.fnal.ppd.dd.channel.list.ExistingChannelLists;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
@@ -324,7 +326,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					selectedTab = ((JTabbedPane) e.getSource()).getSelectedIndex();
 				}
 			});
-			DisplayButtonGroup bg = new DisplayButtonGroup();
+			DisplayButtonGroup displayButtonGrooup = new DisplayButtonGroup();
 
 			final List<ChannelButtonGrid> allGrids = new ArrayList<ChannelButtonGrid>();
 			synchronized (channelButtonGridList) {
@@ -333,7 +335,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			Component theSelectedTab = null;
 			for (int cat = 0; cat < categories.length; cat++) {
-				ChannelButtonGrid grid = new DetailedInformationGrid(display, bg);
+				ChannelButtonGrid grid = new DetailedInformationGrid(display, displayButtonGrooup);
 				grid.makeGrid(categories[cat]);
 				allGrids.add(grid);
 				display.addListener(grid);
@@ -345,7 +347,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				progressMonitor.setProgress(index * (1 + categories.length) + cat);
 			}
 
-			ChannelButtonGrid grid = new ImageGrid(display, bg);
+			ChannelButtonGrid grid = new ImageGrid(display, displayButtonGrooup);
 			grid.makeGrid(ChannelCategory.IMAGE);
 			allGrids.add(grid);
 			display.addListener(grid);
@@ -353,7 +355,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			if (SHOW_DOCENT_TAB) {
 				GetMessagingServer.getDocentNameSelector();
-				grid = new DocentGrid(display, bg, docentName);
+				grid = new DocentGrid(display, displayButtonGrooup, docentName);
 				grid.makeGrid(ChannelCategory.IMAGE);
 				allGrids.add(grid);
 				display.addListener(grid);
@@ -376,22 +378,36 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				}
 			});
 
-			final CreateListOfChannelsHelper channelListHelper = new CreateListOfChannelsHelper(display.getPreferredHighlightColor());
-			ActionListener listener = new ActionListener() {
+			boolean useNewList = true;
+			if (!useNewList) {
+				// The tried-and-true list GUI:
+				final CreateListOfChannelsHelper channelListHelper = new CreateListOfChannelsHelper(
+						display.getPreferredHighlightColor());
+				ActionListener listener = new ActionListener() {
 
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					println(ChannelSelector.class, " -- Channel list accepted");
-					display.setContent(channelListHelper.lister.getChannelList());
-				}
-			};
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						println(ChannelSelector.class, " -- Channel list accepted");
+						display.setContent(channelListHelper.lister.getChannelList());
+					}
+				};
 
-			displayTabPane.add(CreateListOfChannels.getContainer(channelListHelper, listener),  " Lists ");
-			
-			// The new List GUI that allows lists to contain the same channel many times.
-			// ChannelListGUI clg = new ChannelListGUI();
-			// clg.setBackgroundBypass(display.getPreferredHighlightColor());
-			// displayTabPane.add(clg, " ListsN ");
+				displayTabPane.add(CreateListOfChannels.getContainer(channelListHelper, listener), " Lists ");
+
+			} else {
+				// The new List GUI that allows lists to contain the same channel many times.
+				ChannelListGUI clg = new ChannelListGUI();
+				clg.setBackgroundBypass(display.getPreferredHighlightColor());
+				displayTabPane.add(clg, " Create or edit a List ");
+
+				ExistingChannelLists ecl = new ExistingChannelLists(display, displayButtonGrooup);
+				ecl.setBackground(display.getPreferredHighlightColor());
+				displayTabPane.add(ecl, " Existing Lists ");
+
+				// TODO - When the user creates or modifies a list, we'll need to rebuild the button list in ExistingChannelLists
+				
+				clg.setNewListCreationCallback(ecl);
+			}
 
 			if (theSelectedTab != null)
 				displayTabPane.setSelectedComponent(theSelectedTab);
@@ -467,7 +483,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			progressMonitor.setProgress(index * (1 + categories.length) + categories.length);
 
 			final int fi = index;
-			bg.setActionListener(new ActionListener() {
+			displayButtonGrooup.setActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
 					setTabColor(((DDButton) e.getSource()).getDisplay(), fi);
