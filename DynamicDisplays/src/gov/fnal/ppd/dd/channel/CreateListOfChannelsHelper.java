@@ -39,7 +39,10 @@ public class CreateListOfChannelsHelper {
 	 * A button to launch the list of channels
 	 */
 	public JButton				accept;
-	public Color	color;
+	/**
+	 * The GUI highlight color here.
+	 */
+	public Color				color;
 
 	/**
 	 * Construct this helper
