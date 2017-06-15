@@ -29,7 +29,7 @@ class EmptyChannel extends ChannelImpl {
 	}
 
 	public EmptyChannel(String string, ChannelCategory categ) throws URISyntaxException {
-		super(string, categ, "This channel is undefined", new URI(MY_URL), 0, 0);
+		super(string, categ, "This channel is " + string, new URI(MY_URL), 0, 0);
 	}
 
 	/**
