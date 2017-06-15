@@ -24,7 +24,7 @@ public class ChannelChooserTableModel extends AbstractChannelTableModel {
 	 */
 	public ChannelChooserTableModel() {
 
-		relativeWidths = new int[] { 100, 70, 700 };
+		relativeWidths = new int[] { 175, 70, 450 };
 		columnNames = new String[] { "Category", "Chan#", "Channel Details" };
 
 		ChannelCategory categories[] = CategoryDictionary.getCategories();
@@ -84,7 +84,7 @@ public class ChannelChooserTableModel extends AbstractChannelTableModel {
 
 		default:
 		case 0:
-			return cac.getCategory().getAbbreviation();
+			return cac.getCategory().getValue();
 
 		}
 	}
