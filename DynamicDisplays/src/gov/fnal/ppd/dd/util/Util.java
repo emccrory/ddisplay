@@ -7,7 +7,6 @@ package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
-import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
@@ -32,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -244,12 +244,17 @@ public class Util {
 		return blob;
 	}
 
+	
+	private static HashMap<Integer, Channel> alreadyRetrieved = new HashMap<Integer, Channel>();
 	/**
 	 * @param channelNumber
 	 *            The channel number to look up
 	 * @return The channel that is specified by this channel number
 	 */
 	public static SignageContent getChannelFromNumber(int channelNumber) {
+		if ( alreadyRetrieved.containsKey(channelNumber))
+			return new ChannelImpl(alreadyRetrieved.get(channelNumber));
+		
 		Channel retval = null;
 		try {
 			retval = new ChannelImpl("Fermilab", ChannelCategory.PUBLIC, "Fermilab", new URI("http://www.fnal.gov"), 0, 360000L);
@@ -295,6 +300,7 @@ public class Util {
 						} while (rs.next());
 
 						retval = new ChannelPlayList(channelList, 60000L);
+						alreadyRetrieved.put(channelNumber, retval);
 						stmt.close();
 						rs.close();
 					} catch (Exception e) {
@@ -313,7 +319,7 @@ public class Util {
 			// generation, although this is unlikely. Something to be aware of!
 			//
 			String query = "SELECT * from Channel where Number=" + channelNumber;
-			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel: [" + query + "]");
+			// println(DisplayControllerMessagingAbstract.class, " -- Getting default channel: [" + query + "]");
 			Connection connection;
 			try {
 				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
@@ -332,6 +338,7 @@ public class Util {
 							String name = rs.getString("Name");
 
 							retval = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, dwell);
+							alreadyRetrieved.put(channelNumber, retval);
 
 							stmt.close();
 							rs.close();
@@ -365,6 +372,7 @@ public class Util {
 							String desc = rs.getString("Description");
 
 							retval = new ChannelImpl("PortfolioImage", ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, 2*60*60*1000L);
+							alreadyRetrieved.put(channelNumber, retval);
 
 							stmt.close();
 							rs.close();
