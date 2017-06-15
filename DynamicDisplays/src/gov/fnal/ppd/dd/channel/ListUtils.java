@@ -4,10 +4,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017
+ *
+ */
 public class ListUtils {
 	private ListUtils(){}
 	
-	public static String interp(long val) {
+	/**
+	 * @param val Ther number to interpret
+	 * @return A reasonable string that says how much time this number represents (seconds, minutes, hours; TODO: Days, Weeks, Months, who knows?)
+	 */
+	public static String interp(final long val) {
 		DecimalFormat format = new DecimalFormat("#.0");
 		String t = "" + val;
 		if (val < 60L) {
@@ -22,6 +30,9 @@ public class ListUtils {
 		return " " + t;
 	}
 
+	/**
+	 * @return A list of values that is useful in giving the user something to choose in the time realm.
+	 */
 	public static List<Long> getDwellStrings() {
 		ArrayList<Long> retval = new ArrayList<Long>();
 

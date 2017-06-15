@@ -21,7 +21,9 @@ public class SkeletonChannel implements Channel {
 	private String				desc				= null;
 	private URI					uri					= null;
 
+	@SuppressWarnings("unused")
 	private SkeletonChannel() {
+		// Keep this here in case something goes wrong
 		new Exception().printStackTrace();
 	}
 
