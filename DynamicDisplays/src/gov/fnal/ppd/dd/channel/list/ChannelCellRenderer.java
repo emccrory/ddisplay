@@ -1,5 +1,6 @@
 package gov.fnal.ppd.dd.channel.list;
 
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.dd.signage.Channel;
 
 import java.awt.Component;
@@ -23,7 +24,7 @@ public class ChannelCellRenderer implements TableCellRenderer {
 		JLabel myLabel = new JLabel("<html><b>" + chan.getName() + "</b> <br>Channel # " + chan.getNumber() + ", Category: "
 				+ chan.getCategory() + ", Dwell time=" + chan.getTime() / 1000L + " sec<br>" + chan.getURI().toASCIIString()
 				+ "</html>");
-		myLabel.setFont(new Font("Arial", Font.PLAIN, 10));
+		myLabel.setFont(new Font("Arial", Font.PLAIN, SHOW_IN_WINDOW ? 10 : 14));
 		myLabel.setOpaque(true);
 		if (isSelected) {
 			myLabel.setBackground(table.getSelectionBackground());

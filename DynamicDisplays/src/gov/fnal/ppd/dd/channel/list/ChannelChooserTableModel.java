@@ -1,5 +1,7 @@
 package gov.fnal.ppd.dd.channel.list;
 
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -24,7 +26,11 @@ public class ChannelChooserTableModel extends AbstractChannelTableModel {
 	 */
 	public ChannelChooserTableModel() {
 
-		relativeWidths = new int[] { 175, 70, 450 };
+		if (SHOW_IN_WINDOW)
+			relativeWidths = new int[] { 175, 70, 450 };
+		else
+			relativeWidths = new int[] { 200, 110, 800 };
+
 		columnNames = new String[] { "Category", "Chan#", "Channel Details" };
 
 		ChannelCategory categories[] = CategoryDictionary.getCategories();
@@ -80,7 +86,6 @@ public class ChannelChooserTableModel extends AbstractChannelTableModel {
 			return cac.getNumber();
 		case 2:
 			return cac;
-		
 
 		default:
 		case 0:

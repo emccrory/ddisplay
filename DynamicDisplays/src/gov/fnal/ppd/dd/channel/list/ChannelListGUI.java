@@ -31,6 +31,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerModel;
@@ -38,7 +39,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableModel;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -46,24 +46,25 @@ import javax.swing.table.TableModel;
  * 
  */
 public class ChannelListGUI extends JPanel implements ActionListener, ChannelListHolder {
-	private static final long				serialVersionUID		= 7371440415155147051L;
-	private ChannelCooserAsTable			choiceTable				= new ChannelCooserAsTable();
-	private SelectedChannelsDisplayAsTable	resultsTable			= new SelectedChannelsDisplayAsTable();
+	private static final long				serialVersionUID	= 7371440415155147051L;
+	private ChannelCooserAsTable			choiceTable			= new ChannelCooserAsTable();
+	private SelectedChannelsDisplayAsTable	resultsTable		= new SelectedChannelsDisplayAsTable();
 	private JSpinner						time;
-	private Box								timeWidgets				= Box.createHorizontalBox();
+	private Box								timeWidgets			= Box.createHorizontalBox();
 
-	private BigLabel						selectedRowLabel		= new BigLabel(" ", Font.PLAIN);
-	private JButton							moveUp					= new JButton("⇧");
-	private JButton							moveDown				= new JButton("⇩");
-	private JButton							delete					= new JButton("✖");
-	private JButton							accept					= new JButton("Accept");
-	private JButton							instructionsButton		= new JButton("Instructions");
-	private Box								bottomBox				= Box.createHorizontalBox();
-	private Box								tableBox				= Box.createHorizontalBox();
+	private BigLabel						selectedRowLabel	= new BigLabel(" ", Font.PLAIN);
+	private JButton							moveUp				= new JButton("⇧");
+	private JButton							moveDown			= new JButton("⇩");
+	private JButton							delete				= new JButton("✖");
+	private JButton							accept				= new JButton("Accept");
+	private JButton							instructionsButton	= new JButton("Instructions");
+	private Box								bottomBox			= Box.createHorizontalBox();
+	private Box								tableBox			= Box.createHorizontalBox();
 	private SaveRestoreListOfChannels		saveRestore;
-	private final JLabel					header1					= new JLabel("The channels in the list so far");
-	private final JLabel					header2					= new JLabel("Choose channels to add to the list");
-	// private NewListCreationListener			newListCreationCallback	= null;
+	private final JLabel					header1				= new JLabel("The channels in the list so far");
+	private final JLabel					header2				= new JLabel("Choose channels to add to the list");
+
+	// private NewListCreationListener newListCreationCallback = null;
 
 	/**
 	 * For testing the operation of this GUI (only)
@@ -91,7 +92,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 	public ChannelListGUI() {
 		super(new BorderLayout());
 		saveRestore = new SaveRestoreListOfChannels(this);
-		
+
 		setupLocalListeners();
 		setupLocalGUI();
 	}
@@ -177,22 +178,34 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String text = "The main panel contains the \"Approx Dwell Time\" at the top, manipulation buttons on the bottom, and the main panel in the middle.\n";
-				text += "The main panel is split in half with the list of channel you are creating on the left, and the list of all the channels in the entire system on the right.\n\n";
-				text += "To create a channel list, you copy a channel from the right to the left panels. Do this by touching the desired channel in the full list on the right.\n"
-						+ "You can add the same channel several times.\n\n";
-				text += "The dwell time this channel gets is the \"Approx Dwell Time\" that appear at the top of the panel.\n\n";
-				text += "Remove a channel from the left list by selecting the channel "
-						+ "on the left and then touching the \"✖\" button at the bottom.\n\n";
-				text += "With a channel selected on the left you can use the \"⇧\" "
-						+ "and the \"⇩\" buttons to move this channel up and down on the list.\n\n";
-				text += "To change the dwell time of a channel in the left panel, double-click the number in the dwell column,\n"
-						+ "enter the number you want (a keyboard is required--ask for help on how to get the on-screen keyboard) and then hit \"enter\".\n\n";
-				text += "When you have your list the way you want it, hit \"Accept\" to send this channel list to your display,\n"
-						+ " or use the \"Save this list\" button to put this channel list into the database.\n\n";
-				text += "Note that the size of each column, and the ordering of the rows, can be manipulated just like column values in Excel.\n\n";
-				text += "Feel free to contact the author (Elliott) if you have any ideas on this, e.g. how to make the process, or these instructions, simpler. (June, 2017)";
-				JOptionPane.showMessageDialog(null, text, "Channel List Instructions", JOptionPane.QUESTION_MESSAGE);
+				JTextPane textPane = new JTextPane();
+				textPane.setContentType("text/html");
+				textPane.setEditable(false);
+
+				String text = "<html>";
+				text += "<p><font size='+1'>This panel is for creating, editing, and saving lists of channels in the Dynamic Display system.</font></p>";
+				text += "<p>This panel contains the \"Approx Dwell Time\" at the top, manipulation buttons on the bottom, and the main panel in the middle.</p>\n";
+				text += "<p>The main panel is split in half with the list of channel you are creating on the left, and the list of all the channels in the entire system on the right.</p>";
+				text += "<p><b>To create a channel list</b>, you copy a channel from the right to the left panels. Do this by touching the desired channel in the full list on the right.</p>\n"
+						+ " You can add the same channel several times.";
+				text += " The dwell time this channel gets is the \"Approx Dwell Time\" that appear at the top of the panel.</p>";
+				text += "<p>Remove a channel from the left list by selecting the channel "
+						+ "on the left and then touching the \"✖\" button at the bottom.</p>";
+				text += "<p>With a channel selected on the left you can use the \"⇧\" "
+						+ "and the \"⇩\" buttons to move this channel up and down on the list.</p>";
+				text += "<p>To change the dwell time of a channel in the left panel, double-click the number in the dwell column,\n"
+						+ "enter the number you want (a keyboard is required--ask for help on how to get the on-screen keyboard) and then hit \"enter\".</p>";
+				text += "<p>When you have your list the way you want it, hit \"Accept\" to send this channel list to your display,\n"
+						+ " or use the \"Save this list\" button to put this channel list permanently into the database.</p>";
+				text += "<p>Note that the size of each column, and the ordering of the rows, can be manipulated just like column values in Excel.</p>";
+				text += "<p>Feel free to contact the author (Elliott) if you have any ideas on this, e.g. how to make the process, or these instructions, simpler. (June, 2017)</p>";
+				text += "</html>";
+				textPane.setText(text);
+				textPane.setMaximumSize(new Dimension(700, 700));
+				textPane.setPreferredSize(new Dimension(700, 700));
+
+				JOptionPane.showMessageDialog(null, textPane, "Channel List Instructions", JOptionPane.QUESTION_MESSAGE);
+
 			}
 		});
 
@@ -215,7 +228,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		delete.setActionCommand("delete");
 		delete.addActionListener(this);
 
-		selectedRowLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+		selectedRowLabel.setFont(new Font("Arial", Font.PLAIN, (int) fontSize));
 		bottomBox.add(selectedRowLabel);
 		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
 		bottomBox.add(moveUp);
@@ -247,7 +260,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		tableBox.add(Box.createRigidArea(new Dimension(5, 5)));
 
 		vb = Box.createVerticalBox();
-		header2.setFont(new Font("Arial", Font.BOLD, 16));
+		header2.setFont(new Font("Arial", Font.BOLD, (SHOW_IN_WINDOW ? 16 : 20)));
 		header2.setAlignmentX(CENTER_ALIGNMENT);
 		vb.add(header2);
 		vb.add(jScrollPane);
@@ -303,17 +316,16 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 	}
 
 	private void addRowToResultsTable() {
-		// int numRows = table.getRowCount();
-		int numCols = choiceTable.getColumnCount();
-		TableModel model = choiceTable.getModel();
 		int viewRow = choiceTable.convertRowIndexToModel(choiceTable.getSelectedRow());
-
-		System.out.print("    row " + viewRow + ": [");
-		for (int j = 0; j < numCols; j++) {
-			System.out.print("  " + model.getValueAt(viewRow, j));
-		}
-
-		System.out.println("] Default dwell time=" + time.getValue());
+		// Some debugging, commented out here:
+		// int numCols = choiceTable.getColumnCount();
+		// TableModel model = choiceTable.getModel();
+		// int numRows = table.getRowCount();
+		// System.out.print("    row " + viewRow + ": [");
+		// for (int j = 0; j < numCols; j++) {
+		// System.out.print("  " + model.getValueAt(viewRow, j));
+		// }
+		// System.out.println("] Default dwell time=" + time.getValue());
 
 		Channel chan = choiceTable.getRow(viewRow);
 		resultsTable.add(chan, (Long) time.getValue());
@@ -342,7 +354,6 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 			System.out.println("oops");
 			break;
 		}
-
 	}
 
 	@Override
@@ -365,11 +376,12 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 
 	@Override
 	public void fix() {
+		// Nothing to fix in this JTable representation.
 	}
 
-	
 	/**
-	 * @param newListCreationCallback the newListCreationCallback to set
+	 * @param newListCreationCallback
+	 *            the newListCreationCallback to set
 	 */
 	public void setNewListCreationCallback(NewListCreationListener newListCreationCallback) {
 		saveRestore.setNewListListener(newListCreationCallback);

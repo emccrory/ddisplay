@@ -165,12 +165,19 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 		panel.add(makeTheGrid(frameNumber), BorderLayout.CENTER);
 		BigLabel title = new BigLabel("Lists of channels", Font.BOLD);
 		title.setAlignmentX(CENTER_ALIGNMENT);
+		title.setAlignmentY(CENTER_ALIGNMENT);
+		
 		JLabel instructions = new JLabel("To see what is in the list, click the button and it will show you before sending it to the Display", JLabel.CENTER);
 		instructions.setFont(new Font("Arial", Font.ITALIC, 12));
+		instructions.setAlignmentX(CENTER_ALIGNMENT);
+		instructions.setAlignmentY(CENTER_ALIGNMENT);
+		
 		Box vb = Box.createVerticalBox();
 		vb.add(title);
 		vb.add(instructions);
 		vb.setAlignmentX(CENTER_ALIGNMENT);
+		vb.setAlignmentY(CENTER_ALIGNMENT);
+		
 		panel.add(vb, BorderLayout.NORTH);
 		add(panel);
 	}

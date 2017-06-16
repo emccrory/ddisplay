@@ -1,14 +1,10 @@
 package gov.fnal.ppd.dd.channel.list;
 
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.signage.Channel;
 
-import java.awt.Component;
-import java.awt.Font;
-
-import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 /**
@@ -20,7 +16,7 @@ import javax.swing.table.TableColumnModel;
  */
 public class SelectedChannelsDisplayAsTable extends JTable {
 
-	private static final long					serialVersionUID	= -3233862506460879139L;
+	private static final long			serialVersionUID	= -3233862506460879139L;
 	private SelectedChannelsTableModel	model;
 
 	/**
@@ -36,7 +32,7 @@ public class SelectedChannelsDisplayAsTable extends JTable {
 			tcm.getColumn(i).setPreferredWidth(model.relativeWidths[i]);
 		}
 
-		setRowHeight(40);
+		setRowHeight((SHOW_IN_WINDOW ? 40 : 60));
 
 		setDefaultRenderer(Channel.class, new ChannelCellRenderer());
 	}
@@ -55,7 +51,5 @@ public class SelectedChannelsDisplayAsTable extends JTable {
 		model.addChannel(newChannel);
 		System.out.println("** Added channel [" + newChannel + "] with dwell of " + newChannel.getTime() + ", numRows = "
 				+ model.getRowCount() + " - local row count: " + getRowCount());
-		
 	}
-
 }

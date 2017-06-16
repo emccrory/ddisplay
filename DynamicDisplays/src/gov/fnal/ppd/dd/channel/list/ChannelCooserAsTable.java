@@ -70,28 +70,11 @@ public class ChannelCooserAsTable extends JTable {
 			tcm.getColumn(i).setPreferredWidth(model.relativeWidths[i]);
 		}
 
-		setRowHeight(40);
+		setRowHeight((SHOW_IN_WINDOW ? 40 : 60));
 
 		setFont(new Font("Monospace", Font.PLAIN, SHOW_IN_WINDOW ? 12 : 18));
 
-		// DefaultTableCellRenderer r = new DefaultTableCellRenderer() {
-		// private static final long serialVersionUID = 6886064577608026619L;
-		// Font font = new Font("Monospace", Font.PLAIN, 12);
-		//
-		// @Override
-		// public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-		// int row, int column) {
-		// super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		// setFont(font);
-		// return this;
-		// }
-		//
-		// };
-		// // set the custom renderer for URL column
-		// getColumnModel().getColumn(3).setCellRenderer(r);
-		
 		setDefaultRenderer(Channel.class, new ChannelCellRenderer());
-
 	}
 
 	/**
