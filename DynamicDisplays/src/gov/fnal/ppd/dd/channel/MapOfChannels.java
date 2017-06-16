@@ -76,7 +76,7 @@ public class MapOfChannels extends HashMap<Integer, Channel> {
 			e.printStackTrace();
 		}
 
-		println(this.getClass(), "Found " + size() + " valiud channels.");
+		println(this.getClass(), ": Found " + size() + " valid channels.");
 	}
 
 	/**
