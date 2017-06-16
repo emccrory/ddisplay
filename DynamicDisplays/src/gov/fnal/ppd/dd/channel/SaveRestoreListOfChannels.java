@@ -94,21 +94,28 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 	}
 
 	private void initComponents() {
-		JButton saveIt = new JButton("Save this list of channels to the database");
+		JButton saveIt = new JButton("Save this list of channels");
 		saveIt.setActionCommand("SAVE");
 		saveIt.addActionListener(this);
 
-		JButton restoreOne = new JButton("Retrieve a list of channels from the database");
+		JButton restoreOne = new JButton("Retrieve a list of channels");
 		restoreOne.setActionCommand("RESTORE");
 		restoreOne.addActionListener(this);
+
+		JButton deleteOne = new JButton("Entirely delete a list of channels");
+		deleteOne.setActionCommand("DELETE");
+		deleteOne.addActionListener(this);
+		deleteOne.setEnabled(false);
 
 		GridBagConstraints gbag = new GridBagConstraints();
 
 		setAlignmentX(CENTER_ALIGNMENT);
-		JLabel lab = new JLabel("Archiving and restoring lists");
+		JLabel lab = new JLabel("Channel List Database: Archiving, restoring, and deleting");
+		lab.setAlignmentX(CENTER_ALIGNMENT);
 		gbag.gridx = gbag.gridy = 1;
-		gbag.gridwidth = 2;
-		gbag.fill = GridBagConstraints.HORIZONTAL;
+		gbag.gridwidth = 3;
+		gbag.anchor = GridBagConstraints.CENTER;
+		// gbag.fill = GridBagConstraints.HORIZONTAL;
 		gbag.insets = new Insets(1, 1, 1, 1);
 		add(lab, gbag);
 
@@ -117,6 +124,10 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		add(saveIt, gbag);
 		gbag.gridx = 2;
 		add(restoreOne, gbag);
+		gbag.gridx = 3;
+		add(deleteOne, gbag);
+		setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(15, 5, 5, 5),
+				BorderFactory.createLineBorder(Color.black)));
 	}
 
 	protected JComponent getExistingListsComponent() throws Exception {
@@ -182,9 +193,27 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 						System.err.println("No elements in the save/restore database for list number " + listNumber + "!");
 						return;
 					}
+				} catch (SQLException e) {
+					System.err.println(query);
+					e.printStackTrace();
+				}
+				query = "SELECT ListName from ChannelListName WHERE ListNumber=" + listNumber;
+
+				try (ResultSet rs3 = stmt.executeQuery(query)) {
+					if (rs3.first()) {
+						do {
+							lastListName = rs3.getString("ListName");
+						} while (rs3.next());
+					} else {
+						// Oops. no first element!?
+						System.err.println("No elements in the save/restore database for list number " + listNumber + "!");
+						return;
+					}
+				} catch (SQLException e) {
+					System.err.println(query);
+					e.printStackTrace();
 				}
 			} catch (SQLException e) {
-				System.err.println(query);
 				e.printStackTrace();
 			}
 		}
@@ -208,6 +237,8 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 				JOptionPane.showMessageDialog(this, "There is no channel list in the database with the name you specified");
 				return;
 			}
+		} else if (arg0.getActionCommand().equals("DELETE")) {
+			doDeleteList();
 		}
 	}
 
@@ -235,6 +266,9 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		}
 	}
 
+	private void doDeleteList() {
+	}
+
 	private String doSaveList() {
 		if (theListOfAllChannels.getList().size() <= 1) {
 			return "The list needs at least two elements!";
@@ -253,7 +287,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		try {
 			List<String> L = getExistingList();
 
-			area = new JTextArea(L.size() - 1, 40);
+			area = new JTextArea(L.size() - 1, 60);
 			area.setEditable(false);
 			area.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 			area.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -315,6 +349,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 
 		final JTextField myName = new JTextField(defaultName, 20);
 		final JTextField listName = new JTextField(lastListName, 40);
+		listName.setText(lastListName);
 		JLabel n = new JLabel("Your name:");
 		JLabel m = new JLabel("The name for your list:");
 
@@ -456,8 +491,11 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 						do {
 							String listName = rs2.getString("ListName");
 							String listAuthor = rs2.getString("ListAuthor");
+							// Special Case: The code author - make his name shorter
+							if (listAuthor.toLowerCase().contains("mccrory"))
+								listAuthor = "EM";
 							int listNumber = rs2.getInt("ListNumber");
-							retval.add(listNumber + ": " + listName + " (" + listAuthor + ")");
+							retval.add((listNumber < 10 ? "0" : "") + listNumber + ": " + listName + " (" + listAuthor + ")");
 						} while (rs2.next());
 					else {
 						// Oops. no first element!?
