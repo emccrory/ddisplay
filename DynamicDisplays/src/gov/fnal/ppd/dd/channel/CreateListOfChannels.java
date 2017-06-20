@@ -13,6 +13,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.channel.ListUtils.getDwellStrings;
 import static gov.fnal.ppd.dd.channel.ListUtils.interp;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.Util.getOrdinalSuffix;
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -428,16 +429,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 		invalidate();
 	}
 
-	private static String getOrdinalSuffix(int count) {
-		String ordinal = "th";
-		if (count != 11 && (count % 10) == 1)
-			ordinal = "st";
-		if (count != 12 && (count % 10) == 2)
-			ordinal = "nd";
-		if (count != 13 && (count % 10) == 3)
-			ordinal = "rd";
-		return ordinal;
-	}
+	
 
 	/**
 	 * Get the pre-assembled GUI widgets for doing the list of channels.
