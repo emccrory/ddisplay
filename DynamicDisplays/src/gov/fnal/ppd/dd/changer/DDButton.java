@@ -21,33 +21,58 @@ import javax.swing.border.Border;
  */
 public class DDButton extends JButton {
 
-	private static final long	serialVersionUID		= 6951625597558149464L;
+	private static final long	serialVersionUID	= 6951625597558149464L;
 
-	private static final int	MAX_STRING_LENGTH		= 14;
+	private static final int	MAX_STRING_LENGTH	= 14;
 
 	/**
+	 * What do we show on the button?
+	 * 
+	 * @author Elliott McCrory, Fermilab AD/Instrumentation 2017
 	 * 
 	 */
-	public static final int		USE_NAME_FIELD			= 0;
-	/**
-	 * 
-	 */
-	public static final int		USE_DESCRIPTION_FIELD	= 1;
-	private static int			staticNumBR				= 0;
+	public enum ButtonFieldToUse {
+		/**
+		 * Show the default name field on my button
+		 */
+		USE_NAME_FIELD,
+		/**
+		 * Show a full description on the button
+		 */
+		USE_DESCRIPTION_FIELD,
+		/**
+		 * Show the URL on the button
+		 */
+		USE_URL_FIELD;
 
-	private boolean				selected				= false;
+		/**
+		 * @return the next value of this enum to become
+		 */
+		public ButtonFieldToUse next() {
+			if (this == DDButton.ButtonFieldToUse.USE_NAME_FIELD)
+				return DDButton.ButtonFieldToUse.USE_DESCRIPTION_FIELD;
+			else if (this == DDButton.ButtonFieldToUse.USE_DESCRIPTION_FIELD)
+				return DDButton.ButtonFieldToUse.USE_URL_FIELD;
+			else
+				return DDButton.ButtonFieldToUse.USE_NAME_FIELD;
+		}
+	};
 
-	private Color				background, selectedColor, plainFont = SystemColor.textText, selectedFont = SystemColor.textText;
+	private static int	staticNumBR	= 0;
 
-	private Channel				channel;
-	private Display				display;
+	private boolean		selected	= false;
 
-	private Border				regularButtonBorder;
-	private final Border		BorderA, BorderB;
+	private Color		background, selectedColor, plainFont = SystemColor.textText, selectedFont = SystemColor.textText;
 
-	private int					numBR, maxLen;
+	private Channel		channel;
+	private Display		display;
 
-	private Font				userDefinedFont			= null, alternateFont = null;
+	private Border		regularButtonBorder;
+	private final Border	BorderA, BorderB;
+
+	private int				numBR, maxLen;
+
+	private Font			userDefinedFont	= null, descriptionFont = null, urlFont = null;
 
 	/**
 	 * @param channel
@@ -212,27 +237,52 @@ public class DDButton extends JButton {
 	 * @param which
 	 *            either USE_NAME_FIELD or USE_DESCRIPTION_FIELD
 	 */
-	public void setText(final int which) {
+	public void setText(final ButtonFieldToUse which) {
 		if (channel == null || channel.getDescription().length() < 5 || channel instanceof ChannelImage)
 			return;
 		if (userDefinedFont == null)
 			userDefinedFont = getFont();
-		if (which == USE_NAME_FIELD) {
+		switch (which) {
+		case USE_NAME_FIELD:
 			setText(align(channel.getName(), maxLen));
 			super.setFont(userDefinedFont);
-		} else if (which == USE_DESCRIPTION_FIELD) {
+			break;
+		case USE_DESCRIPTION_FIELD:
 			String tx = "<html><b>" + channel.getName() + ":</b> " + channel.getDescription() + " <em>(Channel "
 					+ channel.getNumber() + ")</em></html>";
-			if (alternateFont == null) {
+			if (descriptionFont == null) {
 				float siz = ((float) userDefinedFont.getSize()) / (tx.length() / 60.0f);
 				if (siz < 7.0f)
 					siz = 7.0f;
 				else if (siz > userDefinedFont.getSize())
 					siz = userDefinedFont.getSize();
-				alternateFont = userDefinedFont.deriveFont(siz);
+				descriptionFont = userDefinedFont.deriveFont(siz);
 			}
 			setText(tx);
-			super.setFont(alternateFont);
+			super.setFont(descriptionFont);
+
+			break;
+		case USE_URL_FIELD:
+			tx = channel.getURI().toString().replace("http://www.", "").replace("https://www.", "").replace("http://", "")
+					.replace("https://", "");
+			if (tx.length() > 30) {
+				if (tx.contains("?"))
+					tx = tx.replace("?", " ?");
+				else 
+					tx = tx.replace("/", " /");
+			}
+			if (urlFont == null) {
+				float siz = ((float) userDefinedFont.getSize()) / (tx.length() / 25.0f);
+				if (siz < 7.0f)
+					siz = 7.0f;
+				else if (siz > userDefinedFont.getSize())
+					siz = userDefinedFont.getSize();
+				urlFont = userDefinedFont.deriveFont(siz);
+			}
+			setText("<html>" + tx + "</html>");
+			super.setFont(urlFont);
+			break;
 		}
+
 	}
 }

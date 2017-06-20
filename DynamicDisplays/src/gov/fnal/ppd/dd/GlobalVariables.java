@@ -56,7 +56,7 @@ public class GlobalVariables {
 	/**
 	 * How long since last user activity?
 	 */
-	public static long			lastDisplayChange			= 0L;
+	private static long			lastUserActivity			= 0L;
 
 	/**
 	 * String that says, "Do not check message signing". This is the only word that will turn off checking. All other words will
@@ -595,5 +595,26 @@ public class GlobalVariables {
 	}
 
 	private GlobalVariables() {
+	}
+
+	/**
+	 * @return Has the user demonstrated their presence recently?
+	 */
+	public static boolean userIsInactive() {
+		return System.currentTimeMillis() > INACTIVITY_TIMEOUT + lastUserActivity;		
+	}
+	
+	/**
+	 * @return The number of milliseconds since the last, detected user activity.
+	 */
+	public static long timeSinceLastUserActivity() {
+		return System.currentTimeMillis() - lastUserActivity;
+	}
+
+	/**
+	 * Call this method when the user does something, proving that they are at the console, manipulating the GUI
+	 */
+	public static void userHasDoneSomething() {
+		GlobalVariables.lastUserActivity = System.currentTimeMillis();
 	}
 }

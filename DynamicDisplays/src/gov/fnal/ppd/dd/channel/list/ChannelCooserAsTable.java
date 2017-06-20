@@ -42,6 +42,7 @@ import gov.fnal.ppd.dd.signage.Channel;
 import java.awt.Component;
 import java.awt.Font;
 
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -69,6 +70,10 @@ public class ChannelCooserAsTable extends JTable {
 		for (int i = 0; i < (tcm.getColumnCount()); i++) {
 			tcm.getColumn(i).setPreferredWidth(model.relativeWidths[i]);
 		}
+
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		setDefaultRenderer(Number.class, centerRenderer);
 
 		setRowHeight((SHOW_IN_WINDOW ? 40 : 60));
 

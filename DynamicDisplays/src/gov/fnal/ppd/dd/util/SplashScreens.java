@@ -5,7 +5,6 @@
  */
 package gov.fnal.ppd.dd.util;
 
-import static gov.fnal.ppd.dd.GlobalVariables.INACTIVITY_TIMEOUT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.bgImage;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationDescription;
@@ -13,16 +12,15 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.GlobalVariables.imageHeight;
 import static gov.fnal.ppd.dd.GlobalVariables.imageNames;
 import static gov.fnal.ppd.dd.GlobalVariables.imageWidth;
-import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
 import static gov.fnal.ppd.dd.GlobalVariables.offsets;
+import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
+import static gov.fnal.ppd.dd.GlobalVariables.userIsInactive;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -130,9 +128,9 @@ public class SplashScreens extends Thread {
 
 	public void run() {
 		while (true) {
-			if (System.currentTimeMillis() > INACTIVITY_TIMEOUT + lastDisplayChange) {
+			if (userIsInactive()) {
 				listener.activateCard(false);
-				lastDisplayChange = System.currentTimeMillis();
+				userHasDoneSomething();
 			}
 			catchSleep(ONE_SECOND);
 		}

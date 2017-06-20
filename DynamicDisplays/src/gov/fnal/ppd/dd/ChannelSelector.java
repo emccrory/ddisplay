@@ -10,7 +10,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.docentName;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
-import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
+import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.launchErrorMessage;
@@ -22,6 +22,7 @@ import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.ChannelsFromDatabase;
 import gov.fnal.ppd.dd.changer.DDButton;
+import gov.fnal.ppd.dd.changer.DDButton.ButtonFieldToUse;
 import gov.fnal.ppd.dd.changer.DetailedInformationGrid;
 import gov.fnal.ppd.dd.changer.DisplayButtons;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
@@ -145,7 +146,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private List<JTabbedPane>				listOfDisplayTabbedPanes	= new ArrayList<JTabbedPane>();
 
 	private SplashScreens					splashScreens;
-	private int								nowShowing					= DDButton.USE_NAME_FIELD;
+	private DDButton.ButtonFieldToUse		nowShowing					= ButtonFieldToUse.USE_NAME_FIELD;
 	private int								numURLButtonsChanged;
 
 	private ActionListener					changeDefaultsListener		= new ActionListener() {
@@ -373,7 +374,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 				@Override
 				public void stateChanged(ChangeEvent arg0) {
-					lastDisplayChange = System.currentTimeMillis();
+					userHasDoneSomething();
 					setAllTabs(displayTabPane.getSelectedIndex());
 				}
 			});
@@ -396,7 +397,16 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			} else {
 				// The new List GUI that allows lists to contain the same channel many times.
-				ChannelListGUI clg = new ChannelListGUI();
+				final ChannelListGUI clg = new ChannelListGUI();
+				ActionListener listener = new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						println(ChannelSelector.class, " -- Channel list accepted");
+						display.setContent(clg.getChannelList());
+					}
+				};
+				clg.setListener(listener);
 				clg.setBackgroundBypass(display.getPreferredHighlightColor());
 				displayTabPane.add(clg, " Create or edit a List ");
 
@@ -405,7 +415,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				displayTabPane.add(ecl, " Existing Lists ");
 
 				// TODO - When the user creates or modifies a list, we'll need to rebuild the button list in ExistingChannelLists
-				
+
 				clg.setNewListCreationCallback(ecl);
 			}
 
@@ -656,14 +666,16 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			flipTitles.setMargin(new Insets(2, 5, 2, 5));
 		else
 			flipTitles.setMargin(new Insets(2, 5, 2, 5)); // Same
-		flipTitles.setToolTipText("<html><b>Toggle Text</b> -- Toggle between a succinct"
-				+ "<br>Channel button label and one with more details");
+		flipTitles.setToolTipText("<html><b>Toggle Text</b> -- Toggle among: a succinct"
+				+ "<br>Channel button label, one with more details and the URL itself");
 
 		flipTitles.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				nowShowing = (nowShowing == DDButton.USE_NAME_FIELD ? DDButton.USE_DESCRIPTION_FIELD : DDButton.USE_NAME_FIELD);
+				nowShowing = nowShowing.next();
+				
+				userHasDoneSomething();
 
 				synchronized (channelButtonGridList) {
 					for (List<ChannelButtonGrid> gridList : channelButtonGridList) {
@@ -742,7 +754,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		int displayNum = e.getID();
 		adjustTitle(displayList.get(displayNum));
 		setTabColor(displayList.get(displayNum), displayNum);
-		lastDisplayChange = System.currentTimeMillis();
+		userHasDoneSomething();
 	}
 
 	private void setTabColor(Display d, int index) {
@@ -822,6 +834,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					@Override
 					public void run() {
 						println(ChannelSelector.class, ": Refreshing URLs of the channel buttons in this world");
+						userHasDoneSomething();
 
 						Collection<SignageContent> list = ((ChannelsFromDatabase) ChannelCatalogFactory.refresh()).values();
 

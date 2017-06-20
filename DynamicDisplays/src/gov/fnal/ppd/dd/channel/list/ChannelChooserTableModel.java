@@ -1,7 +1,6 @@
 package gov.fnal.ppd.dd.channel.list;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;

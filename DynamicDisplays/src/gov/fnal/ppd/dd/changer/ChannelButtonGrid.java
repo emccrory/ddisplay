@@ -6,7 +6,7 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
+import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -87,7 +87,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 		// So, there is a bit of a bug below, in that the buttons in the entire container bg are "enabled" or "disabled" each time,
 		// over and over again.
 
-		lastDisplayChange = System.currentTimeMillis();
+		userHasDoneSomething();
 
 		if (e instanceof DisplayChangeEvent) {
 			DisplayChangeEvent ev = (DisplayChangeEvent) e;

@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.changer;
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
+import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.println;
@@ -223,6 +224,7 @@ public class DisplayButtons extends JPanel {
 
 						// Gets updated when the button is clicked
 						setToolTip(disp);
+						userHasDoneSomething();
 					}
 				});
 
@@ -291,6 +293,7 @@ public class DisplayButtons extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						listener.actionPerformed(new ActionEvent(disp, fi, getDisplayID(disp), e.getWhen(), e.getModifiers()));
 						setToolTip(disp);
+						userHasDoneSomething();
 					}
 				});
 

@@ -7,7 +7,7 @@ package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
-import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
+import static gov.fnal.ppd.dd.GlobalVariables.timeSinceLastUserActivity;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
 import java.awt.Font;
@@ -65,14 +65,14 @@ public class SelectorInstructions extends JPanel {
 	}
 
 	private void checkChange() {
-		if (!isLargeFont && (lastDisplayChange + FIFTEEN_MINUTES) < System.currentTimeMillis()) {
+		if (!isLargeFont && timeSinceLastUserActivity() > FIFTEEN_MINUTES ) {
 			// make font big again
 			lab.setText(INSTRUCTIONS_TEXT);
 			lab.setFont(largeFont);
 			repaint();
 			isLargeFont = true;
-		} else if (isLargeFont && (lastDisplayChange + 10 * ONE_SECOND) > System.currentTimeMillis()) {
-			// Make font small when the user does something right. (Maybe even make this go away--not sure yet)
+		} else if (isLargeFont && timeSinceLastUserActivity() >  10 * ONE_SECOND) {
+			// Make font small when the user does something right. It will become large again in 15 minutes
 			lab.setText(INSTRUCTIONS_TEXT.replace("<br><br>", "<br>"));
 			lab.setFont(smallFont);
 			repaint();

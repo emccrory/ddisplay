@@ -68,7 +68,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 		public void actionPerformed(ActionEvent e) {
 			String listContents = this.getChannel().toString().replace("(", "\n(");
 			String succinctName = buttonName.replace("<html>", "").replace("</html>", "").replace("<br>", "");
-			succinctName = succinctName.substring(0, succinctName.indexOf("[Length"));
+			succinctName = succinctName.substring(0, succinctName.indexOf("<i>[Length"));
 			if (JOptionPane.showConfirmDialog(this, "Change the channel to '" + succinctName + "'?\n" + listContents, "Continue?",
 					JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
 				for (ActionListener L : listeners)

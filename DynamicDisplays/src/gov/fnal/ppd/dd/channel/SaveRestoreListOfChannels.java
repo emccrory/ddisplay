@@ -62,6 +62,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 	private List<Channel>			channelListHolder	= new ArrayList<Channel>();
 	private ChannelListHolder		theListOfAllChannels;
 	private NewListCreationListener	newListListener		= null;
+	protected int					lastListNumber;
 
 	class ChannelInfoHolder {
 		public int		channelNumber, sequenceNumber;
@@ -105,7 +106,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		JButton deleteOne = new JButton("Entirely delete a list of channels");
 		deleteOne.setActionCommand("DELETE");
 		deleteOne.addActionListener(this);
-		deleteOne.setEnabled(false);
+		// deleteOne.setEnabled(false);
 
 		GridBagConstraints gbag = new GridBagConstraints();
 
@@ -141,6 +142,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 				channelListHolder.clear();
 				listOfChannelsArea.setText("");
 				getThisList(listValue);
+				lastListNumber = listValue;
 			}
 		});
 
@@ -220,6 +222,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		DecimalFormat myFormatter = new DecimalFormat("#.0");
 		String output = myFormatter.format(totalDwell / 1000.0 / 60.0);
 		listOfChannelsArea.append("\nTotal duration of this list: " + totalDwell + " msec (" + output + " minutes)\n");
+		return;
 	}
 
 	@Override
@@ -267,6 +270,48 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 	}
 
 	private void doDeleteList() {
+		try {
+			Object[] options = { "DELETE THIS LIST", "Cancel" };
+
+			if (JOptionPane.showOptionDialog(this, getExistingListsComponent(), "DELETE a channel list",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]) == JOptionPane.OK_OPTION) {
+				// Delete this list. Get confirmation!
+				if (JOptionPane.showConfirmDialog(this, "Really delete list '" + lastListName + "' (List number " + lastListNumber
+						+ ")?", "Really delete?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					// Delete the list here.
+					deleteListFromDatabase(lastListNumber);
+				}
+
+				theListOfAllChannels.fix();
+
+			} else {
+				// Nothing to do
+			}
+		} catch (HeadlessException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void deleteListFromDatabase(int listNumber) {
+
+		String query1 = "DELETE FROM ChannelList     WHERE ListNumber=" + listNumber;
+		String query2 = "DELETE FROM ChannelListName WHERE ListNumber=" + listNumber;
+
+		try {
+			Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			synchronized (connection) {
+				Statement stmt = connection.createStatement();
+				stmt.executeQuery("USE " + DATABASE_NAME);
+				stmt.executeUpdate(query1);
+				stmt.executeUpdate(query2);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return; // return "An exception caused this to fail.";
+		}
+
 	}
 
 	private String doSaveList() {
@@ -378,82 +423,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 
 		int userValue = JOptionPane.showConfirmDialog(this, inside, "Save the list", JOptionPane.OK_CANCEL_OPTION);
 		if (userValue == JOptionPane.OK_OPTION)
-			try {
-				Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-				synchronized (connection) {
-					int listNumber = 0;
-
-					String list = lastListName = listName.getText();
-					if (list == null || list.length() == 0)
-						list = "" + new Date();
-					String author = defaultName = myName.getText();
-
-					// The queries needed here:
-
-					String isItThereAlready = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "'";
-					String retrieve = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "'";
-					String deleteExisting = "DELETE FROM ChannelList WHERE ListNumber="; // To be continued
-					String insert = "INSERT INTO ChannelListName VALUES (NULL, '" + list + "', '" + author + "')";
-
-					try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-
-						// Does this list already exist in the database? If so, warn the user and then overwrite it. Otherwise, just
-						// save it.
-						try (ResultSet rs2 = stmt.executeQuery(isItThereAlready)) {
-							if (rs2.first()) {
-								listNumber = rs2.getInt("ListNumber"); // Got the list number.
-								if (listNumber > 0) {
-									if (JOptionPane.showConfirmDialog(this, "List called '" + list + "' already exists.  Replace?",
-											"Replace existing list?", JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION) {
-										return "User rejected the update";
-									}
-									// Delete the list and move on.
-									println(getClass(), ": Deleting list number " + listNumber);
-									stmt.executeUpdate(deleteExisting + listNumber);
-								}
-							}
-						} catch (Exception e) {
-							// Not really a problem -- this list does not exist yet.
-						}
-
-						if (listNumber == 0) {
-							try {
-								println(getClass(), ": Creating a new list called '" + list + "'");
-								stmt.executeUpdate(insert);
-
-								ResultSet rs2 = stmt.executeQuery(retrieve);
-								if (rs2.first())
-									listNumber = rs2.getInt(1);
-
-							} catch (Exception e) {
-								e.printStackTrace();
-								return "Reading the list number, which we just created, failed";
-							}
-						}
-
-						// Use the exiting channel list from the GUI
-						int sequence = 0;
-						for (SignageContent SC : theListOfAllChannels.getList()) {
-							if (SC instanceof Channel) {
-								Channel c = (Channel) SC;
-								insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + c.getNumber() + ", "
-										+ c.getTime() + ", NULL, " + (sequence++) + ")";
-								if (stmt.executeUpdate(insert) == 1) {
-									// OK, the insert worked.
-									println(getClass(), ": Successful insert " + insert);
-								} else {
-									new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
-									return "Insert of list element number " + sequence + " failed";
-								}
-
-							}
-						}
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				return "An exception caused this to fail.";
-			}
+			saveListToDatabase(listName.getText(), myName.getText());
 		else if (userValue == JOptionPane.CANCEL_OPTION) {
 			return CreateListOfChannels.CANCELLED;
 		}
@@ -462,6 +432,85 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		if (newListListener != null)
 			newListListener.newListCreationCallback();
 		return null;
+	}
+
+	private void saveListToDatabase(String listName, String authorName) {
+		try {
+			Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			synchronized (connection) {
+				int listNumber = 0;
+
+				String list = lastListName = listName;
+				if (list == null || list.length() == 0)
+					list = "" + new Date();
+				String author = defaultName = authorName;
+
+				// The queries needed here:
+
+				String isItThereAlready = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "'";
+				String retrieve = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "'";
+				String deleteExisting = "DELETE FROM ChannelList WHERE ListNumber="; // To be continued
+				String insert = "INSERT INTO ChannelListName VALUES (NULL, '" + list + "', '" + author + "')";
+
+				try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+
+					// Does this list already exist in the database? If so, warn the user and then overwrite it. Otherwise, just
+					// save it.
+					try (ResultSet rs2 = stmt.executeQuery(isItThereAlready)) {
+						if (rs2.first()) {
+							listNumber = rs2.getInt("ListNumber"); // Got the list number.
+							if (listNumber > 0) {
+								if (JOptionPane.showConfirmDialog(this, "List called '" + list + "' already exists.  Replace?",
+										"Replace existing list?", JOptionPane.OK_CANCEL_OPTION) != JOptionPane.OK_OPTION) {
+									return; // return "User rejected the update";
+								}
+								// Delete the list and move on.
+								println(getClass(), ": Deleting list number " + listNumber);
+								stmt.executeUpdate(deleteExisting + listNumber);
+							}
+						}
+					} catch (Exception e) {
+						// Not really a problem -- this list does not exist yet.
+					}
+
+					if (listNumber == 0) {
+						try {
+							println(getClass(), ": Creating a new list called '" + list + "'");
+							stmt.executeUpdate(insert);
+
+							ResultSet rs2 = stmt.executeQuery(retrieve);
+							if (rs2.first())
+								listNumber = rs2.getInt(1);
+
+						} catch (Exception e) {
+							e.printStackTrace();
+							return; // return "Reading the list number, which we just created, failed";
+						}
+					}
+
+					// Use the exiting channel list from the GUI
+					int sequence = 0;
+					for (SignageContent SC : theListOfAllChannels.getList()) {
+						if (SC instanceof Channel) {
+							Channel c = (Channel) SC;
+							insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + c.getNumber() + ", "
+									+ c.getTime() + ", NULL, " + (sequence++) + ")";
+							if (stmt.executeUpdate(insert) == 1) {
+								// OK, the insert worked.
+								println(getClass(), ": Successful insert " + insert);
+							} else {
+								new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
+								return; // return "Insert of list element number " + sequence + " failed";
+							}
+
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return; // return "An exception caused this to fail.";
+		}
 	}
 
 	private String pad(String name, int longest) {
@@ -482,7 +531,9 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 	public static List<String> getExistingList() throws Exception {
 		List<String> retval = new ArrayList<String>();
 		Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-		String query = "Select * from ChannelListName";
+		// TODO - Add a new column to this table that says if the list is valid or not (which would be used to delete the list but
+		// retain it if it is needed later)
+		String query = "Select ListName,ListAuthor,ListNumber from ChannelListName";
 
 		synchronized (connection) {
 			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
@@ -519,6 +570,13 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 	 */
 	public void setNewListListener(NewListCreationListener newListListener) {
 		this.newListListener = newListListener;
+	}
+
+	/**
+	 * @return The name of the most recent list that was saved or restored.
+	 */
+	public String getListName() {
+		return lastListName;
 	}
 
 }

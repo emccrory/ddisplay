@@ -204,7 +204,10 @@ public class Util {
 	 *            the message to print
 	 */
 	public static void println(Class<?> clazz, String message) {
-		System.out.println(new Date() + " -- " + clazz.getSimpleName() + message);
+		if (message.startsWith(":"))
+			System.out.println(new Date() + " - " + clazz.getSimpleName() + message);
+		else
+			System.out.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
 	}
 
 	/**
@@ -244,17 +247,17 @@ public class Util {
 		return blob;
 	}
 
-	
-	private static HashMap<Integer, Channel> alreadyRetrieved = new HashMap<Integer, Channel>();
+	private static HashMap<Integer, Channel>	alreadyRetrieved	= new HashMap<Integer, Channel>();
+
 	/**
 	 * @param channelNumber
 	 *            The channel number to look up
 	 * @return The channel that is specified by this channel number
 	 */
 	public static SignageContent getChannelFromNumber(int channelNumber) {
-		if ( alreadyRetrieved.containsKey(channelNumber))
+		if (alreadyRetrieved.containsKey(channelNumber))
 			return new ChannelImpl(alreadyRetrieved.get(channelNumber));
-		
+
 		Channel retval = null;
 		try {
 			retval = new ChannelImpl("Fermilab", ChannelCategory.PUBLIC, "Fermilab", new URI("http://www.fnal.gov"), 0, 360000L);
@@ -354,7 +357,8 @@ public class Util {
 		} else {
 			// TODO This is an image. Look up that image number and then make the URL that shows this image.
 			int portfolioID = ONE_BILLION - channelNumber;
-			String query = "SELECT Filename,Description from Portfolio where PortfolioID=" + portfolioID + " AND Approval='Approved'";
+			String query = "SELECT Filename,Description from Portfolio where PortfolioID=" + portfolioID
+					+ " AND Approval='Approved'";
 			println(DisplayControllerMessagingAbstract.class, " -- Getting a portfolio image: [" + query + "]");
 			Connection connection;
 			try {
@@ -371,7 +375,8 @@ public class Util {
 							String url = getFullURLPrefix() + "/" + rs.getString("Filename");
 							String desc = rs.getString("Description");
 
-							retval = new ChannelImpl("PortfolioImage", ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, 2*60*60*1000L);
+							retval = new ChannelImpl("PortfolioImage", ChannelCategory.PUBLIC, desc, new URI(url), channelNumber,
+									2 * 60 * 60 * 1000L);
 							alreadyRetrieved.put(channelNumber, retval);
 
 							stmt.close();
@@ -420,4 +425,18 @@ public class Util {
 		errorMessageThread.start();
 	}
 
+	/**
+	 * @param count The number to make into an ordinal
+	 * @return the suffix to make this count an ordinal, e.g. "st" for count=1
+	 */
+	public static String getOrdinalSuffix(final int count) {
+		String ordinal = "th";
+		if (count != 11 && (count % 10) == 1)
+			ordinal = "st";
+		if (count != 12 && (count % 10) == 2)
+			ordinal = "nd";
+		if (count != 13 && (count % 10) == 3)
+			ordinal = "rd";
+		return ordinal;
+	}
 }

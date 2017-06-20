@@ -19,15 +19,15 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 	 * 
 	 */
 	public SelectedChannelsTableModel() {
-		relativeWidths = new int[] { 30, 400, 50 };
-		columnNames = new String[] { "Seq", "Channel / URL", "Dwell", };
+		relativeWidths = new int[] { 20, 40, 400, 50 };
+		columnNames = new String[] { "Seq", "Chan#", "Channel / URL", "Dwell", };
 	}
 
 	@Override
 	public Class<? extends Object> getColumnClass(int c) {
 		switch (c) {
 
-		case 1:
+		case 2:
 			return Channel.class;
 		default:
 			return Long.class;
@@ -36,7 +36,7 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 
 	@Override
 	public boolean isCellEditable(int row, int col) {
-		return col == 2;
+		return col == 3;
 	}
 
 	@Override
@@ -47,8 +47,10 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 		switch (col) {
 
 		case 1:
-			return cac;
+			return cac.getNumber();
 		case 2:
+			return cac;
+		case 3:
 			return cac.getTime() / 1000L;
 		default:
 			return row;
@@ -57,7 +59,7 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 
 	@Override
 	public void setValueAt(Object value, int row, int col) {
-		if (col != 2)
+		if (col != 3)
 			return;
 		Channel chan = allChannels.get(row); // It has to be re-mapped already
 		chan.setTime(1000L * ((Long) value));

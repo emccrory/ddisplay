@@ -1,15 +1,17 @@
 package gov.fnal.ppd.dd.channel.list;
 
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
-import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import static gov.fnal.ppd.dd.channel.ListUtils.getDwellStrings;
 import static gov.fnal.ppd.dd.channel.ListUtils.interp;
-import gov.fnal.ppd.dd.MakeChannelSelector;
+import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.BigLabel;
 import gov.fnal.ppd.dd.channel.ChannelListHolder;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.SaveRestoreListOfChannels;
 import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,6 +26,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,23 +49,30 @@ import javax.swing.event.ListSelectionListener;
  * 
  */
 public class ChannelListGUI extends JPanel implements ActionListener, ChannelListHolder {
-	private static final long				serialVersionUID	= 7371440415155147051L;
-	private ChannelCooserAsTable			choiceTable			= new ChannelCooserAsTable();
-	private SelectedChannelsDisplayAsTable	resultsTable		= new SelectedChannelsDisplayAsTable();
-	private JSpinner						time;
-	private Box								timeWidgets			= Box.createHorizontalBox();
+	private static final long				serialVersionUID				= 7371440415155147051L;
 
-	private BigLabel						selectedRowLabel	= new BigLabel(" ", Font.PLAIN);
-	private JButton							moveUp				= new JButton("⇧");
-	private JButton							moveDown			= new JButton("⇩");
-	private JButton							delete				= new JButton("✖");
-	private JButton							accept				= new JButton("Accept");
-	private JButton							instructionsButton	= new JButton("Instructions");
-	private Box								bottomBox			= Box.createHorizontalBox();
-	private Box								tableBox			= Box.createHorizontalBox();
+	private static boolean					PART_OF_CHANNEL_SELECTOR		= true;
+
+	private ChannelCooserAsTable			choiceTable						= new ChannelCooserAsTable();
+	private SelectedChannelsDisplayAsTable	resultsTable					= new SelectedChannelsDisplayAsTable();
+	private JSpinner						time;
+
+	private final BigLabel					selectedRowLabel				= new BigLabel(" (no rows selected) ", Font.PLAIN);
+	private final JLabel					header1							= new JLabel("The channels in the list so far");
+	private final JLabel					header2							= new JLabel("Choose channels to add to the list");
+	private JLabel							databaseNameOfThisListHolder	= new JLabel("(none)");
+
+	private JButton							moveRowUp						= new JButton("⇧");
+	private JButton							moveRowDown						= new JButton("⇩");
+	private JButton							deleteRow						= new JButton("✖");
+	private JButton							acceptThisList					= new JButton("Send this list to the Display");
+	private JButton							instructionsButton				= new JButton("Instructions");
+
+	private Box								bottomBox						= Box.createHorizontalBox();
+	private Box								tableBox						= Box.createHorizontalBox();
+	private Box								timeWidgets						= Box.createHorizontalBox();
+
 	private SaveRestoreListOfChannels		saveRestore;
-	private final JLabel					header1				= new JLabel("The channels in the list so far");
-	private final JLabel					header2				= new JLabel("Choose channels to add to the list");
 
 	// private NewListCreationListener newListCreationCallback = null;
 
@@ -72,9 +82,10 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-		prepareSaverImages();
 		credentialsSetup();
-		MakeChannelSelector.selectorSetup();
+		// MakeChannelSelector.selectorSetup();
+		SHOW_IN_WINDOW = true;
+		PART_OF_CHANNEL_SELECTOR = false;
 
 		// Schedule a job for the event-dispatching thread: creating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -106,18 +117,18 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 
 		resultsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent event) {
-				Channel chan = (Channel) resultsTable.getValueAt(resultsTable.getSelectedRow(), 1);
+				Channel chan = (Channel) resultsTable.getValueAt(resultsTable.getSelectedRow(), 2);
 				if (chan != null) {
-					selectedRowLabel.setText("Row " + resultsTable.getSelectedRow() + " selected: channel #" + chan.getNumber()
-							+ " [" + chan + ", dwell=" + chan.getTime() + "]");
-					moveUp.setEnabled(true);
-					moveDown.setEnabled(true);
-					delete.setEnabled(true);
+					selectedRowLabel.setText("Row " + resultsTable.getSelectedRow() + " selected: Channel #" + chan.getNumber()
+							+ " [\"" + chan + "\", dwell=" + chan.getTime() / 1000L + " secs]");
+					moveRowUp.setEnabled(true);
+					moveRowDown.setEnabled(true);
+					deleteRow.setEnabled(true);
 				} else {
-					selectedRowLabel.setText(" ");
-					moveUp.setEnabled(false);
-					moveDown.setEnabled(false);
-					delete.setEnabled(false);
+					selectedRowLabel.setText(" (no rows selected) ");
+					moveRowUp.setEnabled(false);
+					moveRowDown.setEnabled(false);
+					deleteRow.setEnabled(false);
 				}
 			}
 		});
@@ -129,6 +140,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 			w = 500;
 			h = 500;
 		}
+
 		choiceTable.setPreferredScrollableViewportSize(new Dimension(w, h));
 
 		BigLabel bl = new BigLabel("Approx Dwell Time (sec): ", Font.PLAIN);
@@ -162,15 +174,17 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		timeWidgets.add(timeInterpretLabel);
 		timeWidgets.add(Box.createGlue());
 
-		accept.addActionListener(new ActionListener() {
+		acceptThisList.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Num channels: " + resultsTable.getRowCount());
+				println(ChannelListGUI.class, "Num channels: " + resultsTable.getRowCount());
 				for (int row = 0; row < resultsTable.getRowCount(); row++) {
-					Channel chan = (Channel) resultsTable.getValueAt(row, 1);
-					System.out.println(row + ": Chan #" + chan.getNumber() + " [" + chan.getName() + "] dwell=" + chan.getTime());
+					Channel chan = (Channel) resultsTable.getValueAt(row, 2);
+					System.out.println("     " + row + ": Chan #" + chan.getNumber() + " [" + chan.getName() + "] dwell="
+							+ chan.getTime());
 				}
+				databaseNameOfThisListHolder.setText(saveRestore.getListName() + " [" + resultsTable.getRowCount() + " entries]");
 			}
 		});
 
@@ -212,34 +226,41 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		float fontSize = 18.0f;
 		if (SHOW_IN_WINDOW)
 			fontSize = 14.0f;
-		moveUp.setFont(getFont().deriveFont(fontSize));
-		moveUp.setEnabled(false);
-		moveUp.setActionCommand("up");
-		moveUp.addActionListener(this);
+		moveRowUp.setFont(getFont().deriveFont(fontSize));
+		moveRowUp.setEnabled(false);
+		moveRowUp.setActionCommand("up");
+		moveRowUp.addActionListener(this);
 
-		moveDown.setFont(getFont().deriveFont(fontSize));
-		moveDown.setEnabled(false);
-		moveDown.setActionCommand("down");
-		moveDown.addActionListener(this);
+		moveRowDown.setFont(getFont().deriveFont(fontSize));
+		moveRowDown.setEnabled(false);
+		moveRowDown.setActionCommand("down");
+		moveRowDown.addActionListener(this);
 
-		delete.setFont(getFont().deriveFont(fontSize));
-		delete.setForeground(Color.red);
-		delete.setEnabled(false);
-		delete.setActionCommand("delete");
-		delete.addActionListener(this);
+		deleteRow.setFont(getFont().deriveFont(fontSize));
+		deleteRow.setForeground(Color.red);
+		deleteRow.setEnabled(false);
+		deleteRow.setActionCommand("delete");
+		deleteRow.addActionListener(this);
 
 		selectedRowLabel.setFont(new Font("Arial", Font.PLAIN, (int) fontSize));
-		bottomBox.add(selectedRowLabel);
+
+		bottomBox.add(moveRowUp);
 		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
-		bottomBox.add(moveUp);
+		bottomBox.add(moveRowDown);
 		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
-		bottomBox.add(moveDown);
+		bottomBox.add(deleteRow);
 		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
-		bottomBox.add(delete);
-		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
-		bottomBox.add(accept);
-		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
+		// Beware: This is a bit of a kludge
+		if (PART_OF_CHANNEL_SELECTOR) {
+			bottomBox.add(acceptThisList);
+			bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
+		}
 		bottomBox.add(instructionsButton);
+
+		Box bottomBoxHolder = Box.createVerticalBox();
+		selectedRowLabel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 10));
+		bottomBoxHolder.add(selectedRowLabel);
+		bottomBoxHolder.add(bottomBox);
 
 		resultsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane jScrollPane = new JScrollPane(resultsTable);
@@ -251,6 +272,9 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		header1.setAlignmentX(CENTER_ALIGNMENT);
 		vb.add(header1);
 		vb.add(jScrollPane);
+
+		databaseNameOfThisListHolder.setAlignmentX(CENTER_ALIGNMENT);
+		vb.add(databaseNameOfThisListHolder);
 		tableBox.add(vb);
 
 		choiceTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -272,7 +296,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		add(tableBox, BorderLayout.CENTER);
 
 		Box bb = Box.createVerticalBox();
-		bb.add(bottomBox);
+		bb.add(bottomBoxHolder);
 		bb.add(saveRestore);
 		add(bb, BorderLayout.SOUTH);
 
@@ -295,6 +319,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		if (brightness < 0.6) {
 			header1.setForeground(Color.white);
 			header2.setForeground(Color.white);
+			databaseNameOfThisListHolder.setForeground(Color.white);
 		}
 	}
 
@@ -303,7 +328,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 	 */
 	private static void createAndShowGUI() {
 		// Create and set up the window.
-		JFrame frame = new JFrame("ChannelTableTest");
+		JFrame frame = new JFrame("Dynamic Displays: Manipulate Channel Lists");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		ChannelListGUI clg = new ChannelListGUI();
@@ -327,9 +352,51 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		// }
 		// System.out.println("] Default dwell time=" + time.getValue());
 
+		// If the default dwell time is less than the requested dwell time, add it several times
 		Channel chan = choiceTable.getRow(viewRow);
-		resultsTable.add(chan, (Long) time.getValue());
-		System.out.println("Results table now has " + resultsTable.getRowCount() + " rows.");
+		long chanDwell = chan.getTime() / 1000L;
+		long askedFor = (long) time.getValue();
+		int k = 1;
+		if (chanDwell == 0 || chanDwell > askedFor) {
+			resultsTable.add(chan, askedFor);
+		} else {
+			resultsTable.add(chan, chanDwell);
+			for (long totalTime = chanDwell; totalTime + chanDwell < askedFor; totalTime += chanDwell) {
+				resultsTable.add(chan, chanDwell);
+				k++;
+			}
+		}
+		if (showThePopup(k, askedFor, chanDwell))
+			println(getClass(), "Results table now has " + resultsTable.getRowCount() + " rows.");
+		databaseNameOfThisListHolder.setText(saveRestore.getListName() + " [" + resultsTable.getRowCount() + " entries]");
+	}
+
+	private long	whenToShowThePopup	= 0L;
+
+	private boolean showThePopup(final int count, final long d1, final long d2) {
+		if (count <= 1)
+			return false;
+
+		if (System.currentTimeMillis() < whenToShowThePopup) {
+			// Check this assumption: Assume that the user is adding channels a lot over a long period, so reset this timer
+			whenToShowThePopup = System.currentTimeMillis() + ONE_HOUR;
+			// This means that it will only show this popup again when there is a one hour break
+			return false;
+		}
+
+		// Create the popup and return
+		JCheckBox hideMe = new JCheckBox("Hide this message for an hour");
+		JLabel countLabel = new JLabel("<html><h2>This channel was entered into your list " + count
+				+ " times</h2>This is because you asked for a dwell time for this entry (" + d1
+				+ " secs) that was greater than natural durartion of this channel (" + d2 + " secs).</html>");
+		Box message = Box.createVerticalBox();
+		message.add(countLabel);
+		message.add(Box.createRigidArea(new Dimension(20, 20)));
+		message.add(hideMe);
+		JOptionPane.showMessageDialog(this, message);
+		if (hideMe.isSelected())
+			whenToShowThePopup = System.currentTimeMillis() + ONE_HOUR;
+		return true;
 	}
 
 	@Override
@@ -351,7 +418,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 			model.delete(here);
 			break;
 		default:
-			System.out.println("oops");
+			println(getClass(), "Invalid action command received.  This should not happen.");
 			break;
 		}
 	}
@@ -372,6 +439,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 	public void channelAdd(Channel c) {
 		SelectedChannelsTableModel model = (SelectedChannelsTableModel) resultsTable.getModel();
 		model.addChannel(c);
+		databaseNameOfThisListHolder.setText(saveRestore.getListName() + " [" + resultsTable.getRowCount() + " entries]");
 	}
 
 	@Override
@@ -383,7 +451,29 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 	 * @param newListCreationCallback
 	 *            the newListCreationCallback to set
 	 */
-	public void setNewListCreationCallback(NewListCreationListener newListCreationCallback) {
-		saveRestore.setNewListListener(newListCreationCallback);
+	public void setNewListCreationCallback(final NewListCreationListener newListCreationCallback) {
+		saveRestore.setNewListListener(new NewListCreationListener() {
+
+			@Override
+			public void newListCreationCallback() {
+				databaseNameOfThisListHolder.setText(saveRestore.getListName());
+				newListCreationCallback.newListCreationCallback();
+			}
+		});
+	}
+
+	/**
+	 * @return The list of channels, as a new channel, to be sent to the display
+	 */
+	public SignageContent getChannelList() {
+		return new ChannelPlayList(resultsTable.getChannelList(), ONE_HOUR);
+	}
+
+	/**
+	 * @param listener
+	 *            The object that will handle the mechanisms to send my list to a display
+	 */
+	public void setListener(final ActionListener listener) {
+		acceptThisList.addActionListener(listener);
 	}
 }

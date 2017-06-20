@@ -6,7 +6,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
-import static gov.fnal.ppd.dd.GlobalVariables.lastDisplayChange;
+import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
@@ -197,7 +197,7 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 
 				@Override
 				public void stateChanged(ChangeEvent arg0) {
-					lastDisplayChange = System.currentTimeMillis();
+					userHasDoneSomething();
 					setAllTabs(displayTabPane.getSelectedIndex());
 				}
 			});
@@ -399,7 +399,7 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 		int displayNum = e.getID();
 		adjustTitle(displayList.get(displayNum));
 		setTabColor(displayList.get(displayNum), displayNum);
-		lastDisplayChange = System.currentTimeMillis();
+		userHasDoneSomething();
 	}
 
 	private void setTabColor(Display d, int index) {
