@@ -19,6 +19,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JOptionPane;
+
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -77,6 +79,27 @@ public class GetMessagingServer {
 					} else {
 						System.err.println("No location information for this device, " + myName + "\n\nQuery:\n" + query);
 						new Exception().printStackTrace();
+						String typeOfQuery = "The database contains NO INFORMATION for a display for node, " + myName;
+						String programName = "Dynamic Display";
+						if (query.contains("Instance")) {
+							typeOfQuery = "The database contains NO INFORMATION for a channel selector for node, " + myName
+									+ ", instance='" + THIS_IP_NAME_INSTANCE + "'";
+							programName = "ChannelSelector instance";
+						}
+
+						Object[] options = { "Exit program", "Show failed database query and then exit" };
+						if (JOptionPane
+								.showOptionDialog(
+										null,
+										"<html><h1>Database configuration error!</h1>"
+												+ typeOfQuery
+												+ ".<br>The database entry for this node must be entered properly in order to run this program.</html>",
+										"Cannot start " + programName, JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE, null,
+										options, options[0]) == 1) {
+							JOptionPane.showMessageDialog(null, query.replace("from", "\nfrom").replace("FROM", "\nFROM"),
+									"The failed query", JOptionPane.ERROR_MESSAGE);
+						}
+
 						System.exit(-1);
 					}
 				}
