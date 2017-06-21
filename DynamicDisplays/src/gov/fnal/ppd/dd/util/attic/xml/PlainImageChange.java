@@ -65,6 +65,7 @@ public class PlainImageChange extends EncodedCarrier {
 		return DatatypeConverter.printBase64Binary(baos.toByteArray());
 	}
 
+	@SuppressWarnings("unused")
 	private BufferedImage y(String base64String) throws IOException {
 		byte[] bytearray = DatatypeConverter.parseBase64Binary(base64String);
 		// byte [] bytearray = Base64.decode(base64String);

@@ -36,7 +36,7 @@ public class ChannelPlayList implements Channel {
 	// private Display myDisplay = null;
 	private int						frameNumber			= 0;
 	private long					expiration			= 0;
-	private long					lastAdvanceTime		= 0;
+	// private long					lastAdvanceTime		= 0;
 
 	/**
 	 * Create a channel list to play out on the Display.
@@ -169,7 +169,7 @@ public class ChannelPlayList implements Channel {
 	}
 
 	/**
-	 * @param channels
+	 * @param list
 	 */
 	public void setChannels(final List<? extends SignageContent> list) {
 		for (SignageContent L : list)

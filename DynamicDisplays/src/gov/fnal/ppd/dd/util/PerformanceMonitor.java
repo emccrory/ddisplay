@@ -55,13 +55,17 @@ public class PerformanceMonitor {
 		}
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
 		PerformanceMonitor m = new PerformanceMonitor();
 
 		// Two useless threads that take up CPU time
 		new Thread() {
 			public void run() {
 				while (true) {
+					@SuppressWarnings("unused")
 					double count = 1;
 					for (int i = 0; i < 100; i++)
 						count *= (i + 1);
@@ -72,6 +76,7 @@ public class PerformanceMonitor {
 		new Thread() {
 			public void run() {
 				while (true) {
+					@SuppressWarnings("unused")
 					double count = 1;
 					for (int i = 0; i < 100; i++)
 						count *= (i + 1.234);

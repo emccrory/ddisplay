@@ -26,6 +26,7 @@ public class WhoIsInChatRoom extends Thread {
 
 	private MessagingClient	client;
 	private boolean[]		aliveList		= null;
+	@SuppressWarnings("unused")
 	private boolean[]		lastAliveList	= null;
 	private DisplayKeeper	alive;
 	private boolean			debug			= false;

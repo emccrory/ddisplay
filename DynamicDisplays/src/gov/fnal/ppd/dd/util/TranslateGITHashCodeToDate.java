@@ -175,7 +175,11 @@ public class TranslateGITHashCodeToDate {
 		this.flavor = flavor;
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * 
+	 * @param args
+	 */
+	public static void main(final String[] args) {
 		boolean succinct = true;
 
 		credentialsSetup();

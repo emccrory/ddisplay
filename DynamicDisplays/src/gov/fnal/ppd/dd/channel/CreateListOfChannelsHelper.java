@@ -46,6 +46,9 @@ public class CreateListOfChannelsHelper {
 
 	/**
 	 * Construct this helper
+	 * 
+	 * @param c
+	 *            The default color to use
 	 */
 	public CreateListOfChannelsHelper(final Color c) {
 		this.color = c;
@@ -66,9 +69,8 @@ public class CreateListOfChannelsHelper {
 		final JLabel instructions = new JLabel(
 				"<html><p align='center'>This page allows you to play a sequence of Channels on a Display.<br>"
 						+ "Create the sequence by selecting the Channels in order below.  Also, set the dwell time.<br>"
-						+ "Click <b>\"Send this Channel List Sequence to the Display\"</b> <em>(above)</em> and the " +
-						"Display will play these Channels in sequence.</p></html>",
-				JLabel.CENTER);
+						+ "Click <b>\"Send this Channel List Sequence to the Display\"</b> <em>(above)</em> and the "
+						+ "Display will play these Channels in sequence.</p></html>", JLabel.CENTER);
 
 		instructions.setFont(instructions.getFont().deriveFont(Font.PLAIN, 11));
 		instructions.setAlignmentX(JComponent.CENTER_ALIGNMENT);

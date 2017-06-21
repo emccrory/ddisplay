@@ -66,6 +66,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	protected MessagingClientLocal	messagingClient;
 	private String					myName;
+	@SuppressWarnings("unused")
 	private String					mySubject;
 	private int						statusUpdatePeriod		= 10;
 	protected boolean				showNumber				= true;

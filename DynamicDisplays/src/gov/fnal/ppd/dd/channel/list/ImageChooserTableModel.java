@@ -2,7 +2,6 @@ package gov.fnal.ppd.dd.channel.list;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
-import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.DrawingPanelForImage;
@@ -11,7 +10,6 @@ import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

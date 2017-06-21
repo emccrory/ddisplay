@@ -130,6 +130,9 @@ public class MakeChannelSelector {
 	private static boolean	missing				= true;
 	private static String	myIPName			= "TBD";
 
+	/**
+	 * Use this static method to initialize a program that is acting like a channel selector.
+	 */
 	public static void selectorSetup() {
 		getMessagingServerNameSelector();
 		Connection connection = null;

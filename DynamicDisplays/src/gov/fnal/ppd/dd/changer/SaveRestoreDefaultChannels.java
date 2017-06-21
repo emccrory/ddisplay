@@ -137,7 +137,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	/**
 	 * 
 	 */
-	public static void setup() {
+	private static void setup() {
 		if (firstTime) {
 			me = new SaveRestoreDefaultChannels(null);
 			firstTime = false;
@@ -393,25 +393,25 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 	}
 
-	private static class SimpleDialog extends JDialog implements ActionListener {
-		private String	lastCommand	= null;
-
-		public SimpleDialog(final String title, final JComponent c) {
-			setTitle(title);
-			add(c);
-			this.setAlwaysOnTop(true);
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			lastCommand = e.getActionCommand();
-			dispose();
-		}
-
-		public String getLastCommand() {
-			return lastCommand;
-		}
-	}
+	// private static class SimpleDialog extends JDialog implements ActionListener {
+	// private String lastCommand = null;
+	//
+	// public SimpleDialog(final String title, final JComponent c) {
+	// setTitle(title);
+	// add(c);
+	// this.setAlwaysOnTop(true);
+	// }
+	//
+	// @Override
+	// public void actionPerformed(ActionEvent e) {
+	// lastCommand = e.getActionCommand();
+	// dispose();
+	// }
+	//
+	// public String getLastCommand() {
+	// return lastCommand;
+	// }
+	// }
 
 	protected JComponent getRestorePanel() {
 		Vector<String> all = new Vector<String>();

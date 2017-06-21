@@ -15,6 +15,12 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+/**
+ * Assist in the resizing of the images needed in the ChannelSelector, and related programs.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017
+ * 
+ */
 public class DrawingPanelForImage extends JPanel {
 
 	private static final long				serialVersionUID	= 8963747596403311688L;
@@ -22,7 +28,13 @@ public class DrawingPanelForImage extends JPanel {
 	private ImageIcon						icon;
 	private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 150 : 250);
 
-	public DrawingPanelForImage(String url, Color bgColor) {
+	/**
+	 * @param url
+	 *            The full URL of the image that is to be resized
+	 * @param bgColor
+	 *            The background color to use for this panel
+	 */
+	public DrawingPanelForImage(final String url, final Color bgColor) {
 		int height = LONG_EDGE;
 		int width = LONG_EDGE;
 		if (cache.containsKey(url)) {

@@ -168,6 +168,7 @@ public class DCProtocol {
 			break;
 			
 		case SUBSCRIBE:
+			@SuppressWarnings("unused")
 			String subject = message.getMessage();
 			// TODO -- What do we do with this??
 			break;
