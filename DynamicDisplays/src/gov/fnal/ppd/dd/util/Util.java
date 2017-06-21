@@ -6,6 +6,7 @@
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
@@ -81,7 +82,6 @@ public class Util {
 	 */
 	public static final String		MY_NAME;
 
-	private static final int		ONE_BILLION		= 1000000000;
 	static {
 		int index = (int) (DEFAULT_URLS.length * Math.random());
 		MY_URL = DEFAULT_URLS[index];

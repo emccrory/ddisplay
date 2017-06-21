@@ -19,27 +19,22 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -83,64 +78,6 @@ public class ImageGrid extends DetailedInformationGrid {
 		// this(text);
 		// setFont(getFont().deriveFont(size));
 		// }
-	}
-
-	private static class DrawingPanel extends JPanel {
-
-		private static final long				serialVersionUID	= 8963747596403311688L;
-		private static Map<String, ImageIcon>	cache				= new HashMap<String, ImageIcon>();
-		private ImageIcon						icon;
-		private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 150 : 250);
-
-		public DrawingPanel(String url, Color bgColor) {
-			int height = LONG_EDGE;
-			int width = LONG_EDGE;
-			if (cache.containsKey(url)) {
-				icon = cache.get(url); // This just copies the reference, not the icon itself.
-				width = icon.getIconWidth();
-				height = icon.getIconHeight();
-			} else
-				try {
-					// This does not work unless we cache the images (we run out of space!)
-					// System.out.println(DrawingPanel.class.getSimpleName() + ": fetching image at " + url);
-
-					String modifiedURL = url.replace("upload/items", "upload/items/thumbs");
-					modifiedURL = modifiedURL.replace("upload/items/thumbs/otheritems", "upload/items/otheritems/thumbs");
-					ImageIcon icon0 = new ImageIcon(new URL(modifiedURL));
-					int h = icon0.getIconHeight();
-					int w = icon0.getIconWidth();
-					if (h > w) {
-						width = LONG_EDGE * w / h;
-						height = LONG_EDGE;
-					} else {
-						height = LONG_EDGE * h / w;
-						width = LONG_EDGE;
-					}
-					Image img = icon0.getImage();
-
-					BufferedImage smallImage = createResizedCopy(img, width, height, true);
-					icon = new ImageIcon(smallImage);
-					cache.put(url, icon);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}
-
-			setMinimumSize(new Dimension(width, height));
-			setMaximumSize(new Dimension(width, height));
-			setPreferredSize(new Dimension(width, height));
-			setBackground(bgColor);
-			setAlignmentX(JPanel.LEFT_ALIGNMENT);
-		}
-
-		@Override
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			icon.paintIcon(this, g, 0, 0);
-		}
-
-		public ImageIcon getIcon() {
-			return icon;
-		}
 	}
 
 	private static class DDIconButton extends DDButton {
@@ -252,7 +189,7 @@ public class ImageGrid extends DetailedInformationGrid {
 					String url = getFullURLPrefix() + "/" + name;
 					// System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): resizing " + url);
 
-					DrawingPanel dp = new DrawingPanel(url, display.getPreferredHighlightColor());
+					DrawingPanelForImage dp = new DrawingPanelForImage(url, display.getPreferredHighlightColor());
 
 					url += "&color=" + colorString;
 					String desc = imageChannel.getDescription();
@@ -339,7 +276,7 @@ public class ImageGrid extends DetailedInformationGrid {
 		return list;
 	}
 
-	private static BufferedImage createResizedCopy(Image originalImage, int scaledWidth, int scaledHeight, boolean preserveAlpha) {
+	static BufferedImage createResizedCopy(Image originalImage, int scaledWidth, int scaledHeight, boolean preserveAlpha) {
 		int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
 		BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
 		Graphics2D g = scaledBI.createGraphics();

@@ -6,6 +6,7 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.ChannelImage;
@@ -142,17 +143,19 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		int count = 0;
 		try {
 			rs = stmt
-					.executeQuery("SELECT Filename,Experiment,Description FROM Portfolio WHERE Type='Image' AND Approval='Approved' ORDER BY Sequence");
+					.executeQuery("SELECT Filename,Experiment,Description,PortfolioID FROM Portfolio WHERE Type='Image' AND Approval='Approved' ORDER BY Sequence");
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
 					String name = rs.getString("FileName");
 					String descr = rs.getString("Description");
 					String exp = rs.getString("Experiment");
+					int imageNumber = rs.getInt("PortfolioID");
 
 					String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
 							+ "&caption=" + URLEncoder.encode(descr, "UTF-8");
-					SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
+					ChannelImage c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), imageNumber + ONE_BILLION, exp);
+					c.setNumber(imageNumber);
 
 					put(name, c);
 					rs.next();

@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.channel;
 
-import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.*;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
@@ -22,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -159,34 +161,71 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		}
 		int totalDwell = 0;
 
-		String query = "Select ChannelList.Number as Number,Name,SequenceNumber,Dwell, URL, Category, Description from ChannelList,Channel "
-				+ "WHERE ListNumber=" + listNumber + " AND Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
+		String query1 = "SELECT Number,Dwell,SequenceNumber FROM ChannelList where ListNumber=" + listNumber;
 
 		synchronized (connection) {
-			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-				try (ResultSet rs2 = stmt.executeQuery(query)) {
+			try (Statement stmt1 = connection.createStatement(); ResultSet rs1 = stmt1.executeQuery("USE " + DATABASE_NAME)) {
+				// try (ResultSet rs2 = stmt.executeQuery(query)) {
+				try (ResultSet rs2 = stmt1.executeQuery(query1)) {
 					if (rs2.first())
 						do {
 							int chanNumber = rs2.getInt("Number");
 							int seq = rs2.getInt("SequenceNumber");
 							long dwell = rs2.getLong("Dwell");
 							totalDwell += dwell;
-							// TODO -- The abbreviation argument (next line) is wrong.
-							ChannelCategory cat = new ChannelCategory(rs2.getString("Category"), "ABB");
-							String name = rs2.getString("Name");
-							String url = rs2.getString("URL");
-							String desc = rs2.getString("Description");
-							try {
-								URI uri = new URI(url);
-								ChannelInfoHolder cih = new ChannelInfoHolder(chanNumber, seq, dwell, name);
-								System.out.println(cih);
+							ChannelInfoHolder cih = null;
+							Channel channel = null;
+							String name = null;
+
+							// Sub-query based on the Number value here
+							if (chanNumber > ONE_BILLION) {
+								int portfolioID = chanNumber - ONE_BILLION;
+								try (Statement stmt2 = connection.createStatement()) {
+									String query2 = "SELECT Filename,Description,Experiment FROM Portfolio WHERE Approval='Approved' AND PortfolioID="
+											+ portfolioID;
+									ResultSet rs3 = stmt2.executeQuery(query2);
+
+									if (rs3.first()) {
+										name = rs3.getString("Filename");
+										String desc = rs3.getString("Description");
+										String exp = rs3.getString("Experiment");
+
+										String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo="
+												+ URLEncoder.encode(name, "UTF-8") + "&caption=" + URLEncoder.encode(desc, "UTF-8");
+										URI uri = new URI(url);
+										cih = new ChannelInfoHolder(chanNumber, seq, dwell, name);
+										channel = new ChannelImage(name, ChannelCategory.IMAGE, desc, uri, portfolioID, exp);
+										channel.setTime(dwell);
+									}
+								} catch (Exception e) {
+									e.printStackTrace();
+									continue;
+								}
+							} else {
+								try (Statement stmt2 = connection.createStatement()) {
+									String query2 = "SELECT Name,URL,Description,Category FROM Channel WHERE Approval=1 AND Number="
+											+ chanNumber;
+
+									ResultSet rs3 = stmt2.executeQuery(query2);
+									if (rs3.first()) {
+										name = rs3.getString("Name");
+										String url = rs3.getString("URL");
+										String desc = rs3.getString("Description");
+										URI uri = new URI(url);
+										cih = new ChannelInfoHolder(chanNumber, seq, dwell, name);
+										channel = new ChannelImpl(name, ChannelCategory.MISCELLANEOUS, desc, uri, chanNumber, dwell);
+									} // Guaranteed to be exactly one
+								} catch (Exception e) {
+									e.printStackTrace();
+									continue;
+								}
+							}
+							if (cih != null) {
 								internalScrollPanel.add(new JLabel(cih.toString()));
-								Channel channel = new ChannelImpl(name, cat, desc, uri, chanNumber, dwell);
 								channelListHolder.add(channel);
-								CreateListOfChannels.checkContent(channel);
 								listOfChannelsArea.append(cih + "\n");
-							} catch (URISyntaxException e) {
-								e.printStackTrace();
+							} else {
+								println(getClass(), "getThisList(): Unexpected condition - cih is null");
 							}
 
 						} while (rs2.next());
@@ -196,12 +235,11 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 						return;
 					}
 				} catch (SQLException e) {
-					System.err.println(query);
 					e.printStackTrace();
 				}
-				query = "SELECT ListName from ChannelListName WHERE ListNumber=" + listNumber;
+				String query = "SELECT ListName from ChannelListName WHERE ListNumber=" + listNumber;
 
-				try (ResultSet rs3 = stmt.executeQuery(query)) {
+				try (ResultSet rs3 = stmt1.executeQuery(query)) {
 					if (rs3.first()) {
 						do {
 							lastListName = rs3.getString("ListName");

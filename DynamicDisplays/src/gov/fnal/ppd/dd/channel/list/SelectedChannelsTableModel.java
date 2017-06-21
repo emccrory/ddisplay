@@ -113,6 +113,14 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 		fireTableDataChanged();
 	}
 
+	/**
+	 * Remove all the rows from this list
+	 */
+	public void clear() {
+		allChannels.clear();
+		fireTableDataChanged();		
+	}
+
 	// May need this later
 	// public Channel getRow(int row) {
 	// return allChannels.get(row);

@@ -297,6 +297,11 @@ public class GlobalVariables {
 	}
 
 	/**
+	 * A symbol for 1,000,000,000.
+	 */
+	public static final int			ONE_BILLION				= 1000000000;
+
+	/**
 	 * One second, expressed in milliseconds (e.g., 1000L)
 	 */
 	public static final long		ONE_SECOND				= 1000L;
@@ -601,9 +606,9 @@ public class GlobalVariables {
 	 * @return Has the user demonstrated their presence recently?
 	 */
 	public static boolean userIsInactive() {
-		return System.currentTimeMillis() > INACTIVITY_TIMEOUT + lastUserActivity;		
+		return System.currentTimeMillis() > INACTIVITY_TIMEOUT + lastUserActivity;
 	}
-	
+
 	/**
 	 * @return The number of milliseconds since the last, detected user activity.
 	 */

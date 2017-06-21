@@ -7,6 +7,7 @@ import static gov.fnal.ppd.dd.channel.ListUtils.getDwellStrings;
 import static gov.fnal.ppd.dd.channel.ListUtils.interp;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.BigLabel;
+import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.SaveRestoreListOfChannels;
@@ -34,6 +35,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerListModel;
@@ -53,18 +55,23 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 
 	private static boolean					PART_OF_CHANNEL_SELECTOR		= true;
 
+	private static Color					defaultColor					= new Color(45, 100, 30);
+
 	private ChannelCooserAsTable			choiceTable						= new ChannelCooserAsTable();
 	private SelectedChannelsDisplayAsTable	resultsTable					= new SelectedChannelsDisplayAsTable();
+	private ImageChooserAsTable				imageTable						= new ImageChooserAsTable();
+
 	private JSpinner						time;
 
 	private final BigLabel					selectedRowLabel				= new BigLabel(" (no rows selected) ", Font.PLAIN);
-	private final JLabel					header1							= new JLabel("The channels in the list so far");
-	private final JLabel					header2							= new JLabel("Choose channels to add to the list");
+	private final JLabel					header1							= new JLabel("The content in your list");
+	private final JLabel					header2							= new JLabel("Choose content to add to your list");
 	private JLabel							databaseNameOfThisListHolder	= new JLabel("(none)");
 
 	private JButton							moveRowUp						= new JButton("⇧");
 	private JButton							moveRowDown						= new JButton("⇩");
 	private JButton							deleteRow						= new JButton("✖");
+	private JButton							clearUserList					= new JButton("Clear your list");
 	private JButton							acceptThisList					= new JButton("Send this list to the Display");
 	private JButton							instructionsButton				= new JButton("Instructions");
 
@@ -112,6 +119,12 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		choiceTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				addRowToResultsTable();
+			}
+		});
+
+		imageTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				addImageRowToResultsTable();
 			}
 		});
 
@@ -242,8 +255,14 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		deleteRow.setActionCommand("delete");
 		deleteRow.addActionListener(this);
 
+		clearUserList.setActionCommand("clear");
+		clearUserList.setToolTipText("Clear the user-defined lists created here");
+		clearUserList.addActionListener(this);
+
 		selectedRowLabel.setFont(new Font("Arial", Font.PLAIN, (int) fontSize));
 
+		bottomBox.add(clearUserList);
+		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
 		bottomBox.add(moveRowUp);
 		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
 		bottomBox.add(moveRowDown);
@@ -286,8 +305,12 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		vb = Box.createVerticalBox();
 		header2.setFont(new Font("Arial", Font.BOLD, (SHOW_IN_WINDOW ? 16 : 20)));
 		header2.setAlignmentX(CENTER_ALIGNMENT);
+		JTabbedPane channelTypePane = new JTabbedPane();
+		channelTypePane.add("Channels", jScrollPane);
+		channelTypePane.add("Images", new JScrollPane(imageTable));
+
 		vb.add(header2);
-		vb.add(jScrollPane);
+		vb.add(channelTypePane);
 		tableBox.add(vb);
 
 		tableBox.setOpaque(true);
@@ -332,7 +355,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		ChannelListGUI clg = new ChannelListGUI();
-		clg.setBackgroundBypass(new Color(45, 100, 30));
+		clg.setBackgroundBypass(defaultColor);
 		frame.setContentPane(clg);
 
 		// Display the window.
@@ -369,6 +392,12 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		if (showThePopup(k, askedFor, chanDwell))
 			println(getClass(), "Results table now has " + resultsTable.getRowCount() + " rows.");
 		databaseNameOfThisListHolder.setText(saveRestore.getListName() + " [" + resultsTable.getRowCount() + " entries]");
+	}
+
+	private void addImageRowToResultsTable() {
+		int viewRow = imageTable.convertRowIndexToModel(imageTable.getSelectedRow());
+		ChannelImage chan = imageTable.getRow(viewRow);
+		resultsTable.add(chan, (long) time.getValue());
 	}
 
 	private long	whenToShowThePopup	= 0L;
@@ -417,6 +446,11 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		case "delete":
 			model.delete(here);
 			break;
+
+		case "clear":
+			model.clear();
+			break;
+
 		default:
 			println(getClass(), "Invalid action command received.  This should not happen.");
 			break;

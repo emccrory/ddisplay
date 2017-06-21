@@ -5,6 +5,7 @@
  */
 package gov.fnal.ppd.dd.channel;
 
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
@@ -55,5 +56,14 @@ public class ChannelImage extends ChannelImpl {
 	 */
 	public String getExp() {
 		return exp;
+	}
+
+	/**
+	 * 
+	 * @param i the Portfolio image number of this image
+	 */
+	public void setNumber(int i) {
+		this.number = ONE_BILLION + i;
+		
 	}
 }
