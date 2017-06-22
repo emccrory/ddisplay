@@ -37,6 +37,7 @@ package gov.fnal.ppd.dd.channel.list;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.dd.channel.ChannelImage;
+import gov.fnal.ppd.dd.signage.Channel;
 
 import java.awt.Font;
 
@@ -70,7 +71,7 @@ public class ImageChooserAsTable extends JTable {
 		
 		setRowHeight(160);
 		setFont(new Font("Monospace", Font.PLAIN, SHOW_IN_WINDOW ? 12 : 18));
-		setDefaultRenderer(ChannelImage.class, new ChannelCellRenderer());
+		setDefaultRenderer(ChannelImage.class, new ChannelImageCellRenderer());
 	}
 
 	/**

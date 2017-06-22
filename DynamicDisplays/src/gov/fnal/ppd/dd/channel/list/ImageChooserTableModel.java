@@ -6,13 +6,14 @@ import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.DrawingPanelForImage;
 import gov.fnal.ppd.dd.channel.ChannelImage;
-import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.ImageIcon;
 
@@ -37,18 +38,32 @@ public class ImageChooserTableModel extends AbstractChannelTableModel {
 		// Columns: (0) Image Icon, (1) Experiment, (2) URL
 
 		if (SHOW_IN_WINDOW)
-			relativeWidths = new int[] { 160, 70, 450 };
+			relativeWidths = new int[] { 160, 120, 400 };
 		else
-			relativeWidths = new int[] { 300, 110, 800 };
+			relativeWidths = new int[] { 300, 150, 800 };
 
 		columnNames = new String[] { "Image", "Exp", "Image Details" };
 
 		Set<SignageContent> list = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.IMAGE);
+		TreeSet<SignageContent> sortedList = new TreeSet<SignageContent>(new Comparator<SignageContent>() {
 
-		for (SignageContent SC : list) {
+			@Override
+			public int compare(SignageContent o1, SignageContent o2) {
+				if (o1 instanceof ChannelImage && o2 instanceof ChannelImage) {
+					String s1 = ((ChannelImage) o1).getExp() + "_" + ((ChannelImage) o1).getName();
+					String s2 = ((ChannelImage) o2).getExp() + "_" + ((ChannelImage) o2).getName();
+					return s1.compareTo(s2);
+				}
+				return o1.getName().compareTo(o2.getName());
+			}
+		}
+		);
+		sortedList.addAll(list);
+
+		for (SignageContent SC : sortedList) {
 			allChannels.add((ChannelImage) SC);
 			String name = SC.getName(); // This is the URL end, without all the caption stuff.
-			String url = getFullURLPrefix() + "/" + name;			
+			String url = getFullURLPrefix() + "/" + name;
 			DrawingPanelForImage dp = new DrawingPanelForImage(url, Color.green);
 			icons.add(dp.getIcon());
 		}
@@ -70,7 +85,7 @@ public class ImageChooserTableModel extends AbstractChannelTableModel {
 			return String.class;
 
 		case 2:
-			return Channel.class;
+			return ChannelImage.class;
 
 		}
 	}
@@ -99,7 +114,7 @@ public class ImageChooserTableModel extends AbstractChannelTableModel {
 		case 1:
 		default:
 			return cac.getExp();
-			
+
 		case 2:
 			return cac;
 

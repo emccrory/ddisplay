@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd.channel;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -114,6 +115,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 
 		setAlignmentX(CENTER_ALIGNMENT);
 		JLabel lab = new JLabel("Channel List Database: Archiving, restoring, and deleting");
+		lab.setFont(lab.getFont().deriveFont((SHOW_IN_WINDOW?16.0f: 24.0f)));
 		lab.setAlignmentX(CENTER_ALIGNMENT);
 		gbag.gridx = gbag.gridy = 1;
 		gbag.gridwidth = 3;
