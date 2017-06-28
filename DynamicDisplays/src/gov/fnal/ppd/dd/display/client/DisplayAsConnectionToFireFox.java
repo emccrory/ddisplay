@@ -65,7 +65,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	private boolean						showingEmergencyMessage		= false;
 	private boolean						showingSelfIdentify			= false;
 	private long						remainingTimeRemEmergMess	= 0l;
-	
+
 	private boolean[]					removeFrame					= { false, false, false, false, false };
 	private long[]						frameRemovalTime			= { 0L, 0L, 0L, 0L, 0L };
 	private Thread[]					frameRemovalThread			= { null, null, null, null, null };
@@ -352,15 +352,23 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				// First, do a brute-force refresh to the browser
 				firefox.forceRefresh(frameNumber);
 
-				// Now tell the lower-level code that we need a full reset
-				firefox.resetURL();
+				// Hmmm. On reflection (June, 2017), do we really need to do all this extra stuff? It seems like just the refresh is
+				// enough here. Either wait a moment before doing the rest of this stuff, or just be done at this point in the code.
+				// The problem is that the link to FireFox crashes almost every time here, at least, when it needs to do a full URL
+				// Reset in the process of these next steps. When one does a refresh here when a full reset is not needed, it works.
 
-				setContentBypass(previousChannel);
+				boolean useOldCode = false;
+				if (useOldCode) {
+					// Now tell the lower-level code that we need a full reset
+					firefox.resetURL();
 
-				// Finally, re-send the last URL we knew about
-				if (!firefox.changeURL(previousChannel.getURI().toASCIIString(), wrapperType, frameNumber)) {
-					println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
-					return false;
+					setContentBypass(previousChannel);
+
+					// Finally, re-send the last URL we knew about
+					if (!firefox.changeURL(previousChannel.getURI().toASCIIString(), wrapperType, frameNumber)) {
+						println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
+						return false;
+					}
 				}
 			} catch (UnsupportedEncodingException e) {
 				System.err.println(getClass().getSimpleName() + ":" + firefox.getInstance()
@@ -654,13 +662,14 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		}
 		return retval;
 	}
-	
+
 	@SuppressWarnings("unused")
 	private String javascriptStringToSendCharToBrowser(char c, boolean ctl, boolean alt, boolean shift, boolean meta) {
-		// 40 seems to be up-arrow; 38 seems to be down-arrow.  See https://jsfiddle.net/5se13tmg/ 
+		// 40 seems to be up-arrow; 38 seems to be down-arrow. See https://jsfiddle.net/5se13tmg/
 		String javaScriptCommand = "var keyboardEvent = document.createEvent(\"KeyboardEvent\");\n";
 		javaScriptCommand += "var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? \"initKeyboardEvent\" : \"initKeyEvent\";\n";
-		javaScriptCommand += "keyboardEvent[initMethod](\"keydown\",true,true,window," + ctl  + "," + alt + "," + shift + "," + meta +"," + c + ",0);\n"; 
+		javaScriptCommand += "keyboardEvent[initMethod](\"keydown\",true,true,window," + ctl + "," + alt + "," + shift + "," + meta
+				+ "," + c + ",0);\n";
 		javaScriptCommand += "document.dispatchEvent(keyboardEvent);\n";
 		return javaScriptCommand;
 	}
