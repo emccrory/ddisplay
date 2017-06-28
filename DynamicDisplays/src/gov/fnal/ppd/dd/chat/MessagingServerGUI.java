@@ -124,7 +124,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 
 		// need to be informed when the user click the close button on the frame
 		addWindowListener(this);
-		setSize(800, 900);
+		setSize(1200, 900);
 		setVisible(true);
 	}
 
