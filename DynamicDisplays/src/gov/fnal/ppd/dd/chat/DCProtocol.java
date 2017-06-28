@@ -56,6 +56,7 @@ import gov.fnal.ppd.dd.xml.EncodedCarrier;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -82,6 +83,7 @@ public class DCProtocol {
 	// protected boolean keepRunning = false;
 	private Thread					changerThread			= null;
 	protected long					SHORT_INTERVAL			= 100l;
+	private String					errorMessageText;
 
 	private static MapOfChannels	moc						= new MapOfChannels();
 
@@ -97,6 +99,13 @@ public class DCProtocol {
 	 */
 	public Object getTheReply() {
 		return theReply;
+	}
+
+	/**
+	 * @return The error message text that was just generated.
+	 */
+	public String getErrorMessageText() {
+		return errorMessageText;
 	}
 
 	/**
@@ -164,9 +173,9 @@ public class DCProtocol {
 			}
 
 		case REPLY:
-			// really, should not need to do this. This is handled in the place it is needed" DisplayFacade.
+			// really, should not need to do this. This is handled in the place it is needed: DisplayFacade.
 			break;
-			
+
 		case SUBSCRIBE:
 			@SuppressWarnings("unused")
 			String subject = message.getMessage();
@@ -198,6 +207,7 @@ public class DCProtocol {
 	 * @return Was the processing successful?
 	 */
 	public boolean processInput(final DDMessage message) {
+		errorMessageText = null;
 		try {
 			println(getClass(), ".processInput(): processing '" + message + "'");
 
@@ -220,6 +230,16 @@ public class DCProtocol {
 						long old = carrier.howOld();
 						System.err.println("An old message has been received: [" + carrier + ", date=" + carrier.getDate()
 								+ "], which is " + old + " msec old\n Ignoring it.");
+						errorMessageText = "The message just received by the display is too old to be trusted."
+								+ "\nMessage time="
+								+ carrier.getDate()
+								+ " which is "
+								+ carrier.howOld()
+								+ " msec old.  The time on the display is "
+								+ new Date()
+								+ "\n\nEither this is an attempt to spoof a message (which would be very bad), or the clocks on the display and your PC are out of sync."
+								+ "\n\nThis message has been ignored.";
+
 						return false;
 					}
 					// TODO -- Verify the IP address of the sender
@@ -248,10 +268,13 @@ public class DCProtocol {
 						sc = moc.get(num);
 						if (sc == null || sc.getChecksum() != ccbn.getChecksum()) {
 							// CHECKSUM FAILED!
-							if (sc == null)
-								println(getClass(), " Channel number " + num + " does not exist.  Abort this request.");
-							else
-								println(getClass(), " Reloaded channel list checksums STILL do not match.  Abort this request.");
+							if (sc == null) {
+								errorMessageText = " Channel number " + num + " does not exist.  Content on display not changed.";
+								println(getClass(), errorMessageText);
+							} else {
+								errorMessageText = " Channel list checksums, for the database and for the transmitted list, do not match.  Content on display not changed.";
+								println(getClass(), errorMessageText);
+							}
 							return false;
 						}
 					}
@@ -286,12 +309,13 @@ public class DCProtocol {
 				theReply = p;
 				// }
 			} else {
-				System.err.println(getClass().getSimpleName() + ".processInput(): Hmm.  message problems: " + message
-						+ (message != null ? message.getMessage() : ""));
+				errorMessageText = "Hmm.  message problems: " + message + (message != null ? message.getMessage() : "");
+				System.err.println(getClass().getSimpleName() + ".processInput(): " + errorMessageText);
 				return false;
 			}
 		} catch (NullPointerException e) {
-			System.err.println("It looks like we may have lost the connection to the Display");
+			errorMessageText = "It looks like we have lost the internal connection to the browswer on this Display.  Content not changed.";
+			System.err.println(errorMessageText);
 			e.printStackTrace();
 			return false;
 		}
@@ -522,11 +546,12 @@ public class DCProtocol {
 		// println(DCProtocol.class, " $$$ Error handler, message is to '" + message.getTo() + "', from '" + message.getFrom() +
 		// "'");
 		for (Display L : listeners) {
-			if (L.getMessagingName().equals(message.getTo()) || message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME)) {
+			if (L.getMessagingName().equals(message.getTo()) || L.getMessagingName().equals(message.getFrom())
+					|| message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME)) {
 				// println(DCProtocol.class, " $$$ Sending to " + L);
 				L.errorHandler(message.getMessage());
 			} else
-				;// println(DCProtocol.class, " $$$ SKIPPING " + L);
+				; // println(DCProtocol.class, " $$$ SKIPPING " + L + ", messaging name=" + L.getMessagingName());
 		}
 	}
 }

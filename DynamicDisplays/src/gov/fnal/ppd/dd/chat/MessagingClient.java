@@ -45,6 +45,7 @@ import java.util.Scanner;
  */
 public class MessagingClient {
 
+	private static boolean		showAllIncomingMessages			= false;
 	// for I/O
 	private ObjectInputStream	sInput;															// to read from the socket
 	private ObjectOutputStream	sOutput;															// to write on the socket
@@ -250,8 +251,8 @@ public class MessagingClient {
 	public void sendMessage(MessageCarrier msg) {
 		try {
 			if (msg.getType() != MessageType.AMALIVE && msg.getType() != MessageType.WHOISIN)
-				System.out.println(MessagingClient.class.getSimpleName() + ".sendMessage(" + msg + ").  isReadOnly() = "
-						+ msg.getType().isReadOnly());
+				System.out.println(MessagingClient.class.getSimpleName() + ".sendMessage(" + msg + ").\n\tisReadOnly() = "
+						+ msg.getType().isReadOnly() + "\n\tOutput object is " + sOutput);
 			if (msg.getType().isReadOnly())
 				sOutput.writeObject(msg);
 			else
@@ -553,6 +554,9 @@ public class MessagingClient {
 						catchSleep(1000L);
 						continue;
 					}
+
+					if (showAllIncomingMessages)
+						System.out.println("Received this message: " + msg);
 
 					// if (msg.isThisForMe(username)) {
 					if (MessageCarrier.isUsernameMatch(msg.getTo(), username)) {

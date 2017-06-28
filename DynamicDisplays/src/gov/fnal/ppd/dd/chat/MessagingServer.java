@@ -103,7 +103,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class MessagingServer {
 
-	private boolean	showAliveMessages	= false;
+	private static boolean	showAliveMessages		= false;
+
+	private static boolean	showAllIncomingMessages	= false;
 
 	/*************************************************************************************************************************
 	 * Handle the communications with a specific client in the messaging system. One instance of this thread will run for each
@@ -412,19 +414,21 @@ public class MessagingServer {
 
 				totalMesssagesHandled++;
 
-				// System.out.println("MessagingServer.ClientThread: Got message: " + cm);
-
 				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())) {
 					if (showAliveMessages)
 						display("Alive msg " + cm.getFrom().trim().replace(".fnal.gov", ""));
 					continue; // That's all for this while-loop iteration. Go read the socket again...
 				}
 
+				if (showAllIncomingMessages)
+					display("MessagingServer.ClientThread: Got message: " + cm);
+
 				// Switch for the type of message receive
 				switch (this.cm.getType()) {
 
 				case ISALIVE:
 				case AMALIVE:
+				case ERROR:
 				case REPLY:
 					broadcast(this.cm);
 					break;
@@ -592,6 +596,7 @@ public class MessagingServer {
 
 			// write the message to the stream
 			try {
+				// System.out.println(" Writing uinsigned message to client: " + msg);
 				sOutput.writeObject(msg);
 				sOutput.reset();
 				return true;
@@ -891,7 +896,7 @@ public class MessagingServer {
 
 			ClientThreadList ctl = subjectListeners.get(subject);
 			if (ctl != null) {
-				// would write this message to this client
+				// Write this message to this client
 				for (ClientThread ct : ctl)
 					if (MessageCarrier.isUsernameMatch(mc.getTo(), ct.username))
 						if (!ct.writeUnsignedMsg(mc)) {

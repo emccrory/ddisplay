@@ -96,7 +96,8 @@ public class DisplayFacade extends DisplayImpl {
 
 		@Override
 		public void receiveIncomingMessage(final MessageCarrier message) {
-			if (message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME) && message.getType() == MessageType.ERROR) {
+			// if (message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME) && message.getType() == MessageType.ERROR) {
+			if (message.getType() == MessageType.ERROR) {
 				println(getClass(), ".receiveIncomingMessage(): Got an error message -- " + message);
 				dcp.errorHandler(message);
 			} else if (message.getType() == MessageType.REPLY) {
@@ -112,7 +113,9 @@ public class DisplayFacade extends DisplayImpl {
 			} else {
 				// DisplayFacade d = clients.get(message.getFrom());
 				try {
-					dcp.processInput(message);
+					if (!dcp.processInput(message)) {
+						sendMessage(MessageCarrier.getErrorMessage(message.getTo(), message.getFrom(), dcp.getErrorMessageText()));
+					}
 				} catch (ErrorProcessingMessage e) {
 					// Ignore this error on the GUI side
 					e.printStackTrace();

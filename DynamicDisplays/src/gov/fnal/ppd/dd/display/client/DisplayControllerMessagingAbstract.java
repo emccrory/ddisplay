@@ -313,15 +313,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							try {
 								String myName = rs.getString("IPName");
 								String ordinal = "First";
-								if ( displayCount++ == 1 ) 
+								if (displayCount++ == 1)
 									ordinal = "Second";
-								else if ( displayCount == 2)
+								else if (displayCount == 2)
 									ordinal = "Third";
 								else
 									ordinal = ordinal + "th";
-								
-								System.out.println("\n********** " + ordinal + " Display, name=" + myName
-										+ " **********\n");
+
+								System.out.println("\n********** " + ordinal + " Display, name=" + myName + " **********\n");
 
 								if (!myName.equals(myNode)) {
 									// TODO This will not work if the IPName in the database is an IP address.
@@ -488,7 +487,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
 			lastFrom = msg.getFrom();
 			if (msg.getTo().equals(getName())) { // || msg.getTo().startsWith(getName())) {
-				dcp.processInput(msg);
+				if (!dcp.processInput(msg)) {
+					sendMessage(MessageCarrier.getErrorMessage(msg.getTo(), msg.getFrom(), dcp.getErrorMessageText()));
+				}
 			} else if (debug)
 				println(this.getClass(),
 						screenNumber + ": Ignoring a message of type " + msg.getType() + ", sent to [" + msg.getTo()
