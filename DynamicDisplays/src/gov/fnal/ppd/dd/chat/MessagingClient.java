@@ -10,7 +10,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.WAIT_FOR_SERVER_TIME;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
+import static gov.fnal.ppd.dd.util.Util.bytesToString;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -250,13 +252,21 @@ public class MessagingClient {
 	 */
 	public void sendMessage(MessageCarrier msg) {
 		try {
-			if (msg.getType() != MessageType.AMALIVE && msg.getType() != MessageType.WHOISIN)
-				System.out.println(MessagingClient.class.getSimpleName() + ".sendMessage(" + msg + ").\n\tisReadOnly() = "
-						+ msg.getType().isReadOnly() + "\n\tOutput object is " + sOutput);
+			byte[] b = null;
+
 			if (msg.getType().isReadOnly())
 				sOutput.writeObject(msg);
-			else
-				sOutput.writeObject(msg.getSignedObject());
+			else {
+				SignedObject p = msg.getSignedObject();
+				b = p.getSignature();
+				sOutput.writeObject(p);
+			}
+
+			if (msg.getType() != MessageType.AMALIVE && msg.getType() != MessageType.WHOISIN)
+				if (b == null)
+					println(MessagingClient.class, ".sendMessage()\n" + msg + "\n\tisReadOnly() = " + msg.getType().isReadOnly());
+				else
+					println(MessagingClient.class, ".sendMessage()\n" + msg + "\n\tObject signature = 0x" + bytesToString(b));
 
 			// The following line is controversial: Is it a bug or is it a feature? Sun claims it is a feature -- it allows the
 			// sender to re-send any message easily. But others (myself included) see this as a bug -- if you remember every message
