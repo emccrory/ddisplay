@@ -26,7 +26,7 @@ public class DrawingPanelForImage extends JPanel {
 	private static final long				serialVersionUID	= 8963747596403311688L;
 	private static Map<String, ImageIcon>	cache				= new HashMap<String, ImageIcon>();
 	private ImageIcon						icon;
-	private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 150 : 250);
+	private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 150 : 200);
 
 	/**
 	 * @param url
@@ -51,12 +51,12 @@ public class DrawingPanelForImage extends JPanel {
 				ImageIcon icon0 = new ImageIcon(new URL(modifiedURL));
 				int h = icon0.getIconHeight();
 				int w = icon0.getIconWidth();
-				if (h > w) {
-					width = LONG_EDGE * w / h;
-					height = LONG_EDGE;
+				if (h >= w) {
+					height = 2 * LONG_EDGE / 3;
+					width = height * w / h;
 				} else {
-					height = LONG_EDGE * h / w;
 					width = LONG_EDGE;
+					height = width * h / w;
 				}
 				Image img = icon0.getImage();
 
