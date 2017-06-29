@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -234,17 +235,51 @@ public class Util {
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(content);
 
-			byte[] bytes = fout.toByteArray();
-
-			for (int i = 0; i < bytes.length; i++) {
-				if ((0x000000ff & bytes[i]) < 16)
-					blob += "0";
-				blob += Integer.toHexString(0x000000ff & bytes[i]);
-			}
+			blob += bytesToString(fout.toByteArray());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return blob;
+	}
+
+	/**
+	 * @param bytes
+	 *            The array to convert
+	 * @return A hexidecimal string of the byte array.
+	 */
+	public static String bytesToString(final byte[] bytes) {
+		String retval = "";
+		for (int i = 0; i < bytes.length; i++) {
+			if ((0x000000ff & bytes[i]) < 16)
+				retval += "0";
+			retval += Integer.toHexString(0x000000ff & bytes[i]);
+			if (i % 4 == 3)
+				retval += " ";
+		}
+		return retval;
+	}
+
+	private final static float[]	bestFonts	= { 48.0f, 36.0f, 32.0F, 24.0F, 20.0F, 17.0F, 14.0F, 12.0F, 10.0F, 8.0F };
+
+	/**
+	 * @param suggestedSize
+	 *            The size you want your font to be
+	 * @param minimum
+	 *            The smallest size font you will accept
+	 * @param maximum
+	 *            The largest size font you will accept
+	 * @return A reasonable font size, with some consistency overall.
+	 */
+	public static float fixFontSize(final float suggestedSize, final float minimum, final float maximum) {
+		if (suggestedSize < minimum)
+			return minimum;
+		if (suggestedSize > maximum)
+			return maximum;
+		for (float f : bestFonts) {
+			if (suggestedSize > f)
+				return f;
+		}
+		return minimum;
 	}
 
 	private static HashMap<Integer, Channel>	alreadyRetrieved	= new HashMap<Integer, Channel>();
@@ -355,11 +390,11 @@ public class Util {
 				}
 			}
 		} else {
-			// TODO This is an image. Look up that image number and then make the URL that shows this image.
-			int portfolioID = ONE_BILLION - channelNumber;
+			// This is an image. Look up that image number and then make the URL that shows this image.
+			int portfolioID = channelNumber - ONE_BILLION;
 			String query = "SELECT Filename,Description from Portfolio where PortfolioID=" + portfolioID
 					+ " AND Approval='Approved'";
-			println(DisplayControllerMessagingAbstract.class, " -- Getting a portfolio image: [" + query + "]");
+			// println(DisplayControllerMessagingAbstract.class, " -- Getting a portfolio image: [" + query + "]");
 			Connection connection;
 			try {
 				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
@@ -372,11 +407,15 @@ public class Util {
 				try (Statement stmt = connection.createStatement();) {
 					try (ResultSet rs = stmt.executeQuery(query);) {
 						if (rs.first()) { // Move to first returned row (there should only be one)
-							String url = getFullURLPrefix() + "/" + rs.getString("Filename");
 							String desc = rs.getString("Description");
+							String filename = rs.getString("Filename");
 
-							retval = new ChannelImpl("PortfolioImage", ChannelCategory.PUBLIC, desc, new URI(url), channelNumber,
-									2 * 60 * 60 * 1000L);
+							String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo="
+									+ URLEncoder.encode(filename, "UTF-8") + "&caption=" + URLEncoder.encode(desc, "UTF-8");
+
+							String[] array = filename.split("/", -1);
+							retval = new ChannelImpl(array[array.length - 1], ChannelCategory.PUBLIC, desc, new URI(url),
+									channelNumber, 0L);
 							alreadyRetrieved.put(channelNumber, retval);
 
 							stmt.close();
@@ -426,7 +465,8 @@ public class Util {
 	}
 
 	/**
-	 * @param count The number to make into an ordinal
+	 * @param count
+	 *            The number to make into an ordinal
 	 * @return the suffix to make this count an ordinal, e.g. "st" for count=1
 	 */
 	public static String getOrdinalSuffix(final int count) {
