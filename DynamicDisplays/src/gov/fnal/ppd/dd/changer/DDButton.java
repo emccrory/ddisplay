@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.IS_DOCENT_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.dd.util.Util.fixFontSize;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
@@ -268,15 +269,12 @@ public class DDButton extends JButton {
 			if (tx.length() > 30) {
 				if (tx.contains("?"))
 					tx = tx.replace("?", " ?");
-				else 
+				else
 					tx = tx.replace("/", " /");
 			}
 			if (urlFont == null) {
-				float siz = ((float) userDefinedFont.getSize()) / (tx.length() / 25.0f);
-				if (siz < 7.0f)
-					siz = 7.0f;
-				else if (siz > userDefinedFont.getSize())
-					siz = userDefinedFont.getSize();
+				float siz = fixFontSize(((float) userDefinedFont.getSize()) / (tx.length() / 25.0f), 7.0f,
+						(float) userDefinedFont.getSize());
 				urlFont = userDefinedFont.deriveFont(siz);
 			}
 			setText("<html>" + tx + "</html>");
