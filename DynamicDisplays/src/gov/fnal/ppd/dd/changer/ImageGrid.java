@@ -203,8 +203,9 @@ public class ImageGrid extends DetailedInformationGrid {
 					b.setOpaque(true);
 
 					DDButton button = new DDIconButton(imageChannel, display, MAX_CAPTION_LENGTH, dp.getIcon());
-					button.setText(name.replace("upload/items/", ""));
-					button.setToolTipText(name.replace("upload/items/", ""));
+					String[] fields = name.split("/", -1);
+					button.setText(fields[fields.length-1]);
+					button.setToolTipText(name);
 					button.setAlignmentX(JPanel.LEFT_ALIGNMENT);
 					// b.add(new JWhiteLabel(exp, 24.0f));
 					b.add(button);
