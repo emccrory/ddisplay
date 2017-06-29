@@ -7,6 +7,7 @@ package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
@@ -65,12 +66,13 @@ public class DocentGrid extends DetailedInformationGrid {
 		public JWhiteLabel(String text) {
 			super("  " + trunc(text, MAX_CAPTION_LENGTH) + " ");
 			setOpaque(true);
-			setAlignmentX(JPanel.LEFT_ALIGNMENT);
+			setAlignmentX(JPanel.CENTER_ALIGNMENT);
 		}
 
 		public JWhiteLabel(String text, float size) {
 			this(text);
 			setFont(getFont().deriveFont(size));
+			setAlignmentX(CENTER_ALIGNMENT);
 		}
 	}
 
@@ -168,7 +170,7 @@ public class DocentGrid extends DetailedInformationGrid {
 	private static final List<SignageContent>	buttonList			= new ArrayList<SignageContent>();
 	private List<SignageContent>				myButtonList		= new ArrayList<SignageContent>();
 
-	private static final int					MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 25 : 30);
+	private static final int					MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 30 : 40);
 
 	// private String docentName;
 
@@ -199,9 +201,9 @@ public class DocentGrid extends DetailedInformationGrid {
 		if (buttonList.size() == 0) {
 			try {
 				/**
-				 * FIXME This is the only place that I can think of that requires the Channel and Portfolio tables to be in the same
-				 * database. To break this will require two Docent tables, one that is in the same DB as Channel and the other in
-				 * the same DB as Portfolio.
+				 * FIXME This is the a place that requires the Channel and Portfolio tables to be in the same database. To break
+				 * this will require two Docent tables, one that is in the same DB as Channel and the other in the same DB as
+				 * Portfolio.
 				 */
 				Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
 
@@ -276,12 +278,13 @@ public class DocentGrid extends DetailedInformationGrid {
 		if (SHOW_IN_WINDOW)
 			ncol = 3;
 
-		final JPanel simpleButtonBox = new JPanel(new GridLayout(0, ncol));
-		simpleButtonBox.setOpaque(true);
-		simpleButtonBox.setBackground(display.getPreferredHighlightColor());
-		final JPanel internalGrid = new JPanel(new GridLayout(0, ncol));
-		internalGrid.setOpaque(true);
-		internalGrid.setBackground(display.getPreferredHighlightColor());
+		final JPanel channelButtonBox = new JPanel(new GridLayout(0, 3));
+		channelButtonBox.setOpaque(true);
+		channelButtonBox.setBackground(display.getPreferredHighlightColor());
+		
+		final JPanel pictureButtonBox = new JPanel(new GridLayout(0, ncol));
+		pictureButtonBox.setOpaque(true);
+		pictureButtonBox.setBackground(display.getPreferredHighlightColor());
 
 		synchronized (myButtonList) {
 			String colorString = String.format("%06X", display.getPreferredHighlightColor().getRGB() & 0xFFFFFF);
@@ -302,10 +305,12 @@ public class DocentGrid extends DetailedInformationGrid {
 
 						Box b = Box.createVerticalBox();
 						b.setOpaque(true);
+						b.setAlignmentX(CENTER_ALIGNMENT);
 
 						DDButton button = new DDIconButton(imageChannel, display, MAX_CAPTION_LENGTH, dp.getIcon());
-						button.setText(trunc(name.replace("upload/items/", ""), 2 * MAX_CAPTION_LENGTH / 3));
-						button.setAlignmentX(JPanel.LEFT_ALIGNMENT);
+						String[] pieces = name.split("/", -1);
+						button.setText(trunc(pieces[pieces.length - 1], MAX_CAPTION_LENGTH));
+						button.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 						b.add(new JWhiteLabel(exp, 18.0f));
 						b.add(button);
 						// b.add(dp);
@@ -317,15 +322,18 @@ public class DocentGrid extends DetailedInformationGrid {
 
 						bg.add(button);
 
-						internalGrid.add(b);
+						pictureButtonBox.add(b);
 					} else {
-						DDButton button = new DDButton((Channel) content, display, MAX_CAPTION_LENGTH);
-						button.setMargin(new Insets(20, 2, 20, 2));
+						DDButton button = new DDButton((Channel) content, display, 50);
+						if (!SHOW_IN_WINDOW) {
+							button.setFont(button.getFont().deriveFont(FONT_SIZE / 2));
+							button.setMargin(new Insets(30, 2, 30, 2));
+						}
 
 						button.addActionListener(this); // Order is important for the GUI. This one goes last.
 						button.addActionListener(display);
 						bg.add(button);
-						simpleButtonBox.add(button);
+						channelButtonBox.add(button);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -335,8 +343,8 @@ public class DocentGrid extends DetailedInformationGrid {
 		Box outerBox = Box.createVerticalBox();
 		outerBox.setOpaque(true);
 		outerBox.setBackground(display.getPreferredHighlightColor());
-		outerBox.add(simpleButtonBox);
-		outerBox.add(internalGrid);
+		outerBox.add(channelButtonBox);
+		outerBox.add(pictureButtonBox);
 
 		expGrid = new JScrollPane(outerBox);
 		expGrid.setAlignmentX(JComponent.TOP_ALIGNMENT);
