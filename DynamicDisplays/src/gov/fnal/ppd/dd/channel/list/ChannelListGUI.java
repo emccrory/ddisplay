@@ -307,7 +307,11 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		header2.setAlignmentX(CENTER_ALIGNMENT);
 		JTabbedPane channelTypePane = new JTabbedPane();
 		channelTypePane.add("Channels", jScrollPane);
-		channelTypePane.add("Images", new JScrollPane(imageTable));
+		
+		jScrollPane = new JScrollPane(imageTable);
+		if (!SHOW_IN_WINDOW)
+			jScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(50, 0));
+		channelTypePane.add("Images", jScrollPane);
 
 		vb.add(header2);
 		vb.add(channelTypePane);
