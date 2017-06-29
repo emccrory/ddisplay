@@ -24,7 +24,7 @@ public class BrowserLauncher {
 	/**
 	 * Do we want more information when this class is executed?
 	 */
-	public static boolean		debug			= true;
+	public static boolean		debug			= false;
 	private static final String	FIREFOX_USER	= "DynamicDisplay";
 
 	private Process				browserProcess	= null;
@@ -62,6 +62,10 @@ public class BrowserLauncher {
 		println(getClass(), ": Launching browser " + i + " on screen #" + screenNumber);
 		bounds = ScreenLayoutInterpreter.getBounds(screenNumber);
 		whichInstance = i;
+		if ( screenNumber > 0 ) {
+			println(BrowserLauncher.class, "There are multiple instances of displays being driven here.  Turning on debugging.");
+			debug = true;
+		}
 		this.screenNumber = screenNumber;
 	}
 
