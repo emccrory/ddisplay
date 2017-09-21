@@ -98,7 +98,7 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 
 		int count = 0;
 		try {
-			rs = stmt.executeQuery("SELECT Channel.Number as Number,Name,Description,URL,Category,Type,DwellTime "
+			rs = stmt.executeQuery("SELECT Channel.Number as Number,Name,Description,URL,Category,Type,DwellTime,Sound "
 					+ "FROM Channel LEFT JOIN ChannelTabSort ON (Channel.Number=ChannelTabSort.Number) WHERE Approval=1");
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
@@ -113,7 +113,9 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 					String url = rs.getString("URL");
 					int number = rs.getInt("Number");
 					int dwellTime = rs.getInt("DwellTime");
+					int codevalue = rs.getInt("Sound");
 					SignageContent c = new ChannelImpl(name, category, description, new URI(url), number, dwellTime);
+					c.setCode(codevalue);
 					put(name, c);
 					rs.next();
 					count++;
