@@ -235,7 +235,7 @@ public class Util {
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(content);
 
-			blob += bytesToString(fout.toByteArray());
+			blob += bytesToString(fout.toByteArray(), false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -245,15 +245,17 @@ public class Util {
 	/**
 	 * @param bytes
 	 *            The array to convert
+	 * @param readable
+	 *            Put readability spaces, after every 4 bytes, into the returned string
 	 * @return A hexidecimal string of the byte array.
 	 */
-	public static String bytesToString(final byte[] bytes) {
+	public static String bytesToString(final byte[] bytes, boolean readable) {
 		String retval = "";
 		for (int i = 0; i < bytes.length; i++) {
 			if ((0x000000ff & bytes[i]) < 16)
 				retval += "0";
 			retval += Integer.toHexString(0x000000ff & bytes[i]);
-			if (i % 4 == 3)
+			if (readable && i % 4 == 3)
 				retval += " ";
 		}
 		return retval;
