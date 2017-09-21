@@ -47,13 +47,13 @@ import javax.swing.JTabbedPane;
  * up the URL from within this class (as opposed to the DB containing the URLs and classes like this just simply read them).
  * 
  * This is likely to be inappropriate when we have thousands of images: All the images are read from the server when the GUi starts.
- * At 151 images (2015, over 800 in 2017), it takes the better part of a minute to complete. 
+ * At 151 images (2015, over 800 in 2017), it takes the better part of a minute to complete.
  * 
  * And then if there are lots of displays being controlled, these images are placed in each display's GUI, multiplying the startup
- * time by the number of displays.  E.g., for a controller that controls all the displays (42 in May 2017), it takes forever.
+ * time by the number of displays. E.g., for a controller that controls all the displays (42 in May 2017), it takes forever.
  * 
- * Changed the nominal thumb-nail image size from 600 pixels @ Quality=75 to 300 pixels @ Q=40.  This makes about a 5X reduction in
- * the size of these images, but the impact on startup here is minimal.  (5/23/2017)
+ * Changed the nominal thumb-nail image size from 600 pixels @ Quality=75 to 300 pixels @ Q=40. This makes about a 5X reduction in
+ * the size of these images, but the impact on startup here is minimal. (5/23/2017)
  * 
  * It may be better to launch this as a separate application, when needed.
  * 
@@ -163,6 +163,9 @@ public class ImageGrid extends DetailedInformationGrid {
 					if (o1 instanceof ChannelImage && o2 instanceof ChannelImage) {
 						ChannelImage c1 = (ChannelImage) o1;
 						ChannelImage c2 = (ChannelImage) o2;
+						if ( c1.getExp().toUpperCase().equals(c2.getExp().toUpperCase()) )
+							return ((Integer) c1.getNumber()).compareTo(c2.getNumber());
+						
 						return (c1.getExp() + c1.getName()).toUpperCase().compareTo((c2.getExp() + c2.getName()).toUpperCase());
 					}
 					return o1.getName().compareTo(o2.getName());
