@@ -131,6 +131,10 @@ public class ConnectionToDynamicDisplaysDatabase {
 					// This would require that this method (right here) be called in quick succession (REAL quick) and the same
 					// error condition was obtained. Not sure about this!
 					//
+					//
+					// TODO - The thing to do here is signal to the controller (main) class that we have a problem so it can
+					// gracefully exit, that is, so it will restart properly.
+					//
 				} else {
 					println(ConnectionToDynamicDisplaysDatabase.class, "ERROR This is an unexpected error. Oh well.");
 				}
