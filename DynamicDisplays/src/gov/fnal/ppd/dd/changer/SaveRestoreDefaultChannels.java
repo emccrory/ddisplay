@@ -425,15 +425,19 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 				rs = stmt.executeQuery("SELECT DISTINCT NameOfThisDefaultSet FROM DefaultChannels,DisplaySort WHERE "
 						+ "DefaultChannels.DisplayID=DisplaySort.DisplayID AND LocationCode=" + getLocationCode());
-				rs.first(); // Move to first returned row
-				while (!rs.isAfterLast())
+				if (rs.first()) // Move to first returned row
 					try {
-						String theSetName = rs.getString("NameOfThisDefaultSet");
-						all.add(theSetName);
-						rs.next();
+						while (!rs.isAfterLast()) {
+							String theSetName = rs.getString("NameOfThisDefaultSet");
+							all.add(theSetName);
+							rs.next();
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+				else {
+					// There are no rows -- never mind.
+				}
 				stmt.close();
 				rs.close();
 			}
