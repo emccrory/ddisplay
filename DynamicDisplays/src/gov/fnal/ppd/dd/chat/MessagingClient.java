@@ -266,7 +266,7 @@ public class MessagingClient {
 				if (b == null)
 					println(MessagingClient.class, ".sendMessage()\n" + msg + "\n\tisReadOnly() = " + msg.getType().isReadOnly());
 				else
-					println(MessagingClient.class, ".sendMessage()\n" + msg + "\n\tObject signature = 0x" + bytesToString(b));
+					println(MessagingClient.class, ".sendMessage()\n" + msg + "\n\tObject signature = 0x" + bytesToString(b, true));
 
 			// The following line is controversial: Is it a bug or is it a feature? Sun claims it is a feature -- it allows the
 			// sender to re-send any message easily. But others (myself included) see this as a bug -- if you remember every message
