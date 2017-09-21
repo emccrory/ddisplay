@@ -240,8 +240,8 @@ public class GlobalVariables {
 	 */
 	public static final String getFullURLPrefix() {
 		if (WEB_SERVER_FOLDER.length() > 0)
-			return "http://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER;
-		return "http://" + WEB_SERVER_NAME;
+			return "https://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER;
+		return "https://" + WEB_SERVER_NAME;
 	}
 
 	/**
@@ -274,7 +274,7 @@ public class GlobalVariables {
 	 * The URL that is the single image display web page. This is a bit of a kludge!
 	 */
 	public static final String		SINGLE_IMAGE_DISPLAY			= System.getProperty("ddisplay.singleimagedisplay",
-																			"http://dynamicdisplays.fnal.gov/portfolioOneSlide.php?photo=");
+																			"https://dynamicdisplays.fnal.gov/portfolioOneSlide.php?photo=");
 
 	/**
 	 * What is the signature of a URL that can lead to a "Bad NUC" showing a bad web page?
