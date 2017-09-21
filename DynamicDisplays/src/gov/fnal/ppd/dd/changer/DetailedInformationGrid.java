@@ -59,9 +59,13 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		// int gap = 5;
 		int maxLen = 50;
 
-		if (list.size() > 39) {
-			FS = 0.5f * FONT_SIZE;
+		if (list.size() > 40) {
+			FS = 0.4f * FONT_SIZE;
 			cols = 5;
+			maxLen = 15;
+		} else if (list.size() > 32) {
+			FS = 0.5f * FONT_SIZE;
+			cols = 4;
 			maxLen = 17;
 		} else if (list.size() > 18) {
 			FS = 0.6f * FONT_SIZE;
@@ -106,7 +110,7 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 				cols = 1;
 				maxLen = 90;
 				break;
-				
+
 			default:
 				FS = 1.2f * FONT_SIZE;
 				cols = 1;
