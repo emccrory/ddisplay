@@ -56,7 +56,7 @@ import java.util.Date;
  */
 public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbstract {
 
-	private static final long			FRAME_DISAPPEAR_TIME		= 2 * ONE_MINUTE;							// ONE_HOUR;
+	private static final long			FRAME_DISAPPEAR_TIME		= 2 * ONE_MINUTE;
 	// private WrapperType defaultWrapperType = WrapperType.valueOf(System.getProperty("ddisplay.wrappertype",
 	// "NORMAL"));
 
@@ -365,7 +365,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					setContentBypass(previousChannel);
 
 					// Finally, re-send the last URL we knew about
-					if (!firefox.changeURL(previousChannel.getURI().toASCIIString(), wrapperType, frameNumber)) {
+					if (!firefox.changeURL(previousChannel.getURI().toASCIIString(), wrapperType, frameNumber,
+							previousChannel.getCode())) {
 						println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
 						return false;
 					}
@@ -396,7 +397,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				 * 2. The status will read the contents of this extra frame
 				 */
 				if (frameNumber > 0 && frameRemovalTime[frameNumber] > 0) {
-					if (firefox.changeURL(url, wrapperType, frameNumber)) {
+					if (firefox.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
 						removeFrame[frameNumber] = false;
 						setupRemoveFrameThread(frameNumber);
 					} else {
@@ -412,7 +413,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					// }
 
 					// ******************** Normal channel change here ********************
-					if (firefox.changeURL(url, wrapperType, frameNumber)) {
+					if (firefox.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
 						previousChannel = getContent();
 						showingSelfIdentify = false;
 					} else {
@@ -478,7 +479,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 								println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
 										+ " Reloading web page " + url);
 								try {
-									if (!firefox.changeURL(url, wrapperType, frameNumber)) {
+									if (!firefox.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
 										println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Failed to REFRESH content");
 										firefox.resetURL();
 										continue; // TODO -- Figure out what to do here. For now, just try again later
@@ -656,7 +657,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			retval += "Off Line";
 		else {
 			if (specialURI(getContent())) {
-				retval += "Special content: " + getContent();
+				retval += (getStatus() + " (" + previousChannel.getURI() + ")").replace("'", "\\'");
 			} else
 				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
 		}
