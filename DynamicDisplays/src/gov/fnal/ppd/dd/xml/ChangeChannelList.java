@@ -3,8 +3,6 @@ package gov.fnal.ppd.dd.xml;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
-import java.net.URISyntaxException;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -16,6 +14,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @SuppressWarnings("javadoc")
 @XmlRootElement
 public class ChangeChannelList extends EncodedCarrier {
+
+	// TODO - Add absolute scheduling of the wall-clock time to play channels
+
+	// We'd add a new field here that gives the exact wall-clock time to begin the list, and then
+	// the rest of the list plays out accordingly. However, it is not clear when to restart the list.
+
+	// Hmmm. This might not work.
+
+	// Maybe the right way to do this is to make a new server app, on a dedicated server, to send out the
+	// channel change commands at the right time. This way these changes can be synchronized. But where
+	// is this server? And how do you turn it off? You'd want to turn off the schedule by simply sending
+	// a new channel to the display.
 
 	protected ChannelPlayList	cpl	= new ChannelPlayList();
 	protected int				displayNum;
@@ -52,18 +62,10 @@ public class ChangeChannelList extends EncodedCarrier {
 
 	public void setChannelSpec(ChannelSpec[] cs) {
 		System.out.println(getClass().getSimpleName() + ": Adding a channelSpec list of length " + cs.length);
-		// try {
-		for (ChannelSpec spec : cs) {
-			// EmptyChannel content = new EmptyChannel(spec.getName(), spec.getCategory());
-			// content.setURI(spec.getUri());
-			// content.setCode(spec.getCode());
-			// content.setTime(spec.getTime() > 0 ? spec.getTime() : getTime());
 
+		for (ChannelSpec spec : cs) {
 			cpl.getChannels().add(spec.getContent());
 		}
-		// } catch (URISyntaxException e) {
-		// e.printStackTrace();
-		// }
 	}
 
 	public void setContent(SignageContent s) {
