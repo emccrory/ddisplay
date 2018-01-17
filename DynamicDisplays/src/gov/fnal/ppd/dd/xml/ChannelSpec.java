@@ -22,7 +22,6 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ChannelSpec implements SignageContent {
 	private static final long	serialVersionUID	= -3784860691526919774L;
 	protected SignageContent	content;
-	private long				checksum;
 
 	public ChannelSpec() {
 		try {
@@ -61,14 +60,14 @@ public class ChannelSpec implements SignageContent {
 		content.setName(name);
 	}
 
-	@XmlElement
-	public URI getUri() {
-		return content.getURI();
-	}
-
-	public void setUri(URI uri) {
-		content.setURI(uri);
-	}
+	// @XmlElement
+	// public URI getUri() {
+	// return content.getURI();
+	// }
+	//
+	// public void setUri(URI uri) {
+	// content.setURI(uri);
+	// }
 
 	@XmlTransient
 	public SignageContent getContent() {
@@ -124,18 +123,22 @@ public class ChannelSpec implements SignageContent {
 		content.setFrameNumber(frameNumber);
 	}
 
+	/**
+	 * Used in the "change channel by number" scheme, to verify that the URL seen by the receiver is the same as the one assumed by
+	 * the transmitter.  This is somewhat redundant to the overall digital signature of a transmitted object.
+	 */
 	@XmlElement
 	public long getChecksum() {
-		return checksum;
+		return content.getChecksum();
 	}
 
 	public void setChecksum(long checksum) {
-		this.checksum = checksum;
+		// This is irrelevant - the checksum is always calculated from the URIs
+		// this.content.setChecksum(checksum);
 	}
 
 	// ----------
-	// The rest of these methods are implementations of the interface SignageContent. These do not need to appear in the XML (I
-	// think)
+	// The rest of these methods are implementations of the interface SignageContent.
 	// ----------
 	@Override
 	public String getDescription() {
@@ -157,6 +160,7 @@ public class ChannelSpec implements SignageContent {
 		content.setType(t);
 	}
 
+	@XmlElement
 	@Override
 	public URI getURI() {
 		return content.getURI();
