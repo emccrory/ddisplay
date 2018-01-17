@@ -115,7 +115,7 @@ public class BrowserLauncher {
 				// extensions.remotecontrol.portNumber is the environment variable that gives the port number, I think (9/15/2014)
 				// I tried to set it (and several variations) using System.setProperty(), to no avail.
 				File file = new File("remotecontrol_plugin_messages_for_" + firefoxUser + ".log");
-				ProcessBuilder pb = new ProcessBuilder("firefox", "-new-instance", "-P", firefoxUser, "-remote-control");
+				ProcessBuilder pb = new ProcessBuilder("firefox", "-new-instance", "-P", firefoxUser, "-remote-control", "-geometry=" + geom);
 				// ,"javascript:%20" + moveTo, url);
 				pb.redirectErrorStream(true);
 				pb.redirectOutput(file);
