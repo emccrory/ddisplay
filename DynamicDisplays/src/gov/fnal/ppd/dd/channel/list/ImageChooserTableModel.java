@@ -6,6 +6,7 @@ import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.DrawingPanelForImage;
 import gov.fnal.ppd.dd.channel.ChannelImage;
+import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 import java.awt.Color;
@@ -29,6 +30,7 @@ public class ImageChooserTableModel extends AbstractChannelTableModel {
 	private static final long	serialVersionUID	= 5736576268689815979L;
 
 	private List<ImageIcon>		icons				= new ArrayList<ImageIcon>();
+	private List<ChannelImage>	imageChannels		= new ArrayList<ChannelImage>();
 
 	/**
 	 * 
@@ -56,16 +58,16 @@ public class ImageChooserTableModel extends AbstractChannelTableModel {
 				}
 				return o1.getName().compareTo(o2.getName());
 			}
-		}
-		);
+		});
 		sortedList.addAll(list);
 
 		for (SignageContent SC : sortedList) {
-			allChannels.add((ChannelImage) SC);
+			allChannels.add(new ChannelInList((ChannelImage) SC));
 			String name = SC.getName(); // This is the URL end, without all the caption stuff.
 			String url = getFullURLPrefix() + "/" + name;
 			DrawingPanelForImage dp = new DrawingPanelForImage(url, Color.green);
 			icons.add(dp.getIcon());
+			imageChannels.add((ChannelImage) SC);
 		}
 	}
 
@@ -99,13 +101,12 @@ public class ImageChooserTableModel extends AbstractChannelTableModel {
 	 * @param row
 	 * @return The channel at this row
 	 */
-	public ChannelImage getRow(final int row) {
-		return (ChannelImage) allChannels.get(row);
+	public ChannelInList getRow(final int row) {
+		return allChannels.get(row);
 	}
 
 	@Override
 	public Object getValueAt(int row, int col) {
-		ChannelImage cac = (ChannelImage) allChannels.get(row);
 		switch (col) {
 
 		case 0:
@@ -113,10 +114,10 @@ public class ImageChooserTableModel extends AbstractChannelTableModel {
 
 		case 1:
 		default:
-			return cac.getExp();
+			return imageChannels.get(row).getExp();
 
 		case 2:
-			return cac;
+			return imageChannels.get(row);
 
 		}
 	}

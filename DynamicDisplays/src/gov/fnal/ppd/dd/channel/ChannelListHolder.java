@@ -1,7 +1,5 @@
 package gov.fnal.ppd.dd.channel;
 
-import gov.fnal.ppd.dd.signage.Channel;
-
 import java.util.List;
 
 /**
@@ -15,7 +13,7 @@ public interface ChannelListHolder {
 	/**
 	 * @return the list of channels as we know it now.
 	 */
-	public List<Channel> getList();
+	public List<ChannelInList> getList();
 
 	// theListOfAllChannels.channelList.clear();
 	// theListOfAllChannels.labelList.clear();
@@ -29,7 +27,7 @@ public interface ChannelListHolder {
 	 * @param c
 	 *            the channel to add
 	 */
-	public void channelAdd(Channel c);
+	public void channelAdd(ChannelInList c);
 	
 	/**
 	 * Not really used anymore, but was once used to fix up the internal list (in some way that I cannot recall)

@@ -68,7 +68,20 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 
 	// FIXME -- This kludge job is not working. Adding the Plus and Minus buttons has messed this up.
 
-	List<Channel>						channelList			= new ArrayList<Channel>();
+	List<ChannelInList>					channelList			= new ArrayList<ChannelInList>() {
+																private static final long	serialVersionUID	= 5139683996976896075L;
+
+																public boolean add(ChannelInList chan) {
+																	if (chan.getSequenceNumber() < 0) {
+																		int lastSeq = -1;
+																		for (ChannelInList CIL : this)
+																			if (CIL.getSequenceNumber() > lastSeq)
+																				lastSeq = CIL.getSequenceNumber();
+																		chan.setSequenceNumber(lastSeq + 1);
+																	}
+																	return super.add(chan);
+																}
+															};
 	List<JLabel>						labelList			= new ArrayList<JLabel>();
 	List<ChanSelectButton>				allChannelButtons	= new ArrayList<ChanSelectButton>();
 	private static List<TinyButton>		allTinyButtons		= new ArrayList<TinyButton>();
@@ -349,7 +362,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 							long actualDwell = 0;
 							if (CONTENT.getTime() == 0 || CONTENT.getTime() > defaultDwell) {
 								CONTENT.setTime(defaultDwell);
-								channelList.add((Channel) CONTENT);
+								channelList.add(new ChannelInList(CONTENT));
 								actualDwell = defaultDwell;
 								visible = true;
 							} else {
@@ -359,7 +372,10 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 								long tm = defaultDwell;
 								int added = 0;
 								for (; tm >= CONTENT.getTime(); tm -= CONTENT.getTime()) {
-									channelList.add((Channel) CONTENT);
+									if (CONTENT instanceof ChannelInList)
+										channelList.add((ChannelInList) CONTENT);
+									else
+										channelList.add(new ChannelInList(CONTENT));
 									actualDwell += CONTENT.getTime();
 									added++;
 								}
@@ -428,8 +444,6 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 		selectedChannels.repaint();
 		invalidate();
 	}
-
-	
 
 	/**
 	 * Get the pre-assembled GUI widgets for doing the list of channels.
@@ -595,7 +609,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 	}
 
 	@Override
-	public void channelAdd(Channel c) {
+	public void channelAdd(ChannelInList c) {
 		System.out.println("Adding channel [" + c + "] to inner list");
 		channelList.add(c);
 
@@ -605,7 +619,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 	}
 
 	@Override
-	public List<Channel> getList() {
+	public List<ChannelInList> getList() {
 		return channelList;
 	}
 

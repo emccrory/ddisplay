@@ -1,5 +1,6 @@
 package gov.fnal.ppd.dd.channel.list;
 
+import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.signage.Channel;
 
 import java.awt.event.ActionEvent;
@@ -36,16 +37,18 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 
 	@Override
 	public boolean isCellEditable(int row, int col) {
-		return col == 3;
+		return col == 3 || col == 0;
 	}
 
 	@Override
 	public Object getValueAt(int row, int col) {
 		if (row < 0)
 			return null;
-		Channel cac = allChannels.get(row);
+		ChannelInList cac = (ChannelInList) allChannels.get(row);
 		switch (col) {
 
+		case 0:
+			return cac.getSequenceNumber();
 		case 1:
 			return cac.getNumber();
 		case 2:
@@ -53,23 +56,31 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 		case 3:
 			return cac.getTime() / 1000L;
 		default:
-			return row;
+			return 0; // FIXME Is this relevant?
+
 		}
 	}
 
 	@Override
 	public void setValueAt(Object value, int row, int col) {
-		if (col != 3)
-			return;
-		Channel chan = allChannels.get(row); // It has to be re-mapped already
-		chan.setTime(1000L * ((Long) value));
+		try {
+			if (col == 0) {
+				ChannelInList chan = (ChannelInList) allChannels.get(row);
+				chan.setSequenceNumber(((Long) value).intValue());
+			} else if (col == 3) {
+				Channel chan = allChannels.get(row); // It has to be re-mapped already
+				chan.setTime(1000L * ((Long) value));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * @param cac
 	 *            The row to add
 	 */
-	public void addChannel(final Channel cac) {
+	public void addChannel(final ChannelInList cac) {
 		allChannels.add(cac);
 		fireTableDataChanged();
 	}
@@ -118,7 +129,7 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 	 */
 	public void clear() {
 		allChannels.clear();
-		fireTableDataChanged();		
+		fireTableDataChanged();
 	}
 
 	// May need this later

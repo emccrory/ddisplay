@@ -36,10 +36,8 @@ package gov.fnal.ppd.dd.channel.list;
  */
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-
 import gov.fnal.ppd.dd.signage.Channel;
 
-import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.JLabel;

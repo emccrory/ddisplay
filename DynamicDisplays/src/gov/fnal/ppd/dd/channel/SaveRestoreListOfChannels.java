@@ -62,27 +62,10 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 	private JTextArea				listOfChannelsArea	= new JTextArea(50, 40);
 	private JScrollPane				internalScrollPanel	= new JScrollPane(listOfChannelsArea);
 
-	private List<Channel>			channelListHolder	= new ArrayList<Channel>();
+	private List<ChannelInList>		channelListHolder	= new ArrayList<ChannelInList>();
 	private ChannelListHolder		theListOfAllChannels;
 	private NewListCreationListener	newListListener		= null;
 	protected int					lastListNumber;
-
-	class ChannelInfoHolder {
-		public int		channelNumber, sequenceNumber;
-		public long		dwell;
-		public String	name;
-
-		public ChannelInfoHolder(final int chanNum, final int seqNum, final long dwell, final String name) {
-			this.channelNumber = chanNum;
-			this.sequenceNumber = seqNum;
-			this.dwell = dwell;
-			this.name = name;
-		}
-
-		public String toString() {
-			return sequenceNumber + ": Channel #" + channelNumber + " [ " + name + " ] (" + dwell + " milliseconds)";
-		}
-	}
 
 	/**
 	 * @param clh
@@ -115,7 +98,6 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 
 		setAlignmentX(CENTER_ALIGNMENT);
 		JLabel lab = new JLabel("Channel List Database: Archiving, restoring, and deleting");
-		lab.setFont(lab.getFont().deriveFont((SHOW_IN_WINDOW?16.0f: 24.0f)));
 		lab.setAlignmentX(CENTER_ALIGNMENT);
 		gbag.gridx = gbag.gridy = 1;
 		gbag.gridwidth = 3;
@@ -133,6 +115,16 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		add(deleteOne, gbag);
 		setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(15, 5, 5, 5),
 				BorderFactory.createLineBorder(Color.black)));
+
+		if (!SHOW_IN_WINDOW) {
+			float big = 18;
+			saveIt.setFont(saveIt.getFont().deriveFont(big));
+			restoreOne.setFont(restoreOne.getFont().deriveFont(big));
+			deleteOne.setFont(deleteOne.getFont().deriveFont(big));
+			lab.setFont(lab.getFont().deriveFont(24.0f));
+		} else {
+			lab.setFont(lab.getFont().deriveFont(16.0f));
+		}
 	}
 
 	protected JComponent getExistingListsComponent() throws Exception {
@@ -163,7 +155,8 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		}
 		int totalDwell = 0;
 
-		String query1 = "SELECT Number,Dwell,SequenceNumber FROM ChannelList where ListNumber=" + listNumber;
+		String query1 = "SELECT Number,Dwell,SequenceNumber FROM ChannelList where ListNumber=" + listNumber
+				+ " ORDER BY SequenceNumber ASC";
 
 		synchronized (connection) {
 			try (Statement stmt1 = connection.createStatement(); ResultSet rs1 = stmt1.executeQuery("USE " + DATABASE_NAME)) {
@@ -175,8 +168,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 							int seq = rs2.getInt("SequenceNumber");
 							long dwell = rs2.getLong("Dwell");
 							totalDwell += dwell;
-							ChannelInfoHolder cih = null;
-							Channel channel = null;
+							ChannelInList cih = null;
 							String name = null;
 
 							// Sub-query based on the Number value here
@@ -195,9 +187,11 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 										String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo="
 												+ URLEncoder.encode(name, "UTF-8") + "&caption=" + URLEncoder.encode(desc, "UTF-8");
 										URI uri = new URI(url);
-										cih = new ChannelInfoHolder(chanNumber, seq, dwell, name);
-										channel = new ChannelImage(name, ChannelCategory.IMAGE, desc, uri, portfolioID, exp);
+										Channel channel = new ChannelImage(name, ChannelCategory.IMAGE, desc, uri, portfolioID, exp);
 										channel.setTime(dwell);
+										cih = new ChannelInList(channel, seq, dwell);
+									} else {
+										println(getClass(), "getThisList(): Unexpected condition - rs3.first() returned false");
 									}
 								} catch (Exception e) {
 									e.printStackTrace();
@@ -214,8 +208,9 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 										String url = rs3.getString("URL");
 										String desc = rs3.getString("Description");
 										URI uri = new URI(url);
-										cih = new ChannelInfoHolder(chanNumber, seq, dwell, name);
-										channel = new ChannelImpl(name, ChannelCategory.MISCELLANEOUS, desc, uri, chanNumber, dwell);
+										Channel channel = new ChannelImpl(name, ChannelCategory.MISCELLANEOUS, desc, uri,
+												chanNumber, dwell);
+										cih = new ChannelInList(channel, seq, dwell);
 									} // Guaranteed to be exactly one
 								} catch (Exception e) {
 									e.printStackTrace();
@@ -224,10 +219,10 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 							}
 							if (cih != null) {
 								internalScrollPanel.add(new JLabel(cih.toString()));
-								channelListHolder.add(channel);
+								channelListHolder.add(cih);
 								listOfChannelsArea.append(cih + "\n");
 							} else {
-								println(getClass(), "getThisList(): Unexpected condition - cih is null");
+								println(getClass(), "getThisList(): NULL Channel.  It is likely that channel number " + chanNumber + " is not approved.");
 							}
 
 						} while (rs2.next());
@@ -294,7 +289,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 			if (userValue == JOptionPane.OK_OPTION) {
 				theListOfAllChannels.clear();
 
-				for (Channel C : channelListHolder) {
+				for (ChannelInList C : channelListHolder) {
 					theListOfAllChannels.channelAdd(C);
 				}
 				theListOfAllChannels.fix();
@@ -415,8 +410,8 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 
 		int seq = 1;
 		String space = "";
-		for (SignageContent SC : theListOfAllChannels.getList()) {
-			Channel C = (Channel) SC;
+		for (ChannelInList C : theListOfAllChannels.getList()) {
+			seq = C.getSequenceNumber();
 			if (seq < 10 && theListOfAllChannels.getList().size() > 9)
 				space = " ";
 			else
@@ -530,19 +525,15 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 
 					// Use the exiting channel list from the GUI
 					int sequence = 0;
-					for (SignageContent SC : theListOfAllChannels.getList()) {
-						if (SC instanceof Channel) {
-							Channel c = (Channel) SC;
-							insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + c.getNumber() + ", "
-									+ c.getTime() + ", NULL, " + (sequence++) + ")";
-							if (stmt.executeUpdate(insert) == 1) {
-								// OK, the insert worked.
-								println(getClass(), ": Successful insert " + insert);
-							} else {
-								new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
-								return; // return "Insert of list element number " + sequence + " failed";
-							}
-
+					for (ChannelInList C : theListOfAllChannels.getList()) {
+						insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + C.getNumber() + ", " + C.getTime()
+								+ ", NULL, " + C.getSequenceNumber() + ")";
+						if (stmt.executeUpdate(insert) == 1) {
+							// OK, the insert worked.
+							println(getClass(), ": Successful insert " + insert);
+						} else {
+							new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
+							return; // return "Insert of list element number " + sequence + " failed";
 						}
 					}
 				}

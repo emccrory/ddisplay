@@ -1,6 +1,6 @@
 package gov.fnal.ppd.dd.channel.list;
 
-import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.channel.ChannelInList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +14,17 @@ import javax.swing.table.AbstractTableModel;
  */
 public abstract class AbstractChannelTableModel extends AbstractTableModel {
 
-	private static final long	serialVersionUID	= 7906711135279253878L;
+	private static final long			serialVersionUID	= 7906711135279253878L;
 
-	int[]						relativeWidths		= null;
-	protected String[]			columnNames			= null;
+	int[]								relativeWidths		= null;
+	protected String[]					columnNames			= null;
 
-	protected List<Channel>		allChannels			= new ArrayList<Channel>();
+	protected List<ChannelInList>	allChannels			= new ArrayList<ChannelInList>();
 
 	/**
 	 * @return the allChannels
 	 */
-	public List<Channel> getAllChannels() {
+	public List<ChannelInList> getAllChannels() {
 		return allChannels;
 	}
 

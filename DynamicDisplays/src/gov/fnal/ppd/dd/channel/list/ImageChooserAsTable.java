@@ -37,7 +37,7 @@ package gov.fnal.ppd.dd.channel.list;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.dd.channel.ChannelImage;
-import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.channel.ChannelInList;
 
 import java.awt.Font;
 
@@ -78,7 +78,7 @@ public class ImageChooserAsTable extends JTable {
 	 * @param viewRow
 	 * @return the channel at this row
 	 */
-	public ChannelImage getRow(final int viewRow) {
-		return (ChannelImage) model.getRow(viewRow);
+	public ChannelInList getRow(final int viewRow) {
+		return  model.getRow(viewRow);
 	}
 }

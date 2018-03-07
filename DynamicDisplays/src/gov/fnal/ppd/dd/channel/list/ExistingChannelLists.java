@@ -10,6 +10,7 @@ import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.channel.BigLabel;
+import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
@@ -118,14 +119,14 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 								int chanNumber = rs2.getInt("Number");
 
 								String fullName = listName + " (" + listAuthor + ")";
-								if (!allChannelLists.containsKey(fullName )) {
+								if (!allChannelLists.containsKey(fullName) ) {
 									ArrayList<SignageContent> list = new ArrayList<SignageContent>(sequence + 1);
 									allChannelLists.put(fullName, list);
 								}
 								Channel chan = (Channel) getChannelFromNumber(chanNumber);
-								chan.setTime(dwell);
+								ChannelInList cih = new ChannelInList(chan, sequence, dwell);
 
-								allChannelLists.get(fullName).add(chan);
+								allChannelLists.get(fullName).add(cih);
 
 							} while (rs2.next());
 						else {

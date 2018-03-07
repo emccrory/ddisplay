@@ -4,6 +4,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
@@ -38,8 +39,17 @@ public class ChannelChooserTableModel extends AbstractChannelTableModel {
 			if (CAT.getValue().equals("Archive"))
 				continue;
 			Set<SignageContent> chans = ChannelCatalogFactory.getInstance().getChannelCatalog(CAT);
-			for (SignageContent CHAN : chans)
-				allChannels.add((Channel) CHAN);
+			int count = 0;
+			for (SignageContent CHAN : chans) {
+				if (CHAN instanceof ChannelInList) {
+					allChannels.add((ChannelInList) CHAN);
+					if (((ChannelInList) CHAN).getSequenceNumber() > count)
+						count = ((ChannelInList) CHAN).getSequenceNumber() + 1;
+				} else {
+					allChannels.add(new ChannelInList((Channel) CHAN, count, CHAN.getTime()));
+					count += 1;
+				}
+			}
 		}
 	}
 
