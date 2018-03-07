@@ -11,6 +11,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -307,7 +308,7 @@ public class Util {
 		} else if (channelNumber < 0) {
 			// The default channel is a list of channels. Build it!
 
-			String query = "select Channel.Number as Number,Dwell,Name,Description,URL from Channel,ChannelList where ListNumber="
+			String query = "select Channel.Number as Number,Dwell,Name,Description,URL,SequenceNumber from Channel,ChannelList where ListNumber="
 					+ (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
 
 			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
@@ -333,8 +334,10 @@ public class Util {
 							String name = rs.getString("Name");
 							String desc = rs.getString("Description");
 							String url = rs.getString("URL");
+							int seq = rs.getInt("SequenceNumber");
 
-							Channel c = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), chanNum, dwell);
+							ChannelInList c = new ChannelInList(name, ChannelCategory.PUBLIC, desc, new URI(url), chanNum, dwell);
+							c.setSequenceNumber(seq);
 							channelList.add(c);
 
 						} while (rs.next());
