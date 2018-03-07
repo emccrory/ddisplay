@@ -1,5 +1,7 @@
 package gov.fnal.ppd.dd.util;
 
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -25,10 +27,9 @@ import javax.swing.event.ListSelectionListener;
  */
 public class ListSelectionForSaveList extends JPanel {
 
-	
 	/**
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 *
+	 * 
 	 */
 	public interface SpecialLocalListChangeListener {
 
@@ -38,7 +39,7 @@ public class ListSelectionForSaveList extends JPanel {
 		 */
 		void setListValue(int listValue);
 	}
-	
+
 	private static final long				serialVersionUID	= -8516344045768695215L;
 	private ListSelectionModel				listSelectionModel;
 	private SpecialLocalListChangeListener	myListener;
@@ -75,12 +76,9 @@ public class ListSelectionForSaveList extends JPanel {
 		listContainer.setBorder(BorderFactory.createTitledBorder(" Channel Lists "));
 		listContainer.add(listPane);
 
-		topHalf.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
 		topHalf.add(listContainer);
 		// topHalf.add(tableContainer);
 
-		topHalf.setMinimumSize(new Dimension(200, 200));
-		topHalf.setPreferredSize(new Dimension(200, 300));
 		splitPane.add(topHalf);
 
 		JPanel bottomHalf = new JPanel(new BorderLayout());
@@ -88,8 +86,25 @@ public class ListSelectionForSaveList extends JPanel {
 		bottomHalf.add(outputPane, BorderLayout.CENTER);
 		// XXX: next line needed if bottomHalf is a scroll pane:
 		// bottomHalf.setMinimumSize(new Dimension(400, 50));
-		bottomHalf.setPreferredSize(new Dimension(600, 300));
 		splitPane.add(bottomHalf);
+
+		if (!SHOW_IN_WINDOW) {
+			list.setFont(list.getFont().deriveFont(18.0f));
+			listPane.getVerticalScrollBar().setPreferredSize(new Dimension(30, 0));
+			listPane.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 30));
+			outputPane.getVerticalScrollBar().setPreferredSize(new Dimension(30, 0));
+			outputPane.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 30));
+
+			topHalf.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 10));
+			topHalf.setMinimumSize(new Dimension(350, 350));
+			topHalf.setPreferredSize(new Dimension(350, 400));
+		} else {
+			topHalf.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
+			topHalf.setMinimumSize(new Dimension(200, 200));
+			topHalf.setPreferredSize(new Dimension(200, 300));
+		}
+		bottomHalf.setPreferredSize(new Dimension(600, 300));
+
 	}
 
 	class SharedListSelectionHandler implements ListSelectionListener {
