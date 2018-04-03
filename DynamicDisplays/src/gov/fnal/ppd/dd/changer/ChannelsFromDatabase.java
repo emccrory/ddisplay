@@ -23,7 +23,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -36,11 +35,7 @@ import java.util.TreeSet;
 public class ChannelsFromDatabase extends HashMap<String, SignageContent> implements ChannelCatalog {
 
 	private static final long							serialVersionUID	= 8020508216810250903L;
-
 	private final Connection							connection;
-
-	private SignageContent								defaultChannel;
-
 	private static Comparator<? super SignageContent>	comparator			= new Comparator<SignageContent>() {
 
 																				/**
@@ -78,8 +73,6 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 			getChannels();
 			getImages();
 		}
-
-		defaultChannel = get(keySet().iterator().next()); // The first channel (whatever!)
 	}
 
 	private void getChannels() {
@@ -156,7 +149,8 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 
 					String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
 							+ "&caption=" + URLEncoder.encode(descr, "UTF-8");
-					ChannelImage c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), imageNumber + ONE_BILLION, exp);
+					ChannelImage c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), imageNumber + ONE_BILLION,
+							exp);
 					c.setNumber(imageNumber);
 
 					put(name, c);
@@ -173,16 +167,6 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 		println(getClass(), ": Found " + count + " images.");
 	}
 
-	public Map<String, SignageContent> getPublicChannels() {
-		HashMap<String, SignageContent> retval = new HashMap<String, SignageContent>();
-
-		for (String key : this.keySet()) {
-			if (this.get(key).getCategory().equals(ChannelCategory.PUBLIC))
-				retval.put(key, this.get(key));
-		}
-		return retval;
-	}
-
 	public Set<SignageContent> getChannelCatalog(ChannelCategory cat) {
 		TreeSet<SignageContent> retval = new TreeSet<SignageContent>(comparator);
 
@@ -196,9 +180,4 @@ public class ChannelsFromDatabase extends HashMap<String, SignageContent> implem
 			}
 		return retval;
 	}
-
-	public SignageContent getDefaultChannel() {
-		return defaultChannel;
-	}
-
 }
