@@ -34,7 +34,6 @@ public class CategoryDictionary {
 	 */
 	public static ChannelCategory[] getCategories() {
 		if (categories == null) {
-			// getCategoriesCoded();
 			getCategoriesDatabase();
 		}
 		return categories;
@@ -143,91 +142,5 @@ public class CategoryDictionary {
 		return working;
 	}
 
-	// @SuppressWarnings("unused")
-	// private static void getCategoriesCoded() {
-	// switch (locationCode) {
-	// case 0: // ROC-West
-	//
-	// categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
-	// ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS,
-	// new ChannelCategory("MINERVA_DETAILS", "MINER\u03BDA"), ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS,
-	// ChannelCategory.MISCELLANEOUS };
-	//
-	// if (IS_PUBLIC_CONTROLLER) {
-	// categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
-	// ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS };
-	// }
-	// break;
-	//
-	// case 1:// ROC-East
-	// categories = new ChannelCategory[] { new ChannelCategory("CMS"), new ChannelCategory("LHC"),
-	// ChannelCategory.MISCELLANEOUS };
-	// break;
-	//
-	// case 2:
-	// // Test regime in Elliott's office
-	// case 3:
-	// // WH2E -- CMS Remote Operations Center
-	// default:
-	// categories = new ChannelCategory[] { ChannelCategory.PUBLIC, ChannelCategory.PUBLIC_DETAILS,
-	// ChannelCategory.NOVA_DETAILS, ChannelCategory.NUMI_DETAILS, ChannelCategory.EXPERIMENT_DETAILS,
-	// ChannelCategory.ACCELERATOR, ChannelCategory.VIDEOS, ChannelCategory.MISCELLANEOUS, new ChannelCategory("CMS"),
-	// new ChannelCategory("MINERVA_DETAILS", "MINER\u03BDA"), new ChannelCategory("LHC"),
-	// new ChannelCategory("FERMILAB") };
-	// }
-	//
-	// }
-
-	private static final String[]	FermilabExperiments	= { "gMinus2", "g-2", "g - 2", "DUNE-LBNF", "MicroBooNE", "MiniBooNE",
-			"MINERvA", "MINOS", "Mu2E", "NOvA", "SeaQuest", "NuMI", "LArIAT", "Fermilab", "Accelerator", "UUP", "MICE", "CHIPS",
-			"DES"										};
-
-	private static final String[]	CERNExperiments		= { "CMS", "ATLAS", "LHC", "AEGIS", "ALICE", "ALPHA", "AMS", "ASACUSA",
-			"ATRAP", "AWAKE", "BASE", "CAST", "CLOUD", "CMS", "ACE", "AEGIS", "ALICE", "ALPHA", "AMS", "ASACUSA", "ATRAP", "AWAKE",
-			"BASE", "CAST", "CLOUD", "COMPASS", "DIRAC", "ISOLDE", "LHCb", "LHCf", "MOEDAL", "NA61/SHINE", "NA62", "nTOF", "OSQAR",
-			"TOTEM", "UA9", "Fermilab"					};
-
-	/**
-	 * (For future expansion) Check if an experiment name is an experiment that is "relevant" at the specified location
-	 * 
-	 * @param exp
-	 *            The name of the experiment to check
-	 * @return Is this experiment relevant to the GUI at the designated locationCode?
-	 */
-	public static boolean isExperiment(final String exp) {
-		// TODO -- This needs to be constructed from the database, not hard-coded as it is here.
-		switch (getLocationCode()) {
-		case 0:
-			// ROC-West
-			for (String EXP : FermilabExperiments)
-				if (exp.equalsIgnoreCase(EXP))
-					return true;
-			break;
-
-		case 1:
-			// ROC-East
-			// for (String EXP : CERNExperiments)
-			// if (exp.equalsIgnoreCase(EXP))
-			// return true;
-			// break;
-
-		case 2:
-			// Test regime in Elliott's office
-		case 3:
-			// WH2E
-		case 4:
-			// AD cross gallery computer room
-		case 5:
-			// FESS
-		case 6:
-			// ESH&Q, WH7W
-		case 7:
-			// Neutrino Division, WH12W
-		default:
-			// Everything else
-			return true;
-		}
-
-		return false;
-	}
+	
 }
