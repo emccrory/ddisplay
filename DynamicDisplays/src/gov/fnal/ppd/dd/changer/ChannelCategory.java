@@ -10,50 +10,49 @@ import java.io.Serializable;
 /**
  * The way the channels are organized/sorted for the user.
  * 
- * FIXME -- I believe now (11/2014) that this is a cumbersome way to do it. These values should be stored by the database (as
- * strings). The enum here is more trouble than it is worth; I need to be able to make these categories more flexible, especially as
- * the Dynamic Display system expands outside of the ROC-W (formerly called the XOC).
+ * This corresponds to the Channel "Type" in the database (and the accompanying "Abbreviation")
  * 
+ * April 2018: Removed the pre-defined categories. This is held exclusively in the database
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 public class ChannelCategory implements Serializable {
-	
-	private static final long	serialVersionUID	= 7118118150912431599L;
+
+	private static final long			serialVersionUID	= 7118118150912431599L;
 
 	// This enum corresponds exactly to the names chosen for the values in the Database table, ChannelTabSort
 
-	/**
-	 * Channels on the front page
-	 */
-	public static final ChannelCategory	PUBLIC				= new ChannelCategory("PUBLIC", "Public");
-
-	/**
-	 * Channels on the second page
-	 */
-	public static final ChannelCategory	PUBLIC_DETAILS		= new ChannelCategory("PUBLIC_DETAILS", "Details");
-
-	/**
-	 * Channels on the front page of the "Experiments" view
-	 */
-	public static final ChannelCategory	EXPERIMENT_DETAILS	= new ChannelCategory("EXPERIMENT_DETAILS", "Exp");
-
-	/**
-	 * Channels that show details on the NuMI experiment
-	 */
-	public static final ChannelCategory	NUMI_DETAILS		= new ChannelCategory("NUMI_DETAILS", "NuMI");
-
-	/**
-	 * Channels that show details on the NOvA experiment
-	 */
-	public static final ChannelCategory	NOVA_DETAILS		= new ChannelCategory("NOVA_DETAILS", "NO\u03BDA");
-
-	/**
-	 * Channels that are (YouTube) videos
-	 */
-	public static final ChannelCategory	VIDEOS				= new ChannelCategory("VIDEOS", "Videos");
-
+	// /**
+	// * Channels on the front page
+	// */
+	// public static final ChannelCategory PUBLIC = new ChannelCategory("PUBLIC", "Public");
+	//
+	// /**
+	// * Channels on the second page
+	// */
+	// public static final ChannelCategory PUBLIC_DETAILS = new ChannelCategory("PUBLIC_DETAILS", "Details");
+	//
+	// /**
+	// * Channels on the front page of the "Experiments" view
+	// */
+	// public static final ChannelCategory EXPERIMENT_DETAILS = new ChannelCategory("EXPERIMENT_DETAILS", "Exp");
+	//
+	// /**
+	// * Channels that show details on the NuMI experiment
+	// */
+	// public static final ChannelCategory NUMI_DETAILS = new ChannelCategory("NUMI_DETAILS", "NuMI");
+	//
+	// /**
+	// * Channels that show details on the NOvA experiment
+	// */
+	// public static final ChannelCategory NOVA_DETAILS = new ChannelCategory("NOVA_DETAILS", "NO\u03BDA");
+	//
+	// /**
+	// * Channels that are (YouTube) videos
+	// */
+	// public static final ChannelCategory VIDEOS = new ChannelCategory("VIDEOS", "Videos");
+	//
 	/**
 	 * Everything else
 	 */
@@ -64,15 +63,15 @@ public class ChannelCategory implements Serializable {
 	 */
 	public static final ChannelCategory	IMAGE				= new ChannelCategory("IMAGE", "Image");
 
-	/**
-	 * Channels that give details on accelerator operations
-	 */
-	public static final ChannelCategory	ACCELERATOR			= new ChannelCategory("ACCELERATOR", "Beam");
-
-	/**
-	 * Channels that show general stuff about Fermilab itself
-	 */
-	public static final ChannelCategory	FERMILAB			= new ChannelCategory("FERMILAB", "Fermi");
+	// /**
+	// * Channels that give details on accelerator operations
+	// */
+	// public static final ChannelCategory ACCELERATOR = new ChannelCategory("ACCELERATOR", "Beam");
+	//
+	// /**
+	// * Channels that show general stuff about Fermilab itself
+	// */
+	// public static final ChannelCategory FERMILAB = new ChannelCategory("FERMILAB", "Fermi");
 
 	private String						value;
 	private String						abbreviation;
@@ -109,7 +108,8 @@ public class ChannelCategory implements Serializable {
 	}
 
 	/**
-	 * @param value -- Th new name for this category
+	 * @param value
+	 *            -- The new name for this category
 	 */
 	public void setValue(final String value) {
 		this.value = value;
