@@ -17,7 +17,7 @@ import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
 /**
- * This class holds a list of Channels that are to be played on a Display
+ * This class holds a list of Channels that is to be played on a Display
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
