@@ -80,6 +80,9 @@ public class DrawingPanelForImage extends JPanel {
 		icon.paintIcon(this, g, 0, 0);
 	}
 
+	/**
+	 * @return  An icon of this image
+	 */
 	public ImageIcon getIcon() {
 		return icon;
 	}
