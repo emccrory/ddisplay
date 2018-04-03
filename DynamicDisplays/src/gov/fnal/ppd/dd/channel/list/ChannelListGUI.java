@@ -3,16 +3,18 @@ package gov.fnal.ppd.dd.channel.list;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
-import static gov.fnal.ppd.dd.channel.ListUtils.getDwellStrings;
-import static gov.fnal.ppd.dd.channel.ListUtils.interp;
+import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.getDwellStrings;
+import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.interp;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.channel.BigLabel;
 import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
-import gov.fnal.ppd.dd.channel.SaveRestoreListOfChannels;
+import gov.fnal.ppd.dd.channel.list.table.ChannelCooserAsTable;
+import gov.fnal.ppd.dd.channel.list.table.ImageChooserAsTable;
+import gov.fnal.ppd.dd.channel.list.table.SelectedChannelsTableModel;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.BigLabel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -47,8 +49,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2017
+ * The complete user interface for building, modifying, saving and restoring lists of channels in the Dynamic Displays system
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017-18
  * 
  */
 public class ChannelListGUI extends JPanel implements ActionListener, ChannelListHolder {
@@ -220,18 +223,17 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 				text += " The dwell time this channel gets is the \"Approx Dwell Time\" that appear at the top of the panel.</p>";
 				text += "<p>Remove a channel from the left list by selecting the channel "
 						+ "on the left and then touching the \"✖\" button at the bottom.</p>";
-				text += "<p>With a channel selected on the left you can use the \"⇧\" "
-						+ "and the \"⇩\" buttons to move this channel up and down on the list.</p>";
+				text += "<p>With a channel selected on the left, you can use the arrow buttons in the GUI to move this channel up and down in the list.</p>";
 				text += "<p>To change the dwell time of a channel in the left panel, double-click the number in the dwell column,\n"
 						+ "enter the number you want (a keyboard is required--ask for help on how to get the on-screen keyboard) and then hit \"enter\".</p>";
-				text += "<p>When you have your list the way you want it, hit \"Accept\" to send this channel list to your display,\n"
+				text += "<p>When you have your list the way you want it, hit \"Send this list to the Display\" to send this channel list to your display,\n"
 						+ " or use the \"Save this list\" button to put this channel list permanently into the database.</p>";
 				text += "<p>Note that the size of each column, and the ordering of the rows, can be manipulated just like column values in Excel.</p>";
 				text += "<p>Feel free to contact the author (Elliott) if you have any ideas on this, e.g. how to make the process, or these instructions, simpler. (June, 2017)</p>";
 				text += "</html>";
 				textPane.setText(text);
-				textPane.setMaximumSize(new Dimension(700, 700));
-				textPane.setPreferredSize(new Dimension(700, 700));
+				textPane.setMaximumSize(new Dimension(700, 600));
+				textPane.setPreferredSize(new Dimension(700, 600));
 
 				JOptionPane.showMessageDialog(null, textPane, "Channel List Instructions", JOptionPane.QUESTION_MESSAGE);
 
