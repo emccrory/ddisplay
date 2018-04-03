@@ -24,7 +24,7 @@ class EmptyChannel extends ChannelImpl {
 	 *             (In the unlikely case that the default web page is no longer a valid URI)
 	 */
 	public EmptyChannel() throws URISyntaxException {
-		this(MY_NAME, ChannelCategory.PUBLIC);
+		this(MY_NAME, new ChannelCategory("PUBLIC", "PUBLIC"));
 
 	}
 
