@@ -31,9 +31,9 @@ import gov.fnal.ppd.dd.changer.DocentGrid;
 import gov.fnal.ppd.dd.changer.ImageGrid;
 import gov.fnal.ppd.dd.changer.InformationBox;
 import gov.fnal.ppd.dd.changer.SaveRestoreDefaultChannels;
-import gov.fnal.ppd.dd.channel.CreateListOfChannels;
-import gov.fnal.ppd.dd.channel.CreateListOfChannelsHelper;
 import gov.fnal.ppd.dd.channel.list.ChannelListGUI;
+import gov.fnal.ppd.dd.channel.list.CreateListOfChannels;
+import gov.fnal.ppd.dd.channel.list.CreateListOfChannelsHelper;
 import gov.fnal.ppd.dd.channel.list.ExistingChannelLists;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -111,8 +111,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	public static final Dimension			screenDimension				= Toolkit.getDefaultToolkit().getScreenSize();
 	private static JFrame					f							= new JFrame("Dynamic Display Channel Selector");
 
+	private int							refreshActionUnderway		= 0	;
+
 	// private static ActionListener fullRefreshAction = null;
-	private static ActionListener			channelRefreshAction		= new ActionListener() {
+	private ActionListener					channelRefreshAction		= new ActionListener() {
 																			@Override
 																			public void actionPerformed(ActionEvent e) {
 																				println(ChannelSelector.class,
@@ -565,16 +567,19 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Thread("RefreshURLPopupWait") {
+
+				new Thread("RefreshURLPopupWait2") {
 					public void run() {
-						catchSleep(2000);
+						refreshActionUnderway = 1;
+						while (refreshActionUnderway > 0)
+							catchSleep(1000);
 						int numURLs = numURLButtonsChanged / displayList.size();
 						String mess = "<html>The URLs of all the channels have been refreshed, " + numURLButtonsChanged
 								+ " URL buttons changed.";
 						if (numURLButtonsChanged > 0)
 							mess += "  <br>This is " + numURLs + " specific URLs that changed, distributed over the "
 									+ displayList.size() + " displays in the system";
-						new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), refreshButton, "Channels refreshed", mess + "</html>");
+						new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), "Channels refreshed", mess + "</html>");
 					}
 				}.start();
 			}
@@ -654,7 +659,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), refreshButton, "Displays Identified",
+					new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), "Displays Identified",
 							"Each Display should be showing a self-identify splash screen now.");
 				}
 			});
@@ -674,7 +679,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				nowShowing = nowShowing.next();
-				
+
 				userHasDoneSomething();
 
 				synchronized (channelButtonGridList) {
@@ -797,7 +802,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		channelSelector.createRefreshActions();
 
-		channelSelector.setRefreshAction(channelRefreshAction);
+		channelSelector.setRefreshAction(channelSelector.channelRefreshAction);
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -829,14 +834,19 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				println(ChannelSelector.class, ": Preparing to refreshing all of the URLs of the channel buttons in this world");
+				refreshActionUnderway = channelButtonGridList.size();
+				println(ChannelSelector.class, ": Preparing to refresh all of the URLs of the channel buttons for the " + refreshActionUnderway + " displays in the system.");
 				SwingUtilities.invokeLater(new Runnable() {
+
 					@Override
 					public void run() {
+						catchSleep(100);
 						println(ChannelSelector.class, ": Refreshing URLs of the channel buttons in this world");
 						userHasDoneSomething();
 
 						Collection<SignageContent> list = ((ChannelsFromDatabase) ChannelCatalogFactory.refresh()).values();
+
+						// TODO - refresh the channel lists, too (not sure how to do that)
 
 						// list contains all the channels from the database Now check the URLs in the DB versus the ones we have now
 						// that are attached to all the buttons in our realm
@@ -844,6 +854,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						numURLButtonsChanged = 0;
 						synchronized (channelButtonGridList) {
 							for (List<ChannelButtonGrid> gridList : channelButtonGridList) {
+								refreshActionUnderway--;
 								for (ChannelButtonGrid grid : gridList) {
 									DisplayButtonGroup dbg = grid.getBg();
 									for (int i = 0; i < dbg.getNumButtons(); i++) {
@@ -883,6 +894,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						}
 						println(ChannelSelector.class, ": Looked at " + numButtons + " buttons and changed " + numURLButtonsChanged
 								+ " URLs");
+						refreshActionUnderway = 0;
 					}
 				});
 			}
