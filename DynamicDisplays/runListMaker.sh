@@ -7,4 +7,4 @@ java -Dddisplay.selector.inwindow=$window \
      -Dddisplay.dbusername=$databaseUsername \
      -Dddisplay.dbpassword=$databasePassword \
      -Dddisplay.virtualdisplaynumbers=TRUE \
-     -Xmx512m  gov.fnal.ppd.dd.channel.CreateListOfChannels
+     -Xmx512m  gov.fnal.ppd.dd.channel.list.CreateListOfChannels
