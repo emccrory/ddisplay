@@ -42,7 +42,6 @@ public class ChannelImpl implements Channel {
 	private int					code				= 0;
 	private int					frameNumber			= 0;
 
-
 	// public ChannelImpl( String name, ChannelCategory category, String description ) {
 	// this(name, category, description, Count++);
 	// }
@@ -60,8 +59,7 @@ public class ChannelImpl implements Channel {
 	/**
 	 * @param name
 	 *            The name of this Channel
-	 * @param category
-	 *            The category of this Channel
+	 * 
 	 * @param description
 	 *            A description of this Channel
 	 * @param uri
@@ -72,15 +70,33 @@ public class ChannelImpl implements Channel {
 	 *            The amount of time to wait before asking to refresh the content. 0 = use default (currently 2 hours); negative =
 	 *            never refresh.
 	 */
-	public ChannelImpl(final String name, final ChannelCategory category, final String description, final URI uri,
-			final int number, final long dwellTime) {
+	public ChannelImpl(final String name, final String description, final URI uri, final int number, final long dwellTime) {
+		this(name, new ChannelCategory("PUBLIC", "PUBLIC"), description, uri, number, dwellTime);
+	}
+
+	/**
+	 * @param name
+	 *            The name of this Channel
+	 * @param category
+	 *            A classifier for this channel
+	 * @param description
+	 *            A description of this Channel
+	 * @param uri
+	 *            The URI that represents this Channel
+	 * @param number
+	 *            A number for this Channel
+	 * @param dwellTime
+	 *            The amount of time to wait before asking to refresh the content. 0 = use default (currently 2 hours); negative =
+	 *            never refresh.
+	 */
+	public ChannelImpl(final String name, ChannelCategory category, final String description, final URI uri, final int number,
+			final long dwellTime) {
 		assert (name != null);
-		assert (category != null);
 		assert (number > 0);
 
 		this.name = name;
-		this.category = category;
 		this.number = number;
+		this.category = category;
 		if (description != null)
 			this.description = description;
 		else
@@ -116,6 +132,10 @@ public class ChannelImpl implements Channel {
 		return description;
 	}
 
+	/**
+	 * @deprecated (non-Javadoc)
+	 * @see gov.fnal.ppd.dd.signage.SignageContent#getCategory()
+	 */
 	public ChannelCategory getCategory() {
 		return category;
 	}
@@ -168,8 +188,6 @@ public class ChannelImpl implements Channel {
 	}
 
 	public String toString() {
-		// if (number > 0)
-		// return number + ": " + name + " (" + category + ")";
 		return getName();
 	}
 
