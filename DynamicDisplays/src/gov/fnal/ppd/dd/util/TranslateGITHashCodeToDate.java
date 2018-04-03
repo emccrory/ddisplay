@@ -107,6 +107,9 @@ public class TranslateGITHashCodeToDate {
 		}
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public void getNewest() throws Exception {
 		// Look it up in the database
 
