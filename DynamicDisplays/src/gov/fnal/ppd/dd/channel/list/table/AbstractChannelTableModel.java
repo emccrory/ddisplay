@@ -48,11 +48,17 @@ public abstract class AbstractChannelTableModel extends AbstractTableModel {
 		// default is nothing can be edited
 	}
 
+	/**
+	 * @return The array of relative widths
+	 */
 	public int[] getRelativeWidths() {
 		return relativeWidths;
 	}
 
-	public void setRelativeWidths(int[] relativeWidths) {
+	/**
+	 * @param relativeWidths
+	 */
+	public void setRelativeWidths(final int[] relativeWidths) {
 		this.relativeWidths = relativeWidths;
 	}
 }
