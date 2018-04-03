@@ -21,6 +21,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class CalendarProgram {
 	static JLabel				lblMonth, lblYear;
 	static JButton				btnPrev, btnNext;
@@ -33,7 +37,10 @@ public class CalendarProgram {
 	static JPanel				pnlCalendar;
 	static int					realYear, realMonth, realDay, currentYear, currentMonth;
 
-	public static void main(String args[]) {
+	/**
+	 * @param args
+	 */
+	public static void main(final String args[]) {
 		// Look and feel
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
