@@ -46,16 +46,17 @@ import javax.swing.JOptionPane;
  * 
  */
 public class Util {
+	private static final ChannelCategory	PUB				= new ChannelCategory("PUBLIC", "PUB");
 	// Some globals for identifying the servers in this system
 
-	private static final String[]	days			= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+	private static final String[]			days			= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
 	// TODO Replace this random selection of default page to show with the page that is specified in the database.
 
 	/**
 	 * The list of default URLs
 	 */
-	public static final String		DEFAULT_URLS[]	= { getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MINOS",
+	public static final String				DEFAULT_URLS[]	= { getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MINOS",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MINERvA",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MiniBooNE",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MicroBooNE",
@@ -66,23 +67,23 @@ public class Util {
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=DUNE-LBNF",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NuMI", //
 			"http://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none", //
-			"http://elliottmccrory.com/clock/five.html", };
+			"http://elliottmccrory.com/clock/five.html",	};
 
 	/**
 	 * The list of default names for URLS
 	 */
-	public static final String		DEFAULT_NAMES[]	= { "MINOS Pictures", "MINERvA Pictures", "MiniBooNE Pictures",
+	public static final String				DEFAULT_NAMES[]	= { "MINOS Pictures", "MINERvA Pictures", "MiniBooNE Pictures",
 			"MicroBooNE Pictures", "Mu2e Pictures", "g-2 Pictures", "SeaQuest Pictures", "NOvA Pictures", "DUNE/LBNF Pictures",
 			"NuMI Pictures", "Accelerator Status", "Clocks", };
 
 	/**
 	 * The default URL for a Display
 	 */
-	public static final String		MY_URL;
+	public static final String				MY_URL;
 	/**
 	 * The name that is associated with the default URL for a Display
 	 */
-	public static final String		MY_NAME;
+	public static final String				MY_NAME;
 
 	static {
 		int index = (int) (DEFAULT_URLS.length * Math.random());
@@ -178,8 +179,7 @@ public class Util {
 	 */
 	public static SignageContent makeEmptyChannel(String url) {
 		try {
-			return new ChannelImpl(MY_NAME, ChannelCategory.PUBLIC, "This is a default channel",
-					new URI(url == null ? MY_URL : url), 0, 0);
+			return new ChannelImpl(MY_NAME, PUB, "This is a default channel", new URI(url == null ? MY_URL : url), 0, 0);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return null;
@@ -298,7 +298,7 @@ public class Util {
 
 		Channel retval = null;
 		try {
-			retval = new ChannelImpl("Fermilab", ChannelCategory.PUBLIC, "Fermilab", new URI("http://www.fnal.gov"), 0, 360000L);
+			retval = new ChannelImpl("Fermilab", PUB, "Fermilab", new URI("http://www.fnal.gov"), 0, 360000L);
 		} catch (URISyntaxException e2) {
 			e2.printStackTrace();
 		}
@@ -308,7 +308,7 @@ public class Util {
 		} else if (channelNumber < 0) {
 			// The default channel is a list of channels. Build it!
 
-			String query = "select Channel.Number as Number,Dwell,Name,Description,URL,SequenceNumber from Channel,ChannelList where ListNumber="
+			String query = "select Channel.Number as Number,Dwell,Name,Description,URL,SequenceNumber,Category from Channel,ChannelList where ListNumber="
 					+ (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
 
 			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
@@ -335,8 +335,10 @@ public class Util {
 							String desc = rs.getString("Description");
 							String url = rs.getString("URL");
 							int seq = rs.getInt("SequenceNumber");
+							String catString = rs.getString("Category");
 
-							ChannelInList c = new ChannelInList(name, ChannelCategory.PUBLIC, desc, new URI(url), chanNum, dwell);
+							ChannelInList c = new ChannelInList(name, new ChannelCategory(catString, catString), desc,
+									new URI(url), chanNum, dwell);
 							c.setSequenceNumber(seq);
 							channelList.add(c);
 
@@ -379,8 +381,10 @@ public class Util {
 							int dwell = rs.getInt("DwellTime");
 							String desc = rs.getString("Description");
 							String name = rs.getString("Name");
+							String catString = rs.getString("Category");
 
-							retval = new ChannelImpl(name, ChannelCategory.PUBLIC, desc, new URI(url), channelNumber, dwell);
+							retval = new ChannelImpl(name, new ChannelCategory(catString, catString), desc, new URI(url),
+									channelNumber, dwell);
 							alreadyRetrieved.put(channelNumber, retval);
 
 							stmt.close();
@@ -419,7 +423,7 @@ public class Util {
 									+ URLEncoder.encode(filename, "UTF-8") + "&caption=" + URLEncoder.encode(desc, "UTF-8");
 
 							String[] array = filename.split("/", -1);
-							retval = new ChannelImpl(array[array.length - 1], ChannelCategory.PUBLIC, desc, new URI(url),
+							retval = new ChannelImpl(array[array.length - 1], ChannelCategory.IMAGE, desc, new URI(url),
 									channelNumber, 0L);
 							alreadyRetrieved.put(channelNumber, retval);
 
