@@ -3,10 +3,9 @@ package gov.fnal.ppd.dd.channel;
 import java.util.List;
 
 /**
- * Mechanism for the JTable class to communicate with the GUI class.
+ * Mechanism for the JTable classes to communicate with the GUI class.
  * 
- * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2017
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017-18
  *
  */
 public interface ChannelListHolder {
@@ -15,8 +14,6 @@ public interface ChannelListHolder {
 	 */
 	public List<ChannelInList> getList();
 
-	// theListOfAllChannels.channelList.clear();
-	// theListOfAllChannels.labelList.clear();
 
 	/**
 	 * Reset/clear the GUI for the adding of new channels to the list
@@ -30,7 +27,7 @@ public interface ChannelListHolder {
 	public void channelAdd(ChannelInList c);
 	
 	/**
-	 * Not really used anymore, but was once used to fix up the internal list (in some way that I cannot recall)
+	 * Fix up the internal list after the list has been constructed - useful in the GUI
 	 */
 	public void fix();
 }
