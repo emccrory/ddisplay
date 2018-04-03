@@ -13,7 +13,6 @@ import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
@@ -47,30 +46,31 @@ public class InformationBox extends JFrame {
 	}
 
 	/**
-	 * @param comp
-	 *            The parent component for this dialog box
+	 * 
 	 * @param message1
 	 *            The headline message
 	 * @param message2
 	 *            The sub message
 	 */
-	public InformationBox(final JComponent comp, final String message1, final String message2) {
-		this(1.0F, comp, message1, message2);
+	public InformationBox(final String message1, final String message2) {
+		this(1.0F, message1, message2);
 	}
 
 	/**
 	 * 
 	 * @param scale
 	 *            Default: 1.0f
-	 * @param comp
-	 *            The parent component for this dialog box
 	 * @param message1
 	 *            The headline message
 	 * @param message2
 	 *            The sub message
 	 */
-	public InformationBox(float scale, final JComponent comp, final String message1, final String message2) {
+	public InformationBox(final float scale, final String message1, final String message2) {
 		super("URL Refresh Action");
+		setup(scale, message1, message2);
+	}
+	
+	private synchronized void setup(final float scale, final String message1, final String message2) {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		Box h = Box.createVerticalBox();
@@ -95,8 +95,6 @@ public class InformationBox extends JFrame {
 		setContentPane(h);
 		setUndecorated(!SHOW_IN_WINDOW);
 		pack();
-		Dimension size = comp.getSize();
-		setLocation(comp.getLocation().x + size.width / 5, comp.getLocation().y + size.height / 3);
 
 		setVisible(true);
 		setAlwaysOnTop(true);
