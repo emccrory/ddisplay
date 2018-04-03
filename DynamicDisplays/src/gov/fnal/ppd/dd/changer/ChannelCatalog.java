@@ -1,13 +1,12 @@
 /*
  * ChannelCatalog
  *
- * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ * Copyright (c) 2013-18 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
 package gov.fnal.ppd.dd.changer;
 
 import gov.fnal.ppd.dd.signage.SignageContent;
 
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,20 +19,10 @@ import java.util.Set;
 public interface ChannelCatalog {
 
 	/**
-	 * @return all the "Public" channels
-	 */
-	public abstract Map<String, SignageContent> getPublicChannels();
-
-	/**
 	 * @param cat
 	 *            The category to return
 	 * @return All the channels of a specified category
 	 */
 	public abstract Set<SignageContent> getChannelCatalog(ChannelCategory cat);
-
-	/**
-	 * @return This display's "default" channel
-	 */
-	public abstract SignageContent getDefaultChannel();
 
 }
