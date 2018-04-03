@@ -19,10 +19,9 @@ import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
-import java.security.SignedObject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.JAXBException;
 
@@ -93,19 +92,19 @@ public class WriteXMLFile {
 					break;
 
 				case 3:
-					ChannelSpec cs = new ChannelSpec(new ChannelImpl("Test Channel", ChannelCategory.PUBLIC_DETAILS,
-							"This is the desription", new URI("http://www.fnal.gov"), 23, System.currentTimeMillis()
-									% (24L * 3600L * 1000L)));
+					ChannelSpec cs = new ChannelSpec(new ChannelImpl("Test Channel", new ChannelCategory("PUBLIC_DETAILS",
+							"Details"), "This is the desription", new URI("http://www.fnal.gov"), 23, System.currentTimeMillis()
+							% (24L * 3600L * 1000L)));
 					stuff = cs;
 					break;
 
 				case 4:
-					ChangeChannel cc = new ChangeChannel();
-					cc.setIPAddress("131.225.101.1");
-					cc.setContent(ChannelCatalogFactory.getInstance().getDefaultChannel());
-					cc.setDisplayNumber(14);
-
-					stuff = cc;
+					// ChangeChannel cc = new ChangeChannel();
+					// cc.setIPAddress("131.225.101.1");
+					// cc.setContent(ChannelCatalogFactory.getInstance().getDefaultChannel());
+					// cc.setDisplayNumber(14);
+					//
+					// stuff = cc;
 					break;
 
 				case 5:
@@ -123,24 +122,24 @@ public class WriteXMLFile {
 					break;
 
 				case 6:
-					
+
 					// This creates an entirely ASCII XML object, including the signature.
-					EnhancedChangeChannel ecc = new EnhancedChangeChannel();
-					ecc.setIPAddress("131.225.101.1");
-					ecc.setContent(ChannelCatalogFactory.getInstance().getDefaultChannel());
-					ecc.setDisplayNumber(14);
-					ecc.setFrom("Me");
-					ecc.setTo("You");
-					ecc.setType(MessageType.MESSAGE);
-
-					// Signing
-					try {
-						ecc.setSignature(ObjectSigning.getInstance().getSignedObject(ecc).getSignature());
-					} catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException | IOException e) {
-						e.printStackTrace();
-					}
-
-					stuff = ecc;
+					// EnhancedChangeChannel ecc = new EnhancedChangeChannel();
+					// ecc.setIPAddress("131.225.101.1");
+					// ecc.setContent(ChannelCatalogFactory.getInstance().getDefaultChannel());
+					// ecc.setDisplayNumber(14);
+					// ecc.setFrom("Me");
+					// ecc.setTo("You");
+					// ecc.setType(MessageType.MESSAGE);
+					//
+					// // Signing
+					// try {
+					// ecc.setSignature(ObjectSigning.getInstance().getSignedObject(ecc).getSignature());
+					// } catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException | IOException e) {
+					// e.printStackTrace();
+					// }
+					//
+					// stuff = ecc;
 					break;
 
 				case 7:
@@ -166,10 +165,10 @@ public class WriteXMLFile {
 					break;
 
 				case 9:
-					Map<String, SignageContent> map = ChannelCatalogFactory.getInstance().getPublicChannels();
+					Set<SignageContent> map = ChannelCatalogFactory.getInstance().getChannelCatalog(new ChannelCategory("PUBLIC"));
 					List<SignageContent> lst = new ArrayList<SignageContent>();
-					for (String C : map.keySet()) {
-						lst.add(map.get(C));
+					for (SignageContent C : map) {
+						lst.add(C);
 					}
 					ChannelPlayList cpl = new ChannelPlayList(lst, 60); // This is the XML class
 					ChangeChannelList ccl = new ChangeChannelList(); // This is the DigitalSignage class
