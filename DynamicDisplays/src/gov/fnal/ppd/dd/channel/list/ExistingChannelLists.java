@@ -1,20 +1,15 @@
 package gov.fnal.ppd.dd.channel.list;
 
-import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.changer.DDButton;
-import gov.fnal.ppd.dd.channel.BigLabel;
-import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.BigLabel;
 import gov.fnal.ppd.dd.util.DisplayButtonGroup;
 
 import java.awt.BorderLayout;
@@ -23,13 +18,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.JComponent;
@@ -39,15 +28,16 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
- * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017-18
  * 
  */
 public class ExistingChannelLists extends ChannelButtonGrid implements NewListCreationListener {
-	private static final long				serialVersionUID	= -8050761379148979848L;
+	private static final long	serialVersionUID	= -8050761379148979848L;
 
-	private Map<String, ChannelPlayList>	listofChannelLists	= new HashMap<String, ChannelPlayList>();
+	// FIXME - This attribute should probably be created elsewhere and handed to this class in the constructor.
+	private AllChannelLists		listofChannelLists	= new AllChannelLists();
 
-	private float							FS;
+	private float				FS;
 
 	private class ListDDButton extends DDButton implements ActionListener {
 		private static final long			serialVersionUID	= 3718209609564437340L;
@@ -89,70 +79,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 	public ExistingChannelLists(final Display display, final DisplayButtonGroup bg) {
 		super(display, bg);
 
-		readTheChannelLists();
 		makeGrid(null);
-	}
-
-	private void readTheChannelLists() {
-		Map<String, ArrayList<SignageContent>> allChannelLists = new HashMap<String, ArrayList<SignageContent>>();
-		listofChannelLists.clear();
-
-		try {
-
-			Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-			String query = "SELECT ChannelList.ListNumber AS ListNumber,Number,Dwell,ChangeTime,SequenceNumber,ListName,ListAuthor"
-					+ " FROM ChannelList,ChannelListName WHERE ChannelList.ListNumber=ChannelListName.ListNumber ORDER BY SequenceNumber ASC";
-
-			synchronized (connection) {
-				try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
-					try (ResultSet rs2 = stmt.executeQuery(query)) {
-						if (rs2.first())
-							do {
-								String listName = rs2.getString("ListName");
-								String listAuthor = rs2.getString("ListAuthor");
-								// Special case -- abbreviate the code author's name here
-								if ( listAuthor.toLowerCase().contains("mccrory"))
-									listAuthor = "EM";
-								// int listNumber = rs2.getInt("ListNumber");
-								long dwell = rs2.getLong("Dwell");
-								int sequence = rs2.getInt("SequenceNumber");
-								int chanNumber = rs2.getInt("Number");
-
-								String fullName = listName + " (" + listAuthor + ")";
-								if (!allChannelLists.containsKey(fullName) ) {
-									ArrayList<SignageContent> list = new ArrayList<SignageContent>(sequence + 1);
-									allChannelLists.put(fullName, list);
-								}
-								Channel chan = (Channel) getChannelFromNumber(chanNumber);
-								ChannelInList cih = new ChannelInList(chan, sequence, dwell);
-
-								allChannelLists.get(fullName).add(cih);
-
-							} while (rs2.next());
-						else {
-							// Oops. no first element!?
-							throw new Exception("No channel lists in the save/restore database!");
-						}
-					} catch (SQLException e) {
-						System.err.println(query);
-						e.printStackTrace();
-					}
-				} catch (SQLException e) {
-					System.err.println(query);
-					e.printStackTrace();
-				}
-
-			}
-			for (String channelListName : allChannelLists.keySet()) {
-				ChannelPlayList theList = new ChannelPlayList(allChannelLists.get(channelListName), 60000000);
-				theList.setDescription(allChannelLists.get(channelListName).toString());
-				listofChannelLists.put(channelListName, theList);
-				// println(ExistingChannelLists.class, ": added list of length " + theList.getChannels().size() + " called '" + channelListName + "'");
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -167,18 +94,19 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 		BigLabel title = new BigLabel("Lists of channels", Font.BOLD);
 		title.setAlignmentX(CENTER_ALIGNMENT);
 		title.setAlignmentY(CENTER_ALIGNMENT);
-		
-		JLabel instructions = new JLabel("To see what is in the list, click the button and it will show you before sending it to the Display", JLabel.CENTER);
+
+		JLabel instructions = new JLabel(
+				"To see what is in the list, click the button and it will show you before sending it to the Display", JLabel.CENTER);
 		instructions.setFont(new Font("Arial", Font.ITALIC, 12));
 		instructions.setAlignmentX(CENTER_ALIGNMENT);
 		instructions.setAlignmentY(CENTER_ALIGNMENT);
-		
+
 		Box vb = Box.createVerticalBox();
 		vb.add(title);
 		vb.add(instructions);
 		vb.setAlignmentX(CENTER_ALIGNMENT);
 		vb.setAlignmentY(CENTER_ALIGNMENT);
-		
+
 		panel.add(vb, BorderLayout.NORTH);
 		add(panel);
 	}
@@ -306,7 +234,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 				println(ExistingChannelLists.class, ": Attempting to redraw my grid");
 				invalidate();
 				removeAll();
-				readTheChannelLists();
+				listofChannelLists = new AllChannelLists();
 				makeGrid(null);
 				validate();
 			}
