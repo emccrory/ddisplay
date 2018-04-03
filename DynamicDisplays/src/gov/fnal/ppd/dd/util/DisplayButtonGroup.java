@@ -5,7 +5,6 @@
  */
 package gov.fnal.ppd.dd.util;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
@@ -137,33 +136,6 @@ public class DisplayButtonGroup implements ActionListener {
 			for (DDButton B : buttons) {
 				B.setEnabled(true);
 				B.setEnabled(true); // Why two???
-			}
-		}
-	}
-
-	/**
-	 * In some situations the channel changer can opt to change the channel automatically, for example, for a public display that
-	 * has not had a channel change in a while. This method makes this happen.
-	 */
-	public void next() {
-		synchronized (buttons) {
-			for (int i = 0; i < buttons.size(); i++) {
-				if (buttons.get(i).isSelected()) {
-					int sel = (i + 1) % buttons.size();
-					if (!buttons.get(sel).getChannel().getCategory().equals(ChannelCategory.PUBLIC)) {
-						// Rats! have to find the next Public Channel
-						for (; sel < buttons.size() && !buttons.get(sel).getChannel().getCategory().equals(ChannelCategory.PUBLIC); sel++)
-							; // Just keep looking
-						if (sel >= buttons.size()) {
-							for (sel = 0; sel < i && !buttons.get(sel).getChannel().getCategory().equals(ChannelCategory.PUBLIC); sel++)
-								; // Just keep looking
-						}
-					}
-					for (int j = 0; j < buttons.size(); j++)
-						buttons.get(j).setSelected(j == sel);
-					buttons.get(sel).doClick();
-					break;
-				}
 			}
 		}
 	}
