@@ -86,7 +86,7 @@ public class PerformanceMonitor {
 
 		// Print out the CPU usage every now and then.
 		while (true) {
-			System.out.println(m.getCpuUsage());
+			System.out.println(PerformanceMonitor.getCpuUsage());
 			catchSleep(2000L);
 		}
 	}
