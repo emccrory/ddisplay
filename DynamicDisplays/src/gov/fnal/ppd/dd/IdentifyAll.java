@@ -9,7 +9,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PROGRAM_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -56,7 +55,7 @@ public class IdentifyAll implements ActionListener {
 		 *             In the case that the URL passed here is not a valid URI
 		 */
 		public PlainURLChannel(final URL theURL) throws Exception {
-			super(theURL.toString(), ChannelCategory.PUBLIC, "SimpleURL of '" + theURL + "'", theURL.toURI(), 0, 0);
+			super(theURL.toString(), "SimpleURL of '" + theURL + "'", theURL.toURI(), 0, 0);
 		}
 
 	}

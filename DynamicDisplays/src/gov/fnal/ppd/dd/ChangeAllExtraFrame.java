@@ -11,7 +11,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -146,7 +145,6 @@ public class ChangeAllExtraFrame implements ActionListener {
 			Box hb = Box.createHorizontalBox();
 			hb.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
-
 			JLabel lab = new JLabel("How long to show the announcement (seconds): ");
 			lab.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 			lab.setFont(lab.getFont().deriveFont(14.0f));
@@ -163,7 +161,7 @@ public class ChangeAllExtraFrame implements ActionListener {
 					}
 				}
 			});
-			dwellTimeField.setText((me.announcementChannel.getTime()/1000L) + "");
+			dwellTimeField.setText((me.announcementChannel.getTime() / 1000L) + "");
 			dwellTimeField.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
 			hb.add(Box.createRigidArea(new Dimension(10, 10)));
@@ -179,8 +177,8 @@ public class ChangeAllExtraFrame implements ActionListener {
 	 */
 	private ChangeAllExtraFrame(List<Display> d) {
 		try {
-			announcementChannel = new ChannelImpl("Messsage", ChannelCategory.PUBLIC, "Important message", new URI(
-					getFullURLPrefix() + "/announce.html"), 0, 300000L);
+			announcementChannel = new ChannelImpl("Messsage", "Important message", new URI(getFullURLPrefix() + "/announce.html"),
+					0, 300000L);
 			announcementChannel.setFrameNumber(1);
 		} catch (URISyntaxException e1) {
 			e1.printStackTrace();
@@ -230,7 +228,8 @@ public class ChangeAllExtraFrame implements ActionListener {
 
 		selectorSetup();
 
-		title = "<html>Show special announcment at<br>location=" + getLocationCode() + " (<em>" + getLocationName() + "</em>)</html>";
+		title = "<html>Show special announcment at<br>location=" + getLocationCode() + " (<em>" + getLocationName()
+				+ "</em>)</html>";
 
 		JFrame f = new JFrame(ChangeAllExtraFrame.class.getSimpleName());
 		ChangeAllExtraFrame.setup(null, 20.0f, new Insets(20, 50, 20, 50));
