@@ -60,14 +60,14 @@ public class ChannelSpec implements SignageContent {
 		content.setName(name);
 	}
 
-	// @XmlElement
-	// public URI getUri() {
-	// return content.getURI();
-	// }
-	//
-	// public void setUri(URI uri) {
-	// content.setURI(uri);
-	// }
+	@XmlElement
+	public URI getUri() {
+		return content.getURI();
+	}
+
+	public void setUri(URI uri) {
+		content.setURI(uri);
+	}
 
 	@XmlTransient
 	public SignageContent getContent() {
