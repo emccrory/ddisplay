@@ -20,7 +20,7 @@ import gov.fnal.ppd.dd.changer.CategoryDictionary;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.changer.ChannelsFromDatabase;
+import gov.fnal.ppd.dd.changer.ChannelMap;
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.changer.DDButton.ButtonFieldToUse;
 import gov.fnal.ppd.dd.changer.DetailedInformationGrid;
@@ -844,7 +844,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						println(ChannelSelector.class, ": Refreshing URLs of the channel buttons in this world");
 						userHasDoneSomething();
 
-						Collection<SignageContent> list = ((ChannelsFromDatabase) ChannelCatalogFactory.refresh()).values();
+						Collection<SignageContent> list = ((ChannelMap) ChannelCatalogFactory.refresh()).values();
 
 						// TODO - refresh the channel lists, too (not sure how to do that)
 

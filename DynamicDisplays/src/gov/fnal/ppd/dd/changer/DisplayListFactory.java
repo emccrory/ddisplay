@@ -5,6 +5,7 @@
  */
 package gov.fnal.ppd.dd.changer;
 
+import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.getDisplays;
 import gov.fnal.ppd.dd.display.DisplayListDatabaseRemote;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -30,14 +31,14 @@ public class DisplayListFactory {
 	 */
 	public static List<Display> getInstance(final SignageType type, final int locationCode) {
 		if (type == SignageType.XOC)
-			return new DisplayListDatabaseRemote(locationCode);
+			return getDisplays(locationCode);
 		// if (type == SignageType.Experiment)
 		// throw new RuntimeException("Unimplemented code!");
 		// SignageType == Experiment means a "Public" controller for a Docent.
 
 		// Public only
 		List<Display> retval = new ArrayList<Display>();
-		List<Display> all = new DisplayListDatabaseRemote(locationCode);
+		List<Display> all = getDisplays(locationCode);
 		for (Display D : all)
 			if (D.getCategory() == SignageType.Public)
 				retval.add(D);
@@ -45,11 +46,4 @@ public class DisplayListFactory {
 		return retval;
 	}
 
-	/**
-	 * @param type
-	 * @return My instance
-	 */
-	public static List<Display> getInstance(final SignageType type) {
-		return getInstance(type, 0);
-	}
 }

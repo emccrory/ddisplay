@@ -9,10 +9,10 @@ import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
@@ -314,7 +314,7 @@ public class Util {
 			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
 			Connection connection;
 			try {
-				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+				connection = ConnectionToDatabase.getDbConnection();
 			} catch (DatabaseNotVisibleException e1) {
 				e1.printStackTrace();
 				return null;
@@ -367,7 +367,7 @@ public class Util {
 			// println(DisplayControllerMessagingAbstract.class, " -- Getting default channel: [" + query + "]");
 			Connection connection;
 			try {
-				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+				connection = ConnectionToDatabase.getDbConnection();
 			} catch (DatabaseNotVisibleException e1) {
 				e1.printStackTrace();
 				return null;
@@ -406,7 +406,7 @@ public class Util {
 			// println(DisplayControllerMessagingAbstract.class, " -- Getting a portfolio image: [" + query + "]");
 			Connection connection;
 			try {
-				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+				connection = ConnectionToDatabase.getDbConnection();
 			} catch (DatabaseNotVisibleException e1) {
 				e1.printStackTrace();
 				return null;

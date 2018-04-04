@@ -19,28 +19,15 @@ public class ChannelCatalogFactory {
 
 	private ChannelCatalogFactory() {
 		try {
-			me = new ChannelsFromDatabase();
+			ChannelMap cfd = new ChannelMap();
+			cfd.load();
+			me = cfd;
 		} catch (DatabaseNotVisibleException e) {
 			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * Do we use real channels from the database, or not? This is irrelevant now as we always use real channels
-	 * 
-	 * @param real
-	 * @deprecated
-	 */
-	public static void useRealChannels(boolean real) {
-		assert (real);
-		// if (real)
-		// me = new ChannelsFromDatabase();
-		// else {
-		// me = new ChannelCatalogTesting();
-		// new Exception(" NOT USING REAL CHANNELS!").printStackTrace();
-		// }
-	}
-
+	
 	/**
 	 * @return The singleton
 	 */
@@ -59,7 +46,9 @@ public class ChannelCatalogFactory {
 		me = null;
 		System.gc();
 		try {
-			me = new ChannelsFromDatabase();
+			ChannelMap cfd = new ChannelMap();
+			cfd.load();
+			me = cfd;
 		} catch (DatabaseNotVisibleException e) {
 			e.printStackTrace();
 		}

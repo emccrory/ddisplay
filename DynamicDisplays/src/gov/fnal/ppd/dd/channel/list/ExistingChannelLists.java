@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd.channel.list;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.dd.db.ListUtilsDatabase.readTheChannelLists;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -19,6 +20,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.JComponent;
@@ -35,7 +37,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 	private static final long	serialVersionUID	= -8050761379148979848L;
 
 	// FIXME - This attribute should probably be created elsewhere and handed to this class in the constructor.
-	private AllChannelLists		listofChannelLists	= new AllChannelLists();
+	private Map<String, ChannelPlayList>		listofChannelLists	= readTheChannelLists();
 
 	private float				FS;
 
@@ -234,7 +236,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 				println(ExistingChannelLists.class, ": Attempting to redraw my grid");
 				invalidate();
 				removeAll();
-				listofChannelLists = new AllChannelLists();
+				listofChannelLists = readTheChannelLists();
 				makeGrid(null);
 				validate();
 			}

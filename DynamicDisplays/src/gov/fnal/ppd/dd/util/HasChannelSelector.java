@@ -2,7 +2,7 @@ package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -36,7 +36,7 @@ public class HasChannelSelector {
 
 			Connection connection = null;
 			try {
-				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+				connection = ConnectionToDatabase.getDbConnection();
 			} catch (DatabaseNotVisibleException e1) {
 				e1.printStackTrace();
 				System.err.println("\nNo connection to the Signage/Displays database.");

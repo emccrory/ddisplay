@@ -1,20 +1,11 @@
 package gov.fnal.ppd.dd.channel;
 
-import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
-import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
+import static gov.fnal.ppd.dd.db.ChannelsFromDatabase.readValidChannels;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
-import java.net.URI;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 
 /**
@@ -34,57 +25,17 @@ public class MapOfChannels extends HashMap<Integer, Channel> {
 	 */
 	public MapOfChannels() {
 		super();
-		readValidChannels();
+		readValidChannels(this);
 	}
 
-	private void readValidChannels() {
-		Statement stmt = null;
-		ResultSet rs = null;
-		Connection connection;
-
-		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-
-			synchronized (connection) {
-				stmt = connection.createStatement();
-				rs = stmt.executeQuery("USE " + DATABASE_NAME);
-				rs = stmt.executeQuery("SELECT * FROM Channel where Approval=1");
-				rs.first(); // Move to first returned row
-				while (!rs.isAfterLast())
-					try {
-						String theURL = rs.getString("URL");
-						String name = rs.getString("Name");
-						String cat = rs.getString("Category");
-						String desc = rs.getString("Description");
-						int number = rs.getInt("Number");
-						long dwell = rs.getLong("DwellTime");
-
-						ChannelImpl c = new ChannelImpl(name, new ChannelCategory(cat), desc, new URI(theURL), number, dwell);
-						put(number, c);
-
-						rs.next();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				stmt.close();
-				rs.close();
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			System.exit(1);
-		} catch (DatabaseNotVisibleException e) {
-			e.printStackTrace();
-		}
-
-		println(this.getClass(), ": Found " + size() + " valid channels.");
-	}
+	
 
 	/**
 	 * Re-read the list of valid URLs from the database
 	 */
 	public void resetChannelList() {
 		super.clear();
-		readValidChannels();
+		readValidChannels(this);
 	}
 
 	/**

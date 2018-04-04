@@ -27,8 +27,8 @@ import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -44,48 +44,48 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * 
  */
 public class ConnectionToFirefoxInstance {
-	private static final int						MAXIMUM_BUFFER_SIZE				= 1024;
-	private static final String						LOCALHOST						= "localhost";
-	private static final int						PORT							= 32000;
+	private static final int					MAXIMUM_BUFFER_SIZE				= 1024;
+	private static final String					LOCALHOST						= "localhost";
+	private static final int					PORT							= 32000;
 
 	// private static final String FullScreenExecute = "var elem = document.body; elem.requestFullScreen();";
 
-	private static int								numberOfScreens					= 0;
-	private String									instance						= "";
+	private static int							numberOfScreens					= 0;
+	private String								instance						= "";
 
-	private boolean									connected						= false;
-	private BufferedReader							in;
-	private Socket									kkSocket;
-	private String									lastReplyLine;
-	private PrintWriter								out;
-	private final int								port;
+	private boolean								connected						= false;
+	private BufferedReader						in;
+	private Socket								kkSocket;
+	private String								lastReplyLine;
+	private PrintWriter							out;
+	private final int							port;
 
-	private boolean									debug							= true;
-	private int										virtualID, dbID;
+	private boolean								debug							= true;
+	private int									virtualID, dbID;
 
-	private String									colorCode;
-	private AtomicBoolean							showingCanonicalSite			= new AtomicBoolean(false);
-	private Rectangle								bounds;
-	private boolean									showNumber						= true;
+	private String								colorCode;
+	private AtomicBoolean						showingCanonicalSite			= new AtomicBoolean(false);
+	private Rectangle							bounds;
+	private boolean								showNumber						= true;
 
-	private boolean									tryingToCloseNow				= false;
-	protected boolean								firstTimeOpeningConnection		= true;
-	private boolean									showingEmergencyCommunication	= false;
-	private boolean									badNUC							= false;
-	private boolean									hasEmergencyCapabilities		= true;
-	private boolean									elementIDError					= false;
+	private boolean								tryingToCloseNow				= false;
+	protected boolean							firstTimeOpeningConnection		= true;
+	private boolean								showingEmergencyCommunication	= false;
+	private boolean								badNUC							= false;
+	private boolean								hasEmergencyCapabilities		= true;
+	private boolean								elementIDError					= false;
 
-	private static List<Command>					finalCommand					= new ArrayList<Command>();
+	private static List<Command>				finalCommand					= new ArrayList<Command>();
 
-	private static final HashMap<String, String>	colorNames						= GetColorsFromDatabase.get();
+	private static final Map<String, String>	colorNames						= GetColorsFromDatabase.get();
 
 	// private static final String BASE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border.php";
 	// private static final String EXTRAFRAME_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border2.php";
 	// private static final String EXTRAFRAMESNOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border3.php";
 	// private static final String EXTRAFRAMENOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border4.php";
 
-	private static final String						TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
-	private static final String						WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border7.php";
+	private static final String					TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
+	private static final String					WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border7.php";
 
 	// private static final String FERMI_TICKERTAPE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border5.php";
 

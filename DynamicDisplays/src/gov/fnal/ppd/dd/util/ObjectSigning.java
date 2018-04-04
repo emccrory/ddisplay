@@ -11,8 +11,8 @@ package gov.fnal.ppd.dd.util;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -213,7 +213,7 @@ public class ObjectSigning {
 	private boolean loadPublicKeyFromDB(final String clientName) {
 		Connection connection;
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
@@ -259,7 +259,7 @@ public class ObjectSigning {
 
 		Connection connection;
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 			int lc = 999;
 
 			synchronized (connection) {
@@ -309,7 +309,7 @@ public class ObjectSigning {
 
 		Connection connection;
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 			int lc = 999;
 
 			synchronized (connection) {
@@ -530,7 +530,7 @@ public class ObjectSigning {
 			Connection connection;
 			boolean ema = false;
 			try {
-				connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+				connection = ConnectionToDatabase.getDbConnection();
 
 				synchronized (connection) {
 					try (Statement stmt = connection.createStatement();
@@ -732,7 +732,7 @@ public class ObjectSigning {
 		}
 		Connection connection;
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {

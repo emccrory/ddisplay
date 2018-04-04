@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.channel.list;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelListHolder;
+import gov.fnal.ppd.dd.db.ListUtilsDatabase;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.ListSelectionForSaveList;

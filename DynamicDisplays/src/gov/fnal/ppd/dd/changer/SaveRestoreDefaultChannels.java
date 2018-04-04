@@ -1,6 +1,5 @@
 package gov.fnal.ppd.dd.changer;
 
-import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PROGRAM_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
@@ -9,15 +8,15 @@ import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
+import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.getDisplayContent;
+import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.saveDefaultChannels;
+import static gov.fnal.ppd.dd.db.ListUtilsDatabase.getSavedLists;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import static gov.fnal.ppd.dd.util.Util.convertObjectToHexBlob;
-import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,20 +30,13 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -80,7 +72,6 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	private JLabel								footer			= new JLabel("Status ...");
 
 	private List<Display>						displays;
-	private Connection							connection;
 
 	private static SaveRestoreDefaultChannels	me				= null;
 
@@ -343,41 +334,9 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 				return;
 			s = "Default";
 		}
-		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-
-			synchronized (connection) {
-				Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
-
-				// TODO -- If the user selects the exact same name for a save set, then we have to delete all these entries first
-				// before inserting them.
-				// select NameOfThisDefaultSet,LocationCode from DefaultChannels; -- or something like that. Should be "distinct"
-
-				String statementStringStart = "INSERT INTO DefaultChannels VALUES (NULL,";
-
-				ListOfExistingContent h = getContentOnDisplays();
-				for (Display D : h.keySet()) {
-					String blob = convertObjectToHexBlob(D.getContent());
-					String fullStatement = statementStringStart + D.getDBDisplayNumber() + ", \"" + s + "\", 0, x'" + blob + "')";
-
-					int nrows;
-					if ((nrows = stmt.executeUpdate(fullStatement)) != 1) {
-						println(getClass(), "-- [" + fullStatement + "]\n\t -- expected one row modified; got " + nrows);
-					}
-
-				}
-				stmt.close();
-				rs.close();
-
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			System.exit(1);
-		} catch (DatabaseNotVisibleException e) {
-			e.printStackTrace();
-		}
-
+		
+		saveDefaultChannels(s);
+		
 		new Thread("RewriteSavedLists") {
 			public void run() {
 				catchSleep(1000);
@@ -392,60 +351,8 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 	}
 
-	// private static class SimpleDialog extends JDialog implements ActionListener {
-	// private String lastCommand = null;
-	//
-	// public SimpleDialog(final String title, final JComponent c) {
-	// setTitle(title);
-	// add(c);
-	// this.setAlwaysOnTop(true);
-	// }
-	//
-	// @Override
-	// public void actionPerformed(ActionEvent e) {
-	// lastCommand = e.getActionCommand();
-	// dispose();
-	// }
-	//
-	// public String getLastCommand() {
-	// return lastCommand;
-	// }
-	// }
-
 	protected JComponent getRestorePanel() {
-		Vector<String> all = new Vector<String>();
-
-		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-
-			synchronized (connection) {
-				Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
-
-				rs = stmt.executeQuery("SELECT DISTINCT NameOfThisDefaultSet FROM DefaultChannels,DisplaySort WHERE "
-						+ "DefaultChannels.DisplayID=DisplaySort.DisplayID AND LocationCode=" + getLocationCode());
-				if (rs.first()) // Move to first returned row
-					try {
-						while (!rs.isAfterLast()) {
-							String theSetName = rs.getString("NameOfThisDefaultSet");
-							all.add(theSetName);
-							rs.next();
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				else {
-					// There are no rows -- never mind.
-				}
-				stmt.close();
-				rs.close();
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			System.exit(1);
-		} catch (DatabaseNotVisibleException e) {
-			e.printStackTrace();
-		}
+		Vector<String> all = getSavedLists();		
 
 		int numColumns = 1;
 		int fontSize = 14;
@@ -487,57 +394,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	}
 
 	private void showSelectedRestoreChoice(final String setName) {
-		HashMap<Display, SignageContent> restoreMap = new HashMap<Display, SignageContent>();
-
-		try {
-			synchronized (connection) {
-				Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT DefaultChannels.DisplayID as DisplayID,Channel,SignageContent FROM "
-						+ "DefaultChannels,DisplaySort WHERE DefaultChannels.DisplayID=DisplaySort.DisplayID AND LocationCode="
-						+ getLocationCode() + " AND NameOfThisDefaultSet='" + setName + "'");
-				rs.first(); // Move to first returned row
-				while (!rs.isAfterLast())
-					try {
-						int displayID = rs.getInt("DisplayID");
-						int chanNum = rs.getInt("Channel");
-						SignageContent newContent = null;
-						if (chanNum == 0) {
-							// Set the display by the SignageContent object
-							Blob sc = rs.getBlob("SignageContent");
-
-							if (sc != null && sc.length() > 0)
-								try {
-									int len = (int) sc.length();
-									byte[] bytes = sc.getBytes(1, len);
-
-									ByteArrayInputStream fin = new ByteArrayInputStream(bytes);
-									ObjectInputStream ois = new ObjectInputStream(fin);
-									newContent = (SignageContent) ois.readObject();
-
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-						} else {
-							newContent = getChannelFromNumber(chanNum);
-						}
-
-						Display D;
-						if ((D = getContentOnDisplays().get(displayID)) != null) {
-							restoreMap.put(D, newContent);
-						} else
-							System.err.println("Looking for displayID=" + displayID + ", but could not find it!!");
-
-						rs.next();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				stmt.close();
-				rs.close();
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			System.exit(1);
-		}
+		Map<Display, SignageContent> restoreMap = getDisplayContent(setName);		
 
 		if (restoreMap.size() == 0) {
 			// Nothing to to!

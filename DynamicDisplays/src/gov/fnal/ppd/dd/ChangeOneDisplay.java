@@ -17,11 +17,11 @@ import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
+import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.getADisplay;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.display.DisplayListDatabaseRemote;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -33,6 +33,7 @@ import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -105,7 +106,7 @@ public class ChangeOneDisplay {
 		Display retval = null;
 		Connection connection = null;
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
@@ -144,7 +145,7 @@ public class ChangeOneDisplay {
 								System.out.println("Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
 								System.out.println("\t Expect my client name to be '" + getFullSelectorName() + "'\n");
 							}
-							DisplayListDatabaseRemote g = new DisplayListDatabaseRemote(getLocationCode(), dNum);
+							List<Display> g = getADisplay(getLocationCode(), dNum);
 							retval = g.get(0);
 							if (retval.getDBDisplayNumber() == dNum)
 								return retval;

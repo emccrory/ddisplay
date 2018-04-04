@@ -21,57 +21,16 @@ public class ChannelCategory implements Serializable {
 
 	private static final long			serialVersionUID	= 7118118150912431599L;
 
-	// This enum corresponds exactly to the names chosen for the values in the Database table, ChannelTabSort
-
-	// /**
-	// * Channels on the front page
-	// */
-	// public static final ChannelCategory PUBLIC = new ChannelCategory("PUBLIC", "Public");
-	//
-	// /**
-	// * Channels on the second page
-	// */
-	// public static final ChannelCategory PUBLIC_DETAILS = new ChannelCategory("PUBLIC_DETAILS", "Details");
-	//
-	// /**
-	// * Channels on the front page of the "Experiments" view
-	// */
-	// public static final ChannelCategory EXPERIMENT_DETAILS = new ChannelCategory("EXPERIMENT_DETAILS", "Exp");
-	//
-	// /**
-	// * Channels that show details on the NuMI experiment
-	// */
-	// public static final ChannelCategory NUMI_DETAILS = new ChannelCategory("NUMI_DETAILS", "NuMI");
-	//
-	// /**
-	// * Channels that show details on the NOvA experiment
-	// */
-	// public static final ChannelCategory NOVA_DETAILS = new ChannelCategory("NOVA_DETAILS", "NO\u03BDA");
-	//
-	// /**
-	// * Channels that are (YouTube) videos
-	// */
-	// public static final ChannelCategory VIDEOS = new ChannelCategory("VIDEOS", "Videos");
-	//
 	/**
-	 * Everything else
+	 * The first of two assumed categories: Everything else
 	 */
-	public static final ChannelCategory	MISCELLANEOUS		= new ChannelCategory("MISCELLANEOUS", "MISC");
+	public static final ChannelCategory	MISCELLANEOUS		= new ChannelCategory("Miscellaneous");
 
 	/**
-	 * Channels that are actually just JPEG images
+	 * The second of two assumed categories: Channels that are JPEG images
 	 */
-	public static final ChannelCategory	IMAGE				= new ChannelCategory("IMAGE", "Image");
+	public static final ChannelCategory	IMAGE				= new ChannelCategory("Image");
 
-	// /**
-	// * Channels that give details on accelerator operations
-	// */
-	// public static final ChannelCategory ACCELERATOR = new ChannelCategory("ACCELERATOR", "Beam");
-	//
-	// /**
-	// * Channels that show general stuff about Fermilab itself
-	// */
-	// public static final ChannelCategory FERMILAB = new ChannelCategory("FERMILAB", "Fermi");
 
 	private String						value;
 	private String						abbreviation;
@@ -86,7 +45,8 @@ public class ChannelCategory implements Serializable {
 	 * @param s
 	 */
 	public ChannelCategory(final String s) {
-		this.value = this.abbreviation = s;
+		this.value = s;
+		this.abbreviation = s.toUpperCase();
 		if (s != null && s.length() > 5)
 			this.abbreviation = s.substring(0, 5);
 	}
@@ -97,7 +57,7 @@ public class ChannelCategory implements Serializable {
 	 */
 	public ChannelCategory(final String s, final String a) {
 		this.value = s;
-		this.abbreviation = a;
+		this.abbreviation = a.toUpperCase();
 	}
 
 	/**
@@ -126,7 +86,7 @@ public class ChannelCategory implements Serializable {
 	 * @param abbreviation
 	 */
 	public void setAbbreviation(final String abbreviation) {
-		this.abbreviation = abbreviation;
+		this.abbreviation = abbreviation.toUpperCase();
 	}
 
 	@Override
@@ -139,7 +99,6 @@ public class ChannelCategory implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		// println(getClass(), ".equals(" + toString() + ", " + obj + ")");
 		if (this == obj)
 			return true;
 		if (obj == null)

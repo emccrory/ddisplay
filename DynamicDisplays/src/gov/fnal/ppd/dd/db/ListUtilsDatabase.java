@@ -1,15 +1,18 @@
-package gov.fnal.ppd.dd.channel.list;
+package gov.fnal.ppd.dd.db;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
+import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
+import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.net.URI;
@@ -20,7 +23,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * A collection of the methods needed to deal with channel lists in the database.
@@ -44,7 +50,7 @@ public class ListUtilsDatabase {
 	 */
 	public static List<String> getExistingList() throws Exception {
 		List<String> retval = new ArrayList<String>();
-		Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+		Connection connection = ConnectionToDatabase.getDbConnection();
 		// TODO - Add a new column to this table that says if the list is valid or not (which would be used to delete the list but
 		// retain it if it is needed later)
 		String query = "Select ListName,ListAuthor,ListNumber from ChannelListName";
@@ -87,7 +93,7 @@ public class ListUtilsDatabase {
 	public static List<ChannelInList> getThisList(int listNumber) {
 		Connection connection;
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e) {
 			e.printStackTrace();
 			return null;
@@ -213,7 +219,7 @@ public class ListUtilsDatabase {
 		String query1 = "DELETE FROM ChannelList     WHERE ListNumber=" + listNumber;
 
 		try {
-			Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			Connection connection = ConnectionToDatabase.getDbConnection();
 			synchronized (connection) {
 				Statement stmt = connection.createStatement();
 				stmt.executeQuery("USE " + DATABASE_NAME);
@@ -237,7 +243,7 @@ public class ListUtilsDatabase {
 		String query2 = "DELETE FROM ChannelListName WHERE ListNumber=" + listNumber;
 
 		try {
-			Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			Connection connection = ConnectionToDatabase.getDbConnection();
 			synchronized (connection) {
 				Statement stmt = connection.createStatement();
 				stmt.executeQuery("USE " + DATABASE_NAME);
@@ -257,7 +263,7 @@ public class ListUtilsDatabase {
 	 */
 	public static boolean doesListExist(final String list) {
 		try {
-			Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			Connection connection = ConnectionToDatabase.getDbConnection();
 			synchronized (connection) {
 				String isItThereAlready = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "'";
 
@@ -292,7 +298,7 @@ public class ListUtilsDatabase {
 	 */
 	public static void saveListToDatabase(String listName, List<ChannelInList> theList) {
 		try {
-			Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			Connection connection = ConnectionToDatabase.getDbConnection();
 			synchronized (connection) {
 				int listNumber = 0;
 
@@ -347,7 +353,7 @@ public class ListUtilsDatabase {
 	 */
 	public static void saveListToDatabase(String listName, String authorName, List<ChannelInList> theList) {
 		try {
-			Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			Connection connection = ConnectionToDatabase.getDbConnection();
 			synchronized (connection) {
 				int listNumber = 0;
 
@@ -399,6 +405,115 @@ public class ListUtilsDatabase {
 			e.printStackTrace();
 			return; // return "An exception caused this to fail.";
 		}
+	}
+
+	/**
+	 * @return A list of the channel list names
+	 */
+	public static Vector<String> getSavedLists() {
+		Vector<String> all = new Vector<String>();
+
+		try {
+			Connection connection = ConnectionToDatabase.getDbConnection();
+
+			synchronized (connection) {
+				Statement stmt = connection.createStatement();
+				ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
+
+				rs = stmt.executeQuery("SELECT DISTINCT NameOfThisDefaultSet FROM DefaultChannels,DisplaySort WHERE "
+						+ "DefaultChannels.DisplayID=DisplaySort.DisplayID AND LocationCode=" + getLocationCode());
+				if (rs.first()) // Move to first returned row
+					try {
+						while (!rs.isAfterLast()) {
+							String theSetName = rs.getString("NameOfThisDefaultSet");
+							all.add(theSetName);
+							rs.next();
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				else {
+					// There are no rows -- never mind.
+				}
+				stmt.close();
+				rs.close();
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			System.exit(1);
+		} catch (DatabaseNotVisibleException e) {
+			e.printStackTrace();
+		}
+		return all;
+	}
+
+	/**
+	 * @return The lists of channel lists
+	 */
+	public static Map<String, ChannelPlayList> readTheChannelLists() {
+		Map<String, ArrayList<SignageContent>> allChannelLists = new HashMap<String, ArrayList<SignageContent>>();
+
+		try {
+
+			Connection connection = ConnectionToDatabase.getDbConnection();
+			String query = "SELECT ChannelList.ListNumber AS ListNumber,Number,Dwell,ChangeTime,SequenceNumber,ListName,ListAuthor"
+					+ " FROM ChannelList,ChannelListName WHERE ChannelList.ListNumber=ChannelListName.ListNumber ORDER BY SequenceNumber ASC";
+
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+					try (ResultSet rs2 = stmt.executeQuery(query)) {
+						if (rs2.first())
+							do {
+								String listName = rs2.getString("ListName");
+								String listAuthor = rs2.getString("ListAuthor");
+								// Special case -- abbreviate the code author's name here
+								if (listAuthor.toLowerCase().contains("mccrory"))
+									listAuthor = "EM";
+								// int listNumber = rs2.getInt("ListNumber");
+								long dwell = rs2.getLong("Dwell");
+								int sequence = rs2.getInt("SequenceNumber");
+								int chanNumber = rs2.getInt("Number");
+
+								String fullName = listName + " (" + listAuthor + ")";
+								if (!allChannelLists.containsKey(fullName)) {
+									ArrayList<SignageContent> list = new ArrayList<SignageContent>(sequence + 1);
+									allChannelLists.put(fullName, list);
+								}
+								Channel chan = (Channel) getChannelFromNumber(chanNumber);
+								ChannelInList cih = new ChannelInList(chan, sequence, dwell);
+
+								allChannelLists.get(fullName).add(cih);
+
+							} while (rs2.next());
+						else {
+							// Oops. no first element!?
+							throw new Exception("No channel lists in the save/restore database!");
+						}
+					} catch (SQLException e) {
+						System.err.println(query);
+						e.printStackTrace();
+					}
+				} catch (SQLException e) {
+					System.err.println(query);
+					e.printStackTrace();
+				}
+
+			}
+			Map<String, ChannelPlayList> retval = new HashMap<String, ChannelPlayList>();
+
+			for (String channelListName : allChannelLists.keySet()) {
+				ChannelPlayList theList = new ChannelPlayList(allChannelLists.get(channelListName), 60000000);
+				theList.setDescription(allChannelLists.get(channelListName).toString());
+				retval.put(channelListName, theList);
+				// println(ExistingChannelLists.class, ": added list of length " + theList.getChannels().size() + " called '" +
+				// channelListName + "'");
+			}
+			return retval;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

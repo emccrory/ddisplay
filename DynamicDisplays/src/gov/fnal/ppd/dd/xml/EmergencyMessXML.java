@@ -5,6 +5,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import gov.fnal.ppd.dd.emergency.Severity;
 
+/**
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017-18
+ *
+ */
 @XmlRootElement
 public class EmergencyMessXML extends EncodedCarrier {
 

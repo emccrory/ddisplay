@@ -2,7 +2,7 @@ package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -74,7 +74,7 @@ public class TranslateGITHashCodeToDate {
 			// Look it up in the database
 
 			try {
-				Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+				Connection connection = ConnectionToDatabase.getDbConnection();
 
 				String query = "Select HashDate,Version,Flavor from GitHashDecode where HashCode='" + hashCode + "'";
 
@@ -113,7 +113,7 @@ public class TranslateGITHashCodeToDate {
 	public void getNewest() throws Exception {
 		// Look it up in the database
 
-		Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+		Connection connection = ConnectionToDatabase.getDbConnection();
 		String query = "Select HashDate,HashCode from GitHashDecode ORDER BY HashDate DESC LIMIT 1";
 
 		synchronized (connection) {

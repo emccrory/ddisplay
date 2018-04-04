@@ -7,7 +7,7 @@ package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.sql.Connection;
@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Retrieve the color names from the DD database.
@@ -29,15 +30,15 @@ public class GetColorsFromDatabase {
 	/**
 	 * @return The color names from the database
 	 */
-	public static HashMap<String, String> get() {
-		HashMap<String, String> retval = new HashMap<String, String>();
+	public static Map<String, String> get() {
+		Map<String, String> retval = new HashMap<String, String>();
 		Statement stmt = null;
 		ResultSet rs = null;
 		Connection connection;
 		int count = 0;
 
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
 				stmt = connection.createStatement();

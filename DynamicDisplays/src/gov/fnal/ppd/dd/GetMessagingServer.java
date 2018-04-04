@@ -9,7 +9,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.locationDescription;
 import static gov.fnal.ppd.dd.GlobalVariables.locationName;
 import static gov.fnal.ppd.dd.GlobalVariables.messagingServerName;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.net.InetAddress;
@@ -56,7 +56,7 @@ public class GetMessagingServer {
 
 		Connection connection = null;
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
@@ -155,7 +155,7 @@ public class GetMessagingServer {
 
 				Connection connection = null;
 				try {
-					connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+					connection = ConnectionToDatabase.getDbConnection();
 				} catch (DatabaseNotVisibleException e1) {
 					e1.printStackTrace();
 					System.err.println("\nNo connection to the Signage/Displays database.");

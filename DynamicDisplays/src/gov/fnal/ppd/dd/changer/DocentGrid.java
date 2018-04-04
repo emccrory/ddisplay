@@ -6,13 +6,11 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
-import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
-import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
+import static gov.fnal.ppd.dd.db.ChannelsFromDatabase.getDocentContent;
 import gov.fnal.ppd.dd.channel.ChannelImage;
-import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -28,13 +26,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -167,22 +159,9 @@ public class DocentGrid extends DetailedInformationGrid {
 
 	}
 
-	private static final List<SignageContent>	buttonList			= new ArrayList<SignageContent>();
-	private List<SignageContent>				myButtonList		= new ArrayList<SignageContent>();
+	private List<SignageContent>	myButtonList;
 
-	private static final int					MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 30 : 40);
-
-	// private String docentName;
-
-	// static {
-	// Set<SignageContent> imageList = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.IMAGE);
-	// buttonList.addAll(imageList);
-	// ChannelCategory[] categories = CategoryDictionary.getCategories();
-	// for (ChannelCategory cat : categories) {
-	// Set<SignageContent> list = ChannelCatalogFactory.getInstance().getChannelCatalog(cat);
-	// buttonList.addAll(list);
-	// }
-	// }
+	private static final int		MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 30 : 40);
 
 	/**
 	 * Create this tab for the ChannelSelector GUI
@@ -194,76 +173,7 @@ public class DocentGrid extends DetailedInformationGrid {
 	 */
 	public DocentGrid(final Display display, final DisplayButtonGroup bg, String docentName) {
 		super(display, bg);
-		// this.docentName = docentName;
-		final long revertTime = 5 * ONE_MINUTE;
-
-		// Get the channels associated with this docent.
-		if (buttonList.size() == 0) {
-			try {
-				/**
-				 * FIXME This is the a place that requires the Channel and Portfolio tables to be in the same database. To break
-				 * this will require two Docent tables, one that is in the same DB as Channel and the other in the same DB as
-				 * Portfolio.
-				 */
-				Connection connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
-
-				synchronized (connection) {
-					Statement stmt = connection.createStatement();
-					Statement stmt1 = connection.createStatement();
-					Statement stmt2 = connection.createStatement();
-					// @SuppressWarnings("unused")
-					// ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
-					stmt.executeQuery("USE " + DATABASE_NAME);
-
-					String query1 = "select ChannelNumber,Name,Description,URL,DwellTime,Category from Docent,Channel "
-							+ "where ChannelNumber=Number AND DocentName='" + docentName + "' AND Approval=1";
-					String query2 = "select PortfolioNumber,Filename,Description,Experiment from Docent,Portfolio "
-							+ "where PortfolioNumber=PortfolioID AND DocentName='" + docentName + "' AND Approval='Approved'";
-
-					ResultSet rsChan = stmt1.executeQuery(query1);
-					ResultSet rsPort = stmt2.executeQuery(query2);
-
-					rsChan.first(); // Move to first returned row
-					while (!rsChan.isAfterLast()) {
-						String name = rsChan.getString("Name");
-						String descr = rsChan.getString("Description");
-						String url = rsChan.getString("URL");
-						String category = rsChan.getString("Category");
-						long dwell = rsChan.getLong("DwellTime");
-						int chanNum = rsChan.getInt("ChannelNumber");
-
-						SignageContent c = new ChannelImpl(name, new ChannelCategory(category, category), descr, new URI(url),
-								chanNum, dwell);
-						c.setExpiration(revertTime);
-
-						buttonList.add(c);
-						rsChan.next();
-					}
-
-					rsPort.first(); // Move to first returned row
-					while (!rsPort.isAfterLast()) {
-						String name = rsPort.getString("FileName");
-						String descr = rsPort.getString("Description");
-						String exp = rsPort.getString("Experiment");
-
-						String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
-								+ "&caption=" + URLEncoder.encode(descr, "UTF-8");
-						SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
-						c.setExpiration(revertTime);
-
-						buttonList.add(c);
-						rsPort.next();
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		for (SignageContent C : buttonList)
-			myButtonList.add(C);
-
-		// System.out.println("*** Number of buttons for docent " + docentName + ": " + myButtonList.size() + ", display number "
-		// + display.getNumber());
+		myButtonList = getDocentContent(docentName);
 	}
 
 	private static String trunc(String text, int maxLen) {
@@ -281,7 +191,7 @@ public class DocentGrid extends DetailedInformationGrid {
 		final JPanel channelButtonBox = new JPanel(new GridLayout(0, 3));
 		channelButtonBox.setOpaque(true);
 		channelButtonBox.setBackground(display.getPreferredHighlightColor());
-		
+
 		final JPanel pictureButtonBox = new JPanel(new GridLayout(0, ncol));
 		pictureButtonBox.setOpaque(true);
 		pictureButtonBox.setBackground(display.getPreferredHighlightColor());

@@ -60,15 +60,6 @@ public class ChannelSpec implements SignageContent {
 		content.setName(name);
 	}
 
-	@XmlElement
-	public URI getUri() {
-		return content.getURI();
-	}
-
-	public void setUri(URI uri) {
-		content.setURI(uri);
-	}
-
 	@XmlTransient
 	public SignageContent getContent() {
 		return content;
@@ -125,7 +116,7 @@ public class ChannelSpec implements SignageContent {
 
 	/**
 	 * Used in the "change channel by number" scheme, to verify that the URL seen by the receiver is the same as the one assumed by
-	 * the transmitter.  This is somewhat redundant to the overall digital signature of a transmitted object.
+	 * the transmitter. This is somewhat redundant to the overall digital signature of a transmitted object.
 	 */
 	@XmlElement
 	public long getChecksum() {
@@ -170,4 +161,13 @@ public class ChannelSpec implements SignageContent {
 	public void setURI(URI i) {
 		content.setURI(i);
 	}
+
+	// @XmlElement
+	// public URI getUri() {
+	// return content.getURI();
+	// }
+	//
+	// public void setUri(URI uri) {
+	// content.setURI(uri);
+	// }
 }

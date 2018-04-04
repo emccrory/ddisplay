@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd.changer;
+package gov.fnal.ppd.dd.db;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_PASSWORD;
@@ -24,15 +24,19 @@ import java.sql.SQLException;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-public class ConnectionToDynamicDisplaysDatabase {
+public class ConnectionToDatabase {
 	private static Connection	connection;
 	private static long			lastConnection	= 0;
 
 	private static String		thisNode		= null;
 	private static String		serverNode		= DATABASE_SERVER_NAME;
 
+	private ConnectionToDatabase() {
+		// Do not instantiate
+	}
+
 	/**
-	 * @return the DB connection object.  All clients should synchronize this object in order to use it!
+	 * @return the DB connection object. All clients should synchronize this object in order to use it!
 	 * 
 	 * @throws DatabaseNotVisibleException
 	 *             if it cannot connect to the database server
@@ -47,19 +51,22 @@ public class ConnectionToDynamicDisplaysDatabase {
 			}
 		} catch (SQLException e1) {
 			// Something went wrong with the connection.isValid() check. This means we have to re-generate the connection
-			println(ConnectionToDynamicDisplaysDatabase.class,
-					": Connection is not valid.  Last connection was " + (System.currentTimeMillis() - lastConnection) / 1000
-							+ " seconds ago.  Regenerating the connection.");
+			println(ConnectionToDatabase.class, ": Connection is not valid.  Last connection was "
+					+ (System.currentTimeMillis() - lastConnection) / 1000 + " seconds ago.  Regenerating the connection.");
 		}
 
-		/*
+		/**
 		 * If the connection is too old, it fails. I got this error on 3/9/2015 (from within the MySQL API):
 		 * 
-		 * The last packet successfully received from the server was 248,955,159 milliseconds [69 hours] ago. The last packet sent
-		 * successfully to the server w as 248,955,160 milliseconds ago. is longer than the server configured value of
-		 * 'wait_timeout'. You should consider either expiring and/or testing connection validity before use in your application,
+		 * <pre>
+		 * The last packet successfully received from the server was 248,955,159 milliseconds [69 hours] ago. 
+		 * The last packet sent successfully to the server 248,955,160 milliseconds ago. 
+		 * This is longer than the server configured value of 'wait_timeout'. 
+		 * 
+		 * You should consider either expiring and/or testing connection validity before use in your application,
 		 * increasing the server configured values for client timeouts, or using the Connector connection property
 		 * 'autoReconnect=true' to avoid this problem.
+		 * </pre>
 		 */
 
 		connection = null;
@@ -71,7 +78,7 @@ public class ConnectionToDynamicDisplaysDatabase {
 				ip = InetAddress.getLocalHost();
 				thisNode = ip.getCanonicalHostName();
 			} catch (UnknownHostException e) {
-				println(ConnectionToDynamicDisplaysDatabase.class, ": Cannot get my own IP name.  IP Address is " + ip);
+				println(ConnectionToDatabase.class, ": Cannot get my own IP name.  IP Address is " + ip);
 				e.printStackTrace();
 			}
 		}
@@ -84,7 +91,7 @@ public class ConnectionToDynamicDisplaysDatabase {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			println(ConnectionToDynamicDisplaysDatabase.class, ": It seems that we can't load the jdbc driver.  "
+			println(ConnectionToDatabase.class, ": It seems that we can't load the jdbc driver.  "
 					+ "Do not know how to recover from this error!");
 			System.exit(1);
 		}
@@ -92,27 +99,26 @@ public class ConnectionToDynamicDisplaysDatabase {
 			String url = "jdbc:mysql://" + serverNode + "/" + DATABASE_NAME;
 			String user = DATABASE_USER_NAME;
 			String passwd = DATABASE_PASSWORD;
-			println(ConnectionToDynamicDisplaysDatabase.class, ":\n\t\t\t\tConnection is through [" + url
-					+ "]\n\t\t\t\twith username [" + user + "] and password (hidden)");
+			println(ConnectionToDatabase.class, ":\n\t\t\t\tConnection is through [" + url + "]\n\t\t\t\twith username [" + user
+					+ "] and password (hidden)");
 			connection = DriverManager.getConnection(url, user, passwd);
 			lastConnection = System.currentTimeMillis();
 			return connection;
 
 		} catch (SQLException ex) {
-			println(ConnectionToDynamicDisplaysDatabase.class, " -- SQLException: '" + ex.getMessage() + "'");
-			println(ConnectionToDynamicDisplaysDatabase.class, " -- SQLState: " + ex.getSQLState());
-			println(ConnectionToDynamicDisplaysDatabase.class, " -- VendorError: " + ex.getErrorCode());
+			println(ConnectionToDatabase.class, " -- SQLException: '" + ex.getMessage() + "'");
+			println(ConnectionToDatabase.class, " -- SQLState: " + ex.getSQLState());
+			println(ConnectionToDatabase.class, " -- VendorError: " + ex.getErrorCode());
 			try {
 				ex.printStackTrace();
 				if (ex.getMessage().contains("Access denied for user")) {
-					println(ConnectionToDynamicDisplaysDatabase.class, "ERROR Cannot access the Channel/Display database.");
+					println(ConnectionToDatabase.class, "ERROR Cannot access the Channel/Display database.");
 				} else if (ex.getMessage().contains("Operation timed out")) {
-					println(ConnectionToDynamicDisplaysDatabase.class,
+					println(ConnectionToDatabase.class,
 							"ERROR Cannot access the Channel/Display database, possibly because we have been idle for a long time.");
 
 				} else if (ex.getMessage().contains("Communications link failure")) {
-					println(ConnectionToDynamicDisplaysDatabase.class,
-							"ERROR The database seems to have reset.  Let's try again later.");
+					println(ConnectionToDatabase.class, "ERROR The database seems to have reset.  Let's try again later.");
 					//
 					// Bug fix. There was a call to System.exit() here. This call seems to have been made, but then it blocked
 					// and did not actually exit the Java VM. I am not sure about this, but here is the Oracle doc on it:
@@ -136,43 +142,15 @@ public class ConnectionToDynamicDisplaysDatabase {
 					// gracefully exit, that is, so it will restart properly.
 					//
 				} else {
-					println(ConnectionToDynamicDisplaysDatabase.class, "ERROR This is an unexpected error. Oh well.");
+					println(ConnectionToDatabase.class, "ERROR This is an unexpected error. Oh well.");
 				}
 				throw new DatabaseNotVisibleException(ex.getMessage());
 
 			} catch (Exception e2) {
-				println(ConnectionToDynamicDisplaysDatabase.class, " -- Exception within the exception!! " + e2.getMessage());
+				println(ConnectionToDatabase.class, " -- Exception within the exception!! " + e2.getMessage());
 				e2.printStackTrace();
 				throw new DatabaseNotVisibleException(ex.getMessage());
 			}
 		}
-		// return null;
 	}
-
-	/**
-	 * A simplified way to get a string from an InputStream.
-	 * 
-	 * @param asciiStream
-	 *            The InputStream to read
-	 * @return The String that has been read from the InputStream
-	 * @throws IOException
-	 */
-	// public static String makeString(InputStream asciiStream) throws IOException {
-	// String retval = "";
-	//
-	// int c;
-	// while ((c = asciiStream.read()) > 0) {
-	// if (c == '\\') {
-	// if (Character.valueOf((char) asciiStream.read()) == 'u') {
-	// String blah = "" + Character.valueOf((char) asciiStream.read()) + Character.valueOf((char) asciiStream.read())
-	// + Character.valueOf((char) asciiStream.read()) + Character.valueOf((char) asciiStream.read());
-	// int cod = Integer.parseInt(blah, 16);
-	// retval += (char) cod;
-	// }
-	// } else
-	// retval += Character.valueOf((char) c);
-	// }
-	//
-	// return retval;
-	// }
 }

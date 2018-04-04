@@ -4,7 +4,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
@@ -15,6 +15,8 @@ import java.sql.Statement;
 import java.util.HashSet;
 
 /**
+ * FIXME - This class contains both business logic and database access
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
@@ -37,7 +39,7 @@ public class ListOfValidChannels extends HashSet<String> {
 		int count = 0;
 
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
 				stmt = connection.createStatement();

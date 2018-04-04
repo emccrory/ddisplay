@@ -3,7 +3,7 @@ package gov.fnal.ppd.dd.util.version;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -267,7 +267,7 @@ public class VersionInformation implements Serializable {
 			
 		Connection connection;
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
@@ -346,7 +346,7 @@ public class VersionInformation implements Serializable {
 		Connection connection;
 		String query="";
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {

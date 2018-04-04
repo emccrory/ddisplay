@@ -9,11 +9,11 @@ import static gov.fnal.ppd.dd.util.Util.convertObjectToHexBlob;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.chat.MessagingClient;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.DisplayImpl;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -46,7 +46,9 @@ import javax.xml.bind.JAXBException;
 /**
  * Implement a Dynamic Display using an underlying browser through a simple messaging server
  * 
- * @author Elliott McCrory, Fermilab (2014)
+ * FIXME - Contains business logic and database accesses
+ * 
+ * @author Elliott McCrory, Fermilab (2014-18)
  */
 public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
@@ -60,7 +62,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	protected BrowserLauncher		browserLauncher;
 
-	// protected static int number;
 	protected boolean				keepGoing				= true;
 	protected static boolean		dynamic					= false;
 
@@ -184,7 +185,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		DecimalFormat dd = new DecimalFormat("#.##");
 
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 
 			String statementString = "";
 			synchronized (connection) {
@@ -277,6 +278,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	}
 
+	/**
+	 * Read the database to figure out what this display is supposed to do
+	 * 
+	 * @param clazz
+	 *            The type of object to instantiate here
+	 * @return The object that is the display controller.
+	 */
 	static DisplayControllerMessagingAbstract makeTheDisplays(Class<?> clazz) {
 		dynamic = true;
 		DisplayControllerMessagingAbstract d = null;
@@ -291,7 +299,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 		Connection connection;
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");

@@ -26,9 +26,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -137,7 +137,7 @@ public class MakeChannelSelector {
 		getMessagingServerNameSelector();
 		Connection connection = null;
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
