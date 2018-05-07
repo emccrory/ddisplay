@@ -206,6 +206,9 @@ public class Util {
 	 *            the message to print
 	 */
 	public static void println(Class<?> clazz, String message) {
+		//
+		// TODO - Suppress repeated messages
+		//
 		if (message.startsWith(":"))
 			System.out.println(new Date() + " - " + clazz.getSimpleName() + message);
 		else
