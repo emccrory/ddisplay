@@ -39,10 +39,6 @@ public class ChannelsFromDatabase {
 
 	/**
 	 * @param theMap
-	 * @throws DatabaseNotVisibleException
-	 */
-	/**
-	 * @param theMap
 	 *            Where to save the channels that have been retrieved
 	 * @throws DatabaseNotVisibleException
 	 */
@@ -66,7 +62,7 @@ public class ChannelsFromDatabase {
 			rs = stmt.executeQuery("SELECT Channel.Number as Number,Name,Description,URL,Category,Type,DwellTime,Sound "
 					+ "FROM Channel LEFT JOIN ChannelTabSort ON (Channel.Number=ChannelTabSort.Number) WHERE Approval=1");
 			rs.first(); // Move to first returned row
-			while (!rs.isAfterLast())
+			while (!rs.isAfterLast()) {
 				try {
 					String name = rs.getString("Name");
 					ChannelCategory category = ChannelCategory.MISCELLANEOUS;
@@ -82,11 +78,12 @@ public class ChannelsFromDatabase {
 					SignageContent c = new ChannelImpl(name, category, description, new URI(url), number, dwellTime);
 					c.setCode(codevalue);
 					theMap.put(name, c);
-					rs.next();
 					count++;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				rs.next();
+			}
 			stmt.close();
 			rs.close();
 		} catch (SQLException e) {
@@ -327,7 +324,7 @@ public class ChannelsFromDatabase {
 
 	/**
 	 * @param theMap
-	 *            The map of the channels to return to the user.  This will add to that map (user should probably clear it first)
+	 *            The map of the channels to return to the user. This will add to that map (user should probably clear it first)
 	 */
 	public static void readValidChannels(final Map<Integer, Channel> theMap) {
 		Statement stmt = null;
@@ -342,22 +339,21 @@ public class ChannelsFromDatabase {
 				rs = stmt.executeQuery("USE " + DATABASE_NAME);
 				rs = stmt.executeQuery("SELECT * FROM Channel where Approval=1");
 				rs.first(); // Move to first returned row
-				while (!rs.isAfterLast())
+				while (!rs.isAfterLast()) {
+					String theURL = rs.getString("URL");
+					String name = rs.getString("Name");
+					String cat = rs.getString("Category");
+					String desc = rs.getString("Description");
+					int number = rs.getInt("Number");
+					long dwell = rs.getLong("DwellTime");
 					try {
-						String theURL = rs.getString("URL");
-						String name = rs.getString("Name");
-						String cat = rs.getString("Category");
-						String desc = rs.getString("Description");
-						int number = rs.getInt("Number");
-						long dwell = rs.getLong("DwellTime");
-
 						ChannelImpl c = new ChannelImpl(name, new ChannelCategory(cat), desc, new URI(theURL), number, dwell);
 						theMap.put(number, c);
-
-						rs.next();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+					rs.next();
+				}
 				stmt.close();
 				rs.close();
 			}
