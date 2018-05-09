@@ -72,7 +72,7 @@ public class VersionInformation implements Serializable {
 	private long	timeStamp			= 0L;
 	private String	versionDescription	= null;
 	private int[]	dotVersion			= new int[3];
-	private FLAVOR	disposition			= FLAVOR.DEVELOPMENT;
+	private FLAVOR	disposition			= FLAVOR.PRODUCTION;
 
 	/**
 	 * Create an empty instance in order to save a new one in persistent storage
