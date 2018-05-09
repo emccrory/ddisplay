@@ -27,15 +27,15 @@ public class DisplayListTesting extends ArrayList<Display> {
 	 * @param numDisplays
 	 */
 	public static void setNumDisplays( final int numDisplays ) {
-		nd = numDisplays;
-		HSBColor.setNumColors(nd);
-
-		categories = new SignageType [numDisplays];
-		final int numPublic = (numDisplays > 10 ? numDisplays / 5 : 2);
-		for (int i = 0; i < categories.length; i++)
-			categories[i] = (i < numPublic ? SignageType.Public
-					: (i >= categories.length - 3 ? SignageType.XOC
-							: SignageType.Experiment));
+		// nd = numDisplays;
+		// HSBColor.setNumColors(nd);
+		//
+		// categories = new SignageType [numDisplays];
+		// final int numPublic = (numDisplays > 10 ? numDisplays / 5 : 2);
+		// for (int i = 0; i < categories.length; i++)
+		// categories[i] = (i < numPublic ? SignageType.Public
+		// : (i >= categories.length - 3 ? SignageType.XOC
+		// : SignageType.Experiment));
 	}
 
 	/**

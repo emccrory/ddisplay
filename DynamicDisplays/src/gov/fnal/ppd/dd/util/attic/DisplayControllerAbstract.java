@@ -1,6 +1,6 @@
 package gov.fnal.ppd.dd.util.attic;
 
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.DisplayImpl;
 import gov.fnal.ppd.dd.display.client.BrowserLauncher;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -224,7 +224,7 @@ public abstract class DisplayControllerAbstract extends DisplayImpl {
 		dynamic = true;
 
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");

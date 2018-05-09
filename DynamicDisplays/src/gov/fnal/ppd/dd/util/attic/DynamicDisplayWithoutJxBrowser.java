@@ -1,6 +1,6 @@
 package gov.fnal.ppd.dd.util.attic;
 
-import gov.fnal.ppd.dd.changer.ConnectionToDynamicDisplaysDatabase;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.DisplayImpl;
 import gov.fnal.ppd.dd.display.client.BrowserLauncher;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -62,7 +62,7 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 			final int screenNum, final String colorCode, final int port) {
 
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 		}
@@ -115,7 +115,7 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 
 		DynamicDisplayWithoutJxBrowser.number = number;
 		try {
-			connection = ConnectionToDynamicDisplaysDatabase.getDbConnection();
+			connection = ConnectionToDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.  We're making stuff up now.");
@@ -293,7 +293,7 @@ public class DynamicDisplayWithoutJxBrowser extends DisplayImpl {
 		String style3 = "font-size:150%;background-color:white;border-style:solid;border-width:25px;border-color:white;";
 		final String content = "<html><body style='margin:200;background-color:#" + colorString + ";'>\n" + "<p align='center' "
 				+ "style='" + style1 + "'>Display Number " + number + "</p>\n" + "<p align='center' style='" + style2
-				+ "'>This is " + (getCategory() == SignageType.Experiment ? "an Experiment" : "a " + getCategory())
+				+ "'>This is a " + getCategory()
 				+ " Display<br>\n<p align='center' style='" + style3 + "'>" + "Screen number " + getScreenNumber() + "<br>\n"
 				+ "Location = '" + getLocation() + "'<br>\nColor code is #" + colorString + "</p>" + "<p><em>The web site '"
 				+ lastURL + "' will be shown ";
