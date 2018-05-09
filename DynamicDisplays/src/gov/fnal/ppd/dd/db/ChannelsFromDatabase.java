@@ -164,7 +164,6 @@ public class ChannelsFromDatabase {
 		synchronized (connection) {
 			String q = "SELECT DISTINCT TabName,Abbreviation FROM LocationTab";
 			try {
-				// TODO Multiple location code adaptation would be here!
 				if (getNumberOfLocations() == 1) {
 					if (IS_PUBLIC_CONTROLLER) {
 						if (getLocationCode() < 0)
@@ -176,6 +175,7 @@ public class ChannelsFromDatabase {
 							q += " WHERE LocationCode=" + getLocationCode();
 					}
 				} else {
+					// Controlling more than one location
 					String extra = " WHERE (";
 					for (int i = 0; i < getNumberOfLocations(); i++) {
 						int lc = getLocationCode(i);
@@ -192,7 +192,7 @@ public class ChannelsFromDatabase {
 				}
 
 				q += " ORDER BY Abbreviation";
-				System.out.println(q);
+				println(ChannelsFromDatabase.class, "Tab retrieval query: " + q);
 				rs = stmt.executeQuery(q);
 				if (rs.first()) // Move to first returned row
 					while (!rs.isAfterLast())
