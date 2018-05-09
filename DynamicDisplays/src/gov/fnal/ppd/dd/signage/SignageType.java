@@ -18,7 +18,7 @@ package gov.fnal.ppd.dd.signage;
  * The Display and the Content are both tagged with this hierarchy
  * </p>
  * <p>
- * As of 4/2015, this functionality has not been used!  Everything is a "XOC".  It may be that this gets deprecated at some point.
+ * As of 4/2015, this functionality has not been used! Everything is a "XOC". This enum needs to be deprecated.
  * </p>
  * 
  * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2013-14.
@@ -31,7 +31,7 @@ public enum SignageType {
 	/**
 	 * A Display of type Experiment can show Experiment or Public content
 	 */
-	Experiment,
+	// Experiment, Not used anywhere so get rid of it!
 	/**
 	 * A display of type XOC can show any type of content
 	 */
@@ -47,8 +47,8 @@ public enum SignageType {
 	public boolean isVisible(SignageContent c) {
 		if (this == Public)
 			return c.getType() == Public;
-		if (this == Experiment)
-			return c.getType() != XOC;
+		// if (this == Experiment)
+		// return c.getType() != XOC;
 		return true;
 	}
 
@@ -62,8 +62,8 @@ public enum SignageType {
 	public boolean isVisible(Display d) {
 		if (this == Public)
 			return true;
-		if (this == Experiment)
-			return d.getCategory() != XOC;
+		// if (this == Experiment)
+		// return d.getCategory() != XOC;
 		return d.getCategory() == XOC;
 	}
 }
