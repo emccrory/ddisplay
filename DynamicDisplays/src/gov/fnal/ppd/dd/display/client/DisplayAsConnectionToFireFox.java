@@ -7,6 +7,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
@@ -623,6 +624,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 *            Expect one command line argument
 	 */
 	public static void main(final String[] args) {
+		prepareUpdateWatcher(false);
+		
 		credentialsSetup();
 
 		getMessagingServerNameDisplay();

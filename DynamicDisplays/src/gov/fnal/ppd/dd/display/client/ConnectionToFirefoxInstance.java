@@ -756,6 +756,10 @@ public class ConnectionToFirefoxInstance {
 		return instance;
 	}
 
+	/**
+	 * Save the channel that is being shown right now and then exit. The exit code of -1 should be a signal to the controlling
+	 * script that we want to be restarted.
+	 */
 	public static void saveAndExit() {
 		// Save the current channel(s) and close the Java VM
 		for (Command C : finalCommand)

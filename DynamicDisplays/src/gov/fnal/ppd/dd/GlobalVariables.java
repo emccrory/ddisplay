@@ -7,7 +7,10 @@ package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
+import gov.fnal.ppd.dd.display.client.ConnectionToFirefoxInstance;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
+import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
 
 import java.awt.Image;
 import java.io.File;
@@ -16,8 +19,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
@@ -421,29 +427,11 @@ public class GlobalVariables {
 	 * Short name for the location of the displays
 	 */
 	static String	locationName;
-	// {
-	// "ROC-West",
-	// "ROC-East",
-	// "Elliott's Office Test",
-	// "WH Second Floor",
-	// "Accelerator Division",
-	// "FESS Operations",
-	// "Fermilab"
-	// };
 
 	/**
 	 * Long name for the location of the displays
 	 */
 	static String	locationDescription;
-
-	// { "Fermilab Experiments' Remote Operations Center, West Side",
-	// "Fermilab CMS/LHC Remote Operations Center, East Side", //
-	// "Fermilab Transfer Gallery", //
-	// "Second Floor of Wilson Hall", //
-	// "Accelerator Division Computer Room Displays", //
-	// "FESS Operations at Site 38", //
-	// "All Dynamic Displays at Fermilab", //
-	// };
 
 	/**
 	 * @return the location (short) name corresponding to this index value
@@ -497,17 +485,97 @@ public class GlobalVariables {
 	 */
 	public static String	docentName		= null;
 
-	// static {
-	// String def = ("/keystore/private" + THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE + ".key").toLowerCase();
-	// if (System.getenv("HOME") != null) // Linux and MAC
-	// def = System.getenv("HOME") + def;
-	// else if (System.getenv("UserProfile") != null) // Windows
-	// def = System.getenv("UserProfile") + def;
-	// PRIVATE_KEY_LOCATION = System.getProperty("ddisplay.privatekeyfilename", def);
-	// }
-
 	private static String[]	credentialsPath	= { "/keystore/", System.getenv("HOME") + "/keystore/",
 			System.getenv("HOMEPATH") + "/keystore/" };
+
+	// ----------------------------------------------------------------------------------------------------------------
+	// A class and a method for checking to see if there is update software available
+
+	private static class SampleTask extends TimerTask {
+		Thread	myThreadObj;
+
+		SampleTask(Thread t) {
+			this.myThreadObj = t;
+		}
+
+		public void run() {
+			myThreadObj.start();
+		}
+	}
+
+	/**
+	 * Start a thread that runs every week (say, Tuesday mornings at 0400, plus a random offset) to see if there is a new version of
+	 * the code ready to be downloaded
+	 * 
+	 * @param isMessagingServer
+	 *            Set to true if this is the messaging server. It will look for the updates a little earlier than all the other bits
+	 */
+	public static void prepareUpdateWatcher(boolean isMessagingServer) {
+
+		Timer timer = new Timer();
+		Thread myThread = new Thread("CheckForSoftwareUpdate") {
+
+			@Override
+			public void run() {
+				println(GlobalVariables.class, "Checking to see if there is an update for the software");
+				// 1. See if an update is available
+				double days = VersionInformationComparison.lookup(FLAVOR.PRODUCTION, false);
+				if (days > 0) {
+					// 2. If so, download it. Then exit the entire process with System.exit(-1) and we will restart.
+					println(GlobalVariables.class, "There is a version of the software that is " + days
+							+ " days newer than the code we are running.");
+
+					// Download and install the new code
+					downloadNewSoftware();
+					// System.exit(-1); - This will signal the controlling shell script to restart the program.
+				} else {
+					println(GlobalVariables.class, "No new software is present.  Will check again next week at this time.");
+				}
+			}
+		};
+		Calendar date = Calendar.getInstance();
+		date.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+		if (isMessagingServer) {
+			// The messaging server needs to get the software first
+			date.set(Calendar.HOUR_OF_DAY, 3);
+			date.set(Calendar.MINUTE, 0);
+		} else {
+			date.set(Calendar.HOUR_OF_DAY, 4);
+			date.set(Calendar.MINUTE, (int) (Math.random() * 30.0)); // Randomly in the first half of the 4AM hour
+		}
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+
+		date.add(Calendar.HOUR, 168); // Delay the first one to next week.
+
+		println(GlobalVariables.class, "Will check for updates every week starting at " + date.getTime());
+
+		// Run myThread at 04:xx and then repeat every week at that time
+		timer.schedule(new SampleTask(myThread), date.getTime(), 1000 * 60 * 60 * 24 * 7);
+	}
+
+	// ----------------------------------------------------------------------------------------------------------------
+
+	protected static void downloadNewSoftware() {
+		println(GlobalVariables.class, " Experimental implementatiion of refresh-&-restart code.");
+
+		// This code assumes a very specific location for the refresh script, and this is in a Linux environment. This will be
+		// different on Windows PCs.
+
+		try {
+			ProcessBuilder pb = new ProcessBuilder("refreshSoftware.sh");
+			pb.directory(new File("../.."));
+			@SuppressWarnings("unused")
+			Process p = pb.start();
+			// This command *should* work on Linux, and it *should* throw an exception on Windows
+
+			// Save the current channel and exit (so it can be restarted)
+			ConnectionToFirefoxInstance.saveAndExit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	/**
 	 * Read the file, credentials.txt, for establishing connection to the database

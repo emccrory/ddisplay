@@ -25,6 +25,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
+import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
@@ -67,7 +68,7 @@ import javax.swing.JPanel;
 public class MakeChannelSelector {
 
 	/*
-	 * TODO -- Implement a way for this application to check back (with the Mother Ship) to see if these is an updated version of
+	 * TODO -- Implement a way for this application to check (with the Mother Ship) to see if these is an updated version of
 	 * the ZIP file available.
 	 */
 	static boolean	theControllerIsProbablyInFront	= true;
@@ -76,6 +77,8 @@ public class MakeChannelSelector {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
+		prepareUpdateWatcher(false);
+		
 		prepareSaverImages();
 
 		credentialsSetup();
