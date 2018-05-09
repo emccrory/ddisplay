@@ -17,34 +17,20 @@ public class VersionInformationComparison {
 	private static final long	MKAXIMUM_ALLOWABLE_TIME_DIFFERENCE	= 10000;
 
 	/**
-	 * @param args
+	 * @param flavor
+	 *            Which sort of release to lookup
+	 * @param debug
+	 *            Print descriptive stuff along the way
+	 * 
+	 * @return the difference in the age, in hours, of the latest FLAVOR of updates to what we are running now
 	 */
-	public static void main(final String[] args) {
-		credentialsSetup();
-
-		int index = 0;
-		boolean debug = false;
-		FLAVOR flavor = FLAVOR.PRODUCTION;
-
-		while (args.length > index) {
-			if (args[index].equalsIgnoreCase("DEBUG"))
-				debug = true;
-			else
-				try {
-					flavor = FLAVOR.valueOf(args[index]);
-				} catch (Exception e) {
-					flavor = FLAVOR.DEVELOPMENT;
-				}
-			index++;
-		}
-
+	public static double lookup(final FLAVOR flavor, final boolean debug) {
 		VersionInformation viWeb = VersionInformation.getDBVersionInformation(flavor);
 		if (viWeb == null) {
 			// No versions are available!
 			if (debug)
 				System.out.println("No version of flavor " + flavor + " is available from the database.");
-
-			System.exit(0);
+			return 0;
 		}
 		VersionInformation viLocal = VersionInformation.getVersionInformation();
 
@@ -66,16 +52,45 @@ public class VersionInformationComparison {
 			if (debug)
 				System.out.println("Time stamp of database version is the same as the local time stamp.  Delta=" + diff
 						+ " milliseconds");
+			return 0;
 		} else if (viWeb.getTimeStamp() > viLocal.getTimeStamp()) {
-			long hours = diff / 3600000L;
+			double days = (diff / 3600000L) / 24.0;
 			if (debug)
-				System.out.println("Local version is older than the Database version.  Difference is " + hours + " hours.");
-			System.exit(-1);
+				System.out.println("Local version is older than the Database version.  Difference is " + Math.round(days) + " days - you should update!");
+			return days;
 		} else {
-			long hours = diff / 3600000L;
+			double days = (diff / 3600000L) / 24.0;
 			if (debug)
-				System.out.println("Local time stamp is newer than the database version by " + hours + " hours");
+				System.out.println("Local time stamp is newer than the database version by " + Math.round(days) + " days - no update needed");
+			return -days;
 		}
-		System.exit(0);
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
+		credentialsSetup();
+
+		int index = 0;
+		boolean debug = false;
+		FLAVOR flavor = FLAVOR.PRODUCTION;
+
+		while (args.length > index) {
+			if (args[index].equalsIgnoreCase("DEBUG"))
+				debug = true;
+			else
+				try {
+					flavor = FLAVOR.valueOf(args[index]);
+				} catch (Exception e) {
+					flavor = FLAVOR.DEVELOPMENT;
+				}
+			index++;
+		}
+
+		double diff = lookup(flavor, debug);
+		if (diff <= 0)
+			System.exit(0);
+		System.exit(-1);
 	}
 }
