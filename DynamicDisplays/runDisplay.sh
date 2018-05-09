@@ -137,6 +137,8 @@ fi
 	echo ""
 	echo ""
 	echo `date` " Display program exited with failure ..."
+	# Maybe there is a new version of the software here.  This "cd" should put us in the right place
+	cd $workingDirectory
 	sleep 15
 	echo `date` " Trying again now."
 	echo ""
