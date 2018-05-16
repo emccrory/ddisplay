@@ -9,6 +9,7 @@ import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.display.client.ConnectionToFirefoxInstance;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
 
@@ -570,7 +571,7 @@ public class GlobalVariables {
 			// This command *should* work on Linux, and it *should* throw an exception on Windows
 
 			// Save the current channel and exit (so it can be restarted)
-			ConnectionToFirefoxInstance.saveAndExit();
+			ExitHandler.saveAndExit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
