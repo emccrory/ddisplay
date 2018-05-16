@@ -166,7 +166,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 		Runtime.getRuntime().addShutdownHook(new Thread("ConnectionShutdownHook") {
 			public void run() {
-				System.err.println("Exit hook called."); // This does not actually get printed.
+				println(DisplayControllerMessagingAbstract.this.getClass(), "Exit hook called."); 
 				keepGoing = false;
 				offLine = true;
 				updateMyStatus();
