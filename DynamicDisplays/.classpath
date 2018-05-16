@@ -6,5 +6,8 @@
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.5.8.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.27.jar"/>
 	<classpathentry kind="lib" path="lib/zxing-2.1.jar/zxing-2.1.jar"/>
+	<classpathentry kind="lib" path="lib/selenium-server-standalone-3.12.0.jar"/>
+	<classpathentry kind="lib" path="lib/selenium-chrome-driver-2.26.0.jar"/>
+	<classpathentry kind="lib" path="lib/selenium-firefox-driver-2.23.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
