@@ -17,6 +17,8 @@ import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
+import gov.fnal.ppd.dd.util.Command;
+import gov.fnal.ppd.dd.util.ExitHandler;
 
 import java.awt.Color;
 import java.io.File;
@@ -184,8 +186,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		(new File(filename)).delete(); // Make sure this file is deleted now that the object stream has been used.
 
-		firefox.removeFinalCommand(lastCommand);
-		lastCommand = firefox.addFinalCommand(new Command() {
+		ExitHandler.removeFinalCommand(lastCommand);
+		lastCommand = ExitHandler.addFinalCommand(new Command() {
 
 			@Override
 			public void execute() {

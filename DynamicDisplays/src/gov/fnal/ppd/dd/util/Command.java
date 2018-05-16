@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.display.client;
+package gov.fnal.ppd.dd.util;
 
 /**
  * Implementation of the well-known "Command" pattern.

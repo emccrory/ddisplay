@@ -13,6 +13,7 @@ import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.emergency.Severity;
+import gov.fnal.ppd.dd.util.ExitHandler;
 
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -25,9 +26,7 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -75,7 +74,6 @@ public class ConnectionToFirefoxInstance {
 	private boolean								hasEmergencyCapabilities		= true;
 	private boolean								elementIDError					= false;
 
-	private static List<Command>				finalCommand					= new ArrayList<Command>();
 
 	private static final Map<String, String>	colorNames						= GetColorsFromDatabase.get();
 
@@ -633,7 +631,7 @@ public class ConnectionToFirefoxInstance {
 					if (numFailures >= iterationsWait) {
 						System.err.println(ConnectionToFirefoxInstance.class.getSimpleName()
 								+ ".openConnection().Thread.run(): Firefox instance is not responding.  ABORT!");
-						saveAndExit();
+						ExitHandler.saveAndExit();
 						// This limit was put in at the same time as a "while loop" in the canonical (Linux) shell script that
 						// re-executes the "run display" class when an error exit status happens.
 					}
@@ -702,7 +700,7 @@ public class ConnectionToFirefoxInstance {
 					println(getClass(), "\n\n******************************************************\n\nRecevied this line: ["
 							+ lastReplyLine + "]\n\n******************************************************\n\n"
 							+ "ABORTING APPLICATION!\n******************************************************");
-					saveAndExit();
+					ExitHandler.saveAndExit();
 				}
 
 				// If we are asking for an element in the web document that does not exist, we'll see this error:
@@ -756,40 +754,7 @@ public class ConnectionToFirefoxInstance {
 		return instance;
 	}
 
-	/**
-	 * Save the channel that is being shown right now and then exit. The exit code of -1 should be a signal to the controlling
-	 * script that we want to be restarted.
-	 */
-	public static void saveAndExit() {
-		// Save the current channel(s) and close the Java VM
-		for (Command C : finalCommand)
-			if (C != null)
-				C.execute();
-
-		System.out.println("\n\n********** EXITING **********\n");
-		System.exit(-1);
-	}
-
-	/**
-	 * Remove this command from the list -- not needed anymore.
-	 * 
-	 * @param c
-	 *            The command to remove
-	 */
-	public void removeFinalCommand(final Command c) {
-		finalCommand.remove(c);
-	}
-
-	/**
-	 * @param c
-	 *            the finalCommand to set
-	 * @return The command is returned back to the sender
-	 */
-	public Command addFinalCommand(final Command c) {
-		finalCommand.add(c);
-		return c;
-	}
-
+	
 	/**
 	 * Force an emergency message onto the screen!
 	 * 
