@@ -126,20 +126,25 @@ fi
     # An exit code of -1 (255 here) is going to mean that there was a problem from which we should try to recover.
 
     while {
+	# Diagnostic to record if there is someone who has port 49999 open (to the messaging server)
+	lsof -i :49999
+
         # Do we need to run two instances of the display?  Then fix the position of the firefox windows
 	./fixFirefoxConfig.sh
 
 	java -Xmx1024m gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox 
+
 	test $? -eq 255
     }
     do
 	echo ""
 	echo ""
 	echo ""
-	echo `date` " Display program exited with failure ..."
+	echo `date` " Display program exited with an understood failure ..."
 	# Maybe there is a new version of the software here.  This "cd" should put us in the right place
 	cd $workingDirectory
 	sleep 15
+	echo "     ..."
 	echo `date` " Trying again now."
 	echo ""
 	echo ""
