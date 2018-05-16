@@ -1,8 +1,7 @@
 package gov.fnal.ppd.dd.xml;
 
 import static gov.fnal.ppd.dd.GlobalVariables.XML_SERVER_NAME;
-
-import gov.fnal.ppd.dd.display.client.ConnectionToFirefoxInstance;
+import gov.fnal.ppd.dd.util.ExitHandler;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -65,7 +64,7 @@ public class MyXMLMarshaller {
 			ie.printStackTrace();
 			
 			// All bets are off!  Try to restart.  If it is truly the situation where the Java version has changed, this will fix it.
-			ConnectionToFirefoxInstance.saveAndExit();
+			ExitHandler.saveAndExit();
 		}
 		return null;
 	}
