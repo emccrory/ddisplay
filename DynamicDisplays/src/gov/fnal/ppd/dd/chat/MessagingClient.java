@@ -277,7 +277,6 @@ public class MessagingClient {
 		} catch (Exception e) {
 			displayLogMessage(MessagingClient.class.getSimpleName() + ".sendMessage(): Exception writing to server: " + msg);
 			catchSleep(1);
-			System.err.println("Exception writing to server ... ");
 			e.printStackTrace();
 		}
 		try {
