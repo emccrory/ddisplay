@@ -7,9 +7,9 @@ package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
-import gov.fnal.ppd.dd.display.client.ConnectionToFirefoxInstance;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.util.ExitHandler;
+import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
 
@@ -518,19 +518,29 @@ public class GlobalVariables {
 
 			@Override
 			public void run() {
-				println(GlobalVariables.class, "Checking to see if there is an update for the software");
-				// 1. See if an update is available
-				double days = VersionInformationComparison.lookup(FLAVOR.PRODUCTION, false);
-				if (days > 0) {
-					// 2. If so, download it. Then exit the entire process with System.exit(-1) and we will restart.
-					println(GlobalVariables.class, "There is a version of the software that is " + days
-							+ " days newer than the code we are running.");
+				try {
+					println(GlobalVariables.class, "Checking to see if there is an update for the software");
+					FLAVOR flavor = FLAVOR.PRODUCTION;
+					// 1. See if an update is available
+					double days = VersionInformationComparison.lookup(flavor, false);
+					if (days > 0) {
+						// 2. If so, download it. Then exit the entire process with System.exit(-1) and we will restart.
+						println(GlobalVariables.class, "There is a version of the software that is " + days
+								+ " days newer than the code we are running.");
 
-					// Download and install the new code
-					downloadNewSoftware();
-					// System.exit(-1); - This will signal the controlling shell script to restart the program.
-				} else {
-					println(GlobalVariables.class, "No new software is present.  Will check again next week at this time.");
+						VersionInformation viWeb = VersionInformation.getDBVersionInformation(flavor);
+
+						// Download and install the new code
+						downloadNewSoftware(viWeb.getVersionString());
+						
+						// 3. Exit and signal to the controlling script that we need to restart
+						// System.exit(-1); - This would signal the controlling shell script to restart the program.
+					} else {
+						println(GlobalVariables.class, "No new software is present.  Will check again next week at this time.");
+					}
+				} catch (Exception e) {
+					println(GlobalVariables.class, "Exception while trying to do a self-update");
+					e.printStackTrace();
 				}
 			}
 		};
@@ -557,14 +567,17 @@ public class GlobalVariables {
 
 	// ----------------------------------------------------------------------------------------------------------------
 
-	protected static void downloadNewSoftware() {
+	protected static void downloadNewSoftware(String version) {
 		println(GlobalVariables.class, " Experimental implementatiion of refresh-&-restart code.");
 
 		// This code assumes a very specific location for the refresh script, and this is in a Linux environment. This will be
 		// different on Windows PCs.
 
 		try {
-			ProcessBuilder pb = new ProcessBuilder("refreshSoftware.sh");
+			List<String> argv = new ArrayList<String>();
+			argv.add(0, "refreshSoftware.sh");
+			argv.add(1, version);
+			ProcessBuilder pb = new ProcessBuilder(argv);
 			pb.directory(new File("../.."));
 			@SuppressWarnings("unused")
 			Process p = pb.start();
