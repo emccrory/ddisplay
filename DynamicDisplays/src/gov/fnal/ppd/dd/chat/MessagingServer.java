@@ -416,7 +416,7 @@ public class MessagingServer {
 
 				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())) {
 					if (showAliveMessages)
-						display("Alive msg " + cm.getFrom().trim().replace(".fnal.gov", ""));
+						display("Alive msg received " + cm.getFrom().trim().replace(".fnal.gov", ""));
 					continue; // That's all for this while-loop iteration. Go read the socket again...
 				}
 
