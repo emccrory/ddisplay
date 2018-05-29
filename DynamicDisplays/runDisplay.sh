@@ -130,7 +130,7 @@ fi
 	lsof -i :49999
 
         # Do we need to run two instances of the display?  Then fix the position of the firefox windows
-	./fixFirefoxConfig.sh
+	# ./fixFirefoxConfig.sh -- not working on all display nodes.
 
 	java -Xmx1024m gov.fnal.ppd.dd.display.client.DisplayAsConnectionToFireFox 
 
