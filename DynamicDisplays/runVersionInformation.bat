@@ -1,3 +1,5 @@
+echo off
+
 call config.cmd
 
 java gov.fnal.ppd.dd.util.version.VersionInformationComparison
@@ -18,8 +20,6 @@ goto END
 :END
 
 ECHO Versioning
-ECHO Versioning
-ECHO Versioning
 
-java gov.fnal.ppd.dd.util.version.VersionInformation 0
+java gov.fnal.ppd.dd.util.version.VersionInformation %1
 
