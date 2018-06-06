@@ -534,8 +534,8 @@ public class MessagingServer {
 				// TODO Add a message type of "SubscribeTo" and work that into the code.
 			}
 			// remove myself from the arrayList containing the list of the connected Clients
-			display("Exiting forever loop for client '" + this.username + "' (thisSocketIsActive=" + this.thisSocketIsActive
-					+ ") Removing id=" + id + ")");
+			display("Exiting CLIENT forever loop for '" + this.username + "' (thisSocketIsActive=" + this.thisSocketIsActive
+					+ ") Removing id=" + id + ") (This is a normal operation)");
 
 			synchronized (listOfMessagingClients) {
 				// scan the array list until we found the Id
@@ -1114,46 +1114,55 @@ public class MessagingServer {
 					e.printStackTrace();
 					continue;
 				}
-				if (listOfMessagingClients.add(t)) { // save it in the ArrayList
-
-					// Interim subject, equal to the client name without the appended id number.
-					String subject = t.username.substring(0, t.username.length() - ("_" + t.id).length());
-					ClientThreadList ctl = subjectListeners.get(subject);
-					if (ctl == null) {
-						ctl = new ClientThreadList();
-						subjectListeners.put(subject, ctl);
-					}
-					ctl.add(t);
-					t.start();
-				} else {
-
-					// This code is never reached, I think (10/21/15)
-
-					display("Error! Duplicate username requested, '" + t.username + "'");
-					showAllClientsConnectedNow();
-					t.start();
-					t.writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, t.username,
-							"A client with the name " + t.username + " has already connected.  Disconnecting now."));
-					t.close();
-
-					// We should probably remove BOTH clients from the permanent list. There are two cases seen so far
-					// where this happens: 1. The user tries to start a second ChannelSelector from the same place; 2. Something
-					// I don't understand happens to a client and (a) we don't drop it here and (b) it tries to reconnect. In
-					// both cases, the real client will eventually try to reconnect.
-
-					int index = 0;
-					for (ClientThread CT : listOfMessagingClients) {
-						if (CT == null || CT.username == null) {
-							display("start(): Unexpected null ClientThread at index=" + index + ": [" + CT + "]");
-							remove(CT); // How did THIS happen??
-						} else if (CT.username.equals(t.username)) {
-							display("start(): Removing duplicate client " + CT.username + " from the client list");
-							remove(CT); // Duplicate username is not allowed!
+				if (t.username != null) {
+					if (listOfMessagingClients.add(t)) { // save it in the ArrayList
+						try {
+							// Interim subject, equal to the client name without the appended id number.
+							String subject = t.username.substring(0, t.username.length() - ("_" + t.id).length());
+							ClientThreadList ctl = subjectListeners.get(subject);
+							if (ctl == null) {
+								ctl = new ClientThreadList();
+								subjectListeners.put(subject, ctl);
+							}
+							ctl.add(t);
+							t.start();
+						} catch (Exception e) {
+							e.printStackTrace();
+							println(getClass(),
+									"Unexpected exception in messaging server - THIS SHOULD BE INVESTIGATED AND FIXED.");
 						}
-						index++;
-					}
+					} else {
 
-					// continue; No, I think (now) that fall through is appropriate.
+						// This code is never reached, I think (10/21/15)
+
+						display("Error! Duplicate username requested, '" + t.username + "'");
+						showAllClientsConnectedNow();
+						t.start();
+						t.writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, t.username,
+								"A client with the name " + t.username + " has already connected.  Disconnecting now."));
+						t.close();
+
+						// We should probably remove BOTH clients from the permanent list. There are two cases seen so far
+						// where this happens: 1. The user tries to start a second ChannelSelector from the same place; 2. Something
+						// I don't understand happens to a client and (a) we don't drop it here and (b) it tries to reconnect. In
+						// both cases, the real client will eventually try to reconnect.
+
+						int index = 0;
+						for (ClientThread CT : listOfMessagingClients) {
+							if (CT == null || CT.username == null) {
+								display("start(): Unexpected null ClientThread at index=" + index + ": [" + CT + "]");
+								remove(CT); // How did THIS happen??
+							} else if (CT.username.equals(t.username)) {
+								display("start(): Removing duplicate client " + CT.username + " from the client list");
+								remove(CT); // Duplicate username is not allowed!
+							}
+							index++;
+						}
+
+						// continue; No, I think (now) that fall through is appropriate.
+					}
+				} else {
+					println(getClass(), "Client attempted connection but something happened preventing it from completing.  Continuing...");
 				}
 				if (showClientList == null) {
 
@@ -1215,7 +1224,8 @@ public class MessagingServer {
 			display(msg);
 			printStackTrace(e);
 		}
-		println(getClass(), "Exiting thread for listening to the messaging socket on port " + port + ".  THIS SHOULD ONLY HAPPEN when the program exits.");
+		println(getClass(), "Exiting SERVER thread for listening to the messaging socket on port " + port
+				+ ".  THIS SHOULD ONLY HAPPEN when the program exits.");
 	}
 
 	protected void showAllClientsConnectedNow() {
