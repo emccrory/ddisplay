@@ -21,7 +21,7 @@ import javax.swing.text.Document;
 public class JTextAreaBottom extends JTextArea {
 
 	private static final long	serialVersionUID	= 6409040285176732876L;
-	private int maxLength = 10 * 1024 * 1024; // 10MB default limit
+	private int					maxLength			= 10 * 1024 * 1024;	// 10MB default limit
 
 	/**
 	 * Link to the JTextArea constructor
@@ -83,19 +83,23 @@ public class JTextAreaBottom extends JTextArea {
 
 	@Override
 	public void append(String text) {
-		if (getDocument().getLength() > maxLength) {
-			// Note that this is a rough maximum
-			try {
-				Document doc = getDocument();
-				int shift = doc.getLength()/3; // Remove a third of the existing text
-				String newText = doc.getText(shift, doc.getLength() - shift);
-				setText(newText);
-			} catch (BadLocationException e) {
-				e.printStackTrace();
+		try {
+			if (getDocument().getLength() > maxLength) {
+				// Note that this is a rough maximum
+				try {
+					Document doc = getDocument();
+					int shift = doc.getLength() / 3; // Remove a third of the existing text
+					String newText = doc.getText(shift, doc.getLength() - shift);
+					setText(newText);
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				}
 			}
+			super.append(text);
+			setCaretPosition(getCaretPosition() + text.length());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		super.append(text);
-		setCaretPosition(getCaretPosition() + text.length());
 	}
 
 	/**
