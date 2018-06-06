@@ -42,8 +42,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * TODO: Improve the architecture
  * 
  * <p>
- * According to http://docs.oracle.com/cd/E19957-01/816-6024-10/apa.htm (the first hit on Google for
- * "Messaging Server Architecture"), a well-built messaging server has these six components:
+ * According to http://docs.oracle.com/cd/E19957-01/816-6024-10/apa.htm (the first hit on Google for "Messaging Server Architecture"
+ * ), a well-built messaging server has these six components:
  * <ul>
  * <li>The dispatcher is the daemon (or service) component of the Messaging Server. It coordinates the activities of all other
  * modules. In Figure A.1, the dispatcher can be thought of as an envelope that contains and initiates the processes of all items
@@ -378,10 +378,7 @@ public class MessagingServer {
 							tto = this.cm.getTo();
 						}
 						// Reply to the client that this message was rejected!
-						String errorMessage = "Your message of type "
-								+ typ
-								+ " to client, "
-								+ tto
+						String errorMessage = "Your message of type " + typ + " to client, " + tto
 								+ " was not processed because there was an internal error in the messaging server; exception type is "
 								+ e.getClass().getCanonicalName();
 						display("Sending error message to client: [[[" + errorMessage + "]]]");
@@ -551,13 +548,14 @@ public class MessagingServer {
 						break;
 					}
 				}
+				// Is it strange when control comes here? The client.id was not found in the list.
 			}
 
 			if (ObjectSigning.dropClient(this.username))
 				display(this.getClass().getSimpleName() + ": '" + this.username + "' Removed from ObjectSigning cache");
 			// else
-			// display(this.getClass().getSimpleName() + ": '" + this.username +
-			// "' NOT IN THE ObjectSigning cache, so it was not removed");
+			// display(this.getClass().getSimpleName() + ": '" + this.username + "' NOT IN THE ObjectSigning cache, so it was not
+			// removed");
 
 			display(this.getClass().getSimpleName() + ": Number of remaining clients: " + listOfMessagingClients.size());
 			close();
@@ -756,7 +754,8 @@ public class MessagingServer {
 	 */
 	public static final String	SPECIAL_SERVER_MESSAGE_USERNAME	= "Server Message";
 
-	/* ************************************************************************************************************************
+	/*
+	 * ************************************************************************************************************************
 	 * Begin the definition of the class MessagingServer
 	 * 
 	 * Static stuff
@@ -877,18 +876,22 @@ public class MessagingServer {
 			// if (MessageCarrier.isUsernameMatch(mc.getTo(), ct.username))
 			// if (!ct.writeUnsignedMsg(mc)) {
 			// remove(ct);
-			// println(getClass(), ".broadcast() FAILED.  mc=" + mc);
+			// println(getClass(), ".broadcast() FAILED. mc=" + mc);
 			// // } else {
-			// // println(getClass(), ".broadcast() succeeded.  mc=" + mc);
+			// // println(getClass(), ".broadcast() succeeded. mc=" + mc);
 			// }
 			// }
 
 			String subject = mc.getTo();
-			for (int m = subject.length() - 1; m >= 0; m--) {
-				if (subject.charAt(m) == '_') { // Find the trailing "_index" and remove it
-					subject = subject.substring(0, m);
-					break;
+			if (subject != null) {
+				for (int m = subject.length() - 1; m >= 0; m--) {
+					if (subject.charAt(m) == '_') { // Find the trailing "_index" and remove it
+						subject = subject.substring(0, m);
+						break;
+					}
 				}
+			} else {
+				println(getClass(), "Unexpected null subject in a message.  Message=[" + mc + "]");
 			}
 			if (mc.getType() == MessageType.MESSAGE) {
 				lastMessage.put(subject, mc);
@@ -904,8 +907,8 @@ public class MessagingServer {
 							println(getClass(), ".broadcast() FAILED.  mc=" + mc);
 						}
 			} else {
-				println(this.getClass(), " Hmm.  We have an unsigned message on '" + subject
-						+ "' but the list of interested clients is empty");
+				println(this.getClass(),
+						" Hmm.  We have an unsigned message on '" + subject + "' but the list of interested clients is empty");
 			}
 		}
 	}
@@ -956,8 +959,8 @@ public class MessagingServer {
 							}
 						}
 				} else {
-					println(this.getClass(), "Hmm.  We have an SIGNED message on '" + subject
-							+ "' but the list of interested clients is empty");
+					println(this.getClass(),
+							"Hmm.  We have an SIGNED message on '" + subject + "' but the list of interested clients is empty");
 				}
 
 			}
@@ -1075,8 +1078,8 @@ public class MessagingServer {
 				NN = "none";
 			}
 			display("\n                       " + MessagingServer.class.getSimpleName() + " has been alive " + days + " d " + hours
-					+ " hr " + mins + " min " + secs + " sec (" + aliveTime + " msec)\n                       "
-					+ numConnectionsSeen + " connections accepted, " + listOfMessagingClients.size() + " client"
+					+ " hr " + mins + " min " + secs + " sec (" + aliveTime + " msec)\n                       " + numConnectionsSeen
+					+ " connections accepted, " + listOfMessagingClients.size() + " client"
 					+ (listOfMessagingClients.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
 					+ " messages handled\n" + "                       Oldest client is " + oldestName + "\n"
 					+ "                       Number of clients put 'on notice': " + numClientsputOnNotice + "\n"
@@ -1100,11 +1103,17 @@ public class MessagingServer {
 			while (keepGoing) {
 				// format message saying we are waiting
 				display("Waiting for Clients on port " + port + ".");
-
-				Socket socket = serverSocket.accept(); // accept connection if I was asked to stop
-				// if (!keepGoing)
-				// break;
-				ClientThread t = new ClientThread(socket); // make a thread of it
+				ClientThread t = null;
+				try {
+					Socket socket = serverSocket.accept(); // accept connection if I was asked to stop
+					// if (!keepGoing)
+					// break;
+					t = new ClientThread(socket); // make a thread of it
+				} catch (Exception e) {
+					println(getClass(), "Unexpected exception when listening to port " + port + ".  Let's try again.");
+					e.printStackTrace();
+					continue;
+				}
 				if (listOfMessagingClients.add(t)) { // save it in the ArrayList
 
 					// Interim subject, equal to the client name without the appended id number.
@@ -1153,7 +1162,7 @@ public class MessagingServer {
 					// connect at the same time--either the Channel Selector or when all the Displays reboot.
 
 					showClientList = new Thread("ShowClientList") {
-						long	WAIT_FOR_ALL_TO_CONNECT_TIME	= 4000L;
+						long WAIT_FOR_ALL_TO_CONNECT_TIME = 4000L;
 
 						public void run() {
 							try {
@@ -1206,6 +1215,7 @@ public class MessagingServer {
 			display(msg);
 			printStackTrace(e);
 		}
+		println(getClass(), "Exiting thread for listening to the messaging socket on port " + port + ".  THIS SHOULD ONLY HAPPEN when the program exits.");
 	}
 
 	protected void showAllClientsConnectedNow() {
@@ -1217,7 +1227,7 @@ public class MessagingServer {
 		display(m);
 	}
 
-	private ClientThread	lastOldestClientName	= null;
+	private ClientThread lastOldestClientName = null;
 
 	/**
 	 * Ping each client from time to time to assure that it is (still) alive
@@ -1246,8 +1256,8 @@ public class MessagingServer {
 								display("DANGER: The time between pings in 'startPinger()' is 1 msec, probably because there are "
 										+ listOfMessagingClients.size() + " clients.  This is new, untested territory!");
 							else
-								display("CAUTION: The time between pings in 'startPinger()' is rather short: "
-										+ sleepPeriodBtwPings + " msec");
+								display("CAUTION: The time between pings in 'startPinger()' is rather short: " + sleepPeriodBtwPings
+										+ " msec");
 						}
 
 						/*
