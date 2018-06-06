@@ -1,5 +1,6 @@
 package gov.fnal.ppd.dd;
 
+import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
@@ -475,7 +476,7 @@ public class DDSystemStatus extends JFrame {
 	public static void main(String[] args) {
 		credentialsSetup();
 
-		gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector();
+		getMessagingServerNameDisplay();
 		
 		int portNumber = MESSAGING_SERVER_PORT;
 		String host = getMessagingServerName();
