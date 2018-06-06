@@ -11,9 +11,9 @@ package gov.fnal.ppd.dd.chat;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
-import gov.fnal.ppd.dd.util.JTextAreaBottom;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -27,6 +27,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+import gov.fnal.ppd.dd.util.JTextAreaBottom;
 
 /**
  * <p>
@@ -109,18 +111,22 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 
 		// the event and chat room
 		Box center = Box.createVerticalBox();
-		center.add(new JLabel("-------------------- Message Log --------------------"));
+		center.add(new JLabel("-------------------- Diagnostic messages from the server --------------------"));
 		chat = new JTextAreaBottom(80, 80);
 		chat.setEditable(false);
-		appendRoom("---Message log---\n");
+		appendRoom("--- Message log started at " + new Date() + " ---\n");
 		center.add(new JScrollPane(chat));
 
-		center.add(new JLabel("-------------------- Event Log --------------------"));
+		center.add(Box.createRigidArea(new Dimension(20, 20)));
+		center.add(new JLabel("-------------------- Chat Messages ------------------------------------------"));
 		event = new JTextAreaBottom(80, 80);
 		event.setEditable(false);
-		appendEvent("---Event log---\n");
+		appendEvent("--- Event log started at " + new Date() + " ---\n");
 		center.add(new JScrollPane(event));
-		add(center);
+		add(center, BorderLayout.CENTER);
+
+		// The windows usually ends up on the far left edge of the screen - this rigid area makes it a bit easier to read
+		add(Box.createRigidArea(new Dimension(10, 10)), BorderLayout.WEST);
 
 		// need to be informed when the user click the close button on the frame
 		addWindowListener(this);
@@ -182,7 +188,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 	 */
 	public static void main(String[] args) {
 		prepareUpdateWatcher(true);
-		
+
 		credentialsSetup();
 
 		MessagingServerGUI ms = new MessagingServerGUI(MESSAGING_SERVER_PORT);
