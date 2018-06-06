@@ -74,7 +74,6 @@ public class ConnectionToFirefoxInstance {
 	private boolean								hasEmergencyCapabilities		= true;
 	private boolean								elementIDError					= false;
 
-
 	private static final Map<String, String>	colorNames						= GetColorsFromDatabase.get();
 
 	// private static final String BASE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border.php";
@@ -137,11 +136,7 @@ public class ConnectionToFirefoxInstance {
 
 		openConnection();
 
-		String moveTo = "window.moveTo(" + ((int) bounds.getX()) + "," + ((int) bounds.getY()) + ");";
-		send(moveTo);
-
-		String resizeTo = "window.resizeTo(" + ((int) bounds.getWidth()) + "," + ((int) bounds.getHeight()) + ");";
-		send(resizeTo);
+		setPositionAndSize();
 
 		// Perform a full reset of the browser every now and then.
 		TimerTask tt = new TimerTask() {
@@ -180,6 +175,14 @@ public class ConnectionToFirefoxInstance {
 		// };
 		// timer.schedule(g, 15000, 20000);
 		// }
+	}
+
+	private void setPositionAndSize() {
+		String moveTo = "window.moveTo(" + ((int) bounds.getX()) + "," + ((int) bounds.getY()) + ");";
+		send(moveTo);
+
+		String resizeTo = "window.resizeTo(" + ((int) bounds.getWidth()) + "," + ((int) bounds.getHeight()) + ");";
+		send(resizeTo);
 	}
 
 	/**
@@ -415,38 +418,7 @@ public class ConnectionToFirefoxInstance {
 
 		String s = "window.location.reload();";
 
-		send(s);
-
-		try {
-			if (!waitForServer())
-				System.err.println(getClass().getName() + ".forceRefresh()" + instance + " -- error from Display server!");
-		} catch (IOException e) {
-			e.printStackTrace();
-			setIsNotConnected();
-		}
-
-		// if (lastURL == null)
-		// return;
-		// // Send the last URL back to the display
-		//
-		// String frameName = "iframe";
-		// if (frameNumber > 0)
-		// frameName = "frame" + frameNumber;
-		//
-		// s = "document.getElementById('" + frameName + "').src = '" + lastURL + "';\n";
-		// if (frameNumber > 0)
-		// s += "document.getElementById('" + frameName + "').style.visibility='visible';\n";
-		//
-		// send(s);
-		//
-		// try {
-		// waitForServer();
-		// if (!connected)
-		// System.err.println(getClass().getName() + ".forceRefresh()" + instance + " -- error from Display server!");
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// setConnected(false;
-		// }
+		sendAndWait(s);
 	}
 
 	/**
@@ -472,15 +444,7 @@ public class ConnectionToFirefoxInstance {
 		else
 			s += "document.getElementById('colorName').innerHTML = '" + displayID + "#" + colorCode + "';\n";
 
-		send(s);
-
-		try {
-			if (!waitForServer())
-				System.err.println(getClass().getName() + ".showIdentity()" + instance + " -- error from Display server!");
-		} catch (IOException e) {
-			e.printStackTrace();
-			setIsNotConnected();
-		}
+		sendAndWait(s);
 
 		// TODO -- Add the PNG image of the QR code here. Generate it with this:
 		// try {
@@ -499,22 +463,12 @@ public class ConnectionToFirefoxInstance {
 		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'padding:0; margin: 0;');\n";
 		s += "document.getElementById('numeral').style.textShadow='0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 6px 6px 2px #"
 				+ colorCode + "';\n";
-		// s += "document.getElementById('iframe').style.width=1916;\n";
-		// s += "document.getElementById('iframe').style.height=1074;\n";
 		s += "document.getElementById('iframe').style.width=" + (bounds.width - 4) + ";\n";
 		s += "document.getElementById('iframe').style.height=" + (bounds.height - 6) + ";\n";
 
 		s += "document.getElementById('colorName').innerHTML = '';\n";
 
-		send(s);
-
-		try {
-			if (!waitForServer())
-				System.err.println(getClass().getName() + ".removeIdentity()" + instance + " -- error from Display server!");
-		} catch (IOException e) {
-			e.printStackTrace();
-			setIsNotConnected();
-		}
+		sendAndWait(s);
 	}
 
 	/**
@@ -523,15 +477,7 @@ public class ConnectionToFirefoxInstance {
 	 */
 	public void showFrame(final int frameNumber) {
 		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='visible';\n";
-		send(s);
-
-		try {
-			if (!waitForServer())
-				System.err.println(getClass().getName() + ".showFrame()" + instance + " -- error from Display server!");
-		} catch (IOException e) {
-			e.printStackTrace();
-			setIsNotConnected();
-		}
+		sendAndWait(s);
 	}
 
 	/**
@@ -540,6 +486,10 @@ public class ConnectionToFirefoxInstance {
 	 */
 	public void hideFrame(final int frameNumber) {
 		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
+		sendAndWait(s);
+	}
+
+	private void sendAndWait(String s) {
 		send(s);
 
 		try {
@@ -729,15 +679,7 @@ public class ConnectionToFirefoxInstance {
 	public void turnOffFrame(final int frameNumber) {
 		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
 
-		send(s);
-
-		try {
-			if (!waitForServer())
-				System.err.println(getClass().getName() + ".removeIdentity()" + instance + " -- error from Display server!");
-		} catch (IOException e) {
-			e.printStackTrace();
-			setIsNotConnected();
-		}
+		sendAndWait(s);
 	}
 
 	/**
@@ -754,7 +696,6 @@ public class ConnectionToFirefoxInstance {
 		return instance;
 	}
 
-	
 	/**
 	 * Force an emergency message onto the screen!
 	 * 
