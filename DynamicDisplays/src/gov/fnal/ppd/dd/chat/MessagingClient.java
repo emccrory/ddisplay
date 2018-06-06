@@ -47,27 +47,27 @@ import java.util.Scanner;
  */
 public class MessagingClient {
 
-	private static boolean		showAllIncomingMessages			= false;
+	private static boolean			showAllIncomingMessages			= false;
 	// for I/O
-	private ObjectInputStream	sInput;															// to read from the socket
-	private ObjectOutputStream	sOutput;															// to write on the socket
-	private Socket				socket							= null;
+	private ObjectInputStream		sInput;																// to read from the socket
+	protected ObjectOutputStream	sOutput;															// to write on the socket
+	private Socket					socket							= null;
 
 	// the server, the port and the username
-	private String				server, username;
+	private String					server, username;
 
-	private int					port;
-	private ListenFromServer	listenFromServer;
-	private Thread				restartThreadToServer;
+	private int						port;
+	private ListenFromServer		listenFromServer;
+	private Thread					restartThreadToServer;
 
-	protected long				lastMessageReceived				= 0l;
-	private boolean				keepMessagingClientGoing		= true;
+	protected long					lastMessageReceived				= 0l;
+	private boolean					keepMessagingClientGoing		= true;
 
-	private final String		serverName						= SPECIAL_SERVER_MESSAGE_USERNAME;
+	private final String			serverName						= SPECIAL_SERVER_MESSAGE_USERNAME;
 
-	private boolean				readOnly						= true;
-	private Thread				watchServer						= null;
-	private long				dontTryToConnectAgainUntilNow	= System.currentTimeMillis();
+	private boolean					readOnly						= true;
+	private Thread					watchServer						= null;
+	private long					dontTryToConnectAgainUntilNow	= System.currentTimeMillis();
 
 	/**
 	 * Constructor called by console mode server: the server address port: the port number username: the username
@@ -93,7 +93,7 @@ public class MessagingClient {
 	public boolean start() {
 		if (watchServer == null) {
 			watchServer = new Thread(username + "ping") {
-				long	lastPingSent	= 0l;
+				long lastPingSent = 0l;
 
 				/**
 				 * We need to be sure that the server is still there.
@@ -112,10 +112,10 @@ public class MessagingClient {
 								&& lastPingSent + ONE_MINUTE < System.currentTimeMillis()) {
 							// We haven't heard from the server in a long time! Maybe it is dead or sleeping.
 							sendMessage(MessageCarrier.getIAmAlive(username, serverName, new Date().toString()));
-							displayLogMessage("Sending unsolicited 'IAmAlive' message from " + username + " to the server ("
-									+ serverName + ") because last message was "
-									+ (System.currentTimeMillis() - lastMessageReceived) + " mSec ago ("
-									+ new Date(lastMessageReceived) + ")");
+							displayLogMessage(
+									"Sending unsolicited 'IAmAlive' message from " + username + " to the server (" + serverName
+											+ ") because last message was " + (System.currentTimeMillis() - lastMessageReceived)
+											+ " mSec ago (" + new Date(lastMessageReceived) + ")");
 							lastPingSent = System.currentTimeMillis();
 
 							// 10/19/2015 -- This is almost always an indication that our connection to the server is dead. Pinging
@@ -148,16 +148,16 @@ public class MessagingClient {
 		try {
 			socket = new Socket(server, port);
 		} catch (UnknownHostException ec) {
-			displayLogMessage("The messaging server just does not exist at this time!! '" + server + ":" + port
-					+ "'.  Exception is " + ec);
+			displayLogMessage(
+					"The messaging server just does not exist at this time!! '" + server + ":" + port + "'.  Exception is " + ec);
 			disconnect();
 			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_MINUTE;
 			displayLogMessage("We will wait TEN MINUTES (10 min.) before trying to connect to the server again for " + username);
 			return false;
 		} catch (Exception ec) {
 			// if it failed not much I can so
-			displayLogMessage("Error connecting " + username + " to messaging server, '" + server + ":" + port
-					+ "'.  Exception is " + ec);
+			displayLogMessage(
+					"Error connecting " + username + " to messaging server, '" + server + ":" + port + "'.  Exception is " + ec);
 			disconnect();
 			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_SECOND;
 			return false;
@@ -318,7 +318,7 @@ public class MessagingClient {
 
 		// Wait until the server returns
 		restartThreadToServer = new Thread(username + "_restart_connection") {
-			long	wait	= dontTryToConnectAgainUntilNow - System.currentTimeMillis();
+			long wait = dontTryToConnectAgainUntilNow - System.currentTimeMillis();
 
 			public void run() {
 				// An observation (2/19/2016): It takes about two cycles of this while loop to reconnect to the server
@@ -330,8 +330,8 @@ public class MessagingClient {
 					if (wait < 0)
 						wait = WAIT_FOR_SERVER_TIME + (long) (50.0 * Math.random());
 
-					displayLogMessage(username + ": Will wait " + wait
-							+ " milliseconds before trying to connect to the server again.");
+					displayLogMessage(
+							username + ": Will wait " + wait + " milliseconds before trying to connect to the server again.");
 					catchSleep(wait);
 					wait = (long) (WAIT_FOR_SERVER_TIME * (1.0 + Math.log(counter)) + 10.0 * Math.random());
 					if (!MessagingClient.this.start()) {
@@ -507,7 +507,7 @@ public class MessagingClient {
 	 */
 	class ListenFromServer extends Thread {
 
-		private long	nextDisplayTime	= System.currentTimeMillis();
+		private long nextDisplayTime = System.currentTimeMillis();
 
 		public void run() {
 			boolean showMessage1 = true, showMessage2 = true, showMessage3 = true;
@@ -636,7 +636,7 @@ public class MessagingClient {
 			displayLogMessage(ListenFromServer.class.getSimpleName() + ": Exiting listening thread.");
 		}
 
-		long	nextDump	= 0L;
+		long nextDump = 0L;
 
 		/**
 		 * Dump this to the diagnostics stream every 10 minutes or so, for about 30 seconds.
