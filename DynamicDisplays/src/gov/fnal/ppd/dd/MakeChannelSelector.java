@@ -89,7 +89,7 @@ public class MakeChannelSelector {
 
 		ChannelSelector channelSelector = new ChannelSelector();
 		channelSelector.start();
-		channelSelector.createRefreshActions();
+		// channelSelector.createRefreshActions();
 
 		final JFrame f = new JFrame(myClassification + " " + getLocationName() + " (" + getLocationCode() + ")");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
