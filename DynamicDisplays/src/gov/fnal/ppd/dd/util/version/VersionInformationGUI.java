@@ -72,6 +72,7 @@ public class VersionInformationGUI extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("unchecked")
 				JComboBox<FLAVOR> menu = (JComboBox<FLAVOR>) e.getSource();
 				newVI.setDisposition((FLAVOR) menu.getSelectedItem());
 			}

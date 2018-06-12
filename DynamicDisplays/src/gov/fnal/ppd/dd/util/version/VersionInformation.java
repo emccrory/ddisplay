@@ -217,9 +217,8 @@ public class VersionInformation implements Serializable {
 
 			if (read instanceof VersionInformation) {
 				return (VersionInformation) read;
-			} else {
-				System.err.println("unexpectedly got an object of type " + read.getClass().getCanonicalName());
 			}
+			System.err.println("unexpectedly got an object of type " + read.getClass().getCanonicalName());
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -242,9 +241,8 @@ public class VersionInformation implements Serializable {
 
 			if (read instanceof VersionInformation) {
 				return (VersionInformation) read;
-			} else {
-				System.err.println("unexpectedly got an object of type " + read.getClass().getCanonicalName());
 			}
+			System.err.println("unexpectedly got an object of type " + read.getClass().getCanonicalName());
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

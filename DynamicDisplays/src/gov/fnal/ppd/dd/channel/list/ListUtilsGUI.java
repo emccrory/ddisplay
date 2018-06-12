@@ -21,7 +21,7 @@ public class ListUtilsGUI {
 		if (val < 60L) {
 			t = (val) + " seconds";
 		} else if (val < 3600) {
-			double min = ((double) val) / 60.0;
+			double min = (val) / 60.0;
 			t = format.format(min) + " minunte" + (min != 1 ? "s" : "");
 		} else {
 			double hours = ((double) val) / (60 * 60);

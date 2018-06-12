@@ -202,7 +202,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 		// if my Server exist
 		if (server != null) {
 			try {
-				server.stop(); // ask the server to close the conection
+				server.stop(); // ask the server to close the connection
 			} catch (Exception eClose) {
 				eClose.printStackTrace();
 			}

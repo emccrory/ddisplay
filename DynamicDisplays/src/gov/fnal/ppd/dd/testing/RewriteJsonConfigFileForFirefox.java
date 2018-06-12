@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import org.json.JSONObject;
 
+@SuppressWarnings("javadoc")
 public class RewriteJsonConfigFileForFirefox {
 	private static boolean	debug	= Boolean.getBoolean("JSON.config.debug");
 

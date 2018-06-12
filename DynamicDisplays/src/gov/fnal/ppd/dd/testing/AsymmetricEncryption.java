@@ -66,54 +66,45 @@ public class AsymmetricEncryption {
 	}
 
 	private static void saveToFile(final String fileName, final BigInteger mod, final BigInteger exp) throws IOException {
-		ObjectOutputStream oout = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)));
-		try {
+		try (ObjectOutputStream oout = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)))) {
 			oout.writeObject(mod);
 			oout.writeObject(exp);
 		} catch (Exception e) {
 			throw new IOException("Unexpected error", e);
-		} finally {
-			oout.close();
 		}
 	}
 
-	private PublicKey readKeyFromFile(final String keyFileName) throws IOException {
+	private PublicKey readKeyFromFile(final String keyFileName) {
 		// InputStream in = ServerConnection.class.getResourceAsStream(keyFileName);
-		InputStream in = getClass().getClassLoader().getResourceAsStream(keyFileName);
-		ObjectInputStream oin = new ObjectInputStream(new BufferedInputStream(in));
-		try {
-			BigInteger m = (BigInteger) oin.readObject();
-			BigInteger e = (BigInteger) oin.readObject();
-			RSAPublicKeySpec keySpec = new RSAPublicKeySpec(m, e);
-			KeyFactory fact = KeyFactory.getInstance("RSA");
-			PublicKey pubKey = fact.generatePublic(keySpec);
-			return pubKey;
+		try (InputStream in = getClass().getClassLoader().getResourceAsStream(keyFileName)) {
+			try (ObjectInputStream oin = new ObjectInputStream(new BufferedInputStream(in))) {
+				BigInteger m = (BigInteger) oin.readObject();
+				BigInteger e = (BigInteger) oin.readObject();
+				RSAPublicKeySpec keySpec = new RSAPublicKeySpec(m, e);
+				KeyFactory fact = KeyFactory.getInstance("RSA");
+				PublicKey pubKey = fact.generatePublic(keySpec);
+				return pubKey;
+			}
 		} catch (Exception e) {
 			throw new RuntimeException("Spurious serialisation error", e);
-		} finally {
-			oin.close();
 		}
 	}
 
 	private void getPublicKey() {
-		try {
-			publicKey = readKeyFromFile("/public.key");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		publicKey = readKeyFromFile("/public.key");
+
 		try {
 			cipher = Cipher.getInstance("RSA");
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 
 	private void getPrivateKey() {
-		try {
-			privateKey = readKeyFromFile("/private.key");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		privateKey = readKeyFromFile("/private.key");
+
 		try {
 			cipher = Cipher.getInstance("RSA");
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {

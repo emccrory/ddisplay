@@ -529,6 +529,10 @@ public class MessagingServer {
 					}
 					ctl.add(this);
 					break;
+					
+				case LOGIN:
+					// Not relevant here, but included for completeness.
+					break;
 				}
 
 				// TODO Add a message type of "SubscribeTo" and work that into the code.
@@ -1192,8 +1196,8 @@ public class MessagingServer {
 			// I was asked to stop
 			display("Closing the server port");
 			try {
-				if (serverSocket != null)
-					serverSocket.close();
+				// if (serverSocket != null) Compiler says it cannot be null here
+				serverSocket.close();
 				for (ClientThread tc : listOfMessagingClients) {
 					try {
 						if (tc != null) {
@@ -1368,6 +1372,7 @@ public class MessagingServer {
 	/*
 	 * For the GUI to stop the server
 	 */
+	@SuppressWarnings({ "unused", "resource" })
 	protected void stop() {
 		keepGoing = false;
 		// connect to myself as Client to exit statement

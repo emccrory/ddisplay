@@ -22,6 +22,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
+ * Stolen from the web.
+ * 
+ * This may, someday, provide the basis for a scheduling system in the Dynamic Display system. But as it stands now, it is just
+ * another visual calendar.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *
  */
@@ -29,17 +34,20 @@ public class CalendarProgram {
 	static JLabel				lblMonth, lblYear;
 	static JButton				btnPrev, btnNext;
 	static JTable				tblCalendar;
+	@SuppressWarnings("rawtypes")
 	static JComboBox			cmbYear;
 	static JFrame				frmMain;
 	static Container			pane;
-	static DefaultTableModel	mtblCalendar;		// Table model
-	static JScrollPane			stblCalendar;		// The scrollpane
+	static DefaultTableModel	mtblCalendar;						// Table model
+	static JScrollPane			stblCalendar;						// The scrollpane
 	static JPanel				pnlCalendar;
-	static int					realYear, realMonth, realDay, currentYear, currentMonth;
+	static int					realYear, realMonth;
+	static int					realDay, currentYear, currentMonth;
 
 	/**
 	 * @param args
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void main(final String args[]) {
 		// Look and feel
 		try {
@@ -51,19 +59,21 @@ public class CalendarProgram {
 		}
 
 		// Prepare frame
-		frmMain = new JFrame("Gestionnaire de clients"); // Create frame
-		frmMain.setSize(330, 375); // Set size to 400x400 pixels
+		frmMain = new JFrame("Calendar"); // Create frame
+		frmMain.setSize(330, 380);
 		pane = frmMain.getContentPane(); // Get content pane
 		pane.setLayout(null); // Apply null layout
 		frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close when X is clicked
 
 		// Create controls
 		lblMonth = new JLabel("January");
-		lblYear = new JLabel("Change year:");
+		lblYear = new JLabel("Jump to ...");
 		cmbYear = new JComboBox();
-		btnPrev = new JButton("&lt;&lt;");
-		btnNext = new JButton("&gt;&gt;");
+		btnPrev = new JButton("< <");
+		btnNext = new JButton("> >");
 		mtblCalendar = new DefaultTableModel() {
+			private static final long serialVersionUID = -5373587509402398227L;
+
 			public boolean isCellEditable(int rowIndex, int mColIndex) {
 				return false;
 			}
@@ -71,9 +81,6 @@ public class CalendarProgram {
 		tblCalendar = new JTable(mtblCalendar);
 		stblCalendar = new JScrollPane(tblCalendar);
 		pnlCalendar = new JPanel(null);
-
-		// Set border
-		pnlCalendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
 
 		// Register action listeners
 		btnPrev.addActionListener(new btnPrev_Action());
@@ -89,17 +96,19 @@ public class CalendarProgram {
 		pnlCalendar.add(btnNext);
 		pnlCalendar.add(stblCalendar);
 
-		// Set bounds
-		pnlCalendar.setBounds(0, 0, 320, 335);
+		// Set bounds [This seems to be placing the components exactly where they need to be]
+		pnlCalendar.setBounds(0, 0, 320, 350);
 		lblMonth.setBounds(160 - lblMonth.getPreferredSize().width / 2, 25, 100, 25);
 		lblYear.setBounds(10, 305, 80, 20);
 		cmbYear.setBounds(230, 305, 80, 20);
 		btnPrev.setBounds(10, 25, 50, 25);
 		btnNext.setBounds(260, 25, 50, 25);
-		stblCalendar.setBounds(10, 50, 300, 250);
+		stblCalendar.setBounds(10, 50, 300, 255);
+
+		// Since we have everything exactly where we want it, don't let the user resize it.
+		frmMain.setResizable(false);
 
 		// Make frame visible
-		frmMain.setResizable(false);
 		frmMain.setVisible(true);
 
 		// Get real month/year
@@ -109,6 +118,9 @@ public class CalendarProgram {
 		realYear = cal.get(GregorianCalendar.YEAR); // Get year
 		currentMonth = realMonth; // Match month and year
 		currentYear = realYear;
+
+		// Set border
+		pnlCalendar.setBorder(BorderFactory.createTitledBorder("" + currentYear));
 
 		// Add headers
 		String[] headers = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" }; // All headers
@@ -141,7 +153,11 @@ public class CalendarProgram {
 		refreshCalendar(realMonth, realYear); // Refresh calendar
 	}
 
-	public static void refreshCalendar(int month, int year) {
+	/**
+	 * @param month
+	 * @param year
+	 */
+	public static void refreshCalendar(final int month, final int year) {
 		// Variables
 		String[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
 				"November", "December" };
@@ -156,9 +172,10 @@ public class CalendarProgram {
 		if (month == 11 && year >= realYear + 100) {
 			btnNext.setEnabled(false);
 		} // Too late
-		lblMonth.setText(months[month]); // Refresh the month label (at the top)
+		lblMonth.setText(months[month] + " " + year); // Refresh the month label (at the top)
 		lblMonth.setBounds(160 - lblMonth.getPreferredSize().width / 2, 25, 180, 25); // Re-align label with calendar
 		cmbYear.setSelectedItem(String.valueOf(year)); // Select the correct year in the combo box
+		pnlCalendar.setBorder(BorderFactory.createTitledBorder("" + year));
 
 		// Clear table
 		for (int i = 0; i < 6; i++) {
@@ -184,6 +201,8 @@ public class CalendarProgram {
 	}
 
 	static class tblCalendarRenderer extends DefaultTableCellRenderer {
+		private static final long serialVersionUID = 6536367067594571963L;
+
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean selected, boolean focused, int row,
 				int column) {
 			super.getTableCellRendererComponent(table, value, selected, focused, row, column);

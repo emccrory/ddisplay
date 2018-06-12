@@ -319,7 +319,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 				else
 					println(getClass(), ": No on-screen keyboard available. (Best guess: we're running Linux)");
 			}
-		String s = (String) JOptionPane.showInputDialog(theGUI, box, "Save Display Configuration", JOptionPane.QUESTION_MESSAGE);
+		String s = JOptionPane.showInputDialog(theGUI, box, "Save Display Configuration", JOptionPane.QUESTION_MESSAGE);
 		if (onscreenKeyboardProcess != null)
 			onscreenKeyboardProcess.destroy();
 
@@ -420,7 +420,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	}
 
 	private static Display[] getSortedDisplays(Set<Display> keySet) {
-		Display[] sorted = (Display[]) keySet.toArray(new Display[keySet.size()]);
+		Display[] sorted = keySet.toArray(new Display[keySet.size()]);
 		Arrays.sort(sorted, new Comparator<Display>() {
 
 			@Override

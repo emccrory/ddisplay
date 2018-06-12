@@ -103,6 +103,7 @@ public class MessagingClient {
 				 * 
 				 * This thread does that
 				 */
+				@Override
 				public void run() {
 					long sleep = (long) (5 * ONE_MINUTE + 1000 * Math.random()); // First sleep is 5 minutes, plus a little bit
 					keepMessagingClientGoing = true;
@@ -281,6 +282,7 @@ public class MessagingClient {
 		}
 		try {
 			new Thread("ReconnectToServer") {
+				@Override
 				public void run() {
 					retryConnection();
 				}
@@ -320,6 +322,7 @@ public class MessagingClient {
 		restartThreadToServer = new Thread(username + "_restart_connection") {
 			long wait = dontTryToConnectAgainUntilNow - System.currentTimeMillis();
 
+			@Override
 			public void run() {
 				// An observation (2/19/2016): It takes about two cycles of this while loop to reconnect to the server
 				// synchronized (syncReconnects) { I think this sync is not necessary (there can only be one instance of this
@@ -439,31 +442,32 @@ public class MessagingClient {
 			return;
 
 		// wait for messages from user
-		Scanner scan = new Scanner(System.in);
-		// loop forever for message from the user
-		while (true) {
-			System.out.print("> ");
-			// read message from user
-			String msg = scan.nextLine();
-			// logout if message is LOGOUT
-			if (msg.equalsIgnoreCase("LOGOUT")) {
-				client.sendMessage(MessageCarrier.getLogout());
-				// Note: In this fake example, logging off will cause the system to try to log you back in in a moment.
-				break; // break to do the disconnect
+		try (Scanner scan = new Scanner(System.in)) {
+			// loop forever for message from the user
+			while (true) {
+				System.out.print("> ");
+				// read message from user
+				String msg = scan.nextLine();
+				// logout if message is LOGOUT
+				if (msg.equalsIgnoreCase("LOGOUT")) {
+					client.sendMessage(MessageCarrier.getLogout());
+					// Note: In this fake example, logging off will cause the system to try to log you back in in a moment.
+					break; // break to do the disconnect
+				}
+				// message WhoIsIn
+				else if (msg.equalsIgnoreCase("WHOISIN")) {
+					client.sendMessage(MessageCarrier.getWhoIsIn(userName));
+				} else { // default to ordinary message
+					client.sendMessage(MessageCarrier.getMessage(userName, null, msg));
+				}
 			}
-			// message WhoIsIn
-			else if (msg.equalsIgnoreCase("WHOISIN")) {
-				client.sendMessage(MessageCarrier.getWhoIsIn(userName));
-			} else { // default to ordinary message
-				client.sendMessage(MessageCarrier.getMessage(userName, null, msg));
-			}
+			// done: disconnect
+			client.disconnect();
 		}
-		// done: disconnect
-		client.disconnect();
 	}
 
 	/**
-	 * @return Is this client a rad-only client?
+	 * @return Is this client a read-only client?
 	 */
 	public boolean isReadOnly() {
 		return readOnly;
@@ -509,6 +513,7 @@ public class MessagingClient {
 
 		private long nextDisplayTime = System.currentTimeMillis();
 
+		@Override
 		public void run() {
 			boolean showMessage1 = true, showMessage2 = true, showMessage3 = true;
 			int aliveCount = 0;
@@ -606,6 +611,11 @@ public class MessagingClient {
 
 						case EMERGENCY:
 							// Emergency? What do we do with this information?!!
+							break;
+
+						case SUBSCRIBE:
+							// The server should not be asking to subscribe, but we put this here to be complete.
+						default:
 							break;
 						}
 						receiveIncomingMessage(msg);

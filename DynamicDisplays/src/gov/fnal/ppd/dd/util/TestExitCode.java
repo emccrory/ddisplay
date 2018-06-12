@@ -1,5 +1,6 @@
 package gov.fnal.ppd.dd.util;
 
+@SuppressWarnings("javadoc")
 public class TestExitCode {
 	public static void main(String[] args) {
 		int exitCode = 0;

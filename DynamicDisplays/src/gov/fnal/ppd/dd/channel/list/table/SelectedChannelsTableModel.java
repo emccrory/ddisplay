@@ -44,7 +44,7 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 	public Object getValueAt(int row, int col) {
 		if (row < 0)
 			return null;
-		ChannelInList cac = (ChannelInList) allChannels.get(row);
+		ChannelInList cac = allChannels.get(row);
 		switch (col) {
 
 		case 0:
@@ -65,7 +65,7 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 	public void setValueAt(Object value, int row, int col) {
 		try {
 			if (col == 0) {
-				ChannelInList chan = (ChannelInList) allChannels.get(row);
+				ChannelInList chan = allChannels.get(row);
 				chan.setSequenceNumber(((Long) value).intValue());
 			} else if (col == 3) {
 				Channel chan = allChannels.get(row); // It has to be re-mapped already

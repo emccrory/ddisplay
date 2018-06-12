@@ -399,11 +399,10 @@ public class GlobalVariables {
 		if (lc == -1) {
 			locationCodes.clear();
 			return locationCodes.add(-1);
-		} else {
-			if (locationCodes.contains(lc) || locationCodes.contains(-1))
-				return false;
-			return locationCodes.add(lc);
 		}
+		if (locationCodes.contains(lc) || locationCodes.contains(-1))
+			return false;
+		return locationCodes.add(lc);
 	}
 
 	/**
@@ -618,37 +617,38 @@ public class GlobalVariables {
 		try {
 			int lineNumber = 0;
 			String dbServer = "";
-			Scanner scanner = new Scanner(file);
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				String newline = ignoreComments(line);
-				if (newline != null) {
-					switch (lineNumber) {
-					case 0:
-						// MySQL Server name
-						dbServer = newline;
-						break;
-					case 1:
-						// MySQL server port
-						dbServer += ":" + newline;
-						DATABASE_SERVER_NAME = dbServer;
-						break;
-					case 2:
-						// Database name
-						DATABASE_NAME = newline;
-						break;
-					case 3:
-						// Database user
-						DATABASE_USER_NAME = newline;
-						break;
-					case 4:
-						// database password
-						DATABASE_PASSWORD = newline;
-						break;
+			try (Scanner scanner = new Scanner(file)) {
+				while (scanner.hasNextLine()) {
+					String line = scanner.nextLine();
+					String newline = ignoreComments(line);
+					if (newline != null) {
+						switch (lineNumber) {
+						case 0:
+							// MySQL Server name
+							dbServer = newline;
+							break;
+						case 1:
+							// MySQL server port
+							dbServer += ":" + newline;
+							DATABASE_SERVER_NAME = dbServer;
+							break;
+						case 2:
+							// Database name
+							DATABASE_NAME = newline;
+							break;
+						case 3:
+							// Database user
+							DATABASE_USER_NAME = newline;
+							break;
+						case 4:
+							// database password
+							DATABASE_PASSWORD = newline;
+							break;
+						}
+						lineNumber++;
 					}
-					lineNumber++;
+					// System.out.println(newline);
 				}
-				// System.out.println(newline);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

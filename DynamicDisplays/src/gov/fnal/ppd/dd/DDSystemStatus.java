@@ -473,6 +473,7 @@ public class DDSystemStatus extends JFrame {
 	 * @param args
 	 *            Command line arguments (none expected()
 	 */
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		credentialsSetup();
 

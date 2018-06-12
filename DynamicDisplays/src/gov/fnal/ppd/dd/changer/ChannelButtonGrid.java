@@ -76,9 +76,10 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 		int wid = (SHOW_IN_WINDOW ? 1 : 2);
 		p.setBorder(BorderFactory.createLineBorder(display.getPreferredHighlightColor(), wid));
 		p.add(comp, BorderLayout.CENTER);
-		return super.add((Component) p);
+		return super.add(p);
 	}
 
+	@SuppressWarnings("unused")
 	public void actionPerformed(ActionEvent e) {
 		// System.err.println("Event " + e.getClass().getSimpleName() + " (" + e.getActionCommand() + ") received ");
 

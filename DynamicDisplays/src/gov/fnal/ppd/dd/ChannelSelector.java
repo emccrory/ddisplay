@@ -153,24 +153,24 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	private ActionListener					changeDefaultsListener		= new ActionListener() {
 																			boolean	visible	= false, firstTime = true;
-																			JFrame	f		= new JFrame(
+																			JFrame	f1		= new JFrame(
 																									"SaveRestoreDefaultChannels");
 
 																			@Override
 																			public void actionPerformed(ActionEvent e) {
 																				if (firstTime) {
 																					firstTime = false;
-																					f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-																					f.setContentPane(SaveRestoreDefaultChannels
+																					f1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+																					f1.setContentPane(SaveRestoreDefaultChannels
 																							.getGUI());
 																					int height = 400 + 30 * (displayList.size() + 1);
 																					if (height > 1000)
 																						height = 1000;
 																					println(ChannelSelector.class,
 																							" -- Height of popup is " + height);
-																					f.setSize(900, height);
-																					f.setAlwaysOnTop(true);
-																					f.addWindowListener(new WindowListener() {
+																					f1.setSize(900, height);
+																					f1.setAlwaysOnTop(true);
+																					f1.addWindowListener(new WindowListener() {
 
 																						@Override
 																						public void windowOpened(WindowEvent e) {
@@ -197,7 +197,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 																						@Override
 																						public void windowClosed(WindowEvent e) {
 																							visible = false;
-																							f.setVisible(false);
+																							f1.setVisible(false);
 																						}
 
 																						@Override
@@ -206,10 +206,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 																					});
 																				}
 																				visible = !visible;
-																				f.setVisible(visible);
+																				f1.setVisible(visible);
 																				if (visible) {
-																					f.toFront();
-																					f.repaint();
+																					f1.toFront();
+																					f1.repaint();
 																				}
 																			}
 																		};
@@ -569,6 +569,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			public void actionPerformed(ActionEvent e) {
 
 				new Thread("RefreshURLPopupWait2") {
+					@SuppressWarnings("unused")
 					public void run() {
 						refreshActionUnderway = 1;
 						while (refreshActionUnderway > 0)
@@ -657,6 +658,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			titleBox.add(idAll);
 			idAll.addActionListener(new ActionListener() {
 
+				@SuppressWarnings("unused")
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), "Displays Identified",

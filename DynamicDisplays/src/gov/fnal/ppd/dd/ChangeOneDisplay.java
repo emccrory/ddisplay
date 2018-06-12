@@ -107,10 +107,12 @@ public class ChangeOneDisplay {
 		Connection connection = null;
 		try {
 			connection = ConnectionToDatabase.getDbConnection();
+			if ( connection == null ) return null;
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
 			System.exit(-1);
+			return null; // This is here for the compiler
 		}
 
 		synchronized (connection) {

@@ -2,28 +2,23 @@ package gov.fnal.ppd.dd.xml;
 
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
-import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.channel.ChannelImpl;
-import gov.fnal.ppd.dd.channel.ChannelPlayList;
-import gov.fnal.ppd.dd.chat.MessageType;
-import gov.fnal.ppd.dd.emergency.Severity;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.ObjectSigning;
-import gov.fnal.ppd.dd.util.attic.xml.Ping;
-import gov.fnal.ppd.dd.util.attic.xml.Pong;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.xml.bind.JAXBException;
+
+import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
+import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.emergency.Severity;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.attic.xml.Ping;
+import gov.fnal.ppd.dd.util.attic.xml.Pong;
 
 /**
  * <p>

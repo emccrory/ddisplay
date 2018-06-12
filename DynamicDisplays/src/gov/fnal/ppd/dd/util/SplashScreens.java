@@ -50,7 +50,7 @@ public class SplashScreens extends Thread {
 		float headline = 70, subHead = 30;
 		int gap = 25;
 
-		int splashWithCredits0 = (int) (((double) splashPanel.length) * Math.random());
+		int splashWithCredits0 = (int) ((splashPanel.length) * Math.random());
 		int splashWithCredits1 = (splashWithCredits0 + splashPanel.length / 2) % splashPanel.length;
 		System.out.println("Splash screen with credits is " + splashWithCredits0 + " & " + splashWithCredits1);
 		for (int index = 0; index < splashPanel.length; index++) {
@@ -73,11 +73,11 @@ public class SplashScreens extends Thread {
 						double scrAspect = ((double) w) / ((double) h); // Say 3:2 or 1.5
 						if (imgAspect > scrAspect) {
 							// image is wider than the screen: reduce the height of the screen (and it will fill the width)
-							h = (int) (((double) w) / imgAspect);
+							h = (int) (w / imgAspect);
 							y = (getHeight() - h) / 2;
 						} else {
 							// screen is wider than the image: Reduce the width of the screen (and it will fill the height)
-							w = (int) (((double) h) * imgAspect);
+							w = (int) (h * imgAspect);
 							x = (getWidth() - w) / 2;
 						}
 						// System.out.println(w + "," + h + "," + getWidth() + "," + getHeight() + "," + x + "," + y + "," +

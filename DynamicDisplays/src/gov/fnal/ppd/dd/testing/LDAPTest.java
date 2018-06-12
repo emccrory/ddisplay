@@ -9,8 +9,6 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
-import javax.naming.ldap.InitialLdapContext;
-import javax.naming.ldap.LdapContext;
 
 /**
  * Example code for retrieving a Users Primary Group from Microsoft Active Directory via its LDAP API
@@ -22,6 +20,7 @@ public class LDAPTest {
 	/**
 	 * @param args
 	 *            the command line arguments
+	 * @throws NamingException 
 	 */
 	public static void main(String[] args) throws NamingException {
 
@@ -52,12 +51,8 @@ public class LDAPTest {
 
 		Hashtable<String, Object> env = new Hashtable<String, Object>();
 		env.put(Context.SECURITY_AUTHENTICATION, "simple");
-		if (ldapUsername != null) {
-			env.put(Context.SECURITY_PRINCIPAL, ldapUsername);
-		}
-		if (ldapPassword != null) {
-			env.put(Context.SECURITY_CREDENTIALS, ldapPassword);
-		}
+		env.put(Context.SECURITY_PRINCIPAL, ldapUsername);
+		env.put(Context.SECURITY_CREDENTIALS, ldapPassword);
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 		env.put(Context.PROVIDER_URL, ldapAdServer);
 
@@ -89,7 +84,14 @@ public class LDAPTest {
 
 	}
 
-	public SearchResult findAccountByAccountName(DirContext ctx, String ldapSearchBase, String accountName) throws NamingException {
+	/**
+	 * @param ctx
+	 * @param ldapSearchBase
+	 * @param accountName
+	 * @return the Search Result
+	 * @throws NamingException
+	 */
+	public SearchResult findAccountByAccountName(final DirContext ctx, final String ldapSearchBase, final String accountName) throws NamingException {
 
 		String searchFilter = "(&(objectClass=user)(sAMAccountName=" + accountName + "))";
 
@@ -100,7 +102,7 @@ public class LDAPTest {
 
 		SearchResult searchResult = null;
 		if (results.hasMoreElements()) {
-			searchResult = (SearchResult) results.nextElement();
+			searchResult = results.nextElement();
 
 			// make sure there is not another item available, there should be only 1 match
 			if (results.hasMoreElements()) {
@@ -112,6 +114,13 @@ public class LDAPTest {
 		return searchResult;
 	}
 
+	/**
+	 * @param ctx
+	 * @param ldapSearchBase
+	 * @param sid
+	 * @return the string
+	 * @throws NamingException
+	 */
 	public String findGroupBySID(DirContext ctx, String ldapSearchBase, String sid) throws NamingException {
 
 		String searchFilter = "(&(objectClass=group)(objectSid=" + sid + "))";
@@ -122,20 +131,24 @@ public class LDAPTest {
 		NamingEnumeration<SearchResult> results = ctx.search(ldapSearchBase, searchFilter, searchControls);
 
 		if (results.hasMoreElements()) {
-			SearchResult searchResult = (SearchResult) results.nextElement();
+			SearchResult searchResult = results.nextElement();
 
 			// make sure there is not another item available, there should be only 1 match
 			if (results.hasMoreElements()) {
 				System.err.println("Matched multiple groups for the group with SID: " + sid);
 				return null;
-			} else {
-				return (String) searchResult.getAttributes().get("sAMAccountName").get();
 			}
+			return (String) searchResult.getAttributes().get("sAMAccountName").get();
 		}
 		return null;
 	}
 
-	public String getPrimaryGroupSID(SearchResult srLdapUser) throws NamingException {
+	/**
+	 * @param srLdapUser
+	 * @return the string
+	 * @throws NamingException
+	 */
+	public String getPrimaryGroupSID(final SearchResult srLdapUser) throws NamingException {
 		byte[] objectSID = (byte[]) srLdapUser.getAttributes().get("objectSid").get();
 		String strPrimaryGroupID = (String) srLdapUser.getAttributes().get("primaryGroupID").get();
 
@@ -151,6 +164,8 @@ public class LDAPTest {
 	 * The String value is: S-Revision-Authority-SubAuthority[n]...
 	 * 
 	 * Based on code from here - http://forums.oracle.com/forums/thread.jspa?threadID=1155740&tstart=0
+	 * @param sid 
+	 * @return the string
 	 */
 	public static String decodeSID(byte[] sid) {
 

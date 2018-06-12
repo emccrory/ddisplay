@@ -92,10 +92,9 @@ public class GenerateNewKeyPair {
 				System.err.println("Cannot access the Channel/Display database. DB Host=jdbc:mysql://" + serverNode + "/"
 						+ DATABASE_NAME + ", user=" + user + ", password=" + Arrays.toString(passwd));
 				throw new DatabaseNotVisibleException(ex.getMessage());
-			} else {
-				System.err.println("Aborting");
-				System.exit(1);
 			}
+			System.err.println("Aborting");
+			System.exit(1);
 		}
 		return null;
 	}
@@ -182,16 +181,15 @@ public class GenerateNewKeyPair {
 		// Store Public Key.
 		X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKey.getEncoded());
 
-		FileOutputStream fos = new FileOutputStream(filenamePublic);
-		fos.write(x509EncodedKeySpec.getEncoded());
-		fos.close();
-
+		try (FileOutputStream fos = new FileOutputStream(filenamePublic)) {
+			fos.write(x509EncodedKeySpec.getEncoded());
+		}
 		// Store Private Key.
 		PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(privateKey.getEncoded());
 
-		fos = new FileOutputStream(filenamePrivate);
-		fos.write(pkcs8EncodedKeySpec.getEncoded());
-		fos.close();
+		try (FileOutputStream fos = new FileOutputStream(filenamePrivate)) {
+			fos.write(pkcs8EncodedKeySpec.getEncoded());
+		}
 	}
 
 	protected final synchronized void writePublicKeyToDatabase(String clientName, String user, char[] password) {

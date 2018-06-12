@@ -61,6 +61,7 @@ public class GetMessagingServer {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
 			System.exit(-1);
+			return null;
 		}
 
 		synchronized (connection) {

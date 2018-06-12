@@ -140,7 +140,6 @@ public class DisplayUtilDatabase {
 
 	/**
 	 * @param locationCode
-	 * @param theList
 	 * @return The displays at this location
 	 */
 	public static List<Display> getDisplays(final int locationCode) {
@@ -200,8 +199,7 @@ public class DisplayUtilDatabase {
 	/**
 	 * @param displayDBNumber
 	 * @param locationCode
-	 * @param theList
-	 * @return
+	 * @return the list
 	 */
 	public static List<Display> getADisplay(final int displayDBNumber, final int locationCode) {
 		int count = 0;

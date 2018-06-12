@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.testing;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -19,6 +20,10 @@ public class BreakMessagingServer {
 	protected ObjectOutputStream	sOutput;	// to write on the socket
 	private Socket					socket;
 
+	/**
+	 * @param server
+	 * @param port
+	 */
 	public BreakMessagingServer(String server, int port) {
 		try {
 			socket = new Socket(server, port);
@@ -29,6 +34,9 @@ public class BreakMessagingServer {
 		}
 	}
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		String server = "mccrory.fnal.gov";
 		int port = 49999;
@@ -41,12 +49,18 @@ public class BreakMessagingServer {
 	}
 
 	private void close() {
-		// TODO Auto-generated method stub
-
+		try {
+			socket.close();
+			sOutput.close();
+			sInput.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
+	@SuppressWarnings("unused")
 	private void sendBadMessage() {
-
 		try {
 			sOutput.writeChars("Hey buddy.  Take this message");
 			// The following line is controversial: Is it a bug or is it a feature? Sun claims it is a feature -- it allows the

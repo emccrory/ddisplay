@@ -10,26 +10,18 @@ import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
+
+import java.awt.Color;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
-import gov.fnal.ppd.dd.display.client.BrowserLauncher.BrowserInstance;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
-import gov.fnal.ppd.dd.util.Command;
-import gov.fnal.ppd.dd.util.ExitHandler;
-
-import java.awt.Color;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * <p>
@@ -39,11 +31,11 @@ import java.util.Date;
  * <p>
  * Key relationships for this class:
  * <ul>
- * <li>DisplayControllerMessagingAbstract (base class) -- Handles all the startup and all the DisplayImpl methods. Only method
+ * <li>DisplayControllerMessagingAbstract - the base class -- Handles all the startup and all the DisplayImpl methods. Only method
  * localSetContent() and endAllConnections() are implemented here.</li>
  * 
- * <li>ConnectionToFirefoxInstance firefox -- Establishes and maintains the back-door connection to our FireFox instance so we can
- * tell it what web page to show</li>
+ * <li>ConnectionToBrowserInstance browserInstance (base class) -- Establishes and maintains the back-door connection to our FireFox
+ * instance so we can tell it what web page to show</li>
  * 
  * <li>BrowserLauncher browserLauncher -- (In base class) Starts an instance of FireFox</li>
  * </ul>
@@ -55,37 +47,42 @@ import java.util.Date;
  * would be, in this case, about 10 iterations of the list)
  * </p>
  * 
- * @author Elliott McCrory, Fermilab (2014-16)
+ * <h2>Transition to Selenium</h2>
+ * <p>
+ * Over the years, the functionality of the system has been improved and extended quite a lot. Not (June 2018) that we are
+ * transitioning away from the "pmorch" plugin to Selenium, a lot of that built-up functionality and reliability needs to be moved
+ * to either this base class, or to the base class of the attribute browserInstance.
+ * </p>
+ * <p>
+ * So, only the functionality specific to the Firefox browser and the pmorch plugin should remain here.
+ * </p>
+ * 
+ * @author Elliott McCrory, Fermilab (2014-18)
  */
 public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbstract {
 
-	private static final long			FRAME_DISAPPEAR_TIME		= 2 * ONE_MINUTE;
-	// private WrapperType defaultWrapperType = WrapperType.valueOf(System.getProperty("ddisplay.wrappertype",
-	// "NORMAL"));
+	private static final long	FRAME_DISAPPEAR_TIME		= 2 * ONE_MINUTE;
 
-	private int							changeCount;
-	private boolean						skipRevert					= false;
-	private boolean						showingEmergencyMessage		= false;
-	private boolean						showingSelfIdentify			= false;
-	private long						remainingTimeRemEmergMess	= 0l;
+	private int					changeCount;
+	private boolean				skipRevert					= false;
+	private boolean				showingSelfIdentify			= false;
+	private long				remainingTimeRemEmergMess	= 0l;
 
-	private boolean[]					removeFrame					= { false, false, false, false, false };
-	private long[]						frameRemovalTime			= { 0L, 0L, 0L, 0L, 0L };
-	private Thread[]					frameRemovalThread			= { null, null, null, null, null };
+	private boolean[]			removeFrame					= { false, false, false, false, false };
+	private long[]				frameRemovalTime			= { 0L, 0L, 0L, 0L, 0L };
+	private Thread[]			frameRemovalThread			= { null, null, null, null, null };
 
-	private Thread						revertThread				= null;
-	private Thread						emergencyRemoveThread		= null;
-	private ListOfValidChannels			listOfValidURLs				= new ListOfValidChannels();
-	private WrapperType					wrapperType;
-	private ThreadWithStop				playlistThread				= null;
-	private Command						lastCommand;
-	private EmergencyMessage			em;
-	private ConnectionToFirefoxInstance	firefox;
+	private Thread				revertThread				= null;
+	private Thread				emergencyRemoveThread		= null;
+	private ListOfValidChannels	listOfValidURLs				= new ListOfValidChannels();
+	private WrapperType			wrapperType;
+	private ThreadWithStop		playlistThread				= null;
+	private EmergencyMessage	em;
 
-	protected boolean					newListIsPlaying			= false;
-	protected SignageContent			previousPreviousChannel		= null;
-	protected long						lastFullRestTime;
-	protected long						revertTimeRemaining			= 0L;
+	protected boolean			newListIsPlaying			= false;
+	protected SignageContent	previousPreviousChannel		= null;
+	protected long				lastFullRestTime;
+	protected long				revertTimeRemaining			= 0L;
 
 	/**
 	 * @param showNumber
@@ -100,13 +97,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	public DisplayAsConnectionToFireFox(final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
 			final boolean showNumber, final String location, final Color color, final SignageType type) {
 		super(ipName, vNumber, dbNumber, screenNumber, showNumber, location, color, type);
-
-		if (getContent() == null)
-			throw new IllegalArgumentException("No content defined!");
-
-		browserLauncher = new BrowserLauncher(screenNumber, BrowserInstance.FIREFOX);
-		browserLauncher.startBrowser(getContent().getURI().toASCIIString());
-
+		
+		browserLauncher = new BrowserLauncherFirefox(screenNumber);
 		contInitialization();
 	}
 
@@ -119,9 +111,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				println(DisplayAsConnectionToFireFox.class, ".initiate(): Here we go! display number=" + getVirtualDisplayNumber()
 						+ " (" + getDBDisplayNumber() + ") " + (showNumber ? "Showing display num" : "Hiding display num"));
 
-				firefox = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
+				browserInstance = new ConnectionToFirefoxInstance(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
 						highlightColor, showNumber);
-				firefox.setBadNUC(badNUC);
+				browserInstance.setBadNUC(badNUC);
 				catchSleep(2000); // Wait a bit before trying to talk to this instance of Firefox.
 
 				lastFullRestTime = System.currentTimeMillis();
@@ -133,131 +125,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		}.start();
 	}
 
-	/**
-	 * Set up the final channel object save (prior to an unexpected exit)
-	 * 
-	 * @return did we manage to set a channel from the save file?
-	 */
-	protected boolean initializeSavedChannelObject() {
-		boolean retval = false;
-		final String filename = "lastChannel_display" + getDBDisplayNumber() + ".ser";
-
-		FileInputStream fin = null;
-		ObjectInputStream ois = null;
-		try {
-			// read the last channel object, if it is there.
-			fin = new FileInputStream(filename);
-			ois = new ObjectInputStream(fin);
-			Object content = ois.readObject();
-
-			println(DisplayAsConnectionToFireFox.class, ": Retrieved a channel from the file system: [" + content + "]");
-
-			if (content instanceof SignageContent) {
-				if (specialURI((SignageContent) content))
-					// An error condition from Feb, 2016 that (otherwise) really fouled things up!
-					retval = false;
-				else {
-					// TODO -- Do we use localSetContent() here??
-					setContent((SignageContent) content);
-					retval = true;
-				}
-			} else {
-				// Why in the world would the streamed content NOT be a SignageContent??
-				throw new RuntimeException("expecting to read a streamed SignageContent but instead got a "
-						+ content.getClass().getCanonicalName());
-			}
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		if (fin != null)
-			try {
-				fin.close();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-
-		if (ois != null)
-			try {
-				ois.close();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-
-		(new File(filename)).delete(); // Make sure this file is deleted now that the object stream has been used.
-
-		ExitHandler.removeFinalCommand(lastCommand);
-		lastCommand = ExitHandler.addFinalCommand(new Command() {
-
-			@Override
-			public void execute() {
-				try {
-					SignageContent c = getContent();
-					if (specialURI(c))
-						c = previousChannel;
-					if (c == null)
-						return;
-					FileOutputStream fout = new FileOutputStream(filename);
-					ObjectOutputStream oos = new ObjectOutputStream(fout);
-					oos.writeObject(c);
-
-					println(DisplayAsConnectionToFireFox.class, ": Saved a channel to the file system: [" + getContent() + "]");
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				// Can ignore closing all these open connections because we ASSUME that this is happening at the end of the life of
-				// the VM.
-			}
-
-		});
-		return retval;
-	}
-
-	private static boolean specialURI(SignageContent content) {
-		return content == null || content instanceof EmergencyCommunication
-				|| (content).getURI().toASCIIString().equals(FORCE_REFRESH)
-				|| (content).getURI().toASCIIString().equals(SELF_IDENTIFY);
-	}
-
-	/**
-	 * trivial extension to the Thread class to allow me to stop it later, gracefully.
-	 * 
-	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 * 
-	 */
-	private class ThreadWithStop extends Thread {
-		boolean					stopMe	= false;
-		private ChannelPlayList	localPlayListCopy;
-
-		public ThreadWithStop(final ChannelPlayList pl) {
-			super("PlayChannelList_" + DisplayAsConnectionToFireFox.class.getSimpleName());
-			this.localPlayListCopy = pl;
-		}
-
-		public void run() {
-			println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + firefox.getInstance()
-					+ " : starting to play a list of length " + localPlayListCopy.getChannels().size());
-
-			// NOTE : This implementation does not support lists of lists. And this does not make logical sense if we assume
-			// that a list will play forever.
-
-			int count = 0;
-			while (!stopMe) {
-				if (!showingEmergencyMessage) {
-					localSetContent_notLists();
-					catchSleep(localPlayListCopy.getTime());
-					localPlayListCopy.advanceChannel();
-					println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + firefox.getInstance()
-							+ " : List play continues with channel=[" + localPlayListCopy.getDescription() + ", "
-							+ localPlayListCopy.getTime() + "msec] " + count++);
-				} else
-					catchSleep(Math.min(localPlayListCopy.getTime(), ONE_MINUTE));
-			}
-			println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + firefox.getInstance()
-					+ " : Exiting the list player. " + count);
-		}
-	}
+	
 
 	protected boolean localSetContent() {
 		if (playlistThread != null) {
@@ -268,7 +136,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		if (getContent() instanceof EmergencyCommunication) {
 			// Emergency communication!!!!
 			em = ((EmergencyCommunication) getContent()).getMessage();
-			boolean retval = firefox.showEmergencyCommunication(em);
+			boolean retval = browserInstance.showEmergencyCommunication(em);
 			showingEmergencyMessage = true;
 			if (em.getSeverity() == Severity.REMOVE) {
 				setContent(previousChannel);
@@ -279,7 +147,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			remainingTimeRemEmergMess = em.getDwellTime();
 			if (emergencyRemoveThread == null || !emergencyRemoveThread.isAlive()) {
 				emergencyRemoveThread = new Thread("RemoveEmergencyCommunication") {
-					long	interval	= 2000L;
+					long interval = 2000L;
 
 					public void run() {
 						for (; remainingTimeRemEmergMess > 0; remainingTimeRemEmergMess -= interval) {
@@ -317,8 +185,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		return true;
 	}
 
-	private boolean localSetContent_notLists() {
-		// FIXME This could be risky! But it is needed for URL arguments
+	@Override
+	protected boolean localSetContent_notLists() {
+		// TODO - It is likely that this method goes into the superclass (June 2018)
+		
+		// FIXME This line could be risky! But it is needed for URL arguments
 		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&");
 
 		final int frameNumber = getContent().getFrameNumber();
@@ -327,7 +198,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
 		if (frameNumber > 0)
 			frameRemovalTime[frameNumber] = FRAME_DISAPPEAR_TIME;
-		println(getClass(), firefox.getInstance() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
+		println(getClass(), browserInstance.getInstance() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
 
 		if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
 			if (previousPreviousChannel == null)
@@ -335,11 +206,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 			if (!showingSelfIdentify) {
 				showingSelfIdentify = true;
-				firefox.showIdentity();
+				browserInstance.showIdentity();
 				new Thread() {
 					public void run() {
 						catchSleep(SHOW_SPLASH_SCREEN_TIME);
-						firefox.removeIdentify();
+						browserInstance.removeIdentify();
 						showingSelfIdentify = false;
 						setContentBypass(previousChannel);
 						updateMyStatus();
@@ -353,29 +224,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					previousPreviousChannel = previousChannel;
 
 				// First, do a brute-force refresh to the browser
-				firefox.forceRefresh(frameNumber);
-
-				// Hmmm. On reflection (June, 2017), do we really need to do all this extra stuff? It seems like just the refresh is
-				// enough here. Either wait a moment before doing the rest of this stuff, or just be done at this point in the code.
-				// The problem is that the link to FireFox crashes almost every time here, at least, when it needs to do a full URL
-				// Reset in the process of these next steps. When one does a refresh here when a full reset is not needed, it works.
-
-				boolean useOldCode = false;
-				if (useOldCode) {
-					// Now tell the lower-level code that we need a full reset
-					firefox.resetURL();
-
-					setContentBypass(previousChannel);
-
-					// Finally, re-send the last URL we knew about
-					if (!firefox.changeURL(previousChannel.getURI().toASCIIString(), wrapperType, frameNumber,
-							previousChannel.getCode())) {
-						println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
-						return false;
-					}
-				}
-			} catch (UnsupportedEncodingException e) {
-				System.err.println(getClass().getSimpleName() + ":" + firefox.getInstance()
+				browserInstance.forceRefresh(frameNumber);
+			} catch (Exception e) {
+				System.err.println(getClass().getSimpleName() + ":" + browserInstance.getInstance()
 						+ " Somthing is wrong with this re-used URL: [" + previousChannel.getURI().toASCIIString() + "]");
 				e.printStackTrace();
 				return false;
@@ -400,12 +251,12 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 				 * 2. The status will read the contents of this extra frame
 				 */
 				if (frameNumber > 0 && frameRemovalTime[frameNumber] > 0) {
-					if (firefox.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
+					if (browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
 						removeFrame[frameNumber] = false;
 						setupRemoveFrameThread(frameNumber);
 					} else {
-						println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set frame " + frameNumber
-								+ " content");
+						println(getClass(), ".localSetContent():" + browserInstance.getInstance() + " Failed to set frame "
+								+ frameNumber + " content");
 						return false;
 					}
 				} else {
@@ -416,11 +267,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					// }
 
 					// ******************** Normal channel change here ********************
-					if (firefox.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
+					if (browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
 						previousChannel = getContent();
 						showingSelfIdentify = false;
 					} else {
-						println(getClass(), ".localSetContent():" + firefox.getInstance() + " Failed to set content");
+						println(getClass(), ".localSetContent():" + browserInstance.getInstance() + " Failed to set content");
 						return false;
 					}
 
@@ -433,8 +284,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 				updateMyStatus();
 			} catch (UnsupportedEncodingException e) {
-				System.err.println(getClass().getSimpleName() + ":" + firefox.getInstance() + " Somthing is wrong with this URL: ["
-						+ url + "]");
+				System.err.println(getClass().getSimpleName() + ":" + browserInstance.getInstance()
+						+ " Somthing is wrong with this URL: [" + url + "]");
 				e.printStackTrace();
 				return false;
 			}
@@ -445,7 +296,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 * This method handles the setup and the execution of the thread that refreshes the content after content.getTime()
 	 * milliseconds.
 	 */
-	private void setupRefreshThread(final long dwellTime, final String url, final int frameNumber) {
+	protected void setupRefreshThread(final long dwellTime, final String url, final int frameNumber) {
 		if (dwellTime > 0) {
 			final int thisChangeCount = changeCount;
 
@@ -456,9 +307,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 					@Override
 					public void run() {
 						catchSleep(dwellTime);
-						println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
-								+ " turning off the announcement frame");
-						firefox.turnOffFrame(frameNumber);
+						println(DisplayAsConnectionToFireFox.class,
+								".localSetContent():" + browserInstance.getInstance() + " turning off the announcement frame");
+						browserInstance.turnOffFrame(frameNumber);
 					}
 				}.start();
 			} else {
@@ -479,19 +330,20 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 								continue;
 							}
 							if (changeCount == thisChangeCount) {
-								println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
-										+ " Reloading web page " + url);
+								println(DisplayAsConnectionToFireFox.class,
+										".localSetContent():" + browserInstance.getInstance() + " Reloading web page " + url);
 								try {
-									if (!firefox.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
-										println(DisplayAsConnectionToFireFox.class, ".localSetContent(): Failed to REFRESH content");
-										firefox.resetURL();
+									if (!browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
+										println(DisplayAsConnectionToFireFox.class,
+												".localSetContent(): Failed to REFRESH content");
+										browserInstance.resetURL();
 										continue; // TODO -- Figure out what to do here. For now, just try again later
 									}
 								} catch (UnsupportedEncodingException e) {
 									e.printStackTrace();
 								}
 							} else {
-								println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
+								println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + browserInstance.getInstance()
 										+ " Not necessary to refresh " + url + " because the channel was changed.  Bye!");
 								return;
 							}
@@ -506,7 +358,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		// final String revertURL = revertToThisChannel.getURI().toString();
 
 		revertTimeRemaining = getContent().getExpiration();
-		println(getClass(), firefox.getInstance() + " Setting the revert time for this temporary channel to " + revertTimeRemaining);
+		println(getClass(),
+				browserInstance.getInstance() + " Setting the revert time for this temporary channel to " + revertTimeRemaining);
 
 		if (revertThread == null) {
 			revertThread = new Thread("RevertContent" + getMessagingName()) {
@@ -538,14 +391,14 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 						for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
 							catchSleep(Math.min(increment, revertTimeRemaining));
 							if (skipRevert) {
-								println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
-										+ " No longer necessary to revert.");
+								println(DisplayAsConnectionToFireFox.class,
+										".setRevertThread():" + browserInstance.getInstance() + " No longer necessary to revert.");
 								revertThread = null;
 								revertTimeRemaining = 0L;
 								return;
 							}
 						}
-						println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + firefox.getInstance()
+						println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + browserInstance.getInstance()
 								+ " Reverting to channel " + previousPreviousChannel);
 						try {
 							setContent(previousPreviousChannel);
@@ -553,7 +406,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 							// like this??
 							previousChannel = previousPreviousChannel;
 							previousPreviousChannel = null;
-							println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + firefox.getInstance()
+							println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + browserInstance.getInstance()
 									+ " Reverted to original web page, " + previousChannel);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -578,22 +431,22 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			println(this.getClass(), ".setupRemovalFrameThread() Already running.");
 			return;
 		}
-		println(getClass(), firefox.getInstance() + " Will turn off frame " + frameNumber + " in " + frameRemovalTime[frameNumber]
-				+ " msec.");
+		println(getClass(), browserInstance.getInstance() + " Will turn off frame " + frameNumber + " in "
+				+ frameRemovalTime[frameNumber] + " msec.");
 
 		Thread t = new Thread("RemoveExtraFrame") {
 			@Override
 			public void run() {
 				long increment = 15000L;
 				while (removeFrame[frameNumber] == false && frameRemovalTime[frameNumber] > 0) {
-					println(DisplayAsConnectionToFireFox.class, firefox.getInstance() + " Continuing; frame off in  " + frameNumber
-							+ " in " + frameRemovalTime[frameNumber] + " msec");
+					println(DisplayAsConnectionToFireFox.class, browserInstance.getInstance() + " Continuing; frame off in  "
+							+ frameNumber + " in " + frameRemovalTime[frameNumber] + " msec");
 					catchSleep(Math.min(increment, frameRemovalTime[frameNumber]));
 					frameRemovalTime[frameNumber] -= increment;
 				}
 				println(DisplayAsConnectionToFireFox.class, ".setupRemovalFrameThread() removing frame " + frameNumber + " now.");
 
-				firefox.hideFrame(frameNumber);
+				browserInstance.hideFrame(frameNumber);
 				frameRemovalThread[frameNumber] = null;
 				removeFrame[frameNumber] = false;
 			}
@@ -604,8 +457,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 	@Override
 	protected void endAllConnections() {
-		if (firefox != null)
-			firefox.exit();
+		if (browserInstance != null)
+			browserInstance.exit();
 		if (browserLauncher != null)
 			browserLauncher.exit();
 	}
@@ -627,7 +480,7 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 */
 	public static void main(final String[] args) {
 		prepareUpdateWatcher(false);
-		
+
 		credentialsSetup();
 
 		getMessagingServerNameDisplay();
@@ -654,9 +507,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 
 		String retval = sdf.format(new Date(messagingClient.getServerTimeStamp())) + " ";
 
-		if (firefox == null) {
+		if (browserInstance == null) {
 			retval += "*NOT CONNECTED TO BROWSER* Initializing ...";
-		} else if (!firefox.isConnected()) {
+		} else if (!browserInstance.isConnected()) {
 			retval += "*NOT CONNECTED TO BROWSER* Last page " + getContent().getURI();
 		} else if (getContent() == null)
 			retval += "Off Line";

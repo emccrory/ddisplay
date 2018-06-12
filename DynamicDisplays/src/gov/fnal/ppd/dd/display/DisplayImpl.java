@@ -184,36 +184,34 @@ public abstract class DisplayImpl implements Display {
 	@Override
 	public String toString() {
 		if (SHOW_EXTENDED_DISPLAY_NAMES) {
-			return "<html>Display "
-					+ (getVirtualDisplayNumber() + " | " + getDBDisplayNumber() + "<br>" + getLocation())
-							.replace("Display", "Disp").replace("Dynamic", "Dyn") + "</html>";
-		} else {
-			int displayNumber = getDBDisplayNumber();
-			if (SHOW_VIRTUAL_DISPLAY_NUMS)
-				displayNumber = getVirtualDisplayNumber();
-
-			// FIXME Only works correctly up to 9999 total displays. That should be enough for now. :-)
-			if (displayCount >= 1000) {
-				if (displayNumber < 10)
-					return "Display 000" + displayNumber;
-				else if (displayNumber < 100)
-					return "Display 00" + displayNumber;
-				else if (displayNumber < 1000)
-					return "Display 0" + displayNumber;
-
-			} else if (displayCount >= 100) {
-				if (displayNumber < 10)
-					return "Display 00" + displayNumber;
-				else if (displayNumber < 100)
-					return "Display 0" + displayNumber;
-
-			} else if (displayCount >= 10) {
-				if (displayNumber < 10)
-					return "Display 0" + displayNumber;
-			}
-
-			return "Display " + displayNumber;
+			return "<html>Display " + (getVirtualDisplayNumber() + " | " + getDBDisplayNumber() + "<br>" + getLocation())
+					.replace("Display", "Disp").replace("Dynamic", "Dyn") + "</html>";
 		}
+		int displayNumber = getDBDisplayNumber();
+		if (SHOW_VIRTUAL_DISPLAY_NUMS)
+			displayNumber = getVirtualDisplayNumber();
+
+		// FIXME Only works correctly up to 9999 total displays. That should be enough for now. :-)
+		if (displayCount >= 1000) {
+			if (displayNumber < 10)
+				return "Display 000" + displayNumber;
+			else if (displayNumber < 100)
+				return "Display 00" + displayNumber;
+			else if (displayNumber < 1000)
+				return "Display 0" + displayNumber;
+
+		} else if (displayCount >= 100) {
+			if (displayNumber < 10)
+				return "Display 00" + displayNumber;
+			else if (displayNumber < 100)
+				return "Display 0" + displayNumber;
+
+		} else if (displayCount >= 10) {
+			if (displayNumber < 10)
+				return "Display 0" + displayNumber;
+		}
+
+		return "Display " + displayNumber;
 	}
 
 	// @Override

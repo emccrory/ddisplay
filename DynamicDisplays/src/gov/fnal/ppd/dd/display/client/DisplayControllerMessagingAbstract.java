@@ -2,31 +2,27 @@ package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
+import static gov.fnal.ppd.dd.GlobalVariables.FORCE_REFRESH;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
+import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
+import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.convertObjectToHexBlob;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.chat.DCProtocol;
-import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.chat.MessagingClient;
-import gov.fnal.ppd.dd.db.ConnectionToDatabase;
-import gov.fnal.ppd.dd.display.DisplayImpl;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
-import gov.fnal.ppd.dd.util.PerformanceMonitor;
-import gov.fnal.ppd.dd.util.version.VersionInformation;
-import gov.fnal.ppd.dd.xml.ChangeChannelReply;
-import gov.fnal.ppd.dd.xml.ChannelSpec;
-import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
@@ -43,7 +39,48 @@ import java.util.TimerTask;
 
 import javax.xml.bind.JAXBException;
 
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.chat.DCProtocol;
+import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
+import gov.fnal.ppd.dd.chat.MessageCarrier;
+import gov.fnal.ppd.dd.chat.MessagingClient;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
+import gov.fnal.ppd.dd.display.DisplayImpl;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.EmergencyCommunication;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.signage.SignageType;
+import gov.fnal.ppd.dd.util.Command;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.ExitHandler;
+import gov.fnal.ppd.dd.util.PerformanceMonitor;
+import gov.fnal.ppd.dd.util.version.VersionInformation;
+import gov.fnal.ppd.dd.xml.ChangeChannelReply;
+import gov.fnal.ppd.dd.xml.ChannelSpec;
+import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
+
 /**
+ * <p>
+ * This is the key class in the Display architecture, which looks like a "Display" to the rest of the system, but knows how to send
+ * the display directives to the browser.
+ * </p>
+ * 
+ * <p>
+ * The key (concrete) sub classes are
+ * <ul>
+ * <li>DisplayAsConnectionToFireFox - Used since the beginning of the project: Firefox and the pmorch plugin</li>
+ * <li>DisplayAsConnectionThroughSelenium - Under development: Firefox and the Selenium framework</li>
+ * </p>
+ * 
+ * <p>
+ * It has these key attributes that deal with all the communications into an out of this class:
+ * <ol>
+ * <li>BrowserLauncher browserLauncher - Initializes the connection to the browser, e.g., starts it.</li>
+ * <li>ConnectionToBrowserInstance browserInstance - Handles all communications with the browser</li>
+ * <li>MessagingClientLocal messagingClient - The messaging client that communicates with the server</li>
+ * </ol>
+ * </p>
+ * 
  * Implement a Dynamic Display using an underlying browser through a simple messaging server
  * 
  * FIXME - Contains business logic and database accesses
@@ -52,31 +89,74 @@ import javax.xml.bind.JAXBException;
  */
 public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
-	protected static final int		STATUS_UPDATE_PERIOD	= 30;
-	protected static final long		SOCKET_ALIVE_INTERVAL	= 2500l;
-	protected static final long		SHOW_SPLASH_SCREEN_TIME	= 15000l;
+	protected static final int				STATUS_UPDATE_PERIOD	= 30;
+	protected static final long				SOCKET_ALIVE_INTERVAL	= 2500l;
+	protected static final long				SHOW_SPLASH_SCREEN_TIME	= 15000l;
+	protected static final String			OFF_LINE				= "Off Line";
+	protected static boolean				dynamic					= false;
 
-	private boolean					offLine					= false;
+	/* --------------- The key attributes are here --------------- */
+	protected BrowserLauncher				browserLauncher;
+	protected ConnectionToBrowserInstance	browserInstance;
+	protected MessagingClientLocal			messagingClient;
+	/* --------------- ------------------------------------------- */
 
-	protected static final String	OFF_LINE				= "Off Line";
+	protected boolean						keepGoing				= true;
+	protected boolean						showNumber				= true;
+	protected VersionInformation			versionInfo				= VersionInformation.getVersionInformation();
+	protected boolean						badNUC;
+	protected boolean						showingEmergencyMessage	= false;
 
-	protected BrowserLauncher		browserLauncher;
+	private boolean							offLine					= false;
+	private String							myName;
+	private int								statusUpdatePeriod		= 10;
+	private double							cpuUsage				= 0.0;
+	private Command							lastCommand;
 
-	protected boolean				keepGoing				= true;
-	protected static boolean		dynamic					= false;
-
-	protected MessagingClientLocal	messagingClient;
-	private String					myName;
 	@SuppressWarnings("unused")
-	private String					mySubject;
-	private int						statusUpdatePeriod		= 10;
-	protected boolean				showNumber				= true;
-	protected VersionInformation	versionInfo				= VersionInformation.getVersionInformation();
-	protected boolean				badNUC;
-	private double					cpuUsage				= 0.0;
+	private String							mySubject;
 
 	// Use messaging to get change requests from the changers -->
 	// private boolean actAsServerNoMessages = true;
+
+	/**
+	 * Extension to the Thread class to allow me to stop it later, gracefully.
+	 * 
+	 * @author Elliott McCrory, Fermilab AD/Instrumentation
+	 * 
+	 */
+	protected class ThreadWithStop extends Thread {
+		public boolean			stopMe	= false;
+		private ChannelPlayList	localPlayListCopy;
+
+		public ThreadWithStop(final ChannelPlayList pl) {
+			super("PlayChannelList_" + DisplayAsConnectionToFireFox.class.getSimpleName());
+			this.localPlayListCopy = pl;
+		}
+
+		public void run() {
+			println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + browserInstance.getInstance()
+					+ " : starting to play a list of length " + localPlayListCopy.getChannels().size());
+
+			// NOTE : This implementation does not support lists of lists. And this does not make logical sense if we assume
+			// that a list will play forever.
+
+			int count = 0;
+			while (!stopMe) {
+				if (!showingEmergencyMessage) {
+					localSetContent_notLists();
+					catchSleep(localPlayListCopy.getTime());
+					localPlayListCopy.advanceChannel();
+					println(DisplayAsConnectionToFireFox.class,
+							" -- " + hashCode() + browserInstance.getInstance() + " : List play continues with channel=["
+									+ localPlayListCopy.getDescription() + ", " + localPlayListCopy.getTime() + "msec] " + count++);
+				} else
+					catchSleep(Math.min(localPlayListCopy.getTime(), ONE_MINUTE));
+			}
+			println(DisplayAsConnectionToFireFox.class,
+					" -- " + hashCode() + browserInstance.getInstance() + " : Exiting the list player. " + count);
+		}
+	}
 
 	/**
 	 * @param ipName
@@ -102,6 +182,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		cpuUsage = PerformanceMonitor.getCpuUsage();
 	}
 
+	protected abstract void endAllConnections();
+
+	protected abstract String getStatusString();
+
+	protected abstract void setWrapperType(WrapperType wrapperType);
+
+	protected abstract boolean localSetContent_notLists();
+
 	/**
 	 * Must be called to start all the threads in this class instance!
 	 */
@@ -119,8 +207,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	}
 
-	protected abstract void endAllConnections();
-
 	public String getMessagingName() {
 		return myName;
 	}
@@ -129,6 +215,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 * This method must be called by concrete class. Start various threads necessary to maintain this job.
 	 */
 	protected final void contInitialization() {
+		browserLauncher.startBrowser(getContent().getURI().toASCIIString());
+
 		Timer timer = new Timer("DisplayDaemons");
 
 		timer.scheduleAtFixedRate(new TimerTask() {
@@ -166,7 +254,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 		Runtime.getRuntime().addShutdownHook(new Thread("ConnectionShutdownHook") {
 			public void run() {
-				println(DisplayControllerMessagingAbstract.this.getClass(), "Exit hook called."); 
+				println(DisplayControllerMessagingAbstract.this.getClass(), "Exit hook called.");
 				keepGoing = false;
 				offLine = true;
 				updateMyStatus();
@@ -201,8 +289,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						// The Content field is limited to 255 characters.
 						statusString = statusString.substring(0, 249) + " ...";
 
-					String contentName = getContent().getName().replace("'", "").replace("\"", "").replace(";", "")
-							.replace("\\", "");
+					String contentName = getContent().getName().replace("'", "").replace("\"", "").replace(";", "").replace("\\",
+							"");
 
 					// Create the stream of the current content object
 					String blob = convertObjectToHexBlob(getContent());
@@ -216,13 +304,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 					int numRows = stmt.executeUpdate(statementString);
 					if (numRows == 0 || numRows > 1) {
-						println(getClass(), " screen " + screenNumber
-								+ ": Problem while updating status of Display: Expected to modify exactly one row, but  modified "
-								+ numRows + " rows instead. SQL='" + statementString + "'");
+						println(getClass(),
+								" screen " + screenNumber
+										+ ": Problem while updating status of Display: Expected to modify exactly one row, but  modified "
+										+ numRows + " rows instead. SQL='" + statementString + "'");
 					}
 					stmt.close();
 					if (statusUpdatePeriod > 0) {
-						println(getClass(), ".updateMyStatus() screen " + screenNumber + " Status: \n            " + succinctString);
+						println(getClass(),
+								".updateMyStatus() screen " + screenNumber + " Status: \n            " + succinctString);
 						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
 					}
 				} catch (Exception ex) {
@@ -243,8 +333,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			return;
 		}
 	}
-
-	protected abstract String getStatusString();
 
 	public final void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
@@ -285,7 +373,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 *            The type of object to instantiate here
 	 * @return The object that is the display controller.
 	 */
-	static DisplayControllerMessagingAbstract makeTheDisplays(Class<?> clazz) {
+	protected static DisplayControllerMessagingAbstract makeTheDisplays(Class<?> clazz) {
 		dynamic = true;
 		DisplayControllerMessagingAbstract d = null;
 		String myNode = "localhost";
@@ -325,16 +413,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 									ordinal = "Second";
 								else if (displayCount == 2)
 									ordinal = "Third";
-								else
+								else if (displayCount > 2)
 									ordinal = ordinal + "th";
 
 								System.out.println("\n********** " + ordinal + " Display, name=" + myName + " **********\n");
 
 								if (!myName.equals(myNode)) {
 									// TODO This will not work if the IPName in the database is an IP address.
-									System.out
-											.println("The node name of this display, according to the database, is supposed to be '"
-													+ myName
+									System.out.println(
+											"The node name of this display, according to the database, is supposed to be '" + myName
 													+ "', but InetAddress.getLocalHost().getCanonicalHostName() says it is '"
 													+ myNode + "'\n\t** We'll try to run anyway, but this should be fixed **");
 									// System.exit(-1);
@@ -342,8 +429,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								int dbNumber = rs.getInt("DisplayID");
 								int vNumber = rs.getInt("VirtualDisplayNumber");
 
-								System.out.println("The node name of this display (no. " + vNumber + "/" + dbNumber + ") is '"
-										+ myNode + "'");
+								println(DisplayControllerMessagingAbstract.class,
+										"The node name of this display (no. " + vNumber + "/" + dbNumber + ") is '" + myNode + "'");
 
 								int tickerCode = rs.getInt("LocationCode");
 								String t = rs.getString("Type");
@@ -375,12 +462,12 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 									d.setBadNuc(badNUC);
 									d.initiate();
 									// return d;
-								} catch (NoSuchMethodException | SecurityException | IllegalAccessException
-										| InstantiationException | IllegalArgumentException | InvocationTargetException e) {
+								} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
+										| IllegalArgumentException | InvocationTargetException e) {
 									e.printStackTrace();
-									System.err.println("Here are the arguments: " + myName + ", " + vNumber + ", " + dbNumber
-											+ ", " + screenNumber + ", " + (showNumber ? "ShowNum" : "HideNum") + ", " + location
-											+ ", " + color + ", " + type);
+									System.err.println("Here are the arguments: " + myName + ", " + vNumber + ", " + dbNumber + ", "
+											+ screenNumber + ", " + (showNumber ? "ShowNum" : "HideNum") + ", " + location + ", "
+											+ color + ", " + type);
 								}
 								// Allow it to loop over multiple displays
 								// return null;
@@ -413,15 +500,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		this.badNUC = badNUC;
 	}
 
-	protected abstract void setWrapperType(WrapperType wrapperType);
-
 	private static DisplayControllerMessagingAbstract failSafeVersion(Class<?> clazz) {
 		Constructor<?> cons;
 		try {
-			cons = clazz
-					.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class, SignageType.class);
-			DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] {
-					"Failsafe Display", 99, 0, 0, "Failsafe location", Color.red, SignageType.XOC });
+			cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class,
+					SignageType.class);
+			DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons
+					.newInstance(new Object[] { "Failsafe Display", 99, 0, 0, "Failsafe location", Color.red, SignageType.XOC });
 			d.initiate();
 			d.setContentBypass(makeEmptyChannel(null));
 
@@ -441,7 +526,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		statusUpdatePeriod = 0;
 	}
 
-	class MessagingClientLocal extends MessagingClient {
+	protected class MessagingClientLocal extends MessagingClient {
 		private boolean		debug	= true;
 		private DCProtocol	dcp		= new DCProtocol();
 		private Thread		myShutdownHook;
@@ -499,15 +584,91 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					sendMessage(MessageCarrier.getErrorMessage(msg.getTo(), msg.getFrom(), dcp.getErrorMessageText()));
 				}
 			} else if (debug)
-				println(this.getClass(),
-						screenNumber + ": Ignoring a message of type " + msg.getType() + ", sent to [" + msg.getTo()
-								+ "] because I am [" + getName() + "]");
+				println(this.getClass(), screenNumber + ": Ignoring a message of type " + msg.getType() + ", sent to ["
+						+ msg.getTo() + "] because I am [" + getName() + "]");
 		}
 
 		@Override
 		public void replyToAnError(final String why) {
 			respondToContentChange(false, why);
 		}
+	}
+
+	/**
+	 * Set up the final channel object save (prior to an unexpected exit)
+	 * 
+	 * @return did we manage to set a channel from the save file?
+	 */
+	protected boolean initializeSavedChannelObject() {
+		boolean retval = false;
+		final String filename = "lastChannel_display" + getDBDisplayNumber() + ".ser";
+
+		try {
+			// read the last channel object, if it is there.
+			try (FileInputStream fin = new FileInputStream(filename)) {
+				try (ObjectInputStream ois = new ObjectInputStream(fin)) {
+
+					Object content = ois.readObject();
+
+					println(DisplayAsConnectionToFireFox.class, ": Retrieved a channel from the file system: [" + content + "]");
+
+					if (content instanceof SignageContent) {
+						if (specialURI((SignageContent) content))
+							// An error condition from Feb, 2016 that (otherwise) really fouled things up!
+							retval = false;
+						else {
+							// TODO -- Do we use localSetContent() here??
+							setContent((SignageContent) content);
+							retval = true;
+						}
+					} else {
+						// Why in the world would the streamed content NOT be a SignageContent??
+						throw new RuntimeException("expecting to read a streamed SignageContent but instead got a "
+								+ content.getClass().getCanonicalName());
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println(new Date() + " - " + getClass().getSimpleName() + ": '" + filename
+					+ "' There is no recovery channel information available in this file");
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		(new File(filename)).delete(); // Make sure this file is deleted now that the object stream has been used.
+
+		ExitHandler.removeFinalCommand(lastCommand);
+		lastCommand = ExitHandler.addFinalCommand(new Command() {
+
+			@Override
+			public void execute() {
+				try {
+					SignageContent c = getContent();
+					if (specialURI(c))
+						c = previousChannel;
+					if (c == null)
+						return;
+					try (FileOutputStream fout = new FileOutputStream(filename)) {
+						try (ObjectOutputStream oos = new ObjectOutputStream(fout)) {
+							oos.writeObject(c);
+						}
+					}
+					println(DisplayAsConnectionToFireFox.class, ": Saved a channel to the file system: [" + getContent() + "]");
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				// Can ignore closing all these open connections because we ASSUME that this is happening at the end of the life of
+				// the VM.
+			}
+
+		});
+		return retval;
+	}
+
+	protected static boolean specialURI(SignageContent content) {
+		return content == null || content instanceof EmergencyCommunication
+				|| content.getURI().toASCIIString().equals(FORCE_REFRESH) || content.getURI().toASCIIString().equals(SELF_IDENTIFY);
 	}
 
 }

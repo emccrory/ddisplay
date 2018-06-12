@@ -62,7 +62,7 @@ public class ImageChooserTableModel extends AbstractChannelTableModel {
 		sortedList.addAll(list);
 
 		for (SignageContent SC : sortedList) {
-			allChannels.add(new ChannelInList((ChannelImage) SC));
+			allChannels.add(new ChannelInList(SC));
 			String name = SC.getName(); // This is the URL end, without all the caption stuff.
 			String url = getFullURLPrefix() + "/" + name;
 			DrawingPanelForImage dp = new DrawingPanelForImage(url, Color.green);
