@@ -14,7 +14,8 @@ else
     fi
 fi
 
-cd ~/src/roc-dynamicdisplays/DynamicDisplays
+workingDirectory=~/src/roc-dynamicdisplays/DynamicDisplays
+cd $workingDirectory
 
 ./runVersionInformation.sh
 
@@ -38,16 +39,27 @@ if [ "$1 X" = "XOC X" ]; then
 fi
 
 d=`date +%F`
+{
+    while {
+	java -Dddisplay.selector.inwindow=$window \
+	    -Dddisplay.selector.public=$public \
+	    -Dddisplay.virtualdisplaynumbers=TRUE \
+	    -Xmx1024m  gov.fnal.ppd.dd.MakeChannelSelector
+	test $? -eq 255
+    }
+    do
+	echo ""
+	echo ""
+	echo ""
+	echo `date` " Controller program exited because user requested a refresh"
+	# Maybe there is a new version of the software here.  This "cd" should put us in the right place
+	cd $workingDirectory
+	sleep 1
+	echo "     ..."
+	echo `date` " Starting the Channel Selector again now."
+	echo ""
+	echo ""
+	echo ""
+    done
+} > ../../log/selector_${d}_$$.log 2>&1 &
 
-MyName=`uname -n`
-raiseButton=false
-# TODO Remove this bit of hard coding.  Put it in the DB or something
-if [ $MyName = "xocnuc01.fnal.gov" -o $MyName = "minos-nuc-01.dhcp.fnal.gov" -o $MyName = "display-neutrino-01.fnal.gov" -o $MyName = "wh8w-nuc-01.fnal.gov" ]; then
-    raiseButton=true;
-fi
-
-java -Dddisplay.selector.inwindow=$window \
-     -Dddisplay.selector.public=$public \
-     -Dddisplay.selector.showraisebutton=$raiseButton \
-     -Dddisplay.virtualdisplaynumbers=TRUE \
-     -Xmx1024m  gov.fnal.ppd.dd.MakeChannelSelector > ../../log/selector_${d}_$$.log 2>&1  &
