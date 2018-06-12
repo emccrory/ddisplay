@@ -111,7 +111,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	public static final Dimension			screenDimension				= Toolkit.getDefaultToolkit().getScreenSize();
 	private static JFrame					f							= new JFrame("Dynamic Display Channel Selector");
 
-	private int							refreshActionUnderway		= 0	;
+	private int								refreshActionUnderway		= 0;
 
 	// private static ActionListener fullRefreshAction = null;
 	private ActionListener					channelRefreshAction		= new ActionListener() {
@@ -154,16 +154,18 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private ActionListener					changeDefaultsListener		= new ActionListener() {
 																			boolean	visible	= false, firstTime = true;
 																			JFrame	f		= new JFrame(
-																									"SaveRestoreDefaultChannels");
+																					"SaveRestoreDefaultChannels");
 
 																			@Override
 																			public void actionPerformed(ActionEvent e) {
 																				if (firstTime) {
 																					firstTime = false;
-																					f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-																					f.setContentPane(SaveRestoreDefaultChannels
-																							.getGUI());
-																					int height = 400 + 30 * (displayList.size() + 1);
+																					f.setDefaultCloseOperation(
+																							JFrame.DISPOSE_ON_CLOSE);
+																					f.setContentPane(
+																							SaveRestoreDefaultChannels.getGUI());
+																					int height = 400
+																							+ 30 * (displayList.size() + 1);
 																					if (height > 1000)
 																						height = 1000;
 																					println(ChannelSelector.class,
@@ -172,38 +174,46 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 																					f.setAlwaysOnTop(true);
 																					f.addWindowListener(new WindowListener() {
 
-																						@Override
-																						public void windowOpened(WindowEvent e) {
-																						}
+																																							@Override
+																																							public void windowOpened(
+																																									WindowEvent e) {
+																																							}
 
-																						@Override
-																						public void windowIconified(WindowEvent e) {
-																							visible = false;
-																						}
+																																							@Override
+																																							public void windowIconified(
+																																									WindowEvent e) {
+																																								visible = false;
+																																							}
 
-																						@Override
-																						public void windowDeiconified(WindowEvent e) {
-																							visible = true;
-																						}
+																																							@Override
+																																							public void windowDeiconified(
+																																									WindowEvent e) {
+																																								visible = true;
+																																							}
 
-																						@Override
-																						public void windowDeactivated(WindowEvent e) {
-																						}
+																																							@Override
+																																							public void windowDeactivated(
+																																									WindowEvent e) {
+																																							}
 
-																						@Override
-																						public void windowClosing(WindowEvent e) {
-																						}
+																																							@Override
+																																							public void windowClosing(
+																																									WindowEvent e) {
+																																							}
 
-																						@Override
-																						public void windowClosed(WindowEvent e) {
-																							visible = false;
-																							f.setVisible(false);
-																						}
+																																							@Override
+																																							public void windowClosed(
+																																									WindowEvent e) {
+																																								visible = false;
+																																								f.setVisible(
+																																										false);
+																																							}
 
-																						@Override
-																						public void windowActivated(WindowEvent e) {
-																						}
-																					});
+																																							@Override
+																																							public void windowActivated(
+																																									WindowEvent e) {
+																																							}
+																																						});
 																				}
 																				visible = !visible;
 																				f.setVisible(visible);
@@ -256,7 +266,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				INSET_SIZE = 10;
 			}
 		}
-		println(getClass(), " -- My screen is " + screenDimension + ". Basic Font_Size=" + FONT_SIZE + ", Inset_Size=" + INSET_SIZE);
+		println(getClass(),
+				" -- My screen is " + screenDimension + ". Basic Font_Size=" + FONT_SIZE + ", Inset_Size=" + INSET_SIZE);
 
 	}
 
@@ -302,8 +313,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private void initializeTabs() {
 		ChannelCategory[] categories = CategoryDictionary.getCategories();
 
-		ProgressMonitor progressMonitor = new ProgressMonitor(null, "Building Channel Selector GUI", "", 0, displayList.size()
-				* (1 + categories.length));
+		ProgressMonitor progressMonitor = new ProgressMonitor(null, "Building Channel Selector GUI", "", 0,
+				displayList.size() * (1 + categories.length));
 		String note = "Building image database";
 		progressMonitor.setNote(note);
 		progressMonitor.setProgress(0);
@@ -425,13 +436,13 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				displayTabPane.setSelectedComponent(theSelectedTab);
 
 			// Add the Display Tabbed Pane to the main screen
-			inner.setBorder(BorderFactory.createCompoundBorder(
-					BorderFactory.createLineBorder(display.getPreferredHighlightColor(), wid1),
-					BorderFactory.createEmptyBorder(wid2, wid2, wid2, wid2)));
+			inner.setBorder(
+					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(display.getPreferredHighlightColor(), wid1),
+							BorderFactory.createEmptyBorder(wid2, wid2, wid2, wid2)));
 			inner.add(displayTabPane, BorderLayout.CENTER);
 			final JLabelFooter footer = makeChannelIndicator(display);
 			display.addListener(new ActionListener() {
-				private long	lastUpdated	= System.currentTimeMillis();
+				private long lastUpdated = System.currentTimeMillis();
 
 				// A simple listener to change the title after the Display has a chance to react.
 				public void actionPerformed(ActionEvent e) {
@@ -561,29 +572,41 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		titleBox = Box.createHorizontalBox();
 		adjustTitle(displayList.get(0));
 
-		// Add this in when I get it to work!! refreshButton.addActionListener(fullRefreshAction);
-		refreshButton.addActionListener(channelRefreshAction);
 		refreshButton.addActionListener(new ActionListener() {
-
-			@Override
 			public void actionPerformed(ActionEvent e) {
+				String mess = "<html>When you hit OK here, the Channel Selector will exit and start again."
+						+ "<br>This will refresh the ChannelSelector with all the new channels"
+						+ "<br>that have been added to the system recently.<br><br>Do you want to do this now?<br></html>";
+				Object[] options = { "OK: Restart ChannelSelector", "Cancel" };
+				int n = JOptionPane.showOptionDialog(ChannelSelector.this, mess, "Restart the ChannelSelector?",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+				if (n == 0)
+					System.exit(-1);
 
-				new Thread("RefreshURLPopupWait2") {
-					public void run() {
-						refreshActionUnderway = 1;
-						while (refreshActionUnderway > 0)
-							catchSleep(1000);
-						int numURLs = numURLButtonsChanged / displayList.size();
-						String mess = "<html>The URLs of all the channels have been refreshed, " + numURLButtonsChanged
-								+ " URL buttons changed.";
-						if (numURLButtonsChanged > 0)
-							mess += "  <br>This is " + numURLs + " specific URLs that changed, distributed over the "
-									+ displayList.size() + " displays in the system";
-						new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), "Channels refreshed", mess + "</html>");
-					}
-				}.start();
 			}
 		});
+		// refreshButton.addActionListener(channelRefreshAction);
+		// refreshButton.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		//
+		// new Thread("RefreshURLPopupWait2") {
+		// public void run() {
+		// refreshActionUnderway = 1;
+		// while (refreshActionUnderway > 0)
+		// catchSleep(1000);
+		// int numURLs = numURLButtonsChanged / displayList.size();
+		// String mess = "<html>The URLs of all the channels have been refreshed, " + numURLButtonsChanged
+		// + " URL buttons changed.";
+		// if (numURLButtonsChanged > 0)
+		// mess += " <br>This is " + numURLs + " specific URLs that changed, distributed over the "
+		// + displayList.size() + " displays in the system";
+		// new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), "Channels refreshed", mess + "</html>");
+		// }
+		// }.start();
+		// }
+		// });
 
 		SaveRestoreDefaultChannels.setup("Change Default Configurations", 30.0f, new Insets(20, 50, 20, 50));
 
@@ -597,11 +620,13 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JLabel message = new JLabel("<html>Do you <em>really</em> want to exit the<br>Channel Selector Application?</html>");
+				JLabel message = new JLabel(
+						"<html>Do you <em>really</em> want to exit the<br>Channel Selector Application?</html>");
 				Font f = message.getFont();
 				message.setFont(new Font(f.getName(), Font.BOLD, f.getSize() * 2));
 
-				if (JOptionPane.showConfirmDialog(exitButton, message, "Exit?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+				if (JOptionPane.showConfirmDialog(exitButton, message, "Exit?",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
 					System.exit(0);
 			}
 		});
@@ -633,9 +658,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		titleBox.setBorder(BorderFactory.createLineBorder(c, wid));
 
 		if (!IS_PUBLIC_CONTROLLER) {
-			refreshButton.setToolTipText("<html><b>Refresh URLs</b> -- Refresh the URLs on each Channel button "
-					+ "<br>by re-reading this information from the Channel database."
-					+ "<br><em>This will not create new buttons</em></html>");
+			refreshButton.setToolTipText("<html><b>Refresh</b> -- Refresh the Channel Selector GUI."
+					+ "<br><em>This will exit the program and restart it</em></html>");
 			refreshButton.setFont(refreshButton.getFont().deriveFont(FONT_SIZE / 3));
 			refreshButton.setMargin(new Insets(8, 4, 8, 4));
 			titleBox.add(refreshButton);
@@ -835,7 +859,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				refreshActionUnderway = channelButtonGridList.size();
-				println(ChannelSelector.class, ": Preparing to refresh all of the URLs of the channel buttons for the " + refreshActionUnderway + " displays in the system.");
+				println(ChannelSelector.class, ": Preparing to refresh all of the URLs of the channel buttons for the "
+						+ refreshActionUnderway + " displays in the system.");
 				SwingUtilities.invokeLater(new Runnable() {
 
 					@Override
@@ -892,8 +917,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 								}
 							}
 						}
-						println(ChannelSelector.class, ": Looked at " + numButtons + " buttons and changed " + numURLButtonsChanged
-								+ " URLs");
+						println(ChannelSelector.class,
+								": Looked at " + numButtons + " buttons and changed " + numURLButtonsChanged + " URLs");
 						refreshActionUnderway = 0;
 					}
 				});
