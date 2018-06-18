@@ -32,6 +32,11 @@ import javax.swing.ImageIcon;
 /**
  * This is where all the global constant in the Dynamic Displays system are held.
  * 
+ * TODO - Some of the constants defined here might be better to put into the Properties file. The stuff like SHOW_IN_WINDOW probably
+ * needs to be a System thing so it can be changed on the command line of the Java launch, but a lot of these other ones that are
+ * System properties (SHOW_VIRTUAL_DISPLAY_NUMS, MESSAGING_SERVER_PORT, WEB_SERVER_NAME, WEB_SERVER_FOLDER, ...) that maybe we
+ * should move to the properties file. To be continued ...
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
@@ -77,6 +82,7 @@ public class GlobalVariables {
 	public static final String	CHECK_SIGNED_MESSAGE		= "check";
 
 	/**
+	 * See comment in MakeChannelSelector - this has not been successfully implemented.
      */
 	public static final boolean	RUN_RAISE_SELECTOR_BUTTON	= Boolean.getBoolean("ddisplay.selector.showraisebutton");
 
@@ -353,7 +359,7 @@ public class GlobalVariables {
 	public static final String		SELF_IDENTIFY			= "http://identify";
 
 	/**
-	 * The string of a URL that means, perform a full and complete refresh of the page you are shwowing now
+	 * The string of a URL that means, perform a full and complete refresh of the page you are showwing now
 	 */
 	public static final String		FORCE_REFRESH			= "http://refresh";
 
