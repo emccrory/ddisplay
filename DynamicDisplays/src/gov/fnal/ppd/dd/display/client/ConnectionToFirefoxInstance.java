@@ -21,8 +21,6 @@ import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import gov.fnal.ppd.dd.util.ExitHandler;
 
@@ -298,31 +296,13 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 	}
 
 	@Override
-	protected void openConnection() {
+	public void openConnection() {
 		if (connected) {
 			println(getClass(), " -- already connected!");
 			return;
 		}
 
 		port = PORT + screenNumber;
-		if (numberOfScreens > 1)
-			instance = " (port #" + port + ")";
-		else {
-			Timer timer = new Timer();
-			TimerTask g = new TimerTask() {
-				public void run() {
-					for (int i = 0; i < 100; i++) {
-						if (numberOfScreens > 1) {
-							instance = " (port #" + port + ")";
-							return;
-						}
-						// It often takes a moment for the second screen to appear.  This loop waits a total of 10.5 seconds
-						catchSleep(100);
-					}
-				}
-			};
-			timer.schedule(g, 500); // Run it once, after a short delay.
-		}
 
 		new Thread("OpenConToFirefox") {
 			int	numFailures					= 0;

@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.display.client;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.isThisURLNeedAnimation;
+import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.awt.Color;
@@ -89,15 +90,11 @@ public abstract class ConnectionToBrowserInstance {
 		this.screenNumber = screenNumber;
 		numberOfScreens++;
 
-		Timer timer = new Timer();
-
 		colorCode = Integer.toHexString(color.getRGB() & 0x00ffffff);
 		colorCode = "000000".substring(colorCode.length()) + colorCode;
 
-		openConnection();
-
-		setPositionAndSize();
-
+		// Start a couple of daemon threads --------------------------------
+		
 		// Perform a full reset of the browser every now and then.
 		TimerTask tt = new TimerTask() {
 			public void run() {
@@ -111,14 +108,49 @@ public abstract class ConnectionToBrowserInstance {
 				}
 			}
 		};
+
+		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
+
+		instance = " (Screen " + numberOfScreens + ")";
+		if (numberOfScreens == 1) {
+			timer = new Timer();  // Not sure if we really need to make another one
+			TimerTask g = new TimerTask() {
+				public void run() {
+					for (int i = 0; i < 100; i++) {
+						if (numberOfScreens > 1) {
+							instance = " (Screen " + numberOfScreens + ")";
+							return;
+						}
+						// It often takes a moment for the second screen to appear. This loop waits a total of 20.5 seconds.
+						catchSleep(200);
+					}
+				}
+			};
+			timer.schedule(g, 500); // Run it once, after a short delay - it will loop for a moment
+		}
+
+		// Make sure we exit the instance(s) of the browser when the VM exits ---------------------------
+		Runtime.getRuntime().addShutdownHook(new Thread("ShutdownHook_Display_" + numberOfScreens) {
+			public void run() {
+				exit();
+			}
+		});
+
+	}
+
+	/// For testing only.
+	protected ConnectionToBrowserInstance() {
+		virtualID = dbID = screenNumber = 0;
+		showNumber = true;
+		colorCode = "ff0000";
 	}
 
 	// ------------------- The abstract methods ----------------------
 	/**
 	 * Establish communications with the browser
 	 */
-	protected abstract void openConnection();
+	public abstract void openConnection();
 
 	/**
 	 * Ask the browser to completely refresh itself

@@ -11,6 +11,7 @@ import java.io.IOException;
  *
  */
 public class BrowserLauncherOpera extends BrowserLauncher {
+	private Process browserProcess = null;
 
 	/**
 	 * @param screenNumber
@@ -21,7 +22,7 @@ public class BrowserLauncherOpera extends BrowserLauncher {
 	}
 
 	@Override
-	public void changeURL(String url) {
+	public void startBrowser() {
 		try {
 			if (browserProcess != null) {
 				browserProcess.destroy();
@@ -32,6 +33,7 @@ public class BrowserLauncherOpera extends BrowserLauncher {
 					System.out.println("Killed last process...");
 			}
 			String geom = bounds.width + "x" + bounds.height + "+" + (int) bounds.getX() + "+" + (int) bounds.getY();
+			String url = "";
 			browserProcess = new ProcessBuilder("opera", "-nosession", "-geometry", geom, "-fullscreen", url).start();
 			if (debug)
 				println(getClass(), ": Launched Opera browser, geometry=" + geom);
@@ -40,4 +42,10 @@ public class BrowserLauncherOpera extends BrowserLauncher {
 		}
 	}
 
+	@Override
+	public void exit() {
+		if (browserProcess != null) {
+			browserProcess.destroy();
+		}
+	}
 }

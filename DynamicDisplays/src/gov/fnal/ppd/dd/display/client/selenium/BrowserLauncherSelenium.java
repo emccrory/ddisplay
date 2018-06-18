@@ -15,13 +15,14 @@ public class BrowserLauncherSelenium extends BrowserLauncher {
 	 */
 	public BrowserLauncherSelenium(final int screenNumber) {
 		super(screenNumber);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void changeURL(String url) {
-		// TODO Auto-generated method stub
+	public void startBrowser() {
+	}
 
+	@Override
+	public void exit() {		
 	}
 
 }

@@ -14,7 +14,8 @@ import java.util.List;
  */
 public class BrowserLauncherFirefox extends BrowserLauncher {
 
-	private static final String FIREFOX_USER = "DynamicDisplay";
+	private static final String	FIREFOX_USER	= "DynamicDisplay";
+	private Process				browserProcess	= null;
 
 	/**
 	 * @param screenNumber
@@ -26,8 +27,7 @@ public class BrowserLauncherFirefox extends BrowserLauncher {
 	}
 
 	@Override
-	public void changeURL(String url) {
-
+	public void startBrowser() {
 		String firefoxUser = FIREFOX_USER;
 		if (screenNumber > 0) {
 			firefoxUser += (screenNumber + 1);
@@ -43,7 +43,6 @@ public class BrowserLauncherFirefox extends BrowserLauncher {
 			File file = new File("remotecontrol_plugin_messages_for_" + firefoxUser + ".log");
 			ProcessBuilder pb = new ProcessBuilder("firefox", "-new-instance", "-P", firefoxUser, "-remote-control",
 					"-geometry=" + geom);
-			// ,"javascript:%20" + moveTo, url);
 			pb.redirectErrorStream(true);
 			pb.redirectOutput(file);
 			List<String> c = pb.command();
@@ -60,17 +59,14 @@ public class BrowserLauncherFirefox extends BrowserLauncher {
 		} catch (IOException e) {
 			// This probably failed because it could not find the browser executable.
 			e.printStackTrace();
-			System.err.println("Assuming that this is Windows now.  We'll try again!");
-			try {
-				browserProcess = new ProcessBuilder("c:/Program Files (x86)/Mozilla Firefox/firefox.exe", "-remote-control",
-						"-P " + firefoxUser, "--geometry=" + geom, "-new-instance", "-fullscreen", url).start();
-				if (debug)
-					System.out.println("Launched Firefox browser, geometry=" + geom);
-			} catch (IOException e1) {
-				System.err.println("All options exhausted -- abort");
-				e1.printStackTrace();
-				System.exit(-1);
-			}
+			System.exit(-1);
+		}
+	}
+
+	@Override
+	public void exit() {
+		if (browserProcess != null) {
+			browserProcess.destroy();
 		}
 	}
 }

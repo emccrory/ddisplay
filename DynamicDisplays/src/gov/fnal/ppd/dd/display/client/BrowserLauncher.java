@@ -9,6 +9,9 @@ import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 /**
  * Base class for communicating to the browser.
  * 
+ * It kinda seems that this class is not needed - these functionalities can be moved to ConnectionToBrowserInstance. It does provide
+ * a slightly cleaner system for the old "pmorch" plugin version.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *
  */
@@ -16,12 +19,9 @@ public abstract class BrowserLauncher {
 	/**
 	 * Do we want more information when this class is executed?
 	 */
-	public static boolean		debug			= false;
-
-	protected Process			browserProcess	= null;
-	protected Rectangle			bounds;
-
-	protected int				screenNumber;
+	public static boolean	debug	= false;
+	protected Rectangle		bounds;
+	protected int			screenNumber;
 
 	/**
 	 * @param screenNumber
@@ -37,24 +37,12 @@ public abstract class BrowserLauncher {
 	}
 
 	/**
-	 * @param url
+	 * Do whatever initialization is needed to communicate with the browser
 	 */
-	public void startBrowser(final String url) {
-		changeURL(url);
-	}
-
-	/**
-	 * @param url
-	 *            The URL to show
-	 */
-	public abstract void changeURL(final String url);
+	public abstract void startBrowser();
 
 	/**
 	 * 
 	 */
-	public void exit() {
-		if (browserProcess != null) {
-			browserProcess.destroy();
-		}
-	}
+	public abstract void exit();
 }

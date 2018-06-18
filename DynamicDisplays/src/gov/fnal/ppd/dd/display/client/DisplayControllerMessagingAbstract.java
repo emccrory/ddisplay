@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.DEFAULT_DWELL_TIME;
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.FORCE_REFRESH;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
@@ -23,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
@@ -46,6 +48,8 @@ import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.DisplayImpl;
+import gov.fnal.ppd.dd.emergency.EmergencyMessage;
+import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -89,29 +93,48 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
  */
 public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
-	protected static final int				STATUS_UPDATE_PERIOD	= 30;
-	protected static final long				SOCKET_ALIVE_INTERVAL	= 2500l;
-	protected static final long				SHOW_SPLASH_SCREEN_TIME	= 15000l;
-	protected static final String			OFF_LINE				= "Off Line";
-	protected static boolean				dynamic					= false;
+	private static final int				STATUS_UPDATE_PERIOD		= 30;
+	private static final long				SOCKET_ALIVE_INTERVAL		= 2500l;
+	private static final long				SHOW_SPLASH_SCREEN_TIME		= 15000l;
+	private static final String				OFF_LINE					= "Off Line";
+	private static final long				FRAME_DISAPPEAR_TIME		= 2 * ONE_MINUTE;
 
 	/* --------------- The key attributes are here --------------- */
 	protected BrowserLauncher				browserLauncher;
 	protected ConnectionToBrowserInstance	browserInstance;
-	protected MessagingClientLocal			messagingClient;
+	private MessagingClientLocal			messagingClient;
 	/* --------------- ------------------------------------------- */
 
-	protected boolean						keepGoing				= true;
-	protected boolean						showNumber				= true;
-	protected VersionInformation			versionInfo				= VersionInformation.getVersionInformation();
+	protected boolean						showNumber					= true;
 	protected boolean						badNUC;
-	protected boolean						showingEmergencyMessage	= false;
+	protected long							lastFullRestTime;
 
-	private boolean							offLine					= false;
+	private boolean							showingEmergencyMessage		= false;
+
+	private boolean							newListIsPlaying			= false;
+	private boolean							keepGoing					= true;
+	private VersionInformation				versionInfo					= VersionInformation.getVersionInformation();
+
+	private boolean							offLine						= false;
 	private String							myName;
-	private int								statusUpdatePeriod		= 10;
-	private double							cpuUsage				= 0.0;
+	private int								statusUpdatePeriod			= 10;
+	private double							cpuUsage					= 0.0;
 	private Command							lastCommand;
+	private ThreadWithStop					playlistThread				= null;
+	private EmergencyMessage				em;
+	private long							remainingTimeRemEmergMess	= 0l;
+	private Thread							emergencyRemoveThread		= null;
+	private boolean							showingSelfIdentify			= false;
+	private long[]							frameRemovalTime			= { 0L, 0L, 0L, 0L, 0L };
+	private SignageContent					previousPreviousChannel		= null;
+	private boolean							skipRevert					= false;
+	private long							revertTimeRemaining			= 0L;
+	private boolean[]						removeFrame					= { false, false, false, false, false };
+	private WrapperType						wrapperType;
+	private Thread[]						frameRemovalThread			= { null, null, null, null, null };
+	private Thread							revertThread				= null;
+	private int								changeCount;
+	private ListOfValidChannels				listOfValidURLs				= new ListOfValidChannels();
 
 	@SuppressWarnings("unused")
 	private String							mySubject;
@@ -182,13 +205,45 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		cpuUsage = PerformanceMonitor.getCpuUsage();
 	}
 
-	protected abstract void endAllConnections();
+	protected String getStatusString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if (messagingClient.getServerTimeStamp() + 6 * ONE_HOUR > System.currentTimeMillis())
+			sdf = new SimpleDateFormat("HH:mm:ss");
 
-	protected abstract String getStatusString();
+		String retval = sdf.format(new Date(messagingClient.getServerTimeStamp())) + " ";
 
-	protected abstract void setWrapperType(WrapperType wrapperType);
+		if (browserInstance == null) {
+			retval += "*NOT CONNECTED TO BROWSER* Initializing ...";
+		} else if (!browserInstance.isConnected()) {
+			retval += "*NOT CONNECTED TO BROWSER* Last page " + getContent().getURI();
+		} else if (getContent() == null)
+			retval += "Off Line";
+		else {
+			if (specialURI(getContent())) {
+				retval += (getStatus() + " (" + previousChannel.getURI() + ")").replace("'", "\\'");
+			} else
+				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
+		}
+		return retval;
+	}
 
-	protected abstract boolean localSetContent_notLists();
+	protected void setWrapperType(WrapperType wrapperType) {
+		this.wrapperType = wrapperType;
+	}
+
+	protected boolean isVerifiedChannel(SignageContent c) {
+		if (c == null)
+			return false;
+		return listOfValidURLs.contains(c);
+	}
+
+	@Override
+	public void disconnect() {
+		if (browserInstance != null)
+			browserInstance.exit();
+		if (browserLauncher != null)
+			browserLauncher.exit();
+	}
 
 	/**
 	 * Must be called to start all the threads in this class instance!
@@ -214,8 +269,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	/**
 	 * This method must be called by concrete class. Start various threads necessary to maintain this job.
 	 */
-	protected final void contInitialization() {
-		browserLauncher.startBrowser(getContent().getURI().toASCIIString());
+	protected synchronized final void contInitialization() {
+		browserLauncher.startBrowser();
 
 		Timer timer = new Timer("DisplayDaemons");
 
@@ -259,7 +314,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				offLine = true;
 				updateMyStatus();
 
-				endAllConnections();
+				disconnect();
 			}
 		});
 	}
@@ -339,6 +394,170 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		respondToContentChange(localSetContent(), "setContent failed");
 	}
 
+	protected final boolean localSetContent_notLists() {
+		// TODO - It is likely that this method goes into the superclass (June 2018)
+
+		// FIXME This line could be risky! But it is needed for URL arguments
+		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&");
+
+		final int frameNumber = getContent().getFrameNumber();
+		final long expiration = getContent().getExpiration();
+
+		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
+		if (frameNumber > 0)
+			frameRemovalTime[frameNumber] = FRAME_DISAPPEAR_TIME;
+		println(getClass(), browserInstance.getInstance() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
+
+		if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
+			if (previousPreviousChannel == null)
+				previousPreviousChannel = previousChannel;
+
+			if (!showingSelfIdentify) {
+				showingSelfIdentify = true;
+				browserInstance.showIdentity();
+				new Thread() {
+					public void run() {
+						catchSleep(SHOW_SPLASH_SCREEN_TIME);
+						browserInstance.removeIdentify();
+						showingSelfIdentify = false;
+						setContentBypass(previousChannel);
+						updateMyStatus();
+					}
+				}.start();
+				// }
+			}
+		} else if (url.equalsIgnoreCase(FORCE_REFRESH)) {
+			try {
+				if (previousPreviousChannel == null)
+					previousPreviousChannel = previousChannel;
+
+				// First, do a brute-force refresh to the browser
+				browserInstance.forceRefresh(frameNumber);
+			} catch (Exception e) {
+				System.err.println(getClass().getSimpleName() + ":" + browserInstance.getInstance()
+						+ " Somthing is wrong with this re-used URL: [" + previousChannel.getURI().toASCIIString() + "]");
+				e.printStackTrace();
+				return false;
+			}
+		} else
+			try {
+				if (expiration > 0) {
+					if (previousPreviousChannel == null)
+						previousPreviousChannel = previousChannel;
+					revertTimeRemaining = expiration;
+					skipRevert = false;
+				} else {
+					revertTimeRemaining = 0;
+					skipRevert = true;
+				}
+
+				/*
+				 * TODO -- Issues with multiple frames
+				 * 
+				 * 1. the previousChannel gets lost because there is only one "previousChannel"
+				 * 
+				 * 2. The status will read the contents of this extra frame
+				 */
+				if (frameNumber > 0 && frameRemovalTime[frameNumber] > 0) {
+					if (browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
+						removeFrame[frameNumber] = false;
+						setupRemoveFrameThread(frameNumber);
+					} else {
+						println(getClass(), ".localSetContent():" + browserInstance.getInstance() + " Failed to set frame "
+								+ frameNumber + " content");
+						return false;
+					}
+				} else {
+					changeCount++;
+					// if (playlistThread != null) {
+					// playlistThread.stopMe = true;
+					// playlistThread = null;
+					// }
+
+					// ******************** Normal channel change here ********************
+					if (browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
+						previousChannel = getContent();
+						showingSelfIdentify = false;
+					} else {
+						println(getClass(), ".localSetContent():" + browserInstance.getInstance() + " Failed to set content");
+						return false;
+					}
+
+					if (expiration <= 0)
+						setupRefreshThread(dwellTime, url, frameNumber);
+					else
+						setRevertThread();
+
+				}
+
+				updateMyStatus();
+			} catch (UnsupportedEncodingException e) {
+				System.err.println(getClass().getSimpleName() + ":" + browserInstance.getInstance()
+						+ " Somthing is wrong with this URL: [" + url + "]");
+				e.printStackTrace();
+				return false;
+			}
+		return true;
+	}
+
+	protected final boolean localSetContent() {
+		if (playlistThread != null) {
+			playlistThread.stopMe = true;
+			playlistThread = null;
+		}
+
+		if (getContent() instanceof EmergencyCommunication) {
+			// Emergency communication!!!!
+			em = ((EmergencyCommunication) getContent()).getMessage();
+			boolean retval = browserInstance.showEmergencyCommunication(em);
+			showingEmergencyMessage = true;
+			if (em.getSeverity() == Severity.REMOVE) {
+				setContent(previousChannel);
+				showingEmergencyMessage = false;
+			}
+
+			// Remove this message after a while
+			remainingTimeRemEmergMess = em.getDwellTime();
+			if (emergencyRemoveThread == null || !emergencyRemoveThread.isAlive()) {
+				emergencyRemoveThread = new Thread("RemoveEmergencyCommunication") {
+					long interval = 2000L;
+
+					public void run() {
+						for (; remainingTimeRemEmergMess > 0; remainingTimeRemEmergMess -= interval) {
+							catchSleep(Math.min(interval, remainingTimeRemEmergMess));
+						}
+						setContent(previousChannel);
+						showingEmergencyMessage = false;
+						emergencyRemoveThread = null;
+					}
+				};
+				emergencyRemoveThread.start();
+			}
+			return retval;
+
+		} else if (getContent() instanceof ChannelPlayList) {
+
+			/**
+			 * FIXME -- There might be a way to implement this that does not require this "instanceof" check.
+			 * 
+			 * The basic idea is that when a channel is accessed, it would be given the opportunity to adjust itself. This is
+			 * obviously useful for a list of channels, but would/could this be useful for a regular channel? I'm not sure at this
+			 * time if this can be completely hidden in the current signature of a SignageContent, or if we would have to change the
+			 * signature. e.g., signageContent.finished(), or signageContent.prepare() (or something equivalent). As you see here,
+			 * the idea is to notice that this is a play list and then set up a thread specifically to advance the channel. There is
+			 * already a thread below to refresh the channel when the dwell time is completed--maybe we just use that thread, as
+			 * suggested here.
+			 * 
+			 */
+
+			playlistThread = new ThreadWithStop((ChannelPlayList) getContent());
+			playlistThread.start();
+		} else
+			return localSetContent_notLists();
+
+		return true;
+	}
+
 	@Override
 	protected void respondToContentChange(boolean b, String why) {
 		// generate a reply message to the sender
@@ -366,6 +585,169 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	}
 
+	private void setRevertThread() {
+		// final String revertURL = revertToThisChannel.getURI().toString();
+
+		revertTimeRemaining = getContent().getExpiration();
+		println(getClass(),
+				browserInstance.getInstance() + " Setting the revert time for this temporary channel to " + revertTimeRemaining);
+
+		if (revertThread == null) {
+			revertThread = new Thread("RevertContent" + getMessagingName()) {
+				/*
+				 * 7/6/15 -------------------------------------------------------------------------------------------------------
+				 * Something is getting messed up here, between a channel expiring and a channel that might need to be refreshed.
+				 * Also in the mix, potentially, is when a channel change to a fixed image is requested and this launches a full
+				 * refresh of the browser.
+				 * 
+				 * ----------------------------------------------------------------------------------------------------------------
+				 * 
+				 * Update 7/9/15: It looks like there are can be several of these threads run at once, and when they all expire,
+				 * something bad seems to happen. New code added to only let one of these thread be created (and it can be "renewed"
+				 * if necessary, before it expires).
+				 * 
+				 * ----------------------------------------------------------------------------------------------------------------
+				 * 
+				 * 1/14/2016: This is all resolved now. Also, changed to handling the channel list down here. This ends up making
+				 * the channel list class behave almost identically to all the other SingnageContent classes, except for right here
+				 * where (as they say) the rubber meets the road.
+				 */
+
+				@Override
+				public void run() {
+					long increment = 15000L;
+					println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): Revert thread started.");
+
+					while (true) {
+						for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
+							catchSleep(Math.min(increment, revertTimeRemaining));
+							if (skipRevert) {
+								println(DisplayAsConnectionToFireFox.class,
+										".setRevertThread():" + browserInstance.getInstance() + " No longer necessary to revert.");
+								revertThread = null;
+								revertTimeRemaining = 0L;
+								return;
+							}
+						}
+						println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + browserInstance.getInstance()
+								+ " Reverting to channel " + previousPreviousChannel);
+						try {
+							setContent(previousPreviousChannel);
+							// TODO -- Do we need to have a stack of previous channels so one can traverse backwards in a situation
+							// like this??
+							previousChannel = previousPreviousChannel;
+							previousPreviousChannel = null;
+							println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + browserInstance.getInstance()
+									+ " Reverted to original web page, " + previousChannel);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						revertThread = null;
+						revertTimeRemaining = 0L;
+						return;
+					}
+				}
+			};
+			revertThread.start();
+		} else {
+			println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): revert thread is already running.");
+		}
+	}
+
+	private void setupRemoveFrameThread(final int frameNumber) {
+		if (frameRemovalTime[frameNumber] <= 0)
+			return;
+
+		if (frameRemovalThread[frameNumber] != null) {
+			println(this.getClass(), ".setupRemovalFrameThread() Already running.");
+			return;
+		}
+		println(getClass(), browserInstance.getInstance() + " Will turn off frame " + frameNumber + " in "
+				+ frameRemovalTime[frameNumber] + " msec.");
+
+		Thread t = new Thread("RemoveExtraFrame") {
+			@Override
+			public void run() {
+				long increment = 15000L;
+				while (removeFrame[frameNumber] == false && frameRemovalTime[frameNumber] > 0) {
+					println(DisplayAsConnectionToFireFox.class, browserInstance.getInstance() + " Continuing; frame off in  "
+							+ frameNumber + " in " + frameRemovalTime[frameNumber] + " msec");
+					catchSleep(Math.min(increment, frameRemovalTime[frameNumber]));
+					frameRemovalTime[frameNumber] -= increment;
+				}
+				println(DisplayAsConnectionToFireFox.class, ".setupRemovalFrameThread() removing frame " + frameNumber + " now.");
+
+				browserInstance.hideFrame(frameNumber);
+				frameRemovalThread[frameNumber] = null;
+				removeFrame[frameNumber] = false;
+			}
+		};
+		frameRemovalThread[frameNumber] = t;
+		t.start();
+	}
+
+	/**
+	 * This method handles the setup and the execution of the thread that refreshes the content after content.getTime()
+	 * milliseconds.
+	 */
+	protected void setupRefreshThread(final long dwellTime, final String url, final int frameNumber) {
+		if (dwellTime > 0) {
+			final int thisChangeCount = changeCount;
+
+			// The Use Case for the extra frame is to be able to show announcements. In that vein, it seems that
+			// we want the frame to go away after a while.
+			if (frameNumber != 0) {
+				new Thread("TurnOffFrame" + getMessagingName()) {
+					@Override
+					public void run() {
+						catchSleep(dwellTime);
+						println(DisplayAsConnectionToFireFox.class,
+								".localSetContent():" + browserInstance.getInstance() + " turning off the announcement frame");
+						browserInstance.turnOffFrame(frameNumber);
+					}
+				}.start();
+			} else {
+				new Thread("RefreshContent" + getMessagingName()) {
+					@Override
+					public void run() {
+						long increment = 15000L;
+						long localDwellTime = dwellTime;
+						while (true) {
+
+							// TODO -- If there is an emergency message up, we don't want to refresh and make it go away!
+
+							for (long t = localDwellTime; t > 0 && changeCount == thisChangeCount; t -= increment) {
+								catchSleep(Math.min(increment, t));
+							}
+							if (showingEmergencyMessage) {
+								localDwellTime = Math.min(dwellTime, ONE_MINUTE);
+								continue;
+							}
+							if (changeCount == thisChangeCount) {
+								println(DisplayAsConnectionToFireFox.class,
+										".localSetContent():" + browserInstance.getInstance() + " Reloading web page " + url);
+								try {
+									if (!browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
+										println(DisplayAsConnectionToFireFox.class,
+												".localSetContent(): Failed to REFRESH content");
+										browserInstance.resetURL();
+										continue; // TODO -- Figure out what to do here. For now, just try again later
+									}
+								} catch (UnsupportedEncodingException e) {
+									e.printStackTrace();
+								}
+							} else {
+								println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + browserInstance.getInstance()
+										+ " Not necessary to refresh " + url + " because the channel was changed.  Bye!");
+								return;
+							}
+						}
+					}
+				}.start();
+			}
+		}
+	}
+
 	/**
 	 * Read the database to figure out what this display is supposed to do
 	 * 
@@ -374,7 +756,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 * @return The object that is the display controller.
 	 */
 	protected static DisplayControllerMessagingAbstract makeTheDisplays(Class<?> clazz) {
-		dynamic = true;
 		DisplayControllerMessagingAbstract d = null;
 		String myNode = "localhost";
 		try {
