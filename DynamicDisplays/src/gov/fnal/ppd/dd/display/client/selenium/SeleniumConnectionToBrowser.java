@@ -115,7 +115,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				suffix = ".exe";
 			else if (System.getProperty("os.name").contains("mac"))
 				suffix = "_mac";
-			// TODO - Get the architecture to see if this is an ARM thing
+			// TODO - See if the architecture is ARM, and then act on it.
 
 			String d = System.getProperty("user.dir");
 			if (browser.contains("Firefox")) {
@@ -160,8 +160,10 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		try {
 			command += "return 1;\n";
 			lastReturnValue = jse.executeScript(command, new Object[] { "nothing" });
+			// If it goes as planned, the return value from this call will the the "return 1" I put in there.
 			connected = lastReturnValue.equals(1L);
 		} catch (NullPointerException e) {
+			// Up to now, this exception has meant that jse is null.
 			e.printStackTrace();
 		} catch (Exception e) {
 			lastReturnValue = lastReturnValue.toString() + " - " + " Error sending this to the browser: [" + command + "]";
@@ -175,7 +177,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	}
 
 	/**
-	 * Change the visible web page. Note that this assumes that this is a Dynamic Displays instance.
+	 * Change the visible web page. Note that this assumes that this is a Dynamic Displays instance, which has an iframe into which
+	 * we put the content.
 	 * 
 	 * @param url
 	 *            The web page to visit
@@ -192,7 +195,13 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				catchSleep(100);
 				driver.navigate().refresh();
 				connected = true;
+
+				// A reasonable way to "reset" things would be to set uninitialized to true and then call this method with a new
+				// URL. This is a _little_ tricky because here the URL we show has to be the so-called "border" web page with an
+				// iframe.
+
 			} else {
+				// This assumes the Dynamic Displays border web page, which has the iframe for the content.
 				send("document.getElementById('iframe').src='" + url + "';\n");
 			}
 		} catch (Exception e) {
