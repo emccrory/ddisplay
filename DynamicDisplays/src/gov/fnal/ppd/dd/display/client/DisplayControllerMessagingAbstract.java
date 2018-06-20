@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -158,7 +157,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 
 		public void run() {
-			println(DisplayAsConnectionToFireFox.class, " -- " + hashCode() + browserInstance.getInstance()
+			println(DisplayControllerMessagingAbstract.this.getClass(), " -- " + hashCode() + browserInstance.getInstance()
 					+ " : starting to play a list of length " + localPlayListCopy.getChannels().size());
 
 			// NOTE : This implementation does not support lists of lists. And this does not make logical sense if we assume
@@ -170,13 +169,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					localSetContent_notLists();
 					catchSleep(localPlayListCopy.getTime());
 					localPlayListCopy.advanceChannel();
-					println(DisplayAsConnectionToFireFox.class,
+					println(DisplayControllerMessagingAbstract.this.getClass(),
 							" -- " + hashCode() + browserInstance.getInstance() + " : List play continues with channel=["
 									+ localPlayListCopy.getDescription() + ", " + localPlayListCopy.getTime() + "msec] " + count++);
 				} else
 					catchSleep(Math.min(localPlayListCopy.getTime(), ONE_MINUTE));
 			}
-			println(DisplayAsConnectionToFireFox.class,
+			println(DisplayControllerMessagingAbstract.this.getClass(),
 					" -- " + hashCode() + browserInstance.getInstance() + " : Exiting the list player. " + count);
 		}
 	}
@@ -616,20 +615,20 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				@Override
 				public void run() {
 					long increment = 15000L;
-					println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): Revert thread started.");
+					println(DisplayControllerMessagingAbstract.this.getClass(), ".setRevertThread(): Revert thread started.");
 
 					while (true) {
 						for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
 							catchSleep(Math.min(increment, revertTimeRemaining));
 							if (skipRevert) {
-								println(DisplayAsConnectionToFireFox.class,
+								println(DisplayControllerMessagingAbstract.this.getClass(),
 										".setRevertThread():" + browserInstance.getInstance() + " No longer necessary to revert.");
 								revertThread = null;
 								revertTimeRemaining = 0L;
 								return;
 							}
 						}
-						println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + browserInstance.getInstance()
+						println(DisplayControllerMessagingAbstract.this.getClass(), ".localSetContent():" + browserInstance.getInstance()
 								+ " Reverting to channel " + previousPreviousChannel);
 						try {
 							setContent(previousPreviousChannel);
@@ -637,7 +636,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							// like this??
 							previousChannel = previousPreviousChannel;
 							previousPreviousChannel = null;
-							println(DisplayAsConnectionToFireFox.class, ".setRevertThread():" + browserInstance.getInstance()
+							println(DisplayControllerMessagingAbstract.this.getClass(), ".setRevertThread():" + browserInstance.getInstance()
 									+ " Reverted to original web page, " + previousChannel);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -650,7 +649,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			};
 			revertThread.start();
 		} else {
-			println(DisplayAsConnectionToFireFox.class, ".setRevertThread(): revert thread is already running.");
+			println(DisplayControllerMessagingAbstract.this.getClass(), ".setRevertThread(): revert thread is already running.");
 		}
 	}
 
@@ -670,12 +669,12 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			public void run() {
 				long increment = 15000L;
 				while (removeFrame[frameNumber] == false && frameRemovalTime[frameNumber] > 0) {
-					println(DisplayAsConnectionToFireFox.class, browserInstance.getInstance() + " Continuing; frame off in  "
+					println(DisplayControllerMessagingAbstract.this.getClass(), browserInstance.getInstance() + " Continuing; frame off in  "
 							+ frameNumber + " in " + frameRemovalTime[frameNumber] + " msec");
 					catchSleep(Math.min(increment, frameRemovalTime[frameNumber]));
 					frameRemovalTime[frameNumber] -= increment;
 				}
-				println(DisplayAsConnectionToFireFox.class, ".setupRemovalFrameThread() removing frame " + frameNumber + " now.");
+				println(DisplayControllerMessagingAbstract.this.getClass(), ".setupRemovalFrameThread() removing frame " + frameNumber + " now.");
 
 				browserInstance.hideFrame(frameNumber);
 				frameRemovalThread[frameNumber] = null;
@@ -701,7 +700,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					@Override
 					public void run() {
 						catchSleep(dwellTime);
-						println(DisplayAsConnectionToFireFox.class,
+						println(DisplayControllerMessagingAbstract.this.getClass(),
 								".localSetContent():" + browserInstance.getInstance() + " turning off the announcement frame");
 						browserInstance.turnOffFrame(frameNumber);
 					}
@@ -724,11 +723,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								continue;
 							}
 							if (changeCount == thisChangeCount) {
-								println(DisplayAsConnectionToFireFox.class,
+								println(DisplayControllerMessagingAbstract.this.getClass(),
 										".localSetContent():" + browserInstance.getInstance() + " Reloading web page " + url);
 								try {
 									if (!browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
-										println(DisplayAsConnectionToFireFox.class,
+										println(DisplayControllerMessagingAbstract.this.getClass(),
 												".localSetContent(): Failed to REFRESH content");
 										browserInstance.resetURL();
 										continue; // TODO -- Figure out what to do here. For now, just try again later
@@ -737,8 +736,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 									e.printStackTrace();
 								}
 							} else {
-								println(DisplayAsConnectionToFireFox.class, ".localSetContent():" + browserInstance.getInstance()
-										+ " Not necessary to refresh " + url + " because the channel was changed.  Bye!");
+								println(DisplayControllerMessagingAbstract.this.getClass(),
+										".localSetContent():" + browserInstance.getInstance() + " Not necessary to refresh " + url
+												+ " because the channel was changed.  Bye!");
 								return;
 							}
 						}
@@ -942,11 +942,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 
 		@Override
-		public void displayLogMessage(final String msg) {
-			System.out.println(new Date() + " (" + getName() + "): " + msg);
-		}
-
-		@Override
 		public void connectionAccepted() {
 			displayLogMessage("Connection accepted at " + (new Date()));
 		}
@@ -991,7 +986,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 					Object content = ois.readObject();
 
-					println(DisplayAsConnectionToFireFox.class, ": Retrieved a channel from the file system: [" + content + "]");
+					println(DisplayControllerMessagingAbstract.this.getClass(), ": Retrieved a channel from the file system: [" + content + "]");
 
 					if (content instanceof SignageContent) {
 						if (specialURI((SignageContent) content))
@@ -1011,8 +1006,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			}
 		} catch (FileNotFoundException e) {
 			System.err.println(new Date() + " - " + getClass().getSimpleName() + ": '" + filename
-					+ "' There is no recovery channel information available in this file");
-		} catch (IOException | ClassNotFoundException e) {
+					+ "'\n\t\t\tThere is no recovery channel information available in this file.  This is normal during a clean startup.");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -1034,7 +1029,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							oos.writeObject(c);
 						}
 					}
-					println(DisplayAsConnectionToFireFox.class, ": Saved a channel to the file system: [" + getContent() + "]");
+					println(DisplayControllerMessagingAbstract.this.getClass(),
+							": Saved the currently-playing channel to the file system: [" + getContent() + "]");
 
 				} catch (Exception e) {
 					e.printStackTrace();
