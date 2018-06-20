@@ -227,7 +227,7 @@ public class MessagingClient {
 	 * @param msg
 	 */
 	public void displayLogMessage(final String msg) {
-		System.out.println(new Date() + ": " + msg);
+		println(getClass(), ": " + msg);
 	}
 
 	/**
