@@ -50,16 +50,13 @@ public class SplashScreens extends Thread {
 		float headline = 70, subHead = 30;
 		int gap = 25;
 
-		int splashWithCredits0 = (int) ((splashPanel.length) * Math.random());
-		int splashWithCredits1 = (splashWithCredits0 + splashPanel.length / 2) % splashPanel.length;
-		System.out.println("Splash screen with credits is " + splashWithCredits0 + " & " + splashWithCredits1);
 		for (int index = 0; index < splashPanel.length; index++) {
 			Box splash = splashPanel[index] = Box.createVerticalBox();
 
 			final int mine = index;
 			JPanel p = new JPanel() {
 
-				private static final long	serialVersionUID	= -2364511327267313957L;
+				private static final long serialVersionUID = -2364511327267313957L;
 
 				@Override
 				protected void paintComponent(Graphics g) {
@@ -93,8 +90,9 @@ public class SplashScreens extends Thread {
 			p.setOpaque(true);
 			p.addMouseListener(splashListener);
 			splash.add(Box.createRigidArea(new Dimension(50, 50)));
+			boolean hasCredits = (index % 7 == 0);
 			int h = offsets[index];
-			if (index == splashWithCredits0 || index == splashWithCredits1)
+			if (hasCredits)
 				h = 100;
 			// System.out.println("Splash screen " + index + " has vertical offset of " + h);
 			splash.add(Box.createRigidArea(new Dimension(100, h)));
@@ -103,11 +101,11 @@ public class SplashScreens extends Thread {
 			splash.add(new JLabelCenter("   " + getLocationDescription() + "   ", subHead));
 			splash.add(Box.createRigidArea(new Dimension(50, gap)));
 			splash.add(new JLabelCenter("<html><em>Touch to continue</em></html>", subHead));
-			if (index == splashWithCredits0 || index == splashWithCredits1) {
+			if (hasCredits) {
 				splash.add(Box.createRigidArea(new Dimension(50, gap)));
 				splash.add(new JLabelCenter("<html><p align='center'>"
-						+ "<em>Dynamic Display System software written by Elliott McCrory, Fermilab AD/Instrumentation, 2015<br>"
-						+ "<br>These pictures are available from http://mccrory.fnal.gov/FermiTodayPhoto</em></p></html>", 12));
+						+ "<em>Dynamic Display System software written by Elliott McCrory, Fermilab AD/Instrumentation<br>"
+						+ "<br>All pictures are by Fermilab photographers</em></p></html>", 12));
 			}
 			// splash.add(new JLabelCenter("" + arrow, arrowSize));
 
