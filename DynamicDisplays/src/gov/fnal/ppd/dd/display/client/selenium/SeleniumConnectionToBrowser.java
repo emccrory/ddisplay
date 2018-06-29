@@ -1,14 +1,19 @@
 package gov.fnal.ppd.dd.display.client.selenium;
 
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Date;
+import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -105,54 +110,108 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 
 	private void setBrowser() {
 		browser = PropertiesFile.getProperty("browser");
-		System.setProperty("webdriver.firefox.bin", "/usr/bin/firefox");
 	}
 
+	//
+	/**
+	 * Determine the browser configuration, which depends on the choice of browsers, the architecture we are running on, and on the
+	 * operating system
+	 * 
+	 */
 	private void setBrowserConfig() {
+		String browserLocation = null;
+		String osName = System.getProperty("os.name").toUpperCase();
 		try {
 			String suffix = "";
-			if (System.getProperty("os.name").contains("windows"))
+
+			// ASSUME that we are using FireFox, which is the only browser we have tested to date (6/2018)
+
+			// ASSUME the location of FireFox for Linux
+			browserLocation = PropertiesFile.getProperty("binLinux");
+
+			if (osName.contains("WINDOWS")) {
 				suffix = ".exe";
-			else if (System.getProperty("os.name").contains("mac"))
+				// ASSUME the location of FireFox for Windows
+				browserLocation = PropertiesFile.getProperty("binWindows");
+			} else if (osName.contains("MAC")) {
 				suffix = "_mac";
+				// ASSUME the location of FireFox for Mac OS
+				browserLocation = PropertiesFile.getProperty("binMac");
+			}
+
+			// Allow this to be set by the user prior to launching the code. This will be necessary when the location of the
+			// executable differs from the norms of today (6/2018) for FireFox.
+			if (System.getProperty("webdriver.firefox.bin") != null)
+				browserLocation = System.getProperty("webdriver.firefox.bin");
+			else
+				System.setProperty("webdriver.firefox.bin", browserLocation);
+
 			// TODO - See if the architecture is ARM, and then act on it.
 
 			String d = System.getProperty("user.dir");
 			if (browser.contains("Firefox")) {
-				// Only the Firefox driver has been tested (EM 6/2018)
+				// >>>>>>>>>> Only the Firefox driver has been tested (EM 6/2018) <<<<<<<<<<
 				d += "/lib/selenium/geckodriver" + suffix;
-				System.setProperty("webdriver.gecko.driver", d);
-				println(getClass(), " Using this executable as the browser driver: " + d);
+				if (System.getProperty("webdriver.gecko.driver") == null)
+					System.setProperty("webdriver.gecko.driver", d);
+				else
+					d = System.getProperty("webdriver.gecko.driver");
 				driver = new FirefoxDriver();
+
 			} else if (browser.contains("Chrome")) {
 				// TODO - Untested
 				d += "/lib/selenium/chromedriver" + suffix;
-				System.setProperty("webdriver.chrome.driver", d);
-				println(getClass(), " Using this executable as the browser driver: " + d);
+
+				if (System.getProperty("webdriver.chrome.driver") == null)
+					System.setProperty("webdriver.chrome.driver", d);
+				else
+					d = System.getProperty("webdriver.chrome.driver");
 				driver = new ChromeDriver();
+
 			} else if (browser.contains("Edge")) {
 				// TODO - Untested
 				d += "/lib/selenium/edgedriver" + suffix;
-				System.setProperty("webdriver.chrome.driver", d);
-				println(getClass(), " Using this executable as the browser driver: " + d);
+				if (System.getProperty("webdriver.chrome.driver") == null)
+					System.setProperty("webdriver.chrome.driver", d);
+				else
+					d = System.getProperty("webdriver.chrome.driver");
 				driver = new EdgeDriver();
+
 			} else if (browser.contains("Opera")) {
 				// TODO - Untested and probably not right at all
 				d += "/lib/selenium/geckodriver" + suffix;
-				System.setProperty("webdriver.chrome.driver", d);
-				println(getClass(), " Using this executable as the browser driver: " + d);
+				if (System.getProperty("webdriver.chrome.driver") == null)
+					System.setProperty("webdriver.chrome.driver", d);
+				else
+					d = System.getProperty("webdriver.chrome.driver");
 				driver = new OperaDriver();
+
 			} else {
 				System.err.println("*****");
 				(new Exception("ABORT: Unknown browser type specified: [" + browser + "]")).printStackTrace();
 				System.exit(-2);
 			}
+			println(getClass(), " Using this executable as the browser driver: " + d);
 			jse = (JavascriptExecutor) driver;
 		} catch (Exception e) {
-			System.err.println("Exception caught and ignored in " + getClass().getSimpleName() + ".setBrowserConfig()");
+			System.err.println("Exception caught in " + getClass().getSimpleName() + ".setBrowserConfig()");
 			e.printStackTrace();
+			System.err.println("Location of browser: " + browserLocation + ", Operating system: " + osName);
+			System.err.println("Aborting...");
+			System.exit(-2);
 		}
+
+		// Setup the timer task to make sure the screen is the right size, forevermore.
+
+		Point p = new Point(bounds.x, bounds.y);
+		Dimension sd = new Dimension(bounds.width, bounds.height);
+		CheckAndFixScreenDimensions afsd = new CheckAndFixScreenDimensions(driver, p, sd);
+
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(afsd, ONE_MINUTE, ONE_MINUTE);
 	}
+
+	boolean notWaitingYet = true;
 
 	@Override
 	public synchronized void send(String command) {
@@ -174,6 +233,16 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		if (!connected) {
 			println(getClass(), " - Error return from Javascript: [" + lastReturnValue + "]");
 		}
+		if (notWaitingYet)
+			new Thread() {
+				public void run() {
+					notWaitingYet = false;
+					catchSleep(2000);
+					println(getClass(), ">>>>>>>>>> Clicking <<<<<<<<<<");
+					driver.findElement(new By.ByName("hiddenButton")).click();
+					// notWaitingYet = true;
+				}
+			}.start();
 	}
 
 	/**
@@ -188,12 +257,34 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			if (uninitialized) {
 				uninitialized = false;
 				lastReturnValue = new Long(1);
+				println(getClass(), "First URL is " + url);
 				driver.get(url);
 
 				// Does not work on GeckoDriver versions before 0.20 ...
-				driver.manage().window().fullscreen();
-				catchSleep(100);
-				driver.navigate().refresh();
+				// driver.manage().window().fullscreen();
+
+				/*
+				 * The various ways to go to full screen I have tried:
+				 * 
+				 * 1. driver.manage().window().fullscreen() - works under Windows 10/FF60, but not under MacOS/FF60 and not under
+				 * SL7/FF56
+				 * 
+				 * 2. driver.manage().window().maximize() - fills the screen with the browser window, including the window
+				 * dressings, the address bar, and the tab bar.
+				 * 
+				 * 3. send("gotoFullScreen();\n") - fails with this error message on the JsvsScript console: "Request for fullscreen
+				 * was denied because Element.requestFullscreen() was not called from inside a short running user-generated event
+				 * handler."
+				 * 
+				 * 4. driver.findElement(new By.ByName("hiddenButton")).click() - briefly goes to TRUE full screen and then reverts
+				 * to a window, probably when the next URL is requested. Clicking this button again does nothing.
+				 */
+
+				// catchSleep(1000);
+				// send("gotoFullScreen();\n");
+				// driver.manage().window().maximize();
+				// driver.findElement(new By.ByName("hiddenButton")).click();
+				// driver.navigate().refresh();
 				connected = true;
 
 				// A reasonable way to "reset" things would be to set uninitialized to true and then call this method with a new
