@@ -2,10 +2,10 @@
 
 d=`date +%F`
 
-# Set up log file and executables locations
-log=~/src/log/display_${d}_$$.log
-workingDirectory=~/src/roc-dynamicdisplays/DynamicDisplays
-touch $log
+# To be compatible with non-bash shells (e.g., on a Mac), we are using $HOME instead of the more succinct ~
+
+# Setup executables location
+workingDirectory=$HOME/src/roc-dynamicdisplays/DynamicDisplays
 
 # Verify that this script is not running now
 if ps -aef | grep $workingDirectory/$0 | grep -v grep ; then
@@ -13,17 +13,28 @@ if ps -aef | grep $workingDirectory/$0 | grep -v grep ; then
     exit 1;
 fi
 
-# Test for and remove the cache file from disk
-cd ~/.mozilla/firefox/*.default
-if [ -e places.sqlite ]; then
-    ls -l  places.sqlite >> $log 2>&1
-    echo Removing disk-based history/cache >> $log 2>&1
-    rm -fv places.sqlite >> $log 2>&1
+# Set up log file 
+# log=$HOME/src/log/display_${d}_$$.log
+log=$HOME/src/log/display.log
+
+if [ -e $log ] ; then
+   mv $log $HOME/src/log/display_${d}_$$.log
+   gzip $HOME/src/log/display_${d}_$$.log
 fi
+
+touch $log
+
+# Test for and remove the cache file from disk
+if [ -e $HOME/.mozilla/firefox/*.default/places.sqlite ]; then
+    cd $HOME/.mozilla/firefox/*.default
+    ls -l  places.sqlite
+    echo Removing disk-based history/cache
+    rm -fv places.sqlite 
+fi >> $log 2>&1
 
 # We need something to run on the X display, otherwise the present version of FireFox, with the
 # kiosk mode enabled, won't let us get to the desktop
-cd ~/src/log
+cd $HOME/src/log
 
 if [ -e /usr/bin/xterm ]; then
     # SLF 6.x
@@ -33,18 +44,18 @@ elif [ -e /usr/bin/gnome-terminal ]; then
     /usr/bin/gnome-terminal --geometry 200x30 --zoom=1.5 &
 elif [ -e /opt/X11/bin/xterm ]; then
     # Mac OS
-    # First, wait for the X Server to initialize
+    # First, wait for the X Server to initialize; starting the xterm usually seems to do it.
     /opt/X11/bin/xterm -e 'echo "Starting X11"'
-    # Now start up an X terminal so we can use it to look at log files and stuff
+    # Now start up a permanent X terminal so we can use it to look at log files and stuff
     /opt/X11/bin/xterm -geometry 200x30 &
 fi
 
 # Remove the json file that seems to be responsible for configuring Firefox.
 # In particular, this holds the last location of the Firefox windows.
 # But this does not seem to have the desired effect (3/2018) - more work needed.
-# ls -l ~/.mozilla/firefox/*Dynamic*/*.json >> $log 2>&1
+# ls -l $HOME/.mozilla/firefox/*Dynamic*/*.json >> $log 2>&1
 # echo Removing xulstore.json files >> $log 2>&1
-# rm -fv ~/.mozilla/firefox/*Dynamic*/xulstore.json >> $log 2>&1
+# rm -fv $HOME/.mozilla/firefox/*Dynamic*/xulstore.json >> $log 2>&1
 
 cd $workingDirectory
 
@@ -89,7 +100,7 @@ if [ "$1 X" != " X" ]; then
     screenNum=$1;
 fi
 {
-    echo `date` "Obtaining my messaging server, and determining if it is this node ... "
+    echo `date` "Obtaining the messaging server, and determining if it is this node ... "
     # Get the messaging server for me
     messagingServer=`java -Xmx512m gov.fnal.ppd.dd.GetMessagingServer | grep "MessagingServer=" | awk '{ print $2 }'`
 
@@ -118,42 +129,47 @@ fi
 	fi
     fi
 
-    echo "Running the display software ..."
+    echo `date` "Determining if this node should run a display ..."
 
-    # Remove the old Channel serialzed files that might still exist
-    rm -f *.ser 
-
-    # An exit code of -1 (255 here) is going to mean that there was a problem from which we should try to recover.
-
-    while {
-	# Diagnostic to record if there is someone who has port 49999 open (to the messaging server)
-	lsof -i :49999
-
-        # Do we need to run two instances of the display?  Then fix the position of the firefox windows
-	# ./fixFirefoxConfig.sh -- not working on all display nodes.
-
-	java -Xmx1024m gov.fnal.ppd.dd.display.client.selenium.DisplayAsConnectionThroughSelenium 
-
-	test $? -eq 255
-    }
-    do
+    if java gov.fnal.ppd.dd.util.IsDisplayNode; then
+	if ps -aef | grep DisplayAs | grep -v grep; then
+	    echo "Already running the display software."
+	    exit;
+	fi
+        # Remove the old Channel serialzed files that might still exist
+	rm -f *.ser 
+	
+        # An exit code of -1 (255 here) is going to mean that there was a problem from which we should try to recover.
+	while {
+ 	    # Diagnostic to record if there is someone who has port 49999 open (to the messaging server)
+	    lsof -i :49999
+	    
+            # Do we need to run two instances of the display?  Then fix the position of the firefox windows
+	    # ./fixFirefoxConfig.sh -- not working on all display nodes.
+	    
+	    java -Xmx1024m gov.fnal.ppd.dd.display.client.selenium.DisplayAsConnectionThroughSelenium 
+	    
+            # This command establishes the exit code of the while-loop test
+	    test $? -eq 255
+	}
+	do
+	    echo ""
+	    echo ""
+	    echo ""
+	    echo `date` " Display program exited with an understood failure ..."
+	    sleep 15
+  	    # Maybe there is a new version of the software here.  This "cd" should put us in the right place
+	    cd $workingDirectory
+	    echo "     ..."
+	    echo `date` " Trying again now."
+	    echo ""
+	    echo ""
+	    echo ""
+	done
+	
 	echo ""
 	echo ""
 	echo ""
-	echo `date` " Display program exited with an understood failure ..."
-	# Maybe there is a new version of the software here.  This "cd" should put us in the right place
-	cd $workingDirectory
-	sleep 15
-	echo "     ..."
-	echo `date` " Trying again now."
-	echo ""
-	echo ""
-	echo ""
-    done
-
-    echo ""
-    echo ""
-    echo ""
-    echo "Display program was killed.  Bye."
-
+	echo "Display program was killed.  Bye."
+    fi
 } >> $log 2>&1 &
