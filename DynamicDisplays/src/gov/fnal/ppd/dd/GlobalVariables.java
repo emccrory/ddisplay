@@ -21,6 +21,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
@@ -83,7 +84,7 @@ public class GlobalVariables {
 
 	/**
 	 * See comment in MakeChannelSelector - this has not been successfully implemented.
-     */
+	 */
 	public static final boolean	RUN_RAISE_SELECTOR_BUTTON	= Boolean.getBoolean("ddisplay.selector.showraisebutton");
 
 	/**
@@ -97,7 +98,7 @@ public class GlobalVariables {
 	 */
 
 	private static String		checkSignedMessage			= System.getProperty("ddisplay.checksignedmessage",
-																	CHECK_SIGNED_MESSAGE);
+			CHECK_SIGNED_MESSAGE);
 
 	/**
 	 * @return Do we need to check the signature on messages?
@@ -109,7 +110,7 @@ public class GlobalVariables {
 	/**
 	 * My IP Name
 	 */
-	public static String		THIS_IP_NAME;
+	public static String THIS_IP_NAME;
 	static {
 		try {
 			String s = InetAddress.getLocalHost().getHostName().toLowerCase();
@@ -129,7 +130,7 @@ public class GlobalVariables {
 	/**
 	 * 
 	 */
-	public static final String	THIS_IP_NAME_INSTANCE	= System.getProperty("ddisplay.selectorinstance", "00");
+	public static final String THIS_IP_NAME_INSTANCE = System.getProperty("ddisplay.selectorinstance", "00");
 
 	/**
 	 * @return The messaging name for this selector client.
@@ -148,46 +149,23 @@ public class GlobalVariables {
 	/**
 	 * The names of the image files used in the screen saver
 	 */
-	public static final String[]	imageNames	= { "bin/gov/fnal/ppd/dd/images/fermilab3.jpg",
-			"bin/gov/fnal/ppd/dd/images/fermilab1.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab2.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab4.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab5.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab6.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab7.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab8.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab9.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab10.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab11.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab12.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab13.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab14.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab15.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab16.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab17.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab18.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab19.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab20.jpg", //
-			"bin/gov/fnal/ppd/dd/images/fermilab21.jpg", //
-			"bin/gov/fnal/ppd/dd/images/american-lotus-2.jpg", //
-			"bin/gov/fnal/ppd/dd/images/auditorium-stairs.jpg", //
-			"bin/gov/fnal/ppd/dd/images/behind-tall-grass.jpg", //
-			"bin/gov/fnal/ppd/dd/images/bright-tevatron-tunnel.jpg", //
-			"bin/gov/fnal/ppd/dd/images/coyote-wilson-hall.jpg", //
-			"bin/gov/fnal/ppd/dd/images/egret-spots.jpg", //
-			"bin/gov/fnal/ppd/dd/images/feynman-fountain.jpg", //
-			"bin/gov/fnal/ppd/dd/images/iarc-angles.jpg", //
-			"bin/gov/fnal/ppd/dd/images/july-fourth-coyote.jpg", //
-			"bin/gov/fnal/ppd/dd/images/lightning-storm-over-fermilab.jpg", //
-			"bin/gov/fnal/ppd/dd/images/main-ring-magnets.jpg", //
-			"bin/gov/fnal/ppd/dd/images/pom-pom.jpg", //
-			"bin/gov/fnal/ppd/dd/images/ramsey-wilson.jpg", //
-			"bin/gov/fnal/ppd/dd/images/sunset-at-caseys-pond.jpg", //
-			"bin/gov/fnal/ppd/dd/images/water-moon-venus.jpg", //
-			"bin/gov/fnal/ppd/dd/images/wilson-hall-moon-airplane.jpg", //
-			"bin/gov/fnal/ppd/dd/images/yellow-flowers.jpg", //
-			"bin/gov/fnal/ppd/dd/images/yellowwildflowers.jpg", //
-												};
+	public static final String[]	imageNames	= { "fermilab3.jpg", "fermilab1.jpg", "fermilab2.jpg", "fermilab4.jpg",
+			"fermilab5.jpg", "fermilab6.jpg", "fermilab7.jpg", "fermilab8.jpg", "fermilab9.jpg", "fermilab10.jpg", "fermilab11.jpg",
+			"fermilab12.jpg", "fermilab13.jpg", "fermilab14.jpg", "fermilab15.jpg", "fermilab16.jpg", "fermilab17.jpg",
+			"fermilab18.jpg", "fermilab19.jpg", "fermilab20.jpg", "fermilab21.jpg", "Baginski_1319.jpg", "Baginski_1649.jpg",
+			"Biron_9077.jpg", "Brown_5472.jpg", "Chapman_1066.jpg", "Chapman_2860.jpg", "Chapman_3859.jpg", "Chapman_4721.jpg",
+			"Chapman_7196.jpg", "Chapman_8814.jpg", "Dyer_3235.jpg", "Ferguson_2539.jpg", "Flores_9904.jpg", "Hahn_4109.jpg",
+			"Higgins_7961.jpg", "Iraci_6742.jpg", "Kroc_9559.jpg", "Limberg_9772.jpg", "McCrory_2555.jpg", "McCrory_3368.jpg",
+			"McCrory_3902.jpg", "McCrory_7002.jpg", "McCrory_8865.jpg", "Murphy_2507.jpg", "Murphy_3460.jpg", "Murphy_4658.jpg",
+			"Nicol_1322.jpg", "Nicol_2066.jpg", "Nicol_7967.jpg", "Olsen_6219.jpg", "Paterno_6012.jpg", "Pygott_6098.jpg",
+			"Robertson_7776.jpg", "Santucci_3708.jpg", "Schwender_7961.jpg", "Scroggins_1293.jpg", "Scroggins_9472.jpg",
+			"Shaddix_1745.jpg", "Shaddix_2506.jpg", "Shaddix_3843.jpg", "Shaddix_5138.jpg", "american-lotus-2.jpg",
+			"auditorium-stairs.jpg", "behind-tall-grass.jpg", "bright-tevatron-tunnel.jpg", "coyote-wilson-hall.jpg",
+			"egret-spots.jpg", "feynman-fountain.jpg", "iarc-angles.jpg", "july-fourth-coyote.jpg",
+			"lightning-storm-over-fermilab.jpg", "main-ring-magnets.jpg", "pom-pom.jpg", "ramsey-wilson.jpg",
+			"sunset-at-caseys-pond.jpg", "water-moon-venus.jpg", "wilson-hall-moon-airplane.jpg", "yellow-flowers.jpg",
+			"yellowwildflowers.jpg",
+	};
 
 	/**
 	 * The images corresponding to the image names specified above
@@ -211,12 +189,16 @@ public class GlobalVariables {
 	 * for the Displays
 	 */
 	public static final void prepareSaverImages() {
-		for (int i = 0; i < imageNames.length; i++) {
-			ImageIcon icon = new ImageIcon(imageNames[i]);
+		List<String> a = Arrays.asList(imageNames);
+		Collections.shuffle(a); // Randomize the presentation
+		int i = 0;
+		for (String name : a) {
+			ImageIcon icon = new ImageIcon("bin/gov/fnal/ppd/dd/images/" + name);
 			bgImage[i] = icon.getImage();
 			imageWidth[i] = icon.getIconWidth();
 			imageHeight[i] = icon.getIconHeight();
-			offsets[i] = (int) (50.0 + 100.0 * Math.random());
+			offsets[i] = (int) (50.0 + 150.0 * Math.random());
+			i++;
 		}
 	}
 
@@ -261,7 +243,7 @@ public class GlobalVariables {
 	 * Where is the Database server? Controlled by system constant ddisplay.dbserver
 	 */
 	public static String			DATABASE_SERVER_NAME			= System.getProperty("ddisplay.dbserver",
-																			"fnalmysqldev.fnal.gov:3311");
+			"fnalmysqldev.fnal.gov:3311");
 	/**
 	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
 	 */
@@ -275,26 +257,26 @@ public class GlobalVariables {
 	 * one runs an application. (This is not the actual password.)
 	 */
 	public static String			DATABASE_PASSWORD				= System.getProperty("ddisplay.dbpassword",
-																			"I'm not telling :-)");
+			"I'm not telling :-)");
 	/**
 	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
 	 * Controlled by system constant ddisplay.xmlserver
 	 */
 	public static final String		XML_SERVER_NAME					= System.getProperty("ddisplay.xmlserver",
-																			"dynamicdisplays.fnal.gov");
+			"dynamicdisplays.fnal.gov");
 
 	/**
 	 * The URL that is the single image display web page. This is a bit of a kludge!
 	 */
 	public static final String		SINGLE_IMAGE_DISPLAY			= System.getProperty("ddisplay.singleimagedisplay",
-																			"https://dynamicdisplays.fnal.gov/portfolioOneSlide.php?photo=");
+			"https://dynamicdisplays.fnal.gov/portfolioOneSlide.php?photo=");
 
 	/**
 	 * What is the signature of a URL that can lead to a "Bad NUC" showing a bad web page?
 	 * 
 	 */
 	public static final String		URL_REQUIRING_LOTS_OF_GRAPHICS	= System.getProperty("ddisplay.animationurl",
-																			"^\\S+dynamicdisplays.fnal.gov/kenburns/portfolioDisplayChoice.php\\S+$");
+			"^\\S+dynamicdisplays.fnal.gov/kenburns/portfolioDisplayChoice.php\\S+$");
 	private static final Pattern	urlMatchingPattern				= Pattern.compile(URL_REQUIRING_LOTS_OF_GRAPHICS);
 
 	/**
@@ -466,7 +448,7 @@ public class GlobalVariables {
 
 	}
 
-	static String	messagingServerName	= null;
+	static String messagingServerName = null;
 
 	/**
 	 * @return The name of our messaging server, e.g., roc-w-11.fnal.gov
@@ -498,7 +480,7 @@ public class GlobalVariables {
 	// A class and a method for checking to see if there is update software available
 
 	private static class SampleTask extends TimerTask {
-		Thread	myThreadObj;
+		Thread myThreadObj;
 
 		SampleTask(Thread t) {
 			this.myThreadObj = t;
@@ -530,14 +512,14 @@ public class GlobalVariables {
 					double days = VersionInformationComparison.lookup(flavor, false);
 					if (days > 0) {
 						// 2. If so, download it. Then exit the entire process with System.exit(-1) and we will restart.
-						println(GlobalVariables.class, "There is a version of the software that is " + days
-								+ " days newer than the code we are running.");
+						println(GlobalVariables.class,
+								"There is a version of the software that is " + days + " days newer than the code we are running.");
 
 						VersionInformation viWeb = VersionInformation.getDBVersionInformation(flavor);
 
 						// Download and install the new code
 						downloadNewSoftware(viWeb.getVersionString());
-						
+
 						// 3. Exit and signal to the controlling script that we need to restart
 						// System.exit(-1); - This would signal the controlling shell script to restart the program.
 					} else {
@@ -670,15 +652,15 @@ public class GlobalVariables {
 		} else {
 			if (upto < 0) {
 				result_line = line;
-			}/*
-			 * else{ result_line=""; }
-			 */
+			} /*
+				 * else{ result_line=""; }
+				 */
 		}
 
 		return result_line;
 	}
 
-	private static ListOfExistingContent	contentOnDisplays	= new ListOfExistingContent();
+	private static ListOfExistingContent contentOnDisplays = new ListOfExistingContent();
 
 	/**
 	 * @return the contentOnDisplays
