@@ -101,7 +101,7 @@ public class GetMessagingServer {
 									"The failed query", JOptionPane.ERROR_MESSAGE);
 						}
 
-						System.exit(-1);
+						System.exit(0);
 					}
 				}
 			} catch (SQLException e) {
