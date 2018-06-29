@@ -215,6 +215,23 @@ public class Util {
 			System.out.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
 	}
 
+	
+	/**
+	 * @param clazz
+	 *            The type of the caller
+	 * @param message
+	 *            the message to print
+	 */
+	public static void printlnErr(Class<?> clazz, String message) {
+		//
+		// TODO - Suppress repeated messages
+		//
+		if (message.startsWith(":"))
+			System.err.println(new Date() + " - " + clazz.getSimpleName() + message);
+		else
+			System.err.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
+	}
+	
 	/**
 	 * @param d
 	 *            The display to identify
