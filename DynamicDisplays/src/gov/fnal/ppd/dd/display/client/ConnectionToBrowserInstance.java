@@ -50,7 +50,8 @@ public abstract class ConnectionToBrowserInstance {
 	// private static final String EXTRAFRAMENOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border4.php";
 
 	protected static final String	TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
-	protected static final String	WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border7.php";
+	// protected static final String	WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border7.php";
+	protected static final String	WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border7_test.php";
 
 	// private static final String FERMI_TICKERTAPE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border5.php";
 
