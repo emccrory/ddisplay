@@ -314,6 +314,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				updateMyStatus();
 
 				disconnect();
+				
+				// TODO - In the Selenium framework, it looks like the geckodriver process sticks around.  How does one kill it???
 			}
 		});
 	}
