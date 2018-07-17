@@ -149,41 +149,41 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			// TODO - See if the architecture is ARM, and then act on it.
 
 			String d = System.getProperty("user.dir");
+			boolean driverDefined = false;
+			String g = PropertiesFile.getProperty("browserDriver");
+			if (g != null) {
+				d += g;
+				driverDefined = true;
+				println(getClass(), "Browser driver is " + d);
+			}
+
 			if (browser.contains("Firefox")) {
 				// >>>>>>>>>> Only the Firefox driver has been tested (EM 6/2018) <<<<<<<<<<
-				d += "/lib/selenium/geckodriver" + suffix;
-				if (System.getProperty("webdriver.gecko.driver") == null)
-					System.setProperty("webdriver.gecko.driver", d);
-				else
-					d = System.getProperty("webdriver.gecko.driver");
+				if (!driverDefined)
+					d += "/lib/selenium/geckodriver" + suffix;
+				System.setProperty("webdriver.gecko.driver", d);
 				driver = new FirefoxDriver();
 
 			} else if (browser.contains("Chrome")) {
 				// TODO - Untested
-				d += "/lib/selenium/chromedriver" + suffix;
+				if (!driverDefined)
+					d += "/lib/selenium/chromedriver" + suffix;
+				System.setProperty("webdriver.chrome.driver", d);
 
-				if (System.getProperty("webdriver.chrome.driver") == null)
-					System.setProperty("webdriver.chrome.driver", d);
-				else
-					d = System.getProperty("webdriver.chrome.driver");
 				driver = new ChromeDriver();
 
 			} else if (browser.contains("Edge")) {
 				// TODO - Untested
-				d += "/lib/selenium/edgedriver" + suffix;
-				if (System.getProperty("webdriver.chrome.driver") == null)
-					System.setProperty("webdriver.chrome.driver", d);
-				else
-					d = System.getProperty("webdriver.chrome.driver");
+				if (!driverDefined)
+					d += "/lib/selenium/edgedriver" + suffix;
+				System.setProperty("webdriver.chrome.driver", d);
 				driver = new EdgeDriver();
 
 			} else if (browser.contains("Opera")) {
 				// TODO - Untested and probably not right at all
-				d += "/lib/selenium/geckodriver" + suffix;
-				if (System.getProperty("webdriver.chrome.driver") == null)
-					System.setProperty("webdriver.chrome.driver", d);
-				else
-					d = System.getProperty("webdriver.chrome.driver");
+				if (!driverDefined)
+					d += "/lib/selenium/geckodriver" + suffix;
+				System.setProperty("webdriver.chrome.driver", d);
 				driver = new OperaDriver();
 
 			} else {
@@ -238,9 +238,17 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				public void run() {
 					notWaitingYet = false;
 					catchSleep(2000);
-					println(getClass(), ">>>>>>>>>> Clicking <<<<<<<<<<");
-					driver.findElement(new By.ByName("hiddenButton")).click();
-					// notWaitingYet = true;
+					boolean directPositioning = PropertiesFile.getProperty("directPositioning").equalsIgnoreCase("true");
+					if (directPositioning) {
+						Point p = new Point(bounds.x, bounds.y);
+						Dimension sd = new Dimension(bounds.width, bounds.height);
+						println(getClass(), ">>>>>>>>>> Positioning the window <<<<<<<<<<");
+						driver.manage().window().setPosition(p);
+						driver.manage().window().setSize(sd);
+					} else {
+						println(getClass(), ">>>>>>>>>> Clicking <<<<<<<<<<");
+						driver.findElement(new By.ByName("hiddenButton")).click();
+					}
 				}
 			}.start();
 	}
