@@ -9,6 +9,7 @@ import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.util.ExitHandler;
+import gov.fnal.ppd.dd.util.PropertiesFile;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
@@ -220,15 +221,16 @@ public class GlobalVariables {
 	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) prime number in the range of unassigned
 	 * port number (49152 - 65535) Controlled by system constant ddisplay.messagingserver
 	 */
-	public static final int		MESSAGING_SERVER_PORT	= Integer.getInteger("ddisplay.messagingport", 49999);
+	public static final int		MESSAGING_SERVER_PORT	= PropertiesFile.getIntProperty("messagingPort", 49999);
+	// public static final int		MESSAGING_SERVER_PORT	= Integer.getInteger("ddisplay.messagingport", 49999);
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	public static final String	WEB_SERVER_NAME			= System.getProperty("ddisplay.webserver", "dynamicdisplays.fnal.gov");
+	public static final String	WEB_SERVER_NAME			= PropertiesFile.getProperty("webServer", "dynamicdisplays.fnal.gov");
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	private static final String	WEB_SERVER_FOLDER		= System.getProperty("ddisplay.webfolder", "");
+	private static final String	WEB_SERVER_FOLDER		= PropertiesFile.getProperty("webFolder", "");
 
 	/**
 	 * @return The web server prefix, dealing with whether or not there is a folder in there, too.
@@ -268,7 +270,7 @@ public class GlobalVariables {
 	/**
 	 * The URL that is the single image display web page. This is a bit of a kludge!
 	 */
-	public static final String		SINGLE_IMAGE_DISPLAY			= System.getProperty("ddisplay.singleimagedisplay",
+	public static final String		SINGLE_IMAGE_DISPLAY			= PropertiesFile.getProperty("singleImageDisplay",
 			"https://dynamicdisplays.fnal.gov/portfolioOneSlide.php?photo=");
 
 	/**
