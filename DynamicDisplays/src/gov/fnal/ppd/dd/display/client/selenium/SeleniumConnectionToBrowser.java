@@ -22,6 +22,7 @@ import org.openqa.selenium.opera.OperaDriver;
 
 import gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance;
 import gov.fnal.ppd.dd.util.PropertiesFile;
+import gov.fnal.ppd.dd.util.PropertiesFile.PositioningMethod;
 
 /**
  * The class that connects us to the browser via Selenium
@@ -91,7 +92,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		}
 
 		// Don't wait very long for the pushed Javascript to finish
-		driver.manage().timeouts().setScriptTimeout(100, TimeUnit.MILLISECONDS);
+		driver.manage().timeouts().setScriptTimeout(200, TimeUnit.MILLISECONDS);
 
 		// The URL must be set during the initializtion, to our special framed HTML.
 		setURL(WEB_PAGE_EMERGENCY_FRAME);
@@ -233,24 +234,35 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		if (!connected) {
 			println(getClass(), " - Error return from Javascript: [" + lastReturnValue + "]");
 		}
-		if (notWaitingYet)
-			new Thread() {
-				public void run() {
-					notWaitingYet = false;
-					catchSleep(2000);
-					boolean directPositioning = PropertiesFile.getProperty("directPositioning").equalsIgnoreCase("true");
-					if (directPositioning) {
-						Point p = new Point(bounds.x, bounds.y);
-						Dimension sd = new Dimension(bounds.width, bounds.height);
-						println(getClass(), ">>>>>>>>>> Positioning the window <<<<<<<<<<");
-						driver.manage().window().setPosition(p);
-						driver.manage().window().setSize(sd);
-					} else {
-						println(getClass(), ">>>>>>>>>> Clicking <<<<<<<<<<");
-						driver.findElement(new By.ByName("hiddenButton")).click();
-					}
-				}
-			}.start();
+//		if (notWaitingYet)
+//			new Thread() {
+//				public void run() {
+//					notWaitingYet = false;
+//					catchSleep(2000);
+//					PositioningMethod positioningMethod = PropertiesFile.getPositioningMethod();
+//					Point p = new Point(bounds.x, bounds.y);
+//					
+//					switch (positioningMethod) {
+//					case DirectPositioning:
+//						Dimension sd = new Dimension(bounds.width, bounds.height);
+//						println(getClass(), ">>>>>>>>>> Positioning the window <<<<<<<<<<");
+//						driver.manage().window().setPosition(p);
+//						driver.manage().window().setSize(sd);
+//						break;
+//					case UseHiddenButton:
+//						// driver.manage().window().setPosition(p);
+//						println(getClass(), ">>>>>>>>>> Clicking <<<<<<<<<<");
+//						driver.findElement(new By.ByName("hiddenButton")).click();
+//						break;
+//					case ChangeIframe:
+//						// TODO
+//						println(getClass(), ">>>>>>>>>> Adjusting size of IFrame (not implemented yet) <<<<<<<<<<");
+//						break;
+//					case DoNothing:
+//						break;
+//					}
+//				}
+//			}.start();
 	}
 
 	/**
@@ -267,6 +279,32 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				lastReturnValue = new Long(1);
 				println(getClass(), "First URL is " + url);
 				driver.get(url);
+				
+				catchSleep(1000);
+				PositioningMethod positioningMethod = PropertiesFile.getPositioningMethod();
+				Point p = new Point(bounds.x, bounds.y);
+				
+				switch (positioningMethod) {
+				case DirectPositioning:
+					Dimension sd = new Dimension(bounds.width, bounds.height);
+					println(getClass(), ">>>>>>>>>> Positioning the window <<<<<<<<<<");
+					driver.manage().window().setPosition(p);
+					driver.manage().window().setSize(sd);
+					break;
+				case UseHiddenButton:
+					// driver.manage().window().setPosition(p);
+					println(getClass(), ">>>>>>>>>> Clicking <<<<<<<<<<");
+					driver.findElement(new By.ByName("hiddenButton")).click();
+					break;
+				case ChangeIframe:
+					// TODO
+					println(getClass(), ">>>>>>>>>> Adjusting size of IFrame (not implemented yet) <<<<<<<<<<");
+					break;
+				case DoNothing:
+					break;
+				}			
+				
+				
 
 				// Does not work on GeckoDriver versions before 0.20 ...
 				// driver.manage().window().fullscreen();
@@ -315,6 +353,10 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	@Override
 	public void forceRefresh(int frameNumber) {
 		driver.navigate().refresh();
+		
+		// Note that if the full screen-ness of the browser is done in the web page, this will cause it to  fall out of full screen.
+		catchSleep(100);
+		CheckAndFixScreenDimensions.goToProperSizeAndPlace(driver);
 	}
 
 	@Override

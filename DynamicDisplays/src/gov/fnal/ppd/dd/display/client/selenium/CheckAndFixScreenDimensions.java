@@ -12,6 +12,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 
 import gov.fnal.ppd.dd.util.PropertiesFile;
+import gov.fnal.ppd.dd.util.PropertiesFile.PositioningMethod;
 
 /**
  * A thread to keep an eye on the screen size. In principle, this will fix to back to full screen when it varies.
@@ -27,15 +28,15 @@ import gov.fnal.ppd.dd.util.PropertiesFile;
  */
 public class CheckAndFixScreenDimensions extends TimerTask {
 
-	private final boolean	directPositioning;
-	private final WebDriver	driver;
-	private final Dimension	screenDimension;
-	private final Point		screenPosition;
+	private static final PositioningMethod	positioningMethod		= PropertiesFile.getPositioningMethod();
+	private final WebDriver					driver;
+	private final Dimension					screenDimension;
+	private final Point						screenPosition;
 
-	private int				counter					= 0;
-	private boolean			haventShowTraceback1	= true;
-	private boolean			haventShowTraceback2	= true;
-	private int				numExceptions			= 0;
+	private int								counter					= 0;
+	private boolean							haventShowTraceback1	= true;
+	private boolean							haventShowTraceback2	= true;
+	private int								numExceptions			= 0;
 
 	/**
 	 * @param d
@@ -52,7 +53,7 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 		driver = d;
 		screenDimension = sd;
 		screenPosition = p;
-		directPositioning = PropertiesFile.getProperty("directPositioning").equalsIgnoreCase("true");
+		println(getClass(), " - Proper position and size of this screen is " + screenPosition + " and " + screenDimension);
 	}
 
 	public void run() {
@@ -83,11 +84,20 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 		try {
 			if (adjusted) {
 				catchSleep(100);
-				if (directPositioning) {
+				switch (positioningMethod) {
+				case DirectPositioning:
 					driver.manage().window().setPosition(screenPosition);
 					driver.manage().window().setSize(screenDimension);
-				} else {
+					break;
+				case UseHiddenButton:
+					// driver.manage().window().setPosition(screenPosition);
 					driver.findElement(new By.ByName("hiddenButton")).click();
+					break;
+				case ChangeIframe:
+					// TODO
+					break;
+				case DoNothing:
+					break;
 				}
 				catchSleep(100);
 				println(getClass(), counter + " Window layout - Position: " + driver.manage().window().getPosition()
@@ -103,6 +113,34 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 			}
 		}
 		++counter;
+	}
+
+	/**
+	 * @param driver
+	 */
+	public static void goToProperSizeAndPlace(final WebDriver driver) {
+
+		switch (positioningMethod) {
+		case DirectPositioning:
+			// driver.manage().window().setPosition(screenPosition);
+			// driver.manage().window().setSize(screenDimension);
+			// break;
+			throw new RuntimeException("Not implemented!");
+
+		case UseHiddenButton:
+			// driver.manage().window().setPosition(screenPosition);
+			driver.findElement(new By.ByName("hiddenButton")).click();
+			break;
+		case ChangeIframe:
+			// TODO
+			break;
+		case DoNothing:
+			break;
+		}
+		catchSleep(100);
+		println(CheckAndFixScreenDimensions.class, "Window layout - Position: " + driver.manage().window().getPosition()
+				+ ", Dimensions: " + driver.manage().window().getSize());
+
 	}
 
 }
