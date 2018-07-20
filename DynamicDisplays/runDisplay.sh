@@ -143,6 +143,13 @@ fi
 	while {
  	    # Diagnostic to record if there is someone who has port 49999 open (to the messaging server)
 	    lsof -i :49999
+
+	    # Kill previously started versions of geckodriver 
+            # (TODO - this should be handled in the Java, but this seems to be an active Selenium issue)
+	    for i in `ps -aef | grep "lib/selenium/geckodriver" | grep -v grep | awk '{ print $2 }'`; do
+		echo "Killing a previous version of geckodriver"
+		kill $i;
+	    fi;
 	    
             # Do we need to run two instances of the display?  Then fix the position of the firefox windows
 	    # ./fixFirefoxConfig.sh -- not working on all display nodes.
