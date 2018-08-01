@@ -22,7 +22,7 @@ import java.util.HashSet;
  */
 public class ListOfValidChannels extends HashSet<String> {
 
-	private static final long	serialVersionUID	= -6161805334135669689L;
+	private static final long serialVersionUID = -6161805334135669689L;
 
 	/**
 	 * Create a new instance by reading the list of valid URLs from the database
@@ -49,6 +49,9 @@ public class ListOfValidChannels extends HashSet<String> {
 				while (!rs.isAfterLast())
 					try {
 						String theURL = rs.getString("URL");
+						// Here is a question: Should we strip off the "http://" or the "https://" from the URL? Is this something
+						// that should
+						// cause this verification to fail?? We seem to need to do this for the individual photos we show here.
 						add(theURL);
 
 						rs.next();
@@ -77,25 +80,35 @@ public class ListOfValidChannels extends HashSet<String> {
 		readValidChannels();
 	}
 
+	private static final String singleURL = SINGLE_IMAGE_DISPLAY.replace("http://", "").replace("https://", "");
+
 	/**
 	 * @param c
 	 *            the content to check
 	 * @return If this bit of content is "approved"
 	 */
 	public boolean contains(SignageContent c) {
-		// FIXME -- this next line is partially right. The check if this hash contains this URL is OK, but the second part, the
-		// check of a fixed URL against the given URL, is inelegant. This should somehow be in the database.
-		boolean r = contains(c.getURI().toString()) || c.getURI().toString().startsWith(SINGLE_IMAGE_DISPLAY);
-		if (!r) {
-			System.out
-					.println("----- signage content " + c + " " + c.getURI().toString() + "\n----- REJECTED!  Reloading the list");
-			resetChannelList();
-			r = contains(c.getURI().toString());
-			System.out
-					.println("---- "
-							+ (r ? "accepted now." : "STILL REJECTED!  The URL " + c.getURI().toString()
-									+ " is deemed to be inappropriate."));
-		}
+		// FIXME -- The check of a fixed URL for the single photo web pages is inelegant. This should somehow be in the database.
+		// The single image display URL is http:// and sometimes it is https:// - this should not mess us up!
+
+		String thisURI = c.getURI().toString();
+		if (contains(thisURI))
+			return true;
+
+		thisURI = thisURI.replace("http://", "").replace("https://", "");
+		if (thisURI.startsWith(singleURL))
+			return true;
+
+		System.out.println("----- The web page " + c.getURI().toString()
+				+ "\n----- seems not to be in the databse!  Reloading the list: Maybe this channel was added recently.");
+		resetChannelList();
+		boolean r = contains(c.getURI().toString());
+		System.out.println("---- " + (r ? "Yes, this channel was added recently.  All is right."
+				: "The URL " + c.getURI().toString() + " is is not in the database and therefore cannot be shown."));
+		
+		// TODO - It seems appropriate to have the display show some sort of indicator that this failure has happened. At this time
+		// all that happens is that this is recorded in the log file.
+		
 		return r;
 	}
 
