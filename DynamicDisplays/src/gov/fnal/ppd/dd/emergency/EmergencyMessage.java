@@ -1,5 +1,7 @@
 package gov.fnal.ppd.dd.emergency;
 
+import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
+
 import java.io.Serializable;
 
 /**
@@ -90,7 +92,7 @@ public class EmergencyMessage implements Serializable {
 	public String toHTML() {
 		String retval = "";
 
-		retval += "<img src='http://dynamicdisplays.fnal.gov/emergency/fermilabLogo.jpg' class='logo'>";
+		retval += "<img src='" + getFullURLPrefix() + "/emergency/fermilabLogo.jpg' class='logo'>";
 		String headlineClass = ("" + severity).toLowerCase();
 		retval += "<h1 class='" + headlineClass + "'>" + headline.replace("\'", "\"") + "</h1>";
 		retval += "<p class='message'>" + message.replace("\'", "\"") + "</p>";
