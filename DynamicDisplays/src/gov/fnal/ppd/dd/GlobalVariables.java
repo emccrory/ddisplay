@@ -231,14 +231,20 @@ public class GlobalVariables {
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
 	private static final String	WEB_SERVER_FOLDER		= PropertiesFile.getProperty("webFolder", "");
-
+	
+	/**
+	 * Do we use http or https?
+	 */
+	public static final String WEB_PROTOCOL = PropertiesFile.getProperty("defaultWebProtocol", "http");
+	
 	/**
 	 * @return The web server prefix, dealing with whether or not there is a folder in there, too.
 	 */
 	public static final String getFullURLPrefix() {
 		if (WEB_SERVER_FOLDER.length() > 0)
-			return "https://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER;
-		return "https://" + WEB_SERVER_NAME;
+			return WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER;
+		
+		return WEB_PROTOCOL + "://" + WEB_SERVER_NAME;
 	}
 
 	/**
@@ -271,7 +277,7 @@ public class GlobalVariables {
 	 * The URL that is the single image display web page. This is a bit of a kludge!
 	 */
 	public static final String		SINGLE_IMAGE_DISPLAY			= PropertiesFile.getProperty("singleImageDisplay",
-			"https://dynamicdisplays.fnal.gov/portfolioOneSlide.php?photo=");
+			getFullURLPrefix() + "/portfolioOneSlide.php?photo=");
 
 	/**
 	 * What is the signature of a URL that can lead to a "Bad NUC" showing a bad web page?
@@ -343,7 +349,7 @@ public class GlobalVariables {
 	public static final String		SELF_IDENTIFY			= "http://identify";
 
 	/**
-	 * The string of a URL that means, perform a full and complete refresh of the page you are showwing now
+	 * The string of a URL that means, perform a full and complete refresh of the page you are showing now
 	 */
 	public static final String		FORCE_REFRESH			= "http://refresh";
 
