@@ -10,12 +10,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_VIRTUAL_DISPLAY_NUMS;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.DDButton;
-import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.EmergencyCommunication;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -26,6 +21,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import gov.fnal.ppd.dd.changer.DDButton;
+import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.EmergencyCommunication;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.signage.SignageType;
 
 /**
  * The implementation of a Display. This is made concrete on the controller side through DisplayFacade, and on the display side
@@ -98,7 +100,7 @@ public abstract class DisplayImpl implements Display {
 	public SignageContent setContent(final SignageContent c) {
 
 		// TODO -- When an emergency message is up, we should (probably) not allow the channel to change.
-		// I think the ideal way would be to change the underlying channel while keeping the emergency message up.
+		// The ideal way would be to change the underlying channel while keeping the emergency message up, but this is hard.
 
 		if (c instanceof EmergencyCommunication) {
 			EmergencyCommunication ec = (EmergencyCommunication) c;
@@ -113,7 +115,9 @@ public abstract class DisplayImpl implements Display {
 
 			return channel;
 		}
-		if (getCategory().isVisible(c) && isVerifiedChannel(c)) {
+		boolean visible = getCategory().isVisible(c);
+		boolean verified = isVerifiedChannel(c);
+		if (visible && verified) {
 			// Take care of a null argument and remembering the previous channel.
 			if (!channel.equals(c)) {
 				if (channel instanceof EmergencyCommunication)
@@ -130,11 +134,20 @@ public abstract class DisplayImpl implements Display {
 			println(getClass(), ": Display " + getVirtualDisplayNumber() + " changed to [" + channel + "] at " + (new Date()));
 			// informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
 
+			// Actually do the channel change!
 			respondToContentChange(localSetContent(), "");
 			return previousChannel;
 		}
+		if (!verified) {
+			error("The requested channel (URL=" + c.getURI().toString() + ") is not approved to be shown");
+			informListeners(DisplayChangeEvent.Type.ERROR,
+					"The requested channel (URL=" + c.getURI().toString() + ") is not approved to be shown");
+		} else if (!visible) {
+			error("Content type of this Channel (" + c.getType() + ") is not appropriate for this Display (" + getCategory() + ")");
+			informListeners(DisplayChangeEvent.Type.ERROR, "Content type of this Channel (" + c.getType()
+					+ ") is not appropriate for this Display (" + getCategory() + ")");
+		}
 
-		error("Content type of this Channel (" + c.getType() + ") is not appropriate for this Display (" + getCategory() + ")");
 		return channel;
 	}
 
@@ -177,8 +190,16 @@ public abstract class DisplayImpl implements Display {
 		channel = c;
 	}
 
+	/**
+	 * An error has been encountered.
+	 * 
+	 * This should probably be overridden by the classes that know how to write to the physical display. Pushing this error
+	 * information into the log file is probably not the best choice for the disposition of this information.
+	 * 
+	 * @param string
+	 */
 	protected void error(String string) {
-		System.err.println(string);
+		printlnErr(getClass(), string);
 	}
 
 	@Override
@@ -272,7 +293,7 @@ public abstract class DisplayImpl implements Display {
 		for (final ActionListener L : listeners)
 			new Thread("DisplayInform" + t + "_" + L.getClass().getSimpleName()) {
 				public void run() {
-					// System.out.println(DisplayImpl.this.getClass().getSimpleName() + ": " + t + "  sent to a "
+					// System.out.println(DisplayImpl.this.getClass().getSimpleName() + ": " + t + " sent to a "
 					// + L.getClass().getName() + " (" + L.hashCode() + ")");
 					L.actionPerformed(ev);
 				}
