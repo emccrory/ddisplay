@@ -163,6 +163,7 @@ public class ImageGrid extends DetailedInformationGrid {
 
 			TreeSet<SignageContent> newList = new TreeSet<SignageContent>(new Comparator<SignageContent>() {
 				public int compare(SignageContent o1, SignageContent o2) {
+					// Sort by Experiment name first, then by image number.
 					if (o1 instanceof ChannelImage && o2 instanceof ChannelImage) {
 						ChannelImage c1 = (ChannelImage) o1;
 						ChannelImage c2 = (ChannelImage) o2;
