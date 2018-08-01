@@ -149,7 +149,7 @@ fi
 	    for i in `ps -aef | grep "lib/selenium/geckodriver" | grep -v grep | awk '{ print $2 }'`; do
 		echo "Killing a previous version of geckodriver"
 		kill $i;
-	    fi;
+	    done;
 	    
             # Do we need to run two instances of the display?  Then fix the position of the firefox windows
 	    # ./fixFirefoxConfig.sh -- not working on all display nodes.
