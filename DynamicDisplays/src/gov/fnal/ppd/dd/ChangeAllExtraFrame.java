@@ -5,17 +5,11 @@
  */
 package gov.fnal.ppd.dd;
 
-import static gov.fnal.ppd.dd.GlobalVariables.PROGRAM_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
-import gov.fnal.ppd.dd.changer.DisplayListFactory;
-import gov.fnal.ppd.dd.channel.ChannelImpl;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.awt.Dimension;
 import java.awt.Insets;
@@ -32,6 +26,12 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import gov.fnal.ppd.dd.changer.DisplayListFactory;
+import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageType;
 
 /**
  * Tell each "Special Announcement" frame to show the special announcement.
@@ -184,8 +184,6 @@ public class ChangeAllExtraFrame implements ActionListener {
 			e1.printStackTrace();
 			System.exit(-1);
 		}
-
-		PROGRAM_NAME = "Message";
 
 		final SignageType sType = SignageType.XOC;
 
