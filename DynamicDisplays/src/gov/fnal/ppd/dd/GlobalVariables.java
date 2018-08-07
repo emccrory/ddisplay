@@ -34,10 +34,19 @@ import javax.swing.ImageIcon;
 /**
  * This is where all the global constant in the Dynamic Displays system are held.
  * 
- * TODO - Some of the constants defined here might be better to put into the Properties file. The stuff like SHOW_IN_WINDOW probably
- * needs to be a System thing so it can be changed on the command line of the Java launch, but a lot of these other ones that are
- * System properties (SHOW_VIRTUAL_DISPLAY_NUMS, MESSAGING_SERVER_PORT, WEB_SERVER_NAME, WEB_SERVER_FOLDER, ...) that maybe we
- * should move to the properties file. To be continued ...
+ * TODO - Rationalize the place where global constants are defined. Most of them are supposed to be here, but bow are they
+ * initialize?
+ * 
+ * The categories of constants, as I see it now, are:
+ * 
+ * 1. Things that never, ever will change (e.g., the definition of the constant ONE_BILLION) - This will be defined here. To change
+ * one of these requires a re-compile.
+ * 
+ * 2. Things that only change on a system-wide basis (e.g., the default web server URL) - These constants should be defined in the
+ * Properties file (see class PropertiesFile).
+ * 
+ * 3. Things that change depending on how the program is being run (e.g., SHOW_IN_WINDOW) - These are changed by a system constant,
+ * set when the JVM is launched.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -46,21 +55,21 @@ public class GlobalVariables {
 	/**
 	 * Do we show in full screen or in a window? Controlled by system constant, ddisplay.selector.inwindow
 	 */
-	public static boolean		SHOW_IN_WINDOW				= Boolean.getBoolean("ddisplay.selector.inwindow");
+	public final static boolean	SHOW_IN_WINDOW				= Boolean.getBoolean("ddisplay.selector.inwindow");
 	/**
 	 * Is this a PUBLIC controller? Controlled by system constant, ddisplay.selector.public
 	 */
-	public static boolean		IS_PUBLIC_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.public");
+	public final static boolean	IS_PUBLIC_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.public");
 
 	/**
 	 * Is this a controller that is thought to be used by a docent?
 	 */
-	public static boolean		IS_DOCENT_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.docent");
+	public final static boolean	IS_DOCENT_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.docent");
 
 	/**
 	 * Does the user want to have the database index for the display shown (default) or the virtual display numbers?
 	 */
-	public static boolean		SHOW_VIRTUAL_DISPLAY_NUMS	= Boolean.getBoolean("ddisplay.virtualdisplaynumbers");
+	public final static boolean	SHOW_VIRTUAL_DISPLAY_NUMS	= Boolean.getBoolean("ddisplay.virtualdisplaynumbers");
 
 	/**
 	 * Does the user want to show and extended display name on the display buttons?
@@ -76,17 +85,17 @@ public class GlobalVariables {
 	 * String that says, "Do not check message signing". This is the only word that will turn off checking. All other words will
 	 * result in checking.
 	 */
-	public static final String	NOCHECK_SIGNED_MESSAGE		= "nocheck";
+	public final static String	NOCHECK_SIGNED_MESSAGE		= "nocheck";
 
 	/**
 	 * String that says, "Check message signing". This is the default.
 	 */
-	public static final String	CHECK_SIGNED_MESSAGE		= "check";
+	public final static String	CHECK_SIGNED_MESSAGE		= "check";
 
 	/**
 	 * See comment in MakeChannelSelector - this has not been successfully implemented.
 	 */
-	public static final boolean	RUN_RAISE_SELECTOR_BUTTON	= Boolean.getBoolean("ddisplay.selector.showraisebutton");
+	public final static boolean	RUN_RAISE_SELECTOR_BUTTON	= Boolean.getBoolean("ddisplay.selector.showraisebutton");
 
 	/**
 	 * <p>
@@ -98,10 +107,12 @@ public class GlobalVariables {
 	 * </p>
 	 */
 
-	private static String		checkSignedMessage			= System.getProperty("ddisplay.checksignedmessage",
+	private final static String	checkSignedMessage			= System.getProperty("ddisplay.checksignedmessage",
 			CHECK_SIGNED_MESSAGE);
 
 	/**
+	 * Do we check for signatures? This seems inappropriate now - it should probably be removed (2-Aug-2018)
+	 * 
 	 * @return Do we need to check the signature on messages?
 	 */
 	public static boolean checkSignedMessages() {
@@ -131,12 +142,12 @@ public class GlobalVariables {
 	/**
 	 * 
 	 */
-	public static final String THIS_IP_NAME_INSTANCE = System.getProperty("ddisplay.selectorinstance", "00");
+	public final static String THIS_IP_NAME_INSTANCE = System.getProperty("ddisplay.selectorinstance", "00");
 
 	/**
 	 * @return The messaging name for this selector client.
 	 */
-	public static final String getFullSelectorName() {
+	public final static String getFullSelectorName() {
 		return THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE;
 	}
 
@@ -150,7 +161,7 @@ public class GlobalVariables {
 	/**
 	 * The names of the image files used in the screen saver
 	 */
-	public static final String[]	imageNames	= { "fermilab3.jpg", "fermilab1.jpg", "fermilab2.jpg", "fermilab4.jpg",
+	public final static String[]	imageNames	= { "fermilab3.jpg", "fermilab1.jpg", "fermilab2.jpg", "fermilab4.jpg",
 			"fermilab5.jpg", "fermilab6.jpg", "fermilab7.jpg", "fermilab8.jpg", "fermilab9.jpg", "fermilab10.jpg", "fermilab11.jpg",
 			"fermilab12.jpg", "fermilab13.jpg", "fermilab14.jpg", "fermilab15.jpg", "fermilab16.jpg", "fermilab17.jpg",
 			"fermilab18.jpg", "fermilab19.jpg", "fermilab20.jpg", "fermilab21.jpg", "Baginski_1319.jpg", "Baginski_1649.jpg",
@@ -165,8 +176,7 @@ public class GlobalVariables {
 			"egret-spots.jpg", "feynman-fountain.jpg", "iarc-angles.jpg", "july-fourth-coyote.jpg",
 			"lightning-storm-over-fermilab.jpg", "main-ring-magnets.jpg", "pom-pom.jpg", "ramsey-wilson.jpg",
 			"sunset-at-caseys-pond.jpg", "water-moon-venus.jpg", "wilson-hall-moon-airplane.jpg", "yellow-flowers.jpg",
-			"yellowwildflowers.jpg",
-	};
+			"yellowwildflowers.jpg", };
 
 	/**
 	 * The images corresponding to the image names specified above
@@ -189,7 +199,7 @@ public class GlobalVariables {
 	 * Must be called by the ChannelSelector prior to startup! This was simply a "static" block, but this is entirely unnecessary
 	 * for the Displays
 	 */
-	public static final void prepareSaverImages() {
+	public final static void prepareSaverImages() {
 		List<String> a = Arrays.asList(imageNames);
 		Collections.shuffle(a); // Randomize the presentation
 		int i = 0;
@@ -215,77 +225,74 @@ public class GlobalVariables {
 	// /**
 	// * Where is the messaging server? Controlled by system constant, ddisplay.messagingserver
 	// */
-	// public static final String MESSAGING_SERVER_NAME = System.getProperty("ddisplay.messagingserver", DEFAULT_SERVER);
+	// public final static String MESSAGING_SERVER_NAME = System.getProperty("ddisplay.messagingserver", DEFAULT_SERVER);
 
 	/**
-	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) prime number in the range of unassigned
-	 * port number (49152 - 65535) Controlled by system constant ddisplay.messagingserver
+	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) in the range of unassigned
+	 * port number (49152 - 65535) Controlled by system constant ddisplay.messagingserver.  I like primes.
 	 */
-	public static final int		MESSAGING_SERVER_PORT	= PropertiesFile.getIntProperty("messagingPort", 49999);
-	// public static final int		MESSAGING_SERVER_PORT	= Integer.getInteger("ddisplay.messagingport", 49999);
+	public final static int		MESSAGING_SERVER_PORT	= PropertiesFile.getIntProperty("messagingPort", 49999);
+	// public final static int MESSAGING_SERVER_PORT = Integer.getInteger("ddisplay.messagingport", 49999);
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	public static final String	WEB_SERVER_NAME			= PropertiesFile.getProperty("webServer", "dynamicdisplays.fnal.gov");
+	public final static String	WEB_SERVER_NAME			= PropertiesFile.getProperty("webServer", "dynamicdisplays.fnal.gov");
 	/**
 	 * Where is the Web server? Controlled by system constant ddisplay.webserver
 	 */
-	private static final String	WEB_SERVER_FOLDER		= PropertiesFile.getProperty("webFolder", "");
-	
+	private final static String	WEB_SERVER_FOLDER		= PropertiesFile.getProperty("webFolder", "");
+
 	/**
 	 * Do we use http or https?
 	 */
-	public static final String WEB_PROTOCOL = PropertiesFile.getProperty("defaultWebProtocol", "http");
-	
+	public final static String	WEB_PROTOCOL			= PropertiesFile.getProperty("defaultWebProtocol", "http");
+
 	/**
 	 * @return The web server prefix, dealing with whether or not there is a folder in there, too.
 	 */
-	public static final String getFullURLPrefix() {
+	public final static String getFullURLPrefix() {
 		if (WEB_SERVER_FOLDER.length() > 0)
 			return WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/" + WEB_SERVER_FOLDER;
-		
+
 		return WEB_PROTOCOL + "://" + WEB_SERVER_NAME;
 	}
 
 	/**
 	 * Where is the Database server? Controlled by system constant ddisplay.dbserver
 	 */
-	public static String			DATABASE_SERVER_NAME			= System.getProperty("ddisplay.dbserver",
-			"fnalmysqldev.fnal.gov:3311");
+	public static String			DATABASE_SERVER_NAME			= System.getProperty("ddisplay.dbserver");
 	/**
 	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
 	 */
-	public static String			DATABASE_NAME					= System.getProperty("ddisplay.dbname", "xoc_dev");
+	public static String			DATABASE_NAME					= System.getProperty("ddisplay.dbname");
 	/**
 	 * The username for accessing the database
 	 */
-	public static String			DATABASE_USER_NAME				= System.getProperty("ddisplay.dbusername", "no included here");
+	public static String			DATABASE_USER_NAME				= System.getProperty("ddisplay.dbusername");
 	/**
 	 * the password corresponding to the username that accesses the database. Note that this MUST be entered by hand for each time
 	 * one runs an application. (This is not the actual password.)
 	 */
-	public static String			DATABASE_PASSWORD				= System.getProperty("ddisplay.dbpassword",
-			"I'm not telling :-)");
+	public static String			DATABASE_PASSWORD				= System.getProperty("ddisplay.dbpassword");
 	/**
 	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
 	 * Controlled by system constant ddisplay.xmlserver
 	 */
-	public static final String		XML_SERVER_NAME					= System.getProperty("ddisplay.xmlserver",
-			"dynamicdisplays.fnal.gov");
+	public final static String		XML_SERVER_NAME					= System.getProperty("ddisplay.xmlserver");
 
 	/**
 	 * The URL that is the single image display web page. This is a bit of a kludge!
 	 */
-	public static final String		SINGLE_IMAGE_DISPLAY			= PropertiesFile.getProperty("singleImageDisplay",
+	public final static String		SINGLE_IMAGE_DISPLAY			= PropertiesFile.getProperty("singleImageDisplay",
 			getFullURLPrefix() + "/portfolioOneSlide.php?photo=");
 
 	/**
 	 * What is the signature of a URL that can lead to a "Bad NUC" showing a bad web page?
 	 * 
 	 */
-	public static final String		URL_REQUIRING_LOTS_OF_GRAPHICS	= System.getProperty("ddisplay.animationurl",
+	public final static String		URL_REQUIRING_LOTS_OF_GRAPHICS	= System.getProperty("ddisplay.animationurl",
 			"^\\S+dynamicdisplays.fnal.gov/kenburns/portfolioDisplayChoice.php\\S+$");
-	private static final Pattern	urlMatchingPattern				= Pattern.compile(URL_REQUIRING_LOTS_OF_GRAPHICS);
+	private final static Pattern	urlMatchingPattern				= Pattern.compile(URL_REQUIRING_LOTS_OF_GRAPHICS);
 
 	/**
 	 * 
@@ -302,56 +309,52 @@ public class GlobalVariables {
 	/**
 	 * A symbol for 1,000,000,000.
 	 */
-	public static final int			ONE_BILLION				= 1000000000;
+	public final static int			ONE_BILLION				= 1000000000;
 
 	/**
 	 * One second, expressed in milliseconds (e.g., 1000L)
 	 */
-	public static final long		ONE_SECOND				= 1000L;
+	public final static long		ONE_SECOND				= 1000L;
 	/**
 	 * One Minute, expressed in milliseconds (e.g., 60000L)
 	 */
-	public static final long		ONE_MINUTE				= 60L * ONE_SECOND;
+	public final static long		ONE_MINUTE				= 60L * ONE_SECOND;
 	/**
 	 * 15 minutes, expressed in milliseconds (e.g., 900000L)
 	 */
-	public static final long		FIFTEEN_MINUTES			= 15L * ONE_MINUTE;
+	public final static long		FIFTEEN_MINUTES			= 15L * ONE_MINUTE;
 	/**
 	 * One hour, expressed in milliseconds (e.g., 3600000L)
 	 */
-	public static final long		ONE_HOUR				= 60L * ONE_MINUTE;
+	public final static long		ONE_HOUR				= 60L * ONE_MINUTE;
 	/**
 	 * One day (24 hours), expressed in milliseconds (e.g., 86400000L)
 	 */
-	public static final long		ONE_DAY					= 24L * ONE_HOUR;
+	public final static long		ONE_DAY					= 24L * ONE_HOUR;
 	/**
 	 * Used in ChannelSelector to go to the splash screen
 	 */
-	public static final long		INACTIVITY_TIMEOUT		= 3L * ONE_MINUTE;
+	public final static long		INACTIVITY_TIMEOUT		= 3L * ONE_MINUTE;
 	/**
 	 * Used in ChannelSelector
 	 */
-	public static final long		PING_INTERVAL			= 5L * ONE_SECOND;
+	public final static long		PING_INTERVAL			= 5L * ONE_SECOND;
 
 	/**
 	 * How long should the client wait between attempts to reconnect to the server. For displays, ONE_MINUTE is good. For
 	 * Controllers, the user is going to be less patient!
 	 */
 	public static long				WAIT_FOR_SERVER_TIME	= ONE_MINUTE;
-	/**
-	 * An identifier for the display facades
-	 */
-	public static String			PROGRAM_NAME			= "ChannelSelector";
 
 	/**
 	 * The string that means "show me your colors"
 	 */
-	public static final String		SELF_IDENTIFY			= "http://identify";
+	public final static String		SELF_IDENTIFY			= "http://identify";
 
 	/**
 	 * The string of a URL that means, perform a full and complete refresh of the page you are showing now
 	 */
-	public static final String		FORCE_REFRESH			= "http://refresh";
+	public final static String		FORCE_REFRESH			= "http://refresh";
 
 	/**
 	 * The list of Displays in this instance of whatever program you are running. This is used in a couple of places.
@@ -369,7 +372,7 @@ public class GlobalVariables {
 	 * <ol>
 	 * </p>
 	 */
-	public static final long		DEFAULT_DWELL_TIME		= 2 * ONE_HOUR;
+	public final static long		DEFAULT_DWELL_TIME		= 2 * ONE_HOUR;
 
 	private static int				locationCode;
 	private static List<Integer>	locationCodes			= new ArrayList<Integer>();
