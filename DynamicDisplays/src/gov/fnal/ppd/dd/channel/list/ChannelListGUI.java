@@ -96,7 +96,6 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 	public static void main(final String[] args) {
 		credentialsSetup();
 		// MakeChannelSelector.selectorSetup();
-		SHOW_IN_WINDOW = true;
 		PART_OF_CHANNEL_SELECTOR = false;
 
 		// Schedule a job for the event-dispatching thread: creating and showing this application's GUI.

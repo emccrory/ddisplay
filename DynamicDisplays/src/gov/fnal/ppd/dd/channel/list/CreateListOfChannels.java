@@ -565,8 +565,6 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 		getMessagingServerNameSelector();
 
 		// ChannelCatalogFactory.useRealChannels(true);
-		IS_PUBLIC_CONTROLLER = false;
-		// SHOW_IN_WINDOW = false;
 
 		JFrame f = new JFrame(CreateListOfChannels.class.getCanonicalName() + " Testing;");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
