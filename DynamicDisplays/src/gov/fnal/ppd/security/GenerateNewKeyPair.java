@@ -239,6 +239,7 @@ public class GenerateNewKeyPair {
 			String statementString = "REPLACE PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
 					+ InetAddress.getLocalHost().getHostAddress() + "', 0);";
 
+			System.out.println(statementString);
 			int numRows = stmt.executeUpdate(statementString);
 			if (numRows == 0 || numRows > 1) {
 				System.err.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
