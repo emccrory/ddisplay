@@ -169,8 +169,8 @@ public class MakeChannelSelector {
 
 								SHOW_DOCENT_TAB = rs2.getBoolean("DocentTab");
 								myClassification = rs2.getString("Type");
-								IS_PUBLIC_CONTROLLER = "Public".equals(myClassification) || "Experiment".equals(myClassification);
-								IS_DOCENT_CONTROLLER = "Experiment".equals(myClassification);
+								// IS_PUBLIC_CONTROLLER = "Public".equals(myClassification) || "Experiment".equals(myClassification);
+								// IS_DOCENT_CONTROLLER = "Experiment".equals(myClassification);
 								if (IS_PUBLIC_CONTROLLER)
 									SHOW_EXTENDED_DISPLAY_NAMES = true;
 
