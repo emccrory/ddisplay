@@ -45,8 +45,7 @@ elif [ -e /usr/bin/gnome-terminal ]; then
 elif [ -e /opt/X11/bin/xterm ]; then
     # Mac OS
     # First, wait for the X Server to initialize; starting the xterm usually seems to do it.
-    /opt/X11/bin/xterm -e 'echo "Starting X11"'
-    sleep 2
+    /opt/X11/bin/xterm -e 'echo "Assuring that X11 is running ..."; sleep 5'
     # Now start up a permanent X terminal so we can use it to look at log files and stuff
     /opt/X11/bin/xterm -geometry 200x30 &
 fi
