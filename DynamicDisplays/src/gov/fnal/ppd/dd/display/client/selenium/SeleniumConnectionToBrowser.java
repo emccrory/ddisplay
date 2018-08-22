@@ -122,82 +122,52 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	private void setBrowserConfig() {
 		String browserLocation = null;
 		String osName = System.getProperty("os.name").toUpperCase();
+		String driverFile = null;
 		try {
-			String suffix = "";
-
 			// ASSUME that we are using FireFox, which is the only browser we have tested to date (6/2018)
 
 			// ASSUME the location of FireFox for Linux
 			browserLocation = PropertiesFile.getProperty("binLinux");
 
-			if (osName.contains("WINDOWS")) {
-				suffix = ".exe";
-				// ASSUME the location of FireFox for Windows
+			driverFile = System.getProperty("user.dir") + PropertiesFile.getProperty("browserDriver");
+
+			if (osName.toUpperCase().contains("WINDOWS")) {
 				browserLocation = PropertiesFile.getProperty("binWindows");
-			} else if (osName.contains("MAC")) {
-				suffix = "_mac";
-				// ASSUME the location of FireFox for Mac OS
+			} else if (osName.toUpperCase().contains("MAC")) {
+				driverFile = System.getProperty("user.dir") + PropertiesFile.getProperty("browserDriverMac");
 				browserLocation = PropertiesFile.getProperty("binMac");
 			}
 
-			// Allow this to be set by the user prior to launching the code. This will be necessary when the location of the
-			// executable differs from the norms of today (6/2018) for FireFox.
-			if (System.getProperty("webdriver.firefox.bin") != null)
-				browserLocation = System.getProperty("webdriver.firefox.bin");
-			else
-				System.setProperty("webdriver.firefox.bin", browserLocation);
-
-			// TODO - See if the architecture is ARM, and then act on it.
-
-			String d = System.getProperty("user.dir");
-			boolean driverDefined = false;
-			String g = PropertiesFile.getProperty("browserDriver");
-			if (g != null) {
-				d += g;
-				driverDefined = true;
-				println(getClass(), "Browser driver is " + d);
-			}
+			println(getClass(), "Browser driver is " + driverFile + ", Browser executable is " + browserLocation);
 
 			if (browser.contains("Firefox")) {
 				// >>>>>>>>>> Only the Firefox driver has been tested (EM 6/2018) <<<<<<<<<<
-				if (!driverDefined)
-					d += "/lib/selenium/geckodriver" + suffix;
-				System.setProperty("webdriver.gecko.driver", d);
+				System.setProperty("webdriver.gecko.driver", driverFile);
 				driver = new FirefoxDriver();
-
 			} else if (browser.contains("Chrome")) {
 				// TODO - Untested
-				if (!driverDefined)
-					d += "/lib/selenium/chromedriver" + suffix;
-				System.setProperty("webdriver.chrome.driver", d);
-
+				System.setProperty("webdriver.chrome.driver", driverFile);
 				driver = new ChromeDriver();
-
 			} else if (browser.contains("Edge")) {
 				// TODO - Untested
-				if (!driverDefined)
-					d += "/lib/selenium/edgedriver" + suffix;
-				System.setProperty("webdriver.chrome.driver", d);
+				System.setProperty("webdriver.chrome.driver", driverFile);
 				driver = new EdgeDriver();
-
 			} else if (browser.contains("Opera")) {
 				// TODO - Untested and probably not right at all
-				if (!driverDefined)
-					d += "/lib/selenium/geckodriver" + suffix;
-				System.setProperty("webdriver.chrome.driver", d);
+				System.setProperty("webdriver.chrome.driver", driverFile);
 				driver = new OperaDriver();
-
 			} else {
-				System.err.println("*****");
+				System.err.println("\n\n*****");
 				(new Exception("ABORT: Unknown browser type specified: [" + browser + "]")).printStackTrace();
 				System.exit(-2);
 			}
-			println(getClass(), " Using this executable as the browser driver: " + d);
+
 			jse = (JavascriptExecutor) driver;
 		} catch (Exception e) {
 			System.err.println("Exception caught in " + getClass().getSimpleName() + ".setBrowserConfig()");
 			e.printStackTrace();
-			System.err.println("Location of browser: " + browserLocation + ", Operating system: " + osName);
+			System.err.println("Browser driver is " + driverFile + ", Location of browser: " + browserLocation
+					+ ", Operating system: " + osName);
 			System.err.println("Aborting...");
 			System.exit(-2);
 		}
@@ -234,35 +204,35 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		if (!connected) {
 			println(getClass(), " - Error return from Javascript: [" + lastReturnValue + "]");
 		}
-//		if (notWaitingYet)
-//			new Thread() {
-//				public void run() {
-//					notWaitingYet = false;
-//					catchSleep(2000);
-//					PositioningMethod positioningMethod = PropertiesFile.getPositioningMethod();
-//					Point p = new Point(bounds.x, bounds.y);
-//					
-//					switch (positioningMethod) {
-//					case DirectPositioning:
-//						Dimension sd = new Dimension(bounds.width, bounds.height);
-//						println(getClass(), ">>>>>>>>>> Positioning the window <<<<<<<<<<");
-//						driver.manage().window().setPosition(p);
-//						driver.manage().window().setSize(sd);
-//						break;
-//					case UseHiddenButton:
-//						// driver.manage().window().setPosition(p);
-//						println(getClass(), ">>>>>>>>>> Clicking <<<<<<<<<<");
-//						driver.findElement(new By.ByName("hiddenButton")).click();
-//						break;
-//					case ChangeIframe:
-//						// TODO
-//						println(getClass(), ">>>>>>>>>> Adjusting size of IFrame (not implemented yet) <<<<<<<<<<");
-//						break;
-//					case DoNothing:
-//						break;
-//					}
-//				}
-//			}.start();
+		// if (notWaitingYet)
+		// new Thread() {
+		// public void run() {
+		// notWaitingYet = false;
+		// catchSleep(2000);
+		// PositioningMethod positioningMethod = PropertiesFile.getPositioningMethod();
+		// Point p = new Point(bounds.x, bounds.y);
+		//
+		// switch (positioningMethod) {
+		// case DirectPositioning:
+		// Dimension sd = new Dimension(bounds.width, bounds.height);
+		// println(getClass(), ">>>>>>>>>> Positioning the window <<<<<<<<<<");
+		// driver.manage().window().setPosition(p);
+		// driver.manage().window().setSize(sd);
+		// break;
+		// case UseHiddenButton:
+		// // driver.manage().window().setPosition(p);
+		// println(getClass(), ">>>>>>>>>> Clicking <<<<<<<<<<");
+		// driver.findElement(new By.ByName("hiddenButton")).click();
+		// break;
+		// case ChangeIframe:
+		// // TODO
+		// println(getClass(), ">>>>>>>>>> Adjusting size of IFrame (not implemented yet) <<<<<<<<<<");
+		// break;
+		// case DoNothing:
+		// break;
+		// }
+		// }
+		// }.start();
 	}
 
 	/**
@@ -279,11 +249,11 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				lastReturnValue = new Long(1);
 				println(getClass(), "First URL is " + url);
 				driver.get(url);
-				
+
 				catchSleep(1000);
 				PositioningMethod positioningMethod = PropertiesFile.getPositioningMethod();
 				Point p = new Point(bounds.x, bounds.y);
-				
+
 				switch (positioningMethod) {
 				case DirectPositioning:
 					Dimension sd = new Dimension(bounds.width, bounds.height);
@@ -302,9 +272,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 					break;
 				case DoNothing:
 					break;
-				}			
-				
-				
+				}
 
 				// Does not work on GeckoDriver versions before 0.20 ...
 				// driver.manage().window().fullscreen();
@@ -353,8 +321,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	@Override
 	public void forceRefresh(int frameNumber) {
 		driver.navigate().refresh();
-		
-		// Note that if the full screen-ness of the browser is done in the web page, this will cause it to  fall out of full screen.
+
+		// Note that if the full screen-ness of the browser is done in the web page, this will cause it to fall out of full screen.
 		catchSleep(100);
 		CheckAndFixScreenDimensions.goToProperSizeAndPlace(driver);
 	}
