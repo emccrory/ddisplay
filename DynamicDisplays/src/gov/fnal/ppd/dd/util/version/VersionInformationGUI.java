@@ -1,7 +1,5 @@
 package gov.fnal.ppd.dd.util.version;
 
-import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -24,6 +22,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
+
+import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -79,6 +79,9 @@ public class VersionInformationGUI extends JFrame {
 		}));
 		content.add(Box.createRigidArea(new Dimension(8, 8)));
 
+		content.add(getDispositionComponent());
+		content.add(Box.createRigidArea(new Dimension(8, 8)));
+
 		Box hb = Box.createHorizontalBox();
 		hb.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		content.add(hb);
@@ -115,11 +118,24 @@ public class VersionInformationGUI extends JFrame {
 		hb.add(Box.createRigidArea(new Dimension(10, 10)));
 		hb.add(reject);
 
+		content.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		setContentPane(content);
 	}
 
+	private JComponent getDispositionComponent() {
+		Box p = Box.createVerticalBox();
+		p.add(new JLabel("The dispostions are: "));
+		p.add(new JLabel(" DEVELOPMENT: For changes that should not be used anywhere important"));
+		p.add(new JLabel(" TEST: Designated test nodes should pick up these changes"));
+		p.add(new JLabel(" PRODUCTION: Every node should pick up and install this version"));
+		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.gray),
+				BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+		return p;
+	}
+
 	private Component getFlavorComponent(ActionListener listener) {
-		FLAVOR[] description = { FLAVOR.TEST, FLAVOR.DEVELOPMENT, FLAVOR.PRODUCTION };
+		FLAVOR[] description = { FLAVOR.DEVELOPMENT, FLAVOR.TEST, FLAVOR.PRODUCTION };
 		JComboBox<FLAVOR> c = new JComboBox<FLAVOR>();
 		for (FLAVOR D : description)
 			c.addItem(D);
