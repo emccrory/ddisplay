@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.display.client.selenium;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -10,10 +11,10 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -21,8 +22,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.opera.OperaDriver;
 
 import gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance;
+import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.PropertiesFile;
-import gov.fnal.ppd.dd.util.PropertiesFile.PositioningMethod;
 
 /**
  * The class that connects us to the browser via Selenium
@@ -31,12 +34,15 @@ import gov.fnal.ppd.dd.util.PropertiesFile.PositioningMethod;
  *
  */
 public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
-	private String				browser;
-	private WebDriver			driver;
-	private JavascriptExecutor	jse;
+	private String						browser;
+	private WebDriver					driver;
+	private JavascriptExecutor			jse;
+	private DisplayControllerMessagingAbstract myDisplay;
 
-	private boolean				uninitialized	= true;
-	private Object				lastReturnValue;
+	private boolean						uninitialized	= true;
+	private Object						lastReturnValue;
+
+	private CheckAndFixScreenDimensions	afsd = null;
 
 	/**
 	 * Construct the connection
@@ -48,8 +54,9 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	 * @param showNumber
 	 */
 	public SeleniumConnectionToBrowser(final int screenNumber, final int virtualID, final int dbID, final Color color,
-			final boolean showNumber) {
+			final boolean showNumber, DisplayControllerMessagingAbstract d) {
 		super(screenNumber, virtualID, dbID, color, showNumber);
+		myDisplay = d;
 	}
 
 	/**
@@ -176,13 +183,14 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 
 		Point p = new Point(bounds.x, bounds.y);
 		Dimension sd = new Dimension(bounds.width, bounds.height);
-		CheckAndFixScreenDimensions afsd = new CheckAndFixScreenDimensions(driver, p, sd);
+		afsd = new CheckAndFixScreenDimensions(driver, p, sd);
 
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(afsd, ONE_MINUTE, ONE_MINUTE);
 	}
 
-	boolean notWaitingYet = true;
+	boolean	notWaitingYet		= true;
+	int		seriousErrorCount	= 5;
 
 	@Override
 	public synchronized void send(String command) {
@@ -192,9 +200,24 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			lastReturnValue = jse.executeScript(command, new Object[] { "nothing" });
 			// If it goes as planned, the return value from this call will the the "return 1" I put in there.
 			connected = lastReturnValue.equals(1L);
+			if (seriousErrorCount != 5)
+				printlnErr(getClass(), " The serious error seems to have fixed itself.  Resetting counter to 5 tries.");
+			seriousErrorCount = 5;
 		} catch (NullPointerException e) {
-			// Up to now, this exception has meant that jse is null.
+			// Up to now (Late Spring, 2018), this exception has meant that jse is null.
 			e.printStackTrace();
+		} catch (SessionNotCreatedException e) {
+			if (--seriousErrorCount > 0) {
+				printlnErr(getClass(), "- SERIOUS ERROR!  It looks like the connection to the browser has been lost. We will try "
+						+ seriousErrorCount + " more times and then give up");
+				e.printStackTrace();
+			} else {
+				printlnErr(getClass(), "- SERIOUS ERROR! - Giving up now.");
+				myDisplay.setOfflineMessage("Connection to Selenium disappeared");
+				catchSleep(10000);
+				ExitHandler.saveAndExit();
+			}
+
 		} catch (Exception e) {
 			lastReturnValue = lastReturnValue.toString() + " - " + " Error sending this to the browser: [" + command + "]";
 			println(getClass(), lastReturnValue.toString());
@@ -251,28 +274,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				driver.get(url);
 
 				catchSleep(1000);
-				PositioningMethod positioningMethod = PropertiesFile.getPositioningMethod();
-				Point p = new Point(bounds.x, bounds.y);
-
-				switch (positioningMethod) {
-				case DirectPositioning:
-					Dimension sd = new Dimension(bounds.width, bounds.height);
-					println(getClass(), ">>>>>>>>>> Positioning the window <<<<<<<<<<");
-					driver.manage().window().setPosition(p);
-					driver.manage().window().setSize(sd);
-					break;
-				case UseHiddenButton:
-					// driver.manage().window().setPosition(p);
-					println(getClass(), ">>>>>>>>>> Clicking <<<<<<<<<<");
-					driver.findElement(new By.ByName("hiddenButton")).click();
-					break;
-				case ChangeIframe:
-					// TODO
-					println(getClass(), ">>>>>>>>>> Adjusting size of IFrame (not implemented yet) <<<<<<<<<<");
-					break;
-				case DoNothing:
-					break;
-				}
+				afsd.goToProperSizeAndPlace();
 
 				// Does not work on GeckoDriver versions before 0.20 ...
 				// driver.manage().window().fullscreen();
@@ -320,11 +322,14 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 
 	@Override
 	public void forceRefresh(int frameNumber) {
+		// Not this, although it seems like a good idea (it causes the initial web page to be displayed)
 		driver.navigate().refresh();
 
+		println(this.getClass(), "Refresh ...");
 		// Note that if the full screen-ness of the browser is done in the web page, this will cause it to fall out of full screen.
-		catchSleep(100);
-		CheckAndFixScreenDimensions.goToProperSizeAndPlace(driver);
+		catchSleep(1000);
+
+		afsd.goToProperSizeAndPlace();
 	}
 
 	@Override
