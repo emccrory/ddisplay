@@ -49,7 +49,7 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 								+ (showNumber ? "Showing display num" : "Hiding display num"));
 
 				browserInstance = new SeleniumConnectionToBrowser(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
-						highlightColor, showNumber);
+						highlightColor, showNumber, DisplayAsConnectionThroughSelenium.this);
 				catchSleep(2000); // Wait a bit before trying to talk to this instance of the browser.
 				browserInstance.openConnection();
 				catchSleep(1000); // Wait a bit longer
