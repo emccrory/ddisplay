@@ -84,24 +84,9 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 		try {
 			if (adjusted) {
 				catchSleep(100);
-				switch (positioningMethod) {
-				case DirectPositioning:
-					driver.manage().window().setPosition(screenPosition);
-					driver.manage().window().setSize(screenDimension);
-					break;
-				case UseHiddenButton:
-					// driver.manage().window().setPosition(screenPosition);
-					driver.findElement(new By.ByName("hiddenButton")).click();
-					break;
-				case ChangeIframe:
-					// TODO
-					break;
-				case DoNothing:
-					break;
-				}
+				goToProperSizeAndPlace();
 				catchSleep(100);
-				println(getClass(), counter + " Window layout - Position: " + driver.manage().window().getPosition()
-						+ ", Dimensions: " + driver.manage().window().getSize());
+				
 			}
 		} catch (Exception e) {
 			numExceptions++;
@@ -109,6 +94,8 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 					"Caught exception (#" + numExceptions + "/" + counter + ") in trying to adjust the position of the screen");
 			if (haventShowTraceback2) {
 				e.printStackTrace();
+				printlnErr(getClass(), "Caught exception (# of exceptions = " + numExceptions + " / overall entry counter = "
+						+ counter + ") in trying to adjust the position of the screen");
 				haventShowTraceback2 = false;
 			}
 		}
@@ -118,7 +105,7 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 	/**
 	 * @param driver
 	 */
-	public static void goToProperSizeAndPlace(final WebDriver driver) {
+	public void goToProperSizeAndPlace() {
 
 		switch (positioningMethod) {
 		case DirectPositioning:
@@ -128,7 +115,7 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 			throw new RuntimeException("Not implemented!");
 
 		case UseHiddenButton:
-			// driver.manage().window().setPosition(screenPosition);
+			driver.manage().window().setPosition(screenPosition);
 			driver.findElement(new By.ByName("hiddenButton")).click();
 			break;
 		case ChangeIframe:
@@ -138,9 +125,8 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 			break;
 		}
 		catchSleep(100);
-		println(CheckAndFixScreenDimensions.class, "Window layout - Position: " + driver.manage().window().getPosition()
+		println(getClass(), counter + " Window layout - Position: " + driver.manage().window().getPosition()
 				+ ", Dimensions: " + driver.manage().window().getSize());
 
 	}
-
 }
