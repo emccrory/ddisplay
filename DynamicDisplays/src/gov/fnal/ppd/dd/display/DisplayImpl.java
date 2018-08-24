@@ -20,6 +20,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import gov.fnal.ppd.dd.changer.DDButton;
@@ -38,21 +39,23 @@ import gov.fnal.ppd.dd.signage.SignageType;
  */
 public abstract class DisplayImpl implements Display {
 
-	private static int				displayCount		= 1;
+	private static int				displayCount			= 1;
 	// private int displayNumber = displayCount++;
 
 	private int						dbDisplayNumber;
-	private int						vDisplayNumber		= displayCount++;
+	private int						vDisplayNumber			= displayCount++;
 
-	protected int					screenNumber		= 0;
-	protected static AtomicInteger	internalThreadID	= new AtomicInteger(0);
+	protected int					screenNumber			= 0;
+	protected static AtomicInteger	internalThreadID		= new AtomicInteger(0);
 	protected SignageContent		channel;
 	// May need to change this attribute to a stack, so we can pop off to older "previous channels". Things like "IDENTIFY" and
 	// "REFRESH" screw this up.
-	protected SignageContent		previousChannel		= null;
+	// protected SignageContent previousChannel = null;
+	protected Stack<SignageContent>	previousChannelStack	= new Stack<SignageContent>();
+
 	protected Color					highlightColor;
-	protected List<ActionListener>	listeners			= new ArrayList<ActionListener>();
-	private SignageType				category			= SignageType.Public;
+	protected List<ActionListener>	listeners				= new ArrayList<ActionListener>();
+	private SignageType				category				= SignageType.Public;
 	private InetAddress				ipAddress;
 	private String					location;
 
@@ -91,7 +94,9 @@ public abstract class DisplayImpl implements Display {
 		this.vDisplayNumber = vDisplay;
 		this.highlightColor = color;
 		this.category = type;
-		this.previousChannel = this.channel = makeEmptyChannel(null);
+		// this.previousChannel = this.channel = makeEmptyChannel(null);
+		this.channel = makeEmptyChannel(null);
+		this.previousChannelStack.push(this.channel);
 	}
 
 	protected abstract boolean localSetContent();
@@ -122,9 +127,9 @@ public abstract class DisplayImpl implements Display {
 			if (!channel.equals(c)) {
 				if (channel instanceof EmergencyCommunication)
 					println(getClass(), " -- Current channel is an EmergencyCommunication.  Retaining the old previous channel of "
-							+ previousChannel);
+							+ previousChannelStack.peek());
 				else
-					previousChannel = channel;
+					previousChannelStack.push(channel);
 			}
 			if (c == null)
 				channel = makeEmptyChannel(null);
@@ -136,7 +141,7 @@ public abstract class DisplayImpl implements Display {
 
 			// Actually do the channel change!
 			respondToContentChange(localSetContent(), "");
-			return previousChannel;
+			return previousChannelStack.peek();
 		}
 		if (!verified) {
 			error("The requested channel (URL=" + c.getURI().toString() + ") is not approved to be shown");
