@@ -232,18 +232,6 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance#forceRefresh(int)
-	 */
-	@Override
-	public void forceRefresh(int frameNumber) {
-		// Send the refresh
-		String s = "window.location.reload();";
-		send(s);
-	}
-
 	@Override
 	public void send(String s) {
 		
