@@ -40,10 +40,13 @@ import java.util.TimerTask;
 
 import javax.xml.bind.JAXBException;
 
+import org.openqa.selenium.remote.server.handler.ChangeUrl;
+
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
+import gov.fnal.ppd.dd.chat.MessageType;
 import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.DisplayImpl;
@@ -125,7 +128,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private Thread							emergencyRemoveThread		= null;
 	private boolean							showingSelfIdentify			= false;
 	private long[]							frameRemovalTime			= { 0L, 0L, 0L, 0L, 0L };
-	private SignageContent					previousPreviousChannel		= null;
+	// private SignageContent previousPreviousChannel = null;
 	private boolean							skipRevert					= false;
 	private long							revertTimeRemaining			= 0L;
 	private boolean[]						removeFrame					= { false, false, false, false, false };
@@ -137,6 +140,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	@SuppressWarnings("unused")
 	private String							mySubject;
+	protected String						offlineMessage				= "";
 
 	// Use messaging to get change requests from the changers -->
 	// private boolean actAsServerNoMessages = true;
@@ -216,10 +220,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		} else if (!browserInstance.isConnected()) {
 			retval += "*NOT CONNECTED TO BROWSER* Last page " + getContent().getURI();
 		} else if (getContent() == null)
-			retval += "Off Line";
+			retval += OFF_LINE + " " + offlineMessage;
 		else {
 			if (specialURI(getContent())) {
-				retval += (getStatus() + " (" + previousChannel.getURI() + ")").replace("'", "\\'");
+				retval += (getStatus() + " (" + previousChannelStack.peek().getURI() + ")").replace("'", "\\'");
 			} else
 				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
 		}
@@ -314,8 +318,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				updateMyStatus();
 
 				disconnect();
-				
-				// TODO - In the Selenium framework, it looks like the geckodriver process sticks around.  How does one kill it???
+
+				// TODO - In the Selenium framework, it looks like the geckodriver process sticks around. How does one kill it???
 			}
 		});
 	}
@@ -410,8 +414,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		println(getClass(), browserInstance.getInstance() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
 
 		if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
-			if (previousPreviousChannel == null)
-				previousPreviousChannel = previousChannel;
+			// if (previousPreviousChannel == null)
+			// previousPreviousChannel = previousChannel;
 
 			if (!showingSelfIdentify) {
 				showingSelfIdentify = true;
@@ -421,7 +425,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						catchSleep(SHOW_SPLASH_SCREEN_TIME);
 						browserInstance.removeIdentify();
 						showingSelfIdentify = false;
-						setContentBypass(previousChannel);
+						// setContentBypass(previousChannel);
+						setContentBypass(previousChannelStack.pop());
 						updateMyStatus();
 					}
 				}.start();
@@ -429,22 +434,30 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			}
 		} else if (url.equalsIgnoreCase(FORCE_REFRESH)) {
 			try {
-				if (previousPreviousChannel == null)
-					previousPreviousChannel = previousChannel;
-
-				// First, do a brute-force refresh to the browser
-				browserInstance.forceRefresh(frameNumber);
+				// Tell the browser to show the current page, again.
+				previousChannelStack.pop(); // Remove the "Refresh" fake channel
+				String lastURL = previousChannelStack.peek().getURI().toASCIIString().replace("&amp;", "&");
+				int code = previousChannelStack.peek().getCode();
+				if (browserInstance.changeURL(lastURL, wrapperType, frameNumber, code)) {
+					showingSelfIdentify = false;
+				} else {
+					println(getClass(), ".localSetContent():" + browserInstance.getInstance() + " Failed to set content");
+					return false;
+				}
 			} catch (Exception e) {
+				// System.err.println(getClass().getSimpleName() + ":" + browserInstance.getInstance()
+				// + " Something is wrong with this re-used URL: [" + previousChannel.getURI().toASCIIString() + "]");
 				System.err.println(getClass().getSimpleName() + ":" + browserInstance.getInstance()
-						+ " Somthing is wrong with this re-used URL: [" + previousChannel.getURI().toASCIIString() + "]");
+						+ " Somthing is wrong with this re-used URL: [" + previousChannelStack.peek().getURI().toASCIIString()
+						+ "]");
 				e.printStackTrace();
 				return false;
 			}
 		} else
 			try {
 				if (expiration > 0) {
-					if (previousPreviousChannel == null)
-						previousPreviousChannel = previousChannel;
+					// if (previousPreviousChannel == null)
+					// previousPreviousChannel = previousChannel;
 					revertTimeRemaining = expiration;
 					skipRevert = false;
 				} else {
@@ -458,6 +471,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				 * 1. the previousChannel gets lost because there is only one "previousChannel"
 				 * 
 				 * 2. The status will read the contents of this extra frame
+				 * 
+				 * It seems like we need to throw away this functionality, except for emergency frames. (8/2018)
 				 */
 				if (frameNumber > 0 && frameRemovalTime[frameNumber] > 0) {
 					if (browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
@@ -477,7 +492,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 					// ******************** Normal channel change here ********************
 					if (browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
-						previousChannel = getContent();
+						previousChannelStack.pop(); // Replace the top element of this history stack with the new channel
+						previousChannelStack.push(getContent());
 						showingSelfIdentify = false;
 					} else {
 						println(getClass(), ".localSetContent():" + browserInstance.getInstance() + " Failed to set content");
@@ -513,7 +529,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			boolean retval = browserInstance.showEmergencyCommunication(em);
 			showingEmergencyMessage = true;
 			if (em.getSeverity() == Severity.REMOVE) {
-				setContent(previousChannel);
+				setContent(previousChannelStack.pop());
 				showingEmergencyMessage = false;
 			}
 
@@ -527,7 +543,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						for (; remainingTimeRemEmergMess > 0; remainingTimeRemEmergMess -= interval) {
 							catchSleep(Math.min(interval, remainingTimeRemEmergMess));
 						}
-						setContent(previousChannel);
+						setContent(previousChannelStack.pop());
 						showingEmergencyMessage = false;
 						emergencyRemoveThread = null;
 					}
@@ -551,11 +567,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			 * 
 			 */
 
+			previousChannelStack.pop();
+			previousChannelStack.push(getContent());
 			playlistThread = new ThreadWithStop((ChannelPlayList) getContent());
 			playlistThread.start();
-		} else
+		} else {
+			previousChannelStack.pop();
+			previousChannelStack.push(getContent());
 			return localSetContent_notLists();
-
+		}
 		return true;
 	}
 
@@ -612,6 +632,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				 * 1/14/2016: This is all resolved now. Also, changed to handling the channel list down here. This ends up making
 				 * the channel list class behave almost identically to all the other SingnageContent classes, except for right here
 				 * where (as they say) the rubber meets the road.
+				 * 
+				 * ----------------------------------------------------------------------------------------------------------------
+				 *
+				 * 8/23/2018: I think there is a problem with this "revert" idea if more than one channel gets shown that needs to
+				 * disappear (be reverted). That is, the recursion of this operation is not right. There are at least two ways to
+				 * fix this: (1) Make iut truly recursive, so that if you send channels, A, B, and C, which all have the revert time
+				 * set, it will revert from C to B, wait, from B to A, wait, and then from A to the original channel. (2) Don't ever
+				 * revert to a channel that will also revert, but keep track of the last non-reverting channel and then revert to
+				 * that when the last reverting-channel expires (this is in line with the actual "Docent" use case here)
 				 */
 
 				@Override
@@ -630,16 +659,19 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								return;
 							}
 						}
-						println(DisplayControllerMessagingAbstract.this.getClass(), ".localSetContent():" + browserInstance.getInstance()
-								+ " Reverting to channel " + previousPreviousChannel);
+						println(DisplayControllerMessagingAbstract.this.getClass(),
+								".localSetContent():"
+										// + browserInstance.getInstance() + " Reverting to channel " + previousPreviousChannel);
+										+ browserInstance.getInstance() + " Reverting to channel " + previousChannelStack.peek());
 						try {
-							setContent(previousPreviousChannel);
-							// TODO -- Do we need to have a stack of previous channels so one can traverse backwards in a situation
-							// like this??
-							previousChannel = previousPreviousChannel;
-							previousPreviousChannel = null;
-							println(DisplayControllerMessagingAbstract.this.getClass(), ".setRevertThread():" + browserInstance.getInstance()
-									+ " Reverted to original web page, " + previousChannel);
+							setContent(previousChannelStack.pop());
+							// setContent(previousPreviousChannel);
+							// Do we need to have a stack of previous channels so one can traverse backwards in a situation
+							// like this?? 8/23/18: I think maybe so! See note above
+							// previousChannel = previousPreviousChannel;
+							// previousPreviousChannel = null;
+							// println(DisplayControllerMessagingAbstract.this.getClass(), ".setRevertThread():"
+							// + browserInstance.getInstance() + " Reverted to original web page, " + previousChannel);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -671,12 +703,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			public void run() {
 				long increment = 15000L;
 				while (removeFrame[frameNumber] == false && frameRemovalTime[frameNumber] > 0) {
-					println(DisplayControllerMessagingAbstract.this.getClass(), browserInstance.getInstance() + " Continuing; frame off in  "
-							+ frameNumber + " in " + frameRemovalTime[frameNumber] + " msec");
+					println(DisplayControllerMessagingAbstract.this.getClass(), browserInstance.getInstance()
+							+ " Continuing; frame off in  " + frameNumber + " in " + frameRemovalTime[frameNumber] + " msec");
 					catchSleep(Math.min(increment, frameRemovalTime[frameNumber]));
 					frameRemovalTime[frameNumber] -= increment;
 				}
-				println(DisplayControllerMessagingAbstract.this.getClass(), ".setupRemovalFrameThread() removing frame " + frameNumber + " now.");
+				println(DisplayControllerMessagingAbstract.this.getClass(),
+						".setupRemovalFrameThread() removing frame " + frameNumber + " now.");
 
 				browserInstance.hideFrame(frameNumber);
 				frameRemovalThread[frameNumber] = null;
@@ -709,6 +742,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				}.start();
 			} else {
 				new Thread("RefreshContent" + getMessagingName()) {
+
 					@Override
 					public void run() {
 						long increment = 15000L;
@@ -745,6 +779,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							}
 						}
 					}
+
 				}.start();
 			}
 		}
@@ -893,7 +928,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			d.initiate();
 			d.setContentBypass(makeEmptyChannel(null));
 
-			// TODO -- Change this default content to be able to handle a default LIST of channels.
 			return d;
 		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
 				| IllegalArgumentException | InvocationTargetException e) {
@@ -910,10 +944,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	protected class MessagingClientLocal extends MessagingClient {
-		private boolean		debug	= true;
-		private DCProtocol	dcp		= new DCProtocol();
+		private boolean		debug			= true;
+		private DCProtocol	dcp				= new DCProtocol();
 		private Thread		myShutdownHook;
 		private String		lastFrom;
+		private int			messageCount	= 0;
 
 		// private int myDisplayNumber, myScreenNumber;
 
@@ -953,9 +988,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			// TODO -- Should this method be synchronized? Does it make sense to have two messages processed at the same time, or
 			// not?
 
-			// if (debug && msg.getType() != MessageType.ISALIVE)
-			println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
-					+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
+			if ((messageCount++ % 5) == 0 || msg.getType() != MessageType.ISALIVE) {
+				println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
+						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
+			}
 			lastFrom = msg.getFrom();
 			if (msg.getTo().equals(getName())) { // || msg.getTo().startsWith(getName())) {
 				if (!dcp.processInput(msg)) {
@@ -988,7 +1024,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 					Object content = ois.readObject();
 
-					println(DisplayControllerMessagingAbstract.this.getClass(), ": Retrieved a channel from the file system: [" + content + "]");
+					println(DisplayControllerMessagingAbstract.this.getClass(),
+							": Retrieved a channel from the file system: [" + content + "]");
 
 					if (content instanceof SignageContent) {
 						if (specialURI((SignageContent) content))
@@ -1023,7 +1060,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				try {
 					SignageContent c = getContent();
 					if (specialURI(c))
-						c = previousChannel;
+						c = previousChannelStack.peek();
 					if (c == null)
 						return;
 					try (FileOutputStream fout = new FileOutputStream(filename)) {
@@ -1048,6 +1085,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	protected static boolean specialURI(SignageContent content) {
 		return content == null || content instanceof EmergencyCommunication
 				|| content.getURI().toASCIIString().equals(FORCE_REFRESH) || content.getURI().toASCIIString().equals(SELF_IDENTIFY);
+	}
+
+	public String getOfflineMessage() {
+		return offlineMessage;
+	}
+
+	public void setOfflineMessage(String offlineMessage) {
+		this.offlineMessage = offlineMessage;
 	}
 
 }
