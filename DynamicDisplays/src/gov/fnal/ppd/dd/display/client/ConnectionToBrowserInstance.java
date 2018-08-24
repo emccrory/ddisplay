@@ -50,7 +50,7 @@ public abstract class ConnectionToBrowserInstance {
 	// private static final String EXTRAFRAMENOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border4.php";
 
 	protected static final String	TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
-	// protected static final String	WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border7.php";
+	// protected static final String WEB_PAGE_EMERGENCY_FRAME = "http://" + WEB_SERVER_NAME + "/border7.php";
 	protected static final String	WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border8.php";
 
 	// private static final String FERMI_TICKERTAPE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border5.php";
@@ -95,28 +95,28 @@ public abstract class ConnectionToBrowserInstance {
 		colorCode = "000000".substring(colorCode.length()) + colorCode;
 
 		// Start a couple of daemon threads --------------------------------
-		
+
 		// Perform a full reset of the browser every now and then.
-//		TimerTask tt = new TimerTask() {
-//			public void run() {
-//				try {
-//					// The next time there is a channel change (even for a refresh), it will do a full reset.
-//					showingCanonicalSite.set(false);
-//					println(ConnectionToFirefoxInstance.class, ": next refresh of URL will be a FULL reset");
-//				} catch (Exception e) {
-//					println(ConnectionToFirefoxInstance.class, "Exception caught in diagnostic thread, " + e.getLocalizedMessage());
-//					e.printStackTrace();
-//				}
-//			}
-//		};
-//
-//		Timer timer = new Timer();
-//		timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
-// In the Selenium framework, sending a new, full URL causes it to come out of full-screen mode.
-		
+		// TimerTask tt = new TimerTask() {
+		// public void run() {
+		// try {
+		// // The next time there is a channel change (even for a refresh), it will do a full reset.
+		// showingCanonicalSite.set(false);
+		// println(ConnectionToFirefoxInstance.class, ": next refresh of URL will be a FULL reset");
+		// } catch (Exception e) {
+		// println(ConnectionToFirefoxInstance.class, "Exception caught in diagnostic thread, " + e.getLocalizedMessage());
+		// e.printStackTrace();
+		// }
+		// }
+		// };
+		//
+		// Timer timer = new Timer();
+		// timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
+		// In the Selenium framework, sending a new, full URL causes it to come out of full-screen mode.
+
 		instance = " (Screen " + numberOfScreens + ")";
 		if (numberOfScreens == 1) {
-			Timer timer = new Timer();  // Not sure if we really need to make another one
+			Timer timer = new Timer(); // Not sure if we really need to make another one
 			TimerTask g = new TimerTask() {
 				public void run() {
 					for (int i = 0; i < 100; i++) {
@@ -155,11 +155,18 @@ public abstract class ConnectionToBrowserInstance {
 	public abstract void openConnection();
 
 	/**
-	 * Ask the browser to completely refresh itself
+	 * Ask the browser to reload the web page it is showing right now.
+	 * 
+	 * Note that since we are pretty much always showing a web page within a frame, we don't want to refresh the web page, but
+	 * rather the frame
 	 * 
 	 * @param frameNumber
 	 */
-	public abstract void forceRefresh(int frameNumber);
+	public void forceRefresh(int frameNumber) {
+		// Send the refresh
+		String s = "window.location.reload(true);";
+		send(s);
+	}
 
 	/**
 	 * Put the browser window into the right place
@@ -266,11 +273,11 @@ public abstract class ConnectionToBrowserInstance {
 				if (!showNumber)
 					s += "&shownumber=0";
 				s += "\";\n";
-				
+
 				// TODO - Figure this out!
 				// In the Selenium framework, sending a new URL to the browser (which we do from time to time) takes it out of
-				// full-screen mode.  The work-around would be to call the class that assures the browser is full screen.  but
-				// then there would be a visible glitch in the visuals, so this is not acceptable.  Maybe, then, only the "refresh" 
+				// full-screen mode. The work-around would be to call the class that assures the browser is full screen. but
+				// then there would be a visible glitch in the visuals, so this is not acceptable. Maybe, then, only the "refresh"
 				// from the user will send the URL all over again (which drops it out of full screen) and then quickly make it full
 				// screen again.
 			}
@@ -313,9 +320,9 @@ public abstract class ConnectionToBrowserInstance {
 		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'background-color: #" + colorCode
 				+ "; padding:0; margin: 100;' );\n";
 
-//		s += "document.getElementById('iframe').style.width=" + (bounds.width - 220) + ";\n";
-//		s += "document.getElementById('iframe').style.height=" + (bounds.height - 208) + ";\n";
-		
+		// s += "document.getElementById('iframe').style.width=" + (bounds.width - 220) + ";\n";
+		// s += "document.getElementById('iframe').style.height=" + (bounds.height - 208) + ";\n";
+
 		s += "document.getElementById('iframe').style.width='89%';\n";
 		s += "document.getElementById('iframe').style.height='81%';\n";
 
@@ -348,7 +355,7 @@ public abstract class ConnectionToBrowserInstance {
 				+ colorCode + "';\n";
 		// s += "document.getElementById('iframe').style.width=" + (bounds.width - 4) + ";\n";
 		// s += "document.getElementById('iframe').style.height=" + (bounds.height - 6) + ";\n";
-		
+
 		s += "document.getElementById('iframe').style.width='99.8%';\n";
 		s += "document.getElementById('iframe').style.height='99.5%';\n";
 
