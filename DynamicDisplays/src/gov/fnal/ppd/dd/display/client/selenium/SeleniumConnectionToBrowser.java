@@ -34,15 +34,15 @@ import gov.fnal.ppd.dd.util.PropertiesFile;
  *
  */
 public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
-	private String						browser;
-	private WebDriver					driver;
-	private JavascriptExecutor			jse;
-	private DisplayControllerMessagingAbstract myDisplay;
+	private String								browser;
+	private WebDriver							driver;
+	private JavascriptExecutor					jse;
+	private DisplayControllerMessagingAbstract	myDisplay;
 
-	private boolean						uninitialized	= true;
-	private Object						lastReturnValue;
+	private boolean								uninitialized	= true;
+	private Object								lastReturnValue;
 
-	private CheckAndFixScreenDimensions	afsd = null;
+	private CheckAndFixScreenDimensions			afsd			= null;
 
 	/**
 	 * Construct the connection
@@ -189,8 +189,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		timer.scheduleAtFixedRate(afsd, ONE_MINUTE, ONE_MINUTE);
 	}
 
-	boolean	notWaitingYet		= true;
-	int		seriousErrorCount	= 5;
+	boolean notWaitingYet = true;
 
 	@Override
 	public synchronized void send(String command) {
@@ -200,24 +199,14 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			lastReturnValue = jse.executeScript(command, new Object[] { "nothing" });
 			// If it goes as planned, the return value from this call will the the "return 1" I put in there.
 			connected = lastReturnValue.equals(1L);
-			if (seriousErrorCount != 5)
-				printlnErr(getClass(), " The serious error seems to have fixed itself.  Resetting counter to 5 tries.");
-			seriousErrorCount = 5;
 		} catch (NullPointerException e) {
 			// Up to now (Late Spring, 2018), this exception has meant that jse is null.
 			e.printStackTrace();
 		} catch (SessionNotCreatedException e) {
-			if (--seriousErrorCount > 0) {
-				printlnErr(getClass(), "- SERIOUS ERROR!  It looks like the connection to the browser has been lost. We will try "
-						+ seriousErrorCount + " more times and then give up");
-				e.printStackTrace();
-			} else {
-				printlnErr(getClass(), "- SERIOUS ERROR! - Giving up now.");
-				myDisplay.setOfflineMessage("Connection to Selenium disappeared");
-				catchSleep(10000);
-				ExitHandler.saveAndExit();
-			}
-
+			printlnErr(getClass(), "- SERIOUS ERROR! - The connection to the browser has been lost. Giving up.");
+			myDisplay.setOfflineMessage("Connection to Selenium disappeared");
+			catchSleep(10000);
+			ExitHandler.saveAndExit();
 		} catch (Exception e) {
 			lastReturnValue = lastReturnValue.toString() + " - " + " Error sending this to the browser: [" + command + "]";
 			println(getClass(), lastReturnValue.toString());
