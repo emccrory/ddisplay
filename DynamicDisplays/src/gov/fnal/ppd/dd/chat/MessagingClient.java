@@ -152,8 +152,8 @@ public class MessagingClient {
 			displayLogMessage(
 					"The messaging server just does not exist at this time!! '" + server + ":" + port + "'.  Exception is " + ec);
 			disconnect();
-			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_MINUTE;
-			displayLogMessage("We will wait TEN MINUTES (10 min.) before trying to connect to the server again for " + username);
+			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 5 * ONE_MINUTE;
+			displayLogMessage("We will wait FIVE MINUTES (10 min.) before trying to connect to the server again for " + username);
 			return false;
 		} catch (Exception ec) {
 			// if it failed not much I can so
@@ -328,20 +328,20 @@ public class MessagingClient {
 				// synchronized (syncReconnects) { I think this sync is not necessary (there can only be one instance of this
 				// thread, I think)
 				displayLogMessage(MessagingClient.class.getSimpleName() + " (" + username + "): Starting reconnect thread.");
-				double counter = 0;
+				double counter = 1;
 				while (socket == null) {
 					if (wait < 0)
-						wait = WAIT_FOR_SERVER_TIME + (long) (50.0 * Math.random());
+						wait = (long) (0.5 * WAIT_FOR_SERVER_TIME + (50.0 * Math.random()));
 
 					displayLogMessage(
 							username + ": Will wait " + wait + " milliseconds before trying to connect to the server again.");
 					catchSleep(wait);
-					wait = (long) (WAIT_FOR_SERVER_TIME * (1.0 + Math.log(counter)) + 10.0 * Math.random());
-					if (!MessagingClient.this.start()) {
-						displayLogMessage(MessagingClient.class.getSimpleName()
-								+ ".connectionFailed(): Server start failed again at " + (new Date()) + " for " + username);
-					}
-					counter += 0.5;
+					// Add a random offset each time so that if there are lots of waiting clients, they don't all hit at once.
+					wait = (long) (WAIT_FOR_SERVER_TIME * (0.5 + Math.log(counter)) + 100.0 * Math.random());
+					counter += 0.2;
+					if ( counter > 90 ) // exp(4.5) = 90.00171313 
+						counter = 90;   // Limit the maximum wait to about 5 minutes
+					MessagingClient.this.start();
 				}
 				displayLogMessage(MessagingClient.class.getSimpleName() + ": Socket for " + username + " is now viable [" + socket
 						+ "]; connection has been restored at " + (new Date()));
