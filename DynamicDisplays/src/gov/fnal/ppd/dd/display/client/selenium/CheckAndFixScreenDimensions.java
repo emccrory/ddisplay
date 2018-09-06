@@ -10,7 +10,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 
+import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.PropertiesFile;
 import gov.fnal.ppd.dd.util.PropertiesFile.PositioningMethod;
 
@@ -86,12 +88,22 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 				catchSleep(100);
 				goToProperSizeAndPlace();
 				catchSleep(100);
-				
+
 			}
+		} catch (WebDriverException e) {
+			// This is a serious exception - it seems to happen iff the instance of Firefox disappears.
+			// The best thing to do is restart the display. It would be nice to have some mechanism to
+			// alert the owner of this system that this restart has happened. It certainly could be a more serious
+			// problem that needs debugging.
+			printlnErr(getClass(), "Serious, fatal error has occurred");
+			e.printStackTrace();
+			printlnErr(getClass(), "Attempting to restart now.");
+			
+			ExitHandler.saveAndExit("Received " + WebDriverException.class.getName() + " exception in " + getClass().getName());
 		} catch (Exception e) {
 			numExceptions++;
-			printlnErr(getClass(),
-					"Caught exception (#" + numExceptions + "/" + counter + ") in trying to adjust the position of the screen");
+			printlnErr(getClass(), "Caught exception (#" + numExceptions + "/" + counter
+					+ ") in trying to adjust the position of the screen. " + e.getLocalizedMessage());
 			if (haventShowTraceback2) {
 				e.printStackTrace();
 				printlnErr(getClass(), "Caught exception (# of exceptions = " + numExceptions + " / overall entry counter = "
@@ -125,8 +137,8 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 			break;
 		}
 		catchSleep(100);
-		println(getClass(), counter + " Window layout - Position: " + driver.manage().window().getPosition()
-				+ ", Dimensions: " + driver.manage().window().getSize());
+		println(getClass(), counter + " Window layout - Position: " + driver.manage().window().getPosition() + ", Dimensions: "
+				+ driver.manage().window().getSize());
 
 	}
 }
