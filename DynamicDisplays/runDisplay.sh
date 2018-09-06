@@ -74,6 +74,22 @@ cd $workingDirectory
 dbs=`echo $databaseServer | sed 's/:/ /g' | awk '{ print $1 }'`
 sleepTime=5
 {
+    # In Linux-land, make sure the screen saver and screen blankers are off.
+    # keep this here for reference, but do not do it uniformly (e.g., not my desktop)
+    if [ "Skip" = "This" ]; then
+	XSET=`command -v xset`
+	
+	if [ "$XSET X" = " X" ]; then
+	    echo Cannot assure that the screen saver / screen blanker is off; 
+	else 
+	    echo Turning off screen saver and screen blanker using $XSET
+	    export DISPLAY=:0.0
+	    $XSET s off
+	    $XSET s noblank
+	    $XSET -dpms
+	fi
+    fi
+
     while :
     do
     # Forever loop. We assume that the DB server will appear eventually
