@@ -274,6 +274,8 @@ public abstract class ConnectionToBrowserInstance {
 					s += "&shownumber=0";
 				s += "\";\n";
 
+				println(getClass(), "Resetting the url with this command: [" + s + "]");
+				
 				// TODO - Figure this out!
 				// In the Selenium framework, sending a new URL to the browser (which we do from time to time) takes it out of
 				// full-screen mode. The work-around would be to call the class that assures the browser is full screen. but

@@ -582,7 +582,7 @@ public class GlobalVariables {
 			// This command *should* work on Linux, and it *should* throw an exception on Windows
 
 			// Save the current channel and exit (so it can be restarted)
-			ExitHandler.saveAndExit();
+			ExitHandler.saveAndExit("Found new software version.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

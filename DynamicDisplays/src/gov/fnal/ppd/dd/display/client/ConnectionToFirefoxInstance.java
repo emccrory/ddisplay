@@ -344,7 +344,7 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 					if (numFailures >= iterationsWait) {
 						System.err.println(ConnectionToFirefoxInstance.class.getSimpleName()
 								+ ".openConnection().Thread.run(): Firefox instance is not responding.  ABORT!");
-						ExitHandler.saveAndExit();
+						ExitHandler.saveAndExit("Firefox instance is not responding in " + getClass().getName());
 						// This limit was put in at the same time as a "while loop" in the canonical (Linux) shell script that
 						// re-executes the "run display" class when an error exit status happens.
 					}
@@ -399,7 +399,7 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 							"\n\n******************************************************\n\nRecevied this line: [" + lastReplyLine
 									+ "]\n\n******************************************************\n\n"
 									+ "ABORTING APPLICATION!\n******************************************************");
-					ExitHandler.saveAndExit();
+					ExitHandler.saveAndExit("Received 'tab not there' message in " + getClass().getName());
 				}
 
 				// If we are asking for an element in the web document that does not exist, we'll see this error:

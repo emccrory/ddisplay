@@ -1056,7 +1056,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		lastCommand = ExitHandler.addFinalCommand(new Command() {
 
 			@Override
-			public void execute() {
+			public void execute(String why) {
 				try {
 					SignageContent c = getContent();
 					if (specialURI(c))
