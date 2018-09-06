@@ -101,8 +101,9 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		// Don't wait very long for the pushed Javascript to finish
 		driver.manage().timeouts().setScriptTimeout(200, TimeUnit.MILLISECONDS);
 
-		// The URL must be set during the initializtion, to our special framed HTML.
-		setURL(WEB_PAGE_EMERGENCY_FRAME);
+		// The URL must be set during the initialization, to our special framed HTML.
+		String initialURL = WEB_PAGE_EMERGENCY_FRAME + "?display=" + virtualID + "&color=" + colorCode + "&shownumber=" + (showNumber? 1 : 0);
+		setURL(initialURL);
 
 		connected = true;
 	}
@@ -206,7 +207,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			printlnErr(getClass(), "- SERIOUS ERROR! - The connection to the browser has been lost. Giving up.");
 			myDisplay.setOfflineMessage("Connection to Selenium disappeared");
 			catchSleep(10000);
-			ExitHandler.saveAndExit();
+			ExitHandler.saveAndExit("Received " + e.getClass().getName() + " exception");
 		} catch (Exception e) {
 			lastReturnValue = lastReturnValue.toString() + " - " + " Error sending this to the browser: [" + command + "]";
 			println(getClass(), lastReturnValue.toString());
