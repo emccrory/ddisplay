@@ -7,11 +7,11 @@ import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.awt.Color;
-import java.net.URI;
 
-import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.signage.SignageType;
+import gov.fnal.ppd.dd.util.ExitHandler;
+import gov.fnal.ppd.dd.util.SendEmailCommand;
 
 /**
  * Run a browser through the Selenium API
@@ -78,6 +78,7 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 			@SuppressWarnings("unused")
 			DisplayAsConnectionThroughSelenium add = (DisplayAsConnectionThroughSelenium) makeTheDisplays(
 					DisplayAsConnectionThroughSelenium.class);
+			ExitHandler.addFinalCommand(new SendEmailCommand());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
