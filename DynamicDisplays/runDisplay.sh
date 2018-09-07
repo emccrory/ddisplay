@@ -180,6 +180,7 @@ fi
 	    echo ""
 	    echo ""
 	    echo `date` " Display program exited with an understood failure ..."
+	    echo Restarting the display on `hostname` | /usr/bin/mail -s "Display software has restarted" mccrory@fnal.gov
 	    sleep 15
   	    # Maybe there is a new version of the software here.  This "cd" should put us in the right place
 	    cd $workingDirectory
