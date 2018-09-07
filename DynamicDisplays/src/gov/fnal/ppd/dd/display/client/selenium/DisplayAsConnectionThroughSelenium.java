@@ -12,6 +12,7 @@ import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.SendEmailCommand;
+import gov.fnal.ppd.dd.util.version.VersionInformation;
 
 /**
  * Run a browser through the Selenium API
@@ -75,6 +76,8 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 		getMessagingServerNameDisplay();
 
 		try {
+			System.out.println("Version: " + VersionInformation.getVersionInformation().getVersionString());
+			
 			@SuppressWarnings("unused")
 			DisplayAsConnectionThroughSelenium add = (DisplayAsConnectionThroughSelenium) makeTheDisplays(
 					DisplayAsConnectionThroughSelenium.class);
