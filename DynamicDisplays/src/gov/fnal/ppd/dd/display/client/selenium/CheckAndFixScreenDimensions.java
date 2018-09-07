@@ -95,11 +95,11 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 			// The best thing to do is restart the display. It would be nice to have some mechanism to
 			// alert the owner of this system that this restart has happened. It certainly could be a more serious
 			// problem that needs debugging.
-			printlnErr(getClass(), "Serious, fatal error has occurred");
+			printlnErr(getClass(), "\n ******** Serious, fatal error has occurred in connection to the browser ********\n");
 			e.printStackTrace();
-			printlnErr(getClass(), "Attempting to restart now.");
+			printlnErr(getClass(), "\nAttempting to restart now.\n");
 			
-			ExitHandler.saveAndExit("Received " + WebDriverException.class.getName() + " exception in " + getClass().getName());
+			ExitHandler.saveAndExit("Received " + e.getClass().getName() + " exception in " + getClass().getName());
 		} catch (Exception e) {
 			numExceptions++;
 			printlnErr(getClass(), "Caught exception (#" + numExceptions + "/" + counter
