@@ -141,6 +141,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	@SuppressWarnings("unused")
 	private String							mySubject;
 	protected String						offlineMessage				= "";
+	private long							launchTime					= System.currentTimeMillis();
 
 	// Use messaging to get change requests from the changers -->
 	// private boolean actAsServerNoMessages = true;
@@ -209,11 +210,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	protected String getStatusString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if (messagingClient.getServerTimeStamp() + 6 * ONE_HOUR > System.currentTimeMillis())
-			sdf = new SimpleDateFormat("HH:mm:ss");
+		long uptime = System.currentTimeMillis() - launchTime;
 
-		String retval = sdf.format(new Date(messagingClient.getServerTimeStamp())) + " ";
+		long hours = (uptime / 1000 / 3600);
+		long minutes = (uptime / 1000 / 60);
+		String retval = hours + " hr ";
+		if (hours < 2)
+			retval = minutes + " min ";
+		else if (hours > 47)
+			retval = (hours / 24) + " day ";
 
 		if (browserInstance == null) {
 			retval += "*NOT CONNECTED TO BROWSER* Initializing ...";
@@ -225,7 +230,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			if (specialURI(getContent())) {
 				retval += (getStatus() + " (" + previousChannelStack.peek().getURI() + ")").replace("'", "\\'");
 			} else
-				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'");
+				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'")
+						.replace("dynamicdisplays.fnal.gov", "dd").replace("Pictures", "Pics");
 		}
 		return retval;
 	}
@@ -330,7 +336,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	protected final synchronized void updateMyStatus() {
 		Connection connection;
 		cpuUsage = PerformanceMonitor.getCpuUsage();
-		DecimalFormat dd = new DecimalFormat("#.##");
+		DecimalFormat dd = new DecimalFormat("#.#");
 
 		try {
 			connection = ConnectionToDatabase.getDbConnection();
@@ -343,7 +349,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					String statusString = getStatusString();
 					if (offLine)
 						statusString = OFF_LINE;
-					statusString = "V" + versionInfo.getVersionString() + " L" + dd.format(cpuUsage) + " " + statusString;
+					String s = "V" + versionInfo.getVersionString();
+					if (cpuUsage > 0.1)
+						s += " L" + dd.format(cpuUsage);
+					statusString = s + " " + statusString;
 					statusString = statusString.replace("'", "").replace("\"", "").replace(";", "").replace("\\", "");
 					if (statusString.length() > 255)
 						// The Content field is limited to 255 characters.
