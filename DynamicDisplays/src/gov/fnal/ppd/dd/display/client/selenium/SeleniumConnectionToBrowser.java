@@ -153,7 +153,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				System.setProperty("webdriver.gecko.driver", driverFile);
 				driver = new FirefoxDriver();
 			} else if (browser.contains("Chrome")) {
-				// TODO - Untested
+				// >>>>>>>>>>Initial tests of the Chromium driver were successful (EM 9/2018) <<<<<<<<<<
 				System.setProperty("webdriver.chrome.driver", driverFile);
 				driver = new ChromeDriver();
 			} else if (browser.contains("Edge")) {
