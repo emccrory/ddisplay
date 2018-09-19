@@ -1,6 +1,6 @@
 package gov.fnal.ppd.dd.channel.list;
 
-import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.dd.GlobalVariables.*;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.list.table.ChannelCellRenderer;
@@ -39,7 +39,7 @@ public class SelectedChannelsDisplayAsTable extends JTable {
 			tcm.getColumn(i).setPreferredWidth(model.getRelativeWidths()[i]);
 		}
 
-		setRowHeight((SHOW_IN_WINDOW ? 40 : 60));
+		setRowHeight((SHOW_IN_WINDOW ? 50 : 70 ));
 
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -55,7 +55,7 @@ public class SelectedChannelsDisplayAsTable extends JTable {
 	 *            The dwell time for this channel in this list
 	 */
 	public void add(final Channel oldChan, final long dwell) {
-		int seq = 1 + model.getAllChannels().size();
+		int seq = 1 + model.getLargestSequence();
 		add(oldChan, seq, dwell);
 	}
 
@@ -83,5 +83,17 @@ public class SelectedChannelsDisplayAsTable extends JTable {
 	 */
 	public List<ChannelInList> getChannelList() {
 		return model.getAllChannels();
+	}
+
+	public String getTotalTime() {
+		long sum = 0;
+		for (ChannelInList C : model.getAllChannels())
+			sum += C.getTime();
+		
+		long h = sum / (long) ONE_HOUR;
+		long m = (sum % (long) ONE_HOUR) / 60000L;
+		long s = sum % (long) ONE_MINUTE / 1000L;
+		
+		return h + ":" + (m < 10 ? "0": "") + m + ":" + (s < 10 ? "0" : "") + s;
 	}
 }

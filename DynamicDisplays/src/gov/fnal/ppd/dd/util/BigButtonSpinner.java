@@ -23,7 +23,7 @@ public class BigButtonSpinner {
 
 				JPanel p = new JPanel();
 
-				p.add(create(model));
+				p.add(create(model, 80));
 				p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 				JFrame frame = new JFrame();
 				frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -36,10 +36,10 @@ public class BigButtonSpinner {
 		});
 	}
 
-	public static JSpinner create(SpinnerModel model) {
+	public static JSpinner create(final SpinnerModel model, final int size) {
 
 		JSpinner spinner = new JSpinner(model);
-		spinner.setFont(new Font("Monospace", Font.PLAIN, 80));
+		spinner.setFont(new Font("Monospace", Font.PLAIN, size));
 
 		spinner.setUI(new BasicSpinnerUI() {
 			@Override
@@ -47,7 +47,7 @@ public class BigButtonSpinner {
 				Component b = super.createPreviousButton();
 				JPanel wrap = new JPanel(new BorderLayout());
 				wrap.add(b);
-				wrap.setPreferredSize(new Dimension(100, 0));
+				wrap.setPreferredSize(new Dimension(size * 3 / 2, 0));
 				return wrap;
 			}
 		});

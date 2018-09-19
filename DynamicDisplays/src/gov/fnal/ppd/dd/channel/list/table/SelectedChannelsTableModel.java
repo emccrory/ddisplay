@@ -114,6 +114,9 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 		if (there < 0 || there >= allChannels.size())
 			return false;
 		Collections.swap(allChannels, here, there);
+		int seq = allChannels.get(here).getSequenceNumber();
+		allChannels.get(here).setSequenceNumber(allChannels.get(there).getSequenceNumber());
+		allChannels.get(there).setSequenceNumber(seq);
 		fireTableDataChanged();
 		return true;
 	}
@@ -152,7 +155,7 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 		// I guess the only thing to edit is the dwell time.
 
 		final SpinnerModel model = new SpinnerListModel(getDwellStrings());
-		JSpinner time = BigButtonSpinner.create(model);
+		JSpinner time = BigButtonSpinner.create(model, 100);
 		time.setValue(new Long(cil.getTime() / 1000L));
 		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		time.setPreferredSize(new Dimension(500, 100));
@@ -170,6 +173,13 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 			cil.setTime((Long) time.getModel().getValue() * 1000L);
 		}
 		fireTableDataChanged();
+	}
+
+	public int getLargestSequence() {
+		int seq = 0;
+		for ( ChannelInList C: allChannels )
+			seq = Math.max(seq, C.getSequenceNumber());
+		return seq;
 	}
 
 	// May need this later
