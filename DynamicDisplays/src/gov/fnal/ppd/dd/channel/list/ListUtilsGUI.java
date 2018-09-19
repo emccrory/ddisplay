@@ -22,7 +22,7 @@ public class ListUtilsGUI {
 			t = (val) + " seconds";
 		} else if (val < 3600) {
 			double min = (val) / 60.0;
-			t = format.format(min) + " minunte" + (min != 1 ? "s" : "");
+			t = format.format(min) + " minute" + (min != 1 ? "s" : "");
 		} else {
 			double hours = ((double) val) / (60 * 60);
 			t = format.format(hours) + " hour" + (hours != 1 ? "s" : "");
