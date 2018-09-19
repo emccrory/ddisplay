@@ -1,11 +1,26 @@
 package gov.fnal.ppd.dd.channel.list.table;
 
-import gov.fnal.ppd.dd.channel.ChannelInList;
-import gov.fnal.ppd.dd.signage.Channel;
+import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.getDwellStrings;
 
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerListModel;
+import javax.swing.SpinnerModel;
+
+import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.util.BigButtonSpinner;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -14,7 +29,7 @@ import java.util.Collections;
  */
 public class SelectedChannelsTableModel extends AbstractChannelTableModel implements ActionListener {
 
-	private static final long	serialVersionUID	= 5736576268689815979L;
+	private static final long serialVersionUID = 5736576268689815979L;
 
 	/**
 	 * 
@@ -129,6 +144,31 @@ public class SelectedChannelsTableModel extends AbstractChannelTableModel implem
 	 */
 	public void clear() {
 		allChannels.clear();
+		fireTableDataChanged();
+	}
+
+	public void edit(final int here, Component parent) {
+		ChannelInList cil = allChannels.get(here);
+		// I guess the only thing to edit is the dwell time.
+
+		final SpinnerModel model = new SpinnerListModel(getDwellStrings());
+		JSpinner time = BigButtonSpinner.create(model);
+		time.setValue(new Long(cil.getTime() / 1000L));
+		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		time.setPreferredSize(new Dimension(500, 100));
+
+		JPanel p = new JPanel();
+
+		p.add(time);
+		p.add(Box.createRigidArea(new Dimension(10, 10)));
+		p.add(new JLabel("Seconds"));
+		p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		Object[] options = { "Accept", "Cancel" };
+		int result = JOptionPane.showOptionDialog(parent, p, "Change Dwell for Channel " + (here + 1) + ": \"" + cil.getName() + "\"",
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+		if (result == 0) {
+			cil.setTime((Long) time.getModel().getValue() * 1000L);
+		}
 		fireTableDataChanged();
 	}
 
