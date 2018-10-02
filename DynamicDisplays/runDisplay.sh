@@ -24,6 +24,17 @@ fi
 
 touch $log
 
+cd $workingDirectory
+
+echo `date` `pwd` >> $log
+
+# Check the version of the code
+if ( ./runVersionInformation.sh Y  ); then
+    cd $workingDirectory
+    ./runDisplay.sh&
+    exit 0
+fi >> $log 2>&1
+
 # Test for and remove the cache file from disk
 if [ -e $HOME/.mozilla/firefox/*.default/places.sqlite ]; then
     cd $HOME/.mozilla/firefox/*.default
@@ -56,15 +67,6 @@ fi
 # ls -l $HOME/.mozilla/firefox/*Dynamic*/*.json >> $log 2>&1
 # echo Removing xulstore.json files >> $log 2>&1
 # rm -fv $HOME/.mozilla/firefox/*Dynamic*/xulstore.json >> $log 2>&1
-
-cd $workingDirectory
-
-echo `date` `pwd` >> $log
-
-# Check the version of the code
-./runVersionInformation.sh Y >> $log 2>&1
-
-cd $workingDirectory
 
 # Prepare to run the Java applications
 . setupJars.sh

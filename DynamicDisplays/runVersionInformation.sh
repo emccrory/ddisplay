@@ -27,8 +27,10 @@ elif [ $hostname = "roc-w-10.fnal.gov" ]; then
     flavor="TEST"
 fi
 
+exitCode=0
 if java gov.fnal.ppd.dd.util.version.VersionInformationComparison $flavor; then
     echo You are running the latest version of the software
+    exitCode=1
 else
     doTheUpdate=$yes;
     if [ $yes = 0 ]; then 
@@ -84,3 +86,4 @@ echo
 echo " Versioning -----------------------------------------------------------------"
 echo
 java gov.fnal.ppd.dd.util.version.VersionInformation 0
+exit $exitCode
