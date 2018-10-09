@@ -320,12 +320,14 @@ public class Util {
 
 		Channel retval = null;
 		try {
-			retval = new ChannelImpl("Fermilab", PUB, "Fermilab", new URI("http://www.fnal.gov"), 0, 360000L);
+			retval = new ChannelImpl("Fermilab", PUB, "Fermilab", new URI("https://www.fnal.gov"), 0, 360000L);
 		} catch (URISyntaxException e2) {
 			e2.printStackTrace();
 		}
 
 		if (channelNumber == 0) {
+			// Using the default, Fermilab home page!
+			println(Util.class, " Using the Fermilab home page as the default channel!");
 			return retval;
 		} else if (channelNumber < 0) {
 			// The default channel is a list of channels. Build it!

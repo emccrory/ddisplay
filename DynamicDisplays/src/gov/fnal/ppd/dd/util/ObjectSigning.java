@@ -81,7 +81,7 @@ public class ObjectSigning {
 	private Signature				sig					= null;
 
 	// All the public keys will be stored in the database and the private keys will be stored on the local
-	// disk of the sender, but not in a place that can normally be read. For example, ~/.keystore
+	// disk of the sender, but not in a place that can normally be read. For example, ~/keystore
 
 	/**
 	 * Initialize the object signing mechanism -- PRIVATE class. Use getInstance();

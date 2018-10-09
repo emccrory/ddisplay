@@ -149,7 +149,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			println(getClass(), "Browser driver is " + driverFile + ", Browser executable is " + browserLocation);
 
 			if (browser.contains("Firefox")) {
-				// >>>>>>>>>> Only the Firefox driver has been tested (EM 6/2018) <<<<<<<<<<
+				// >>>>>>>>>> Only the Firefox driver has been thoroughly tested (EM 6/2018) <<<<<<<<<<
 				System.setProperty("webdriver.gecko.driver", driverFile);
 				driver = new FirefoxDriver();
 			} else if (browser.contains("Chrome")) {
@@ -172,11 +172,11 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 
 			jse = (JavascriptExecutor) driver;
 		} catch (Exception e) {
-			System.err.println("Exception caught in " + getClass().getSimpleName() + ".setBrowserConfig()");
+			System.err.println(new Date() + " Exception caught in " + getClass().getSimpleName() + ".setBrowserConfig()");
 			e.printStackTrace();
-			System.err.println("Browser driver is " + driverFile + ", Location of browser: " + browserLocation
+			System.err.println("\n" + new Date() + " Browser driver is " + driverFile + ", Location of browser: " + browserLocation
 					+ ", Operating system: " + osName);
-			System.err.println("Aborting...");
+			System.err.println(new Date() + " Aborting...");
 			System.exit(-2);
 		}
 
