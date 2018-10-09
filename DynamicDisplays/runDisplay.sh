@@ -1,17 +1,13 @@
 #!/bin/bash
 
+# If we are being called by this script (see the update block, below), we should wait a second for that script to finish
+if [ ! "$1 X" = " X" ]; then
+    sleep $1
+fi
+
 d=`date +%F`
 
 # To be compatible with non-bash shells (e.g., on a Mac), we are using $HOME instead of the more succinct ~
-
-# Setup executables location
-workingDirectory=$HOME/src/roc-dynamicdisplays/DynamicDisplays
-
-# Verify that this script is not running now
-if ps -aef | grep $workingDirectory/$0 | grep -v grep ; then
-    echo `date` It looks like this script is already running > $log
-    exit 1;
-fi
 
 # Set up log file 
 # log=$HOME/src/log/display_${d}_$$.log
@@ -24,14 +20,23 @@ fi
 
 touch $log
 
+# Setup executables location
+workingDirectory=$HOME/src/roc-dynamicdisplays/DynamicDisplays
+
+# Verify that this script is not running now
+if ps -aef | grep $workingDirectory/$0 | grep -v grep ; then
+    echo `date` It looks like this script is already running 
+    exit 1;
+if >> $log 2>&1
+
 cd $workingDirectory
 
-echo `date` `pwd` >> $log
+echo `date` `pwd` >> $log 2>&1
 
 # Check the version of the code
 if ( ./runVersionInformation.sh Y  ); then
     cd $workingDirectory
-    ./runDisplay.sh&
+    ./runDisplay.sh 2 &
     exit 0
 fi >> $log 2>&1
 
@@ -176,7 +181,7 @@ fi
 	    
 	    java -Xmx1024m gov.fnal.ppd.dd.display.client.selenium.DisplayAsConnectionThroughSelenium 
 	    
-            # This command establishes the exit code of the while-loop test
+            # This command establishes the exit code of the while-loop test.  Looking for exit code of -1
 	    test $? -eq 255
 	}
 	do
@@ -186,7 +191,8 @@ fi
 	    echo `date` " Display program exited with an understood failure ..."
 	    echo Restarting the display on `hostname` | /usr/bin/mail -s "Display software has restarted" mccrory@fnal.gov
 	    sleep 15
-  	    # Maybe there is a new version of the software here.  This "cd" should put us in the right place
+  	    # Maybe there is a new version of the software here.  
+	    # This "cd" should put us in the right place (unless the new version contains a new version of this script.)
 	    cd $workingDirectory
 	    echo "     ..."
 	    echo `date` " Trying again now."
@@ -198,6 +204,6 @@ fi
 	echo ""
 	echo ""
 	echo ""
-	echo "Display program was killed.  Bye."
+	echo `date` Either the display program was killed, or it got an unrecognized error.  Bye.
     fi
 } >> $log 2>&1 &

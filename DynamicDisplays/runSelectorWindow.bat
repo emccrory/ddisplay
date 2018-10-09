@@ -1,11 +1,12 @@
-call config.cmd
+ECHO OFF
+
+CALL config.cmd
+
+SET LOG=..\..\log\Selector_%DATE:~-4%-%DATE:~4,2%-%DATE:~7,2%_%TIME:~0,2%_%TIME:~3,2%.txt
 
 java -Dddisplay.selector.inwindow=TRUE ^
      -Dddisplay.virtualdisplaynumbers=TRUE ^
      -Dddisplay.selector.public=FALSE ^
-     -Dddisplay.dbserver=%databaseServer% ^
-     -Dddisplay.dbname=%databaseName% ^
-	 -Dddisplay.dbusername=%databaseUsername% ^
-	 -Dddisplay.dbpassword=%databasePassword% ^
-     -Xmx1024m gov.fnal.ppd.dd.MakeChannelSelector 
+     -Xmx1024m ^
+     -Xmx1024m gov.fnal.ppd.dd.MakeChannelSelector  > %LOG% 2>&1
 

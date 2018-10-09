@@ -52,11 +52,16 @@ else
 	    date > $log
 	    echo Automatic software update >> $log
 
-	    # A little trickery here to make the Zenity progress dialog look better.  
-            # It takes about 80 seconds on an i3 NUC to get a new version from GIT (11/19/15)
+	    if [ ! -e refreshSoftware.sh ]; then
+		wget http://dynamicdisplays.fnal.gov/software/refreshSoftware.sh
+		chmod +x refreshSoftware.sh
+	    fi
 
 	    ./refreshSoftware.sh >> $log &
 	    pid=$!
+
+	    # A little trickery here to make the Zenity progress dialog look better.  
+            # It takes about 80 seconds on an i3 NUC to get a new version from GIT (11/19/15)
 
 	    for i in `seq 10 2 90`; do
 		# Completing this loop will take 80 seconds

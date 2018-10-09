@@ -1,4 +1,4 @@
-cd ..
+cd ..\..
 
 echo Moving folders about
 
@@ -23,6 +23,8 @@ if ( Test-Path roc-dynamicdisplays ) {
 
 md roc-dynamicdisplays-new
 cd roc-dynamicdisplays-new
+md DynamicDisplays
+cd DynamicDisplays
 
 echo Getting the new software
 
@@ -34,7 +36,7 @@ unzip dynamicdisplays.zip
 echo This is what we have for the new software
 dir
 
-cd ..
+cd ..\..
 Move-Item -Path roc-dynamicdisplays-new -Destination roc-dynamicdisplays
 
 echo All done.
