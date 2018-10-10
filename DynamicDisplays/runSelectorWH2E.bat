@@ -1,12 +1,5 @@
-call config.cmd
+REM This is the same script as runSelector.bat now
 
-set "public=false"
-set "loc=3"
+runSelector.bat
 
-java -Dddisplay.selector.inwindow=FALSE^
-     -Dddisplay.selector.public=%public% ^
-     -Dddisplay.selector.location=%loc% ^
-     -Dddisplay.messagingserver=%messagingServer% ^
-     -Dddisplay.dbserver=%databaseServer% ^
-     -Xmx1024m gov.fnal.ppd.dd.ChannelSelector 
 
