@@ -1,3 +1,9 @@
+<# 
+    Note that one cannot run a PowerShell script without specifically allowing the system to do that.
+    This is strongly discouraged by Microsoft unless you know exactly what you are doing.
+    And it requires admin rights to change this restriction
+#>
+
 cd ..\..
 
 echo Moving folders about
