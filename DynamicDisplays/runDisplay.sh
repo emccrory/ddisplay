@@ -27,7 +27,7 @@ workingDirectory=$HOME/src/roc-dynamicdisplays/DynamicDisplays
 if ps -aef | grep $workingDirectory/$0 | grep -v grep ; then
     echo `date` It looks like this script is already running 
     exit 1;
-if >> $log 2>&1
+fi >> $log 2>&1
 
 cd $workingDirectory
 
@@ -194,7 +194,7 @@ fi
   	    # Maybe there is a new version of the software here.  
 	    # This "cd" should put us in the right place (unless the new version contains a new version of this script.)
 	    cd $workingDirectory
-	    echo "     ..."
+	    echo ""
 	    echo `date` " Trying again now."
 	    echo ""
 	    echo ""
