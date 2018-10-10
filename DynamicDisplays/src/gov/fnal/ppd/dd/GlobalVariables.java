@@ -228,8 +228,8 @@ public class GlobalVariables {
 	// public final static String MESSAGING_SERVER_NAME = System.getProperty("ddisplay.messagingserver", DEFAULT_SERVER);
 
 	/**
-	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) in the range of unassigned
-	 * port number (49152 - 65535) Controlled by system constant ddisplay.messagingserver.  I like primes.
+	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) in the range of unassigned port number
+	 * (49152 - 65535) Controlled by system constant ddisplay.messagingserver. I like primes.
 	 */
 	public final static int		MESSAGING_SERVER_PORT	= PropertiesFile.getIntProperty("messagingPort", 49999);
 	// public final static int MESSAGING_SERVER_PORT = Integer.getInteger("ddisplay.messagingport", 49999);
@@ -487,21 +487,6 @@ public class GlobalVariables {
 	private static String[]	credentialsPath	= { "/keystore/", System.getenv("HOME") + "/keystore/",
 			System.getenv("HOMEPATH") + "/keystore/" };
 
-	// ----------------------------------------------------------------------------------------------------------------
-	// A class and a method for checking to see if there is update software available
-
-	private static class SampleTask extends TimerTask {
-		Thread myThreadObj;
-
-		SampleTask(Thread t) {
-			this.myThreadObj = t;
-		}
-
-		public void run() {
-			myThreadObj.start();
-		}
-	}
-
 	/**
 	 * Start a thread that runs every week (say, Tuesday mornings at 0400, plus a random offset) to see if there is a new version of
 	 * the code ready to be downloaded
@@ -512,11 +497,18 @@ public class GlobalVariables {
 	public static void prepareUpdateWatcher(boolean isMessagingServer) {
 
 		Timer timer = new Timer();
-		Thread myThread = new Thread("CheckForSoftwareUpdate") {
+		TimerTask myTimerTask = new TimerTask() {
 
 			@Override
 			public void run() {
 				try {
+					// Add a little complication: Skip the updates on weekends (Sat, Sun and Mon mornings)
+					Calendar date = Calendar.getInstance();
+					int dow = date.get(Calendar.DAY_OF_WEEK);
+					if (dow == Calendar.SATURDAY || dow == Calendar.SUNDAY || dow == Calendar.MONDAY) {
+						println(GlobalVariables.class, "Skipping update check on weekend days");
+						return;
+					}
 					println(GlobalVariables.class, "Checking to see if there is an update for the software");
 					FLAVOR flavor = FLAVOR.PRODUCTION;
 					// 1. See if an update is available
@@ -529,12 +521,10 @@ public class GlobalVariables {
 						VersionInformation viWeb = VersionInformation.getDBVersionInformation(flavor);
 
 						// Download and install the new code
-						downloadNewSoftware(viWeb.getVersionString());
+						downloadNewSoftware(viWeb.getVersionString()); // This will exit the JVM!
 
-						// 3. Exit and signal to the controlling script that we need to restart
-						// System.exit(-1); - This would signal the controlling shell script to restart the program.
 					} else {
-						println(GlobalVariables.class, "No new software is present.  Will check again next week at this time.");
+						println(GlobalVariables.class, "No new software is present.  Will check again in 24 hours.");
 					}
 				} catch (Exception e) {
 					println(GlobalVariables.class, "Exception while trying to do a self-update");
@@ -543,7 +533,7 @@ public class GlobalVariables {
 			}
 		};
 		Calendar date = Calendar.getInstance();
-		date.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+		// date.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
 		if (isMessagingServer) {
 			// The messaging server needs to get the software first
 			date.set(Calendar.HOUR_OF_DAY, 3);
@@ -555,25 +545,28 @@ public class GlobalVariables {
 		date.set(Calendar.SECOND, 0);
 		date.set(Calendar.MILLISECOND, 0);
 
-		date.add(Calendar.HOUR, 168); // Delay the first one to next week.
+		date.add(Calendar.HOUR, 48); // Delay the first one to the day after tomorrow
 
-		println(GlobalVariables.class, "Will check for updates every week starting at " + date.getTime());
+		println(GlobalVariables.class, "Will check for updates every 24 hours starting at " + date.getTime());
 
-		// Run myThread at 04:xx and then repeat every week at that time
-		timer.schedule(new SampleTask(myThread), date.getTime(), 1000 * 60 * 60 * 24 * 7);
+		// Run myThread at 04:xx and then repeat every day at that time
+		long period = 1000 * 60 * 60 * 24L;
+		timer.schedule(myTimerTask, date.getTime(), period);
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
 
 	protected static void downloadNewSoftware(String version) {
-		println(GlobalVariables.class, " Experimental implementatiion of refresh-&-restart code.");
+		println(GlobalVariables.class, " Experimental implementation of refresh-&-restart code.");
 
 		// This code assumes a very specific location for the refresh script, and this is in a Linux environment. This will be
 		// different on Windows PCs.
+		
+		// TODO - I probably need to build the refresh procedure into Java so it can run the same on any PC
 
 		try {
 			List<String> argv = new ArrayList<String>();
-			argv.add(0, "refreshSoftware.sh");
+			argv.add(0, "refreshSoftware.sh"); // Replace this, someday, with a PowerShell script that Windows knows how to run
 			argv.add(1, version);
 			ProcessBuilder pb = new ProcessBuilder(argv);
 			pb.directory(new File("../.."));
