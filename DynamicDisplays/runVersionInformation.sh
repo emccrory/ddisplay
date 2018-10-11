@@ -91,4 +91,7 @@ echo
 echo " Versioning -----------------------------------------------------------------"
 echo
 java gov.fnal.ppd.dd.util.version.VersionInformation 0
+echo
+echo " Versioning -----------------------------------------------------------------"
+
 exit $exitCode
