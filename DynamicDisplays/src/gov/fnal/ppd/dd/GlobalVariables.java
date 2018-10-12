@@ -8,6 +8,7 @@ package gov.fnal.ppd.dd;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.util.DownloadNewSoftwareVersion;
 import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.PropertiesFile;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
@@ -257,6 +258,8 @@ public class GlobalVariables {
 		return WEB_PROTOCOL + "://" + WEB_SERVER_NAME;
 	}
 
+	public static final String		SOFTWARE_FILE_ZIP				= PropertiesFile.getProperty("SoftwareFileZip");
+	public static final String		UNZIP_PROGRAM_LOCATION			= PropertiesFile.getProperty("UnzipLocation");
 	/**
 	 * Where is the Database server? Controlled by system constant ddisplay.dbserver
 	 */
@@ -514,17 +517,23 @@ public class GlobalVariables {
 					// 1. See if an update is available
 					double days = VersionInformationComparison.lookup(flavor, false);
 					if (days > 0) {
-						// 2. If so, download it. Then exit the entire process with System.exit(-1) and we will restart.
+						// 2. If so, download it. Then exit the entire process so we will restart.
 						println(GlobalVariables.class,
 								"There is a version of the software that is " + days + " days newer than the code we are running.");
 
-						VersionInformation viWeb = VersionInformation.getDBVersionInformation(flavor);
-
+						// -----------------------------------------------------------------------------------------------------------
 						// Download and install the new code
-						downloadNewSoftware(viWeb.getVersionString()); // This will exit the JVM!
+
+						DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion();
+						if (d.hasSucceeded())
+							ExitHandler.saveAndExit("Found new software version.");
+						else
+							println(GlobalVariables.class, "\n\n\nSomething went wrong with the update!!\n\n\n");
+
+						// -----------------------------------------------------------------------------------------------------------
 
 					} else {
-						println(GlobalVariables.class, "No new software is present.  Will check again in 24 hours.");
+						println(GlobalVariables.class, "No new software is present.  Will check again soon.");
 					}
 				} catch (Exception e) {
 					println(GlobalVariables.class, "Exception while trying to do a self-update");
@@ -534,53 +543,30 @@ public class GlobalVariables {
 		};
 		Calendar date = Calendar.getInstance();
 		// date.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
-		if (isMessagingServer) {
-			// The messaging server needs to get the software first
-			date.set(Calendar.HOUR_OF_DAY, 3);
-			date.set(Calendar.MINUTE, 0);
-		} else {
-			date.set(Calendar.HOUR_OF_DAY, 4);
-			date.set(Calendar.MINUTE, (int) (Math.random() * 30.0)); // Randomly in the first half of the 4AM hour
-		}
+		date.set(Calendar.MINUTE, 0);
 		date.set(Calendar.SECOND, 0);
 		date.set(Calendar.MILLISECOND, 0);
+		if (isMessagingServer) {
+			// Let the messaging servers get the software first
+			date.set(Calendar.HOUR_OF_DAY, 3);
+			date.add(Calendar.SECOND, (int) (Math.random() * 5.0 * 60.0)); // Choose a random second between 3 and 3:05
+		} else {
+			// Let the displays and the controllers get their updates a little later
+			date.set(Calendar.HOUR_OF_DAY, 4);
+			date.add(Calendar.SECOND, (int) (Math.random() * 45.0 * 60.0)); // Choose a random second between 4 and 4:45
+		}
 
-		date.add(Calendar.HOUR, 48); // Delay the first one to the day after tomorrow
+		date.add(Calendar.HOUR, 24); // Do the first one tomorrow
 
-		println(GlobalVariables.class, "Will check for updates every 24 hours starting at " + date.getTime());
-
-		// Run myThread at 04:xx and then repeat every day at that time
+		// Run myTimerTask at the same time every day
 		long period = 1000 * 60 * 60 * 24L;
 		timer.schedule(myTimerTask, date.getTime(), period);
+
+		println(GlobalVariables.class,
+				"Will check for updates every " + (period / 1000 / 60 / 60) + " hours starting at " + date.getTime());
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
-
-	protected static void downloadNewSoftware(String version) {
-		println(GlobalVariables.class, " Experimental implementation of refresh-&-restart code.");
-
-		// This code assumes a very specific location for the refresh script, and this is in a Linux environment. This will be
-		// different on Windows PCs.
-		
-		// TODO - I probably need to build the refresh procedure into Java so it can run the same on any PC
-
-		try {
-			List<String> argv = new ArrayList<String>();
-			argv.add(0, "refreshSoftware.sh"); // Replace this, someday, with a PowerShell script that Windows knows how to run
-			argv.add(1, version);
-			ProcessBuilder pb = new ProcessBuilder(argv);
-			pb.directory(new File("../.."));
-			@SuppressWarnings("unused")
-			Process p = pb.start();
-			// This command *should* work on Linux, and it *should* throw an exception on Windows
-
-			// Save the current channel and exit (so it can be restarted)
-			ExitHandler.saveAndExit("Found new software version.");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
 
 	/**
 	 * Read the file, credentials.txt, for establishing connection to the database
