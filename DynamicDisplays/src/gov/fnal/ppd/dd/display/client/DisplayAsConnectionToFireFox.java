@@ -94,6 +94,9 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 *            Expect one command line argument
 	 */
 	public static void main(final String[] args) {
+		System.err.println("This code is not valid anymore.");
+		System.exit(-1);
+		
 		prepareUpdateWatcher(false);
 
 		credentialsSetup();
