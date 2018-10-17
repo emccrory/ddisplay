@@ -518,13 +518,14 @@ public class GlobalVariables {
 					double days = VersionInformationComparison.lookup(flavor, false);
 					if (days > 0) {
 						// 2. If so, download it. Then exit the entire process so we will restart.
-						println(GlobalVariables.class,
-								"There is a version of the software that is " + days + " days newer than the code we are running.");
+						VersionInformation viWeb = VersionInformation.getDBVersionInformation(flavor);
+						println(GlobalVariables.class, "There is a " + flavor + " version of the software, "
+								+ viWeb.getVersionString() + ", that is " + days + " days newer than the code we are running.");
 
 						// -----------------------------------------------------------------------------------------------------------
 						// Download and install the new code
 
-						DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion();
+						DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion(viWeb.getVersionString());
 						if (d.hasSucceeded())
 							ExitHandler.saveAndExit("Found new software version.");
 						else

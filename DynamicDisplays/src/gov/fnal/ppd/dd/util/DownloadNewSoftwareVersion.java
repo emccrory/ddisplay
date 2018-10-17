@@ -30,27 +30,33 @@ import java.util.zip.ZipFile;
  */
 public class DownloadNewSoftwareVersion {
 
-	private final String	zipFile			= SOFTWARE_FILE_ZIP;
-	private final String	location		= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + File.separator + zipFile;
+	private final String	zipFile			= SOFTWARE_FILE_ZIP; // TODO - Get the right version!
+	private final String	location		= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + File.separator + "software" + File.separator + zipFile;
 	private final String	operatingFolder	= "../..";
 	private final String	outputFolder	= operatingFolder + File.separator + "roc-dynamicdisplays" + File.separator
 			+ "DynamicDisplays" + File.separator;
 	private final String	zipFilePath		= operatingFolder + zipFile;
 
 	public static void main(String[] args) {
-		DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion();
+		DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion(null);
 		if ( d.hasSucceeded() ) System.exit(0);
 	}
 	
 	boolean succeeded = false;
 	
-	public DownloadNewSoftwareVersion() {
-		succeeded = download() && renameTargetFolder() && unpack();
+	public DownloadNewSoftwareVersion(String version) {
+		succeeded = download(version) && renameTargetFolder() && unpack();
 	}
 
-	private boolean download() {
-		println(getClass(), "Getting the file from " + location);
-		try (InputStream in = new URL(location).openStream()) {
+	private boolean download(String version) {
+		String actualLocation = location;
+		if ( version != null ) {
+			actualLocation = location.replace(".zip", "_" + adjust(version) + ".zip");
+		} else {
+			actualLocation = actualLocation.replace(File.separatorChar + "software", "");
+		}
+		println(getClass(), "Getting the file from " + actualLocation);
+		try (InputStream in = new URL(actualLocation).openStream()) {
 			Files.copy(in, Paths.get(zipFilePath), StandardCopyOption.REPLACE_EXISTING);
 			return true;
 		} catch (Exception e) {
@@ -60,10 +66,15 @@ public class DownloadNewSoftwareVersion {
 		return false;
 	}
 
+	private static String adjust(String v) {
+		return v.replace('.', '_');
+	}
+
 	private boolean unpack() {
 		println(getClass(), "Unpacking ZIP file contents to " + outputFolder);
 
 		// This code stolen from https://howtodoinjava.com/java/io/unzip-file-with-subdirectories/
+		// It seems to be a LOT slower than the operating systems' "unzip" command(s). Whatever; we have the time.
 
 		// Open the file
 		try (ZipFile file = new ZipFile(zipFilePath)) {
