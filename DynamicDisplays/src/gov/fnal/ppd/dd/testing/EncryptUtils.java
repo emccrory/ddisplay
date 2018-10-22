@@ -112,11 +112,12 @@ public class EncryptUtils {
 			EncryptUtils encrypter = new EncryptUtils(key);
 
 			// Encrypt
-			encrypter.encrypt(new FileInputStream("cleartext1"), new FileOutputStream("ciphertext"));
+			encrypter.encrypt(new FileInputStream("runDisplay.sh"), new FileOutputStream("ciphertext"));
 
 			// Decrypt
 			encrypter.decrypt(new FileInputStream("ciphertext"), new FileOutputStream("cleartext2"));
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

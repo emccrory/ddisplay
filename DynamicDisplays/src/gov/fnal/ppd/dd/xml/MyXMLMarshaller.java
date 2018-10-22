@@ -64,7 +64,7 @@ public class MyXMLMarshaller {
 			ie.printStackTrace();
 			
 			// All bets are off!  Try to restart.  If it is truly the situation where the Java version has changed, this will fix it.
-			ExitHandler.saveAndExit();
+			ExitHandler.saveAndExit("The version of Java has probably changed. " + MyXMLMarshaller.class.getName());
 		}
 		return null;
 	}

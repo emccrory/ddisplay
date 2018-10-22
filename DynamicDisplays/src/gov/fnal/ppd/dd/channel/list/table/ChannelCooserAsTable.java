@@ -74,7 +74,7 @@ public class ChannelCooserAsTable extends JTable {
 
 		setRowHeight((SHOW_IN_WINDOW ? 40 : 60));
 
-		setFont(new Font("Monospace", Font.PLAIN, SHOW_IN_WINDOW ? 12 : 18));
+		setFont(new Font("Monospace", Font.PLAIN, SHOW_IN_WINDOW ? 11 : 16));
 
 		setDefaultRenderer(Channel.class, new ChannelCellRenderer());
 	}

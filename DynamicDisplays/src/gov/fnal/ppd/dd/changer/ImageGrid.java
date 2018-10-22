@@ -47,26 +47,27 @@ import javax.swing.JTabbedPane;
  * up the URL from within this class (as opposed to the DB containing the URLs and classes like this just simply read them).
  * 
  * This is likely to be inappropriate when we have thousands of images: All the images are read from the server when the GUi starts.
- * At 151 images (2015, over 800 in 2017), it takes the better part of a minute to complete.
+ * At 151 images (2015, over 1200 in 2018), it takes the better part of a minute to complete.
  * 
  * And then if there are lots of displays being controlled, these images are placed in each display's GUI, multiplying the startup
  * time by the number of displays. E.g., for a controller that controls all the displays (42 in May 2017), it takes forever.
  * 
  * Changed the nominal thumb-nail image size from 600 pixels @ Quality=75 to 300 pixels @ Q=40. This makes about a 5X reduction in
- * the size of these images, but the impact on startup here is minimal. (5/23/2017)
+ * the size of these images, but the impact on startup here has been minimal. (5/23/2017)
  * 
- * It may be better to launch this as a separate application, when needed.
+ * It may be better to launch this as a separate application, when needed. Or to have these tabs be constructed after the rest of
+ * the GUI has been constructed and shown to the user.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 public class ImageGrid extends DetailedInformationGrid {
 
-	private static final long	serialVersionUID	= 3102445872732142334L;
+	private static final long serialVersionUID = 3102445872732142334L;
 
 	private static class JWhiteLabel extends JLabel {
 
-		private static final long	serialVersionUID	= -4821299908662876531L;
+		private static final long serialVersionUID = -4821299908662876531L;
 
 		public JWhiteLabel(String text) {
 			super("  " + trunc(text) + " ");
@@ -82,7 +83,7 @@ public class ImageGrid extends DetailedInformationGrid {
 
 	private static class DDIconButton extends DDButton {
 
-		private static final long	serialVersionUID	= -8377645551707373769L;
+		private static final long serialVersionUID = -8377645551707373769L;
 
 		public DDIconButton(Channel channel, Display display, int maxLen, Icon icon) {
 			super(channel, display, maxLen);
@@ -96,10 +97,12 @@ public class ImageGrid extends DetailedInformationGrid {
 
 	private static boolean						firstTime			= true;
 
-	private static final Set<SignageContent>	list				= ChannelCatalogFactory.getInstance().getChannelCatalog(
-																			ChannelCategory.IMAGE);
+	private static final Set<SignageContent>	list				= ChannelCatalogFactory.getInstance()
+			.getChannelCatalog(ChannelCategory.IMAGE);
 
 	private static final int					MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 44 : 47);
+
+	private static long							beginResizingAt		= 0L;
 
 	/**
 	 * Create this tab for the ChannelSelector GUI
@@ -130,8 +133,7 @@ public class ImageGrid extends DetailedInformationGrid {
 		final JTabbedPane internalTabPane = new JTabbedPane() {
 			private static final long	serialVersionUID	= -8241902366493820040L;
 			private final float			brightness			= (Color.RGBtoHSB(displaySelectedColor.getRed(),
-																	displaySelectedColor.getGreen(),
-																	displaySelectedColor.getBlue(), null))[2];
+					displaySelectedColor.getGreen(), displaySelectedColor.getBlue(), null))[2];
 			private final Color			unselectedColor		= (brightness < 0.6f ? Color.WHITE : Color.BLACK);
 
 			public Color getForegroundAt(int index) {
@@ -155,17 +157,19 @@ public class ImageGrid extends DetailedInformationGrid {
 				println(this.getClass(),
 						".makeExpGrid(): working on the images for display number " + display.getVirtualDisplayNumber() + " ...");
 				firstTime = false;
+				beginResizingAt = System.currentTimeMillis();
 			} else
 				System.out.print(display.getVirtualDisplayNumber() + " ");
 
 			TreeSet<SignageContent> newList = new TreeSet<SignageContent>(new Comparator<SignageContent>() {
 				public int compare(SignageContent o1, SignageContent o2) {
+					// Sort by Experiment name first, then by image number.
 					if (o1 instanceof ChannelImage && o2 instanceof ChannelImage) {
 						ChannelImage c1 = (ChannelImage) o1;
 						ChannelImage c2 = (ChannelImage) o2;
-						if ( c1.getExp().toUpperCase().equals(c2.getExp().toUpperCase()) )
+						if (c1.getExp().toUpperCase().equals(c2.getExp().toUpperCase()))
 							return ((Integer) c1.getNumber()).compareTo(c2.getNumber());
-						
+
 						return (c1.getExp() + c1.getName()).toUpperCase().compareTo((c2.getExp() + c2.getName()).toUpperCase());
 					}
 					return o1.getName().compareTo(o2.getName());
@@ -207,7 +211,7 @@ public class ImageGrid extends DetailedInformationGrid {
 
 					DDButton button = new DDIconButton(imageChannel, display, MAX_CAPTION_LENGTH, dp.getIcon());
 					String[] fields = name.split("/", -1);
-					button.setText(fields[fields.length-1]);
+					button.setText(fields[fields.length - 1]);
 					button.setToolTipText(name);
 					button.setAlignmentX(JPanel.LEFT_ALIGNMENT);
 					// b.add(new JWhiteLabel(exp, 24.0f));
@@ -271,6 +275,8 @@ public class ImageGrid extends DetailedInformationGrid {
 		expGrid.add(internalTabPane, BorderLayout.CENTER);
 		expGrid.setAlignmentX(JComponent.TOP_ALIGNMENT);
 
+		println(getClass(), "Image tab completed for display " + display.getVirtualDisplayNumber() + "|"
+				+ display.getDBDisplayNumber() + ".  Elapsed time = " + (System.currentTimeMillis() - beginResizingAt) + " msec");
 		return expGrid;
 	}
 

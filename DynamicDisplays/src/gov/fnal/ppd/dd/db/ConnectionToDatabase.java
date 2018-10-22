@@ -40,8 +40,6 @@ public class ConnectionToDatabase {
 	 * 
 	 * @throws DatabaseNotVisibleException
 	 *             if it cannot connect to the database server
-	 * @throws SQLException
-	 *             if something goes wrong with the database connection check
 	 */
 	public static Connection getDbConnection() throws DatabaseNotVisibleException {
 		try {

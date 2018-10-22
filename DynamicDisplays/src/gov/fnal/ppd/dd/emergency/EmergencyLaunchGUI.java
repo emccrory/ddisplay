@@ -405,7 +405,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		time.setValue(new Long(300l));
 		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
-		JComponent field = ((JSpinner.DefaultEditor) time.getEditor());
+		JComponent field = time.getEditor();
 		Dimension prefSize = field.getPreferredSize();
 		field.setPreferredSize(new Dimension(100, prefSize.height));
 
@@ -437,7 +437,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		if (val < 60L) {
 			t = (val) + " seconds";
 		} else if (val < 3600) {
-			double min = ((double) val) / 60.0;
+			double min = val / 60.0;
 			t = format.format(min) + " minute" + (min != 1 ? "s" : "");
 		} else {
 			double hours = ((double) val) / (60 * 60);

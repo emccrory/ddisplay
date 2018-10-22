@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,6 +16,8 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import gov.fnal.ppd.dd.util.PropertiesFile;
+
 /**
  * Assist in the resizing of the images needed in the ChannelSelector, and related programs.
  * 
@@ -24,9 +27,14 @@ import javax.swing.JPanel;
 public class DrawingPanelForImage extends JPanel {
 
 	private static final long				serialVersionUID	= 8963747596403311688L;
+	private static final int				LONG_EDGE			= (SHOW_IN_WINDOW ? 150 : 200);
+	private static boolean					verbose				= PropertiesFile.getBooleanProperty("ImageURLVerbose", false);
+
+	/// The static list of the icons we have created
 	private static Map<String, ImageIcon>	cache				= new HashMap<String, ImageIcon>();
+
+	/// The icon for this instance of the class
 	private ImageIcon						icon;
-	private final int						LONG_EDGE			= (SHOW_IN_WINDOW ? 150 : 200);
 
 	/**
 	 * @param url
@@ -43,12 +51,18 @@ public class DrawingPanelForImage extends JPanel {
 			height = icon.getIconHeight();
 		} else
 			try {
-				// This does not work unless we cache the images (we run out of space!)
-				// System.out.println(DrawingPanel.class.getSimpleName() + ": fetching image at " + url);
+				// This does not work unless we cache the images -- The JVM runs out of space!
 
 				String modifiedURL = url.replace("upload/items", "upload/items/thumbs");
 				modifiedURL = modifiedURL.replace("upload/items/thumbs/otheritems", "upload/items/otheritems/thumbs");
+
+				if (verbose)
+					println(getClass(), "fetching " + modifiedURL);
+
 				ImageIcon icon0 = new ImageIcon(new URL(modifiedURL));
+				// Note that ImageIcon is perfectly happy to get a URL that does not point to an image.
+				// As long as the URL itself is not malformed, it is going to succeed.
+
 				int h = icon0.getIconHeight();
 				int w = icon0.getIconWidth();
 				if (h >= w) {
@@ -59,7 +73,6 @@ public class DrawingPanelForImage extends JPanel {
 					height = width * h / w;
 				}
 				Image img = icon0.getImage();
-
 				BufferedImage smallImage = ImageGrid.createResizedCopy(img, width, height, true);
 				icon = new ImageIcon(smallImage);
 				cache.put(url, icon);
@@ -81,7 +94,7 @@ public class DrawingPanelForImage extends JPanel {
 	}
 
 	/**
-	 * @return  An icon of this image
+	 * @return An icon of this image
 	 */
 	public ImageIcon getIcon() {
 		return icon;

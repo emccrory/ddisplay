@@ -61,6 +61,7 @@ public class GetMessagingServer {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
 			System.exit(-1);
+			return null;
 		}
 
 		synchronized (connection) {
@@ -100,7 +101,7 @@ public class GetMessagingServer {
 									"The failed query", JOptionPane.ERROR_MESSAGE);
 						}
 
-						System.exit(-1);
+						System.exit(0);
 					}
 				}
 			} catch (SQLException e) {

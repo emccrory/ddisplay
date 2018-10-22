@@ -6,15 +6,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.getDwellStrings;
 import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.interp;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.channel.ChannelInList;
-import gov.fnal.ppd.dd.channel.ChannelListHolder;
-import gov.fnal.ppd.dd.channel.ChannelPlayList;
-import gov.fnal.ppd.dd.channel.list.table.ChannelCooserAsTable;
-import gov.fnal.ppd.dd.channel.list.table.ImageChooserAsTable;
-import gov.fnal.ppd.dd.channel.list.table.SelectedChannelsTableModel;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.BigLabel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -46,7 +37,18 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.AbstractTableModel;
+
+import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelListHolder;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.channel.list.table.ChannelCooserAsTable;
+import gov.fnal.ppd.dd.channel.list.table.ImageChooserAsTable;
+import gov.fnal.ppd.dd.channel.list.table.SelectedChannelsTableModel;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.BigButtonSpinner;
+import gov.fnal.ppd.dd.util.BigLabel;
+import gov.fnal.ppd.dd.util.VirtualKeyboard;
 
 /**
  * The complete user interface for building, modifying, saving and restoring lists of channels in the Dynamic Displays system
@@ -68,21 +70,27 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 	private JSpinner						time;
 
 	private final BigLabel					selectedRowLabel				= new BigLabel(" (no rows selected) ", Font.PLAIN);
-	private final JLabel					header1							= new JLabel("The content in your list");
-	private final JLabel					header2							= new JLabel("Choose content to add to your list");
+	private final JLabel					header1							= new JLabel("The content of your list");
+	private final JLabel					header2							= new JLabel("Tap on a channel/image to add it to your list");
 	private JLabel							databaseNameOfThisListHolder	= new JLabel("(none)");
+	private JLabel							lengthOfThisListLabel			= new JLabel("...");
+	private JLabel							timeInterpretLabel;
+	private BigLabel						bl1								= new BigLabel("Dwell Time (sec)", Font.PLAIN);
+	private JLabel							bl2								= new JLabel("of channels that are added to the list",
+			Font.PLAIN);
 
 	private JButton							moveRowUp						= new JButton("⇧");
 	private JButton							moveRowDown						= new JButton("⇩");
 	private JButton							deleteRow						= new JButton("✖");
-	private JButton							clearUserList					= new JButton("Clear your list");
-	private JButton							acceptThisList					= new JButton("Send this list to the Display");
+	private JButton							editRow							= new JButton("Change Dwell Time");
+	private JButton							clearUserList					= new JButton("Erase & Start Over");
+	private JButton							acceptThisList					= new JButton("Send this list to Display");
 	private JButton							instructionsButton				= new JButton("Instructions");
-	private JButton							doubleButton					= new JButton("Double Seq Nums");
+	private JButton							keyboardButton					= new JButton("Virtual Keyboard");
+	// private JButton doubleButton = new JButton("Double Seq Nums");
 
-	private Box								bottomBox						= Box.createHorizontalBox();
 	private Box								tableBox						= Box.createHorizontalBox();
-	private Box								timeWidgets						= Box.createHorizontalBox();
+	private Box								topWidgets						= Box.createHorizontalBox();
 
 	private SaveRestoreListOfChannels		saveRestore;
 
@@ -96,7 +104,6 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 	public static void main(final String[] args) {
 		credentialsSetup();
 		// MakeChannelSelector.selectorSetup();
-		SHOW_IN_WINDOW = true;
 		PART_OF_CHANNEL_SELECTOR = false;
 
 		// Schedule a job for the event-dispatching thread: creating and showing this application's GUI.
@@ -124,12 +131,14 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		choiceTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				addRowToResultsTable();
+				enableGroupButtons(true);
 			}
 		});
 
 		imageTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				addImageRowToResultsTable();
+				enableGroupButtons(true);
 			}
 		});
 
@@ -137,17 +146,20 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 			public void valueChanged(ListSelectionEvent event) {
 				ChannelInList chan = (ChannelInList) resultsTable.getValueAt(resultsTable.getSelectedRow(), 2);
 				if (chan != null) {
-					selectedRowLabel.setText("Row " + resultsTable.getSelectedRow() + " selected: Channel [\"" + chan + "\", seq="
-							+ chan.getSequenceNumber() + "]");
+					selectedRowLabel.setText("<html>Row " + (1 + resultsTable.getSelectedRow()) + " / Seq "
+							+ chan.getSequenceNumber() + " selected:<br>[" + chan + "]</html>");
 					moveRowUp.setEnabled(true);
 					moveRowDown.setEnabled(true);
 					deleteRow.setEnabled(true);
+					editRow.setEnabled(true);
 				} else {
 					selectedRowLabel.setText(" (no rows selected) ");
 					moveRowUp.setEnabled(false);
 					moveRowDown.setEnabled(false);
 					deleteRow.setEnabled(false);
+					editRow.setEnabled(false);
 				}
+				enableGroupButtons(resultsTable.getChannelList().size() > 0);
 			}
 		});
 	}
@@ -161,19 +173,25 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 
 		choiceTable.setPreferredScrollableViewportSize(new Dimension(w, h));
 
-		BigLabel bl = new BigLabel("Approx Dwell Time (sec): ", Font.PLAIN);
-		bl.setOpaque(false);
+		bl1.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+		bl2.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+		bl1.setOpaque(false);
+		bl2.setOpaque(false);
+		Box bl = Box.createVerticalBox();
+		bl.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+		bl.add(bl1);
+		bl.add(bl2);
 
 		final SpinnerModel model = new SpinnerListModel(getDwellStrings());
-		time = new JSpinner(model);
+		time = BigButtonSpinner.create(model, 40);
 		time.setValue(new Long(300l));
 		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		if (!SHOW_IN_WINDOW) {
-			time.setFont(new Font("Monospace", Font.PLAIN, 30));
+		if (SHOW_IN_WINDOW) {
+			time.setFont(new Font("Monospace", Font.PLAIN, 16));
 			// TODO -- increase the size of the buttons. It is really complicated
 			// (https://community.oracle.com/thread/1357837?start=0&tstart=0) -- later!
 		}
-		final JLabel timeInterpretLabel = new JLabel(interp((Long) time.getValue()));
+		timeInterpretLabel = new JLabel(interp((Long) time.getValue()));
 		int ft = (SHOW_IN_WINDOW ? 12 : 24);
 		timeInterpretLabel.setFont(new Font(Font.MONOSPACED, Font.ITALIC, ft));
 
@@ -186,11 +204,27 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 			}
 		});
 
-		timeWidgets.add(Box.createGlue());
+		Box sideBox = Box.createHorizontalBox();
+		sideBox.add(instructionsButton);
+		sideBox.add(Box.createRigidArea(new Dimension(10, 10)));
+		sideBox.add(keyboardButton);
+
+		keyboardButton.setEnabled(VirtualKeyboard.isViable());
+
+		topWidgets.add(sideBox);
+		topWidgets.add(Box.createRigidArea(new Dimension(10, 10)));
+
+		Box timeWidgets = Box.createHorizontalBox();
+		timeWidgets.add(Box.createRigidArea(new Dimension(10, 10)));
 		timeWidgets.add(bl);
+		timeWidgets.add(Box.createRigidArea(new Dimension(10, 10)));
 		timeWidgets.add(time);
 		timeWidgets.add(timeInterpretLabel);
-		timeWidgets.add(Box.createGlue());
+		timeWidgets.add(Box.createRigidArea(new Dimension(10, 10)));
+		timeWidgets.setBorder(BorderFactory.createLineBorder(Color.green.darker()));
+
+		// topWidgets.add(timeWidgets);
+		topWidgets.add(Box.createGlue());
 
 		acceptThisList.addActionListener(new ActionListener() {
 
@@ -199,8 +233,8 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 				println(ChannelListGUI.class, "Num channels: " + resultsTable.getRowCount());
 				for (int row = 0; row < resultsTable.getRowCount(); row++) {
 					Channel chan = (Channel) resultsTable.getValueAt(row, 2);
-					System.out.println("     " + row + ": Chan #" + chan.getNumber() + " [" + chan.getName() + "] dwell="
-							+ chan.getTime());
+					System.out.println(
+							"     " + row + ": Chan #" + chan.getNumber() + " [" + chan.getName() + "] dwell=" + chan.getTime());
 				}
 				databaseNameOfThisListHolder.setText(saveRestore.getListName() + " [" + resultsTable.getRowCount() + " entries]");
 			}
@@ -216,19 +250,20 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 
 				String text = "<html>";
 				text += "<p><font size='+1'>This panel is for creating, editing, and saving lists of channels in the Dynamic Display system.</font></p>";
-				text += "<p>This panel contains the \"Approx Dwell Time\" at the top, manipulation buttons on the bottom, and the main panel in the middle.</p>\n";
+				text += "<p>This panel contains the \"Dwell Time (sec)\" at the top, the main panel in the middle, and buttons to deal with lists in the database at the bottom.</p>\n";
 				text += "<p>The main panel is split in half with the list of channel you are creating on the left, and the list of all the channels in the entire system on the right.</p>";
 				text += "<p><b>To create a channel list</b>, you copy a channel from the right to the left panels. Do this by touching the desired channel in the full list on the right.</p>\n"
 						+ " You can add the same channel several times.";
-				text += " The dwell time this channel gets is the \"Approx Dwell Time\" that appear at the top of the panel.</p>";
+				text += " The dwell time this channel gets is the \"Dwell Time (sec)\" that appear at the top of the panel.</p>";
 				text += "<p>Remove a channel from the left list by selecting the channel "
 						+ "on the left and then touching the \"✖\" button at the bottom.</p>";
 				text += "<p>With a channel selected on the left, you can use the arrow buttons in the GUI to move this channel up and down in the list.</p>";
-				text += "<p>To change the dwell time of a channel in the left panel, double-click the number in the dwell column,\n"
-						+ "enter the number you want (a keyboard is required--ask for help on how to get the on-screen keyboard) and then hit \"enter\".</p>";
+				text += "<p>There are two ways to change the dwell time of a channel in the left panel.  If you have a keyboard, you double-tap the number in the dwell column,\n"
+						+ "enter the number you want.  Windows PC have the option of an on-screen keyboard for this.  Or you can tap on the channel on the left side, "
+						+ "then select the \"Change Dwell Time\" button.</p>";
 				text += "<p>When you have your list the way you want it, hit \"Send this list to the Display\" to send this channel list to your display,\n"
 						+ " or use the \"Save this list\" button to put this channel list permanently into the database.</p>";
-				text += "<p>Note that the size of each column, and the ordering of the rows, can be manipulated just like column values in Excel.</p>";
+				text += "<p>Note that the size of each column can be manipulated just like column values in Excel.</p>";
 				text += "<p>Feel free to contact the author (Elliott) if you have any ideas on this, e.g. how to make the process, or these instructions, simpler. (June, 2017)</p>";
 				text += "</html>";
 				textPane.setText(text);
@@ -240,23 +275,35 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 			}
 		});
 
-		doubleButton.addActionListener(new ActionListener() {
+		keyboardButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Need to refresh the table after doing this
-				for (Channel C : ChannelListGUI.this.getList()) {
-					ChannelInList CIL = (ChannelInList) C;
-					CIL.setSequenceNumber(CIL.getSequenceNumber() * 2);
-				}
+				VirtualKeyboard.launch();
 
-				((AbstractTableModel) resultsTable.getModel()).fireTableDataChanged();
 			}
 		});
+
+		// doubleButton.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// // TODO Need to refresh the table after doing this
+		// for (Channel C : ChannelListGUI.this.getList()) {
+		// ChannelInList CIL = (ChannelInList) C;
+		// CIL.setSequenceNumber(CIL.getSequenceNumber() * 2);
+		// }
+		//
+		// ((AbstractTableModel) resultsTable.getModel()).fireTableDataChanged();
+		// }
+		// });
 
 		float fontSize = 18.0f;
 		if (SHOW_IN_WINDOW)
 			fontSize = 14.0f;
+
+		// doubleButton.setFont(getFont().deriveFont(fontSize));
+
 		moveRowUp.setFont(getFont().deriveFont(fontSize));
 		moveRowUp.setEnabled(false);
 		moveRowUp.setActionCommand("up");
@@ -273,40 +320,57 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		deleteRow.setActionCommand("delete");
 		deleteRow.addActionListener(this);
 
+		editRow.setFont(getFont().deriveFont(fontSize));
+		editRow.setEnabled(false);
+		editRow.setActionCommand("edit");
+		editRow.addActionListener(this);
+
 		clearUserList.setFont(getFont().deriveFont(fontSize));
 		clearUserList.setActionCommand("clear");
 		clearUserList.setToolTipText("Clear the user-defined lists created here");
 		clearUserList.addActionListener(this);
+		clearUserList.setEnabled(false);
 
-		selectedRowLabel.setFont(new Font("Arial", Font.PLAIN, (int) fontSize));
-
-		bottomBox.add(clearUserList);
-		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
-		bottomBox.add(moveRowUp);
-		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
-		bottomBox.add(moveRowDown);
-		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
-		bottomBox.add(deleteRow);
-		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
-		bottomBox.add(doubleButton);
-		bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
-
+		// doubleButton.setEnabled(false);
+		acceptThisList.setFont(getFont().deriveFont(fontSize));
 		// Beware: This is a bit of a kludge
-		if (PART_OF_CHANNEL_SELECTOR) {
-			bottomBox.add(acceptThisList);
-			bottomBox.add(Box.createRigidArea(new Dimension(10, 10)));
-		}
-		bottomBox.add(instructionsButton);
+		acceptThisList.setEnabled(PART_OF_CHANNEL_SELECTOR);
+
+		selectedRowLabel.setFont(new Font("Arial", Font.PLAIN, (int) fontSize / 2));
+
+		Box boxA = Box.createHorizontalBox();
+		Box boxB = Box.createHorizontalBox();
+
+		boxA.add(editRow);
+		boxA.add(Box.createRigidArea(new Dimension(10, 10)));
+		boxA.add(moveRowUp);
+		boxA.add(Box.createRigidArea(new Dimension(10, 10)));
+		boxA.add(moveRowDown);
+		boxA.add(Box.createRigidArea(new Dimension(10, 10)));
+		boxA.add(deleteRow);
+
+		boxB.add(clearUserList);
+		boxB.add(Box.createRigidArea(new Dimension(10, 10)));
+		// boxB.add(doubleButton);
+		// boxB.add(Box.createRigidArea(new Dimension(10, 10)));
+		boxB.add(acceptThisList);
+		boxB.add(Box.createRigidArea(new Dimension(10, 10)));
 
 		Box bottomBoxHolder = Box.createVerticalBox();
 		selectedRowLabel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 10));
 		bottomBoxHolder.add(selectedRowLabel);
-		bottomBoxHolder.add(bottomBox);
+		bottomBoxHolder.add(Box.createRigidArea(new Dimension(10, 10)));
+		bottomBoxHolder.add(boxA);
+		bottomBoxHolder.add(Box.createRigidArea(new Dimension(10, 10)));
+		bottomBoxHolder.add(boxB);
 
+		int visibleAmount = 200;
 		resultsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane jScrollPane = new JScrollPane(resultsTable);
-		if (!SHOW_IN_WINDOW)
-			jScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(50, 0));
+		if (!SHOW_IN_WINDOW) {
+			jScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(50, 50));
+		}
+		jScrollPane.getVerticalScrollBar().setVisibleAmount(visibleAmount);
 
 		Box vb = Box.createVerticalBox();
 		header1.setFont(new Font("Arial", Font.BOLD, 16));
@@ -316,36 +380,49 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 
 		databaseNameOfThisListHolder.setAlignmentX(CENTER_ALIGNMENT);
 		vb.add(databaseNameOfThisListHolder);
+		lengthOfThisListLabel.setAlignmentX(CENTER_ALIGNMENT);
+		vb.add(lengthOfThisListLabel);
+
+		vb.add(bottomBoxHolder);
+
 		tableBox.add(vb);
 
 		choiceTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jScrollPane = new JScrollPane(choiceTable);
-		if (!SHOW_IN_WINDOW)
-			jScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(50, 0));
+		if (!SHOW_IN_WINDOW) {
+			jScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(50, 50));
+		}
+		jScrollPane.getVerticalScrollBar().setVisibleAmount(visibleAmount);
+
 		tableBox.add(Box.createRigidArea(new Dimension(5, 5)));
 
 		vb = Box.createVerticalBox();
 		header2.setFont(new Font("Arial", Font.BOLD, (SHOW_IN_WINDOW ? 16 : 20)));
 		header2.setAlignmentX(CENTER_ALIGNMENT);
 		JTabbedPane channelTypePane = new JTabbedPane();
+		channelTypePane.setFont(new Font("Arial", Font.BOLD, (SHOW_IN_WINDOW ? 16 : 24)));
 		channelTypePane.add("Channels", jScrollPane);
 
 		jScrollPane = new JScrollPane(imageTable);
-		if (!SHOW_IN_WINDOW)
-			jScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(50, 0));
+		if (!SHOW_IN_WINDOW) {
+			jScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(50, 50));
+		}
+		jScrollPane.getVerticalScrollBar().setVisibleAmount(visibleAmount);
+
 		channelTypePane.add("Images", jScrollPane);
 
 		vb.add(header2);
 		vb.add(channelTypePane);
+		vb.add(timeWidgets);
 		tableBox.add(vb);
 
 		tableBox.setOpaque(true);
 
-		add(timeWidgets, BorderLayout.NORTH);
+		add(topWidgets, BorderLayout.NORTH);
 		add(tableBox, BorderLayout.CENTER);
 
 		Box bb = Box.createVerticalBox();
-		bb.add(bottomBoxHolder);
+
 		bb.add(saveRestore);
 		add(bb, BorderLayout.SOUTH);
 
@@ -369,6 +446,10 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 			header1.setForeground(Color.white);
 			header2.setForeground(Color.white);
 			databaseNameOfThisListHolder.setForeground(Color.white);
+			lengthOfThisListLabel.setForeground(Color.white);
+			timeInterpretLabel.setForeground(Color.white);
+			bl1.setForeground(Color.white);
+			bl2.setForeground(Color.white);
 		}
 	}
 
@@ -395,9 +476,9 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		// int numCols = choiceTable.getColumnCount();
 		// TableModel model = choiceTable.getModel();
 		// int numRows = table.getRowCount();
-		// System.out.print("    row " + viewRow + ": [");
+		// System.out.print(" row " + viewRow + ": [");
 		// for (int j = 0; j < numCols; j++) {
-		// System.out.print("  " + model.getValueAt(viewRow, j));
+		// System.out.print(" " + model.getValueAt(viewRow, j));
 		// }
 		// System.out.println("] Default dwell time=" + time.getValue());
 
@@ -418,6 +499,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		if (showThePopup(k, askedFor, chanDwell))
 			println(getClass(), "Results table now has " + resultsTable.getRowCount() + " rows.");
 		databaseNameOfThisListHolder.setText(saveRestore.getListName() + " [" + resultsTable.getRowCount() + " entries]");
+		lengthOfThisListLabel.setText("Duration of list: " + resultsTable.getTotalTime());
 	}
 
 	private void addImageRowToResultsTable() {
@@ -426,7 +508,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 		resultsTable.add(chan, (long) time.getValue());
 	}
 
-	private long	whenToShowThePopup	= 0L;
+	private long whenToShowThePopup = 0L;
 
 	private boolean showThePopup(final int count, final long d1, final long d2) {
 		if (count <= 1)
@@ -471,16 +553,32 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 			break;
 		case "delete":
 			model.delete(here);
+			if (model.getAllChannels().size() == 0) {
+				enableGroupButtons(false);
+			}
 			break;
 
 		case "clear":
 			model.clear();
+			enableGroupButtons(false);
+			break;
+
+		case "edit":
+			model.edit(here, this);
+			lengthOfThisListLabel.setText("Duration of list: " + resultsTable.getTotalTime());
 			break;
 
 		default:
-			println(getClass(), "Invalid action command received.  This should not happen.");
+			println(getClass(), "Invalid action command received: [" + e.getActionCommand() + "]  This should not happen.");
 			break;
 		}
+	}
+
+	private void enableGroupButtons(boolean b) {
+		clearUserList.setEnabled(b);
+		// doubleButton.setEnabled(b);
+		acceptThisList.setEnabled(PART_OF_CHANNEL_SELECTOR && b);
+
 	}
 
 	@Override

@@ -87,6 +87,14 @@ public class MessageCarrierXML implements Serializable {
 	}
 
 
+	/**
+	 * @param from
+	 *            The originator of the message
+	 * @param to
+	 *            The recipient of the message
+	 * @param cc
+	 * @return the appropriate object
+	 */
 	public static MessageCarrierXML getMessage(String from, String to, EncodedCarrier cc) {
 		MessageCarrierXML r = new MessageCarrierXML(MessageType.MESSAGE, from, to, "message");
 		r.carrier = cc;

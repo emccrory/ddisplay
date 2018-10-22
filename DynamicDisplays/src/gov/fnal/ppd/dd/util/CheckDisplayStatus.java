@@ -38,7 +38,6 @@ import javax.swing.JLabel;
 public class CheckDisplayStatus extends Thread {
 
 	private Display			display;
-	private int				index;
 	private JLabel			footer;
 	private static boolean	doDisplayButtons	= true;
 	private final long		initialSleep;
@@ -54,7 +53,6 @@ public class CheckDisplayStatus extends Thread {
 	public CheckDisplayStatus(final Display display, final int index, final JLabel footer, final List<List<ChannelButtonGrid>> grids) {
 		super("Display." + display.getDBDisplayNumber() + "." + display.getScreenNumber() + ".StatusUpdateGrabber");
 		this.display = display;
-		this.index = index;
 		this.footer = footer;
 		// this.grids = grids;
 		initialSleep = 5 * index + 20000L;

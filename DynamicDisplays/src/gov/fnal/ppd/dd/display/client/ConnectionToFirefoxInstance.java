@@ -5,32 +5,24 @@
  */
 package gov.fnal.ppd.dd.display.client;
 
-import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
-import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.isThisURLNeedAnimation;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
-import gov.fnal.ppd.dd.emergency.EmergencyMessage;
-import gov.fnal.ppd.dd.emergency.Severity;
-import gov.fnal.ppd.dd.util.ExitHandler;
 
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.Date;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicBoolean;
+
+import gov.fnal.ppd.dd.util.ExitHandler;
 
 /**
  * Connects to an instance of Firefox browser and sends JavaScript instructions to it. This is the "lowest" level class in the
@@ -42,49 +34,24 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-public class ConnectionToFirefoxInstance {
-	private static final int					MAXIMUM_BUFFER_SIZE				= 1024;
-	private static final String					LOCALHOST						= "localhost";
-	private static final int					PORT							= 32000;
+public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
+	private static final int	MAXIMUM_BUFFER_SIZE			= 1024;
+	private static final String	LOCALHOST					= "localhost";
+	private static final int	PORT						= 32000;
 
 	// private static final String FullScreenExecute = "var elem = document.body; elem.requestFullScreen();";
 
-	private static int							numberOfScreens					= 0;
-	private String								instance						= "";
+	private BufferedReader		in;
+	private Socket				kkSocket;
+	private String				lastReplyLine;
+	private PrintWriter			out;
+	private int					port;
 
-	private boolean								connected						= false;
-	private BufferedReader						in;
-	private Socket								kkSocket;
-	private String								lastReplyLine;
-	private PrintWriter							out;
-	private final int							port;
-
-	private boolean								debug							= true;
-	private int									virtualID, dbID;
-
-	private String								colorCode;
-	private AtomicBoolean						showingCanonicalSite			= new AtomicBoolean(false);
-	private Rectangle							bounds;
-	private boolean								showNumber						= true;
-
-	private boolean								tryingToCloseNow				= false;
-	protected boolean							firstTimeOpeningConnection		= true;
-	private boolean								showingEmergencyCommunication	= false;
-	private boolean								badNUC							= false;
-	private boolean								hasEmergencyCapabilities		= true;
-	private boolean								elementIDError					= false;
-
-	private static final Map<String, String>	colorNames						= GetColorsFromDatabase.get();
-
-	// private static final String BASE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border.php";
-	// private static final String EXTRAFRAME_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border2.php";
-	// private static final String EXTRAFRAMESNOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border3.php";
-	// private static final String EXTRAFRAMENOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border4.php";
-
-	private static final String					TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
-	private static final String					WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border7.php";
-
-	// private static final String FERMI_TICKERTAPE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border5.php";
+	private boolean				tryingToCloseNow			= false;
+	protected boolean			firstTimeOpeningConnection	= true;
+	@SuppressWarnings("unused")
+	private boolean				hasEmergencyCapabilities	= true;
+	private boolean				elementIDError				= false;
 
 	/**
 	 * Create a connection to the instance of FireFox that is being targeted here
@@ -99,85 +66,12 @@ public class ConnectionToFirefoxInstance {
 	 */
 	public ConnectionToFirefoxInstance(final int screenNumber, final int virtualID, final int dbID, final Color color,
 			final boolean showNumber) {
-		// Create a connection to the instance of FireFox that is being targeted here
+		super(screenNumber, virtualID, dbID, color, showNumber);
 
-		bounds = ScreenLayoutInterpreter.getBounds(screenNumber);
-		println(getClass(), " -- Screen size is " + bounds.width + " x " + bounds.height + ", vDisplay=" + virtualID + ", dbID="
-				+ dbID);
-
-		this.virtualID = virtualID;
-		this.dbID = dbID;
-		this.showNumber = showNumber;
-		numberOfScreens++;
-
-		port = PORT + screenNumber;
-		Timer timer = new Timer();
-
-		if (numberOfScreens > 1)
-			instance = " (port #" + port + ")";
-		else {
-			TimerTask g = new TimerTask() {
-				public void run() {
-					for (int i = 0; i < 100; i++) {
-						if (numberOfScreens > 1) {
-							instance = " (port #" + port + ")";
-							return;
-						}
-						// System.out.println("              Number of screens = " + numberOfScreens);
-						catchSleep(100);
-					}
-				}
-			};
-			timer.schedule(g, 500); // Run it once, after a short delay.
-		}
-
-		colorCode = Integer.toHexString(color.getRGB() & 0x00ffffff);
-		colorCode = "000000".substring(colorCode.length()) + colorCode;
-
-		openConnection();
-
-		setPositionAndSize();
-
-		// Perform a full reset of the browser every now and then.
-		TimerTask tt = new TimerTask() {
-			public void run() {
-				try {
-					// The next time there is a channel change (even for a refresh), it will do a full reset.
-					showingCanonicalSite.set(false);
-					println(ConnectionToFirefoxInstance.class, ": next refresh of URL will be a FULL reset");
-				} catch (Exception e) {
-					println(ConnectionToFirefoxInstance.class, "Exception caught in diagnostic thread, " + e.getLocalizedMessage());
-					e.printStackTrace();
-				}
-			}
-		};
-		timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
-
-		// if (testEmergencyStuff) {
-		// // TESTING of Emergency message thing
-		// TimerTask g = new TimerTask() {
-		// boolean on = false;
-		//
-		// public void run() {
-		// if (on) {
-		// EmergencyMessage test = new EmergencyMessage();
-		// test.setHeadline("Test Message");
-		// test.setMessage("This is a test of the Fermilab Dynamic Displays emergency alert system.");
-		// test.setSeverity(Severity.TESTING);
-		//
-		// showEmergencyCommunication(test);
-		// on = false;
-		// } else {
-		// removeEmergencyCommunication();
-		// on = true;
-		// }
-		// }
-		// };
-		// timer.schedule(g, 15000, 20000);
-		// }
 	}
 
-	private void setPositionAndSize() {
+	@Override
+	protected void setPositionAndSize() {
 		String moveTo = "window.moveTo(" + ((int) bounds.getX()) + "," + ((int) bounds.getY()) + ");";
 		send(moveTo);
 
@@ -185,24 +79,13 @@ public class ConnectionToFirefoxInstance {
 		send(resizeTo);
 	}
 
-	/**
-	 * Change the URL that is showing now.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * Applying "synchronized" here just in case there are back-to-back change requests. Is this necessary, since there are
-	 * synchronizations on the in and the out sockets?
-	 * 
-	 * @param urlStrg
-	 *            The URL that this instance should show now.
-	 * @param theWrapper
-	 *            What kind of wrapper page shall this be? Normal, ticker-tape or none ("none" is really not going to work)
-	 * @param frameNumber
-	 *            The frame number to which this content is targeted
-	 * @param specialCode
-	 *            The code, from the database, for this URL (e.g., has sound)
-	 * @return Was the change successful?
-	 * @throws UnsupportedEncodingException
-	 *             -- if the url we have been given is bogus
+	 * @see gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance#changeURL(java.lang.String,
+	 * gov.fnal.ppd.dd.display.client.WrapperType, int, int)
 	 */
+	@Override
 	public synchronized boolean changeURL(final String urlStrg, final WrapperType theWrapper, final int frameNumber,
 			final int specialCode) throws UnsupportedEncodingException {
 
@@ -261,7 +144,7 @@ public class ConnectionToFirefoxInstance {
 				s = "window.location=\"" + WEB_PAGE_EMERGENCY_FRAME + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
 
-				if (isNumberHidden())
+				if (!showNumber)
 					s += "&shownumber=0";
 				s += "\";\n";
 			}
@@ -276,58 +159,12 @@ public class ConnectionToFirefoxInstance {
 						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height + "&feed="
 						+ theWrapper.getTickerName();
 
-				if (isNumberHidden())
+				if (!showNumber)
 					s += "&shownumber=0";
 				s += "\";\n";
 			}
 			break;
 
-		// case TICKERANDFRAME:
-		// if (!showingCanonicalSite.get()) {
-		// println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAME_WEB_PAGE);
-		// showingCanonicalSite.set(true);
-		// s = "window.location=\"" + EXTRAFRAME_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-		// + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
-		//
-		// if (isNumberHidden())
-		// s += "&shownumber=0";
-		// s += "\";\n";
-		// }
-		// break;
-		//
-		// case FRAMENOTICKER:
-		// String borderPage = WEB_PAGE_EMERGENCY_FRAME; // EXTRAFRAMENOTICKER_WEB_PAGE);
-		//
-		// if (!showingCanonicalSite.get()) {
-		// println(getClass(), instance + " Sending full, new URL to browser " + borderPage);
-		// showingCanonicalSite.set(true);
-		// s = "window.location=\"" + borderPage + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display=" + virtualID
-		// + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
-		//
-		// if (isNumberHidden())
-		// s += "&shownumber=0";
-		// s += "\";\n";
-		// }
-		// break;
-		//
-		// case FRAMESNOTICKER:
-		// if (!showingCanonicalSite.get()) {
-		// println(getClass(), instance + " Sending full, new URL to browser " + EXTRAFRAMESNOTICKER_WEB_PAGE);
-		// showingCanonicalSite.set(true);
-		// s = "window.location=\"" + EXTRAFRAMESNOTICKER_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8")
-		// + "&display=" + virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
-		//
-		// if (isNumberHidden())
-		// s += "&shownumber=0";
-		// s += "\";\n";
-		// }
-		// break;
-		//
-		// case NONE:
-		// s = "window.location=\"" + urlString + "\";\n";
-		// println(getClass(), instance + " Wrapper not used.  THIS IS UNTESTED!  New URL is " + urlString + instance);
-		// showingCanonicalSite.set(false);
-		// break;
 		}
 
 		// ********************** Here is where the javascript message is sent to Firefox, containing the new URL ************
@@ -360,17 +197,8 @@ public class ConnectionToFirefoxInstance {
 		// send("document.body.scroll='no';\n");
 		// send(FullScreenExecute);
 
-		try {
-			return waitForServer();
-		} catch (IOException e) {
-			if (numberOfScreens > 1)
-				System.err.println("Exception on port #" + port);
-			e.printStackTrace();
-			setIsNotConnected();
-			return false;
-		}
 		// }
-		// return true;
+		return true;
 	}
 
 	private void setIsNotConnected() {
@@ -395,8 +223,8 @@ public class ConnectionToFirefoxInstance {
 					in = null;
 
 					catchSleep(2000L);
-					println(ConnectionToFirefoxInstance.class, "\t\tAttempting to re-open the connection to FireFox "
-							+ getInstance() + "\n\n");
+					println(ConnectionToFirefoxInstance.class,
+							"\t\tAttempting to re-open the connection to FireFox " + getInstance() + "\n\n");
 					tryingToCloseNow = false;
 					openConnection();
 				}
@@ -404,106 +232,37 @@ public class ConnectionToFirefoxInstance {
 		}
 	}
 
-	private boolean isNumberHidden() {
-		return !showNumber;
-	}
-
-	/**
-	 * Ask the browser to completely refresh itself
-	 * 
-	 * @param frameNumber
-	 */
-	public void forceRefresh(int frameNumber) {
-		// Send the refresh
-
-		String s = "window.location.reload();";
-
-		sendAndWait(s);
-	}
-
-	/**
-	 * Modify the actual display to self-identify, showing the Display number and the highlight color.
-	 */
-	public void showIdentity() {
-		String s = "document.getElementById('numeral').style.opacity=0.8;\n";
-		s += "document.getElementById('numeral').style.font='bold 750px sans-serif';\n";
-		s += "document.getElementById('numeral').style.textShadow='0 0 18px black, 0 0 18px black, 0 0 18px black, 0 0 18px black, 0 0 18px black, 16px 16px 2px #"
-				+ colorCode + "';\n";
-		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'background-color: #" + colorCode
-				+ "; padding:0; margin: 100;' );\n";
-		// s += "document.getElementById('iframe').style.width=1700;\n";
-		// s += "document.getElementById('iframe').style.height=872;\n";
-		s += "document.getElementById('iframe').style.width=" + (bounds.width - 220) + ";\n";
-		s += "document.getElementById('iframe').style.height=" + (bounds.height - 208) + ";\n";
-
-		String displayID = "(" + dbID + ") ";
-		if (this.dbID == this.virtualID)
-			displayID = "";
-		if (colorNames.containsKey(colorCode))
-			s += "document.getElementById('colorName').innerHTML = '" + displayID + colorNames.get(colorCode) + "';\n";
-		else
-			s += "document.getElementById('colorName').innerHTML = '" + displayID + "#" + colorCode + "';\n";
-
-		sendAndWait(s);
-
-		// TODO -- Add the PNG image of the QR code here. Generate it with this:
-		// try {
-		// BufferedImage image = gov.fnal.ppd.dd.util.CrunchifyQRCode.createQRCodeImage(lastURLString);
-		// } catch (WriterException e) {
-		// e.printStackTrace();
-		// }
-	}
-
-	/**
-	 * Remove the self-identify dressings on the Display
-	 */
-	public void removeIdentify() {
-		String s = "document.getElementById('numeral').style.opacity=" + (isNumberHidden() ? "0.0" : "0.4") + ";\n";
-		s += "document.getElementById('numeral').style.font='bold 120px sans-serif';\n";
-		s += "document.getElementsByTagName('body')[0].setAttribute('style', 'padding:0; margin: 0;');\n";
-		s += "document.getElementById('numeral').style.textShadow='0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 6px 6px 2px #"
-				+ colorCode + "';\n";
-		s += "document.getElementById('iframe').style.width=" + (bounds.width - 4) + ";\n";
-		s += "document.getElementById('iframe').style.height=" + (bounds.height - 6) + ";\n";
-
-		s += "document.getElementById('colorName').innerHTML = '';\n";
-
-		sendAndWait(s);
-	}
-
-	/**
-	 * @param frameNumber
-	 *            the frame number to show in the HTML file
-	 */
-	public void showFrame(final int frameNumber) {
-		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='visible';\n";
-		sendAndWait(s);
-	}
-
-	/**
-	 * @param frameNumber
-	 *            the frame number to hide in the HTML file
-	 */
-	public void hideFrame(final int frameNumber) {
-		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
-		sendAndWait(s);
-	}
-
-	private void sendAndWait(String s) {
-		send(s);
+	@Override
+	public void send(String s) {
+		
+		long sleepTime = 1000L;
+		while (!connected || out == null) {
+			println(getClass(), ".send() -- Not connected to FireFox instance at " + LOCALHOST + ":" + port
+					+ ".  Will look again in " + sleepTime + " milliseconds");
+			catchSleep(sleepTime);
+			sleepTime = Math.min(sleepTime + 5000L, 15000L);
+		}
+		if (debug)
+			println(getClass(), instance + " sending [" + s + "]");
+		synchronized (out) {
+			out.println(s);
+		}
 
 		try {
 			if (!waitForServer())
-				System.err.println(getClass().getName() + ".hideFrame()" + instance + " -- error from Display server!");
+				System.err.println(getClass().getName() + ".send() " + instance + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
 			setIsNotConnected();
 		}
 	}
 
-	/**
-	 * Remove the FireFox window that was created earlier.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance#exit()
 	 */
+	@Override
 	public void exit() {
 		// Remove the FireFox window that was created earlier.
 		try {
@@ -514,25 +273,25 @@ public class ConnectionToFirefoxInstance {
 		}
 	}
 
-	/**
-	 * @return The last reply from the socket connection
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance#getTheReply()
 	 */
+	@Override
 	public Object getTheReply() {
 		return lastReplyLine;
 	}
 
-	/**
-	 * @return Best guess as to whether or not we are connected to the FireFox back end
-	 */
-	public boolean isConnected() {
-		return connected;
-	}
-
-	private void openConnection() {
+	@Override
+	public void openConnection() {
 		if (connected) {
 			println(getClass(), " -- already connected!");
 			return;
 		}
+
+		port = PORT + screenNumber;
+
 		new Thread("OpenConToFirefox") {
 			int	numFailures					= 0;
 			int	iterationsToWaitFirstTime	= 12;
@@ -550,7 +309,7 @@ public class ConnectionToFirefoxInstance {
 					iterationsWait = iterationsToWaitFirstTime; // First time through, we give up after about 2 minutes
 					firstTimeOpeningConnection = false;
 				}
-				Class clazz = ConnectionToFirefoxInstance.class;
+				Class<ConnectionToFirefoxInstance> clazz = ConnectionToFirefoxInstance.class;
 				while (!connected) {
 					try {
 						println(clazz, ":\tOpening connection to FireFox instance to " + LOCALHOST + ":" + port + " ... ");
@@ -568,11 +327,15 @@ public class ConnectionToFirefoxInstance {
 					} catch (UnknownHostException e) {
 						System.err.println("Don't know about host " + LOCALHOST + " --  ignoring. (" + numFailures + ")");
 						numFailures++;
+					} catch (ConnectException e) {
+						numFailures++;
+						System.err.println("Couldn't get I/O for the connection to " + LOCALHOST + ":" + port + " -- ("
+								+ e.getMessage() + ") (" + numFailures + ") [a]");
 					} catch (IOException e) {
 						numFailures++;
-						if ("Connection refused".equals(e.getMessage()) || "Connection timed out".equals(e.getMessage())) {
+						if (e.getMessage().contains("Connection refused") || e.getMessage().contains("Connection timed out")) {
 							System.err.println("Couldn't get I/O for the connection to " + LOCALHOST + ":" + port + " -- ("
-									+ e.getMessage() + ") (" + numFailures + ")");
+									+ e.getMessage() + ") (" + numFailures + ") [b]");
 						} else {
 							System.err.println(instance + "Unrecognized error! (" + numFailures + ")");
 							e.printStackTrace();
@@ -581,7 +344,7 @@ public class ConnectionToFirefoxInstance {
 					if (numFailures >= iterationsWait) {
 						System.err.println(ConnectionToFirefoxInstance.class.getSimpleName()
 								+ ".openConnection().Thread.run(): Firefox instance is not responding.  ABORT!");
-						ExitHandler.saveAndExit();
+						ExitHandler.saveAndExit("Firefox instance is not responding in " + getClass().getName());
 						// This limit was put in at the same time as a "while loop" in the canonical (Linux) shell script that
 						// re-executes the "run display" class when an error exit status happens.
 					}
@@ -591,21 +354,6 @@ public class ConnectionToFirefoxInstance {
 				}
 			}
 		}.start();
-	}
-
-	private void send(String s) {
-		long sleepTime = 1000L;
-		while (!connected || out == null) {
-			println(getClass(), ".send() -- Not connected to FireFox instance at " + LOCALHOST + ":" + port
-					+ ".  Will look again in " + sleepTime + " milliseconds");
-			catchSleep(sleepTime);
-			sleepTime = Math.min(sleepTime + 5000L, 15000L);
-		}
-		if (debug)
-			println(getClass(), instance + " sending [" + s + "]");
-		synchronized (out) {
-			out.println(s);
-		}
 	}
 
 	private boolean waitForServer() throws IOException {
@@ -628,8 +376,8 @@ public class ConnectionToFirefoxInstance {
 							+ "]";
 
 				if (debug)
-					println(getClass(), ".waitForServer()" + instance + ": " + numRead + " chars from server: [" + lastReplyLine
-							+ "]");
+					println(getClass(),
+							".waitForServer()" + instance + ": " + numRead + " chars from server: [" + lastReplyLine + "]");
 
 				/*
 				 * It looks like the reply expected here is something like this:
@@ -647,24 +395,25 @@ public class ConnectionToFirefoxInstance {
 				 * A special error is returned if the Firefox Tab has disappeared: "tab navigated or closed"
 				 */
 				if (lastReplyLine.toLowerCase().contains("tab navigated or closed")) {
-					println(getClass(), "\n\n******************************************************\n\nRecevied this line: ["
-							+ lastReplyLine + "]\n\n******************************************************\n\n"
-							+ "ABORTING APPLICATION!\n******************************************************");
-					ExitHandler.saveAndExit();
+					println(getClass(),
+							"\n\n******************************************************\n\nRecevied this line: [" + lastReplyLine
+									+ "]\n\n******************************************************\n\n"
+									+ "ABORTING APPLICATION!\n******************************************************");
+					ExitHandler.saveAndExit("Received 'tab not there' message in " + getClass().getName());
 				}
 
 				// If we are asking for an element in the web document that does not exist, we'll see this error:
 				if (lastReplyLine.toLowerCase().contains("evaluation error: typetrror: document.getelementbyid(...) is null")) {
 					elementIDError = true;
 					return true;
-				} else {
-					connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
-					if (!connected)
-						setIsNotConnected();
 				}
+				connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");
+				if (!connected)
+					setIsNotConnected();
 			} catch (SocketTimeoutException e) {
 				System.err.println(new Date() + " " + ConnectionToFirefoxInstance.class.getSimpleName()
 						+ ".waitForServer(): No response from Firefox plugin");
+				e.printStackTrace();
 				setIsNotConnected();
 			}
 		}
@@ -673,128 +422,11 @@ public class ConnectionToFirefoxInstance {
 	}
 
 	/**
-	 * @param frameNumber
-	 *            The frame number to turn off
-	 */
-	public void turnOffFrame(final int frameNumber) {
-		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
-
-		sendAndWait(s);
-	}
-
-	/**
-	 * Force to refresh the controlling URL.
-	 */
-	public void resetURL() {
-		showingCanonicalSite.set(false);
-	}
-
-	/**
 	 * @return a string that tells which connection instance this is (e.g., " (port #32000)")
 	 */
-	String getInstance() {
+	@Override
+	public String getInstance() {
 		return instance;
 	}
 
-	/**
-	 * Force an emergency message onto the screen!
-	 * 
-	 * @param message
-	 *            -- The message, which is (presumably) formatted HTML
-	 * 
-	 * @return Did it work?
-	 */
-	public boolean showEmergencyCommunication(final EmergencyMessage message) {
-		if (message.getSeverity() == Severity.REMOVE)
-			return removeEmergencyCommunication();
-
-		String mess = message.toHTML() + "<p class='date'>Message was last updated at this time: " + new Date() + "</p>";
-
-		Color borderColor = null;
-		switch (message.getSeverity()) {
-		case ALERT:
-			borderColor = Color.RED.darker();
-			break;
-
-		case INFORMATION:
-			borderColor = Color.GREEN.darker();
-			break;
-
-		case TESTING:
-			borderColor = Color.GRAY;
-			break;
-
-		case EMERGENCY:
-			borderColor = Color.RED;
-			break;
-
-		case REMOVE:
-			// Already handled above
-			break;
-		}
-
-		String s = "";
-		if (borderColor != null) {
-			String rgb = getHex(borderColor.getRed()) + getHex(borderColor.getGreen()) + getHex(borderColor.getBlue());
-			s = "document.getElementById('emergencyframe1').style.borderColor = '#" + rgb + "';\n";
-		}
-
-		s += "document.getElementById('emergencyframe1').innerHTML='" + mess.replace("'", "\\'") + "';\n";
-		s += "document.getElementById('emergencyframe1').style.visibility='visible';\n";
-
-		send(s);
-		showingEmergencyCommunication = true;
-
-		try {
-			if (waitForServer()) {
-				if (elementIDError)
-					hasEmergencyCapabilities = false;
-				return true;
-			}
-			return false;
-		} catch (IOException e) {
-			if (numberOfScreens > 1)
-				System.err.println("Exception for EMERGENCY MESSAGE on port #" + port);
-			e.printStackTrace();
-			setIsNotConnected();
-			return false;
-		}
-	}
-
-	private String getHex(int val) {
-		String retval = Integer.toHexString(0x000000ff & val);
-		if (val < 16)
-			return "0" + retval;
-		return retval;
-	}
-
-	/**
-	 * @return Did it work?
-	 */
-	private boolean removeEmergencyCommunication() {
-		String s = "document.getElementById('emergencyframe1').innerHTML='';\n";
-		s += "document.getElementById('emergencyframe1').style.visibility='hidden';\n";
-
-		send(s);
-		showingEmergencyCommunication = false;
-
-		try {
-			if (waitForServer()) {
-				if (elementIDError)
-					hasEmergencyCapabilities = false;
-				return true;
-			}
-			return false;
-		} catch (IOException e) {
-			if (numberOfScreens > 1)
-				System.err.println("Exception EMERGENCY MESSAGE on port #" + port);
-			e.printStackTrace();
-			setIsNotConnected();
-			return false;
-		}
-	}
-
-	public void setBadNUC(boolean badNUC) {
-		this.badNUC = badNUC;
-	}
 }

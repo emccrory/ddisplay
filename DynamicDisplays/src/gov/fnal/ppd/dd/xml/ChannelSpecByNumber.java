@@ -14,6 +14,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class ChannelSpecByNumber extends ChannelSpec {
+	
+	private static final long serialVersionUID = -7250458242146986630L;
 	private int						number	= 0;
 	private static MapOfChannels	moc		= new MapOfChannels();
 

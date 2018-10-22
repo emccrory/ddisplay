@@ -6,15 +6,15 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.getDisplays;
-import gov.fnal.ppd.dd.display.DisplayListDatabaseRemote;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageType;
+
 /**
- * Class that contains static methods for retrieving the displays in the system. {@link DisplayListDatabaseRemote}
+ * Class that contains static methods for retrieving the displays in the system. 
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

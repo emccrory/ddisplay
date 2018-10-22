@@ -175,8 +175,7 @@ public class Channel {
 			e.printStackTrace();
 		}
 
-		try {
-			PrintWriter writer = new PrintWriter(args[0] + "_tempXMLFile", "UTF-8");
+		try (PrintWriter writer = new PrintWriter(args[0] + "_tempXMLFile", "UTF-8")) {
 			writer.append(xml);
 		} catch (Exception e) {
 			e.printStackTrace();

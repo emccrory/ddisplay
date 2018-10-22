@@ -1,7 +1,6 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
-import static gov.fnal.ppd.dd.GlobalVariables.PROGRAM_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
@@ -13,10 +12,6 @@ import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.saveDefaultChannels;
 import static gov.fnal.ppd.dd.db.ListUtilsDatabase.getSavedLists;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
-import gov.fnal.ppd.dd.util.CheckDisplayStatus;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -56,6 +51,11 @@ import javax.swing.UIManager;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.plaf.FontUIResource;
+
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.signage.SignageType;
+import gov.fnal.ppd.dd.util.CheckDisplayStatus;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -247,7 +247,6 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	private SaveRestoreDefaultChannels(List<Display> d) {
 		// Set up a different connection to each display within this class, doubling the number of connections to the messaging
 		// server
-		PROGRAM_NAME = "Save/Restore Display Configuration";
 
 		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
 
@@ -319,7 +318,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 				else
 					println(getClass(), ": No on-screen keyboard available. (Best guess: we're running Linux)");
 			}
-		String s = (String) JOptionPane.showInputDialog(theGUI, box, "Save Display Configuration", JOptionPane.QUESTION_MESSAGE);
+		String s = JOptionPane.showInputDialog(theGUI, box, "Save Display Configuration", JOptionPane.QUESTION_MESSAGE);
 		if (onscreenKeyboardProcess != null)
 			onscreenKeyboardProcess.destroy();
 
@@ -420,7 +419,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	}
 
 	private static Display[] getSortedDisplays(Set<Display> keySet) {
-		Display[] sorted = (Display[]) keySet.toArray(new Display[keySet.size()]);
+		Display[] sorted = keySet.toArray(new Display[keySet.size()]);
 		Arrays.sort(sorted, new Comparator<Display>() {
 
 			@Override

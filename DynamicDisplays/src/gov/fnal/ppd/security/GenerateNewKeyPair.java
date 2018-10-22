@@ -92,10 +92,9 @@ public class GenerateNewKeyPair {
 				System.err.println("Cannot access the Channel/Display database. DB Host=jdbc:mysql://" + serverNode + "/"
 						+ DATABASE_NAME + ", user=" + user + ", password=" + Arrays.toString(passwd));
 				throw new DatabaseNotVisibleException(ex.getMessage());
-			} else {
-				System.err.println("Aborting");
-				System.exit(1);
 			}
+			System.err.println("Aborting");
+			System.exit(1);
 		}
 		return null;
 	}
@@ -114,37 +113,58 @@ public class GenerateNewKeyPair {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
+		String hostname = "localhost";
+		// Get the local hostname
+		try {
+			hostname = InetAddress.getLocalHost().getCanonicalHostName();
+			hostname = hostname.substring(0, hostname.indexOf('.'));
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}		
+		
 		GenerateNewKeyPair OS = new GenerateNewKeyPair();
 
-		if (args.length == 4) {
-			String filenamePublic = args[0];
-			String filenamePrivate = args[1];
-			String clientName = args[2];
-			String userName = args[3];
+		if (args.length == 2) {
+			String publicKeyFilename = "Public.key";
+			String privateKeyFilename = "Private.key";
+			String selectorClientName = args[0];
+			String databaseUserName = args[1];
 
 			try {
-				OS.generateNewKeys(filenamePublic, filenamePrivate);
-				System.out.println("Successfully generated new keys.  Public key is in file '" + filenamePublic + "'.");
-				System.out.println("The private key is in '" + filenamePrivate
-						+ "'.  Be sure to move this private keystore to somewhere really, REALLY private!");
-
 				// Prompt the user for the password and store it in a char[]
 				Console console = System.console();
-				console.printf("Please enter the DB password for user " + userName + ": ");
+				console.printf("Please enter the DB password for user " + databaseUserName + ": ");
 				char[] password = console.readPassword();
 
-				OS.writePublicKeyToDatabase(clientName, userName, password);
+				// Open the DB connection first - this is what often fails, so get it out of the way before making the keys
+				OS.getConnection(selectorClientName, databaseUserName, password);
 				for (int i = 0; i < password.length; i++)
 					password[i] = 0;
 
-				System.out.println("Public key has been inserted into the database under client name '" + clientName + "'.");
+				// Now make the keys
+				OS.generateNewKeys(publicKeyFilename, privateKeyFilename);
+				System.out.println("Successfully generated new keys.  Public key is in file '" + publicKeyFilename + "'.");
+
+				// Write the public key into the database
+				OS.writePublicKeyToDatabase(selectorClientName);
+
+				// All done! This is the only place where the exit code is zero.
+				System.out
+						.println("Public key has been inserted into the database under client name '" + selectorClientName + "'.");
+				System.out.println("The private key is in '" + privateKeyFilename
+						+ "'.  Be sure to move this private keystore to somewhere really, REALLY private!");
+				System.exit(0);
 			} catch (NoSuchAlgorithmException | IOException e) {
-				e.printStackTrace();
+				System.err.println("Something went wrong.  Got an exception of type " + e.getClass().getCanonicalName()
+						+ " with the message: " + e.getMessage());
 			}
-		} else {
-			System.err.println("USAGE: java " + GenerateNewKeyPair.class.getCanonicalName()
-					+ " <PublicKey File Name> <PrivateKey file name> <Client name> <database user name> <database password>");
+		} else {			
+			System.err.println("You gave " + args.length + " arguments and expected 2.\nUSAGE: java "
+					+ GenerateNewKeyPair.class.getCanonicalName() + " <Client name> <database user name>\nFor example:\n\tjava "
+					+ GenerateNewKeyPair.class.getCanonicalName() + " \"" + hostname + " selector 00\" <redacted>");
 		}
+		System.exit(-1);
 	}
 
 	private KeyPairGenerator	keyPairGenerator;
@@ -168,8 +188,8 @@ public class GenerateNewKeyPair {
 	 * @throws IOException
 	 *             -- A problem writing the public or private keystores.
 	 */
-	public void generateNewKeys(final String filenamePublic, final String filenamePrivate) throws NoSuchAlgorithmException,
-			IOException {
+	public void generateNewKeys(final String filenamePublic, final String filenamePrivate)
+			throws NoSuchAlgorithmException, IOException {
 
 		// Generate a 1024-bit Digital Signature Algorithm (DSA) key pair.
 		keyPairGenerator = KeyPairGenerator.getInstance(ALG_TYPE);
@@ -182,19 +202,30 @@ public class GenerateNewKeyPair {
 		// Store Public Key.
 		X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKey.getEncoded());
 
-		FileOutputStream fos = new FileOutputStream(filenamePublic);
-		fos.write(x509EncodedKeySpec.getEncoded());
-		fos.close();
-
+		try (FileOutputStream fos = new FileOutputStream(filenamePublic)) {
+			fos.write(x509EncodedKeySpec.getEncoded());
+		}
 		// Store Private Key.
 		PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(privateKey.getEncoded());
 
-		fos = new FileOutputStream(filenamePrivate);
-		fos.write(pkcs8EncodedKeySpec.getEncoded());
-		fos.close();
+		try (FileOutputStream fos = new FileOutputStream(filenamePrivate)) {
+			fos.write(pkcs8EncodedKeySpec.getEncoded());
+		}
 	}
 
-	protected final synchronized void writePublicKeyToDatabase(String clientName, String user, char[] password) {
+	protected final synchronized void getConnection(String clientName, String user, char[] password) {
+		try {
+			connection = getDbConnection(user, password);
+		} catch (DatabaseNotVisibleException e) {
+			// not good!
+			System.err.println("No connection.  Either your username/password is wrong or the DB server is down.");
+
+			e.printStackTrace();
+			System.exit(-1);
+		}
+	}
+
+	protected final synchronized void writePublicKeyToDatabase(String clientName) {
 		String blob = "";
 		byte[] encoded = publicKey.getEncoded();
 		for (int i = 0; i < encoded.length; i++) {
@@ -203,35 +234,26 @@ public class GenerateNewKeyPair {
 			blob += Integer.toHexString(0x000000ff & encoded[i]);
 
 		}
-		Connection connection;
-		try {
-			connection = getDbConnection(user, password);
 
-			try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-				String statementString = "REPLACE PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
-						+ InetAddress.getLocalHost().getHostAddress() + "', 0);";
+		try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+			String statementString = "REPLACE PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
+					+ InetAddress.getLocalHost().getHostAddress() + "', 0);";
 
-				int numRows = stmt.executeUpdate(statementString);
-				if (numRows == 0 || numRows > 1) {
-					System.err
-							.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
-									+ numRows + " rows instead. SQL='" + statementString + "'");
-				}
-				stmt.close();
-			} catch (SQLException ex) {
-				System.err.println("cannot execute a query. Is the DB server down?  Try again later.");
-				ex.printStackTrace();
-				System.exit(-1);
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
+			System.out.println(statementString);
+			int numRows = stmt.executeUpdate(statementString);
+			if (numRows == 0 || numRows > 1) {
+				System.err.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
+						+ numRows + " rows instead. SQL='" + statementString + "'");
 			}
-		} catch (DatabaseNotVisibleException e) {
-			// not good!
-			System.err.println("No connection.  Either your username/password is wrong or the DB server is down.");
-
-			e.printStackTrace();
+			stmt.close();
+		} catch (SQLException ex) {
+			System.err.println("cannot execute a query. Is the DB server down?  Try again later.");
+			ex.printStackTrace();
 			System.exit(-1);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
 		}
+
 	}
 
 }

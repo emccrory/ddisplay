@@ -252,7 +252,7 @@ public class DDButton extends JButton {
 			String tx = "<html><b>" + channel.getName() + ":</b> " + channel.getDescription() + " <em>(Channel "
 					+ channel.getNumber() + ")</em></html>";
 			if (descriptionFont == null) {
-				float siz = ((float) userDefinedFont.getSize()) / (tx.length() / 60.0f);
+				float siz = (userDefinedFont.getSize()) / (tx.length() / 60.0f);
 				if (siz < 7.0f)
 					siz = 7.0f;
 				else if (siz > userDefinedFont.getSize())
@@ -273,8 +273,7 @@ public class DDButton extends JButton {
 					tx = tx.replace("/", " /");
 			}
 			if (urlFont == null) {
-				float siz = fixFontSize(((float) userDefinedFont.getSize()) / (tx.length() / 25.0f), 7.0f,
-						(float) userDefinedFont.getSize());
+				float siz = fixFontSize((userDefinedFont.getSize()) / (tx.length() / 25.0f), 7.0f, userDefinedFont.getSize());
 				urlFont = userDefinedFont.deriveFont(siz);
 			}
 			setText("<html>" + tx + "</html>");

@@ -10,12 +10,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_VIRTUAL_DISPLAY_NUMS;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.DDButton;
-import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.EmergencyCommunication;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -25,7 +20,15 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import gov.fnal.ppd.dd.changer.DDButton;
+import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.EmergencyCommunication;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.signage.SignageType;
 
 /**
  * The implementation of a Display. This is made concrete on the controller side through DisplayFacade, and on the display side
@@ -36,21 +39,23 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public abstract class DisplayImpl implements Display {
 
-	private static int				displayCount		= 1;
+	private static int				displayCount			= 1;
 	// private int displayNumber = displayCount++;
 
 	private int						dbDisplayNumber;
-	private int						vDisplayNumber		= displayCount++;
+	private int						vDisplayNumber			= displayCount++;
 
-	protected int					screenNumber		= 0;
-	protected static AtomicInteger	internalThreadID	= new AtomicInteger(0);
+	protected int					screenNumber			= 0;
+	protected static AtomicInteger	internalThreadID		= new AtomicInteger(0);
 	protected SignageContent		channel;
 	// May need to change this attribute to a stack, so we can pop off to older "previous channels". Things like "IDENTIFY" and
 	// "REFRESH" screw this up.
-	protected SignageContent		previousChannel		= null;
+	// protected SignageContent previousChannel = null;
+	protected Stack<SignageContent>	previousChannelStack	= new Stack<SignageContent>();
+
 	protected Color					highlightColor;
-	protected List<ActionListener>	listeners			= new ArrayList<ActionListener>();
-	private SignageType				category			= SignageType.Public;
+	protected List<ActionListener>	listeners				= new ArrayList<ActionListener>();
+	private SignageType				category				= SignageType.Public;
 	private InetAddress				ipAddress;
 	private String					location;
 
@@ -89,7 +94,9 @@ public abstract class DisplayImpl implements Display {
 		this.vDisplayNumber = vDisplay;
 		this.highlightColor = color;
 		this.category = type;
-		this.previousChannel = this.channel = makeEmptyChannel(null);
+		// this.previousChannel = this.channel = makeEmptyChannel(null);
+		this.channel = makeEmptyChannel(null);
+		this.previousChannelStack.push(this.channel);
 	}
 
 	protected abstract boolean localSetContent();
@@ -98,7 +105,7 @@ public abstract class DisplayImpl implements Display {
 	public SignageContent setContent(final SignageContent c) {
 
 		// TODO -- When an emergency message is up, we should (probably) not allow the channel to change.
-		// I think the ideal way would be to change the underlying channel while keeping the emergency message up.
+		// The ideal way would be to change the underlying channel while keeping the emergency message up, but this is hard.
 
 		if (c instanceof EmergencyCommunication) {
 			EmergencyCommunication ec = (EmergencyCommunication) c;
@@ -113,14 +120,16 @@ public abstract class DisplayImpl implements Display {
 
 			return channel;
 		}
-		if (getCategory().isVisible(c) && isVerifiedChannel(c)) {
+		boolean visible = getCategory().isVisible(c);
+		boolean verified = isVerifiedChannel(c);
+		if (visible && verified) {
 			// Take care of a null argument and remembering the previous channel.
 			if (!channel.equals(c)) {
 				if (channel instanceof EmergencyCommunication)
 					println(getClass(), " -- Current channel is an EmergencyCommunication.  Retaining the old previous channel of "
-							+ previousChannel);
+							+ previousChannelStack.peek());
 				else
-					previousChannel = channel;
+					previousChannelStack.push(channel);
 			}
 			if (c == null)
 				channel = makeEmptyChannel(null);
@@ -130,11 +139,20 @@ public abstract class DisplayImpl implements Display {
 			println(getClass(), ": Display " + getVirtualDisplayNumber() + " changed to [" + channel + "] at " + (new Date()));
 			// informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
 
+			// Actually do the channel change!
 			respondToContentChange(localSetContent(), "");
-			return previousChannel;
+			return previousChannelStack.peek();
+		}
+		if (!verified) {
+			error("The requested channel (URL=" + c.getURI().toString() + ") is not approved to be shown");
+			informListeners(DisplayChangeEvent.Type.ERROR,
+					"The requested channel (URL=" + c.getURI().toString() + ") is not approved to be shown");
+		} else if (!visible) {
+			error("Content type of this Channel (" + c.getType() + ") is not appropriate for this Display (" + getCategory() + ")");
+			informListeners(DisplayChangeEvent.Type.ERROR, "Content type of this Channel (" + c.getType()
+					+ ") is not appropriate for this Display (" + getCategory() + ")");
 		}
 
-		error("Content type of this Channel (" + c.getType() + ") is not appropriate for this Display (" + getCategory() + ")");
 		return channel;
 	}
 
@@ -177,43 +195,49 @@ public abstract class DisplayImpl implements Display {
 		channel = c;
 	}
 
+	/**
+	 * An error has been encountered.
+	 * 
+	 * This should probably be overridden by the classes that know how to write to the physical display. Pushing this error
+	 * information into the log file is probably not the best choice for the disposition of this information.
+	 * 
+	 * @param string
+	 */
 	protected void error(String string) {
-		System.err.println(string);
+		printlnErr(getClass(), string);
 	}
 
 	@Override
 	public String toString() {
 		if (SHOW_EXTENDED_DISPLAY_NAMES) {
-			return "<html>Display "
-					+ (getVirtualDisplayNumber() + " | " + getDBDisplayNumber() + "<br>" + getLocation())
-							.replace("Display", "Disp").replace("Dynamic", "Dyn") + "</html>";
-		} else {
-			int displayNumber = getDBDisplayNumber();
-			if (SHOW_VIRTUAL_DISPLAY_NUMS)
-				displayNumber = getVirtualDisplayNumber();
-
-			// FIXME Only works correctly up to 9999 total displays. That should be enough for now. :-)
-			if (displayCount >= 1000) {
-				if (displayNumber < 10)
-					return "Display 000" + displayNumber;
-				else if (displayNumber < 100)
-					return "Display 00" + displayNumber;
-				else if (displayNumber < 1000)
-					return "Display 0" + displayNumber;
-
-			} else if (displayCount >= 100) {
-				if (displayNumber < 10)
-					return "Display 00" + displayNumber;
-				else if (displayNumber < 100)
-					return "Display 0" + displayNumber;
-
-			} else if (displayCount >= 10) {
-				if (displayNumber < 10)
-					return "Display 0" + displayNumber;
-			}
-
-			return "Display " + displayNumber;
+			return "<html>Display " + (getVirtualDisplayNumber() + " | " + getDBDisplayNumber() + "<br>" + getLocation())
+					.replace("Display", "Disp").replace("Dynamic", "Dyn") + "</html>";
 		}
+		int displayNumber = getDBDisplayNumber();
+		if (SHOW_VIRTUAL_DISPLAY_NUMS)
+			displayNumber = getVirtualDisplayNumber();
+
+		// FIXME Only works correctly up to 9999 total displays. That should be enough for now. :-)
+		if (displayCount >= 1000) {
+			if (displayNumber < 10)
+				return "Display 000" + displayNumber;
+			else if (displayNumber < 100)
+				return "Display 00" + displayNumber;
+			else if (displayNumber < 1000)
+				return "Display 0" + displayNumber;
+
+		} else if (displayCount >= 100) {
+			if (displayNumber < 10)
+				return "Display 00" + displayNumber;
+			else if (displayNumber < 100)
+				return "Display 0" + displayNumber;
+
+		} else if (displayCount >= 10) {
+			if (displayNumber < 10)
+				return "Display 0" + displayNumber;
+		}
+
+		return "Display " + displayNumber;
 	}
 
 	// @Override
@@ -274,7 +298,7 @@ public abstract class DisplayImpl implements Display {
 		for (final ActionListener L : listeners)
 			new Thread("DisplayInform" + t + "_" + L.getClass().getSimpleName()) {
 				public void run() {
-					// System.out.println(DisplayImpl.this.getClass().getSimpleName() + ": " + t + "  sent to a "
+					// System.out.println(DisplayImpl.this.getClass().getSimpleName() + ": " + t + " sent to a "
 					// + L.getClass().getName() + " (" + L.hashCode() + ")");
 					L.actionPerformed(ev);
 				}

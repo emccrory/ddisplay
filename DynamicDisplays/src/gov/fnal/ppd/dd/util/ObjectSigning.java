@@ -81,7 +81,7 @@ public class ObjectSigning {
 	private Signature				sig					= null;
 
 	// All the public keys will be stored in the database and the private keys will be stored on the local
-	// disk of the sender, but not in a place that can normally be read. For example, ~/.keystore
+	// disk of the sender, but not in a place that can normally be read. For example, ~/keystore
 
 	/**
 	 * Initialize the object signing mechanism -- PRIVATE class. Use getInstance();
@@ -194,16 +194,15 @@ public class ObjectSigning {
 		// Store Public Key.
 		X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKey.getEncoded());
 
-		FileOutputStream fos = new FileOutputStream(filenamePublic);
-		fos.write(x509EncodedKeySpec.getEncoded());
-		fos.close();
-
+		try (FileOutputStream fos = new FileOutputStream(filenamePublic)) {
+			fos.write(x509EncodedKeySpec.getEncoded());
+		}
 		// Store Private Key.
 		PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(privateKey.getEncoded());
 
-		fos = new FileOutputStream(filenamePrivate);
-		fos.write(pkcs8EncodedKeySpec.getEncoded());
-		fos.close();
+		try (FileOutputStream fos = new FileOutputStream(filenamePrivate)) {
+			fos.write(pkcs8EncodedKeySpec.getEncoded());
+		}
 	}
 
 	/**
@@ -228,11 +227,10 @@ public class ObjectSigning {
 
 							println(getClass(), ": Got the public key for client " + clientName);
 							return true;
-						} else {
-							// Likely culprit here: The source of this message does not have a public key in the DB
-							publicKey = null;
-							System.err.println("No public key for client='" + clientName + "' -- it cannot have signed messages.");
 						}
+						// Likely culprit here: The source of this message does not have a public key in the DB
+						publicKey = null;
+						System.err.println("No public key for client='" + clientName + "' -- it cannot have signed messages.");
 
 					}
 				} catch (Exception e1) {
@@ -387,14 +385,13 @@ public class ObjectSigning {
 											retval.add("-1");
 											println(ObjectSigning.class, ": This client can control all the displays!");
 											return retval;
-										} else {
-											System.err.println("\n\n**********\n\n" + ObjectSigning.class.getSimpleName()
-													+ ": Unanticipated situation!  Got a location code of " + lc + " for client "
-													+ ipNameOfClient
-													+ " but really expecting either a -1 or no location code at all."
-													+ "\n\n**********  Contact code author!");
-											break; // Not sure if we can continue or not. We'll try.
 										}
+										System.err.println("\n\n**********\n\n" + ObjectSigning.class.getSimpleName()
+												+ ": Unanticipated situation!  Got a location code of " + lc + " for client "
+												+ ipNameOfClient
+												+ " but really expecting either a -1 or no location code at all."
+												+ "\n\n**********  Contact code author!");
+										break; // Not sure if we can continue or not. We'll try.
 									} while (rs1.next());
 								}
 							}
@@ -441,21 +438,18 @@ public class ObjectSigning {
 	 *            -- The file name containing the public keystore
 	 * @throws IOException
 	 *             -- A problem reading the keystore
-	 * @throws NoSuchAlgorithmException
-	 *             -- A problem with the encryption service
 	 */
 	public void loadPublicKey(final String filename) throws IOException {
 		File filePublicKey = new File(filename);
-		FileInputStream fis = new FileInputStream(filename);
-		byte[] encodedPublicKey = new byte[(int) filePublicKey.length()];
-		fis.read(encodedPublicKey);
-		fis.close();
-
-		X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(encodedPublicKey);
-		try {
-			publicKey = keyFactory.generatePublic(publicKeySpec);
-		} catch (InvalidKeySpecException e) {
-			e.printStackTrace();
+		try (FileInputStream fis = new FileInputStream(filename)) {
+			byte[] encodedPublicKey = new byte[(int) filePublicKey.length()];
+			fis.read(encodedPublicKey);
+			X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(encodedPublicKey);
+			try {
+				publicKey = keyFactory.generatePublic(publicKeySpec);
+			} catch (InvalidKeySpecException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -486,15 +480,16 @@ public class ObjectSigning {
 			return;
 
 		File filePrivateKey = new File(filename);
-		FileInputStream fis = new FileInputStream(filename);
-		byte[] encodedPrivateKey = new byte[(int) filePrivateKey.length()];
-		fis.read(encodedPrivateKey);
-		fis.close();
+		try (FileInputStream fis = new FileInputStream(filename)) {
+			byte[] encodedPrivateKey = new byte[(int) filePrivateKey.length()];
+			fis.read(encodedPrivateKey);
+			fis.close();
 
-		PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(encodedPrivateKey);
+			PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(encodedPrivateKey);
 
-		privateKey = keyFactory.generatePrivate(privateKeySpec);
-		signature = Signature.getInstance(privateKey.getAlgorithm());
+			privateKey = keyFactory.generatePrivate(privateKeySpec);
+			signature = Signature.getInstance(privateKey.getAlgorithm());
+		}
 	}
 
 	/**

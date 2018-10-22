@@ -252,6 +252,7 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 	 * @param args
 	 *            Command line arguments (none expected()
 	 */
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		String host = "localhost";
 		if (args.length > 0 ) 

@@ -6,14 +6,8 @@
 package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
-import static gov.fnal.ppd.dd.GlobalVariables.PROGRAM_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
-import gov.fnal.ppd.dd.changer.DisplayListFactory;
-import gov.fnal.ppd.dd.channel.ChannelImpl;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -25,6 +19,12 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import gov.fnal.ppd.dd.changer.DisplayListFactory;
+import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageType;
 
 /**
  * Let the user ask each Display in the Dynamic Display system to go to the "Identify" screen. Since this Channel is designed to
@@ -108,8 +108,6 @@ public class IdentifyAll implements ActionListener {
 	private IdentifyAll(List<Display> d) {
 		// Set up a different connection to each display within this class, doubling the number of connections to the messaging
 		// server
-		PROGRAM_NAME = "Identify";
-
 		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
 
 		if (d == null)

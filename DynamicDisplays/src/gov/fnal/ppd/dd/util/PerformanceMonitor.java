@@ -59,6 +59,7 @@ public class PerformanceMonitor {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
+		@SuppressWarnings("unused")
 		PerformanceMonitor m = new PerformanceMonitor();
 
 		// Two useless threads that take up CPU time

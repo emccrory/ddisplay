@@ -55,6 +55,7 @@ public class ChannelsFromDatabase {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			System.exit(1);
+			return;
 		}
 
 		int count = 0;
@@ -108,6 +109,7 @@ public class ChannelsFromDatabase {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			System.exit(1);
+			return;
 		}
 
 		int count = 0;
@@ -159,6 +161,7 @@ public class ChannelsFromDatabase {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.exit(1);
+			return null;
 		}
 
 		synchronized (connection) {

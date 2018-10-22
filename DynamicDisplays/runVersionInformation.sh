@@ -27,8 +27,10 @@ elif [ $hostname = "roc-w-10.fnal.gov" ]; then
     flavor="TEST"
 fi
 
+exitCode=0
 if java gov.fnal.ppd.dd.util.version.VersionInformationComparison $flavor; then
     echo You are running the latest version of the software
+    exitCode=1
 else
     doTheUpdate=$yes;
     if [ $yes = 0 ]; then 
@@ -50,11 +52,16 @@ else
 	    date > $log
 	    echo Automatic software update >> $log
 
-	    # A little trickery here to make the Zenity progress dialog look better.  
-            # It takes about 80 seconds on an i3 NUC to get a new version from GIT (11/19/15)
+	    if [ ! -e refreshSoftware.sh ]; then
+		wget http://dynamicdisplays.fnal.gov/software/refreshSoftware.sh
+		chmod +x refreshSoftware.sh
+	    fi
 
 	    ./refreshSoftware.sh >> $log &
 	    pid=$!
+
+	    # A little trickery here to make the Zenity progress dialog look better.  
+            # It takes about 80 seconds on an i3 NUC to get a new version from GIT (11/19/15)
 
 	    for i in `seq 10 2 90`; do
 		# Completing this loop will take 80 seconds
@@ -84,3 +91,7 @@ echo
 echo " Versioning -----------------------------------------------------------------"
 echo
 java gov.fnal.ppd.dd.util.version.VersionInformation 0
+echo
+echo " Versioning -----------------------------------------------------------------"
+
+exit $exitCode

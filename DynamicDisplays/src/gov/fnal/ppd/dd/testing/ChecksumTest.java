@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.testing;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
+@SuppressWarnings("javadoc")
 public class ChecksumTest {
 
 	public static void main(String[] args) {

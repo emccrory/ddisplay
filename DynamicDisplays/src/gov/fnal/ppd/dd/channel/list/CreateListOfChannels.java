@@ -425,7 +425,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 					+ " sec]"));
 			count++;
 			for (ChanSelectButton AB : allChannelButtons) {
-				ChanSelectButton bb = (ChanSelectButton) AB;
+				ChanSelectButton bb = AB;
 				if (bb.isChannel(C))
 					AB.setSelected(true);
 			}
@@ -444,7 +444,6 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 	 * @param listener
 	 *            the listener for when the "Accept this list" button get pressed. Leave this null, and it will exit when the button
 	 *            is pressed.
-	 * @param color
 	 * @return The JPanel that contains all the GUI widgets
 	 * 
 	 */
@@ -566,8 +565,6 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 		getMessagingServerNameSelector();
 
 		// ChannelCatalogFactory.useRealChannels(true);
-		IS_PUBLIC_CONTROLLER = false;
-		// SHOW_IN_WINDOW = false;
 
 		JFrame f = new JFrame(CreateListOfChannels.class.getCanonicalName() + " Testing;");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

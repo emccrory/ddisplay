@@ -45,10 +45,12 @@ public class ChannelCategory implements Serializable {
 	 * @param s
 	 */
 	public ChannelCategory(final String s) {
-		this.value = s;
-		this.abbreviation = s.toUpperCase();
-		if (s != null && s.length() > 5)
-			this.abbreviation = s.substring(0, 5);
+		if (s != null) {
+			this.value = s;
+			this.abbreviation = s.toUpperCase();
+			if (s.length() > 5)
+				this.abbreviation = s.substring(0, 5);
+		}
 	}
 
 	/**

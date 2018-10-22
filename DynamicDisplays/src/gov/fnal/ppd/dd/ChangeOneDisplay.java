@@ -10,7 +10,6 @@
 package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
@@ -20,12 +19,6 @@ import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.getADisplay;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.db.ConnectionToDatabase;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,6 +29,13 @@ import java.sql.Statement;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+
+import gov.fnal.ppd.dd.chat.MessageCarrier;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.signage.SignageType;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 /**
  * A simple, command-line program for setting the content of one display to one channel. This would be used by a scheduling system.
@@ -107,10 +107,12 @@ public class ChangeOneDisplay {
 		Connection connection = null;
 		try {
 			connection = ConnectionToDatabase.getDbConnection();
+			if ( connection == null ) return null;
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
 			System.exit(-1);
+			return null; // This is here for the compiler
 		}
 
 		synchronized (connection) {
@@ -130,7 +132,7 @@ public class ChangeOneDisplay {
 								System.out.println("Location code is " + getLocationCode());
 							String myClassification = rs.getString("Type");
 
-							IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
+							// IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
 
 							@SuppressWarnings("unused")
 							final SignageType sType = SignageType.valueOf(myClassification);

@@ -160,7 +160,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		gbag.gridwidth = 3;
 		gbag.anchor = GridBagConstraints.CENTER;
 		// gbag.fill = GridBagConstraints.HORIZONTAL;
-		gbag.insets = new Insets(1, 1, 1, 1);
+		gbag.insets = new Insets(10, 10, 10, 10);
 		add(lab, gbag);
 
 		gbag.gridy++;

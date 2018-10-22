@@ -2,18 +2,10 @@ package gov.fnal.ppd.dd.db;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
-import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
+import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.channel.ChannelImage;
-import gov.fnal.ppd.dd.channel.ChannelImpl;
-import gov.fnal.ppd.dd.channel.ChannelInList;
-import gov.fnal.ppd.dd.channel.ChannelPlayList;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -27,6 +19,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+
+import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.channel.ChannelImage;
+import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 /**
  * A collection of the methods needed to deal with channel lists in the database.
@@ -128,8 +129,7 @@ public class ListUtilsDatabase {
 										String desc = rs3.getString("Description");
 										String exp = rs3.getString("Experiment");
 
-										String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo="
-												+ URLEncoder.encode(name, "UTF-8") + "&caption=" + URLEncoder.encode(desc, "UTF-8");
+										String url = SINGLE_IMAGE_DISPLAY + URLEncoder.encode(name, "UTF-8") + "&caption=" + URLEncoder.encode(desc, "UTF-8");
 										URI uri = new URI(url);
 										Channel channel = new ChannelImage(name, ChannelCategory.IMAGE, desc, uri, portfolioID, exp);
 										channel.setTime(dwell);

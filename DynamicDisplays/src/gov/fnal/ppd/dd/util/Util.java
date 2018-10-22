@@ -7,16 +7,8 @@ package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
+import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.channel.ChannelImpl;
-import gov.fnal.ppd.dd.channel.ChannelInList;
-import gov.fnal.ppd.dd.channel.ChannelPlayList;
-import gov.fnal.ppd.dd.db.ConnectionToDatabase;
-import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageContent;
 
 import java.awt.event.ActionEvent;
 import java.io.ByteArrayOutputStream;
@@ -38,6 +30,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+
+import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
+import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * Some general utilities in the DD system
@@ -215,6 +217,23 @@ public class Util {
 			System.out.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
 	}
 
+	
+	/**
+	 * @param clazz
+	 *            The type of the caller
+	 * @param message
+	 *            the message to print
+	 */
+	public static void printlnErr(Class<?> clazz, String message) {
+		//
+		// TODO - Suppress repeated messages
+		//
+		if (message.startsWith(":"))
+			System.err.println(new Date() + " - " + clazz.getSimpleName() + message);
+		else
+			System.err.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
+	}
+	
 	/**
 	 * @param d
 	 *            The display to identify
@@ -301,12 +320,14 @@ public class Util {
 
 		Channel retval = null;
 		try {
-			retval = new ChannelImpl("Fermilab", PUB, "Fermilab", new URI("http://www.fnal.gov"), 0, 360000L);
+			retval = new ChannelImpl("Fermilab", PUB, "Fermilab", new URI("https://www.fnal.gov"), 0, 360000L);
 		} catch (URISyntaxException e2) {
 			e2.printStackTrace();
 		}
 
 		if (channelNumber == 0) {
+			// Using the default, Fermilab home page!
+			println(Util.class, " Using the Fermilab home page as the default channel!");
 			return retval;
 		} else if (channelNumber < 0) {
 			// The default channel is a list of channels. Build it!
@@ -422,8 +443,7 @@ public class Util {
 							String desc = rs.getString("Description");
 							String filename = rs.getString("Filename");
 
-							String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo="
-									+ URLEncoder.encode(filename, "UTF-8") + "&caption=" + URLEncoder.encode(desc, "UTF-8");
+							String url = SINGLE_IMAGE_DISPLAY + URLEncoder.encode(filename, "UTF-8") + "&caption=" + URLEncoder.encode(desc, "UTF-8");
 
 							String[] array = filename.split("/", -1);
 							retval = new ChannelImpl(array[array.length - 1], ChannelCategory.IMAGE, desc, new URI(url),
