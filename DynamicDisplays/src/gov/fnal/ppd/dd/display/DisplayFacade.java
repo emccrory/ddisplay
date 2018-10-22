@@ -4,6 +4,15 @@ import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.util.Util.println;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.net.InetAddress;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
@@ -23,17 +32,12 @@ import gov.fnal.ppd.dd.xml.EmergencyMessXML;
 import gov.fnal.ppd.dd.xml.EncodedCarrier;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
-import java.awt.Color;
-import java.net.InetAddress;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 /**
- * On the computer with the channel selector, this is the way you talk to a remote Dynamic Display
+ * On the computer with the channel selector, this is the way you talk to a remote Dynamic Display. This classed is used in the GUI
+ * as the Facade between the GUI and the actual display. That actual display sits on the other side of the network connection,
+ * through the messaging server.
  * 
- * @author Elliott McCrory, Fermilab AD/Instrumentation, 2013
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, First version: 2013
  * 
  */
 public class DisplayFacade extends DisplayImpl {
@@ -51,6 +55,7 @@ public class DisplayFacade extends DisplayImpl {
 	private AtomicBoolean			waiting						= new AtomicBoolean(false);
 	private String					myExpectedName;
 	private int						locCode;
+	private boolean					receivedAReply				= false;
 
 	static private int				lastLocCode					= Integer.MAX_VALUE;
 	static private boolean			multipleLocations			= false;
@@ -87,7 +92,8 @@ public class DisplayFacade extends DisplayImpl {
 			setReadOnly(false);
 		}
 
-		public static void registerClient(final String server, final int port, final String lookingFor, final DisplayFacade client) {
+		public static void registerClient(final String server, final int port, final String lookingFor,
+				final DisplayFacade client) {
 			if (me == null)
 				me = new FacadeMessagingClient(server, port);
 			me.clients.put(lookingFor, client);
@@ -103,8 +109,7 @@ public class DisplayFacade extends DisplayImpl {
 				DisplayFacade DF = clients.get(message.getFrom());
 				if (DF != null) {
 					DF.informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED, "Channel change succeeded");
-					// println(getClass(),
-					// ".receiveIncomingMessage(): Yay!  Got a real confirmation that the channel was changed.");
+					// println(getClass(), ".receiveIncomingMessage(): Yay! Got a real confirmation that the channel was changed.");
 				} else
 					println(getClass(),
 							".receiveIncomingMessage(): No client named " + message.getFrom() + " to which to send the REPLY.\n"
@@ -204,8 +209,8 @@ public class DisplayFacade extends DisplayImpl {
 		// } catch (UnknownHostException e1) {
 		// e1.printStackTrace(); // Really? This should never happen.
 		// }
-		println(DisplayFacade.class, ": The messaging name of Display " + vNumber + "/" + dbNumber + " is expected to be '"
-				+ myExpectedName + "'");
+		println(DisplayFacade.class,
+				": The messaging name of Display " + vNumber + "/" + dbNumber + " is expected to be '" + myExpectedName + "'");
 		FacadeMessagingClient.registerClient(getMessagingServerName(), MESSAGING_SERVER_PORT, myExpectedName, this);
 		FacadeMessagingClient.addListener(this);
 		// TODO -- It would be better to defer the start of these messaging clients until the whole GUI creation is finished. Not
@@ -270,14 +275,19 @@ public class DisplayFacade extends DisplayImpl {
 		return false;
 	}
 
-	/**
+	/*
 	 * @return Is there really a display connected to us, here?
 	 */
-	public boolean isConnected() {
-		// TODO This return value should be true only if we have seen a message from our connected Display. Punt for now.
-		return true;
-		// return false;
-	}
+	// public boolean isConnected() {
+	// TODO This return value should be true only if we have seen a message from our connected Display.
+
+	// Once we get a reply from the real display, we are definitely connected. But we need to say we are connected first, before
+	// we send a change-channel request! 
+	
+	// But this information is never used, so let's forget about it.
+
+	// return true;
+	// }
 
 	@Override
 	public String getMessagingName() {
@@ -310,6 +320,11 @@ public class DisplayFacade extends DisplayImpl {
 	 */
 	public void setContentValueBackdoor(final SignageContent content) {
 		channel = content;
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		receivedAReply = true;
 	}
 
 	public String toString() {
