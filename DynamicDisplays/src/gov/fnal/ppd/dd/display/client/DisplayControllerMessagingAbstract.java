@@ -228,7 +228,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			retval += OFF_LINE + " " + offlineMessage;
 		else {
 			if (specialURI(getContent())) {
-				retval += (getStatus() + " (" + previousChannelStack.peek().getURI() + ")").replace("'", "\\'");
+				retval += (previousChannelStack.peek().getURI() + " (" + getStatus() + ")").replace("'", "\\'");
 			} else
 				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'")
 						.replace("dynamicdisplays.fnal.gov", "dd").replace("Pictures", "Pics");
@@ -435,7 +435,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						browserInstance.removeIdentify();
 						showingSelfIdentify = false;
 						// setContentBypass(previousChannel);
-						setContentBypass(previousChannelStack.pop());
+						previousChannelStack.pop();
+						setContentBypass(previousChannelStack.peek());
 						updateMyStatus();
 					}
 				}.start();
@@ -581,7 +582,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			playlistThread = new ThreadWithStop((ChannelPlayList) getContent());
 			playlistThread.start();
 		} else {
-			previousChannelStack.pop();
+			previousChannelStack.pop(); // Get rid of top of previous
 			previousChannelStack.push(getContent());
 			return localSetContent_notLists();
 		}
@@ -669,7 +670,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							}
 						}
 						println(DisplayControllerMessagingAbstract.this.getClass(),
-								".localSetContent():"
+								".setRevertThread():"
 										// + browserInstance.getInstance() + " Reverting to channel " + previousPreviousChannel);
 										+ browserInstance.getInstance() + " Reverting to channel " + previousChannelStack.peek());
 						try {
@@ -745,7 +746,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					public void run() {
 						catchSleep(dwellTime);
 						println(DisplayControllerMessagingAbstract.this.getClass(),
-								".localSetContent():" + browserInstance.getInstance() + " turning off the announcement frame");
+								".setupRefreshThread():" + browserInstance.getInstance() + " turning off the announcement frame");
 						browserInstance.turnOffFrame(frameNumber);
 					}
 				}.start();
@@ -769,11 +770,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							}
 							if (changeCount == thisChangeCount) {
 								println(DisplayControllerMessagingAbstract.this.getClass(),
-										".localSetContent():" + browserInstance.getInstance() + " Reloading web page " + url);
+										".setupRefreshThread():" + browserInstance.getInstance() + " Reloading web page " + url);
 								try {
 									if (!browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
 										println(DisplayControllerMessagingAbstract.this.getClass(),
-												".localSetContent(): Failed to REFRESH content");
+												".setupRefreshThread(): Failed to REFRESH content");
 										browserInstance.resetURL();
 										continue; // TODO -- Figure out what to do here. For now, just try again later
 									}
@@ -782,7 +783,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								}
 							} else {
 								println(DisplayControllerMessagingAbstract.this.getClass(),
-										".localSetContent():" + browserInstance.getInstance() + " Not necessary to refresh " + url
+										".setupRefreshThread():" + browserInstance.getInstance() + " Not necessary to refresh " + url
 												+ " because the channel was changed.  Bye!");
 								return;
 							}
