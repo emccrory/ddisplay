@@ -26,11 +26,13 @@ public class ExitHandler {
 	 */
 	public static void saveAndExit(String why) {
 		// Execute the listed commands
+		int count = 0;
 		for (Command C : finalCommand)
-			if (C != null)
+			if (C != null) {
 				C.execute(why);
-
-		println(ExitHandler.class, "\n\n********** EXITING **********\n\n [" + why + "]\n");
+				count++;
+			}
+		println(ExitHandler.class, "\n\n********** EXITING **********\n\n [" + why + "] - " + count + " exit commands executed\n");
 		// Exit the Java VM entirely
 		System.exit(-1);
 	}
