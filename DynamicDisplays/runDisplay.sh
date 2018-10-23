@@ -165,7 +165,7 @@ fi
 	rm -f *.ser 
 
 	# Make sure all of the selenium drivers are executable
-	chmod +x lib/*driver
+	chmod +x lib/selenium/*driver
 	
         # An exit code of -1 (255 here) is going to mean that there was a problem from which we should try to recover.
 	while {
@@ -198,10 +198,12 @@ fi
 	    # This "cd" should put us in the right place (unless the new version contains a new version of this script.)
 	    cd $workingDirectory
 	    echo ""
-	    echo `date` " Trying again now."
+	    echo `date` " Exec'ing " $0 ".  Working directory is" `pwd`
 	    echo ""
 	    echo ""
 	    echo ""
+	    exec $0
+	    # OK, the new version of this script is now running.
 	done
 	
 	echo ""
