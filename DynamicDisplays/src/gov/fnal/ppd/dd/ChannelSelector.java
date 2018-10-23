@@ -153,31 +153,17 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	private ActionListener					changeDefaultsListener		= new ActionListener() {
 																			boolean	visible	= false, firstTime = true;
-<<<<<<< HEAD
-																			JFrame	f		= new JFrame(
-																					"SaveRestoreDefaultChannels");
-=======
 																			JFrame	f1		= new JFrame(
 																									"SaveRestoreDefaultChannels");
->>>>>>> selenium_01
 
 																			@Override
 																			public void actionPerformed(ActionEvent e) {
 																				if (firstTime) {
 																					firstTime = false;
-<<<<<<< HEAD
-																					f.setDefaultCloseOperation(
-																							JFrame.DISPOSE_ON_CLOSE);
-																					f.setContentPane(
-																							SaveRestoreDefaultChannels.getGUI());
-																					int height = 400
-																							+ 30 * (displayList.size() + 1);
-=======
 																					f1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 																					f1.setContentPane(SaveRestoreDefaultChannels
 																							.getGUI());
 																					int height = 400 + 30 * (displayList.size() + 1);
->>>>>>> selenium_01
 																					if (height > 1000)
 																						height = 1000;
 																					println(ChannelSelector.class,
@@ -186,48 +172,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 																					f1.setAlwaysOnTop(true);
 																					f1.addWindowListener(new WindowListener() {
 
-<<<<<<< HEAD
-																																							@Override
-																																							public void windowOpened(
-																																									WindowEvent e) {
-																																							}
 
-																																							@Override
-																																							public void windowIconified(
-																																									WindowEvent e) {
-																																								visible = false;
-																																							}
-
-																																							@Override
-																																							public void windowDeiconified(
-																																									WindowEvent e) {
-																																								visible = true;
-																																							}
-
-																																							@Override
-																																							public void windowDeactivated(
-																																									WindowEvent e) {
-																																							}
-
-																																							@Override
-																																							public void windowClosing(
-																																									WindowEvent e) {
-																																							}
-
-																																							@Override
-																																							public void windowClosed(
-																																									WindowEvent e) {
-																																								visible = false;
-																																								f.setVisible(
-																																										false);
-																																							}
-
-																																							@Override
-																																							public void windowActivated(
-																																									WindowEvent e) {
-																																							}
-																																						});
-=======
 																						@Override
 																						public void windowOpened(WindowEvent e) {
 																						}
@@ -260,7 +205,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 																						public void windowActivated(WindowEvent e) {
 																						}
 																					});
->>>>>>> selenium_01
 																				}
 																				visible = !visible;
 																				f1.setVisible(visible);
@@ -629,9 +573,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 				if (n == 0)
 					System.exit(-1);
-
-<<<<<<< HEAD
-=======
 				new Thread("RefreshURLPopupWait2") {
 					@SuppressWarnings("unused")
 					public void run() {
@@ -647,7 +588,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), "Channels refreshed", mess + "</html>");
 					}
 				}.start();
->>>>>>> selenium_01
 			}
 		});
 		// refreshButton.addActionListener(channelRefreshAction);
