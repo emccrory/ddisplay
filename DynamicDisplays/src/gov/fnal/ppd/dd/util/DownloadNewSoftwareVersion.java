@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -73,6 +74,9 @@ public class DownloadNewSoftwareVersion {
 	private boolean unpack() {
 		println(getClass(), "Unpacking ZIP file contents to " + outputFolder);
 
+		String osName = System.getProperty("os.name").toUpperCase();
+		boolean isUnix = osName.contains("LINUX") || osName.contains("UNIX");
+		
 		// This code stolen from https://howtodoinjava.com/java/io/unzip-file-with-subdirectories/
 		// It seems to be a LOT slower than the operating systems' "unzip" command(s). Whatever; we have the time.
 
@@ -91,11 +95,18 @@ public class DownloadNewSoftwareVersion {
 				ZipEntry entry = entries.nextElement();
 				// If directory then create a new directory in uncompressed folder
 				if (entry.isDirectory()) {
-					println(getClass(), "Creating folder " + uncompressedFolder + entry.getName());
 					Files.createDirectories(fileSystem.getPath(uncompressedFolder + entry.getName()));
+					println(getClass(), "Created folder:        " + uncompressedFolder + entry.getName());
 				}
 				// Else create the file
 				else {
+					// FIXME - File protections on Linux
+					// I cannot figure out how the Linux command unzip preserves the file protections - all the Google searches I
+					// have done to date say that zip does not store file protections, but this is clearly wrong. So there must
+					// be some way to restore those protections when we write the files here, but (alas), I cannot figure it out.
+					// So for now, I will ASSUME that all files that end in ".sh" or "driver" (as in geckodriver) will be
+					// executable.
+					
 					InputStream is = file.getInputStream(entry);
 					BufferedInputStream bis = new BufferedInputStream(is);
 					String uncompressedFileName = uncompressedFolder + entry.getName();
@@ -106,7 +117,13 @@ public class DownloadNewSoftwareVersion {
 						fileOutput.write(bis.read());
 					}
 					fileOutput.close();
-					println(getClass(), "Written :" + entry.getName());
+					if ( isUnix && (uncompressedFileName.endsWith(".sh") || uncompressedFileName.endsWith("driver")) ) {
+						File f = new File(uncompressedFileName);
+						f.setExecutable(true);
+						println(getClass(), "Wrote executable file: " + entry.getName());
+
+					} else
+						println(getClass(), "Wrote plain file:      " + entry.getName());
 				}
 			}
 		} catch (IOException e) {
@@ -125,7 +142,12 @@ public class DownloadNewSoftwareVersion {
 		int index = 0;
 		while (file.exists()) {
 			index++;
-			String folderName = operatingFolder + File.separator + "roc-dynamicdisplays_" + index;
+			String zero = "00";
+			if ( index > 99 )
+				zero = "";
+			else if ( index > 9 )
+				zero = "0";
+			String folderName = operatingFolder + File.separator + "roc-dynamicdisplays-old" + zero + index;
 			file = new File(folderName);
 		}
 

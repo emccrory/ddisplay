@@ -163,6 +163,9 @@ fi
 	fi
         # Remove the old Channel serialzed files that might still exist
 	rm -f *.ser 
+
+	# Make sure all of the selenium drivers are executable
+	chmod +x lib/*driver
 	
         # An exit code of -1 (255 here) is going to mean that there was a problem from which we should try to recover.
 	while {
