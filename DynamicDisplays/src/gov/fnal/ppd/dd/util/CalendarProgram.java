@@ -47,7 +47,6 @@ public class CalendarProgram {
 	/**
 	 * @param args
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void main(final String args[]) {
 		// Look and feel
 		try {

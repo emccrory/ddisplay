@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.util;
 
-import static gov.fnal.ppd.dd.util.Util.*;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;

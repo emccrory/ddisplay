@@ -1,3 +1,5 @@
+package gov.fnal.ppd.dd.util;
+
 /*
  * SendEmailCommand
  *
@@ -5,7 +7,6 @@
  * 
  * Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd.util;
 
 
 public class SendEmailCommand implements Command {

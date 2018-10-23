@@ -1,9 +1,10 @@
+package gov.fnal.ppd.dd.xml.news;
+
 /*
  * Channel
  *
  * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd.xml.news;
 
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 

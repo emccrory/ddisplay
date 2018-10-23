@@ -2,7 +2,6 @@ package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
-import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -10,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 /**
  * A simple utility class to see if this node is supposed to show a display.

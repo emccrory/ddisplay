@@ -1,3 +1,5 @@
+package gov.fnal.ppd.dd.chat;
+
 /*
  * MessagingServer
  *
@@ -6,8 +8,6 @@
  * 
  * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd.chat;
-
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_DAY;
@@ -18,7 +18,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.util.ObjectSigning;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -35,6 +34,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import gov.fnal.ppd.dd.util.ObjectSigning;
 
 /**
  * The server that can be run both as a console application or a GUI

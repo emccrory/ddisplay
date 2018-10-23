@@ -1,8 +1,3 @@
-/*
- * MessagingClient
- *
- * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
- */
 package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
@@ -23,6 +18,10 @@ import java.security.SignedObject;
 import java.util.Date;
 import java.util.Scanner;
 
+/*
+ * MessagingClient
+ *
+ */
 /**
  * <p>
  * The Client that can be run both as a console or a GUI
