@@ -14,6 +14,7 @@ public class VersionInformationLocal  {
 	@SuppressWarnings("javadoc")
 	public static void main(final String[] args) {
 		System.out.println("" + VersionInformation.getVersionInformation().getVersionString());
+		// System.out.println("" + new Date(VersionInformation.getVersionInformation().getTimeStamp()));
 	}
 
 }
