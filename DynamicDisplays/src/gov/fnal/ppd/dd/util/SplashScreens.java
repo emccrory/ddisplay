@@ -26,7 +26,8 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 
 /**
- * Utility class for ChannelSelector to deal with the splash screens on the touch-panel displays
+ * Utility class for ChannelSelector to create splash screens on the touch-panel displays. It looks nice and might save the screen a
+ * little
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -53,7 +54,8 @@ public class SplashScreens extends Thread {
 		for (int index = 0; index < splashPanel.length; index++) {
 			Box splash = splashPanel[index] = Box.createVerticalBox();
 
-			final int mine = index;
+			final int indexForThisImage = index;
+			
 			JPanel p = new JPanel() {
 
 				private static final long serialVersionUID = -2364511327267313957L;
@@ -66,7 +68,7 @@ public class SplashScreens extends Thread {
 					int h = getHeight();
 					int x = 0, y = 0;
 					try {
-						double imgAspect = ((double) imageWidth[mine]) / ((double) imageHeight[mine]); // Say 16:9 or 1.778
+						double imgAspect = ((double) imageWidth[indexForThisImage]) / ((double) imageHeight[indexForThisImage]); // Say 16:9 or 1.778
 						double scrAspect = ((double) w) / ((double) h); // Say 3:2 or 1.5
 						if (imgAspect > scrAspect) {
 							// image is wider than the screen: reduce the height of the screen (and it will fill the width)
@@ -83,7 +85,7 @@ public class SplashScreens extends Thread {
 					} catch (Exception e) {
 						// ignore what is probably a divide-by-zero exception
 					}
-					g.drawImage(bgImage[mine], x, y, w, h, this); // draw the image
+					g.drawImage(bgImage[indexForThisImage], x, y, w, h, this); // draw the image
 				}
 			};
 			p.setBackground(Color.black);
@@ -101,6 +103,7 @@ public class SplashScreens extends Thread {
 			splash.add(new JLabelCenter("   " + getLocationDescription() + "   ", subHead));
 			splash.add(Box.createRigidArea(new Dimension(50, gap)));
 			splash.add(new JLabelCenter("<html><em>Touch to continue</em></html>", subHead));
+			
 			if (hasCredits) {
 				splash.add(Box.createRigidArea(new Dimension(50, gap)));
 				splash.add(new JLabelCenter("<html><p align='center'>"
