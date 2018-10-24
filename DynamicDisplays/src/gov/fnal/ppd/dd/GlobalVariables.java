@@ -5,13 +5,9 @@
  */
 package gov.fnal.ppd.dd;
 
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,20 +23,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.util.DownloadNewSoftwareVersion;
-import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.PropertiesFile;
-import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
-import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
 
 /**
  * This is where all the global constant in the Dynamic Displays system are held.
@@ -509,93 +497,16 @@ public class GlobalVariables {
 	 */
 	public static void prepareUpdateWatcher(boolean isMessagingServer) {
 
-		FLAVOR f = FLAVOR.PRODUCTION;
+		FLAVOR flavor = FLAVOR.PRODUCTION;
 		if (PropertiesFile.getProperty("UpdateFlavor") != null) {
 			try {
-				f = FLAVOR.valueOf(PropertiesFile.getProperty("UpdateFlavor"));
+				flavor = FLAVOR.valueOf(PropertiesFile.getProperty("UpdateFlavor"));
 			} catch (Exception e) {
 				printlnErr(GlobalVariables.class, "Unrecognized software flavor in the configuration file: "
 						+ PropertiesFile.getProperty("UpdateFlavor") + ". Will use " + FLAVOR.PRODUCTION);
-				f = FLAVOR.PRODUCTION;
+				flavor = FLAVOR.PRODUCTION;
 			}
 		}
-		final FLAVOR flavor = f;
-
-		Timer timer = new Timer();
-		TimerTask myTimerTask = new TimerTask() {
-
-			@Override
-			public void run() {
-				try {
-					// Add a little complication: Skip the updates on weekends (Sat, Sun and Mon mornings)
-					Calendar date = Calendar.getInstance();
-					int dow = date.get(Calendar.DAY_OF_WEEK);
-					if (dow == Calendar.SATURDAY || dow == Calendar.SUNDAY || dow == Calendar.MONDAY) {
-						println(GlobalVariables.class, "Skipping update check on weekend days");
-						return;
-					}
-					println(GlobalVariables.class, "Checking to see if there is a " + flavor + " update for the software");
-
-					// 1. See if an update is available
-					double days = VersionInformationComparison.lookup(flavor, false);
-					if (days > 0) {
-						// 2. If so, download it. Then exit the entire process so we will restart.
-						VersionInformation viWeb = VersionInformation.getDBVersionInformation(flavor);
-						String message1 = "There is a " + flavor + " version of the software, " + viWeb.getVersionString();
-						String message2 = "that is " + days + " days newer than the code we are running.";
-						String message3 = "Updating the software and then restarting this application program.";
-						println(GlobalVariables.class, message1 + message2 + "\n" + message3);
-
-						JFrame frame = new JFrame("Dynamic Displays: New Software Update");
-						frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
-						JLabel big = new JLabel(message1);
-						big.setFont(new Font("Arial", Font.BOLD, 32));
-						Box p = Box.createVerticalBox();
-						p.add(big);
-						big = new JLabel(message2);
-						big.setFont(new Font("Arial", Font.BOLD, 32));
-						p.add(Box.createRigidArea(new Dimension(80, 80)));
-						p.add(big);
-						
-						big = new JLabel(message3);
-						big.setFont(new Font("Arial", Font.ITALIC, 32));
-						p.add(Box.createRigidArea(new Dimension(80, 80)));
-						p.add(big);
-						
-						p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30),
-								BorderFactory.createLineBorder(Color.red.darker(), 20)));
-						
-						frame.setContentPane(p);
-						frame.pack();
-						frame.setAlwaysOnTop(true);
-						frame.setVisible(true);
-						// -----------------------------------------------------------------------------------------------------------
-						// Download and install the new code (This takes up to five minutes)
-						
-						DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion(viWeb.getVersionString());
-						if (d.hasSucceeded())
-							ExitHandler.saveAndExit("Deployed new software version.");
-						else {
-							frame.invalidate();
-							frame.dispose();
-							println(GlobalVariables.class, "\n\n\nSomething went wrong with the update!!\n\n\n");
-							big = new JLabel("Something went wrong with the update - Call for help.");
-							big.setFont(new Font("Arial", Font.ITALIC, 32));
-							frame.setContentPane(big);
-							frame.validate();
-						}
-						// -----------------------------------------------------------------------------------------------------------
-
-					} else {
-						println(GlobalVariables.class, "No new software is present.  Will check again soon.");
-					}
-				} catch (Exception e) {
-					printlnErr(GlobalVariables.class, "\nException while trying to do a self-update. Will check again soon.\n");
-					e.printStackTrace();
-				}
-			}
-		};
 
 		Calendar date = Calendar.getInstance();
 		if (PropertiesFile.getProperty("FirstUpdateWait") == null) {
@@ -623,6 +534,8 @@ public class GlobalVariables {
 			// User overrides the default 24 hour period for looking for updates (testing, we presume)
 			period = 1000 * Long.parseLong(PropertiesFile.getProperty("LookForUpdatesPeriod"));
 
+		Timer timer = new Timer();
+		TimerTask myTimerTask = new CheckForUpdatesTimerTask(flavor);
 		timer.schedule(myTimerTask, date.getTime(), period);
 
 		if (period < 2 * ONE_HOUR)
