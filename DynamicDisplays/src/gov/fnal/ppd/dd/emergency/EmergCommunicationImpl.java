@@ -123,17 +123,6 @@ public class EmergCommunicationImpl implements EmergencyCommunication {
 	}
 
 	@Override
-	public int getFrameNumber() {
-		return 0;
-	}
-
-	@Override
-	public void setFrameNumber(int frameNumber) {
-		// Cannot be override!
-		alertReadOnly();
-	}
-
-	@Override
 	public EmergencyMessage getMessage() {
 		return message;
 	}

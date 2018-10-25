@@ -204,15 +204,13 @@ public abstract class ConnectionToBrowserInstance {
 	 *            The URL that this instance should show now.
 	 * @param theWrapper
 	 *            What kind of wrapper page shall this be? Normal, ticker-tape or none ("none" is really not going to work)
-	 * @param frameNumber
-	 *            The frame number to which this content is targeted
 	 * @param specialCode
 	 *            The code, from the database, for this URL (e.g., has sound)
 	 * @return Was the change successful?
 	 * @throws UnsupportedEncodingException
 	 *             -- if the url we have been given is bogus
 	 */
-	public boolean changeURL(String urlStrg, WrapperType theWrapper, int frameNumber, int specialCode)
+	public boolean changeURL(String urlStrg, WrapperType theWrapper,  int specialCode)
 			throws UnsupportedEncodingException {
 
 		String urlString = urlStrg;
@@ -220,22 +218,15 @@ public abstract class ConnectionToBrowserInstance {
 			urlString = urlStrg + "&zoom=0";
 		}
 		if (debug)
-			if (frameNumber == 0)
-				println(getClass(), instance + " New URL: " + urlString);
-			else
-				println(getClass(), instance + " New URL for frame number " + frameNumber + ": " + urlString);
+			println(getClass(), instance + " New URL: " + urlString);
 
 		if (showingEmergencyCommunication) {
 			removeEmergencyCommunication();
 		}
 
 		String frameName = "iframe";
-		if (frameNumber > 0)
-			frameName = "frame" + frameNumber;
 
 		String s = "document.getElementById('" + frameName + "').src = '" + urlString + "';\n";
-		if (frameNumber > 0)
-			s += "document.getElementById('" + frameName + "').style.visibility='visible';\n";
 
 		// "FastBugs" frowns on using an internally-synchronized object for synchronization. The intent is to prevent
 		// multiple instances of this method from running at the same time, so we put the "synchronized" on the method, where it

@@ -128,15 +128,6 @@ public class SkeletonChannel implements Channel {
 	}
 
 	@Override
-	public int getFrameNumber() {
-		return 0;
-	}
-
-	@Override
-	public void setFrameNumber(int frameNumber) {
-	}
-
-	@Override
 	public int getNumber() {
 		return -1;
 	}

@@ -121,7 +121,7 @@ public class ImageGrid extends DetailedInformationGrid {
 	}
 
 	@Override
-	protected JComponent makeExpGrid(ChannelCategory set, int frameNumber) {
+	protected JComponent makeExpGrid(ChannelCategory set) {
 		int ncol = 4;
 		if (SHOW_IN_WINDOW)
 			ncol = 2;

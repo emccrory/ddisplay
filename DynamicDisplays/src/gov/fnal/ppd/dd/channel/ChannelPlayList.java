@@ -199,19 +199,6 @@ public class ChannelPlayList implements Channel {
 	}
 
 	@Override
-	public int getFrameNumber() {
-		return frameNumber;
-	}
-
-	/**
-	 * @param frameNumber
-	 *            the frame number to give this content to.
-	 */
-	public void setFrameNumber(final int frameNumber) {
-		this.frameNumber = frameNumber;
-	}
-
-	@Override
 	public long getExpiration() {
 		return expiration;
 	}

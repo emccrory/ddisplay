@@ -115,20 +115,6 @@ public interface SignageContent extends Serializable {
 	public void setCode(final int n);
 
 	/**
-	 * TODO -- The frame number (really) has nothing to do with the Channel. It should be associated with the directive to CHANGE
-	 * the channel on a display.
-	 * 
-	 * @return The frame number within the browser to which we direct this content
-	 */
-	public int getFrameNumber();
-
-	/**
-	 * @param frameNumber
-	 *            The frame number within the browser to which we direct this content
-	 */
-	public void setFrameNumber(int frameNumber);
-
-	/**
 	 * Compute and return the checksum (CRC32 assumed) corresponding to the key element of this object. For a URL-based channel, it
 	 * is assumed this will be the checksum of the URL itself.
 	 * 

@@ -105,15 +105,6 @@ public class ChannelSpec implements SignageContent {
 		content.setCode(n);
 	}
 
-	@XmlElement
-	public int getFrameNumber() {
-		return content.getFrameNumber();
-	}
-
-	public void setFrameNumber(int frameNumber) {
-		content.setFrameNumber(frameNumber);
-	}
-
 	/**
 	 * Used in the "change channel by number" scheme, to verify that the URL seen by the receiver is the same as the one assumed by
 	 * the transmitter. This is somewhat redundant to the overall digital signature of a transmitted object.

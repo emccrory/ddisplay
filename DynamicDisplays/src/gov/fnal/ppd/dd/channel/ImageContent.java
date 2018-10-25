@@ -31,7 +31,6 @@ public class ImageContent implements SignageContent {
 	private URI					uri;
 	private SignageType			type;
 	private long				time				= 0L;
-	private int					frameNumber;
 	private int					code;
 	private long				expiration			= 0L;
 
@@ -78,7 +77,6 @@ public class ImageContent implements SignageContent {
 		this.description = content.getDescription();
 		this.uri = content.getURI();
 		this.time = content.getTime();
-		this.frameNumber = content.getFrameNumber();
 
 		if (content instanceof ImageContent)
 			this.image = ((ImageContent) content).image;
@@ -153,16 +151,6 @@ public class ImageContent implements SignageContent {
 	@Override
 	public void setCode(int n) {
 		code = n;
-	}
-
-	@Override
-	public int getFrameNumber() {
-		return frameNumber;
-	}
-
-	@Override
-	public void setFrameNumber(int f) {
-		frameNumber = f;
 	}
 
 	@Override

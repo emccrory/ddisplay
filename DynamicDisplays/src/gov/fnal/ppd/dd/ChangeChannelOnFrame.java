@@ -56,6 +56,9 @@ import javax.swing.event.ChangeListener;
  * announcements. A separate mechanism will be provided to change the text in this web page.
  * </p>
  * <p>
+ * TODO - with the removal of frames, this may need some work
+ * </p>
+ * <p>
  * TODO -- Turn off the extra frame
  * </p>
  * 
@@ -180,7 +183,7 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 			for (int frameNumber = 1; frameNumber < NUMBER_OF_FRAMES; frameNumber++) {
 				ChannelButtonGrid grid = new DetailedInformationGrid(display, bg);
 
-				grid.makeGrid(cat, frameNumber);
+				grid.makeGrid(cat);
 				allGrids.add(grid);
 				display.addListener(grid);
 				displayTabPane.add(grid, "Frame " + frameNumber);

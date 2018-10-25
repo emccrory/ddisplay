@@ -83,16 +83,11 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 
 		makeGrid(null);
 	}
-
+	
 	@Override
 	public void makeGrid(ChannelCategory cat) {
-		makeGrid(cat, 0);
-	}
-
-	@Override
-	public void makeGrid(ChannelCategory cat, int frameNumber) {
 		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(makeTheGrid(frameNumber), BorderLayout.CENTER);
+		panel.add(makeTheGrid(), BorderLayout.CENTER);
 		BigLabel title = new BigLabel("Lists of channels", Font.BOLD);
 		title.setAlignmentX(CENTER_ALIGNMENT);
 		title.setAlignmentY(CENTER_ALIGNMENT);
@@ -113,7 +108,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 		add(panel);
 	}
 
-	private JComponent makeTheGrid(int frameNumber) {
+	private JComponent makeTheGrid() {
 		int cols = 4;
 		// int gap = 5;
 		int maxLen = 50;
@@ -185,7 +180,6 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 		for (String listName : listofChannelLists.keySet()) {
 			numButtons++;
 			ChannelPlayList theChannelList = listofChannelLists.get(listName);
-			theChannelList.setFrameNumber(frameNumber);
 			final DDButton button = new ListDDButton("<html>" + listName + " <i>[Length=" + theChannelList.getChannels().size()
 					+ "]</i></html>", theChannelList, display, maxLen);
 

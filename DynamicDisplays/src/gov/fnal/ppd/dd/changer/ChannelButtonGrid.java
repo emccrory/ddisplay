@@ -47,14 +47,6 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	public abstract void makeGrid(ChannelCategory cat);
 
 	/**
-	 * @param cat
-	 *            make a grid of channels of this category
-	 * @param frameNumber
-	 *            Modify the channels to appear on this frame number (if not zero)
-	 */
-	public abstract void makeGrid(ChannelCategory cat, int frameNumber);
-
-	/**
 	 * @param display
 	 * @param bg
 	 */

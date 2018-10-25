@@ -84,8 +84,7 @@ public class DDButton extends JButton {
 	 * @param maxLen
 	 */
 	public DDButton(final Channel channel, final Display display, int maxLen) {
-		super(align(channel != null ? channel.getName() + (channel.getFrameNumber() > 0 ? (" " + channel.getFrameNumber()) : "")
-				: display.toString(), maxLen));
+		super(align(channel != null ? channel.getName() : display.toString(), maxLen));
 		numBR = staticNumBR;
 		this.selected = false;
 		this.channel = channel;

@@ -41,7 +41,6 @@ public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 		f.setVisible(true);
 	}
 
-
 	/**
 	 * 
 	 */

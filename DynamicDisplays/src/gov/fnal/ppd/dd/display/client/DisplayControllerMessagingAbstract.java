@@ -414,12 +414,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		// FIXME This line could be risky! But it is needed for URL arguments
 		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&");
 
-		final int frameNumber = getContent().getFrameNumber();
 		final long expiration = getContent().getExpiration();
 
 		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
-		if (frameNumber > 0)
-			frameRemovalTime[frameNumber] = FRAME_DISAPPEAR_TIME;
+		
 		println(getClass(), browserInstance.getInstance() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
 
 		if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
@@ -448,7 +446,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				previousChannelStack.pop(); // Remove the "Refresh" fake channel
 				String lastURL = previousChannelStack.peek().getURI().toASCIIString().replace("&amp;", "&");
 				int code = previousChannelStack.peek().getCode();
-				if (browserInstance.changeURL(lastURL, wrapperType, frameNumber, code)) {
+				if (browserInstance.changeURL(lastURL, wrapperType, code)) {
 					showingSelfIdentify = false;
 				} else {
 					println(getClass(), ".localSetContent():" + browserInstance.getInstance() + " Failed to set content");
@@ -475,33 +473,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					skipRevert = true;
 				}
 
-				/*
-				 * TODO -- Issues with multiple frames
-				 * 
-				 * 1. the previousChannel gets lost because there is only one "previousChannel"
-				 * 
-				 * 2. The status will read the contents of this extra frame
-				 * 
-				 * It seems like we need to throw away this functionality, except for emergency frames. (8/2018)
-				 */
-				if (frameNumber > 0 && frameRemovalTime[frameNumber] > 0) {
-					if (browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
-						removeFrame[frameNumber] = false;
-						setupRemoveFrameThread(frameNumber);
-					} else {
-						println(getClass(), ".localSetContent():" + browserInstance.getInstance() + " Failed to set frame "
-								+ frameNumber + " content");
-						return false;
-					}
-				} else {
-					changeCount++;
+									changeCount++;
 					// if (playlistThread != null) {
 					// playlistThread.stopMe = true;
 					// playlistThread = null;
 					// }
 
 					// ******************** Normal channel change here ********************
-					if (browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
+					if (browserInstance.changeURL(url, wrapperType, getContent().getCode())) {
 						previousChannelStack.pop(); // Replace the top element of this history stack with the new channel
 						previousChannelStack.push(getContent());
 						showingSelfIdentify = false;
@@ -511,11 +490,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					}
 
 					if (expiration <= 0)
-						setupRefreshThread(dwellTime, url, frameNumber);
+						setupRefreshThread(dwellTime, url);
 					else
 						setRevertThread();
-
-				}
 
 				updateMyStatus();
 			} catch (UnsupportedEncodingException e) {
@@ -734,64 +711,50 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 * This method handles the setup and the execution of the thread that refreshes the content after content.getTime()
 	 * milliseconds.
 	 */
-	protected void setupRefreshThread(final long dwellTime, final String url, final int frameNumber) {
+	protected void setupRefreshThread(final long dwellTime, final String url) {
 		if (dwellTime > 0) {
 			final int thisChangeCount = changeCount;
 
-			// The Use Case for the extra frame is to be able to show announcements. In that vein, it seems that
-			// we want the frame to go away after a while.
-			if (frameNumber != 0) {
-				new Thread("TurnOffFrame" + getMessagingName()) {
-					@Override
-					public void run() {
-						catchSleep(dwellTime);
-						println(DisplayControllerMessagingAbstract.this.getClass(),
-								".setupRefreshThread():" + browserInstance.getInstance() + " turning off the announcement frame");
-						browserInstance.turnOffFrame(frameNumber);
-					}
-				}.start();
-			} else {
-				new Thread("RefreshContent" + getMessagingName()) {
+			new Thread("RefreshContent" + getMessagingName()) {
 
-					@Override
-					public void run() {
-						long increment = 15000L;
-						long localDwellTime = dwellTime;
-						while (true) {
+				@Override
+				public void run() {
+					long increment = 15000L;
+					long localDwellTime = dwellTime;
+					while (true) {
 
-							// TODO -- If there is an emergency message up, we don't want to refresh and make it go away!
+						// TODO -- If there is an emergency message up, we don't want to refresh and make it go away!
 
-							for (long t = localDwellTime; t > 0 && changeCount == thisChangeCount; t -= increment) {
-								catchSleep(Math.min(increment, t));
-							}
-							if (showingEmergencyMessage) {
-								localDwellTime = Math.min(dwellTime, ONE_MINUTE);
-								continue;
-							}
-							if (changeCount == thisChangeCount) {
-								println(DisplayControllerMessagingAbstract.this.getClass(),
-										".setupRefreshThread():" + browserInstance.getInstance() + " Reloading web page " + url);
-								try {
-									if (!browserInstance.changeURL(url, wrapperType, frameNumber, getContent().getCode())) {
-										println(DisplayControllerMessagingAbstract.this.getClass(),
-												".setupRefreshThread(): Failed to REFRESH content");
-										browserInstance.resetURL();
-										continue; // TODO -- Figure out what to do here. For now, just try again later
-									}
-								} catch (UnsupportedEncodingException e) {
-									e.printStackTrace();
+						for (long t = localDwellTime; t > 0 && changeCount == thisChangeCount; t -= increment) {
+							catchSleep(Math.min(increment, t));
+						}
+						if (showingEmergencyMessage) {
+							localDwellTime = Math.min(dwellTime, ONE_MINUTE);
+							continue;
+						}
+						if (changeCount == thisChangeCount) {
+							println(DisplayControllerMessagingAbstract.this.getClass(),
+									".setupRefreshThread():" + browserInstance.getInstance() + " Reloading web page " + url);
+							try {
+								if (!browserInstance.changeURL(url, wrapperType, getContent().getCode())) {
+									println(DisplayControllerMessagingAbstract.this.getClass(),
+											".setupRefreshThread(): Failed to REFRESH content");
+									browserInstance.resetURL();
+									continue; // TODO -- Figure out what to do here. For now, just try again later
 								}
-							} else {
-								println(DisplayControllerMessagingAbstract.this.getClass(),
-										".setupRefreshThread():" + browserInstance.getInstance() + " Not necessary to refresh " + url
-												+ " because the channel was changed.  Bye!");
-								return;
+							} catch (UnsupportedEncodingException e) {
+								e.printStackTrace();
 							}
+						} else {
+							println(DisplayControllerMessagingAbstract.this.getClass(),
+									".setupRefreshThread():" + browserInstance.getInstance() + " Not necessary to refresh " + url
+											+ " because the channel was changed.  Bye!");
+							return;
 						}
 					}
+				}
 
-				}.start();
-			}
+			}.start();
 		}
 	}
 

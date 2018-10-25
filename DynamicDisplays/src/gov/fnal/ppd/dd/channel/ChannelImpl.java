@@ -115,7 +115,6 @@ public class ChannelImpl implements Channel {
 		this.time = c.getTime();
 		this.description = c.getDescription();
 		this.uri = c.getURI();
-		this.frameNumber = c.getFrameNumber();
 		this.time = c.getTime();
 		this.code = c.getCode();
 
@@ -253,19 +252,6 @@ public class ChannelImpl implements Channel {
 	@Override
 	public void setCode(int n) {
 		this.code = n;
-	}
-
-	@Override
-	public int getFrameNumber() {
-		return frameNumber;
-	}
-
-	/**
-	 * @param f
-	 *            the frame number to set this content to.
-	 */
-	public void setFrameNumber(final int f) {
-		frameNumber = f;
 	}
 
 	@Override

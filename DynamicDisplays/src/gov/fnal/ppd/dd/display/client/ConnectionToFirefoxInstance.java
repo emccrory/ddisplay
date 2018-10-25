@@ -51,7 +51,6 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 	protected boolean			firstTimeOpeningConnection	= true;
 	@SuppressWarnings("unused")
 	private boolean				hasEmergencyCapabilities	= true;
-	private boolean				elementIDError				= false;
 
 	/**
 	 * Create a connection to the instance of FireFox that is being targeted here
@@ -86,31 +85,24 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 	 * gov.fnal.ppd.dd.display.client.WrapperType, int, int)
 	 */
 	@Override
-	public synchronized boolean changeURL(final String urlStrg, final WrapperType theWrapper, final int frameNumber,
-			final int specialCode) throws UnsupportedEncodingException {
+	public synchronized boolean changeURL(final String urlStrg, final WrapperType theWrapper, final int specialCode)
+			throws UnsupportedEncodingException {
 
 		String urlString = urlStrg;
 		if (badNUC && isThisURLNeedAnimation(urlStrg)) {
 			urlString = urlStrg + "&zoom=0";
 		}
 		if (debug)
-			if (frameNumber == 0)
-				println(getClass(), instance + " New URL: " + urlString);
-			else
-				println(getClass(), instance + " New URL for frame number " + frameNumber + ": " + urlString);
+			println(getClass(), instance + " New URL: " + urlString);
 
 		if (showingEmergencyCommunication) {
 			removeEmergencyCommunication();
 		}
 
 		String frameName = "iframe";
-		if (frameNumber > 0)
-			frameName = "frame" + frameNumber;
 
 		String s = "document.getElementById('" + frameName + "').src = '" + urlString + "';\n";
-		if (frameNumber > 0)
-			s += "document.getElementById('" + frameName + "').style.visibility='visible';\n";
-
+		
 		// "FastBugs" frowns on using an internally-synchronized object for synchronization. The intent is to prevent
 		// multiple instances of this method from running at the same time, so we put the "synchronized" on the method, where it
 		// should be.
@@ -404,7 +396,6 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 
 				// If we are asking for an element in the web document that does not exist, we'll see this error:
 				if (lastReplyLine.toLowerCase().contains("evaluation error: typetrror: document.getelementbyid(...) is null")) {
-					elementIDError = true;
 					return true;
 				}
 				connected = numRead > 0 && !lastReplyLine.toUpperCase().contains("\"ERROR\"");

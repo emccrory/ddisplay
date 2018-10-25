@@ -179,7 +179,6 @@ public class ChangeAllExtraFrame implements ActionListener {
 		try {
 			announcementChannel = new ChannelImpl("Messsage", "Important message", new URI(getFullURLPrefix() + "/announce.html"),
 					0, 300000L);
-			announcementChannel.setFrameNumber(1);
 		} catch (URISyntaxException e1) {
 			e1.printStackTrace();
 			System.exit(-1);
