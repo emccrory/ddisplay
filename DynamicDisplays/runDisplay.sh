@@ -35,8 +35,9 @@ echo `date` `pwd` >> $log 2>&1
 
 # Check the version of the code
 if ( ./runVersionInformation.sh Y  ); then
+    echo "There is a new version, which we have retrieved.  Restarting this script."
     cd $workingDirectory
-    ./runDisplay.sh 2 &
+    exec ./runDisplay.sh 2
     exit 0
 fi >> $log 2>&1
 
