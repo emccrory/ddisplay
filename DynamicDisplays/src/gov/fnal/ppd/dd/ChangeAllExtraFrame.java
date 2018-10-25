@@ -36,8 +36,11 @@ import gov.fnal.ppd.dd.signage.SignageType;
 /**
  * Tell each "Special Announcement" frame to show the special announcement.
  * 
+ * I believe this is not relevant anymore (Oct 2018).  The concept of EmergencyMessage supreceeds this.
+ *  
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
+ * @deprecated
  */
 public class ChangeAllExtraFrame implements ActionListener {
 
@@ -109,12 +112,13 @@ public class ChangeAllExtraFrame implements ActionListener {
 
 				@Override
 				public void actionPerformed(ActionEvent ev) {
-					try {
-						long dwellTime = 1000L * Long.parseLong(dwellTimeField.getText());
-						me.announcementChannel.setTime(dwellTime);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					System.out.println("(1) This function has been disabled");
+					// try {
+					// long dwellTime = 1000L * Long.parseLong(dwellTimeField.getText());
+					// me.announcementChannel.setTime(dwellTime);
+					// } catch (Exception e) {
+					// e.printStackTrace();
+					// }
 				}
 			});
 			button.setAlignmentX(JComponent.LEFT_ALIGNMENT);
@@ -134,7 +138,8 @@ public class ChangeAllExtraFrame implements ActionListener {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					me.announcementChannel.setTime(10);
+					System.out.println("(2) This function has been disabled");
+					// me.announcementChannel.setTime(10);
 				}
 			});
 			button.setAlignmentX(JComponent.LEFT_ALIGNMENT);
@@ -153,12 +158,13 @@ public class ChangeAllExtraFrame implements ActionListener {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					try {
-						long dwellTime = 1000L * Long.parseLong(dwellTimeField.getText());
-						me.announcementChannel.setTime(dwellTime);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					System.out.println("(3) This function has been disabled");
+					// try {
+					// long dwellTime = 1000L * Long.parseLong(dwellTimeField.getText());
+					// me.announcementChannel.setTime(dwellTime);
+					// } catch (Exception e) {
+					// e.printStackTrace();
+					// }
 				}
 			});
 			dwellTimeField.setText((me.announcementChannel.getTime() / 1000L) + "");
@@ -199,21 +205,25 @@ public class ChangeAllExtraFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(final ActionEvent ev) {
-		if (ev.getActionCommand().equals(ChangeAllExtraFrame.class.getCanonicalName()))
-			for (Display D : displays) {
-				System.out.println("Set '" + D + "' to '" + announcementChannel + "'");
-				D.setContent(announcementChannel);
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		else if (ev.getActionCommand().equals("TurnOff")) {
-			// TODO -- implement a way to turn off the extra frame
-		} else {
-			System.out.println("Event received: '" + ev + "'");
-		}
+		System.out.println("(4) This function has been disabled");
+
+		// Do not actually send it - this is not something we are supporting anymore.
+		
+		// if (ev.getActionCommand().equals(ChangeAllExtraFrame.class.getCanonicalName()))
+		// for (Display D : displays) {
+		// System.out.println("Set '" + D + "' to '" + announcementChannel + "'");
+		// D.setContent(announcementChannel);
+		// try {
+		// Thread.sleep(10);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// else if (ev.getActionCommand().equals("TurnOff")) {
+		// // TODO -- implement a way to turn off the extra frame
+		// } else {
+		// System.out.println("Event received: '" + ev + "'");
+		// }
 	}
 
 	/**
