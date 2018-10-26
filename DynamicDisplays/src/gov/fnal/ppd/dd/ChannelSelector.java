@@ -2,7 +2,6 @@ package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.INSET_SIZE;
-import static gov.fnal.ppd.dd.GlobalVariables.IS_DOCENT_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
@@ -10,13 +9,46 @@ import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.docentName;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
+import static gov.fnal.ppd.dd.GlobalVariables.getSoftwareVersion;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.launchErrorMessage;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
 import static gov.fnal.ppd.dd.util.Util.println;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.ProgressMonitor;
+import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import gov.fnal.ppd.dd.changer.CategoryDictionary;
+import gov.fnal.ppd.dd.changer.ChangeDefaultsActionListener;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
@@ -48,38 +80,6 @@ import gov.fnal.ppd.dd.util.JLabelFooter;
 import gov.fnal.ppd.dd.util.SelectorInstructions;
 import gov.fnal.ppd.dd.util.SplashScreens;
 import gov.fnal.ppd.dd.util.WhoIsInChatRoom;
-
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.ProgressMonitor;
-import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * <p>
@@ -133,8 +133,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private JLabel							title;
 	protected int							selectedTab;
 	// The circular arrow, as in the recycling symbol
-	private JButton							refreshButton				= new JButton("↺");
-	private JButton							exitButton					= new JButton("X");
+	private JButton							refreshButton				= new JButton("Refresh");
 	private JButton							lockButton;
 	private JButton							changeDefaultsButton		= new JButton("S/R");
 	// private JButton addChannelButton = new JButton("+");
@@ -150,70 +149,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private SplashScreens					splashScreens;
 	private DDButton.ButtonFieldToUse		nowShowing					= ButtonFieldToUse.USE_NAME_FIELD;
 	private int								numURLButtonsChanged;
-
-	private ActionListener					changeDefaultsListener		= new ActionListener() {
-																			boolean	visible	= false, firstTime = true;
-																			JFrame	f1		= new JFrame(
-																									"SaveRestoreDefaultChannels");
-
-																			@Override
-																			public void actionPerformed(ActionEvent e) {
-																				if (firstTime) {
-																					firstTime = false;
-																					f1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-																					f1.setContentPane(SaveRestoreDefaultChannels
-																							.getGUI());
-																					int height = 400 + 30 * (displayList.size() + 1);
-																					if (height > 1000)
-																						height = 1000;
-																					println(ChannelSelector.class,
-																							" -- Height of popup is " + height);
-																					f1.setSize(900, height);
-																					f1.setAlwaysOnTop(true);
-																					f1.addWindowListener(new WindowListener() {
-
-
-																						@Override
-																						public void windowOpened(WindowEvent e) {
-																						}
-
-																						@Override
-																						public void windowIconified(WindowEvent e) {
-																							visible = false;
-																						}
-
-																						@Override
-																						public void windowDeiconified(WindowEvent e) {
-																							visible = true;
-																						}
-
-																						@Override
-																						public void windowDeactivated(WindowEvent e) {
-																						}
-
-																						@Override
-																						public void windowClosing(WindowEvent e) {
-																						}
-
-																						@Override
-																						public void windowClosed(WindowEvent e) {
-																							visible = false;
-																							f1.setVisible(false);
-																						}
-
-																						@Override
-																						public void windowActivated(WindowEvent e) {
-																						}
-																					});
-																				}
-																				visible = !visible;
-																				f1.setVisible(visible);
-																				if (visible) {
-																					f1.toFront();
-																					f1.repaint();
-																				}
-																			}
-																		};
 
 	/**
 	 * Create the channel selector GUI in the normal way
@@ -298,7 +233,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		if (!SHOW_IN_WINDOW)
 			// Only enable the splash screen for the full-screen version
 			splashScreens.start();
-
 	}
 
 	private void initializeTabs() {
@@ -552,7 +486,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	private JComponent makeTitle() {
 		// showBorderButton.setSelected(true);
-		title = new JLabel(" Dynamic Display 00 ");
+		title = new JLabel(" Dynamic Display 00, V0.0.0 ");
 		if (!SHOW_IN_WINDOW) {
 			title.setFont(new Font("Serif", Font.ITALIC, (int) (FONT_SIZE / 2)));
 			refreshButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 2)));
@@ -590,56 +524,13 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				}.start();
 			}
 		});
-		// refreshButton.addActionListener(channelRefreshAction);
-		// refreshButton.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		//
-		// new Thread("RefreshURLPopupWait2") {
-		// public void run() {
-		// refreshActionUnderway = 1;
-		// while (refreshActionUnderway > 0)
-		// catchSleep(1000);
-		// int numURLs = numURLButtonsChanged / displayList.size();
-		// String mess = "<html>The URLs of all the channels have been refreshed, " + numURLButtonsChanged
-		// + " URL buttons changed.";
-		// if (numURLButtonsChanged > 0)
-		// mess += " <br>This is " + numURLs + " specific URLs that changed, distributed over the "
-		// + displayList.size() + " displays in the system";
-		// new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), "Channels refreshed", mess + "</html>");
-		// }
-		// }.start();
-		// }
-		// });
 
 		SaveRestoreDefaultChannels.setup("Change Default Configurations", 30.0f, new Insets(20, 50, 20, 50));
 
-		changeDefaultsButton.addActionListener(changeDefaultsListener);
+		changeDefaultsButton.addActionListener(new ChangeDefaultsActionListener());
 
 		changeDefaultsButton.setToolTipText("Save, restore, and/or change the configuration defaults");
 		changeDefaultsButton.setFont(changeDefaultsButton.getFont().deriveFont(FONT_SIZE / 3));
-
-		// Create an exit button
-		exitButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JLabel message = new JLabel(
-						"<html>Do you <em>really</em> want to exit the<br>Channel Selector Application?</html>");
-				Font f = message.getFont();
-				message.setFont(new Font(f.getName(), Font.BOLD, f.getSize() * 2));
-
-				if (JOptionPane.showConfirmDialog(exitButton, message, "Exit?",
-						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-					System.exit(0);
-			}
-		});
-		Border bor = exitButton.getBorder();
-		exitButton.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.WHITE, 5), bor));
-		exitButton.setBackground(new Color(255, 200, 200));
-		exitButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 3)));
-		exitButton.setMargin(new Insets(6, 6, 6, 6));
 
 		return titleBox;
 	}
@@ -647,6 +538,15 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private void adjustTitle(Display display) {
 		if (display == null)
 			return;
+
+		int insetH = 10;
+		int insetV = 12;
+		int rigidPadding = 5;
+		if (SHOW_IN_WINDOW) {
+			insetH = 6;
+			insetV = 6;
+		}
+
 		Color c = display.getPreferredHighlightColor();
 
 		String num = "" + display.getVirtualDisplayNumber();
@@ -666,20 +566,20 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			refreshButton.setToolTipText("<html><b>Refresh</b> -- Refresh the Channel Selector GUI."
 					+ "<br><em>This will exit the program and restart it</em></html>");
 			refreshButton.setFont(refreshButton.getFont().deriveFont(FONT_SIZE / 3));
-			refreshButton.setMargin(new Insets(8, 4, 8, 4));
+			refreshButton.setMargin(new Insets(insetH, insetV, insetH, insetV));
 			titleBox.add(refreshButton);
-			titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+			titleBox.add(Box.createRigidArea(new Dimension(rigidPadding, rigidPadding)));
 
 			if (displayList.size() > 1) {
-				changeDefaultsButton.setMargin(new Insets(8, 4, 8, 4));
+				changeDefaultsButton.setMargin(new Insets(insetH, insetV, insetH, insetV));
 				titleBox.add(changeDefaultsButton);
-				titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+				titleBox.add(Box.createRigidArea(new Dimension(rigidPadding, rigidPadding)));
 			}
 
 			if (SHOW_IN_WINDOW)
-				IdentifyAll.setup("Identify all displays", FONT_SIZE / 3, new Insets(8, 4, 8, 4));
+				IdentifyAll.setup("ID all displays", FONT_SIZE / 3, new Insets(insetH, insetV, insetH, insetV));
 			else
-				IdentifyAll.setup("ID", FONT_SIZE / 2, new Insets(6, 4, 6, 4));
+				IdentifyAll.setup("ID", FONT_SIZE / 2, new Insets(insetH, insetV, insetH, insetV));
 
 			IdentifyAll.setListOfDisplays(displayList);
 			JButton idAll = IdentifyAll.getButton();
@@ -695,12 +595,14 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			});
 		}
 
-		ImageIcon ic = new ImageIcon("bin/gov/fnal/ppd/dd/images/2arrows.png");
-		JButton flipTitles = new JButton(ic);
+		// ImageIcon ic = new ImageIcon("bin/gov/fnal/ppd/dd/images/2arrows.png");
+		JButton flipTitles = new JButton("Button Info");
+		flipTitles.setMargin(new Insets(insetH, insetV, insetH, insetV));
 		if (SHOW_IN_WINDOW)
-			flipTitles.setMargin(new Insets(2, 5, 2, 5));
+			flipTitles.setFont(new Font("Arial", Font.BOLD, (int) FONT_SIZE / 3));
 		else
-			flipTitles.setMargin(new Insets(2, 5, 2, 5)); // Same
+			flipTitles.setFont(new Font("Arial", Font.BOLD, (int) FONT_SIZE / 2));
+
 		flipTitles.setToolTipText("<html><b>Toggle Text</b> -- Toggle among: a succinct"
 				+ "<br>Channel button label, one with more details and the URL itself");
 
@@ -725,11 +627,16 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				}
 			}
 		});
-		titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
+		titleBox.add(Box.createRigidArea(new Dimension(rigidPadding, rigidPadding)));
 		titleBox.add(flipTitles);
 		titleBox.add(Box.createHorizontalGlue());
 		titleBox.add(title);
 		titleBox.add(Box.createHorizontalGlue());
+		JLabel versionIdentifier = new JLabel("V" + getSoftwareVersion());
+		versionIdentifier.setFont(new Font("Arial", Font.PLAIN, 8));
+		versionIdentifier.setOpaque(false);
+		titleBox.add(versionIdentifier);
+		titleBox.add(Box.createRigidArea(new Dimension(rigidPadding, rigidPadding)));
 
 		// Do not let the simple public controller exit
 		if (!SHOW_IN_WINDOW) {
@@ -754,14 +661,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				});
 			}
 			titleBox.add(lockButton);
-
-			// Do not add the exit button to the full-screen version for a truly public controller.
-			if (IS_DOCENT_CONTROLLER) {
-				titleBox.add(Box.createRigidArea(new Dimension(5, 5)));
-				titleBox.add(exitButton);
-			}
-			// } else {
-			// titleBox.add(addChannelButton);
 		}
 
 		titleBox.setOpaque(true);

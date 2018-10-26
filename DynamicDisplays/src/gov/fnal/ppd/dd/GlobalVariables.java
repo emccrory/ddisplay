@@ -5,6 +5,7 @@
  */
 package gov.fnal.ppd.dd;
 
+import static gov.fnal.ppd.dd.GlobalVariables.getSoftwareVersion;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
@@ -28,6 +29,7 @@ import javax.swing.ImageIcon;
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.util.PropertiesFile;
+import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 
 /**
@@ -54,47 +56,48 @@ public class GlobalVariables {
 	/**
 	 * Do we show in full screen or in a window? Controlled by system constant, ddisplay.selector.inwindow
 	 */
-	public final static boolean	SHOW_IN_WINDOW				= Boolean.getBoolean("ddisplay.selector.inwindow");
+	public final static boolean			SHOW_IN_WINDOW				= Boolean.getBoolean("ddisplay.selector.inwindow");
 	/**
 	 * Is this a PUBLIC controller? Controlled by system constant, ddisplay.selector.public
 	 */
-	public final static boolean	IS_PUBLIC_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.public");
+	public final static boolean			IS_PUBLIC_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.public");
 
 	/**
 	 * Is this a controller that is thought to be used by a docent?
 	 */
-	public final static boolean	IS_DOCENT_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.docent");
+	public final static boolean			IS_DOCENT_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.docent");
 
 	/**
 	 * Does the user want to have the database index for the display shown (default) or the virtual display numbers?
 	 */
-	public final static boolean	SHOW_VIRTUAL_DISPLAY_NUMS	= Boolean.getBoolean("ddisplay.virtualdisplaynumbers");
+	public final static boolean			SHOW_VIRTUAL_DISPLAY_NUMS	= Boolean.getBoolean("ddisplay.virtualdisplaynumbers");
 
 	/**
 	 * Does the user want to show and extended display name on the display buttons?
 	 */
-	public static boolean		SHOW_EXTENDED_DISPLAY_NAMES	= Boolean.getBoolean("ddisplay.extendeddisplaynnames");
+	public static boolean				SHOW_EXTENDED_DISPLAY_NAMES	= Boolean.getBoolean("ddisplay.extendeddisplaynnames");
 
 	/**
 	 * How long since last user activity?
 	 */
-	private static long			lastUserActivity			= 0L;
+	private static long					lastUserActivity			= 0L;
+	private static VersionInformation	versionInfo					= null;
 
 	/**
 	 * String that says, "Do not check message signing". This is the only word that will turn off checking. All other words will
 	 * result in checking.
 	 */
-	public final static String	NOCHECK_SIGNED_MESSAGE		= "nocheck";
+	public final static String			NOCHECK_SIGNED_MESSAGE		= "nocheck";
 
 	/**
 	 * String that says, "Check message signing". This is the default.
 	 */
-	public final static String	CHECK_SIGNED_MESSAGE		= "check";
+	public final static String			CHECK_SIGNED_MESSAGE		= "check";
 
 	/**
 	 * See comment in MakeChannelSelector - this has not been successfully implemented.
 	 */
-	public final static boolean	RUN_RAISE_SELECTOR_BUTTON	= Boolean.getBoolean("ddisplay.selector.showraisebutton");
+	public final static boolean			RUN_RAISE_SELECTOR_BUTTON	= Boolean.getBoolean("ddisplay.selector.showraisebutton");
 
 	/**
 	 * <p>
@@ -106,7 +109,7 @@ public class GlobalVariables {
 	 * </p>
 	 */
 
-	private final static String	checkSignedMessage			= System.getProperty("ddisplay.checksignedmessage",
+	private final static String			checkSignedMessage			= System.getProperty("ddisplay.checksignedmessage",
 			CHECK_SIGNED_MESSAGE);
 
 	/**
@@ -116,6 +119,14 @@ public class GlobalVariables {
 	 */
 	public static boolean checkSignedMessages() {
 		return !NOCHECK_SIGNED_MESSAGE.equals(checkSignedMessage);
+	}
+
+	public static String getSoftwareVersion() {
+		if (versionInfo == null) {
+			versionInfo = VersionInformation.getVersionInformation();
+		}
+
+		return versionInfo.getVersionString();
 	}
 
 	/**
@@ -538,12 +549,16 @@ public class GlobalVariables {
 		TimerTask myTimerTask = new CheckForUpdatesTimerTask(flavor);
 		timer.schedule(myTimerTask, date.getTime(), period);
 
+		println(GlobalVariables.class, "------------------------- Versioning ------------------------------");
+		println(GlobalVariables.class, "-- This is software version " + getSoftwareVersion());
 		if (period < 2 * ONE_HOUR)
-			println(GlobalVariables.class, "Will check for " + flavor + "-flavored updates every " + period / 1000
+			println(GlobalVariables.class, "-- Will check for " + flavor + "-flavored updates every " + period / 1000
 					+ " seconds starting at " + date.getTime());
 		else
-			println(GlobalVariables.class, "Will check for " + flavor + "-flavored updates every " + (period / 1000 / 60 / 60)
+			println(GlobalVariables.class, "-- Will check for " + flavor + "-flavored updates every " + (period / 1000 / 60 / 60)
 					+ " hours starting at " + date.getTime());
+
+		println(GlobalVariables.class, "-------------------------------------------------------------------");
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------

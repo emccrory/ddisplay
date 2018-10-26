@@ -36,7 +36,7 @@ public class DownloadNewSoftwareVersion {
 	private final String	operatingFolder	= "../..";
 	private final String	outputFolder	= operatingFolder + File.separator + "roc-dynamicdisplays" + File.separator
 			+ "DynamicDisplays" + File.separator;
-	private final String	zipFilePath		= operatingFolder + zipFile;
+	private final String	zipFilePath		= operatingFolder + File.separator + zipFile;
 
 	public static void main(String[] args) {
 		DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion(null);
@@ -72,7 +72,7 @@ public class DownloadNewSoftwareVersion {
 	}
 
 	private boolean unpack() {
-		println(getClass(), "Unpacking ZIP file contents to " + outputFolder);
+		println(getClass(), "Unpacking ZIP file " + zipFilePath + " to " + outputFolder);
 
 		String osName = System.getProperty("os.name").toUpperCase();
 		boolean isUnix = osName.contains("LINUX") || osName.contains("UNIX");

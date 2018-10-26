@@ -215,6 +215,7 @@ public class VersionInformation implements Serializable {
 
 			Object read = sInput.readObject();
 
+			// TODO - This is a streamed object that will (someday) need to be redone.
 			if (read instanceof VersionInformation) {
 				return (VersionInformation) read;
 			}
