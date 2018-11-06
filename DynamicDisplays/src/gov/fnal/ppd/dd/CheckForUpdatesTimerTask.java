@@ -1,5 +1,6 @@
 package gov.fnal.ppd.dd;
 
+import static gov.fnal.ppd.dd.GlobalVariables.getFlavor;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
@@ -18,8 +19,8 @@ import javax.swing.JLabel;
 import gov.fnal.ppd.dd.util.DownloadNewSoftwareVersion;
 import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
-import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
+import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
 
 /**
  * Handles the procedure of checking for an update. Also includes some visual clues for the user that may be watching
@@ -29,10 +30,8 @@ import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
  */
 public class CheckForUpdatesTimerTask extends TimerTask {
 	private JFrame	frame;
-	private FLAVOR	flavor;
 
-	public CheckForUpdatesTimerTask(FLAVOR f) {
-		this.flavor = f;
+	public CheckForUpdatesTimerTask() {
 	}
 
 	@Override
@@ -41,10 +40,13 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 			// Add a little complication: Skip the updates on weekends (Sat, Sun and Mon mornings)
 			Calendar date = Calendar.getInstance();
 			int dow = date.get(Calendar.DAY_OF_WEEK);
-			if (dow == Calendar.SATURDAY || dow == Calendar.SUNDAY || dow == Calendar.MONDAY) {
-				println(getClass(), "Skipping update check on weekend days");
+			int hour = date.get(Calendar.HOUR_OF_DAY);
+			if (dow == Calendar.SATURDAY || dow == Calendar.SUNDAY || (dow == Calendar.MONDAY && hour < 10) ) {
+				println(getClass(), "Skipping update check on weekends");
 				return;
 			}
+			// Let the Properties file change during the running of this daemon.
+			FLAVOR flavor = getFlavor(true);
 			println(getClass(), "Checking to see if there is a " + flavor + " update for the software");
 
 			// 1. See if an update is available
@@ -52,7 +54,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 
 			if (days > 0) {
 
-				// 2. If so, download it. Then exit the entire process so we will restart.
+				// 2. If so, download it. 
 				VersionInformation viWeb = VersionInformation.getDBVersionInformation(flavor);
 				showNewUpdateInformation(flavor, viWeb.getVersionString(), days);
 
@@ -61,6 +63,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 
 				DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion(viWeb.getVersionString());
 				if (d.hasSucceeded())
+					// 3. Exit the entire process so we will restart.
 					ExitHandler.saveAndExit("Deployed new software version.");
 				else {
 					println(getClass(), "\n\n\nSomething went wrong with the update!!\n\n\n");
@@ -72,7 +75,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 				println(getClass(), "No new software is present.  Will check again soon.");
 			}
 		} catch (Exception e) {
-			printlnErr(getClass(), "\nException while trying to do a self-update. Will check again soon.\n");
+			printlnErr(getClass(), "\nException while trying to do a self-update. Will check for new software again soon.\n");
 			e.printStackTrace();
 		}
 	}

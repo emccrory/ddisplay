@@ -507,18 +507,6 @@ public class GlobalVariables {
 	 *            Set to true if this is the messaging server. It will look for the updates a little earlier than all the other bits
 	 */
 	public static void prepareUpdateWatcher(boolean isMessagingServer) {
-
-		FLAVOR flavor = FLAVOR.PRODUCTION;
-		if (PropertiesFile.getProperty("UpdateFlavor") != null) {
-			try {
-				flavor = FLAVOR.valueOf(PropertiesFile.getProperty("UpdateFlavor"));
-			} catch (Exception e) {
-				printlnErr(GlobalVariables.class, "Unrecognized software flavor in the configuration file: "
-						+ PropertiesFile.getProperty("UpdateFlavor") + ". Will use " + FLAVOR.PRODUCTION);
-				flavor = FLAVOR.PRODUCTION;
-			}
-		}
-
 		Calendar date = Calendar.getInstance();
 		if (PropertiesFile.getProperty("FirstUpdateWait") == null) {
 			date.set(Calendar.MINUTE, 0);
@@ -546,22 +534,38 @@ public class GlobalVariables {
 			period = 1000 * Long.parseLong(PropertiesFile.getProperty("LookForUpdatesPeriod"));
 
 		Timer timer = new Timer();
-		TimerTask myTimerTask = new CheckForUpdatesTimerTask(flavor);
+		TimerTask myTimerTask = new CheckForUpdatesTimerTask();
 		timer.schedule(myTimerTask, date.getTime(), period);
 
 		println(GlobalVariables.class, "------------------------- Versioning ------------------------------");
 		println(GlobalVariables.class, "-- This is software version " + getSoftwareVersion());
+		println(GlobalVariables.class, "-- The desired flavor of software is " + getFlavor(false) + ", but this can change.");
 		if (period < 2 * ONE_HOUR)
-			println(GlobalVariables.class, "-- Will check for " + flavor + "-flavored updates every " + period / 1000
-					+ " seconds starting at " + date.getTime());
+			println(GlobalVariables.class,
+					"-- Will check for updates every " + period / 1000 + " seconds starting at " + date.getTime());
 		else
-			println(GlobalVariables.class, "-- Will check for " + flavor + "-flavored updates every " + (period / 1000 / 60 / 60)
-					+ " hours starting at " + date.getTime());
+			println(GlobalVariables.class,
+					"-- Will check for updates every " + (period / 1000 / 60 / 60) + " hours starting at " + date.getTime());
 
 		println(GlobalVariables.class, "-------------------------------------------------------------------");
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
+
+	public static FLAVOR getFlavor(boolean reset) {
+		if ( reset ) PropertiesFile.reset();
+		FLAVOR flavor = FLAVOR.PRODUCTION;
+		if (PropertiesFile.getProperty("UpdateFlavor") != null) {
+			try {
+				flavor = FLAVOR.valueOf(PropertiesFile.getProperty("UpdateFlavor"));
+			} catch (Exception e) {
+				printlnErr(GlobalVariables.class, "Unrecognized software flavor in the configuration file: "
+						+ PropertiesFile.getProperty("UpdateFlavor") + ". Will use " + FLAVOR.PRODUCTION);
+				flavor = FLAVOR.PRODUCTION;
+			}
+		}
+		return flavor;
+	}
 
 	/**
 	 * Read the file, credentials.txt, for establishing connection to the database
