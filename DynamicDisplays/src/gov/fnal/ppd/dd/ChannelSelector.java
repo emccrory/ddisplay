@@ -11,6 +11,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getSoftwareVersion;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
+import static gov.fnal.ppd.dd.changer.FileMenu.HELP_MENU;
+import static gov.fnal.ppd.dd.changer.FileMenu.INFO_BUTTON_MENU;
+import static gov.fnal.ppd.dd.changer.FileMenu.REFRESH_MENU;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.launchErrorMessage;
@@ -43,6 +46,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingUtilities;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -60,6 +64,7 @@ import gov.fnal.ppd.dd.changer.DisplayButtons;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.changer.DocentGrid;
+import gov.fnal.ppd.dd.changer.FileMenu;
 import gov.fnal.ppd.dd.changer.ImageGrid;
 import gov.fnal.ppd.dd.changer.InformationBox;
 import gov.fnal.ppd.dd.changer.SaveRestoreDefaultChannels;
@@ -133,9 +138,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private JLabel							title;
 	protected int							selectedTab;
 	// The circular arrow, as in the recycling symbol
-	private JButton							refreshButton				= new JButton("Refresh");
+	// private JButton							refreshButton				= new JButton("Refresh");
 	private JButton							lockButton;
-	private JButton							changeDefaultsButton		= new JButton("S/R");
+	// private JButton							changeDefaultsButton		= new JButton("S/R");
+	// private JButton							helpButton					= new JButton("  ?  ");
 	// private JButton addChannelButton = new JButton("+");
 	// private JCheckBox showBorderButton = new JCheckBox("Border?");
 	private DisplayButtons					displaySelector;
@@ -206,6 +212,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	private void initComponents() {
+		SaveRestoreDefaultChannels.setup("Change Default Configurations", 30.0f, new Insets(20, 50, 20, 50));
+
 		removeAll();
 		SignageType cat = SignageType.XOC; // Show everything
 		if (IS_PUBLIC_CONTROLLER)
@@ -225,7 +233,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				displayChannelPanel.setPreferredSize(new Dimension(700, 640));
 		}
 
-		add(displaySelector, BorderLayout.EAST);
+		add(displaySelector, BorderLayout.EAST);		
 		add(makeTitle(), BorderLayout.NORTH);
 
 		splashScreens = new SplashScreens(this, displayChannelPanel);
@@ -484,69 +492,25 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		return BorderFactory.createEmptyBorder(2, 30, 2, 30);
 	}
 
-	private JComponent makeTitle() {
+	private JComponent makeTitle() {		
 		// showBorderButton.setSelected(true);
 		title = new JLabel(" Dynamic Display 00, V0.0.0 ");
-		if (!SHOW_IN_WINDOW) {
-			title.setFont(new Font("Serif", Font.ITALIC, (int) (FONT_SIZE / 2)));
-			refreshButton.setFont(new Font("SansSerif", Font.BOLD, (int) (FONT_SIZE / 2)));
-		}
 		title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		title.setOpaque(true);
 		title.setBackground(Color.white);
 		titleBox = Box.createHorizontalBox();
 		adjustTitle(displayList.get(0));
-
-		refreshButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String mess = "<html>When you hit OK here, the Channel Selector will exit and start again."
-						+ "<br>This will refresh the ChannelSelector with all the new channels"
-						+ "<br>that have been added to the system recently.<br><br>Do you want to do this now?<br></html>";
-				Object[] options = { "OK: Restart ChannelSelector", "Cancel" };
-				int n = JOptionPane.showOptionDialog(ChannelSelector.this, mess, "Restart the ChannelSelector?",
-						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-				if (n == 0)
-					System.exit(-1);
-				new Thread("RefreshURLPopupWait2") {
-					@SuppressWarnings("unused")
-					public void run() {
-						refreshActionUnderway = 1;
-						while (refreshActionUnderway > 0)
-							catchSleep(1000);
-						int numURLs = numURLButtonsChanged / displayList.size();
-						String mess = "<html>The URLs of all the channels have been refreshed, " + numURLButtonsChanged
-								+ " URL buttons changed.";
-						if (numURLButtonsChanged > 0)
-							mess += "  <br>This is " + numURLs + " specific URLs that changed, distributed over the "
-									+ displayList.size() + " displays in the system";
-						new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), "Channels refreshed", mess + "</html>");
-					}
-				}.start();
-			}
-		});
-
-		SaveRestoreDefaultChannels.setup("Change Default Configurations", 30.0f, new Insets(20, 50, 20, 50));
-
-		changeDefaultsButton.addActionListener(new ChangeDefaultsActionListener());
-
-		changeDefaultsButton.setToolTipText("Save, restore, and/or change the configuration defaults");
-		changeDefaultsButton.setFont(changeDefaultsButton.getFont().deriveFont(FONT_SIZE / 3));
-
 		return titleBox;
 	}
 
 	private void adjustTitle(Display display) {
 		if (display == null)
 			return;
+		int rp = 5;
 
-		int insetH = 10;
-		int insetV = 12;
-		int rigidPadding = 5;
-		if (SHOW_IN_WINDOW) {
-			insetH = 6;
-			insetV = 6;
-		}
-
+		FileMenu fmBar = new FileMenu(this, new ChangeDefaultsActionListener(this));
+		fmBar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
+				BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(rp, rp, rp, rp), fmBar.getBorder())));
 		Color c = display.getPreferredHighlightColor();
 
 		String num = "" + display.getVirtualDisplayNumber();
@@ -562,81 +526,26 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		int wid = (SHOW_IN_WINDOW ? 1 : 4);
 		titleBox.setBorder(BorderFactory.createLineBorder(c, wid));
 
-		if (!IS_PUBLIC_CONTROLLER) {
-			refreshButton.setToolTipText("<html><b>Refresh</b> -- Refresh the Channel Selector GUI."
-					+ "<br><em>This will exit the program and restart it</em></html>");
-			refreshButton.setFont(refreshButton.getFont().deriveFont(FONT_SIZE / 3));
-			refreshButton.setMargin(new Insets(insetH, insetV, insetH, insetV));
-			titleBox.add(refreshButton);
-			titleBox.add(Box.createRigidArea(new Dimension(rigidPadding, rigidPadding)));
-
-			if (displayList.size() > 1) {
-				changeDefaultsButton.setMargin(new Insets(insetH, insetV, insetH, insetV));
-				titleBox.add(changeDefaultsButton);
-				titleBox.add(Box.createRigidArea(new Dimension(rigidPadding, rigidPadding)));
-			}
-
-			if (SHOW_IN_WINDOW)
-				IdentifyAll.setup("ID all displays", FONT_SIZE / 3, new Insets(insetH, insetV, insetH, insetV));
-			else
-				IdentifyAll.setup("ID", FONT_SIZE / 2, new Insets(insetH, insetV, insetH, insetV));
-
-			IdentifyAll.setListOfDisplays(displayList);
-			JButton idAll = IdentifyAll.getButton();
-			titleBox.add(idAll);
-			idAll.addActionListener(new ActionListener() {
-
-				@SuppressWarnings("unused")
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), "Displays Identified",
-							"Each Display should be showing a self-identify splash screen now.");
-				}
-			});
-		}
-
-		// ImageIcon ic = new ImageIcon("bin/gov/fnal/ppd/dd/images/2arrows.png");
-		JButton flipTitles = new JButton("Button Info");
-		flipTitles.setMargin(new Insets(insetH, insetV, insetH, insetV));
-		if (SHOW_IN_WINDOW)
-			flipTitles.setFont(new Font("Arial", Font.BOLD, (int) FONT_SIZE / 3));
-		else
-			flipTitles.setFont(new Font("Arial", Font.BOLD, (int) FONT_SIZE / 2));
-
-		flipTitles.setToolTipText("<html><b>Toggle Text</b> -- Toggle among: a succinct"
-				+ "<br>Channel button label, one with more details and the URL itself");
-
-		flipTitles.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				nowShowing = nowShowing.next();
-
-				userHasDoneSomething();
-
-				synchronized (channelButtonGridList) {
-					for (List<ChannelButtonGrid> gridList : channelButtonGridList) {
-						for (ChannelButtonGrid grid : gridList) {
-							DisplayButtonGroup dbg = grid.getBg();
-							for (int i = 0; i < dbg.getNumButtons(); i++) {
-								DDButton ddb = dbg.getAButton(i);
-								ddb.setText(nowShowing);
-							}
-						}
-					}
-				}
-			}
-		});
-		titleBox.add(Box.createRigidArea(new Dimension(rigidPadding, rigidPadding)));
-		titleBox.add(flipTitles);
-		titleBox.add(Box.createHorizontalGlue());
-		titleBox.add(title);
-		titleBox.add(Box.createHorizontalGlue());
+		fmBar.setBackground(c);
+		
 		JLabel versionIdentifier = new JLabel("V" + getSoftwareVersion());
 		versionIdentifier.setFont(new Font("Arial", Font.PLAIN, 8));
 		versionIdentifier.setOpaque(false);
+		
+		fmBar.setAlignmentY(JComponent.CENTER_ALIGNMENT);
+		title.setAlignmentY(JComponent.CENTER_ALIGNMENT);
+		versionIdentifier.setAlignmentY(JComponent.CENTER_ALIGNMENT);
+		
+		titleBox.add(fmBar);
+
+		// titleBox.add(Box.createRigidArea(new Dimension(10,10)));
+		titleBox.add(Box.createHorizontalGlue());
+		titleBox.add(title);
+		titleBox.add(Box.createHorizontalGlue());
+
+		
 		titleBox.add(versionIdentifier);
-		titleBox.add(Box.createRigidArea(new Dimension(rigidPadding, rigidPadding)));
+		titleBox.add(Box.createRigidArea(new Dimension(rp, rp)));
 
 		// Do not let the simple public controller exit
 		if (!SHOW_IN_WINDOW) {
@@ -680,15 +589,73 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		// The display selection has been changed, Select the "card" that shows this panel
+		switch (e.getActionCommand()) {
 
-		card.show(displayChannelPanel, e.getActionCommand());
-		lastActiveDisplay = e.getActionCommand();
+		case REFRESH_MENU:
+			String mess = "<html>When you hit OK here, the Channel Selector will exit and start again."
+					+ "<br>This will refresh the ChannelSelector with all the new channels"
+					+ "<br>that have been added to the system recently.<br><br>Do you want to do this now?<br></html>";
+			Object[] options = { "OK: Restart ChannelSelector", "Cancel" };
+			int n = JOptionPane.showOptionDialog(ChannelSelector.this, mess, "Restart the ChannelSelector?",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+			if (n == 0)
+				System.exit(-1);
+			new Thread("RefreshURLPopupWait2") {
+				@SuppressWarnings("unused")
+				public void run() {
+					refreshActionUnderway = 1;
+					while (refreshActionUnderway > 0)
+						catchSleep(1000);
+					int numURLs = numURLButtonsChanged / displayList.size();
+					String mess = "<html>The URLs of all the channels have been refreshed, " + numURLButtonsChanged
+							+ " URL buttons changed.";
+					if (numURLButtonsChanged > 0)
+						mess += "  <br>This is " + numURLs + " specific URLs that changed, distributed over the "
+								+ displayList.size() + " displays in the system";
+					new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), "Channels refreshed", mess + "</html>");
+				}
+			}.start();
+		
+			channelRefreshAction.actionPerformed(e);
+			break;
+		
+			
+		case INFO_BUTTON_MENU:
+			nowShowing = nowShowing.next();
+			userHasDoneSomething();
 
-		int displayNum = e.getID();
-		adjustTitle(displayList.get(displayNum));
-		setTabColor(displayList.get(displayNum), displayNum);
-		userHasDoneSomething();
+			synchronized (channelButtonGridList) {
+				for (List<ChannelButtonGrid> gridList : channelButtonGridList) {
+					for (ChannelButtonGrid grid : gridList) {
+						DisplayButtonGroup dbg = grid.getBg();
+						for (int i = 0; i < dbg.getNumButtons(); i++) {
+							DDButton ddb = dbg.getAButton(i);
+							ddb.setText(nowShowing);
+						}
+					}
+				}
+			}
+
+			break;
+			
+		case HELP_MENU:
+			String text = SelectorInstructions.getInstructions().replace("</html>",
+					"<br><br>For more information, see <u>https://dynamicdisplays.fnal.gov/about.php</u></html>");
+			JOptionPane.showMessageDialog(ChannelSelector.this, text, "The Dynamic Displays Channel Selector",
+					JOptionPane.PLAIN_MESSAGE);
+			break;
+
+		default:
+			// The display selection has been changed, Select the "card" that shows this panel
+			card.show(displayChannelPanel, e.getActionCommand());
+			lastActiveDisplay = e.getActionCommand();
+
+			int displayNum = e.getID();
+			adjustTitle(displayList.get(displayNum));
+			setTabColor(displayList.get(displayNum), displayNum);
+			userHasDoneSomething();
+			break;
+		}
 	}
 
 	private void setTabColor(Display d, int index) {
@@ -731,7 +698,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		channelSelector.createRefreshActions();
 
-		channelSelector.setRefreshAction(channelSelector.channelRefreshAction);
+		//channelSelector.setRefreshAction(channelSelector.channelRefreshAction);
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -829,7 +796,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				});
 			}
 		};
-		refreshButton.addActionListener(channelRefreshAction);
+		// refreshButton.addActionListener(channelRefreshAction);
 	}
 
 	protected void destroy() {
@@ -837,9 +804,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		// TODO Make this work -- no luck so far!
 	}
 
-	private void setRefreshAction(ActionListener refreshAction2) {
-		refreshButton.addActionListener(refreshAction2);
-	}
+//	private void setRefreshAction(ActionListener refreshAction2) {
+//		refreshButton.addActionListener(refreshAction2);
+//	}
 
 	@Override
 	public void activateCard(boolean showingSplash) {
