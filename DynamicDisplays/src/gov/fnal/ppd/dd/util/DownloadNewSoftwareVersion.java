@@ -137,11 +137,13 @@ public class DownloadNewSoftwareVersion {
 	}
 
 	private boolean renameTargetFolder() {
-		println(getClass(), "Renaming " + outputFolder);
+		String targetLocation = operatingFolder + File.separator + "roc-dynamicdisplays";
+		println(getClass(), "Renaming " + targetLocation);
 
 		// File (or directory) with old name
-		File file = new File(outputFolder);
+		File file = new File(targetLocation);
 		int index = 0;
+		String folderName = "";
 		while (file.exists()) {
 			index++;
 			String zero = "00";
@@ -149,15 +151,24 @@ public class DownloadNewSoftwareVersion {
 				zero = "";
 			else if (index > 9)
 				zero = "0";
-			String folderName = operatingFolder + File.separator + "roc-dynamicdisplays-old" + zero + index;
+			folderName = operatingFolder + File.separator + "roc-dynamicdisplays-old" + zero + index;
 			file = new File(folderName);
 		}
 
 		if (index > 0) {
-			File fileOrig = new File(operatingFolder + File.separator + "roc-dynamicdisplays");
+			File fileOrig = new File(targetLocation);
+
+			// There is a problem in translating this to Windows, based on the way "..\.." is interpreted So we have to build a
+			// work-around.
+
+			// These replace calls will do nothing in Linux, but change the absolute path to the right thing in Windows
+			String adjustedTargetLoc = fileOrig.getAbsolutePath().replace("\\roc-dynamicdisplays\\DynamicDisplays\\..\\..", "");
+			String adjustedNewLoc = file.getAbsolutePath().replace("\\roc-dynamicdisplays\\DynamicDisplays\\..\\..", "");
+			fileOrig = new File(adjustedTargetLoc);
+			file = new File(adjustedNewLoc);
 			println(getClass(), "Renaming " + fileOrig.getAbsolutePath() + " to " + file.getAbsolutePath());
 			if (!fileOrig.renameTo(file)) {
-				println(getClass(), "Failed!");
+				println(getClass(), "Renaming has failed!");
 				return false;
 			}
 		}
