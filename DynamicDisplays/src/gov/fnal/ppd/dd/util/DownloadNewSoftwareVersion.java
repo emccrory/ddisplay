@@ -31,8 +31,9 @@ import java.util.zip.ZipFile;
  */
 public class DownloadNewSoftwareVersion {
 
-	// Note: The URL contains the slash ("/") always, but the filename uses File.separator (although I think Java corrects for this internally)
-	private final String	zipFile			= SOFTWARE_FILE_ZIP; 
+	// Note: The URL contains the slash ("/") always, but the filename uses File.separator (although I think Java corrects for this
+	// internally)
+	private final String	zipFile			= SOFTWARE_FILE_ZIP;
 	private final String	location		= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/software/" + zipFile;
 	private final String	operatingFolder	= ".." + File.separator + "..";
 	private final String	outputFolder	= operatingFolder + File.separator + "roc-dynamicdisplays" + File.separator
@@ -41,18 +42,19 @@ public class DownloadNewSoftwareVersion {
 
 	public static void main(String[] args) {
 		DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion(null);
-		if ( d.hasSucceeded() ) System.exit(0);
+		if (d.hasSucceeded())
+			System.exit(0);
 	}
-	
+
 	boolean succeeded = false;
-	
+
 	public DownloadNewSoftwareVersion(String version) {
 		succeeded = download(version) && renameTargetFolder() && unpack();
 	}
 
 	private boolean download(String version) {
 		String actualLocation = location;
-		if ( version != null ) {
+		if (version != null) {
 			actualLocation = location.replace(".zip", "_" + adjust(version) + ".zip");
 		} else {
 			actualLocation = actualLocation.replace("/software", "");
@@ -77,7 +79,7 @@ public class DownloadNewSoftwareVersion {
 
 		String osName = System.getProperty("os.name").toUpperCase();
 		boolean isUnix = osName.contains("LINUX") || osName.contains("UNIX");
-		
+
 		// This code stolen from https://howtodoinjava.com/java/io/unzip-file-with-subdirectories/
 		// It seems to be a LOT slower than the operating systems' "unzip" command(s). Whatever; we have the time.
 
@@ -107,7 +109,7 @@ public class DownloadNewSoftwareVersion {
 					// be some way to restore those protections when we write the files here, but (alas), I cannot figure it out.
 					// So for now, I will ASSUME that all files that end in ".sh" or "driver" (as in geckodriver) will be
 					// executable.
-					
+
 					InputStream is = file.getInputStream(entry);
 					BufferedInputStream bis = new BufferedInputStream(is);
 					String uncompressedFileName = uncompressedFolder + entry.getName();
@@ -118,7 +120,7 @@ public class DownloadNewSoftwareVersion {
 						fileOutput.write(bis.read());
 					}
 					fileOutput.close();
-					if ( isUnix && (uncompressedFileName.endsWith(".sh") || uncompressedFileName.endsWith("driver")) ) {
+					if (isUnix && (uncompressedFileName.endsWith(".sh") || uncompressedFileName.endsWith("driver"))) {
 						File f = new File(uncompressedFileName);
 						f.setExecutable(true);
 						println(getClass(), "Wrote executable file: " + entry.getName());
@@ -144,9 +146,9 @@ public class DownloadNewSoftwareVersion {
 		while (file.exists()) {
 			index++;
 			String zero = "00";
-			if ( index > 99 )
+			if (index > 99)
 				zero = "";
-			else if ( index > 9 )
+			else if (index > 9)
 				zero = "0";
 			String folderName = operatingFolder + File.separator + "roc-dynamicdisplays-old" + zero + index;
 			file = new File(folderName);

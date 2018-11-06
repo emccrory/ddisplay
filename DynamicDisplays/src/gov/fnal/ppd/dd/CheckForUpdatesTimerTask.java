@@ -50,7 +50,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 			println(getClass(), "Checking to see if there is a " + flavor + " update for the software");
 
 			// 1. See if an update is available
-			double days = VersionInformationComparison.lookup(flavor, false);
+			double days = VersionInformationComparison.lookup(flavor, true);
 
 			if (days > 0) {
 

@@ -14,7 +14,7 @@ import java.util.Date;
 public class VersionInformationComparison {
 
 	// Ten seconds should do it. We are forced to at least a one second lee-way as the Database cannot store milliseconds.
-	private static final long	MKAXIMUM_ALLOWABLE_TIME_DIFFERENCE	= 10000;
+	private static final long	MAXIMUM_ALLOWABLE_TIME_DIFFERENCE	= 10000;
 
 	/**
 	 * @param flavor
@@ -48,7 +48,7 @@ public class VersionInformationComparison {
 
 		long diff = Math.abs(viWeb.getTimeStamp() - viLocal.getTimeStamp());
 
-		if (diff < MKAXIMUM_ALLOWABLE_TIME_DIFFERENCE) {
+		if (diff < MAXIMUM_ALLOWABLE_TIME_DIFFERENCE) {
 			if (debug)
 				System.out.println("Time stamp of database version is the same as the local time stamp.  Delta=" + diff
 						+ " milliseconds");
