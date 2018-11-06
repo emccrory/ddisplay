@@ -3,8 +3,8 @@ package gov.fnal.ppd.dd.util;
 import static gov.fnal.ppd.dd.GlobalVariables.SOFTWARE_FILE_ZIP;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_PROTOCOL;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -161,32 +161,23 @@ public class DownloadNewSoftwareVersion {
 			File fileOrig = new File(targetLocation);
 
 			// There is a problem in translating this to Windows, based on the way "..\.." is interpreted So we have to build a
-			// work-around.  Additionally, there are issues with these File instances that we make.  These have to be closed and 
-			// garbage collected so Windows is happy to make the renameTo().
+			// work-around. 
 
 			// These replace calls will do nothing in Linux, but change the absolute path to the right thing in Windows
 			String adjustedTargetLoc = fileOrig.getAbsolutePath().replace("\\roc-dynamicdisplays\\DynamicDisplays\\..\\..", "");
 			String adjustedNewLoc = file.getAbsolutePath().replace("\\roc-dynamicdisplays\\DynamicDisplays\\..\\..", "");
 			fileOrig = new File(adjustedTargetLoc);
 			file = new File(adjustedNewLoc);
+
 			println(getClass(), "Renaming " + fileOrig.getAbsolutePath() + " to " + file.getAbsolutePath());
-			boolean failed = true;
-			for (int k = 0; k < 20; k++) {
-				if (fileOrig.renameTo(file)) {
-					failed = false;
-					break;
-				}
-				println(getClass(), "Attempt " + (k + 1) + " to rename this folder has failed");
-				catchSleep(100);
-				System.gc();
-				catchSleep(100);
-				Thread.yield();
-				catchSleep(100);
-			}
-			if ( failed ) {
-				println(getClass(), "Renaming has completely failed");
+
+			try {
+				Files.move(fileOrig.toPath(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException ex) {
+				printlnErr(getClass(), "Renaming has failed");
 				return false;
 			}
+
 		}
 		// File (or directory) with new name
 		File file2 = new File(outputFolder);

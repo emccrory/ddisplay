@@ -81,7 +81,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 
 	private void showNewUpdateInformation(FLAVOR flavor, String versionString) {
 		// Isolate the GUI stuff here.
-		String message1 = "There is a " + flavor + " version of the software, Version " + versionString + ".";
+		String message1 = "There is a new " + flavor + " version of the software, Version " + versionString + ".";
 		String message2 = "This version is newer than the code we are running.";
 		String message3 = "Updating the software and then restarting this application program.";
 		println(getClass(), message1 + message2 + "\n" + message3);
