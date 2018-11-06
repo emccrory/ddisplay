@@ -50,13 +50,12 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 			println(getClass(), "Checking to see if there is a " + flavor + " update for the software");
 
 			// 1. See if an update is available
-			double days = VersionInformationComparison.lookup(flavor, true);
 
-			if (days > 0) {
+			if (VersionInformationComparison.lookup(flavor, true)) {
 
 				// 2. If so, download it. 
 				VersionInformation viWeb = VersionInformation.getDBVersionInformation(flavor);
-				showNewUpdateInformation(flavor, viWeb.getVersionString(), days);
+				showNewUpdateInformation(flavor, viWeb.getVersionString());
 
 				// -----------------------------------------------------------------------------------------------------------
 				// Download and install the new code (This takes up to five minutes)
@@ -80,23 +79,10 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 		}
 	}
 
-	private void showNewUpdateInformation(FLAVOR flavor, String versionString, double days) {
+	private void showNewUpdateInformation(FLAVOR flavor, String versionString) {
 		// Isolate the GUI stuff here.
-
-		String timeString = String.format("%.1f days", days);
-		if (days < 0.1)
-			timeString = "a few minutes";
-		else if (days < 0.5)
-			timeString = "a few hours";
-		else if (days < 3)
-			timeString = String.format("%.1f hours", (days * 24.0));
-		else if (days > 27)
-			timeString = String.format("%.1f weeks", (days / 7.0));
-		else if (days > 420)
-			timeString = String.format("about %.2f years" + (days / 365.0));
-
 		String message1 = "There is a " + flavor + " version of the software, Version " + versionString + ".";
-		String message2 = "This version is " + timeString + " newer than the code we are running.";
+		String message2 = "This version is newer than the code we are running.";
 		String message3 = "Updating the software and then restarting this application program.";
 		println(getClass(), message1 + message2 + "\n" + message3);
 

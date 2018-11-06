@@ -536,6 +536,8 @@ public class GlobalVariables {
 		Timer timer = new Timer();
 		TimerTask myTimerTask = new CheckForUpdatesTimerTask();
 		timer.schedule(myTimerTask, date.getTime(), period);
+		
+		// Maybe we should run this update task really frequently so the user can change the update period.  Nah.
 
 		println(GlobalVariables.class, "------------------------- Versioning ------------------------------");
 		println(GlobalVariables.class, "-- This is software version " + getSoftwareVersion());
