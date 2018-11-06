@@ -31,9 +31,10 @@ import java.util.zip.ZipFile;
  */
 public class DownloadNewSoftwareVersion {
 
-	private final String	zipFile			= SOFTWARE_FILE_ZIP; // TODO - Get the right version!
-	private final String	location		= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + File.separator + "software" + File.separator + zipFile;
-	private final String	operatingFolder	= "../..";
+	// Note: The URL contains the slash ("/") always, but the filename uses File.separator (although I think Java corrects for this internally)
+	private final String	zipFile			= SOFTWARE_FILE_ZIP; 
+	private final String	location		= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/software/" + zipFile;
+	private final String	operatingFolder	= ".." + File.separator + "..";
 	private final String	outputFolder	= operatingFolder + File.separator + "roc-dynamicdisplays" + File.separator
 			+ "DynamicDisplays" + File.separator;
 	private final String	zipFilePath		= operatingFolder + File.separator + zipFile;
@@ -54,7 +55,7 @@ public class DownloadNewSoftwareVersion {
 		if ( version != null ) {
 			actualLocation = location.replace(".zip", "_" + adjust(version) + ".zip");
 		} else {
-			actualLocation = actualLocation.replace(File.separatorChar + "software", "");
+			actualLocation = actualLocation.replace("/software", "");
 		}
 		println(getClass(), "Getting the file from " + actualLocation);
 		try (InputStream in = new URL(actualLocation).openStream()) {
