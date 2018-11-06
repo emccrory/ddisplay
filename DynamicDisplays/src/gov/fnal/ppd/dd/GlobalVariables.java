@@ -5,7 +5,6 @@
  */
 package gov.fnal.ppd.dd;
 
-import static gov.fnal.ppd.dd.GlobalVariables.getSoftwareVersion;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 

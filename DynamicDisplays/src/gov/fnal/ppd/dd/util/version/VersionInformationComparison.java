@@ -1,9 +1,8 @@
 package gov.fnal.ppd.dd.util.version;
 
-import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
-import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
-
 import java.util.Date;
+
+import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 
 /**
  * Compare local versioning information to the info on the web site. Error exit iff the web version is newer than the local version.
