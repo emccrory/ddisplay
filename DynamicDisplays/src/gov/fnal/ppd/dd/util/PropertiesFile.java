@@ -47,6 +47,10 @@ public class PropertiesFile {
 		writePropertiesFile("Testing");
 		readPropertiesFile();
 	}
+	
+	public static void reset() {
+		prop = new Properties();
+	}
 
 	@SuppressWarnings("javadoc")
 	public static void readPropertiesFile() {
