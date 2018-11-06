@@ -67,6 +67,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		// Make sure we exit the instance(s) of the browser when the VM exits ---------------------------
 		Runtime.getRuntime().addShutdownHook(new Thread("ShutdownHook_Display_" + numberOfScreens) {
 			public void run() {
+				// It looks like a "kill 1" will exit the JVM with an exit code of 129.  COuld not get this to work (11/2/2018)
+				println(getClass(), "Shutdown hook called");
 				exit();
 			}
 		});
