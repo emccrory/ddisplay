@@ -227,18 +227,18 @@ public class VersionInformationGUI extends JFrame {
 		box.add(Box.createRigidArea(new Dimension(10, 10)));
 		box.add(new JLabel("Time stamp: "));
 		final JRadioButton rb1 = new JRadioButton("Now");
-		rb1.setSelected(false);
+		rb1.setSelected(true);
 		final JRadioButton rb2 = new JRadioButton("No change");
-		rb2.setSelected(true);
+		rb2.setSelected(false);
 
-		final JLabel timeStampChosen = new JLabel(" " + new Date(newVI.getTimeStamp()) + " ");
+		final JLabel timeStampChosen = new JLabel(" " + new Date() + " ");
 
 		ActionListener rbListener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (rb1.isSelected()) {
-					Date d = new Date(System.currentTimeMillis());
+					Date d = new Date();
 					newVI.setTimeStamp(d.getTime());
 				} else if (rb2.isSelected()) {
 					newVI.setTimeStamp(oldVI.getTimeStamp());
