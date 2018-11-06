@@ -28,10 +28,11 @@ public class SelectorInstructions extends JPanel {
 
 	private static final long	serialVersionUID	= 4509134236620234614L;
 	private static final String	INSTRUCTIONS_TEXT	= "<html><center>This App allows you to change the channel, that is, the visible content, "
-															+ "on any of the HDTV Displays in the room.<br>"
-															+ "Select the Display by touching one of the colored \"Display\" "
-															+ "buttons on the right side of this screen.<br>"
-															+ "Then you can change the channel using the buttons in the main part of the App, above.</html>";
+			+ "on any of the HDTV Displays in the room.<br>" + "Select the Display by touching one of the colored \"Display\" "
+			+ "buttons on the right side of this screen.<br>"
+			+ "Then you can change the channel using the buttons in the main part of the App "
+			+ "on the main part of the screen (to the left).</html>";
+
 	private Font				smallFont;
 	private Font				largeFont;
 	private boolean				isLargeFont			= true;
@@ -65,18 +66,22 @@ public class SelectorInstructions extends JPanel {
 	}
 
 	private void checkChange() {
-		if (!isLargeFont && timeSinceLastUserActivity() > FIFTEEN_MINUTES ) {
+		if (!isLargeFont && timeSinceLastUserActivity() > FIFTEEN_MINUTES) {
 			// make font big again
 			lab.setText(INSTRUCTIONS_TEXT);
 			lab.setFont(largeFont);
 			repaint();
 			isLargeFont = true;
-		} else if (isLargeFont && timeSinceLastUserActivity() >  10 * ONE_SECOND) {
+		} else if (isLargeFont && timeSinceLastUserActivity() > 10 * ONE_SECOND) {
 			// Make font small when the user does something right. It will become large again in 15 minutes
 			lab.setText(INSTRUCTIONS_TEXT.replace("<br><br>", "<br>"));
 			lab.setFont(smallFont);
 			repaint();
 			isLargeFont = false;
 		}
+	}
+
+	public static String getInstructions() {
+		return INSTRUCTIONS_TEXT;
 	}
 }
