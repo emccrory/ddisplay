@@ -52,6 +52,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.plaf.FontUIResource;
 
+import gov.fnal.ppd.dd.db.NoSuchDisplayException;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.signage.SignageType;
@@ -296,7 +297,12 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 			break;
 
 		default:
-			showSelectedRestoreChoice(e.getActionCommand());
+			try {
+				showSelectedRestoreChoice(e.getActionCommand());
+			} catch (NoSuchDisplayException e1) {
+				// TODO This needs to be seen at a higher level!
+				e1.printStackTrace();
+			}
 			break;
 		}
 	}
@@ -392,8 +398,8 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 	}
 
-	private void showSelectedRestoreChoice(final String setName) {
-		Map<Display, SignageContent> restoreMap = getDisplayContent(setName);		
+	private void showSelectedRestoreChoice(final String setName) throws NoSuchDisplayException {
+		Map<Display, SignageContent> restoreMap = getDisplayContent(setName);	
 
 		if (restoreMap.size() == 0) {
 			// Nothing to to!

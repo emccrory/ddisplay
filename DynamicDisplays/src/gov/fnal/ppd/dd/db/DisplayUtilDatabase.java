@@ -6,12 +6,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.util.Util.convertObjectToHexBlob;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.ListOfExistingContent;
-import gov.fnal.ppd.dd.display.DisplayFacade;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.awt.Color;
 import java.io.ByteArrayInputStream;
@@ -26,7 +21,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gov.fnal.ppd.dd.changer.ListOfExistingContent;
+import gov.fnal.ppd.dd.display.DisplayFacade;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.signage.SignageType;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+
 /**
+ * This class gets the channels that each display is supposed to show for a particular save set.
+ * 
+ * Note that if a Display is removed and it was saved in a save set, this will throw a silent error.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2018
  * 
  */
@@ -39,7 +45,7 @@ public class DisplayUtilDatabase {
 	 * @param setName
 	 * @return the content at each display
 	 */
-	public static Map<Display, SignageContent> getDisplayContent(final String setName) {
+	public static Map<Display, SignageContent> getDisplayContent(final String setName) throws NoSuchDisplayException {
 		Map<Display, SignageContent> restoreMap = new HashMap<Display, SignageContent>();
 		try {
 			Connection connection = ConnectionToDatabase.getDbConnection();
@@ -78,8 +84,12 @@ public class DisplayUtilDatabase {
 						Display D;
 						if ((D = getContentOnDisplays().get(displayID)) != null) {
 							restoreMap.put(D, newContent);
-						} else
-							System.err.println("Looking for displayID=" + displayID + ", but could not find it!!");
+						} else {
+							// TODO -- Fix this silent error!
+							// This is an error condition from within the Channel Selector.  This error message is not good enough
+							printlnErr(DisplayUtilDatabase.class, "Looking for displayID=" + displayID + ", but could not find it!!");
+							throw new NoSuchDisplayException("displayID=" + displayID + " no longer is a valid display");
+						}
 
 						rs.next();
 					} catch (Exception e) {
