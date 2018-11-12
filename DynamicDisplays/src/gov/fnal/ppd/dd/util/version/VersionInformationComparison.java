@@ -1,5 +1,7 @@
 package gov.fnal.ppd.dd.util.version;
 
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+
 import java.util.Date;
 
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
@@ -13,7 +15,7 @@ import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 public class VersionInformationComparison {
 
 	// Ten seconds should do it. We are forced to at least a one second lee-way as the Database cannot store milliseconds.
-	private static final long	MAXIMUM_ALLOWABLE_TIME_DIFFERENCE	= 10000;
+	private static final long MAXIMUM_ALLOWABLE_TIME_DIFFERENCE = 10000;
 
 	/**
 	 * @param flavor
@@ -49,19 +51,52 @@ public class VersionInformationComparison {
 
 		if (diff < MAXIMUM_ALLOWABLE_TIME_DIFFERENCE) {
 			if (debug)
-				System.out.println("Time stamp of database version is the same as the local time stamp.  Delta=" + diff
-						+ " milliseconds");
+				System.out.println(
+						"Time stamp of database version is basically the same as the local version.  Delta=" + diff + " milliseconds");
 			return false;
 		} else if (viWeb.getTimeStamp() > viLocal.getTimeStamp()) {
 			double days = ((double) diff / 3600000.0) / 24.0;
+			int hours = (int) (24.0 * (days - Math.floor(days)));
 			if (debug)
-				System.out.println("Local version is older than the Database version.  Difference is " + days + " days - you should update!");
+				System.out.println("Local version is older than the Database version.  Difference is " + ((int) Math.floor(days))
+						+ " days, " + hours + " hours - you should update!");
 			return true;
 		} else {
 			double days = ((double) diff / 3600000.0) / 24.0;
+			int hours = (int) (24.0 * (days - Math.floor(days)));
 			if (debug)
-				System.out.println("Local time stamp is newer than the database version by " + days + " days - no update needed");
+				System.out.println("Local time stamp is newer than the database version by " + ((int) Math.floor(days)) + " days, "
+						+ hours + " hours - no update needed");
 			return false;
 		}
 	}
+
+	/**
+	 * 
+	 * @param args
+	 * 
+	 */
+
+	public static void main(final String[] args) {
+		credentialsSetup();
+		int index = 0;
+		boolean debug = false;
+		FLAVOR flavor = FLAVOR.PRODUCTION;
+		while (args.length > index) {
+			if (args[index].equalsIgnoreCase("DEBUG"))
+				debug = true;
+			else
+				try {
+					flavor = FLAVOR.valueOf(args[index]);
+				} catch (Exception e) {
+					flavor = FLAVOR.DEVELOPMENT;
+				}
+			index++;
+		}
+		boolean diff = lookup(flavor, debug);
+		if (diff)
+			System.exit(0);
+		System.exit(-1);
+	}
+
 }
