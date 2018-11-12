@@ -40,8 +40,6 @@ import java.util.TimerTask;
 
 import javax.xml.bind.JAXBException;
 
-import org.openqa.selenium.remote.server.handler.ChangeUrl;
-
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
