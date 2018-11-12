@@ -53,21 +53,21 @@ public class VersionInformationComparison {
 			if (debug)
 				System.out.println(
 						"Time stamp of database version is basically the same as the local version.  Delta=" + diff + " milliseconds");
-			return false;
+			return true;
 		} else if (viWeb.getTimeStamp() > viLocal.getTimeStamp()) {
 			double days = ((double) diff / 3600000.0) / 24.0;
 			int hours = (int) (24.0 * (days - Math.floor(days)));
 			if (debug)
 				System.out.println("Local version is older than the Database version.  Difference is " + ((int) Math.floor(days))
 						+ " days, " + hours + " hours - you should update!");
-			return true;
+			return false;
 		} else {
 			double days = ((double) diff / 3600000.0) / 24.0;
 			int hours = (int) (24.0 * (days - Math.floor(days)));
 			if (debug)
 				System.out.println("Local time stamp is newer than the database version by " + ((int) Math.floor(days)) + " days, "
 						+ hours + " hours - no update needed");
-			return false;
+			return true;
 		}
 	}
 
