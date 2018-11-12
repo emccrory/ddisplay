@@ -338,8 +338,8 @@ public class MessagingClient {
 					// Add a random offset each time so that if there are lots of waiting clients, they don't all hit at once.
 					wait = (long) (WAIT_FOR_SERVER_TIME * (0.5 + Math.log(counter)) + 100.0 * Math.random());
 					counter += 0.2;
-					if ( counter > 90 ) // exp(4.5) = 90.00171313 
-						counter = 90;   // Limit the maximum wait to about 5 minutes
+					if (counter > 90) // exp(4.5) = 90.00171313
+						counter = 90; // Limit the maximum wait to about 5 minutes
 					MessagingClient.this.start();
 				}
 				displayLogMessage(MessagingClient.class.getSimpleName() + ": Socket for " + username + " is now viable [" + socket
@@ -645,20 +645,22 @@ public class MessagingClient {
 			displayLogMessage(ListenFromServer.class.getSimpleName() + ": Exiting listening thread.");
 		}
 
-		long nextDump = 0L;
+		long	nextDump			= 0L;
 
 		/**
-		 * Dump this to the diagnostics stream every 10 minutes or so, for about 30 seconds.
+		 * Dump this to the diagnostics stream every 10 minutes, for 30 seconds.
 		 * 
 		 * @param read
 		 *            The message to dump
 		 */
-		private void dumpMessage(Object read) {
+		private void dumpMessage(Object read) {		
+			// For the Display messaging client, almost all of the received messages are "Are You Alive?"
+			
 			if (nextDump > System.currentTimeMillis())
 				return;
 			displayLogMessage("Received message: [" + read + "]");
-			if (nextDump + 30000L < System.currentTimeMillis())
-				nextDump = System.currentTimeMillis() + 10 * 60 * 1000L;
+			if (nextDump + 30 * ONE_SECOND < System.currentTimeMillis())
+				nextDump = System.currentTimeMillis() + 10 * ONE_MINUTE;
 		}
 	}
 }
