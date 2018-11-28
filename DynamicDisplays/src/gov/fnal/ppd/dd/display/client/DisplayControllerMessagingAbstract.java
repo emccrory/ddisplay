@@ -254,19 +254,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	/**
 	 * Must be called to start all the threads in this class instance!
+	 * Changed (11/2018) to not block
 	 */
 	public void initiate() {
-		if (!messagingClient.start()) {
-			new Thread("WaitForServerToAppear") {
-				public void run() {
+		new Thread("WaitForServerToAppear") {
+			public void run() {
+				if (!messagingClient.start())
 					messagingClient.retryConnection();
-				}
-			}.start();
-		}
-
-		// Must be called by concrete class-->
-		// contInitialization(portNumber);
-
+			}
+		}.start();
 	}
 
 	public String getMessagingName() {
