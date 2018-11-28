@@ -1,7 +1,7 @@
 . setupJars.sh
 
 d=`date +%F`
-log=~/src/log/messagingClient_${d}_$$.log
+log=../../log/messagingClient_${d}_$$.log
 
 {
     echo date
