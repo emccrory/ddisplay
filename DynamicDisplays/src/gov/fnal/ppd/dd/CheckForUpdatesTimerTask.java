@@ -31,6 +31,7 @@ import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
  */
 public class CheckForUpdatesTimerTask extends TimerTask {
 	private JFrame frame;
+	private static boolean workingOnAnUpdate = false;
 
 	public CheckForUpdatesTimerTask() {
 	}
@@ -38,12 +39,21 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 	@Override
 	public void run() {
 		try {
-			// Add a little complication: Skip the updates on weekends (Sat, Sun and Mon mornings)
+			if (workingOnAnUpdate) {
+				// This should never happen in a real installation as this update takes a few minutes, but these checks happen only
+				// once per day. But there are test situations when the updates happen more frequently than normal, and this can
+				// overlap with the next update check.
+				println(getClass(), "Skipping update check because we are already working on one.");
+				return;
+			}
+			workingOnAnUpdate = true;
+			// Add a little complication: Skip the updates on weekends (Sat, Sun, and Mon mornings)
 			Calendar date = Calendar.getInstance();
 			int dow = date.get(Calendar.DAY_OF_WEEK);
 			int hour = date.get(Calendar.HOUR_OF_DAY);
 			if (dow == Calendar.SATURDAY || dow == Calendar.SUNDAY || (dow == Calendar.MONDAY && hour < 10)) {
 				println(getClass(), "Skipping update check on weekends");
+				workingOnAnUpdate = false;
 				return;
 			}
 			// Let the Properties file change during the running of this daemon.
@@ -62,10 +72,11 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 				// Download and install the new code (This takes up to five minutes)
 
 				DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion(viWeb.getVersionString());
-				if (d.hasSucceeded())
+				if (d.hasSucceeded()) {
+					workingOnAnUpdate = false;
 					// 3. Exit the entire process so we will restart.
 					ExitHandler.saveAndExit("Deployed new software version.");
-				else {
+				} else {
 					println(getClass(), "\n\n\nSomething went wrong with the update!!\n\n\n");
 					failure();
 				}
@@ -78,6 +89,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 			printlnErr(getClass(), "\nException while trying to do a self-update. Will check for new software again soon.\n");
 			e.printStackTrace();
 		}
+		workingOnAnUpdate = false;
 	}
 
 	private static class LocalJLabel extends JLabel {
