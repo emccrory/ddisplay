@@ -41,8 +41,8 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 
 	@Override
 	public void initiate() {
-		super.initiate();
-
+		// First connect to the browser, then connect to the messaging server.
+		
 		new Thread() {
 			public void run() {
 				println(DisplayAsConnectionThroughSelenium.class,
@@ -62,6 +62,8 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 				localSetContent();
 			}
 		}.start();
+
+		super.initiate();
 	}
 
 	/**
