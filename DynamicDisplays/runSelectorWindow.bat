@@ -15,6 +15,10 @@ java -Dddisplay.selector.inwindow=TRUE ^
      -Xmx1024m ^
      gov.fnal.ppd.dd.MakeChannelSelector  > %LOG% 2>&1
 
-java -Dddisplay.selector.inwindow=TRUE -Dddisplay.virtualdisplaynumbers=TRUE -Dddisplay.selector.public=FALSE -Xmx1024m gov.fnal.ppd.dd.MakeChannelSelector
+if %ERRORLEVEL% EQU -1 goto loop
 
-if %ERRORLEVEL% == -1 goto loop
+if %ERRORLEVEL% EQU 99 {
+	REM This is a special code that says we are trying to do a self-update
+	cd ..\..
+	
+}

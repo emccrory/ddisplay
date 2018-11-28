@@ -15,5 +15,12 @@ java -Dddisplay.selector.inwindow=FALSE ^
      -Xmx1024m ^
      gov.fnal.ppd.dd.MakeChannelSelector > %LOG% 2>&1
 
-REM It would be nice to use the tee command (of Unix and Powershell) in this previous command.
+REM I think -1, below, is the same thing as 255, maybe.
 
+if %ERRORLEVEL% EQU -1 goto loop
+
+if %ERRORLEVEL% EQU 99 {
+	REM This is a special code that says we are trying to do a self-update
+	cd ..\..
+	
+}
