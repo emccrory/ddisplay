@@ -139,7 +139,6 @@ public class DownloadNewSoftwareVersion {
 
 	private boolean renameTargetFolder() {
 		String targetLocation = operatingFolder + File.separator + "roc-dynamicdisplays";
-		println(getClass(), "Renaming " + targetLocation);
 
 		// File (or directory) with old name
 		File file = new File(targetLocation);
@@ -159,19 +158,17 @@ public class DownloadNewSoftwareVersion {
 
 		if (index > 0) {
 			File fileOrig = new File(targetLocation);
-
-			// There is a problem in translating this to Windows, based on the way "..\.." is interpreted So we have to build a
-			// work-around. 
-
-			// These replace calls will do nothing in Linux, but change the absolute path to the right thing in Windows
-			String adjustedTargetLoc = fileOrig.getAbsolutePath().replace("\\roc-dynamicdisplays\\DynamicDisplays\\..\\..", "");
-			String adjustedNewLoc = file.getAbsolutePath().replace("\\roc-dynamicdisplays\\DynamicDisplays\\..\\..", "");
-			fileOrig = new File(adjustedTargetLoc);
-			file = new File(adjustedNewLoc);
-
 			println(getClass(), "Renaming " + fileOrig.getAbsolutePath() + " to " + file.getAbsolutePath());
 
 			try {
+				// FIXME
+				// This fails in Windows (I think) because this JVM has something inside this folder open (for example, the log
+				// file), preventing Windows from completing the rename. The work-around (then) must be in the controlling DOS
+				// script.
+
+				// Work-around (for Windows): Move to the "operating folder" prior to trying the move
+				System.setProperty("user.dir", operatingFolder);
+
 				Files.move(fileOrig.toPath(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException ex) {
 				printlnErr(getClass(), "Renaming has failed");
