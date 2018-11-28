@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import gov.fnal.ppd.dd.util.ObjectSigning;
 
@@ -164,7 +165,7 @@ public class MessagingServer {
 			};
 			Runtime.getRuntime().addShutdownHook(this.myShutdownHook);
 			// a unique id
-			this.id = MessagingServer.uniqueId++;
+			this.id = MessagingServer.uniqueId.getAndIncrement();
 			this.socket = socket;
 
 			theIPAddress = socket.getInetAddress();
@@ -205,6 +206,8 @@ public class MessagingServer {
 					return;
 				}
 			} catch (IOException e) {
+				// Usually, it seems we fall here when something tries to connect to us but is not one of the Java clients.
+				// At Fermilab, this happens when this port gets scanned.
 				display("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
 				return;
 			} catch (Exception e) {
@@ -766,8 +769,8 @@ public class MessagingServer {
 	 * Static stuff
 	 */
 
-	// a unique ID for each connection
-	static int					uniqueId;
+	// a unique ID for each connection. It is atomic just in case two ask to connect at the same time (we have never seen this).
+	static AtomicInteger		uniqueId						= new AtomicInteger(0);
 
 	/**
 	 * To run as a console application just open a console window and: > java Server > java Server portNumber If the port number is
@@ -1111,8 +1114,7 @@ public class MessagingServer {
 				ClientThread t = null;
 				try {
 					Socket socket = serverSocket.accept(); // accept connection if I was asked to stop
-					// if (!keepGoing)
-					// break;
+					// if (!keepGoing) break;
 					t = new ClientThread(socket); // make a thread of it
 				} catch (Exception e) {
 					println(getClass(), "Unexpected exception when listening to port " + port + ".  Let's try again.");
@@ -1167,7 +1169,14 @@ public class MessagingServer {
 						// continue; No, I think (now) that fall through is appropriate.
 					}
 				} else {
-					println(getClass(), "Client attempted connection but something happened preventing it from completing.  Continuing...");
+					println(getClass(), "A client attempted to connect, but the username it presented is null."
+							+ "/n/t/tThis usually means that a port scanner has tried to connect.");
+					// This null check is not necessary since this is the else clause of if(t.username!=null).
+					// But it makes me feel better.
+					if (t != null)
+						t.close(); // Close it
+					t = null; // Forget it
+					continue;
 				}
 				if (showClientList == null) {
 
