@@ -90,6 +90,10 @@ public class MessagingClient {
 	 * @return if we were successful
 	 */
 	public boolean start() {
+		// Future feature: Allow for this node NOT to be connected to a server.
+		// if ( server == null )
+		// return true;
+		
 		if (watchServer == null) {
 			watchServer = new Thread(username + "ping") {
 				long lastPingSent = 0l;
@@ -283,6 +287,7 @@ public class MessagingClient {
 			new Thread("ReconnectToServer") {
 				@Override
 				public void run() {
+					catchSleep(1000);
 					retryConnection();
 				}
 			}.start();
@@ -645,7 +650,8 @@ public class MessagingClient {
 			displayLogMessage(ListenFromServer.class.getSimpleName() + ": Exiting listening thread.");
 		}
 
-		long	nextDump			= 0L;
+		long	nextDump		= 0L;
+		int		messageCounter	= 0;
 
 		/**
 		 * Dump this to the diagnostics stream every 10 minutes, for 30 seconds.
@@ -655,10 +661,10 @@ public class MessagingClient {
 		 */
 		private void dumpMessage(Object read) {		
 			// For the Display messaging client, almost all of the received messages are "Are You Alive?"
-			
+			messageCounter++;
 			if (nextDump > System.currentTimeMillis())
 				return;
-			displayLogMessage("Received message: [" + read + "]");
+			displayLogMessage("Received message: [" + read + "] " + messageCounter);
 			if (nextDump + 30 * ONE_SECOND < System.currentTimeMillis())
 				nextDump = System.currentTimeMillis() + 10 * ONE_MINUTE;
 		}
