@@ -36,7 +36,7 @@ import gov.fnal.ppd.dd.signage.SignageType;
 /**
  * Tell each "Special Announcement" frame to show the special announcement.
  * 
- * I believe this is not relevant anymore (Oct 2018).  The concept of EmergencyMessage supreceeds this.
+ * I believe this is not relevant anymore (Oct 2018).  The concept of EmergencyMessage superceeds this.
  *  
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

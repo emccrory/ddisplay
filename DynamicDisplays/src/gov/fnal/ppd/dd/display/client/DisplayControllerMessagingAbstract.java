@@ -563,7 +563,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	@Override
 	protected void respondToContentChange(boolean b, String why) {
 		// generate a reply message to the sender
-		println(getClass(), " -- Responding to channel change with " + (b ? "SUCCESS" : "failure"));
+		println(getClass(), " -- Responding to channel change with " + (b ? "SUCCESS" : "failure") + " to " + messagingClient.getLastFrom());
 		MessageCarrier msg = null;
 		if (b) {
 			ChangeChannelReply replyMessage = new ChangeChannelReply();

@@ -499,13 +499,25 @@ public class GlobalVariables {
 			System.getenv("HOMEPATH") + "/keystore/" };
 
 	/**
-	 * Start a thread that runs every week (say, Tuesday mornings at 0400, plus a random offset) to see if there is a new version of
-	 * the code ready to be downloaded
+	 * Start a thread that runs every week (at, say, 0400, plus a random offset) to see if there is a new version of the code
 	 * 
 	 * @param isMessagingServer
 	 *            Set to true if this is the messaging server. It will look for the updates a little earlier than all the other bits
 	 */
 	public static void prepareUpdateWatcher(boolean isMessagingServer) {
+		// Skip update for the development machine! This can have horrible consequences if the place where the development is
+		// happening all of the sudden replaces the code! Now, it probably won't be all THAT horrible since (a) the update does not
+		// delete anything, and (b) the development machine will always have the latest version. But we don't want any accidents.
+		
+		for (String test : PropertiesFile.getProperty("DevelopmentMachine").split(":"))
+			if (THIS_IP_NAME.equals(test)) {
+				println(GlobalVariables.class,
+						"This machine, " + THIS_IP_NAME + ", is a development machine -- Skipping automatic updates."
+								+ "\n\t\t\t\t\t\tThe development machines are: "
+								+ Arrays.toString(PropertiesFile.getProperty("DevelopmentMachine").split(":")));
+				return;
+			}
+		
 		Calendar date = Calendar.getInstance();
 		if (PropertiesFile.getProperty("FirstUpdateWait") == null) {
 			date.set(Calendar.MINUTE, 0);
