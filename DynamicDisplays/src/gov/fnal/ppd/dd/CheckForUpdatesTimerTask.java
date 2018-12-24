@@ -59,7 +59,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 			// Let the Properties file change during the running of this daemon.
 			FLAVOR flavor = getFlavor(true);
 			println(getClass(), "Checking to see if there is a " + flavor + " update for the software");
-
+			
 			// 1. See if an update is available
 
 			if (VersionInformationComparison.lookup(flavor, true)) {
