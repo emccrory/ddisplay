@@ -498,6 +498,17 @@ public class GlobalVariables {
 	private static String[]	credentialsPath	= { "/keystore/", System.getenv("HOME") + "/keystore/",
 			System.getenv("HOMEPATH") + "/keystore/" };
 
+	public static boolean okToUpdateSoftware() {
+		for (String test : PropertiesFile.getProperty("DevelopmentMachine").split(":"))
+			if (THIS_IP_NAME.equals(test)) {
+				println(GlobalVariables.class,
+						"This machine, " + THIS_IP_NAME + ", is a development machine -- Skipping automatic updates."
+								+ "\n\t\t\t\t\t\tThe development machines are: "
+								+ Arrays.toString(PropertiesFile.getProperty("DevelopmentMachine").split(":")));
+				return false;
+			}
+		return true;
+	}
 	/**
 	 * Start a thread that runs every week (at, say, 0400, plus a random offset) to see if there is a new version of the code
 	 * 
@@ -509,14 +520,8 @@ public class GlobalVariables {
 		// happening all of the sudden replaces the code! Now, it probably won't be all THAT horrible since (a) the update does not
 		// delete anything, and (b) the development machine will always have the latest version. But we don't want any accidents.
 		
-		for (String test : PropertiesFile.getProperty("DevelopmentMachine").split(":"))
-			if (THIS_IP_NAME.equals(test)) {
-				println(GlobalVariables.class,
-						"This machine, " + THIS_IP_NAME + ", is a development machine -- Skipping automatic updates."
-								+ "\n\t\t\t\t\t\tThe development machines are: "
-								+ Arrays.toString(PropertiesFile.getProperty("DevelopmentMachine").split(":")));
-				return;
-			}
+		
+		if ( ! okToUpdateSoftware() ) return;
 		
 		Calendar date = Calendar.getInstance();
 		if (PropertiesFile.getProperty("FirstUpdateWait") == null) {

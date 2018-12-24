@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.util;
 import static gov.fnal.ppd.dd.GlobalVariables.SOFTWARE_FILE_ZIP;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_PROTOCOL;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.okToUpdateSoftware;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
@@ -33,22 +34,42 @@ public class DownloadNewSoftwareVersion {
 
 	// Note: The URL contains the slash ("/") always, but the filename uses File.separator (although I think Java corrects for this
 	// internally)
+
 	private final String	zipFile			= SOFTWARE_FILE_ZIP;
 	private final String	location		= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/software/" + zipFile;
-	private final String	operatingFolder	= ".." + File.separator + "..";
-	private final String	outputFolder	= operatingFolder + File.separator + "roc-dynamicdisplays" + File.separator
-			+ "DynamicDisplays" + File.separator;
-	private final String	zipFilePath		= operatingFolder + File.separator + zipFile;
+	private final String	baseFolder		= ".." + File.separator + ".." + File.separator;
+	private final String	outputFolder	= baseFolder + "roc-dynamicdisplays" + File.separator + "DynamicDisplays"
+			+ File.separator;
+	private final String	tempFolder		= baseFolder + "roc-dynamicdisplays-new" + File.separator + "DynamicDisplays"
+			+ File.separator;
+	private final String	zipFilePath		= baseFolder + zipFile;
 
 	public static void main(String[] args) {
-		DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion(null);
-		if (d.hasSucceeded())
+		// This test should download the "default" latest version of the software. The logic of what version actually
+		// should be downloaded is not in this class.
+
+		if (!okToUpdateSoftware()) {
+			System.out.println("\n\n********** You cannot run this test from a development machine - too risky **********");
 			System.exit(0);
+		}
+
+		DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion(null);
+		if (d.hasSucceeded()) {
+			System.out.println("Successfully updated software");
+			System.exit(0);
+		}
+		System.err.println("Failed to updated software");
+		System.exit(-1);
 	}
 
 	boolean succeeded = false;
 
 	public DownloadNewSoftwareVersion(String version) {
+		// Note that the Linux (and Mac) updates have to be a little different than the Windows updates. Windows
+		// does not let you rename a folder if there is anything running from it or from its sub folders. Since
+		// the JVM here is running from the sub-folder that we want to replace, we MUST give some of the update
+		// work to a DOS script so we can exit the JVM.
+
 		succeeded = download(version) && renameTargetFolder() && unpack();
 	}
 
@@ -75,13 +96,14 @@ public class DownloadNewSoftwareVersion {
 	}
 
 	private boolean unpack() {
-		println(getClass(), "Unpacking ZIP file " + zipFilePath + " to " + outputFolder);
+		println(getClass(), "Unpacking ZIP file " + zipFilePath + " to " + tempFolder);
 
 		String osName = System.getProperty("os.name").toUpperCase();
 		boolean isUnix = osName.contains("LINUX") || osName.contains("UNIX");
 
 		// This code stolen from https://howtodoinjava.com/java/io/unzip-file-with-subdirectories/
-		// It seems to be a LOT slower than the operating systems' "unzip" command(s). Whatever; we have the time.
+		// since there is no guarantee that this node has unzip, or where it is (especially Windows).
+		// It seems to be a LOT slower than the operating system "unzip" command(s). Whatever; we have the time.
 
 		// Open the file
 		try (ZipFile file = new ZipFile(zipFilePath)) {
@@ -90,7 +112,7 @@ public class DownloadNewSoftwareVersion {
 			Enumeration<? extends ZipEntry> entries = file.entries();
 
 			// We will unzip files in this folder
-			String uncompressedFolder = outputFolder;
+			String uncompressedFolder = tempFolder;
 			// Already created - Files.createDirectory(fileSystem.getPath(uncompressedDirectory));
 
 			// Iterate over entries
@@ -105,10 +127,10 @@ public class DownloadNewSoftwareVersion {
 				else {
 					// FIXME - File protections on Linux
 					// I cannot figure out how the Linux command unzip preserves the file protections - all the Google searches I
-					// have done to date say that zip does not store file protections, but this is clearly wrong. So there must
-					// be some way to restore those protections when we write the files here, but (alas), I cannot figure it out.
-					// So for now, I will ASSUME that all files that end in ".sh" or "driver" (as in geckodriver) will be
-					// executable.
+					// have done to date say that zip does not store file protections, but this is clearly wrong since doing the
+					// shell command unzip on Linux makes the protections right.. So there must be some way to restore those
+					// protections when we write the files here, but (alas), I cannot figure it out. So for now, I will ASSUME that
+					// all files that end in ".sh" or "driver" (as in geckodriver) will be executable.
 
 					InputStream is = file.getInputStream(entry);
 					BufferedInputStream bis = new BufferedInputStream(is);
@@ -138,7 +160,7 @@ public class DownloadNewSoftwareVersion {
 	}
 
 	private boolean renameTargetFolder() {
-		String targetLocation = operatingFolder + File.separator + "roc-dynamicdisplays";
+		String targetLocation = baseFolder + File.separator + "roc-dynamicdisplays";
 
 		// File (or directory) with old name
 		File file = new File(targetLocation);
@@ -151,7 +173,7 @@ public class DownloadNewSoftwareVersion {
 				zero = "";
 			else if (index > 9)
 				zero = "0";
-			folderName = operatingFolder + File.separator + "roc-dynamicdisplays-old" + zero + index;
+			folderName = baseFolder + File.separator + "roc-dynamicdisplays-old" + zero + index;
 			file = null;
 			file = new File(folderName);
 		}
@@ -162,12 +184,12 @@ public class DownloadNewSoftwareVersion {
 
 			try {
 				// FIXME
-				// This fails in Windows (I think) because this JVM has something inside this folder open (for example, the log
-				// file), preventing Windows from completing the rename. The work-around (then) must be in the controlling DOS
+				// This fails in Windows because this JVM has something inside this folder open (this execution of the JVM and the
+				// log file), preventing Windows from completing the rename. The work-around (then) must be in the controlling DOS
 				// script.
 
-				// Work-around (for Windows): Move to the "operating folder" prior to trying the move
-				System.setProperty("user.dir", operatingFolder);
+				// Work-around (for Windows): "cd" to the "operating folder" (which is ../..) prior to trying the move
+				System.setProperty("user.dir", baseFolder);
 
 				Files.move(fileOrig.toPath(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException ex) {
