@@ -30,8 +30,8 @@ import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
  *
  */
 public class CheckForUpdatesTimerTask extends TimerTask {
-	private JFrame frame;
-	private static boolean workingOnAnUpdate = false;
+	private JFrame			frame;
+	private static boolean	workingOnAnUpdate	= false;
 
 	public CheckForUpdatesTimerTask() {
 	}
@@ -59,7 +59,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 			// Let the Properties file change during the running of this daemon.
 			FLAVOR flavor = getFlavor(true);
 			println(getClass(), "Checking to see if there is a " + flavor + " update for the software");
-			
+
 			// 1. See if an update is available
 
 			if (VersionInformationComparison.lookup(flavor, true)) {
@@ -75,7 +75,11 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 				if (d.hasSucceeded()) {
 					workingOnAnUpdate = false;
 					// 3. Exit the entire process so we will restart.
-					ExitHandler.saveAndExit("Deployed new software version.");
+					boolean isWindows = System.getProperty("os.name").toUpperCase().contains("WINDOWS");
+					if (isWindows)
+						ExitHandler.saveAndExit("Deployed new software version.", 99);
+					else
+						ExitHandler.saveAndExit("Deployed new software version.");
 				} else {
 					println(getClass(), "\n\n\nSomething went wrong with the update!!\n\n\n");
 					failure();
@@ -109,8 +113,8 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 		String message3 = "After the software has been updated, the application program will be restarted.";
 		println(getClass(), message0 + message1 + "\n" + message3);
 
-		Dimension bigGap = new Dimension(60,60);
-		
+		Dimension bigGap = new Dimension(60, 60);
+
 		frame = new JFrame("Dynamic Displays: New Software Update");
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 

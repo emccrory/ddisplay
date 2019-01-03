@@ -19,12 +19,14 @@ public class ExitHandler {
 
 	private ExitHandler() {
 	}
-
+	public static void saveAndExit(String why) {
+		saveAndExit(why, -1);
+	}
 	/**
 	 * Run whatever commands have been queued up, and then exit. The exit code of -1 should be a signal to the controlling script
 	 * that we want to be restarted.
 	 */
-	public static void saveAndExit(String why) {
+	public static void saveAndExit(String why, int exitCode) {
 		// Execute the listed commands
 		int count = 0;
 		for (Command C : finalCommand)
@@ -34,7 +36,7 @@ public class ExitHandler {
 			}
 		println(ExitHandler.class, "\n\n********** EXITING **********\n\n [" + why + "] - " + count + " exit commands executed\n");
 		// Exit the Java VM entirely
-		System.exit(-1);
+		System.exit(exitCode);
 	}
 
 	/**
