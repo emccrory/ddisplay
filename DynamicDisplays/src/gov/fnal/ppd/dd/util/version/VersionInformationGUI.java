@@ -231,8 +231,10 @@ public class VersionInformationGUI extends JFrame {
 		final JRadioButton rb2 = new JRadioButton("No change");
 		rb2.setSelected(false);
 
-		final JLabel timeStampChosen = new JLabel(" " + new Date() + " ");
-
+		Date d = new Date();
+		final JLabel timeStampChosen = new JLabel(" " + d + " ");
+		newVI.setTimeStamp(d.getTime());
+		
 		ActionListener rbListener = new ActionListener() {
 
 			@Override
