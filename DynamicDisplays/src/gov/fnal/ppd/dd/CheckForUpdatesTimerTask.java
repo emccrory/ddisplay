@@ -112,7 +112,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 		String message0 = "Dynamic Displays Software Update in progress";
 		String message1 = "There is a new " + flavor + " version, " + versionString + ", of the Dynamic Displays software.";
 		String message2 = "After the software has been updated, the application program will be restarted.";
-		println(getClass(), message0 + message1 + "\n" + message2);
+		println(getClass(), message0 + "\n" + message1 + "\n" + message2);
 
 		Dimension bigGap = new Dimension(60, 60);
 

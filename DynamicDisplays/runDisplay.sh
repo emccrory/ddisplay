@@ -14,8 +14,13 @@ d=`date +%F`
 log=$HOME/src/log/display.log
 
 if [ -e $log ] ; then
-   mv $log $HOME/src/log/display_${d}_$$.log
-   gzip $HOME/src/log/display_${d}_$$.log
+   n=$$
+   while [ -e $HOME/src/log/display_${d}_$n.log ]; do
+       let "n = n + 1"
+   done
+   fi
+   mv $log $HOME/src/log/display_${d}_$n.log
+   gzip $HOME/src/log/display_${d}_$n.log
 fi
 
 touch $log
