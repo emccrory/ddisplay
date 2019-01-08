@@ -86,11 +86,12 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 				}
 				// -----------------------------------------------------------------------------------------------------------
 
-			} else {
+			}  else {
 				println(getClass(), "No new software is present.  Will check again soon.");
 			}
 		} catch (Exception e) {
-			printlnErr(getClass(), "\nException while trying to do a self-update. Will check for new software again soon.\n");
+			printlnErr(getClass(), "\nException while trying to do a self-update. Will check for new software again soon "
+					+ "(but it is pretty likely that this will happen again: Seek help!).\n");
 			e.printStackTrace();
 		}
 		workingOnAnUpdate = false;
@@ -110,8 +111,8 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 		// Isolate the GUI stuff here.
 		String message0 = "Dynamic Displays Software Update in progress";
 		String message1 = "There is a new " + flavor + " version, " + versionString + ", of the Dynamic Displays software.";
-		String message3 = "After the software has been updated, the application program will be restarted.";
-		println(getClass(), message0 + message1 + "\n" + message3);
+		String message2 = "After the software has been updated, the application program will be restarted.";
+		println(getClass(), message0 + message1 + "\n" + message2);
 
 		Dimension bigGap = new Dimension(60, 60);
 
@@ -126,7 +127,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 		p.add(Box.createRigidArea(bigGap));
 		p.add(big);
 
-		big = new LocalJLabel(message3, Font.ITALIC, 32);
+		big = new LocalJLabel(message2, Font.ITALIC, 32);
 		p.add(Box.createRigidArea(bigGap));
 		p.add(big);
 
