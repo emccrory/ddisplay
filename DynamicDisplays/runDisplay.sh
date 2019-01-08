@@ -18,7 +18,6 @@ if [ -e $log ] ; then
    while [ -e $HOME/src/log/display_${d}_$n.log ]; do
        let "n = n + 1"
    done
-   fi
    mv $log $HOME/src/log/display_${d}_$n.log
    gzip $HOME/src/log/display_${d}_$n.log
 fi
