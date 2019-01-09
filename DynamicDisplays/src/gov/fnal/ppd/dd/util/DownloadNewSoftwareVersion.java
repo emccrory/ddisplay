@@ -89,8 +89,6 @@ public class DownloadNewSoftwareVersion {
 		try {
 			File ff = new File(baseFolder);
 			System.setProperty("user.dir", ff.getCanonicalPath());
-
-			println(getClass(), "Working directory has been changed to " + System.getProperty("user.dir"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -136,13 +134,14 @@ public class DownloadNewSoftwareVersion {
 		// current (late 2018) Lenovo/Windows laptop. Whatever. We have the time.
 
 		// Open the file
+		String pathPrefix = System.getProperty("user.dir") + File.separator + zipFilePath;
 		try (ZipFile file = new ZipFile(System.getProperty("user.dir") + File.separator + zipFilePath)) {
 			FileSystem fileSystem = FileSystems.getDefault();
 			// Get file entries
 			Enumeration<? extends ZipEntry> entries = file.entries();
 
 			// We will unzip files in this folder
-			String uncompressedFolder = tempFolder;
+			String uncompressedFolder = pathPrefix + tempFolder;
 			// Already created - Files.createDirectory(fileSystem.getPath(uncompressedDirectory));
 
 			// Iterate over entries
@@ -151,6 +150,10 @@ public class DownloadNewSoftwareVersion {
 				// If directory then create a new directory in uncompressed folder
 				if (entry.isDirectory()) {
 					Files.createDirectories(fileSystem.getPath(uncompressedFolder + entry.getName()));
+					// Help on the above method: Creates a directory by creating all nonexistent parent directories first.
+					// Unlike the createDirectory method, an exception is not thrown if the directory could not be created because
+					// it already exists.
+										
 					println(getClass(), "Created folder:        " + uncompressedFolder + entry.getName());
 				}
 				// Else create the file
@@ -164,7 +167,7 @@ public class DownloadNewSoftwareVersion {
 
 					InputStream is = file.getInputStream(entry);
 					BufferedInputStream bis = new BufferedInputStream(is);
-					String uncompressedFileName = System.getProperty("user.dir") + File.separator + uncompressedFolder
+					String uncompressedFileName = pathPrefix + uncompressedFolder
 							+ entry.getName();
 					Path uncompressedFilePath = fileSystem.getPath(uncompressedFileName);
 					Path p = Files.createFile(uncompressedFilePath);
