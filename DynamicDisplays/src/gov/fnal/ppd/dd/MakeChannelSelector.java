@@ -9,7 +9,6 @@ import static gov.fnal.ppd.dd.ChannelSelector.SHOW_DOCENT_TAB;
 import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.IS_DOCENT_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
@@ -24,18 +23,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
-import static gov.fnal.ppd.dd.GlobalVariables.getSoftwareVersion;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.DisplayListFactory;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.db.ConnectionToDatabase;
-import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageType;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
-import gov.fnal.ppd.dd.util.SelectorInstructions;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -59,6 +49,15 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import gov.fnal.ppd.dd.changer.DisplayListFactory;
+import gov.fnal.ppd.dd.chat.MessageCarrier;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
+import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageType;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.SelectorInstructions;
 
 /**
  * Use the database to determine what sort of ChannelSelector to actually run, and then run it.

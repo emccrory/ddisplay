@@ -23,7 +23,6 @@ import org.openqa.selenium.opera.OperaDriver;
 
 import gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
-import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.PropertiesFile;
 

@@ -1,11 +1,7 @@
 package gov.fnal.ppd.dd.changer;
 
-import static gov.fnal.ppd.dd.GlobalVariables.IS_DOCENT_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.util.Util.fixFontSize;
-import gov.fnal.ppd.dd.channel.ChannelImage;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.Display;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -14,6 +10,10 @@ import java.awt.SystemColor;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.border.Border;
+
+import gov.fnal.ppd.dd.channel.ChannelImage;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.Display;
 
 /**
  * Create a JButton that can be put into a ButtonGroup. represents a Channel for a Display or a Display
@@ -127,7 +127,7 @@ public class DDButton extends JButton {
 	 * @param display
 	 */
 	public DDButton(final Display display) {
-		this(null, display, MAX_STRING_LENGTH * (IS_DOCENT_CONTROLLER ? 2 : 1));
+		this(null, display, MAX_STRING_LENGTH );
 	}
 
 	@Override

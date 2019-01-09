@@ -1,6 +1,5 @@
 package gov.fnal.ppd.dd.display.client;
 
-import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.isThisURLNeedAnimation;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;

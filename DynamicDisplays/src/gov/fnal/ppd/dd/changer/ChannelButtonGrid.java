@@ -71,7 +71,6 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 		return super.add(p);
 	}
 
-	@SuppressWarnings("unused")
 	public void actionPerformed(ActionEvent e) {
 		// System.err.println("Event " + e.getClass().getSimpleName() + " (" + e.getActionCommand() + ") received ");
 

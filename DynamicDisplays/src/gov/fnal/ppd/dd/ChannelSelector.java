@@ -601,7 +601,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			if (n == 0)
 				System.exit(-1);
 			new Thread("RefreshURLPopupWait2") {
-				@SuppressWarnings("unused")
 				public void run() {
 					refreshActionUnderway = 1;
 					while (refreshActionUnderway > 0)

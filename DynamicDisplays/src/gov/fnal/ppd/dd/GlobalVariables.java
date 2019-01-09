@@ -61,11 +61,7 @@ public class GlobalVariables {
 	 */
 	public final static boolean			IS_PUBLIC_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.public");
 
-	/**
-	 * Is this a controller that is thought to be used by a docent?
-	 */
-	public final static boolean			IS_DOCENT_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.docent");
-
+	
 	/**
 	 * Does the user want to have the database index for the display shown (default) or the virtual display numbers?
 	 */

@@ -219,6 +219,7 @@ public class DisplayFacade extends DisplayImpl {
 	}
 
 	public boolean localSetContent() {
+		receivedAReply = false;
 		try {
 			SignageContent content = getContent();
 			EncodedCarrier cc = null;
@@ -325,6 +326,10 @@ public class DisplayFacade extends DisplayImpl {
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
 		receivedAReply = true;
+	}
+
+	public boolean hasReceivedAReply() {
+		return receivedAReply;
 	}
 
 	public String toString() {

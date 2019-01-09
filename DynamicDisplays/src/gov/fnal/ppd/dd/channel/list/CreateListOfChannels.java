@@ -7,23 +7,12 @@ package gov.fnal.ppd.dd.channel.list;
 
 import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector;
-import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.getDwellStrings;
 import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.interp;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getOrdinalSuffix;
-import gov.fnal.ppd.dd.changer.CategoryDictionary;
-import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.channel.ChannelInList;
-import gov.fnal.ppd.dd.channel.ChannelListHolder;
-import gov.fnal.ppd.dd.channel.ChannelPlayList;
-import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.BigLabel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -57,6 +46,17 @@ import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import gov.fnal.ppd.dd.changer.CategoryDictionary;
+import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
+import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelListHolder;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.BigLabel;
 
 /**
  * Let the user create a list of channels for a display to play. This is used in CreateListOfChannelsHelper as a GUI element that is
@@ -565,7 +565,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 		getMessagingServerNameSelector();
 
 		// ChannelCatalogFactory.useRealChannels(true);
-
+	
 		JFrame f = new JFrame(CreateListOfChannels.class.getCanonicalName() + " Testing;");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

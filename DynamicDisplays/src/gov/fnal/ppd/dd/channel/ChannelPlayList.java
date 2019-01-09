@@ -34,7 +34,7 @@ public class ChannelPlayList implements Channel {
 	// private boolean running = true;
 	// private Thread playThread = null;
 	// private Display myDisplay = null;
-	private int						frameNumber			= 0;
+	// private int frameNumber = 0;
 	private long					expiration			= 0;
 	// private long					lastAdvanceTime		= 0;
 

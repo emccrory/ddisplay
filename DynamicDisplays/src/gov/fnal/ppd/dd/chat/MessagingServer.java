@@ -1382,7 +1382,7 @@ public class MessagingServer {
 	/*
 	 * For the GUI to stop the server
 	 */
-	@SuppressWarnings({ "unused", "resource" })
+	@SuppressWarnings("resource")
 	protected void stop() {
 		keepGoing = false;
 		// connect to myself as Client to exit statement

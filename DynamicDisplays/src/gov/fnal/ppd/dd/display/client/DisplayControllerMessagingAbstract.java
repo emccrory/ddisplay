@@ -94,10 +94,10 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	private static final int				STATUS_UPDATE_PERIOD		= 30;
-	private static final long				SOCKET_ALIVE_INTERVAL		= 2500l;
+	// private static final long				SOCKET_ALIVE_INTERVAL		= 2500l;
 	private static final long				SHOW_SPLASH_SCREEN_TIME		= 15000l;
 	private static final String				OFF_LINE					= "Off Line";
-	private static final long				FRAME_DISAPPEAR_TIME		= 2 * ONE_MINUTE;
+	// private static final long				FRAME_DISAPPEAR_TIME		= 2 * ONE_MINUTE;
 
 	/* --------------- The key attributes are here --------------- */
 	protected BrowserLauncher				browserLauncher;
@@ -111,8 +111,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	private boolean							showingEmergencyMessage		= false;
 
-	private boolean							newListIsPlaying			= false;
-	private boolean							keepGoing					= true;
+//	private boolean							newListIsPlaying			= false;
+//	private boolean							keepGoing					= true;
 	private VersionInformation				versionInfo					= VersionInformation.getVersionInformation();
 
 	private boolean							offLine						= false;
@@ -313,7 +313,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		Runtime.getRuntime().addShutdownHook(new Thread("ConnectionShutdownHook") {
 			public void run() {
 				println(DisplayControllerMessagingAbstract.this.getClass(), "Exit hook called.");
-				keepGoing = false;
+				// keepGoing = false;
 				offLine = true;
 				updateMyStatus();
 
@@ -668,6 +668,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void setupRemoveFrameThread(final int frameNumber) {
 		if (frameRemovalTime[frameNumber] <= 0)
 			return;
