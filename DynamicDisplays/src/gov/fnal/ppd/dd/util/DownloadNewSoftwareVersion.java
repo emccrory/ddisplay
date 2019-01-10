@@ -74,7 +74,16 @@ public class DownloadNewSoftwareVersion {
 		succeeded = setWorkingDirectory() && download(version) && unpack();
 		if (succeeded) {
 			if (!isWindows) {
-				succeeded &= renameOriginalFolder() && renameNewFolder();
+				// This next statement is a little tricky.  E.g. 
+				//    succeeded &= renameOriginalFolder() && renameNewFolder();
+				// Is the same thing as
+				//    succeeded = succeeded & renameOriginalFolder() && renameNewFolder();
+				// Which I think is executed as
+				//    succeeded = (succeeded & renameOriginalFolder()) && renameNewFolder();
+				// because of operator precedence ("&" is greater than "&&").  
+				// In any case, it looks like renameNewFolder is executed first in the commented statement, above
+				
+				succeeded = succeeded && renameOriginalFolder() && renameNewFolder();
 			} else {
 				printlnErr(getClass(), "The software has been unpacked.  Assuming that the controlling "
 						+ "Windows/DOS BATCH file will complete the installation.  EXIT(99)");
