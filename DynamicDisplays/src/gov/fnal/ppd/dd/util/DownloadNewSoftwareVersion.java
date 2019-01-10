@@ -32,14 +32,16 @@ import java.util.zip.ZipFile;
  */
 public class DownloadNewSoftwareVersion {
 
+	private static boolean	failedOnce		= false;
+
 	// Note: The URL contains the slash ("/") always, but the filename uses File.separator (although I think Java corrects for this
 	// internally)
 
 	private final String	zipFile			= SOFTWARE_FILE_ZIP;
 	private final String	location		= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/software/" + zipFile;
 	private final String	baseFolder		= ".." + File.separator + ".." + File.separator;
-	private final String	tempFolder		= "roc-dynamicdisplays-new" + File.separator + "DynamicDisplays" + File.separator;
-	private final String	tempFolderFull	= tempFolder + File.separator + "DynamicDisplays" + File.separator;
+	private final String	tempFolder		= "roc-dynamicdisplays-new";
+	private final String	unpackTarget	= tempFolder + File.separator + "DynamicDisplays" + File.separator;
 	private final String	zipFilePath		= zipFile;
 
 	public static void main(String[] args) {
@@ -71,25 +73,36 @@ public class DownloadNewSoftwareVersion {
 		// the JVM here is running from the sub-folder that we want to replace, we MUST give some of the update
 		// work to a DOS script so we can exit the JVM.
 
-		succeeded = setWorkingDirectory() && download(version) && unpack();
-		if (succeeded) {
-			if (!isWindows) {
-				// This next statement is a little tricky.  E.g. 
-				//    succeeded &= renameOriginalFolder() && renameNewFolder();
-				// Is the same thing as
-				//    succeeded = succeeded & renameOriginalFolder() && renameNewFolder();
-				// Which I think is executed as
-				//    succeeded = (succeeded & renameOriginalFolder()) && renameNewFolder();
-				// because of operator precedence ("&" is greater than "&&").  
-				// In any case, it looks like renameNewFolder is executed first in the commented statement, above
-				
-				succeeded = succeeded && renameOriginalFolder() && renameNewFolder();
-			} else {
-				printlnErr(getClass(), "The software has been unpacked.  Assuming that the controlling "
-						+ "Windows/DOS BATCH file will complete the installation.  EXIT(99)");
-			}
+		if (failedOnce) {
+			printlnErr(getClass(), "This method has already failed.  No trying again.");
+			succeeded = false;
 		} else {
-			printlnErr(getClass(), "\n\n\t\t\tUpdate failed!");
+			succeeded = setWorkingDirectory() && download(version) && unpack();
+			if (succeeded) {
+				if (!isWindows) {
+					// This next statement is a little tricky. E.g.
+					// succeeded &= renameOriginalFolder() && renameNewFolder();
+					// Is the same thing as
+					// succeeded = succeeded & renameOriginalFolder() && renameNewFolder();
+					// Which I think is executed as
+					// succeeded = (succeeded & renameOriginalFolder()) && renameNewFolder();
+					// because of operator precedence ("&" is greater than "&&").
+					// In any case, it looks like renameNewFolder is executed first in the commented statement, above
+
+					if (renameOriginalFolder()) {
+						// It is puzzeling why I have to break these out into the specific order that is required.  The first
+						// assignment of succeeded goes in order properly, I think.  Ugh!
+						succeeded = renameNewFolder();
+					} else
+						succeeded = false;
+				} else {
+					printlnErr(getClass(), "The software has been unpacked.  Assuming that the controlling "
+							+ "Windows/DOS BATCH file will complete the installation.  EXIT(99)");
+				}
+			} else {
+				printlnErr(getClass(), "\n\n\t\t\tUpdate failed!");
+				failedOnce = true;
+			}
 		}
 	}
 
@@ -134,7 +147,7 @@ public class DownloadNewSoftwareVersion {
 	}
 
 	private boolean unpack() {
-		String pathPrefix = System.getProperty("user.dir") + File.separator + tempFolderFull;
+		String pathPrefix = System.getProperty("user.dir") + File.separator + unpackTarget;
 		println(getClass(), "Unpacking ZIP file " + zipFilePath + " to " + pathPrefix);
 
 		// This code stolen from https://howtodoinjava.com/java/io/unzip-file-with-subdirectories/
