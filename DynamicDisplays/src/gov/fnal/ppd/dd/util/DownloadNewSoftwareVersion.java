@@ -36,12 +36,13 @@ public class DownloadNewSoftwareVersion {
 	// Note: The URL contains the slash ("/") always, but the filename uses File.separator (although I think Java corrects for this
 	// internally)
 
-	private final String	zipFile		= SOFTWARE_FILE_ZIP;
-	private final String	location	= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/software/" + zipFile;
-	private final String	baseFolder	= ".." + File.separator + ".." + File.separator;
+	private final String	zipFile			= SOFTWARE_FILE_ZIP;
+	private final String	location		= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/software/" + zipFile;
+	private final String	baseFolder		= ".." + File.separator + ".." + File.separator;
 	// private final String outputFolder = "roc-dynamicdisplays" + File.separator + "DynamicDisplays" + File.separator;
-	private final String	tempFolder	= "roc-dynamicdisplays-new" + File.separator + "DynamicDisplays" + File.separator;
-	private final String	zipFilePath	= zipFile;
+	private final String	tempFolder		= "roc-dynamicdisplays-new" + File.separator + "DynamicDisplays" + File.separator;
+	private final String	tempFolderFull	= tempFolder + File.separator + "DynamicDisplays" + File.separator;
+	private final String	zipFilePath		= zipFile;
 
 	public static void main(String[] args) {
 		// This test should download the "default" latest version of the software. The logic of what version actually
@@ -75,7 +76,7 @@ public class DownloadNewSoftwareVersion {
 		succeeded = setWorkingDirectory() && download(version) && unpack();
 		if (succeeded) {
 			if (!isWindows) {
-				succeeded &= renameOriginalFolder() & renameNewFolder();
+				succeeded &= renameOriginalFolder() && renameNewFolder();
 			} else {
 				printlnErr(getClass(), "The software has been unpacked.  Assuming that the controlling "
 						+ "Windows/DOS BATCH file will complete the installation.  EXIT(99)");
@@ -126,7 +127,7 @@ public class DownloadNewSoftwareVersion {
 	}
 
 	private boolean unpack() {
-		String pathPrefix = System.getProperty("user.dir") + File.separator + tempFolder;
+		String pathPrefix = System.getProperty("user.dir") + File.separator + tempFolderFull;
 		println(getClass(), "Unpacking ZIP file " + zipFilePath + " to " + pathPrefix);
 
 		// This code stolen from https://howtodoinjava.com/java/io/unzip-file-with-subdirectories/
@@ -230,7 +231,7 @@ public class DownloadNewSoftwareVersion {
 				// script.
 				Files.move(fileOrig.toPath(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException ex) {
-				printlnErr(getClass(), "Renaming has failed");
+				printlnErr(getClass(), "Renaming of original folder has failed");
 				ex.printStackTrace();
 				return false;
 			}
@@ -249,7 +250,7 @@ public class DownloadNewSoftwareVersion {
 		try {
 			Files.move(fileNew.toPath(), fileOld.toPath());
 		} catch (IOException ex) {
-			printlnErr(getClass(), "Renaming has failed");
+			printlnErr(getClass(), "Renaming of new folder has failed");
 			ex.printStackTrace();
 			return false;
 		}
