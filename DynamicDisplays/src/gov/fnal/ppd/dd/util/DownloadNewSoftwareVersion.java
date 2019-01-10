@@ -96,6 +96,7 @@ public class DownloadNewSoftwareVersion {
 					// In any case, it looks like renameNewFolder is executed first in the commented statement, above
 
 					succeeded = succeeded && renameOriginalFolder() && renameNewFolder();
+					failedOnce = !succeeded;
 				} else {
 					printlnErr(getClass(), "The software has been unpacked.  Assuming that the controlling "
 							+ "Windows/DOS BATCH file will complete the installation.  EXIT(99)");
@@ -223,34 +224,37 @@ public class DownloadNewSoftwareVersion {
 	private boolean renameOriginalFolder() {
 		// Does not work under Windows!
 
-		String targetFolder = "roc-dynamicdisplays-old001";
-		File file = new File(targetFolder);
-		println(getClass(), "Checking if " + file.toPath() + " exists");
+		println(getClass(), "Working directory is " + System.getProperty("user.dir"));
+
+		String targetFolder = System.getProperty("user.dir") + File.separator + "roc-dynamicdisplays-old001";
+		File targetFile = new File(targetFolder);
+		targetFile = new File(targetFile.getAbsolutePath()); // Seems to be necessary 
+		println(getClass(), "Checking if " + targetFile.toPath() + " exists");
 
 		int index = 1;
-		while (file.exists()) {
+		while (targetFile.exists()) {
 			index++;
 			String zero = "00";
 			if (index > 99)
 				zero = "";
 			else if (index > 9)
 				zero = "0";
-			targetFolder = "roc-dynamicdisplays-old" + zero + index;
-			file = null;
-			file = new File(targetFolder);
-			file = new File(file.getAbsolutePath()); // Seems to be necessary for Windows. ?!?!
-			println(getClass(), "Checking if " + file.toPath() + " exists");
+			targetFolder = System.getProperty("user.dir") + File.separator + "roc-dynamicdisplays-old" + zero + index;
+			targetFile = null;
+			targetFile = new File(targetFolder);
+			targetFile = new File(targetFile.getAbsolutePath()); // Seems to be necessary 
+			println(getClass(), "Checking if " + targetFile.toPath() + " exists");
 		}
 
 		if (index > 0) {
 			File fileOrig = new File("roc-dynamicdisplays");
-			println(getClass(), "Renaming " + fileOrig.toPath() + " to " + file.toPath());
+			println(getClass(), "Renaming " + fileOrig.toPath() + " to " + targetFile.toPath());
 
 			try {
 				// This fails in Windows because this JVM has something inside this folder open (this execution of the JVM,
 				// preventing Windows from completing the rename. The work-around (then) must be in the controlling DOS
 				// script.
-				Files.move(fileOrig.toPath(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+				Files.move(fileOrig.toPath(), targetFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException ex) {
 				printlnErr(getClass(), "Renaming of original folder has failed");
 				ex.printStackTrace();
