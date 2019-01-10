@@ -126,7 +126,8 @@ public class DownloadNewSoftwareVersion {
 	}
 
 	private boolean unpack() {
-		println(getClass(), "Unpacking ZIP file " + zipFilePath + " to " + tempFolder);
+		String pathPrefix = System.getProperty("user.dir") + File.separator + tempFolder;
+		println(getClass(), "Unpacking ZIP file " + zipFilePath + " to " + pathPrefix);
 
 		// This code stolen from https://howtodoinjava.com/java/io/unzip-file-with-subdirectories/
 		// since there is no guarantee that this node has unzip, or where it is (especially Windows). It seems to be a LOT slower
@@ -134,14 +135,12 @@ public class DownloadNewSoftwareVersion {
 		// current (late 2018) Lenovo/Windows laptop. Whatever. We have the time.
 
 		// Open the file
-		String pathPrefix = System.getProperty("user.dir") + File.separator + zipFilePath;
 		try (ZipFile file = new ZipFile(System.getProperty("user.dir") + File.separator + zipFilePath)) {
 			FileSystem fileSystem = FileSystems.getDefault();
 			// Get file entries
 			Enumeration<? extends ZipEntry> entries = file.entries();
 
 			// We will unzip files in this folder
-			String uncompressedFolder = pathPrefix + tempFolder;
 			// Already created - Files.createDirectory(fileSystem.getPath(uncompressedDirectory));
 
 			// Iterate over entries
@@ -149,12 +148,12 @@ public class DownloadNewSoftwareVersion {
 				ZipEntry entry = entries.nextElement();
 				// If directory then create a new directory in uncompressed folder
 				if (entry.isDirectory()) {
-					Files.createDirectories(fileSystem.getPath(uncompressedFolder + entry.getName()));
+					Files.createDirectories(fileSystem.getPath(pathPrefix + entry.getName()));
 					// Help on the above method: Creates a directory by creating all nonexistent parent directories first.
 					// Unlike the createDirectory method, an exception is not thrown if the directory could not be created because
 					// it already exists.
-										
-					println(getClass(), "Created folder:        " + uncompressedFolder + entry.getName());
+
+					println(getClass(), "Created folder:        " + pathPrefix + entry.getName());
 				}
 				// Else create the file
 				else {
@@ -167,8 +166,7 @@ public class DownloadNewSoftwareVersion {
 
 					InputStream is = file.getInputStream(entry);
 					BufferedInputStream bis = new BufferedInputStream(is);
-					String uncompressedFileName = pathPrefix + uncompressedFolder
-							+ entry.getName();
+					String uncompressedFileName = pathPrefix + entry.getName();
 					Path uncompressedFilePath = fileSystem.getPath(uncompressedFileName);
 					Path p = Files.createFile(uncompressedFilePath);
 					try (FileOutputStream fileOutput = new FileOutputStream(p.toString())) {
@@ -185,10 +183,10 @@ public class DownloadNewSoftwareVersion {
 					if (isUnix && (uncompressedFileName.endsWith(".sh") || uncompressedFileName.endsWith("driver"))) {
 						File f = new File(uncompressedFileName);
 						f.setExecutable(true);
-						println(getClass(), "Wrote executable file: " + entry.getName());
+						println(getClass(), "Wrote executable file: " + pathPrefix + entry.getName());
 
 					} else
-						println(getClass(), "Wrote plain file:      " + entry.getName());
+						println(getClass(), "Wrote plain file:      " + pathPrefix + entry.getName());
 				}
 			}
 		} catch (IOException e) {
