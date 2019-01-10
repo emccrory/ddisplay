@@ -25,8 +25,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- * Download a new version of the software from the Dynamic Displays server.
- * 
+ * Download a new version of the software from the Dynamic Displays web server.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *
@@ -39,7 +38,6 @@ public class DownloadNewSoftwareVersion {
 	private final String	zipFile			= SOFTWARE_FILE_ZIP;
 	private final String	location		= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/software/" + zipFile;
 	private final String	baseFolder		= ".." + File.separator + ".." + File.separator;
-	// private final String outputFolder = "roc-dynamicdisplays" + File.separator + "DynamicDisplays" + File.separator;
 	private final String	tempFolder		= "roc-dynamicdisplays-new" + File.separator + "DynamicDisplays" + File.separator;
 	private final String	tempFolderFull	= tempFolder + File.separator + "DynamicDisplays" + File.separator;
 	private final String	zipFilePath		= zipFile;
