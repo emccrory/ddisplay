@@ -35,7 +35,7 @@ fi >> $log 2>&1
 
 cd $workingDirectory
 
-echo `date` `pwd` >> $log 2>&1
+echo `date` Working directory is `pwd` >> $log 2>&1
 
 # Check the version of the code
 if ( ./runVersionInformation.sh Y  ); then
@@ -145,7 +145,7 @@ fi
 	    sleep 10;
 	fi
     else
-	echo "The messaging server is " $messagingServer ", which is not this node"
+	echo `date` "The messaging server is " $messagingServer ", which is not this node"
     fi
     
     echo `date` "Determining if I should run a ChannelSelector"

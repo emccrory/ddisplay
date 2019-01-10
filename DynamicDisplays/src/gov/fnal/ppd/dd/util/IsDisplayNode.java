@@ -2,6 +2,8 @@ package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -40,7 +42,7 @@ public class IsDisplayNode {
 				connection = ConnectionToDatabase.getDbConnection();
 			} catch (DatabaseNotVisibleException e1) {
 				e1.printStackTrace();
-				System.err.println("\nNo connection to the Signage/Displays database.");
+				printlnErr(IsDisplayNode.class, "\nNo connection to the Signage/Displays database.");
 				System.exit(-1);
 				return;
 			}
@@ -53,13 +55,13 @@ public class IsDisplayNode {
 							int count = rs2.getInt("COUNT(*)");
 							hasDisplay |= (count != 0);
 						} else {
-							System.err.println("No information for this node, " + myName);
+							printlnErr(IsDisplayNode.class, "No information for this node, " + myName);
 							new Exception().printStackTrace();
 							System.exit(-1);
 						}
 					}
 				} catch (SQLException e) {
-					System.err.println(query);
+					printlnErr(IsDisplayNode.class, query);
 					e.printStackTrace();
 				}
 
@@ -69,8 +71,8 @@ public class IsDisplayNode {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
-		System.out.println (hasDisplay? "This node is expected to run a display" : "This node will NOT run a display");
+
+		println(IsDisplayNode.class, hasDisplay ? "This node is expected to run a display" : "This node will NOT run a display");
 		System.exit(hasDisplay ? 0 : -1);
 
 	}
