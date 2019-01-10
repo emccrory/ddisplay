@@ -44,6 +44,13 @@ public class DownloadNewSoftwareVersion {
 	private final String	unpackTarget	= tempFolder + File.separator + "DynamicDisplays" + File.separator;
 	private final String	zipFilePath		= zipFile;
 
+	boolean					succeeded		= false;
+	final String			osName			= System.getProperty("os.name").toUpperCase();
+	final boolean			isUnix			= osName.contains("LINUX") || osName.contains("UNIX");
+	final boolean			isWindows		= osName.contains("WINDOWS");
+
+	private static boolean	alreadyLooking	= false;
+
 	public static void main(String[] args) {
 		// This test should download the "default" latest version of the software. The logic of what version actually
 		// should be downloaded is not in this class.
@@ -62,11 +69,6 @@ public class DownloadNewSoftwareVersion {
 		System.exit(-1);
 	}
 
-	boolean			succeeded	= false;
-	final String	osName		= System.getProperty("os.name").toUpperCase();
-	final boolean	isUnix		= osName.contains("LINUX") || osName.contains("UNIX");
-	final boolean	isWindows	= osName.contains("WINDOWS");
-
 	public DownloadNewSoftwareVersion(String version) {
 		// Note that the Linux (and Mac) updates have to be a little different than the Windows updates. Windows
 		// does not let you rename a folder if there is anything running from it or from its sub folders. Since
@@ -76,7 +78,11 @@ public class DownloadNewSoftwareVersion {
 		if (failedOnce) {
 			printlnErr(getClass(), "This method has already failed.  No trying again.");
 			succeeded = false;
+		} else if (alreadyLooking) {
+			printlnErr(getClass(), "Already looking for an update.  Skip this time");
+			succeeded = false;
 		} else {
+			alreadyLooking = true;
 			succeeded = setWorkingDirectory() && download(version) && unpack();
 			if (succeeded) {
 				if (!isWindows) {
@@ -89,12 +95,7 @@ public class DownloadNewSoftwareVersion {
 					// because of operator precedence ("&" is greater than "&&").
 					// In any case, it looks like renameNewFolder is executed first in the commented statement, above
 
-					if (renameOriginalFolder()) {
-						// It is puzzeling why I have to break these out into the specific order that is required.  The first
-						// assignment of succeeded goes in order properly, I think.  Ugh!
-						succeeded = renameNewFolder();
-					} else
-						succeeded = false;
+					succeeded = succeeded && renameOriginalFolder() && renameNewFolder();
 				} else {
 					printlnErr(getClass(), "The software has been unpacked.  Assuming that the controlling "
 							+ "Windows/DOS BATCH file will complete the installation.  EXIT(99)");
@@ -103,6 +104,7 @@ public class DownloadNewSoftwareVersion {
 				printlnErr(getClass(), "\n\n\t\t\tUpdate failed!");
 				failedOnce = true;
 			}
+			alreadyLooking = false;
 		}
 	}
 
@@ -221,11 +223,11 @@ public class DownloadNewSoftwareVersion {
 	private boolean renameOriginalFolder() {
 		// Does not work under Windows!
 
-		String targetLocation = "roc-dynamicdisplays";
+		String targetLocation = "roc-dynamicdisplays-old001";
 
 		// File (or directory) with old name
 		File file = new File(targetLocation);
-		int index = 0;
+		int index = 2;
 		String folderName = "";
 		while (file.exists()) {
 			index++;
@@ -255,6 +257,9 @@ public class DownloadNewSoftwareVersion {
 				ex.printStackTrace();
 				return false;
 			}
+		} else {
+			println(getClass(), "Hmm.  No target folder seems to have been found");
+			return false;
 		}
 		return true;
 	}
