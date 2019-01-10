@@ -227,8 +227,7 @@ public class DownloadNewSoftwareVersion {
 		println(getClass(), "Working directory is " + System.getProperty("user.dir"));
 
 		String targetFolder = System.getProperty("user.dir") + File.separator + "roc-dynamicdisplays-old001";
-		File targetFile = new File(targetFolder);
-		targetFile = new File(targetFile.getAbsolutePath()); // Seems to be necessary 
+		File targetFile = getFileFromName(targetFolder);
 		println(getClass(), "Checking if " + targetFile.toPath() + " exists");
 
 		int index = 1;
@@ -241,13 +240,13 @@ public class DownloadNewSoftwareVersion {
 				zero = "0";
 			targetFolder = System.getProperty("user.dir") + File.separator + "roc-dynamicdisplays-old" + zero + index;
 			targetFile = null;
-			targetFile = new File(targetFolder);
-			targetFile = new File(targetFile.getAbsolutePath()); // Seems to be necessary 
+			targetFile = getFileFromName(targetFolder);
 			println(getClass(), "Checking if " + targetFile.toPath() + " exists");
 		}
 
 		if (index > 0) {
-			File fileOrig = new File("roc-dynamicdisplays");
+			File fileOrig = getFileFromName("roc-dynamicdisplays");
+
 			println(getClass(), "Renaming " + fileOrig.toPath() + " to " + targetFile.toPath());
 
 			try {
@@ -270,10 +269,10 @@ public class DownloadNewSoftwareVersion {
 	private boolean renameNewFolder() {
 		// Does not work in Windows!
 
-		File fileNew = new File(tempFolder);
-		File fileOld = new File("roc-dynamicdisplays");
-
-		println(getClass(), "Renaming " + fileNew.getAbsolutePath() + " to " + fileOld.getAbsolutePath());
+		File fileNew = getFileFromName(tempFolder);
+		File fileOld = getFileFromName("roc-dynamicdisplays");
+		
+		println(getClass(), "Renaming " + fileNew.toPath() + " to " + fileOld.toPath());
 
 		try {
 			Files.move(fileNew.toPath(), fileOld.toPath());
@@ -287,6 +286,12 @@ public class DownloadNewSoftwareVersion {
 
 	public boolean hasSucceeded() {
 		return succeeded;
+	}
+	
+	/// It is confusing why this is needed, but it sure seems to be!!
+	private File getFileFromName(String name) {
+		File file = new File(name);
+		return new File(file.getAbsolutePath()); // Seems to be necessary 
 	}
 
 }
