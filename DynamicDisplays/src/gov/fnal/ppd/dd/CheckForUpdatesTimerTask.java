@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.getFlavor;
+import static gov.fnal.ppd.dd.util.DownloadNewSoftwareVersion.failedOnce;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
@@ -39,6 +40,11 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 	@Override
 	public void run() {
 		try {
+			if (failedOnce) {
+				println(getClass(), "There was a problem updating the software before, so all bets are off until "
+						+ "that problem is fixed and this application is restarted");
+				return;
+			}
 			if (workingOnAnUpdate) {
 				// This should never happen in a real installation as this update takes a few minutes, but these checks happen only
 				// once per day. But there are test situations when the updates happen more frequently than normal, and this can
@@ -86,7 +92,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 				}
 				// -----------------------------------------------------------------------------------------------------------
 
-			}  else {
+			} else {
 				println(getClass(), "No new software is present.  Will check again soon.");
 			}
 		} catch (Exception e) {

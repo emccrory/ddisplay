@@ -32,7 +32,7 @@ import java.util.zip.ZipFile;
  */
 public class DownloadNewSoftwareVersion {
 
-	private static boolean	failedOnce		= false;
+	public static boolean	failedOnce		= false;
 
 	// Note: The URL contains the slash ("/") always, but the filename uses File.separator (although I think Java corrects for this
 	// internally)
@@ -225,9 +225,10 @@ public class DownloadNewSoftwareVersion {
 
 		String targetFolder = "roc-dynamicdisplays-old001";
 		File file = new File(targetFolder);
+		println(getClass(), "Checking if " + file.toPath() + " exists");
+
 		int index = 1;
 		while (file.exists()) {
-			println(getClass(), "Folder " + file.getAbsolutePath() + " already exists");
 			index++;
 			String zero = "00";
 			if (index > 99)
@@ -238,11 +239,12 @@ public class DownloadNewSoftwareVersion {
 			file = null;
 			file = new File(targetFolder);
 			file = new File(file.getAbsolutePath()); // Seems to be necessary for Windows. ?!?!
+			println(getClass(), "Checking if " + file.toPath() + " exists");
 		}
 
 		if (index > 0) {
 			File fileOrig = new File("roc-dynamicdisplays");
-			println(getClass(), "Renaming " + fileOrig.getAbsolutePath() + " to " + file.getAbsolutePath());
+			println(getClass(), "Renaming " + fileOrig.toPath() + " to " + file.toPath());
 
 			try {
 				// This fails in Windows because this JVM has something inside this folder open (this execution of the JVM,
