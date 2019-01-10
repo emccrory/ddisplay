@@ -223,28 +223,25 @@ public class DownloadNewSoftwareVersion {
 	private boolean renameOriginalFolder() {
 		// Does not work under Windows!
 
-		String targetLocation = "roc-dynamicdisplays-old001";
-
-		// File (or directory) with old name
-		File file = new File(targetLocation);
-		int index = 2;
-		String folderName = "";
+		String targetFolder = "roc-dynamicdisplays-old001";
+		File file = new File(targetFolder);
+		int index = 1;
 		while (file.exists()) {
+			println(getClass(), "Folder " + file.getAbsolutePath() + " already exists");
 			index++;
 			String zero = "00";
 			if (index > 99)
 				zero = "";
 			else if (index > 9)
 				zero = "0";
-			folderName = "roc-dynamicdisplays-old" + zero + index;
+			targetFolder = "roc-dynamicdisplays-old" + zero + index;
 			file = null;
-			file = new File(folderName);
+			file = new File(targetFolder);
 			file = new File(file.getAbsolutePath()); // Seems to be necessary for Windows. ?!?!
 		}
 
 		if (index > 0) {
-			File fileOrig = new File(targetLocation);
-			println(getClass(), "Permissions of " + file.getAbsolutePath());
+			File fileOrig = new File("roc-dynamicdisplays");
 			println(getClass(), "Renaming " + fileOrig.getAbsolutePath() + " to " + file.getAbsolutePath());
 
 			try {
