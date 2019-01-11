@@ -76,25 +76,16 @@ public class DownloadNewSoftwareVersion {
 		// work to a DOS script so we can exit the JVM.
 
 		if (failedOnce) {
-			printlnErr(getClass(), "This method has already failed.  No trying again.");
+			printlnErr(getClass(), "This method has already failed.  Not trying again because this can lead to other problems");
 			succeeded = false;
 		} else if (alreadyLooking) {
-			printlnErr(getClass(), "Already looking for an update.  Skip this time");
+			printlnErr(getClass(), "Already looking for an update.  Skip this update check");
 			succeeded = false;
 		} else {
 			alreadyLooking = true;
 			succeeded = setWorkingDirectory() && download(version) && unpack();
 			if (succeeded) {
 				if (!isWindows) {
-					// This next statement is a little tricky. E.g.
-					// succeeded &= renameOriginalFolder() && renameNewFolder();
-					// Is the same thing as
-					// succeeded = succeeded & renameOriginalFolder() && renameNewFolder();
-					// Which I think is executed as
-					// succeeded = (succeeded & renameOriginalFolder()) && renameNewFolder();
-					// because of operator precedence ("&" is greater than "&&").
-					// In any case, it looks like renameNewFolder is executed first in the commented statement, above
-
 					succeeded = succeeded && renameOriginalFolder() && renameNewFolder();
 					failedOnce = !succeeded;
 				} else {
@@ -109,11 +100,21 @@ public class DownloadNewSoftwareVersion {
 		}
 	}
 
+	/**
+	 * Did the process of grabbing the new ZIP file, unpacking it and (on Linux) renaming the folders succeed?
+	 * 
+	 * @return Did it succeed?
+	 */
+	public boolean hasSucceeded() {
+		return succeeded;
+	}
+	
 	private boolean setWorkingDirectory() {
 		try {
 			File ff = new File(baseFolder);
 			System.setProperty("user.dir", ff.getCanonicalPath());
 		} catch (Exception e) {
+			printlnErr(getClass(), "Failed to set the working directory");
 			e.printStackTrace();
 			return false;
 		}
@@ -138,7 +139,7 @@ public class DownloadNewSoftwareVersion {
 			Files.copy(in, p, StandardCopyOption.REPLACE_EXISTING);
 			return true;
 		} catch (Exception e) {
-			System.err.println("The attempted path for the output is " + z);
+			printlnErr(getClass(), "The attempted path for the output is " + z);
 			e.printStackTrace();
 		}
 		println(getClass(), "ZIP file retrieval Failed");
@@ -177,7 +178,7 @@ public class DownloadNewSoftwareVersion {
 					// Unlike the createDirectory method, an exception is not thrown if the directory could not be created because
 					// it already exists.
 
-					println(getClass(), "Created folder:        " + pathPrefix + entry.getName());
+					println(getClass(), "Folder:     " + pathPrefix + entry.getName());
 				}
 				// Else create the file
 				else {
@@ -207,10 +208,9 @@ public class DownloadNewSoftwareVersion {
 					if (isUnix && (uncompressedFileName.endsWith(".sh") || uncompressedFileName.endsWith("driver"))) {
 						File f = new File(uncompressedFileName);
 						f.setExecutable(true);
-						println(getClass(), "Wrote executable file: " + pathPrefix + entry.getName());
-
+						println(getClass(), "Executable: " + pathPrefix + entry.getName());
 					} else
-						println(getClass(), "Wrote plain file:      " + pathPrefix + entry.getName());
+						println(getClass(), "Plain:      " + pathPrefix + entry.getName());
 				}
 			}
 		} catch (IOException e) {
@@ -224,7 +224,7 @@ public class DownloadNewSoftwareVersion {
 	private boolean renameOriginalFolder() {
 		// Does not work under Windows!
 
-		println(getClass(), "Working directory is " + System.getProperty("user.dir"));
+		println(getClass(), "Working directory is " + System.getProperty("user.dir") + ". Need to save the existing source folder.");
 
 		String targetFolder = System.getProperty("user.dir") + File.separator + "roc-dynamicdisplays-old001";
 		File targetFile = getFileFromName(targetFolder);
@@ -246,11 +246,9 @@ public class DownloadNewSoftwareVersion {
 
 		if (index > 0) {
 			File fileOrig = getFileFromName("roc-dynamicdisplays");
-
 			println(getClass(), "Renaming " + fileOrig.toPath() + " to " + targetFile.toPath());
-
 			try {
-				// This fails in Windows because this JVM has something inside this folder open (this execution of the JVM,
+				// This fails in Windows because this JVM has something inside this folder open (this execution of the JVM)
 				// preventing Windows from completing the rename. The work-around (then) must be in the controlling DOS
 				// script.
 				Files.move(fileOrig.toPath(), targetFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
@@ -260,7 +258,7 @@ public class DownloadNewSoftwareVersion {
 				return false;
 			}
 		} else {
-			println(getClass(), "Hmm.  No target folder seems to have been found");
+			println(getClass(), "Hmm.  No target folder seems to have been found.\n\n\t\tThis is probably a big problem!\n\n");
 			return false;
 		}
 		return true;
@@ -284,10 +282,6 @@ public class DownloadNewSoftwareVersion {
 		return true;
 	}
 
-	public boolean hasSucceeded() {
-		return succeeded;
-	}
-	
 	/// It is confusing why this is needed, but it sure seems to be!!
 	private File getFileFromName(String name) {
 		File file = new File(name);
