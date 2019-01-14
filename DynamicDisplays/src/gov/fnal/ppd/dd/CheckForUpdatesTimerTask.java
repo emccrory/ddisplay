@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.getFlavor;
 import static gov.fnal.ppd.dd.util.DownloadNewSoftwareVersion.failedOnce;
+import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
@@ -137,9 +138,31 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 		p.add(Box.createRigidArea(bigGap));
 		p.add(big);
 
-		big = new LocalJLabel("This will take about 5 minutes, " + new Date(), Font.ITALIC, 18);
+		final JLabel countdown = new LocalJLabel("This will take about 5 minutes, " + new Date(), Font.ITALIC, 18);
 		p.add(Box.createRigidArea(bigGap));
-		p.add(big);
+		p.add(countdown);
+
+		new Thread("Countdown") {
+			// Some eye candy for the information window
+			int c = 570;
+			long sleepTime = 30000;
+
+			@Override
+			public void run() {
+				while (true) {
+					catchSleep(sleepTime);
+					c--;
+					if (c > 60)
+						countdown.setText("This should take about " + (c+20)/60 + " more minutes, " + new Date());
+					else if ( c < -60 )
+						countdown.setText("Should be done already! " + new Date());		
+					else if ( c < 60 )
+						countdown.setText("Should be done in a moment, " + new Date());		
+					sleepTime = 1000;
+				}
+			}
+
+		}.start();
 
 		p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30),
 				BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red.darker(), 20),
