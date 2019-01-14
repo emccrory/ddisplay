@@ -56,13 +56,13 @@ public class DownloadNewSoftwareVersion {
 		// should be downloaded is not in this class.
 
 		if (!okToUpdateSoftware()) {
-			System.out.println("\n\n********** You should not run this test from a development machine - too risky **********");
+			System.out.println("\n\n********** This test cannot be run from a development machine - too risky **********");
 			System.exit(0);
 		}
 
 		DownloadNewSoftwareVersion d = new DownloadNewSoftwareVersion(null);
 		if (d.hasSucceeded()) {
-			System.out.println("Successfully updated software");
+			System.out.println("\n\nSuccessfully updated software");
 			System.exit(0);
 		}
 		System.err.println("**********\nFailed to updated software\n**********");
@@ -76,7 +76,8 @@ public class DownloadNewSoftwareVersion {
 		// work to a DOS script so we can exit the JVM.
 
 		if (failedOnce) {
-			printlnErr(getClass(), "This method has already failed.  Not trying again because this can lead to other problems");
+			printlnErr(getClass(),
+					"This method has already failed.  Not trying again - experience says this can lead to other problems");
 			succeeded = false;
 		} else if (alreadyLooking) {
 			printlnErr(getClass(), "Already looking for an update.  Skip this update check");
@@ -108,7 +109,7 @@ public class DownloadNewSoftwareVersion {
 	public boolean hasSucceeded() {
 		return succeeded;
 	}
-	
+
 	private boolean setWorkingDirectory() {
 		try {
 			File ff = new File(baseFolder);
@@ -139,7 +140,7 @@ public class DownloadNewSoftwareVersion {
 			Files.copy(in, p, StandardCopyOption.REPLACE_EXISTING);
 			return true;
 		} catch (Exception e) {
-			printlnErr(getClass(), "The attempted path for the output is " + z);
+			printlnErr(getClass(), "The attempted path for the ZIP file was " + z);
 			e.printStackTrace();
 		}
 		println(getClass(), "ZIP file retrieval Failed");
@@ -222,9 +223,10 @@ public class DownloadNewSoftwareVersion {
 	}
 
 	private boolean renameOriginalFolder() {
-		// Does not work under Windows!
+		// This method does not work under Windows!
 
-		println(getClass(), "Working directory is " + System.getProperty("user.dir") + ". Need to save the existing source folder.");
+		println(getClass(),
+				"Working directory is " + System.getProperty("user.dir") + ". Need to save the existing source folder.");
 
 		String targetFolder = System.getProperty("user.dir") + File.separator + "roc-dynamicdisplays-old001";
 		File targetFile = getFileFromName(targetFolder);
@@ -265,11 +267,11 @@ public class DownloadNewSoftwareVersion {
 	}
 
 	private boolean renameNewFolder() {
-		// Does not work in Windows!
+		// This method does not work under Windows!
 
 		File fileNew = getFileFromName(tempFolder);
 		File fileOld = getFileFromName("roc-dynamicdisplays");
-		
+
 		println(getClass(), "Renaming " + fileNew.toPath() + " to " + fileOld.toPath());
 
 		try {
@@ -283,9 +285,9 @@ public class DownloadNewSoftwareVersion {
 	}
 
 	/// It is confusing why this is needed, but it sure seems to be!!
-	private File getFileFromName(String name) {
+	private static File getFileFromName(String name) {
 		File file = new File(name);
-		return new File(file.getAbsolutePath()); // Seems to be necessary 
+		return new File(file.getAbsolutePath()); // Seems to be necessary
 	}
 
 }
