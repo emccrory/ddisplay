@@ -6,6 +6,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -361,7 +362,7 @@ public class ListUtilsDatabase {
 				if (list == null || list.length() == 0)
 					list = "" + new Date();
 
-				String insertNewList = "INSERT INTO ChannelListName VALUES (NULL, '" + listName + ",, '" + authorName + "')";
+				String insertNewList = "INSERT INTO ChannelListName VALUES (NULL, '" + listName + "', '" + authorName + "')";
 				// TODO Need to force the name of the list to be unique (or maybe name+author?)
 
 				try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
@@ -373,6 +374,7 @@ public class ListUtilsDatabase {
 
 					} catch (Exception e) {
 						e.printStackTrace();
+						printlnErr(ListUtilsDatabase.class, "SQL is [" + insertNewList + "]");
 						return; // return "Reading the list number, which we just created, failed";
 					}
 
@@ -385,8 +387,10 @@ public class ListUtilsDatabase {
 					if (listNumber != 0) {
 						// Use the exiting channel list from the GUI
 						int sequence = 0;
+						String insert = "";
 						for (ChannelInList C : theList) {
-							String insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + C.getNumber() + ", "
+							try {
+							insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + C.getNumber() + ", "
 									+ C.getTime() + ", NULL, " + C.getSequenceNumber() + ")";
 							if (stmt.executeUpdate(insert) == 1) {
 								// OK, the insert worked.
@@ -394,6 +398,10 @@ public class ListUtilsDatabase {
 							} else {
 								new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
 								return; // return "Insert of list element number " + sequence + " failed";
+							}
+							} catch (Exception e) {
+								e.printStackTrace();
+								printlnErr(ListUtilsDatabase.class, "SQL is [" + insert + "]");
 							}
 						}
 					} else {

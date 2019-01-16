@@ -101,17 +101,17 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		}
 	}
 
-	private void doDeleteList() {
+	private void doDeleteList(String listName, int listNum) {
 		try {
 			Object[] options = { "DELETE THIS LIST", "Cancel" };
 
 			if (JOptionPane.showOptionDialog(this, getExistingListsComponent(), "DELETE a channel list",
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]) == JOptionPane.OK_OPTION) {
 				// Delete this list. Get confirmation!
-				if (JOptionPane.showConfirmDialog(this, "Really delete list '" + lastListName + "' (List number " + lastListNumber
+				if (JOptionPane.showConfirmDialog(this, "Really delete list '" + listName + "' (List number " + listNum
 						+ ")?", "Really delete?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					// Delete the list here.
-					ListUtilsDatabase.deleteListFromDatabase(lastListNumber);
+					ListUtilsDatabase.deleteListFromDatabase(listNum);
 				}
 
 				theListOfAllChannels.fix();
@@ -218,22 +218,22 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		if (arg0.getActionCommand().equals(SAVE_LIST_COMMAND)) {
+	public void actionPerformed(ActionEvent ev) {
+		if (ev.getActionCommand().equals(SAVE_LIST_COMMAND)) {
 			String errMess;
 			if ((errMess = doSaveList()) != null) {
 				if (!errMess.equals(CreateListOfChannels.CANCELLED))
 					JOptionPane.showMessageDialog(this, errMess);
 				return;
 			}
-		} else if (arg0.getActionCommand().equals(RESTORE_LIST_COMMAND)) {
+		} else if (ev.getActionCommand().equals(RESTORE_LIST_COMMAND)) {
 			doRestoreList();
 			if (channelListHolder.size() == 0) {
 				JOptionPane.showMessageDialog(this, "There is no channel list in the database with the name you specified");
 				return;
 			}
-		} else if (arg0.getActionCommand().equals(DELETE_LIST_COMMAND)) {
-			doDeleteList();
+		} else if (ev.getActionCommand().equals(DELETE_LIST_COMMAND)) {
+			doDeleteList(lastListName, lastListNumber);
 		}
 	}
 
@@ -347,17 +347,18 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		int userValue = JOptionPane.showConfirmDialog(this, inside, "Save the list", JOptionPane.OK_CANCEL_OPTION);
 		if (userValue == JOptionPane.OK_OPTION) {
 			defaultName = userName.getText();
-			if (ListUtilsDatabase.doesListExist(lastListName)) {
-				if (JOptionPane.showConfirmDialog(this, "List called '" + lastListName + "' already exists.  Replace?",
+			String newListName = listName.getText();
+			if (ListUtilsDatabase.doesListExist(newListName)) {
+				if (JOptionPane.showConfirmDialog(this, "List called '" + newListName + "' already exists.  Replace?",
 						"Replace existing list?", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
 					ListUtilsDatabase.deleteChannelsFromDatabaseList(lastListNumber);
-					ListUtilsDatabase.saveListToDatabase(lastListName, theListOfAllChannels.getList());
+					ListUtilsDatabase.saveListToDatabase(newListName, theListOfAllChannels.getList());
 				} else {
 					return CreateListOfChannels.CANCELLED;
 				}
 			} else {
 				// The list does not exist
-				ListUtilsDatabase.saveListToDatabase(lastListName, userName.getText(), theListOfAllChannels.getList());
+				ListUtilsDatabase.saveListToDatabase(newListName, userName.getText(), theListOfAllChannels.getList());
 			}
 		} else if (userValue == JOptionPane.CANCEL_OPTION) {
 			return CreateListOfChannels.CANCELLED;
