@@ -10,22 +10,27 @@ d=`date +%F`
 # To be compatible with non-bash shells (e.g., on a Mac), we are using $HOME instead of the more succinct ~
 
 # Set up log file 
-# log=$HOME/src/log/display_${d}_$$.log
-log=$HOME/src/log/display.log
+ddHome=$HOME/src
+node=`uname -n`
+if [ $node = "ad130482.fnal.gov" ]; then
+    ddHome=/home/mccrory/git-ddisplay
+fi
+
+log=$ddHome/log/display.log
 
 if [ -e $log ] ; then
-   n=$$
-   while [ -e $HOME/src/log/display_${d}_$n.log ]; do
-       let "n = n + 1"
-   done
-   mv $log $HOME/src/log/display_${d}_$n.log
-   gzip $HOME/src/log/display_${d}_$n.log
+    # Rename the existing log file with time stamp of the first access (creation time)
+    # This command pipe Assumes A LOT!  So it will probably be brittle
+   suffix=`stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g'`
+
+   mv $log $ddHome/log/display_$suffix.log
+   gzip    $ddHome/log/display_$suffix.log &
 fi
 
 touch $log
 
 # Setup executables location
-workingDirectory=$HOME/src/roc-dynamicdisplays/DynamicDisplays
+workingDirectory=$ddHome/roc-dynamicdisplays/DynamicDisplays
 
 # Verify that this script is not running now
 if ps -aef | grep $workingDirectory/$0 | grep -v grep ; then
@@ -55,7 +60,7 @@ fi >> $log 2>&1
 
 # We need something to run on the X display, otherwise the present version of FireFox, with the
 # kiosk mode enabled, won't let us get to the desktop
-cd $HOME/src/log
+cd $ddHome/log
 
 if [ -e /usr/bin/xterm ]; then
     # SLF 6.x
@@ -122,8 +127,6 @@ fi >> $log 2>&1
 } >> $log 2>&1
 
 MyName=`uname -n`
-# WrapperType=NORMAL
-WrapperType=FRAMENOTICKER # 3
 
 screenNum=0
 if [ "$1 X" != " X" ]; then
@@ -142,7 +145,8 @@ fi
 	else
 	    echo Messaging server is not present so we shall start it
 	    ./runMessagingServer.sh & 
-	    sleep 10;
+	    # Give it time to start before trying to start the display software (it does not need much)
+	    sleep 2;
 	fi
     else
 	echo `date` "The messaging server is " $messagingServer ", which is not this node"
@@ -155,7 +159,8 @@ fi
 	else
 	    echo "Starting the ChannelSelector";
 	    ./runSelector.sh SKIP
-	    sleep 20;
+	    # Give it a head start before starting the display software
+	    sleep 2;y
 	fi
     fi
 
@@ -178,7 +183,7 @@ fi
 	    lsof -i :49999
 
 	    # Kill previously started versions of geckodriver 
-            # (TODO - this should be handled in the Java, but this seems to be an active Selenium issue)
+            # (TODO - this should be handled automatically, but this seems to be an active Selenium issue)
 	    for i in `ps -aef | grep "lib/selenium/geckodriver" | grep -v grep | awk '{ print $2 }'`; do
 		echo "Killing a previous version of geckodriver"
 		kill $i;
