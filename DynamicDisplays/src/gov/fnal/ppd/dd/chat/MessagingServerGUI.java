@@ -62,26 +62,26 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 
 		protected void display(String msg) {
 			synchronized (sdf) {
-				String time = sdf.format(new Date()) + " " + msg;
+				String messageWithTimeStamp = sdf.format(new Date()) + " " + msg;
 				if (msg.endsWith(("\n"))) {
-					appendRoom(time);
-					System.out.print(LocalMessagingServer.class.getSimpleName() + ".display(): " + time);
+					appendRoom(messageWithTimeStamp);
+					System.out.print(getClass().getSimpleName() + ".d: " + messageWithTimeStamp);
 				} else {
-					appendRoom(time + "\n");
-					System.out.println(LocalMessagingServer.class.getSimpleName() + ".display(): " + time);
+					appendRoom(messageWithTimeStamp + "\n");
+					System.out.println(getClass().getSimpleName() + ".d: " + messageWithTimeStamp);
 				}
 			}
 		}
 
 		protected void event(String msg) {
 			synchronized (sdf) {
-				String time = sdf.format(new Date()) + " " + msg;
+				String messageWithTimeStamp = sdf.format(new Date()) + " " + msg;
 				if (msg.endsWith(("\n"))) {
-					appendEvent(time);
-					System.out.print(LocalMessagingServer.class.getSimpleName() + ".display(): " + time);
+					appendEvent(messageWithTimeStamp);
+					System.out.print(getClass().getSimpleName() + ".e: " + messageWithTimeStamp);
 				} else {
-					appendEvent(time + "\n");
-					System.out.println(LocalMessagingServer.class.getSimpleName() + ".display(): " + time);
+					appendEvent(messageWithTimeStamp + "\n");
+					System.out.println(getClass().getSimpleName() + ".e: " + messageWithTimeStamp);
 				}
 			}
 		}
