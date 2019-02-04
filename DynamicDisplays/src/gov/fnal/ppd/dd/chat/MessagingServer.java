@@ -417,7 +417,7 @@ public class MessagingServer {
 
 				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())) {
 					if (showAliveMessages)
-						display("Alive msg received " + cm.getFrom().trim().replace(".fnal.gov", ""));
+						display("Alive msg: " + cm.getFrom().trim().replace(".fnal.gov", ""));
 					continue; // That's all for this while-loop iteration. Go read the socket again...
 				}
 
@@ -1027,11 +1027,16 @@ public class MessagingServer {
 		if (e == null)
 			return "NULL Exception!";
 
+		String matchPackage = getClass().getName().substring(0, 12);
 		StackTraceElement[] trace = e.getStackTrace();
-		String retval = (e.getMessage() == null ? "" : e.getMessage());
+		String retval = (e.getMessage() == null ? "" : e.getMessage()) + "\n\t";
 		if (trace != null) {
-			for (StackTraceElement T : trace)
-				retval += "\n" + T;
+			for (StackTraceElement T : trace) {
+				if (T.toString().contains(matchPackage))
+					retval += "\n\t" + T;
+				else
+					retval += " [.] "; // Make the log file smaller by removing lines that are almost useless
+			}
 		} else {
 			retval += " -- Stack trace is null!?";
 		}
@@ -1081,7 +1086,7 @@ public class MessagingServer {
 			String NN = "no";
 			for (String subject : subjectListeners.keySet()) {
 				ClientThreadList ctl = subjectListeners.get(subject);
-				subjectInfo += "     " + subject + " [" + (ctl == null ? NN : ctl.size()) + LL + "]\n";
+				subjectInfo += "     " + subject + "\t[" + (ctl == null ? NN : ctl.size()) + LL + "]\n";
 				LL = "";
 				NN = "none";
 			}
@@ -1199,8 +1204,8 @@ public class MessagingServer {
 						}
 					};
 					showClientList.start();
-				} else {
-					display("Already waiting to show the client list");
+					// } else { not really necessary to show this print statement every time!
+					// display("Already waiting to show the client list");
 				}
 			}
 			// I was asked to stop
@@ -1245,7 +1250,7 @@ public class MessagingServer {
 	protected void showAllClientsConnectedNow() {
 		String m = "List of connected clients:\n";
 		for (ClientThread CT : listOfMessagingClients) {
-			m += "           " + CT.username + " (" + CT.getRemoteIPAddress() + "), last seen at " + new Date(CT.getLastSeen())
+			m += "\t" + CT.username + " (" + CT.getRemoteIPAddress() + ")\tLast seen " + new Date(CT.getLastSeen())
 					+ " ID=" + CT.id + "\n";
 		}
 		display(m);
@@ -1333,7 +1338,7 @@ public class MessagingServer {
 								display("Sending isAlive message to " + CT);
 							MessageCarrier mc = MessageCarrier.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, CT.username);
 							if (CT.incrementNumOutstandingPings()) {
-								System.out.println("             Too many pings (" + CT.numOutstandingPings + "( to the client "
+								System.out.println("             Too many pings (" + CT.numOutstandingPings + ") to the client "
 										+ CT.username + "; removing it!");
 
 								remove(CT);
