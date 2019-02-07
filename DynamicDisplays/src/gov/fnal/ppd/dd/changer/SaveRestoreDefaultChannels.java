@@ -171,7 +171,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	}
 
 	private void localSetupTheGUI() {
-		System.out.println(" -- localSetupTheGUI has been called.");
+		// System.out.println(" -- localSetupTheGUI has been called.");
 		if (theGUI == null) {
 			theGUI = new JPanel(new GridBagLayout());
 
