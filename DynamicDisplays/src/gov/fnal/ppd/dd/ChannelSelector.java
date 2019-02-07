@@ -1,5 +1,6 @@
 package gov.fnal.ppd.dd;
 
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.INSET_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
@@ -30,9 +31,17 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -73,6 +82,8 @@ import gov.fnal.ppd.dd.channel.list.CreateListOfChannels;
 import gov.fnal.ppd.dd.channel.list.CreateListOfChannelsHelper;
 import gov.fnal.ppd.dd.channel.list.ExistingChannelLists;
 import gov.fnal.ppd.dd.chat.MessageCarrier;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
+import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -85,6 +96,7 @@ import gov.fnal.ppd.dd.util.JLabelFooter;
 import gov.fnal.ppd.dd.util.SelectorInstructions;
 import gov.fnal.ppd.dd.util.SplashScreens;
 import gov.fnal.ppd.dd.util.WhoIsInChatRoom;
+import gov.fnal.ppd.dd.util.version.VersionInformation;
 
 /**
  * <p>
@@ -138,10 +150,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private JLabel							title;
 	protected int							selectedTab;
 	// The circular arrow, as in the recycling symbol
-	// private JButton							refreshButton				= new JButton("Refresh");
+	// private JButton refreshButton = new JButton("Refresh");
 	private JButton							lockButton;
-	// private JButton							changeDefaultsButton		= new JButton("S/R");
-	// private JButton							helpButton					= new JButton("  ?  ");
+	// private JButton changeDefaultsButton = new JButton("S/R");
+	// private JButton helpButton = new JButton(" ? ");
 	// private JButton addChannelButton = new JButton("+");
 	// private JCheckBox showBorderButton = new JCheckBox("Border?");
 	private DisplayButtons					displaySelector;
@@ -155,6 +167,14 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private SplashScreens					splashScreens;
 	private DDButton.ButtonFieldToUse		nowShowing					= ButtonFieldToUse.USE_NAME_FIELD;
 	private int								numURLButtonsChanged;
+
+	// Data for the status update
+	private VersionInformation				versionInfo					= VersionInformation.getVersionInformation();
+	private String							presentStatus;
+
+	private int myDB_ID;
+	
+	private static final long				startTime					= System.currentTimeMillis();
 
 	/**
 	 * Create the channel selector GUI in the normal way
@@ -209,9 +229,68 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	public void start() {
 		initComponents();
 		launchMemoryWatcher();
+		launchStatusThread();
+	}
+
+	private static SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+	private static String OFFLINE = "**Off Line**";
+	private void launchStatusThread() {
+		// TODO Put the status of the channel selector into the database.
+		// Schema: (LocalID, ControllerID, Time, Status, Version, Uptime)
+
+		Timer timer = new Timer("StatusUpdate");
+
+		timer.scheduleAtFixedRate(new TimerTask() {
+
+			public void run() {
+				updateControllerStatus();
+			}
+		}, 500L, 5000L);
+
+		Runtime.getRuntime().addShutdownHook(new Thread(){
+			public void run() {
+				presentStatus = OFFLINE;
+				updateControllerStatus();
+			}
+		});
+
+	}
+	
+
+	private void updateControllerStatus() {
+		long uptime = System.currentTimeMillis() - startTime;
+		String query = "UPDATE ControllerStatus SET Time='" + sdf.format(new Date()) + "',";
+
+		if (presentStatus.equals(OFFLINE))
+			query += " Status='" + OFFLINE + "'";
+		else
+			query += " Status='" + presentStatus + " " + DisplayFacade.getPresentStatus().replace("'", "") + "'";
+
+		query += ", Version='" + versionInfo.getVersionString() + "', Uptime=" + uptime + " WHERE ControllerID=" + myDB_ID;
+		try {
+			Connection connection = ConnectionToDatabase.getDbConnection();
+
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+					int numRows = stmt.executeUpdate(query);
+					if (numRows == 0 || numRows > 1) {
+						println(getClass(),
+								" Problem while updating status of Controler: Expected to modify exactly one row, but  modified "
+										+ numRows + " rows instead. SQL='" + query + "'");
+					}
+					stmt.close();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
 	}
 
 	private void initComponents() {
+		presentStatus = "Initializing the GUI";
 		SaveRestoreDefaultChannels.setup("Change Default Configurations", 30.0f, new Insets(20, 50, 20, 50));
 
 		removeAll();
@@ -233,7 +312,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				displayChannelPanel.setPreferredSize(new Dimension(700, 640));
 		}
 
-		add(displaySelector, BorderLayout.EAST);		
+		add(displaySelector, BorderLayout.EAST);
 		add(makeTitle(), BorderLayout.NORTH);
 
 		splashScreens = new SplashScreens(this, displayChannelPanel);
@@ -241,6 +320,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		if (!SHOW_IN_WINDOW)
 			// Only enable the splash screen for the full-screen version
 			splashScreens.start();
+		presentStatus = "GUI has been initialized.";
 	}
 
 	private void initializeTabs() {
@@ -286,6 +366,18 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				grid.makeGrid(categories[cat]);
 				allGrids.add(grid);
 				display.addListener(grid);
+				display.addListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						new Thread() {
+							public void run() {
+								catchSleep(3000);
+								presentStatus = "Channel changed to " + display.getContent() + "; " + new java.util.Date();						
+							}
+						}.run();
+					}
+				});
 				String sp = SHOW_IN_WINDOW ? "" : " ";
 				displayTabPane.add(grid, sp + categories[cat].getAbbreviation() + sp);
 				if ("Public".equalsIgnoreCase(categories[cat].getAbbreviation()))
@@ -298,6 +390,19 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			grid.makeGrid(ChannelCategory.IMAGE);
 			allGrids.add(grid);
 			display.addListener(grid);
+
+			display.addListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new Thread() {
+						public void run() {
+							catchSleep(3000);
+							presentStatus = "Channel changed to " + display.getContent() + "; " + new java.util.Date();						
+						}
+					}.run();
+				}
+			});
 			displayTabPane.add(grid, " Images ");
 
 			if (SHOW_DOCENT_TAB) {
@@ -306,6 +411,19 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				grid.makeGrid(ChannelCategory.IMAGE);
 				allGrids.add(grid);
 				display.addListener(grid);
+
+				display.addListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						new Thread() {
+							public void run() {
+								catchSleep(3000);
+								presentStatus = "Channel changed to " + display.getContent() + "; " + new java.util.Date();						
+							}
+						}.run();
+					}
+				});
 				displayTabPane.add(grid, " Docent ");
 			}
 
@@ -334,6 +452,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
+						presentStatus = "List " + channelListHelper.lister.getChannelList() + " sent to display " + display;
 						println(ChannelSelector.class, " -- Channel list accepted");
 						display.setContent(channelListHelper.lister.getChannelList());
 					}
@@ -492,7 +611,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		return BorderFactory.createEmptyBorder(2, 30, 2, 30);
 	}
 
-	private JComponent makeTitle() {		
+	private JComponent makeTitle() {
 		// showBorderButton.setSelected(true);
 		title = new JLabel(" Dynamic Display 00, V0.0.0 ");
 		title.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -527,15 +646,15 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		titleBox.setBorder(BorderFactory.createLineBorder(c, wid));
 
 		fmBar.setBackground(c);
-		
+
 		JLabel versionIdentifier = new JLabel("V" + getSoftwareVersion());
 		versionIdentifier.setFont(new Font("Arial", Font.PLAIN, 8));
 		versionIdentifier.setOpaque(false);
-		
+
 		fmBar.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 		title.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 		versionIdentifier.setAlignmentY(JComponent.CENTER_ALIGNMENT);
-		
+
 		titleBox.add(fmBar);
 
 		// titleBox.add(Box.createRigidArea(new Dimension(10,10)));
@@ -543,7 +662,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		titleBox.add(title);
 		titleBox.add(Box.createHorizontalGlue());
 
-		
 		titleBox.add(versionIdentifier);
 		titleBox.add(Box.createRigidArea(new Dimension(rp, rp)));
 
@@ -612,13 +730,13 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						mess += "  <br>This is " + numURLs + " specific URLs that changed, distributed over the "
 								+ displayList.size() + " displays in the system";
 					new InformationBox((SHOW_IN_WINDOW ? 0.7f : 1.0f), "Channels refreshed", mess + "</html>");
+					presentStatus = "Refresh of GUI requested by user at " + new java.util.Date();
 				}
 			}.start();
-		
+
 			channelRefreshAction.actionPerformed(e);
 			break;
-		
-			
+
 		case INFO_BUTTON_MENU:
 			nowShowing = nowShowing.next();
 			userHasDoneSomething();
@@ -636,7 +754,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			}
 
 			break;
-			
+
 		case HELP_MENU:
 			String text = SelectorInstructions.getInstructions().replace("</html>",
 					"<br><br>For more information, see <u>https://dynamicdisplays.fnal.gov/about.php</u></html>");
@@ -697,7 +815,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		channelSelector.createRefreshActions();
 
-		//channelSelector.setRefreshAction(channelSelector.channelRefreshAction);
+		// channelSelector.setRefreshAction(channelSelector.channelRefreshAction);
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -803,9 +921,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		// TODO Make this work -- no luck so far!
 	}
 
-//	private void setRefreshAction(ActionListener refreshAction2) {
-//		refreshButton.addActionListener(refreshAction2);
-//	}
+	// private void setRefreshAction(ActionListener refreshAction2) {
+	// refreshButton.addActionListener(refreshAction2);
+	// }
 
 	@Override
 	public void activateCard(boolean showingSplash) {
@@ -814,6 +932,10 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		} else {
 			card.show(displayChannelPanel, splashScreens.getNext());
 		}
+	}
+
+	public void setSelectorID(int m) {
+		myDB_ID = m;		
 	}
 
 }

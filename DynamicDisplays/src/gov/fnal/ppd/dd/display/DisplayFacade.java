@@ -338,4 +338,8 @@ public class DisplayFacade extends DisplayImpl {
 			retval += " (Loc=" + locCode + ")";
 		return retval;
 	}
+	
+	public static String getPresentStatus() {
+		return FacadeMessagingClient.me.getPresentStatus();
+	}
 }

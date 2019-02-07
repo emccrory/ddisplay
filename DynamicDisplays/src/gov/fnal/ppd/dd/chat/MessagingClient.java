@@ -68,6 +68,8 @@ public class MessagingClient {
 	private Thread					watchServer						= null;
 	private long					dontTryToConnectAgainUntilNow	= System.currentTimeMillis();
 
+	private String					presentStatus					= "Initializing";
+
 	/**
 	 * Constructor called by console mode server: the server address port: the port number username: the username
 	 * 
@@ -93,7 +95,7 @@ public class MessagingClient {
 		// Future feature: Allow for this node NOT to be connected to a server.
 		// if ( server == null )
 		// return true;
-		
+
 		if (watchServer == null) {
 			watchServer = new Thread(username + "ping") {
 				long lastPingSent = 0l;
@@ -156,14 +158,16 @@ public class MessagingClient {
 					"The messaging server just does not exist at this time!! '" + server + ":" + port + "'.  Exception is " + ec);
 			disconnect();
 			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 5 * ONE_MINUTE;
-			displayLogMessage("We will wait FIVE MINUTES (10 min.) before trying to connect to the server again for " + username);
+			displayLogMessage(false, "We will wait FIVE MINUTES (10 min.) before trying to connect to the server again for " + username);
 			return false;
 		} catch (Exception ec) {
-			// if it failed not much I can so
+			// if it failed not much I can do except wait
 			displayLogMessage(
 					"Error connecting " + username + " to messaging server, '" + server + ":" + port + "'.  Exception is " + ec);
 			disconnect();
 			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_SECOND;
+
+			// TODO - if this is the ChannelSelector, need to update the status.
 			return false;
 		}
 
@@ -230,6 +234,12 @@ public class MessagingClient {
 	 * @param msg
 	 */
 	public void displayLogMessage(final String msg) {
+		displayLogMessage(true, msg);
+	}
+	
+	public void displayLogMessage(boolean show, final String msg) {
+		if (show)
+			presentStatus = msg;
 		println(getClass(), ": " + msg);
 	}
 
@@ -337,7 +347,7 @@ public class MessagingClient {
 					if (wait < 0)
 						wait = (long) (0.5 * WAIT_FOR_SERVER_TIME + (50.0 * Math.random()));
 
-					displayLogMessage(
+					displayLogMessage(false, 
 							username + ": Will wait " + wait + " milliseconds before trying to connect to the server again.");
 					catchSleep(wait);
 					// Add a random offset each time so that if there are lots of waiting clients, they don't all hit at once.
@@ -593,7 +603,7 @@ public class MessagingClient {
 							// Print out some of these messages for the log file
 							aliveCount++;
 							if (System.currentTimeMillis() > nextDisplayTime) {
-								displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got 'AMALIVE' message from "
+								displayLogMessage(false, ListenFromServer.class.getSimpleName() + ": Got 'AMALIVE' message from "
 										+ msg.getFrom() + ", message=[" + msg.getMessage() + "] [" + aliveCount + "]");
 								if (System.currentTimeMillis() > nextDisplayTime + 15000L)
 									// Continue to print these for 15 seconds, and the wait an hour to do it again.
@@ -659,7 +669,7 @@ public class MessagingClient {
 		 * @param read
 		 *            The message to dump
 		 */
-		private void dumpMessage(Object read) {		
+		private void dumpMessage(Object read) {
 			// For the Display messaging client, almost all of the received messages are "Are You Alive?"
 			messageCounter++;
 			if (nextDump > System.currentTimeMillis())
@@ -668,5 +678,9 @@ public class MessagingClient {
 			if (nextDump + 30 * ONE_SECOND < System.currentTimeMillis())
 				nextDump = System.currentTimeMillis() + 10 * ONE_MINUTE;
 		}
+	}
+
+	public String getPresentStatus() {
+		return presentStatus;
 	}
 }

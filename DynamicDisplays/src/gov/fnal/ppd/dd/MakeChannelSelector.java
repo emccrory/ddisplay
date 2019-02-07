@@ -88,6 +88,7 @@ public class MakeChannelSelector {
 		WAIT_FOR_SERVER_TIME = 2500L; // Be impatient when a ChannelSelector cannot reach the server
 
 		ChannelSelector channelSelector = new ChannelSelector();
+		channelSelector.setSelectorID(myDB_ID);
 		channelSelector.start();
 		// channelSelector.createRefreshActions();
 
@@ -132,7 +133,7 @@ public class MakeChannelSelector {
 	private static String	myClassification	= "XOC";
 	private static boolean	missing				= true;
 	private static String	myIPName			= "TBD";
-
+	private static int		myDB_ID				= 0;
 	/**
 	 * Use this static method to initialize a program that is acting like a channel selector.
 	 */
@@ -169,6 +170,7 @@ public class MakeChannelSelector {
 
 								SHOW_DOCENT_TAB = rs2.getBoolean("DocentTab");
 								myClassification = rs2.getString("Type");
+								myDB_ID = rs2.getInt("LocalID");
 								// IS_PUBLIC_CONTROLLER = "Public".equals(myClassification) || "Experiment".equals(myClassification);
 								// IS_DOCENT_CONTROLLER = "Experiment".equals(myClassification);
 								if (IS_PUBLIC_CONTROLLER)
