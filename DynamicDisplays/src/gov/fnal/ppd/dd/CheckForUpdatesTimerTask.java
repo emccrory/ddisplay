@@ -96,10 +96,16 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 			} else {
 				println(getClass(), "No new software is present.  Will check again soon.");
 			}
-		} catch (Exception e) {
-			printlnErr(getClass(), "\nException while trying to do a self-update. Will check for new software again soon "
-					+ "(but it is pretty likely that this will happen again: Seek help!).\n");
-			e.printStackTrace();
+		} catch (Throwable e) {
+			if (e instanceof Exception) {
+				printlnErr(getClass(), "\nException while trying to do a self-update. Will check for new software again soon "
+						+ "(but it is pretty likely that this will happen again: Seek help!).\n");
+				e.printStackTrace();
+			} else {
+				printlnErr(getClass(), "\nSERIOUS ERROR while trying to do a self-update!!  Will try to restart this application program.");
+				e.printStackTrace();
+				ExitHandler.saveAndExit("Runtime error during self-aware update");
+			}
 		}
 		workingOnAnUpdate = false;
 	}
@@ -116,6 +122,8 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 
 	private void showNewUpdateInformation(FLAVOR flavor, String versionString) {
 		// Isolate the GUI stuff here.
+
+		// Unfortunately, this will fail if the version of Java has changed since the JVM started (it cannot instantiate JFrame).
 		String message0 = "Dynamic Displays Software Update in progress";
 		String message1 = "There is a new " + flavor + " version, " + versionString + ", of the Dynamic Displays software.";
 		String message2 = "After the software has been updated, the application program will be restarted.";
@@ -144,8 +152,8 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 
 		new Thread("Countdown") {
 			// Some eye candy for the information window
-			int c = 570;
-			long sleepTime = 30000;
+			int		c			= 570;
+			long	sleepTime	= 30000;
 
 			@Override
 			public void run() {
@@ -153,11 +161,11 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 					catchSleep(sleepTime);
 					c--;
 					if (c > 60)
-						countdown.setText("This should take about " + (c+20)/60 + " more minutes, " + new Date());
-					else if ( c < -60 )
-						countdown.setText("Should be done already! " + new Date());		
-					else if ( c < 60 )
-						countdown.setText("Should be done in a moment, " + new Date());		
+						countdown.setText("This should take about " + (c + 20) / 60 + " more minutes, " + new Date());
+					else if (c < -60)
+						countdown.setText("Should be done already! " + new Date());
+					else if (c < 60)
+						countdown.setText("Should be done in a moment, " + new Date());
 					sleepTime = 1000;
 				}
 			}
@@ -172,6 +180,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 		frame.pack();
 		frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
+
 	}
 
 	private void failure() {
