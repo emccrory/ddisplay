@@ -533,7 +533,7 @@ public class MessagingServer {
 					}
 					ctl.add(this);
 					break;
-					
+
 				case LOGIN:
 					// Not relevant here, but included for completeness.
 					break;
@@ -760,7 +760,7 @@ public class MessagingServer {
 	/**
 	 * The name we use for the messaging server, when it is sending a message out
 	 */
-	public static final String	SPECIAL_SERVER_MESSAGE_USERNAME	= "Server Message";
+	public static final String					SPECIAL_SERVER_MESSAGE_USERNAME	= "Server Message";
 
 	/*
 	 * ************************************************************************************************************************
@@ -770,38 +770,7 @@ public class MessagingServer {
 	 */
 
 	// a unique ID for each connection. It is atomic just in case two ask to connect at the same time (we have never seen this).
-	static AtomicInteger		uniqueId						= new AtomicInteger(0);
-
-	/**
-	 * To run as a console application just open a console window and: > java Server > java Server portNumber If the port number is
-	 * not specified 1500 is used
-	 * 
-	 * @param args
-	 *            -- The command line arguments. [0] is the port number, otherwise MESSAGING_SERVER_PORT (49999) is used
-	 */
-	public static void main(String[] args) {
-		// start server on port 1500 unless a PortNumber is specified
-		int portNumber = MESSAGING_SERVER_PORT;
-		switch (args.length) {
-		case 1:
-			try {
-				portNumber = Integer.parseInt(args[0]);
-			} catch (Exception e) {
-				System.out.println("Invalid port number.");
-				System.out.println("Usage is: > java Server [portNumber]");
-				return;
-			}
-		case 0:
-			break;
-		default:
-			System.out.println("Usage is: > java Server [portNumber]");
-			return;
-
-		}
-		// create a server object and start it
-		MessagingServer server = new MessagingServer(portNumber);
-		server.start();
-	}
+	static AtomicInteger						uniqueId						= new AtomicInteger(0);
 
 	// private void markClientAsSeen(String from) {
 	// for (ClientThread CT : listOfMessagingClients)
@@ -820,26 +789,27 @@ public class MessagingServer {
 	ConcurrentHashMap<String, MessageCarrier>	lastMessage;
 
 	// A synchronization object
-	private Object								broadcasting			= "Object 1 for Java synchronization";
+	private Object								broadcasting					= "Object 1 for Java synchronization";
 	// the boolean that will be turned of to stop the server
 	private boolean								keepGoing;
 
-	private int									numConnectionsSeen		= 0;
+	private int									numConnectionsSeen				= 0;
 	// the port number to listen for connection
 	private int									port;
 
 	// to display time (Also used as a synchronization object for writing messages to the local terminal/GUI
 	protected SimpleDateFormat					sdf;
-	private Thread								showClientList			= null;
-	private long								startTime				= System.currentTimeMillis();
+	private Thread								showClientList					= null;
+	private long								startTime						= System.currentTimeMillis();
 
-	private long								sleepPeriodBtwPings		= 2000L;
-	private long								tooOldTime				= 60000L;								// "Too old" is 60
-																												// seconds
+	private long								sleepPeriodBtwPings				= 2000L;
+	private long								tooOldTime						= 60000L;								// "Too old"
+																														// is 60
+																														// seconds
 
-	protected int								totalMesssagesHandled	= 0;
-	private int									numClientsRemoved		= 0;
-	private int									numClientsputOnNotice	= 0;
+	protected int								totalMesssagesHandled			= 0;
+	private int									numClientsRemoved				= 0;
+	private int									numClientsputOnNotice			= 0;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -1250,8 +1220,8 @@ public class MessagingServer {
 	protected void showAllClientsConnectedNow() {
 		String m = "List of connected clients:\n";
 		for (ClientThread CT : listOfMessagingClients) {
-			m += "\t" + CT.username + " (" + CT.getRemoteIPAddress() + ")\tLast seen " + new Date(CT.getLastSeen())
-					+ " ID=" + CT.id + "\n";
+			m += "\t" + CT.username + " (" + CT.getRemoteIPAddress() + ")\tLast seen " + new Date(CT.getLastSeen()) + " ID=" + CT.id
+					+ "\n";
 		}
 		display(m);
 	}

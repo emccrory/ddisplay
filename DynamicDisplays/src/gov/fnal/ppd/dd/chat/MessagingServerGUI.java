@@ -12,6 +12,7 @@ package gov.fnal.ppd.dd.chat;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
+import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -30,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import gov.fnal.ppd.dd.util.JTextAreaBottom;
+import gov.fnal.ppd.dd.util.JavaVersion;
 
 /**
  * <p>
@@ -188,6 +190,8 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		println(MessagingServerGUI.class, "Running from java version " + JavaVersion.getCurrentVersion());
+
 		prepareUpdateWatcher(true);
 
 		credentialsSetup();

@@ -11,6 +11,7 @@ import java.awt.Color;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.ExitHandler;
+import gov.fnal.ppd.dd.util.JavaVersion;
 import gov.fnal.ppd.dd.util.SendEmailCommand;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 
@@ -71,6 +72,8 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 	 *            Expect no command line arguments
 	 */
 	public static void main(final String[] args) {
+		println(DisplayAsConnectionThroughSelenium.class, "Running from java version " + JavaVersion.getCurrentVersion());
+
 		prepareUpdateWatcher(false);
 
 		credentialsSetup();

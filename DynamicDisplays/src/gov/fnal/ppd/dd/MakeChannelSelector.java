@@ -57,6 +57,7 @@ import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.JavaVersion;
 import gov.fnal.ppd.dd.util.SelectorInstructions;
 
 /**
@@ -77,6 +78,8 @@ public class MakeChannelSelector {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
+		println(MakeChannelSelector.class, "Running from java version " + JavaVersion.getCurrentVersion());
+		
 		prepareUpdateWatcher(false);
 		
 		prepareSaverImages();
