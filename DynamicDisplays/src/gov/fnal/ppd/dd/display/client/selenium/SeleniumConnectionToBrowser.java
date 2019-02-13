@@ -311,8 +311,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		}
 	}
 
-	@Override
-	public void forceRefresh(int frameNumber) {
+	// @Override
+	public void forceRefresh( ) {
 		// Not this, although it seems like a good idea (it causes the initial web page to be displayed)
 		driver.navigate().refresh();
 

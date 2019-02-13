@@ -157,11 +157,10 @@ public abstract class ConnectionToBrowserInstance {
 	 * Ask the browser to reload the web page it is showing right now.
 	 * 
 	 * Note that since we are pretty much always showing a web page within a frame, we don't want to refresh the web page, but
-	 * rather the frame
+	 * rather the frame (which is NOT what is happening here)
 	 * 
-	 * @param frameNumber
 	 */
-	public void forceRefresh(int frameNumber) {
+	public void forceRefresh() {
 		// Send the refresh
 		String s = "window.location.reload(true);";
 		send(s);
@@ -209,8 +208,7 @@ public abstract class ConnectionToBrowserInstance {
 	 * @throws UnsupportedEncodingException
 	 *             -- if the url we have been given is bogus
 	 */
-	public boolean changeURL(String urlStrg, WrapperType theWrapper,  int specialCode)
-			throws UnsupportedEncodingException {
+	public boolean changeURL(String urlStrg, WrapperType theWrapper, int specialCode) throws UnsupportedEncodingException {
 
 		String urlString = urlStrg;
 		if (badNUC && isThisURLNeedAnimation(urlStrg)) {
@@ -265,7 +263,7 @@ public abstract class ConnectionToBrowserInstance {
 				s += "\";\n";
 
 				println(getClass(), "Resetting the url with this command: [" + s + "]");
-				
+
 				// TODO - Figure this out!
 				// In the Selenium framework, sending a new URL to the browser (which we do from time to time) takes it out of
 				// full-screen mode. The work-around would be to call the class that assures the browser is full screen. but
@@ -356,35 +354,38 @@ public abstract class ConnectionToBrowserInstance {
 		send(s);
 	}
 
-	/**
-	 * Note: Frames are not fully workable at this time. It seems like a good idea, but there is no real call for it.
+	/*
+	 * Note: This concept is not supported. The functionality has been removed
 	 * 
 	 * @param frameNumber
 	 *            the frame number to show in the HTML file
 	 */
-	public void showFrame(int frameNumber) {
-		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='visible';\n";
-		send(s);
-	}
+	// public void showFrame(int frameNumber) {
+	// String s = "document.getElementById('frame" + frameNumber + "').style.visibility='visible';\n";
+	// send(s);
+	// }
 
-	/**
+	/*
+	 * Note: This concept is not supported. The functionality has been removed
 	 * @param frameNumber
 	 *            the frame number to hide in the HTML file
 	 */
-	public void hideFrame(int frameNumber) {
-		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
-		send(s);
-	}
+	// public void hideFrame(int frameNumber) {
+	// String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
+	// send(s);
+	// }
 
 	/**
+	 * Note: This concept is not supported. The functionality has been removed
+	 * 
 	 * @param frameNumber
 	 *            The frame number to turn off
 	 */
 
-	public void turnOffFrame(final int frameNumber) {
-		String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
-		send(s);
-	}
+	// public void turnOffFrame(final int frameNumber) {
+	// String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
+	// send(s);
+	// }
 
 	/**
 	 * @return Best guess as to whether or not we are connected to the FireFox back end

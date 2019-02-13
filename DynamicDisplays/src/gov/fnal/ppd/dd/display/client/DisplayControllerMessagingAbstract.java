@@ -668,39 +668,39 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private void setupRemoveFrameThread(final int frameNumber) {
-		if (frameRemovalTime[frameNumber] <= 0)
-			return;
-
-		if (frameRemovalThread[frameNumber] != null) {
-			println(this.getClass(), ".setupRemovalFrameThread() Already running.");
-			return;
-		}
-		println(getClass(), browserInstance.getInstance() + " Will turn off frame " + frameNumber + " in "
-				+ frameRemovalTime[frameNumber] + " msec.");
-
-		Thread t = new Thread("RemoveExtraFrame") {
-			@Override
-			public void run() {
-				long increment = 15000L;
-				while (removeFrame[frameNumber] == false && frameRemovalTime[frameNumber] > 0) {
-					println(DisplayControllerMessagingAbstract.this.getClass(), browserInstance.getInstance()
-							+ " Continuing; frame off in  " + frameNumber + " in " + frameRemovalTime[frameNumber] + " msec");
-					catchSleep(Math.min(increment, frameRemovalTime[frameNumber]));
-					frameRemovalTime[frameNumber] -= increment;
-				}
-				println(DisplayControllerMessagingAbstract.this.getClass(),
-						".setupRemovalFrameThread() removing frame " + frameNumber + " now.");
-
-				browserInstance.hideFrame(frameNumber);
-				frameRemovalThread[frameNumber] = null;
-				removeFrame[frameNumber] = false;
-			}
-		};
-		frameRemovalThread[frameNumber] = t;
-		t.start();
-	}
+	// @SuppressWarnings("unused")
+	// private void setupRemoveFrameThread(final int frameNumber) {
+	// if (frameRemovalTime[frameNumber] <= 0)
+	// return;
+	//
+	// if (frameRemovalThread[frameNumber] != null) {
+	// println(this.getClass(), ".setupRemovalFrameThread() Already running.");
+	// return;
+	// }
+	// println(getClass(), browserInstance.getInstance() + " Will turn off frame " + frameNumber + " in "
+	// + frameRemovalTime[frameNumber] + " msec.");
+	//
+	// Thread t = new Thread("RemoveExtraFrame") {
+	// @Override
+	// public void run() {
+	// long increment = 15000L;
+	// while (removeFrame[frameNumber] == false && frameRemovalTime[frameNumber] > 0) {
+	// println(DisplayControllerMessagingAbstract.this.getClass(), browserInstance.getInstance()
+	// + " Continuing; frame off in " + frameNumber + " in " + frameRemovalTime[frameNumber] + " msec");
+	// catchSleep(Math.min(increment, frameRemovalTime[frameNumber]));
+	// frameRemovalTime[frameNumber] -= increment;
+	// }
+	// println(DisplayControllerMessagingAbstract.this.getClass(),
+	// ".setupRemovalFrameThread() removing frame " + frameNumber + " now.");
+	//
+	// browserInstance.hideFrame(frameNumber);
+	// frameRemovalThread[frameNumber] = null;
+	// removeFrame[frameNumber] = false;
+	// }
+	// };
+	// frameRemovalThread[frameNumber] = t;
+	// t.start();
+	// }
 
 	/**
 	 * This method handles the setup and the execution of the thread that refreshes the content after content.getTime()
