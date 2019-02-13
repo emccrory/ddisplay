@@ -62,6 +62,8 @@ import javax.swing.event.ChangeListener;
  * TODO -- Turn off the extra frame
  * </p>
  * 
+ * FIXME -- Is this replaced by the Emergency Message use case? 2/7/2019
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2015
  */
 public class ChangeChannelOnFrame extends JPanel implements ActionListener, DisplayCardActivator, DisplayKeeper {

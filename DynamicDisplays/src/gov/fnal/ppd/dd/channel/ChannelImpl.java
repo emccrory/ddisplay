@@ -40,7 +40,7 @@ public class ChannelImpl implements Channel {
 	private long				time;
 	private long				expiration			= 0L;
 	private int					code				= 0;
-	private int					frameNumber			= 0;
+	// private int frameNumber = 0;
 
 	// public ChannelImpl( String name, ChannelCategory category, String description ) {
 	// this(name, category, description, Count++);
@@ -148,7 +148,7 @@ public class ChannelImpl implements Channel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + frameNumber;
+		// result = prime * result + frameNumber;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + number;
 		result = prime * result + ((uri == null) ? 0 : uri.hashCode());
@@ -169,8 +169,8 @@ public class ChannelImpl implements Channel {
 		if (!(obj instanceof ChannelImpl))
 			return false;
 		ChannelImpl other = (ChannelImpl) obj;
-		if (frameNumber != other.frameNumber)
-			return false;
+		// if (frameNumber != other.frameNumber)
+		// return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
