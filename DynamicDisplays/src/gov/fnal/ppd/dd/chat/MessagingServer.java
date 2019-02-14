@@ -9,7 +9,6 @@ package gov.fnal.ppd.dd.chat;
  * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
-import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_DAY;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
@@ -17,7 +16,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
-import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -201,20 +199,20 @@ public class MessagingServer {
 					display("'" + this.username + "' has connected.");
 					setName("ClientThread_of_MessagingServer_" + username);
 				} else {
-					display("Unexpected response from client '" + ((MessageCarrier) read).getFrom() + ": Type="
+					error("Unexpected response from client '" + ((MessageCarrier) read).getFrom() + ": Type="
 							+ read.getClass().getCanonicalName());
 					return;
 				}
 			} catch (IOException e) {
 				// Usually, it seems we fall here when something tries to connect to us but is not one of the Java clients.
 				// At Fermilab, this happens when this port gets scanned.
-				display("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
+				error("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
 				return;
 			} catch (Exception e) {
 				if (read == null) {
-					display("Expecting a String but got nothing (null)");
+					error("Expecting a String but got nothing (null)");
 				} else
-					display("Expecting a String but got a " + read.getClass().getSimpleName() + " [" + read + "]");
+					error("Expecting a String but got a " + read.getClass().getSimpleName() + " [" + read + "]");
 				printStackTrace(e);
 			}
 			this.date = new Date().toString();
@@ -327,9 +325,9 @@ public class MessagingServer {
 
 						String signatureString = this.cm.verifySignedObject(cmSigned);
 						if (signatureString == null)
-							event("Message is properly signed: " + this.cm);
+							error("Message is properly signed: " + this.cm);
 						else {
-							event("Message is NOT PROPERLY SIGNED: [" + this.cm + "]; reason = '" + signatureString
+							error("Message is NOT PROPERLY SIGNED: [" + this.cm + "]; reason = '" + signatureString
 									+ "' -- ignoring this message and sending an error message back to the client.");
 
 							// Reply to the client that this message was rejected!
@@ -340,12 +338,12 @@ public class MessagingServer {
 						}
 					} else if (read instanceof MessageType) {
 						// Not seen as of 3/2017
-						display(this.username + ": Unexpectedly received message of type MessageType, value='" + read + "'");
+						error(this.username + ": Unexpectedly received message of type MessageType, value='" + read + "'");
 						continue;
 					} else {
-						display(this.username + ": An object of type " + read.getClass().getCanonicalName()
+						error(this.username + ": An object of type " + read.getClass().getCanonicalName()
 								+ " received; message is -- [" + read + "].\n\t\t**Ignored**");
-						new Exception("unexpected object seen of type " + read.getClass().getCanonicalName()).printStackTrace();
+						printStackTrace(new Exception("unexpected object seen of type " + read.getClass().getCanonicalName()));
 						break; // End the while(this.thisSocketIsActive) loop
 					}
 				} catch (SocketException | EOFException e) {
@@ -360,7 +358,7 @@ public class MessagingServer {
 					error(dis + exceptionString(e));
 					break;
 				} catch (Exception e) {
-					e.printStackTrace();
+					printStackTrace(e);
 					String dis = e.getClass().getName() + ", Message=[" + e.getMessage() + "], client=" + this.username + " ";
 					error(dis + exceptionString(e));
 
@@ -443,7 +441,7 @@ public class MessagingServer {
 						broadcast(this);
 						// broadcast(this.cmSigned);
 					} else {
-						display("Message rejected!  '" + this.username + "' asked to send message of type " + this.cm.getType()
+						error("Message rejected!  '" + this.username + "' asked to send message of type " + this.cm.getType()
 								+ " to '" + this.cm.getTo() + "'\n\t\tbut it is not authorized to send a message to this client");
 
 						// Reply to the client that this message was rejected!
@@ -515,7 +513,7 @@ public class MessagingServer {
 						} else {
 							mess += "it is not authorized to generate an emergency message";
 						}
-						display(mess);
+						error(mess);
 
 						// Reply to the client that this message was rejected!
 						writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, this.cm.getFrom(),
@@ -561,9 +559,6 @@ public class MessagingServer {
 
 			if (ObjectSigning.dropClient(this.username))
 				display(this.getClass().getSimpleName() + ": '" + this.username + "' Removed from ObjectSigning cache");
-			// else
-			// display(this.getClass().getSimpleName() + ": '" + this.username + "' NOT IN THE ObjectSigning cache, so it was not
-			// removed");
 
 			display(this.getClass().getSimpleName() + ": Number of remaining clients: " + listOfMessagingClients.size());
 			close();
@@ -609,11 +604,10 @@ public class MessagingServer {
 			}
 			// if an error occurs, do not abort just inform the user
 			catch (IOException e) {
-				display("IOException sending message to " + this.username);
-				display(e.toString());
+				error("IOException sending message to " + this.username+ "\n" + e);
 				printStackTrace(e);
 			} catch (Exception e) {
-				display(e.getLocalizedMessage() + ", Error sending message to " + this.username);
+				error(e.getLocalizedMessage() + ", Error sending message to " + this.username);
 				printStackTrace(e);
 			}
 			System.out.println(new Date() + " " + getClass() + ".writeUnsignedMsg(): Position 3 (failure)");
@@ -638,11 +632,10 @@ public class MessagingServer {
 			}
 			// if an error occurs, do not abort just inform the user
 			catch (IOException e) {
-				display("IOException sending signed message to " + this.username);
-				display(e.toString());
+				error("IOException sending signed message to " + this.username + "\n" + e);
 				printStackTrace(e);
 			} catch (Exception e) {
-				display(e.getLocalizedMessage() + ", Error sending signed message to " + this.username);
+				error(e.getLocalizedMessage() + ", Error sending signed message to " + this.username);
 				printStackTrace(e);
 			}
 			return false;
@@ -811,6 +804,8 @@ public class MessagingServer {
 	private int									numClientsRemoved				= 0;
 	private int									numClientsputOnNotice			= 0;
 
+	private Object								oneMessageAtATime				= new String("For synchronization");
+
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
 	 * 
@@ -869,7 +864,7 @@ public class MessagingServer {
 					}
 				}
 			} else {
-				println(getClass(), "Unexpected null subject in a message.  Message=[" + mc + "]");
+				error(getClass().getSimpleName() + " - Unexpected null subject in a message.  Message=[" + mc + "]");
 			}
 			if (mc.getType() == MessageType.MESSAGE) {
 				lastMessage.put(subject, mc);
@@ -882,11 +877,11 @@ public class MessagingServer {
 					if (MessageCarrier.isUsernameMatch(mc.getTo(), ct.username))
 						if (!ct.writeUnsignedMsg(mc)) {
 							remove(ct);
-							println(getClass(), ".broadcast() FAILED.  mc=" + mc);
+							error(getClass().getSimpleName() + " - broadcast() FAILED.  mc=" + mc);
 						}
 			} else {
-				println(this.getClass(),
-						" Hmm.  We have an unsigned message on '" + subject + "' but the list of interested clients is empty");
+				error(getClass().getSimpleName() + " -  Hmm.  We have an unsigned message on '" + subject
+						+ "' but the list of interested clients is empty");
 			}
 		}
 	}
@@ -937,13 +932,13 @@ public class MessagingServer {
 							}
 						}
 				} else {
-					println(this.getClass(),
-							"Hmm.  We have an SIGNED message on '" + subject + "' but the list of interested clients is empty");
+					error(getClass().getSimpleName() + " - Hmm.  We have an SIGNED message on '" + subject
+							+ "' but the list of interested clients is empty");
 				}
 
 			}
 		} catch (ClassNotFoundException | IOException e) {
-			e.printStackTrace();
+			printStackTrace(e);
 		}
 	}
 
@@ -964,32 +959,25 @@ public class MessagingServer {
 	 * Display a message to the console or the GUI
 	 */
 	protected void display(String msg) {
-		synchronized (sdf) { // Only print one message at a time
-			String time = sdf.format(new Date()) + " " + msg;
-			System.out.println(time);
-		}
-	}
-
-	protected void event(String msg) {
-		synchronized (sdf) { // Only print one message at a time
+		synchronized (oneMessageAtATime) { // Only print one message at a time
 			String time = sdf.format(new Date()) + " " + msg;
 			System.out.println(time);
 		}
 	}
 
 	protected void error(String msg) {
-		synchronized (sdf) { // Only print one message at a time
-			String time = sdf.format(new Date()) + " " + msg;
+		synchronized (oneMessageAtATime) { // Only print one message at a time
+			String time = sdf.format(new Date()) + " ERROR " + msg;
 			System.err.println(time);
 		}
 	}
 
 	protected void printStackTrace(Exception e) {
-		synchronized (sdf) { // Only print one message at a time
+		synchronized (oneMessageAtATime) { // Only print one message at a time
 			if (e == null)
 				System.out.println("NULL Exception encountered!!");
 			else
-				e.printStackTrace();
+				printStackTrace(e);
 		}
 	}
 
@@ -1092,8 +1080,9 @@ public class MessagingServer {
 					// if (!keepGoing) break;
 					t = new ClientThread(socket); // make a thread of it
 				} catch (Exception e) {
-					println(getClass(), "Unexpected exception when listening to port " + port + ".  Let's try again.");
-					e.printStackTrace();
+					error(getClass().getSimpleName() + " - Unexpected exception when listening to port " + port
+							+ ".  Let's try again.");
+					printStackTrace(e);
 					continue;
 				}
 				if (t.username != null) {
@@ -1109,9 +1098,9 @@ public class MessagingServer {
 							ctl.add(t);
 							t.start();
 						} catch (Exception e) {
-							e.printStackTrace();
-							println(getClass(),
-									"Unexpected exception in messaging server - THIS SHOULD BE INVESTIGATED AND FIXED.");
+							printStackTrace(e);
+							error(getClass().getSimpleName()
+									+ " - Unexpected exception in messaging server \n\nTHIS SHOULD BE INVESTIGATED AND FIXED.\n\n");
 						}
 					} else {
 
@@ -1144,7 +1133,7 @@ public class MessagingServer {
 						// continue; No, I think (now) that fall through is appropriate.
 					}
 				} else {
-					println(getClass(), "A client attempted to connect, but the username it presented is null."
+					error(getClass().getSimpleName() + " - A client attempted to connect, but the username it presented is null."
 							+ "/n/t/tThis usually means that a port scanner has tried to connect.");
 					// This null check is not necessary since this is the else clause of if(t.username!=null).
 					// But it makes me feel better.
@@ -1168,7 +1157,7 @@ public class MessagingServer {
 								showAllClientsConnectedNow();
 								performDiagnostics(true);
 							} catch (Exception e) {
-								e.printStackTrace();
+								printStackTrace(e);
 							}
 							showClientList = null;
 						}
@@ -1199,29 +1188,27 @@ public class MessagingServer {
 					}
 				}
 			} catch (Exception e) {
-				display("Exception closing the server and clients: " + e);
+				error("Exception closing the server and clients: " + e);
 				printStackTrace(e);
 			}
 		}
 		// something went wrong
 		catch (IOException e) {
-			String msg = sdf.format(new Date()) + " IOException on new ServerSocket: " + e + "\n";
-			display(msg);
+			error("IOException on new ServerSocket: " + e);
 			printStackTrace(e);
 		} catch (Exception e) {
-			String msg = sdf.format(new Date()) + " Exception on new ServerSocket: " + e + "\n";
-			display(msg);
+			error("Exception on new ServerSocket: " + e);
 			printStackTrace(e);
 		}
-		println(getClass(), "Exiting SERVER thread for listening to the messaging socket on port " + port
+		error(getClass().getSimpleName() + " - Exiting SERVER thread for listening to the messaging socket on port " + port
 				+ ".  THIS SHOULD ONLY HAPPEN when the program exits.");
 	}
 
 	protected void showAllClientsConnectedNow() {
 		String m = "List of connected clients:\n";
 		for (ClientThread CT : listOfMessagingClients) {
-			m += "\t" + CT.username + " (" + CT.getRemoteIPAddress() + ")\tLast seen " + new Date(CT.getLastSeen()) + " ID=" + CT.id
-					+ "\n";
+			m += "\t" + CT.username + " (" + CT.getRemoteIPAddress() + ")\tLast seen " + sdf.format(new Date(CT.getLastSeen()))
+					+ " ID=" + CT.id + "\n";
 		}
 		display(m);
 	}
@@ -1348,7 +1335,7 @@ public class MessagingServer {
 						}
 					} catch (Exception e) {
 						// Random, unexpected exceptions have bitten me before (killing this thread); don't let that happen again.
-						e.printStackTrace();
+						printStackTrace(e);
 					}
 			}
 		}.start();
