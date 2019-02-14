@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<employees>
+
+ <employee id="1">
+  <firstname>Hari Krishna</firstname>
+  <lastname>Gurram</lastname>
+  <address>
+   <area>Marthali</area>
+   <city>Bangalore</city>
+   <state>Karnataka</state>
+   <country>India</country>
+  </address>
+ </employee>
+
+ <employee id="2">
+  <firstname>Joel Babu</firstname>
+  <lastname>Chelli</lastname>
+  <address>
+   <area>Jubli Hills</area>
+   <city>Hyderababd</city>
+   <state>Andhra Pradesh</state>
+   <country>India</country>
+  </address>
+ </employee>
+
+ <employee id="3">
+  <firstname>Susantha</firstname>
+  <lastname>Sarm</lastname>
+  <address>
+   <area>Gandhi Nagar</area>
+   <city>Bhuvaneswar</city>
+   <state>Orissa</state>
+   <country>India</country>
+  </address>
+ </employee>
+
+</employees>

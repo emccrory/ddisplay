@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<employees>
+
+	<employee id="1">
+		<firstname>Hari Krishna</firstname>
+		<lastname>Gurram</lastname>
+		<address>
+			<area>Marthali</area>
+			<city>Bangalore</city>
+			<state>Karnataka</state>
+			<country>India</country>
+		</address>
+	</employee>
+
+	<employee id="2">
+		<firstname>Joel Babu</firstname>
+		<lastname>Chelli</lastname>
+		<address>
+			<area>Jubli Hills</area>
+			<city>Hyderababd</city>
+			<state>Andhra Pradesh</state>
+			<country>India</country>
+		</address>
+	</employee>
+
+	<employee id="3">
+		<firstname>Susantha</firstname>
+		<lastname>Sarm</lastname>
+		<address>
+			<area>Gandhi Nagar</area>
+			<city>Bhuvaneswar</city>
+			<state>Orissa</state>
+			<country>India</country>
+		</address>
+	</employee>
+
+	<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+		<SignedInfo>
+			<CanonicalizationMethod
+				Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments" />
+			<SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+			<Reference URI="">
+				<Transforms>
+					<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+				</Transforms>
+				<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+				<DigestValue>lnT+BwE6SW5RdrNEF6tLz9d9dD/cwTwdQy6SXYLeHlQ=</DigestValue>
+			</Reference>
+		</SignedInfo>
+		<SignatureValue>UCz030WYYPV7jMCfVScQClPhV31RUbDBgdHIz/FXLzeBnGY7j1A7QjIod0Zu97/1HrX7iGceEN4a
+			8kKdly+yz/SoziIUmu7F8KgILwBCST8nmFdIyo9la/8pIH5S1aUIiV9q+Xjh99q4pZJx1MdQSZrE
+			Zr065At/Yd4UrTHnWkvK3bZhwHGtQb02gkDL9cB7gRbjg/ZIl+Z6c/wTHoTEaAji/2Wj4aLFT4PC
+			afcPpLUrSZhHr83uz/j4jJAGt2hHM88icrAYdmK+VQE764zO5Y0xcvEY0YROKzBSa18A4MtmPvXQ
+			fOuPpOcM13etm8Wxn8iMFmq0+hggML9YlTSzcw==</SignatureValue>
+		<KeyInfo>
+			<KeyValue>
+				<RSAKeyValue>
+					<Modulus>vqepihIWXSkK/SjGZ1Vm3rxzqY2k7I1t2GZlDVB5SOGoBRr/MUtPvmZQ5cieRuDhJFhrRzsVSao7
+						nTHz6+amr2QExa7qX6lRkO9sbc8+UX1/84eiFiwe0l4kjjzUylDYIwhdoSzalQ+/4vfuVjbkda+v
+						A8k9Y1qwvdl0Cs2l8sdM2LrayA2GGkadT5pttosGBq97qolhVUWXIxmzjl2wIHdzGELru3Jd5vB1
+						ky8/Loaex0gcjVSYeFcMKo4cjZklwiIqb7Adyh8dmGvwnn1AdU1y/gBUMT1lnDClbb5t29Ta22uk
+						m5LIJaWsXaME0lK3SLX27iDpj2MdjFAx70GLyQ==</Modulus>
+					<Exponent>AQAB</Exponent>
+				</RSAKeyValue>
+			</KeyValue>
+		</KeyInfo>
+	</Signature>
+</employees>
