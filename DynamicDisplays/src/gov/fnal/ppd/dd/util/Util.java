@@ -13,6 +13,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import java.awt.event.ActionEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.net.URI;
@@ -30,6 +31,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
 
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
@@ -67,9 +75,9 @@ public class Util {
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=SeaQuest",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NOvA",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=DUNE-LBNF",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NuMI", //
-			"http://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none", //
-			"http://elliottmccrory.com/clock/five.html",	};
+			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NuMI",														//
+			"http://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none",									//
+			"http://elliottmccrory.com/clock/five.html", };
 
 	/**
 	 * The list of default names for URLS
@@ -217,7 +225,6 @@ public class Util {
 			System.out.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
 	}
 
-	
 	/**
 	 * @param clazz
 	 *            The type of the caller
@@ -233,7 +240,7 @@ public class Util {
 		else
 			System.err.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
 	}
-	
+
 	/**
 	 * @param d
 	 *            The display to identify
@@ -284,7 +291,7 @@ public class Util {
 		return retval;
 	}
 
-	private final static float[]	bestFonts	= { 48.0f, 36.0f, 32.0F, 24.0F, 20.0F, 17.0F, 14.0F, 12.0F, 10.0F, 8.0F };
+	private final static float[] bestFonts = { 48.0f, 36.0f, 32.0F, 24.0F, 20.0F, 17.0F, 14.0F, 12.0F, 10.0F, 8.0F };
 
 	/**
 	 * @param suggestedSize
@@ -307,7 +314,7 @@ public class Util {
 		return minimum;
 	}
 
-	private static HashMap<Integer, Channel>	alreadyRetrieved	= new HashMap<Integer, Channel>();
+	private static HashMap<Integer, Channel> alreadyRetrieved = new HashMap<Integer, Channel>();
 
 	/**
 	 * @param channelNumber
@@ -361,8 +368,8 @@ public class Util {
 							int seq = rs.getInt("SequenceNumber");
 							String catString = rs.getString("Category");
 
-							ChannelInList c = new ChannelInList(name, new ChannelCategory(catString, catString), desc,
-									new URI(url), chanNum, dwell);
+							ChannelInList c = new ChannelInList(name, new ChannelCategory(catString, catString), desc, new URI(url),
+									chanNum, dwell);
 							c.setSequenceNumber(seq);
 							channelList.add(c);
 
@@ -443,7 +450,8 @@ public class Util {
 							String desc = rs.getString("Description");
 							String filename = rs.getString("Filename");
 
-							String url = SINGLE_IMAGE_DISPLAY + URLEncoder.encode(filename, "UTF-8") + "&caption=" + URLEncoder.encode(desc, "UTF-8");
+							String url = SINGLE_IMAGE_DISPLAY + URLEncoder.encode(filename, "UTF-8") + "&caption="
+									+ URLEncoder.encode(desc, "UTF-8");
 
 							String[] array = filename.split("/", -1);
 							retval = new ChannelImpl(array[array.length - 1], ChannelCategory.IMAGE, desc, new URI(url),
@@ -511,4 +519,20 @@ public class Util {
 			ordinal = "rd";
 		return ordinal;
 	}
+
+	/**
+	 * Stream an XML document to an output stream.
+	 * 
+	 * @param doc
+	 *            - the XML document to stream
+	 * @param os
+	 *            - The output stream
+	 * @throws TransformerException
+	 */
+	public static void streamDocument(Document doc, OutputStream os) throws TransformerException {
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer trans = tf.newTransformer();
+		trans.transform(new DOMSource(doc), new StreamResult(os));
+	}
+
 }
