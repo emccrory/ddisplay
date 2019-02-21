@@ -74,27 +74,6 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 				}
 			}
 		}
-
-		protected void event(String msg) {
-			synchronized (sdf) {
-				String messageWithTimeStamp = sdf.format(new Date()) + " " + msg;
-				if (msg.endsWith(("\n"))) {
-					appendEvent(messageWithTimeStamp);
-					System.out.print(getClass().getSimpleName() + ".e: " + messageWithTimeStamp);
-				} else {
-					appendEvent(messageWithTimeStamp + "\n");
-					System.out.println(getClass().getSimpleName() + ".e: " + messageWithTimeStamp);
-				}
-			}
-		}
-
-		// protected synchronized void broadcast(MessageCarrier msg) {
-		// super.broadcast(msg);
-		//
-		// synchronized (event) {
-		// event.append(new Date() + "\n" + msg + "\n");
-		// }
-		// }
 	};
 
 	// server constructor that receive the port to listen to for connection as parameter

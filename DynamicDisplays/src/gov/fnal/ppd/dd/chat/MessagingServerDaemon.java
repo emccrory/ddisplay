@@ -44,18 +44,6 @@ public class MessagingServerDaemon {
 		protected void display(String msg) {
 			logMessage(msg);
 		}
-
-		protected void event(String msg) {
-			logMessage(msg);
-		}
-
-		// protected synchronized void broadcast(MessageCarrier msg) {
-		// super.broadcast(msg);
-		//
-		// synchronized (event) {
-		// event.append(new Date() + "\n" + msg + "\n");
-		// }
-		// }
 	};
 
 	// server constructor that receive the port to listen to for connection as parameter

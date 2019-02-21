@@ -136,6 +136,7 @@ public class Validate {
 				throw new KeySelectorException("Null KeyInfo object!");
 			}
 			SignatureMethod sm = (SignatureMethod) method;
+			@SuppressWarnings("unchecked")
 			List<XMLStructure> list = keyInfo.getContent();
 
 			for (int i = 0; i < list.size(); i++) {
