@@ -94,10 +94,8 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	private static final int				STATUS_UPDATE_PERIOD		= 30;
-	// private static final long				SOCKET_ALIVE_INTERVAL		= 2500l;
 	private static final long				SHOW_SPLASH_SCREEN_TIME		= 15000l;
 	private static final String				OFF_LINE					= "Off Line";
-	// private static final long				FRAME_DISAPPEAR_TIME		= 2 * ONE_MINUTE;
 
 	/* --------------- The key attributes are here --------------- */
 	protected BrowserLauncher				browserLauncher;
@@ -108,39 +106,40 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	protected boolean						showNumber					= true;
 	protected boolean						badNUC;
 	protected long							lastFullRestTime;
+	protected String						offlineMessage				= "";
 
-	private boolean							showingEmergencyMessage		= false;
-
-//	private boolean							newListIsPlaying			= false;
-//	private boolean							keepGoing					= true;
-	private VersionInformation				versionInfo					= VersionInformation.getVersionInformation();
-
-	private boolean							offLine						= false;
-	private String							myName;
 	private int								statusUpdatePeriod			= 10;
+	private int								changeCount;
+	private long							remainingTimeRemEmergMess	= 0l;
+	private long							revertTimeRemaining			= 0L;
+	private long							launchTime					= System.currentTimeMillis();
+	private boolean							showingEmergencyMessage		= false;
+	private boolean							offLine						= false;
+	private boolean							showingSelfIdentify			= false;
+	private boolean							skipRevert					= false;
 	private double							cpuUsage					= 0.0;
+
+	private String							myName;
+	private Thread							emergencyRemoveThread		= null;
+	private Thread							revertThread				= null;
+
 	private Command							lastCommand;
 	private ThreadWithStop					playlistThread				= null;
 	private EmergencyMessage				em;
-	private long							remainingTimeRemEmergMess	= 0l;
-	private Thread							emergencyRemoveThread		= null;
-	private boolean							showingSelfIdentify			= false;
-	private long[]							frameRemovalTime			= { 0L, 0L, 0L, 0L, 0L };
-	// private SignageContent previousPreviousChannel = null;
-	private boolean							skipRevert					= false;
-	private long							revertTimeRemaining			= 0L;
-	private boolean[]						removeFrame					= { false, false, false, false, false };
 	private WrapperType						wrapperType;
-	private Thread[]						frameRemovalThread			= { null, null, null, null, null };
-	private Thread							revertThread				= null;
-	private int								changeCount;
 	private ListOfValidChannels				listOfValidURLs				= new ListOfValidChannels();
+	private VersionInformation				versionInfo					= VersionInformation.getVersionInformation();
 
 	@SuppressWarnings("unused")
 	private String							mySubject;
-	protected String						offlineMessage				= "";
-	private long							launchTime					= System.currentTimeMillis();
 
+	// private long[] frameRemovalTime = { 0L, 0L, 0L, 0L, 0L };
+	// private SignageContent previousPreviousChannel = null;
+	// private Thread[] frameRemovalThread = { null, null, null, null, null };
+	// private boolean[] removeFrame = { false, false, false, false, false };
+	// private boolean newListIsPlaying = false;
+	// private boolean			keepGoing					= true;
+	
 	// Use messaging to get change requests from the changers -->
 	// private boolean actAsServerNoMessages = true;
 
