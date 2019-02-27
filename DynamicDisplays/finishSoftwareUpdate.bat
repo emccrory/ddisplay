@@ -1,4 +1,4 @@
-REM Part 3 of the update process on Windows
+REM Part 3 of the update process on Windows.
 
 REM Unpack a new version of the software on a Windows PC - Part 3
 
