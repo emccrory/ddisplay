@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 import javax.xml.transform.Transformer;
@@ -39,6 +40,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 
+import gov.fnal.ppd.dd.GlobalVariables;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelInList;
@@ -154,10 +156,13 @@ public class Util {
 				+ twoDigits(c.get(Calendar.MINUTE)) + ":" + twoDigits(c.get(Calendar.SECOND));
 	}
 
+	public static void launchMemoryWatcher() {
+		launchMemoryWatcher(null);
+	}
 	/**
 	 * Prints a short memory reckoning every 5 minutes
 	 */
-	public static void launchMemoryWatcher() {
+	public static void launchMemoryWatcher(final Logger logger) {
 		new Thread("MemoryWatcher.DEBUG") {
 			public void run() {
 				long time = FIFTEEN_MINUTES / 512;
@@ -175,8 +180,13 @@ public class Util {
 					long free = Runtime.getRuntime().freeMemory() / 1024 / 1024;
 					long max = Runtime.getRuntime().maxMemory() / 1024 / 1024;
 					long total = Runtime.getRuntime().totalMemory() / 1024 / 1024;
-					System.out.println("Threads: " + tCount + " (" + activeTCount + "), mem: " + total + "M " + free + "M " + max
-							+ "M at " + (new Date()) + " (Sleep " + (time / 1000) + " sec.)");
+					String msg = "Threads: " + tCount + " (" + activeTCount + "), mem: " + total + "M " + free + "M "
+							+ max + "M at " + (new Date()) + " (Sleep " + (time / 1000) + " sec.)";
+					if (logger != null) {
+						logger.fine(msg);
+					} else {
+						System.out.println(msg);
+					}
 				}
 			}
 		}.start();
@@ -219,10 +229,14 @@ public class Util {
 		//
 		// TODO - Suppress repeated messages
 		//
-		if (message.startsWith(":"))
-			System.out.println(new Date() + " - " + clazz.getSimpleName() + message);
-		else
-			System.out.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
+		if (GlobalVariables.getLogger() != null) {
+			GlobalVariables.getLogger().fine(message);
+		} else {
+			if (message.startsWith(":"))
+				System.out.println(new Date() + " - " + clazz.getSimpleName() + message);
+			else
+				System.out.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
+		}
 	}
 
 	/**
@@ -235,11 +249,14 @@ public class Util {
 		//
 		// TODO - Suppress repeated messages
 		//
-		if (message.startsWith(":"))
-			System.err.println(new Date() + " - " + clazz.getSimpleName() + message);
-		else
-			System.err.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
-	}
+		if (GlobalVariables.getLogger() != null) {
+			GlobalVariables.getLogger().warning(message);
+		} else {
+			if (message.startsWith(":"))
+				System.err.println(new Date() + " - " + clazz.getSimpleName() + message);
+			else
+				System.err.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
+		}}
 
 	/**
 	 * @param d

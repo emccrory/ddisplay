@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
@@ -367,6 +368,8 @@ public class GlobalVariables {
 	 * The list of Displays in this instance of whatever program you are running. This is used in a couple of places.
 	 */
 	public static List<Display>		displayList				= null;
+	
+	private static Logger logger = null;
 
 	/**
 	 * <p>
@@ -694,5 +697,13 @@ public class GlobalVariables {
 	 */
 	public static void userHasDoneSomething() {
 		GlobalVariables.lastUserActivity = System.currentTimeMillis();
+	}
+
+	public static Logger getLogger() {
+		return logger;
+	}
+
+	public static void setLogger(Logger l) {
+		logger = l;
 	}
 }

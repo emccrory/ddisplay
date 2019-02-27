@@ -40,10 +40,6 @@ public class MessagingServerDaemon {
 		public LocalMessagingServer(int port) {
 			super(port);
 		}
-
-		protected void display(String msg) {
-			logMessage(msg);
-		}
 	};
 
 	// server constructor that receive the port to listen to for connection as parameter
@@ -51,12 +47,6 @@ public class MessagingServerDaemon {
 		// super("Dynamic Displays Messaging Server");
 		server = null;
 		this.port = port;
-	}
-
-	synchronized void logMessage(String str) {
-		String messageWithTimeStamp = sdf.format(new Date()) + " " + str;
-		System.out.println(messageWithTimeStamp);
-		// TODO - make this syslog
 	}
 
 	/**
@@ -67,7 +57,7 @@ public class MessagingServerDaemon {
 		server = new LocalMessagingServer(port);
 		// and start it as a thread
 		new ServerRunning().start();
-		logMessage("Server started at " + (new Date()) + "\n");
+		server.logger.info("Server started at " + (new Date()) + "\n");
 	}
 
 	/**
@@ -93,7 +83,7 @@ public class MessagingServerDaemon {
 			server.start(); // should stay in this method until it fails
 
 			// the server failed
-			logMessage("Server has stopped at " + (new Date()) + "\n");
+			server.logger.info("Server has stopped at " + (new Date()) + "\n");
 			server = null;
 		}
 	}

@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -58,21 +59,6 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 	private class LocalMessagingServer extends MessagingServer {
 		public LocalMessagingServer(int port) {
 			super(port);
-		}
-
-		// private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-
-		protected void display(String msg) {
-			synchronized (sdf) {
-				String messageWithTimeStamp = sdf.format(new Date()) + " " + msg;
-				if (msg.endsWith(("\n"))) {
-					appendRoom(messageWithTimeStamp);
-					System.out.print(getClass().getSimpleName() + ".d: " + messageWithTimeStamp);
-				} else {
-					appendRoom(messageWithTimeStamp + "\n");
-					System.out.println(getClass().getSimpleName() + ".d: " + messageWithTimeStamp);
-				}
-			}
 		}
 	};
 
