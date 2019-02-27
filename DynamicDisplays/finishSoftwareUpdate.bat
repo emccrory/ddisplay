@@ -6,7 +6,7 @@ REM The working directory should be ..\.. with respect to where the software usu
 
 ECHO %cd%
 
-IF NOT EXISTS roc-dynamicdisplays-new GOTO skipUpdate
+IF NOT EXIST roc-dynamicdisplays-new GOTO skipUpdate
 
 ECHO A new version of the Dynamic Displays software has been downloaded
 SET A=1
