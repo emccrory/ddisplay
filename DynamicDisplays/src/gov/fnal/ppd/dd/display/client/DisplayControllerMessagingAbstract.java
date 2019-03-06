@@ -132,14 +132,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 	@SuppressWarnings("unused")
 	private String							mySubject;
+	private Object							revertThreadWaitObject		= "Object for doing synchronization of revert thread";
 
 	// private long[] frameRemovalTime = { 0L, 0L, 0L, 0L, 0L };
 	// private SignageContent previousPreviousChannel = null;
 	// private Thread[] frameRemovalThread = { null, null, null, null, null };
 	// private boolean[] removeFrame = { false, false, false, false, false };
 	// private boolean newListIsPlaying = false;
-	// private boolean			keepGoing					= true;
-	
+	// private boolean keepGoing = true;
+
 	// Use messaging to get change requests from the changers -->
 	// private boolean actAsServerNoMessages = true;
 
@@ -252,8 +253,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	/**
-	 * Must be called to start all the threads in this class instance!
-	 * Changed (11/2018) to not block
+	 * Must be called to start all the threads in this class instance! Changed (11/2018) to not block
 	 */
 	public void initiate() {
 		new Thread("WaitForServerToAppear") {
@@ -410,7 +410,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		final long expiration = getContent().getExpiration();
 
 		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
-		
+
 		println(getClass(), browserInstance.getInstance() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
 
 		if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
@@ -466,26 +466,26 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					skipRevert = true;
 				}
 
-									changeCount++;
-					// if (playlistThread != null) {
-					// playlistThread.stopMe = true;
-					// playlistThread = null;
-					// }
+				changeCount++;
+				// if (playlistThread != null) {
+				// playlistThread.stopMe = true;
+				// playlistThread = null;
+				// }
 
-					// ******************** Normal channel change here ********************
-					if (browserInstance.changeURL(url, wrapperType, getContent().getCode())) {
-						previousChannelStack.pop(); // Replace the top element of this history stack with the new channel
-						previousChannelStack.push(getContent());
-						showingSelfIdentify = false;
-					} else {
-						println(getClass(), ".localSetContent():" + browserInstance.getInstance() + " Failed to set content");
-						return false;
-					}
+				// ******************** Normal channel change here ********************
+				if (browserInstance.changeURL(url, wrapperType, getContent().getCode())) {
+					previousChannelStack.pop(); // Replace the top element of this history stack with the new channel
+					previousChannelStack.push(getContent());
+					showingSelfIdentify = false;
+				} else {
+					println(getClass(), ".localSetContent():" + browserInstance.getInstance() + " Failed to set content");
+					return false;
+				}
 
-					if (expiration <= 0)
-						setupRefreshThread(dwellTime, url);
-					else
-						setRevertThread();
+				if (expiration <= 0)
+					setupRefreshThread(dwellTime, url);
+				else
+					setRevertThread();
 
 				updateMyStatus();
 			} catch (UnsupportedEncodingException e) {
@@ -562,7 +562,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	@Override
 	protected void respondToContentChange(boolean b, String why) {
 		// generate a reply message to the sender
-		println(getClass(), " -- Responding to channel change with " + (b ? "SUCCESS" : "failure") + " to " + messagingClient.getLastFrom());
+		println(getClass(),
+				" -- Responding to channel change with " + (b ? "SUCCESS" : "failure") + " to " + messagingClient.getLastFrom());
 		MessageCarrier msg = null;
 		if (b) {
 			ChangeChannelReply replyMessage = new ChangeChannelReply();
@@ -587,83 +588,85 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	private void setRevertThread() {
-		// final String revertURL = revertToThisChannel.getURI().toString();
+		synchronized (revertThreadWaitObject) {
+			revertTimeRemaining = getContent().getExpiration();
+			println(getClass(), browserInstance.getInstance() + " Setting the revert time for this temporary channel to "
+					+ revertTimeRemaining);
 
-		revertTimeRemaining = getContent().getExpiration();
-		println(getClass(),
-				browserInstance.getInstance() + " Setting the revert time for this temporary channel to " + revertTimeRemaining);
+			if (revertThread == null) {
+				revertThread = new Thread("RevertContent" + getMessagingName()) {
+					/*
+					 * 7/6/15
+					 * -------------------------------------------------------------------------------------------------------
+					 * Something is getting messed up here, between a channel expiring and a channel that might need to be
+					 * refreshed. Also in the mix, potentially, is when a channel change to a fixed image is requested and this
+					 * launches a full refresh of the browser.
+					 * 
+					 * -------------------------------------------------------------------------------------------------------------
+					 * ---
+					 * 
+					 * Update 7/9/15: It looks like there are can be several of these threads run at once, and when they all expire,
+					 * something bad seems to happen. New code added to only let one of these thread be created (and it can be
+					 * "renewed" if necessary, before it expires).
+					 * 
+					 * -------------------------------------------------------------------------------------------------------------
+					 * ---
+					 * 
+					 * 1/14/2016: This is all resolved now. Also, changed to handling the channel list down here. This ends up
+					 * making the channel list class behave almost identically to all the other SingnageContent classes, except for
+					 * right here where (as they say) the rubber meets the road.
+					 * 
+					 * -------------------------------------------------------------------------------------------------------------
+					 * ---
+					 *
+					 * 8/23/2018: I think there is a problem with this "revert" idea if more than one channel gets shown that needs
+					 * to disappear (be reverted). That is, the recursion of this operation is not right. There are at least two
+					 * ways to fix this: (1) Make iut truly recursive, so that if you send channels, A, B, and C, which all have the
+					 * revert time set, it will revert from C to B, wait, from B to A, wait, and then from A to the original
+					 * channel. (2) Don't ever revert to a channel that will also revert, but keep track of the last non-reverting
+					 * channel and then revert to that when the last reverting-channel expires (this is in line with the actual
+					 * "Docent" use case here)
+					 */
 
-		if (revertThread == null) {
-			revertThread = new Thread("RevertContent" + getMessagingName()) {
-				/*
-				 * 7/6/15 -------------------------------------------------------------------------------------------------------
-				 * Something is getting messed up here, between a channel expiring and a channel that might need to be refreshed.
-				 * Also in the mix, potentially, is when a channel change to a fixed image is requested and this launches a full
-				 * refresh of the browser.
-				 * 
-				 * ----------------------------------------------------------------------------------------------------------------
-				 * 
-				 * Update 7/9/15: It looks like there are can be several of these threads run at once, and when they all expire,
-				 * something bad seems to happen. New code added to only let one of these thread be created (and it can be "renewed"
-				 * if necessary, before it expires).
-				 * 
-				 * ----------------------------------------------------------------------------------------------------------------
-				 * 
-				 * 1/14/2016: This is all resolved now. Also, changed to handling the channel list down here. This ends up making
-				 * the channel list class behave almost identically to all the other SingnageContent classes, except for right here
-				 * where (as they say) the rubber meets the road.
-				 * 
-				 * ----------------------------------------------------------------------------------------------------------------
-				 *
-				 * 8/23/2018: I think there is a problem with this "revert" idea if more than one channel gets shown that needs to
-				 * disappear (be reverted). That is, the recursion of this operation is not right. There are at least two ways to
-				 * fix this: (1) Make iut truly recursive, so that if you send channels, A, B, and C, which all have the revert time
-				 * set, it will revert from C to B, wait, from B to A, wait, and then from A to the original channel. (2) Don't ever
-				 * revert to a channel that will also revert, but keep track of the last non-reverting channel and then revert to
-				 * that when the last reverting-channel expires (this is in line with the actual "Docent" use case here)
-				 */
+					@Override
+					public void run() {
+						long increment = 5000L;
+						println(DisplayControllerMessagingAbstract.class,
+								".setRevertThread():  Will revert to previous channel in " + revertTimeRemaining + " msec");
 
-				@Override
-				public void run() {
-					long increment = 15000L;
-					println(DisplayControllerMessagingAbstract.this.getClass(), ".setRevertThread(): Revert thread started.");
-
-					while (true) {
-						for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
-							catchSleep(Math.min(increment, revertTimeRemaining));
-							if (skipRevert) {
-								println(DisplayControllerMessagingAbstract.this.getClass(),
-										".setRevertThread():" + browserInstance.getInstance() + " No longer necessary to revert.");
+						while (true) {
+							for (; revertTimeRemaining > 0; revertTimeRemaining -= increment) {
+								catchSleep(Math.min(increment, revertTimeRemaining));
+								if (skipRevert)
+									synchronized (revertThreadWaitObject) {
+										println(DisplayControllerMessagingAbstract.class, ".setRevertThread():"
+												+ browserInstance.getInstance() + " No longer necessary to revert.");
+										revertThread = null;
+										revertTimeRemaining = 0L;
+										return;
+									}
+							}
+							synchronized (revertThreadWaitObject) {
+								previousChannelStack.pop(); // The channel already playing is the one at the top of the stack.
+								println(DisplayControllerMessagingAbstract.class, ".setRevertThread():"
+										+ browserInstance.getInstance() + " Reverting to channel " + previousChannelStack.peek());
 								revertThread = null;
 								revertTimeRemaining = 0L;
+
+								try {
+									setContent(previousChannelStack.pop());
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
 								return;
 							}
 						}
-						println(DisplayControllerMessagingAbstract.this.getClass(),
-								".setRevertThread():"
-										// + browserInstance.getInstance() + " Reverting to channel " + previousPreviousChannel);
-										+ browserInstance.getInstance() + " Reverting to channel " + previousChannelStack.peek());
-						try {
-							setContent(previousChannelStack.pop());
-							// setContent(previousPreviousChannel);
-							// Do we need to have a stack of previous channels so one can traverse backwards in a situation
-							// like this?? 8/23/18: I think maybe so! See note above
-							// previousChannel = previousPreviousChannel;
-							// previousPreviousChannel = null;
-							// println(DisplayControllerMessagingAbstract.this.getClass(), ".setRevertThread():"
-							// + browserInstance.getInstance() + " Reverted to original web page, " + previousChannel);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						revertThread = null;
-						revertTimeRemaining = 0L;
-						return;
 					}
-				}
-			};
-			revertThread.start();
-		} else {
-			println(DisplayControllerMessagingAbstract.this.getClass(), ".setRevertThread(): revert thread is already running.");
+				};
+				revertThread.start();
+			} else {
+				println(DisplayControllerMessagingAbstract.class, ".setRevertThread(): revert thread is already running.");
+			}
 		}
 	}
 
