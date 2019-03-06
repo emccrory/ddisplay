@@ -7,13 +7,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getNumberOfLocations;
+import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.channel.ChannelImage;
-import gov.fnal.ppd.dd.channel.ChannelImpl;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -22,8 +17,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.channel.ChannelImage;
+import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 /**
  * A collection of methods that deal with learning the channels in the database, in various contexts.
@@ -370,4 +377,160 @@ public class ChannelsFromDatabase {
 		println(ChannelsFromDatabase.class, ": Found " + theMap.size() + " valid channels.");
 	}
 
+	
+	public static Set<SignageContent> getSpecialChannelsForDisplay(int displayID) throws DatabaseNotVisibleException {
+		Set<SignageContent> retval = new HashSet<SignageContent> ();
+		Statement stmt = null;
+		ResultSet rs = null;
+		Connection connection = ConnectionToDatabase.getDbConnection();
+
+		try {
+			synchronized (connection) {
+				stmt = connection.createStatement();
+				rs = stmt.executeQuery("USE " + DATABASE_NAME);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			System.exit(1);
+			return null;
+		}
+
+		int count = 0;
+		try {
+
+			// Get all of the content for this display
+			List<Integer> channels = new ArrayList<Integer>();
+			List<Integer> lists = new ArrayList<Integer>();
+			List<Integer> pictures = new ArrayList<Integer>();
+
+			rs = stmt.executeQuery("SELECT * from SimplifiedChannelChoice WHERE DisplayID=" + displayID);
+			rs.first(); // Move to first returned row
+			while (!rs.isAfterLast()) {
+				try {
+					int chanNum = rs.getInt("Content");
+					int portf = rs.getInt("PortfolioID");
+					if (chanNum < 0)
+						lists.add(-chanNum);
+					else if (chanNum > 0)
+						channels.add(chanNum);
+					// Skip chanNum == 0
+					if (portf > 0)
+						pictures.add(portf);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				rs.next();
+			}
+			rs.close();
+
+			// Parse out the simple channels
+			for (int CN : channels) {
+				rs = stmt.executeQuery("SELECT Channel.Number,Name,Description,URL,Category,DwellTime,Sound "
+						+ "FROM Channel WHERE Approval=1 AND Number=" + CN);
+				rs.first(); // Move to first returned row
+				while (!rs.isAfterLast()) {
+					try {
+						String name = rs.getString("Name");
+						ChannelCategory category = ChannelCategory.MISCELLANEOUS;
+						String description = rs.getString("Description");
+						String url = rs.getString("URL");
+						int number = rs.getInt("Number");
+						int dwellTime = rs.getInt("DwellTime");
+						int codevalue = rs.getInt("Sound");
+						SignageContent c = new ChannelImpl(name, category, description, new URI(url), number, dwellTime);
+						c.setCode(codevalue);
+						retval.add(c);
+						count++;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					rs.next();
+				}
+				rs.close();
+			}
+
+			for (int CL : lists) {
+				List<SignageContent> theChannelList = new ArrayList<SignageContent>();
+
+				String query = "SELECT ChannelList.ListNumber AS ListNumber,Number,Dwell,ChangeTime,SequenceNumber,ListName,ListAuthor"
+						+ " FROM ChannelList,ChannelListName WHERE ChannelList.ListNumber=ChannelListName.ListNumber "
+						+ " AND ChannelList.ListNumber=" + CL + " ORDER BY SequenceNumber ASC";
+
+				String fullName = "void";
+				try (ResultSet rs2 = stmt.executeQuery(query)) {
+					if (rs2.first())
+						do {
+							String listName = rs2.getString("ListName");
+							String listAuthor = rs2.getString("ListAuthor");
+							// Special case -- abbreviate the code author's name here
+							if (listAuthor.toLowerCase().contains("mccrory"))
+								listAuthor = "EM";
+							// int listNumber = rs2.getInt("ListNumber");
+							long dwell = rs2.getLong("Dwell");
+							int sequence = rs2.getInt("SequenceNumber");
+							int chanNumber = rs2.getInt("Number");
+
+							fullName = listName + " (" + listAuthor + ")";
+
+							Channel chan = (Channel) getChannelFromNumber(chanNumber);
+							ChannelInList cih = new ChannelInList(chan, sequence, dwell);
+
+							theChannelList.add(cih);
+
+						} while (rs2.next());
+				} catch (SQLException e) {
+					System.err.println(query);
+					e.printStackTrace();
+				}
+				ChannelPlayList theList = new ChannelPlayList(theChannelList, 60000000) {
+					private static final long	serialVersionUID	= -2188704730094152921L;
+					private String				n;
+
+					public String getName() {
+						return n;
+					}
+
+					public void setName(String nn) {
+						n = nn;
+					}
+				};
+				theList.setName("List: " + fullName);
+				retval.add(theList);
+			}
+
+			for (int PF : pictures) {
+				rs = stmt
+						.executeQuery("SELECT Filename,Experiment,Description,PortfolioID FROM Portfolio "
+								+ "WHERE Type='Image' AND Approval='Approved' AND PortfolioID=" + PF);
+				rs.first();
+				while (!rs.isAfterLast())
+					try {
+						String name = rs.getString("FileName");
+						String descr = rs.getString("Description");
+						String exp = rs.getString("Experiment");
+						int imageNumber = rs.getInt("PortfolioID");
+
+						String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
+								+ "&caption=" + URLEncoder.encode(descr, "UTF-8");
+						ChannelImage c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url),
+								imageNumber + ONE_BILLION, exp);
+						c.setNumber(imageNumber);
+
+						retval.add(c);
+						rs.next();
+						count++;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+			}
+			rs.close();
+			
+			stmt.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		println(ChannelsFromDatabase.class, ": Found " + count + " 'simplified' channels.");
+		return retval;		
+	}
 }

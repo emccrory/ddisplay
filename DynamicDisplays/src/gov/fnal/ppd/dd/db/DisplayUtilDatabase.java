@@ -156,15 +156,17 @@ public class DisplayUtilDatabase {
 		List<Display> theList = new ArrayList<Display>();
 		int count = 0;
 		List<Integer> dID = new ArrayList<Integer>();
+		String query = "SELECT DisplaySort.LocationCode as LocationCode,Display.LocationCode as TickerCode,"
+				+ "Display.DisplayID as DisplayID,VirtualDisplayNumber,ScreenNumber,Location,IPName,ColorCode,Type "
+				+ "FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;";
+		
 		try {
 			Connection connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
 				try (Statement stmt = connection.createStatement();
 						ResultSet rs = stmt
-								.executeQuery("SELECT DisplaySort.LocationCode as LocationCode,Display.LocationCode as TickerCode,"
-										+ "Display.DisplayID as DisplayID,VirtualDisplayNumber,ScreenNumber,Location,IPName,ColorCode,Type "
-										+ "FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;");) {
+								.executeQuery(query);) {
 					rs.first(); // Move to first returned row
 					while (!rs.isAfterLast())
 						try {
@@ -198,11 +200,10 @@ public class DisplayUtilDatabase {
 				}
 			}
 		} catch (DatabaseNotVisibleException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-		println(DisplayUtilDatabase.class, ": Found " + count + " displays at locationCode=" + locationCode + ".");
+		println(DisplayUtilDatabase.class, ": Found " + count + " displays at locationCode=" + locationCode + ".\n"+ query);
 		return theList;
 	}
 

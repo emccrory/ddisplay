@@ -220,6 +220,7 @@ public class DisplayFacade extends DisplayImpl {
 
 	public boolean localSetContent() {
 		receivedAReply = false;
+		informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
 		try {
 			SignageContent content = getContent();
 			EncodedCarrier cc = null;

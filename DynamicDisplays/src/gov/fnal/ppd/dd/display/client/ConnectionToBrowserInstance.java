@@ -47,12 +47,10 @@ public abstract class ConnectionToBrowserInstance {
 	// private static final String EXTRAFRAME_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border2.php";
 	// private static final String EXTRAFRAMESNOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border3.php";
 	// private static final String EXTRAFRAMENOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border4.php";
+	// private static final String FERMI_TICKERTAPE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border5.php";
 
 	protected static final String	TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
-	// protected static final String WEB_PAGE_EMERGENCY_FRAME = "http://" + WEB_SERVER_NAME + "/border7.php";
 	protected static final String	WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border8.php";
-
-	// private static final String FERMI_TICKERTAPE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border5.php";
 
 	protected static ColorNames		colorNames						= new ColorNames();
 	protected static int			numberOfScreens					= 0;
@@ -357,8 +355,7 @@ public abstract class ConnectionToBrowserInstance {
 	/*
 	 * Note: This concept is not supported. The functionality has been removed
 	 * 
-	 * @param frameNumber
-	 *            the frame number to show in the HTML file
+	 * @param frameNumber the frame number to show in the HTML file
 	 */
 	// public void showFrame(int frameNumber) {
 	// String s = "document.getElementById('frame" + frameNumber + "').style.visibility='visible';\n";
@@ -367,8 +364,8 @@ public abstract class ConnectionToBrowserInstance {
 
 	/*
 	 * Note: This concept is not supported. The functionality has been removed
-	 * @param frameNumber
-	 *            the frame number to hide in the HTML file
+	 * 
+	 * @param frameNumber the frame number to hide in the HTML file
 	 */
 	// public void hideFrame(int frameNumber) {
 	// String s = "document.getElementById('frame" + frameNumber + "').style.visibility='hidden';\n";
