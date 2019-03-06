@@ -18,6 +18,7 @@ import gov.fnal.ppd.dd.util.DisplayButtonGroup;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -40,11 +41,9 @@ import javax.swing.JScrollPane;
  */
 public class DocentGrid extends DetailedInformationGrid {
 
-	private static final long	serialVersionUID	= 3102445872732142334L;
-
+	private static final long		serialVersionUID	= 3102445872732142334L;
 	private List<SignageContent>	myButtonList;
-
-	static final int		MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 30 : 40);
+	static final int				MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 35 : 40);
 
 	/**
 	 * Create this tab for the ChannelSelector GUI
@@ -102,12 +101,18 @@ public class DocentGrid extends DetailedInformationGrid {
 
 						DDButton button = new DDIconButton(imageChannel, display, MAX_CAPTION_LENGTH, dp.getIcon());
 						String[] pieces = name.split("/", -1);
-						button.setText(trunc(pieces[pieces.length - 1], MAX_CAPTION_LENGTH));
+						String filename = pieces[pieces.length - 1].replace(".jpg", "").replace(".jpeg", "").replace(".JPG", "").replace(".JPEG", "");
+						button.setText(trunc(filename, MAX_CAPTION_LENGTH));
 						button.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+					
 						b.add(new JWhiteLabel(exp, 18.0f));
 						b.add(button);
 						// b.add(dp);
-						b.add(new JWhiteLabel(desc));
+						if (SHOW_IN_WINDOW) {
+							button.setFont(button.getFont().deriveFont(Font.PLAIN, 10.0f));
+							b.add(new JWhiteLabel(desc, Font.PLAIN, 11.0f));
+						} else
+							b.add(new JWhiteLabel(desc));
 						b.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white),
 								BorderFactory.createLineBorder(display.getPreferredHighlightColor(), 2)));
 
@@ -118,7 +123,9 @@ public class DocentGrid extends DetailedInformationGrid {
 						pictureButtonBox.add(b);
 					} else {
 						DDButton button = new DDButton((Channel) content, display, 50);
-						if (!SHOW_IN_WINDOW) {
+						if (SHOW_IN_WINDOW) {
+							button.setFont(button.getFont().deriveFont(Font.PLAIN, 2 * FONT_SIZE / 5));
+						} else {
 							button.setFont(button.getFont().deriveFont(FONT_SIZE / 2));
 							button.setMargin(new Insets(30, 2, 30, 2));
 						}

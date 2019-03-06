@@ -18,4 +18,10 @@ public class JWhiteLabel extends JLabel {
 		setFont(getFont().deriveFont(size));
 		setAlignmentX(CENTER_ALIGNMENT);
 	}
+	
+	public JWhiteLabel(String text, int style, float size) {
+		this(text);
+		setFont(getFont().deriveFont(style, size));
+		setAlignmentX(CENTER_ALIGNMENT);
+	}
 }

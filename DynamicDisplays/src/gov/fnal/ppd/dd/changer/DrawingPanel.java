@@ -1,6 +1,6 @@
 package gov.fnal.ppd.dd.changer;
 
-import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,24 +21,13 @@ class DrawingPanel extends JPanel {
 	private static Map<String, ImageIcon>	cache				= new HashMap<String, ImageIcon>();
 	private ImageIcon						icon;
 	private static int						LONG_EDGE			= 220;
-	private static boolean					firstTime			= true;
+	static {
+		if (SHOW_IN_WINDOW) {
+			LONG_EDGE = 180;
+		}
+	}
 
 	public DrawingPanel(String url, Color bgColor) {
-		if (firstTime) {
-			firstTime = false;
-			int width = screenDimension.width;
-			int height = screenDimension.height;
-
-			if (height < 500) {
-				LONG_EDGE = 100;
-			} else if (width < 801 || height < 600) {
-				LONG_EDGE = 120;
-			} else if (width < 1000 || height < 800) {
-				LONG_EDGE = 160;
-			} else if (width < 1400 || height < 1000) {
-				LONG_EDGE = 200;
-			}
-		}
 		int height = LONG_EDGE;
 		int width = LONG_EDGE;
 		if (cache.containsKey(url)) {
