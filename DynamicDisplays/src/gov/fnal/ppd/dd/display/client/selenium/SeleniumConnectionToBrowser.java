@@ -298,6 +298,25 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				// URL. This is a _little_ tricky because here the URL we show has to be the so-called "border" web page with an
 				// iframe.
 
+				// I have rigged up the border web page to write an error to a hidden <div id="hiddenPlaceForerrors">.  But the
+				// web page cannot detect if there is an error when loading a URL to an iFrame.  Rats.
+				@SuppressWarnings("unused")
+				Thread watchForErrors = new Thread("WatchForErrorsInWebPage") {
+					public void run() {
+						while (true) {
+							catchSleep(ONE_MINUTE);
+							Object r = jse.executeScript("return document.getElementById('hiddenPlaceForErrors').innerHTML;\n",
+									new Object[] { "nothing" });
+							if (r.toString().toLowerCase().contains("error")) {
+								printlnErr(SeleniumConnectionToBrowser.class, " Error detected in iFrame: " + r);
+								connected = false;
+							}
+						}
+
+					}
+				};
+				// Since this idea does not work, do not start this thread.
+				// watchForErrors.start();
 			} else {
 				// This assumes the Dynamic Displays border web page, which has the iframe for the content.
 				send("document.getElementById('iframe').src='" + url + "';\n");
