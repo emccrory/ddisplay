@@ -28,7 +28,6 @@ import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
 
 /**
  * The implementation of a Display. This is made concrete on the controller side through DisplayFacade, and on the display side
@@ -55,7 +54,6 @@ public abstract class DisplayImpl implements Display {
 
 	protected Color					highlightColor;
 	protected List<ActionListener>	listeners				= new ArrayList<ActionListener>();
-	private SignageType				category				= SignageType.Public;
 	private InetAddress				ipAddress;
 	private String					location;
 
@@ -76,7 +74,7 @@ public abstract class DisplayImpl implements Display {
 	 * @param type
 	 */
 	public DisplayImpl(final String ipName, final int vDisplay, final int dbDisplay, final int screenNumber, final String location,
-			final Color color, final SignageType type) {
+			final Color color) {
 		assert (screenNumber >= 0);
 		assert (vDisplay >= 0);
 		assert (dbDisplay >= 0);
@@ -93,7 +91,6 @@ public abstract class DisplayImpl implements Display {
 		this.dbDisplayNumber = dbDisplay;
 		this.vDisplayNumber = vDisplay;
 		this.highlightColor = color;
-		this.category = type;
 		// this.previousChannel = this.channel = makeEmptyChannel(null);
 		this.channel = makeEmptyChannel(null);
 		this.previousChannelStack.push(this.channel);
@@ -105,7 +102,10 @@ public abstract class DisplayImpl implements Display {
 	public SignageContent setContent(final SignageContent c) {
 
 		// TODO -- When an emergency message is up, we should (probably) not allow the channel to change.
+		//
 		// The ideal way would be to change the underlying channel while keeping the emergency message up, but this is hard.
+		// ACtually, the way to do this is to have the emergency message EXPIRE after a suitable amount of time (an hour?).  Then
+		// the last channel will reappear.
 
 		if (c instanceof EmergencyCommunication) {
 			EmergencyCommunication ec = (EmergencyCommunication) c;
@@ -120,9 +120,8 @@ public abstract class DisplayImpl implements Display {
 
 			return channel;
 		}
-		boolean visible = getCategory().isVisible(c);
 		boolean verified = isVerifiedChannel(c);
-		if (visible && verified) {
+		if (verified) {
 			// Take care of a null argument and remembering the previous channel.
 			if (!channel.equals(c)) {
 				if (channel instanceof EmergencyCommunication)
@@ -142,15 +141,10 @@ public abstract class DisplayImpl implements Display {
 			// Actually do the channel change!
 			respondToContentChange(localSetContent(), "");
 			return previousChannelStack.peek();
-		}
-		if (!verified) {
+		} else {
 			error("The requested channel (URL=" + c.getURI().toString() + ") is not approved to be shown");
 			informListeners(DisplayChangeEvent.Type.ERROR,
 					"The requested channel (URL=" + c.getURI().toString() + ") is not approved to be shown");
-		} else if (!visible) {
-			error("Content type of this Channel (" + c.getType() + ") is not appropriate for this Display (" + getCategory() + ")");
-			informListeners(DisplayChangeEvent.Type.ERROR, "Content type of this Channel (" + c.getType()
-					+ ") is not appropriate for this Display (" + getCategory() + ")");
 		}
 
 		return channel;
@@ -318,18 +312,11 @@ public abstract class DisplayImpl implements Display {
 
 	@Override
 	public String getDescription() {
-		String retval = getCategory() + "<br />";
-
-		retval += " <b>Location:</b> " + location + "<br />";
+		String retval = " <b>Location:</b> " + location + "<br />";
 		retval += (getContent() == null ? "<em>No channel selected</em>" : "<b>Channel:</b> '" + getContent().getName() + "'");
 		retval += " <br /><b>IP:</b> (" + getIPAddress() + ")";
 		retval += " <br /><b>Color:</b> " + getPreferredHighlightColor().toString().replace("gov.fnal.ppd.dd.util.HSBColor", "");
 		return retval;
-	}
-
-	@Override
-	public SignageType getCategory() {
-		return category;
 	}
 
 	@Override

@@ -1,15 +1,14 @@
 package gov.fnal.ppd.dd.xml;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * Message from a Control Panel that specifies a Channel (SignageContent)
@@ -132,16 +131,6 @@ public class ChannelSpec implements SignageContent {
 		content.setDescription(d);
 	}
 
-	@Override
-	public SignageType getType() {
-		return content.getType();
-	}
-
-	@Override
-	public void setType(SignageType t) {
-		content.setType(t);
-	}
-
 	@XmlElement
 	@Override
 	public URI getURI() {
@@ -152,13 +141,4 @@ public class ChannelSpec implements SignageContent {
 	public void setURI(URI i) {
 		content.setURI(i);
 	}
-
-	// @XmlElement
-	// public URI getUri() {
-	// return content.getURI();
-	// }
-	//
-	// public void setUri(URI uri) {
-	// content.setURI(uri);
-	// }
 }

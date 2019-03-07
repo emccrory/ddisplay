@@ -21,7 +21,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import javax.swing.Box;
 import javax.swing.JButton;

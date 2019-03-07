@@ -34,7 +34,6 @@ import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 /**
@@ -130,13 +129,6 @@ public class ChangeOneDisplay {
 							addLocationCode(rs.getInt("LocationCode"));
 							if (verbose)
 								System.out.println("Location code is " + getLocationCode());
-							String myClassification = rs.getString("Type");
-
-							// IS_PUBLIC_CONTROLLER = "Public".equals(myClassification);
-
-							@SuppressWarnings("unused")
-							final SignageType sType = SignageType.valueOf(myClassification);
-
 							if (!MessageCarrier.initializeSignature()) {
 								JOptionPane.showMessageDialog(null, "The private key file, for security, cannot be found.\n"
 										+ "Click 'Dismiss' to close the GUI.\nThen get help to fix this problem.",

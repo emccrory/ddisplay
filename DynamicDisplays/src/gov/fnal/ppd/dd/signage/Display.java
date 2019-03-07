@@ -98,39 +98,9 @@ public interface Display extends ActionListener {
 	public String getDescription();
 
 	/**
-	 * What kind of Display is this?
-	 * 
-	 * @return the Display category
-	 */
-	public SignageType getCategory();
-
-	/*
-	 * Set the DNS name of this Display. The Display class will internally set this to the InetAddress
-	 * 
-	 * @param ipName
-	 */
-	// public void setIpName( String ipName ) throws UnknownHostException;
-
-	/*
-	 * Set the screen number for this Display. The default is 0.
-	 * 
-	 * @param screenNumber
-	 */
-	// public void setScreenNumber( int screenNumber );
-
-	/*
-	 * Set the string that specifies the location of this Display
-	 * 
-	 * @param location
-	 */
-	// public void setLocation( String location );
-
-	/**
 	 * @return A description of the precise location of this Display
 	 */
 	public String getLocation();
-
-	// public void setNumber( int number );
 
 	/**
 	 * Return the status of this Display, which is expected to include if it is live and, if so, what it is showing.

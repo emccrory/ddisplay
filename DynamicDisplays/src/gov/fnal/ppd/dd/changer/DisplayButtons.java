@@ -9,7 +9,6 @@ import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.shortDate;
 import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DisplayButtonGroup;
 import gov.fnal.ppd.dd.util.DisplayColorSliderUI;
 
@@ -163,7 +162,7 @@ public class DisplayButtons extends JPanel {
 	 *            The type of Display to allow control of, here
 	 * @param listener
 	 */
-	public DisplayButtons(final SignageType cat, final ActionListener listener) {
+	public DisplayButtons(final ActionListener listener) {
 		super(new BorderLayout());
 
 		this.listener = listener;

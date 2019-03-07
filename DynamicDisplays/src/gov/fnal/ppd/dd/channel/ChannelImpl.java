@@ -10,7 +10,6 @@ import java.util.zip.Checksum;
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
 
 import java.net.URI;
 
@@ -34,8 +33,6 @@ public class ChannelImpl implements Channel {
 	// private SignageContent content = null;
 
 	private URI					uri;
-
-	private SignageType			type				= SignageType.Public;
 
 	private long				time;
 	private long				expiration			= 0L;
@@ -199,10 +196,6 @@ public class ChannelImpl implements Channel {
 		return uri;
 	}
 
-	@Override
-	public SignageType getType() {
-		return type;
-	}
 
 	@Override
 	public void setName(String name) {
@@ -222,11 +215,6 @@ public class ChannelImpl implements Channel {
 	@Override
 	public void setCategory(ChannelCategory c) {
 		this.category = c;
-	}
-
-	@Override
-	public void setType(SignageType t) {
-		this.type = t;
 	}
 
 	@Override

@@ -5,16 +5,15 @@
  */
 package gov.fnal.ppd.dd.channel;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
+
+import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * This class holds a list of Channels that is to be played on a Display
@@ -92,11 +91,6 @@ public class ChannelPlayList implements Channel {
 	}
 
 	@Override
-	public SignageType getType() {
-		return channels.get(currentChannel).getType();
-	}
-
-	@Override
 	public URI getURI() {
 		return channels.get(currentChannel).getURI();
 	}
@@ -148,11 +142,6 @@ public class ChannelPlayList implements Channel {
 
 	@Override
 	public void setCategory(ChannelCategory c) {
-		// Not relevant for a list of content
-	}
-
-	@Override
-	public void setType(SignageType t) {
 		// Not relevant for a list of content
 	}
 

@@ -53,7 +53,6 @@ import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.Command;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.ExitHandler;
@@ -194,8 +193,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	 * @param type
 	 */
 	public DisplayControllerMessagingAbstract(final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
-			final boolean showNumber, final String location, final Color color, final SignageType type) {
-		super(ipName, vNumber, dbNumber, screenNumber, location, color, type);
+			final boolean showNumber, final String location, final Color color) {
+		super(ipName, vNumber, dbNumber, screenNumber, location, color);
 
 		if (getContent() == null)
 			throw new IllegalArgumentException("No content defined!");
@@ -822,7 +821,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 								int tickerCode = rs.getInt("LocationCode");
 								String t = rs.getString("Type");
-								SignageType type = SignageType.valueOf(t);
 								String location = rs.getString("Location");
 								String colorString = rs.getString("ColorCode");
 								Color color = new Color(Integer.parseInt(colorString, 16));
@@ -834,17 +832,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 								boolean badNUC = rs.getInt("BadNUC") == 1;
 
-								// stmt.close();
-								// rs.close();
-
 								// Now create the class object
 
 								Constructor<?> cons;
 								try {
 									cons = clazz.getConstructor(String.class, int.class, int.class, int.class, boolean.class,
-											String.class, Color.class, SignageType.class);
+											String.class, Color.class);
 									d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] { myName, vNumber,
-											dbNumber, screenNumber, showNumber, location, color, type });
+											dbNumber, screenNumber, showNumber, location, color });
 									d.setContentBypass(cont);
 									d.setWrapperType(WrapperType.getWrapperType(tickerCode));
 									d.setBadNuc(badNUC);
@@ -855,7 +850,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 									e.printStackTrace();
 									System.err.println("Here are the arguments: " + myName + ", " + vNumber + ", " + dbNumber + ", "
 											+ screenNumber + ", " + (showNumber ? "ShowNum" : "HideNum") + ", " + location + ", "
-											+ color + ", " + type);
+											+ color);
 								}
 								// Allow it to loop over multiple displays
 								// return null;
@@ -891,10 +886,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private static DisplayControllerMessagingAbstract failSafeVersion(Class<?> clazz) {
 		Constructor<?> cons;
 		try {
-			cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class,
-					SignageType.class);
+			cons = clazz.getConstructor(String.class, int.class, int.class, int.class, String.class, Color.class);
 			DisplayControllerMessagingAbstract d = (DisplayControllerMessagingAbstract) cons
-					.newInstance(new Object[] { "Failsafe Display", 99, 0, 0, "Failsafe location", Color.red, SignageType.XOC });
+					.newInstance(new Object[] { "Failsafe Display", 99, 0, 0, "Failsafe location", Color.red });
 			d.initiate();
 			d.setContentBypass(makeEmptyChannel(null));
 

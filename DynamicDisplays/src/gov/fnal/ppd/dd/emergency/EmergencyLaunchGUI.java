@@ -8,13 +8,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.changer.DisplayButtons.normalOperations;
 import static gov.fnal.ppd.dd.util.Util.launchErrorMessage;
-import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
-import gov.fnal.ppd.dd.changer.DisplayChangeEvent.Type;
-import gov.fnal.ppd.dd.changer.DisplayListFactory;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageType;
-import gov.fnal.ppd.dd.util.CheckDisplayStatus;
-import gov.fnal.ppd.dd.util.ObjectSigning;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -52,6 +45,13 @@ import javax.swing.SpinnerModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
+import gov.fnal.ppd.dd.changer.DisplayChangeEvent.Type;
+import gov.fnal.ppd.dd.changer.DisplayListFactory;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.util.CheckDisplayStatus;
+import gov.fnal.ppd.dd.util.ObjectSigning;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -153,7 +153,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		this.emergencyMessageDistributor = emd;
 		normalOperations = false;
 
-		displays = DisplayListFactory.getInstance(SignageType.XOC, getLocationCode());
+		displays = DisplayListFactory.getInstance(getLocationCode());
 
 		for (Display D : displays) {
 			JLabel footer = new JLabel("Waiting to hear from Display " + D.getDBDisplayNumber() + " ... "

@@ -1,6 +1,5 @@
 package gov.fnal.ppd.dd.changer;
 
-import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
@@ -55,7 +54,6 @@ import javax.swing.plaf.FontUIResource;
 import gov.fnal.ppd.dd.db.NoSuchDisplayException;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
 
 /**
@@ -249,10 +247,8 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		// Set up a different connection to each display within this class, doubling the number of connections to the messaging
 		// server
 
-		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
-
 		if (d == null)
-			displays = DisplayListFactory.getInstance(sType, getLocationCode());
+			displays = DisplayListFactory.getInstance(getLocationCode());
 		else {
 			displays = new ArrayList<Display>();// theGUI.add(saveButton);
 			// theGUI.add(getStatusFooter());

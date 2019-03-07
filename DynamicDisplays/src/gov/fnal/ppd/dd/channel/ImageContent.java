@@ -5,10 +5,6 @@
  */
 package gov.fnal.ppd.dd.channel;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
-
 import java.awt.Image;
 import java.net.URI;
 import java.net.URL;
@@ -16,6 +12,9 @@ import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
 import javax.imageio.ImageIO;
+
+import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * Proof-of-principle that Signage Content can be something other than a web page. It is not _fully_ tested.
@@ -29,7 +28,6 @@ public class ImageContent implements SignageContent {
 	private String				name, description;
 	private Image				image;
 	private URI					uri;
-	private SignageType			type;
 	private long				time				= 0L;
 	private int					code;
 	private long				expiration			= 0L;
@@ -103,11 +101,6 @@ public class ImageContent implements SignageContent {
 	}
 
 	@Override
-	public SignageType getType() {
-		return type;
-	}
-
-	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -121,11 +114,6 @@ public class ImageContent implements SignageContent {
 	public void setCategory(ChannelCategory c) {
 		// This really should be an IMAGE
 		assert (c.equals(ChannelCategory.IMAGE));
-	}
-
-	@Override
-	public void setType(SignageType t) {
-		this.type = t;
 	}
 
 	@Override

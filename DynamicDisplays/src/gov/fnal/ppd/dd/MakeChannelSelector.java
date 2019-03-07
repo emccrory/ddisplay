@@ -55,7 +55,6 @@ import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.JavaVersion;
 import gov.fnal.ppd.dd.util.SelectorInstructions;
@@ -179,12 +178,10 @@ public class MakeChannelSelector {
 								if (IS_PUBLIC_CONTROLLER)
 									SHOW_EXTENDED_DISPLAY_NAMES = true;
 
-								final SignageType sType = SignageType.valueOf(myClassification);
-
 								if (displayList == null)
-									displayList = DisplayListFactory.getInstance(sType, lc);
+									displayList = DisplayListFactory.getInstance(lc);
 								else {
-									List<Display> moreDisplays = DisplayListFactory.getInstance(sType, lc);
+									List<Display> moreDisplays = DisplayListFactory.getInstance(lc);
 									if (displayList.addAll(moreDisplays) == false) {
 										System.err.println("Could not add the " + moreDisplays.size()
 												+ " new display instances to displayList!?");

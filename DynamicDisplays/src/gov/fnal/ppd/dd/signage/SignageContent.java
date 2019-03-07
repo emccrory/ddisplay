@@ -56,16 +56,6 @@ public interface SignageContent extends Serializable {
 	public void setCategory(ChannelCategory c);
 
 	/**
-	 * @return The type of this Content, e.g., PUBLIC, EXPERIMENT, and XOC. This determined where this content may be displayed.
-	 */
-	public SignageType getType();
-
-	/**
-	 * @param t
-	 */
-	public void setType(SignageType t);
-
-	/**
 	 * The address of the content. Usually, this will be a URL (likely, "http://" or "https://") and points to somewhere on the
 	 * Internet.
 	 * 

@@ -9,7 +9,6 @@ import static gov.fnal.ppd.dd.util.Util.println;
 import java.awt.Color;
 
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
-import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.JavaVersion;
 import gov.fnal.ppd.dd.util.SendEmailCommand;
@@ -33,8 +32,8 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 	 * @param type
 	 */
 	public DisplayAsConnectionThroughSelenium(final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
-			final boolean showNumber, final String location, final Color color, final SignageType type) {
-		super(ipName, vNumber, dbNumber, screenNumber, showNumber, location, color, type);
+			final boolean showNumber, final String location, final Color color) {
+		super(ipName, vNumber, dbNumber, screenNumber, showNumber, location, color);
 
 		browserLauncher = new BrowserLauncherSelenium(screenNumber);
 		contInitialization();

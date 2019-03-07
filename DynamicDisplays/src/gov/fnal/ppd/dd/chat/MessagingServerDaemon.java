@@ -14,7 +14,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
 import static gov.fnal.ppd.dd.util.Util.println;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import gov.fnal.ppd.dd.util.JavaVersion;
@@ -34,7 +33,6 @@ public class MessagingServerDaemon {
 	// my server
 	private static LocalMessagingServer	server;
 	private int							port;
-	private SimpleDateFormat			sdf	= new SimpleDateFormat("MMM-dd HH:mm:ss");
 
 	private class LocalMessagingServer extends MessagingServer {
 		public LocalMessagingServer(int port) {

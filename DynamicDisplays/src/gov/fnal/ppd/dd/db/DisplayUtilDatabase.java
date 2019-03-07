@@ -25,7 +25,6 @@ import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 /**
@@ -179,11 +178,9 @@ public class DisplayUtilDatabase {
 							int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
 							if ((locationCode < 0 || locCode == locationCode) && !dID.contains(displayID)) {
 								// Negative locationCode will select ALL displays everywhere
-								SignageType type = SignageType.valueOf(rs.getString("Type"));
-
 								dID.add(displayID);
 								Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location,
-										new Color(colorCode), type);
+										new Color(colorCode));
 								p.setVirtualDisplayNumber(vDisplayNum);
 
 								theList.add(p);
@@ -235,10 +232,8 @@ public class DisplayUtilDatabase {
 							int screenNumber = rs.getInt("ScreenNumber");
 							int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
 							if ((locationCode < 0 || locCode == locationCode) && displayDBNumber == displayID) {
-								SignageType type = SignageType.valueOf(rs.getString("Type"));
-
 								Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location,
-										new Color(colorCode), type);
+										new Color(colorCode));
 								p.setVirtualDisplayNumber(vDisplayNum);
 
 								theList.add(p);

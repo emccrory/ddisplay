@@ -3,7 +3,6 @@ package gov.fnal.ppd.dd;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.INSET_SIZE;
-import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
@@ -88,7 +87,6 @@ import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
 import gov.fnal.ppd.dd.util.DisplayButtonGroup;
 import gov.fnal.ppd.dd.util.DisplayCardActivator;
@@ -306,11 +304,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		SaveRestoreDefaultChannels.setup("Change Default Configurations", 30.0f, new Insets(20, 50, 20, 50));
 
 		removeAll();
-		SignageType cat = SignageType.XOC; // Show everything
-		if (IS_PUBLIC_CONTROLLER)
-			cat = SignageType.Public;
 
-		displaySelector = new DisplayButtons(cat, this);
+		displaySelector = new DisplayButtons(this);
 		lastActiveDisplay = getDisplayID(displaySelector.getFirstDisplay());
 		// initChannelSelectors();
 		initializeTabs();
@@ -839,14 +834,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	 * @param args
 	 */
 	public static void oldMain(final String[] args) {
-
-		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
-
 		MessageCarrier.initializeSignature();
 		println(ChannelSelector.class, ": Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
 		println(ChannelSelector.class, ": Expect my client name to be '" + getFullSelectorName() + "'\n");
 
-		displayList = DisplayListFactory.getInstance(sType, getLocationCode());
+		displayList = DisplayListFactory.getInstance(getLocationCode());
 		channelSelector = new ChannelSelector();
 		channelSelector.start();
 

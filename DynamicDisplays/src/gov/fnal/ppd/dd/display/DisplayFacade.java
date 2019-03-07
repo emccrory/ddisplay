@@ -24,7 +24,6 @@ import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.signage.SignageType;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelByNumber;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
@@ -186,12 +185,10 @@ public class DisplayFacade extends DisplayImpl {
 	 *            A description of the location of this display
 	 * @param color
 	 *            the highlight color for this display
-	 * @param type
-	 *            the signage type for this display (not really used at this time)
-	 */
+	 	 */
 	public DisplayFacade(final int locCode, final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
-			final String location, final Color color, final SignageType type) {
-		super(ipName, vNumber, dbNumber, screenNumber, location, color, type);
+			final String location, final Color color) {
+		super(ipName, vNumber, dbNumber, screenNumber, location, color);
 
 		this.locCode = locCode;
 		if (lastLocCode == Integer.MAX_VALUE)
@@ -276,20 +273,6 @@ public class DisplayFacade extends DisplayImpl {
 		}
 		return false;
 	}
-
-	/*
-	 * @return Is there really a display connected to us, here?
-	 */
-	// public boolean isConnected() {
-	// TODO This return value should be true only if we have seen a message from our connected Display.
-
-	// Once we get a reply from the real display, we are definitely connected. But we need to say we are connected first, before
-	// we send a change-channel request! 
-	
-	// But this information is never used, so let's forget about it.
-
-	// return true;
-	// }
 
 	@Override
 	public String getMessagingName() {

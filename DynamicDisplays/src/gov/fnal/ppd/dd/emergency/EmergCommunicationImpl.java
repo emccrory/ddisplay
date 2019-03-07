@@ -7,7 +7,6 @@ import java.util.zip.Checksum;
 
 import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
-import gov.fnal.ppd.dd.signage.SignageType;
 
 /**
  * Reference implementation of EmergencyCommunication
@@ -22,7 +21,6 @@ public class EmergCommunicationImpl implements EmergencyCommunication {
 	private String				name				= "Energency Communication";
 	private String				desc				= "Emergency Communication message";
 	private ChannelCategory		category			= ChannelCategory.MISCELLANEOUS;
-	private SignageType			sType				= SignageType.XOC;
 	private long				dwell				= 3600000L;
 	private URI					uri;
 	private long				expire				= 0L;
@@ -68,17 +66,6 @@ public class EmergCommunicationImpl implements EmergencyCommunication {
 	@Override
 	public void setCategory(ChannelCategory c) {
 		// this.category = c; Cannot override!
-	}
-
-	@Override
-	public SignageType getType() {
-		return sType;
-	}
-
-	@Override
-	public void setType(SignageType t) {
-		// this.sType = t; Cannot override!
-		alertReadOnly();
 	}
 
 	@Override

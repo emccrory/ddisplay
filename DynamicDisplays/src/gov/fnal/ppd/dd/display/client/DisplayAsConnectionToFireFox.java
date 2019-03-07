@@ -8,8 +8,6 @@ import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.awt.Color;
 
-import gov.fnal.ppd.dd.signage.SignageType;
-
 /**
  * <p>
  * Implement a Dynamic Display using a back-door communication channel to FireFox (see https://github.com/pmorch/FF-remote-control)
@@ -59,8 +57,8 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 	 * @param type
 	 */
 	public DisplayAsConnectionToFireFox(final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
-			final boolean showNumber, final String location, final Color color, final SignageType type) {
-		super(ipName, vNumber, dbNumber, screenNumber, showNumber, location, color, type);
+			final boolean showNumber, final String location, final Color color) {
+		super(ipName, vNumber, dbNumber, screenNumber, showNumber, location, color);
 
 		browserLauncher = new BrowserLauncherFirefox(screenNumber);
 		contInitialization();

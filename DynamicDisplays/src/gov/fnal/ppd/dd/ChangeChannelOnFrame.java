@@ -2,7 +2,6 @@ package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.INSET_SIZE;
-import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
@@ -10,21 +9,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
-import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
-import gov.fnal.ppd.dd.changer.DDButton;
-import gov.fnal.ppd.dd.changer.DetailedInformationGrid;
-import gov.fnal.ppd.dd.changer.DisplayButtons;
-import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageType;
-import gov.fnal.ppd.dd.util.CheckDisplayStatus;
-import gov.fnal.ppd.dd.util.DisplayButtonGroup;
-import gov.fnal.ppd.dd.util.DisplayCardActivator;
-import gov.fnal.ppd.dd.util.DisplayKeeper;
-import gov.fnal.ppd.dd.util.JLabelFooter;
-import gov.fnal.ppd.dd.util.SelectorInstructions;
-import gov.fnal.ppd.dd.util.WhoIsInChatRoom;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -48,6 +32,21 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
+import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.DDButton;
+import gov.fnal.ppd.dd.changer.DetailedInformationGrid;
+import gov.fnal.ppd.dd.changer.DisplayButtons;
+import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.util.CheckDisplayStatus;
+import gov.fnal.ppd.dd.util.DisplayButtonGroup;
+import gov.fnal.ppd.dd.util.DisplayCardActivator;
+import gov.fnal.ppd.dd.util.DisplayKeeper;
+import gov.fnal.ppd.dd.util.JLabelFooter;
+import gov.fnal.ppd.dd.util.SelectorInstructions;
+import gov.fnal.ppd.dd.util.WhoIsInChatRoom;
 
 /**
  * <p>
@@ -141,11 +140,8 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 
 	private void initComponents() {
 		removeAll();
-		SignageType cat = SignageType.XOC; // Show everything
-		if (IS_PUBLIC_CONTROLLER)
-			cat = SignageType.Public;
-
-		displaySelector = new DisplayButtons(cat, this);
+		
+		displaySelector = new DisplayButtons(this);
 		lastActiveDisplay = displaySelector.getFirstDisplay().toString();
 		// initChannelSelectors();
 		initializeTabs();
@@ -433,12 +429,7 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 	 */
 	public static void main(final String[] args) {
 		credentialsSetup();
-
 		MakeChannelSelector.selectorSetup();
-
-		@SuppressWarnings("unused")
-		final SignageType sType = (IS_PUBLIC_CONTROLLER ? SignageType.Public : SignageType.XOC);
-
 		ChangeChannelOnFrame changer = new ChangeChannelOnFrame();
 		changer.start();
 
