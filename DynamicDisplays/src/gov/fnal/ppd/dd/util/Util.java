@@ -41,7 +41,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 
 import gov.fnal.ppd.dd.GlobalVariables;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
@@ -50,6 +50,9 @@ import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.xml.ChangeChannelList;
+import gov.fnal.ppd.dd.xml.ChannelSpec;
+import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 /**
  * Some general utilities in the DD system
@@ -58,9 +61,6 @@ import gov.fnal.ppd.dd.signage.SignageContent;
  * 
  */
 public class Util {
-	private static final ChannelCategory	PUB				= new ChannelCategory("PUBLIC", "PUB");
-	// Some globals for identifying the servers in this system
-
 	private static final String[]			days			= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
 	// TODO Replace this random selection of default page to show with the page that is specified in the database.
@@ -199,7 +199,7 @@ public class Util {
 	 */
 	public static SignageContent makeEmptyChannel(String url) {
 		try {
-			return new ChannelImpl(MY_NAME, PUB, "This is a default channel", new URI(url == null ? MY_URL : url), 0, 0);
+			return new ChannelImpl(MY_NAME, ChannelClassification.MISCELLANEOUS, "This is a default channel", new URI(url == null ? MY_URL : url), 0, 0);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return null;
@@ -270,21 +270,48 @@ public class Util {
 
 	/**
 	 * @param content
-	 *            The blob to be turned into a string
-	 * @return the blob as a string
+	 *            The Content object to be turned into a string
+	 * @return the content converted to a DB-ready string
 	 */
-	public static String convertObjectToHexBlob(final Serializable content) {
-		if (content == null)
-			return null;
-		String blob = "";
-		try {
-			ByteArrayOutputStream fout = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(fout);
-			oos.writeObject(content);
+	public static String convertContentToDBReadyString(final SignageContent arg) {
+		final boolean useStreamedObject = false;
 
-			blob += bytesToString(fout.toByteArray(), false);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (arg == null)
+			return null;
+
+		// TODO - This should be an all-ASCII XML document, not a streamed object. Oracle announced in 2018 that they will deprecate
+		// and remove this functionality in a future release of Java (Java 10?).
+
+		String blob = null;
+		if (useStreamedObject) {
+			blob = "";
+			Serializable content = arg;
+			try {
+				ByteArrayOutputStream fout = new ByteArrayOutputStream();
+				ObjectOutputStream oos = new ObjectOutputStream(fout);
+				oos.writeObject(content);
+
+				blob += bytesToString(fout.toByteArray(), false);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			String xmlDocument = "";
+			try {
+				if (arg instanceof ChannelPlayList) {
+					ChangeChannelList ccl = new ChangeChannelList(); // This is the XML class
+					ccl.setContent((ChannelPlayList) arg);
+					xmlDocument = MyXMLMarshaller.getXML(ccl);
+				} else {
+					ChannelSpec cs = new ChannelSpec(arg); // This is the XML class
+					xmlDocument = MyXMLMarshaller.getXML(cs);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			// I'm not sure about this replacement. The DB "UPDATE" query uses tick marks, so the first one is probably necessary.
+			// But maybe not the second one for the double-quote character.
+			blob = xmlDocument.replace("'", "\\'").replace("\"", "\\\"");
 		}
 		return blob;
 	}
@@ -344,7 +371,7 @@ public class Util {
 
 		Channel retval = null;
 		try {
-			retval = new ChannelImpl("Fermilab", PUB, "Fermilab", new URI("https://www.fnal.gov"), 0, 360000L);
+			retval = new ChannelImpl("Fermilab", ChannelClassification.MISCELLANEOUS, "Fermilab", new URI("https://www.fnal.gov"), 0, 360000L);
 		} catch (URISyntaxException e2) {
 			e2.printStackTrace();
 		}
@@ -356,7 +383,7 @@ public class Util {
 		} else if (channelNumber < 0) {
 			// The default channel is a list of channels. Build it!
 
-			String query = "select Channel.Number as Number,Dwell,Name,Description,URL,SequenceNumber,Category from Channel,ChannelList where ListNumber="
+			String query = "select Channel.Number as Number,Dwell,Name,Description,URL,SequenceNumber from Channel,ChannelList where ListNumber="
 					+ (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
 
 			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
@@ -383,9 +410,8 @@ public class Util {
 							String desc = rs.getString("Description");
 							String url = rs.getString("URL");
 							int seq = rs.getInt("SequenceNumber");
-							String catString = rs.getString("Category");
 
-							ChannelInList c = new ChannelInList(name, new ChannelCategory(catString, catString), desc, new URI(url),
+							ChannelInList c = new ChannelInList(name, ChannelClassification.MISCELLANEOUS, desc, new URI(url),
 									chanNum, dwell);
 							c.setSequenceNumber(seq);
 							channelList.add(c);
@@ -429,9 +455,8 @@ public class Util {
 							int dwell = rs.getInt("DwellTime");
 							String desc = rs.getString("Description");
 							String name = rs.getString("Name");
-							String catString = rs.getString("Category");
 
-							retval = new ChannelImpl(name, new ChannelCategory(catString, catString), desc, new URI(url),
+							retval = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, desc, new URI(url),
 									channelNumber, dwell);
 							alreadyRetrieved.put(channelNumber, retval);
 
@@ -471,7 +496,7 @@ public class Util {
 									+ URLEncoder.encode(desc, "UTF-8");
 
 							String[] array = filename.split("/", -1);
-							retval = new ChannelImpl(array[array.length - 1], ChannelCategory.IMAGE, desc, new URI(url),
+							retval = new ChannelImpl(array[array.length - 1], ChannelClassification.IMAGE, desc, new URI(url),
 									channelNumber, 0L);
 							alreadyRetrieved.put(channelNumber, retval);
 

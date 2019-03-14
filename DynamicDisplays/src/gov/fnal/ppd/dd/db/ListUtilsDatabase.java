@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelInList;
@@ -37,7 +37,7 @@ import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
  * 
  */
 public class ListUtilsDatabase {
-	private static String	lastListName	= null;
+	private static String lastListName = null;
 
 	private ListUtilsDatabase() {
 	}
@@ -130,9 +130,10 @@ public class ListUtilsDatabase {
 										String desc = rs3.getString("Description");
 										String exp = rs3.getString("Experiment");
 
-										String url = SINGLE_IMAGE_DISPLAY + URLEncoder.encode(name, "UTF-8") + "&caption=" + URLEncoder.encode(desc, "UTF-8");
+										String url = SINGLE_IMAGE_DISPLAY + URLEncoder.encode(name, "UTF-8") + "&caption="
+												+ URLEncoder.encode(desc, "UTF-8");
 										URI uri = new URI(url);
-										Channel channel = new ChannelImage(name, ChannelCategory.IMAGE, desc, uri, portfolioID, exp);
+										Channel channel = new ChannelImage(name, desc, uri, portfolioID, exp);
 										channel.setTime(dwell);
 										cih = new ChannelInList(channel, seq, dwell);
 									} else {
@@ -145,7 +146,7 @@ public class ListUtilsDatabase {
 								}
 							} else {
 								try (Statement stmt2 = connection.createStatement()) {
-									String query2 = "SELECT Name,URL,Description,Category FROM Channel WHERE Approval=1 AND Number="
+									String query2 = "SELECT Name,URL,Description FROM Channel WHERE Approval=1 AND Number="
 											+ chanNumber;
 
 									ResultSet rs3 = stmt2.executeQuery(query2);
@@ -154,7 +155,7 @@ public class ListUtilsDatabase {
 										String url = rs3.getString("URL");
 										String desc = rs3.getString("Description");
 										URI uri = new URI(url);
-										Channel channel = new ChannelImpl(name, ChannelCategory.MISCELLANEOUS, desc, uri,
+										Channel channel = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, desc, uri,
 												chanNumber, dwell);
 										cih = new ChannelInList(channel, seq, dwell);
 									} // Guaranteed to be exactly one
@@ -390,15 +391,15 @@ public class ListUtilsDatabase {
 						String insert = "";
 						for (ChannelInList C : theList) {
 							try {
-							insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + C.getNumber() + ", "
-									+ C.getTime() + ", NULL, " + C.getSequenceNumber() + ")";
-							if (stmt.executeUpdate(insert) == 1) {
-								// OK, the insert worked.
-								println(ListUtilsDatabase.class, ": Successful insert " + insert);
-							} else {
-								new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
-								return; // return "Insert of list element number " + sequence + " failed";
-							}
+								insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + C.getNumber() + ", "
+										+ C.getTime() + ", NULL, " + C.getSequenceNumber() + ")";
+								if (stmt.executeUpdate(insert) == 1) {
+									// OK, the insert worked.
+									println(ListUtilsDatabase.class, ": Successful insert " + insert);
+								} else {
+									new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
+									return; // return "Insert of list element number " + sequence + " failed";
+								}
 							} catch (Exception e) {
 								e.printStackTrace();
 								printlnErr(ListUtilsDatabase.class, "SQL is [" + insert + "]");

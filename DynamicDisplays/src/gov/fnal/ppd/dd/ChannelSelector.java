@@ -59,11 +59,11 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import gov.fnal.ppd.dd.changer.CategoryDictionary;
+import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
 import gov.fnal.ppd.dd.changer.ChangeDefaultsActionListener;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.changer.ChannelMap;
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.changer.DDButton.ButtonFieldToUse;
@@ -337,7 +337,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	private void initializeTabs() {
-		ChannelCategory[] categories = CategoryDictionary.getCategories();
+		ChannelClassification[] categories = ChannelClassificationDictionary.getCategories();
 
 		ProgressMonitor progressMonitor = new ProgressMonitor(null, "Building Channel Selector GUI", "", 0,
 				displayList.size() * (1 + categories.length));
@@ -393,14 +393,12 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				});
 				String sp = SHOW_IN_WINDOW ? "" : " ";
 				displayTabPane.add(grid, sp + categories[cat].getAbbreviation() + sp);
-				if ("Public".equalsIgnoreCase(categories[cat].getAbbreviation()))
-					theSelectedTab = grid;
 				progressMonitor.setNote(note);
 				progressMonitor.setProgress(index * (1 + categories.length) + cat);
 			}
 
 			ChannelButtonGrid grid = new ImageGrid(display, displayButtonGrooup);
-			grid.makeGrid(ChannelCategory.IMAGE);
+			grid.makeGrid(ChannelClassification.IMAGE);
 			allGrids.add(grid);
 			display.addListener(grid);
 
@@ -421,7 +419,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			if (SHOW_DOCENT_TAB) {
 				GetMessagingServer.getDocentNameSelector();
 				grid = new DocentGrid(display, displayButtonGrooup, docentName);
-				grid.makeGrid(ChannelCategory.IMAGE);
+				grid.makeGrid(ChannelClassification.IMAGE);
 				allGrids.add(grid);
 				display.addListener(grid);
 
@@ -457,6 +455,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					}
 				});
 				displayTabPane.add(scg, " Display " + display.getVirtualDisplayNumber() + " channels ");
+				theSelectedTab = scg;
 			}
 
 			final JPanel inner = new JPanel(new BorderLayout());
@@ -547,7 +546,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						alive = true;
 						break;
 					case ERROR:
-						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; " + display.getContent().getCategory()
+						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; " + display.getContent().getChannelClassification()
 								+ "/'" + (display.getContent().getName()) + "'";
 						// System.out.println("ChannelSelector error from display: " + text);
 						launchErrorMessage(e);
@@ -556,7 +555,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					case ALIVE:
 						// These remaining items are not ever reached. (1/28/2015)
 						alive = true;
-						text = "Display " + display.getVirtualDisplayNumber() + ": " + display.getContent().getCategory() + "/'"
+						text = "Display " + display.getVirtualDisplayNumber() + ": " + display.getContent().getChannelClassification() + "/'"
 								+ (display.getContent().getName()) + " (#" + ((Channel) display.getContent()).getNumber() + ")";
 						break;
 
@@ -565,7 +564,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						if (lastUpdated + 30000l > System.currentTimeMillis())
 							break;
 						text = "Display " + display.getVirtualDisplayNumber() + " Idle; " + ": "
-								+ display.getContent().getCategory() + "/'" + (display.getContent().getName());
+								+ display.getContent().getChannelClassification() + "/'" + (display.getContent().getName());
 						break;
 					}
 					lastUpdated = System.currentTimeMillis();
@@ -727,8 +726,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	private static JLabelFooter makeChannelIndicator(Display display) {
-		// JLabel footer = new JLabel(" Display " + display.getNumber() + " set to the '" + display.getContent().getCategory()
-		// + "' channel '" + (display.getContent().getName()) + "' (" + shortDate() + ")");
 		JLabelFooter footer = new JLabelFooter("Display " + display.getVirtualDisplayNumber());
 		DisplayButtons.setToolTip(display);
 

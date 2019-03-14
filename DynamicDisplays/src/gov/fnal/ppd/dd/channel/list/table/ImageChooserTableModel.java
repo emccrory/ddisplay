@@ -3,7 +3,7 @@ package gov.fnal.ppd.dd.channel.list.table;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.changer.DrawingPanelForImage;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelInList;
@@ -46,7 +46,7 @@ public class ImageChooserTableModel extends AbstractChannelTableModel {
 
 		columnNames = new String[] { "Image", "Exp", "Image Details" };
 
-		Set<SignageContent> list = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelCategory.IMAGE);
+		Set<SignageContent> list = ChannelCatalogFactory.getInstance().getChannelCatalog(ChannelClassification.IMAGE);
 		TreeSet<SignageContent> sortedList = new TreeSet<SignageContent>(new Comparator<SignageContent>() {
 
 			@Override

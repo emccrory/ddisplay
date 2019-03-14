@@ -34,7 +34,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.changer.DetailedInformationGrid;
 import gov.fnal.ppd.dd.changer.DisplayButtons;
@@ -177,7 +177,7 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 			final List<ChannelButtonGrid> allGrids = new ArrayList<ChannelButtonGrid>();
 			channelButtonGridList.add(allGrids);
 
-			ChannelCategory cat = new ChannelCategory("Special");
+			ChannelClassification cat = new ChannelClassification("Special");
 			for (int frameNumber = 1; frameNumber < NUMBER_OF_FRAMES; frameNumber++) {
 				ChannelButtonGrid grid = new DetailedInformationGrid(display, bg);
 
@@ -231,14 +231,14 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 						break;
 					case ERROR:
 						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; " + ": "
-								+ display.getContent().getCategory() + "/'" + (display.getContent().getName());
+								+ display.getContent().getChannelClassification() + "/'" + (display.getContent().getName());
 						launchErrorMessage(e);
 						break;
 
 					case ALIVE:
 						// These remaining items are not ever reached. (1/28/2015)
 						alive = true;
-						text = "A Display " + display.getVirtualDisplayNumber() + ": " + display.getContent().getCategory() + "/'"
+						text = "A Display " + display.getVirtualDisplayNumber() + ": " + display.getContent().getChannelClassification() + "/'"
 								+ (display.getContent().getName());
 						break;
 
@@ -247,7 +247,7 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 						if (lastUpdated + 30000l > System.currentTimeMillis())
 							break;
 						text = "G Display " + display.getVirtualDisplayNumber() + " Idle; " + ": "
-								+ display.getContent().getCategory() + "/'" + (display.getContent().getName());
+								+ display.getContent().getChannelClassification() + "/'" + (display.getContent().getName());
 						break;
 					}
 					lastUpdated = System.currentTimeMillis();
@@ -379,8 +379,6 @@ public class ChangeChannelOnFrame extends JPanel implements ActionListener, Disp
 	}
 
 	private static JLabelFooter makeChannelIndicator(Display display) {
-		// JLabel footer = new JLabel(" Display " + display.getNumber() + " set to the '" + display.getContent().getCategory()
-		// + "' channel '" + (display.getContent().getName()) + "' (" + shortDate() + ")");
 		JLabelFooter footer = new JLabelFooter("Display " + display.getVirtualDisplayNumber());
 		DisplayButtons.setToolTip(display);
 

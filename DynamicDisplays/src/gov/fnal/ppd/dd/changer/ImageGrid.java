@@ -98,7 +98,7 @@ public class ImageGrid extends DetailedInformationGrid {
 	private static boolean						firstTime			= true;
 
 	private static final Set<SignageContent>	list				= ChannelCatalogFactory.getInstance()
-			.getChannelCatalog(ChannelCategory.IMAGE);
+			.getChannelCatalog(ChannelClassification.IMAGE);
 
 	private static final int					MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 44 : 47);
 
@@ -121,7 +121,7 @@ public class ImageGrid extends DetailedInformationGrid {
 	}
 
 	@Override
-	protected JComponent makeExpGrid(ChannelCategory set) {
+	protected JComponent makeExpGrid(ChannelClassification set) {
 		int ncol = 4;
 		if (SHOW_IN_WINDOW)
 			ncol = 2;
@@ -180,12 +180,7 @@ public class ImageGrid extends DetailedInformationGrid {
 				// the focus of that location (e.g., Neutrino versus CERN). The bad part of this is that when someone thinks
 				// of a new "experiment", the code has to be modified. So we abandon this sorting.
 
-				// ChannelImage imageChannel = (ChannelImage) P;
-				// if (CategoryDictionary.isExperiment(imageChannel.getExp())) {
-				// Image web pages expire after five minutes.
-				// P.setExpiration( 5 * ONE_MINUTE);
 				newList.add(P);
-				// }
 			}
 
 			String colorString = String.format("%06X", display.getPreferredHighlightColor().getRGB() & 0xFFFFFF);

@@ -72,11 +72,11 @@ public class ChannelMap extends HashMap<String, SignageContent> implements Chann
 		getImages(this);
 	}
 
-	public Set<SignageContent> getChannelCatalog(ChannelCategory cat) {
+	public Set<SignageContent> getChannelCatalog(ChannelClassification cat) {
 		TreeSet<SignageContent> retval = new TreeSet<SignageContent>(comparator);
 
 		for (String key : this.keySet())
-			if (this.get(key).getCategory().equals(cat)) {
+			if (this.get(key).getChannelClassification().equals(cat)) {
 				SignageContent C = this.get(key);
 				if (C instanceof ChannelImage)
 					retval.add(new ChannelImage(C));

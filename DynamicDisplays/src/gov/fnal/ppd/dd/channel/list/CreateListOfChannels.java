@@ -47,9 +47,9 @@ import javax.swing.SpinnerModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import gov.fnal.ppd.dd.changer.CategoryDictionary;
+import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
@@ -258,7 +258,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 
 		// ----------------------------------------
 
-		ChannelCategory categories[] = CategoryDictionary.getCategories();
+		ChannelClassification categories[] = ChannelClassificationDictionary.getCategories();
 		Box mainPanel = Box.createVerticalBox();
 		final Color bg1 = new Color(235, 230, 230);
 		final Color bg2 = new Color(241, 241, 244);
@@ -268,7 +268,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 		Color bgColor = bg2;
 		Color borColor = bor2;
 
-		for (ChannelCategory C : categories) {
+		for (ChannelClassification C : categories) {
 			if (C.getValue().equals("Archive"))
 				continue;
 

@@ -13,7 +13,7 @@ import java.util.zip.Checksum;
 
 import javax.imageio.ImageIO;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
@@ -91,8 +91,8 @@ public class ImageContent implements SignageContent {
 	}
 
 	@Override
-	public ChannelCategory getCategory() {
-		return ChannelCategory.IMAGE;
+	public ChannelClassification getChannelClassification() {
+		return ChannelClassification.IMAGE;
 	}
 
 	@Override
@@ -111,9 +111,9 @@ public class ImageContent implements SignageContent {
 	}
 
 	@Override
-	public void setCategory(ChannelCategory c) {
+	public void setChannelClassification(ChannelClassification c) {
 		// This really should be an IMAGE
-		assert (c.equals(ChannelCategory.IMAGE));
+		assert (c.equals(ChannelClassification.IMAGE));
 	}
 
 	@Override

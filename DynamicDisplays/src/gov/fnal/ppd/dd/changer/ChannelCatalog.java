@@ -23,6 +23,6 @@ public interface ChannelCatalog {
 	 *            The category to return
 	 * @return All the channels of a specified category
 	 */
-	public abstract Set<SignageContent> getChannelCatalog(ChannelCategory cat);
+	public abstract Set<SignageContent> getChannelCatalog(ChannelClassification cat);
 
 }

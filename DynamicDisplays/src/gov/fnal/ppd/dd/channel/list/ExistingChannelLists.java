@@ -5,7 +5,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.db.ListUtilsDatabase.readTheChannelLists;
 import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -85,7 +85,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 	}
 	
 	@Override
-	public void makeGrid(ChannelCategory cat) {
+	public void makeGrid(ChannelClassification cat) {
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(makeTheGrid(), BorderLayout.CENTER);
 		BigLabel title = new BigLabel("Lists of channels", Font.BOLD);

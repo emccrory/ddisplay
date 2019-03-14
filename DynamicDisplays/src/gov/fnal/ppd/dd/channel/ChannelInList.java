@@ -2,7 +2,7 @@ package gov.fnal.ppd.dd.channel;
 
 import java.net.URI;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
@@ -37,7 +37,7 @@ public class ChannelInList extends ChannelImpl {
 	 * @param number
 	 * @param dwellTime
 	 */
-	public ChannelInList(final String name, final ChannelCategory category, final String description, final URI uri,
+	public ChannelInList(final String name, final ChannelClassification category, final String description, final URI uri,
 			final int number, final long dwellTime) {
 		super(name, category, description, uri, number, dwellTime);
 		setSequenceNumber(-1);

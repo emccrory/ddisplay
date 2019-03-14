@@ -7,7 +7,7 @@ package gov.fnal.ppd.dd.channel;
 
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
@@ -27,7 +27,7 @@ public class ChannelImpl implements Channel {
 
 	private String				name, description;
 
-	private ChannelCategory		category;
+	private ChannelClassification		category;
 
 	// The content for this channel!
 	// private SignageContent content = null;
@@ -37,21 +37,6 @@ public class ChannelImpl implements Channel {
 	private long				time;
 	private long				expiration			= 0L;
 	private int					code				= 0;
-	// private int frameNumber = 0;
-
-	// public ChannelImpl( String name, ChannelCategory category, String description ) {
-	// this(name, category, description, Count++);
-	// }
-	//
-	// public ChannelImpl( String name, ChannelCategory category, String description, int number ) {
-	// this.name = name;
-	// this.category = category;
-	// this.number = number;
-	// if (description != null)
-	// this.description = description;
-	// else
-	// this.description = "This is the '" + name + "' channel";
-	// }
 
 	/**
 	 * @param name
@@ -68,7 +53,7 @@ public class ChannelImpl implements Channel {
 	 *            never refresh.
 	 */
 	public ChannelImpl(final String name, final String description, final URI uri, final int number, final long dwellTime) {
-		this(name, new ChannelCategory("PUBLIC", "PUBLIC"), description, uri, number, dwellTime);
+		this(name, ChannelClassification.MISCELLANEOUS, description, uri, number, dwellTime);
 	}
 
 	/**
@@ -86,7 +71,7 @@ public class ChannelImpl implements Channel {
 	 *            The amount of time to wait before asking to refresh the content. 0 = use default (currently 2 hours); negative =
 	 *            never refresh.
 	 */
-	public ChannelImpl(final String name, ChannelCategory category, final String description, final URI uri, final int number,
+	public ChannelImpl(final String name, ChannelClassification category, final String description, final URI uri, final int number,
 			final long dwellTime) {
 		assert (name != null);
 		assert (number > 0);
@@ -108,7 +93,7 @@ public class ChannelImpl implements Channel {
 	 */
 	public ChannelImpl(final SignageContent c) {
 		this.name = c.getName();
-		this.category = c.getCategory();
+		this.category = c.getChannelClassification();
 		this.time = c.getTime();
 		this.description = c.getDescription();
 		this.uri = c.getURI();
@@ -129,10 +114,9 @@ public class ChannelImpl implements Channel {
 	}
 
 	/**
-	 * @deprecated (non-Javadoc)
-	 * @see gov.fnal.ppd.dd.signage.SignageContent#getCategory()
+	 * @see gov.fnal.ppd.dd.signage.SignageContent#getChannelClassification()
 	 */
-	public ChannelCategory getCategory() {
+	public ChannelClassification getChannelClassification() {
 		return category;
 	}
 
@@ -202,18 +186,13 @@ public class ChannelImpl implements Channel {
 		this.name = name;
 	}
 
-	// @Override
-	// public void setContent(Serializable content) {
-	// this.content = (SignageContent) content;
-	// }
-
 	@Override
 	public void setDescription(String d) {
 		this.description = d;
 	}
 
 	@Override
-	public void setCategory(ChannelCategory c) {
+	public void setChannelClassification(ChannelClassification c) {
 		this.category = c;
 	}
 

@@ -3,7 +3,7 @@ package gov.fnal.ppd.dd.db;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
-import static gov.fnal.ppd.dd.util.Util.convertObjectToHexBlob;
+import static gov.fnal.ppd.dd.util.Util.convertContentToDBReadyString;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
@@ -127,7 +127,7 @@ public class DisplayUtilDatabase {
 
 				ListOfExistingContent h = getContentOnDisplays();
 				for (Display D : h.keySet()) {
-					String blob = convertObjectToHexBlob(D.getContent());
+					String blob = convertContentToDBReadyString(D.getContent());
 					String fullStatement = statementStringStart + D.getDBDisplayNumber() + ", \"" + s + "\", 0, x'" + blob + "')";
 
 					int nrows;

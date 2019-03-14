@@ -1,6 +1,6 @@
 package gov.fnal.ppd.dd.signage;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -44,16 +44,16 @@ public interface SignageContent extends Serializable {
 	public void setDescription(String d);
 
 	/**
-	 * The category this content should be place in when presented to the user in the channel selector.
+	 * The category this content should be put in when presented to the user in the channel selector.
 	 * 
 	 * @return The category of this Channel
 	 */
-	public ChannelCategory getCategory();
+	public ChannelClassification getChannelClassification();
 
 	/**
 	 * @param c
 	 */
-	public void setCategory(ChannelCategory c);
+	public void setChannelClassification(ChannelClassification c);
 
 	/**
 	 * The address of the content. Usually, this will be a URL (likely, "http://" or "https://") and points to somewhere on the

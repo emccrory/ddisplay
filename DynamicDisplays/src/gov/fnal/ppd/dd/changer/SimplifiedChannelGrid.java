@@ -38,7 +38,7 @@ public class SimplifiedChannelGrid extends ChannelButtonGrid {
 	}
 
 	@Override
-	public void makeGrid(ChannelCategory cat) {
+	public void makeGrid(ChannelClassification cat) {
 		myComponent = makeGrid();
 		if (myComponent != null)
 			add(myComponent);

@@ -44,11 +44,11 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 		super(display, bg);
 	}
 
-	public void makeGrid(final ChannelCategory set) {
+	public void makeGrid(final ChannelClassification set) {
 		add(makeExpGrid(set));
 	}
 
-	protected JComponent makeExpGrid(final ChannelCategory set) {
+	protected JComponent makeExpGrid(final ChannelClassification set) {
 
 		Set<SignageContent> list = ChannelCatalogFactory.getInstance().getChannelCatalog(set);
 		int cols = 4;

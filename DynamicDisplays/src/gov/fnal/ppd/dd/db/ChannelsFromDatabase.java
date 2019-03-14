@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelInList;
@@ -66,16 +66,16 @@ public class ChannelsFromDatabase {
 
 		int count = 0;
 		try {
-			rs = stmt.executeQuery("SELECT Channel.Number as Number,Name,Description,URL,Category,Type,DwellTime,Sound "
+			rs = stmt.executeQuery("SELECT Channel.Number as Number,Name,Description,URL,Type,DwellTime,Sound "
 					+ "FROM Channel LEFT JOIN ChannelTabSort ON (Channel.Number=ChannelTabSort.Number) WHERE Approval=1");
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast()) {
 				try {
 					String name = rs.getString("Name");
-					ChannelCategory category = ChannelCategory.MISCELLANEOUS;
+					ChannelClassification category = ChannelClassification.MISCELLANEOUS;
 					if (rs.getAsciiStream("Type") != null) {
 						String cat = rs.getString("Type").toUpperCase();
-						category = new ChannelCategory(cat);
+						category = new ChannelClassification(cat);
 					}
 					String description = rs.getString("Description");
 					String url = rs.getString("URL");
@@ -120,8 +120,8 @@ public class ChannelsFromDatabase {
 
 		int count = 0;
 		try {
-			rs = stmt
-					.executeQuery("SELECT Filename,Experiment,Description,PortfolioID FROM Portfolio WHERE Type='Image' AND Approval='Approved' ORDER BY Sequence");
+			rs = stmt.executeQuery(
+					"SELECT Filename,Experiment,Description,PortfolioID FROM Portfolio WHERE Type='Image' AND Approval='Approved' ORDER BY Sequence");
 			rs.first(); // Move to first returned row
 			while (!rs.isAfterLast())
 				try {
@@ -132,8 +132,7 @@ public class ChannelsFromDatabase {
 
 					String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
 							+ "&caption=" + URLEncoder.encode(descr, "UTF-8");
-					ChannelImage c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), imageNumber + ONE_BILLION,
-							exp);
+					ChannelImage c = new ChannelImage(name, descr, new URI(url), imageNumber + ONE_BILLION, exp);
 					c.setNumber(imageNumber);
 
 					theMap.put(name, c);
@@ -153,8 +152,8 @@ public class ChannelsFromDatabase {
 	/**
 	 * @return An array of channel categories
 	 */
-	public static ChannelCategory[] getCategoriesDatabase() {
-		List<ChannelCategory> cats = new ArrayList<ChannelCategory>();
+	public static ChannelClassification[] getCategoriesDatabase() {
+		List<ChannelClassification> cats = new ArrayList<ChannelClassification>();
 
 		Connection connection = null;
 		Statement stmt = null;
@@ -174,15 +173,9 @@ public class ChannelsFromDatabase {
 			String q = "SELECT DISTINCT TabName,Abbreviation FROM LocationTab";
 			try {
 				if (getNumberOfLocations() == 1) {
-					if (IS_PUBLIC_CONTROLLER) {
-						if (getLocationCode() < 0)
-							q += " WHERE Type='Public'";
-						else
-							q += " WHERE LocationCode=" + getLocationCode() + " AND Type='Public'";
-					} else {
-						if (getLocationCode() >= 0)
-							q += " WHERE LocationCode=" + getLocationCode();
-					}
+					if (getLocationCode() >= 0)
+						q += " WHERE LocationCode=" + getLocationCode();
+					// else get them all
 				} else {
 					// Controlling more than one location
 					String extra = " WHERE (";
@@ -192,10 +185,7 @@ public class ChannelsFromDatabase {
 							extra += " OR ";
 						extra += " LocationCode=" + lc;
 					}
-					if (IS_PUBLIC_CONTROLLER)
-						extra += ") AND Type='Public'";
-					else
-						extra += ")";
+					extra += ")";
 					if (!extra.equals(" WHERE ()"))
 						q += extra;
 				}
@@ -210,12 +200,11 @@ public class ChannelsFromDatabase {
 							// | TabName .... | char(64)
 							// | LocationCode | int(11)
 							// | LocalID .... | int(11)
-							// | Type ....... | enum('Public','Experiment','XOC')
 							// | Abbreviation | char(15)
 
 							String cat = decode(rs.getString("TabName"));
 							String abb = decode(rs.getString("Abbreviation"));
-							cats.add(new ChannelCategory(cat, abb));
+							cats.add(new ChannelClassification(cat, abb));
 
 							rs.next();
 						} catch (Exception e) {
@@ -233,7 +222,7 @@ public class ChannelsFromDatabase {
 				System.err.println("Query was '" + q + "'");
 			}
 		}
-		ChannelCategory[] retval = cats.toArray(new ChannelCategory[0]);
+		ChannelClassification[] retval = cats.toArray(new ChannelClassification[0]);
 		return retval;
 	}
 
@@ -282,7 +271,7 @@ public class ChannelsFromDatabase {
 				// @SuppressWarnings("unused")
 				stmt.executeQuery("USE " + DATABASE_NAME);
 
-				String query1 = "select ChannelNumber,Name,Description,URL,DwellTime,Category from Docent,Channel "
+				String query1 = "select ChannelNumber,Name,Description,URL,DwellTime from Docent,Channel "
 						+ "where ChannelNumber=Number AND DocentName='" + docentName + "' AND Approval=1";
 				String query2 = "select PortfolioNumber,Filename,Description,Experiment from Docent,Portfolio "
 						+ "where PortfolioNumber=PortfolioID AND DocentName='" + docentName + "' AND Approval='Approved'";
@@ -295,12 +284,10 @@ public class ChannelsFromDatabase {
 					String name = rsChan.getString("Name");
 					String descr = rsChan.getString("Description");
 					String url = rsChan.getString("URL");
-					String category = rsChan.getString("Category");
 					long dwell = rsChan.getLong("DwellTime");
 					int chanNum = rsChan.getInt("ChannelNumber");
 
-					SignageContent c = new ChannelImpl(name, new ChannelCategory(category, category), descr, new URI(url), chanNum,
-							dwell);
+					SignageContent c = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, descr, new URI(url), chanNum, dwell);
 					c.setExpiration(revertTime);
 
 					retval.add(c);
@@ -315,7 +302,7 @@ public class ChannelsFromDatabase {
 
 					String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
 							+ "&caption=" + URLEncoder.encode(descr, "UTF-8");
-					SignageContent c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url), 0, exp);
+					SignageContent c = new ChannelImage(name, descr, new URI(url), 0, exp);
 					c.setExpiration(revertTime);
 
 					retval.add(c);
@@ -351,12 +338,11 @@ public class ChannelsFromDatabase {
 				while (!rs.isAfterLast()) {
 					String theURL = rs.getString("URL");
 					String name = rs.getString("Name");
-					String cat = rs.getString("Category");
 					String desc = rs.getString("Description");
 					int number = rs.getInt("Number");
 					long dwell = rs.getLong("DwellTime");
 					try {
-						ChannelImpl c = new ChannelImpl(name, new ChannelCategory(cat), desc, new URI(theURL), number, dwell);
+						ChannelImpl c = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, desc, new URI(theURL), number, dwell);
 						theMap.put(number, c);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -376,9 +362,8 @@ public class ChannelsFromDatabase {
 		println(ChannelsFromDatabase.class, ": Found " + theMap.size() + " valid channels.");
 	}
 
-	
 	public static Set<SignageContent> getSpecialChannelsForDisplay(int displayID) throws DatabaseNotVisibleException {
-		Set<SignageContent> retval = new HashSet<SignageContent> ();
+		Set<SignageContent> retval = new HashSet<SignageContent>();
 		Statement stmt = null;
 		ResultSet rs = null;
 		Connection connection = ConnectionToDatabase.getDbConnection();
@@ -424,13 +409,13 @@ public class ChannelsFromDatabase {
 
 			// Parse out the simple channels
 			for (int CN : channels) {
-				rs = stmt.executeQuery("SELECT Channel.Number,Name,Description,URL,Category,DwellTime,Sound "
+				rs = stmt.executeQuery("SELECT Channel.Number,Name,Description,URL,DwellTime,Sound "
 						+ "FROM Channel WHERE Approval=1 AND Number=" + CN);
 				rs.first(); // Move to first returned row
 				while (!rs.isAfterLast()) {
 					try {
 						String name = rs.getString("Name");
-						ChannelCategory category = ChannelCategory.MISCELLANEOUS;
+						ChannelClassification category = ChannelClassification.MISCELLANEOUS;
 						String description = rs.getString("Description");
 						String url = rs.getString("URL");
 						int number = rs.getInt("Number");
@@ -498,9 +483,8 @@ public class ChannelsFromDatabase {
 			}
 
 			for (int PF : pictures) {
-				rs = stmt
-						.executeQuery("SELECT Filename,Experiment,Description,PortfolioID FROM Portfolio "
-								+ "WHERE Type='Image' AND Approval='Approved' AND PortfolioID=" + PF);
+				rs = stmt.executeQuery("SELECT Filename,Experiment,Description,PortfolioID FROM Portfolio "
+						+ "WHERE Type='Image' AND Approval='Approved' AND PortfolioID=" + PF);
 				rs.first();
 				while (!rs.isAfterLast())
 					try {
@@ -511,8 +495,7 @@ public class ChannelsFromDatabase {
 
 						String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
 								+ "&caption=" + URLEncoder.encode(descr, "UTF-8");
-						ChannelImage c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url),
-								imageNumber + ONE_BILLION, exp);
+						ChannelImage c = new ChannelImage(name, descr, new URI(url), imageNumber + ONE_BILLION, exp);
 						c.setNumber(imageNumber);
 
 						retval.add(c);
@@ -523,13 +506,13 @@ public class ChannelsFromDatabase {
 					}
 			}
 			rs.close();
-			
+
 			stmt.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		println(ChannelsFromDatabase.class, ": Found " + count + " 'simplified' channels.");
-		return retval;		
+		return retval;
 	}
 }

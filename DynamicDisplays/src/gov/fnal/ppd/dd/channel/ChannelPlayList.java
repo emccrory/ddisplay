@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
@@ -65,19 +65,6 @@ public class ChannelPlayList implements Channel {
 		return channels.get(currentChannel).getName() + " (Length=" + channels.size() + ")";
 	}
 
-	// protected void informDisplay() {
-	// if (myDisplay != null) {
-	// myDisplay.setContent(currentChannel);
-	// }
-	// }
-
-	// /**
-	// * @param d
-	// */
-	// public void setDisplay(final Display d) {
-	// myDisplay = d;
-	// }
-
 	@Override
 	public String getDescription() {
 		if (description != null)
@@ -86,8 +73,8 @@ public class ChannelPlayList implements Channel {
 	}
 
 	@Override
-	public ChannelCategory getCategory() {
-		return channels.get(currentChannel).getCategory();
+	public ChannelClassification getChannelClassification() {
+		return channels.get(currentChannel).getChannelClassification();
 	}
 
 	@Override
@@ -102,34 +89,6 @@ public class ChannelPlayList implements Channel {
 		return 0;
 	}
 
-	/**
-	 * Start playing this list of Channels
-	 */
-	// public void start() {
-	// new Thread("PlayingChannelList") {
-	// public void run() {
-	// catchSleep(dwell);
-	// while (running) {
-	// if (chanIterator.hasNext()) {
-	// currentChannel = chanIterator.next();
-	// } else {
-	// chanIterator = channels.listIterator();
-	// currentChannel = chanIterator.next();
-	// }
-	// informDisplay();
-	// catchSleep(dwell);
-	// }
-	// }
-	// }.start();
-	// }
-
-	/**
-	 * A polite request to stop playing the Channel list
-	 */
-	// public void stop() {
-	// running = false;
-	// }
-
 	@Override
 	public void setName(String name) {
 		// Not relevant for a list of channels
@@ -141,7 +100,7 @@ public class ChannelPlayList implements Channel {
 	}
 
 	@Override
-	public void setCategory(ChannelCategory c) {
+	public void setChannelClassification(ChannelClassification c) {
 		// Not relevant for a list of content
 	}
 

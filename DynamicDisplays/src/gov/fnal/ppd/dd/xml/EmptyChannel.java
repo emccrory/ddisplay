@@ -2,7 +2,7 @@ package gov.fnal.ppd.dd.xml;
 
 import static gov.fnal.ppd.dd.util.Util.MY_NAME;
 import static gov.fnal.ppd.dd.util.Util.MY_URL;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 
 import java.net.URI;
@@ -24,11 +24,11 @@ class EmptyChannel extends ChannelImpl {
 	 *             (In the unlikely case that the default web page is no longer a valid URI)
 	 */
 	public EmptyChannel() throws URISyntaxException {
-		this(MY_NAME, new ChannelCategory("PUBLIC", "PUBLIC"));
+		this(MY_NAME, ChannelClassification.MISCELLANEOUS);
 
 	}
 
-	public EmptyChannel(String string, ChannelCategory categ) throws URISyntaxException {
+	public EmptyChannel(String string, ChannelClassification categ) throws URISyntaxException {
 		super(string, categ, "This channel is " + string, new URI(MY_URL), 0, 0);
 	}
 

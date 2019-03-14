@@ -51,20 +51,7 @@ public class EnhancedChangeChannel extends EnhancedEncodedCarrier implements Ser
 
 	public void setChannelSpec(ChannelSpec s) {
 		try {
-			// ChannelCategory category = s.getCategory();
-			// String name = s.getName();
-			// URI uri = s.getUri();
-			// PlainURLChannel channel = new PlainURLChannel(uri.toURL());
-			// channel.setCategory(category);
-			// channel.setName(name);
-			// channel.setCode(s.getCode());
-			// channel.setTime(s.getTime());
-			// channel.setExpiration(s.getExpiration());
-			// channel.setFrameNumber(s.getFrameNumber());
-			// content = channel;
 			content = s.getContent();
-			// } catch (MalformedURLException e) {
-			// e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

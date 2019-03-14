@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
@@ -42,12 +42,12 @@ public class ChannelSpec implements SignageContent {
 	}
 
 	@XmlElement
-	public ChannelCategory getCategory() {
-		return content.getCategory();
+	public ChannelClassification getChannelClassification() {
+		return content.getChannelClassification();
 	}
 
-	public void setCategory(ChannelCategory c) {
-		content.setCategory(c);
+	public void setChannelClassification(ChannelClassification c) {
+		content.setChannelClassification(c);
 	}
 
 	@XmlElement

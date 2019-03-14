@@ -69,7 +69,7 @@ public class SelectedChannelsDisplayAsTable extends JTable {
 	 */
 	public void add(final Channel oldChan, int sequence, long dwell) {
 		// Make a copy of the old channel
-		ChannelInList newChannel = new ChannelInList(oldChan.getName(), oldChan.getCategory(), oldChan.getDescription(),
+		ChannelInList newChannel = new ChannelInList(oldChan.getName(), oldChan.getChannelClassification(), oldChan.getDescription(),
 				oldChan.getURI(), oldChan.getNumber(), 1000L * dwell);
 		newChannel.setSequenceNumber(sequence);
 

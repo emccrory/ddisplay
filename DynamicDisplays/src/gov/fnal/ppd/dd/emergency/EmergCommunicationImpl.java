@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 
 /**
@@ -20,7 +20,7 @@ public class EmergCommunicationImpl implements EmergencyCommunication {
 	private EmergencyMessage	message;
 	private String				name				= "Energency Communication";
 	private String				desc				= "Emergency Communication message";
-	private ChannelCategory		category			= ChannelCategory.MISCELLANEOUS;
+	private ChannelClassification		category			= ChannelClassification.MISCELLANEOUS;
 	private long				dwell				= 3600000L;
 	private URI					uri;
 	private long				expire				= 0L;
@@ -59,12 +59,12 @@ public class EmergCommunicationImpl implements EmergencyCommunication {
 	}
 
 	@Override
-	public ChannelCategory getCategory() {
+	public ChannelClassification getChannelClassification() {
 		return category;
 	}
 
 	@Override
-	public void setCategory(ChannelCategory c) {
+	public void setChannelClassification(ChannelClassification c) {
 		// this.category = c; Cannot override!
 	}
 

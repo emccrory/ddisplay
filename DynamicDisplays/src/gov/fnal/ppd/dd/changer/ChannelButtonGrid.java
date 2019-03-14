@@ -44,7 +44,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	 * @param cat
 	 *            make a grid of channels of this category
 	 */
-	public abstract void makeGrid(ChannelCategory cat);
+	public abstract void makeGrid(ChannelClassification cat);
 
 	/**
 	 * @param display

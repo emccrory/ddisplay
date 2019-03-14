@@ -65,7 +65,7 @@ public class DocentGrid extends DetailedInformationGrid {
 	}
 
 	@Override
-	protected JComponent makeExpGrid(ChannelCategory set) {
+	protected JComponent makeExpGrid(ChannelClassification set) {
 		int ncol = 5;
 		if (SHOW_IN_WINDOW)
 			ncol = 3;

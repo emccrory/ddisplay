@@ -94,7 +94,7 @@ public class MakeChannelSelector {
 		channelSelector.start();
 		// channelSelector.createRefreshActions();
 
-		final JFrame f = new JFrame(myClassification + " " + getLocationName() + " (" + getLocationCode() + ")");
+		final JFrame f = new JFrame(getLocationName() + " (" + getLocationCode() + ")");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		if (SHOW_IN_WINDOW) {
@@ -132,7 +132,6 @@ public class MakeChannelSelector {
 					+ "It cannot start an instance of ChannelSelector.", "Cannot Continue", JOptionPane.ERROR_MESSAGE);
 	}
 
-	private static String	myClassification	= "XOC";
 	private static boolean	missing				= true;
 	private static String	myIPName			= "TBD";
 	private static int		myDB_ID				= 0;
@@ -171,10 +170,7 @@ public class MakeChannelSelector {
 								println(MakeChannelSelector.class, ":Location code is " + lc);
 
 								SHOW_DOCENT_TAB = rs2.getBoolean("DocentTab");
-								myClassification = rs2.getString("Type");
 								myDB_ID = rs2.getInt("LocalID");
-								// IS_PUBLIC_CONTROLLER = "Public".equals(myClassification) || "Experiment".equals(myClassification);
-								// IS_DOCENT_CONTROLLER = "Experiment".equals(myClassification);
 								if (IS_PUBLIC_CONTROLLER)
 									SHOW_EXTENDED_DISPLAY_NAMES = true;
 

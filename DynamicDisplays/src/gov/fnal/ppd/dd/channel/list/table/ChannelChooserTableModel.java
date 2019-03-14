@@ -1,9 +1,9 @@
 package gov.fnal.ppd.dd.channel.list.table;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-import gov.fnal.ppd.dd.changer.CategoryDictionary;
+import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -31,11 +31,11 @@ public class ChannelChooserTableModel extends AbstractChannelTableModel {
 		else
 			setRelativeWidths(new int[] { 200, 110, 800 });
 
-		columnNames = new String[] { "Category", "Chan#", "Channel Details" };
+		columnNames = new String[] { "Classification", "Chan#", "Channel Details" };
 
-		ChannelCategory categories[] = CategoryDictionary.getCategories();
+		ChannelClassification categories[] = ChannelClassificationDictionary.getCategories();
 
-		for (ChannelCategory CAT : categories) {
+		for (ChannelClassification CAT : categories) {
 			if (CAT.getValue().equals("Archive"))
 				continue;
 			Set<SignageContent> chans = ChannelCatalogFactory.getInstance().getChannelCatalog(CAT);
@@ -98,7 +98,7 @@ public class ChannelChooserTableModel extends AbstractChannelTableModel {
 
 		default:
 		case 0:
-			return cac.getCategory().getValue();
+			return cac.getChannelClassification().getValue();
 
 		}
 	}

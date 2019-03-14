@@ -6,7 +6,7 @@
 package gov.fnal.ppd.dd.channel;
 
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 import java.net.URI;
@@ -36,9 +36,8 @@ public class ChannelImage extends ChannelImpl {
 	 * @param exp
 	 *            The experiment that this image associates to.
 	 */
-	public ChannelImage(final String name, final ChannelCategory category, final String description, final URI uri,
-			final int number, final String exp) {
-		super(name, category, description, uri, number, -1);
+	public ChannelImage(final String name, final String description, final URI uri, final int number, final String exp) {
+		super(name, ChannelClassification.IMAGE, description, uri, number, -1);
 		this.exp = exp;
 	}
 
@@ -60,10 +59,11 @@ public class ChannelImage extends ChannelImpl {
 
 	/**
 	 * 
-	 * @param i the Portfolio image number of this image
+	 * @param i
+	 *            the Portfolio image number of this image
 	 */
 	public void setNumber(int i) {
 		this.number = ONE_BILLION + i;
-		
+
 	}
 }

@@ -23,8 +23,8 @@ public class ChannelCellRenderer implements TableCellRenderer {
 		JLabel myLabel = null;
 
 		Channel chan = (Channel) value;
-		myLabel = new JLabel("<html><b>" + chan.getName() + "</b> <br>Channel # " + chan.getNumber() + ", Category: "
-				+ chan.getCategory() + ", Dwell time=" + chan.getTime() / 1000L + " sec<br>" + chan.getURI().toASCIIString()
+		myLabel = new JLabel("<html><b>" + chan.getName() + "</b> <br>Channel # " + chan.getNumber() + ", Classification: "
+				+ chan.getChannelClassification() + ", Dwell time=" + chan.getTime() / 1000L + " sec<br>" + chan.getURI().toASCIIString()
 				+ "</html>");
 		myLabel.setFont(new Font("Arial", Font.PLAIN, SHOW_IN_WINDOW ? 10 : 14));
 		myLabel.setOpaque(true);

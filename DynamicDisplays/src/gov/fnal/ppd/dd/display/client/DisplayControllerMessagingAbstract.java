@@ -10,7 +10,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import static gov.fnal.ppd.dd.util.Util.convertObjectToHexBlob;
+import static gov.fnal.ppd.dd.util.Util.convertContentToDBReadyString;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import static gov.fnal.ppd.dd.util.Util.println;
@@ -333,6 +333,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		try {
 			connection = ConnectionToDatabase.getDbConnection();
 
+			// TODO - The SignageContent field is a binary blob that represents the streamed SignageContent object.  Oracle
+			// will be deprecating this feature.  So this must be converted to a pure XML specification of the channel.
+			
 			String statementString = "";
 			synchronized (connection) {
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
@@ -354,13 +357,16 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							"");
 
 					// Create the stream of the current content object
-					String blob = convertObjectToHexBlob(getContent());
+					String blob = convertContentToDBReadyString(getContent());
 
+					String X = "x";
+					if ( blob.substring(0, 5).equalsIgnoreCase("<?xml")) X = "";
+					
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + statusString
-							+ "',ContentName='" + contentName + "', SignageContent=x'" + blob + "' where DisplayID="
+							+ "',ContentName='" + contentName + "', SignageContent=" + X + "'" + blob + "' where DisplayID="
 							+ getDBDisplayNumber();
 					String succinctString = "Time='" + ft.format(dNow) + "',Content='" + statusString + "',ContentName='"
-							+ contentName + "', SignageContent=x'...' where DisplayID=" + getDBDisplayNumber();
+							+ contentName + "', SignageContent=" + X + "'" + blob.substring(0, 20) + " ...' where DisplayID=" + getDBDisplayNumber();
 
 					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 					int numRows = stmt.executeUpdate(statementString);

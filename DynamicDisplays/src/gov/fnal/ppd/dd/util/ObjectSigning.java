@@ -243,65 +243,6 @@ public class ObjectSigning {
 		return false;
 	}
 
-	@SuppressWarnings("unused")
-	private static List<String> loadDisplayListFromDB_OLD(final String clientName) {
-		List<String> retval = new ArrayList<String>();
-
-		String clientIP = getIPName(clientName.substring(0, clientName.indexOf(' ')));
-
-		if (clientIP == null) {
-			println(ObjectSigning.class, " -- Client named " + clientName + " seems to have no IP address.  "
-					+ "Thus, it cannot do anything here!");
-			return retval;
-		}
-
-		Connection connection;
-		try {
-			connection = ConnectionToDatabase.getDbConnection();
-			int lc = 999;
-
-			synchronized (connection) {
-				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-					String query1 = "SELECT LocationCode from SelectorLocation WHERE IPAddress='" + clientIP + "'";
-					try (ResultSet rs = stmt.executeQuery(query1);) {
-						if (rs.first()) { // Move to first returned row
-							lc = rs.getInt("LocationCode");
-						}
-					}
-					if (lc < 0) {
-						retval.add("-1");
-						println(ObjectSigning.class, ": This client can control all the displays!");
-						return retval;
-					}
-
-					String query2 = "SELECT VirtualDisplayNumber,IPName,ScreenNumber FROM DisplaySort,Display WHERE "
-							+ "DisplaySort.DisplayID=Display.DisplayID AND DisplaySort.LocationCode=" + lc;
-
-					try (ResultSet rs = stmt.executeQuery(query2);) {
-						if (rs.first()) { // Move to first returned row
-							do {
-								String ipName = rs.getString("IPname");
-								int scr = rs.getInt("ScreenNumber");
-								int vID = rs.getInt("VirtualDisplayNumber");
-								retval.add(ipName + ":" + scr + " (" + vID + ")");
-							} while (rs.next());
-							println(ObjectSigning.class, ": This client has " + retval.size() + " displays it can change.");
-						} else {
-							System.err.println("No displays for IP='" + clientIP + "' -- it cannot control any displays.");
-						}
-
-					}
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		} catch (Exception e2) {
-			e2.printStackTrace();
-		}
-		return retval;
-
-	}
-
 	private static List<String> loadDisplayListFromDB(final String clientName) {
 		List<String> retval = new ArrayList<String>();
 

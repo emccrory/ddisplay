@@ -12,7 +12,7 @@ import java.util.Set;
 import javax.xml.bind.JAXBException;
 
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.emergency.Severity;
@@ -87,7 +87,7 @@ public class WriteXMLFile {
 					break;
 
 				case 3:
-					ChannelSpec cs = new ChannelSpec(new ChannelImpl("Test Channel", new ChannelCategory("PUBLIC_DETAILS",
+					ChannelSpec cs = new ChannelSpec(new ChannelImpl("Test Channel", new ChannelClassification("PUBLIC_DETAILS",
 							"Details"), "This is the desription", new URI("http://www.fnal.gov"), 23, System.currentTimeMillis()
 							% (24L * 3600L * 1000L)));
 					stuff = cs;
@@ -109,11 +109,6 @@ public class WriteXMLFile {
 					csn.setChecksum(123455678908L);
 
 					stuff = csn;
-					// Not relevant until/unless we implement the DB fetch on the message server
-					// ChannelListRequest clr = new ChannelListRequest();
-					// clr.setEncodedId(id++);
-					// clr.setChannelCategory(ChannelCategory.Public);
-					// stuff = clr;
 					break;
 
 				case 6:
@@ -160,16 +155,20 @@ public class WriteXMLFile {
 					break;
 
 				case 9:
-					Set<SignageContent> map = ChannelCatalogFactory.getInstance().getChannelCatalog(new ChannelCategory("PUBLIC"));
+					Set<SignageContent> map = ChannelCatalogFactory.getInstance().getChannelCatalog(new ChannelClassification("PUBLIC"));
 					List<SignageContent> lst = new ArrayList<SignageContent>();
 					for (SignageContent C : map) {
+						if (lst.size() > 3)
+							continue;
 						lst.add(C);
 					}
-					ChannelPlayList cpl = new ChannelPlayList(lst, 60); // This is the XML class
-					ChangeChannelList ccl = new ChangeChannelList(); // This is the DigitalSignage class
+					ChannelPlayList cpl = new ChannelPlayList(lst, 60); // This is the SignageContent class
+					ChangeChannelList ccl = new ChangeChannelList(); // This is the XML class
+					// ChannelSpec cspec = new ChannelSpec(cpl); // A different XML class?  This does not work properly.
+					
 					ccl.setIPAddress("131.225.1.2");
 					ccl.setContent(cpl);
-					stuff = ccl;
+					stuff = cpl;
 					break;
 				}
 
@@ -183,5 +182,6 @@ public class WriteXMLFile {
 				e.printStackTrace();
 			}
 		}
+		System.exit(0);
 	}
 }
