@@ -253,31 +253,40 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	private void updateControllerStatus() {
-		long uptime = System.currentTimeMillis() - startTime;
-		String query = "UPDATE ControllerStatus SET Time='" + sdf.format(new Date()) + "',";
-
-		if (presentStatus.equals(OFFLINE))
-			query += " Status='" + OFFLINE + "'";
-		else {
-
-			long delta = (System.currentTimeMillis() - lastChannelChange) / 1000;
-			String time = delta + " sec";
-			if (delta > 6 * 24 * 3600)
-				time = (delta / 3600 / 24) + " days";
-			else if (delta > 7200)
-				time = (delta / 3600) + " hr";
-			else if (delta > 120)
-				time = (delta / 60) + " min";
-			String timeAgo = ", " + time + " ago. ";
-			String status = presentStatus.replace("'", "");
-			String second = DisplayFacade.getPresentStatus().replace("'", "");
-			if ( status.length() > 255 - second.length() - timeAgo.length() ) 
-				status = status.substring(0,  250 - second.length() - timeAgo.length()) + " ...";
-			query += " Status='" + status + timeAgo + " " + second + "'";
-		}
-
-		query += ", Version='" + versionInfo.getVersionString() + "', Uptime=" + uptime + " WHERE ControllerID=" + myDB_ID;
 		try {
+			long uptime = System.currentTimeMillis() - startTime;
+			String query = "UPDATE ControllerStatus SET Time='" + sdf.format(new Date()) + "',";
+
+			if (presentStatus.equals(OFFLINE)) {
+				query += " Status='" + OFFLINE + "'";
+			} else {
+				long delta = (System.currentTimeMillis() - lastChannelChange) / 1000;
+				String time = delta + " sec";
+				if (delta > 72 * 3600)
+					time = (delta / 3600 / 24) + " day";
+				else if (delta > 7200)
+					time = (delta / 3600) + " hr";
+				else if (delta > 120)
+					time = (delta / 60) + " min";
+				String timeAgo = ", " + time + " ago. ";
+				String status = presentStatus.replace("'", "");
+				String more = DisplayFacade.getPresentStatus().replace("'", "").replace(".fnal.gov", "");
+				String theStatus = status + timeAgo + " " + more;
+				int maxLength = 255 - timeAgo.length() - more.length();
+				if (maxLength > 10) {
+					if (status.length() > maxLength) {
+						theStatus = status.substring(0, maxLength - 5) + " ..." + timeAgo + " " + more;
+					}
+				} else {
+					theStatus = status + timeAgo;
+				}
+				if (theStatus.length() > 255) {
+					theStatus = theStatus.substring(0, 250) + " ...";
+				}
+				query += " Status='" + theStatus + "'";
+			}
+
+			query += ", Version='" + versionInfo.getVersionString() + "', Uptime=" + uptime + " WHERE ControllerID=" + myDB_ID;
 			Connection connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
@@ -294,9 +303,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				}
 			}
 		} catch (Exception ex) {
+			// Catch any exception in this method.
 			ex.printStackTrace();
 		}
-
 	}
 
 	private void initComponents() {
