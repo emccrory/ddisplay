@@ -253,42 +253,44 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	private void updateControllerStatus() {
-		long uptime = System.currentTimeMillis() - startTime;
-		String query = "UPDATE ControllerStatus SET Time='" + sdf.format(new Date()) + "',";
-
-		if (presentStatus.equals(OFFLINE))
-			query += " Status='" + OFFLINE + "'";
-		else {
-
-			long delta = (System.currentTimeMillis() - lastChannelChange) / 1000;
-			String time = delta + " sec";
-			if (delta > 6 * 24 * 3600)
-				time = (delta / 3600 / 24) + " days";
-			else if (delta > 7200)
-				time = (delta / 3600) + " hr";
-			else if (delta > 120)
-				time = (delta / 60) + " min";
-			String timeAgo = ", " + time + " ago. ";
-			String status = presentStatus.replace("'", "");
-			String moreInfo = DisplayFacade.getPresentStatus().replace("'", "");
-			
-			String theWholeStatus = status + timeAgo + " " + moreInfo;
-			if (theWholeStatus.length() > 255) {
-				String theRest = timeAgo + " " + moreInfo;
-				if (theRest.length() > 200) {
-					theWholeStatus = status + timeAgo;
-				} else {
-					theWholeStatus = status.substring(0, Math.max(200, 255 - (timeAgo + moreInfo).length())) + " ..." + theRest;
-				}
-			}
-			if (theWholeStatus.length() > 255)
-				theWholeStatus = theWholeStatus.substring(0, 250) + " ...";
-
-			query += " Status='" + theWholeStatus + "'";
-		}
-
-		query += ", Version='" + versionInfo.getVersionString() + "', Uptime=" + uptime + " WHERE ControllerID=" + myDB_ID;
 		try {
+			long uptime = System.currentTimeMillis() - startTime;
+			String query = "UPDATE ControllerStatus SET Time='" + sdf.format(new Date()) + "',";
+
+			if (presentStatus.equals(OFFLINE))
+				query += " Status='" + OFFLINE + "'";
+			else {
+
+				long delta = (System.currentTimeMillis() - lastChannelChange) / 1000;
+				String time = delta + " sec";
+				if (delta > 6 * 24 * 3600)
+					time = (delta / 3600 / 24) + " days";
+				else if (delta > 7200)
+					time = (delta / 3600) + " hr";
+				else if (delta > 120)
+					time = (delta / 60) + " min";
+				String timeAgo = ", " + time + " ago. ";
+				String status = presentStatus.replace("'", "");
+				String moreInfo = DisplayFacade.getPresentStatus().replace("'", "");
+
+				int MAX_MESSAGE_SIZE = 2048;
+				String theWholeStatus = status + timeAgo + " " + moreInfo;
+				if (theWholeStatus.length() > MAX_MESSAGE_SIZE) {
+					String theRest = timeAgo + " " + moreInfo;
+					if (theRest.length() > (MAX_MESSAGE_SIZE - 100)) {
+						theWholeStatus = status + timeAgo;
+					} else {
+						theWholeStatus = status.substring(0,
+								Math.max((MAX_MESSAGE_SIZE - 100), MAX_MESSAGE_SIZE - theRest.length())) + " ..." + theRest;
+					}
+				}
+				if (theWholeStatus.length() > MAX_MESSAGE_SIZE)
+					theWholeStatus = theWholeStatus.substring(0, MAX_MESSAGE_SIZE - 5) + " ...";
+
+				query += " Status='" + theWholeStatus + "'";
+			}
+
+			query += ", Version='" + versionInfo.getVersionString() + "', Uptime=" + uptime + " WHERE ControllerID=" + myDB_ID;
 			Connection connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
