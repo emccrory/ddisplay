@@ -1,5 +1,7 @@
 package gov.fnal.ppd.dd.chat;
 
+import static gov.fnal.ppd.dd.ChannelSelector.SHOW_DOCENT_TAB;
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 /*
  * MessagingServer
  *
@@ -9,16 +11,23 @@ package gov.fnal.ppd.dd.chat;
  * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
+import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_DAY;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_EXTENDED_DISPLAY_NAMES;
+import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
+import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
+import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.setLogger;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
+import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.io.EOFException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,7 +35,12 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.security.SignedObject;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,7 +53,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import gov.fnal.ppd.dd.MakeChannelSelector;
+import gov.fnal.ppd.dd.changer.DisplayListFactory;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
+import gov.fnal.ppd.dd.display.DisplayFacade;
+import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.Command;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.ObjectSigning;
+import gov.fnal.ppd.dd.util.version.VersionInformation;
 
 /**
  * The server that can be run both as a console application or a GUI
@@ -637,7 +662,8 @@ public class MessagingServer {
 			catch (IOException e) {
 				logger.warning("IOException sending signed message to " + this.username + "\n" + e + "\n" + exceptionString(e));
 			} catch (Exception e) {
-				logger.warning(e.getLocalizedMessage() + ", Error sending signed message to " + this.username + e + "\n" + exceptionString(e));
+				logger.warning(e.getLocalizedMessage() + ", Error sending signed message to " + this.username + e + "\n"
+						+ exceptionString(e));
 			}
 			return false;
 		}
@@ -756,6 +782,8 @@ public class MessagingServer {
 	 */
 	public static final String					SPECIAL_SERVER_MESSAGE_USERNAME	= "Server Message";
 
+	private static int							myDB_ID							= 0;
+
 	/*
 	 * ************************************************************************************************************************
 	 * Begin the definition of the class MessagingServer
@@ -796,10 +824,9 @@ public class MessagingServer {
 	private Thread								showClientList					= null;
 	private long								startTime						= System.currentTimeMillis();
 
-	private long								sleepPeriodBtwPings				= 2000L;
-	private long								tooOldTime						= 60000L;								// "Too old"
-																														// is 60
-																														// seconds
+	private long								sleepPeriodBtwPings				= 2 * ONE_SECOND;
+	// "Too Old Time" is one minute
+	private long								tooOldTime						= ONE_MINUTE;
 
 	protected int								totalMesssagesHandled			= 0;
 	private int									numClientsRemoved				= 0;
@@ -973,9 +1000,9 @@ public class MessagingServer {
 	// }
 	// }
 	//
-//	protected void exceptionPrint(exceptionString(Exception e) {
-//		logger.warning(exceptionString(e));
-//	}
+	// protected void exceptionPrint(exceptionString(Exception e) {
+	// logger.warning(exceptionString(e));
+	// }
 
 	protected String exceptionString(Exception e) {
 		if (e == null)
@@ -1027,7 +1054,6 @@ public class MessagingServer {
 				}
 			}
 		}
-
 		if (show) {
 			long aliveTime = System.currentTimeMillis() - startTime;
 			long days = aliveTime / ONE_DAY;
@@ -1044,14 +1070,107 @@ public class MessagingServer {
 				LL = "";
 				NN = "none";
 			}
-			logger.fine("\n                       " + MessagingServer.class.getSimpleName() + " has been alive " + days + " d "
-					+ hours + " hr " + mins + " min " + secs + " sec (" + aliveTime + " msec)\n                       "
-					+ numConnectionsSeen + " connections accepted, " + listOfMessagingClients.size() + " client"
+			String spaces = "XZXZxzxz";
+			String spacesForLog = "\n                       ";
+			// String spacesForStatus = " - ";
+			String message = MessagingServer.class.getSimpleName() + " has been alive " + days + " d " + hours + " hr " + mins
+					+ " min " + secs + " sec (" + aliveTime + " msec)" //
+					+ spaces + numConnectionsSeen + " connections accepted, " + listOfMessagingClients.size() + " client"
 					+ (listOfMessagingClients.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
-					+ " messages handled\n" + "                       Oldest client is " + oldestName + "\n"
-					+ "                       Number of clients put 'on notice': " + numClientsputOnNotice + "\n"
-					+ "                       Number of clients removed due to lack of response: " + numClientsRemoved + "\n"
-					+ subjectInfo);
+					+ " messages handled" //
+					+ spaces + "Oldest client is " + oldestName //
+					+ spaces + "Number of clients put 'on notice': " + numClientsputOnNotice //
+					+ spaces + "Number of clients removed due to lack of response: " + numClientsRemoved + subjectInfo;
+			logger.fine("\n                       " + message.replace(spaces, spacesForLog));
+			// updateStatus(message.replace(spaces, spacesForStatus));
+		}
+	}
+
+	private VersionInformation versionInfo = VersionInformation.getVersionInformation();
+
+	private synchronized void updateStatus(String statusMessage) {
+		SimpleDateFormat sqlFormat = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
+
+		try {
+			long uptime = System.currentTimeMillis() - startTime;
+			String query = "UPDATE MessagingServerStatus SET " //
+					+ "Time='" + sqlFormat.format(new Date()) + "'," //
+					+ "NumConnections=" + numConnectionsSeen + "," //
+					+ "NumConnected=" + listOfMessagingClients.size() + "," //
+					+ "MessagesHandled=" + totalMesssagesHandled + "," //
+					+ "Version='" + versionInfo.getVersionString() + "'," //
+					+ "UpTime=" + uptime + ",";
+
+			String status = statusMessage.replace("'", "");
+
+			int MAX_MESSAGE_SIZE = 2048;
+			if (status.length() > MAX_MESSAGE_SIZE) {
+				status = status.substring(0, MAX_MESSAGE_SIZE - 5) + " ...";
+			}
+
+			query += "Status='" + status + "' WHERE MessagingServerID=" + myDB_ID;
+			Connection connection = ConnectionToDatabase.getDbConnection();
+
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+					int numRows = stmt.executeUpdate(query);
+					if (numRows == 0 || numRows > 1) {
+						println(getClass(),
+								" Problem while updating status of Messaging Server: Expected to modify exactly one row, but  modified "
+										+ numRows + " rows instead. SQL='" + query + "'");
+					}
+					stmt.close();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	static {
+		Connection connection = null;
+		try {
+			connection = ConnectionToDatabase.getDbConnection();
+		} catch (DatabaseNotVisibleException e1) {
+			e1.printStackTrace();
+			System.err.println("\nNo connection to the Signage/Displays database.");
+			System.exit(-1);
+		}
+
+		synchronized (connection) {
+			// Use ARM to simplify these try blocks.
+			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
+
+				InetAddress ip = InetAddress.getLocalHost();
+				String myIPName = ip.getCanonicalHostName().replace(".dhcp", "");
+
+				String query = "SELECT MessagingServerID FROM MessagingServerStatus where IPName='" + myIPName + "'";
+
+				try (ResultSet rs2 = stmt.executeQuery(query);) {
+					if (rs2.first())
+						while (!rs2.isAfterLast()) {
+							try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)
+								myDB_ID = rs2.getInt("MessagingServerID");
+								System.out.println("The messaging serverID is " + myDB_ID);
+							} catch (Exception e) {
+								e.printStackTrace();
+								System.exit(-2);
+							}
+							rs2.next();
+						}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.exit(-3);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				System.exit(-4);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.exit(-5);
+			}
 		}
 	}
 
@@ -1060,6 +1179,7 @@ public class MessagingServer {
 	 */
 	public void start() {
 		startPinger();
+		startDBStatusThread();
 		keepGoing = true;
 		/* create socket server and wait for connection requests */
 		try {
@@ -1194,6 +1314,35 @@ public class MessagingServer {
 		}
 		logger.warning(getClass().getSimpleName() + " - Exiting SERVER thread for listening to the messaging socket on port " + port
 				+ ".  THIS SHOULD ONLY HAPPEN when the program exits.");
+	}
+
+	private void startDBStatusThread() {
+		new Thread("DBStatusUpdate") {
+			public void run() {
+				while (true) {
+					catchSleep(5 * ONE_SECOND);
+					try {
+						String message = "Number of clients put 'on notice': " + numClientsputOnNotice
+								+ " - Number of clients removed due to lack of response: " + numClientsRemoved;
+						updateStatus(message);
+					} catch (Exception e) {
+						logger.warning("Exception in DB status update threadt: " + e + "\n" + exceptionString(e));
+					}
+				}
+			}
+		}.start();
+
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				try {
+					updateStatus("** OFF LINE **");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+		});	
 	}
 
 	protected void showAllClientsConnectedNow() {
