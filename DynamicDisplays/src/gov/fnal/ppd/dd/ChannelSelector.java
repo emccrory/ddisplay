@@ -270,10 +270,21 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				time = (delta / 60) + " min";
 			String timeAgo = ", " + time + " ago. ";
 			String status = presentStatus.replace("'", "");
-			String second = DisplayFacade.getPresentStatus().replace("'", "");
-			if ( status.length() > 255 - second.length() - timeAgo.length() ) 
-				status = status.substring(0,  250 - second.length() - timeAgo.length()) + " ...";
-			query += " Status='" + status + timeAgo + " " + second + "'";
+			String moreInfo = DisplayFacade.getPresentStatus().replace("'", "");
+			
+			String theWholeStatus = status + timeAgo + " " + moreInfo;
+			if (theWholeStatus.length() > 255) {
+				String theRest = timeAgo + " " + moreInfo;
+				if (theRest.length() > 200) {
+					theWholeStatus = status + timeAgo;
+				} else {
+					theWholeStatus = status.substring(0, Math.max(200, 255 - (timeAgo + moreInfo).length())) + " ..." + theRest;
+				}
+			}
+			if (theWholeStatus.length() > 255)
+				theWholeStatus = theWholeStatus.substring(0, 250) + " ...";
+
+			query += " Status='" + theWholeStatus + "'";
 		}
 
 		query += ", Version='" + versionInfo.getVersionString() + "', Uptime=" + uptime + " WHERE ControllerID=" + myDB_ID;
