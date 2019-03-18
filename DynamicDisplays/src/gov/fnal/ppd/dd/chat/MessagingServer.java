@@ -1,7 +1,5 @@
 package gov.fnal.ppd.dd.chat;
 
-import static gov.fnal.ppd.dd.ChannelSelector.SHOW_DOCENT_TAB;
-import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 /*
  * MessagingServer
  *
@@ -10,24 +8,19 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
  * 
  * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
-import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_DAY;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
-import static gov.fnal.ppd.dd.GlobalVariables.SHOW_EXTENDED_DISPLAY_NAMES;
-import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
-import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
-import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.setLogger;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
 import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.io.EOFException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -53,16 +46,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import gov.fnal.ppd.dd.MakeChannelSelector;
-import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
-import gov.fnal.ppd.dd.display.DisplayFacade;
-import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.Command;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
-import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.ObjectSigning;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 
