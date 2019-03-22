@@ -24,7 +24,7 @@ public class ChannelSpec implements SignageContent {
 
 	public ChannelSpec() {
 		try {
-			content = new EmptyChannel();
+			content = new XmlDerivedChannel();
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -33,7 +33,7 @@ public class ChannelSpec implements SignageContent {
 	public ChannelSpec(SignageContent c) {
 		if (c == null) {
 			try {
-				content = new EmptyChannel();
+				content = new XmlDerivedChannel();
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}

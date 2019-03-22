@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
  * @author Elliott McCrory, Fermilab/AD/Instrumentation.
  * 
  */
-class EmptyChannel extends ChannelImpl {
+public class XmlDerivedChannel extends ChannelImpl {
 	private static final long	serialVersionUID	= -419375552528263824L;
 
 	/**
@@ -23,12 +23,12 @@ class EmptyChannel extends ChannelImpl {
 	 * @throws URISyntaxException
 	 *             (In the unlikely case that the default web page is no longer a valid URI)
 	 */
-	public EmptyChannel() throws URISyntaxException {
+	public XmlDerivedChannel() throws URISyntaxException {
 		this(MY_NAME, new ChannelCategory("PUBLIC", "PUBLIC"));
 
 	}
 
-	public EmptyChannel(String string, ChannelCategory categ) throws URISyntaxException {
+	public XmlDerivedChannel(String string, ChannelCategory categ) throws URISyntaxException {
 		super(string, categ, "This channel is " + string, new URI(MY_URL), 0, 0);
 	}
 
