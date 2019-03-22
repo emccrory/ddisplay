@@ -406,8 +406,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				});
 				String sp = SHOW_IN_WINDOW ? "" : " ";
 				displayTabPane.add(grid, sp + categories[cat].getAbbreviation() + sp);
-				if ("Public".equalsIgnoreCase(categories[cat].getAbbreviation()))
-					theSelectedTab = grid;
 				progressMonitor.setNote(note);
 				progressMonitor.setProgress(index * (1 + categories.length) + cat);
 			}
@@ -470,6 +468,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					}
 				});
 				displayTabPane.add(scg, " Display " + display.getVirtualDisplayNumber() + " channels ");
+				theSelectedTab = scg;
 			}
 
 			final JPanel inner = new JPanel(new BorderLayout());
