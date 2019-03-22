@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -36,21 +37,24 @@ public class ColorNames extends HashMap<String, String> {
 			synchronized (connection) {
 				stmt = connection.createStatement();
 				rs = stmt.executeQuery("USE " + DATABASE_NAME);
-				rs = stmt.executeQuery("select * from ColorNames");
-				rs.first(); // Move to first returned row
-				while (!rs.isAfterLast())
-					try {
-						String code = rs.getString("ColorCode");
-						String name = rs.getString("ColorName");
+				String q = "SELECT * FROM ColorNames";
+				rs = stmt.executeQuery(q);
+				if (rs.first()) { // Move to first returned row
+					while (!rs.isAfterLast())
+						try {
+							String code = rs.getString("ColorCode");
+							String name = rs.getString("ColorName");
 
-						put(code, name);
-						rs.next();
-						count++;
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				stmt.close();
-				rs.close();
+							put(code, name);
+							rs.next();
+							count++;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					stmt.close();
+					rs.close();
+				} else
+					printlnErr(getClass(), "Executed a query that returned no rows: " + q);
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();

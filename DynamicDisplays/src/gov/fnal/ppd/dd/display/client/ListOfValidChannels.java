@@ -4,15 +4,17 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.db.ConnectionToDatabase;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
+
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 /**
  * FIXME - This class contains both business logic and database access
@@ -44,21 +46,28 @@ public class ListOfValidChannels extends HashSet<String> {
 			synchronized (connection) {
 				stmt = connection.createStatement();
 				rs = stmt.executeQuery("USE " + DATABASE_NAME);
-				rs = stmt.executeQuery("SELECT URL FROM Channel");
-				rs.first(); // Move to first returned row
-				while (!rs.isAfterLast())
-					try {
-						String theURL = rs.getString("URL");
-						// Here is a question: Should we strip off the "http://" or the "https://" from the URL? Is this something
-						// that should
-						// cause this verification to fail?? We seem to need to do this for the individual photos we show here.
-						add(theURL);
+				String q = "SELECT URL FROM Channel WHERE Approval=1";
+				rs = stmt.executeQuery(q);
+				if (!rs.first()) { // Move to first returned row
+					printlnErr(getClass(),
+							"\n\n** This is a big problem **\n\tThere are no approved channels in the system!  Here is the query that returned no rows: "
+									+ q + "\nRecommended fix: Examine your life choices and then do something else that makes you happy.\n"
+									+ "\n... Or, I suppose, add some channels to the database.");
+				} else
+					while (!rs.isAfterLast())
+						try {
+							String theURL = rs.getString("URL");
+							// Here is a question: Should we strip off the "http://" or the "https://" from the URL? Is this
+							// something that should cause this verification to fail?? We seem to need to do this for the individual
+							// photos we show here.
+							add(theURL);
 
-						rs.next();
-						count++;
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+							if (!rs.next())
+								break;
+							count++;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 				stmt.close();
 				rs.close();
 			}

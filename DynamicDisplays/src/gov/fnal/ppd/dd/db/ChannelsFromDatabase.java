@@ -9,6 +9,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getNumberOfLocations;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -66,9 +67,13 @@ public class ChannelsFromDatabase {
 
 		int count = 0;
 		try {
-			rs = stmt.executeQuery("SELECT Channel.Number as Number,Name,Description,URL,Category,Type,DwellTime,Sound "
-					+ "FROM Channel LEFT JOIN ChannelTabSort ON (Channel.Number=ChannelTabSort.Number) WHERE Approval=1");
-			rs.first(); // Move to first returned row
+			String q = "SELECT Channel.Number as Number,Name,Description,URL,Category,Type,DwellTime,Sound "
+					+ "FROM Channel LEFT JOIN ChannelTabSort ON (Channel.Number=ChannelTabSort.Number) WHERE Approval=1";
+			rs = stmt.executeQuery(q);
+			if (!rs.first()) { // Move to first returned row
+				printlnErr(ChannelsFromDatabase.class, "Empty result set for this query: " + q);
+				return;
+			}
 			while (!rs.isAfterLast()) {
 				try {
 					String name = rs.getString("Name");
@@ -89,7 +94,8 @@ public class ChannelsFromDatabase {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				rs.next();
+				if (!rs.next())
+					break;
 			}
 			stmt.close();
 			rs.close();
@@ -120,9 +126,12 @@ public class ChannelsFromDatabase {
 
 		int count = 0;
 		try {
-			rs = stmt
-					.executeQuery("SELECT Filename,Experiment,Description,PortfolioID FROM Portfolio WHERE Type='Image' AND Approval='Approved' ORDER BY Sequence");
-			rs.first(); // Move to first returned row
+			String q = "SELECT Filename,Experiment,Description,PortfolioID FROM Portfolio WHERE Type='Image' AND Approval='Approved' ORDER BY Sequence";
+			rs = stmt.executeQuery(q);
+			if (!rs.first()) {// Move to first returned row
+				printlnErr(ChannelsFromDatabase.class, "Tried to execute a query that had no results " + q);
+				return; // Unless there is not a first row
+			}
 			while (!rs.isAfterLast())
 				try {
 					String name = rs.getString("FileName");
@@ -137,7 +146,8 @@ public class ChannelsFromDatabase {
 					c.setNumber(imageNumber);
 
 					theMap.put(name, c);
-					rs.next();
+					if (!rs.next())
+						break;
 					count++;
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -217,7 +227,8 @@ public class ChannelsFromDatabase {
 							String abb = decode(rs.getString("Abbreviation"));
 							cats.add(new ChannelCategory(cat, abb));
 
-							rs.next();
+							if (!rs.next())
+								break;
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -361,7 +372,8 @@ public class ChannelsFromDatabase {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					rs.next();
+					if (!rs.next())
+						break;
 				}
 				stmt.close();
 				rs.close();
@@ -376,9 +388,8 @@ public class ChannelsFromDatabase {
 		println(ChannelsFromDatabase.class, ": Found " + theMap.size() + " valid channels.");
 	}
 
-	
 	public static Set<SignageContent> getSpecialChannelsForDisplay(int displayID) throws DatabaseNotVisibleException {
-		Set<SignageContent> retval = new HashSet<SignageContent> ();
+		Set<SignageContent> retval = new HashSet<SignageContent>();
 		Statement stmt = null;
 		ResultSet rs = null;
 		Connection connection = ConnectionToDatabase.getDbConnection();
@@ -402,31 +413,40 @@ public class ChannelsFromDatabase {
 			List<Integer> lists = new ArrayList<Integer>();
 			List<Integer> pictures = new ArrayList<Integer>();
 
-			rs = stmt.executeQuery("SELECT * from SimplifiedChannelChoice WHERE DisplayID=" + displayID);
-			rs.first(); // Move to first returned row
-			while (!rs.isAfterLast()) {
-				try {
-					int chanNum = rs.getInt("Content");
-					int portf = rs.getInt("PortfolioID");
-					if (chanNum < 0)
-						lists.add(-chanNum);
-					else if (chanNum > 0)
-						channels.add(chanNum);
-					// Skip chanNum == 0
-					if (portf > 0)
-						pictures.add(portf);
-				} catch (Exception e) {
-					e.printStackTrace();
+			String q1 = "SELECT * from SimplifiedChannelChoice WHERE DisplayID=" + displayID;
+			rs = stmt.executeQuery(q1);
+			if (!rs.first()) {// Move to first returned row
+				printlnErr(ChannelsFromDatabase.class, "Tried to execute a query that had no results " + q1);
+				// Unless there is not a first row
+			} else
+				while (!rs.isAfterLast()) {
+					try {
+						int chanNum = rs.getInt("Content");
+						int portf = rs.getInt("PortfolioID");
+						if (chanNum < 0)
+							lists.add(-chanNum);
+						else if (chanNum > 0)
+							channels.add(chanNum);
+						// Skip chanNum == 0
+						if (portf > 0)
+							pictures.add(portf);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if (!rs.next())
+						break;
 				}
-				rs.next();
-			}
 			rs.close();
 
 			// Parse out the simple channels
 			for (int CN : channels) {
-				rs = stmt.executeQuery("SELECT Channel.Number,Name,Description,URL,Category,DwellTime,Sound "
-						+ "FROM Channel WHERE Approval=1 AND Number=" + CN);
-				rs.first(); // Move to first returned row
+				String q = "SELECT Channel.Number,Name,Description,URL,Category,DwellTime,Sound "
+						+ "FROM Channel WHERE Approval=1 AND Number=" + CN;
+				rs = stmt.executeQuery(q);
+				if (!rs.first()) {// Move to first returned row
+					printlnErr(ChannelsFromDatabase.class, "Tried to execute a query that had no results " + q);
+					continue; // Unless there is not a first row
+				}
 				while (!rs.isAfterLast()) {
 					try {
 						String name = rs.getString("Name");
@@ -443,7 +463,8 @@ public class ChannelsFromDatabase {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					rs.next();
+					if (!rs.next())
+						break;
 				}
 				rs.close();
 			}
@@ -498,38 +519,41 @@ public class ChannelsFromDatabase {
 			}
 
 			for (int PF : pictures) {
-				rs = stmt
-						.executeQuery("SELECT Filename,Experiment,Description,PortfolioID FROM Portfolio "
-								+ "WHERE Type='Image' AND Approval='Approved' AND PortfolioID=" + PF);
-				rs.first();
-				while (!rs.isAfterLast())
-					try {
-						String name = rs.getString("FileName");
-						String descr = rs.getString("Description");
-						String exp = rs.getString("Experiment");
-						int imageNumber = rs.getInt("PortfolioID");
+				String q = "SELECT Filename,Experiment,Description,PortfolioID FROM Portfolio "
+						+ "WHERE Type='Image' AND Approval='Approved' AND PortfolioID=" + PF;
+				rs = stmt.executeQuery(q);
+				if (!rs.first()) {
+					printlnErr(ChannelsFromDatabase.class, "Executed a query that returned no results: " + q);
+				} else
+					while (!rs.isAfterLast())
+						try {
+							String name = rs.getString("FileName");
+							String descr = rs.getString("Description");
+							String exp = rs.getString("Experiment");
+							int imageNumber = rs.getInt("PortfolioID");
 
-						String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
-								+ "&caption=" + URLEncoder.encode(descr, "UTF-8");
-						ChannelImage c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url),
-								imageNumber + ONE_BILLION, exp);
-						c.setNumber(imageNumber);
+							String url = getFullURLPrefix() + "/portfolioOneSlide.php?photo=" + URLEncoder.encode(name, "UTF-8")
+									+ "&caption=" + URLEncoder.encode(descr, "UTF-8");
+							ChannelImage c = new ChannelImage(name, ChannelCategory.IMAGE, descr, new URI(url),
+									imageNumber + ONE_BILLION, exp);
+							c.setNumber(imageNumber);
 
-						retval.add(c);
-						rs.next();
-						count++;
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+							retval.add(c);
+							if (!rs.next())
+								break;
+							count++;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 			}
 			rs.close();
-			
+
 			stmt.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		println(ChannelsFromDatabase.class, ": Found " + count + " 'simplified' channels.");
-		return retval;		
+		return retval;
 	}
 }

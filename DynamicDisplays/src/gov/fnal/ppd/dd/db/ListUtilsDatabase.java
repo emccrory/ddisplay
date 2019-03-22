@@ -37,7 +37,7 @@ import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
  * 
  */
 public class ListUtilsDatabase {
-	private static String	lastListName	= null;
+	private static String lastListName = null;
 
 	private ListUtilsDatabase() {
 	}
@@ -130,9 +130,11 @@ public class ListUtilsDatabase {
 										String desc = rs3.getString("Description");
 										String exp = rs3.getString("Experiment");
 
-										String url = SINGLE_IMAGE_DISPLAY + URLEncoder.encode(name, "UTF-8") + "&caption=" + URLEncoder.encode(desc, "UTF-8");
+										String url = SINGLE_IMAGE_DISPLAY + URLEncoder.encode(name, "UTF-8") + "&caption="
+												+ URLEncoder.encode(desc, "UTF-8");
 										URI uri = new URI(url);
-										Channel channel = new ChannelImage(name, ChannelCategory.IMAGE, desc, uri, portfolioID, exp);
+										Channel channel = new ChannelImage(name, ChannelCategory.IMAGE, desc, uri, portfolioID,
+												exp);
 										channel.setTime(dwell);
 										cih = new ChannelInList(channel, seq, dwell);
 									} else {
@@ -390,15 +392,15 @@ public class ListUtilsDatabase {
 						String insert = "";
 						for (ChannelInList C : theList) {
 							try {
-							insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + C.getNumber() + ", "
-									+ C.getTime() + ", NULL, " + C.getSequenceNumber() + ")";
-							if (stmt.executeUpdate(insert) == 1) {
-								// OK, the insert worked.
-								println(ListUtilsDatabase.class, ": Successful insert " + insert);
-							} else {
-								new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
-								return; // return "Insert of list element number " + sequence + " failed";
-							}
+								insert = "INSERT INTO ChannelList VALUES (NULL, " + listNumber + ", " + C.getNumber() + ", "
+										+ C.getTime() + ", NULL, " + C.getSequenceNumber() + ")";
+								if (stmt.executeUpdate(insert) == 1) {
+									// OK, the insert worked.
+									println(ListUtilsDatabase.class, ": Successful insert " + insert);
+								} else {
+									new Exception("Insert of list element number " + sequence + " failed").printStackTrace();
+									return; // return "Insert of list element number " + sequence + " failed";
+								}
 							} catch (Exception e) {
 								e.printStackTrace();
 								printlnErr(ListUtilsDatabase.class, "SQL is [" + insert + "]");
@@ -428,20 +430,22 @@ public class ListUtilsDatabase {
 				Statement stmt = connection.createStatement();
 				ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
 
-				rs = stmt.executeQuery("SELECT DISTINCT NameOfThisDefaultSet FROM DefaultChannels,DisplaySort WHERE "
-						+ "DefaultChannels.DisplayID=DisplaySort.DisplayID AND LocationCode=" + getLocationCode());
+				String q = "SELECT DISTINCT NameOfThisDefaultSet FROM DefaultChannels,DisplaySort WHERE "
+						+ "DefaultChannels.DisplayID=DisplaySort.DisplayID AND LocationCode=" + getLocationCode();
+				rs = stmt.executeQuery(q);
 				if (rs.first()) // Move to first returned row
 					try {
 						while (!rs.isAfterLast()) {
 							String theSetName = rs.getString("NameOfThisDefaultSet");
 							all.add(theSetName);
-							rs.next();
+							if (!rs.next())
+								break;
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				else {
-					// There are no rows -- never mind.
+					printlnErr(ListUtilsDatabase.class, "Executed a query that returned no results: " + q);
 				}
 				stmt.close();
 				rs.close();

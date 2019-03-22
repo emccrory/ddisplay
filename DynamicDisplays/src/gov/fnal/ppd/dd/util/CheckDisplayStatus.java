@@ -11,12 +11,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_VIRTUAL_DISPLAY_NUMS;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
-import gov.fnal.ppd.dd.changer.DisplayButtons;
-import gov.fnal.ppd.dd.db.ConnectionToDatabase;
-import gov.fnal.ppd.dd.display.DisplayFacade;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageContent;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
@@ -28,6 +23,13 @@ import java.sql.Statement;
 import java.util.List;
 
 import javax.swing.JLabel;
+
+import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
+import gov.fnal.ppd.dd.changer.DisplayButtons;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
+import gov.fnal.ppd.dd.display.DisplayFacade;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * Utility class for the main Channel Selector class.
@@ -50,7 +52,8 @@ public class CheckDisplayStatus extends Thread {
 	 * @param footer
 	 * @param grids
 	 */
-	public CheckDisplayStatus(final Display display, final int index, final JLabel footer, final List<List<ChannelButtonGrid>> grids) {
+	public CheckDisplayStatus(final Display display, final int index, final JLabel footer,
+			final List<List<ChannelButtonGrid>> grids) {
 		super("Display." + display.getDBDisplayNumber() + "." + display.getScreenNumber() + ".StatusUpdateGrabber");
 		this.display = display;
 		this.footer = footer;
@@ -165,9 +168,11 @@ public class CheckDisplayStatus extends Thread {
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
-								rs.next();
+								if (!rs.next())
+									break;
 							}
-						}
+						} else
+							printlnErr(getClass(), "Executed a query that returned no rows: " + query);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
