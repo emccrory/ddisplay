@@ -815,7 +815,7 @@ public class MessagingServer {
 
 	protected int								totalMesssagesHandled			= 0;
 	private int									numClientsRemoved				= 0;
-	private int									numClientsputOnNotice			= 0;
+	private int									numClientsPutOnNotice			= 0;
 
 	// private Object oneMessageAtATime = new String("For synchronization");
 
@@ -1035,7 +1035,7 @@ public class MessagingServer {
 					logger.fine("Client [" + CT.username + "] is now 'on notice' because its last response was more than "
 							+ (tooOldTime / 1000L) + " seconds ago: " + new Date(CT.getLastSeen()));
 					CT.setOnNotice(true);
-					numClientsputOnNotice++;
+					numClientsPutOnNotice++;
 				}
 			}
 		}
@@ -1064,7 +1064,7 @@ public class MessagingServer {
 					+ (listOfMessagingClients.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
 					+ " messages handled" //
 					+ spaces + "Oldest client is " + oldestName //
-					+ spaces + "Number of clients put 'on notice': " + numClientsputOnNotice //
+					+ spaces + "Number of clients put 'on notice': " + numClientsPutOnNotice //
 					+ spaces + "Number of clients removed due to lack of response: " + numClientsRemoved + subjectInfo;
 			logger.fine("\n                       " + message.replace(spaces, spacesForLog));
 			// updateStatus(message.replace(spaces, spacesForStatus));
@@ -1305,13 +1305,24 @@ public class MessagingServer {
 		new Thread("DBStatusUpdate") {
 			public void run() {
 				while (true) {
-					catchSleep(5 * ONE_SECOND);
+					catchSleep(15 * ONE_SECOND);
 					try {
-						String message = "Number of clients put 'on notice': " + numClientsputOnNotice
-								+ " - Number of clients removed due to lack of response: " + numClientsRemoved;
-						updateStatus(message);
+						String m = "";
+						if (listOfMessagingClients.size() == 0) {
+							m = "No clients connected.\n";
+						} else {
+							m = listOfMessagingClients.size() + " clients connected.\n";
+							for (ClientThread CT : listOfMessagingClients) {
+								m += "[" + CT.username.replace(".fnal.gov", "") + "|" + CT.getRemoteIPAddress() + "|" + CT.id
+										+ "]\n";
+							}
+						}
+						if (m.length() > 1800)
+							m = m.substring(0, 1800) + " ...";
+						m += "#onNotice: " + numClientsPutOnNotice + " - #removed: " + numClientsRemoved;
+						updateStatus(m);
 					} catch (Exception e) {
-						logger.warning("Exception in DB status update threadt: " + e + "\n" + exceptionString(e));
+						logger.warning("Exception in DB status update thread: " + e + "\n" + exceptionString(e));
 					}
 				}
 			}
@@ -1327,7 +1338,7 @@ public class MessagingServer {
 				}
 			}
 
-		});	
+		});
 	}
 
 	protected void showAllClientsConnectedNow() {
