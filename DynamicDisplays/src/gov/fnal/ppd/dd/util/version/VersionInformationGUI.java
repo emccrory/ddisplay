@@ -42,6 +42,7 @@ public class VersionInformationGUI extends JFrame {
 	public VersionInformationGUI() {
 		super("Version Information");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		newVI.setDisposition(FLAVOR.DEVELOPMENT);
 	}
 
 	/**
@@ -49,7 +50,8 @@ public class VersionInformationGUI extends JFrame {
 	 */
 	public static void main(final String[] args) {
 		VersionInformationGUI frame = new VersionInformationGUI();
-
+		
+		
 		frame.setMyContent();
 
 		frame.pack();
@@ -140,7 +142,8 @@ public class VersionInformationGUI extends JFrame {
 		for (FLAVOR D : description)
 			c.addItem(D);
 
-		c.setSelectedItem("" + newVI.getDisposition());
+		c.setSelectedItem(newVI.getDisposition());
+		System.out.println("Setting disposition to " + newVI.getDisposition());
 		c.addActionListener(listener);
 
 		JPanel retval = new JPanel();
