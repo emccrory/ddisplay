@@ -504,14 +504,17 @@ public class MessagingServer {
 							if (CT == null) {
 								logger.fine("Removing null ClientThread");
 								remove(CT);
+								numRemovedNullClientThread++;
 							} else if (CT.username == null) {
 								logger.fine("Removing ClientThread with null username [" + CT + "]");
 								remove(CT);
 								CT.thisSocketIsActive = false;
+								numRemovedNullUsername++;
 							} else if (CT.date == null) {
 								logger.fine("Removing ClientThread with null date [" + CT + "]");
 								remove(CT);
 								CT.thisSocketIsActive = false;
+								numRemovedNullDate++;
 							}
 						}
 					break;
@@ -566,6 +569,7 @@ public class MessagingServer {
 					if (ct.id == id) {
 						remove(ct);
 						logger.fine("Removed id=" + id);
+						numRemovedExitedForeverLoop++;
 						// Do not return; I want to see the information message at the end.
 						break;
 					}
@@ -576,7 +580,7 @@ public class MessagingServer {
 			if (ObjectSigning.dropClient(this.username))
 				logger.fine(this.getClass().getSimpleName() + ": '" + this.username + "' Removed from ObjectSigning cache");
 
-			logger.fine(this.getClass().getSimpleName() + ": Number of remaining clients: " + listOfMessagingClients.size());
+			logger.fine(this.getClass().getSimpleName() + ": No. remaining clients: " + listOfMessagingClients.size());
 			close();
 		}
 
@@ -741,6 +745,7 @@ public class MessagingServer {
 					if (CT == null || CT.username == null) {
 						logger.fine("Unexpected null ClientThread at index=" + index + ": [" + CT + "]");
 						remove(CT); // How did THIS happen??
+						numRemovedNullUsername++;
 					} else if (CT.username.equals(ct.username)) {
 						logger.fine("Client named " + ct.username + " already in this list");
 						return false; // Duplicate username is not allowed!
@@ -814,8 +819,15 @@ public class MessagingServer {
 	private long								tooOldTime						= ONE_MINUTE;
 
 	protected int								totalMesssagesHandled			= 0;
-	private int									numClientsRemoved				= 0;
+
+	private int									numRemovedForPings				= 0;
 	private int									numClientsPutOnNotice			= 0;
+	public int									numRemovedBadWriteSeen			= 0;
+	public int									numRemovedNullClientThread		= 0;
+	public int									numRemovedNullUsername			= 0;
+	public int									numRemovedNullDate				= 0;
+	public int									numRemovedExitedForeverLoop		= 0;
+	private int									numRemovedDuplicateUsername		= 0;
 
 	// private Object oneMessageAtATime = new String("For synchronization");
 
@@ -896,6 +908,7 @@ public class MessagingServer {
 						if (!ct.writeUnsignedMsg(mc)) {
 							remove(ct);
 							logger.warning(getClass().getSimpleName() + " - broadcast() FAILED.  mc=" + mc);
+							numRemovedBadWriteSeen++;
 						}
 			} else {
 				logger.warning(getClass().getSimpleName() + " -  Hmm.  We have an unsigned message on '" + subject
@@ -937,6 +950,7 @@ public class MessagingServer {
 							if (!ct.writeMsg(message)) {
 								remove(ct);
 								logger.fine("Disconnected Client " + ct.username + " removed from list.");
+								numRemovedBadWriteSeen++;
 							}
 						}
 				} else {
@@ -1029,7 +1043,7 @@ public class MessagingServer {
 					CT.close();
 					logger.fine("Removed Client [" + CT.username + "] because its last response was more than "
 							+ (tooOldTime / 1000L) + " seconds ago: " + new Date(CT.getLastSeen()));
-					numClientsRemoved++;
+					numRemovedForPings++;
 					CT = null; // Not really necessary, but it makes me feel better.
 				} else {
 					logger.fine("Client [" + CT.username + "] is now 'on notice' because its last response was more than "
@@ -1064,8 +1078,15 @@ public class MessagingServer {
 					+ (listOfMessagingClients.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
 					+ " messages handled" //
 					+ spaces + "Oldest client is " + oldestName //
-					+ spaces + "Number of clients put 'on notice': " + numClientsPutOnNotice //
-					+ spaces + "Number of clients removed due to lack of response: " + numClientsRemoved + subjectInfo;
+					+ spaces + "No. clients put 'on notice': " + numClientsPutOnNotice //
+					+ spaces + "No. clients removed due to lack of response: " + numRemovedForPings //
+					+ spaces + "No. clients removed for 'bad write': + numRemovedBadWriteSeen	" //
+					+ spaces + "No. clients removed for 'null client thread': " + numRemovedNullClientThread //
+					+ spaces + "No. clients removed for null username: " + numRemovedNullUsername //
+					+ spaces + "No. clients removed for null date: " + numRemovedNullDate //
+					+ spaces + "No. clients removed by exiting forever loop: " + numRemovedExitedForeverLoop //
+					+ spaces + "No. clients removed for duplicate name: " + numRemovedDuplicateUsername //
+					+ "\n" + subjectInfo;
 			logger.fine("\n                       " + message.replace(spaces, spacesForLog));
 			// updateStatus(message.replace(spaces, spacesForStatus));
 		}
@@ -1222,9 +1243,11 @@ public class MessagingServer {
 							if (CT == null || CT.username == null) {
 								logger.fine("start(): Unexpected null ClientThread at index=" + index + ": [" + CT + "]");
 								remove(CT); // How did THIS happen??
+								numRemovedNullUsername++;
 							} else if (CT.username.equals(t.username)) {
 								logger.fine("start(): Removing duplicate client " + CT.username + " from the client list");
 								remove(CT); // Duplicate username is not allowed!
+								numRemovedDuplicateUsername++;
 							}
 							index++;
 						}
@@ -1311,15 +1334,23 @@ public class MessagingServer {
 						if (listOfMessagingClients.size() == 0) {
 							m = "No clients connected.\n";
 						} else {
-							m = listOfMessagingClients.size() + " clients connected.\n";
+							m = "Clients:\n";
+							String un = "Username=";
+							String ip = "IP Address=";
+							String idn = "ID Number=";
 							for (ClientThread CT : listOfMessagingClients) {
-								m += "[" + CT.username.replace(".fnal.gov", "") + "|" + CT.getRemoteIPAddress() + "|" + CT.id
+								m += "[" + un + CT.username.replace(".fnal.gov", "") + "|" + ip + CT.getRemoteIPAddress() + "|" + idn + CT.id
 										+ "]\n";
+								un = ip = idn = "";
 							}
 						}
 						if (m.length() > 1800)
 							m = m.substring(0, 1800) + " ...";
-						m += "#onNotice: " + numClientsPutOnNotice + " - #removed: " + numClientsRemoved;
+						m += "Num Subjects: " + subjectListeners.size() + ".\nOther stats: " + numClientsPutOnNotice + ", "
+								+ numRemovedForPings + ", " + numClientsPutOnNotice + ", " + numRemovedForPings + ", "
+								+ numRemovedBadWriteSeen + ", " + numRemovedNullClientThread + ", " + numRemovedNullUsername + ", "
+								+ numRemovedNullDate + ", " + numRemovedExitedForeverLoop + ", " + numRemovedDuplicateUsername;
+
 						updateStatus(m);
 					} catch (Exception e) {
 						logger.warning("Exception in DB status update thread: " + e + "\n" + exceptionString(e));
@@ -1437,7 +1468,7 @@ public class MessagingServer {
 										+ "; removing it!");
 								remove(CT);
 								CT.close();
-								numClientsRemoved++;
+								numRemovedForPings++;
 								CT = null; // Not really necessary, but it makes me feel better.
 								continue;
 							}
