@@ -1346,10 +1346,10 @@ public class MessagingServer {
 						}
 						if (m.length() > 1800)
 							m = m.substring(0, 1800) + " ...";
-						m += "Num Subjects: " + subjectListeners.size() + ".\nOther stats: " + numClientsPutOnNotice + ", "
-								+ numRemovedForPings + ", " + numClientsPutOnNotice + ", " + numRemovedForPings + ", "
-								+ numRemovedBadWriteSeen + ", " + numRemovedNullClientThread + ", " + numRemovedNullUsername + ", "
-								+ numRemovedNullDate + ", " + numRemovedExitedForeverLoop + ", " + numRemovedDuplicateUsername;
+						m += "Num Subjects: " + subjectListeners.size() + ".\nOther stats: " + numRemovedExitedForeverLoop + ", "
+								+ numRemovedForPings + ", " + numClientsPutOnNotice + ", " + numRemovedBadWriteSeen + ", "
+								+ numRemovedNullClientThread + ", " + numRemovedNullUsername + ", " + numRemovedNullDate + ", "
+								+ numRemovedDuplicateUsername;
 
 						updateStatus(m);
 					} catch (Exception e) {
