@@ -334,6 +334,7 @@ public class DCProtocol {
 				em.setMessage(message.getMessage());
 				em.setDwellTime(message.getDwellTime());
 				em.setIpAddress(message.getIpAddress());
+				em.setTimestamp(message.getTimestamp());
 
 				println(getClass(), ".processEmergencyMessage(): Emergency message is " + em);
 

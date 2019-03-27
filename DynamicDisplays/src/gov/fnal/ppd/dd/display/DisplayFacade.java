@@ -238,6 +238,7 @@ public class DisplayFacade extends DisplayImpl {
 				emx.setSeverity(em.getSeverity());
 				emx.setDwellTime(em.getDwellTime());
 				emx.setIpAddress(em.getIpAddress());
+				emx.setTimestamp(em.getTimestamp());
 
 				String xmlMessage = MyXMLMarshaller.getXML(emx);
 				FacadeMessagingClient.sendAMessage(MessageCarrier.getEmergencyMessage(FacadeMessagingClient.getMyName(),
