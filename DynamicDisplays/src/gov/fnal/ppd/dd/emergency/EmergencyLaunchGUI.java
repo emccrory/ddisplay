@@ -19,6 +19,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -479,6 +481,12 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			message.setFootnote(footerArea.getText());
 			message.setDwellTime((long) time.getValue() * 1000L);
 			message.setSeverity(Severity.valueOf((checkButtonGroup.getSelection().getActionCommand())));
+			message.setIpAddress("unknown");
+			try {
+				message.setIpAddress(InetAddress.getLocalHost().toString());
+			} catch (UnknownHostException ex) {
+				ex.printStackTrace();
+			}
 
 			Box box = Box.createVerticalBox();
 			box.setAlignmentX(LEFT_ALIGNMENT);
@@ -489,7 +497,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			warningMessage.setOpaque(true);
 			warningMessage.setBorder(BorderFactory.createLineBorder(Color.white, 10));
 			box.add(warningMessage);
-			
+
 			box.add(Box.createRigidArea(new Dimension(10, 10)));
 
 			JLabel hl = new JLabel("Headline: '" + headlineText.getText() + "'");

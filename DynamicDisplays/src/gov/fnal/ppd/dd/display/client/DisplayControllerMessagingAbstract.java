@@ -508,7 +508,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			boolean retval = browserInstance.showEmergencyCommunication(em);
 			showingEmergencyMessage = true;
 			if (em.getSeverity() == Severity.REMOVE) {
-				setContent(previousChannelStack.pop());
+				// setContent(previousChannelStack.pop());
 				showingEmergencyMessage = false;
 			}
 
@@ -522,7 +522,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						for (; remainingTimeRemEmergMess > 0; remainingTimeRemEmergMess -= interval) {
 							catchSleep(Math.min(interval, remainingTimeRemEmergMess));
 						}
-						setContent(previousChannelStack.pop());
+						// setContent(previousChannelStack.pop());
 						showingEmergencyMessage = false;
 						emergencyRemoveThread = null;
 					}
