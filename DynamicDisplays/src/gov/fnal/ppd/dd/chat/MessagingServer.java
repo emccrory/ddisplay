@@ -122,6 +122,9 @@ public class MessagingServer {
 
 	private static boolean	showAllIncomingMessages	= false;
 
+	private static final int MAX_STATUS_MESSAGE_SIZE = 4196;
+
+
 	/*************************************************************************************************************************
 	 * Handle the communications with a specific client in the messaging system. One instance of this thread will run for each
 	 * client.
@@ -1109,9 +1112,8 @@ public class MessagingServer {
 
 			String status = statusMessage.replace("'", "");
 
-			int MAX_MESSAGE_SIZE = 2048;
-			if (status.length() > MAX_MESSAGE_SIZE) {
-				status = status.substring(0, MAX_MESSAGE_SIZE - 5) + " ...";
+			if (status.length() > MAX_STATUS_MESSAGE_SIZE) {
+				status = status.substring(0, MAX_STATUS_MESSAGE_SIZE - 5) + " ...";
 			}
 
 			query += "Status='" + status + "' WHERE MessagingServerID=" + myDB_ID;
@@ -1348,8 +1350,9 @@ public class MessagingServer {
 								+ numRemovedExitedForeverLoop + ", " + numRemovedForPings + ", " + numClientsPutOnNotice + ", "
 								+ numRemovedBadWriteSeen + ", " + numRemovedNullClientThread + ", " + numRemovedNullUsername + ", "
 								+ numRemovedNullDate + ", " + numRemovedDuplicateUsername;
-						if (m.length() + stats.length() > 4195)
-							m = m.substring(0, 4195 - stats.length() - 5) + " ...";
+						
+						if (m.length() + stats.length() > MAX_STATUS_MESSAGE_SIZE)
+							m = m.substring(0, MAX_STATUS_MESSAGE_SIZE - stats.length() - 5) + " ...";
 
 						updateStatus(m + stats);
 					} catch (Exception e) {
