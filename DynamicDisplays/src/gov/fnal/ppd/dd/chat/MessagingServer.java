@@ -1332,30 +1332,30 @@ public class MessagingServer {
 					try {
 						String m = "";
 						if (listOfMessagingClients.size() == 0) {
-							m = "No clients connected.\n";
+							m = "No clients are connected.\n";
 						} else {
-							m = "Clients:\n";
-							String un = "Username=";
-							String ip = "IP Address=";
-							String idn = "ID Number=";
+							m = listOfMessagingClients.size() + " clients:\n";
+							String un = "Name=";
+							String ip = "Address=";
+							String idn = "Local ID=";
 							for (ClientThread CT : listOfMessagingClients) {
-								m += "[" + un + CT.username.replace(".fnal.gov", "") + "|" + ip + CT.getRemoteIPAddress() + "|" + idn + CT.id
-										+ "]\n";
+								m += "[" + un + CT.username.replace(".fnal.gov", "") + "|" + ip + CT.getRemoteIPAddress() + "|"
+										+ idn + CT.id + "]\n";
 								un = ip = idn = "";
 							}
 						}
-						if (m.length() > 1800)
-							m = m.substring(0, 1800) + " ...";
-						m += "Num Subjects: " + subjectListeners.size() + ".\nOther stats: " + numRemovedExitedForeverLoop + ", "
-								+ numRemovedForPings + ", " + numClientsPutOnNotice + ", " + numRemovedBadWriteSeen + ", "
-								+ numRemovedNullClientThread + ", " + numRemovedNullUsername + ", " + numRemovedNullDate + ", "
-								+ numRemovedDuplicateUsername;
+						String stats = "\n\nNum Subjects: " + subjectListeners.size() + ".\nOther stats: "
+								+ numRemovedExitedForeverLoop + ", " + numRemovedForPings + ", " + numClientsPutOnNotice + ", "
+								+ numRemovedBadWriteSeen + ", " + numRemovedNullClientThread + ", " + numRemovedNullUsername + ", "
+								+ numRemovedNullDate + ", " + numRemovedDuplicateUsername;
+						if (m.length() + stats.length() > 4195)
+							m = m.substring(0, 4195 - stats.length() - 5) + " ...";
 
-						updateStatus(m);
+						updateStatus(m + stats);
 					} catch (Exception e) {
 						logger.warning("Exception in DB status update thread: " + e + "\n" + exceptionString(e));
 					}
-				}
+				} // end of forever loop.
 			}
 		}.start();
 
