@@ -118,12 +118,11 @@ import gov.fnal.ppd.dd.util.version.VersionInformation;
  */
 public class MessagingServer {
 
-	private static boolean	showAliveMessages		= false;
+	private static boolean		showAliveMessages		= false;
 
-	private static boolean	showAllIncomingMessages	= false;
+	private static boolean		showAllIncomingMessages	= false;
 
-	private static final int MAX_STATUS_MESSAGE_SIZE = 4196;
-
+	private static final int	MAX_STATUS_MESSAGE_SIZE	= 4196;
 
 	/*************************************************************************************************************************
 	 * Handle the communications with a specific client in the messaging system. One instance of this thread will run for each
@@ -1113,7 +1112,8 @@ public class MessagingServer {
 			String status = statusMessage.replace("'", "");
 
 			if (status.length() > MAX_STATUS_MESSAGE_SIZE) {
-				status = status.substring(0, MAX_STATUS_MESSAGE_SIZE - 5) + " ...";
+				String extra = " ... Unexpected excess message length of " + status.length() + ".\nThis message has been truncated.";
+				status = status.substring(0, MAX_STATUS_MESSAGE_SIZE - extra.length() - 2) + extra;
 			}
 
 			query += "Status='" + status + "' WHERE MessagingServerID=" + myDB_ID;
@@ -1350,10 +1350,11 @@ public class MessagingServer {
 								+ numRemovedExitedForeverLoop + ", " + numRemovedForPings + ", " + numClientsPutOnNotice + ", "
 								+ numRemovedBadWriteSeen + ", " + numRemovedNullClientThread + ", " + numRemovedNullUsername + ", "
 								+ numRemovedNullDate + ", " + numRemovedDuplicateUsername;
-						
-						if (m.length() + stats.length() > MAX_STATUS_MESSAGE_SIZE)
-							m = m.substring(0, MAX_STATUS_MESSAGE_SIZE - stats.length() - 5) + " ...";
 
+						if (m.length() + stats.length() > MAX_STATUS_MESSAGE_SIZE) {
+							String extra = " (exceeds " + MAX_STATUS_MESSAGE_SIZE + " bytes)";
+							m = m.substring(0, MAX_STATUS_MESSAGE_SIZE - stats.length() - extra.length() - 2) + extra;
+						}
 						updateStatus(m + stats);
 					} catch (Exception e) {
 						logger.warning("Exception in DB status update thread: " + e + "\n" + exceptionString(e));
