@@ -1346,7 +1346,7 @@ public class MessagingServer {
 								un = ip = idn = "";
 							}
 						}
-						String stats = "\n\nNum Subjects: " + subjectListeners.size() + ".\nOther stats: "
+						String stats = "\nNum Subjects: " + subjectListeners.size() + ".\nOther stats: "
 								+ numRemovedExitedForeverLoop + ", " + numRemovedForPings + ", " + numClientsPutOnNotice + ", "
 								+ numRemovedBadWriteSeen + ", " + numRemovedNullClientThread + ", " + numRemovedNullUsername + ", "
 								+ numRemovedNullDate + ", " + numRemovedDuplicateUsername;

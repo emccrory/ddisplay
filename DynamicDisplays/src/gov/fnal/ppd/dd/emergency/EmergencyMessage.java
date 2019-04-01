@@ -99,10 +99,11 @@ public class EmergencyMessage implements Serializable {
 		String headlineClass = ("" + severity).toLowerCase();
 		retval += "<h1 class='" + headlineClass + "'>" + headline.replace("\'", "\"") + "</h1>";
 		retval += "<p class='message'>" + message.replace("\'", "\"") + "</p>";
-		retval += "<p class='footnote'>This message came from " + ipAddress + " at " + timestamp + " </p>";
 
 		if (footnote != null && footnote.length() > 0)
 			retval += "<p class='footnote'>" + footnote.replace("\'", "\"") + "</p>";
+
+		retval += "<p class='footnote'>This message came from " + ipAddress + " at " + timestamp + " </p>";
 
 		return retval;
 	}
