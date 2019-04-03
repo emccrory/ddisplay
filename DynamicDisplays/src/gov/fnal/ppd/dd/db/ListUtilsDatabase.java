@@ -133,6 +133,7 @@ public class ListUtilsDatabase {
 										String url = SINGLE_IMAGE_DISPLAY + URLEncoder.encode(name, "UTF-8") + "&caption="
 												+ URLEncoder.encode(desc, "UTF-8");
 										URI uri = new URI(url);
+
 										Channel channel = new ChannelImage(name, desc, uri, portfolioID, exp);
 										channel.setTime(dwell);
 										cih = new ChannelInList(channel, seq, dwell);
@@ -429,20 +430,22 @@ public class ListUtilsDatabase {
 				Statement stmt = connection.createStatement();
 				ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME);
 
-				rs = stmt.executeQuery("SELECT DISTINCT NameOfThisDefaultSet FROM DefaultChannels,DisplaySort WHERE "
-						+ "DefaultChannels.DisplayID=DisplaySort.DisplayID AND LocationCode=" + getLocationCode());
+				String q = "SELECT DISTINCT NameOfThisDefaultSet FROM DefaultChannels,DisplaySort WHERE "
+						+ "DefaultChannels.DisplayID=DisplaySort.DisplayID AND LocationCode=" + getLocationCode();
+				rs = stmt.executeQuery(q);
 				if (rs.first()) // Move to first returned row
 					try {
 						while (!rs.isAfterLast()) {
 							String theSetName = rs.getString("NameOfThisDefaultSet");
 							all.add(theSetName);
-							rs.next();
+							if (!rs.next())
+								break;
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				else {
-					// There are no rows -- never mind.
+					printlnErr(ListUtilsDatabase.class, "Executed a query that returned no results: " + q);
 				}
 				stmt.close();
 				rs.close();

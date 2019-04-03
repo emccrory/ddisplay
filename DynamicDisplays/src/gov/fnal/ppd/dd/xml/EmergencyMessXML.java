@@ -15,6 +15,8 @@ public class EmergencyMessXML extends EncodedCarrier {
 	private String		headline, message, footnote;
 	private Severity	severity;
 	private long		dwellTime	= 2 * 60 * 60 * 1000;	// two hours is the default
+	private String		ipAddress;
+	private long		timestamp;
 
 	/**
 	 * @return the headline
@@ -22,6 +24,22 @@ public class EmergencyMessXML extends EncodedCarrier {
 	@XmlElement
 	public String getHeadline() {
 		return headline;
+	}
+
+	/**
+	 * @param headline
+	 *            the headline to set
+	 */
+	public void setIpAddress(String ip) {
+		this.ipAddress = ip;
+	}
+
+	/**
+	 * @return the headline
+	 */
+	@XmlElement
+	public String getIpAddress() {
+		return ipAddress;
 	}
 
 	/**
@@ -98,6 +116,15 @@ public class EmergencyMessXML extends EncodedCarrier {
 	 */
 	public void setDwellTime(long dwellTime) {
 		this.dwellTime = dwellTime;
+	}
+
+	@XmlElement
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
 	}
 
 }

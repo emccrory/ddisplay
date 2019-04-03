@@ -19,6 +19,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,55 +61,41 @@ import gov.fnal.ppd.dd.util.ObjectSigning;
  */
 public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
-	private static final long			serialVersionUID	= -4454406761200912692L;
+	private static final long			serialVersionUID				= -4454406761200912692L;
 
 	/**
 	 * Set to true to show a more complex UI
 	 */
-	public static final boolean			SHOW_MORE_STUFF		= Boolean.getBoolean("ddisplay.extendedinformation");
+	public static final boolean			SHOW_MORE_STUFF					= Boolean.getBoolean("ddisplay.extendedinformation");
 
-	private JTextField					headlineText		= new JTextField(45);
+	private static final String			DEFAULT_EMERGENCY_HEADLINE		= "An Emergency Situation has been delcared";
+	private static final String			DEFAULT_ALERT_HEADLINE			= "An ALERT has been issued";
+	private static final String			DEFAULT_INFORMATION_HEADLINE	= "Important imformation";
+
+	private JTextField					headlineText					= new JTextField(45);
 	private JSpinner					time;
 
-	private JTextArea					messageArea			= new JTextArea(5, 65);
-	private JTextArea					footerArea			= new JTextArea(2, 65);
+	private JTextArea					messageArea						= new JTextArea(5, 65);
+	private JTextArea					footerArea						= new JTextArea(2, 65);
 
-	private JLabel						emergencyStatus		= new JLabel("Have initiated no emergency messages");
+	private JLabel						emergencyStatus					= new JLabel("Have initiated no emergency messages");
 
-	private JButton						accept				= new JButton("Send Test Message");
-	private JButton						cancel				= new JButton("Exit");
-	private JButton						remove				= new JButton("Remove Message");
+	private JButton						accept							= new JButton("Send Test Message");
+	private JButton						cancel							= new JButton("Exit");
+	private JButton						remove							= new JButton("Remove Message");
 
-	private JRadioButton				checkEmergency		= new JRadioButton("" + Severity.EMERGENCY);
-	private JRadioButton				checkAlert			= new JRadioButton("" + Severity.ALERT);
-	private JRadioButton				checkInformation	= new JRadioButton("" + Severity.INFORMATION);
-	private JRadioButton				checkTesting		= new JRadioButton("" + Severity.TESTING);
-	private ButtonGroup					checkButtonGroup	= new ButtonGroup();
+	private JRadioButton				checkEmergency					= new JRadioButton("" + Severity.EMERGENCY);
+	private JRadioButton				checkAlert						= new JRadioButton("" + Severity.ALERT);
+	private JRadioButton				checkInformation				= new JRadioButton("" + Severity.INFORMATION);
+	private JRadioButton				checkTesting					= new JRadioButton("" + Severity.TESTING);
+	private ButtonGroup					checkButtonGroup				= new ButtonGroup();
 
-	private ActionListener				radioActionListener	= new ActionListener() {
-
-																@Override
-																public void actionPerformed(ActionEvent e) {
-																	if (checkEmergency.isSelected()) {
-																		setBackground(new Color(255, 100, 100));
-																		accept.setText("Send Emergency Message");
-																	} else if (checkAlert.isSelected()) {
-																		setBackground(new Color(220, 160, 160));
-																		accept.setText("Send Alert Message");
-																	} else if (checkInformation.isSelected()) {
-																		setBackground(new Color(160, 160, 255));
-																		accept.setText("Send Information Message");
-																	} else if (checkTesting.isSelected()) {
-																		setBackground(new Color(200, 200, 200));
-																		accept.setText("Send Test Message");
-																	}
-																}
-															};
+	private ActionListener				radioActionListener;
 
 	private EmergencyMessageDistributor	emergencyMessageDistributor;
 	private List<Display>				displays;
-	private List<JLabel>				footers				= new ArrayList<JLabel>();
-	private List<JCheckBox>				checkBoxes			= new ArrayList<JCheckBox>();
+	private List<JLabel>				footers							= new ArrayList<JLabel>();
+	private List<JCheckBox>				checkBoxes						= new ArrayList<JCheckBox>();
 
 	private boolean						messageSendErrors;
 
@@ -153,11 +141,18 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		this.emergencyMessageDistributor = emd;
 		normalOperations = false;
 
+		radioActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				createDefaultMessages();
+			}
+		};
+
 		displays = DisplayListFactory.getInstance(getLocationCode());
 
 		for (Display D : displays) {
-			JLabel footer = new JLabel("Waiting to hear from Display " + D.getDBDisplayNumber() + " ... "
-					+ D.getClass().getSimpleName());
+			JLabel footer = new JLabel(
+					"Waiting to hear from Display " + D.getDBDisplayNumber() + " ... " + D.getClass().getSimpleName());
 			footer.setFont(new Font("Arial", Font.PLAIN, 10));
 			footer.setMaximumSize(new Dimension(150, 30));
 			(new CheckDisplayStatus(D, footer)).start();
@@ -184,8 +179,34 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		}
 	}
 
+	protected void createDefaultMessages() {
+		if (checkEmergency.isSelected()) {
+			setBackground(new Color(255, 100, 100));
+			accept.setText("Send Emergency Message");
+
+			// TODO Create default message in the GUI
+			headlineText.setText(DEFAULT_EMERGENCY_HEADLINE);
+
+		} else if (checkAlert.isSelected()) {
+			setBackground(new Color(220, 160, 160));
+			accept.setText("Send Alert Message");
+
+			headlineText.setText(DEFAULT_ALERT_HEADLINE);
+
+		} else if (checkInformation.isSelected()) {
+			setBackground(new Color(160, 160, 255));
+			accept.setText("Send Information Message");
+
+			headlineText.setText(DEFAULT_INFORMATION_HEADLINE);
+
+		} else if (checkTesting.isSelected()) {
+			setBackground(new Color(200, 200, 200));
+			accept.setText("Send Test Message");
+		}
+	}
+
 	private static class MyJScrollPane extends JScrollPane {
-		private static final long	serialVersionUID	= 4726817736944861133L;
+		private static final long serialVersionUID = 4726817736944861133L;
 
 		public MyJScrollPane(Component c, int minWidth, int minHeight) {
 			super(c);
@@ -379,7 +400,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			}
 
 			add(footerPanel, constraints);
-		}
+		} // End of SHOW_MORE_STUFF block
 
 		constraints.gridx = 1;
 		constraints.gridy++;
@@ -399,7 +420,6 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	}
 
 	private JComponent makeSpinner() {
-
 		final SpinnerModel model = new SpinnerListModel(getDwellStrings());
 		time = new JSpinner(model);
 		time.setValue(new Long(300l));
@@ -479,6 +499,12 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			message.setFootnote(footerArea.getText());
 			message.setDwellTime((long) time.getValue() * 1000L);
 			message.setSeverity(Severity.valueOf((checkButtonGroup.getSelection().getActionCommand())));
+			message.setIpAddress("unknown");
+			try {
+				message.setIpAddress(InetAddress.getLocalHost().toString());
+			} catch (UnknownHostException ex) {
+				ex.printStackTrace();
+			}
 
 			Box box = Box.createVerticalBox();
 			box.setAlignmentX(LEFT_ALIGNMENT);
@@ -489,7 +515,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			warningMessage.setOpaque(true);
 			warningMessage.setBorder(BorderFactory.createLineBorder(Color.white, 10));
 			box.add(warningMessage);
-			
+
 			box.add(Box.createRigidArea(new Dimension(10, 10)));
 
 			JLabel hl = new JLabel("Headline: '" + headlineText.getText() + "'");

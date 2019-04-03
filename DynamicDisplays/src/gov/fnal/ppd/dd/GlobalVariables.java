@@ -28,6 +28,9 @@ import javax.swing.ImageIcon;
 
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.util.NotificationClient;
+import gov.fnal.ppd.dd.util.NotificationClientGUI;
+import gov.fnal.ppd.dd.util.NotificationClientText;
 import gov.fnal.ppd.dd.util.PropertiesFile;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
@@ -514,7 +517,7 @@ public class GlobalVariables {
 	 * @param isMessagingServer
 	 *            Set to true if this is the messaging server. It will look for the updates a little earlier than all the other bits
 	 */
-	public static void prepareUpdateWatcher(boolean isMessagingServer) {
+	public static void prepareUpdateWatcher(final boolean isMessagingServer) {
 		// Skip update for the development machine! This can have horrible consequences if the place where the development is
 		// happening all of the sudden replaces the code! Now, it probably won't be all THAT horrible since (a) the update does not
 		// delete anything, and (b) the development machine will always have the latest version. But we don't want any accidents.
@@ -548,8 +551,14 @@ public class GlobalVariables {
 			// User overrides the default 24 hour period for looking for updates (testing, we presume)
 			period = 1000 * Long.parseLong(PropertiesFile.getProperty("LookForUpdatesPeriod"));
 
+		NotificationClient client = null;
+		if ( isMessagingServer ) 
+			client = new NotificationClientText();
+		else
+			client = new NotificationClientGUI();
+		
 		Timer timer = new Timer();
-		TimerTask myTimerTask = new CheckForUpdatesTimerTask();
+		TimerTask myTimerTask = new CheckForUpdatesTimerTask(client);
 		timer.schedule(myTimerTask, date.getTime(), period);
 		
 		// Maybe we should run this update task really frequently so the user can change the update period.  Nah.

@@ -1,5 +1,6 @@
 package gov.fnal.ppd.dd.util;
 
+import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.io.BufferedReader;
@@ -33,6 +34,11 @@ public class JavaVersion {
 	public static String getCurrentVersion() {
 		// This can only work in Linux environment (but it really does not work very well, as it is now)
 		
+		boolean isWindows = System.getProperty("os.name").toUpperCase().contains("WINDOWS");
+		if ( isWindows ) {
+			println(JavaVersion.class, "Microsoft Windows installation: We haven't implemented a way to determine accurately which version of Java is installed.");
+			return "Not Known (Running Windows)";
+		}
 		Runtime r = Runtime.getRuntime();
 		try {
 			// Not sure why I cannot do exec("java -version")
@@ -57,6 +63,7 @@ public class JavaVersion {
 			b.close();
 			return retval;
 		} catch (Throwable e) {
+			// Windows comes here because there is no "ls" command.
 			e.printStackTrace();
 		}
 		return null;

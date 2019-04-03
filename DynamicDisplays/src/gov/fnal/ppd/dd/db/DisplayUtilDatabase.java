@@ -51,49 +51,55 @@ public class DisplayUtilDatabase {
 
 			synchronized (connection) {
 				Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT DefaultChannels.DisplayID as DisplayID,Channel,SignageContent FROM "
+				String q = "SELECT DefaultChannels.DisplayID as DisplayID,Channel,SignageContent FROM "
 						+ "DefaultChannels,DisplaySort WHERE DefaultChannels.DisplayID=DisplaySort.DisplayID AND LocationCode="
-						+ getLocationCode() + " AND NameOfThisDefaultSet='" + setName + "'");
-				rs.first(); // Move to first returned row
-				while (!rs.isAfterLast())
-					try {
-						int displayID = rs.getInt("DisplayID");
-						int chanNum = rs.getInt("Channel");
-						SignageContent newContent = null;
-						if (chanNum == 0) {
-							// Set the display by the SignageContent object
-							Blob sc = rs.getBlob("SignageContent");
+						+ getLocationCode() + " AND NameOfThisDefaultSet='" + setName + "'";
+				ResultSet rs = stmt.executeQuery(q);
+				if (!rs.first()) { // Move to first returned row
+					printlnErr(DisplayUtilDatabase.class, "Executed a query that returned no results: " + q);
+				} else
+					while (!rs.isAfterLast())
+						try {
+							int displayID = rs.getInt("DisplayID");
+							int chanNum = rs.getInt("Channel");
+							SignageContent newContent = null;
+							if (chanNum == 0) {
+								// Set the display by the SignageContent object
+								Blob sc = rs.getBlob("SignageContent");
 
-							if (sc != null && sc.length() > 0)
-								try {
-									int len = (int) sc.length();
-									byte[] bytes = sc.getBytes(1, len);
+								if (sc != null && sc.length() > 0)
+									try {
+										int len = (int) sc.length();
+										byte[] bytes = sc.getBytes(1, len);
 
-									ByteArrayInputStream fin = new ByteArrayInputStream(bytes);
-									ObjectInputStream ois = new ObjectInputStream(fin);
-									newContent = (SignageContent) ois.readObject();
+										ByteArrayInputStream fin = new ByteArrayInputStream(bytes);
+										ObjectInputStream ois = new ObjectInputStream(fin);
+										newContent = (SignageContent) ois.readObject();
 
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-						} else {
-							newContent = getChannelFromNumber(chanNum);
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+							} else {
+								newContent = getChannelFromNumber(chanNum);
+							}
+
+							Display D;
+							if ((D = getContentOnDisplays().get(displayID)) != null) {
+								restoreMap.put(D, newContent);
+							} else {
+								// TODO -- Fix this silent error!
+								// This is an error condition from within the Channel Selector. This error message is not good
+								// enough
+								printlnErr(DisplayUtilDatabase.class,
+										"Looking for displayID=" + displayID + ", but could not find it!!");
+								throw new NoSuchDisplayException("displayID=" + displayID + " no longer is a valid display");
+							}
+
+							if (!rs.next())
+								break;
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
-
-						Display D;
-						if ((D = getContentOnDisplays().get(displayID)) != null) {
-							restoreMap.put(D, newContent);
-						} else {
-							// TODO -- Fix this silent error!
-							// This is an error condition from within the Channel Selector.  This error message is not good enough
-							printlnErr(DisplayUtilDatabase.class, "Looking for displayID=" + displayID + ", but could not find it!!");
-							throw new NoSuchDisplayException("displayID=" + displayID + " no longer is a valid display");
-						}
-
-						rs.next();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
 				stmt.close();
 				rs.close();
 			}
@@ -132,8 +138,8 @@ public class DisplayUtilDatabase {
 
 					int nrows;
 					if ((nrows = stmt.executeUpdate(fullStatement)) != 1) {
-						println(DisplayUtilDatabase.class, "-- [" + fullStatement + "]\n\t -- expected one row modified; got "
-								+ nrows);
+						println(DisplayUtilDatabase.class,
+								"-- [" + fullStatement + "]\n\t -- expected one row modified; got " + nrows);
 					}
 				}
 				stmt.close();
@@ -158,38 +164,39 @@ public class DisplayUtilDatabase {
 		String query = "SELECT DisplaySort.LocationCode as LocationCode,Display.LocationCode as TickerCode,"
 				+ "Display.DisplayID as DisplayID,VirtualDisplayNumber,ScreenNumber,Location,IPName,ColorCode,Type "
 				+ "FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;";
-		
+
 		try {
 			Connection connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
-				try (Statement stmt = connection.createStatement();
-						ResultSet rs = stmt
-								.executeQuery(query);) {
-					rs.first(); // Move to first returned row
-					while (!rs.isAfterLast())
-						try {
-							String location = rs.getString("Location");
-							String ipName = rs.getString("IPname");
-							int locCode = rs.getInt("LocationCode");
-							int displayID = rs.getInt("DisplayID");
-							int vDisplayNum = rs.getInt("VirtualDisplayNumber");
-							int screenNumber = rs.getInt("ScreenNumber");
-							int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
-							if ((locationCode < 0 || locCode == locationCode) && !dID.contains(displayID)) {
-								// Negative locationCode will select ALL displays everywhere
-								dID.add(displayID);
-								Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location,
-										new Color(colorCode));
-								p.setVirtualDisplayNumber(vDisplayNum);
+				try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query);) {
+					if (!rs.first()) { // Move to first returned row
+						printlnErr(DisplayUtilDatabase.class, "Executed a query that returned no results: " + query);
+					} else
+						while (!rs.isAfterLast())
+							try {
+								String location = rs.getString("Location");
+								String ipName = rs.getString("IPname");
+								int locCode = rs.getInt("LocationCode");
+								int displayID = rs.getInt("DisplayID");
+								int vDisplayNum = rs.getInt("VirtualDisplayNumber");
+								int screenNumber = rs.getInt("ScreenNumber");
+								int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
+								if ((locationCode < 0 || locCode == locationCode) && !dID.contains(displayID)) {
+									// Negative locationCode will select ALL displays everywhere
+									dID.add(displayID);
+									Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location,
+											new Color(colorCode));
+									p.setVirtualDisplayNumber(vDisplayNum);
 
-								theList.add(p);
-								count++;
+									theList.add(p);
+									count++;
+								}
+								if (!rs.next())
+									break;
+							} catch (Exception e) {
+								e.printStackTrace();
 							}
-							rs.next();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
 					stmt.close();
 					rs.close();
 				} catch (SQLException e) {
@@ -200,7 +207,7 @@ public class DisplayUtilDatabase {
 			e1.printStackTrace();
 		}
 
-		println(DisplayUtilDatabase.class, ": Found " + count + " displays at locationCode=" + locationCode + ".\n"+ query);
+		println(DisplayUtilDatabase.class, ": Found " + count + " displays at locationCode=" + locationCode + ".\n" + query);
 		return theList;
 	}
 
@@ -216,33 +223,35 @@ public class DisplayUtilDatabase {
 			Connection connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
-				try (Statement stmt = connection.createStatement();
-						ResultSet rs = stmt
-								.executeQuery("SELECT Location,IPName,Display.DisplayID as DisplayID,VirtualDisplayNumber,DisplaySort.LocationCode as LocationCode,"
-										+ "ScreenNumber,ColorCode,Type FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) "
-										+ "ORDER BY VirtualDisplayNumber");) {
-					rs.first(); // Move to first returned row
-					while (!rs.isAfterLast())
-						try {
-							String location = rs.getString("Location");
-							String ipName = rs.getString("IPName");
-							int locCode = rs.getInt("LocationCode");
-							int displayID = rs.getInt("DisplayID");
-							int vDisplayNum = rs.getInt("VirtualDisplayNumber");
-							int screenNumber = rs.getInt("ScreenNumber");
-							int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
-							if ((locationCode < 0 || locCode == locationCode) && displayDBNumber == displayID) {
-								Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location,
-										new Color(colorCode));
-								p.setVirtualDisplayNumber(vDisplayNum);
+				String q = "SELECT Location,IPName,Display.DisplayID as DisplayID,VirtualDisplayNumber,DisplaySort.LocationCode as LocationCode,"
+						+ "ScreenNumber,ColorCode,Type FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) "
+						+ "ORDER BY VirtualDisplayNumber";
+				try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(q);) {
+					if (!rs.first()) { // Move to first returned row
+						printlnErr(DisplayUtilDatabase.class, "Executed a query that returned no results: " + q);
+					} else
+						while (!rs.isAfterLast())
+							try {
+								String location = rs.getString("Location");
+								String ipName = rs.getString("IPName");
+								int locCode = rs.getInt("LocationCode");
+								int displayID = rs.getInt("DisplayID");
+								int vDisplayNum = rs.getInt("VirtualDisplayNumber");
+								int screenNumber = rs.getInt("ScreenNumber");
+								int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
+								if ((locationCode < 0 || locCode == locationCode) && displayDBNumber == displayID) {
+									Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location,
+											new Color(colorCode));
+									p.setVirtualDisplayNumber(vDisplayNum);
 
-								theList.add(p);
-								count++;
+									theList.add(p);
+									count++;
+								}
+								if (!rs.next())
+									break;
+							} catch (Exception e) {
+								e.printStackTrace();
 							}
-							rs.next();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
 
 					stmt.close();
 					rs.close();
@@ -252,8 +261,8 @@ public class DisplayUtilDatabase {
 			e.printStackTrace();
 		}
 
-		println(DisplayUtilDatabase.class, ": Found " + count + " displays at locationCode=" + locationCode
-				+ " and displayDBNumber=" + displayDBNumber);
+		println(DisplayUtilDatabase.class,
+				": Found " + count + " displays at locationCode=" + locationCode + " and displayDBNumber=" + displayDBNumber);
 		return theList;
 	}
 }

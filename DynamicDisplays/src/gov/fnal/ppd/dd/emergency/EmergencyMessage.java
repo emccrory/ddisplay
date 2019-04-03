@@ -15,12 +15,15 @@ public class EmergencyMessage implements Serializable {
 	private String				headline			= "", message = "", footnote = "";
 	private Severity			severity			= Severity.TESTING;
 	private long				dwellTime			= 2 * 60 * 60 * 1000;
+	private String				ipAddress;
+	private long				timestamp;
 
 	/**
 	 * 
 	 */
 	public EmergencyMessage() {
 		setSeverity(Severity.TESTING);
+		timestamp = System.currentTimeMillis();
 	}
 
 	/**
@@ -100,6 +103,8 @@ public class EmergencyMessage implements Serializable {
 		if (footnote != null && footnote.length() > 0)
 			retval += "<p class='footnote'>" + footnote.replace("\'", "\"") + "</p>";
 
+		retval += "<p class='footnote'>This message came from " + ipAddress + " at " + timestamp + " </p>";
+
 		return retval;
 	}
 
@@ -120,5 +125,27 @@ public class EmergencyMessage implements Serializable {
 	 */
 	public void setDwellTime(final long dwellTime) {
 		this.dwellTime = dwellTime;
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	/**
+	 * Who is responsible for this message?
+	 * 
+	 * @param ipAddress
+	 *            - The IP Address of the source. I expect it will be, for example, "machinename.fnal.gov - 131.225.1.233"
+	 */
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(long t) {
+		timestamp = t;
 	}
 }

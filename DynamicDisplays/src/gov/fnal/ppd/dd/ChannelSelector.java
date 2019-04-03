@@ -270,20 +270,23 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					time = (delta / 60) + " min";
 				String timeAgo = ", " + time + " ago. ";
 				String status = presentStatus.replace("'", "");
-				String more = DisplayFacade.getPresentStatus().replace("'", "").replace(".fnal.gov", "");
-				String theStatus = status + timeAgo + " " + more;
-				int maxLength = 255 - timeAgo.length() - more.length();
-				if (maxLength > 10) {
-					if (status.length() > maxLength) {
-						theStatus = status.substring(0, maxLength - 5) + " ..." + timeAgo + " " + more;
+				String moreInfo = DisplayFacade.getPresentStatus().replace("'", "");
+
+				int MAX_MESSAGE_SIZE = 2048;
+				String theWholeStatus = status + timeAgo + " " + moreInfo;
+				if (theWholeStatus.length() > MAX_MESSAGE_SIZE) {
+					String theRest = timeAgo + " " + moreInfo;
+					if (theRest.length() > (MAX_MESSAGE_SIZE - 100)) {
+						theWholeStatus = status + timeAgo;
+					} else {
+						theWholeStatus = status.substring(0,
+								Math.max((MAX_MESSAGE_SIZE - 100), MAX_MESSAGE_SIZE - theRest.length())) + " ..." + theRest;
 					}
-				} else {
-					theStatus = status + timeAgo;
 				}
-				if (theStatus.length() > 255) {
-					theStatus = theStatus.substring(0, 250) + " ...";
-				}
-				query += " Status='" + theStatus + "'";
+				if (theWholeStatus.length() > MAX_MESSAGE_SIZE)
+					theWholeStatus = theWholeStatus.substring(0, MAX_MESSAGE_SIZE - 5) + " ...";
+
+				query += " Status='" + theWholeStatus + "'";
 			}
 
 			query += ", Version='" + versionInfo.getVersionString() + "', Uptime=" + uptime + " WHERE ControllerID=" + myDB_ID;

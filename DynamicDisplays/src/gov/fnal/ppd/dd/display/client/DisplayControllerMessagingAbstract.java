@@ -514,7 +514,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			boolean retval = browserInstance.showEmergencyCommunication(em);
 			showingEmergencyMessage = true;
 			if (em.getSeverity() == Severity.REMOVE) {
-				setContent(previousChannelStack.pop());
+				// setContent(previousChannelStack.pop());
 				showingEmergencyMessage = false;
 			}
 
@@ -528,7 +528,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 						for (; remainingTimeRemEmergMess > 0; remainingTimeRemEmergMess -= interval) {
 							catchSleep(Math.min(interval, remainingTimeRemEmergMess));
 						}
-						setContent(previousChannelStack.pop());
+						// setContent(previousChannelStack.pop());
 						showingEmergencyMessage = false;
 						emergencyRemoveThread = null;
 					}
@@ -844,8 +844,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								try {
 									cons = clazz.getConstructor(String.class, int.class, int.class, int.class, boolean.class,
 											String.class, Color.class);
-									d = (DisplayControllerMessagingAbstract) cons.newInstance(new Object[] { myName, vNumber,
-											dbNumber, screenNumber, showNumber, location, color });
+									d = (DisplayControllerMessagingAbstract) cons.newInstance(
+											new Object[] { myName, vNumber, dbNumber, screenNumber, showNumber, location, color });
 									d.setContentBypass(cont);
 									d.setWrapperType(WrapperType.getWrapperType(tickerCode));
 									d.setBadNuc(badNUC);
@@ -864,7 +864,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								e.printStackTrace();
 							}
 
-							rs.next();
+							if (!rs.next())
+								break;
 						}
 					} else {
 						new Exception("No database rows returned for query, '" + query + "'").printStackTrace();
@@ -925,6 +926,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		public MessagingClientLocal(String server, int port, String username) { // , int myDisplayNumber, int myScreenNumber) {
 			super(server, port, username);
 			dcp.addListener(DisplayControllerMessagingAbstract.this);
+			dcp.addListener(new UpdateDatabaseForDisplayChannels(getDBDisplayNumber()));
 			// this.myDisplayNumber = myDisplayNumber;
 			// this.myScreenNumber = myScreenNumber;
 

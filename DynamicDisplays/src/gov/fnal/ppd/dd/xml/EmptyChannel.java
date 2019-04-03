@@ -9,13 +9,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * An empty channel for use by these XML classes
+ * An empty channel for use by these XML classes - This used to be the name of the class, but it was changed to XmlDerivedChannel.
+ * This class has been reintroduced so that channels stored in the table DefaultChannels will still work.
  * 
  * @author Elliott McCrory, Fermilab/AD/Instrumentation.
  * 
+ * @deprecated
  */
-class EmptyChannel extends ChannelImpl {
-	private static final long	serialVersionUID	= -419375552528263824L;
+public class EmptyChannel extends ChannelImpl {
+	private static final long serialVersionUID = -419375552528263824L;
 
 	/**
 	 * Create an Empty Channel

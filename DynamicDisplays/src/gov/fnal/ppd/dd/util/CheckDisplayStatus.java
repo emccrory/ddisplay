@@ -11,6 +11,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_VIRTUAL_DISPLAY_NUMS;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
@@ -53,7 +54,8 @@ public class CheckDisplayStatus extends Thread {
 	 * @param footer
 	 * @param grids
 	 */
-	public CheckDisplayStatus(final Display display, final int index, final JLabel footer, final List<List<ChannelButtonGrid>> grids) {
+	public CheckDisplayStatus(final Display display, final int index, final JLabel footer,
+			final List<List<ChannelButtonGrid>> grids) {
 		super("Display." + display.getDBDisplayNumber() + "." + display.getScreenNumber() + ".StatusUpdateGrabber");
 		this.display = display;
 		this.footer = footer;
@@ -187,9 +189,11 @@ public class CheckDisplayStatus extends Thread {
 									}
 									// e.printStackTrace();
 								}
-								rs.next();
+								if (!rs.next())
+									break;
 							}
-						}
+						} else
+							printlnErr(getClass(), "Executed a query that returned no rows: " + query);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
