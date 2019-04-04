@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -66,8 +67,9 @@ public class ChannelsFromDatabase {
 		}
 
 		int count = 0;
+		Map<ChannelClassification, Integer> ccc = new HashMap<ChannelClassification, Integer> ();
 		try {
-			String q = "SELECT Channel.Number as Number,Name,Description,URL,Category,DwellTime,Sound "
+			String q = "SELECT Channel.Number as Number,Name,Description,URL,Type,DwellTime,Sound "
 					+ "FROM Channel LEFT JOIN ChannelTabSort ON (Channel.Number=ChannelTabSort.Number) WHERE Approval=1";
 			rs = stmt.executeQuery(q);
 			if (!rs.first()) { // Move to first returned row
@@ -82,7 +84,14 @@ public class ChannelsFromDatabase {
 					int number = rs.getInt("Number");
 					int dwellTime = rs.getInt("DwellTime");
 					int codevalue = rs.getInt("Sound");
-					SignageContent c = new ChannelImpl(name, description, new URI(url), number, dwellTime);
+					String category = rs.getString("Type");
+					ChannelClassification classification = new ChannelClassification("MISCELLANEOUS");
+					if (category != null)
+						classification = new ChannelClassification(category);
+					if (!ccc.containsKey(classification))
+						ccc.put(classification, 0);
+					ccc.put(classification, ccc.get(classification) + 1);
+					SignageContent c = new ChannelImpl(name, classification, description, new URI(url), number, dwellTime);
 					c.setCode(codevalue);
 					theMap.put(name, c);
 					count++;
@@ -97,7 +106,11 @@ public class ChannelsFromDatabase {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		println(ChannelsFromDatabase.class, ": Found " + count + " channels.");
+		String info = "Found " + count + " channels in these categories:\n";
+		for ( ChannelClassification C: ccc.keySet()){
+			info += "\t" + C + ": " + ccc.get(C) + "\n";
+		}
+		println(ChannelsFromDatabase.class, info);
 	}
 
 	/**
