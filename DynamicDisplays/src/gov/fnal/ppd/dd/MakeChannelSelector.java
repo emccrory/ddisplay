@@ -128,7 +128,7 @@ public class MakeChannelSelector {
 		f.setLocation(bounds.x, bounds.y);
 
 		if (missing)
-			JOptionPane.showMessageDialog(null, "This device, " + myIPName + ", is not listed in the Dynamics Display database; "
+			JOptionPane.showMessageDialog(null, "This device, " + myIPName + ", is not listed in the Dynamic Displays database; "
 					+ "It cannot start an instance of ChannelSelector.", "Cannot Continue", JOptionPane.ERROR_MESSAGE);
 	}
 
@@ -183,10 +183,10 @@ public class MakeChannelSelector {
 												+ " new display instances to displayList!?");
 									}
 								}
+								missing = false;
 								println(MakeChannelSelector.class, ": DisplayList has " + displayList.size() + " entries");
 								if (!rs2.next())
 									break;
-								missing = false;
 							} catch (Exception e) {
 								e.printStackTrace();
 								System.exit(-2);

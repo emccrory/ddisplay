@@ -52,7 +52,7 @@ public class ChannelClassification implements Serializable {
 	public ChannelClassification(final String s) {
 		if (s != null) {
 			this.theClassification = s;
-			this.abbreviation = s.toUpperCase();
+			this.abbreviation = s.toUpperCase().replace(" ", "");
 			if (s.length() > 5)
 				this.abbreviation = s.substring(0, 5);
 		}

@@ -220,7 +220,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				retval += (previousChannelStack.peek().getURI() + " (" + getStatus() + ")").replace("'", "\\'");
 			} else
 				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'")
-						.replace("dynamicdisplays.fnal.gov", "dd").replace("Pictures", "Pics");
+						.replace("dynamicdisplays.fnal.gov", "dd").replace("Pictures", "Pics").replace("http://", "")
+						.replace("https://", "").replace(".fnal.gov", "");
 		}
 		return retval;
 	}
