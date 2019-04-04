@@ -437,7 +437,7 @@ public class Util {
 			// opposed to chosen randomly. It is possible that some future MySQL implementation will do random index number
 			// generation, although this is unlikely. Something to be aware of!
 			//
-			String query = "SELECT * from Channel where Number=" + channelNumber;
+			String query = "SELECT URL,DwellTime,Description,Name FROM Channel WHERE Number=" + channelNumber;
 			// println(DisplayControllerMessagingAbstract.class, " -- Getting default channel: [" + query + "]");
 			Connection connection;
 			try {

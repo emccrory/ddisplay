@@ -2,7 +2,6 @@ package gov.fnal.ppd.dd.xml;
 
 import static gov.fnal.ppd.dd.util.Util.MY_NAME;
 import static gov.fnal.ppd.dd.util.Util.MY_URL;
-import gov.fnal.ppd.dd.changer.ChannelCategory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 
 import java.net.URI;
@@ -24,12 +23,12 @@ public class XmlDerivedChannel extends ChannelImpl {
 	 *             (In the unlikely case that the default web page is no longer a valid URI)
 	 */
 	public XmlDerivedChannel() throws URISyntaxException {
-		this(MY_NAME, new ChannelCategory("PUBLIC", "PUBLIC"));
+		this(MY_NAME);
 
 	}
 
-	public XmlDerivedChannel(String string, ChannelCategory categ) throws URISyntaxException {
-		super(string, categ, "This channel is " + string, new URI(MY_URL), 0, 0);
+	public XmlDerivedChannel(String string) throws URISyntaxException {
+		super(string, "This channel is " + string, new URI(MY_URL), 0, 0);
 	}
 
 	/**

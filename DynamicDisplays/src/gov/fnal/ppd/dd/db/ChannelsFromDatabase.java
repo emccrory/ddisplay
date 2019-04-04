@@ -67,7 +67,7 @@ public class ChannelsFromDatabase {
 
 		int count = 0;
 		try {
-			String q = "SELECT Channel.Number as Number,Name,Description,URL,Category,Type,DwellTime,Sound "
+			String q = "SELECT Channel.Number as Number,Name,Description,URL,Category,DwellTime,Sound "
 					+ "FROM Channel LEFT JOIN ChannelTabSort ON (Channel.Number=ChannelTabSort.Number) WHERE Approval=1";
 			rs = stmt.executeQuery(q);
 			if (!rs.first()) { // Move to first returned row
@@ -77,17 +77,12 @@ public class ChannelsFromDatabase {
 			while (!rs.isAfterLast()) {
 				try {
 					String name = rs.getString("Name");
-					ChannelClassification category = ChannelClassification.MISCELLANEOUS;
-					if (rs.getAsciiStream("Type") != null) {
-						String cat = rs.getString("Type").toUpperCase();
-						category = new ChannelClassification(cat);
-					}
 					String description = rs.getString("Description");
 					String url = rs.getString("URL");
 					int number = rs.getInt("Number");
 					int dwellTime = rs.getInt("DwellTime");
 					int codevalue = rs.getInt("Sound");
-					SignageContent c = new ChannelImpl(name, category, description, new URI(url), number, dwellTime);
+					SignageContent c = new ChannelImpl(name, description, new URI(url), number, dwellTime);
 					c.setCode(codevalue);
 					theMap.put(name, c);
 					count++;
@@ -344,7 +339,7 @@ public class ChannelsFromDatabase {
 			synchronized (connection) {
 				stmt = connection.createStatement();
 				rs = stmt.executeQuery("USE " + DATABASE_NAME);
-				rs = stmt.executeQuery("SELECT * FROM Channel where Approval=1");
+				rs = stmt.executeQuery("SELECT URL,Name,Description,Number,DwellTime FROM Channel where Approval=1");
 				rs.first(); // Move to first returned row
 				while (!rs.isAfterLast()) {
 					String theURL = rs.getString("URL");
@@ -399,7 +394,7 @@ public class ChannelsFromDatabase {
 			List<Integer> lists = new ArrayList<Integer>();
 			List<Integer> pictures = new ArrayList<Integer>();
 
-			String q1 = "SELECT * from SimplifiedChannelChoice WHERE DisplayID=" + displayID;
+			String q1 = "SELECT Content,PortfolioID from SimplifiedChannelChoice WHERE DisplayID=" + displayID;
 			rs = stmt.executeQuery(q1);
 			if (!rs.first()) {// Move to first returned row
 				printlnErr(ChannelsFromDatabase.class, "Tried to execute a query that had no results " + q1);

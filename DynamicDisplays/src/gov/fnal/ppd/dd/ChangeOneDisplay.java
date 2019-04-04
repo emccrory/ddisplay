@@ -122,7 +122,7 @@ public class ChangeOneDisplay {
 
 				InetAddress ip = InetAddress.getLocalHost();
 				String ipName = ip.getHostName().replace(".dhcp", "");
-				String query = "SELECT * FROM SelectorLocation where IPName='" + ipName + "'";
+				String query = "SELECT LocationCode FROM SelectorLocation WHERE IPName='" + ipName + "'";
 				try (ResultSet rs = stmt.executeQuery(query);) {
 					if (rs.first())
 						try { // Move to first returned row (there can be more than one; not sure how to deal with that yet)

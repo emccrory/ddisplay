@@ -37,7 +37,7 @@ public class ColorNames extends HashMap<String, String> {
 			synchronized (connection) {
 				stmt = connection.createStatement();
 				rs = stmt.executeQuery("USE " + DATABASE_NAME);
-				String q = "SELECT * FROM ColorNames";
+				String q = "SELECT ColorCode,ColorName FROM ColorNames";
 				rs = stmt.executeQuery(q);
 				if (rs.first()) { // Move to first returned row
 					while (!rs.isAfterLast())

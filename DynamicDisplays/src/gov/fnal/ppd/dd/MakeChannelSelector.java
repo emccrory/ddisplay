@@ -157,7 +157,7 @@ public class MakeChannelSelector {
 				InetAddress ip = InetAddress.getLocalHost();
 				myIPName = ip.getCanonicalHostName().replace(".dhcp", "");
 
-				String query = "SELECT * FROM SelectorLocation where IPName='" + myIPName + "' AND Instance='"
+				String query = "SELECT LocalID,DocentTab,LocationCode FROM SelectorLocation where IPName='" + myIPName + "' AND Instance='"
 						+ THIS_IP_NAME_INSTANCE + "'";
 				println(MakeChannelSelector.class, ": '" + query + "'");
 
@@ -184,7 +184,8 @@ public class MakeChannelSelector {
 									}
 								}
 								println(MakeChannelSelector.class, ": DisplayList has " + displayList.size() + " entries");
-								rs2.next();
+								if (!rs2.next())
+									break;
 								missing = false;
 							} catch (Exception e) {
 								e.printStackTrace();

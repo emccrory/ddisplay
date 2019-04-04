@@ -284,7 +284,7 @@ public class VersionInformation implements Serializable {
 					case DEVELOPMENT:
 						break;
 					}
-					String query = "SELECT * from GitHashDecode " + whereClause + " ORDER BY HashDate DESC LIMIT 1";
+					String query = "SELECT HashDate,Flavor,Version,Description from GitHashDecode " + whereClause + " ORDER BY HashDate DESC LIMIT 1";
 
 					try (ResultSet rs = stmt.executeQuery(query);) {
 						if (rs.first()) { // Move to first returned row
