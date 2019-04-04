@@ -132,6 +132,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	@SuppressWarnings("unused")
 	private String							mySubject;
 	private Object							revertThreadWaitObject		= "Object for doing synchronization of revert thread";
+	private int								numChannelChanges			= 0;
 
 	// private long[] frameRemovalTime = { 0L, 0L, 0L, 0L, 0L };
 	// private SignageContent previousPreviousChannel = null;
@@ -207,16 +208,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	}
 
 	protected String getStatusString() {
-		long uptime = System.currentTimeMillis() - launchTime;
-
-		long hours = (uptime / 1000 / 3600);
-		long minutes = (uptime / 1000 / 60);
-		String retval = hours + " hr ";
-		if (hours < 2)
-			retval = minutes + " min ";
-		else if (hours > 47)
-			retval = (hours / 24) + " day ";
-
+		String retval = "";
 		if (browserInstance == null) {
 			retval += "*NOT CONNECTED TO BROWSER* Initializing ...";
 		} else if (!browserInstance.isConnected()) {
@@ -333,21 +325,22 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		try {
 			connection = ConnectionToDatabase.getDbConnection();
 
-			// TODO - The SignageContent field is a binary blob that represents the streamed SignageContent object.  Oracle
-			// will be deprecating this feature.  So this must be converted to a pure XML specification of the channel.
-			
+			// TODO - The SignageContent field is a binary blob that represents the streamed SignageContent object. Oracle
+			// will be deprecating this feature. So this must be converted to a pure XML specification of the channel.
+
 			String statementString = "";
 			synchronized (connection) {
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 					Date dNow = new Date();
+					long uptime = System.currentTimeMillis() - launchTime;
+
 					SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					String statusString = getStatusString();
 					if (offLine)
 						statusString = OFF_LINE;
-					String s = "V" + versionInfo.getVersionString();
+					String version = versionInfo.getVersionString();
 					if (cpuUsage > 0.1)
-						s += " L" + dd.format(cpuUsage);
-					statusString = s + " " + statusString;
+						statusString = "L" + dd.format(cpuUsage) + " " + statusString;
 					statusString = statusString.replace("'", "").replace("\"", "").replace(";", "").replace("\\", "");
 					if (statusString.length() > 255)
 						// The Content field is limited to 255 characters.
@@ -360,13 +353,15 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					String blob = convertContentToDBReadyString(getContent());
 
 					String X = "x";
-					if ( blob.substring(0, 5).equalsIgnoreCase("<?xml")) X = "";
-					
+					if (blob.substring(0, 5).equalsIgnoreCase("<?xml"))
+						X = "";
+
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + statusString
-							+ "',ContentName='" + contentName + "', SignageContent=" + X + "'" + blob + "' where DisplayID="
-							+ getDBDisplayNumber();
+							+ "',ContentName='" + contentName + "', SignageContent=" + X + "'" + blob + "', Uptime=" + uptime
+							+ ", Version='" + version + "', NumChanges=" + numChannelChanges + " where DisplayID=" + getDBDisplayNumber();
 					String succinctString = "Time='" + ft.format(dNow) + "',Content='" + statusString + "',ContentName='"
-							+ contentName + "', SignageContent=" + X + "'" + blob.substring(0, 20) + " ...' where DisplayID=" + getDBDisplayNumber();
+							+ contentName + "', SignageContent=" + X + "'" + blob.substring(0, 20) + " ...' where DisplayID="
+							+ getDBDisplayNumber();
 
 					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 					int numRows = stmt.executeUpdate(statementString);
@@ -508,6 +503,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			playlistThread = null;
 		}
 
+		numChannelChanges++;
 		if (getContent() instanceof EmergencyCommunication) {
 			// Emergency communication!!!!
 			em = ((EmergencyCommunication) getContent()).getMessage();
@@ -776,7 +772,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 			e2.printStackTrace();
 		}
 
-		String query = "SELECT * FROM Display where IPName='" + myNode + "'";
+		String query = "SELECT IPName,DisplayID,VirtualDisplayNumber,LocationCode,Location,ColorCode,Port,Content,BadNUC FROM Display where IPName='"
+				+ myNode + "'";
 
 		Connection connection;
 		try {
@@ -826,13 +823,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 										"The node name of this display (no. " + vNumber + "/" + dbNumber + ") is '" + myNode + "'");
 
 								int tickerCode = rs.getInt("LocationCode");
-								String t = rs.getString("Type");
 								String location = rs.getString("Location");
 								String colorString = rs.getString("ColorCode");
 								Color color = new Color(Integer.parseInt(colorString, 16));
 
 								boolean showNumber = rs.getInt("Port") == 0;
-								int screenNumber = rs.getInt("ScreenNumber");
 								int channelNumber = rs.getInt("Content");
 								SignageContent cont = getChannelFromNumber(channelNumber);
 
@@ -845,7 +840,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 									cons = clazz.getConstructor(String.class, int.class, int.class, int.class, boolean.class,
 											String.class, Color.class);
 									d = (DisplayControllerMessagingAbstract) cons.newInstance(
-											new Object[] { myName, vNumber, dbNumber, screenNumber, showNumber, location, color });
+											new Object[] { myName, vNumber, dbNumber, 0, showNumber, location, color });
 									d.setContentBypass(cont);
 									d.setWrapperType(WrapperType.getWrapperType(tickerCode));
 									d.setBadNuc(badNUC);
@@ -854,9 +849,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
 										| IllegalArgumentException | InvocationTargetException e) {
 									e.printStackTrace();
-									System.err.println("Here are the arguments: " + myName + ", " + vNumber + ", " + dbNumber + ", "
-											+ screenNumber + ", " + (showNumber ? "ShowNum" : "HideNum") + ", " + location + ", "
-											+ color);
+									System.err.println("Here are the arguments: " + myName + ", " + vNumber + ", " + dbNumber
+											+ ", 0, " + (showNumber ? "ShowNum" : "HideNum") + ", " + location + ", " + color);
 								}
 								// Allow it to loop over multiple displays
 								// return null;
