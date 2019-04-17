@@ -246,6 +246,7 @@ public class MessagingServer {
 			try {
 				logger.fine("Closing client " + username);
 				thisSocketIsActive = false;
+				numClosedCallsSeen++;
 				try {
 					if (this.sOutput != null)
 						this.sOutput.close();
@@ -306,8 +307,7 @@ public class MessagingServer {
 			// Bottom line: Simplify!!
 
 			// TODO -- Streaming Java objects is great and all, but when the class definition changes, one has to update the
-			// clients and this server at the same time. It would be better, it seems, to stream a java.lang.String object so that
-			// the server can continue to run when changes are made to the client code.
+			// clients and this server at the same time. When we change to streamed XML documents, this will go away.
 
 			this.thisSocketIsActive = true;
 			while (this.thisSocketIsActive) {
@@ -474,6 +474,7 @@ public class MessagingServer {
 				case LOGOUT:
 					logger.fine(this.username + " disconnected with a LOGOUT message.");
 					this.thisSocketIsActive = false;
+					numLogoutsSeen++;
 					break;
 
 				case WHOISIN:
@@ -830,6 +831,8 @@ public class MessagingServer {
 	public int									numRemovedNullDate				= 0;
 	public int									numRemovedExitedForeverLoop		= 0;
 	private int									numRemovedDuplicateUsername		= 0;
+	private int									numClosedCallsSeen				= 0;
+	private int									numLogoutsSeen					= 0;
 
 	// private Object oneMessageAtATime = new String("For synchronization");
 
@@ -1112,7 +1115,8 @@ public class MessagingServer {
 			String status = statusMessage.replace("'", "");
 
 			if (status.length() > MAX_STATUS_MESSAGE_SIZE) {
-				String extra = " ... Unexpected excess message length of " + status.length() + ".\nThis message has been truncated.";
+				String extra = " ... Unexpected excess message length of " + status.length()
+						+ ".\nThis message has been truncated.";
 				status = status.substring(0, MAX_STATUS_MESSAGE_SIZE - extra.length() - 2) + extra;
 			}
 
@@ -1349,7 +1353,8 @@ public class MessagingServer {
 						String stats = "\nNum Subjects: " + subjectListeners.size() + ".\nOther stats: "
 								+ numRemovedExitedForeverLoop + ", " + numRemovedForPings + ", " + numClientsPutOnNotice + ", "
 								+ numRemovedBadWriteSeen + ", " + numRemovedNullClientThread + ", " + numRemovedNullUsername + ", "
-								+ numRemovedNullDate + ", " + numRemovedDuplicateUsername;
+								+ numRemovedNullDate + ", " + numRemovedDuplicateUsername + ", " + numClosedCallsSeen + ", "
+								+ numLogoutsSeen;
 
 						if (m.length() + stats.length() > MAX_STATUS_MESSAGE_SIZE) {
 							String extra = " (exceeds " + MAX_STATUS_MESSAGE_SIZE + " bytes)";
