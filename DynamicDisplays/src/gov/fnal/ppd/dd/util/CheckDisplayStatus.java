@@ -106,7 +106,7 @@ public class CheckDisplayStatus extends Thread {
 							while (!rs.isAfterLast()) {
 								try {
 									Blob sc = rs.getBlob("SignageContent");
-									// TODO - This needs to not be straight-up XML
+									// TODO - The content of this Blob needs to be XML, not streamed objects
 									String contentName = rs.getString("Content");
 									SignageContent currentContent = null;
 
@@ -178,7 +178,7 @@ public class CheckDisplayStatus extends Thread {
 													counter + " Trying to read streamed content object in database from display "
 															+ display.getDBDisplayNumber() + ", but it was corrputed: ["
 															+ e.getClass().getSimpleName() + " - " + e.getLocalizedMessage()
-															+ "]\n\tWill supress this specific error message for now.");
+															+ "]\n\tWill supress this specific error message for now.\n");
 											lastStreamCorruptedMesage = e.getLocalizedMessage();
 										}
 									} else {
