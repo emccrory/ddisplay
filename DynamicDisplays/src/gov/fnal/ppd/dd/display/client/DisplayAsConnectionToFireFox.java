@@ -110,10 +110,4 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 		}
 
 	}
-
-	@Override
-	public void errorInPageLoad(long value) {
-		// TODO We should delete this class now		
-	}
-
 }
