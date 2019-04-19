@@ -38,10 +38,11 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	private JavascriptExecutor					jse;
 	private DisplayControllerMessagingAbstract	myDisplay;
 
-	private boolean								uninitialized	= true;
 	private Object								lastReturnValue;
-
-	private CheckAndFixScreenDimensions			afsd			= null;
+	private CheckAndFixScreenDimensions			afsd							= null;
+	
+	private boolean								uninitialized					= true;
+	private boolean								notWaitingToLookForLoadErrors	= true;
 
 	/**
 	 * Construct the connection
@@ -66,7 +67,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		// Make sure we exit the instance(s) of the browser when the VM exits ---------------------------
 		Runtime.getRuntime().addShutdownHook(new Thread("ShutdownHook_Display_" + numberOfScreens) {
 			public void run() {
-				// It looks like a "kill 1" will exit the JVM with an exit code of 129.  COuld not get this to work (11/2/2018)
+				// It looks like a "kill 1" will exit the JVM with an exit code of 129. COuld not get this to work (11/2/2018)
 				println(getClass(), "Shutdown hook called");
 				exit();
 			}
@@ -103,7 +104,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		driver.manage().timeouts().setScriptTimeout(200, TimeUnit.MILLISECONDS);
 
 		// The URL must be set during the initialization, to our special framed HTML.
-		String initialURL = WEB_PAGE_EMERGENCY_FRAME + "?display=" + virtualID + "&color=" + colorCode + "&shownumber=" + (showNumber? 1 : 0);
+		String initialURL = WEB_PAGE_EMERGENCY_FRAME + "?display=" + virtualID + "&color=" + colorCode + "&shownumber="
+				+ (showNumber ? 1 : 0);
 		setURL(initialURL);
 
 		connected = true;
@@ -115,7 +117,13 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	@Override
 	public void exit() {
 		if (driver != null)
-			driver.close();
+			try {
+				driver.close();
+			} catch (Exception e) {
+				printlnErr(getClass(), "Exception caught while trying to close the connection to the browser.\n"
+						+ "\t\tHopefully, we can continue from this and actually exit now!");
+				e.printStackTrace();
+			}
 	}
 
 	private void setBrowser() {
@@ -191,8 +199,6 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		timer.scheduleAtFixedRate(afsd, ONE_MINUTE, ONE_MINUTE);
 	}
 
-	boolean notWaitingYet = true;
-
 	@Override
 	public synchronized void send(String command) {
 		println(getClass(), " Sending " + instance + " [" + command.substring(0, command.length() - 2) + "]");
@@ -218,35 +224,28 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		if (!connected) {
 			println(getClass(), " - Error return from Javascript: [" + lastReturnValue + "]");
 		}
-		// if (notWaitingYet)
-		// new Thread() {
-		// public void run() {
-		// notWaitingYet = false;
-		// catchSleep(2000);
-		// PositioningMethod positioningMethod = PropertiesFile.getPositioningMethod();
-		// Point p = new Point(bounds.x, bounds.y);
-		//
-		// switch (positioningMethod) {
-		// case DirectPositioning:
-		// Dimension sd = new Dimension(bounds.width, bounds.height);
-		// println(getClass(), ">>>>>>>>>> Positioning the window <<<<<<<<<<");
-		// driver.manage().window().setPosition(p);
-		// driver.manage().window().setSize(sd);
-		// break;
-		// case UseHiddenButton:
-		// // driver.manage().window().setPosition(p);
-		// println(getClass(), ">>>>>>>>>> Clicking <<<<<<<<<<");
-		// driver.findElement(new By.ByName("hiddenButton")).click();
-		// break;
-		// case ChangeIframe:
-		// // TODO
-		// println(getClass(), ">>>>>>>>>> Adjusting size of IFrame (not implemented yet) <<<<<<<<<<");
-		// break;
-		// case DoNothing:
-		// break;
-		// }
-		// }
-		// }.start();
+
+		// Experimental attempt to see if the page loaded improperly
+
+		if (notWaitingToLookForLoadErrors) {
+			notWaitingToLookForLoadErrors = false;
+			new Thread("WaitingToLookForLoadErrors") {
+				public void run() {
+					catchSleep(2000);
+					// Read the Javascript Variable "mostRecentLoadResult"
+					long returnValue = (Long) jse.executeScript("return getMostRecentLoadResult();", new Object[] { "nothing" });
+					println(SeleniumConnectionToBrowser.class, " Verification of iframe load returns [" + returnValue + "]");
+
+					if (returnValue != 0) {
+						// We very likely have a problem here! Set the dwell time to something really short so we can try again real
+						// soon
+						errorSeen(returnValue);
+					}
+					notWaitingToLookForLoadErrors = true;
+				}
+			}.start();
+		}
+
 	}
 
 	/**
@@ -298,8 +297,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				// URL. This is a _little_ tricky because here the URL we show has to be the so-called "border" web page with an
 				// iframe.
 
-				// I have rigged up the border web page to write an error to a hidden <div id="hiddenPlaceForerrors">.  But the
-				// web page cannot detect if there is an error when loading a URL to an iFrame.  Rats.
+				// I have rigged up the border web page to write an error to a hidden <div id="hiddenPlaceForerrors">. But the
+				// web page cannot detect if there is an error when loading a URL to an iFrame. Rats.
 				@SuppressWarnings("unused")
 				Thread watchForErrors = new Thread("WatchForErrorsInWebPage") {
 					public void run() {
@@ -331,7 +330,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	}
 
 	// @Override
-	public void forceRefresh( ) {
+	public void forceRefresh() {
 		// Not this, although it seems like a good idea (it causes the initial web page to be displayed)
 		driver.navigate().refresh();
 
@@ -349,7 +348,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	}
 
 	@Override
-	public String getInstance() {
+	public String getConnectionCode() {
 		// TODO Auto-generated method stub
 		return instance;
 	}

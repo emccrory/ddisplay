@@ -199,7 +199,7 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 			tryingToCloseNow = true;
 			new Thread("RestartConnectionToFireFox") {
 				public void run() {
-					println(ConnectionToFirefoxInstance.class, "\n\n\t\tCLOSING connection to FireFox " + getInstance() + "\n\n");
+					println(ConnectionToFirefoxInstance.class, "\n\n\t\tCLOSING connection to FireFox " + getConnectionCode() + "\n\n");
 					try {
 						if (kkSocket != null)
 							kkSocket.close();
@@ -216,7 +216,7 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 
 					catchSleep(2000L);
 					println(ConnectionToFirefoxInstance.class,
-							"\t\tAttempting to re-open the connection to FireFox " + getInstance() + "\n\n");
+							"\t\tAttempting to re-open the connection to FireFox " + getConnectionCode() + "\n\n");
 					tryingToCloseNow = false;
 					openConnection();
 				}
@@ -416,7 +416,7 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 	 * @return a string that tells which connection instance this is (e.g., " (port #32000)")
 	 */
 	@Override
-	public String getInstance() {
+	public String getConnectionCode() {
 		return instance;
 	}
 

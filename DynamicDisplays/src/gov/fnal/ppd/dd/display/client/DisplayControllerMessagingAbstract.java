@@ -14,6 +14,7 @@ import static gov.fnal.ppd.dd.util.Util.convertContentToDBReadyString;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.Util.makeEmptyChannel;
 import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -90,7 +91,7 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
  * 
  * @author Elliott McCrory, Fermilab (2014-18)
  */
-public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
+public abstract class DisplayControllerMessagingAbstract extends DisplayImpl implements BrowserErrorListener {
 
 	private static final int				STATUS_UPDATE_PERIOD		= 30;
 	private static final long				SHOW_SPLASH_SCREEN_TIME		= 15000l;
@@ -133,6 +134,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private String							mySubject;
 	private Object							revertThreadWaitObject		= "Object for doing synchronization of revert thread";
 	private int								numChannelChanges			= 0;
+	protected boolean						noErrorsSeen				= true;
 
 	// private long[] frameRemovalTime = { 0L, 0L, 0L, 0L, 0L };
 	// private SignageContent previousPreviousChannel = null;
@@ -160,7 +162,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		}
 
 		public void run() {
-			println(DisplayControllerMessagingAbstract.this.getClass(), " -- " + hashCode() + browserInstance.getInstance()
+			println(DisplayControllerMessagingAbstract.this.getClass(), " -- " + hashCode() + browserInstance.getConnectionCode()
 					+ " : starting to play a list of length " + localPlayListCopy.getChannels().size());
 
 			// NOTE : This implementation does not support lists of lists. And this does not make logical sense if we assume
@@ -173,13 +175,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					catchSleep(localPlayListCopy.getTime());
 					localPlayListCopy.advanceChannel();
 					println(DisplayControllerMessagingAbstract.this.getClass(),
-							" -- " + hashCode() + browserInstance.getInstance() + " : List play continues with channel=["
+							" -- " + hashCode() + browserInstance.getConnectionCode() + " : List play continues with channel=["
 									+ localPlayListCopy.getDescription() + ", " + localPlayListCopy.getTime() + "msec] " + count++);
 				} else
 					catchSleep(Math.min(localPlayListCopy.getTime(), ONE_MINUTE));
 			}
 			println(DisplayControllerMessagingAbstract.this.getClass(),
-					" -- " + hashCode() + browserInstance.getInstance() + " : Exiting the list player. " + count);
+					" -- " + hashCode() + browserInstance.getConnectionCode() + " : Exiting the list player. " + count);
 		}
 	}
 
@@ -359,7 +361,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + statusString
 							+ "',ContentName='" + contentName + "', SignageContent=" + X + "'" + blob + "', Uptime=" + uptime
-							+ ", Version='" + version + "', NumChanges=" + numChannelChanges + " where DisplayID=" + getDBDisplayNumber();
+							+ ", Version='" + version + "', NumChanges=" + numChannelChanges + " where DisplayID="
+							+ getDBDisplayNumber();
 					String succinctString = "Time='" + ft.format(dNow) + "',Content='" + statusString + "',ContentName='"
 							+ contentName + "', SignageContent=" + X + "'" + blob.substring(0, 20) + " ...' where DisplayID="
 							+ getDBDisplayNumber();
@@ -412,7 +415,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
 
-		println(getClass(), browserInstance.getInstance() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
+		println(getClass(), browserInstance.getConnectionCode() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
 
 		if (url.equalsIgnoreCase(SELF_IDENTIFY)) {
 			// if (previousPreviousChannel == null)
@@ -443,13 +446,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 				if (browserInstance.changeURL(lastURL, wrapperType, code)) {
 					showingSelfIdentify = false;
 				} else {
-					println(getClass(), ".localSetContent():" + browserInstance.getInstance() + " Failed to set content");
+					println(getClass(), ".localSetContent():" + browserInstance.getConnectionCode() + " Failed to set content");
 					return false;
 				}
 			} catch (Exception e) {
 				// System.err.println(getClass().getSimpleName() + ":" + browserInstance.getInstance()
 				// + " Something is wrong with this re-used URL: [" + previousChannel.getURI().toASCIIString() + "]");
-				System.err.println(getClass().getSimpleName() + ":" + browserInstance.getInstance()
+				System.err.println(getClass().getSimpleName() + ":" + browserInstance.getConnectionCode()
 						+ " Somthing is wrong with this re-used URL: [" + previousChannelStack.peek().getURI().toASCIIString()
 						+ "]");
 				e.printStackTrace();
@@ -479,10 +482,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 					previousChannelStack.push(getContent());
 					showingSelfIdentify = false;
 				} else {
-					println(getClass(), ".localSetContent():" + browserInstance.getInstance() + " Failed to set content");
+					println(getClass(), ".localSetContent():" + browserInstance.getConnectionCode() + " Failed to set content");
 					return false;
 				}
 
+				noErrorsSeen = true;
 				if (expiration <= 0)
 					setupRefreshThread(dwellTime, url);
 				else
@@ -490,7 +494,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 				updateMyStatus();
 			} catch (UnsupportedEncodingException e) {
-				System.err.println(getClass().getSimpleName() + ":" + browserInstance.getInstance()
+				System.err.println(getClass().getSimpleName() + ":" + browserInstance.getConnectionCode()
 						+ " Somthing is wrong with this URL: [" + url + "]");
 				e.printStackTrace();
 				return false;
@@ -592,7 +596,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	private void setRevertThread() {
 		synchronized (revertThreadWaitObject) {
 			revertTimeRemaining = getContent().getExpiration();
-			println(getClass(), browserInstance.getInstance() + " Setting the revert time for this temporary channel to "
+			println(getClass(), browserInstance.getConnectionCode() + " Setting the revert time for this temporary channel to "
 					+ revertTimeRemaining);
 
 			if (revertThread == null) {
@@ -642,7 +646,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 								if (skipRevert)
 									synchronized (revertThreadWaitObject) {
 										println(DisplayControllerMessagingAbstract.class, ".setRevertThread():"
-												+ browserInstance.getInstance() + " No longer necessary to revert.");
+												+ browserInstance.getConnectionCode() + " No longer necessary to revert.");
 										revertThread = null;
 										revertTimeRemaining = 0L;
 										return;
@@ -650,8 +654,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							}
 							synchronized (revertThreadWaitObject) {
 								previousChannelStack.pop(); // The channel already playing is the one at the top of the stack.
-								println(DisplayControllerMessagingAbstract.class, ".setRevertThread():"
-										+ browserInstance.getInstance() + " Reverting to channel " + previousChannelStack.peek());
+								println(DisplayControllerMessagingAbstract.class,
+										".setRevertThread():" + browserInstance.getConnectionCode() + " Reverting to channel "
+												+ previousChannelStack.peek());
 								revertThread = null;
 								revertTimeRemaining = 0L;
 
@@ -713,6 +718,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 	protected void setupRefreshThread(final long dwellTime, final String url) {
 		if (dwellTime > 0) {
 			final int thisChangeCount = changeCount;
+			noErrorsSeen = true;
 
 			new Thread("RefreshContent" + getMessagingName()) {
 
@@ -724,17 +730,20 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 
 						// TODO -- If there is an emergency message up, we don't want to refresh and make it go away!
 
-						for (long t = localDwellTime; t > 0 && changeCount == thisChangeCount; t -= increment) {
+						for (long t = localDwellTime; t > 0 && changeCount == thisChangeCount && noErrorsSeen; t -= increment) {
 							catchSleep(Math.min(increment, t));
 						}
 						if (showingEmergencyMessage) {
+							// Emergency message is showing - do nothing with this web page for now
 							localDwellTime = Math.min(dwellTime, ONE_MINUTE);
 							continue;
 						}
+
 						if (changeCount == thisChangeCount) {
 							println(DisplayControllerMessagingAbstract.this.getClass(),
-									".setupRefreshThread():" + browserInstance.getInstance() + " Reloading web page " + url);
+									".setupRefreshThread():" + browserInstance.getConnectionCode() + " Reloading web page " + url);
 							try {
+								noErrorsSeen = true;
 								if (!browserInstance.changeURL(url, wrapperType, getContent().getCode())) {
 									println(DisplayControllerMessagingAbstract.this.getClass(),
 											".setupRefreshThread(): Failed to REFRESH content");
@@ -746,8 +755,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 							}
 						} else {
 							println(DisplayControllerMessagingAbstract.this.getClass(),
-									".setupRefreshThread():" + browserInstance.getInstance() + " Not necessary to refresh " + url
-											+ " because the channel was changed.  Bye!");
+									".setupRefreshThread():" + browserInstance.getConnectionCode() + " Not necessary to refresh "
+											+ url + " because the channel was changed.  Bye!");
 							return;
 						}
 					}
@@ -1062,4 +1071,27 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl {
 		this.offlineMessage = offlineMessage;
 	}
 
+	public void errorInPageLoad(int value) {
+		// The Selenium interface tells us that there is an error in loading the last page. Deal with it.
+		printlnErr(getClass(),
+				"Error value has been returned from the browser, value=[" + value + "].  Forcing a refresh of this page");
+
+		// TODO - We expect these errors to be 403 ("Forbidden"), 404 ("Not Found") or 408 ("Timeout") (and maybe others someday).
+		// Only with the timeout would we expect a simple refresh of the page to fix it.
+
+		switch (value) {
+		case 403:
+		case 404:
+			// Refreshing the page is not going to work, but that's all we have right now
+
+		case 408:
+			noErrorsSeen = false;
+			break;
+
+		default:
+			// An unknown error.
+			noErrorsSeen = false;
+			break;
+		}
+	}
 }

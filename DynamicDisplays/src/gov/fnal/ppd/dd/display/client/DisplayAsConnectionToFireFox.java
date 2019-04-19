@@ -42,6 +42,7 @@ import java.awt.Color;
  * So, only the functionality specific to the Firefox browser and the pmorch plugin should remain here.
  * </p>
  * 
+ * @deprecated
  * @author Elliott McCrory, Fermilab (2014-18)
  */
 public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbstract {
@@ -108,6 +109,11 @@ public class DisplayAsConnectionToFireFox extends DisplayControllerMessagingAbst
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void errorInPageLoad(long value) {
+		// TODO We should delete this class now		
 	}
 
 }

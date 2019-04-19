@@ -9,7 +9,9 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -49,23 +51,25 @@ public abstract class ConnectionToBrowserInstance {
 	// private static final String EXTRAFRAMENOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border4.php";
 	// private static final String FERMI_TICKERTAPE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border5.php";
 
-	protected static final String	TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
-	protected static final String	WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border8.php";
+	protected static final String		TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
+	// protected static final String WEB_PAGE_EMERGENCY_FRAME = "http://" + WEB_SERVER_NAME + "/border8.php";
+	protected static final String		WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border9.php";
 
-	protected static ColorNames		colorNames						= new ColorNames();
-	protected static int			numberOfScreens					= 0;
+	protected static ColorNames			colorNames						= new ColorNames();
+	protected static int				numberOfScreens					= 0;
 
-	protected boolean				debug							= true;
-	protected String				colorCode;
-	protected Rectangle				bounds;
-	protected int					virtualID, dbID;
-	protected boolean				badNUC							= false;
-	protected AtomicBoolean			showingCanonicalSite			= new AtomicBoolean(true);
-	protected boolean				connected						= false;
-	protected boolean				showNumber						= true;
-	protected String				instance						= "";
-	protected boolean				showingEmergencyCommunication	= false;
-	protected int					screenNumber;
+	protected boolean					debug							= true;
+	protected String					colorCode;
+	protected Rectangle					bounds;
+	protected int						virtualID, dbID;
+	protected boolean					badNUC							= false;
+	protected AtomicBoolean				showingCanonicalSite			= new AtomicBoolean(true);
+	protected boolean					connected						= false;
+	protected boolean					showNumber						= true;
+	protected String					instance						= "";
+	protected boolean					showingEmergencyCommunication	= false;
+	protected int						screenNumber;
+	private List<BrowserErrorListener>	listeners						= new ArrayList<BrowserErrorListener>();
 
 	/**
 	 * @param screenNumber
@@ -182,7 +186,7 @@ public abstract class ConnectionToBrowserInstance {
 	/**
 	 * @return a string that tells which connection instance this is (e.g., " (port #32000)")
 	 */
-	public abstract String getInstance();
+	public abstract String getConnectionCode();
 
 	/**
 	 * Send JavaScript commands to the browser
@@ -477,4 +481,13 @@ public abstract class ConnectionToBrowserInstance {
 		this.badNUC = badNUC;
 	}
 
+	public void addErrorListener(BrowserErrorListener listener) {
+		if (listener != null)
+			listeners.add(listener);
+	}
+
+	protected void errorSeen(long value) {
+		for (BrowserErrorListener L : listeners)
+			L.errorInPageLoad(value);
+	}
 }
