@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd.changer;
+package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -24,14 +24,14 @@ import javax.swing.border.Border;
 
 /**
  * Creates a borderless pop-up window. Used by {@link gov.fnal.ppd.dd.ChannelSelector}, and others, to let the user know that
- * something is happening.  Disappears after a short interval.
+ * something is happening. Disappears after a short interval.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 public class TemporaryDialogBox extends JFrame {
 
-	private static final long	serialVersionUID	= 526884696647205539L;
+	private static final long serialVersionUID = 526884696647205539L;
 
 	/**
 	 * A simple extension of JLabel to assist in the proper setup of the fonts and stuff
@@ -40,7 +40,7 @@ public class TemporaryDialogBox extends JFrame {
 	 * 
 	 */
 	private static class MyLabel extends JLabel {
-		private static final long	serialVersionUID	= -401307693591421751L;
+		private static final long serialVersionUID = -401307693591421751L;
 
 		MyLabel(Color fg, Color bg, String text, float size) {
 			super(text, JLabel.CENTER);
@@ -67,8 +67,8 @@ public class TemporaryDialogBox extends JFrame {
 		super("Display " + di + " changed successfully");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		float brightness = (Color.RGBtoHSB(di.getPreferredHighlightColor().getRed(), di.getPreferredHighlightColor().getGreen(), di
-				.getPreferredHighlightColor().getBlue(), null))[2];
+		float brightness = (Color.RGBtoHSB(di.getPreferredHighlightColor().getRed(), di.getPreferredHighlightColor().getGreen(),
+				di.getPreferredHighlightColor().getBlue(), null))[2];
 		Color fontColor = Color.black;
 		if (brightness < 0.6f) {
 			fontColor = Color.white;
@@ -116,6 +116,70 @@ public class TemporaryDialogBox extends JFrame {
 		new Thread(this.getClass().getSimpleName() + "_Removal") {
 			public void run() {
 				for (int i = 5; i > 0; i--) {
+					timeLeft.setText("This will disappear in " + i + " seconds");
+					catchSleep(1000L);
+				}
+
+				TemporaryDialogBox.this.dispose();
+			}
+		}.start();
+	}
+
+	/**
+	 * 
+	 * @param comp
+	 *            The parent component for this dialog box
+	 * @param di
+	 *            The Display for which we are showing the dialog box
+	 */
+	public TemporaryDialogBox(final JComponent comp, final String title, final int dwell, final String headline, final String line2,
+			final String line3) {
+		super(title);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		Color fontColor = Color.black;
+		Color bg = Color.WHITE;
+		Color fg = fontColor;
+
+		Box h = Box.createVerticalBox();
+		h.setOpaque(true);
+		h.setBackground(bg);
+		h.add(Box.createRigidArea(new Dimension(10, 10)));
+		h.add(new MyLabel(fg, bg, headline, 36.0f));
+		h.add(Box.createRigidArea(new Dimension(30, 30)));
+		h.add(new MyLabel(fg, bg, line2, 16.0f));
+		h.add(Box.createRigidArea(new Dimension(10, 10)));
+		h.add(new MyLabel(fg, bg, line3, 14.0f));
+		h.add(Box.createRigidArea(new Dimension(30, 30)));
+		final MyLabel timeLeft = new MyLabel(fg, bg, "This message will disappear in " + dwell + " seconds", 10.0f);
+		h.add(timeLeft);
+		h.add(Box.createRigidArea(new Dimension(10, 10)));
+
+		Border b0 = BorderFactory.createRaisedSoftBevelBorder();
+		Border b1 = BorderFactory.createLoweredSoftBevelBorder();
+		Border b2 = BorderFactory.createLineBorder(new Color(63, 156, 135), 10);
+		Border ba2 = BorderFactory.createLineBorder(new Color(128, 91, 78), 5);
+		Border b3 = BorderFactory.createEmptyBorder(50, 50, 50, 50);
+		Border b3a = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+		Border b4 = BorderFactory.createCompoundBorder(b0, b2);
+		Border b5 = BorderFactory.createCompoundBorder(b4, b1);
+		Border b5a = BorderFactory.createCompoundBorder(ba2, b5);
+		Border b5b = BorderFactory.createCompoundBorder(b3, b5a);
+		h.setBorder(BorderFactory.createCompoundBorder(b5b, b3));
+
+		setContentPane(h);
+		setUndecorated(true);
+		pack();
+		PointerInfo p = MouseInfo.getPointerInfo();
+		Point pointerLocation = p.getLocation();
+		setLocation(pointerLocation.x - 100, pointerLocation.y - 100);
+
+		setVisible(true);
+		setAlwaysOnTop(true);
+
+		new Thread(this.getClass().getSimpleName() + "_Removal") {
+			public void run() {
+				for (int i = dwell; i > 0; i--) {
 					timeLeft.setText("This will disappear in " + i + " seconds");
 					catchSleep(1000L);
 				}

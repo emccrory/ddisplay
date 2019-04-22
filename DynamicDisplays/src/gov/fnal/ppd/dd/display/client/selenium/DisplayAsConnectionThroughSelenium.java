@@ -56,6 +56,7 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 				catchSleep(1000); // Wait a bit longer
 
 				browserInstance.addErrorListener(DisplayAsConnectionThroughSelenium.this);
+				browserInstance.addErrorListener(new AlertThatPageIsNotShowing(DisplayAsConnectionThroughSelenium.this));
 				lastFullRestTime = System.currentTimeMillis();
 				if (initializeSavedChannelObject())
 					return;

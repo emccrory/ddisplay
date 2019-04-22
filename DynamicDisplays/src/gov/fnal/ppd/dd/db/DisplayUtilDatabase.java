@@ -180,7 +180,7 @@ public class DisplayUtilDatabase {
 								int locCode = rs.getInt("LocationCode");
 								int displayID = rs.getInt("DisplayID");
 								int vDisplayNum = rs.getInt("VirtualDisplayNumber");
-								int screenNumber = rs.getInt("ScreenNumber");
+								int screenNumber = 0; // rs.getInt("ScreenNumber");
 								int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
 								if ((locationCode < 0 || locCode == locationCode) && !dID.contains(displayID)) {
 									// Negative locationCode will select ALL displays everywhere
@@ -237,7 +237,7 @@ public class DisplayUtilDatabase {
 								int locCode = rs.getInt("LocationCode");
 								int displayID = rs.getInt("DisplayID");
 								int vDisplayNum = rs.getInt("VirtualDisplayNumber");
-								int screenNumber = rs.getInt("ScreenNumber");
+								int screenNumber = 0; // rs.getInt("ScreenNumber");
 								int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
 								if ((locationCode < 0 || locCode == locationCode) && displayDBNumber == displayID) {
 									Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location,

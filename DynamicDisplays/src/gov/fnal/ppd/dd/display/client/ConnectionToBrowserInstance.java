@@ -488,6 +488,6 @@ public abstract class ConnectionToBrowserInstance {
 
 	protected void errorSeen(long value) {
 		for (BrowserErrorListener L : listeners)
-			L.errorInPageLoad(value);
+			L.errorInPageLoad((int) value);
 	}
 }
