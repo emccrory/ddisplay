@@ -1078,6 +1078,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 		// TODO - We expect these errors to be 403 ("Forbidden"), 404 ("Not Found") or 408 ("Timeout") (and maybe others someday).
 		// Only with the timeout would we expect a simple refresh of the page to fix it.
+		
+		// Important false-positive: If the web page is secure, "https://", it can fail and the underlying javaScript that
+		// is supposed to catch it will not see it.  And since almost all of our channels are secure now, this code does 
+		// not do very much.
 
 		switch (value) {
 		case 403:

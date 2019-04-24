@@ -236,6 +236,10 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 					long returnValue = (Long) jse.executeScript("return getMostRecentLoadResult();", new Object[] { "nothing" });
 					println(SeleniumConnectionToBrowser.class, " Verification of iframe load returns [" + returnValue + "]");
 
+					// Important false-positive: If the web page is secure, "https://", it can fail and the underlying javaScript that
+					// is supposed to catch it will not see it.  And since almost all of our channels are secure now, this code does 
+					// not do very much.
+					
 					if (returnValue != 0) {
 						// We very likely have a problem here! Set the dwell time to something really short so we can try again real
 						// soon
