@@ -604,6 +604,7 @@ public class MessagingServer {
 			}
 			// if Client is still connected send the message to it
 			if (!socket.isConnected() || socket.isClosed() || socket.isOutputShutdown() || socket.isInputShutdown()) {
+				numUnexpectedClosedSockets2++;
 				close();
 				logger.warning("Position 2 (failure)");
 				return false;
@@ -640,6 +641,7 @@ public class MessagingServer {
 		boolean writeMsg(SignedObject signedMsg) {
 			// if Client is still connected send the message to it
 			if (!socket.isConnected()) {
+				numUnexpectedClosedSockets1++;
 				close();
 				return false;
 			}
@@ -823,7 +825,8 @@ public class MessagingServer {
 
 	protected int								totalMesssagesHandled			= 0;
 
-	private int									numRemovedForPings				= 0;
+	private int									numRemovedForPings1				= 0;
+	private int									numRemovedForPings2				= 0;
 	private int									numClientsPutOnNotice			= 0;
 	public int									numRemovedBadWriteSeen			= 0;
 	public int									numRemovedNullClientThread		= 0;
@@ -833,6 +836,10 @@ public class MessagingServer {
 	private int									numRemovedDuplicateUsername		= 0;
 	private int									numClosedCallsSeen				= 0;
 	private int									numLogoutsSeen					= 0;
+
+	private int									numUnexpectedClosedSockets1		= 0;
+	private int									numUnexpectedClosedSockets2		= 0;
+	private int									numDuplicateClients				= 0;
 
 	// private Object oneMessageAtATime = new String("For synchronization");
 
@@ -1048,7 +1055,7 @@ public class MessagingServer {
 					CT.close();
 					logger.fine("Removed Client [" + CT.username + "] because its last response was more than "
 							+ (tooOldTime / 1000L) + " seconds ago: " + new Date(CT.getLastSeen()));
-					numRemovedForPings++;
+					numRemovedForPings1++;
 					CT = null; // Not really necessary, but it makes me feel better.
 				} else {
 					logger.fine("Client [" + CT.username + "] is now 'on notice' because its last response was more than "
@@ -1084,13 +1091,16 @@ public class MessagingServer {
 					+ " messages handled" //
 					+ spaces + "Oldest client is " + oldestName //
 					+ spaces + "No. clients put 'on notice': " + numClientsPutOnNotice //
-					+ spaces + "No. clients removed due to lack of response: " + numRemovedForPings //
+					+ spaces + "No. clients removed due to lack of response: " + numRemovedForPings1 + " & " + numRemovedForPings2//
 					+ spaces + "No. clients removed for 'bad write': + numRemovedBadWriteSeen	" //
 					+ spaces + "No. clients removed for 'null client thread': " + numRemovedNullClientThread //
 					+ spaces + "No. clients removed for null username: " + numRemovedNullUsername //
 					+ spaces + "No. clients removed for null date: " + numRemovedNullDate //
 					+ spaces + "No. clients removed by exiting forever loop: " + numRemovedExitedForeverLoop //
 					+ spaces + "No. clients removed for duplicate name: " + numRemovedDuplicateUsername //
+					+ spaces + "No. clients removed for unexpected closed sockets: " + numUnexpectedClosedSockets1 + " & "
+					+ numUnexpectedClosedSockets2 //
+					+ spaces + "No. clients removed for unexpected duplicate clients: " + numDuplicateClients //
 					+ "\n" + subjectInfo;
 			logger.fine("\n                       " + message.replace(spaces, spacesForLog));
 			// updateStatus(message.replace(spaces, spacesForStatus));
@@ -1237,6 +1247,7 @@ public class MessagingServer {
 						t.start();
 						t.writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, t.username,
 								"A client with the name " + t.username + " has already connected.  Disconnecting now."));
+						numDuplicateClients++;
 						t.close();
 
 						// We should probably remove BOTH clients from the permanent list. There are two cases seen so far
@@ -1351,10 +1362,11 @@ public class MessagingServer {
 							}
 						}
 						String stats = "\nNum Subjects: " + subjectListeners.size() + ".\nOther stats: "
-								+ numRemovedExitedForeverLoop + ", " + numRemovedForPings + ", " + numClientsPutOnNotice + ", "
-								+ numRemovedBadWriteSeen + ", " + numRemovedNullClientThread + ", " + numRemovedNullUsername + ", "
-								+ numRemovedNullDate + ", " + numRemovedDuplicateUsername + ", " + numClosedCallsSeen + ", "
-								+ numLogoutsSeen;
+								+ numRemovedExitedForeverLoop + ", " + numRemovedForPings1 + ", " + numRemovedForPings2 + ", "
+								+ numUnexpectedClosedSockets1 + ", " + numUnexpectedClosedSockets2 + ", " + numDuplicateClients
+								+ " (" + numClosedCallsSeen + "), " + numClientsPutOnNotice + ", " + numRemovedBadWriteSeen + ", "
+								+ numRemovedNullClientThread + ", " + numRemovedNullUsername + ", " + numRemovedNullDate + ", "
+								+ numRemovedDuplicateUsername + ", " + numLogoutsSeen;
 
 						if (m.length() + stats.length() > MAX_STATUS_MESSAGE_SIZE) {
 							String extra = " (exceeds " + MAX_STATUS_MESSAGE_SIZE + " bytes)";
@@ -1477,7 +1489,7 @@ public class MessagingServer {
 										+ "; removing it!");
 								remove(CT);
 								CT.close();
-								numRemovedForPings++;
+								numRemovedForPings2++;
 								CT = null; // Not really necessary, but it makes me feel better.
 								continue;
 							}
