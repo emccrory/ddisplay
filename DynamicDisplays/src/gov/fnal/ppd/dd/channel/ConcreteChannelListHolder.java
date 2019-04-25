@@ -4,6 +4,7 @@
 package gov.fnal.ppd.dd.channel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,8 +12,9 @@ import java.util.List;
  * 
  */
 public class ConcreteChannelListHolder implements ChannelListHolder {
+	private Date		lastModTime	= new Date();
 	List<ChannelInList>	channelList	= new ArrayList<ChannelInList>() {
-										private static final long	serialVersionUID	= 5139683996976896075L;
+										private static final long serialVersionUID = 5139683996976896075L;
 
 										public boolean add(ChannelInList chan) {
 											if (chan.getSequenceNumber() < 0) {
@@ -22,6 +24,7 @@ public class ConcreteChannelListHolder implements ChannelListHolder {
 														lastSeq = CIL.getSequenceNumber();
 												chan.setSequenceNumber(lastSeq + 1);
 											}
+											lastModTime = new Date();
 											return super.add(chan);
 										}
 									};
@@ -30,7 +33,6 @@ public class ConcreteChannelListHolder implements ChannelListHolder {
 	 * 
 	 */
 	public ConcreteChannelListHolder() {
-		// nothing to do here
 	}
 
 	@Override
@@ -51,5 +53,9 @@ public class ConcreteChannelListHolder implements ChannelListHolder {
 	@Override
 	public void fix() {
 		// Nothing to do here.
+	}
+
+	public Date getModTime() {
+		return lastModTime;
 	}
 }

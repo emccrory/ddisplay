@@ -1,13 +1,13 @@
 package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.DEFAULT_DWELL_TIME;
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.FORCE_REFRESH;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
+import static gov.fnal.ppd.dd.GlobalVariables.getDefaultDwellTime;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.convertContentToDBReadyString;
@@ -157,7 +157,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 		private ChannelPlayList	localPlayListCopy;
 
 		public ThreadWithStop(final ChannelPlayList pl) {
-			super("PlayChannelList_" + DisplayAsConnectionToFireFox.class.getSimpleName());
+			super("PlayChannelList_DisplayAsConnectionToSelenium");
 			this.localPlayListCopy = pl;
 		}
 
@@ -413,7 +413,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 		final long expiration = getContent().getExpiration();
 
-		final long dwellTime = (getContent().getTime() == 0 ? DEFAULT_DWELL_TIME : getContent().getTime());
+		final long dwellTime = (getContent().getTime() == 0 ? getDefaultDwellTime() : getContent().getTime());
 
 		println(getClass(), browserInstance.getConnectionCode() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
 

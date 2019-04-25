@@ -496,19 +496,7 @@ public class ChannelsFromDatabase {
 					System.err.println(query);
 					e.printStackTrace();
 				}
-				ChannelPlayList theList = new ChannelPlayList(theChannelList, 60000000) {
-					private static final long	serialVersionUID	= -2188704730094152921L;
-					private String				n;
-
-					public String getName() {
-						return n;
-					}
-
-					public void setName(String nn) {
-						n = nn;
-					}
-				};
-				theList.setName("List: " + fullName);
+				ChannelPlayList theList = new ChannelPlayList(fullName, theChannelList, 60000000);
 				retval.add(theList);
 			}
 

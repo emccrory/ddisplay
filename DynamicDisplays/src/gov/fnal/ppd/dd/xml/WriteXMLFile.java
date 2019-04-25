@@ -162,7 +162,7 @@ public class WriteXMLFile {
 							continue;
 						lst.add(C);
 					}
-					ChannelPlayList cpl = new ChannelPlayList(lst, 60); // This is the SignageContent class
+					ChannelPlayList cpl = new ChannelPlayList("A list", lst, 60); // This is the SignageContent class
 					ChangeChannelList ccl = new ChangeChannelList(); // This is the XML class
 					// ChannelSpec cspec = new ChannelSpec(cpl); // A different XML class?  This does not work properly.
 					

@@ -7,6 +7,7 @@ package gov.fnal.ppd.dd.channel;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
@@ -35,7 +36,8 @@ public class ChannelPlayList implements Channel {
 	// private Display myDisplay = null;
 	// private int frameNumber = 0;
 	private long					expiration			= 0;
-	// private long					lastAdvanceTime		= 0;
+	private String					name				= null;
+	// private long lastAdvanceTime = 0;
 
 	/**
 	 * Create a channel list to play out on the Display.
@@ -45,24 +47,27 @@ public class ChannelPlayList implements Channel {
 	 * @param millisecondDwellTime
 	 *            - How long to wait on each channel (must be 2 seconds or longer)
 	 */
-	public ChannelPlayList(List<? extends SignageContent> list, long millisecondDwellTime) {
+	public ChannelPlayList(String listName, List<? extends SignageContent> list, long millisecondDwellTime) {
 		assert (list.size() > 1);
 		assert (millisecondDwellTime > 2000);
 
 		this.dwell = millisecondDwellTime;
 		for (SignageContent L : list)
 			this.channels.add(L);
+		this.name = listName + " (Length=" + this.channels.size() + ")";
 	}
 
 	/**
 	 * An empty constructor, as required by XML marshalling
 	 */
 	public ChannelPlayList() {
+		name = "A list " + new Date();
 	}
 
 	@Override
 	public String getName() {
-		return channels.get(currentChannel).getName() + " (Length=" + channels.size() + ")";
+		return name;
+		// return channels.get(currentChannel).getName() + " (Length=" + channels.size() + ")";
 	}
 
 	@Override
@@ -172,7 +177,7 @@ public class ChannelPlayList implements Channel {
 		for (int k = 0; k < channels.size(); k++) {
 			int index = (k + currentChannel) % channels.size();
 			SignageContent SC = channels.get(index);
-			retval += "( [" + index + "] " + SC.getName() + " @ " + SC.getTime()/1000.0 + " sec ) ";
+			retval += "( [" + index + "] " + SC.getName() + " @ " + SC.getTime() / 1000.0 + " sec ) ";
 		}
 		return retval + " }";
 	}

@@ -514,7 +514,7 @@ public class ListUtilsDatabase {
 			Map<String, ChannelPlayList> retval = new HashMap<String, ChannelPlayList>();
 
 			for (String channelListName : allChannelLists.keySet()) {
-				ChannelPlayList theList = new ChannelPlayList(allChannelLists.get(channelListName), 60000000);
+				ChannelPlayList theList = new ChannelPlayList(channelListName, allChannelLists.get(channelListName), 60000000);
 				theList.setDescription(allChannelLists.get(channelListName).toString());
 				retval.put(channelListName, theList);
 				// println(ExistingChannelLists.class, ": added list of length " + theList.getChannels().size() + " called '" +

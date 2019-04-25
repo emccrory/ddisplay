@@ -385,7 +385,13 @@ public class GlobalVariables {
 	 * <ol>
 	 * </p>
 	 */
-	public final static long		DEFAULT_DWELL_TIME		= 2 * ONE_HOUR;
+	private final static long		DEFAULT_DWELL_TIME		= 2 * ONE_HOUR;
+	public final static long getDefaultDwellTime() {
+		// This random 5-second variation is to put default refreshes for different channels and different displays at different times
+		// which I hope will even out the load a little bit.  One common scenario is that all the displays start at the same time, so if
+		// they all have the same default timeout, these will collide.  It might not be a big deal, but it makes me feel better.
+		return (long) (10000L*(0.5-Math.random())) + DEFAULT_DWELL_TIME;
+	}
 
 	private static int				locationCode;
 	private static List<Integer>	locationCodes			= new ArrayList<Integer>();

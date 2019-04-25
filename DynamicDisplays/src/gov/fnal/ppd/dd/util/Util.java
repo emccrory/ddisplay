@@ -418,7 +418,7 @@ public class Util {
 
 						} while (rs.next());
 
-						retval = new ChannelPlayList(channelList, 60000L);
+						retval = new ChannelPlayList("List " + (-channelNumber), channelList, 60000L);
 						alreadyRetrieved.put(channelNumber, retval);
 						stmt.close();
 						rs.close();

@@ -7,6 +7,7 @@ import static gov.fnal.ppd.dd.util.Util.println;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.changer.DDButton;
+import gov.fnal.ppd.dd.changer.DDButton.ButtonFieldToUse;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
@@ -182,6 +183,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 			ChannelPlayList theChannelList = listofChannelLists.get(listName);
 			final DDButton button = new ListDDButton("<html>" + listName + " <i>[Length=" + theChannelList.getChannels().size()
 					+ "]</i></html>", theChannelList, display, maxLen);
+			button.setText(ButtonFieldToUse.USE_NAME_FIELD); 
 
 			// FIXME - The button that shows the details on this panel messes up the simple names.
 

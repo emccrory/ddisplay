@@ -47,9 +47,9 @@ import javax.swing.SpinnerModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
+import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
 import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
@@ -544,7 +544,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 	 * @return A play list of channels
 	 */
 	public SignageContent getChannelList() {
-		return new ChannelPlayList(channelList.getList(), getDwellTime());
+		return new ChannelPlayList("Last amended at " + channelList.getModTime(), channelList.getList(), getDwellTime());
 	}
 
 	/**
