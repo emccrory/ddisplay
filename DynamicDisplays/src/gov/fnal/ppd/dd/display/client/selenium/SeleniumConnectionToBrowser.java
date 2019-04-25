@@ -39,10 +39,12 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	private DisplayControllerMessagingAbstract	myDisplay;
 
 	private Object								lastReturnValue;
-	private CheckAndFixScreenDimensions			afsd							= null;
-	
-	private boolean								uninitialized					= true;
-	private boolean								notWaitingToLookForLoadErrors	= true;
+	private CheckAndFixScreenDimensions			afsd								= null;
+
+	private boolean								uninitialized						= true;
+	private boolean								notWaitingToLookForLoadErrors		= true;
+	private boolean								notWaitingToLookForTimeoutErrors	= true;
+	private long								waitForTimeoutErrorsDuration		= 0;
 
 	/**
 	 * Construct the connection
@@ -225,8 +227,6 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			println(getClass(), " - Error return from Javascript: [" + lastReturnValue + "]");
 		}
 
-		// Experimental attempt to see if the page loaded improperly
-
 		if (notWaitingToLookForLoadErrors) {
 			notWaitingToLookForLoadErrors = false;
 			new Thread("WaitingToLookForLoadErrors") {
@@ -236,20 +236,54 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 					long returnValue = (Long) jse.executeScript("return getMostRecentLoadResult();", new Object[] { "nothing" });
 					println(SeleniumConnectionToBrowser.class, " Verification of iframe load returns [" + returnValue + "]");
 
-					// Important false-positive: If the web page is secure, "https://", it can fail and the underlying javaScript that
-					// is supposed to catch it will not see it.  And since almost all of our channels are secure now, this code does 
-					// not do very much.
-					
+					// Important false-positive: If the web page is secure, "https://", it can fail and the underlying javaScript
+					// that is supposed to catch it will not see it. And since almost all of our channels are secure now, this
+					// code does not do very much.
+
+					// Another false-positive: The default timeout for Firefox to wait for a page to respond is 5 minutes. So we
+					// won't know if the page has timed out for a long, long time.
+
 					if (returnValue != 0) {
-						// We very likely have a problem here! Set the dwell time to something really short so we can try again real
-						// soon
+						// We have a problem here! Ask the listener to deal with this.
 						errorSeen(returnValue);
+						waitForTimeoutErrorsDuration = 0;
+					} else {
+						waitForTimeoutErrorsDuration = 5 * ONE_MINUTE;
+						if (notWaitingToLookForTimeoutErrors) {
+							notWaitingToLookForTimeoutErrors = false;
+							new Thread("WaitingToLookForTimeoutErrors") {
+								public void run() {
+									long increment = 5000;
+									long returnValue = 0;
+									do {
+										long w = Math.min(waitForTimeoutErrorsDuration, increment);
+										catchSleep(w); // total wait after the load should be 5 minutes and two seconds.
+										// increment += 1000;
+										waitForTimeoutErrorsDuration -= increment;
+
+										// Read the Javascript Variable "mostRecentLoadResult"
+										returnValue = (Long) jse.executeScript("return getMostRecentLoadResult();",
+												new Object[] { "nothing" });
+
+										if (returnValue != 0) {
+											// There is a problem! Ask the listener to deal with it.
+											errorSeen(returnValue);
+											break;
+										}
+									} while (waitForTimeoutErrorsDuration > 0);
+
+									waitForTimeoutErrorsDuration = 0;
+									notWaitingToLookForTimeoutErrors = true;
+									println(SeleniumConnectionToBrowser.class,
+											" Verification of iframe timeout returns [" + returnValue + "]");
+								}
+							}.start();
+						}
 					}
 					notWaitingToLookForLoadErrors = true;
 				}
 			}.start();
 		}
-
 	}
 
 	/**
