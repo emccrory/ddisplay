@@ -782,7 +782,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			e2.printStackTrace();
 		}
 
-		String query = "SELECT IPName,DisplayID,VirtualDisplayNumber,LocationCode,Location,ColorCode,Port,Content,BadNUC FROM Display where IPName='"
+		String query = "SELECT IPName,DisplayID,VirtualDisplayNumber,Location,ColorCode,Port,Content,BadNUC FROM Display where IPName='"
 				+ myNode + "'";
 
 		Connection connection;
@@ -832,7 +832,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 								println(DisplayControllerMessagingAbstract.class,
 										"The node name of this display (no. " + vNumber + "/" + dbNumber + ") is '" + myNode + "'");
 
-								int tickerCode = rs.getInt("LocationCode");
 								String location = rs.getString("Location");
 								String colorString = rs.getString("ColorCode");
 								Color color = new Color(Integer.parseInt(colorString, 16));
@@ -852,7 +851,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 									d = (DisplayControllerMessagingAbstract) cons.newInstance(
 											new Object[] { myName, vNumber, dbNumber, 0, showNumber, location, color });
 									d.setContentBypass(cont);
-									d.setWrapperType(WrapperType.getWrapperType(tickerCode));
 									d.setBadNuc(badNUC);
 									d.initiate();
 									// return d;

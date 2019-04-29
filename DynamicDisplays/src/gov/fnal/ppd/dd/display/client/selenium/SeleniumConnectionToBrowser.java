@@ -248,7 +248,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 						errorSeen(returnValue);
 						waitForTimeoutErrorsDuration = 0;
 					} else {
-						waitForTimeoutErrorsDuration = 5 * ONE_MINUTE;
+						waitForTimeoutErrorsDuration = (long) PropertiesFile.getIntProperty("BrowserTimeout", (int) (5 * ONE_MINUTE));
 						if (notWaitingToLookForTimeoutErrors) {
 							notWaitingToLookForTimeoutErrors = false;
 							new Thread("WaitingToLookForTimeoutErrors") {

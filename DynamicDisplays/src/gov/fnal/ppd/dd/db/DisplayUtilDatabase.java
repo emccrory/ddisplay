@@ -161,8 +161,8 @@ public class DisplayUtilDatabase {
 		List<Display> theList = new ArrayList<Display>();
 		int count = 0;
 		List<Integer> dID = new ArrayList<Integer>();
-		String query = "SELECT DisplaySort.LocationCode as LocationCode,Display.LocationCode as TickerCode,"
-				+ "Display.DisplayID as DisplayID,VirtualDisplayNumber,ScreenNumber,Location,IPName,ColorCode,Type "
+		String query = "SELECT DisplaySort.LocationCode as LocationCode,"
+				+ "Display.DisplayID as DisplayID,VirtualDisplayNumber,ScreenNumber,Location,IPName,ColorCode "
 				+ "FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) ORDER BY VirtualDisplayNumber;";
 
 		try {
@@ -224,7 +224,7 @@ public class DisplayUtilDatabase {
 
 			synchronized (connection) {
 				String q = "SELECT Location,IPName,Display.DisplayID as DisplayID,VirtualDisplayNumber,DisplaySort.LocationCode as LocationCode,"
-						+ "ScreenNumber,ColorCode,Type FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) "
+						+ "ScreenNumber,ColorCode FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) "
 						+ "ORDER BY VirtualDisplayNumber";
 				try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(q);) {
 					if (!rs.first()) { // Move to first returned row

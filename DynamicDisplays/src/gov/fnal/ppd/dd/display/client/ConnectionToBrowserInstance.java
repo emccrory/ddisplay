@@ -231,6 +231,10 @@ public abstract class ConnectionToBrowserInstance {
 		// multiple instances of this method from running at the same time, so we put the "synchronized" on the method, where it
 		// should be.
 		// synchronized (showingCanonicalSite) {
+		
+		if (theWrapper==null) {
+			theWrapper = WrapperType.NORMAL;
+		}
 		switch (theWrapper) {
 
 		case NORMAL:
