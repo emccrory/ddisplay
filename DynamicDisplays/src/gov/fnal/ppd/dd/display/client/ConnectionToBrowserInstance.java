@@ -53,7 +53,7 @@ public abstract class ConnectionToBrowserInstance {
 
 	protected static final String		TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
 	// protected static final String WEB_PAGE_EMERGENCY_FRAME = "http://" + WEB_SERVER_NAME + "/border8.php";
-	protected static final String		WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/border9.php";
+	protected static final String		WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/borderA.php";
 
 	protected static ColorNames			colorNames						= new ColorNames();
 	protected static int				numberOfScreens					= 0;
