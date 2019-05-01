@@ -248,21 +248,23 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 						errorSeen(returnValue);
 						waitForTimeoutErrorsDuration = 0;
 					} else {
-						waitForTimeoutErrorsDuration = (long) PropertiesFile.getIntProperty("BrowserTimeout", (int) (5 * ONE_MINUTE));
+						waitForTimeoutErrorsDuration = (long) PropertiesFile.getIntProperty("BrowserTimeout",
+								(int) (5 * ONE_MINUTE));
 						if (notWaitingToLookForTimeoutErrors) {
 							notWaitingToLookForTimeoutErrors = false;
-							new Thread("WaitingToLookForTimeoutErrors") {
+							new Thread("LookingForTimeoutErrors") {
 								public void run() {
+									// TODO - Maybe this should run all the time?
 									long increment = 5000;
 									long returnValue = 0;
 									do {
 										long w = Math.min(waitForTimeoutErrorsDuration, increment);
 										catchSleep(w); // total wait after the load should be 5 minutes and two seconds.
-										// increment += 1000;
 										waitForTimeoutErrorsDuration -= increment;
 
-										// Read the Javascript Variable "mostRecentLoadResult"
-										returnValue = (Long) jse.executeScript("return getMostRecentLoadResult();",
+										// borderA has a Javascript function that dynamically checks the value of the title in the
+										// iframe.
+										returnValue = (Long) jse.executeScript("return checkMostRecentLoadResult();",
 												new Object[] { "nothing" });
 
 										if (returnValue != 0) {
@@ -270,6 +272,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 											errorSeen(returnValue);
 											break;
 										}
+										println(SeleniumConnectionToBrowser.class,
+												waitForTimeoutErrorsDuration + " No webpage-loading timeout seen yet");
 									} while (waitForTimeoutErrorsDuration > 0);
 
 									waitForTimeoutErrorsDuration = 0;
@@ -387,7 +391,6 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 
 	@Override
 	public String getConnectionCode() {
-		// TODO Auto-generated method stub
 		return instance;
 	}
 
