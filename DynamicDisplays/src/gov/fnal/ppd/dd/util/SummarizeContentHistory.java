@@ -14,11 +14,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
@@ -42,51 +41,39 @@ public class SummarizeContentHistory {
 	private static final String				CHANGE_CHANNEL		= "<changeChannel ";
 	private static final String				CHANGE_CHANNEL_LIST	= "<changeChannelList ";
 
-	private static final Comparator<Two>	cTwo				= new Comparator<Two>() {
+	private static final Comparator<Three>	cThree				= new Comparator<Three>() {
 																	@Override
-																	public int compare(Two o1, Two o2) {
+																	public int compare(Three o1, Three o2) {
 																		if (o1.equals(o2))
 																			return 0;
-																		return ((Integer) o1.displayID).compareTo(o2.displayID);
+																		if (o1.displayID == o2.displayID)
+																			return ((Integer) o2.count)
+																					.compareTo((Integer) o1.count);								// Descending
+																		return ((Integer) o1.displayID).compareTo(o2.displayID);				// Ascending
 																	}
 																};
 
-	private List<Two>						all					= new ArrayList<Two>();
+	private List<Three>						all					= new ArrayList<Three>();
 	private int								cut;
 
-	private static class Two {
+	private static class Three {
 		public EncodedCarrier	chan	= null;
-		public int				displayID;
+		public int				displayID, virtualDisplayID;
+		public int				count	= 0;
 
-		public Two(int d, EncodedCarrier x) {
-			displayID = d;
+		public Three(int dbID, int c, int vDID, EncodedCarrier x) {
+			displayID = dbID;
+			virtualDisplayID = vDID;
+			count = c;
 			chan = x;
 		}
 
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Two other = (Two) obj;
-			if (chan == null) {
-				if (other.chan != null)
-					return false;
-			} else if (!chan.equals(other.chan))
-				return false;
-			if (displayID != other.displayID)
-				return false;
-			return true;
-		}
-
 		public String getURL() {
-			if (chan instanceof ChangeChannel)
-				return ((ChangeChannel) chan).getChannelSpec().getURI().toString();
-			else if (chan instanceof ChangeChannelList)
+			if (listLength() > 0)
+				// This is probably OK, but it is not exactly right
 				return ((ChangeChannelList) chan).getChannelSpec()[0].getURI().toString();
+			else if (chan != null)
+				return ((ChangeChannel) chan).getChannelSpec().getURI().toString();
 			return null;
 		}
 
@@ -99,10 +86,45 @@ public class SummarizeContentHistory {
 			return result;
 		}
 
-		public String toString() {
-			return "" + displayID + "\t" + getURL();
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Three other = (Three) obj;
+			if (chan == null) {
+				if (other.chan != null)
+					return false;
+			} else if (!chan.equals(other.chan))
+				return false;
+
+			if (displayID != other.displayID)
+				return false;
+			return true;
 		}
 
+		public String toString() {
+			if (listLength() == 0)
+				return count + "\t" + displayID + " | " + virtualDisplayID + "\t" + getURL();
+
+			// return count + "\t" + displayID + " | " + virtualDisplayID + "\t" + Arrays.toString(((ChangeChannelList)
+			// chan).getChannelSpec());
+			return count + "\t" + displayID + " | " + virtualDisplayID + "\t" + chan;
+		}
+
+		public int listLength() {
+			if (chan != null && chan instanceof ChangeChannelList) {
+				return ((ChangeChannelList) chan).getChannelSpec().length;
+			}
+			return 0;
+		}
+
+		public static String getHeader() {
+			return "Count\tDisp\tURL";
+		}
 	}
 
 	public static void main(String[] args) {
@@ -112,7 +134,7 @@ public class SummarizeContentHistory {
 		int cut = 0;
 		if (args.length > 0)
 			cut = Integer.parseInt(args[0]);
-		SummarizeContentHistory s = new SummarizeContentHistory(cut, 1, "2019/04/01");
+		SummarizeContentHistory s = new SummarizeContentHistory(cut, "2019/04/01");
 		System.out.println(s);
 		System.exit(0);
 	}
@@ -125,40 +147,36 @@ public class SummarizeContentHistory {
 
 	public SummarizeContentHistory(int cut) {
 		this.cut = cut;
-		get("select DisplayID,ContentSpecification FROM ContentHistory");
+		get("select ContentHistory.DisplayID as DisplayID,ContentSpecification,COUNT(*),VirtualDisplayNumber "
+				+ "FROM ContentHistory,Display WHERE ContentHistory.DisplayID=Display.DisplayID");
 	}
 
 	public SummarizeContentHistory(int cut, int displayID) {
 		this.cut = cut;
-		get("select DisplayID,ContentSpecification FROM ContentHistory WHERE DisplayID=" + displayID);
+		get("select ContentHistory.DisplayID as DisplayID,ContentSpecification,COUNT(*),VirtualDisplayNumber "
+				+ "FROM ContentHistory,Display WHERE DisplayID=" + displayID
+				+ " AND ContentHistory.DisplayID=Display.DisplayID GROUP BY ContentSpecification");
 	}
 
 	public SummarizeContentHistory(int cut, String since) {
 		this.cut = cut;
-		get("select DisplayID,ContentSpecification FROM ContentHistory WHERE IntitiateTimeStamp>'" + since + "'");
+		get("select ContentHistory.DisplayID as DisplayID,ContentSpecification,COUNT(*),VirtualDisplayNumber "
+				+ "FROM ContentHistory,Display WHERE IntitiateTimeStamp>'" + since + "'"
+				+ " AND ContentHistory.DisplayID=Display.DisplayID GROUP BY ContentSpecification");
 	}
 
 	public SummarizeContentHistory(int cut, int displayID, String since) {
 		this.cut = cut;
-		get("select DisplayID,ContentSpecification FROM ContentHistory WHERE DisplayID=" + displayID + " AND IntitiateTimeStamp>'"
-				+ since + "'");
+		get("select ContentHistory.DisplayID as DisplayID,ContentSpecification,COUNT(*),VirtualDisplayNumber "
+				+ "FROM ContentHistory,Display WHERE DisplayID=" + displayID
+				+ " AND ContentHistory.DisplayID=Display.DisplayID AND IntitiateTimeStamp>'" + since + "'"
+				+ " GROUP BY ContentSpecification");
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------
 
-	private Map<Two, Integer> count(List<Two> all) {
-		Map<Two, Integer> retval = new HashMap<Two, Integer>();
-		for (Two T : all) {
-			if (retval.containsKey(T)) {
-				Integer I = retval.get(T);
-				retval.replace(T, I, I + 1);
-			} else
-				retval.put(T, new Integer(1));
-		}
-		return retval;
-	}
-
 	private void get(String query) {
+		System.out.println(query);
 		try {
 			Connection connection = null;
 			try {
@@ -177,13 +195,17 @@ public class SummarizeContentHistory {
 						if (rs2.first()) {
 							do {
 								int displayID = rs2.getInt("DisplayID");
+								int vDID = rs2.getInt("VirtualDisplayNumber");
 								String rawMessage = rs2.getString("ContentSpecification");
+								int count = rs2.getInt("COUNT(*)");
+								if (count < cut)
+									continue;
 
 								if (rawMessage.contains(CHANGE_CHANNEL)) {
-									all.add(new Two(displayID,
+									all.add(new Three(displayID, count, vDID,
 											(ChangeChannel) MyXMLMarshaller.unmarshall(ChangeChannel.class, rawMessage)));
 								} else if (rawMessage.contains(CHANGE_CHANNEL_LIST)) {
-									all.add(new Two(displayID,
+									all.add(new Three(displayID, count, vDID,
 											(ChangeChannelList) MyXMLMarshaller.unmarshall(ChangeChannelList.class, rawMessage)));
 								} else {
 									throw new ErrorProcessingMessage(
@@ -205,12 +227,12 @@ public class SummarizeContentHistory {
 			e.printStackTrace();
 		}
 
-		Collections.sort(all, cTwo);
+		Collections.sort(all, cThree);
 	}
 
 	public List<String> getAllURLs() {
 		List<String> retval = new ArrayList<String>();
-		for (Two T : all) {
+		for (Three T : all) {
 			retval.add(T.getURL());
 		}
 		return retval;
@@ -218,12 +240,10 @@ public class SummarizeContentHistory {
 
 	public String toString() {
 		String retval = "";
-		Map<Two, Integer> allCount = count(all);
 
-		System.out.println("\n\nCount\tDisp#\tURL");
-		for (Two T : allCount.keySet()) {
-			if (allCount.get(T) > cut)
-				retval += allCount.get(T) + "\t" + T + "\n";
+		System.out.println("\n\n" + Three.getHeader());
+		for (Three T : all) {
+			retval += T + "\n";
 		}
 		return retval;
 	}
