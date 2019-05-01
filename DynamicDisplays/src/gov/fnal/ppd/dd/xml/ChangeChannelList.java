@@ -82,4 +82,46 @@ public class ChangeChannelList extends EncodedCarrier {
 		dwell = n;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cpl == null) ? 0 : cpl.hashCode());
+		result = prime * result + displayNum;
+		result = prime * result + (int) (dwell ^ (dwell >>> 32));
+		result = prime * result + screenNum;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ChangeChannelList other = (ChangeChannelList) obj;
+		if (cpl == null) {
+			if (other.cpl != null)
+				return false;
+		} else if (!cpl.equals(other.cpl))
+			return false;
+		if (displayNum != other.displayNum)
+			return false;
+		if (dwell != other.dwell)
+			return false;
+		if (screenNum != other.screenNum)
+			return false;
+		return true;
+	}
+
+	public String toString() {
+		String retval = "List of length " + cpl.getChannels().size() + " [";
+		for (int i = 0; i < cpl.getChannels().size(); i++) {
+			retval += cpl.getChannels().get(i).getURI().toString() + " (" + cpl.getChannels().get(i).getTime() + "), ";
+		}
+		return retval + "]";
+	}
+
 }

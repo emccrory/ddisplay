@@ -167,5 +167,8 @@ public class ChannelSpec implements SignageContent {
 		return true;
 	}
 	
+	public String toString() {
+		return content.getURI().toString();
+	}
 	
 }
