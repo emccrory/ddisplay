@@ -2,15 +2,10 @@ package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.getFlavor;
 import static gov.fnal.ppd.dd.util.DownloadNewSoftwareVersion.failedOnce;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimerTask;
 
 import gov.fnal.ppd.dd.util.DownloadNewSoftwareVersion;

@@ -160,7 +160,7 @@ public class TemporaryDialogBox extends JFrame {
 		Border b2 = BorderFactory.createLineBorder(new Color(63, 156, 135), 10);
 		Border ba2 = BorderFactory.createLineBorder(new Color(128, 91, 78), 5);
 		Border b3 = BorderFactory.createEmptyBorder(50, 50, 50, 50);
-		Border b3a = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+		// Border b3a = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 		Border b4 = BorderFactory.createCompoundBorder(b0, b2);
 		Border b5 = BorderFactory.createCompoundBorder(b4, b1);
 		Border b5a = BorderFactory.createCompoundBorder(ba2, b5);

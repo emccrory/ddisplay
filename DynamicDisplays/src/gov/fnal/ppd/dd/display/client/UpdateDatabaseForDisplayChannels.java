@@ -91,6 +91,7 @@ public class UpdateDatabaseForDisplayChannels implements Display {
 								ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 							statementString = "INSERT INTO ContentHistory VALUES(NULL, " + displayID + ", CURRENT_TIMESTAMP, '"
 									+ xmlDocument + "')";
+							@SuppressWarnings("unused")
 							int numRows = stmt.executeUpdate(statementString);
 							stmt.close();
 						} catch (Exception ex) {

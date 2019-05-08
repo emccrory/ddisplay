@@ -356,7 +356,8 @@ public class ObjectSigning {
 
 	}
 
-	private static String getIPName(String ipName) {
+	@SuppressWarnings("unused")
+	private static String getIPName(final String ipName) {
 		try {
 			InetAddress address = InetAddress.getByName(ipName);
 			return address.getHostAddress();

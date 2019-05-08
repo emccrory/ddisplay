@@ -103,10 +103,10 @@ public class SimplifiedChannelGrid extends ChannelButtonGrid {
 		expGrid = new JPanel(new GridBagLayout());
 		expGrid.setOpaque(true);
 		expGrid.setBackground(display.getPreferredHighlightColor());
-		int numButtons = 0;
+		// int numButtons = 0;
 		Box pictureBox = Box.createHorizontalBox();
 		for (SignageContent contentInstance : list) {
-			numButtons++;
+			// numButtons++;
 			if (contentInstance instanceof ChannelImage) {
 				ChannelImage imageChannel = (ChannelImage) contentInstance;
 				String name = imageChannel.getName(); // This is the URL end
