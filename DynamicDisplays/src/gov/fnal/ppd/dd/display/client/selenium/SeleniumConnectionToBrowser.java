@@ -262,7 +262,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 										catchSleep(w); // total wait after the load should be 5 minutes and two seconds.
 										waitForTimeoutErrorsDuration -= increment;
 
-										// borderA has a Javascript function that dynamically checks the value of the title in the
+										// borderA has a JavaScript function that dynamically checks the value of the title in the
 										// iframe.
 										returnValue = (Long) jse.executeScript("return checkMostRecentLoadResult();",
 												new Object[] { "nothing" });
@@ -272,8 +272,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 											errorSeen(returnValue);
 											break;
 										}
-										println(SeleniumConnectionToBrowser.class,
-												waitForTimeoutErrorsDuration + " No webpage-loading timeout seen yet");
+										// println(SeleniumConnectionToBrowser.class,
+										// waitForTimeoutErrorsDuration + " No webpage-loading timeout seen yet");
 									} while (waitForTimeoutErrorsDuration > 0);
 
 									waitForTimeoutErrorsDuration = 0;
