@@ -38,6 +38,24 @@ if [ "$1 X" = "XOC X" ]; then
    fi
 fi
 
+# Set up log file 
+ddHome=$HOME/src
+node=`uname -n`
+if [ $node = "ad130482.fnal.gov" ]; then
+    ddHome=/home/mccrory/git-ddisplay
+fi
+
+log=$ddHome/log/selector.log
+
+if [ -e $log ] ; then
+    # Rename the existing log file with time stamp of the first access (creation time)
+    # This command pipe Assumes A LOT!  So it will probably be brittle
+   suffix=`stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g'`
+
+   mv $log $ddHome/log/selector_$suffix.log
+   gzip    $ddHome/log/selector_$suffix.log &
+fi
+
 d=`date +%F`
 {
     while {
@@ -61,5 +79,6 @@ d=`date +%F`
 	echo ""
 	echo ""
     done
-} > ../../log/selector_${d}_$$.log 2>&1 &
+} > $log 2>&1 &
+
 
