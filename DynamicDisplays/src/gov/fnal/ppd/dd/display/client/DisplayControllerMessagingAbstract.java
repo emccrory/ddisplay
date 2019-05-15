@@ -1042,8 +1042,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 							oos.writeObject(c);
 						}
 					}
-					println(DisplayControllerMessagingAbstract.this.getClass(),
-							": Saved the currently-playing channel to the file system: [" + getContent() + "]");
+					println(DisplayControllerMessagingAbstract.class,
+							": Saved the currently-playing channel to the file system: [" + c + "]");
 
 				} catch (Exception e) {
 					e.printStackTrace();
