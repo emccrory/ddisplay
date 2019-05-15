@@ -254,7 +254,7 @@ public class GlobalVariables {
 	/**
 	 * Do we use http or https?
 	 */
-	public final static String	WEB_PROTOCOL			= PropertiesFile.getProperty("defaultWebProtocol", "http");
+	public final static String	WEB_PROTOCOL			= PropertiesFile.getProperty("defaultWebProtocol", "https");
 
 	/**
 	 * @return The web server prefix, dealing with whether or not there is a folder in there, too.
