@@ -74,13 +74,20 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 				printlnErr(getClass(), "Screen position have changed from " + screenPosition + " to " + pos);
 				adjusted = true;
 			}
+		} catch (org.openqa.selenium.WebDriverException e) {
+			// I observed on May 15, 2019, that this exception itells me that the connection to the browser has been lost.
+			// That means we are hosed and we need to get out of here (and, hopefully, restart the display)
+			ExitHandler.saveAndExit("Lost communication with the browser");
 		} catch (Exception e) {
 			numExceptions++;
-			printlnErr(getClass(),
-					"Caught exception (#" + numExceptions + "/" + counter + ") in trying to read the position/size of the screen");
 			if (haventShowTraceback1) {
+				printlnErr(getClass(), "Caught exception (overall num exceptions=" + numExceptions + ", counter=" + counter + ": "
+						+ e.getClass().getCanonicalName() + ") in trying to read the position/size of the screen");
 				e.printStackTrace();
 				haventShowTraceback1 = false;
+			} else {
+				printlnErr(getClass(), "Caught exception (#" + numExceptions + "/" + counter + ": "
+						+ e.getClass().getCanonicalName() + ") in trying to read the position/size of the screen");
 			}
 		}
 		try {
@@ -98,7 +105,7 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 			printlnErr(getClass(), "\n ******** Serious, fatal error has occurred in connection to the browser ********\n");
 			e.printStackTrace();
 			printlnErr(getClass(), "\nAttempting to restart now.\n");
-			
+
 			ExitHandler.saveAndExit("Received " + e.getClass().getName() + " exception in " + getClass().getName());
 		} catch (Exception e) {
 			numExceptions++;
