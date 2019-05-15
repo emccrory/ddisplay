@@ -1,14 +1,17 @@
 package gov.fnal.ppd.dd.util;
 
+import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 /**
- * There are several places in the code where it is necessary to restart the who shebang. This class handles a graceful exit by
- * running the commands that others have set up to assure that the restart is clean. (The initial implementation of this is in the
- * Display client so that the current Channel is redisplayed when we are restarted.)
+ * There are several places in the code where it is necessary to restart the whole shebang. This class handles a graceful exit by
+ * running the commands that others have set up to assure that the restart is clean. 
+ * 
+ * This is implemented in the Display client so that it can save the current Channel and then show it again when it gets restarted.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -27,15 +30,22 @@ public class ExitHandler {
 	 * that we want to be restarted.
 	 */
 	public static void saveAndExit(String why, int exitCode) {
-		// Execute the listed commands
+		println(ExitHandler.class,
+				"\n\n********** Exit handler called **********\nThere are at most " + finalCommand.size() + " exit hooks to call");
+		
+		// Execute the requested commands
 		int count = 0;
 		for (Command C : finalCommand)
 			if (C != null) {
 				C.execute(why);
 				count++;
 			}
-		println(ExitHandler.class, "\n\n********** EXITING **********\n\n [" + why + "] - " + count + " exit commands executed\n");
-		// Exit the Java VM entirely
+
+		catchSleep(1000); // Wait for these commands to complete ...
+
+		println(ExitHandler.class, "\n********** EXITING **********\n [" + why + "] - " + count + " exit commands executed\n");
+		
+		// Exit the Java VM entirely - this will activate the system-registered shutdown hooks.
 		System.exit(exitCode);
 	}
 
