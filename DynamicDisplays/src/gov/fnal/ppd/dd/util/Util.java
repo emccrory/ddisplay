@@ -78,8 +78,7 @@ public class Util {
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NOvA",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=DUNE-LBNF",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NuMI",														//
-			"http://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none",									//
-			"http://elliottmccrory.com/clock/five.html", };
+			 };
 
 	/**
 	 * The list of default names for URLS
