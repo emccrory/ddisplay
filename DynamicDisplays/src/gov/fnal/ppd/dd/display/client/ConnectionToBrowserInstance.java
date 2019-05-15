@@ -1,5 +1,6 @@
 package gov.fnal.ppd.dd.display.client;
 
+import static gov.fnal.ppd.dd.GlobalVariables.WEB_PROTOCOL;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.isThisURLNeedAnimation;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -50,10 +51,10 @@ public abstract class ConnectionToBrowserInstance {
 	// private static final String EXTRAFRAMESNOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border3.php";
 	// private static final String EXTRAFRAMENOTICKER_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border4.php";
 	// private static final String FERMI_TICKERTAPE_WEB_PAGE = "http://" + WEB_SERVER_NAME + "/border5.php";
-
-	protected static final String		TICKERTAPE_WEB_PAGE				= "http://" + WEB_SERVER_NAME + "/border6.php";
 	// protected static final String WEB_PAGE_EMERGENCY_FRAME = "http://" + WEB_SERVER_NAME + "/border8.php";
-	protected static final String		WEB_PAGE_EMERGENCY_FRAME		= "http://" + WEB_SERVER_NAME + "/borderA.php";
+
+	protected static final String		TICKERTAPE_WEB_PAGE				= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/border6.php";
+	protected static final String		WEB_PAGE_EMERGENCY_FRAME		= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/borderA.php";
 
 	protected static ColorNames			colorNames						= new ColorNames();
 	protected static int				numberOfScreens					= 0;
