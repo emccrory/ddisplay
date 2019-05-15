@@ -27,6 +27,10 @@ import java.util.zip.ZipFile;
 /**
  * Download a new version of the software from the Dynamic Displays web server.
  * 
+ * After a few months of using this class to do the task at hand, we see weird problems, possibly related to changing the Java
+ * runtime environment while the display is running. The Linux startup script will check for updates, so it was decided to simply
+ * exit the program and let it restart.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *
  */
@@ -70,6 +74,10 @@ public class DownloadNewSoftwareVersion {
 	}
 
 	public DownloadNewSoftwareVersion(String version) {
+		// We are dropping back and punting now - let the controlling shell script get the software and restart.
+
+		ExitHandler.saveAndExit("New software version detected", -1);
+
 		// Note that the Linux (and Mac) updates have to be a little different than the Windows updates. Windows
 		// does not let you rename a folder if there is anything running from it or from its sub folders. Since
 		// the JVM here is running from the sub-folder that we want to replace, we MUST give some of the update
