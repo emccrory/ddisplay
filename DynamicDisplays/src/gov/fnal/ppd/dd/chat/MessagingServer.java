@@ -583,7 +583,7 @@ public class MessagingServer {
 			if (ObjectSigning.dropClient(this.username))
 				logger.fine(this.getClass().getSimpleName() + ": '" + this.username + "' Removed from ObjectSigning cache");
 
-			logger.fine(this.getClass().getSimpleName() + ": No. remaining clients: " + listOfMessagingClients.size());
+			logger.fine(this.getClass().getSimpleName() + ": Number of remaining clients: " + listOfMessagingClients.size());
 			close();
 		}
 
