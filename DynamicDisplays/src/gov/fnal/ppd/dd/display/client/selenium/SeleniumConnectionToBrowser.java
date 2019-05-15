@@ -119,12 +119,15 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	@Override
 	public void exit() {
 		if (driver != null)
-			try {
-				driver.close();
-			} catch (Exception e) {
-				printlnErr(getClass(), "Exception caught while trying to close the connection to the browser.\n"
-						+ "\t\tHopefully, we can continue from this and actually exit now!");
-				e.printStackTrace();
+			synchronized (driver) {
+				try {
+					driver.close();
+				} catch (Exception e) {
+					printlnErr(getClass(), "Exception caught while trying to close the connection to the browser.\n"
+							+ "\t\tExiting the JVM should happen real soon now.");
+					e.printStackTrace();
+					driver = null;
+				}
 			}
 	}
 
