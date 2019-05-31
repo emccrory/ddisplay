@@ -1090,17 +1090,17 @@ public class MessagingServer {
 					+ (listOfMessagingClients.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
 					+ " messages handled" //
 					+ spaces + "Oldest client is " + oldestName //
-					+ spaces + "No. clients put 'on notice': " + numClientsPutOnNotice //
-					+ spaces + "No. clients removed due to lack of response: " + numRemovedForPings1 + " & " + numRemovedForPings2//
-					+ spaces + "No. clients removed for 'bad write': + numRemovedBadWriteSeen	" //
-					+ spaces + "No. clients removed for 'null client thread': " + numRemovedNullClientThread //
-					+ spaces + "No. clients removed for null username: " + numRemovedNullUsername //
-					+ spaces + "No. clients removed for null date: " + numRemovedNullDate //
-					+ spaces + "No. clients removed by exiting forever loop: " + numRemovedExitedForeverLoop //
-					+ spaces + "No. clients removed for duplicate name: " + numRemovedDuplicateUsername //
-					+ spaces + "No. clients removed for unexpected closed sockets: " + numUnexpectedClosedSockets1 + " & "
+					+ spaces + "Num clients put 'on notice': " + numClientsPutOnNotice //
+					+ spaces + "Num clients removed due to lack of response: " + numRemovedForPings1 + " & " + numRemovedForPings2//
+					+ spaces + "Num clients removed for 'bad write': + numRemovedBadWriteSeen	" //
+					+ spaces + "Num clients removed for 'null client thread': " + numRemovedNullClientThread //
+					+ spaces + "Num clients removed for null username: " + numRemovedNullUsername //
+					+ spaces + "Num clients removed for null date: " + numRemovedNullDate //
+					+ spaces + "Num clients removed by exiting forever loop: " + numRemovedExitedForeverLoop //
+					+ spaces + "Num clients removed for duplicate name: " + numRemovedDuplicateUsername //
+					+ spaces + "Num clients removed for unexpected closed sockets: " + numUnexpectedClosedSockets1 + " & "
 					+ numUnexpectedClosedSockets2 //
-					+ spaces + "No. clients removed for unexpected duplicate clients: " + numDuplicateClients //
+					+ spaces + "Num clients removed for unexpected duplicate clients: " + numDuplicateClients //
 					+ "\n" + subjectInfo;
 			logger.fine("\n                       " + message.replace(spaces, spacesForLog));
 			// updateStatus(message.replace(spaces, spacesForStatus));
