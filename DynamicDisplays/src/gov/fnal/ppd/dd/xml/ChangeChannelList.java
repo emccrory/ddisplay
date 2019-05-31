@@ -61,8 +61,7 @@ public class ChangeChannelList extends EncodedCarrier {
 	}
 
 	public void setChannelSpec(ChannelSpec[] cs) {
-		System.out.println(getClass().getSimpleName() + ": Adding a channelSpec list of length " + cs.length);
-
+		// println(getClass(), ": Adding a channelSpec list of length " + cs.length);
 		for (ChannelSpec spec : cs) {
 			cpl.getChannels().add(spec.getContent());
 		}
