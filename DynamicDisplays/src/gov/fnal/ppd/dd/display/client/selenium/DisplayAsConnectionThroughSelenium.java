@@ -42,11 +42,12 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 	@Override
 	public void initiate() {
 		// First connect to the browser, then connect to the messaging server.
-		
+
 		new Thread() {
 			public void run() {
 				println(DisplayAsConnectionThroughSelenium.class,
 						".initiate(): Here we go! display number=" + getVirtualDisplayNumber() + " (" + getDBDisplayNumber() + ") "
+								+ ", screen number " + screenNumber + " "
 								+ (showNumber ? "Showing display num" : "Hiding display num"));
 
 				browserInstance = new SeleniumConnectionToBrowser(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
@@ -83,7 +84,7 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 
 		try {
 			System.out.println("Version: " + VersionInformation.getVersionInformation().getVersionString());
-			
+
 			@SuppressWarnings("unused")
 			DisplayAsConnectionThroughSelenium add = (DisplayAsConnectionThroughSelenium) makeTheDisplays(
 					DisplayAsConnectionThroughSelenium.class);
