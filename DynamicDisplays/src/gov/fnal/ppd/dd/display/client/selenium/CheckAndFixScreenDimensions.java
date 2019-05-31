@@ -11,6 +11,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.PropertiesFile;
@@ -127,19 +128,29 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 	public void goToProperSizeAndPlace() {
 
 		switch (positioningMethod) {
-		case DirectPositioning:
-			// driver.manage().window().setPosition(screenPosition);
-			// driver.manage().window().setSize(screenDimension);
-			// break;
-			throw new RuntimeException("Not implemented!");
 
 		case UseHiddenButton:
 			driver.manage().window().setPosition(screenPosition);
 			driver.findElement(new By.ByName("hiddenButton")).click();
 			break;
-		case ChangeIframe:
-			// TODO
+
+		case DirectPositioning:
+			driver.manage().window().setPosition(screenPosition);
+			driver.manage().window().setSize(screenDimension);
+			driver.manage().window().maximize();
 			break;
+
+		case PressF11:
+			driver.manage().window().setPosition(screenPosition);
+			if (driver instanceof FirefoxDriver) {
+				// May 2019: Both of these calls to pressKey() throw an exception
+				String f11Sequence = new String(new byte[] { 0x1b, '[', '2', '3', '~' });
+				((FirefoxDriver) driver).getKeyboard().pressKey(f11Sequence); 
+				// ((FirefoxDriver) driver).getKeyboard().pressKey(Keys.F11);
+			}
+			break;
+
+		case ChangeIframe:
 		case DoNothing:
 			break;
 		}
