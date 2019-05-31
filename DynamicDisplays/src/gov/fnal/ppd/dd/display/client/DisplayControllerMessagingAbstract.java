@@ -219,9 +219,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			retval += OFF_LINE + " " + offlineMessage;
 		else {
 			if (specialURI(getContent())) {
-				retval += (previousChannelStack.peek().getURI() + " (" + getStatus() + ")").replace("'", "\\'");
+				retval += (previousChannelStack.peek().getURI() + " (" + getStatus() + ")").replace("'", "");
 			} else
-				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "\\'")
+				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "")
 						.replace("dynamicdisplays.fnal.gov", "dd").replace("Pictures", "Pics").replace("http://", "")
 						.replace("https://", "").replace(".fnal.gov", "");
 		}
@@ -782,7 +782,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			e2.printStackTrace();
 		}
 
-		String query = "SELECT IPName,DisplayID,VirtualDisplayNumber,Location,ColorCode,Port,Content,BadNUC FROM Display where IPName='"
+		String query = "SELECT IPName,DisplayID,VirtualDisplayNumber,Location,ColorCode,Port,Content,BadNUC,ScreenNumber FROM Display where IPName='"
 				+ myNode + "'";
 
 		Connection connection;
@@ -841,6 +841,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 								SignageContent cont = getChannelFromNumber(channelNumber);
 
 								boolean badNUC = rs.getInt("BadNUC") == 1;
+								int screenNumber = rs.getInt("ScreenNumber");
 
 								// Now create the class object
 
@@ -849,7 +850,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 									cons = clazz.getConstructor(String.class, int.class, int.class, int.class, boolean.class,
 											String.class, Color.class);
 									d = (DisplayControllerMessagingAbstract) cons.newInstance(
-											new Object[] { myName, vNumber, dbNumber, 0, showNumber, location, color });
+											new Object[] { myName, vNumber, dbNumber, screenNumber, showNumber, location, color });
 									d.setContentBypass(cont);
 									d.setBadNuc(badNUC);
 									d.initiate();

@@ -66,16 +66,26 @@ public class DisplayUtilDatabase {
 							if (chanNum == 0) {
 								// Set the display by the SignageContent object
 								Blob sc = rs.getBlob("SignageContent");
-
+								byte[] bytes = null;
 								if (sc != null && sc.length() > 0)
 									try {
 										int len = (int) sc.length();
-										byte[] bytes = sc.getBytes(1, len);
+										bytes = sc.getBytes(1, len);
 
 										ByteArrayInputStream fin = new ByteArrayInputStream(bytes);
 										ObjectInputStream ois = new ObjectInputStream(fin);
 										newContent = (SignageContent) ois.readObject();
 
+									} catch (ClassNotFoundException e) {
+										printlnErr(DisplayUtilDatabase.class,
+												"Class not found for display " + displayID + ": " + e.getLocalizedMessage());
+										String bb = "";
+										for ( byte B: bytes ) 
+											if ( B>0 ) {
+												char c = (char) B;
+												bb += c;
+											}
+										println(DisplayUtilDatabase.class, "XML: " + bb);
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
@@ -92,7 +102,7 @@ public class DisplayUtilDatabase {
 								// enough
 								printlnErr(DisplayUtilDatabase.class,
 										"Looking for displayID=" + displayID + ", but could not find it!!");
-								throw new NoSuchDisplayException("displayID=" + displayID + " no longer is a valid display");
+								// throw new NoSuchDisplayException("displayID=" + displayID + " no longer is a valid display");
 							}
 
 							if (!rs.next())
@@ -134,7 +144,7 @@ public class DisplayUtilDatabase {
 				ListOfExistingContent h = getContentOnDisplays();
 				for (Display D : h.keySet()) {
 					String blob = convertContentToDBReadyString(D.getContent());
-					String fullStatement = statementStringStart + D.getDBDisplayNumber() + ", \"" + s + "\", 0, x'" + blob + "')";
+					String fullStatement = statementStringStart + D.getDBDisplayNumber() + ", \"" + s + "\", 0, '" + blob + "', NULL)";
 
 					int nrows;
 					if ((nrows = stmt.executeUpdate(fullStatement)) != 1) {
@@ -180,7 +190,7 @@ public class DisplayUtilDatabase {
 								int locCode = rs.getInt("LocationCode");
 								int displayID = rs.getInt("DisplayID");
 								int vDisplayNum = rs.getInt("VirtualDisplayNumber");
-								int screenNumber = 0; // rs.getInt("ScreenNumber");
+								int screenNumber = rs.getInt("ScreenNumber");
 								int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
 								if ((locationCode < 0 || locCode == locationCode) && !dID.contains(displayID)) {
 									// Negative locationCode will select ALL displays everywhere
@@ -237,7 +247,7 @@ public class DisplayUtilDatabase {
 								int locCode = rs.getInt("LocationCode");
 								int displayID = rs.getInt("DisplayID");
 								int vDisplayNum = rs.getInt("VirtualDisplayNumber");
-								int screenNumber = 0; // rs.getInt("ScreenNumber");
+								int screenNumber = rs.getInt("ScreenNumber");
 								int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
 								if ((locationCode < 0 || locCode == locationCode) && displayDBNumber == displayID) {
 									Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location,
