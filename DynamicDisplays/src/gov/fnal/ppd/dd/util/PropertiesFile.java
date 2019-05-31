@@ -23,7 +23,7 @@ public class PropertiesFile {
 	 */
 	public static enum PositioningMethod {
 		/**
-		 * 
+		 * Use the JavaScript "maximize()" function
 		 */
 		DirectPositioning,
 		/**
@@ -34,6 +34,10 @@ public class PropertiesFile {
 		 * 
 		 */
 		ChangeIframe,
+		/**
+		 * 
+		 */
+		PressF11,
 		/**
 		 * 
 		 */
@@ -74,7 +78,12 @@ public class PropertiesFile {
 	public static String getProperty(String string) {
 		if (prop.isEmpty())
 			readPropertiesFile();
-		return prop.getProperty(string);
+		String retval = prop.getProperty(string);
+		if (retval == null)
+			return null;
+		while (retval.endsWith(" "))
+			retval = retval.substring(0, retval.length() - 1);
+		return prop.getProperty(string).replace(" ", "");
 	}
 
 	/**
