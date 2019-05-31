@@ -162,6 +162,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 		public AlignedLabel(String string) {
 			super(string);
+			setFont(getFont().deriveFont(Font.PLAIN));
 			setHorizontalAlignment(CENTER);
 			setAlignmentX(CENTER_ALIGNMENT);
 		}
@@ -214,7 +215,9 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		}.start();
 
 		JPanel saveBox = new JPanel(new BorderLayout());
-		saveBox.add(new JLabel("The confirguation of the displays right now:"), BorderLayout.NORTH);
+		JLabel rightNow = new JLabel("The configuration of the displays right now:");
+		rightNow.setFont(rightNow.getFont().deriveFont(16.0f));
+		saveBox.add(rightNow, BorderLayout.NORTH);
 		saveBox.add(saveButton, BorderLayout.SOUTH);
 		saveBox.add(getStatusFooter(), BorderLayout.CENTER);
 		saveBox.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.green.darker(), 5),
@@ -437,12 +440,10 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	protected Container getStatusFooter() {
 		final JPanel outer = new JPanel();
 
-		outer.setMinimumSize(new Dimension(400, 100));
-		outer.setPreferredSize(new Dimension(400, 100));
 		outer.add(new AlignedLabel("Initializing ..."));
 		Timer timer = new Timer();
 
-		TimerTask g = new TimerTask() {
+		TimerTask taskToRedrawDisplayStatusPanel = new TimerTask() {
 			public void run() {
 				int maxLength = 0;
 
@@ -462,14 +463,14 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 				ListOfExistingContent h = getContentOnDisplays();
 
 				if (h.size() == 0) {
-					status.add(new AlignedLabel("No display statuses"), constraints);
+					status.add(new AlignedLabel("No display statuses at " + new Date()), constraints);
 				} else {
 					Display[] sorted = getSortedDisplays(h.keySet());
 
 					for (Display D : sorted) {
 						constraints.gridx = 1;
-						status.add(new AlignedLabel("Display " + D.getVirtualDisplayNumber() + " | " + D.getDBDisplayNumber()
-								+ " :  "), constraints);
+						status.add(new AlignedLabel("Display " + D.getVirtualDisplayNumber() + " (" + D.getDBDisplayNumber()
+								+ "):  "), constraints);
 						constraints.gridx = 2;
 						String title = h.get(D).toString();
 						if (title.length() > maxLength)
@@ -481,7 +482,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 				outer.removeAll();
 				if (h.size() > 4 || maxLength > 50) {
 					JScrollPane sp = new JScrollPane(status);
-					sp.setPreferredSize(new Dimension(620, 24 * h.size() + 40));
+					sp.setPreferredSize(new Dimension(850, 24 * h.size() + 40));
 					outer.add(sp);
 				} else
 					outer.add(status);
@@ -503,7 +504,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 			}
 		};
-		timer.schedule(g, 1000, 2000); // Wait one second and the run it every 2 seconds
+		timer.schedule(taskToRedrawDisplayStatusPanel, 1000, 2000); // Wait one second and the run it every 2 seconds
 
 		return outer;
 	}
