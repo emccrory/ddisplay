@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
+import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
@@ -55,6 +56,7 @@ import gov.fnal.ppd.dd.db.NoSuchDisplayException;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
+import gov.fnal.ppd.dd.xml.ChannelSpec;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -147,7 +149,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	}
 
 	private static class AlignedButton extends JButton {
-		private static final long	serialVersionUID	= -2706383316922397811L;
+		private static final long serialVersionUID = -2706383316922397811L;
 
 		public AlignedButton(String string) {
 			super(string);
@@ -158,7 +160,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	}
 
 	private static class AlignedLabel extends JLabel {
-		private static final long	serialVersionUID	= 3724397217603917724L;
+		private static final long serialVersionUID = 3724397217603917724L;
 
 		public AlignedLabel(String string) {
 			super(string);
@@ -176,8 +178,8 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 			saveButton = new AlignedButton("<html>Save this configuration ...</html>");
 			saveButton.setActionCommand(SAVE_ACTION);
-			saveButton
-					.setToolTipText("Take the channel that each display in this location is showing and save it in the database under a name that you will provide.");
+			saveButton.setToolTipText(
+					"Take the channel that each display in this location is showing and save it in the database under a name that you will provide.");
 			if (inset != null) {
 				saveButton.setFont(saveButton.getFont().deriveFont(fontSize));
 				saveButton.setMargin(inset);
@@ -338,9 +340,9 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 				return;
 			s = "Default";
 		}
-		
+
 		saveDefaultChannels(s);
-		
+
 		new Thread("RewriteSavedLists") {
 			public void run() {
 				catchSleep(1000);
@@ -356,7 +358,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	}
 
 	protected JComponent getRestorePanel() {
-		Vector<String> all = getSavedLists();		
+		Vector<String> all = getSavedLists();
 
 		int numColumns = 1;
 		int fontSize = 14;
@@ -398,7 +400,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	}
 
 	private void showSelectedRestoreChoice(final String setName) throws NoSuchDisplayException {
-		Map<Display, SignageContent> restoreMap = getDisplayContent(setName);	
+		Map<Display, SignageContent> restoreMap = getDisplayContent(setName);
 
 		if (restoreMap.size() == 0) {
 			// Nothing to to!
@@ -407,8 +409,14 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 			Display[] sorted = getSortedDisplays(restoreMap.keySet());
 
 			for (Display D : sorted) {
-				JLabel label = new JLabel("Display " + D.getVirtualDisplayNumber() + " | " + D.getDBDisplayNumber() + " :  "
-						+ restoreMap.get(D));
+				String contentString = "<html><pre>Display " + z(D.getVirtualDisplayNumber()) + " (" + z(D.getDBDisplayNumber())
+						+ "):  " + d(restoreMap.get(D)) + "</pre></html>";
+				int max = 120;
+				if (contentString.length() > max + 20) {
+					for (; max < contentString.length() - "</pre></html>".length() - 10; max += 120)
+						contentString = contentString.substring(0, max) + "\n                  " + contentString.substring(max);
+				}
+				JLabel label = new JLabel(contentString);
 				theRestorePanel.add(label);
 			}
 			if ((JOptionPane.showConfirmDialog(theGUI, theRestorePanel, "Really restore these displays to these channels?",
@@ -423,12 +431,35 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		}
 	}
 
+	private static String d(SignageContent s) {
+		if (s instanceof ChannelSpec) {
+			if (s.toString().contains(SINGLE_IMAGE_DISPLAY)) {
+				return s.getName();
+			} else {
+				return "\"" + s.getName() + "\" " + s.toString();
+			}
+		}
+		return s.toString();
+	}
+
+	private static String z(int n) {
+		if (n < 10)
+			return "0" + n;
+		return "" + n;
+	}
+
 	private static Display[] getSortedDisplays(Set<Display> keySet) {
 		Display[] sorted = keySet.toArray(new Display[keySet.size()]);
 		Arrays.sort(sorted, new Comparator<Display>() {
 
 			@Override
 			public int compare(Display o1, Display o2) {
+				if (o1 == o2)
+					return 0;
+				if (o1 == null)
+					return -1;
+				if (o2 == null)
+					return 1;
 				Integer d1 = o1.getVirtualDisplayNumber();
 				Integer d2 = o2.getVirtualDisplayNumber();
 				return d1.compareTo(d2);
@@ -469,8 +500,9 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 					for (Display D : sorted) {
 						constraints.gridx = 1;
-						status.add(new AlignedLabel("Display " + D.getVirtualDisplayNumber() + " (" + D.getDBDisplayNumber()
-								+ "):  "), constraints);
+						status.add(
+								new AlignedLabel("Display " + D.getVirtualDisplayNumber() + " (" + D.getDBDisplayNumber() + "):  "),
+								constraints);
 						constraints.gridx = 2;
 						String title = h.get(D).toString();
 						if (title.length() > maxLength)
