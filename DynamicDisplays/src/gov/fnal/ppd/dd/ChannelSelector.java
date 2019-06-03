@@ -351,7 +351,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private void initializeTabs() {
 		ChannelClassification[] categories = ChannelClassificationDictionary.getCategories();
 
-		ProgressMonitor progressMonitor = new ProgressMonitor(null, "Building Channel Selector GUI", "", 0,
+		ProgressMonitor progressMonitor = new ProgressMonitor(null,
+				"Building Channel Selector GUI for location=" + getLocationCode(), "", 0,
 				displayList.size() * (1 + categories.length));
 		String note = "Building image database";
 		progressMonitor.setNote(note);
