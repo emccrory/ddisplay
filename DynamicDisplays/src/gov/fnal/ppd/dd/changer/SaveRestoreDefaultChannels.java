@@ -499,6 +499,8 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 					Display[] sorted = getSortedDisplays(h.keySet());
 
 					for (Display D : sorted) {
+						if (D == null)
+							continue;
 						constraints.gridx = 1;
 						status.add(
 								new AlignedLabel("Display " + D.getVirtualDisplayNumber() + " (" + D.getDBDisplayNumber() + "):  "),

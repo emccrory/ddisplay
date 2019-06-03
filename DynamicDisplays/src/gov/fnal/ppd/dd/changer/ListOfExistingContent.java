@@ -60,4 +60,13 @@ public class ListOfExistingContent extends HashMap<Display, SignageContent> impl
 				return D;
 		return null;
 	}
+
+	@Override
+	public SignageContent put(Display key, SignageContent value) {
+		if ( key == null ) 
+			throw new NullPointerException("Unexpected null display. SignageContent is " + value + " though.");
+		return super.put(key, value);
+	}
+	
+	
 }
