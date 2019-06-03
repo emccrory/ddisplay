@@ -22,10 +22,15 @@ import java.util.List;
 import java.util.Map;
 
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
 import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.xml.ChangeChannelList;
+import gov.fnal.ppd.dd.xml.ChannelSpec;
+import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 /**
  * This class gets the channels that each display is supposed to show for a particular save set.
@@ -46,6 +51,7 @@ public class DisplayUtilDatabase {
 	 */
 	public static Map<Display, SignageContent> getDisplayContent(final String setName) throws NoSuchDisplayException {
 		Map<Display, SignageContent> restoreMap = new HashMap<Display, SignageContent>();
+		String rawMessage = null;
 		try {
 			Connection connection = ConnectionToDatabase.getDbConnection();
 
@@ -66,29 +72,29 @@ public class DisplayUtilDatabase {
 							if (chanNum == 0) {
 								// Set the display by the SignageContent object
 								Blob sc = rs.getBlob("SignageContent");
-								byte[] bytes = null;
-								if (sc != null && sc.length() > 0)
-									try {
-										int len = (int) sc.length();
-										bytes = sc.getBytes(1, len);
-
-										ByteArrayInputStream fin = new ByteArrayInputStream(bytes);
-										ObjectInputStream ois = new ObjectInputStream(fin);
-										newContent = (SignageContent) ois.readObject();
-
-									} catch (ClassNotFoundException e) {
-										printlnErr(DisplayUtilDatabase.class,
-												"Class not found for display " + displayID + ": " + e.getLocalizedMessage());
-										String bb = "";
-										for ( byte B: bytes ) 
-											if ( B>0 ) {
-												char c = (char) B;
-												bb += c;
-											}
-										println(DisplayUtilDatabase.class, "XML: " + bb);
-									} catch (Exception e) {
-										e.printStackTrace();
+								
+								rawMessage = new String(sc.getBytes(1, (int) sc.length()));
+								newContent = null;
+								rawMessage = rawMessage.replace("version=1.0 encoding=UTF-8 standalone=yes", 
+										"version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"");
+								rawMessage = rawMessage.replace("xmlns:xsi=http://www.w3.org/2001/XMLSchema-instance xsi:schemaLocation=http://null signage.xsd", 
+										"xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://null\"");
+								
+								if (rawMessage.contains("changeChannelList")) {
+									ChangeChannelList ccl = (ChangeChannelList) MyXMLMarshaller
+											.unmarshall(ChangeChannelList.class, rawMessage);
+									List<SignageContent> lsc = new ArrayList<SignageContent>();
+									for (ChannelSpec C : ccl.getChannelSpec()) {
+										lsc.add(C);
 									}
+									newContent = new ChannelPlayList("Channel " + chanNum, lsc, 1000000L);
+								} else if (rawMessage.contains("channelSpec")) {
+									newContent = (ChannelSpec) MyXMLMarshaller.unmarshall(ChannelSpec.class, rawMessage);
+								} else {
+									throw new ErrorProcessingMessage(
+											"Unknown XML data type within this XML document: [Unrecognized XML message received] -- "
+													+ rawMessage);
+								}								
 							} else {
 								newContent = getChannelFromNumber(chanNum);
 							}
@@ -108,7 +114,11 @@ public class DisplayUtilDatabase {
 							if (!rs.next())
 								break;
 						} catch (Exception e) {
+							if ( rawMessage != null ) {
+								printlnErr(DisplayUtilDatabase.class, " XML is [[" + rawMessage + "]]");
+							}
 							e.printStackTrace();
+							System.exit(-1);
 						}
 				stmt.close();
 				rs.close();
