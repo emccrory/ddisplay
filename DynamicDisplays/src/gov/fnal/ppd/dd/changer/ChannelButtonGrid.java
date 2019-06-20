@@ -7,11 +7,7 @@ package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.DisplayButtonGroup;
-import gov.fnal.ppd.dd.util.TemporaryDialogBox;
+import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -22,6 +18,12 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.DisplayButtonGroup;
+import gov.fnal.ppd.dd.util.TemporaryDialogBox;
 
 /**
  * Base class for the display grids that hold the channel buttons in the ChannelSelector
@@ -76,9 +78,10 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 		// System.err.println("Event " + e.getClass().getSimpleName() + " (" + e.getActionCommand() + ") received ");
 
 		// Observation (10/10/2014): This method is called for every tab on the screen. So, (at this time) for a general
-		// case, it is called 4 to 10 times, depending on the number of tabs of channels there are on the main screen.
+		// case, it is called many, many times, depending on the number of tabs of channels there are on the main screen.
 		// So, there is a bit of a bug below, in that the buttons in the entire container bg are "enabled" or "disabled" each time,
-		// over and over again.
+		// over and over again.  Also, the TemporaryDialogBox could be called lots of times (but the ReentrantLock attribute is 
+		// used to block the other entries).
 
 		userHasDoneSomething();
 
@@ -95,16 +98,24 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 					System.err.println(getClass().getSimpleName() + ": Unknown source " + e.getSource().getClass().getSimpleName());
 
 				bg.disableAll(to);
-				if (!SHOW_IN_WINDOW)
-					if (imBusy.tryLock()) {
-						// Throw up a dialog box saying,
-						// "Well done!  You've changed the channel on display #5 to 'Something or other', URL='http://some.url'"
-						if (e.getSource() instanceof Display) {
-							Display di = (Display) e.getSource();
-							new TemporaryDialogBox(this, di);
-							imBusy.unlock();
-						}
-					} // else another instance is doing it so I don't have to
+				// if (!SHOW_IN_WINDOW)
+				if (imBusy.tryLock()) {
+					// Throw up a dialog box saying, "Well done! You've changed the channel on display #5 to 
+					// 'Something or other', URL='http://some.url'"
+					
+					// This "imBusy" prevents all the other times this is called (see bug note, above) 
+					// from throwing up the TemporaryDialogBox. 
+					if (e.getSource() instanceof Display) {
+						Display di = (Display) e.getSource();
+						new TemporaryDialogBox(this, di);
+						
+						// Rest here for a blink to assure that no other entries can call up this dialog.
+						// No wait seems to work all the time, but I bet this won't be true forevermore.
+						catchSleep(10); 
+						
+						imBusy.unlock();
+					} // Question: Is this ever NOT an instance of Display?
+				} // else another instance is doing it so I don't have to
 				break;
 
 			case CHANGE_COMPLETED:
