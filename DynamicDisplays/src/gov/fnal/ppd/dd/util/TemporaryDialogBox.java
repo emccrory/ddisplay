@@ -5,22 +5,27 @@
  */
 package gov.fnal.ppd.dd.util;
 
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.Display;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
+
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.Display;
 
 /**
  * Creates a borderless pop-up window. Used by {@link gov.fnal.ppd.dd.ChannelSelector}, and others, to let the user know that
@@ -56,6 +61,9 @@ public class TemporaryDialogBox extends JFrame {
 		}
 	}
 
+	boolean dismissNow = false;
+	static int cc = 0;
+
 	/**
 	 * 
 	 * @param comp
@@ -64,7 +72,8 @@ public class TemporaryDialogBox extends JFrame {
 	 *            The Display for which we are showing the dialog box
 	 */
 	public TemporaryDialogBox(final JComponent comp, final Display di) {
-		super("Display " + di + " changed successfully");
+		super(cc++ + " Display " + di + " changed successfully");
+		dismissNow = false;
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		float brightness = (Color.RGBtoHSB(di.getPreferredHighlightColor().getRed(), di.getPreferredHighlightColor().getGreen(),
@@ -74,33 +83,81 @@ public class TemporaryDialogBox extends JFrame {
 			fontColor = Color.white;
 		}
 
+		String urlString = ((Channel) di.getContent()).getURI().toString();
+		Box h = Box.createVerticalBox();
 		Color bg = di.getPreferredHighlightColor();
 		Color fg = fontColor;
-		Box h = Box.createVerticalBox();
 		h.add(Box.createRigidArea(new Dimension(10, 10)));
-		h.add(new MyLabel(fg, bg, "  ***** CHANNEL CHANGED *****  ", 30.0f));
-		h.add(Box.createRigidArea(new Dimension(10, 10)));
-		h.add(new MyLabel(fg, bg, " The content on " + di + " (" + di.getLocation() + ") "));
-		h.add(Box.createRigidArea(new Dimension(10, 10)));
-		h.add(new MyLabel(fg, bg, " Has been changed to '" + di.getContent() + "' "));
-		h.add(Box.createRigidArea(new Dimension(10, 10)));
-		if (di.getContent() instanceof Channel) {
-			h.add(new MyLabel(fg, bg, " The URL is '" + ((Channel) di.getContent()).getURI() + "' ", 15.0f));
+		int time = 6;
+		Color borderColor1 = Color.BLACK;
+		Color borderColor2 = Color.BLACK;
+
+		float big = 30.0f, regular = 20.0f, small = 12.0f;
+		if (SHOW_IN_WINDOW) {
+			big = 20.0f;
+			regular = 15.0f;
+			small = 10.0f;
+		}
+
+		if (urlString.startsWith("https://")) {
+			h.add(new MyLabel(fg, bg, " - - - - - - Channel Changed - - - - - - ", big));
 			h.add(Box.createRigidArea(new Dimension(10, 10)));
+			h.add(new MyLabel(fg, bg, " The content on " + di + " (" + di.getLocation() + ") "), regular);
+			h.add(Box.createRigidArea(new Dimension(10, 10)));
+			h.add(new MyLabel(fg, bg, " Has been changed to '" + di.getContent() + "' "), regular);
+		} else {
+			h.add(new MyLabel(fg, bg, "  ****  N O N - S E C U R E   C O N T E N T   R E J E C T E D  **** ", big * 4 / 3));
+			h.add(Box.createRigidArea(new Dimension(10, 10)));
+			h.add(new MyLabel(fg, bg, " The content on " + di + " (" + di.getLocation() + ") "), regular);
+			h.add(Box.createRigidArea(new Dimension(10, 10)));
+			h.add(new MyLabel(fg, bg,
+					" HAS NOT BEEN CHANGED to '" + di.getContent() + "' because of a security incompatibility (hhtp versus https)"),
+					regular);
+			h.add(Box.createRigidArea(new Dimension(15, 15)));
+			h.add(new MyLabel(fg, bg,
+					"The web is moving to 'https everywhere'.  During this transition, some old servers "
+							+ "are still hosting non-secure content.  The Dynamic Display system "
+							+ "cannot show this content until it is converted to https.",
+					small));
+			h.add(Box.createRigidArea(new Dimension(5, 5)));
+			h.add(new MyLabel(fg, bg, "This is being enforced by the Firefox browser on the display", small));
+			time = 30;
+			borderColor1 = Color.WHITE;
+			borderColor2 = Color.RED;
 		}
 		h.add(Box.createRigidArea(new Dimension(10, 10)));
-		final MyLabel timeLeft = new MyLabel(fg, bg, "This will disappear in 5 seconds", 10.0f);
+		h.add(new MyLabel(fg, bg, " The URL is '" + urlString + "' ", (urlString.length() < 50 ? regular : small)));
+		h.add(Box.createRigidArea(new Dimension(10, 10)));
+		final MyLabel timeLeft = new MyLabel(fg, bg, "This notification disappear automatically in " + time + " seconds", small);
 		h.add(timeLeft);
 		h.add(Box.createRigidArea(new Dimension(10, 10)));
+		JButton dismissNowButton = new JButton("Dismiss now");
+		dismissNowButton.setAlignmentX(CENTER_ALIGNMENT);
+
+		if (!SHOW_IN_WINDOW)
+			dismissNowButton.setFont(dismissNowButton.getFont().deriveFont(regular));
+		h.add(dismissNowButton);
+		h.add(Box.createRigidArea(new Dimension(10, 10)));
+		dismissNowButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				timeLeft.setText("This noticication will disappear in now");
+				dismissNow = true;
+			}
+		});
 
 		h.setOpaque(true);
 		h.setBackground(di.getPreferredHighlightColor());
 		Border b0 = BorderFactory.createRaisedSoftBevelBorder();
 		Border b1 = BorderFactory.createLoweredSoftBevelBorder();
-		Border b2 = BorderFactory.createLineBorder(Color.black, 10);
+		Border b2a = BorderFactory.createLineBorder(borderColor1, 6);
+		Border b2b = BorderFactory.createLineBorder(borderColor2, 2);
 		Border b3 = BorderFactory.createEmptyBorder(50, 50, 50, 50);
-		Border b4 = BorderFactory.createCompoundBorder(b0, b2);
-		Border b5 = BorderFactory.createCompoundBorder(b4, b1);
+		Border b4a = BorderFactory.createCompoundBorder(b0, b2b);
+		Border b4b = BorderFactory.createCompoundBorder(b4a, b2a);
+		Border b4c = BorderFactory.createCompoundBorder(b4b, b2b);
+		Border b5 = BorderFactory.createCompoundBorder(b4c, b1);
 		h.setBorder(BorderFactory.createCompoundBorder(b5, b3));
 
 		setContentPane(h);
@@ -113,10 +170,15 @@ public class TemporaryDialogBox extends JFrame {
 		setVisible(true);
 		setAlwaysOnTop(true);
 
+		final int tt = time;
 		new Thread(this.getClass().getSimpleName() + "_Removal") {
 			public void run() {
-				for (int i = 5; i > 0; i--) {
-					timeLeft.setText("This will disappear in " + i + " seconds");
+				for (int i = tt; i > 0 && !dismissNow; i--) {
+				if ( i > 1 ) {
+					timeLeft.setText("This notification will disappear automatically in " + i + " seconds");
+				} else {
+					timeLeft.setText("This notification will disappear now");
+				}
 					catchSleep(1000L);
 				}
 
