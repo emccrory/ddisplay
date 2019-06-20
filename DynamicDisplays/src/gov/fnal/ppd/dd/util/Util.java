@@ -308,10 +308,11 @@ public class Util {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			// I'm not sure about this replacement. The DB "UPDATE" query uses tick marks, so we have to do something about those.
-			// But do we eliminate them? This could, conceivably, be a problem for XML tag attributes. And what about the
-			// double-quote character?
-			blob = xmlDocument.replace("'", "").replace("\"", "");
+			
+			// blob = xmlDocument.replace("'", "").replace("\"", "");
+			// I think we need to remove all the tick marks and the quote marks from the body of the XML specification of the channel.
+			// This global removal of them breaks things downstream.
+			blob = xmlDocument;
 		}
 		return blob;
 	}
