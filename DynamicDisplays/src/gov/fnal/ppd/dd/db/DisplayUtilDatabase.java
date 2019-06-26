@@ -9,8 +9,6 @@ import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.awt.Color;
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
