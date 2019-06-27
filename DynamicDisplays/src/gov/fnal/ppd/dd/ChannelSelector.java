@@ -13,7 +13,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getSoftwareVersion;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
 import static gov.fnal.ppd.dd.changer.FileMenu.HELP_MENU;
 import static gov.fnal.ppd.dd.changer.FileMenu.INFO_BUTTON_MENU;
-import static gov.fnal.ppd.dd.changer.FileMenu.REFRESH_MENU;
+import static gov.fnal.ppd.dd.changer.FileMenu.*;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.launchErrorMessage;
@@ -96,6 +96,8 @@ import gov.fnal.ppd.dd.util.SelectorInstructions;
 import gov.fnal.ppd.dd.util.SplashScreens;
 import gov.fnal.ppd.dd.util.WhoIsInChatRoom;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
+import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
+import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 
 /**
  * <p>
@@ -806,6 +808,20 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					JOptionPane.PLAIN_MESSAGE);
 			break;
 
+		case CHECK_NEW_VERSION_MENU:
+			FLAVOR flavor = FLAVOR.PRODUCTION;
+			VersionInformation me = VersionInformation.getVersionInformation();
+			if (VersionInformationComparison.lookup(flavor, true)) {
+				VersionInformation them = VersionInformation.getDBVersionInformation(flavor);
+				JOptionPane.showMessageDialog(this, "There is a new " + flavor + " version of the software.\nWe are running version "
+						+ me.getVersionString() + "\nThe newest version available is " + them.getVersionString() + "\nYOU SHOULD UPDATE NOW");
+			} else {
+				// there is not a new version
+				JOptionPane.showMessageDialog(this, "We are running version " + me.getVersionString()
+						+ " of the Dynamic Displays software.\nThis is the latest " + flavor + " version.");
+			}
+			break;
+			
 		default:
 			// The display selection has been changed, Select the "card" that shows this panel
 			card.show(displayChannelPanel, e.getActionCommand());
