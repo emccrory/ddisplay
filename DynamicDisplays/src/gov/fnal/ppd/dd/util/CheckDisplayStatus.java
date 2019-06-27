@@ -101,6 +101,7 @@ public class CheckDisplayStatus extends Thread {
 			final String isBeingDisplayed = " is being displayed";
 
 			int counter = 0;
+			int failures = 0;
 			while (true) {
 				try {
 					sleep(PING_INTERVAL);
@@ -208,8 +209,12 @@ public class CheckDisplayStatus extends Thread {
 								if (!rs.next())
 									break;
 							}
-						} else
-							printlnErr(getClass(), "Executed a query that returned no rows: " + query);
+						} else {
+							if (failures++ < 10 || (failures % 50) == 0)
+								printlnErr(getClass(),
+										"Failure " + failures + " - No status for display " + display.getVirtualDisplayNumber()
+												+ "|" + display.getDBDisplayNumber() + ".  Query: " + query);
+						}
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
