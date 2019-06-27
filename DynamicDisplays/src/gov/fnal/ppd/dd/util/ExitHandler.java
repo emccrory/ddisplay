@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.util;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 
+import java.text.RuleBasedCollator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +18,11 @@ import java.util.List;
  * 
  */
 public class ExitHandler {
+	/// This boolean is set when we have been requested to exit the JVM.  
+	public static boolean processingGracefulExit = false;
 
 	private static List<Command>	finalCommand	= new ArrayList<Command>();
-
+	
 	private ExitHandler() {
 	}
 	public static void saveAndExit(String why) {
@@ -30,13 +33,15 @@ public class ExitHandler {
 	 * that we want to be restarted.
 	 */
 	public static void saveAndExit(String why, int exitCode) {
+		processingGracefulExit = true;
 		println(ExitHandler.class,
-				"\n\n********** Exit handler called **********\nThere are at most " + finalCommand.size() + " exit hooks to call");
+				"\n\n********** Exit handler called **********\nThere are " + finalCommand.size() + " exit hooks to call");
 		
 		// Execute the requested commands
 		int count = 0;
 		for (Command C : finalCommand)
 			if (C != null) {
+				println(ExitHandler.class, "Executing Command " + count + ": " + C.getClass().getCanonicalName());
 				C.execute(why);
 				count++;
 			}

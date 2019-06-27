@@ -5,6 +5,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.WAIT_FOR_SERVER_TIME;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
+import static gov.fnal.ppd.dd.util.ExitHandler.processingGracefulExit;
 import static gov.fnal.ppd.dd.util.Util.bytesToString;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
@@ -330,6 +331,11 @@ public class MessagingClient {
 		if (restartThreadToServer != null && restartThreadToServer.isAlive())
 			return; // Already trying to restart the thread
 
+		if (processingGracefulExit) {
+			displayLogMessage(MessagingClient.class.getSimpleName() + " (" + username
+					+ "): Will not attempt reconnect since we seem to be exiting the JVM");
+			return;
+		}		
 		socket = null;
 
 		// Wait until the server returns
@@ -340,7 +346,7 @@ public class MessagingClient {
 			public void run() {
 				// An observation (2/19/2016): It takes about two cycles of this while loop to reconnect to the server
 				// synchronized (syncReconnects) { I think this sync is not necessary (there can only be one instance of this
-				// thread, I think)
+				// thread }
 				displayLogMessage(MessagingClient.class.getSimpleName() + " (" + username + "): Starting reconnect thread.");
 				double counter = 1;
 				while (socket == null) {
