@@ -4,6 +4,10 @@ REM Part 3 of the update process on Windows.
 REM Unpack a new version of the software on a Windows PC - Part 3
 REM The working directory should be ..\.. with respect to where the software usually runs.
 
+REM Can download the newest Zip file like this:
+REM bitsadmin /transfer myDownloadjob /download /priority high https://dynamicdisplays.fnal.gov/dynamicdisplays.zip z:\dynamicdisplays.zip
+REM But there is not a good way to unzip a file using a batch file like this.  See https://stackoverflow.com/questions/1021557/how-to-unzip-a-file-using-the-command-line
+
 ECHO %cd%
 
 IF NOT EXIST roc-dynamicdisplays-new GOTO skipUpdate
