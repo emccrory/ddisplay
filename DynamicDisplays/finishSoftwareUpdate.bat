@@ -10,7 +10,11 @@ REM But there is not a good way to unzip a file using a batch file like this.  S
 
 ECHO %cd%
 
+IF EXIST dynamicdisplays.zip GOTO unpackZipFile
+
 IF NOT EXIST roc-dynamicdisplays-new GOTO skipUpdate
+
+:tryAgain
 
 ECHO A new version of the Dynamic Displays software has been downloaded
 SET A=1
@@ -42,6 +46,21 @@ RENAME roc-dynamicdisplays-new roc-dynamicdisplays
 ECHO OFF
 ECHO All done with the update
 GOTO finish
+
+:unpackZipFile
+
+ECHO  Unpacking the ZIP archive
+MKDIR roc-dynamicdisplays-new
+CD    roc-dynamicdisplays-new
+MKDIR DynamicDisplays
+CD    DynamicDisplays
+
+CSCRIPT //B ..\..\unzip.vbs ..\..\dynamicdisplays.zip
+
+CD ..\..
+DELETE dynamicdisplays.zip
+
+GOTO tryAgain
 
 :skipUpdate
 ECHO There is no update available at this time
