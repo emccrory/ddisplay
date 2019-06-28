@@ -74,10 +74,11 @@ public class DownloadNewSoftwareVersion {
 	}
 
 	public DownloadNewSoftwareVersion(String version) {
-		// We are dropping back and punting now - let the controlling shell script get the software and restart.
 
-		ExitHandler.saveAndExit("New software version detected", -1);
-
+		if (!isWindows) {
+			// Non-windows version handle the update in the controlling shell script.
+			ExitHandler.saveAndExit("New software version detected", -1);
+		}
 		// Note that the Linux (and Mac) updates have to be a little different than the Windows updates. Windows
 		// does not let you rename a folder if there is anything running from it or from its sub folders. Since
 		// the JVM here is running from the sub-folder that we want to replace, we MUST give some of the update
@@ -94,13 +95,16 @@ public class DownloadNewSoftwareVersion {
 			alreadyLooking = true;
 			succeeded = setWorkingDirectory() && download(version) && unpack();
 			if (succeeded) {
-				if (!isWindows) {
-					succeeded = succeeded && renameOriginalFolder() && renameNewFolder();
-					failedOnce = !succeeded;
-				} else {
-					printlnErr(getClass(), "The software has been unpacked.  Assuming that the controlling "
-							+ "Windows/DOS BATCH file will complete the installation.  EXIT(99)");
-				}
+				// if (!isWindows) {
+				// succeeded = succeeded && renameOriginalFolder() && renameNewFolder();
+				// failedOnce = !succeeded;
+				// } else {
+				// printlnErr(getClass(), "The software has been unpacked. Assuming that the controlling "
+				// + "Windows/DOS BATCH file will complete the installation. EXIT(99)");
+				// }
+				
+				// The Windows script controls the unzipping of the downloaded file
+				ExitHandler.saveAndExit("New software version downloaded", -1);
 			} else {
 				printlnErr(getClass(), "\n\n\t\t\tUpdate failed!");
 				failedOnce = true;
