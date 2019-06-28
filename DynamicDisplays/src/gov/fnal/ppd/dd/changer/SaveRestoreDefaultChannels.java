@@ -180,11 +180,14 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 			saveButton.setActionCommand(SAVE_ACTION);
 			saveButton.setToolTipText(
 					"Take the channel that each display in this location is showing and save it in the database under a name that you will provide.");
+			saveButton.addActionListener(me);
+
 			if (inset != null) {
 				saveButton.setFont(saveButton.getFont().deriveFont(fontSize));
 				saveButton.setMargin(inset);
+				
 			}
-			saveButton.addActionListener(me);
+			
 			theGUI.addAncestorListener(new AncestorListener() {
 
 				@Override
@@ -277,14 +280,6 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 			}.start();
 
 			break;
-
-		// case RESTORE_ACTION:
-		// new Thread("RestoreDisplayConfiguration") {
-		// public void run() {
-		// getRestorePanelOld();
-		// }
-		// }.start();
-		// break;
 
 		case STATUS_ACTION:
 			new Thread("ShowAllDisplays") {
@@ -410,7 +405,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 
 			for (Display D : sorted) {
 				String contentString = "<html><pre>Display " + z(D.getVirtualDisplayNumber()) + " (" + z(D.getDBDisplayNumber())
-						+ "):  " + d(restoreMap.get(D)) + "</pre></html>";
+						+ "):  " + signageNameHelper(restoreMap.get(D)) + "</pre></html>";
 				int max = 120;
 				if (contentString.length() > max + 20) {
 					for (; max < contentString.length() - "</pre></html>".length() - 10; max += 120)
@@ -431,15 +426,20 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 		}
 	}
 
-	private static String d(SignageContent s) {
+	private static String signageNameHelper(SignageContent s) {
+		String retval = s.toString();
 		if (s instanceof ChannelSpec) {
 			if (s.toString().contains(SINGLE_IMAGE_DISPLAY)) {
-				return s.getName();
+				retval = s.getName();
 			} else {
-				return "\"" + s.getName() + "\" " + s.toString();
+				retval = "\"" + s.getName() + "\" " + s.toString();
 			}
 		}
-		return s.toString();
+		int maxLen = 120;
+		if (retval.length() > maxLen) {
+			retval = retval.substring(0, maxLen - 2) + " \u2026";
+		}
+		return retval;
 	}
 
 	private static String z(int n) {
