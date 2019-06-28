@@ -7,13 +7,15 @@ import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.docentName;
+import static gov.fnal.ppd.dd.GlobalVariables.getFlavor;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getSoftwareVersion;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
+import static gov.fnal.ppd.dd.changer.FileMenu.CHECK_NEW_VERSION_MENU;
 import static gov.fnal.ppd.dd.changer.FileMenu.HELP_MENU;
 import static gov.fnal.ppd.dd.changer.FileMenu.INFO_BUTTON_MENU;
-import static gov.fnal.ppd.dd.changer.FileMenu.*;
+import static gov.fnal.ppd.dd.changer.FileMenu.REFRESH_MENU;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getDisplayID;
 import static gov.fnal.ppd.dd.util.Util.launchErrorMessage;
@@ -59,11 +61,11 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
 import gov.fnal.ppd.dd.changer.ChangeDefaultsActionListener;
 import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
+import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
 import gov.fnal.ppd.dd.changer.ChannelMap;
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.changer.DDButton.ButtonFieldToUse;
@@ -91,13 +93,14 @@ import gov.fnal.ppd.dd.util.CheckDisplayStatus;
 import gov.fnal.ppd.dd.util.DisplayButtonGroup;
 import gov.fnal.ppd.dd.util.DisplayCardActivator;
 import gov.fnal.ppd.dd.util.DisplayKeeper;
+import gov.fnal.ppd.dd.util.DownloadNewSoftwareVersion;
 import gov.fnal.ppd.dd.util.JLabelFooter;
 import gov.fnal.ppd.dd.util.SelectorInstructions;
 import gov.fnal.ppd.dd.util.SplashScreens;
 import gov.fnal.ppd.dd.util.WhoIsInChatRoom;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
-import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
+import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
 
 /**
  * <p>
@@ -561,8 +564,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						alive = true;
 						break;
 					case ERROR:
-						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; " + display.getContent().getChannelClassification()
-								+ "/'" + (display.getContent().getName()) + "'";
+						text = "Display " + display.getVirtualDisplayNumber() + " ERROR; "
+								+ display.getContent().getChannelClassification() + "/'" + (display.getContent().getName()) + "'";
 						// System.out.println("ChannelSelector error from display: " + text);
 						launchErrorMessage(e);
 						break;
@@ -570,8 +573,9 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 					case ALIVE:
 						// These remaining items are not ever reached. (1/28/2015)
 						alive = true;
-						text = "Display " + display.getVirtualDisplayNumber() + ": " + display.getContent().getChannelClassification() + "/'"
-								+ (display.getContent().getName()) + " (#" + ((Channel) display.getContent()).getNumber() + ")";
+						text = "Display " + display.getVirtualDisplayNumber() + ": "
+								+ display.getContent().getChannelClassification() + "/'" + (display.getContent().getName()) + " (#"
+								+ ((Channel) display.getContent()).getNumber() + ")";
 						break;
 
 					case IDLE:
@@ -809,19 +813,31 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			break;
 
 		case CHECK_NEW_VERSION_MENU:
-			FLAVOR flavor = FLAVOR.PRODUCTION;
+			FLAVOR flavor = getFlavor(true);
 			VersionInformation me = VersionInformation.getVersionInformation();
 			if (VersionInformationComparison.lookup(flavor, true)) {
 				VersionInformation them = VersionInformation.getDBVersionInformation(flavor);
-				JOptionPane.showMessageDialog(this, "There is a new " + flavor + " version of the software.\nWe are running version "
-						+ me.getVersionString() + "\nThe newest version available is " + them.getVersionString() + "\nYOU SHOULD UPDATE NOW");
+				Object[] o2 = { "YES: Download new software and restart (recommended)", "No, not now" };
+				if (JOptionPane.showOptionDialog(this, "Download and restart now?",
+						"There is a new " + flavor + " version of the software.\nWe are running version " + me.getVersionString()
+								+ "\nThe newest version available is " + them.getVersionString() + "\n\nUpdate right now?",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, o2, o2[1]) == 0) {
+					// Update now
+					new DownloadNewSoftwareVersion(them.getVersionString());
+					// this call will exit the JVM, so nothing should fall here.
+				} else {
+					JOptionPane.showMessageDialog(this, "This update should happen soon. Please say 'yes' next time.",
+							"Update postponed", JOptionPane.PLAIN_MESSAGE);
+				}
 			} else {
 				// there is not a new version
-				JOptionPane.showMessageDialog(this, "We are running version " + me.getVersionString()
-						+ " of the Dynamic Displays software.\nThis is the latest " + flavor + " version.");
+				JOptionPane.showMessageDialog(this,
+						"We are running version " + me.getVersionString()
+								+ " of the Dynamic Displays software.\nThis is the latest " + flavor + " version.",
+						"No need to update", JOptionPane.PLAIN_MESSAGE);
 			}
 			break;
-			
+
 		default:
 			// The display selection has been changed, Select the "card" that shows this panel
 			card.show(displayChannelPanel, e.getActionCommand());
