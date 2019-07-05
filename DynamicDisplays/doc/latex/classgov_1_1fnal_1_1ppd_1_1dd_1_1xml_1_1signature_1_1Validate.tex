@@ -1,0 +1,62 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate}{\section{gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Validate Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate}\index{gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Validate@{gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Validate}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate_abaf672a64ab32096e2f296b2543e13ab}{static void {\bfseries main} (String\mbox{[}$\,$\mbox{]} args)  throws Exception }\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate_abaf672a64ab32096e2f296b2543e13ab}
+
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate_a91d8142f134c3682379b4acf1b34e6db}{is\-Signature\-Valid} (Public\-Key pub\-Key, Document doc)  throws Signature\-Not\-Found\-Exception, Marshal\-Exception, X\-M\-L\-Signature\-Exception 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Taken from the example code on the Oracle/\-Java site.
+
+This is a simple example of validating an X\-M\-L Signature using the X\-M\-L Signature A\-P\-I. It assumes the key needed to validate the signature is contained in a Key\-Value Key\-Info. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate_a91d8142f134c3682379b4acf1b34e6db}{\index{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Validate@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Validate}!is\-Signature\-Valid@{is\-Signature\-Valid}}
+\index{is\-Signature\-Valid@{is\-Signature\-Valid}!gov::fnal::ppd::dd::xml::signature::Validate@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Validate}}
+\subsubsection[{is\-Signature\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Validate.\-is\-Signature\-Valid (
+\begin{DoxyParamCaption}
+\item[{Public\-Key}]{pub\-Key, }
+\item[{Document}]{doc}
+\end{DoxyParamCaption}
+) throws {\bf Signature\-Not\-Found\-Exception}, Marshal\-Exception, X\-M\-L\-Signature\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate_a91d8142f134c3682379b4acf1b34e6db}
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate}{Validate} the signature of an X\-M\-L document. You must provide the Public Key that matches the encrypting Private Key for this document.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pub\-Key} & 
+\begin{DoxyItemize}
+\item The Public Key that matches the encrypting Private Key 
+\end{DoxyItemize}\\
+\hline
+{\em doc} & 
+\begin{DoxyItemize}
+\item The document that is signed. 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-\/ Is this document properly signed? 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignatureNotFoundException}{Signature\-Not\-Found\-Exception}} & 
+\begin{DoxyItemize}
+\item if there is no signature on this document 
+\end{DoxyItemize}\\
+\hline
+{\em Marshal\-Exception} & \\
+\hline
+{\em X\-M\-L\-Signature\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/xml/signature/Validate.\-java\end{DoxyCompactItemize}

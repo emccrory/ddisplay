@@ -1,0 +1,284 @@
+\hypertarget{classorg_1_1json_1_1JSONWriter}{\section{org.\-json.\-J\-S\-O\-N\-Writer Class Reference}
+\label{classorg_1_1json_1_1JSONWriter}\index{org.\-json.\-J\-S\-O\-N\-Writer@{org.\-json.\-J\-S\-O\-N\-Writer}}
+}
+Inheritance diagram for org.\-json.\-J\-S\-O\-N\-Writer\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classorg_1_1json_1_1JSONWriter}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classorg_1_1json_1_1JSONWriter_af3f8cff9ff3b3d06235c8058f9aa3d19}{J\-S\-O\-N\-Writer} (Appendable w)
+\item 
+\hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} \hyperlink{classorg_1_1json_1_1JSONWriter_aed48f7396fd364c0bc4f08b51f31afc4}{array} ()  throws J\-S\-O\-N\-Exception 
+\item 
+\hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} \hyperlink{classorg_1_1json_1_1JSONWriter_a9d310d7ccc581cc070771126ee063ffe}{end\-Array} ()  throws J\-S\-O\-N\-Exception 
+\item 
+\hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} \hyperlink{classorg_1_1json_1_1JSONWriter_a25cc931ef86998c61f08b1d5eff22146}{end\-Object} ()  throws J\-S\-O\-N\-Exception 
+\item 
+\hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} \hyperlink{classorg_1_1json_1_1JSONWriter_ab03474f521f6fc4d8cb15d2c129fb435}{key} (String string)  throws J\-S\-O\-N\-Exception 
+\item 
+\hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} \hyperlink{classorg_1_1json_1_1JSONWriter_a50ed212b9c8c9f6a57c3ddfc6bf3126a}{object} ()  throws J\-S\-O\-N\-Exception 
+\item 
+\hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} \hyperlink{classorg_1_1json_1_1JSONWriter_a29441174afee5fde940c973d20e056a9}{value} (boolean b)  throws J\-S\-O\-N\-Exception 
+\item 
+\hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} \hyperlink{classorg_1_1json_1_1JSONWriter_a0d9da178cbec36fc9b6e89e1d840c882}{value} (double d)  throws J\-S\-O\-N\-Exception 
+\item 
+\hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} \hyperlink{classorg_1_1json_1_1JSONWriter_a5f8bdc612c2629b41420ef8e0ea94a40}{value} (long l)  throws J\-S\-O\-N\-Exception 
+\item 
+\hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} \hyperlink{classorg_1_1json_1_1JSONWriter_aeab2dfdffed2e034f8598be9c89d4be1}{value} (Object \hyperlink{classorg_1_1json_1_1JSONWriter_a50ed212b9c8c9f6a57c3ddfc6bf3126a}{object})  throws J\-S\-O\-N\-Exception 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{classorg_1_1json_1_1JSONWriter_a3ec280a7de9c6827aa74209771fc0f7e}{value\-To\-String} (Object \hyperlink{classorg_1_1json_1_1JSONWriter_a29441174afee5fde940c973d20e056a9}{value})  throws J\-S\-O\-N\-Exception 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+char \hyperlink{classorg_1_1json_1_1JSONWriter_acabe6b245b148eabfaa3cf975f98073f}{mode}
+\item 
+Appendable \hyperlink{classorg_1_1json_1_1JSONWriter_aa90b49b9c27c56b9d9c72186517b83c6}{writer}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} provides a quick and convenient way of producing J\-S\-O\-N text. The texts produced strictly conform to J\-S\-O\-N syntax rules. No whitespace is added, so the results are ready for transmission or storage. Each instance of \hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} can produce one J\-S\-O\-N text. 
+
+A \hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} instance provides a {\ttfamily value} method for appending values to the text, and a {\ttfamily key} method for adding keys before values in objects. There are {\ttfamily array} and {\ttfamily end\-Array} methods that make and bound array values, and {\ttfamily object} and {\ttfamily end\-Object} methods which make and bound object values. All of these methods return the \hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} instance, permitting a cascade style. For example, 
+\begin{DoxyPre}
+new JSONWriter(myWriter)
+    .\hyperlink{classorg_1_1json_1_1JSONWriter_a50ed212b9c8c9f6a57c3ddfc6bf3126a}{object()}
+        .key("JSON")
+        .value("Hello, World!")
+    .\hyperlink{classorg_1_1json_1_1JSONWriter_a25cc931ef86998c61f08b1d5eff22146}{endObject()};\end{DoxyPre}
+ which writes 
+\begin{DoxyPre}
+\{"JSON":"Hello, World!"\}\end{DoxyPre}
+ 
+
+The first method called must be {\ttfamily array} or {\ttfamily object}. There are no methods for adding commas or colons. \hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer} adds them for you. Objects and arrays can be nested up to 200 levels deep. 
+
+This can sometimes be easier than using a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} to build a string. \begin{DoxyAuthor}{Author}
+J\-S\-O\-N.\-org 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2016-\/08-\/08 
+\end{DoxyVersion}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classorg_1_1json_1_1JSONWriter_af3f8cff9ff3b3d06235c8058f9aa3d19}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!J\-S\-O\-N\-Writer@{J\-S\-O\-N\-Writer}}
+\index{J\-S\-O\-N\-Writer@{J\-S\-O\-N\-Writer}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{J\-S\-O\-N\-Writer}]{\setlength{\rightskip}{0pt plus 5cm}org.\-json.\-J\-S\-O\-N\-Writer.\-J\-S\-O\-N\-Writer (
+\begin{DoxyParamCaption}
+\item[{Appendable}]{w}
+\end{DoxyParamCaption}
+)}}\label{classorg_1_1json_1_1JSONWriter_af3f8cff9ff3b3d06235c8058f9aa3d19}
+Make a fresh \hyperlink{classorg_1_1json_1_1JSONWriter}{J\-S\-O\-N\-Writer}. It can be used to build one J\-S\-O\-N text. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classorg_1_1json_1_1JSONWriter_aed48f7396fd364c0bc4f08b51f31afc4}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!array@{array}}
+\index{array@{array}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Writer} org.\-json.\-J\-S\-O\-N\-Writer.\-array (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONWriter_aed48f7396fd364c0bc4f08b51f31afc4}
+Begin appending a new array. All values until the balancing {\ttfamily end\-Array} will be appended to this array. The {\ttfamily end\-Array} method must be called to mark the array's end. \begin{DoxyReturn}{Returns}
+this 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the nesting is too deep, or if the object is started in the wrong place (for example as a key or after the end of the outermost array or object). \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1JSONWriter_a9d310d7ccc581cc070771126ee063ffe}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!end\-Array@{end\-Array}}
+\index{end\-Array@{end\-Array}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{end\-Array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Writer} org.\-json.\-J\-S\-O\-N\-Writer.\-end\-Array (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONWriter_a9d310d7ccc581cc070771126ee063ffe}
+End an array. This method most be called to balance calls to {\ttfamily array}. \begin{DoxyReturn}{Returns}
+this 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If incorrectly nested. \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1JSONWriter_a25cc931ef86998c61f08b1d5eff22146}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!end\-Object@{end\-Object}}
+\index{end\-Object@{end\-Object}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{end\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Writer} org.\-json.\-J\-S\-O\-N\-Writer.\-end\-Object (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONWriter_a25cc931ef86998c61f08b1d5eff22146}
+End an object. This method most be called to balance calls to {\ttfamily object}. \begin{DoxyReturn}{Returns}
+this 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If incorrectly nested. \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1JSONWriter_ab03474f521f6fc4d8cb15d2c129fb435}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!key@{key}}
+\index{key@{key}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{key}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Writer} org.\-json.\-J\-S\-O\-N\-Writer.\-key (
+\begin{DoxyParamCaption}
+\item[{String}]{string}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONWriter_ab03474f521f6fc4d8cb15d2c129fb435}
+Append a key. The key will be associated with the next value. In an object, every value must be preceded by a key. 
+\begin{DoxyParams}{Parameters}
+{\em string} & A key string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+this 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the key is out of place. For example, keys do not belong in arrays or if the key is null. \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1JSONWriter_a50ed212b9c8c9f6a57c3ddfc6bf3126a}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!object@{object}}
+\index{object@{object}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Writer} org.\-json.\-J\-S\-O\-N\-Writer.\-object (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONWriter_a50ed212b9c8c9f6a57c3ddfc6bf3126a}
+Begin appending a new object. All keys and values until the balancing {\ttfamily end\-Object} will be appended to this object. The {\ttfamily end\-Object} method must be called to mark the object's end. \begin{DoxyReturn}{Returns}
+this 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the nesting is too deep, or if the object is started in the wrong place (for example as a key or after the end of the outermost array or object). \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1JSONWriter_a29441174afee5fde940c973d20e056a9}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!value@{value}}
+\index{value@{value}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Writer} org.\-json.\-J\-S\-O\-N\-Writer.\-value (
+\begin{DoxyParamCaption}
+\item[{boolean}]{b}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONWriter_a29441174afee5fde940c973d20e056a9}
+Append either the value {\ttfamily true} or the value {\ttfamily false}. 
+\begin{DoxyParams}{Parameters}
+{\em b} & A boolean. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+this 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1JSONWriter_a0d9da178cbec36fc9b6e89e1d840c882}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!value@{value}}
+\index{value@{value}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Writer} org.\-json.\-J\-S\-O\-N\-Writer.\-value (
+\begin{DoxyParamCaption}
+\item[{double}]{d}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONWriter_a0d9da178cbec36fc9b6e89e1d840c882}
+Append a double value. 
+\begin{DoxyParams}{Parameters}
+{\em d} & A double. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+this 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the number is not finite. \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1JSONWriter_a5f8bdc612c2629b41420ef8e0ea94a40}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!value@{value}}
+\index{value@{value}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Writer} org.\-json.\-J\-S\-O\-N\-Writer.\-value (
+\begin{DoxyParamCaption}
+\item[{long}]{l}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONWriter_a5f8bdc612c2629b41420ef8e0ea94a40}
+Append a long value. 
+\begin{DoxyParams}{Parameters}
+{\em l} & A long. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+this 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1JSONWriter_aeab2dfdffed2e034f8598be9c89d4be1}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!value@{value}}
+\index{value@{value}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{value}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Writer} org.\-json.\-J\-S\-O\-N\-Writer.\-value (
+\begin{DoxyParamCaption}
+\item[{Object}]{object}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONWriter_aeab2dfdffed2e034f8598be9c89d4be1}
+Append an object value. 
+\begin{DoxyParams}{Parameters}
+{\em object} & The object to append. It can be null, or a Boolean, Number, String, \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}, or \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array}, or an object that implements \hyperlink{interfaceorg_1_1json_1_1JSONString}{J\-S\-O\-N\-String}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+this 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the value is out of sequence. \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1JSONWriter_a3ec280a7de9c6827aa74209771fc0f7e}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!value\-To\-String@{value\-To\-String}}
+\index{value\-To\-String@{value\-To\-String}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{value\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}static String org.\-json.\-J\-S\-O\-N\-Writer.\-value\-To\-String (
+\begin{DoxyParamCaption}
+\item[{Object}]{value}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONWriter_a3ec280a7de9c6827aa74209771fc0f7e}
+Make a J\-S\-O\-N text of an Object value. If the object has an value.\-to\-J\-S\-O\-N\-String() method, then that method will be used to produce the J\-S\-O\-N text. The method is required to produce a strictly conforming text. If the object does not contain a to\-J\-S\-O\-N\-String method (which is the most common case), then a text will be produced by other means. If the value is an array or Collection, then a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} will be made from it and its to\-J\-S\-O\-N\-String method will be called. If the value is a M\-A\-P, then a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} will be made from it and its to\-J\-S\-O\-N\-String method will be called. Otherwise, the value's to\-String method will be called, and the result will be quoted.
+
+Warning\-: This method assumes that the data structure is acyclical.
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & The value to be serialized. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a printable, displayable, transmittable representation of the object, beginning with {\ttfamily \{}~
+\footnotesize (left brace)
+\normalsize  and ending with {\ttfamily \}}~
+\footnotesize (right brace)
+\normalsize . 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the value is or contains an invalid number. \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classorg_1_1json_1_1JSONWriter_acabe6b245b148eabfaa3cf975f98073f}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!mode@{mode}}
+\index{mode@{mode}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{mode}]{\setlength{\rightskip}{0pt plus 5cm}char org.\-json.\-J\-S\-O\-N\-Writer.\-mode\hspace{0.3cm}{\ttfamily [protected]}}}\label{classorg_1_1json_1_1JSONWriter_acabe6b245b148eabfaa3cf975f98073f}
+The current mode. Values\-: 'a' (array), 'd' (done), 'i' (initial), 'k' (key), 'o' (object). \hypertarget{classorg_1_1json_1_1JSONWriter_aa90b49b9c27c56b9d9c72186517b83c6}{\index{org\-::json\-::\-J\-S\-O\-N\-Writer@{org\-::json\-::\-J\-S\-O\-N\-Writer}!writer@{writer}}
+\index{writer@{writer}!org::json::JSONWriter@{org\-::json\-::\-J\-S\-O\-N\-Writer}}
+\subsubsection[{writer}]{\setlength{\rightskip}{0pt plus 5cm}Appendable org.\-json.\-J\-S\-O\-N\-Writer.\-writer\hspace{0.3cm}{\ttfamily [protected]}}}\label{classorg_1_1json_1_1JSONWriter_aa90b49b9c27c56b9d9c72186517b83c6}
+The writer that will receive the output. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/org/json/J\-S\-O\-N\-Writer.\-java\end{DoxyCompactItemize}

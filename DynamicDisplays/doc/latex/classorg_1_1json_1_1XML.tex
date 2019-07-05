@@ -1,0 +1,278 @@
+\hypertarget{classorg_1_1json_1_1XML}{\section{org.\-json.\-X\-M\-L Class Reference}
+\label{classorg_1_1json_1_1XML}\index{org.\-json.\-X\-M\-L@{org.\-json.\-X\-M\-L}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{classorg_1_1json_1_1XML_ac7d1541b807c9c09526495fa16ab0d75}{escape} (String string)
+\item 
+static String \hyperlink{classorg_1_1json_1_1XML_a3779686c76836cb761d6250f846cd5d6}{unescape} (String string)
+\item 
+static void \hyperlink{classorg_1_1json_1_1XML_a433875e54b5e562f14878e3e51b0caf4}{no\-Space} (String string)  throws J\-S\-O\-N\-Exception 
+\item 
+static Object \hyperlink{classorg_1_1json_1_1XML_ab49caaac2a830d8aa44ab26382c318f6}{string\-To\-Value} (String string)
+\item 
+static \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} \hyperlink{classorg_1_1json_1_1XML_a31c7e87a06107fc3ec5c9a3eba318d18}{to\-J\-S\-O\-N\-Object} (String string)  throws J\-S\-O\-N\-Exception 
+\item 
+static \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} \hyperlink{classorg_1_1json_1_1XML_adc7fcc544f604a5b55148bf3a042042c}{to\-J\-S\-O\-N\-Object} (String string, boolean keep\-Strings)  throws J\-S\-O\-N\-Exception 
+\item 
+static String \hyperlink{classorg_1_1json_1_1XML_a4d4cd79a68a991f50707b87a7a23d02b}{to\-String} (Object object)  throws J\-S\-O\-N\-Exception 
+\item 
+static String \hyperlink{classorg_1_1json_1_1XML_a063dd278b1f6a2167ac57d8226c899b0}{to\-String} (final Object object, final String tag\-Name)  throws J\-S\-O\-N\-Exception 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static final Character \hyperlink{classorg_1_1json_1_1XML_a2ed9b74a6dcc1a3833460cb35b72a8e2}{A\-M\-P} = '\&'
+\item 
+static final Character \hyperlink{classorg_1_1json_1_1XML_afc1bccac3be808ee0cc80e6c5261226a}{A\-P\-O\-S} = '\textbackslash{}''
+\item 
+static final Character \hyperlink{classorg_1_1json_1_1XML_a15eadac312b9e5b2d8590be2d92cc24f}{B\-A\-N\-G} = '!'
+\item 
+static final Character \hyperlink{classorg_1_1json_1_1XML_a79c30d409011e7c5bbffe3a9dd487b19}{E\-Q} = '='
+\item 
+static final Character \hyperlink{classorg_1_1json_1_1XML_a0a9f1aaef15f78d43c532e601546a722}{G\-T} = '$>$'
+\item 
+static final Character \hyperlink{classorg_1_1json_1_1XML_a12c351d05c7c78c4730d1ec44ae6b798}{L\-T} = '$<$'
+\item 
+static final Character \hyperlink{classorg_1_1json_1_1XML_a6ee91c7c64c44b62b197a69b00ee383f}{Q\-U\-E\-S\-T} = '?'
+\item 
+static final Character \hyperlink{classorg_1_1json_1_1XML_a4a8e56f228505f24fd24b70914d5078c}{Q\-U\-O\-T} = '\char`\"{}'
+\item 
+static final Character \hyperlink{classorg_1_1json_1_1XML_aaa9a255bc94655b02d65b2c8525e5188}{S\-L\-A\-S\-H} = '/'
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This provides static methods to convert an \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} text into a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}, and to covert a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} into an \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} text.
+
+\begin{DoxyAuthor}{Author}
+J\-S\-O\-N.\-org 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2016-\/08-\/10 
+\end{DoxyVersion}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classorg_1_1json_1_1XML_ac7d1541b807c9c09526495fa16ab0d75}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!escape@{escape}}
+\index{escape@{escape}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{escape}]{\setlength{\rightskip}{0pt plus 5cm}static String org.\-json.\-X\-M\-L.\-escape (
+\begin{DoxyParamCaption}
+\item[{String}]{string}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_ac7d1541b807c9c09526495fa16ab0d75}
+Replace special characters with \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} escapes\-:
+
+
+\begin{DoxyPre}
+\& 
+\footnotesize (ampersand)
+\normalsize  is replaced by \&amp;
+< 
+\footnotesize (less than)
+\normalsize  is replaced by \&lt;
+> 
+\footnotesize (greater than)
+\normalsize  is replaced by \&gt;
+" 
+\footnotesize (double quote)
+\normalsize  is replaced by \&quot;
+' 
+\footnotesize (single quote / apostrophe)
+\normalsize  is replaced by \&apos;
+\end{DoxyPre}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & The string to be escaped. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The escaped string. 
+\end{DoxyReturn}
+\hypertarget{classorg_1_1json_1_1XML_a433875e54b5e562f14878e3e51b0caf4}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!no\-Space@{no\-Space}}
+\index{no\-Space@{no\-Space}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{no\-Space}]{\setlength{\rightskip}{0pt plus 5cm}static void org.\-json.\-X\-M\-L.\-no\-Space (
+\begin{DoxyParamCaption}
+\item[{String}]{string}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_a433875e54b5e562f14878e3e51b0caf4}
+Throw an exception if the string contains whitespace. Whitespace is not allowed in tag\-Names and attributes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & A string. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & Thrown if the string contains whitespace or is empty. \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1XML_ab49caaac2a830d8aa44ab26382c318f6}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!string\-To\-Value@{string\-To\-Value}}
+\index{string\-To\-Value@{string\-To\-Value}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{string\-To\-Value}]{\setlength{\rightskip}{0pt plus 5cm}static Object org.\-json.\-X\-M\-L.\-string\-To\-Value (
+\begin{DoxyParamCaption}
+\item[{String}]{string}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_ab49caaac2a830d8aa44ab26382c318f6}
+This method is the same as \hyperlink{classorg_1_1json_1_1JSONObject_a23f861897abe58eb41c044dd63667319}{J\-S\-O\-N\-Object\#string\-To\-Value(\-String)}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & String to convert \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+J\-S\-O\-N value of this string or the string 
+\end{DoxyReturn}
+\hypertarget{classorg_1_1json_1_1XML_a31c7e87a06107fc3ec5c9a3eba318d18}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!to\-J\-S\-O\-N\-Object@{to\-J\-S\-O\-N\-Object}}
+\index{to\-J\-S\-O\-N\-Object@{to\-J\-S\-O\-N\-Object}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{to\-J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf J\-S\-O\-N\-Object} org.\-json.\-X\-M\-L.\-to\-J\-S\-O\-N\-Object (
+\begin{DoxyParamCaption}
+\item[{String}]{string}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_a31c7e87a06107fc3ec5c9a3eba318d18}
+Convert a well-\/formed (but not necessarily valid) \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} string into a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. Some information may be lost in this transformation because J\-S\-O\-N is a data format and \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} is a document format. \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} uses elements, attributes, and content text, while J\-S\-O\-N uses unordered collections of name/value pairs and arrays of values. J\-S\-O\-N does not does not like to distinguish between elements and attributes. Sequences of similar elements are represented as J\-S\-O\-N\-Arrays. Content text may be placed in a \char`\"{}content\char`\"{} member. Comments, prologs, D\-T\-Ds, and {\ttfamily $<$\mbox{[} \mbox{[} \mbox{]}\mbox{]}$>$} are ignored.
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & The source string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} containing the structured data from the \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} string. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & Thrown if there is an errors while parsing the string \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1XML_adc7fcc544f604a5b55148bf3a042042c}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!to\-J\-S\-O\-N\-Object@{to\-J\-S\-O\-N\-Object}}
+\index{to\-J\-S\-O\-N\-Object@{to\-J\-S\-O\-N\-Object}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{to\-J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf J\-S\-O\-N\-Object} org.\-json.\-X\-M\-L.\-to\-J\-S\-O\-N\-Object (
+\begin{DoxyParamCaption}
+\item[{String}]{string, }
+\item[{boolean}]{keep\-Strings}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_adc7fcc544f604a5b55148bf3a042042c}
+Convert a well-\/formed (but not necessarily valid) \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} string into a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. Some information may be lost in this transformation because J\-S\-O\-N is a data format and \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} is a document format. \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} uses elements, attributes, and content text, while J\-S\-O\-N uses unordered collections of name/value pairs and arrays of values. J\-S\-O\-N does not does not like to distinguish between elements and attributes. Sequences of similar elements are represented as J\-S\-O\-N\-Arrays. Content text may be placed in a \char`\"{}content\char`\"{} member. Comments, prologs, D\-T\-Ds, and {\ttfamily $<$\mbox{[} \mbox{[} \mbox{]}\mbox{]}$>$} are ignored.
+
+All values are converted as strings, for 1, 01, 29.\-0 will not be coerced to numbers but will instead be the exact value as seen in the \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} document.
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & The source string. \\
+\hline
+{\em keep\-Strings} & If true, then values will not be coerced into boolean or numeric values and will instead be left as strings \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} containing the structured data from the \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} string. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & Thrown if there is an errors while parsing the string \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1XML_a4d4cd79a68a991f50707b87a7a23d02b}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}static String org.\-json.\-X\-M\-L.\-to\-String (
+\begin{DoxyParamCaption}
+\item[{Object}]{object}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_a4d4cd79a68a991f50707b87a7a23d02b}
+Convert a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} into a well-\/formed, element-\/normal \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em object} & A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & Thrown if there is an error parsing the string \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1XML_a063dd278b1f6a2167ac57d8226c899b0}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}static String org.\-json.\-X\-M\-L.\-to\-String (
+\begin{DoxyParamCaption}
+\item[{final Object}]{object, }
+\item[{final String}]{tag\-Name}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_a063dd278b1f6a2167ac57d8226c899b0}
+Convert a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} into a well-\/formed, element-\/normal \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em object} & A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. \\
+\hline
+{\em tag\-Name} & The optional name of the enclosing tag. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & Thrown if there is an error parsing the string \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1XML_a3779686c76836cb761d6250f846cd5d6}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!unescape@{unescape}}
+\index{unescape@{unescape}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{unescape}]{\setlength{\rightskip}{0pt plus 5cm}static String org.\-json.\-X\-M\-L.\-unescape (
+\begin{DoxyParamCaption}
+\item[{String}]{string}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_a3779686c76836cb761d6250f846cd5d6}
+Removes \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} escapes from the string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & string to remove escapes from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string with converted entities 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classorg_1_1json_1_1XML_a2ed9b74a6dcc1a3833460cb35b72a8e2}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!A\-M\-P@{A\-M\-P}}
+\index{A\-M\-P@{A\-M\-P}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{A\-M\-P}]{\setlength{\rightskip}{0pt plus 5cm}final Character org.\-json.\-X\-M\-L.\-A\-M\-P = '\&'\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_a2ed9b74a6dcc1a3833460cb35b72a8e2}
+The Character '\&'. \hypertarget{classorg_1_1json_1_1XML_afc1bccac3be808ee0cc80e6c5261226a}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!A\-P\-O\-S@{A\-P\-O\-S}}
+\index{A\-P\-O\-S@{A\-P\-O\-S}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{A\-P\-O\-S}]{\setlength{\rightskip}{0pt plus 5cm}final Character org.\-json.\-X\-M\-L.\-A\-P\-O\-S = '\textbackslash{}''\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_afc1bccac3be808ee0cc80e6c5261226a}
+The Character '''. \hypertarget{classorg_1_1json_1_1XML_a15eadac312b9e5b2d8590be2d92cc24f}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!B\-A\-N\-G@{B\-A\-N\-G}}
+\index{B\-A\-N\-G@{B\-A\-N\-G}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{B\-A\-N\-G}]{\setlength{\rightskip}{0pt plus 5cm}final Character org.\-json.\-X\-M\-L.\-B\-A\-N\-G = '!'\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_a15eadac312b9e5b2d8590be2d92cc24f}
+The Character '!'. \hypertarget{classorg_1_1json_1_1XML_a79c30d409011e7c5bbffe3a9dd487b19}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!E\-Q@{E\-Q}}
+\index{E\-Q@{E\-Q}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{E\-Q}]{\setlength{\rightskip}{0pt plus 5cm}final Character org.\-json.\-X\-M\-L.\-E\-Q = '='\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_a79c30d409011e7c5bbffe3a9dd487b19}
+The Character '='. \hypertarget{classorg_1_1json_1_1XML_a0a9f1aaef15f78d43c532e601546a722}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!G\-T@{G\-T}}
+\index{G\-T@{G\-T}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{G\-T}]{\setlength{\rightskip}{0pt plus 5cm}final Character org.\-json.\-X\-M\-L.\-G\-T = '$>$'\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_a0a9f1aaef15f78d43c532e601546a722}
+The Character '$>$'. \hypertarget{classorg_1_1json_1_1XML_a12c351d05c7c78c4730d1ec44ae6b798}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!L\-T@{L\-T}}
+\index{L\-T@{L\-T}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{L\-T}]{\setlength{\rightskip}{0pt plus 5cm}final Character org.\-json.\-X\-M\-L.\-L\-T = '$<$'\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_a12c351d05c7c78c4730d1ec44ae6b798}
+The Character '$<$'. \hypertarget{classorg_1_1json_1_1XML_a6ee91c7c64c44b62b197a69b00ee383f}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!Q\-U\-E\-S\-T@{Q\-U\-E\-S\-T}}
+\index{Q\-U\-E\-S\-T@{Q\-U\-E\-S\-T}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{Q\-U\-E\-S\-T}]{\setlength{\rightskip}{0pt plus 5cm}final Character org.\-json.\-X\-M\-L.\-Q\-U\-E\-S\-T = '?'\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_a6ee91c7c64c44b62b197a69b00ee383f}
+The Character '?'. \hypertarget{classorg_1_1json_1_1XML_a4a8e56f228505f24fd24b70914d5078c}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!Q\-U\-O\-T@{Q\-U\-O\-T}}
+\index{Q\-U\-O\-T@{Q\-U\-O\-T}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{Q\-U\-O\-T}]{\setlength{\rightskip}{0pt plus 5cm}final Character org.\-json.\-X\-M\-L.\-Q\-U\-O\-T = '\char`\"{}'\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_a4a8e56f228505f24fd24b70914d5078c}
+The Character '\char`\"{}'. \hypertarget{classorg_1_1json_1_1XML_aaa9a255bc94655b02d65b2c8525e5188}{\index{org\-::json\-::\-X\-M\-L@{org\-::json\-::\-X\-M\-L}!S\-L\-A\-S\-H@{S\-L\-A\-S\-H}}
+\index{S\-L\-A\-S\-H@{S\-L\-A\-S\-H}!org::json::XML@{org\-::json\-::\-X\-M\-L}}
+\subsubsection[{S\-L\-A\-S\-H}]{\setlength{\rightskip}{0pt plus 5cm}final Character org.\-json.\-X\-M\-L.\-S\-L\-A\-S\-H = '/'\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XML_aaa9a255bc94655b02d65b2c8525e5188}
+The Character '/'. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/org/json/X\-M\-L.\-java\end{DoxyCompactItemize}

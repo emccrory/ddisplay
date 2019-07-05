@@ -1,0 +1,161 @@
+\hypertarget{classorg_1_1json_1_1JSONPointer}{\section{org.\-json.\-J\-S\-O\-N\-Pointer Class Reference}
+\label{classorg_1_1json_1_1JSONPointer}\index{org.\-json.\-J\-S\-O\-N\-Pointer@{org.\-json.\-J\-S\-O\-N\-Pointer}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries Builder}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classorg_1_1json_1_1JSONPointer_a00cf217b565e93e96db4b9e72a5ffd2c}{J\-S\-O\-N\-Pointer} (final String pointer)
+\item 
+\hypertarget{classorg_1_1json_1_1JSONPointer_ab6c21c4cfbd63415e3618a428448708b}{{\bfseries J\-S\-O\-N\-Pointer} (List$<$ String $>$ ref\-Tokens)}\label{classorg_1_1json_1_1JSONPointer_ab6c21c4cfbd63415e3618a428448708b}
+
+\item 
+Object \hyperlink{classorg_1_1json_1_1JSONPointer_a2de9719db18d0f9551a335877c2c7ef7}{query\-From} (Object document)  throws J\-S\-O\-N\-Pointer\-Exception 
+\item 
+String \hyperlink{classorg_1_1json_1_1JSONPointer_ae41154af3db8013a5f76a5354c08b5a6}{to\-String} ()
+\item 
+String \hyperlink{classorg_1_1json_1_1JSONPointer_a9c99fdeb3486aea49aed951269f51eda}{to\-U\-R\-I\-Fragment} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Builder \hyperlink{classorg_1_1json_1_1JSONPointer_a68e413bf609396942ddc056a964acbd5}{builder} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A J\-S\-O\-N Pointer is a simple query language defined for J\-S\-O\-N documents by \href{https://tools.ietf.org/html/rfc6901}{\tt R\-F\-C 6901}.
+
+In a nutshell, \hyperlink{classorg_1_1json_1_1JSONPointer}{J\-S\-O\-N\-Pointer} allows the user to navigate into a J\-S\-O\-N document using strings, and retrieve targeted objects, like a simple form of X\-P\-A\-T\-H. Path segments are separated by the '/' char, which signifies the root of the document when it appears as the first char of the string. Array elements are navigated using ordinals, counting from 0. \hyperlink{classorg_1_1json_1_1JSONPointer}{J\-S\-O\-N\-Pointer} strings may be extended to any arbitrary number of segments. If the navigation is successful, the matched item is returned. A matched item may be a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}, a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array}, or a J\-S\-O\-N value. If the \hyperlink{classorg_1_1json_1_1JSONPointer}{J\-S\-O\-N\-Pointer} string building fails, an appropriate exception is thrown. If the navigation fails to find a match, a \hyperlink{classorg_1_1json_1_1JSONPointerException}{J\-S\-O\-N\-Pointer\-Exception} is thrown.
+
+\begin{DoxyAuthor}{Author}
+J\-S\-O\-N.\-org 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2016-\/05-\/14 
+\end{DoxyVersion}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classorg_1_1json_1_1JSONPointer_a00cf217b565e93e96db4b9e72a5ffd2c}{\index{org\-::json\-::\-J\-S\-O\-N\-Pointer@{org\-::json\-::\-J\-S\-O\-N\-Pointer}!J\-S\-O\-N\-Pointer@{J\-S\-O\-N\-Pointer}}
+\index{J\-S\-O\-N\-Pointer@{J\-S\-O\-N\-Pointer}!org::json::JSONPointer@{org\-::json\-::\-J\-S\-O\-N\-Pointer}}
+\subsubsection[{J\-S\-O\-N\-Pointer}]{\setlength{\rightskip}{0pt plus 5cm}org.\-json.\-J\-S\-O\-N\-Pointer.\-J\-S\-O\-N\-Pointer (
+\begin{DoxyParamCaption}
+\item[{final String}]{pointer}
+\end{DoxyParamCaption}
+)}}\label{classorg_1_1json_1_1JSONPointer_a00cf217b565e93e96db4b9e72a5ffd2c}
+Pre-\/parses and initializes a new
+\begin{DoxyCode}
+\hyperlink{classorg_1_1json_1_1JSONPointer_a00cf217b565e93e96db4b9e72a5ffd2c}{JSONPointer} 
+\end{DoxyCode}
+ instance. If you want to evaluate the same J\-S\-O\-N Pointer on different J\-S\-O\-N documents then it is recommended to keep the
+\begin{DoxyCode}
+\hyperlink{classorg_1_1json_1_1JSONPointer_a00cf217b565e93e96db4b9e72a5ffd2c}{JSONPointer} 
+\end{DoxyCode}
+ instances due to performance considerations.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pointer} & the J\-S\-O\-N String or U\-R\-I Fragment representation of the J\-S\-O\-N pointer. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Illegal\-Argument\-Exception} & if
+\begin{DoxyCode}
+pointer 
+\end{DoxyCode}
+ is not a valid J\-S\-O\-N pointer \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classorg_1_1json_1_1JSONPointer_a68e413bf609396942ddc056a964acbd5}{\index{org\-::json\-::\-J\-S\-O\-N\-Pointer@{org\-::json\-::\-J\-S\-O\-N\-Pointer}!builder@{builder}}
+\index{builder@{builder}!org::json::JSONPointer@{org\-::json\-::\-J\-S\-O\-N\-Pointer}}
+\subsubsection[{builder}]{\setlength{\rightskip}{0pt plus 5cm}static Builder org.\-json.\-J\-S\-O\-N\-Pointer.\-builder (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONPointer_a68e413bf609396942ddc056a964acbd5}
+Static factory method for \hyperlink{}{Builder}. Example usage\-:
+
+
+\begin{DoxyPre}{\ttfamily 
+\hyperlink{classorg_1_1json_1_1JSONPointer}{JSONPointer} pointer = \hyperlink{classorg_1_1json_1_1JSONPointer_a68e413bf609396942ddc056a964acbd5}{JSONPointer.builder()}
+      .append("obj")
+      .append("other~key").append("another/key")
+      .append("\(\backslash\)"")
+      .append(0)
+      .build();
+}\end{DoxyPre}
+
+
+\begin{DoxyReturn}{Returns}
+a builder instance which can be used to construct a
+\begin{DoxyCode}
+\hyperlink{classorg_1_1json_1_1JSONPointer_a00cf217b565e93e96db4b9e72a5ffd2c}{JSONPointer} 
+\end{DoxyCode}
+ instance by chained \hyperlink{}{Builder\#append(\-String)} calls. 
+\end{DoxyReturn}
+\hypertarget{classorg_1_1json_1_1JSONPointer_a2de9719db18d0f9551a335877c2c7ef7}{\index{org\-::json\-::\-J\-S\-O\-N\-Pointer@{org\-::json\-::\-J\-S\-O\-N\-Pointer}!query\-From@{query\-From}}
+\index{query\-From@{query\-From}!org::json::JSONPointer@{org\-::json\-::\-J\-S\-O\-N\-Pointer}}
+\subsubsection[{query\-From}]{\setlength{\rightskip}{0pt plus 5cm}Object org.\-json.\-J\-S\-O\-N\-Pointer.\-query\-From (
+\begin{DoxyParamCaption}
+\item[{Object}]{document}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Pointer\-Exception}}}\label{classorg_1_1json_1_1JSONPointer_a2de9719db18d0f9551a335877c2c7ef7}
+Evaluates this J\-S\-O\-N Pointer on the given
+\begin{DoxyCode}
+document 
+\end{DoxyCode}
+ . The
+\begin{DoxyCode}
+document 
+\end{DoxyCode}
+ is usually a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} or a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} instance, but the empty J\-S\-O\-N Pointer (
+\begin{DoxyCode}
+\textcolor{stringliteral}{""} 
+\end{DoxyCode}
+ ) can be evaluated on any J\-S\-O\-N values and in such case the returned value will be
+\begin{DoxyCode}
+document 
+\end{DoxyCode}
+ itself.
+
+
+\begin{DoxyParams}{Parameters}
+{\em document} & the J\-S\-O\-N document which should be the subject of querying. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the evaluation 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONPointerException}{J\-S\-O\-N\-Pointer\-Exception}} & if an error occurs during evaluation \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classorg_1_1json_1_1JSONPointer_ae41154af3db8013a5f76a5354c08b5a6}{\index{org\-::json\-::\-J\-S\-O\-N\-Pointer@{org\-::json\-::\-J\-S\-O\-N\-Pointer}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!org::json::JSONPointer@{org\-::json\-::\-J\-S\-O\-N\-Pointer}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}String org.\-json.\-J\-S\-O\-N\-Pointer.\-to\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classorg_1_1json_1_1JSONPointer_ae41154af3db8013a5f76a5354c08b5a6}
+Returns a string representing the \hyperlink{classorg_1_1json_1_1JSONPointer}{J\-S\-O\-N\-Pointer} path value using string representation \hypertarget{classorg_1_1json_1_1JSONPointer_a9c99fdeb3486aea49aed951269f51eda}{\index{org\-::json\-::\-J\-S\-O\-N\-Pointer@{org\-::json\-::\-J\-S\-O\-N\-Pointer}!to\-U\-R\-I\-Fragment@{to\-U\-R\-I\-Fragment}}
+\index{to\-U\-R\-I\-Fragment@{to\-U\-R\-I\-Fragment}!org::json::JSONPointer@{org\-::json\-::\-J\-S\-O\-N\-Pointer}}
+\subsubsection[{to\-U\-R\-I\-Fragment}]{\setlength{\rightskip}{0pt plus 5cm}String org.\-json.\-J\-S\-O\-N\-Pointer.\-to\-U\-R\-I\-Fragment (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classorg_1_1json_1_1JSONPointer_a9c99fdeb3486aea49aed951269f51eda}
+Returns a string representing the \hyperlink{classorg_1_1json_1_1JSONPointer}{J\-S\-O\-N\-Pointer} path value using U\-R\-I fragment identifier representation 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/org/json/J\-S\-O\-N\-Pointer.\-java\end{DoxyCompactItemize}

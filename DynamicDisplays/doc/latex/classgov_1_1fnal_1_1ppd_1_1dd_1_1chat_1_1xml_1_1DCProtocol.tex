@@ -1,0 +1,158 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol}{\section{gov.\-fnal.\-ppd.\-dd.\-chat.\-xml.\-D\-C\-Protocol Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol}\index{gov.\-fnal.\-ppd.\-dd.\-chat.\-xml.\-D\-C\-Protocol@{gov.\-fnal.\-ppd.\-dd.\-chat.\-xml.\-D\-C\-Protocol}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1MessageInfo}{Message\-Info} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a313d818c3f5853a5a0d23f37eca48f4c}{get\-The\-Message} ()
+\item 
+\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1MessageInfo}{Message\-Info} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a94d5e7e3f46ebd0fe565743cbccc7e63}{get\-The\-Reply} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a5f464e112e31005987bc0bafd41c685f}{add\-Listener} (final \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} listener)
+\item 
+\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_aaba06de51ad682fb862602056effb1fe}{remove\-Listener} (final \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} remove)
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a487864fa4d9004c727039aa6601ec8e0}{process\-Input} (final \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1MessageCarrier}{Message\-Carrier} message)  throws Error\-Processing\-Message 
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a542a00996da4ec73a677a3e949fe7b1e}{process\-Input} (final \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DDMessage}{D\-D\-Message} message)
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a8e7f875aff53a7ad564c7c11d933abe5}{error\-Handler} (final \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1MessageCarrier}{Message\-Carrier} message)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_aa960723fb8a51d55d1846855f973ae1b}{long {\bfseries S\-H\-O\-R\-T\-\_\-\-I\-N\-T\-E\-R\-V\-A\-L} = 100l}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_aa960723fb8a51d55d1846855f973ae1b}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is the protocol for the messages between a Channel Changer and a Display. 
+
+{\itshape D\-C} stands for {\itshape Display Communications} 
+
+The new ideas here (and what differentiates it from the class of the same name in the parent package) are\-: 
+\begin{DoxyEnumerate}
+\item All of the protocol is handled here, including deciphering of the signature. 
+\item It is compatible with A\-S\-C\-I\-I-\/only communication over the wire (via an X\-M\-L document) 
+\end{DoxyEnumerate}
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a5f464e112e31005987bc0bafd41c685f}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}!add\-Listener@{add\-Listener}}
+\index{add\-Listener@{add\-Listener}!gov::fnal::ppd::dd::chat::xml::DCProtocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}}
+\subsubsection[{add\-Listener}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-xml.\-D\-C\-Protocol.\-add\-Listener (
+\begin{DoxyParamCaption}
+\item[{final {\bf Display}}]{listener}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a5f464e112e31005987bc0bafd41c685f}
+
+\begin{DoxyParams}{Parameters}
+{\em listener} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a8e7f875aff53a7ad564c7c11d933abe5}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}!error\-Handler@{error\-Handler}}
+\index{error\-Handler@{error\-Handler}!gov::fnal::ppd::dd::chat::xml::DCProtocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}}
+\subsubsection[{error\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-xml.\-D\-C\-Protocol.\-error\-Handler (
+\begin{DoxyParamCaption}
+\item[{final {\bf Message\-Carrier}}]{message}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a8e7f875aff53a7ad564c7c11d933abe5}
+An error has been encountered\-: Deal with it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message to consider \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a313d818c3f5853a5a0d23f37eca48f4c}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}!get\-The\-Message@{get\-The\-Message}}
+\index{get\-The\-Message@{get\-The\-Message}!gov::fnal::ppd::dd::chat::xml::DCProtocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}}
+\subsubsection[{get\-The\-Message}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Message\-Info} gov.\-fnal.\-ppd.\-dd.\-chat.\-xml.\-D\-C\-Protocol.\-get\-The\-Message (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a313d818c3f5853a5a0d23f37eca48f4c}
+\begin{DoxyReturn}{Returns}
+The message just received 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a94d5e7e3f46ebd0fe565743cbccc7e63}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}!get\-The\-Reply@{get\-The\-Reply}}
+\index{get\-The\-Reply@{get\-The\-Reply}!gov::fnal::ppd::dd::chat::xml::DCProtocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}}
+\subsubsection[{get\-The\-Reply}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Message\-Info} gov.\-fnal.\-ppd.\-dd.\-chat.\-xml.\-D\-C\-Protocol.\-get\-The\-Reply (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a94d5e7e3f46ebd0fe565743cbccc7e63}
+{\itshape Not used}
+
+\begin{DoxyReturn}{Returns}
+The reply that is relevant 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a487864fa4d9004c727039aa6601ec8e0}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}!process\-Input@{process\-Input}}
+\index{process\-Input@{process\-Input}!gov::fnal::ppd::dd::chat::xml::DCProtocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}}
+\subsubsection[{process\-Input}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-chat.\-xml.\-D\-C\-Protocol.\-process\-Input (
+\begin{DoxyParamCaption}
+\item[{final {\bf Message\-Carrier}}]{message}
+\end{DoxyParamCaption}
+) throws {\bf Error\-Processing\-Message}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a487864fa4d9004c727039aa6601ec8e0}
+
+\begin{DoxyParams}{Parameters}
+{\em message} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Was this message understood? 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1ErrorProcessingMessage}{Error\-Processing\-Message}} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a542a00996da4ec73a677a3e949fe7b1e}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}!process\-Input@{process\-Input}}
+\index{process\-Input@{process\-Input}!gov::fnal::ppd::dd::chat::xml::DCProtocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}}
+\subsubsection[{process\-Input}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-chat.\-xml.\-D\-C\-Protocol.\-process\-Input (
+\begin{DoxyParamCaption}
+\item[{final {\bf D\-D\-Message}}]{message}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_a542a00996da4ec73a677a3e949fe7b1e}
+There are two agents in this conversation 
+\begin{DoxyItemize}
+\item (client) -- the machine that tells the displays what to show asynchronous message from a human, or from a channel script. This client receives a \char`\"{}ready\char`\"{} message, and the it can send a U\-R\-L to the server 
+\item (server) -- the machine that controls a display. This server waits for a U\-R\-L from the client. When it gets it and displays the U\-R\-L successfully, it replies, \char`\"{}\-Ready\char`\"{}. 
+\end{DoxyItemize}
+
+implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1MessageInfo}{Message\-Info} 
+
+Maybe there should also be a protocol that allows the client to ask, \char`\"{}\-How are you doing?\char`\"{} To which the server replies with the U\-R\-L it is showing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message to process \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Was the processing successful? 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_aaba06de51ad682fb862602056effb1fe}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}!remove\-Listener@{remove\-Listener}}
+\index{remove\-Listener@{remove\-Listener}!gov::fnal::ppd::dd::chat::xml::DCProtocol@{gov\-::fnal\-::ppd\-::dd\-::chat\-::xml\-::\-D\-C\-Protocol}}
+\subsubsection[{remove\-Listener}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Display} gov.\-fnal.\-ppd.\-dd.\-chat.\-xml.\-D\-C\-Protocol.\-remove\-Listener (
+\begin{DoxyParamCaption}
+\item[{final {\bf Display}}]{remove}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1xml_1_1DCProtocol_aaba06de51ad682fb862602056effb1fe}
+
+\begin{DoxyParams}{Parameters}
+{\em remove} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Display that was just removed as a listener 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/chat/xml/D\-C\-Protocol.\-java\end{DoxyCompactItemize}

@@ -1,0 +1,48 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MyXMLMarshaller}{\section{gov.\-fnal.\-ppd.\-dd.\-xml.\-My\-X\-M\-L\-Marshaller Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MyXMLMarshaller}\index{gov.\-fnal.\-ppd.\-dd.\-xml.\-My\-X\-M\-L\-Marshaller@{gov.\-fnal.\-ppd.\-dd.\-xml.\-My\-X\-M\-L\-Marshaller}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MyXMLMarshaller_a81528df65c4fd7426091e36416e1913f}{static String {\bfseries get\-X\-M\-L} (Object data)  throws J\-A\-X\-B\-Exception }\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MyXMLMarshaller_a81528df65c4fd7426091e36416e1913f}
+
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MyXMLMarshaller_aebf26fd9fce0e6866d13c36ed36408d0}{static void {\bfseries save\-X\-M\-L} (Object data, File file)  throws J\-A\-X\-B\-Exception }\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MyXMLMarshaller_aebf26fd9fce0e6866d13c36ed36408d0}
+
+\item 
+static Object \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MyXMLMarshaller_a7b08a6b71a1603e3f4eb7dea6f0402b3}{unmarshall} (Class$<$?$>$ clazz, String xml)  throws J\-A\-X\-B\-Exception 
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MyXMLMarshaller_a5d210178cc498d18018e6bf535617724}{static Object {\bfseries unmarshall} (Class$<$?$>$ clazz, File file)  throws J\-A\-X\-B\-Exception }\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MyXMLMarshaller_a5d210178cc498d18018e6bf535617724}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Utility class for making Strings out of X\-M\-L objects, and vice versa.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab/\-Accelerator, 2012 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MyXMLMarshaller_a7b08a6b71a1603e3f4eb7dea6f0402b3}{\index{gov\-::fnal\-::ppd\-::dd\-::xml\-::\-My\-X\-M\-L\-Marshaller@{gov\-::fnal\-::ppd\-::dd\-::xml\-::\-My\-X\-M\-L\-Marshaller}!unmarshall@{unmarshall}}
+\index{unmarshall@{unmarshall}!gov::fnal::ppd::dd::xml::MyXMLMarshaller@{gov\-::fnal\-::ppd\-::dd\-::xml\-::\-My\-X\-M\-L\-Marshaller}}
+\subsubsection[{unmarshall}]{\setlength{\rightskip}{0pt plus 5cm}static Object gov.\-fnal.\-ppd.\-dd.\-xml.\-My\-X\-M\-L\-Marshaller.\-unmarshall (
+\begin{DoxyParamCaption}
+\item[{Class$<$?$>$}]{clazz, }
+\item[{String}]{xml}
+\end{DoxyParamCaption}
+) throws J\-A\-X\-B\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MyXMLMarshaller_a7b08a6b71a1603e3f4eb7dea6f0402b3}
+This exception happens in this rare case\-: 
+\begin{DoxyEnumerate}
+\item The U\-R\-L has not been changed since the J\-V\-M started 
+\item The Java version has been upgraded while the J\-V\-M was running 
+\item A message is received. 
+\end{DoxyEnumerate}
+
+What happens is that while the underlying code is trying to load the class that has been sent to us, one of the new classes it needs to load is supposed to be in a well-\/known jar file, but that jar file is now missing!
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/xml/My\-X\-M\-L\-Marshaller.\-java\end{DoxyCompactItemize}

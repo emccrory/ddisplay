@@ -1,0 +1,74 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions}{\section{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-selenium.\-Check\-And\-Fix\-Screen\-Dimensions Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions}\index{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-selenium.\-Check\-And\-Fix\-Screen\-Dimensions@{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-selenium.\-Check\-And\-Fix\-Screen\-Dimensions}}
+}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-selenium.\-Check\-And\-Fix\-Screen\-Dimensions\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_afbf18b435030ff5809a523161572d815}{Check\-And\-Fix\-Screen\-Dimensions} (final Web\-Driver d, final Point p, final Dimension sd)
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_a78a97c7a284cd33ea543d39aaa663ebc}{void {\bfseries run} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_a78a97c7a284cd33ea543d39aaa663ebc}
+
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_ae141a36b6c496443e18172b63c40af35}{go\-To\-Proper\-Size\-And\-Place} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A thread to keep an eye on the screen size. In principle, this will fix to back to full screen when it varies.
+
+First attempt does not work because of an internal exception generated during the call to driver.\-manage().window().get\-Position()
+\begin{DoxyItemize}
+\item $<$date$>$ org.\-openqa.\-selenium.\-remote.\-Error\-Codes to\-Status I\-N\-F\-O\-: H\-T\-T\-P Status\-: '404' -\/$>$ incorrect J\-S\-O\-N status mapping for 'unknown error' (500 expected) \mbox{[}...\mbox{]} at org.\-openqa.\-selenium.\-remote.\-Remote\-Web\-Driver\$\-Remote\-Web\-Driver\-Options\$\-Remote\-Window.\-get\-Position(Remote\-Web\-Driver.\-java\-:817) \href{And
+Line 817 is not a valid line number in the library, somehow.}{\tt ...}
+\end{DoxyItemize}
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_afbf18b435030ff5809a523161572d815}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::selenium\-::\-Check\-And\-Fix\-Screen\-Dimensions@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::selenium\-::\-Check\-And\-Fix\-Screen\-Dimensions}!Check\-And\-Fix\-Screen\-Dimensions@{Check\-And\-Fix\-Screen\-Dimensions}}
+\index{Check\-And\-Fix\-Screen\-Dimensions@{Check\-And\-Fix\-Screen\-Dimensions}!gov::fnal::ppd::dd::display::client::selenium::CheckAndFixScreenDimensions@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::selenium\-::\-Check\-And\-Fix\-Screen\-Dimensions}}
+\subsubsection[{Check\-And\-Fix\-Screen\-Dimensions}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-selenium.\-Check\-And\-Fix\-Screen\-Dimensions.\-Check\-And\-Fix\-Screen\-Dimensions (
+\begin{DoxyParamCaption}
+\item[{final Web\-Driver}]{d, }
+\item[{final Point}]{p, }
+\item[{final Dimension}]{sd}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_afbf18b435030ff5809a523161572d815}
+
+\begin{DoxyParams}{Parameters}
+{\em d} & The Web\-Driver for this instance \\
+\hline
+{\em p} & The position of the screen to maintain. \\
+\hline
+{\em sd} & The size of the screen that we want to maintain.\\
+\hline
+\end{DoxyParams}
+(Note that these two arguments are org.\-openqa.\-selenium.\-Dimension and Point, not the normal Java Dimension or Point type.) 
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_ae141a36b6c496443e18172b63c40af35}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::selenium\-::\-Check\-And\-Fix\-Screen\-Dimensions@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::selenium\-::\-Check\-And\-Fix\-Screen\-Dimensions}!go\-To\-Proper\-Size\-And\-Place@{go\-To\-Proper\-Size\-And\-Place}}
+\index{go\-To\-Proper\-Size\-And\-Place@{go\-To\-Proper\-Size\-And\-Place}!gov::fnal::ppd::dd::display::client::selenium::CheckAndFixScreenDimensions@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::selenium\-::\-Check\-And\-Fix\-Screen\-Dimensions}}
+\subsubsection[{go\-To\-Proper\-Size\-And\-Place}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-selenium.\-Check\-And\-Fix\-Screen\-Dimensions.\-go\-To\-Proper\-Size\-And\-Place (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_ae141a36b6c496443e18172b63c40af35}
+
+\begin{DoxyParams}{Parameters}
+{\em driver} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/display/client/selenium/Check\-And\-Fix\-Screen\-Dimensions.\-java\end{DoxyCompactItemize}

@@ -1,0 +1,189 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase}{\section{gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase}\index{gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database@{gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static List$<$ String $>$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_afb004a01d8a3d02efaaa50ed734b0564}{get\-Existing\-List} ()  throws Exception 
+\item 
+static List$<$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInList}{Channel\-In\-List} $>$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_aee47d0141e92fe89e80a36b5a6a5cd04}{get\-This\-List} (int list\-Number)
+\item 
+static String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a328b15f961d8325f5564b91d2bba7ead}{get\-Last\-List\-Name} ()
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_abaed6c93ac5b31e28158b84ec1d80986}{delete\-Channels\-From\-Database\-List} (int list\-Number)
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a514d14190bbbb559a123956f472db983}{delete\-List\-From\-Database} (int list\-Number)
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a6a89a828ee53dccda4455a61cf7ac94c}{does\-List\-Exist} (final String list)
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a118a13c8c7f09f5625b7734089572b3f}{save\-List\-To\-Database} (String list\-Name, List$<$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInList}{Channel\-In\-List} $>$ the\-List)
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a50bec4bb6b4a903951b19495c8390831}{save\-List\-To\-Database} (String list\-Name, String author\-Name, List$<$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInList}{Channel\-In\-List} $>$ the\-List)
+\item 
+static Vector$<$ String $>$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a1366b73c552ad9c88f917c44b8783bde}{get\-Saved\-Lists} ()
+\item 
+static Map$<$ String, \\*
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList}{Channel\-Play\-List} $>$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_af146f2d05257db5fc6a7fa55cb230fb0}{read\-The\-Channel\-Lists} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A collection of the methods needed to deal with channel lists in the database.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation, 2018 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_abaed6c93ac5b31e28158b84ec1d80986}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}!delete\-Channels\-From\-Database\-List@{delete\-Channels\-From\-Database\-List}}
+\index{delete\-Channels\-From\-Database\-List@{delete\-Channels\-From\-Database\-List}!gov::fnal::ppd::dd::db::ListUtilsDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}}
+\subsubsection[{delete\-Channels\-From\-Database\-List}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database.\-delete\-Channels\-From\-Database\-List (
+\begin{DoxyParamCaption}
+\item[{int}]{list\-Number}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_abaed6c93ac5b31e28158b84ec1d80986}
+Delete just the channels from a database list
+
+
+\begin{DoxyParams}{Parameters}
+{\em list\-Number} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a514d14190bbbb559a123956f472db983}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}!delete\-List\-From\-Database@{delete\-List\-From\-Database}}
+\index{delete\-List\-From\-Database@{delete\-List\-From\-Database}!gov::fnal::ppd::dd::db::ListUtilsDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}}
+\subsubsection[{delete\-List\-From\-Database}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database.\-delete\-List\-From\-Database (
+\begin{DoxyParamCaption}
+\item[{int}]{list\-Number}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a514d14190bbbb559a123956f472db983}
+Entirely delete a list from the database.
+
+
+\begin{DoxyParams}{Parameters}
+{\em list\-Number} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a6a89a828ee53dccda4455a61cf7ac94c}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}!does\-List\-Exist@{does\-List\-Exist}}
+\index{does\-List\-Exist@{does\-List\-Exist}!gov::fnal::ppd::dd::db::ListUtilsDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}}
+\subsubsection[{does\-List\-Exist}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database.\-does\-List\-Exist (
+\begin{DoxyParamCaption}
+\item[{final String}]{list}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a6a89a828ee53dccda4455a61cf7ac94c}
+
+\begin{DoxyParams}{Parameters}
+{\em list} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean if the list exists in the D\-B already 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_afb004a01d8a3d02efaaa50ed734b0564}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}!get\-Existing\-List@{get\-Existing\-List}}
+\index{get\-Existing\-List@{get\-Existing\-List}!gov::fnal::ppd::dd::db::ListUtilsDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}}
+\subsubsection[{get\-Existing\-List}]{\setlength{\rightskip}{0pt plus 5cm}static List$<$String$>$ gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database.\-get\-Existing\-List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_afb004a01d8a3d02efaaa50ed734b0564}
+Get the list of channels that are currently defined.
+
+Database access in this method
+
+\begin{DoxyReturn}{Returns}
+A list of strings of these list names 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a328b15f961d8325f5564b91d2bba7ead}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}!get\-Last\-List\-Name@{get\-Last\-List\-Name}}
+\index{get\-Last\-List\-Name@{get\-Last\-List\-Name}!gov::fnal::ppd::dd::db::ListUtilsDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}}
+\subsubsection[{get\-Last\-List\-Name}]{\setlength{\rightskip}{0pt plus 5cm}static String gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database.\-get\-Last\-List\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a328b15f961d8325f5564b91d2bba7ead}
+\begin{DoxyReturn}{Returns}
+the last\-List\-Name 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a1366b73c552ad9c88f917c44b8783bde}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}!get\-Saved\-Lists@{get\-Saved\-Lists}}
+\index{get\-Saved\-Lists@{get\-Saved\-Lists}!gov::fnal::ppd::dd::db::ListUtilsDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}}
+\subsubsection[{get\-Saved\-Lists}]{\setlength{\rightskip}{0pt plus 5cm}static Vector$<$String$>$ gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database.\-get\-Saved\-Lists (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a1366b73c552ad9c88f917c44b8783bde}
+\begin{DoxyReturn}{Returns}
+A list of the channel list names 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_aee47d0141e92fe89e80a36b5a6a5cd04}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}!get\-This\-List@{get\-This\-List}}
+\index{get\-This\-List@{get\-This\-List}!gov::fnal::ppd::dd::db::ListUtilsDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}}
+\subsubsection[{get\-This\-List}]{\setlength{\rightskip}{0pt plus 5cm}static List$<${\bf Channel\-In\-List}$>$ gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database.\-get\-This\-List (
+\begin{DoxyParamCaption}
+\item[{int}]{list\-Number}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_aee47d0141e92fe89e80a36b5a6a5cd04}
+Retrieve all the channels in list number \char`\"{}list\-Number\char`\"{}
+
+
+\begin{DoxyParams}{Parameters}
+{\em list\-Number} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The channels in the list number 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_af146f2d05257db5fc6a7fa55cb230fb0}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}!read\-The\-Channel\-Lists@{read\-The\-Channel\-Lists}}
+\index{read\-The\-Channel\-Lists@{read\-The\-Channel\-Lists}!gov::fnal::ppd::dd::db::ListUtilsDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}}
+\subsubsection[{read\-The\-Channel\-Lists}]{\setlength{\rightskip}{0pt plus 5cm}static Map$<$String, {\bf Channel\-Play\-List}$>$ gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database.\-read\-The\-Channel\-Lists (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_af146f2d05257db5fc6a7fa55cb230fb0}
+\begin{DoxyReturn}{Returns}
+The lists of channel lists 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a118a13c8c7f09f5625b7734089572b3f}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}!save\-List\-To\-Database@{save\-List\-To\-Database}}
+\index{save\-List\-To\-Database@{save\-List\-To\-Database}!gov::fnal::ppd::dd::db::ListUtilsDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}}
+\subsubsection[{save\-List\-To\-Database}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database.\-save\-List\-To\-Database (
+\begin{DoxyParamCaption}
+\item[{String}]{list\-Name, }
+\item[{List$<$ {\bf Channel\-In\-List} $>$}]{the\-List}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a118a13c8c7f09f5625b7734089572b3f}
+Writes a sequence of channels to an existing list number
+
+
+\begin{DoxyParams}{Parameters}
+{\em list\-Name} & \\
+\hline
+{\em the\-List} & The channels in this list \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a50bec4bb6b4a903951b19495c8390831}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}!save\-List\-To\-Database@{save\-List\-To\-Database}}
+\index{save\-List\-To\-Database@{save\-List\-To\-Database}!gov::fnal::ppd::dd::db::ListUtilsDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-List\-Utils\-Database}}
+\subsubsection[{save\-List\-To\-Database}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-db.\-List\-Utils\-Database.\-save\-List\-To\-Database (
+\begin{DoxyParamCaption}
+\item[{String}]{list\-Name, }
+\item[{String}]{author\-Name, }
+\item[{List$<$ {\bf Channel\-In\-List} $>$}]{the\-List}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ListUtilsDatabase_a50bec4bb6b4a903951b19495c8390831}
+Writes a sequence of channels to an existing list number
+
+
+\begin{DoxyParams}{Parameters}
+{\em list\-Name} & \\
+\hline
+{\em author\-Name} & \\
+\hline
+{\em the\-List} & The channels in this list \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/db/List\-Utils\-Database.\-java\end{DoxyCompactItemize}

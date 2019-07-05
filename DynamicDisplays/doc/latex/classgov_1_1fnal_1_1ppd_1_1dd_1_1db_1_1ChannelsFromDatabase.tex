@@ -1,0 +1,106 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase}{\section{gov.\-fnal.\-ppd.\-dd.\-db.\-Channels\-From\-Database Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase}\index{gov.\-fnal.\-ppd.\-dd.\-db.\-Channels\-From\-Database@{gov.\-fnal.\-ppd.\-dd.\-db.\-Channels\-From\-Database}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_a4f56bc3df86bc166d052a5e1df5be71a}{get\-Channels} (final Map$<$ String, \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} $>$ the\-Map)  throws Database\-Not\-Visible\-Exception 
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_aaff901450a95798cbb5ed035d2ab3af6}{get\-Images} (final Map$<$ String, \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} $>$ the\-Map)  throws Database\-Not\-Visible\-Exception 
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification}{Channel\-Classification}\mbox{[}$\,$\mbox{]} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_a378b7b3be0eb4f7194b4df3adad1ba82}{get\-Categories\-Database} ()
+\item 
+static List$<$ \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} $>$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_a7a75e0d979b68647f696f9a0ac717d64}{get\-Docent\-Content} (final String docent\-Name)
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_af16576924537b6cb3ea6f742b3d5cbfb}{read\-Valid\-Channels} (final Map$<$ Integer, \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel}{Channel} $>$ the\-Map)
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_a1829d1fc9e948a3b0c3d0cf57d669b38}{static Set$<$ \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} $>$ {\bfseries get\-Special\-Channels\-For\-Display} (int display\-I\-D)  throws Database\-Not\-Visible\-Exception }\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_a1829d1fc9e948a3b0c3d0cf57d669b38}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A collection of methods that deal with learning the channels in the database, in various contexts.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation, 2018 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_a378b7b3be0eb4f7194b4df3adad1ba82}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database}!get\-Categories\-Database@{get\-Categories\-Database}}
+\index{get\-Categories\-Database@{get\-Categories\-Database}!gov::fnal::ppd::dd::db::ChannelsFromDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database}}
+\subsubsection[{get\-Categories\-Database}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Channel\-Classification} \mbox{[}$\,$\mbox{]} gov.\-fnal.\-ppd.\-dd.\-db.\-Channels\-From\-Database.\-get\-Categories\-Database (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_a378b7b3be0eb4f7194b4df3adad1ba82}
+\begin{DoxyReturn}{Returns}
+An array of channel categories 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_a4f56bc3df86bc166d052a5e1df5be71a}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database}!get\-Channels@{get\-Channels}}
+\index{get\-Channels@{get\-Channels}!gov::fnal::ppd::dd::db::ChannelsFromDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database}}
+\subsubsection[{get\-Channels}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-db.\-Channels\-From\-Database.\-get\-Channels (
+\begin{DoxyParamCaption}
+\item[{final Map$<$ String, {\bf Signage\-Content} $>$}]{the\-Map}
+\end{DoxyParamCaption}
+) throws {\bf Database\-Not\-Visible\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_a4f56bc3df86bc166d052a5e1df5be71a}
+
+\begin{DoxyParams}{Parameters}
+{\em the\-Map} & Where to save the channels that have been retrieved \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Database\-Not\-Visible\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_a7a75e0d979b68647f696f9a0ac717d64}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database}!get\-Docent\-Content@{get\-Docent\-Content}}
+\index{get\-Docent\-Content@{get\-Docent\-Content}!gov::fnal::ppd::dd::db::ChannelsFromDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database}}
+\subsubsection[{get\-Docent\-Content}]{\setlength{\rightskip}{0pt plus 5cm}static List$<${\bf Signage\-Content}$>$ gov.\-fnal.\-ppd.\-dd.\-db.\-Channels\-From\-Database.\-get\-Docent\-Content (
+\begin{DoxyParamCaption}
+\item[{final String}]{docent\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_a7a75e0d979b68647f696f9a0ac717d64}
+
+\begin{DoxyParams}{Parameters}
+{\em docent\-Name} & The name of this docent category to retrieve \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of the content associated with this docent category 
+\end{DoxyReturn}
+F\-I\-X\-M\-E This is the a place that requires the Channel and Portfolio tables to be in the same database. To break this will require two Docent tables, one that is in the same D\-B as Channel and the other in the same D\-B as Portfolio.\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_aaff901450a95798cbb5ed035d2ab3af6}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database}!get\-Images@{get\-Images}}
+\index{get\-Images@{get\-Images}!gov::fnal::ppd::dd::db::ChannelsFromDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database}}
+\subsubsection[{get\-Images}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-db.\-Channels\-From\-Database.\-get\-Images (
+\begin{DoxyParamCaption}
+\item[{final Map$<$ String, {\bf Signage\-Content} $>$}]{the\-Map}
+\end{DoxyParamCaption}
+) throws {\bf Database\-Not\-Visible\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_aaff901450a95798cbb5ed035d2ab3af6}
+
+\begin{DoxyParams}{Parameters}
+{\em the\-Map} & Where to save the channels that have been retrieved \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Database\-Not\-Visible\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_af16576924537b6cb3ea6f742b3d5cbfb}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database}!read\-Valid\-Channels@{read\-Valid\-Channels}}
+\index{read\-Valid\-Channels@{read\-Valid\-Channels}!gov::fnal::ppd::dd::db::ChannelsFromDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Channels\-From\-Database}}
+\subsubsection[{read\-Valid\-Channels}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-db.\-Channels\-From\-Database.\-read\-Valid\-Channels (
+\begin{DoxyParamCaption}
+\item[{final Map$<$ Integer, {\bf Channel} $>$}]{the\-Map}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase_af16576924537b6cb3ea6f742b3d5cbfb}
+
+\begin{DoxyParams}{Parameters}
+{\em the\-Map} & The map of the channels to return to the user. This will add to that map (user should probably clear it first) \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/db/Channels\-From\-Database.\-java\end{DoxyCompactItemize}

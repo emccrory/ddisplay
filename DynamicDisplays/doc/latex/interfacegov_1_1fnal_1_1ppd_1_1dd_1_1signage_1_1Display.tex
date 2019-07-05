@@ -1,0 +1,316 @@
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{\section{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display Interface Reference}
+\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}\index{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display@{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}}
+}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-signage.\-Display\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.015839cm]{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ab5979ea942bdd40fb9ea00375eccde78}{get\-Content} ()
+\item 
+\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a703f091805d557d9866d520a32d73929}{set\-Content} (\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} c)
+\item 
+Color \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_adc3c8118f22dd4d82c837da04a88723f}{get\-Preferred\-Highlight\-Color} ()
+\item 
+int \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a16cd7303182205627ccffe5024e041d9}{get\-D\-B\-Display\-Number} ()
+\item 
+int \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a5f3b01b971133b1278f6c80b1aed58e5}{get\-Virtual\-Display\-Number} ()
+\item 
+void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a97b825cca932ae53677073f95a0f93bd}{set\-D\-B\-Display\-Number} (int d)
+\item 
+void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a7c166488b81af34ad8c64868556ec38e}{set\-Virtual\-Display\-Number} (int v)
+\item 
+int \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_aebf42d7e0cbc3e6f0a4009bb61ddfdfb}{get\-Screen\-Number} ()
+\item 
+Inet\-Address \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0ddd8e7cd161e52c853bf4af8c1ae2bd}{get\-I\-P\-Address} ()
+\item 
+void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_abbf3b133460808b9361107fcd5a3ae19}{add\-Listener} (Action\-Listener L)
+\item 
+String \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_afdd0f4294902140944f4aff8b8bc94d0}{get\-Description} ()
+\item 
+String \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a569a001d11cb30ff98590241d05d88b9}{get\-Location} ()
+\item 
+String \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a45ec755ef206791045dbc59bdc264875}{get\-Status} ()
+\item 
+String \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0bab243c1435802ba0e8b74c45ea35cb}{get\-Messaging\-Name} ()
+\item 
+void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ae9ca738d32324acee3e6f912726a70ff}{disconnect} ()
+\item 
+void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a2acc4186323118548cf5e57b61101350}{error\-Handler} (String message)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The signature of a Dynamic \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} in the Fermilab Dynamic \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} System
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_abbf3b133460808b9361107fcd5a3ae19}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!add\-Listener@{add\-Listener}}
+\index{add\-Listener@{add\-Listener}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{add\-Listener}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-add\-Listener (
+\begin{DoxyParamCaption}
+\item[{Action\-Listener}]{L}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_abbf3b133460808b9361107fcd5a3ae19}
+Add a listener to see when things change on a \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display}
+
+
+\begin{DoxyParams}{Parameters}
+{\em L} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ac26f8f2c8b7935585ee0c1f58a56ec4d}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a8e5f09fc6cc000ce10a80ee4b19db666}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ae9ca738d32324acee3e6f912726a70ff}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!disconnect@{disconnect}}
+\index{disconnect@{disconnect}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{disconnect}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-disconnect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ae9ca738d32324acee3e6f912726a70ff}
+Disconnect a display from the rest of the world (if appropriate) 
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ab3982221fd0e7382f530b3c349121838}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a97295fbdea4502156b438b39b498568f}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_ab4669eeb7e29918c88f15ea2afc17604}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Display\-Controller\-Messaging\-Abstract}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a16818671921624744a8323ef36766517}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a2acc4186323118548cf5e57b61101350}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!error\-Handler@{error\-Handler}}
+\index{error\-Handler@{error\-Handler}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{error\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-error\-Handler (
+\begin{DoxyParamCaption}
+\item[{String}]{message}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a2acc4186323118548cf5e57b61101350}
+A way for the \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} to handle errors from the messaging system
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aef09d861c01a1be4e14a123d881bd211}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_aa76c9578b86e1ffed9c4287d3633f821}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ab5979ea942bdd40fb9ea00375eccde78}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-Content@{get\-Content}}
+\index{get\-Content@{get\-Content}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{get\-Content}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Signage\-Content} gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-get\-Content (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ab5979ea942bdd40fb9ea00375eccde78}
+What content is playing on this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display}?
+
+\begin{DoxyReturn}{Returns}
+The \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} that is playing now on this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa48e0f9679a07f8bff85867c4831d528}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_ad4db53bb973088f68a06f874256e4225}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a16cd7303182205627ccffe5024e041d9}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-D\-B\-Display\-Number@{get\-D\-B\-Display\-Number}}
+\index{get\-D\-B\-Display\-Number@{get\-D\-B\-Display\-Number}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{get\-D\-B\-Display\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-get\-D\-B\-Display\-Number (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a16cd7303182205627ccffe5024e041d9}
+What is the \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} number? This is either the Database Index or the virutal number the user wants to see.
+
+\begin{DoxyReturn}{Returns}
+the \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} number 
+
+The index into the database of this display. This used to be the actual display number 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1b294a2d2cd0b9f51e2489b06542a522}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a33565e806ad51bbfd459d1aded545e6a}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_afdd0f4294902140944f4aff8b8bc94d0}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-Description@{get\-Description}}
+\index{get\-Description@{get\-Description}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{get\-Description}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-get\-Description (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_afdd0f4294902140944f4aff8b8bc94d0}
+A long description, presumably including the location, of this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display}
+
+\begin{DoxyReturn}{Returns}
+the Description 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa3ac511af5cffdea8fe664ec9f79e0c8}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_afb2e0f2aa3dd741909b329bf7fe743b4}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0ddd8e7cd161e52c853bf4af8c1ae2bd}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-I\-P\-Address@{get\-I\-P\-Address}}
+\index{get\-I\-P\-Address@{get\-I\-P\-Address}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{get\-I\-P\-Address}]{\setlength{\rightskip}{0pt plus 5cm}Inet\-Address gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-get\-I\-P\-Address (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0ddd8e7cd161e52c853bf4af8c1ae2bd}
+What is the I\-P Address of this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display}?
+
+\begin{DoxyReturn}{Returns}
+the I\-P number 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a76124d9580e72f645acb77257c033389}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6ecfe0b5c74a7e574ac3770d7428a2b5}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a569a001d11cb30ff98590241d05d88b9}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-Location@{get\-Location}}
+\index{get\-Location@{get\-Location}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{get\-Location}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-get\-Location (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a569a001d11cb30ff98590241d05d88b9}
+\begin{DoxyReturn}{Returns}
+A description of the precise location of this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a092466ec2163d44dde2d737608360533}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a753f8c4ad34a649221a78ad963f44d28}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0bab243c1435802ba0e8b74c45ea35cb}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-Messaging\-Name@{get\-Messaging\-Name}}
+\index{get\-Messaging\-Name@{get\-Messaging\-Name}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{get\-Messaging\-Name}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-get\-Messaging\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0bab243c1435802ba0e8b74c45ea35cb}
+\begin{DoxyReturn}{Returns}
+The name that this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} uses on the Messaging system 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_ad22aeb5c8a46e05ba8afee5f85fa03c4}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_a7d2a03dd8cfa663368cbcf67fbcf804e}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Display\-Controller\-Messaging\-Abstract}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6bd0e5cfb4362cd534592faf1df8e381}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_adc3c8118f22dd4d82c837da04a88723f}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-Preferred\-Highlight\-Color@{get\-Preferred\-Highlight\-Color}}
+\index{get\-Preferred\-Highlight\-Color@{get\-Preferred\-Highlight\-Color}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{get\-Preferred\-Highlight\-Color}]{\setlength{\rightskip}{0pt plus 5cm}Color gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-get\-Preferred\-Highlight\-Color (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_adc3c8118f22dd4d82c837da04a88723f}
+What is the color coding for this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display}?
+
+\begin{DoxyReturn}{Returns}
+the coded Color of this display 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1a3e04f0de207a90b4ad2049ac192758}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a0935cd1139a69a4a554edf57dba26879}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_aebf42d7e0cbc3e6f0a4009bb61ddfdfb}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-Screen\-Number@{get\-Screen\-Number}}
+\index{get\-Screen\-Number@{get\-Screen\-Number}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{get\-Screen\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-get\-Screen\-Number (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_aebf42d7e0cbc3e6f0a4009bb61ddfdfb}
+What is the Screen number within this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display}?
+
+\begin{DoxyReturn}{Returns}
+the Screen number 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ac7077820239a58d29a1cb8d17666180e}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a14bd3dcb4e49bcba64ee0dcfc0be9cc7}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a45ec755ef206791045dbc59bdc264875}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-Status@{get\-Status}}
+\index{get\-Status@{get\-Status}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{get\-Status}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-get\-Status (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a45ec755ef206791045dbc59bdc264875}
+Return the status of this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display}, which is expected to include if it is live and, if so, what it is showing.
+
+\begin{DoxyReturn}{Returns}
+String status message 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a3db5e11b8d5108d57d5027e0e8301e39}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a52ef55dc309ff13a29e56e60df0ec10a}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a839b068caf40194233bb6040c6a7a29d}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a5f3b01b971133b1278f6c80b1aed58e5}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-Virtual\-Display\-Number@{get\-Virtual\-Display\-Number}}
+\index{get\-Virtual\-Display\-Number@{get\-Virtual\-Display\-Number}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{get\-Virtual\-Display\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-get\-Virtual\-Display\-Number (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a5f3b01b971133b1278f6c80b1aed58e5}
+\begin{DoxyReturn}{Returns}
+The display number that the user wants to show on this display 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_af2f963a8459aee3de743051f96e20bc8}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_ad84614dc11788234e7f7dfedde8506dc}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a703f091805d557d9866d520a32d73929}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!set\-Content@{set\-Content}}
+\index{set\-Content@{set\-Content}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{set\-Content}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Signage\-Content} gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-set\-Content (
+\begin{DoxyParamCaption}
+\item[{{\bf Signage\-Content}}]{c}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a703f091805d557d9866d520a32d73929}
+Change the \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel}{Channel} that is showing on this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display}
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & the \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} to show on this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The old \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} that was replaced by this call 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6fd26afda65661aeed0154a9985e3225}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a97b825cca932ae53677073f95a0f93bd}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!set\-D\-B\-Display\-Number@{set\-D\-B\-Display\-Number}}
+\index{set\-D\-B\-Display\-Number@{set\-D\-B\-Display\-Number}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{set\-D\-B\-Display\-Number}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-set\-D\-B\-Display\-Number (
+\begin{DoxyParamCaption}
+\item[{int}]{d}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a97b825cca932ae53677073f95a0f93bd}
+
+\begin{DoxyParams}{Parameters}
+{\em d} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a316be5caadb9b6d95d4e7c3264472da1}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a7c166488b81af34ad8c64868556ec38e}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!set\-Virtual\-Display\-Number@{set\-Virtual\-Display\-Number}}
+\index{set\-Virtual\-Display\-Number@{set\-Virtual\-Display\-Number}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
+\subsubsection[{set\-Virtual\-Display\-Number}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-set\-Virtual\-Display\-Number (
+\begin{DoxyParamCaption}
+\item[{int}]{v}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a7c166488b81af34ad8c64868556ec38e}
+
+\begin{DoxyParams}{Parameters}
+{\em v} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a20deb9f5431d716492d8af09ee38683d}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+
+
+
+The documentation for this interface was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/signage/Display.\-java\end{DoxyCompactItemize}

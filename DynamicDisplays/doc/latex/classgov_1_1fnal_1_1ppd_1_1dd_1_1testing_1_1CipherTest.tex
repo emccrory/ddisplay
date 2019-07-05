@@ -1,0 +1,115 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CipherTest}{\section{gov.\-fnal.\-ppd.\-dd.\-testing.\-Cipher\-Test Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CipherTest}\index{gov.\-fnal.\-ppd.\-dd.\-testing.\-Cipher\-Test@{gov.\-fnal.\-ppd.\-dd.\-testing.\-Cipher\-Test}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CipherTest_afd343fab65e49e9730d5deaa4cceeccf}{Cipher\-Test} (final byte\mbox{[}$\,$\mbox{]} key\-Bytes, final byte\mbox{[}$\,$\mbox{]} iv\-Bytes, final String enc\-Type, final String enc\-Type\-Full)  throws No\-Such\-Algorithm\-Exception, No\-Such\-Padding\-Exception 
+\item 
+byte\mbox{[}$\,$\mbox{]} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CipherTest_ac84a43bcd663ea55ea5f7879a7a2db18}{encrypt} (final byte\mbox{[}$\,$\mbox{]} input)  throws Invalid\-Key\-Exception, Short\-Buffer\-Exception, Illegal\-Block\-Size\-Exception, 			\-Bad\-Padding\-Exception, Invalid\-Algorithm\-Parameter\-Exception 
+\item 
+byte\mbox{[}$\,$\mbox{]} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CipherTest_aaf2e8db0bb699174053a1bf902837d9c}{decrypt} (final byte\mbox{[}$\,$\mbox{]} encrypted)  throws Invalid\-Key\-Exception, Short\-Buffer\-Exception, Illegal\-Block\-Size\-Exception, 			\-Bad\-Padding\-Exception, Invalid\-Algorithm\-Parameter\-Exception 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Use the Cipher stuff in javax.\-crypto
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CipherTest_afd343fab65e49e9730d5deaa4cceeccf}{\index{gov\-::fnal\-::ppd\-::dd\-::testing\-::\-Cipher\-Test@{gov\-::fnal\-::ppd\-::dd\-::testing\-::\-Cipher\-Test}!Cipher\-Test@{Cipher\-Test}}
+\index{Cipher\-Test@{Cipher\-Test}!gov::fnal::ppd::dd::testing::CipherTest@{gov\-::fnal\-::ppd\-::dd\-::testing\-::\-Cipher\-Test}}
+\subsubsection[{Cipher\-Test}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-testing.\-Cipher\-Test.\-Cipher\-Test (
+\begin{DoxyParamCaption}
+\item[{final byte\mbox{[}$\,$\mbox{]}}]{key\-Bytes, }
+\item[{final byte\mbox{[}$\,$\mbox{]}}]{iv\-Bytes, }
+\item[{final String}]{enc\-Type, }
+\item[{final String}]{enc\-Type\-Full}
+\end{DoxyParamCaption}
+) throws No\-Such\-Algorithm\-Exception, No\-Such\-Padding\-Exception}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CipherTest_afd343fab65e49e9730d5deaa4cceeccf}
+
+\begin{DoxyParams}{Parameters}
+{\em key\-Bytes} & \\
+\hline
+{\em iv\-Bytes} & \\
+\hline
+{\em enc\-Type} & Use \char`\"{}\-D\-E\-S\char`\"{} \\
+\hline
+{\em enc\-Type\-Full} & use \char`\"{}\-D\-E\-S/\-C\-B\-C/\-P\-K\-C\-S5\-Padding\char`\"{} \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em No\-Such\-Algorithm\-Exception} & \\
+\hline
+{\em No\-Such\-Padding\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CipherTest_aaf2e8db0bb699174053a1bf902837d9c}{\index{gov\-::fnal\-::ppd\-::dd\-::testing\-::\-Cipher\-Test@{gov\-::fnal\-::ppd\-::dd\-::testing\-::\-Cipher\-Test}!decrypt@{decrypt}}
+\index{decrypt@{decrypt}!gov::fnal::ppd::dd::testing::CipherTest@{gov\-::fnal\-::ppd\-::dd\-::testing\-::\-Cipher\-Test}}
+\subsubsection[{decrypt}]{\setlength{\rightskip}{0pt plus 5cm}byte \mbox{[}$\,$\mbox{]} gov.\-fnal.\-ppd.\-dd.\-testing.\-Cipher\-Test.\-decrypt (
+\begin{DoxyParamCaption}
+\item[{final byte\mbox{[}$\,$\mbox{]}}]{encrypted}
+\end{DoxyParamCaption}
+) throws Invalid\-Key\-Exception, Short\-Buffer\-Exception, Illegal\-Block\-Size\-Exception, 			Bad\-Padding\-Exception, Invalid\-Algorithm\-Parameter\-Exception}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CipherTest_aaf2e8db0bb699174053a1bf902837d9c}
+
+\begin{DoxyParams}{Parameters}
+{\em encrypted} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The decrypted data 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Invalid\-Key\-Exception} & \\
+\hline
+{\em Short\-Buffer\-Exception} & \\
+\hline
+{\em Illegal\-Block\-Size\-Exception} & \\
+\hline
+{\em Bad\-Padding\-Exception} & \\
+\hline
+{\em Invalid\-Algorithm\-Parameter\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CipherTest_ac84a43bcd663ea55ea5f7879a7a2db18}{\index{gov\-::fnal\-::ppd\-::dd\-::testing\-::\-Cipher\-Test@{gov\-::fnal\-::ppd\-::dd\-::testing\-::\-Cipher\-Test}!encrypt@{encrypt}}
+\index{encrypt@{encrypt}!gov::fnal::ppd::dd::testing::CipherTest@{gov\-::fnal\-::ppd\-::dd\-::testing\-::\-Cipher\-Test}}
+\subsubsection[{encrypt}]{\setlength{\rightskip}{0pt plus 5cm}byte \mbox{[}$\,$\mbox{]} gov.\-fnal.\-ppd.\-dd.\-testing.\-Cipher\-Test.\-encrypt (
+\begin{DoxyParamCaption}
+\item[{final byte\mbox{[}$\,$\mbox{]}}]{input}
+\end{DoxyParamCaption}
+) throws Invalid\-Key\-Exception, Short\-Buffer\-Exception, Illegal\-Block\-Size\-Exception, 			Bad\-Padding\-Exception, Invalid\-Algorithm\-Parameter\-Exception}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CipherTest_ac84a43bcd663ea55ea5f7879a7a2db18}
+
+\begin{DoxyParams}{Parameters}
+{\em input} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The encrypted data 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Invalid\-Key\-Exception} & \\
+\hline
+{\em Short\-Buffer\-Exception} & \\
+\hline
+{\em Illegal\-Block\-Size\-Exception} & \\
+\hline
+{\em Bad\-Padding\-Exception} & \\
+\hline
+{\em Invalid\-Algorithm\-Parameter\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/testing/Cipher\-Test.\-java\end{DoxyCompactItemize}

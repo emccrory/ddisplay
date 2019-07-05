@@ -1,0 +1,95 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase}{\section{gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase}\index{gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database@{gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Map$<$ \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display}, \\*
+\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} $>$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_a446a9bd0e9237759231cd69e51c309f1}{get\-Display\-Content} (final String set\-Name)  throws No\-Such\-Display\-Exception 
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af822fc88bb63cd8996c336f75e550813}{save\-Default\-Channels} (String s)
+\item 
+static List$<$ \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} $>$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af34cf8a1aba7561cc426fa40461042db}{get\-Displays} (final int location\-Code)
+\item 
+static List$<$ \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} $>$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_abbac09241f9349172248740798347d02}{get\-A\-Display} (final int display\-D\-B\-Number, final int location\-Code)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class gets the channels that each display is supposed to show for a particular save set.
+
+Note that if a Display is removed and it was saved in a save set, this will throw a silent error.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation, 2018 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_abbac09241f9349172248740798347d02}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}!get\-A\-Display@{get\-A\-Display}}
+\index{get\-A\-Display@{get\-A\-Display}!gov::fnal::ppd::dd::db::DisplayUtilDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}}
+\subsubsection[{get\-A\-Display}]{\setlength{\rightskip}{0pt plus 5cm}static List$<${\bf Display}$>$ gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database.\-get\-A\-Display (
+\begin{DoxyParamCaption}
+\item[{final int}]{display\-D\-B\-Number, }
+\item[{final int}]{location\-Code}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_abbac09241f9349172248740798347d02}
+
+\begin{DoxyParams}{Parameters}
+{\em display\-D\-B\-Number} & \\
+\hline
+{\em location\-Code} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the list 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_a446a9bd0e9237759231cd69e51c309f1}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}!get\-Display\-Content@{get\-Display\-Content}}
+\index{get\-Display\-Content@{get\-Display\-Content}!gov::fnal::ppd::dd::db::DisplayUtilDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}}
+\subsubsection[{get\-Display\-Content}]{\setlength{\rightskip}{0pt plus 5cm}static Map$<${\bf Display}, {\bf Signage\-Content}$>$ gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database.\-get\-Display\-Content (
+\begin{DoxyParamCaption}
+\item[{final String}]{set\-Name}
+\end{DoxyParamCaption}
+) throws {\bf No\-Such\-Display\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_a446a9bd0e9237759231cd69e51c309f1}
+
+\begin{DoxyParams}{Parameters}
+{\em set\-Name} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the content at each display 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af34cf8a1aba7561cc426fa40461042db}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}!get\-Displays@{get\-Displays}}
+\index{get\-Displays@{get\-Displays}!gov::fnal::ppd::dd::db::DisplayUtilDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}}
+\subsubsection[{get\-Displays}]{\setlength{\rightskip}{0pt plus 5cm}static List$<${\bf Display}$>$ gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database.\-get\-Displays (
+\begin{DoxyParamCaption}
+\item[{final int}]{location\-Code}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af34cf8a1aba7561cc426fa40461042db}
+
+\begin{DoxyParams}{Parameters}
+{\em location\-Code} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The displays at this location 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af822fc88bb63cd8996c336f75e550813}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}!save\-Default\-Channels@{save\-Default\-Channels}}
+\index{save\-Default\-Channels@{save\-Default\-Channels}!gov::fnal::ppd::dd::db::DisplayUtilDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}}
+\subsubsection[{save\-Default\-Channels}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database.\-save\-Default\-Channels (
+\begin{DoxyParamCaption}
+\item[{String}]{s}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af822fc88bb63cd8996c336f75e550813}
+Save a set of default channels in A\-L\-L of the displays in this location to the database. it reads the present content from these displays and saves that as this set.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & The name of this save set (The name \char`\"{}\-Default\char`\"{} is special in the Dynamic Display system) \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/db/Display\-Util\-Database.\-java\end{DoxyCompactItemize}

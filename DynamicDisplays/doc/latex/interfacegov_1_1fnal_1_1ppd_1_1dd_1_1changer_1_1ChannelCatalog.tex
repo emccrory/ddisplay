@@ -1,0 +1,49 @@
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog}{\section{gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Catalog Interface Reference}
+\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog}\index{gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Catalog@{gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Catalog}}
+}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Catalog\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+abstract Set$<$ \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} $>$ \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog_afa94549b979299708605d160be60ca35}{get\-Channel\-Catalog} (\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification}{Channel\-Classification} cat)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+An interface for dealing with the various sorts of catalogs of channels that can be in the system. This is a bit of an historical artifact, allowing me at one point to have an ad-\/hoc catalog. Now, we only have a catalog that is read from a remote database.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog_afa94549b979299708605d160be60ca35}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Catalog@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Catalog}!get\-Channel\-Catalog@{get\-Channel\-Catalog}}
+\index{get\-Channel\-Catalog@{get\-Channel\-Catalog}!gov::fnal::ppd::dd::changer::ChannelCatalog@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Catalog}}
+\subsubsection[{get\-Channel\-Catalog}]{\setlength{\rightskip}{0pt plus 5cm}abstract Set$<${\bf Signage\-Content}$>$ gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Catalog.\-get\-Channel\-Catalog (
+\begin{DoxyParamCaption}
+\item[{{\bf Channel\-Classification}}]{cat}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog_afa94549b979299708605d160be60ca35}
+
+\begin{DoxyParams}{Parameters}
+{\em cat} & The category to return \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+All the channels of a specified category 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelMap_a34cad0dedd9b3ed3418a405d0c85ed27}{gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Map}.
+
+
+
+The documentation for this interface was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/changer/Channel\-Catalog.\-java\end{DoxyCompactItemize}
