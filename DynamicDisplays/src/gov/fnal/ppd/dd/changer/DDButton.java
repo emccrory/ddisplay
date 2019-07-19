@@ -5,7 +5,11 @@ import static gov.fnal.ppd.dd.util.Util.fixFontSize;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.SystemColor;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -59,21 +63,23 @@ public class DDButton extends JButton {
 		}
 	};
 
-	private static int	staticNumBR	= 0;
+	private static int		staticNumBR			= 0;
 
-	private boolean		selected	= false;
+	private boolean			selected			= false;
 
-	private Color		background, selectedColor, plainFont = SystemColor.textText, selectedFont = SystemColor.textText;
+	private Color			background, selectedColor, plainFont = SystemColor.textText, selectedFont = SystemColor.textText;
 
-	private Channel		channel;
-	private Display		display;
+	private Channel			channel;
+	private Display			display;
 
-	private Border		regularButtonBorder;
+	private Border			regularButtonBorder;
 	private final Border	BorderA, BorderB;
 
 	private int				numBR, maxLen;
 
-	private Font			userDefinedFont	= null, descriptionFont = null, urlFont = null;
+	private Font			userDefinedFont		= null, descriptionFont = null, urlFont = null;
+
+	private boolean			notInitialization	= false;
 
 	/**
 	 * @param channel
@@ -85,6 +91,9 @@ public class DDButton extends JButton {
 	 */
 	public DDButton(final Channel channel, final Display display, int maxLen) {
 		super(align(channel != null ? channel.getName() : display.toString(), maxLen));
+
+		// This does not work properly: addComponentListener(this);
+
 		numBR = staticNumBR;
 		this.selected = false;
 		this.channel = channel;
@@ -99,8 +108,8 @@ public class DDButton extends JButton {
 		this.selectedColor = display.getPreferredHighlightColor();
 
 		if (SHOW_IN_WINDOW) {
-			BorderA = BorderFactory.createCompoundBorder(
-					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 1),
+			BorderA = BorderFactory
+					.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 1),
 							BorderFactory.createLineBorder(Color.gray, 1)), regularButtonBorder);
 			BorderB = BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(selectedColor, 2), regularButtonBorder);
 		} else {
@@ -121,18 +130,22 @@ public class DDButton extends JButton {
 
 		setEnabled(false);
 		setOpaque(true);
+		notInitialization = true;
 	}
 
 	/**
 	 * @param display
 	 */
 	public DDButton(final Display display) {
-		this(null, display, MAX_STRING_LENGTH );
+		this(null, display, MAX_STRING_LENGTH);
 	}
 
 	@Override
 	public void setFont(Font f) {
-		userDefinedFont = f;
+		if (notInitialization) {
+			userDefinedFont = f;
+			// new Exception("Ignore").printStackTrace();
+		}
 		super.setFont(f);
 	}
 
@@ -231,6 +244,8 @@ public class DDButton extends JButton {
 
 	}
 
+	boolean needsNewFontCalculation = false;
+
 	/**
 	 * Change the text on the button
 	 * 
@@ -244,18 +259,17 @@ public class DDButton extends JButton {
 			userDefinedFont = getFont();
 		switch (which) {
 		case USE_NAME_FIELD:
+			// needsNewFontCalculation = true;
 			setText(align(channel.getName(), maxLen));
 			super.setFont(userDefinedFont);
 			break;
 		case USE_DESCRIPTION_FIELD:
+			// needsNewFontCalculation = true;
 			String tx = "<html><b>" + channel.getName() + ":</b> " + channel.getDescription() + " <em>(Channel "
 					+ channel.getNumber() + ")</em></html>";
 			if (descriptionFont == null) {
-				float siz = (userDefinedFont.getSize()) / (tx.length() / 60.0f);
-				if (siz < 7.0f)
-					siz = 7.0f;
-				else if (siz > userDefinedFont.getSize())
-					siz = userDefinedFont.getSize();
+				float siz = ((float) userDefinedFont.getSize()) / 2.0f;
+				siz = fixFontSize(siz, 7.0f, userDefinedFont.getSize());
 				descriptionFont = userDefinedFont.deriveFont(siz);
 			}
 			setText(tx);
@@ -263,16 +277,16 @@ public class DDButton extends JButton {
 
 			break;
 		case USE_URL_FIELD:
-			tx = channel.getURI().toString().replace("http://www.", "").replace("https://www.", "").replace("http://", "")
-					.replace("https://", "");
-			if (tx.length() > 30) {
-				if (tx.contains("?"))
-					tx = tx.replace("?", " ?");
-				else
-					tx = tx.replace("/", " /");
-			}
+			// needsNewFontCalculation = true;
+			tx = channel.getURI().toString();
+			tx = tx.replace("http://www.", "").replace("https://www.", "");
+			tx = tx.replace("http://", "").replace("https://", "");
+			tx = tx.replace("?", " ?").replace("/", " /").replace("=", "= ");
 			if (urlFont == null) {
-				float siz = fixFontSize((userDefinedFont.getSize()) / (tx.length() / 25.0f), 7.0f, userDefinedFont.getSize());
+				float factor = 2.0f;
+				if (tx.length() > 100)
+					factor = 3.0f;
+				float siz = fixFontSize(userDefinedFont.getSize() / factor, 8.0f, userDefinedFont.getSize());
 				urlFont = userDefinedFont.deriveFont(siz);
 			}
 			setText("<html>" + tx + "</html>");
@@ -280,5 +294,24 @@ public class DDButton extends JButton {
 			break;
 		}
 
+	}
+
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		if (needsNewFontCalculation) {
+			// This does not work yet. Some
+			needsNewFontCalculation = false;
+			FontMetrics metrics = g.getFontMetrics();
+			int adv = metrics.stringWidth(getText());
+			int siz = getFont().getSize();
+			float nSize = ((float) siz) * (((float) getWidth()) / ((float) adv));
+			if (nSize < 8)
+				nSize = 8;
+			if (nSize > 64)
+				nSize = 64;
+			System.out.println(hashCode() + " width=" + getWidth() + ", adv=" + adv + ", old siz=" + siz + ", New size = " + nSize);
+			setFont(getFont().deriveFont(nSize));
+		}
 	}
 }

@@ -145,6 +145,7 @@ public class ImageGrid extends DetailedInformationGrid {
 		};
 		internalTabPane.setOpaque(true);
 		internalTabPane.setBackground(displaySelectedColor);
+		internalTabPane.setFont( new Font( Font.MONOSPACED, Font.PLAIN, 12 ) );
 
 		HashMap<String, JPanel> expPanels = new HashMap<String, JPanel>();
 
@@ -245,15 +246,16 @@ public class ImageGrid extends DetailedInformationGrid {
 				sb.setPreferredSize(new Dimension(40, 0));
 				sb.setBlockIncrement(450);
 			}
-			internalTabPane.addTab(exp, sp);
+			String expPadded = padd(exp);
+			internalTabPane.addTab(expPadded, sp);
 		}
 
 		if (!SHOW_IN_WINDOW)
 			internalTabPane.setFont(getFont().deriveFont(20.0f));
 
 		expGrid = new JPanel(new BorderLayout());
-		JLabel lab = new JLabel("Experiment images tabs");
-		lab.setFont(new Font("Arial", Font.ITALIC, 24));
+		JLabel lab = new JLabel("Portfolio image categories");
+		lab.setFont(new Font("Arial", Font.ITALIC, 20));
 		Box box = Box.createHorizontalBox();
 		box.setOpaque(true);
 		box.setBackground(displaySelectedColor);
@@ -275,9 +277,32 @@ public class ImageGrid extends DetailedInformationGrid {
 		return expGrid;
 	}
 
+	private static final int DESIRED_LEN = 12; 
+
+	/// A utility for making the sizes of the tabs be equal.  This makes them line up better, and, IMHO, it is easier to read.
+	private static String padd(String exp) {
+		if (exp.length() == DESIRED_LEN)
+			return exp;
+		if (exp.length() > DESIRED_LEN)
+			return exp.substring(0, DESIRED_LEN - 1) + "\u2026";
+		while (exp.length() < DESIRED_LEN) {
+			if (exp.length() % 2 == 0)
+				exp = " " + exp;
+			else
+				exp += " ";
+		}
+		return exp;
+	}
+
 	private static <T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c) {
 		List<T> list = new ArrayList<T>(c);
-		java.util.Collections.sort(list);
+		java.util.Collections.sort(list, new Comparator<T>() {
+
+			@Override
+			public int compare(T o1, T o2) {
+				return o2.compareTo(o1);
+			}
+		});
 		return list;
 	}
 

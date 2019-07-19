@@ -336,7 +336,8 @@ public class Util {
 		return retval;
 	}
 
-	private final static float[] bestFonts = { 48.0f, 36.0f, 32.0F, 24.0F, 20.0F, 17.0F, 14.0F, 12.0F, 10.0F, 8.0F };
+	private final static float[] bestFonts = { 48.0f, 36.0f, 32.0F, 24.0F, 20.0F, 18.0F, 17.0F, 16.0F, 15.1F, 14.0F, 13.0F, 12.0F,
+			11.5F, 11.0F, 10.5F, 10.0F, 9.5F, 9.0F, 8.5F, 8.0F };
 
 	/**
 	 * @param suggestedSize

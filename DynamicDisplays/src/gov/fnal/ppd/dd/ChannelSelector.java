@@ -419,27 +419,14 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			grid.makeGrid(ChannelClassification.IMAGE);
 			allGrids.add(grid);
 			display.addListener(grid);
-
-			// display.addListener(new ActionListener() {
-			//
-			// @Override
-			// public void actionPerformed(ActionEvent e) {
-			// new Thread() {
-			// public void run() {
-			// catchSleep(3000);
-			// presentStatus = "Channel changed to " + display.getContent() + "; " + new java.util.Date();
-			// }
-			// }.run();
-			// }
-			// });
 			displayTabPane.add(grid, " Images ");
 
 			if (SHOW_DOCENT_TAB) {
 				GetMessagingServer.getDocentNameSelector();
-				grid = new DocentGrid(display, displayButtonGrooup, docentName);
-				grid.makeGrid(ChannelClassification.IMAGE);
-				allGrids.add(grid);
-				display.addListener(grid);
+				ChannelButtonGrid gridDocent = new DocentGrid(display, displayButtonGrooup, docentName);
+				gridDocent.makeGrid(ChannelClassification.IMAGE);
+				allGrids.add(gridDocent);
+				display.addListener(gridDocent);
 
 				display.addListener(new ActionListener() {
 
@@ -453,7 +440,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 						}.run();
 					}
 				});
-				displayTabPane.add(grid, " Docent ");
+				displayTabPane.add(gridDocent, " Docent ");
 			}
 
 			SimplifiedChannelGrid scg = new SimplifiedChannelGrid(display, displayButtonGrooup);
