@@ -8,8 +8,6 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.SystemColor;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -311,7 +309,7 @@ public class DDButton extends JButton {
 			if (nSize > 64)
 				nSize = 64;
 			System.out.println(hashCode() + " width=" + getWidth() + ", adv=" + adv + ", old siz=" + siz + ", New size = " + nSize);
-			setFont(getFont().deriveFont(nSize));
+			super.setFont(getFont().deriveFont(nSize));
 		}
 	}
 }
