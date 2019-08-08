@@ -74,7 +74,7 @@ public class WhoIsInChatRoom extends Thread {
 			client = new MessagingClient(getMessagingServerName(), MESSAGING_SERVER_PORT, myName) {
 				@Override
 				public void receiveIncomingMessage(final MessageCarrier msg) {
-					String clientName = msg.getFrom();
+					String clientName = msg.getMessageOriginator();
 					// System.out.println("WhoIsInChatRoom: see a message from [" + clientName + "]");
 					if (clientName.toLowerCase().contains("façade"))
 						return;

@@ -198,21 +198,21 @@ public class MessageCarrier implements Serializable {
 	/**
 	 * @return The type of the message
 	 */
-	public MessageType getType() {
+	public MessageType getMessageType() {
 		return type;
 	}
 
 	/**
 	 * @return The body of the message
 	 */
-	public String getMessage() {
+	public String getMessageValue() {
 		return message;
 	}
 
 	/**
 	 * @return Who is this message intended to be received by?
 	 */
-	public String getTo() {
+	public String getMessageRecipient() {
 		return to;
 	}
 
@@ -220,14 +220,14 @@ public class MessageCarrier implements Serializable {
 	 * @param to
 	 *            Set to whom this message is aimed
 	 */
-	public void setTo(final String to) {
+	public void setMessageRecipient(final String to) {
 		this.to = to;
 	}
 
 	/**
 	 * @return who is this message from?
 	 */
-	public String getFrom() {
+	public String getMessageOriginator() {
 		return from;
 	}
 
@@ -235,7 +235,7 @@ public class MessageCarrier implements Serializable {
 	 * @param from
 	 *            Who is this message from
 	 */
-	public void setFrom(final String from) {
+	public void setMessageOriginator(final String from) {
 		this.from = from;
 	}
 
@@ -344,10 +344,10 @@ public class MessageCarrier implements Serializable {
 		}
 
 		// Now verify the signature
-		ObjectSigning signing = ObjectSigning.getPublicSigning(getFrom());
+		ObjectSigning signing = ObjectSigning.getPublicSigning(getMessageOriginator());
 		if (signing == null)
 			// 4. No public key found
-			return "There is no public key for client '" + getFrom() + "'";
+			return "There is no public key for client '" + getMessageOriginator() + "'";
 
 		// 5. Does the signature actually match?
 		return signing.verifySignature(signedObject);

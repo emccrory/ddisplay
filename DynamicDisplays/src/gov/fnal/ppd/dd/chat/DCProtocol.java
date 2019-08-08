@@ -133,9 +133,9 @@ public class DCProtocol {
 	 * @throws ErrorProcessingMessage
 	 */
 	public boolean processInput(final MessageCarrier message) throws ErrorProcessingMessage {
-		String body = message.getMessage();
+		String body = message.getMessageValue();
 		String xmlDocument;
-		switch (message.getType()) {
+		switch (message.getMessageType()) {
 		case MESSAGE:
 			xmlDocument = body.substring(body.indexOf("<?xml"));
 			DDMessage myMessage = new DDMessage(xmlDocument);
@@ -178,7 +178,7 @@ public class DCProtocol {
 
 		case SUBSCRIBE:
 			@SuppressWarnings("unused")
-			String subject = message.getMessage();
+			String subject = message.getMessageValue();
 			// TODO -- What do we do with this??
 			break;
 		}
@@ -416,10 +416,10 @@ public class DCProtocol {
 		// println(DCProtocol.class, " $$$ Error handler, message is to '" + message.getTo() + "', from '" + message.getFrom() +
 		// "'");
 		for (Display L : listeners) {
-			if (L.getMessagingName().equals(message.getTo()) || L.getMessagingName().equals(message.getFrom())
-					|| message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME)) {
+			if (L.getMessagingName().equals(message.getMessageRecipient()) || L.getMessagingName().equals(message.getMessageOriginator())
+					|| message.getMessageOriginator().equals(SPECIAL_SERVER_MESSAGE_USERNAME)) {
 				// println(DCProtocol.class, " $$$ Sending to " + L);
-				L.errorHandler(message.getMessage());
+				L.errorHandler(message.getMessageValue());
 			} else
 				; // println(DCProtocol.class, " $$$ SKIPPING " + L + ", messaging name=" + L.getMessagingName());
 		}

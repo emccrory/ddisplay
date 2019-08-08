@@ -269,7 +269,7 @@ public class MessagingClient {
 		try {
 			byte[] b = null;
 
-			if (msg.getType().isReadOnly())
+			if (msg.getMessageType().isReadOnly())
 				sOutput.writeObject(msg);
 			else {
 				SignedObject p = msg.getSignedObject();
@@ -277,9 +277,9 @@ public class MessagingClient {
 				sOutput.writeObject(p);
 			}
 
-			if (msg.getType() != MessageType.AMALIVE && msg.getType() != MessageType.WHOISIN)
+			if (msg.getMessageType() != MessageType.AMALIVE && msg.getMessageType() != MessageType.WHOISIN)
 				if (b == null)
-					println(MessagingClient.class, ".sendMessage()\n" + msg + "\n\tisReadOnly() = " + msg.getType().isReadOnly());
+					println(MessagingClient.class, ".sendMessage()\n" + msg + "\n\tisReadOnly() = " + msg.getMessageType().isReadOnly());
 				else
 					println(MessagingClient.class, ".sendMessage()\n" + msg + "\n\tObject signature = 0x" + bytesToString(b, true));
 
@@ -548,7 +548,7 @@ public class MessagingClient {
 
 					if (read instanceof MessageCarrier) {
 						msg = (MessageCarrier) read;
-						if (checkSignedMessages() && !msg.getType().isReadOnly()) {
+						if (checkSignedMessages() && !msg.getMessageType().isReadOnly()) {
 							System.err.println("MessagingClient:ListenFromServer.run(): "
 									+ "Received message is unsigned and could cause a 'write' to happen:\n" + "[" + msg
 									+ "] -- IGNORING IT!");
@@ -565,7 +565,7 @@ public class MessagingClient {
 							}
 							// TODO -- Is the IP address within the message correct? Should verify that, too.
 						} else {
-							if (msg.getType().isReadOnly()) {
+							if (msg.getMessageType().isReadOnly()) {
 								if (showMessage2) {
 									System.out.println(new Date() + "Message is NOT properly signed: [" + msg + "]; reason = '"
 											+ signatureString + "' -- but it is a read-only message, so we'll accept it.");
@@ -593,11 +593,11 @@ public class MessagingClient {
 						System.out.println("Received this message: " + msg);
 
 					// if (msg.isThisForMe(username)) {
-					if (MessageCarrier.isUsernameMatch(msg.getTo(), username)) {
-						switch (msg.getType()) {
+					if (MessageCarrier.isUsernameMatch(msg.getMessageRecipient(), username)) {
+						switch (msg.getMessageType()) {
 						case ISALIVE:
 							// displayLogMessage("Replying that I am alive to " + msg.getFrom());
-							sendMessage(MessageCarrier.getIAmAlive(username, msg.getFrom(), "" + new Date()));
+							sendMessage(MessageCarrier.getIAmAlive(username, msg.getMessageOriginator(), "" + new Date()));
 							// All done with this iteration of the loop.
 							continue;
 
@@ -610,7 +610,7 @@ public class MessagingClient {
 							aliveCount++;
 							if (System.currentTimeMillis() > nextDisplayTime) {
 								displayLogMessage(false, ListenFromServer.class.getSimpleName() + ": Got 'AMALIVE' message from "
-										+ msg.getFrom() + ", message=[" + msg.getMessage() + "] [" + aliveCount + "]");
+										+ msg.getMessageOriginator() + ", message=[" + msg.getMessageValue() + "] [" + aliveCount + "]");
 								if (System.currentTimeMillis() > nextDisplayTime + 15000L)
 									// Continue to print these for 15 seconds, and the wait an hour to do it again.
 									nextDisplayTime = System.currentTimeMillis() + 60 * ONE_MINUTE;
@@ -642,7 +642,7 @@ public class MessagingClient {
 
 					} else {
 						displayLogMessage(ListenFromServer.class.getSimpleName()
-								+ ": Got a message that is not for me! Intended for " + msg.getTo() + ", I am " + username);
+								+ ": Got a message that is not for me! Intended for " + msg.getMessageRecipient() + ", I am " + username);
 						System.out.println("\t\t" + msg);
 						receiveIncomingMessage(msg);
 					}

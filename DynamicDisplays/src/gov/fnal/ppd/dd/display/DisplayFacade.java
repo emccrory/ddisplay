@@ -101,23 +101,23 @@ public class DisplayFacade extends DisplayImpl {
 		@Override
 		public void receiveIncomingMessage(final MessageCarrier message) {
 			// if (message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME) && message.getType() == MessageType.ERROR) {
-			if (message.getType() == MessageType.ERROR) {
+			if (message.getMessageType() == MessageType.ERROR) {
 				println(getClass(), ".receiveIncomingMessage(): Got an error message -- " + message);
 				dcp.errorHandler(message);
-			} else if (message.getType() == MessageType.REPLY) {
-				DisplayFacade DF = clients.get(message.getFrom());
+			} else if (message.getMessageType() == MessageType.REPLY) {
+				DisplayFacade DF = clients.get(message.getMessageOriginator());
 				if (DF != null) {
 					DF.informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED, "Channel change succeeded");
 					// println(getClass(), ".receiveIncomingMessage(): Yay! Got a real confirmation that the channel was changed.");
 				} else
 					println(getClass(),
-							".receiveIncomingMessage(): No client named " + message.getFrom() + " to which to send the REPLY.\n"
+							".receiveIncomingMessage(): No client named " + message.getMessageOriginator() + " to which to send the REPLY.\n"
 									+ "t\tThe clients are called: " + Arrays.toString(clients.keySet().toArray()));
 			} else {
 				// DisplayFacade d = clients.get(message.getFrom());
 				try {
 					if (!dcp.processInput(message)) {
-						sendMessage(MessageCarrier.getErrorMessage(message.getTo(), message.getFrom(), dcp.getErrorMessageText()));
+						sendMessage(MessageCarrier.getErrorMessage(message.getMessageRecipient(), message.getMessageOriginator(), dcp.getErrorMessageText()));
 					}
 				} catch (ErrorProcessingMessage e) {
 					// Ignore this error on the GUI side

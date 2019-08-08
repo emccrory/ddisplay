@@ -206,17 +206,17 @@ public class MessagingServer {
 				// read the username -- the first message from the new connection should be a login message
 				read = this.sInput.readObject();
 				if (read instanceof MessageCarrier) {
-					if (((MessageCarrier) read).getType() != MessageType.LOGIN) {
-						logger.warning("Expected LOGIN message from " + ((MessageCarrier) read).getMessage() + ", but got a "
-								+ ((MessageCarrier) read).getType() + " message");
+					if (((MessageCarrier) read).getMessageType() != MessageType.LOGIN) {
+						logger.warning("Expected LOGIN message from " + ((MessageCarrier) read).getMessageValue() + ", but got a "
+								+ ((MessageCarrier) read).getMessageType() + " message");
 						return;
 					}
-					String un = ((MessageCarrier) read).getMessage();
+					String un = ((MessageCarrier) read).getMessageValue();
 					this.username = un + "_" + id;
 					logger.fine("'" + this.username + "' has connected.");
 					setName("ClientThread_of_MessagingServer_" + username);
 				} else {
-					logger.warning("Unexpected response from client '" + ((MessageCarrier) read).getFrom() + ": Type="
+					logger.warning("Unexpected response from client '" + ((MessageCarrier) read).getMessageOriginator() + ": Type="
 							+ read.getClass().getCanonicalName());
 					return;
 				}
@@ -329,17 +329,17 @@ public class MessagingServer {
 						this.cm = (MessageCarrier) read;
 
 						// Idiot check: (Rarely seen, and never seen if the "username" is not null)
-						if (!MessageCarrier.isUsernameMatch(username, cm.getFrom()))
+						if (!MessageCarrier.isUsernameMatch(username, cm.getMessageOriginator()))
 							logger.warning("Oops (a).  My assumption is wrong.  This thread is for '" + username
-									+ "' and the from field on the message is '" + cm.getFrom() + "'");
+									+ "' and the from field on the message is '" + cm.getMessageOriginator() + "'");
 
 					} else if (read instanceof SignedObject) {
 						this.cmSigned = (SignedObject) read;
 						this.cm = (MessageCarrier) cmSigned.getObject();
 						// Idiot check: (Rarely seen, and never seen if the "username" is not null)
-						if (!MessageCarrier.isUsernameMatch(username, cm.getFrom()))
+						if (!MessageCarrier.isUsernameMatch(username, cm.getMessageOriginator()))
 							logger.warning("Oops (b).  My assumption is wrong.  This thread is for '" + username
-									+ "' and the from field on the message is '" + cm.getFrom() + "'");
+									+ "' and the from field on the message is '" + cm.getMessageOriginator() + "'");
 
 						String signatureString = this.cm.verifySignedObject(cmSigned);
 						if (signatureString == null)
@@ -349,8 +349,8 @@ public class MessagingServer {
 									+ "' -- ignoring this message and sending an error message back to the client.");
 
 							// Reply to the client that this message was rejected!
-							writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, this.cm.getFrom(),
-									"The message to display '" + this.cm.getTo()
+							writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, this.cm.getMessageOriginator(),
+									"The message to display '" + this.cm.getMessageRecipient()
 											+ "' does not have a correct cryptographic signature; it has been rejected."));
 							continue;
 						}
@@ -392,9 +392,9 @@ public class MessagingServer {
 						String typ = "null";
 						String tto = "null";
 						if (this.cm != null) {
-							frm = this.cm.getFrom();
-							typ = this.cm.getType().toString();
-							tto = this.cm.getTo();
+							frm = this.cm.getMessageOriginator();
+							typ = this.cm.getMessageType().toString();
+							tto = this.cm.getMessageRecipient();
 						}
 						// Reply to the client that this message was rejected!
 						String errorMessage = "Your message of type " + typ + " to client, " + tto
@@ -430,9 +430,9 @@ public class MessagingServer {
 
 				totalMesssagesHandled++;
 
-				if (this.cm.getType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getTo())) {
+				if (this.cm.getMessageType() == MessageType.AMALIVE && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getMessageRecipient())) {
 					if (showAliveMessages)
-						logger.fine("Alive msg: " + cm.getFrom().trim().replace(".fnal.gov", ""));
+						logger.fine("Alive msg: " + cm.getMessageOriginator().trim().replace(".fnal.gov", ""));
 					continue; // That's all for this while-loop iteration. Go read the socket again...
 				}
 
@@ -440,7 +440,7 @@ public class MessagingServer {
 					logger.fine("MessagingServer.ClientThread: Got message: " + cm);
 
 				// Switch for the type of message receive
-				switch (this.cm.getType()) {
+				switch (this.cm.getMessageType()) {
 
 				case ISALIVE:
 				case AMALIVE:
@@ -454,17 +454,17 @@ public class MessagingServer {
 					// The message, received from a client, is relayed here to the client of its choosing
 					// (unless that client is not authorized)
 					//
-					if (isAuthorized(this.cm.getFrom(), this.cm.getTo())) {
+					if (isAuthorized(this.cm.getMessageOriginator(), this.cm.getMessageRecipient())) {
 						broadcast(this);
 						// broadcast(this.cmSigned);
 					} else {
 						logger.warning("Message rejected!  '" + this.username + "' asked to send message of type "
-								+ this.cm.getType() + " to '" + this.cm.getTo()
+								+ this.cm.getMessageType() + " to '" + this.cm.getMessageRecipient()
 								+ "'\n\t\tbut it is not authorized to send a message to this client");
 
 						// Reply to the client that this message was rejected!
-						writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, this.cm.getFrom(),
-								"You are not authorized to change the channel on the display called " + this.cm.getTo()
+						writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, this.cm.getMessageOriginator(),
+								"You are not authorized to change the channel on the display called " + this.cm.getMessageRecipient()
 										+ ".\nThis directive has been rejected."));
 					}
 
@@ -495,7 +495,7 @@ public class MessagingServer {
 							// The way we are doing it here (which is not strictly correct) is to send unsigned messages
 							// back to the client (the one asking "WhoIsIn") for each client out there.
 
-							writeUnsignedMsg(MessageCarrier.getIAmAlive(ct.username, this.cm.getFrom(), "since " + ct.date));
+							writeUnsignedMsg(MessageCarrier.getIAmAlive(ct.username, this.cm.getMessageOriginator(), "since " + ct.date));
 						} else {
 							logger.fine("Talking to " + this.username + " socket " + this.socket.getLocalAddress()
 									+ ". Error!  Have a null client");
@@ -523,13 +523,13 @@ public class MessagingServer {
 					break;
 
 				case EMERGENCY:
-					if (isAuthorized(this.cm.getFrom(), this.cm.getTo()) && isClientAnEmergencySource(this.cm.getFrom())) {
+					if (isAuthorized(this.cm.getMessageOriginator(), this.cm.getMessageRecipient()) && isClientAnEmergencySource(this.cm.getMessageOriginator())) {
 						broadcast(this);
 						// broadcast(this.cmSigned);
 					} else {
 						String mess = "Message rejected!  '" + this.username + "' asked to send message of type "
-								+ this.cm.getType() + " to '" + this.cm.getTo() + "'\n\t\tbut ";
-						if (isClientAnEmergencySource(this.cm.getFrom())) {
+								+ this.cm.getMessageType() + " to '" + this.cm.getMessageRecipient() + "'\n\t\tbut ";
+						if (isClientAnEmergencySource(this.cm.getMessageOriginator())) {
 							mess += "it is not authorized to send any sort of message to this client";
 
 						} else {
@@ -538,14 +538,14 @@ public class MessagingServer {
 						logger.warning(mess);
 
 						// Reply to the client that this message was rejected!
-						writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, this.cm.getFrom(),
-								"You are not authorized to put an emergency message on the display called " + this.cm.getTo()
+						writeUnsignedMsg(MessageCarrier.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, this.cm.getMessageOriginator(),
+								"You are not authorized to put an emergency message on the display called " + this.cm.getMessageRecipient()
 										+ ".\nThis directive has been rejected."));
 					}
 					break;
 
 				case SUBSCRIBE:
-					String subject = this.cm.getMessage();
+					String subject = this.cm.getMessageValue();
 					ClientThreadList ctl = subjectListeners.get(subject);
 					if (ctl == null) {
 						ctl = new ClientThreadList();
@@ -694,7 +694,7 @@ public class MessagingServer {
 		}
 
 		public boolean isAuthorized(String from, String to) {
-			if (!checkSignedMessages() || cm.getType().isReadOnly())
+			if (!checkSignedMessages() || cm.getMessageType().isReadOnly())
 				return true;
 			if (cmSigned != null)
 				return ObjectSigning.isClientAuthorized(from, to);
@@ -897,7 +897,7 @@ public class MessagingServer {
 	protected void broadcast(MessageCarrier mc) {
 		synchronized (broadcasting) { // Only send one message at a time
 
-			String subject = mc.getTo();
+			String subject = mc.getMessageRecipient();
 			if (subject != null) {
 				for (int m = subject.length() - 1; m >= 0; m--) {
 					if (subject.charAt(m) == '_') { // Find the trailing "_index" and remove it
@@ -908,7 +908,7 @@ public class MessagingServer {
 			} else {
 				logger.warning(getClass().getSimpleName() + " - Unexpected null subject in a message.  Message=[" + mc + "]");
 			}
-			if (mc.getType() == MessageType.MESSAGE) {
+			if (mc.getMessageType() == MessageType.MESSAGE) {
 				lastMessage.put(subject, mc);
 			}
 
@@ -916,7 +916,7 @@ public class MessagingServer {
 			if (ctl != null) {
 				// Write this message to this client
 				for (ClientThread ct : ctl)
-					if (MessageCarrier.isUsernameMatch(mc.getTo(), ct.username))
+					if (MessageCarrier.isUsernameMatch(mc.getMessageRecipient(), ct.username))
 						if (!ct.writeUnsignedMsg(mc)) {
 							remove(ct);
 							logger.warning(getClass().getSimpleName() + " - broadcast() FAILED.  mc=" + mc);
@@ -943,14 +943,14 @@ public class MessagingServer {
 		try {
 			MessageCarrier mc = (MessageCarrier) message.getObject();
 			synchronized (broadcasting) { // Only send one message at a time
-				String subject = mc.getTo();
+				String subject = mc.getMessageRecipient();
 				for (int m = subject.length() - 1; m >= 0; m--) {
 					if (subject.charAt(m) == '_') { // Find the trailing "_index" and remove it
 						subject = subject.substring(0, m);
 						break;
 					}
 				}
-				if (mc.getType() == MessageType.MESSAGE) {
+				if (mc.getMessageType() == MessageType.MESSAGE) {
 					lastMessage.put(subject, mc);
 				}
 
@@ -958,7 +958,7 @@ public class MessagingServer {
 				if (ctl != null) {
 					// would write this message to this client
 					for (ClientThread ct : ctl)
-						if (MessageCarrier.isUsernameMatch(ct.username, mc.getTo())) {
+						if (MessageCarrier.isUsernameMatch(ct.username, mc.getMessageRecipient())) {
 							if (!ct.writeMsg(message)) {
 								remove(ct);
 								logger.fine("Disconnected Client " + ct.username + " removed from list.");

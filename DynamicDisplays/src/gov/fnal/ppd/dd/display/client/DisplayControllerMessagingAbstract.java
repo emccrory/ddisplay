@@ -963,18 +963,18 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			// TODO -- Should this method be synchronized? Does it make sense to have two messages processed at the same time, or
 			// not?
 
-			if ((messageCount++ % 5) == 0 || msg.getType() != MessageType.ISALIVE) {
+			if ((messageCount++ % 5) == 0 || msg.getMessageType() != MessageType.ISALIVE) {
 				println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
 						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
 			}
-			lastFrom = msg.getFrom();
-			if (msg.getTo().equals(getName())) { // || msg.getTo().startsWith(getName())) {
+			lastFrom = msg.getMessageOriginator();
+			if (msg.getMessageRecipient().equals(getName())) { // || msg.getTo().startsWith(getName())) {
 				if (!dcp.processInput(msg)) {
-					sendMessage(MessageCarrier.getErrorMessage(msg.getTo(), msg.getFrom(), dcp.getErrorMessageText()));
+					sendMessage(MessageCarrier.getErrorMessage(msg.getMessageRecipient(), msg.getMessageOriginator(), dcp.getErrorMessageText()));
 				}
 			} else if (debug)
-				println(this.getClass(), screenNumber + ": Ignoring a message of type " + msg.getType() + ", sent to ["
-						+ msg.getTo() + "] because I am [" + getName() + "]");
+				println(this.getClass(), screenNumber + ": Ignoring a message of type " + msg.getMessageType() + ", sent to ["
+						+ msg.getMessageRecipient() + "] because I am [" + getName() + "]");
 		}
 
 		@Override

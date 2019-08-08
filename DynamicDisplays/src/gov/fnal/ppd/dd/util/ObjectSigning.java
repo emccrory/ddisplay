@@ -526,7 +526,7 @@ public class ObjectSigning {
 
 				SignedObject so4 = OS.example(mess1);
 
-				mess1.setFrom("Mf");
+				mess1.setMessageOriginator("Mf");
 				SignedObject so3 = OS.example(mess1);
 				System.out.println();
 				System.out.println("Signature on the 3rd signed object was:\n" + dump(so3.getSignature()));

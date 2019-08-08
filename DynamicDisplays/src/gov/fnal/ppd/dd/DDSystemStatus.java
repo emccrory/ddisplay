@@ -112,11 +112,11 @@ public class DDSystemStatus extends JFrame {
 
 			// This must be a message of type ISALIVE. Try it and see if that assumption is right.
 			refresh = 10;
-			String clientName = msg.getFrom();
+			String clientName = msg.getMessageOriginator();
 			if (clientName == null || clientName.length() == 0) // || clientName.equals("NULL"))
 				return;
 
-			String dateString = msg.getMessage();
+			String dateString = msg.getMessageValue();
 			if (clientName.contains("FA\u00c7ADE")) {
 				if (showFacades.isSelected()) {
 					String facadeName = clientName.substring(clientName.indexOf("--") + 3);
