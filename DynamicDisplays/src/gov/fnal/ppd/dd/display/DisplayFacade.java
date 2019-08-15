@@ -107,7 +107,7 @@ public class DisplayFacade extends DisplayImpl {
 			} else if (message.getMessageType() == MessageType.REPLY) {
 				DisplayFacade DF = clients.get(message.getMessageOriginator());
 				if (DF != null) {
-					DF.informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED, "Channel change succeeded");
+					DF.informListeners(DisplayChangeEvent.DisplayChangeType.CHANGE_COMPLETED, "Channel change succeeded");
 					// println(getClass(), ".receiveIncomingMessage(): Yay! Got a real confirmation that the channel was changed.");
 				} else
 					println(getClass(),
@@ -217,7 +217,7 @@ public class DisplayFacade extends DisplayImpl {
 
 	public boolean localSetContent() {
 		receivedAReply = false;
-		informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
+		informListeners(DisplayChangeEvent.DisplayChangeType.CHANGE_RECEIVED, null);
 		try {
 			SignageContent content = getContent();
 			EncodedCarrier cc = null;

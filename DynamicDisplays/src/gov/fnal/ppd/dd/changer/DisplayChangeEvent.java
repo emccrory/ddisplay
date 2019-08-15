@@ -24,11 +24,11 @@ public class DisplayChangeEvent extends ActionEvent {
 	 * 
 	 */
 	@SuppressWarnings("javadoc")
-	public static enum Type {
+	public static enum DisplayChangeType {
 		CHANGE_RECEIVED, CHANGE_COMPLETED, ALIVE, ERROR, IDLE,
 	};
 
-	private Type	type	= Type.IDLE;
+	private DisplayChangeType	type	= DisplayChangeType.IDLE;
 
 	/**
 	 * @param source
@@ -38,7 +38,7 @@ public class DisplayChangeEvent extends ActionEvent {
 	 * @param t
 	 *            The type of event this is
 	 */
-	public DisplayChangeEvent(final Object source, final int id, final Type t) {
+	public DisplayChangeEvent(final Object source, final int id, final DisplayChangeType t) {
 		super(source, id, "" + t);
 		// The type becomes the command
 		this.type = t;
@@ -54,7 +54,7 @@ public class DisplayChangeEvent extends ActionEvent {
 	 * @param moreInfo
 	 *            Extra information to tag onto the event type
 	 */
-	public DisplayChangeEvent(final Object source, final int id, final Type t, final String moreInfo) {
+	public DisplayChangeEvent(final Object source, final int id, final DisplayChangeType t, final String moreInfo) {
 		super(source, id, "" + t + " -- " + moreInfo);
 		this.type = t;
 	}
@@ -67,7 +67,7 @@ public class DisplayChangeEvent extends ActionEvent {
 	/**
 	 * @return the type of DisplayChangeEvent this is
 	 */
-	public Type getType() {
+	public DisplayChangeType getType() {
 		return type;
 	}
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><messageCarrier type="TYPE"> 
+    <messageRecipient> name of the recipient of this message </messageRecipient> 
+    <messageOriginator> name of the sender of this message </messageOriginator> 
+    <messageValue> 
+        The message, which itself will be XML 
+    </messageValue> 
+    <checkSum> 123456789 </checkSum>                    
+    <timeStamp> Jan  1, 2019 06:43:22 CST </timeStamp>  
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+  <SignedInfo>
+    <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments"/>
+    <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+    <Reference URI="">
+      <Transforms>
+	<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+      </Transforms>
+      <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+      <DigestValue>vPDXS2PVFiw4Gq0/HyZPY4cF+wPuQog2FNsgVC8USwM=</DigestValue>
+    </Reference>
+  </SignedInfo>
+  <SignatureValue/>
+  <KeyInfo>
+    <KeyValue>
+      <DSAKeyValue>
+	<P>/X9TgR11EilS30qcLuzk5/YRt1I870QAwx4/gLZRJmlFXUAiUftZPY1Y+r/F9bow9subVWzXgTuAHTRv8mZgt2uZUKWkn5/oBHsQIsJPu6nX/rfGG/g7V+fGqKYVDwT7g/bTxR7DAjVUE1oWkTL2dfOuK2HXKu/yIgMZndFIAcc=</P>
+	<Q>l2BQjxUjC8yykrmCouuEC/BYHPU=</Q>
+	<G>9+GghdabPd7LvKtcNrhXuXmUr7v6OuqC+VdMCz0HgmdRWVeOutRZT+ZxBxCBgLRJFnEj6EwoFhO3zwkyjMim4TwWeotUfI0o4KOuHiuzpnWRbqN/C/ohNWLx+2J6ASQ7zKTxvqhRkImog9/hWuWfBpKLZl6Ae1UlZAFMO/7PSSo=</G>
+	<Y>jvZZxQ6uKhAzg/ObTL4RrGApjTeW6EYgHfZjcj/PvblZYAN7y3nzRhQ4FG+xs5umLumgxddc1cTXQ63U82ucDrX/0BnT+C1M/rQnFY0NhS6OVEJsSx6W4XUeYB8LK58/LGNX72TDJne/zyfP7AYZ8HjzsQa84+KjFo60i6rTbmM=</Y>
+      </DSAKeyValue>
+    </KeyValue>
+  </KeyInfo>
+</Signature>
+</messageCarrier>

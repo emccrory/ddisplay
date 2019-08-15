@@ -49,7 +49,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
-import gov.fnal.ppd.dd.changer.DisplayChangeEvent.Type;
+import gov.fnal.ppd.dd.changer.DisplayChangeEvent.DisplayChangeType;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
@@ -169,7 +169,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
 				public void actionPerformed(ActionEvent e) {
 					DisplayChangeEvent ev = (DisplayChangeEvent) e;
-					if (ev.getType() == Type.ERROR) {
+					if (ev.getType() == DisplayChangeType.ERROR) {
 						launchErrorMessage(e);
 						messageSendErrors = true;
 					}

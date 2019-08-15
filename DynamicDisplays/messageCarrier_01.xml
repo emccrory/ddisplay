@@ -1,0 +1,9 @@
+<messageCarrier type="TYPE"> 
+    <messageRecipient> name of the recipient of this message </messageRecipient> 
+    <messageOriginator> name of the sender of this message </messageOriginator> 
+    <messageValue> 
+        The message, which itself will be XML 
+    </messageValue> 
+    <checkSum> 123456789 </checkSum>                    
+    <timeStamp> Jan  1, 2019 06:43:22 CST </timeStamp>  
+</messageCarrier> 

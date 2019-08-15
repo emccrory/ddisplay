@@ -134,7 +134,6 @@ public class MessagingServer {
 	 * marking the surrounding calls with "MessagingServer.this.", but this was just too much clutter (IMHO).
 	 * 
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
-	 * @copyright 2014
 	 */
 	private class ClientThread extends Thread {
 

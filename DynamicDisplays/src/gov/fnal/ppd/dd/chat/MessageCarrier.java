@@ -11,7 +11,6 @@ package gov.fnal.ppd.dd.chat;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.util.ObjectSigning;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -20,6 +19,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.SignedObject;
 import java.security.spec.InvalidKeySpecException;
+
+import gov.fnal.ppd.dd.chat.xml.MessageTypeXML;
+import gov.fnal.ppd.dd.util.ObjectSigning;
 
 /**
  * This class holds the messages that will be exchanged between the Clients and the Server. When talking from a Java Client to a
@@ -61,7 +63,7 @@ public class MessageCarrier implements Serializable {
 
 	protected static final long	serialVersionUID	= 1112122200L;
 
-	private MessageType			type;
+	private MessageTypeXML		type;
 	private String				message;
 	private String				to;
 	private String				from;
@@ -72,13 +74,38 @@ public class MessageCarrier implements Serializable {
 	 * @param to
 	 *            The recipient of the message
 	 * @param message
-	 *            The ASCII message to send. Generally, this is an XML document.
+	 *            The XML "Change Channel" message to send, using the channel number only
 	 * @return the object to send over the wire
 	 */
-	public static MessageCarrier getMessage(final String from, final String to, final String message) {
-		return new MessageCarrier(MessageType.MESSAGE, from, to, message);
+	public static MessageCarrier getChangeChannelByNumberMessage(final String from, final String to, final String message) {
+		return new MessageCarrier(MessageTypeXML.CHANGECHANNELBYNUMBER, from, to, message);
+	}
+	
+	/**
+	 * @param from
+	 *            The originator of the message
+	 * @param to
+	 *            The recipient of the message
+	 * @param message
+	 *            The XML "Change Channel List" message to send
+	 * @return the object to send over the wire
+	 */
+	public static MessageCarrier getChangeChannelListMessage(final String from, final String to, final String message) {
+		return new MessageCarrier(MessageTypeXML.CHANGECHANNELLIST, from, to, message);
 	}
 
+	/**
+	 * @param from
+	 *            The originator of the message
+	 * @param to
+	 *            The recipient of the message
+	 * @param message
+	 *            The XML "Change Channel" message to send
+	 * @return the object to send over the wire
+	 */
+	public static MessageCarrier getChangeChannelMessage(final String from, final String to, final String message) {
+		return new MessageCarrier(MessageTypeXML.CHANGECHANNEL, from, to, message);
+	}
 	/**
 	 * @param from
 	 * @param to
@@ -86,14 +113,14 @@ public class MessageCarrier implements Serializable {
 	 * @return A reply message from a client back to the requester
 	 */
 	public static MessageCarrier getReplyMessage(final String from, final String to, final String message) {
-		return new MessageCarrier(MessageType.REPLY, from, to, message);
+		return new MessageCarrier(MessageTypeXML.REPLY, from, to, message);
 	}
 
 	/**
 	 * @return A logout message for the messaging server
 	 */
 	public static MessageCarrier getLogout() {
-		return new MessageCarrier(MessageType.LOGOUT, "");
+		return new MessageCarrier(MessageTypeXML.LOGOUT, "");
 	}
 
 	/**
@@ -101,7 +128,7 @@ public class MessageCarrier implements Serializable {
 	 * @return A login message for the messaging server
 	 */
 	public static MessageCarrier getLogin(final String username) {
-		return new MessageCarrier(MessageType.LOGIN, username);
+		return new MessageCarrier(MessageTypeXML.LOGIN, username);
 	}
 
 	/**
@@ -109,7 +136,7 @@ public class MessageCarrier implements Serializable {
 	 * @return A message for the messaging server asking for all the clients that are connected
 	 */
 	public static MessageCarrier getWhoIsIn(final String from) {
-		return new MessageCarrier(MessageType.WHOISIN, from, "NULL", "");
+		return new MessageCarrier(MessageTypeXML.WHOISIN, from, "NULL", "");
 	}
 
 	/**
@@ -119,7 +146,7 @@ public class MessageCarrier implements Serializable {
 	 * @return A message for the messaging server asking if a client is alive
 	 */
 	public static MessageCarrier getIsAlive(final String from, final String to) {
-		return new MessageCarrier(MessageType.ISALIVE, from, to, "");
+		return new MessageCarrier(MessageTypeXML.ISALIVE, from, to, "");
 	}
 
 	/**
@@ -129,7 +156,7 @@ public class MessageCarrier implements Serializable {
 	 * @return A message to the messaging server that says, "Yes, I am alive"
 	 */
 	public static MessageCarrier getIAmAlive(final String from, final String to, String message) {
-		return new MessageCarrier(MessageType.AMALIVE, from, to, message);
+		return new MessageCarrier(MessageTypeXML.AMALIVE, from, to, message);
 	}
 
 	/**
@@ -144,7 +171,7 @@ public class MessageCarrier implements Serializable {
 	 * @return A message to the messaging server that says, "There has been an error"
 	 */
 	public static MessageCarrier getErrorMessage(final String from, final String to, final String message) {
-		return new MessageCarrier(MessageType.ERROR, from, to, message);
+		return new MessageCarrier(MessageTypeXML.ERROR, from, to, message);
 	}
 
 	/**
@@ -160,7 +187,7 @@ public class MessageCarrier implements Serializable {
 	 */
 	public static MessageCarrier getEmergencyMessage(final String from, final String to, final String message) {
 		// Stream the Emergency Message
-		return new MessageCarrier(MessageType.EMERGENCY, from, to, message);
+		return new MessageCarrier(MessageTypeXML.EMERGENCY, from, to, message);
 	}
 	
 	/**
@@ -170,10 +197,10 @@ public class MessageCarrier implements Serializable {
 	 * @return the message itself that contains the subscription subject
 	 */
 	public static MessageCarrier getSubscribeMessage(final String from, final String to, final String subject) {
-		return new MessageCarrier(MessageType.SUBSCRIBE, from, to, subject);
+		return new MessageCarrier(MessageTypeXML.SUBSCRIBE, from, to, subject);
 	}
 
-	private MessageCarrier(final MessageType type, final String message) {
+	private MessageCarrier(final MessageTypeXML type, final String message) {
 		this(type, "NULL", "NULL", message);
 	}
 
@@ -183,7 +210,7 @@ public class MessageCarrier implements Serializable {
 	 * @param message
 	 *            -- The body of the message (a simple String)
 	 */
-	private MessageCarrier(final MessageType type, final String from, final String to, final String message) {
+	private MessageCarrier(final MessageTypeXML type, final String from, final String to, final String message) {
 		this.type = type;
 		this.message = message;
 		this.from = from;
@@ -198,7 +225,7 @@ public class MessageCarrier implements Serializable {
 	/**
 	 * @return The type of the message
 	 */
-	public MessageType getMessageType() {
+	public MessageTypeXML getMessageType() {
 		return type;
 	}
 

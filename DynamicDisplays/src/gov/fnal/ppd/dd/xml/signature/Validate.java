@@ -40,6 +40,8 @@ public class Validate {
 	//
 	public static void main(String[] args) throws Exception {
 
+		// SignXMLUsingDSAKeys.loadPublicKey(args[0]);
+
 		// Instantiate the document to be validated
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setNamespaceAware(true);
@@ -56,6 +58,8 @@ public class Validate {
 			System.out.println("Signature passed core validation");
 		}
 	}
+
+	
 
 	/**
 	 * Validate the signature of an XML document. This document contains the public key. This method is used only for testing.
@@ -80,8 +84,9 @@ public class Validate {
 		XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
 
 		// Create a DOMValidateContext and specify a KeyValue KeySelector and document context
-		DOMValidateContext valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(0));
-
+//		DOMValidateContext valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(0));
+		DOMValidateContext valContext = new DOMValidateContext(GenEnveloped.publicKey, nl.item(0));
+		
 		// unmarshal the XMLSignature
 		XMLSignature signature = fac.unmarshalXMLSignature(valContext);
 
