@@ -3,21 +3,27 @@ package gov.fnal.ppd.dd.chat;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.WAIT_FOR_SERVER_TIME;
-import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.ExitHandler.processingGracefulExit;
-import static gov.fnal.ppd.dd.util.Util.bytesToString;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.security.SignedObject;
 import java.util.Date;
 import java.util.Scanner;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import gov.fnal.ppd.dd.xml.AmAliveMessage;
+import gov.fnal.ppd.dd.xml.IsAliveMessage;
+import gov.fnal.ppd.dd.xml.MessageCarrierXML;
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
 
 /*
  * MessagingClient
@@ -49,9 +55,12 @@ public class MessagingClient {
 
 	private static boolean			showAllIncomingMessages			= false;
 	// for I/O
-	private ObjectInputStream		sInput;																// to read from the socket
-	protected ObjectOutputStream	sOutput;															// to write on the socket
+	// to read from the socket
+	private InputStream				sInput;
+	// to write on the socket
+	protected OutputStream			sOutput;
 	private Socket					socket							= null;
+	private DocumentBuilderFactory	dbf								= DocumentBuilderFactory.newInstance();
 
 	// the server, the port and the username
 	private String					server, username;
@@ -85,6 +94,7 @@ public class MessagingClient {
 		this.server = server;
 		this.port = port;
 		this.username = username;
+		dbf.setNamespaceAware(true);
 	}
 
 	/**
@@ -118,7 +128,7 @@ public class MessagingClient {
 						if (lastMessageReceived + 5 * ONE_MINUTE < System.currentTimeMillis()
 								&& lastPingSent + ONE_MINUTE < System.currentTimeMillis()) {
 							// We haven't heard from the server in a long time! Maybe it is dead or sleeping.
-							sendMessage(MessageCarrier.getIAmAlive(username, serverName, new Date().toString()));
+							sendMessage(MessageCarrierXML.getIAmAlive(username, serverName));
 							displayLogMessage(
 									"Sending unsolicited 'IAmAlive' message from " + username + " to the server (" + serverName
 											+ ") because last message was " + (System.currentTimeMillis() - lastMessageReceived)
@@ -159,7 +169,8 @@ public class MessagingClient {
 					"The messaging server just does not exist at this time!! '" + server + ":" + port + "'.  Exception is " + ec);
 			disconnect();
 			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 5 * ONE_MINUTE;
-			displayLogMessage(false, "We will wait FIVE MINUTES (10 min.) before trying to connect to the server again for " + username);
+			displayLogMessage(false,
+					"We will wait FIVE MINUTES (10 min.) before trying to connect to the server again for " + username);
 			return false;
 		} catch (Exception ec) {
 			// if it failed not much I can do except wait
@@ -174,8 +185,11 @@ public class MessagingClient {
 
 		/* Creating both Data Stream */
 		try {
-			sOutput = new ObjectOutputStream(socket.getOutputStream());
-			sInput = new ObjectInputStream(socket.getInputStream());
+			// sOutput = new ObjectOutputStream(socket.getOutputStream());
+			// sInput = new ObjectInputStream(socket.getInputStream());
+
+			sOutput = socket.getOutputStream();
+			sInput = socket.getInputStream();
 
 			/*
 			 * From http://stackoverflow.com/questions/5658089/java-creating-a-new-objectinputstream-blocks:
@@ -212,17 +226,7 @@ public class MessagingClient {
 		listenFromServer.start();
 
 		// Send our username to the server
-
-		try {
-			sOutput.writeObject(MessageCarrier.getLogin(username));
-			sOutput.reset();
-		} catch (IOException eIO) {
-			displayLogMessage("Exception doing login : " + eIO);
-			disconnect();
-			socket = null;
-			return false;
-		}
-
+		sendMessage(MessageCarrierXML.getLogin(username));
 		connectionAccepted();
 
 		// success! Inform the caller that it worked
@@ -237,7 +241,7 @@ public class MessagingClient {
 	public void displayLogMessage(final String msg) {
 		displayLogMessage(true, msg);
 	}
-	
+
 	public void displayLogMessage(boolean show, final String msg) {
 		if (show)
 			presentStatus = msg;
@@ -255,7 +259,7 @@ public class MessagingClient {
 	 *            The message that was received just now.
 	 * @throws ErrorProcessingMessage
 	 */
-	public void receiveIncomingMessage(final MessageCarrier msg) throws ErrorProcessingMessage {
+	public void receiveIncomingMessage(final MessageCarrierXML msg) throws ErrorProcessingMessage {
 		System.out.println(msg);
 	}
 
@@ -265,35 +269,11 @@ public class MessagingClient {
 	 * @param msg
 	 *            -- The message to sign and then send.
 	 */
-	public void sendMessage(MessageCarrier msg) {
-		try {
-			byte[] b = null;
-
-			if (msg.getMessageType().isReadOnly())
-				sOutput.writeObject(msg);
-			else {
-				SignedObject p = msg.getSignedObject();
-				b = p.getSignature();
-				sOutput.writeObject(p);
-			}
-
-			if (msg.getMessageType() != MessageType.AMALIVE && msg.getMessageType() != MessageType.WHOISIN)
-				if (b == null)
-					println(MessagingClient.class, ".sendMessage()\n" + msg + "\n\tisReadOnly() = " + msg.getMessageType().isReadOnly());
-				else
-					println(MessagingClient.class, ".sendMessage()\n" + msg + "\n\tObject signature = 0x" + bytesToString(b, true));
-
-			// The following line is controversial: Is it a bug or is it a feature? Sun claims it is a feature -- it allows the
-			// sender to re-send any message easily. But others (myself included) see this as a bug -- if you remember every message
-			// every time, you'll run out of memory eventually. The call to "reset()" causes the output object to ignore this,
-			// and all previous, messages it has sent.
-			sOutput.reset();
+	public void sendMessage(MessageCarrierXML msg) {
+		if (MessageConveyor.sendMessage(getClass(), msg, sOutput))
 			return;
-		} catch (Exception e) {
-			displayLogMessage(MessagingClient.class.getSimpleName() + ".sendMessage(): Exception writing to server: " + msg);
-			catchSleep(1);
-			e.printStackTrace();
-		}
+		
+		// Message failed.  Do we need to reconnect?
 		try {
 			new Thread("ReconnectToServer") {
 				@Override
@@ -335,7 +315,7 @@ public class MessagingClient {
 			displayLogMessage(MessagingClient.class.getSimpleName() + " (" + username
 					+ "): Will not attempt reconnect since we seem to be exiting the JVM");
 			return;
-		}		
+		}
 		socket = null;
 
 		// Wait until the server returns
@@ -353,7 +333,7 @@ public class MessagingClient {
 					if (wait < 0)
 						wait = (long) (0.5 * WAIT_FOR_SERVER_TIME + (50.0 * Math.random()));
 
-					displayLogMessage(false, 
+					displayLogMessage(false,
 							username + ": Will wait " + wait + " milliseconds before trying to connect to the server again.");
 					catchSleep(wait);
 					// Add a random offset each time so that if there are lots of waiting clients, they don't all hit at once.
@@ -470,15 +450,15 @@ public class MessagingClient {
 				String msg = scan.nextLine();
 				// logout if message is LOGOUT
 				if (msg.equalsIgnoreCase("LOGOUT")) {
-					client.sendMessage(MessageCarrier.getLogout());
+					client.sendMessage(MessageCarrierXML.getLogout(userName));
 					// Note: In this fake example, logging off will cause the system to try to log you back in in a moment.
 					break; // break to do the disconnect
 				}
 				// message WhoIsIn
 				else if (msg.equalsIgnoreCase("WHOISIN")) {
-					client.sendMessage(MessageCarrier.getWhoIsIn(userName));
-				} else { // default to ordinary message
-					client.sendMessage(MessageCarrier.getMessage(userName, null, msg));
+					client.sendMessage(MessageCarrierXML.getWhoIsIn(userName));
+					// } else { // default to ordinary message
+					// client.sendMessage(MessageCarrierXML.getMessage(userName, null, msg));
 				}
 			}
 			// done: disconnect
@@ -535,132 +515,66 @@ public class MessagingClient {
 
 		@Override
 		public void run() {
-			boolean showMessage1 = true, showMessage2 = true, showMessage3 = true;
 			int aliveCount = 0;
 			if (!keepMessagingClientGoing)
 				System.err.println("ListenFromServer.run(): internal error encountered; keepMessagingClientGoing is false.");
+			BufferedReader receiver = new BufferedReader(new InputStreamReader(sInput));
 			while (keepMessagingClientGoing) {
 				try {
-					MessageCarrier msg;
-					Object read = sInput.readObject();
+					MessageCarrierXML msg = MessageConveyor.getNextDocument(getClass(), receiver);
 					lastMessageReceived = System.currentTimeMillis();
-					dumpMessage(read);
+					dumpMessage(msg);
 
-					if (read instanceof MessageCarrier) {
-						msg = (MessageCarrier) read;
-						if (checkSignedMessages() && !msg.getMessageType().isReadOnly()) {
-							System.err.println("MessagingClient:ListenFromServer.run(): "
-									+ "Received message is unsigned and could cause a 'write' to happen:\n" + "[" + msg
-									+ "] -- IGNORING IT!");
-							continue;
-						}
-					} else if (read instanceof SignedObject) {
-						SignedObject signedObject = (SignedObject) read;
-						msg = (MessageCarrier) signedObject.getObject();
-						String signatureString = msg.verifySignedObject(signedObject);
-						if (signatureString == null) {
-							if (showMessage1) {
-								System.out.println("Message is properly signed: " + msg);
-								showMessage1 = false;
-							}
-							// TODO -- Is the IP address within the message correct? Should verify that, too.
-						} else {
-							if (msg.getMessageType().isReadOnly()) {
-								if (showMessage2) {
-									System.out.println(new Date() + "Message is NOT properly signed: [" + msg + "]; reason = '"
-											+ signatureString + "' -- but it is a read-only message, so we'll accept it.");
-									showMessage2 = false;
-								}
-							} else {
-								if (showMessage3)
-									System.err.print(new Date() + "Message is NOT PROPERLY SIGNED: [" + msg + "]; reason = '"
-											+ signatureString + "'-- Ignoring this message!");
-								showMessage3 = false;
-								catchSleep(500L);
-								continue;
-							}
-						}
-					} else {
-						System.err.println("Got a message that was not of an expected type " + read.getClass().getCanonicalName()
-								+ " at " + new Date());
-						new ClassNotFoundException(read.getClass().getCanonicalName()).printStackTrace();
-						// try to continue anyway ...
-						catchSleep(1000L);
-						continue;
-					}
+					// TODO - check signature
 
 					if (showAllIncomingMessages)
 						System.out.println("Received this message: " + msg);
 
-					// if (msg.isThisForMe(username)) {
-					if (MessageCarrier.isUsernameMatch(msg.getMessageRecipient(), username)) {
-						switch (msg.getMessageType()) {
-						case ISALIVE:
+					if (MessageCarrierXML.isUsernameMatch(msg.getMessageRecipient(), username)) {
+						Class<? extends MessagingDataXML> clazz = msg.getMessageValue().getClass();
+						if (clazz.equals(IsAliveMessage.class)) {
 							// displayLogMessage("Replying that I am alive to " + msg.getFrom());
-							sendMessage(MessageCarrier.getIAmAlive(username, msg.getMessageOriginator(), "" + new Date()));
+							sendMessage(MessageCarrierXML.getIAmAlive(username, msg.getMessageOriginator()));
 							// All done with this iteration of the loop.
 							continue;
-
-						case REPLY:
-							// TODO -- Inform our overlords that the channel was, in fact, successfully changed.
-							break;
-
-						case AMALIVE:
+						} else if (clazz.equals(AmAliveMessage.class)) {
 							// Print out some of these messages for the log file
 							aliveCount++;
 							if (System.currentTimeMillis() > nextDisplayTime) {
-								displayLogMessage(false, ListenFromServer.class.getSimpleName() + ": Got 'AMALIVE' message from "
-										+ msg.getMessageOriginator() + ", message=[" + msg.getMessageValue() + "] [" + aliveCount + "]");
+								displayLogMessage(false,
+										ListenFromServer.class.getSimpleName() + ": Got 'AMALIVE' message from "
+												+ msg.getMessageOriginator() + ", message=[" + msg.getMessageValue() + "] ["
+												+ aliveCount + "]");
 								if (System.currentTimeMillis() > nextDisplayTime + 15000L)
 									// Continue to print these for 15 seconds, and the wait an hour to do it again.
 									nextDisplayTime = System.currentTimeMillis() + 60 * ONE_MINUTE;
 							}
-							break;
-
-						case LOGIN:
-						case LOGOUT:
-						case WHOISIN:
+							continue;
+						} else {
 							displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got a message that is being ignored.");
 							System.out.println("\t\t" + msg);
-							continue;
-
-						case ERROR:
-						case MESSAGE:
-							// Normal stuff here
-							break;
-
-						case EMERGENCY:
-							// Emergency? What do we do with this information?!!
-							break;
-
-						case SUBSCRIBE:
-							// The server should not be asking to subscribe, but we put this here to be complete.
-						default:
-							break;
 						}
-						receiveIncomingMessage(msg);
 
 					} else {
-						displayLogMessage(ListenFromServer.class.getSimpleName()
-								+ ": Got a message that is not for me! Intended for " + msg.getMessageRecipient() + ", I am " + username);
+						displayLogMessage(
+								ListenFromServer.class.getSimpleName() + ": Got a message that is not for me! Intended for "
+										+ msg.getMessageRecipient() + ", I am " + username);
 						System.out.println("\t\t" + msg);
-						receiveIncomingMessage(msg);
 					}
-				} catch (IOException e) {
-					displayLogMessage("Server has closed the connection: " + e);
-					break; // Leave the forever loop
+					receiveIncomingMessage(msg);
+
+				} catch (UnrecognizedCommunicationException e) {
+					e.printStackTrace();
 				} catch (NullPointerException e) {
 					displayLogMessage("NullPointerException from reading server!");
 					e.printStackTrace();
 					break; // Leave the forever loop
-				} catch (ClassNotFoundException e) {
-					// can't happen with an Object cast, but need the catch anyhow
-					e.printStackTrace();
 				} catch (ErrorProcessingMessage e) {
 					// TODO -- We are catching a failure from the lowest level. Need to send an error response to the sender.
 					e.printStackTrace();
 				}
-			}
+			} // end of while forever loop
+
 			displayLogMessage(ListenFromServer.class.getSimpleName() + ": Disconnecting from server.");
 			disconnect();
 			displayLogMessage(ListenFromServer.class.getSimpleName() + ": Exiting listening thread.");
@@ -689,4 +603,5 @@ public class MessagingClient {
 	public String getPresentStatus() {
 		return presentStatus;
 	}
+
 }

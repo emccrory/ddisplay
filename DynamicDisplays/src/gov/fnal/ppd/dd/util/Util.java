@@ -9,6 +9,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
+import static gov.fnal.ppd.dd.util.Util.getEntropy;
 
 import java.awt.event.ActionEvent;
 import java.io.ByteArrayOutputStream;
@@ -16,6 +17,10 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.lang.management.ManagementFactory;
+import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -26,9 +31,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
@@ -61,14 +68,14 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
  * 
  */
 public class Util {
-	private static final String[]			days			= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+	private static final String[]	days			= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
 	// TODO Replace this random selection of default page to show with the page that is specified in the database.
 
 	/**
 	 * The list of default URLs
 	 */
-	public static final String				DEFAULT_URLS[]	= { getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MINOS",
+	public static final String		DEFAULT_URLS[]	= { getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MINOS",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MINERvA",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MiniBooNE",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MicroBooNE",
@@ -78,23 +85,23 @@ public class Util {
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NOvA",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=DUNE-LBNF",
 			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NuMI",														//
-			 };
+	};
 
 	/**
 	 * The list of default names for URLS
 	 */
-	public static final String				DEFAULT_NAMES[]	= { "MINOS Pictures", "MINERvA Pictures", "MiniBooNE Pictures",
+	public static final String		DEFAULT_NAMES[]	= { "MINOS Pictures", "MINERvA Pictures", "MiniBooNE Pictures",
 			"MicroBooNE Pictures", "Mu2e Pictures", "g-2 Pictures", "SeaQuest Pictures", "NOvA Pictures", "DUNE/LBNF Pictures",
 			"NuMI Pictures", "Accelerator Status", "Clocks", };
 
 	/**
 	 * The default URL for a Display
 	 */
-	public static final String				MY_URL;
+	public static final String		MY_URL;
 	/**
 	 * The name that is associated with the default URL for a Display
 	 */
-	public static final String				MY_NAME;
+	public static final String		MY_NAME;
 
 	static {
 		int index = (int) (DEFAULT_URLS.length * Math.random());
@@ -158,6 +165,7 @@ public class Util {
 	public static void launchMemoryWatcher() {
 		launchMemoryWatcher(null);
 	}
+
 	/**
 	 * Prints a short memory reckoning every 5 minutes
 	 */
@@ -179,8 +187,8 @@ public class Util {
 					long free = Runtime.getRuntime().freeMemory() / 1024 / 1024;
 					long max = Runtime.getRuntime().maxMemory() / 1024 / 1024;
 					long total = Runtime.getRuntime().totalMemory() / 1024 / 1024;
-					String msg = "Threads: " + tCount + " (" + activeTCount + "), mem: " + total + "M " + free + "M "
-							+ max + "M at " + (new Date()) + " (Sleep " + (time / 1000) + " sec.)";
+					String msg = "Threads: " + tCount + " (" + activeTCount + "), mem: " + total + "M " + free + "M " + max
+							+ "M at " + (new Date()) + " (Sleep " + (time / 1000) + " sec.)";
 					if (logger != null) {
 						logger.fine(msg);
 					} else {
@@ -198,7 +206,8 @@ public class Util {
 	 */
 	public static SignageContent makeEmptyChannel(String url) {
 		try {
-			return new ChannelImpl(MY_NAME, ChannelClassification.MISCELLANEOUS, "This is a default channel", new URI(url == null ? MY_URL : url), 0, 0);
+			return new ChannelImpl(MY_NAME, ChannelClassification.MISCELLANEOUS, "This is a default channel",
+					new URI(url == null ? MY_URL : url), 0, 0);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return null;
@@ -255,7 +264,8 @@ public class Util {
 				System.err.println(new Date() + " - " + clazz.getSimpleName() + message);
 			else
 				System.err.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
-		}}
+		}
+	}
 
 	/**
 	 * @param d
@@ -308,9 +318,10 @@ public class Util {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			// blob = xmlDocument.replace("'", "").replace("\"", "");
-			// I think we need to remove all the tick marks and the quote marks from the body of the XML specification of the channel.
+			// I think we need to remove all the tick marks and the quote marks from the body of the XML specification of the
+			// channel.
 			// This global removal of them breaks things downstream.
 			blob = xmlDocument;
 		}
@@ -373,7 +384,8 @@ public class Util {
 
 		Channel retval = null;
 		try {
-			retval = new ChannelImpl("Fermilab", ChannelClassification.MISCELLANEOUS, "Fermilab", new URI("https://www.fnal.gov"), 0, 360000L);
+			retval = new ChannelImpl("Fermilab", ChannelClassification.MISCELLANEOUS, "Fermilab", new URI("https://www.fnal.gov"),
+					0, 360000L);
 		} catch (URISyntaxException e2) {
 			e2.printStackTrace();
 		}
@@ -458,8 +470,8 @@ public class Util {
 							String desc = rs.getString("Description");
 							String name = rs.getString("Name");
 
-							retval = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, desc, new URI(url),
-									channelNumber, dwell);
+							retval = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, desc, new URI(url), channelNumber,
+									dwell);
 							alreadyRetrieved.put(channelNumber, retval);
 
 							stmt.close();
@@ -579,4 +591,67 @@ public class Util {
 		trans.transform(new DOMSource(doc), new StreamResult(os));
 	}
 
+	private static long	_entropy		= 0;
+	private static long	_lastEntropy	= 0;
+	private static long	_myIPNumber		= 0;
+
+	/// Function to get nextPrimeNumber
+	static long nextPrime(long n) {
+		BigInteger b = new BigInteger(String.valueOf(n));
+		return Long.parseLong(b.nextProbablePrime().toString());
+	}
+
+	/// return a large, random, prime number
+	public static long getEntropy() {
+		// There are probably better ways to get a high-entropy value, but this one should be sufficient
+
+		if (_myIPNumber == 0) {
+			try {
+				Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+				while (interfaces.hasMoreElements()) {
+					NetworkInterface iface = interfaces.nextElement();
+					// filters out 127.0.0.1 and inactive interfaces
+					if (iface.isLoopback() || !iface.isUp())
+						continue;
+
+					Enumeration<InetAddress> addresses = iface.getInetAddresses();
+					while (addresses.hasMoreElements()) {
+						InetAddress addr = addresses.nextElement();
+						String ip = addr.getHostAddress();
+						if (ip.contains(":"))
+							continue;
+						// System.out.print("--> " + ip);
+						String reverse = "";
+						for (int i = ip.length() - 1; i >= 0; i--) {
+							if (ip.charAt(i) == '.')
+								reverse += "1";
+							else
+								reverse += ip.charAt(i);
+						}
+						// System.out.println(" .. " + reverse + " ... " + System.nanoTime());
+						_myIPNumber = Long.parseLong(reverse);
+						break;
+					}
+				}
+			} catch (SocketException e) {
+				throw new RuntimeException(e);
+			}
+			_entropy = nextPrime(System.nanoTime() ^ _myIPNumber);
+		}
+		return _entropy;
+	}
+
+	public static long getNextEntropy() {
+		if (_lastEntropy == 0)
+			_lastEntropy = getEntropy();
+		return _lastEntropy = new Random(_lastEntropy).nextLong();
+	}
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 10; i++) {
+			System.out.println(getNextEntropy());
+			// _myIPNumber = 0;
+			catchSleep(555);
+		}
+	}
 }

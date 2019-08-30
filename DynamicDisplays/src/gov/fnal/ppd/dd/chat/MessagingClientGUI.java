@@ -20,6 +20,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import gov.fnal.ppd.dd.xml.MessageCarrierXML;
+
 /**
  * The Client with its GUI
  * 
@@ -66,7 +68,8 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 		}
 
 		@Override
-		public void receiveIncomingMessage(final MessageCarrier msg) {
+		public void receiveIncomingMessage(final MessageCarrierXML msg) {
+			// Most classes will override this to do something that is actually useful.  But for this GUI, it just prints it out
 			ta.append(msg.toString() + "\n");
 		};
 
@@ -182,20 +185,21 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 		Object o = e.getSource();
 		// if it is the Logout button
 		if (o == logout) {
-			client.sendMessage(MessageCarrier.getLogout());
+			client.sendMessage(MessageCarrierXML.getLogout(client.getName()));
 			return;
 		}
 		// if it the who is in button
 		if (o == whoIsIn) {
-			client.sendMessage(MessageCarrier.getWhoIsIn(client.getName()));
+			client.sendMessage(MessageCarrierXML.getWhoIsIn(client.getName()));
 			return;
 		}
 
 		// ok it is coming from the JTextField
 		if (connected) {
-			// just have to send the message and send it to everyone
-			client.sendMessage(MessageCarrier.getMessage(client.getName(), "NULL", tf.getText()));
-			tf.setText("");
+			// Not sure if there is anything meaningful to do here in this artificial messaging client
+			// // just have to send the message and send it to everyone
+			// client.sendMessage(MessageCarrierXML.getMessage(client.getName(), "NULL", tf.getText()));
+			// tf.setText("");
 			return;
 		}
 

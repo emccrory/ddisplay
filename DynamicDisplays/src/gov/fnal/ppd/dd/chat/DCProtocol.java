@@ -37,6 +37,11 @@ package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.Util.println;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.MapOfChannels;
@@ -52,12 +57,9 @@ import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 import gov.fnal.ppd.dd.xml.EmergencyMessXML;
-import gov.fnal.ppd.dd.xml.EncodedCarrier;
-import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import gov.fnal.ppd.dd.xml.ErrorMessage;
+import gov.fnal.ppd.dd.xml.MessageCarrierXML;
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
 
 /**
  * <p>
@@ -132,57 +134,39 @@ public class DCProtocol {
 	 * @return Was this message understood?
 	 * @throws ErrorProcessingMessage
 	 */
-	public boolean processInput(final MessageCarrier message) throws ErrorProcessingMessage {
-		String body = message.getMessageValue();
-		String xmlDocument;
-		switch (message.getMessageType()) {
-		case MESSAGE:
-			xmlDocument = body.substring(body.indexOf("<?xml"));
-			DDMessage myMessage = new DDMessage(xmlDocument);
-			return processInput(myMessage);
+	public boolean processInput(final MessageCarrierXML message) throws ErrorProcessingMessage {
 
-		case WHOISIN:
-		case LOGIN:
-		case LOGOUT:
-			// Not relevant to a client (only a server cares about these message types)
-			break;
+		if (tooOld(message.getTimeStamp())) {
+			// Message rejected as too old to matter!
 
-		case ERROR:
+			System.err.println("An old message has been received: [" + message + ", date=" + new Date(message.getTimeStamp())
+					+ "]\n Ignoring it.");
+
+			errorMessageText = "The message just received by the display is too old to be trusted." + "\nMessage time="
+					+ new Date(message.getTimeStamp()) + " which is " + (System.currentTimeMillis() - message.getTimeStamp())
+					+ " msec old.  The time on the display is " + new Date()
+					+ "\n\nEither this is an attempt to spoof a message (which would be very bad), or the clocks on the display and your PC are out of sync."
+					+ "\n\nThis message has been ignored.";
+
+			return false;
+		}
+		MessagingDataXML body = message.getMessageValue();
+		if (body instanceof ErrorMessage) {
 			errorHandler(message);
-			break;
-
-		case ISALIVE:
-			// We are being asked, "Are we alive right now?". respond with, "Yes, I am alive" message
-			// FIXME -- At this time (11/2014), we should not really see this sort of message down here. It should be
-			// handled directly by the messaging client that receives it (and knows where to send the response).
-			break;
-
-		case AMALIVE:
-			// We are being told that such-and-such a client is alive right now.
-			break;
-
-		case EMERGENCY:
-			xmlDocument = body.substring(body.indexOf("<?xml"));
+		} else if (body instanceof EmergencyMessXML) {
 			try {
-				EmergencyMessXML emXML = (EmergencyMessXML) MyXMLMarshaller.unmarshall(EmergencyMessXML.class, xmlDocument);
-
-				return processEmergencyMessage(emXML);
-
+				return processEmergencyMessage((EmergencyMessXML) body);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-		case REPLY:
-			// really, should not need to do this. This is handled in the place it is needed: DisplayFacade.
-			break;
-
-		case SUBSCRIBE:
-			@SuppressWarnings("unused")
-			String subject = message.getMessageValue();
-			// TODO -- What do we do with this??
-			break;
+		} else {
+			return processInput(body);
 		}
 		return true;
+	}
+
+	private static boolean tooOld(long timeStamp) {
+		return (System.currentTimeMillis() - timeStamp) < MESSAGE_AGE_IS_TOO_OLD;
 	}
 
 	/**
@@ -191,9 +175,8 @@ public class DCProtocol {
 	 * <ul>
 	 * <li>(client) -- the machine that tells the displays what to show asynchronous message from a human, or from a channel script.
 	 * This client receives a "ready" message, and the it can send a URL to the server</li>
-	 * <li>
-	 * (server) -- the machine that controls a display. This server waits for a URL from the client. When it gets it and displays
-	 * the URL successfully, it replies, "Ready".</li>
+	 * <li>(server) -- the machine that controls a display. This server waits for a URL from the client. When it gets it and
+	 * displays the URL successfully, it replies, "Ready".</li>
 	 * </ul>
 	 * </p>
 	 * 
@@ -206,102 +189,70 @@ public class DCProtocol {
 	 *            The message to process
 	 * @return Was the processing successful?
 	 */
-	public boolean processInput(final DDMessage message) {
+	public boolean processInput(final MessagingDataXML message) {
 		errorMessageText = null;
 		try {
 			println(getClass(), ".processInput(): processing '" + message + "'");
 
-			if (message != null && message.getMessage() != null) {
-				theMessage = message.getMessage();
+			// TODO -- Verify the IP address of the sender
+			// String ip = carrier.getIPAddress();
+			// if ( ip.equals(getIPAddressOf(messageFromField) ) everything is OK
 
-				if (theMessage instanceof EncodedCarrier) {
-					// Every message *should be* an instance of EncodedCarrier.
-					EncodedCarrier carrier = (EncodedCarrier) theMessage;
-					if (carrier.howOld() > MESSAGE_AGE_IS_TOO_OLD) {
-						long old = carrier.howOld();
-						System.err.println("An old message has been received: [" + carrier + ", date=" + carrier.getDate()
-								+ "], which is " + old + " msec old\n Ignoring it.");
-						errorMessageText = "The message just received by the display is too old to be trusted."
-								+ "\nMessage time="
-								+ carrier.getDate()
-								+ " which is "
-								+ carrier.howOld()
-								+ " msec old.  The time on the display is "
-								+ new Date()
-								+ "\n\nEither this is an attempt to spoof a message (which would be very bad), or the clocks on the display and your PC are out of sync."
-								+ "\n\nThis message has been ignored.";
-
+			if (theMessage instanceof ChangeChannelList) {
+				// disableListThread();
+				// informListenersForever();
+				createChannelListAndInform((ChangeChannelList) theMessage);
+			} else if (theMessage instanceof ChangeChannel) {
+				// disableListThread();
+				informListeners();
+			} else if (theMessage instanceof ChangeChannelByNumber) {
+				// Verify checksum
+				ChangeChannelByNumber ccbn = (ChangeChannelByNumber) theMessage;
+				int num = ccbn.getChannelNumber();
+				SignageContent sc = moc.get(num);
+				if (sc == null || sc.getChecksum() != ccbn.getChecksum()) {
+					if (sc != null)
+						println(getClass(), "Channel checksum from expected channel (" + sc.getChecksum()
+								+ ") does not match the checksum in the XML (" + ccbn.getChecksum() + ").  Will reload channels.");
+					moc.resetChannelList();
+					sc = moc.get(num);
+					if (sc == null || sc.getChecksum() != ccbn.getChecksum()) {
+						// CHECKSUM FAILED!
+						if (sc == null) {
+							errorMessageText = " Channel number " + num + " does not exist.  Content on display not changed.";
+							println(getClass(), errorMessageText);
+						} else {
+							errorMessageText = " Channel list checksums, for the database and for the transmitted list, do not match.  Content on display not changed.";
+							println(getClass(), errorMessageText);
+						}
 						return false;
 					}
-					// TODO -- Verify the IP address of the sender
-					// String ip = carrier.getIPAddress();
-					// if ( ip.equals(getIPAddressOf(messageFromField) ) everything is OK
 				}
 
-				if (theMessage instanceof ChangeChannelList) {
-					// disableListThread();
-					// informListenersForever();
-					createChannelListAndInform((ChangeChannelList) theMessage);
-				} else if (theMessage instanceof ChangeChannel) {
-					// disableListThread();
-					informListeners();
-				} else if (theMessage instanceof ChangeChannelByNumber) {
-					// Verify checksum
-					ChangeChannelByNumber ccbn = (ChangeChannelByNumber) theMessage;
-					int num = ccbn.getChannelNumber();
-					SignageContent sc = moc.get(num);
-					if (sc == null || sc.getChecksum() != ccbn.getChecksum()) {
-						if (sc != null)
-							println(getClass(), "Channel checksum from expected channel (" + sc.getChecksum()
-									+ ") does not match the checksum in the XML (" + ccbn.getChecksum()
-									+ ").  Will reload channels.");
-						moc.resetChannelList();
-						sc = moc.get(num);
-						if (sc == null || sc.getChecksum() != ccbn.getChecksum()) {
-							// CHECKSUM FAILED!
-							if (sc == null) {
-								errorMessageText = " Channel number " + num + " does not exist.  Content on display not changed.";
-								println(getClass(), errorMessageText);
-							} else {
-								errorMessageText = " Channel list checksums, for the database and for the transmitted list, do not match.  Content on display not changed.";
-								println(getClass(), errorMessageText);
-							}
-							return false;
-						}
-					}
+				// Checksum match between the XML message and the database's URL. We're good to go!
 
-					// Checksum match between the XML message and the database's URL. We're good to go!
+				informListeners(moc.get(num));
 
-					informListeners(moc.get(num));
-
-				} else if (theMessage instanceof ChannelSpec) {
-					// disableListThread();
-					informListeners((ChannelSpec) theMessage);
-				} else {
-					println(getClass(), "The message is of type " + theMessage.getClass().getCanonicalName()
-							+ ".  We will assume they meant it to be 'ChangeChannelReply'");
-				}
-
-				ChangeChannelReply p = new ChangeChannelReply();
-				if (listeners.size() > 0 && listeners.get(0) != null) {
-					// ASSUME that there is one and only one listener here and it is the physical display
-					p.setDisplayNum(listeners.get(0).getDBDisplayNumber());
-					ChannelSpec spec = new ChannelSpec(listeners.get(0).getContent());
-					p.setChannelSpec(spec);
-				} else {
-					// System.err.println(getClass().getSimpleName() + ".processInput(): No listeners for a 'Pong' message");
-					;
-				}
-				theReply = p;
-				// }
+			} else if (theMessage instanceof ChannelSpec) {
+				// disableListThread();
+				informListeners((ChannelSpec) theMessage);
 			} else {
-				errorMessageText = "Hmm.  message problems: " + message + (message != null ? message.getMessage() : "");
-				System.err.println(getClass().getSimpleName() + ".processInput(): " + errorMessageText);
-				return false;
+				println(getClass(), "The message is of type " + theMessage.getClass().getCanonicalName()
+						+ ".  We will assume they meant it to be 'ChangeChannelReply'");
 			}
-		} catch (NullPointerException e) {
-			errorMessageText = "It looks like we have lost the internal connection to the browswer on this Display.  Content not changed.";
-			System.err.println(errorMessageText);
+
+			ChangeChannelReply p = new ChangeChannelReply();
+			if (listeners.size() > 0 && listeners.get(0) != null) {
+				// ASSUME that there is one and only one listener here and it is the physical display
+				p.setDisplayNum(listeners.get(0).getDBDisplayNumber());
+				ChannelSpec spec = new ChannelSpec(listeners.get(0).getContent());
+				p.setChannelSpec(spec);
+			} else {
+				// System.err.println(getClass().getSimpleName() + ".processInput(): No listeners for a 'Pong' message");
+				;
+			}
+			theReply = p;
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -371,7 +322,7 @@ public class DCProtocol {
 				Channel c = new ChannelImpl(spec.getContent());
 				channelList.add(c);
 			}
-			ChannelPlayList playList = new ChannelPlayList(theMessage.getDate(), channelList, dwellTime);
+			ChannelPlayList playList = new ChannelPlayList("" + theMessage.getTime(), channelList, dwellTime);
 			for (Display L : listeners) {
 				L.setContent(playList);
 			}
@@ -382,7 +333,6 @@ public class DCProtocol {
 		assert (changerThread == null);
 		informListeners(((ChangeChannel) theMessage).getChannelSpec());
 	}
-
 
 	private void informListeners(final EmergencyCommunication spec) {
 		try {
@@ -412,14 +362,16 @@ public class DCProtocol {
 	 * @param message
 	 *            The message to consider
 	 */
-	public void errorHandler(final MessageCarrier message) {
+	public void errorHandler(final MessageCarrierXML message) {
 		// println(DCProtocol.class, " $$$ Error handler, message is to '" + message.getTo() + "', from '" + message.getFrom() +
 		// "'");
 		for (Display L : listeners) {
-			if (L.getMessagingName().equals(message.getMessageRecipient()) || L.getMessagingName().equals(message.getMessageOriginator())
+			if (L.getMessagingName().equals(message.getMessageRecipient())
+					|| L.getMessagingName().equals(message.getMessageOriginator())
 					|| message.getMessageOriginator().equals(SPECIAL_SERVER_MESSAGE_USERNAME)) {
 				// println(DCProtocol.class, " $$$ Sending to " + L);
-				L.errorHandler(message.getMessageValue());
+				ErrorMessage o = (ErrorMessage) message.getMessageValue();
+				L.errorHandler(o.getErrorMessageText());
 			} else
 				; // println(DCProtocol.class, " $$$ SKIPPING " + L + ", messaging name=" + L.getMessagingName());
 		}

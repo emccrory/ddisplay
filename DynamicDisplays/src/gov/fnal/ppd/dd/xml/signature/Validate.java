@@ -1,11 +1,13 @@
 package gov.fnal.ppd.dd.xml.signature;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.security.Key;
 import java.security.KeyException;
 import java.security.PublicKey;
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.crypto.AlgorithmMethod;
 import javax.xml.crypto.KeySelector;
 import javax.xml.crypto.KeySelectorException;
@@ -21,9 +23,14 @@ import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import gov.fnal.ppd.dd.xml.MessageCarrierXML;
+import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 /**
  * Taken from the example code on the Oracle/Java site.
@@ -32,6 +39,12 @@ import org.w3c.dom.NodeList;
  * signature is contained in a KeyValue KeyInfo.
  */
 public class Validate {
+
+	private static DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+	static {
+		dbf.setNamespaceAware(true);
+	}
 
 	//
 	// Synopsis: java Validate [document]
@@ -43,8 +56,6 @@ public class Validate {
 		// SignXMLUsingDSAKeys.loadPublicKey(args[0]);
 
 		// Instantiate the document to be validated
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		dbf.setNamespaceAware(true);
 		Document doc = null;
 		try (FileInputStream fis = new FileInputStream(args[0])) {
 			doc = dbf.newDocumentBuilder().parse(fis);
@@ -58,8 +69,6 @@ public class Validate {
 			System.out.println("Signature passed core validation");
 		}
 	}
-
-	
 
 	/**
 	 * Validate the signature of an XML document. This document contains the public key. This method is used only for testing.
@@ -84,14 +93,32 @@ public class Validate {
 		XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
 
 		// Create a DOMValidateContext and specify a KeyValue KeySelector and document context
-//		DOMValidateContext valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(0));
+		// DOMValidateContext valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(0));
 		DOMValidateContext valContext = new DOMValidateContext(GenEnveloped.publicKey, nl.item(0));
-		
+
 		// unmarshal the XMLSignature
 		XMLSignature signature = fac.unmarshalXMLSignature(valContext);
 
 		// Validate the XMLSignature (generated above)
 		return signature.validate(valContext);
+	}
+
+	/**
+	 * 
+	 * @param read
+	 * @return
+	 * @throws JAXBException
+	 * @throws ParserConfigurationException 
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws XMLSignatureException 
+	 * @throws MarshalException 
+	 * @throws SignatureNotFoundException 
+	 */
+	public static boolean isSignatureValid(Object read) throws JAXBException, SAXException, IOException, ParserConfigurationException, SignatureNotFoundException, MarshalException, XMLSignatureException {
+		String xmlString = MyXMLMarshaller.getXML(read);
+		Document doc = dbf.newDocumentBuilder().parse(xmlString);
+		return isSignatureValid(doc);
 	}
 
 	/**

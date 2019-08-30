@@ -11,8 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2012-14
  */
 @SuppressWarnings("javadoc")
-@XmlRootElement
-public class ChangeChannel extends EncodedCarrier {
+public class ChangeChannel extends MessagingDataXML {
 
 	protected SignageContent	content;
 	protected int				displayNum;

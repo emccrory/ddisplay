@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 /**
  * Base class for all the XML classes.
+ * @deprecated in favor of MessagingCarrierXML
  * 
  * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2012-14
  */

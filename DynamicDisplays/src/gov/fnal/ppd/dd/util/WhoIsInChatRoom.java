@@ -9,12 +9,14 @@ import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.chat.MessagingClient;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
+
+import gov.fnal.ppd.dd.chat.MessageCarrier;
+import gov.fnal.ppd.dd.chat.MessagingClient;
+import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 
 /**
  * Helper class to keep track of who is in the chat room. Used by the top-level GUI(s) to say if a Display is available.
@@ -51,7 +53,7 @@ public class WhoIsInChatRoom extends Thread {
 			for (int i = 0; i < displayList.size(); i++)
 				aliveList[i] = false;
 
-			client.sendMessage(MessageCarrier.getWhoIsIn(client.getName()));
+			client.sendMessage(MessageCarrierXML.getWhoIsIn(client.getName()));
 
 			catchSleep(2000); // Wait long enough for all the messages to come in. This is almost always enough. In fact, less than
 								// one second is almost always enough. But there is the occasional time when even 2 seconds is not
@@ -73,7 +75,7 @@ public class WhoIsInChatRoom extends Thread {
 			System.out.println("\n**Starting messaging client named '" + myName + "' for listening to who is in the system");
 			client = new MessagingClient(getMessagingServerName(), MESSAGING_SERVER_PORT, myName) {
 				@Override
-				public void receiveIncomingMessage(final MessageCarrier msg) {
+				public void receiveIncomingMessage(final MessageCarrierXML msg) {
 					String clientName = msg.getMessageOriginator();
 					// System.out.println("WhoIsInChatRoom: see a message from [" + clientName + "]");
 					if (clientName.toLowerCase().contains("façade"))

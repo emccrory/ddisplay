@@ -1,7 +1,7 @@
 export CLASSPATH=bin:lib/mysql-connector-java-5.1.27.jar:lib/slf4j-api-1.5.8.jar:lib/slf4j-log4j12-1.5.8.jar:lib/selenium/selenium-server-standalone-3.12.0.jar
 
-# Backup database server is mccrory
-export databaseServer="mccrory.fnal.gov"
+# Backup database server is irrelevant
+export databaseServer="nothing.fnal.gov"
 
 # Read the database credentials from the secret file
 array=()

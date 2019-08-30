@@ -39,13 +39,9 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.xml.bind.JAXBException;
-
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.chat.MessageType;
 import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.DisplayImpl;
@@ -61,7 +57,8 @@ import gov.fnal.ppd.dd.util.PerformanceMonitor;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
-import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
+import gov.fnal.ppd.dd.xml.IsAliveMessage;
+import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 
 /**
  * <p>
@@ -87,7 +84,7 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
  * 
  * Implement a Dynamic Display using an underlying browser through a simple messaging server
  * 
- * FIXME - Contains business logic and database accesses
+ * FIXME - Contains both Business logic and Database accesses (should be refactored)
  * 
  * @author Elliott McCrory, Fermilab (2014-18)
  */
@@ -570,22 +567,16 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 		// generate a reply message to the sender
 		println(getClass(),
 				" -- Responding to channel change with " + (b ? "SUCCESS" : "failure") + " to " + messagingClient.getLastFrom());
-		MessageCarrier msg = null;
+		MessageCarrierXML msg = null;
 		if (b) {
 			ChangeChannelReply replyMessage = new ChangeChannelReply();
 			ChannelSpec channelSpec = new ChannelSpec(getContent());
 			replyMessage.setChannelSpec(channelSpec);
-			replyMessage.setDate("" + new Date());
 			replyMessage.setDisplayNum(getDBDisplayNumber());
-
-			try {
-				String xmlMessage = MyXMLMarshaller.getXML(replyMessage);
-				msg = MessageCarrier.getReplyMessage(messagingClient.getName(), messagingClient.getLastFrom(), xmlMessage);
-			} catch (JAXBException e) {
-				e.printStackTrace();
-			}
+				msg = MessageCarrierXML.getReplyMessage(messagingClient.getName(), messagingClient.getLastFrom(), replyMessage );
+			
 		} else {
-			msg = MessageCarrier.getErrorMessage(messagingClient.getName(), messagingClient.getLastFrom(),
+			msg = MessageCarrierXML.getErrorMessage(messagingClient.getName(), messagingClient.getLastFrom(),
 					"Channel change not successful: " + why);
 		}
 
@@ -959,22 +950,24 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 		}
 
 		@Override
-		public void receiveIncomingMessage(MessageCarrier msg) throws ErrorProcessingMessage {
-			// TODO -- Should this method be synchronized? Does it make sense to have two messages processed at the same time, or
-			// not?
+		public void receiveIncomingMessage(MessageCarrierXML msg) throws ErrorProcessingMessage {
+			// TODO -- Should this method be synchronized?
+			// Does it make sense to have two messages processed at the same time, or not?
 
-			if ((messageCount++ % 5) == 0 || msg.getMessageType() != MessageType.ISALIVE) {
+			if ((messageCount++ % 5) == 0 || msg.getMessageValue() instanceof IsAliveMessage) {
 				println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
 						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
 			}
 			lastFrom = msg.getMessageOriginator();
 			if (msg.getMessageRecipient().equals(getName())) { // || msg.getTo().startsWith(getName())) {
 				if (!dcp.processInput(msg)) {
-					sendMessage(MessageCarrier.getErrorMessage(msg.getMessageRecipient(), msg.getMessageOriginator(), dcp.getErrorMessageText()));
+					sendMessage(MessageCarrierXML.getErrorMessage(msg.getMessageRecipient(), msg.getMessageOriginator(),
+							dcp.getErrorMessageText()));
 				}
 			} else if (debug)
-				println(this.getClass(), screenNumber + ": Ignoring a message of type " + msg.getMessageType() + ", sent to ["
-						+ msg.getMessageRecipient() + "] because I am [" + getName() + "]");
+				println(this.getClass(),
+						screenNumber + ": Ignoring a message of type " + msg.getMessageValue().getClass().getSimpleName()
+								+ ", sent to [" + msg.getMessageRecipient() + "] because I am [" + getName() + "]");
 		}
 
 		@Override

@@ -17,12 +17,15 @@ import java.sql.Statement;
 import javax.xml.bind.JAXBException;
 
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.chat.xml.attic.MessageCarrier;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.EncodedCarrier;
+import gov.fnal.ppd.dd.xml.MessageCarrierXML;
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 public class UpdateDatabaseForDisplayChannels implements Display {
@@ -62,7 +65,7 @@ public class UpdateDatabaseForDisplayChannels implements Display {
 		catchSleep(10);
 
 		try {
-			EncodedCarrier cc = null;
+			MessagingDataXML cc = null;
 			if (content instanceof ChannelPlayList) {
 				cc = new ChangeChannelList();
 				((ChangeChannelList) cc).setDisplayNumber(getVirtualDisplayNumber());
@@ -72,12 +75,12 @@ public class UpdateDatabaseForDisplayChannels implements Display {
 				cc = new ChangeChannel();
 				((ChangeChannel) cc).setDisplayNumber(getVirtualDisplayNumber());
 				((ChangeChannel) cc).setScreenNumber(getScreenNumber());
-				((ChangeChannel) cc).setIPAddress(InetAddress.getLocalHost().getHostAddress());
 				((ChangeChannel) cc).setContent(content);
 			}
-			cc.setDate("2019-01-01 00:00:00");  // We make a common date here so SQL can match identical content
+			MessageCarrierXML mcx = new MessageCarrierXML("Display" + displayID, "Database", cc);
+			mcx.setTimeStamp(150000000000L);  // We make a common date here so SQL can match identical content
 
-			String xmlDocument = MyXMLMarshaller.getXML(cc);
+			String xmlDocument = MyXMLMarshaller.getXML(mcx);
 			println(getClass(), "New content is " + xmlDocument.length() + " bytes long.");
 			if (xmlDocument.length() > 32767) {
 				printlnErr(getClass(), "This XML document length, " + xmlDocument.length() + ", is too long for the database");
@@ -102,7 +105,7 @@ public class UpdateDatabaseForDisplayChannels implements Display {
 					e.printStackTrace();
 				}
 			}
-		} catch (JAXBException | UnknownHostException e) {
+		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
 		

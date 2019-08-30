@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-@XmlRootElement
 public class ChannelSpecByNumber extends ChannelSpec {
 	
 	private static final long serialVersionUID = -7250458242146986630L;

@@ -1,5 +1,8 @@
 package gov.fnal.ppd.dd.xml.signature;
 
+import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,15 +15,37 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import gov.fnal.ppd.dd.xml.MessageCarrierXML;
+
 public class SignedXMLDocument {
 	private Document						unsignedDocument	= null;
 	private Document						signedDocument		= null;
-	private static DocumentBuilderFactory	dbf;
 	private boolean							valid				= false;
+
+	private static DocumentBuilderFactory	dbf;
 
 	static {
 		dbf = DocumentBuilderFactory.newInstance();
 		dbf.setNamespaceAware(true);
+		try {
+			SignXMLUsingDSAKeys.setupDSA(PRIVATE_KEY_LOCATION, getFullSelectorName());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	public static Document convertToDocument(String message) {
+		try {
+			return dbf.newDocumentBuilder().parse(new InputSource(new StringReader(message)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static String convertToString(Document message) {
+		// TODO - Do this, if I need it.
+		return null;
 	}
 
 	/**
@@ -32,10 +57,13 @@ public class SignedXMLDocument {
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 */
-	public SignedXMLDocument(String rawXML) throws Exception {
-		this(dbf.newDocumentBuilder().parse(new InputSource(new StringReader(rawXML))));
+	public SignedXMLDocument(String message) throws Exception {
+		this(convertToDocument(message));
 	}
 
+	public SignedXMLDocument(MessageCarrierXML xmlObject) {
+		
+	}
 	/**
 	 * Make a new XML document
 	 * 
@@ -55,8 +83,10 @@ public class SignedXMLDocument {
 			}
 			valid = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			valid = false;
+			this.unsignedDocument = theDoc;
+			signedDocument = null;
 		}
 	}
 
@@ -67,6 +97,23 @@ public class SignedXMLDocument {
 			return signedDocument;
 
 		return unsignedDocument;
+	}
+
+	public String getSignedDocumentString() {
+		if (!valid)
+			return null;
+		if (signedDocument == null)
+			try {
+				ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+
+				SignXMLUsingDSAKeys.signDocument(unsignedDocument, outStream);
+				return outStream.toString();
+			} catch (Exception e) {
+				e.printStackTrace();
+				valid = false;
+				signedDocument = null;
+			}
+		return null;
 	}
 
 	public Document getSignedDocument() {
@@ -120,11 +167,10 @@ public class SignedXMLDocument {
 				return false;
 		} else if (!unsignedDocument.equals(other.unsignedDocument))
 			return false;
-		
+
 		if (valid != other.valid)
 			return false;
 		return true;
 	}
-	
-	
+
 }

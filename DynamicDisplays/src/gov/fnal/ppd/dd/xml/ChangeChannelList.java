@@ -12,8 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2012-16
  */
 @SuppressWarnings("javadoc")
-@XmlRootElement
-public class ChangeChannelList extends EncodedCarrier {
+public class ChangeChannelList extends MessagingDataXML {
 
 	// TODO - Add absolute scheduling of the wall-clock time to play channels
 

@@ -1,22 +1,30 @@
 package gov.fnal.ppd.dd.xml;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
+import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.emergency.Severity;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017-18
  *
  */
-@XmlRootElement
-public class EmergencyMessXML extends EncodedCarrier {
+public class EmergencyMessXML extends MessagingDataXML {
 
 	private String		headline, message, footnote;
 	private Severity	severity;
 	private long		dwellTime	= 2 * 60 * 60 * 1000;	// two hours is the default
 	private String		ipAddress;
 	private long		timestamp;
+
+	public EmergencyMessXML(EmergencyMessage em) {
+		headline = em.getHeadline();
+		message = em.getMessage();
+		footnote = em.getFootnote();
+		severity = em.getSeverity();
+		dwellTime = em.getDwellTime();
+		timestamp = em.getTimestamp();
+	}
 
 	/**
 	 * @return the headline

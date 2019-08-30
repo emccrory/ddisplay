@@ -7,7 +7,6 @@ import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +16,6 @@ import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.chat.MessageType;
 import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -28,8 +25,10 @@ import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelByNumber;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.EmergencyMessXML;
-import gov.fnal.ppd.dd.xml.EncodedCarrier;
-import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
+import gov.fnal.ppd.dd.xml.ErrorMessage;
+import gov.fnal.ppd.dd.xml.MessageCarrierXML;
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
+import gov.fnal.ppd.dd.xml.WhoIsInReply;
 
 /**
  * On the computer with the channel selector, this is the way you talk to a remote Dynamic Display. This classed is used in the GUI
@@ -99,25 +98,28 @@ public class DisplayFacade extends DisplayImpl {
 		}
 
 		@Override
-		public void receiveIncomingMessage(final MessageCarrier message) {
+		public void receiveIncomingMessage(final MessageCarrierXML message) {
 			// if (message.getFrom().equals(SPECIAL_SERVER_MESSAGE_USERNAME) && message.getType() == MessageType.ERROR) {
-			if (message.getMessageType() == MessageType.ERROR) {
+			Class<? extends MessagingDataXML> clazz = message.getMessageValue().getClass();
+			if (clazz.equals(ErrorMessage.class)) {
 				println(getClass(), ".receiveIncomingMessage(): Got an error message -- " + message);
 				dcp.errorHandler(message);
-			} else if (message.getMessageType() == MessageType.REPLY) {
+			} else if (clazz.equals(WhoIsInReply.class)) {
 				DisplayFacade DF = clients.get(message.getMessageOriginator());
 				if (DF != null) {
 					DF.informListeners(DisplayChangeEvent.DisplayChangeType.CHANGE_COMPLETED, "Channel change succeeded");
 					// println(getClass(), ".receiveIncomingMessage(): Yay! Got a real confirmation that the channel was changed.");
 				} else
 					println(getClass(),
-							".receiveIncomingMessage(): No client named " + message.getMessageOriginator() + " to which to send the REPLY.\n"
-									+ "t\tThe clients are called: " + Arrays.toString(clients.keySet().toArray()));
+							".receiveIncomingMessage(): No client named " + message.getMessageOriginator()
+									+ " to which to send the REPLY.\n" + "t\tThe clients are called: "
+									+ Arrays.toString(clients.keySet().toArray()));
 			} else {
 				// DisplayFacade d = clients.get(message.getFrom());
 				try {
 					if (!dcp.processInput(message)) {
-						sendMessage(MessageCarrier.getErrorMessage(message.getMessageRecipient(), message.getMessageOriginator(), dcp.getErrorMessageText()));
+						sendMessage(MessageCarrierXML.getErrorMessage(message.getMessageRecipient(), message.getMessageOriginator(),
+								dcp.getErrorMessageText()));
 					}
 				} catch (ErrorProcessingMessage e) {
 					// Ignore this error on the GUI side
@@ -161,7 +163,7 @@ public class DisplayFacade extends DisplayImpl {
 		 * @param msg
 		 *            The message to send
 		 */
-		public static void sendAMessage(MessageCarrier msg) {
+		public static void sendAMessage(MessageCarrierXML msg) {
 			me.sendMessage(msg);
 		}
 
@@ -185,7 +187,7 @@ public class DisplayFacade extends DisplayImpl {
 	 *            A description of the location of this display
 	 * @param color
 	 *            the highlight color for this display
-	 	 */
+	 */
 	public DisplayFacade(final int locCode, final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
 			final String location, final Color color) {
 		super(ipName, vNumber, dbNumber, screenNumber, location, color);
@@ -220,53 +222,37 @@ public class DisplayFacade extends DisplayImpl {
 		informListeners(DisplayChangeEvent.DisplayChangeType.CHANGE_RECEIVED, null);
 		try {
 			SignageContent content = getContent();
-			EncodedCarrier cc = null;
+			MessagingDataXML theData = null;
 			if (content instanceof ChannelPlayList) {
 				println(getClass(), ": Have a ChannelPlayList to deal with!");
-				cc = new ChangeChannelList();
-				((ChangeChannelList) cc).setDisplayNumber(getVirtualDisplayNumber());
-				((ChangeChannelList) cc).setScreenNumber(getScreenNumber());
-				((ChangeChannelList) cc).setContent(getContent());
+				theData = new ChangeChannelList();
+				((ChangeChannelList) theData).setDisplayNumber(getVirtualDisplayNumber());
+				((ChangeChannelList) theData).setScreenNumber(getScreenNumber());
+				((ChangeChannelList) theData).setContent(getContent());
 			} else if (content instanceof EmergencyCommunication) {
 				EmergencyMessage em = ((EmergencyCommunication) content).getMessage();
 				println(getClass(), ": Request to send an EMERGENCY MESSAGE");
-
-				EmergencyMessXML emx = new EmergencyMessXML();
-				emx.setFootnote(em.getFootnote());
-				emx.setHeadline(em.getHeadline());
-				emx.setMessage(em.getMessage());
-				emx.setSeverity(em.getSeverity());
-				emx.setDwellTime(em.getDwellTime());
-				emx.setIpAddress(em.getIpAddress());
-				emx.setTimestamp(em.getTimestamp());
-
-				String xmlMessage = MyXMLMarshaller.getXML(emx);
-				FacadeMessagingClient.sendAMessage(MessageCarrier.getEmergencyMessage(FacadeMessagingClient.getMyName(),
-						FacadeMessagingClient.getTargetName(this), xmlMessage));
-
-				return true;
+				theData = new EmergencyMessXML(em);
 			} else {
 				if (CHANNEL_NUMBER_ONLY) {
 					println(getClass(), ": Have a simple channel -- sending the channel number only");
-					cc = new ChangeChannelByNumber();
-					((ChangeChannelByNumber) cc).setDisplayNumber(getVirtualDisplayNumber());
-					((ChangeChannelByNumber) cc).setScreenNumber(getScreenNumber());
-					((ChangeChannelByNumber) cc).setIPAddress(InetAddress.getLocalHost().getHostAddress());
-					((ChangeChannelByNumber) cc).setChannelNumber(((Channel) content).getNumber());
-					((ChangeChannelByNumber) cc).setChecksum(content.getChecksum());
+					theData = new ChangeChannelByNumber();
+					((ChangeChannelByNumber) theData).setDisplayNumber(getVirtualDisplayNumber());
+					((ChangeChannelByNumber) theData).setScreenNumber(getScreenNumber());
+					((ChangeChannelByNumber) theData).setChannelNumber(((Channel) content).getNumber());
+					((ChangeChannelByNumber) theData).setChecksum(content.getChecksum());
 				} else {
 					println(getClass(), ": Have a simple channel");
-					cc = new ChangeChannel();
-					((ChangeChannel) cc).setDisplayNumber(getVirtualDisplayNumber());
-					((ChangeChannel) cc).setScreenNumber(getScreenNumber());
-					((ChangeChannel) cc).setIPAddress(InetAddress.getLocalHost().getHostAddress());
-					((ChangeChannel) cc).setContent(content);
+					theData = new ChangeChannel();
+					((ChangeChannel) theData).setDisplayNumber(getVirtualDisplayNumber());
+					((ChangeChannel) theData).setScreenNumber(getScreenNumber());
+					((ChangeChannel) theData).setContent(content);
 				}
 			}
 
-			String xmlMessage = MyXMLMarshaller.getXML(cc);
-			FacadeMessagingClient.sendAMessage(MessageCarrier.getMessage(FacadeMessagingClient.getMyName(),
-					FacadeMessagingClient.getTargetName(this), xmlMessage));
+			if (theData != null)
+				FacadeMessagingClient.sendAMessage(new MessageCarrierXML(FacadeMessagingClient.getMyName(),
+						FacadeMessagingClient.getTargetName(this), theData));
 
 			// A reply is expected. It will come later.
 			return true;
@@ -324,7 +310,7 @@ public class DisplayFacade extends DisplayImpl {
 			retval += " (Loc=" + locCode + ")";
 		return retval;
 	}
-	
+
 	public static String getPresentStatus() {
 		return FacadeMessagingClient.me.getPresentStatus();
 	}

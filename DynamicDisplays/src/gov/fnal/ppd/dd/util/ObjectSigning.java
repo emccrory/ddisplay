@@ -9,10 +9,7 @@
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,10 +37,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 /**
  * <p>
@@ -59,7 +57,7 @@ public class ObjectSigning {
 
 	private static ObjectSigning				me					= new ObjectSigning();
 
-	private static Map<String, ObjectSigning>	keys				= new HashMap<String, ObjectSigning>();
+	// private static Map<String, ObjectSigning> keys = new HashMap<String, ObjectSigning>();
 
 	private static Map<String, List<String>>	clientControlList	= new HashMap<String, List<String>>();
 
@@ -97,22 +95,34 @@ public class ObjectSigning {
 	/**
 	 * @param client
 	 *            -- The name of the client for which you'll need to check the signature
+	 */
+	public static void saveClient(final String client) {
+		if (clientControlList.containsKey(client) && clientControlList.get(client) != null)
+			return;
+
+		clientControlList.put(client, loadDisplayListFromDB(client));
+
+	}
+	
+	/**
+	 * @param client
+	 *            -- The name of the client for which you'll need to check the signature
 	 * @return -- The object that knows about this client's public key
+	 * @deprecated
 	 */
 	public static ObjectSigning getPublicSigning(final String client) {
-		if (keys.containsKey(client) && keys.get(client) != null)
-			return keys.get(client);
-
-		ObjectSigning thatObject = new ObjectSigning();
-		if (thatObject.loadPublicKeyFromDB(client)) {
-			keys.put(client, thatObject);
-			clientControlList.put(client, loadDisplayListFromDB(client));
-			return thatObject;
-		}
-		keys.remove(client);
+		// if (keys.containsKey(client) && keys.get(client) != null)
+		// return keys.get(client);
+		//
+		// ObjectSigning thatObject = new ObjectSigning();
+		// if (thatObject.loadPublicKeyFromDB(client)) {
+		// keys.put(client, thatObject);
+		// clientControlList.put(client, loadDisplayListFromDB(client));
+		// return thatObject;
+		// }
+		// keys.remove(client);
 		return null;
 	}
-
 	/**
 	 * Remove a client from the cache of public keys so it can reconnect with different credentials
 	 * 
@@ -121,11 +131,8 @@ public class ObjectSigning {
 	 * @return if this client was actually in the list.
 	 */
 	public static boolean dropClient(final String client) {
-		if (clientControlList.containsKey(client) && clientControlList.get(client) != null)
+		if (clientControlList.containsKey(client) && clientControlList.get(client) != null) {
 			clientControlList.remove(client);
-
-		if (keys.containsKey(client) && keys.get(client) != null) {
-			keys.remove(client);
 			return true;
 		}
 		return false;
@@ -502,76 +509,76 @@ public class ObjectSigning {
 	/**
 	 * @param args
 	 */
-	public static void main(final String[] args) {
-		ObjectSigning OS = new ObjectSigning();
-
-		if (args.length == 0) {
-			System.out
-					.println("********************\n\n  Generating new public and private keys and signing an object, just as a test\n\n********************\n");
-			try {
-				OS.generateNewKeys();
-				MessageCarrier mess1 = MessageCarrier.getMessage("Left", "Me", new Date().toString());
-				MessageCarrier mess2 = MessageCarrier.getIAmAlive("Them", "Us", "Howdy!");
-				SignedObject so1 = OS.example(mess1);
-				SignedObject so2 = OS.example(mess2);
-
-				System.out.println();
-				System.out.println("Public key for this was\n" + dump(OS.publicKey.getEncoded()));
-				System.out.println();
-				System.out.println("Private key for this was\n" + dump(OS.privateKey.getEncoded()));
-				System.out.println();
-				System.out.println("Signature on the 1st signed object was:\n" + dump(so1.getSignature()));
-				System.out.println();
-				System.out.println("Signature on the 2nd signed object was:\n" + dump(so2.getSignature()));
-
-				SignedObject so4 = OS.example(mess1);
-
-				mess1.setMessageOriginator("Mf");
-				SignedObject so3 = OS.example(mess1);
-				System.out.println();
-				System.out.println("Signature on the 3rd signed object was:\n" + dump(so3.getSignature()));
-				System.out.println();
-				System.out.println("Signature on the 4th signed object was:\n" + dump(so4.getSignature()));
-
-				if (OS.verifySignature(so1) == null)
-					System.out.println("Verified");
-				else
-					System.out.println("Not verified");
-
-				Signature thesig = Signature.getInstance(OS.publicKey.getAlgorithm());
-				try {
-					boolean retval = so1.verify(OS.publicKey, thesig);
-					if (retval)
-						System.out.println("Secondary signature is verified");
-					else
-						System.out.println("Secondary signature is INCORRECT");
-
-				} catch (InvalidKeyException e) {
-					e.printStackTrace();
-				} catch (SignatureException e) {
-					e.printStackTrace();
-				}
-
-			} catch (NoSuchAlgorithmException e) {
-				e.printStackTrace();
-			}
-		} else if (args.length == 2) {
-			String filenamePrivate = args[1];
-			String filenamePublic = args[0];
-
-			try {
-				OS.generateNewKeys(filenamePublic, filenamePrivate);
-				System.out.println("Successfully generated new keys.  Public key is in file '" + filenamePublic
-						+ "'.  The public key probably belongs in the database.");
-				System.out.println("The private key is in '" + filenamePrivate
-						+ "'.  Be sure to move this private keystore to somewhere really, REALLY private!");
-			} catch (NoSuchAlgorithmException | IOException e) {
-				e.printStackTrace();
-			}
-		} else if (args.length == 3) {
-			// This functionality has been moved to gov.fnal.ppd.security.GenerateNewKeyPair
-		}
-	}
+	// public static void main(final String[] args) {
+	// ObjectSigning OS = new ObjectSigning();
+	//
+	// if (args.length == 0) {
+	// System.out
+	// .println("********************\n\n Generating new public and private keys and signing an object, just as a
+	// test\n\n********************\n");
+	// try {
+	// OS.generateNewKeys();
+	// // MessageCarrier mess1 = MessageCarrier.getMessage("Left", "Me", new Date().toString());
+	// // MessageCarrier mess2 = MessageCarrier.getIAmAlive("Them", "Us", "Howdy!");
+	// // SignedObject so1 = OS.example(mess1);
+	// // SignedObject so2 = OS.example(mess2);
+	//
+	// System.out.println();
+	// System.out.println("Public key for this was\n" + dump(OS.publicKey.getEncoded()));
+	// System.out.println();
+	// System.out.println("Private key for this was\n" + dump(OS.privateKey.getEncoded()));
+	// System.out.println();
+	// System.out.println("Signature on the 1st signed object was:\n" + dump(so1.getSignature()));
+	// System.out.println();
+	// System.out.println("Signature on the 2nd signed object was:\n" + dump(so2.getSignature()));
+	//
+	// // SignedObject so4 = OS.example(mess1);
+	// // mess1.setMessageOriginator("Mf");
+	// // SignedObject so3 = OS.example(mess1);
+	// System.out.println();
+	// System.out.println("Signature on the 3rd signed object was:\n" + dump(so3.getSignature()));
+	// System.out.println();
+	// System.out.println("Signature on the 4th signed object was:\n" + dump(so4.getSignature()));
+	//
+	// if (OS.verifySignature(so1) == null)
+	// System.out.println("Verified");
+	// else
+	// System.out.println("Not verified");
+	//
+	// Signature thesig = Signature.getInstance(OS.publicKey.getAlgorithm());
+	// try {
+	// boolean retval = so1.verify(OS.publicKey, thesig);
+	// if (retval)
+	// System.out.println("Secondary signature is verified");
+	// else
+	// System.out.println("Secondary signature is INCORRECT");
+	//
+	// } catch (InvalidKeyException e) {
+	// e.printStackTrace();
+	// } catch (SignatureException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// } catch (NoSuchAlgorithmException e) {
+	// e.printStackTrace();
+	// }
+	// } else if (args.length == 2) {
+	// String filenamePrivate = args[1];
+	// String filenamePublic = args[0];
+	//
+	// try {
+	// OS.generateNewKeys(filenamePublic, filenamePrivate);
+	// System.out.println("Successfully generated new keys. Public key is in file '" + filenamePublic
+	// + "'. The public key probably belongs in the database.");
+	// System.out.println("The private key is in '" + filenamePrivate
+	// + "'. Be sure to move this private keystore to somewhere really, REALLY private!");
+	// } catch (NoSuchAlgorithmException | IOException e) {
+	// e.printStackTrace();
+	// }
+	// } else if (args.length == 3) {
+	// // This functionality has been moved to gov.fnal.ppd.security.GenerateNewKeyPair
+	// }
+	// }
 
 	private static String dump(byte[] encoded) {
 		String r = "";
@@ -593,37 +600,38 @@ public class ObjectSigning {
 	 * @param signedMess
 	 *            -- The message to test
 	 * @return -- null if the message is signed properly; a string explaining why if it is not.
+	 * @deprecated - use SignedXMLDocument now-a-days
 	 */
 	public String verifySignature(final SignedObject signedMess) {
 		assert (signedMess != null);
 
-		if (!checkSignedMessages()) {
-			System.err.println(getClass().getSimpleName() + ".verifySignature(): Ignoring the signature and returning 'true'");
-			return null;
-		}
-
-		if (publicKey == null)
-			return "No public key!";
-
-		try {
-			// System.err.println(getClass().getSimpleName() + ".verifySignature(): really and truly checking the signature!");
-			if (sig == null)
-				sig = Signature.getInstance(publicKey.getAlgorithm());
-			// The "FastBugs" error for this line is illogical.
-			boolean retval = signedMess.verify(publicKey, sig);
-			if (!retval) {
-				for (String k : keys.keySet()) {
-					if (keys.get(k) == this) { // Yes, I think "==" is right here: Are these the same objects?
-						keys.remove(k);
-						break;
-					}
-				}
-				return "Signature is invalid";
-			}
-			return null; // The object is properly signed.
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// if (!checkSignedMessages()) {
+		// System.err.println(getClass().getSimpleName() + ".verifySignature(): Ignoring the signature and returning 'true'");
+		// return null;
+		// }
+		//
+		// if (publicKey == null)
+		// return "No public key!";
+		//
+		// try {
+		// // System.err.println(getClass().getSimpleName() + ".verifySignature(): really and truly checking the signature!");
+		// if (sig == null)
+		// sig = Signature.getInstance(publicKey.getAlgorithm());
+		// // The "FastBugs" error for this line is illogical.
+		// boolean retval = signedMess.verify(publicKey, sig);
+		// if (!retval) {
+		// for (String k : keys.keySet()) {
+		// if (keys.get(k) == this) { // Yes, I think "==" is right here: Are these the same objects?
+		// keys.remove(k);
+		// break;
+		// }
+		// }
+		// return "Signature is invalid";
+		// }
+		// return null; // The object is properly signed.
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 		return "Exeption caused the signature check to fail";
 	}
 
@@ -631,30 +639,31 @@ public class ObjectSigning {
 	 * @param toSign
 	 *            -- The object to sign
 	 * @return -- The signed object that corresponds to the passed object
+	 * @deprecated
 	 */
 	public SignedObject example(final Serializable toSign) {
-		try {
-			// We can sign Serializable objects only
-			signature = Signature.getInstance(privateKey.getAlgorithm());
-			SignedObject signedMess = new SignedObject(toSign, privateKey, signature);
-
-			// Verify the signed object
-			Signature sig = Signature.getInstance(publicKey.getAlgorithm());
-			boolean verifMes = signedMess.verify(publicKey, sig);
-
-			// System.out.println("Is signed Object verified ? " + verified );
-			System.out.println("Is signed Object verified ? " + verifMes);
-
-			// Retrieve the object
-			MessageCarrier unsignedMess = (MessageCarrier) signedMess.getObject();
-
-			System.out.println("Original Message : " + unsignedMess);
-
-			return signedMess;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// try {
+		// // We can sign Serializable objects only
+		// signature = Signature.getInstance(privateKey.getAlgorithm());
+		// SignedObject signedMess = new SignedObject(toSign, privateKey, signature);
+		//
+		// // Verify the signed object
+		// Signature sig = Signature.getInstance(publicKey.getAlgorithm());
+		// boolean verifMes = signedMess.verify(publicKey, sig);
+		//
+		// // System.out.println("Is signed Object verified ? " + verified );
+		// System.out.println("Is signed Object verified ? " + verifMes);
+		//
+		// // Retrieve the object
+		// MessageCarrier unsignedMess = (MessageCarrier) signedMess.getObject();
+		//
+		// System.out.println("Original Message : " + unsignedMess);
+		//
+		// return signedMess;
+		//
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 		return null;
 	}
 

@@ -8,32 +8,19 @@
  */
 package gov.fnal.ppd.dd.xml;
 
-import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
-import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
-import static gov.fnal.ppd.dd.util.Util.printlnErr;
-
 import java.io.Serializable;
-import java.io.StringWriter;
 
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Document;
-
-import gov.fnal.ppd.dd.chat.MessageType;
-import gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys;
+import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.xml.signature.SignedXMLDocument;
 
 /**
- * This class holds the messages that will be exchanged between the Clients and the Server. 
+ * This class holds the messages that will be exchanged between the Clients and the Server.
  * 
- * This is a replacement that is in full XML. Streamed objects in Java are about to be deprecated, so we are streaming pure-ascii XML documents.
+ * This is a replacement that is in full XML. Streamed objects in Java are about to be deprecated, so we are streaming pure-ascii
+ * XML documents.
  * 
  * Here is what an XML message that carries all the information looks like.
  * 
@@ -43,17 +30,18 @@ import gov.fnal.ppd.dd.xml.signature.SignedXMLDocument;
     <messageRecipient> -- name of the recipient of this message -- </messageRecipient> 
     <messageOriginator> -- name of the sender of this message -- </messageOriginator> 
    	<messageTimeStamp>Jan  1, 2019 01:23:45 CST</messageTimeStamp>
-    <messageValue>  # This is an XML representation of an EncodedCarrierXML object
-        
+    <messageValue>  
+    
+    # This is an XML representation of the transmitted object        
 
     </messageValue> 
     <signature> 
        Gobbledygook  
     </signature>
-  </messageCarrier> 
-
+  </messageCarrier>
+ * 
  * </pre>
- *  
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
@@ -62,67 +50,28 @@ public class MessageCarrierXML implements Serializable {
 
 	protected static final long	serialVersionUID	= 1112122200L;
 
-	private static boolean		signatureInitialized;
-
-	private MessageType			messType;
-	// private String message;
-	private EncodedCarrier		carrier;
+	// private MessageTypeXML messType;
+	private MessagingDataXML	theMessage;
 	private String				to;
 	private String				from;
-
-	private SignedXMLDocument	theMessage;
-	private String				theNonXMLMessage;
+	private long				creationDate;
 
 	/**
-	 * @param from
-	 *            The originator of the message
-	 * @param to
-	 *            The intended recipient of the message
-	 * @param message
-	 *            The ASCII message to send. Generally, this is an XML document.
-	 * @return the object to send over the wire
-	 */
-	public static MessageCarrierXML getMessage(final String from, final String to, final String message) {
-		return new MessageCarrierXML(MessageType.MESSAGE, from, to, message);
-	}
-
-	/**
-	 * @param from
-	 *            The originator of the message
-	 * @param to
-	 *            The recipient of the message
-	 * @param cc
-	 * @return the appropriate object
-	 */
-	public static MessageCarrierXML getMessage(String from, String to, EncodedCarrier cc) {
-		MessageCarrierXML r = new MessageCarrierXML(MessageType.MESSAGE, from, to, (String) null);
-		r.carrier = cc;
-		return r;
-	}
-
-	/**
-	 * @param from
-	 * @param to
-	 * @param message
-	 * @return A reply message from a client back to the requester
-	 */
-	public static MessageCarrierXML getReplyMessage(final String from, final String to, final String message) {
-		return new MessageCarrierXML(MessageType.REPLY, from, to, message);
-	}
-
-	/**
+	 * @param name
 	 * @return A logout message for the messaging server
 	 */
-	public static MessageCarrierXML getLogout() {
-		return new MessageCarrierXML(MessageType.LOGOUT, "");
+	public static MessageCarrierXML getLogout(final String name) {
+		LoginMessage lm = new LoginMessage(name);
+		return new MessageCarrierXML("", name, lm);
 	}
 
 	/**
 	 * @param username
 	 * @return A login message for the messaging server
 	 */
-	public static MessageCarrierXML getLogin(final String username) {
-		return new MessageCarrierXML(MessageType.LOGIN, username);
+	public static MessageCarrierXML getLogin(final String name) {
+		LoginMessage lm = new LoginMessage(name);
+		return new MessageCarrierXML("", name, lm);
 	}
 
 	/**
@@ -130,7 +79,8 @@ public class MessageCarrierXML implements Serializable {
 	 * @return A message for the messaging server asking for all the clients that are connected
 	 */
 	public static MessageCarrierXML getWhoIsIn(final String from) {
-		return new MessageCarrierXML(MessageType.WHOISIN, from, "NULL", "");
+		WhoIsInMessage wiim = new WhoIsInMessage();
+		return new MessageCarrierXML(from, "NULL", wiim);
 	}
 
 	/**
@@ -140,7 +90,8 @@ public class MessageCarrierXML implements Serializable {
 	 * @return A message for the messaging server asking if a client is alive
 	 */
 	public static MessageCarrierXML getIsAlive(final String from, final String to) {
-		return new MessageCarrierXML(MessageType.ISALIVE, from, to, "");
+		IsAliveMessage iam = new IsAliveMessage();
+		return new MessageCarrierXML(from, to, iam);
 	}
 
 	/**
@@ -149,8 +100,14 @@ public class MessageCarrierXML implements Serializable {
 	 * @param message
 	 * @return A message to the messaging server that says, "Yes, I am alive"
 	 */
-	public static MessageCarrierXML getIAmAlive(final String from, final String to, String message) {
-		return new MessageCarrierXML(MessageType.AMALIVE, from, to, message);
+	public static MessageCarrierXML getIAmAlive(final String from, final String to, long time) {
+		ClientInformation client = new ClientInformation(from, time);
+		AmAliveMessage aam = new AmAliveMessage(client);
+		return new MessageCarrierXML(from, to, aam);
+	}
+
+	public static MessageCarrierXML getIAmAlive(String username, String serverName) {
+		return getIAmAlive(username, serverName, System.currentTimeMillis());
 	}
 
 	/**
@@ -165,7 +122,8 @@ public class MessageCarrierXML implements Serializable {
 	 * @return A message to the messaging server that says, "There has been an error"
 	 */
 	public static MessageCarrierXML getErrorMessage(final String from, final String to, final String message) {
-		return new MessageCarrierXML(MessageType.ERROR, from, to, message);
+		ErrorMessage em = new ErrorMessage(message);
+		return new MessageCarrierXML(from, to, em);
 	}
 
 	/**
@@ -179,13 +137,22 @@ public class MessageCarrierXML implements Serializable {
 	 *            The message itself. It is anticipated that this will be an HTML-encoded message that can be shown by the client.
 	 * @return A message to the messaging server that conveys the emergency
 	 */
-	public static MessageCarrierXML getEmergencyMessage(final String from, final String to, final String message) {
-		// Stream the Emergency Message
-		return new MessageCarrierXML(MessageType.EMERGENCY, from, to, message);
+	public static MessageCarrierXML getEmergencyMessage(final String from, final String to, final EmergencyMessage message) {
+		EmergencyMessXML em = new EmergencyMessXML(message);
+		return new MessageCarrierXML(from, to, em);
 	}
 
-	private MessageCarrierXML(final MessageType messType, final String message) {
-		this(messType, "NULL", "NULL", message);
+	/**
+	 * @param from
+	 *            - Who is this message from
+	 * @param to
+	 *            - Who is this message to
+	 * @param replyMessage
+	 *            - The contents of the message
+	 * @return A message object for replying to something or other
+	 */
+	public static MessageCarrierXML getReplyMessage(String from, String to, ChangeChannelReply replyMessage) {
+		return new MessageCarrierXML(from, to, replyMessage);
 	}
 
 	/**
@@ -194,53 +161,17 @@ public class MessageCarrierXML implements Serializable {
 	 * @param message
 	 *            -- The body of the message (a simple String)
 	 */
-	private MessageCarrierXML(final MessageType messType, final String from, final String to, final String message) {
-		this.messType = messType;
-		this.theNonXMLMessage = message;
+	public MessageCarrierXML(final String from, final String to, final MessagingDataXML message) {
+		this.theMessage = message;
 		this.from = from;
 		this.to = to;
-		if (messType.isReadOnly())
-			return;
-
-		initializeSignature();
-		try {
-			this.theNonXMLMessage = null;
-			theMessage = new SignedXMLDocument(message);
-		} catch (Exception e) {
-			printlnErr(getClass(), "Problem signing this message: [" + message + "]. This has to be diagnosed and fixed!");
-			e.printStackTrace();
-		}
+		creationDate = System.currentTimeMillis();
 	}
 
 	/**
 	 * 
 	 */
 	public MessageCarrierXML() {
-	}
-
-	/**
-	 * @return The type of the message
-	 */
-	@XmlElement
-	public MessageType getType() {
-		return messType;
-	}
-
-	/**
-	 * @return The body of the message
-	 */
-	@XmlElement
-	public String getMessage() {
-		if (theNonXMLMessage != null)
-			return theNonXMLMessage;
-
-		String theString = "Invalid - this is a problem!";
-		try {
-			theString = MyXMLMarshaller.getXML(theMessage.getSignedDocument());
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		return theString;
 	}
 
 	/**
@@ -263,7 +194,7 @@ public class MessageCarrierXML implements Serializable {
 	 * @return who is this message from?
 	 */
 	@XmlElement
-	public String getOriginator() {
+	public String getMessageOriginator() {
 		return from;
 	}
 
@@ -271,37 +202,42 @@ public class MessageCarrierXML implements Serializable {
 	 * @param from
 	 *            Who is this message from
 	 */
-	public void setOriginator(final String from) {
+	public void setMessageOriginator(final String from) {
 		this.from = from;
 	}
 
 	/**
 	 * @return the carrier
 	 */
-	@XmlElement
-	public EncodedCarrier getMessageValue() {
-		return carrier;
+	public MessagingDataXML getMessageValue() {
+		return theMessage;
 	}
 
 	/**
-	 * @param carrier
+	 * @param message
 	 *            the carrier to set
 	 */
-	public void setMessageValue(EncodedCarrier carrier) {
-		this.carrier = carrier;
+	public void setMessageValue(MessagingDataXML message) {
+		this.theMessage = message;
 	}
 
-	/**
-	 * @param messType
-	 *            the type to set
-	 */
-	public void setMessageType(MessageType messType) {
-		this.messType = messType;
+	@XmlElement
+	public long getTimeStamp() {
+		return creationDate;
+	}
+
+	public void setTimeStamp(long creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public boolean isReadOnly() {
+		return theMessage.willNotChangeAnything();
 	}
 
 	@Override
 	public String toString() {
-		return "Type=" + messType + ", sent from [" + from + "] to [" + to + "] message=[" + theMessage + "]";
+		return "Type=" + theMessage.getClass().getSimpleName() + ", sent from [" + from + "] to [" + to + "] message=[" + theMessage
+				+ "]";
 	}
 
 	/**
@@ -329,77 +265,11 @@ public class MessageCarrierXML implements Serializable {
 		return rv;
 	}
 
-	/**
-	 * Read the private key so we can initialize out signature
-	 * 
-	 * @return Did we properly initialize the signature?
-	 */
-	public static void initializeSignature() {
-		if (!signatureInitialized)
-			try {
-				SignXMLUsingDSAKeys.setupDSA(PRIVATE_KEY_LOCATION, getFullSelectorName());
-				signatureInitialized = true;
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-	}
+	private SignedXMLDocument sXMLD = null;
 
-	// Eclipse-generated hashCode and equals
-	@Override
-	public int hashCode() {
-		final int prime = 41;
-		int result = 1;
-		result = prime * result + ((from == null) ? 0 : from.hashCode());
-		result = prime * result + ((theMessage == null) ? 0 : theMessage.hashCode());
-		result = prime * result + ((to == null) ? 0 : to.hashCode());
-		result = prime * result + ((messType == null) ? 0 : messType.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MessageCarrierXML other = (MessageCarrierXML) obj;
-		if (from == null) {
-			if (other.from != null)
-				return false;
-		} else if (!from.equals(other.from))
-			return false;
-		if (theMessage == null) {
-			if (other.theMessage != null)
-				return false;
-		} else if (!theMessage.equals(other.theMessage))
-			return false;
-		if (to == null) {
-			if (other.to != null)
-				return false;
-		} else if (!to.equals(other.to))
-			return false;
-		if (messType != other.messType)
-			return false;
-		return true;
-	}
-
-	private static String convertDocumentToString(Document doc) {
-		TransformerFactory tf = TransformerFactory.newInstance();
-		Transformer transformer;
-		try {
-			transformer = tf.newTransformer();
-			// below code to remove XML declaration
-			// transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-			StringWriter writer = new StringWriter();
-			transformer.transform(new DOMSource(doc), new StreamResult(writer));
-			String output = writer.getBuffer().toString();
-			return output;
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+	public boolean isSignatureValid() {
+		if (sXMLD == null)
+			sXMLD = new SignedXMLDocument(this);
+		return sXMLD.getSignedDocument() != null;
 	}
 }
