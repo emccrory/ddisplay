@@ -22,7 +22,7 @@ import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
-import gov.fnal.ppd.dd.xml.EncodedCarrier;
+import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 /**
@@ -37,28 +37,24 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
  */
 public class SummarizeContentHistory {
 
-	private static final String				CHANGE_CHANNEL		= "<changeChannel ";
-	private static final String				CHANGE_CHANNEL_LIST	= "<changeChannelList ";
+	private static final Comparator<Three>	cThree	= new Comparator<Three>() {
+														@Override
+														public int compare(Three o1, Three o2) {
+															if (o1.equals(o2))
+																return 0;
+															if (o1.displayID == o2.displayID)
+																return ((Integer) o2.count).compareTo((Integer) o1.count);				// Descending
+															return ((Integer) o1.displayID).compareTo(o2.displayID);					// Ascending
+														}
+													};
 
-	private static final Comparator<Three>	cThree				= new Comparator<Three>() {
-																	@Override
-																	public int compare(Three o1, Three o2) {
-																		if (o1.equals(o2))
-																			return 0;
-																		if (o1.displayID == o2.displayID)
-																			return ((Integer) o2.count)
-																					.compareTo((Integer) o1.count);								// Descending
-																		return ((Integer) o1.displayID).compareTo(o2.displayID);				// Ascending
-																	}
-																};
-
-	private List<Three>						all					= new ArrayList<Three>();
+	private List<Three>						all		= new ArrayList<Three>();
 	private int								cut;
 
 	private static class Three {
-		public EncodedCarrier	chan	= null;
-		public int				displayID, virtualDisplayID;
-		public int				count	= 0;
+		public MessageCarrierXML	chan	= null;
+		public int					displayID, virtualDisplayID;
+		public int					count	= 0;
 
 		public Three(int dbID, int c, int vDID, EncodedCarrier x) {
 			displayID = dbID;
