@@ -198,7 +198,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 
 		Point p = new Point(bounds.x, bounds.y);
 		Dimension sd = new Dimension(bounds.width, bounds.height);
-		afsd = new CheckAndFixScreenDimensions(driver, p, sd);
+		afsd = new CheckAndFixScreenDimensions(driver, p, sd, this);
 
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(afsd, ONE_MINUTE, ONE_MINUTE);
@@ -206,7 +206,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 
 	@Override
 	public synchronized void send(String command) {
-		println(getClass(), " Sending " + instance + " [" + command.substring(0, command.length() - 2) + "]");
+		println(getClass(), " Sending " + getScreenText() + " [" + command.substring(0, command.length() - 2) + "]");
 		try {
 			command += "return 1;\n";
 			lastReturnValue = jse.executeScript(command, new Object[] { "nothing" });
@@ -235,6 +235,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			new Thread("WaitingToLookForLoadErrors") {
 				public void run() {
 					catchSleep(2000);
+					if ( !showingCanonicalSite.get()) return;
 					// Read the Javascript Variable "mostRecentLoadResult"
 					long returnValue = (Long) jse.executeScript("return getMostRecentLoadResult();", new Object[] { "nothing" });
 					println(SeleniumConnectionToBrowser.class, " Verification of iframe load returns [" + returnValue + "]");
@@ -305,7 +306,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			if (uninitialized) {
 				uninitialized = false;
 				lastReturnValue = new Long(1);
-				println(getClass(), "First URL is " + url);
+				println(getClass(), "First URL for " + getScreenText() + " is " + url);
 				driver.get(url);
 
 				catchSleep(1000);
@@ -394,7 +395,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 
 	@Override
 	public String getConnectionCode() {
-		return instance;
+		return getScreenText();
 	}
 
 	@Override

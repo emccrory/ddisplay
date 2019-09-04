@@ -385,7 +385,7 @@ public class Util {
 		} else if (channelNumber < 0) {
 			// The default channel is a list of channels. Build it!
 
-			String query = "select Channel.Number as Number,Dwell,Name,Description,URL,SequenceNumber from Channel,ChannelList where ListNumber="
+			String query = "select Channel.Number as Number,Dwell,Name,Description,URL,SequenceNumber,Sound from Channel,ChannelList where ListNumber="
 					+ (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
 
 			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
@@ -411,11 +411,13 @@ public class Util {
 							String name = rs.getString("Name");
 							String desc = rs.getString("Description");
 							String url = rs.getString("URL");
+							int specialCode = rs.getInt("Sound");
 							int seq = rs.getInt("SequenceNumber");
 
 							ChannelInList c = new ChannelInList(name, ChannelClassification.MISCELLANEOUS, desc, new URI(url),
 									chanNum, dwell);
 							c.setSequenceNumber(seq);
+							c.setCode(specialCode);
 							channelList.add(c);
 
 						} while (rs.next());
@@ -439,7 +441,7 @@ public class Util {
 			// opposed to chosen randomly. It is possible that some future MySQL implementation will do random index number
 			// generation, although this is unlikely. Something to be aware of!
 			//
-			String query = "SELECT URL,DwellTime,Description,Name FROM Channel WHERE Number=" + channelNumber;
+			String query = "SELECT URL,DwellTime,Description,Name,Sound FROM Channel WHERE Number=" + channelNumber;
 			// println(DisplayControllerMessagingAbstract.class, " -- Getting default channel: [" + query + "]");
 			Connection connection;
 			try {
@@ -457,9 +459,11 @@ public class Util {
 							int dwell = rs.getInt("DwellTime");
 							String desc = rs.getString("Description");
 							String name = rs.getString("Name");
+							int specialCode = rs.getInt("Sound");
 
 							retval = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, desc, new URI(url),
 									channelNumber, dwell);
+							retval.setCode(specialCode);
 							alreadyRetrieved.put(channelNumber, retval);
 
 							stmt.close();

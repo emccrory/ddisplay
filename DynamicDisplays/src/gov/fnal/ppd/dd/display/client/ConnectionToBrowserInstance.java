@@ -67,7 +67,6 @@ public abstract class ConnectionToBrowserInstance {
 	protected AtomicBoolean				showingCanonicalSite			= new AtomicBoolean(true);
 	protected boolean					connected						= false;
 	protected boolean					showNumber						= true;
-	protected String					instance						= "";
 	protected boolean					showingEmergencyCommunication	= false;
 	protected int						screenNumber;
 	private List<BrowserErrorListener>	listeners						= new ArrayList<BrowserErrorListener>();
@@ -115,24 +114,6 @@ public abstract class ConnectionToBrowserInstance {
 		// Timer timer = new Timer();
 		// timer.scheduleAtFixedRate(tt, ONE_HOUR, ONE_HOUR);
 		// In the Selenium framework, sending a new, full URL causes it to come out of full-screen mode.
-
-		instance = " (Screen " + numberOfScreens + ")";
-		if (numberOfScreens == 1) {
-			Timer timer = new Timer(); // Not sure if we really need to make another one
-			TimerTask g = new TimerTask() {
-				public void run() {
-					for (int i = 0; i < 100; i++) {
-						if (numberOfScreens > 1) {
-							instance = " (Screen " + numberOfScreens + ")";
-							return;
-						}
-						// It often takes a moment for the second screen to appear. This loop waits a total of 20.5 seconds.
-						catchSleep(200);
-					}
-				}
-			};
-			timer.schedule(g, 500); // Run it once, after a short delay - it will loop for a moment
-		}
 
 		// Make sure we exit the instance(s) of the browser when the VM exits ---------------------------
 		Runtime.getRuntime().addShutdownHook(new Thread("ShutdownHook_Display_" + numberOfScreens) {
@@ -218,7 +199,8 @@ public abstract class ConnectionToBrowserInstance {
 			urlString = urlStrg + "&zoom=0";
 		}
 		if (debug)
-			println(getClass(), instance + " New URL: " + urlString);
+			println(getClass(),
+					getScreenText() + " New URL: " + urlString + ", specialCode=" + specialCode + ", wrapper=" + theWrapper);
 
 		if (showingEmergencyCommunication) {
 			removeEmergencyCommunication();
@@ -226,72 +208,78 @@ public abstract class ConnectionToBrowserInstance {
 
 		String frameName = "iframe";
 
-		String s = "document.getElementById('" + frameName + "').src = '" + urlString + "';\n";
+		String javascriptCommandToBrowser = "document.getElementById('" + frameName + "').src = '" + urlString + "';\n";
 
 		// "FastBugs" frowns on using an internally-synchronized object for synchronization. The intent is to prevent
 		// multiple instances of this method from running at the same time, so we put the "synchronized" on the method, where it
 		// should be.
 		// synchronized (showingCanonicalSite) {
-		
-		if (theWrapper==null) {
+
+		if (theWrapper == null) {
 			theWrapper = WrapperType.NORMAL;
 		}
 		switch (theWrapper) {
 
 		case NORMAL:
-			if ((specialCode | 1) != 0) {
-				// TODO - This URL has sound. Hmmm.
+			switch (specialCode) {
+			case 2:
+				// There is a class of URLs that will not let us put their content into our border frame web site. That is, the site
+				// we want to show is non-secured (http), but the border page is secured (https). Firefox gives the error, "does not
+				// permit cross-origin framing".
+
+				// The first site I have encountered for this is the site that shows a Google Sheets presentation. The
+				// work-around is to abandon this border web page for these sites (only).
+
+				// This breaks the "identify" functionality, and the full-screen action.
+
+				println(getClass(), "OVERRIDING normal container web page for this URL [" + urlString + "]");
+				javascriptCommandToBrowser = "window.location=\"" + urlString + "\";\n";
+				showingCanonicalSite.set(false);
+				break;
+
+			case 3:
+				// Nothing is defined with this code. But I put this case here so I could write this comment.
+			case 1:
+				// TODO - Reserved code indicating that this page has sound. It is presumed that there are some locations for which
+				// sound is a no-no. But this has not been requested. For now, fall through to the default case
+			case 0:
+				if (!showingCanonicalSite.get()) {
+					// There is nothing to do here if the "border" page is already showing. Otherwise, show it!
+					println(getClass(), getScreenText() + " Sending full, new URL to browser, " + WEB_PAGE_EMERGENCY_FRAME);
+					showingCanonicalSite.set(true);
+					javascriptCommandToBrowser = "window.location=\"" + WEB_PAGE_EMERGENCY_FRAME + "?url="
+							+ URLEncoder.encode(urlString, "UTF-8") + "&display=" + virtualID + "&color=" + colorCode + "&width="
+							+ bounds.width + "&height=" + bounds.height;
+
+					if (!showNumber)
+						javascriptCommandToBrowser += "&shownumber=0";
+					javascriptCommandToBrowser += "\";\n";
+
+					println(getClass(), "Resetting the url with this command: [" + javascriptCommandToBrowser + "]");
+
+					// TODO - Figure this out!
+					// In the Selenium framework, sending a new URL to the browser (which we do from time to time) takes it out of
+					// full-screen mode. The work-around would be to call the class that assures the browser is full screen. but
+					// then there would be a visible glitch in the visuals, so this is not acceptable. Maybe, then, only the
+					// "refresh" from the user will send the URL all over again (which drops it out of full screen) and then quickly
+					// make it full screen again.
+				}
 			}
-			if ((specialCode | 2) != 0) {
-				// TODO - This URL cannot be used in our border frame URL. Hmmm.
-			}
-			if (!showingCanonicalSite.get()) {
 
-				// FIXME - There is a class of URLs that will not let us put their content into our border frame
-				// web site. They are giving an error, "does not permit cross-origin framing".
-
-				// The first site I have encountered for this is the site that shows a Google Sheets presentation. The work-around,
-				// I think, will be to abandon this border web page for these sites (only). This will break the fancy, beautiful
-				// "identify" functionality, but I can probably figure out a work-around for this, too.
-
-				// The solution is (probably) to flag a web page in the database as having this restriction, and then getting that
-				// flag down to here, where this operation can then send just the URL, without the border stuff. There is a field
-				// in the Channel table currently called "Sound". This can be changed to "Flags" and then we can put all kinds of
-				// stuff like that in there ("Does the page have sound?" "Is this a non-cross-origin web page?" Etc.) There is
-				// also a field in the XML transmission called <code>. That flag can go there.
-
-				println(getClass(), instance + " Sending full, new URL to browser, " + WEB_PAGE_EMERGENCY_FRAME);
-				showingCanonicalSite.set(true);
-				s = "window.location=\"" + WEB_PAGE_EMERGENCY_FRAME + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
-
-				if (!showNumber)
-					s += "&shownumber=0";
-				s += "\";\n";
-
-				println(getClass(), "Resetting the url with this command: [" + s + "]");
-
-				// TODO - Figure this out!
-				// In the Selenium framework, sending a new URL to the browser (which we do from time to time) takes it out of
-				// full-screen mode. The work-around would be to call the class that assures the browser is full screen. but
-				// then there would be a visible glitch in the visuals, so this is not acceptable. Maybe, then, only the "refresh"
-				// from the user will send the URL all over again (which drops it out of full screen) and then quickly make it full
-				// screen again.
-			}
 			break;
 
 		case TICKER:
 			// case FERMITICKER:
 			if (!showingCanonicalSite.get()) {
-				println(getClass(), instance + " Sending full, new URL to browser " + TICKERTAPE_WEB_PAGE);
+				println(getClass(), getScreenText() + " Sending full, new URL to browser " + TICKERTAPE_WEB_PAGE);
 				showingCanonicalSite.set(true);
-				s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
-						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height + "&feed="
-						+ theWrapper.getTickerName();
+				javascriptCommandToBrowser = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url="
+						+ URLEncoder.encode(urlString, "UTF-8") + "&display=" + virtualID + "&color=" + colorCode + "&width="
+						+ bounds.width + "&height=" + bounds.height + "&feed=" + theWrapper.getTickerName();
 
 				if (!showNumber)
-					s += "&shownumber=0";
-				s += "\";\n";
+					javascriptCommandToBrowser += "&shownumber=0";
+				javascriptCommandToBrowser += "\";\n";
 			}
 			break;
 
@@ -299,11 +287,15 @@ public abstract class ConnectionToBrowserInstance {
 
 		// ********* Here is where the JavaScript message is sent to FireFox, containing the new URL *************************
 
-		send(s); // **********************************************************************************************************
+		send(javascriptCommandToBrowser); // **********************************************************************************************************
 
 		// *******************************************************************************************************************
 
 		return connected; // FIXME - Is this exactly right?
+	}
+
+	protected String getScreenText() {
+		return " (Screen " + screenNumber + ")";
 	}
 
 	/**
@@ -494,5 +486,9 @@ public abstract class ConnectionToBrowserInstance {
 	protected void errorSeen(long value) {
 		for (BrowserErrorListener L : listeners)
 			L.errorInPageLoad((int) value);
+	}
+
+	public boolean isShowingSpecialURL() {
+		return !showingCanonicalSite.get();
 	}
 }

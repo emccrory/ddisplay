@@ -1,12 +1,14 @@
 package gov.fnal.ppd.dd.chat;
 
+import static gov.fnal.ppd.dd.util.Util.println;
+
+import javax.xml.bind.JAXBException;
+
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelByNumber;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
-
-import javax.xml.bind.JAXBException;
 
 /**
  * Interprets the messages within the protocol for the client and the server
@@ -74,8 +76,8 @@ public class DDMessage {
 						e.printStackTrace();
 					}
 					if (receivedMessage != null) {
-						System.out.println(getClass().getSimpleName()
-								+ ".decode(): Incoming message interpreted as an object of type "
+						println(getClass(), 
+								".decode(): Incoming message interpreted as an object of type "
 								+ receivedMessage.getClass().getCanonicalName());
 					} else if (rawMessage != null)
 						throw new ErrorProcessingMessage("Unknown XML data type within this XML document: [" + rawMessage + "]");

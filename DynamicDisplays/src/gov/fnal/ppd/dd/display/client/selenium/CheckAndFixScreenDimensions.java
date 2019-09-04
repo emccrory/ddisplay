@@ -13,6 +13,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance;
 import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.PropertiesFile;
 import gov.fnal.ppd.dd.util.PropertiesFile.PositioningMethod;
@@ -40,6 +41,7 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 	private boolean							haventShowTraceback1	= true;
 	private boolean							haventShowTraceback2	= true;
 	private int								numExceptions			= 0;
+	private ConnectionToBrowserInstance	connection = null;
 
 	/**
 	 * @param d
@@ -52,14 +54,17 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 	 *            (Note that these two arguments are org.openqa.selenium.Dimension and Point, not the normal Java Dimension or Point
 	 *            type.)
 	 */
-	public CheckAndFixScreenDimensions(final WebDriver d, final Point p, final Dimension sd) {
+	public CheckAndFixScreenDimensions(final WebDriver d, final Point p, final Dimension sd, final ConnectionToBrowserInstance c) {
 		driver = d;
 		screenDimension = sd;
 		screenPosition = p;
+		connection = c;
 		println(getClass(), " - Proper position and size of this screen is " + screenPosition + " and " + screenDimension);
 	}
 
 	public void run() {
+		if (connection.isShowingSpecialURL()) return;
+		
 		boolean adjusted = false;
 		try {
 			Point pos = driver.manage().window().getPosition();

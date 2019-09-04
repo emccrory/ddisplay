@@ -209,7 +209,7 @@ public class DCProtocol {
 	public boolean processInput(final DDMessage message) {
 		errorMessageText = null;
 		try {
-			println(getClass(), ".processInput(): processing '" + message + "'");
+			println(getClass(), ".processInput(): processing message of type " + message.getMessage().getClass().getCanonicalName());
 
 			if (message != null && message.getMessage() != null) {
 				theMessage = message.getMessage();
