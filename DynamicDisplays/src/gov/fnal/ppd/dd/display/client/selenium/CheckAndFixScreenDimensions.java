@@ -63,8 +63,9 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 	}
 
 	public void run() {
-		if (connection.isShowingSpecialURL()) return;
-		
+		if (connection.isShowingSpecialURL())
+			return;
+
 		boolean adjusted = false;
 		try {
 			Point pos = driver.manage().window().getPosition();
@@ -72,28 +73,32 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 
 			if (!dim.equals(screenDimension)) {
 				// The size has changed!
-				printlnErr(getClass(), "Screen dimensions have changed from " + screenDimension + " to " + dim);
+				printlnErr(getClass(),
+						connection.getConnectionCode() + " Screen dimensions have changed from " + screenDimension + " to " + dim);
 				adjusted = true;
 			}
 			if (!pos.equals(screenPosition)) {
 				// The window has moved!
-				printlnErr(getClass(), "Screen position have changed from " + screenPosition + " to " + pos);
+				printlnErr(getClass(),
+						connection.getConnectionCode() + " Screen position have changed from " + screenPosition + " to " + pos);
 				adjusted = true;
 			}
 		} catch (org.openqa.selenium.WebDriverException e) {
 			// I observed on May 15, 2019, that this exception itells me that the connection to the browser has been lost.
 			// That means we are hosed and we need to get out of here (and, hopefully, restart the display)
-			ExitHandler.saveAndExit("Lost communication with the browser");
+			ExitHandler.saveAndExit(connection.getConnectionCode() + " Lost communication with the browser");
 		} catch (Exception e) {
 			numExceptions++;
 			if (haventShowTraceback1) {
-				printlnErr(getClass(), "Caught exception (overall num exceptions=" + numExceptions + ", counter=" + counter + ": "
-						+ e.getClass().getCanonicalName() + ") in trying to read the position/size of the screen");
+				printlnErr(getClass(),
+						connection.getConnectionCode() + " Caught exception (overall num exceptions=" + numExceptions + ", counter="
+								+ counter + ": " + e.getClass().getCanonicalName()
+								+ ") in trying to read the position/size of the screen");
 				e.printStackTrace();
 				haventShowTraceback1 = false;
 			} else {
-				printlnErr(getClass(), "Caught exception (#" + numExceptions + "/" + counter + ": "
-						+ e.getClass().getCanonicalName() + ") in trying to read the position/size of the screen");
+				printlnErr(getClass(), connection.getConnectionCode() + " Caught exception (#" + numExceptions + "/" + counter
+						+ ": " + e.getClass().getCanonicalName() + ") in trying to read the position/size of the screen");
 			}
 		}
 		try {
