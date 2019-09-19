@@ -24,8 +24,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
 
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.xml.ChannelSpec;
 
 /**
  * Creates a borderless pop-up window. Used by {@link gov.fnal.ppd.dd.ChannelSelector}, and others, to let the user know that
@@ -61,8 +64,8 @@ public class TemporaryDialogBox extends JFrame {
 		}
 	}
 
-	boolean dismissNow = false;
-	static int cc = 0;
+	boolean		dismissNow	= false;
+	static int	cc			= 0;
 
 	/**
 	 * 
@@ -70,6 +73,7 @@ public class TemporaryDialogBox extends JFrame {
 	 *            The parent component for this dialog box
 	 * @param di
 	 *            The Display for which we are showing the dialog box
+	 * @param imBusy 
 	 */
 	public TemporaryDialogBox(final JComponent comp, final Display di) {
 		super(cc++ + " Display " + di + " changed successfully");
@@ -83,7 +87,12 @@ public class TemporaryDialogBox extends JFrame {
 			fontColor = Color.white;
 		}
 
-		String urlString = ((Channel) di.getContent()).getURI().toString();
+		String urlString = di.getContent().getName();
+		if (di.getContent() instanceof Channel)
+			urlString = ((Channel) di.getContent()).getURI().toString();
+		else if (di.getContent() instanceof ChannelSpec)
+			urlString = ((ChannelSpec) di.getContent()).getURI().toString();
+
 		Box h = Box.createVerticalBox();
 		Color bg = di.getPreferredHighlightColor();
 		Color fg = fontColor;
@@ -99,31 +108,37 @@ public class TemporaryDialogBox extends JFrame {
 			small = 10.0f;
 		}
 
-		if (urlString.startsWith("https://")) {
-			h.add(new MyLabel(fg, bg, " - - - - - - Channel Changed - - - - - - ", big));
+		// if (urlString.startsWith("https://")) {
+		int code = 0;
+		if (di.getContent() instanceof Channel)
+			code = ((Channel) di.getContent()).getCode();
+		else if (di.getContent() instanceof ChannelSpec)
+			code = ((ChannelSpec) di.getContent()).getCode();
+
+		if (code == 2) {
+			h.add(new MyLabel(fg, bg, "  ****  N O N - S E C U R E   C O N T E N T   **** ", big * 4 / 3));
 			h.add(Box.createRigidArea(new Dimension(10, 10)));
 			h.add(new MyLabel(fg, bg, " The content on " + di + " (" + di.getLocation() + ") "), regular);
 			h.add(Box.createRigidArea(new Dimension(10, 10)));
-			h.add(new MyLabel(fg, bg, " Has been changed to '" + di.getContent() + "' "), regular);
-		} else {
-			h.add(new MyLabel(fg, bg, "  ****  N O N - S E C U R E   C O N T E N T   R E J E C T E D  **** ", big * 4 / 3));
-			h.add(Box.createRigidArea(new Dimension(10, 10)));
-			h.add(new MyLabel(fg, bg, " The content on " + di + " (" + di.getLocation() + ") "), regular);
-			h.add(Box.createRigidArea(new Dimension(10, 10)));
-			h.add(new MyLabel(fg, bg,
-					" HAS NOT BEEN CHANGED to '" + di.getContent() + "' because of a security incompatibility (hhtp versus https)"),
-					regular);
+			h.add(new MyLabel(fg, bg, " MIGHT NOT HAVE BEEN CHANGED to '" + di.getContent().getName()
+					+ "' because of a security incompatibility (hhtp versus https)"), regular);
 			h.add(Box.createRigidArea(new Dimension(15, 15)));
 			h.add(new MyLabel(fg, bg,
 					"The web is moving to 'https everywhere'.  During this transition, some old servers "
 							+ "are still hosting non-secure content.  The Dynamic Display system "
-							+ "cannot show this content until it is converted to https.",
+							+ "cannot show this content reliably until it is converted to https.",
 					small));
 			h.add(Box.createRigidArea(new Dimension(5, 5)));
 			h.add(new MyLabel(fg, bg, "This is being enforced by the Firefox browser on the display", small));
 			time = 30;
 			borderColor1 = Color.WHITE;
 			borderColor2 = Color.RED;
+		} else {
+			h.add(new MyLabel(fg, bg, " - - - - - - Channel Changed - - - - - - ", big));
+			h.add(Box.createRigidArea(new Dimension(10, 10)));
+			h.add(new MyLabel(fg, bg, " The content on " + di + " (" + di.getLocation() + ") "), regular);
+			h.add(Box.createRigidArea(new Dimension(10, 10)));
+			h.add(new MyLabel(fg, bg, "<html>Has been changed to '" + breakup(di.getContent()) + "'</html>"), regular);
 		}
 		h.add(Box.createRigidArea(new Dimension(10, 10)));
 		h.add(new MyLabel(fg, bg, " The URL is '" + urlString + "' ", (urlString.length() < 50 ? regular : small)));
@@ -142,7 +157,7 @@ public class TemporaryDialogBox extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				timeLeft.setText("This noticication will disappear in now");
+				timeLeft.setText("This noticication will disappear now");
 				dismissNow = true;
 			}
 		});
@@ -174,17 +189,30 @@ public class TemporaryDialogBox extends JFrame {
 		new Thread(this.getClass().getSimpleName() + "_Removal") {
 			public void run() {
 				for (int i = tt; i > 0 && !dismissNow; i--) {
-				if ( i > 1 ) {
-					timeLeft.setText("This notification will disappear automatically in " + i + " seconds");
-				} else {
-					timeLeft.setText("This notification will disappear now");
-				}
+					if (i > 1) {
+						timeLeft.setText("This notification will disappear automatically in " + i + " seconds");
+					} else {
+						timeLeft.setText("This notification will disappear now");
+					}
 					catchSleep(1000L);
 				}
 
-				TemporaryDialogBox.this.dispose();
+				end(TemporaryDialogBox.this);
 			}
 		}.start();
+	}
+
+	protected static void end(TemporaryDialogBox tdb) {
+		tdb.setVisible(false);
+		tdb.dispose();
+		tdb = null;
+	}
+
+	private static String breakup(SignageContent content) {
+		if (content instanceof ChannelPlayList) {
+			return "<br>" + content.toString().replace(") (", ")<br>(");
+		}
+		return content.toString();
 	}
 
 	/**
@@ -246,7 +274,7 @@ public class TemporaryDialogBox extends JFrame {
 					catchSleep(1000L);
 				}
 
-				TemporaryDialogBox.this.dispose();
+				end(TemporaryDialogBox.this);
 			}
 		}.start();
 	}
