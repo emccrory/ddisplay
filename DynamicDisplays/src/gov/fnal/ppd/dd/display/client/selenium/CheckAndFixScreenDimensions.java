@@ -19,7 +19,7 @@ import gov.fnal.ppd.dd.util.PropertiesFile;
 import gov.fnal.ppd.dd.util.PropertiesFile.PositioningMethod;
 
 /**
- * A thread to keep an eye on the screen size. In principle, this will fix to back to full screen when it varies.
+ * A thread to keep an eye on the screen size. In principle, this will put the screen to back to full screen when it varies.
  * 
  * First attempt does not work because of an internal exception generated during the call to driver.manage().window().getPosition()
  * - <date> org.openqa.selenium.remote.ErrorCodes toStatus INFO: HTTP Status: '404' -> incorrect JSON status mapping for 'unknown
@@ -33,6 +33,7 @@ import gov.fnal.ppd.dd.util.PropertiesFile.PositioningMethod;
 public class CheckAndFixScreenDimensions extends TimerTask {
 
 	private static final PositioningMethod	positioningMethod		= PropertiesFile.getPositioningMethod();
+	private PositioningMethod				myMethod				= positioningMethod;
 	private final WebDriver					driver;
 	private final Dimension					screenDimension;
 	private final Point						screenPosition;
@@ -41,7 +42,8 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 	private boolean							haventShowTraceback1	= true;
 	private boolean							haventShowTraceback2	= true;
 	private int								numExceptions			= 0;
-	private ConnectionToBrowserInstance	connection = null;
+	private ConnectionToBrowserInstance		connection				= null;
+	private int								adjustCount;
 
 	/**
 	 * @param d
@@ -63,9 +65,6 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 	}
 
 	public void run() {
-		if (connection.isShowingSpecialURL())
-			return;
-
 		boolean adjusted = false;
 		try {
 			Point pos = driver.manage().window().getPosition();
@@ -136,10 +135,19 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 	 * @param driver
 	 */
 	public void goToProperSizeAndPlace() {
+		myMethod = positioningMethod;
+		if (adjustCount++ > 2) {
+			myMethod = PositioningMethod.DirectPositioning;
+			adjustCount = 0;
+		}
 
-		switch (positioningMethod) {
+		switch (myMethod) {
 
 		case UseHiddenButton:
+			if (connection.isShowingSpecialURL()) {
+				println(getClass(), "Cannot go to full screen if we aren't using the standard wrapper web page");
+				return;
+			}
 			driver.manage().window().setPosition(screenPosition);
 			driver.findElement(new By.ByName("hiddenButton")).click();
 			break;
@@ -153,9 +161,9 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 		case PressF11:
 			driver.manage().window().setPosition(screenPosition);
 			if (driver instanceof FirefoxDriver) {
-				// May 2019: Both of these calls to pressKey() throw an exception
+				// May 2019: Either one of these calls to pressKey() will throw an exception
 				String f11Sequence = new String(new byte[] { 0x1b, '[', '2', '3', '~' });
-				((FirefoxDriver) driver).getKeyboard().pressKey(f11Sequence); 
+				((FirefoxDriver) driver).getKeyboard().pressKey(f11Sequence);
 				// ((FirefoxDriver) driver).getKeyboard().pressKey(Keys.F11);
 			}
 			break;
@@ -166,7 +174,7 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 		}
 		catchSleep(100);
 		println(getClass(), counter + " Window layout - Position: " + driver.manage().window().getPosition() + ", Dimensions: "
-				+ driver.manage().window().getSize());
+				+ driver.manage().window().getSize() + "\n\t\tUsed " + myMethod);
 
 	}
 }
