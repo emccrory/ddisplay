@@ -93,7 +93,7 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 			urlString = urlStrg + "&zoom=0";
 		}
 		if (debug)
-			println(getClass(), instance + " New URL: " + urlString);
+			println(getClass(), getScreenText() + " New URL: " + urlString);
 
 		if (showingEmergencyCommunication) {
 			removeEmergencyCommunication();
@@ -131,7 +131,7 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 				// stuff like that in there ("Does the page have sound?" "Is this a non-cross-origin web page?" Etc.) There is
 				// also a field in the XML transmission called <code>. That flag can go there.
 
-				println(getClass(), instance + " Sending full, new URL to browser, " + WEB_PAGE_EMERGENCY_FRAME);
+				println(getClass(), getScreenText() + " Sending full, new URL to browser, " + WEB_PAGE_EMERGENCY_FRAME);
 				showingCanonicalSite.set(true);
 				s = "window.location=\"" + WEB_PAGE_EMERGENCY_FRAME + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height;
@@ -145,7 +145,7 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 		case TICKER:
 			// case FERMITICKER:
 			if (!showingCanonicalSite.get()) {
-				println(getClass(), instance + " Sending full, new URL to browser " + TICKERTAPE_WEB_PAGE);
+				println(getClass(), getScreenText() + " Sending full, new URL to browser " + TICKERTAPE_WEB_PAGE);
 				showingCanonicalSite.set(true);
 				s = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
 						+ virtualID + "&color=" + colorCode + "&width=" + bounds.width + "&height=" + bounds.height + "&feed="
@@ -235,14 +235,14 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 			sleepTime = Math.min(sleepTime + 5000L, 15000L);
 		}
 		if (debug)
-			println(getClass(), instance + " sending [" + s + "]");
+			println(getClass(), getScreenText() + " sending [" + s + "]");
 		synchronized (out) {
 			out.println(s);
 		}
 
 		try {
 			if (!waitForServer())
-				System.err.println(getClass().getName() + ".send() " + instance + " -- error from Display server!");
+				System.err.println(getClass().getName() + ".send() " + getScreenText() + " -- error from Display server!");
 		} catch (IOException e) {
 			e.printStackTrace();
 			setIsNotConnected();
@@ -329,7 +329,7 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 							System.err.println("Couldn't get I/O for the connection to " + LOCALHOST + ":" + port + " -- ("
 									+ e.getMessage() + ") (" + numFailures + ") [b]");
 						} else {
-							System.err.println(instance + "Unrecognized error! (" + numFailures + ")");
+							System.err.println(getScreenText() + "Unrecognized error! (" + numFailures + ")");
 							e.printStackTrace();
 						}
 					}
@@ -369,7 +369,7 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 
 				if (debug)
 					println(getClass(),
-							".waitForServer()" + instance + ": " + numRead + " chars from server: [" + lastReplyLine + "]");
+							".waitForServer()" + getScreenText() + ": " + numRead + " chars from server: [" + lastReplyLine + "]");
 
 				/*
 				 * It looks like the reply expected here is something like this:
@@ -408,16 +408,16 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 				setIsNotConnected();
 			}
 		}
-		println(getClass(), instance + " Returning from waitForServer(), connected=" + connected);
+		println(getClass(), getScreenText() + " Returning from waitForServer(), connected=" + connected);
 		return connected;
 	}
 
 	/**
-	 * @return a string that tells which connection instance this is (e.g., " (port #32000)")
+	 * @return a string that tells which connection instance this is (e.g., " (screen 1)")
 	 */
 	@Override
 	public String getConnectionCode() {
-		return instance;
+		return getScreenText();
 	}
 
 }
