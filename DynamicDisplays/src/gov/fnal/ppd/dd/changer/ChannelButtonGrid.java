@@ -75,8 +75,6 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		// System.err.println("Event " + e.getClass().getSimpleName() + " (" + e.getActionCommand() + ") received ");
-
 		// Observation (10/10/2014): This method is called for every tab on the screen. So, (at this time) for a general
 		// case, it is called many, many times, depending on the number of tabs of channels there are on the main screen.
 		// So, there is a bit of a bug below, in that the buttons in the entire container bg are "enabled" or "disabled" each time,
@@ -100,22 +98,23 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 				bg.disableAll(to);
 				// if (!SHOW_IN_WINDOW)
 				if (imBusy.tryLock()) {
-					// Throw up a dialog box saying, "Well done! You've changed the channel on display #5 to 
-					// 'Something or other', URL='http://some.url'"
-					
-					// This "imBusy" prevents all the other times this is called (see bug note, above) 
-					// from throwing up the TemporaryDialogBox. 
+					// Throw up a dialog box saying, "Well done! You've changed the channel on display #5 to
+					// 'Something or other', URL='https://some.url'"
+
+					// This "imBusy" prevents all the other times this is called (see bug note, above)
+					// from throwing up the TemporaryDialogBox.
 					if (e.getSource() instanceof Display) {
 						Display di = (Display) e.getSource();
-						new TemporaryDialogBox(this, di);
-						
-						// Rest here for a blink to assure that no other entries can call up this dialog.
-						// No wait seems to work all the time, but I bet this won't be true forevermore.
-						catchSleep(10); 
-						
-						imBusy.unlock();
+						new TemporaryDialogBox(this, di, imBusy);
 					} // Question: Is this ever NOT an instance of Display?
+
+					// Rest here for a blink to assure that no other entries can call up this dialog.
+					// No wait seems to work all the time, but I bet this won't be true forevermore.
+					catchSleep(100);
+					
+					imBusy.unlock();
 				} // else another instance is doing it so I don't have to
+
 				break;
 
 			case CHANGE_COMPLETED:
