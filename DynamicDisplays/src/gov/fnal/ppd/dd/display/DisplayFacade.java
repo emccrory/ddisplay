@@ -13,7 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.swing.JOptionPane;
+
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
+import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
@@ -111,13 +114,15 @@ public class DisplayFacade extends DisplayImpl {
 					// println(getClass(), ".receiveIncomingMessage(): Yay! Got a real confirmation that the channel was changed.");
 				} else
 					println(getClass(),
-							".receiveIncomingMessage(): No client named " + message.getMessageOriginator() + " to which to send the REPLY.\n"
-									+ "t\tThe clients are called: " + Arrays.toString(clients.keySet().toArray()));
+							".receiveIncomingMessage(): No client named " + message.getMessageOriginator()
+									+ " to which to send the REPLY.\n" + "t\tThe clients are called: "
+									+ Arrays.toString(clients.keySet().toArray()));
 			} else {
 				// DisplayFacade d = clients.get(message.getFrom());
 				try {
 					if (!dcp.processInput(message)) {
-						sendMessage(MessageCarrier.getErrorMessage(message.getMessageRecipient(), message.getMessageOriginator(), dcp.getErrorMessageText()));
+						sendMessage(MessageCarrier.getErrorMessage(message.getMessageRecipient(), message.getMessageOriginator(),
+								dcp.getErrorMessageText()));
 					}
 				} catch (ErrorProcessingMessage e) {
 					// Ignore this error on the GUI side
@@ -185,7 +190,7 @@ public class DisplayFacade extends DisplayImpl {
 	 *            A description of the location of this display
 	 * @param color
 	 *            the highlight color for this display
-	 	 */
+	 */
 	public DisplayFacade(final int locCode, final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
 			final String location, final Color color) {
 		super(ipName, vNumber, dbNumber, screenNumber, location, color);
@@ -217,9 +222,26 @@ public class DisplayFacade extends DisplayImpl {
 
 	public boolean localSetContent() {
 		receivedAReply = false;
-		informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
 		try {
 			SignageContent content = getContent();
+			if (content instanceof ChannelImpl) {
+				ChannelImpl ci = (ChannelImpl) content;
+				String url = ci.getURI().toString();
+				if (ci.getCode() == 2) {
+					println(getClass(), " ************** We have a URL that points to a NON-HTTPS site! " + url);
+					if (JOptionPane.showConfirmDialog(null,
+							"<html>The channel you have selected:<br><br>" + content.getName()
+									+ "<br><br>points to a web site that is not fully compatible with the<br>"
+									+ "Dynamic Display system.  Depnding on the version of the<br>"
+									+ "software in the display node, this channel might not appear.<br><br>Continue?</html>",
+							"Non https site requested", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						println(getClass(), "******************* Continuing");
+					} else {
+						return true;
+					}
+				}
+			}
+			informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
 			EncodedCarrier cc = null;
 			if (content instanceof ChannelPlayList) {
 				println(getClass(), ": Have a ChannelPlayList to deal with!");
@@ -324,7 +346,7 @@ public class DisplayFacade extends DisplayImpl {
 			retval += " (Loc=" + locCode + ")";
 		return retval;
 	}
-	
+
 	public static String getPresentStatus() {
 		return FacadeMessagingClient.me.getPresentStatus();
 	}
