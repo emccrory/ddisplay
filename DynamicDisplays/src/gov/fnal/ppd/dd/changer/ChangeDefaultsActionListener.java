@@ -1,11 +1,13 @@
 package gov.fnal.ppd.dd.changer;
 
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
-import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -14,12 +16,12 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import gov.fnal.ppd.dd.ChannelSelector;
-
 public class ChangeDefaultsActionListener implements ActionListener {
-	private JDialog	f1;
+	private JDialog		saveRestoreDialogWindow	= null;
 	private Container	parent;
 
 	public ChangeDefaultsActionListener(Container parent) {
@@ -28,14 +30,13 @@ public class ChangeDefaultsActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		Window parentWindow = SwingUtilities.windowForComponent(parent); 
+		Window parentWindow = SwingUtilities.windowForComponent(parent);
 		Frame parentFrame = null;
 		if (parentWindow instanceof Frame) {
-		    parentFrame = (Frame)parentWindow;
-		}	
-		
-		f1 = new JDialog(parentFrame, "Save / Restore Channels on all Displays", true);
+			parentFrame = (Frame) parentWindow;
+		}
+
+		saveRestoreDialogWindow = new JDialog(parentFrame, "Save / Restore Channels on all Displays", true);
 
 		Box all = Box.createVerticalBox();
 		all.add(SaveRestoreDefaultChannels.getGUI());
@@ -46,19 +47,38 @@ public class ChangeDefaultsActionListener implements ActionListener {
 		button.setMargin(new Insets(20, 50, 20, 50));
 		all.add(button);
 		button.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				f1.setVisible(false);				
+				if (saveRestoreDialogWindow != null) {
+					saveRestoreDialogWindow.setVisible(false);
+					saveRestoreDialogWindow = null;
+				}
 			}
 		});
-		f1.setContentPane(all);
+		// Automatically dismiss this window after it is clear that the user has lost interest in it. Let's say that is 20 minutes.
+		// (What seems to happen most, when the user gets bored, is that the window gets covered by the GUI. Not sure how this can
+		// happen since it is supposed to be always on top. Whatever.)
+		new Thread("Dismiss S/R Popup") {
+			public void run() {
+				catchSleep(ONE_MINUTE);
+				if (saveRestoreDialogWindow != null) {
+					saveRestoreDialogWindow.setVisible(false);
+					saveRestoreDialogWindow = null;
+				}
+			}
+		}.start();
+		saveRestoreDialogWindow.setContentPane(all);
 		int height = 400 + 30 * (displayList.size() + 1);
 		if (height > 1000)
 			height = 1000;
-		println(ChannelSelector.class, " -- Height of popup is " + height);
-		f1.setSize(900, height);
-		f1.setAlwaysOnTop(true);
-		f1.setVisible(true);
+		// println(ChannelSelector.class, " -- Height of popup is " + height);
+		// TODO - It would be appropriate to launch a screen-based keyboard.  But I have not found a consistent way to do this.
+		saveRestoreDialogWindow.setSize(900, height);
+		saveRestoreDialogWindow.setAlwaysOnTop(true);
+		saveRestoreDialogWindow.setVisible(true);
 	}
+	
+	
+	
 }
