@@ -105,7 +105,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 					// from throwing up the TemporaryDialogBox.
 					if (e.getSource() instanceof Display) {
 						Display di = (Display) e.getSource();
-						new TemporaryDialogBox(this, di, imBusy);
+						new TemporaryDialogBox(this, di);
 					} // Question: Is this ever NOT an instance of Display?
 
 					// Rest here for a blink to assure that no other entries can call up this dialog.

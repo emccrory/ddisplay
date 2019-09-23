@@ -353,14 +353,15 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				+ " [" + display.getContent() + "] at " + shortDate();
 	}
 
+	public static ProgressMonitor progressMonitor;
 	private void initializeTabs() {
 		ChannelClassification[] categories = ChannelClassificationDictionary.getCategories();
 
-		ProgressMonitor progressMonitor = new ProgressMonitor(null,
+		progressMonitor = new ProgressMonitor(null,
 				"Building Channel Selector GUI for location=" + getLocationCode(), "", 0,
 				displayList.size() * (1 + categories.length));
-		String note = "Building image database";
-		progressMonitor.setNote(note);
+		progressMonitor.setNote("Launching");
+		String note = "Starting to build image database";
 		progressMonitor.setProgress(0);
 
 		catchSleep(100); // Let the progress monitor start
@@ -411,7 +412,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				});
 				String sp = SHOW_IN_WINDOW ? "" : " ";
 				displayTabPane.add(grid, sp + categories[cat].getAbbreviation() + sp);
-				progressMonitor.setNote(note);
+				note = "Building image database";
+				progressMonitor.setNote(note + cat);
 				progressMonitor.setProgress(index * (1 + categories.length) + cat);
 			}
 

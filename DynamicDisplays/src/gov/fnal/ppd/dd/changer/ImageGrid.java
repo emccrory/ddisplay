@@ -5,6 +5,7 @@
  */
 package gov.fnal.ppd.dd.changer;
 
+import static gov.fnal.ppd.dd.ChannelSelector.progressMonitor;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.util.Util.println;
@@ -122,6 +123,8 @@ public class ImageGrid extends DetailedInformationGrid {
 
 	@Override
 	protected JComponent makeExpGrid(ChannelClassification set) {
+		int progMonStart = progressMonitor.getMaximum()/3;
+		int progMonCount = 0;
 		int ncol = 4;
 		if (SHOW_IN_WINDOW)
 			ncol = 2;
@@ -157,7 +160,6 @@ public class ImageGrid extends DetailedInformationGrid {
 				println(this.getClass(), ".makeExpGrid(): resizing " + list.size() + " images.");
 				println(this.getClass(),
 						".makeExpGrid(): working on the images for display number " + display.getVirtualDisplayNumber() + " ...");
-				firstTime = false;
 				beginResizingAt = System.currentTimeMillis();
 			} else
 				System.out.print(display.getVirtualDisplayNumber() + " ");
@@ -187,6 +189,9 @@ public class ImageGrid extends DetailedInformationGrid {
 			String colorString = String.format("%06X", display.getPreferredHighlightColor().getRGB() & 0xFFFFFF);
 			for (SignageContent content : newList)
 				try {
+					if (firstTime) {
+						progressMonitor.setProgress(progMonStart + (progMonCount++) / 200);
+					}
 					ChannelImage imageChannel = (ChannelImage) content;
 					String name = imageChannel.getName(); // This is the URL end
 					String url = getFullURLPrefix() + "/" + name;
@@ -235,6 +240,7 @@ public class ImageGrid extends DetailedInformationGrid {
 					e.printStackTrace();
 				}
 		}
+		firstTime = false;
 
 		for (String exp : asSortedList(expPanels.keySet())) {
 			// TODO It might be better to sort this
