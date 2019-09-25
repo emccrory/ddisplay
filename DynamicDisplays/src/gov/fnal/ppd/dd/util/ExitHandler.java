@@ -3,7 +3,6 @@ package gov.fnal.ppd.dd.util;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 
-import java.text.RuleBasedCollator;
 import java.util.ArrayList;
 import java.util.List;
 

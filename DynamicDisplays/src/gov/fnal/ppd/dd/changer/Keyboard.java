@@ -27,6 +27,8 @@ import javax.swing.JPanel;
  *
  */
 public class Keyboard extends JPanel implements ActionListener {
+
+	private static final long serialVersionUID = 4961744485969760570L;
 	private static String		lowerCase	= "`1234567890-=qwertyuiop[]\\asdfghjkl;'  zxcvbnm,./   ";
 	private static String		upperCase	= "~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"  ZXCVBNM<>?    ";
 	private String[]			special		= { "BS", "DEL", "ACCEPT", "SHIFT" };
@@ -79,6 +81,8 @@ public class Keyboard extends JPanel implements ActionListener {
 	}
 
 	private class ASpecialButton extends JButton {
+		private static final long serialVersionUID = 4945602285858242692L;
+
 		public ASpecialButton(String text) {
 			super(text);
 			addActionListener(Keyboard.this);

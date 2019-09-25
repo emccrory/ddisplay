@@ -13,8 +13,6 @@ import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
 import java.io.StreamCorruptedException;
 import java.sql.Blob;
 import java.sql.Connection;

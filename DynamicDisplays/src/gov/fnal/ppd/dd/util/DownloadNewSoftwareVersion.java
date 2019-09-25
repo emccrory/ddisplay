@@ -234,6 +234,7 @@ public class DownloadNewSoftwareVersion {
 		return true;
 	}
 
+	@SuppressWarnings("unused")
 	private boolean renameOriginalFolder() {
 		// This method does not work under Windows!
 
@@ -278,6 +279,7 @@ public class DownloadNewSoftwareVersion {
 		return true;
 	}
 
+	@SuppressWarnings("unused")
 	private boolean renameNewFolder() {
 		// This method does not work under Windows!
 
