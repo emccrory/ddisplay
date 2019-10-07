@@ -1,7 +1,6 @@
 package gov.fnal.ppd.dd.xml;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Encapsulate information about a client node in the Dynamic Displays system
@@ -10,14 +9,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  */
 @SuppressWarnings("javadoc")
-public class AmAliveMessage extends MessagingDataXML {
+public class YesIAmAliveMessage extends MessagingDataXML {
 	private ClientInformation client;
 
-	public AmAliveMessage() {
+	public YesIAmAliveMessage() {
 		this(new ClientInformation("unspecified", System.currentTimeMillis()));
 	}
 
-	public AmAliveMessage(ClientInformation client) {
+	public YesIAmAliveMessage(ClientInformation client) {
 		this.client = client;
 	}
 
@@ -51,7 +50,7 @@ public class AmAliveMessage extends MessagingDataXML {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AmAliveMessage other = (AmAliveMessage) obj;
+		YesIAmAliveMessage other = (YesIAmAliveMessage) obj;
 		if (client == null) {
 			if (other.client != null)
 				return false;

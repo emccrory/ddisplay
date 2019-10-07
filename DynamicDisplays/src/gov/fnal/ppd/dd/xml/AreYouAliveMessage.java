@@ -1,8 +1,9 @@
 package gov.fnal.ppd.dd.xml;
 
-public class IsAliveMessage extends MessagingDataXML {
-	public IsAliveMessage() {
+public class AreYouAliveMessage extends MessagingDataXML {
+	public AreYouAliveMessage() {
 	}
+
 	@Override
 	public boolean willNotChangeAnything() {
 		return true;
