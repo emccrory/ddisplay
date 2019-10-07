@@ -240,10 +240,11 @@ public class Util {
 		if (GlobalVariables.getLogger() != null) {
 			GlobalVariables.getLogger().fine(message);
 		} else {
-			if (message.startsWith(":"))
-				System.out.println(new Date() + " - " + clazz.getSimpleName() + message);
+			String className = getClassName(clazz);
+			if (message.startsWith(":") || message.startsWith(".") || message.startsWith(" -"))
+				System.out.println(new Date() + " - " + className + message);
 			else
-				System.out.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
+				System.out.println(new Date() + " - " + className + ": " + message);
 		}
 	}
 
@@ -260,11 +261,21 @@ public class Util {
 		if (GlobalVariables.getLogger() != null) {
 			GlobalVariables.getLogger().warning(message);
 		} else {
-			if (message.startsWith(":"))
-				System.err.println(new Date() + " - " + clazz.getSimpleName() + message);
+			String className = getClassName(clazz);
+			if (message.startsWith(":") || message.startsWith("."))
+				System.err.println(new Date() + " - " + className + message);
 			else
-				System.err.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
+				System.err.println(new Date() + " - " + className + ": " + message);
 		}
+	}
+
+	private static String getClassName(Class<?> clazz) {
+		String className = clazz.getSimpleName();
+		if ((className == null || className.length() == 0) && clazz.getEnclosingClass() != null)
+			className = clazz.getEnclosingClass().getSimpleName();
+		if (className == null || className.length() == 0)
+			className = "^" + clazz.getSuperclass().getSimpleName();
+		return className;
 	}
 
 	/**
