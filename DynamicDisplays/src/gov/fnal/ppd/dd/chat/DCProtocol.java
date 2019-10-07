@@ -51,6 +51,7 @@ import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelByNumber;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
@@ -79,7 +80,6 @@ public class DCProtocol {
 	// };
 
 	private static final long		MESSAGE_AGE_IS_TOO_OLD	= 180000L;					// Three minutes
-	private Object					theMessage;
 	private Object					theReply;
 	private List<Display>			listeners				= new ArrayList<Display>();
 	// protected boolean keepRunning = false;
@@ -88,13 +88,6 @@ public class DCProtocol {
 	private String					errorMessageText;
 
 	private static MapOfChannels	moc						= new MapOfChannels();
-
-	/**
-	 * @return The message just received
-	 */
-	public Object getTheMessage() {
-		return theMessage;
-	}
 
 	/**
 	 * @return The reply that is relevant
@@ -166,7 +159,7 @@ public class DCProtocol {
 	}
 
 	private static boolean tooOld(long timeStamp) {
-		return (System.currentTimeMillis() - timeStamp) < MESSAGE_AGE_IS_TOO_OLD;
+		return (System.currentTimeMillis() - timeStamp) > MESSAGE_AGE_IS_TOO_OLD;
 	}
 
 	/**
@@ -198,16 +191,16 @@ public class DCProtocol {
 			// String ip = carrier.getIPAddress();
 			// if ( ip.equals(getIPAddressOf(messageFromField) ) everything is OK
 
-			if (theMessage instanceof ChangeChannelList) {
+			if (message instanceof ChangeChannelList) {
 				// disableListThread();
 				// informListenersForever();
-				createChannelListAndInform((ChangeChannelList) theMessage);
-			} else if (theMessage instanceof ChangeChannel) {
+				createChannelListAndInform((ChangeChannelList) message);
+			} else if (message instanceof ChangeChannel) {
 				// disableListThread();
-				informListeners();
-			} else if (theMessage instanceof ChangeChannelByNumber) {
+				informListeners((ChangeChannel) message);
+			} else if (message instanceof ChangeChannelByNumber) {
 				// Verify checksum
-				ChangeChannelByNumber ccbn = (ChangeChannelByNumber) theMessage;
+				ChangeChannelByNumber ccbn = (ChangeChannelByNumber) message;
 				int num = ccbn.getChannelNumber();
 				SignageContent sc = moc.get(num);
 				if (sc == null || sc.getChecksum() != ccbn.getChecksum()) {
@@ -233,11 +226,13 @@ public class DCProtocol {
 
 				informListeners(moc.get(num));
 
-			} else if (theMessage instanceof ChannelSpec) {
-				// disableListThread();
-				informListeners((ChannelSpec) theMessage);
+				// } else if (message instanceof ChannelSpec) {
+				// // disableListThread();
+				//	informListeners((ChannelSpec) message);
+			} else if ( message instanceof AreYouAliveMessage ){
+				; // Now what??
 			} else {
-				println(getClass(), "The message is of type " + theMessage.getClass().getCanonicalName()
+				println(getClass(), "The message is of type " + message.getClass().getCanonicalName()
 						+ ".  We will assume they meant it to be 'ChangeChannelReply'");
 			}
 
@@ -303,8 +298,8 @@ public class DCProtocol {
 
 	}
 
-	private void createChannelListAndInform(ChangeChannelList theMessage) {
-		final ChannelSpec[] specs = theMessage.getChannelSpec();
+	private void createChannelListAndInform(ChangeChannelList mess) {
+		final ChannelSpec[] specs = mess.getChannelSpec();
 		if (specs.length == 0) {
 			println(DCProtocol.class, " -- Empty list received. Abort.");
 			return;
@@ -322,16 +317,16 @@ public class DCProtocol {
 				Channel c = new ChannelImpl(spec.getContent());
 				channelList.add(c);
 			}
-			ChannelPlayList playList = new ChannelPlayList("" + theMessage.getTime(), channelList, dwellTime);
+			ChannelPlayList playList = new ChannelPlayList("" + mess.getTime(), channelList, dwellTime);
 			for (Display L : listeners) {
 				L.setContent(playList);
 			}
 		}
 	}
 
-	private void informListeners() {
+	private void informListeners(ChangeChannel message) {
 		assert (changerThread == null);
-		informListeners(((ChangeChannel) theMessage).getChannelSpec());
+		informListeners(((ChangeChannel) message).getChannelSpec());
 	}
 
 	private void informListeners(final EmergencyCommunication spec) {

@@ -13,8 +13,6 @@ import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
 import java.io.StreamCorruptedException;
 import java.sql.Blob;
 import java.sql.Connection;
@@ -50,7 +48,7 @@ public class CheckDisplayStatus extends Thread {
 	private JLabel			footer;
 	private static boolean	doDisplayButtons	= true;
 	private final long		initialSleep;
-	private String lastStreamCorruptedMesage;
+	private String			lastStreamCorruptedMesage;
 
 	// private List<List<ChannelButtonGrid>> grids;
 
@@ -179,32 +177,39 @@ public class CheckDisplayStatus extends Thread {
 											// }
 											// }
 											// FIXME -- The code, above, works but it is really a lot of work to enable a button. I
-											// don't
-											// even think it works anymore.
+											// don't even think it works anymore.
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
 								} catch (Exception e) {
 									// Special case for the interim period when some displays have the old code;
-									if (e instanceof ClassNotFoundException
+									if (e instanceof javax.xml.bind.UnmarshalException) {
+										printlnErr(getClass(), "Display number " + display.getDBDisplayNumber()
+												+ " not ready for this version of the code (" + e.getMessage() + ")");
+									} else if (e instanceof ClassNotFoundException
 											&& e.getLocalizedMessage().equals("gov.fnal.ppd.dd.changer.ChannelCategory")) {
-										; // Ignore this error completely while we transition to XML documents in the status database.
-									} else if (e instanceof StreamCorruptedException ) {
+										printlnErr(getClass(), "Ignoring " + e.getMessage());
+										; // Ignore this error completely while we transition to XML documents in the status
+											// database.
+									} else if (e instanceof StreamCorruptedException) {
 										if (!e.getLocalizedMessage().equals(lastStreamCorruptedMesage)) {
 											println(getClass(),
 													counter + " Trying to read streamed content object in database from display "
 															+ display.getDBDisplayNumber() + ", but it was corrputed: ["
 															+ e.getClass().getSimpleName() + " - " + e.getLocalizedMessage()
-															+ "]\n\tWill supress this specific error message for now.\n" + rawMessage);
+															+ "]\n\tWill supress this specific error message for now.\n"
+															+ rawMessage);
 											lastStreamCorruptedMesage = e.getLocalizedMessage();
 										}
+										e.printStackTrace();
 									} else {
 										println(getClass(),
 												counter + " Trying to read streamed content object in database from display "
 														+ display.getDBDisplayNumber() + ", but it failed: ["
-														+ e.getClass().getSimpleName() + " - " + e.getLocalizedMessage() + "]" + rawMessage);
+														+ e.getClass().getSimpleName() + " - " + e.getLocalizedMessage() + "]"
+														+ rawMessage);
+										e.printStackTrace();
 									}
-									e.printStackTrace();
 								}
 								if (!rs.next())
 									break;

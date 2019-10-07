@@ -14,7 +14,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
-import gov.fnal.ppd.dd.xml.signature.SignedXMLDocument;
 
 /**
  * This class holds the messages that will be exchanged between the Clients and the Server.
@@ -56,6 +55,8 @@ public class MessageCarrierXML implements Serializable {
 	private String				from;
 	private long				creationDate;
 
+	private boolean validSignature;
+
 	/**
 	 * @param name
 	 * @return A logout message for the messaging server
@@ -90,7 +91,7 @@ public class MessageCarrierXML implements Serializable {
 	 * @return A message for the messaging server asking if a client is alive
 	 */
 	public static MessageCarrierXML getIsAlive(final String from, final String to) {
-		IsAliveMessage iam = new IsAliveMessage();
+		AreYouAliveMessage iam = new AreYouAliveMessage();
 		return new MessageCarrierXML(from, to, iam);
 	}
 
@@ -102,7 +103,7 @@ public class MessageCarrierXML implements Serializable {
 	 */
 	public static MessageCarrierXML getIAmAlive(final String from, final String to, long time) {
 		ClientInformation client = new ClientInformation(from, time);
-		AmAliveMessage aam = new AmAliveMessage(client);
+		YesIAmAliveMessage aam = new YesIAmAliveMessage(client);
 		return new MessageCarrierXML(from, to, aam);
 	}
 
@@ -265,11 +266,22 @@ public class MessageCarrierXML implements Serializable {
 		return rv;
 	}
 
-	private SignedXMLDocument sXMLD = null;
-
+	// private SignedXMLDocument sXMLD = null;
+	// public boolean isSignatureValid() {
+	// if (sXMLD == null)
+	// try {
+	// sXMLD = new SignedXMLDocument(this);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return sXMLD.getSignedDocument() != null;
+	// }
+	
 	public boolean isSignatureValid() {
-		if (sXMLD == null)
-			sXMLD = new SignedXMLDocument(this);
-		return sXMLD.getSignedDocument() != null;
+		return validSignature;
+	}
+
+	public void setSignatureIsValid(boolean signatureValid) {
+		validSignature = signatureValid;		
 	}
 }

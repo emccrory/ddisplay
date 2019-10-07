@@ -9,7 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
+import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
 
 /**
  * The Client with its GUI
@@ -49,6 +52,7 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 	private String					defaultHost;
 
 	private String					defaultUserName;
+	private List<String> currentClients = new ArrayList<String>();
 
 	// TODO It is probably more correct to have the GUI class extend MessagingClient and then have JFrame be an attribute.
 	// It is the other way around now.
@@ -70,7 +74,11 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 		@Override
 		public void receiveIncomingMessage(final MessageCarrierXML msg) {
 			// Most classes will override this to do something that is actually useful.  But for this GUI, it just prints it out
-			ta.append(msg.toString() + "\n");
+			ta.append("Received this message: " + msg.toString() + "\n");
+			if ( msg.getMessageValue() instanceof  YesIAmAliveMessage ) {
+				currentClients.add(((YesIAmAliveMessage) msg.getMessageValue()).getClient().getName());
+			}
+			
 		};
 
 		@Override
@@ -191,6 +199,21 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 		// if it the who is in button
 		if (o == whoIsIn) {
 			client.sendMessage(MessageCarrierXML.getWhoIsIn(client.getName()));
+			currentClients.clear();
+			new Thread("WaitForWhoIsIn"){
+				public void run() {
+					try {
+						sleep(1500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					// Now look at who responded
+					ta.append("\n" + new Date() + " - There are " + currentClients.size() + " nodes in the system:\n");
+					for( String clientName: currentClients)
+						ta.append("     " + clientName + "\n");
+				}
+			}.start();
+			
 			return;
 		}
 

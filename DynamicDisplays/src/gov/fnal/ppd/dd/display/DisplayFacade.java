@@ -21,6 +21,7 @@ import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelByNumber;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
@@ -114,6 +115,8 @@ public class DisplayFacade extends DisplayImpl {
 							".receiveIncomingMessage(): No client named " + message.getMessageOriginator()
 									+ " to which to send the REPLY.\n" + "t\tThe clients are called: "
 									+ Arrays.toString(clients.keySet().toArray()));
+			} else if (clazz.equals(AreYouAliveMessage.class)) {
+				sendMessage(MessageCarrierXML.getIAmAlive(getMyName(), message.getMessageOriginator()));
 			} else {
 				// DisplayFacade d = clients.get(message.getFrom());
 				try {

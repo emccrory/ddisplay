@@ -2,25 +2,26 @@ package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.getNextEntropy;
-import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import gov.fnal.ppd.dd.chat.xml.attic.ChangeChannel;
-import gov.fnal.ppd.dd.chat.xml.attic.ChangeChannelByNumber;
-import gov.fnal.ppd.dd.xml.ChangeChannelList;
-import gov.fnal.ppd.dd.xml.EmergencyMessXML;
-import gov.fnal.ppd.dd.xml.ErrorMessage;
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+
+import gov.fnal.ppd.dd.util.PropertiesFile;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
+import gov.fnal.ppd.dd.xml.XMLDocumentAndString;
+import gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys;
+import gov.fnal.ppd.dd.xml.signature.SignatureNotFoundException;
+import gov.fnal.ppd.dd.xml.signature.Validate;
 
 public class MessageConveyor {
 
-	private static boolean			verbose		= true;	// PropertiesFile.getBooleanProperty("IncomingMessVerbose", false);
+	private static boolean verbose = PropertiesFile.getBooleanProperty("IncomingMessVerbose", false);
 
 	private MessageConveyor() {
 	}
@@ -33,16 +34,15 @@ public class MessageConveyor {
 	 * @return The next message
 	 */
 
-	public static MessageCarrierXML getNextDocument(Class<?> clazz, BufferedReader receiveRead) throws UnrecognizedCommunicationException {
-		new Exception("-----> Entering getNextDocument() for " + clazz.getCanonicalName() + ", sInput=" + receiveRead.hashCode())
-				.printStackTrace();
-		// int cnt = 0;
+	public static MessageCarrierXML getNextDocument(Class<?> clazz, BufferedReader receiveRead)
+			throws UnrecognizedCommunicationException {
+		if (verbose)
+			System.out.println(
+					"-----> Entering getNextDocument() for " + clazz.getCanonicalName() + ", sInput=" + receiveRead.hashCode());
 		String receiveMessage;
 		try {
 			String theXMLDocument = "";
-			// while ( receiveRead.readLine() == null && cnt < 100){
-			// System.out.println("Null again " + cnt++);
-			// }
+
 			if ((receiveMessage = receiveRead.readLine()) != null) {
 				// The first line SHOULD BE "BEGIN 1234567890192882\n" where that number is some random long value
 				if (!receiveMessage.startsWith("BEGIN ")) {
@@ -52,24 +52,47 @@ public class MessageConveyor {
 				}
 			} else {
 				printlnErr(clazz, "Read a null line in getNextMessage()");
-				throw new RuntimeException("Unexpected NULL message received.");
+				throw new NullPointerException(
+						"NULL message received.  This probably means that the client has disconnected, so this is not a big deal.");
 			}
 			if (verbose)
 				System.out.println("*0* " + receiveRead.hashCode() + " " + receiveMessage);
 			String marker = "END  " + receiveMessage.replace("BEGIN", "");
 			do {
-				if ((receiveMessage = receiveRead.readLine()) != null && !receiveMessage.equals(marker)) {
-					theXMLDocument += receiveMessage;
+				if ((receiveMessage = receiveRead.readLine()) != null && !receiveMessage.contains(marker)) {
+					theXMLDocument += receiveMessage + "\n";
 					if (verbose)
 						System.out.println("*** " + receiveRead.hashCode() + " " + receiveMessage);
 				}
-			} while (!receiveMessage.equals(marker));
-			System.out.println("*1* " + receiveRead.hashCode() + " " + receiveMessage);
-			System.out
-					.println("-----> Leaving getNextDocument() for " + clazz.getCanonicalName() + ", sInput=" + receiveRead.hashCode());
+			} while (!receiveMessage.contains(marker));
+			if (!receiveMessage.equals(marker)) {
+				String s = receiveMessage.replace(marker, "");
+				if (verbose) {
+					System.out.println("*2* " + receiveRead.hashCode() + " " + s);
+				}
+				theXMLDocument += s;
+			} else if (verbose) {
+				System.out.println("*1* " + receiveRead.hashCode() + " " + receiveMessage);
+			}
+			if (verbose)
+				System.out.println("-----> Leaving getNextDocument() for " + clazz.getCanonicalName() + ", sInput="
+						+ receiveRead.hashCode() + ", Document length=" + theXMLDocument.length());
 
-			return (MessageCarrierXML) MyXMLMarshaller.unmarshall(MessageCarrierXML.class, theXMLDocument);
+			XMLDocumentAndString theDocument = new XMLDocumentAndString(theXMLDocument);
 
+			MessageCarrierXML retval = (MessageCarrierXML) MyXMLMarshaller.unmarshall(MessageCarrierXML.class,
+					theDocument.getTheXML());
+			boolean isValid = false;
+			try {
+				isValid = Validate.isSignatureValid(theDocument);
+			} catch (SignatureNotFoundException e) {
+				; // This exception is usually OK, so we'll ignore it.
+			} catch (Exception e) {
+				printlnErr(clazz, "Exception when trying to check the signature");
+				e.printStackTrace();
+			}
+			retval.setSignatureIsValid(isValid);
+			return retval;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -89,22 +112,25 @@ public class MessageConveyor {
 	 */
 	public static boolean sendMessage(Class<?> clazz, MessageCarrierXML msg, OutputStream sOutput) {
 		try {
-			String theMessageString = MyXMLMarshaller.getXML(msg);
 			Class<? extends MessagingDataXML> data = msg.getMessageValue().getClass();
-			if (MessageConveyor.writeToSocket(theMessageString, sOutput)) {
-				if (data.equals(ChangeChannel.class) || data.equals(ChangeChannelList.class)
-						|| data.equals(ChangeChannelByNumber.class) || data.equals(EmergencyMessXML.class)
-						|| data.equals(ErrorMessage.class)) {
-					println(clazz, ".sendMessage()\n" + theMessageString);
+			String theMessageString = MyXMLMarshaller.getXML(msg);
+
+			if (!msg.isReadOnly()) {
+				XMLDocumentAndString theMessageDocument = new XMLDocumentAndString(theMessageString);
+				ByteOutputStream localOutputStream = new ByteOutputStream();
+				SignXMLUsingDSAKeys.signDocument(theMessageDocument.getTheDocument(), localOutputStream);
+				theMessageString = localOutputStream.toString();
+				XMLDocumentAndString theSignedDoc = new XMLDocumentAndString(theMessageString);
+
+				if (!Validate.isSignatureValid(theSignedDoc)) {
+					// This should never happen!!
+					System.err.println("\n\n >>>>>>>>>> The signature on the Document that is about to be sent IS NOT VALID!\n\n");
 				}
-			} else {
-				printlnErr(clazz, "Failed to send message of type " + data.getCanonicalName());
 			}
-			// The following line is controversial: Is it a bug or is it a feature? Sun claims it is a feature -- it allows the
-			// sender to re-send any message easily. But others (myself included) see this as a bug -- if you remember every message
-			// every time, you'll run out of memory eventually. The call to "reset()" causes the output object to ignore this,
-			// and all previous, messages it has sent.
-			// sOutput.reset();
+			if (!MessageConveyor.writeToSocket(theMessageString, sOutput)) {
+				printlnErr(clazz, "Failed to send message of type " + data.getCanonicalName());
+				return false;
+			}
 			return true;
 		} catch (Exception e) {
 			catchSleep(1);
@@ -122,13 +148,24 @@ public class MessageConveyor {
 	 * @return Did it work?
 	 */
 	public static boolean writeToSocket(String theAsciiDocument, OutputStream os) {
+		// if (debug)
+		// new Exception("MessageConveyor.writeToSocket, length of the document is " + theAsciiDocument.getBytes().length)
+		// .printStackTrace();
+		if (os == null) {
+			// We have not connected to the server yet, so we cannot ask who is there
+			return false;
+		}
+
 		long marker = getNextEntropy();
 		try {
-			System.out.println("Writing BEGIN " + marker);
+			if (verbose)
+				System.out.println("Writing BEGIN " + marker + " to OutputStream " + os);
 			os.write(("BEGIN " + marker + "\n").getBytes());
-			System.out.println("Writing the message:\n" + theAsciiDocument);
+			if (verbose)
+				System.out.println("Writing the message:\n" + theAsciiDocument);
 			os.write(theAsciiDocument.getBytes());
-			System.out.println("Writing END " + marker);
+			if (verbose)
+				System.out.println("Writing END " + marker);
 			os.write(("END   " + marker + "\n").getBytes());
 			return true;
 		} catch (IOException e) {

@@ -9,14 +9,16 @@ import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 
-import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
+import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
 
 /**
  * Helper class to keep track of who is in the chat room. Used by the top-level GUI(s) to say if a Display is available.
@@ -53,6 +55,10 @@ public class WhoIsInChatRoom extends Thread {
 			for (int i = 0; i < displayList.size(); i++)
 				aliveList[i] = false;
 
+			if (debug)
+				println(getClass(), "Sending query to server, " + getMessagingServerName() + ":" + MESSAGING_SERVER_PORT
+						+ ", under the name " + client.getName());
+
 			client.sendMessage(MessageCarrierXML.getWhoIsIn(client.getName()));
 
 			catchSleep(2000); // Wait long enough for all the messages to come in. This is almost always enough. In fact, less than
@@ -70,34 +76,41 @@ public class WhoIsInChatRoom extends Thread {
 	private void login() {
 		try {
 			long ran = new Date().getTime() % 1000L;
-			final String myName = InetAddress.getLocalHost().getCanonicalHostName() + "_" + ran;
+			final String myName = InetAddress.getLocalHost().getCanonicalHostName() + "_WHO_" + ran;
 
-			System.out.println("\n**Starting messaging client named '" + myName + "' for listening to who is in the system");
+			println(getClass(), "**Starting messaging client named '" + myName + "' for listening to who is in the system");
 			client = new MessagingClient(getMessagingServerName(), MESSAGING_SERVER_PORT, myName) {
 				@Override
 				public void receiveIncomingMessage(final MessageCarrierXML msg) {
-					String clientName = msg.getMessageOriginator();
-					// System.out.println("WhoIsInChatRoom: see a message from [" + clientName + "]");
-					if (clientName.toLowerCase().contains("façade"))
-						return;
 					if (debug)
-						System.out.println(new Date() + " WhoIsInChatRoom: see a message from [" + clientName + "]");
-					synchronized (aliveList) {
-						for (int i = 0; i < displayList.size(); i++)
-							if (displayList.get(i).getMessagingName().equals(clientName)
-									|| clientName.startsWith(displayList.get(i).getMessagingName())) {
-								aliveList[i] = true;
-								if (debug)
-									System.out.println(new Date() + " WhoIsInChatRoom: Display no. "
-											+ displayList.get(i).getDBDisplayNumber() + " is alive");
-							}
+						println(WhoIsInChatRoom.class, "See a message from [" + msg.getMessageOriginator() + "]");
+
+					if (msg.getMessageValue() instanceof YesIAmAliveMessage) {
+						YesIAmAliveMessage mess = (YesIAmAliveMessage) msg.getMessageValue();
+						String clientName = mess.getClient().getName();
+						synchronized (aliveList) {
+							for (int i = 0; i < displayList.size(); i++)
+								if (displayList.get(i).getMessagingName().equals(clientName)
+										|| clientName.startsWith(displayList.get(i).getMessagingName())) {
+									aliveList[i] = true;
+									if (debug)
+										println(WhoIsInChatRoom.class,
+												"Display no. " + displayList.get(i).getDBDisplayNumber() + " is alive");
+								} else if (debug) {
+									println(WhoIsInChatRoom.class,
+											"Display no. " + displayList.get(i).getDBDisplayNumber() + " is NOT alive, I think");
+								}
+						}
 					}
 				}
 			};
 
 			// start the Client
-			if (!client.start())
+			if (!client.start()) {
+				printlnErr(getClass(), "Problem starting messaging client");
 				return;
+			}
+			println(getClass(), "Started messaging client");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}

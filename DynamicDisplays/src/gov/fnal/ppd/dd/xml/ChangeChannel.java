@@ -1,9 +1,8 @@
 package gov.fnal.ppd.dd.xml;
 
-import gov.fnal.ppd.dd.signage.SignageContent;
-
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * Message from a Control Panel to the Display Server to change the thing being shown on a Display

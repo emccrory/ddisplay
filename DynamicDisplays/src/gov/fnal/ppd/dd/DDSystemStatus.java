@@ -5,9 +5,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.chat.MessagingClient;
-import gov.fnal.ppd.dd.util.JTextAreaBottom;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -37,6 +34,10 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
+
+import gov.fnal.ppd.dd.chat.MessagingClient;
+import gov.fnal.ppd.dd.util.JTextAreaBottom;
+import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 
 /**
  * <p>
@@ -103,7 +104,7 @@ public class DDSystemStatus extends JFrame {
 		}
 
 		@Override
-		public void receiveIncomingMessage(final MessageCarrier msg) {
+		public void receiveIncomingMessage(final MessageCarrierXML msg) {
 			ta.append(msg + "\n");
 
 			// TODO Windows 7 display has a problem with this. Only the first node is ever displayed when this is redrawn.
@@ -116,7 +117,8 @@ public class DDSystemStatus extends JFrame {
 			if (clientName == null || clientName.length() == 0) // || clientName.equals("NULL"))
 				return;
 
-			String dateString = msg.getMessageValue();
+			// String dateString = msg.getMessageValue();
+			long dateValue = msg.getTimeStamp();
 			if (clientName.contains("FA\u00c7ADE")) {
 				if (showFacades.isSelected()) {
 					String facadeName = clientName.substring(clientName.indexOf("--") + 3);
@@ -138,7 +140,7 @@ public class DDSystemStatus extends JFrame {
 						g.add(new DefaultMutableTreeNode("'" + FACADE.toLowerCase()
 								+ "' nodes are virtual connections between a channel changer & a real display"));
 						if (showUpTime.isSelected())
-							g.add(new DefaultMutableTreeNode("Connected " + dateString));
+							g.add(new DefaultMutableTreeNode("Connected " + dateValue));
 						g.add(new DefaultMutableTreeNode(clientName));
 						// System.out.println("B: " + clientName + " added to " + g.getUserObject());
 					}
@@ -147,7 +149,7 @@ public class DDSystemStatus extends JFrame {
 				DefaultMutableTreeNode node = new DefaultMutableTreeNode(clientName);
 				root.add(node);
 				if (showUpTime.isSelected())
-					node.add(new DefaultMutableTreeNode("Connected " + dateString));
+					node.add(new DefaultMutableTreeNode("Connected " + dateValue));
 				// System.out.println("C: " + clientName + " added to root");
 				if (clientName.contains(")")) {
 					int num = Integer.parseInt(clientName.substring(clientName.indexOf('(') + 1, clientName.indexOf(')')));
@@ -403,11 +405,6 @@ public class DDSystemStatus extends JFrame {
 
 	}
 
-	@SuppressWarnings("unused")
-	private void logout() {
-		client.sendMessage(MessageCarrier.getLogout());
-	}
-
 	private void whoIsIn() {
 		if (client == null) {
 			System.err.println(this.getClass().getSimpleName() + ".whoIsIn(): Messaging client is null!");
@@ -422,7 +419,7 @@ public class DDSystemStatus extends JFrame {
 		// FIXME -- Maybe there is a way to generate a new tree when these WHOISIN messages come in and then see if the two trees
 		// are equal().
 
-		client.sendMessage(MessageCarrier.getWhoIsIn(client.getName()));
+		client.sendMessage(MessageCarrierXML.getWhoIsIn("me"));
 		ta.append("\n------ " + new Date() + " ------\n");
 
 		SwingUtilities.invokeLater(new Runnable() {

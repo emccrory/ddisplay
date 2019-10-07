@@ -18,7 +18,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.SignedObject;
-import java.security.spec.InvalidKeySpecException;
 
 import gov.fnal.ppd.dd.util.ObjectSigning;
 
@@ -283,7 +282,7 @@ public class MessageCarrier implements Serializable {
 		try {
 			ObjectSigning.getInstance().loadPrivateKey(PRIVATE_KEY_LOCATION);
 			return true;
-		} catch (InvalidKeySpecException | NoSuchAlgorithmException | IOException e) {
+		} catch (Exception e) {
 			System.out.println("Problems loading private key for new client");
 			e.printStackTrace();
 		}
@@ -308,6 +307,7 @@ public class MessageCarrier implements Serializable {
 	 * @param signedObject
 	 *            -- the object that (should be) the holder of "this"
 	 * @return -- Has the signedObject been properly signed?
+	 * @deprecated
 	 */
 	public String verifySignedObject(final SignedObject signedObject) {
 		if (!checkSignedMessages()) {

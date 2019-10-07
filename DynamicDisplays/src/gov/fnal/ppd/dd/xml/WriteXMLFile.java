@@ -8,17 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.w3c.dom.Document;
-
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
-import gov.fnal.ppd.dd.chat.xml.MessageTypeXML;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys;
-import gov.fnal.ppd.dd.xml.signature.SignedXMLDocument;
 
 /**
  * <p>
@@ -112,7 +108,7 @@ public class WriteXMLFile {
 					break;
 
 				case 8:
-					AmAliveMessage aam = new AmAliveMessage();
+					YesIAmAliveMessage aam = new YesIAmAliveMessage();
 					aam.setClient(new ClientInformation("Some Client, baby!", System.currentTimeMillis() - 123456789L));
 					stuff = aam;
 					break;
@@ -136,7 +132,6 @@ public class WriteXMLFile {
 				}
 
 				if (stuff != null) {
-					// String message = MyXMLMarshaller.getXML(stuff);
 					try {
 						for (int i = 0; i < 40; i++)
 							System.out.print(which + " ");
@@ -146,13 +141,12 @@ public class WriteXMLFile {
 						// Enclose this in a Message Carrier object
 						MessageCarrierXML mc = new MessageCarrierXML("From me", "To you", stuff);
 						String theMessageString = MyXMLMarshaller.getXML(mc);
-						Document theMessageDocument = SignedXMLDocument.convertToDocument(theMessageString);
-						SignXMLUsingDSAKeys.signDocument(theMessageDocument, System.out);
+						XMLDocumentAndString theMessageDocument = new XMLDocumentAndString(theMessageString);
+						SignXMLUsingDSAKeys.signDocument(theMessageDocument.getTheDocument(), System.out);
 						System.out.println("\n------------------------------------------------\n");
 						// SignedXMLDocument signed = new SignedXMLDocument(theMessageString);
 						// System.out.println(signed.getSignedDocumentString());
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

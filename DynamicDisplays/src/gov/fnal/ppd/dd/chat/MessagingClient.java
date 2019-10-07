@@ -20,10 +20,12 @@ import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import gov.fnal.ppd.dd.xml.AmAliveMessage;
-import gov.fnal.ppd.dd.xml.IsAliveMessage;
+import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
+import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
+import gov.fnal.ppd.dd.chat.MessageConveyor;
+import gov.fnal.ppd.dd.util.PropertiesFile;
 
 /*
  * MessagingClient
@@ -53,7 +55,8 @@ import gov.fnal.ppd.dd.xml.MessagingDataXML;
  */
 public class MessagingClient {
 
-	private static boolean			showAllIncomingMessages			= false;
+	private static boolean			showAllIncomingMessages			= PropertiesFile.getBooleanProperty("IncomingMessVerbose",
+			false);
 	// for I/O
 	// to read from the socket
 	private InputStream				sInput;
@@ -187,10 +190,6 @@ public class MessagingClient {
 		try {
 			// sOutput = new ObjectOutputStream(socket.getOutputStream());
 			// sInput = new ObjectInputStream(socket.getInputStream());
-
-			sOutput = socket.getOutputStream();
-			sInput = socket.getInputStream();
-
 			/*
 			 * From http://stackoverflow.com/questions/5658089/java-creating-a-new-objectinputstream-blocks:
 			 * 
@@ -201,6 +200,9 @@ public class MessagingClient {
 			 * 
 			 * So, if new ObjectInputStream blocks, it is because the server has not responded yet.
 			 */
+
+			sOutput = socket.getOutputStream();
+			sInput = socket.getInputStream();
 		} catch (IOException eIO) {
 			displayLogMessage("IOException creating new Input/output Streams: " + eIO);
 			socket = null;
@@ -272,8 +274,11 @@ public class MessagingClient {
 	public void sendMessage(MessageCarrierXML msg) {
 		if (MessageConveyor.sendMessage(getClass(), msg, sOutput))
 			return;
-		
-		// Message failed.  Do we need to reconnect?
+
+		if (showAllIncomingMessages)
+			System.err.println(getClass().getSimpleName() + ": Sending message of type "
+					+ msg.getMessageValue().getClass().getSimpleName() + " failed.");
+		// Message failed. Do we need to reconnect?
 		try {
 			new Thread("ReconnectToServer") {
 				@Override
@@ -525,19 +530,15 @@ public class MessagingClient {
 					lastMessageReceived = System.currentTimeMillis();
 					dumpMessage(msg);
 
-					// TODO - check signature
-
 					if (showAllIncomingMessages)
-						System.out.println("Received this message: " + msg);
+						println(getClass(), "Received this message: " + msg);
 
 					if (MessageCarrierXML.isUsernameMatch(msg.getMessageRecipient(), username)) {
 						Class<? extends MessagingDataXML> clazz = msg.getMessageValue().getClass();
-						if (clazz.equals(IsAliveMessage.class)) {
+						if (clazz.equals(AreYouAliveMessage.class)) {
 							// displayLogMessage("Replying that I am alive to " + msg.getFrom());
 							sendMessage(MessageCarrierXML.getIAmAlive(username, msg.getMessageOriginator()));
-							// All done with this iteration of the loop.
-							continue;
-						} else if (clazz.equals(AmAliveMessage.class)) {
+						} else if (clazz.equals(YesIAmAliveMessage.class)) {
 							// Print out some of these messages for the log file
 							aliveCount++;
 							if (System.currentTimeMillis() > nextDisplayTime) {
@@ -549,10 +550,6 @@ public class MessagingClient {
 									// Continue to print these for 15 seconds, and the wait an hour to do it again.
 									nextDisplayTime = System.currentTimeMillis() + 60 * ONE_MINUTE;
 							}
-							continue;
-						} else {
-							displayLogMessage(ListenFromServer.class.getSimpleName() + ": Got a message that is being ignored.");
-							System.out.println("\t\t" + msg);
 						}
 
 					} else {

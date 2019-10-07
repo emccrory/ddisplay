@@ -51,12 +51,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.JavaVersion;
+import gov.fnal.ppd.dd.util.ObjectSigning;
 import gov.fnal.ppd.dd.util.SelectorInstructions;
 
 /**
@@ -68,19 +68,21 @@ import gov.fnal.ppd.dd.util.SelectorInstructions;
 public class MakeChannelSelector {
 
 	/*
-	 * TODO -- Implement a way for this application to check (with the Mother Ship) to see if these is an updated version of
-	 * the ZIP file available.
+	 * TODO -- Implement a way for this application to check (with the Mother Ship) to see if these is an updated version of the ZIP
+	 * file available.
 	 */
-	static boolean	theControllerIsProbablyInFront	= true;
+	static boolean theControllerIsProbablyInFront = true;
 
 	/**
 	 * @param args
 	 */
 	public static void main(final String[] args) {
 		println(MakeChannelSelector.class, "Running from java version " + JavaVersion.getCurrentVersion());
-		
+
+		// MessageConveyor.debug = true;
+
 		prepareUpdateWatcher(false);
-		
+
 		prepareSaverImages();
 
 		credentialsSetup();
@@ -128,13 +130,17 @@ public class MakeChannelSelector {
 		f.setLocation(bounds.x, bounds.y);
 
 		if (missing)
-			JOptionPane.showMessageDialog(null, "This device, " + myIPName + ", is not listed in the Dynamic Displays database; "
-					+ "It cannot start an instance of ChannelSelector.", "Cannot Continue", JOptionPane.ERROR_MESSAGE);
+			JOptionPane
+					.showMessageDialog(null,
+							"This device, " + myIPName + ", is not listed in the Dynamic Displays database; "
+									+ "It cannot start an instance of ChannelSelector.",
+							"Cannot Continue", JOptionPane.ERROR_MESSAGE);
 	}
 
-	private static boolean	missing				= true;
-	private static String	myIPName			= "TBD";
-	private static int		myDB_ID				= 0;
+	private static boolean	missing		= true;
+	private static String	myIPName	= "TBD";
+	private static int		myDB_ID		= 0;
+
 	/**
 	 * Use this static method to initialize a program that is acting like a channel selector.
 	 */
@@ -157,8 +163,8 @@ public class MakeChannelSelector {
 				InetAddress ip = InetAddress.getLocalHost();
 				myIPName = ip.getCanonicalHostName().replace(".dhcp", "");
 
-				String query = "SELECT LocalID,DocentTab,LocationCode FROM SelectorLocation where IPName='" + myIPName + "' AND Instance='"
-						+ THIS_IP_NAME_INSTANCE + "'";
+				String query = "SELECT LocalID,DocentTab,LocationCode FROM SelectorLocation where IPName='" + myIPName
+						+ "' AND Instance='" + THIS_IP_NAME_INSTANCE + "'";
 				println(MakeChannelSelector.class, ": '" + query + "'");
 
 				try (ResultSet rs2 = stmt.executeQuery(query);) {
@@ -203,10 +209,12 @@ public class MakeChannelSelector {
 				System.exit(-5);
 			}
 
-			if (!MessageCarrier.initializeSignature()) {
-				JOptionPane.showMessageDialog(null, "The private key file, for security, cannot be found.\n"
-						+ "Click 'Dismiss' to close the GUI.\nThen get help to fix this problem.", "No Private Key",
-						JOptionPane.ERROR_MESSAGE);
+			// if (!MessageCarrier.initializeSignature()) {
+			if (!ObjectSigning.getInstance().loadPrivateKey(PRIVATE_KEY_LOCATION)) {
+				JOptionPane.showMessageDialog(null,
+						"The private key file, for security, cannot be found.\n"
+								+ "Click 'Dismiss' to close the GUI.\nThen get help to fix this problem.",
+						"No Private Key", JOptionPane.ERROR_MESSAGE);
 				System.exit(-1);
 			}
 			println(MakeChannelSelector.class, ": Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
@@ -230,9 +238,8 @@ public class MakeChannelSelector {
 			String s = (theControllerIsProbablyInFront ? LOWER_ME : RAISE_ME);
 			final JFrame ff = new JFrame(s);
 			final JButton show = new JButton(s);
-			show.setBorder(BorderFactory.createCompoundBorder(
-					BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
-							BorderFactory.createRaisedBevelBorder()), show.getBorder()));
+			show.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createRaisedBevelBorder(), BorderFactory.createRaisedBevelBorder()), show.getBorder()));
 			show.setFont(show.getFont().deriveFont(10.0F));
 			show.addActionListener(new ActionListener() {
 

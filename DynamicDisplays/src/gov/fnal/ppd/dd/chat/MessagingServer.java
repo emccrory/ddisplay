@@ -48,11 +48,11 @@ import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.ObjectSigning;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
-import gov.fnal.ppd.dd.xml.AmAliveMessage;
+import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
 import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.EmergencyMessXML;
 import gov.fnal.ppd.dd.xml.ErrorMessage;
-import gov.fnal.ppd.dd.xml.IsAliveMessage;
+import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.LoginMessage;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
@@ -128,7 +128,7 @@ public class MessagingServer {
 
 	private static boolean		showAliveMessages		= false;
 
-	private static boolean		showAllIncomingMessages	= true;
+	private static boolean		showAllIncomingMessages	= false;
 
 	private static final int	MAX_STATUS_MESSAGE_SIZE	= 4196;
 
@@ -328,7 +328,7 @@ public class MessagingServer {
 					this.cm = read = MessageConveyor.getNextDocument(getClass(), receiver);
 					setLastSeen();
 					if (showAllIncomingMessages)
-						logger.fine("MessagingServer.ClientThread: (1) Got message: " + cm);
+						logger.fine("MessagingServer.ClientThread: Got message: " + cm);
 
 					// Idiot check: (Rarely seen, and never seen if the "username" is not null)
 					if (!MessageCarrierXML.isUsernameMatch(username, cm.getMessageOriginator()))
@@ -341,6 +341,8 @@ public class MessagingServer {
 						} else {
 							logger.warning("Message is NOT PROPERLY SIGNED: [" + this.cm
 									+ "]; -- ignoring this message and sending an error message back to the client.");
+
+							System.out.println("(((( Improperly signed message is this:\n" + read + "\n))))");
 
 							// Reply to the client that this message was rejected!
 							writeUnsignedMsg(MessageCarrierXML.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME,
@@ -395,16 +397,17 @@ public class MessagingServer {
 				totalMesssagesHandled++;
 
 				Class<?> clazz = this.cm.getMessageValue().getClass();
-				if (clazz.equals(IsAliveMessage.class) && SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getMessageRecipient())) {
+				if (clazz.equals(AreYouAliveMessage.class)
+						&& SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getMessageRecipient())) {
 					if (showAliveMessages)
 						logger.fine("Alive msg: " + cm.getMessageOriginator().trim().replace(".fnal.gov", ""));
 					continue; // That's all for this while-loop iteration. Go read the socket again...
 				}
 
 				if (showAllIncomingMessages)
-					logger.fine("MessagingServer.ClientThread: Got message: " + cm);
+					logger.fine("MessagingServer.ClientThread: Got message of type " + clazz + ": " + cm);
 
-				if (clazz.equals(AmAliveMessage.class) || clazz.equals(ErrorMessage.class)
+				if (clazz.equals(YesIAmAliveMessage.class) || clazz.equals(ErrorMessage.class)
 						|| clazz.equals(ChangeChannelReply.class)) {
 					broadcast(this.cm);
 				} else if (clazz.equals(LoginMessage.class)) {
@@ -416,6 +419,7 @@ public class MessagingServer {
 					// scan all the users connected
 					boolean purge = false;
 					// The iterator (implicitly used here) makes a thread-safe copy of the list prior to traversing it.
+					// logger.fine("Responding to WhoIsIn message with data from " + listOfMessagingClients.size() + " clients");
 					for (ClientThread ct : listOfMessagingClients) {
 						if (ct != null && ct.username != null && ct.date != null) {
 
@@ -429,11 +433,14 @@ public class MessagingServer {
 							// The way we are doing it here (which is not strictly correct) is to send unsigned messages
 							// back to the client (the one asking "WhoIsIn") for each client out there.
 
+							// logger.fine("Responding with 'YesIAmAlive' message to " + this.cm.getMessageOriginator() + " from " +
+							// ct.username);
+
 							writeUnsignedMsg(
 									MessageCarrierXML.getIAmAlive(ct.username, this.cm.getMessageOriginator(), date.getTime()));
 						} else {
-							logger.fine("Talking to " + this.username + " socket " + this.socket.getLocalAddress()
-									+ ". Error!  Have a null client");
+							logger.warning("Talking to " + this.username + " socket " + this.socket.getLocalAddress()
+									+ ". Error!  Unexpectedly have a null client");
 							purge = true;
 						}
 					}
@@ -540,7 +547,7 @@ public class MessagingServer {
 		}
 
 		/**
-		 * Write an unsigned object to the Client output stream
+		 * Write a regular message to the Client output stream
 		 */
 		boolean writeUnsignedMsg(MessageCarrierXML msg) {
 			// System.out.println(new Date() + " " + getClass().getSimpleName() + ".writeUnsignedMsg() for " + username
@@ -567,8 +574,9 @@ public class MessagingServer {
 
 			// write the message to the stream
 			try {
-
 				String theMessageString = MyXMLMarshaller.getXML(msg);
+				// logger.fine("Sending message of type " + msg.getMessageValue().getClass().getSimpleName() + " to " +
+				// this.username);
 				return MessageConveyor.writeToSocket(theMessageString, sOutput);
 
 			} catch (Exception e) {
@@ -780,7 +788,8 @@ public class MessagingServer {
 
 	// private Object oneMessageAtATime = new String("For synchronization");
 
-	protected Logger								logger;
+	// protected Logger logger;
+	protected LoggerForDebugging					logger;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -790,15 +799,18 @@ public class MessagingServer {
 	public MessagingServer(int port) {
 		this.port = port;
 		try {
-			logger = Logger.getLogger(MessagingServer.class.getName());
+			// logger = Logger.getLogger(MessagingServer.class.getName());
+			logger = new LoggerForDebugging(MessagingServer.class.getName());
 
 			FileHandler fileTxt = new FileHandler("../../log/messagingServer.log");
 			SimpleFormatter sfh = new SimpleFormatter();
 			fileTxt.setFormatter(sfh);
 			logger.addHandler(fileTxt);
+			// logger.setLevel(Level.FINE);
 			logger.setLevel(Level.FINER);
+			// logger.setLevel(Level.FINEST);
 
-			setLogger(logger);
+			setLogger(logger.getLogger());
 
 		} catch (Exception e) {
 			logger.warning(exceptionString(e));
@@ -811,7 +823,7 @@ public class MessagingServer {
 		subjectListeners = new ConcurrentHashMap<String, ClientThreadList>();
 		lastMessage = new ConcurrentHashMap<String, MessageCarrierXML>();
 
-		launchMemoryWatcher(logger);
+		launchMemoryWatcher(logger.getLogger());
 	}
 
 	private void broadcast(ClientThread ct) {
@@ -854,7 +866,7 @@ public class MessagingServer {
 							logger.warning(getClass().getSimpleName() + " - broadcast() FAILED.  mc=" + mc);
 							numRemovedBadWriteSeen++;
 						}
-			} else if (mc.getMessageValue() instanceof AmAliveMessage) {
+			} else if (mc.getMessageValue() instanceof YesIAmAliveMessage) {
 				// We get a lot of these - ignore it
 				return;
 			} else {
@@ -971,7 +983,7 @@ public class MessagingServer {
 				NN = "none";
 			}
 			String spaces = "XZXZxzxz";
-			String spacesForLog = "\n                       ";
+			String spacesForLog = "\n              ";
 			// String spacesForStatus = " - ";
 			String message = MessagingServer.class.getSimpleName() + " has been alive " + days + " d " + hours + " hr " + mins
 					+ " min " + secs + " sec (" + aliveTime + " msec)" //
@@ -981,7 +993,7 @@ public class MessagingServer {
 					+ spaces + "Oldest client is " + oldestName //
 					+ spaces + "Num clients put 'on notice': " + numClientsPutOnNotice //
 					+ spaces + "Num clients removed due to lack of response: " + numRemovedForPings1 + " & " + numRemovedForPings2//
-					+ spaces + "Num clients removed for 'bad write': + numRemovedBadWriteSeen	" //
+					+ spaces + "Num clients removed for 'bad write': " + numRemovedBadWriteSeen //
 					+ spaces + "Num clients removed for 'null client thread': " + numRemovedNullClientThread //
 					+ spaces + "Num clients removed for null username: " + numRemovedNullUsername //
 					+ spaces + "Num clients removed for null date: " + numRemovedNullDate //
@@ -1285,8 +1297,10 @@ public class MessagingServer {
 	protected void showAllClientsConnectedNow() {
 		String m = "List of connected clients:\n";
 		for (ClientThread CT : listOfMessagingClients) {
-			m += "\t" + CT.username + " (" + CT.getRemoteIPAddress() + ")\tLast seen " + sdf.format(new Date(CT.getLastSeen()))
-					+ " ID=" + CT.id + "\n";
+			String p = CT.username + " (" + CT.getRemoteIPAddress() + ")";
+			if (p.length() < 40)
+				p += "\t";
+			m += "\t" + p + "\tLast seen " + sdf.format(new Date(CT.getLastSeen())) + " ID=" + CT.id + "\n";
 		}
 		logger.fine(m);
 	}
@@ -1340,18 +1354,17 @@ public class MessagingServer {
 						// Ping any client that is "on notice", plus the oldest one that is not on notice. 200 is about 9 minutes;
 						// 500 is about 22 minutes
 						boolean printMe = (++counter % 200) < 2;
-						if (printMe)
-							logger.fine("---- Cycle no. " + counter);
+						String diagnostic = "Diagnostic update\n---- Cycle no. " + counter;
 
 						int i = 0;
 						for (ClientThread CT : listOfMessagingClients) {
 							i++;
 							if (printMe || CT.numOutstandingPings > 1) {
-								String firstPart = "---- " + i + " " + CT.username.replace(".fnal.gov", "") + " ";
+								String firstPart = "---- " + i + " " + CT.username + " ";
 								int initialLength = firstPart.length();
 								for (int m = initialLength; m < 40; m++)
 									firstPart += ' ';
-								logger.fine(firstPart + (new Date(CT.lastSeen)).toString().substring(4, 19) + ", "
+								diagnostic += "\n" + (firstPart + (new Date(CT.lastSeen)).toString().substring(4, 19) + ", "
 										+ (System.currentTimeMillis() - CT.lastSeen) / 1000L + " secs ago"
 										+ (CT.numOutstandingPings > 0 ? "; num pings=" + CT.numOutstandingPings : ""));
 							}
@@ -1362,6 +1375,9 @@ public class MessagingServer {
 								oldestClientName = CT;
 							}
 						}
+
+						if (printMe)
+							logger.fine(diagnostic);
 
 						clist.add(oldestClientName);
 						lastOldestClientName = oldestClientName;

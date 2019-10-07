@@ -76,8 +76,6 @@ public class ObjectSigning {
 	private KeyFactory				keyFactory;
 	private Signature				signature			= null;
 
-	private Signature				sig					= null;
-
 	// All the public keys will be stored in the database and the private keys will be stored on the local
 	// disk of the sender, but not in a place that can normally be read. For example, ~/keystore
 
@@ -103,7 +101,7 @@ public class ObjectSigning {
 		clientControlList.put(client, loadDisplayListFromDB(client));
 
 	}
-	
+
 	/**
 	 * @param client
 	 *            -- The name of the client for which you'll need to check the signature
@@ -123,6 +121,7 @@ public class ObjectSigning {
 		// keys.remove(client);
 		return null;
 	}
+
 	/**
 	 * Remove a client from the cache of public keys so it can reconnect with different credentials
 	 * 
@@ -148,8 +147,7 @@ public class ObjectSigning {
 	public static boolean isClientAuthorized(final String client, final String displayName) {
 		println(ObjectSigning.class, ": Checking if " + client + " is authorized to send to display '" + displayName + "'");
 		if (!clientControlList.containsKey(client)) {
-			println(ObjectSigning.class, ": Client is not in the DB; we don't know what displays it can change!");
-			return false;
+			saveClient(client);
 		}
 		List<String> thisClientsDisplays = clientControlList.get(client);
 		// return thisClientsDisplays.contains("-1") || thisClientsDisplays.contains(displayName);
@@ -187,8 +185,8 @@ public class ObjectSigning {
 	 * @throws IOException
 	 *             -- A problem writing the public or private keystores.
 	 */
-	public void generateNewKeys(final String filenamePublic, final String filenamePrivate) throws NoSuchAlgorithmException,
-			IOException {
+	public void generateNewKeys(final String filenamePublic, final String filenamePrivate)
+			throws NoSuchAlgorithmException, IOException {
 
 		// Generate a 1024-bit Digital Signature Algorithm (DSA) key pair.
 		keyPairGenerator = KeyPairGenerator.getInstance(ALG_TYPE);
@@ -336,8 +334,7 @@ public class ObjectSigning {
 										}
 										System.err.println("\n\n**********\n\n" + ObjectSigning.class.getSimpleName()
 												+ ": Unanticipated situation!  Got a location code of " + lc + " for client "
-												+ ipNameOfClient
-												+ " but really expecting either a -1 or no location code at all."
+												+ ipNameOfClient + " but really expecting either a -1 or no location code at all."
 												+ "\n\n**********  Contact code author!");
 										break; // Not sure if we can continue or not. We'll try.
 									} while (rs1.next());
@@ -422,11 +419,14 @@ public class ObjectSigning {
 	 * @throws InvalidKeySpecException
 	 *             --
 	 * @throws NoSuchAlgorithmException
-	 *             -- A problem with the encryption service * @throws InvalidKeySpecException
+	 *             -- A problem with the encryption service
+	 * @throws InvalidKeySpecException
+	 * @throws IOException
+	 * @throws NoSuchAlgorithmException
 	 */
-	public void loadPrivateKey(final String filename) throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
+	public boolean loadPrivateKey(final String filename) {
 		if (privateKey != null)
-			return;
+			return true;
 
 		File filePrivateKey = new File(filename);
 		try (FileInputStream fis = new FileInputStream(filename)) {
@@ -438,6 +438,9 @@ public class ObjectSigning {
 
 			privateKey = keyFactory.generatePrivate(privateKeySpec);
 			signature = Signature.getInstance(privateKey.getAlgorithm());
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 
@@ -453,9 +456,10 @@ public class ObjectSigning {
 	 *             -- A problem with the encryption service * @throws InvalidKeySpecException
 	 * @throws InvalidKeyException
 	 *             -- The private key is not valid
+	 * @deprecated - use XML signing techniques
 	 */
-	public SignedObject getSignedObject(final Serializable toSign) throws SignatureException, NoSuchAlgorithmException,
-			InvalidKeyException, IOException {
+	public SignedObject getSignedObject(final Serializable toSign)
+			throws SignatureException, NoSuchAlgorithmException, InvalidKeyException, IOException {
 		assert (privateKey != null);
 
 		if (signature == null)
@@ -687,8 +691,8 @@ public class ObjectSigning {
 
 					int numRows = stmt.executeUpdate(statementString);
 					if (numRows == 0 || numRows > 1) {
-						System.err
-								.println("Problem while updating status of Display: Expected to modify exactly one row, but  modified "
+						System.err.println(
+								"Problem while updating status of Display: Expected to modify exactly one row, but  modified "
 										+ numRows + " rows instead. SQL='" + statementString + "'");
 					}
 					stmt.close();
