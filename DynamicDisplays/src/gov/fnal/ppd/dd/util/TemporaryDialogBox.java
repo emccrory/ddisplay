@@ -24,8 +24,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
 
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * Creates a borderless pop-up window. Used by {@link gov.fnal.ppd.dd.ChannelSelector}, and others, to let the user know that
@@ -73,6 +75,7 @@ public class TemporaryDialogBox extends JFrame {
 	 */
 	public TemporaryDialogBox(final JComponent comp, final Display di) {
 		super(cc++ + " Display " + di + " changed successfully");
+			
 		dismissNow = false;
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -104,7 +107,7 @@ public class TemporaryDialogBox extends JFrame {
 			h.add(Box.createRigidArea(new Dimension(10, 10)));
 			h.add(new MyLabel(fg, bg, " The content on " + di + " (" + di.getLocation() + ") "), regular);
 			h.add(Box.createRigidArea(new Dimension(10, 10)));
-			h.add(new MyLabel(fg, bg, " Has been changed to '" + di.getContent() + "' "), regular);
+			h.add(new MyLabel(fg, bg, "<html> Has been changed to " + p(di.getContent()) + " </html>"), regular);
 		} else {
 			h.add(new MyLabel(fg, bg, "  ****  N O N - S E C U R E   C O N T E N T   R E J E C T E D  **** ", big * 4 / 3));
 			h.add(Box.createRigidArea(new Dimension(10, 10)));
@@ -185,6 +188,13 @@ public class TemporaryDialogBox extends JFrame {
 				TemporaryDialogBox.this.dispose();
 			}
 		}.start();
+	}
+
+	private static String p(SignageContent content) {
+		if (content instanceof ChannelPlayList ) {
+			return content.toString().replace(") (", ")<br>(").replace("{", "{<br>").replace("}", "<br>}");
+		}
+		return "'" + content.toString() + "'";
 	}
 
 	/**
