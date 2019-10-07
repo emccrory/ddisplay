@@ -57,7 +57,7 @@ import gov.fnal.ppd.dd.util.PerformanceMonitor;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
-import gov.fnal.ppd.dd.xml.IsAliveMessage;
+import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 
 /**
@@ -353,7 +353,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 					String blob = convertContentToDBReadyString(getContent());
 
 					String X = "x";
-					if (blob.substring(0, 5).equalsIgnoreCase("<?xml"))
+					if (blob != null && blob.length() > 5 && blob.substring(0, 5).equalsIgnoreCase("<?xml"))
 						X = "";
 
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + statusString
@@ -361,8 +361,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 							+ ", Version='" + version + "', NumChanges=" + numChannelChanges + " where DisplayID="
 							+ getDBDisplayNumber();
 					String succinctString = "Time='" + ft.format(dNow) + "',Content='" + statusString + "',ContentName='"
-							+ contentName + "', SignageContent=" + X + "'" + blob.substring(0, 20) + " ...' where DisplayID="
-							+ getDBDisplayNumber();
+							+ contentName + "', SignageContent=" + X + "'" + blob.substring(0, Math.min(20, blob.length()))
+							+ " ...' where DisplayID=" + getDBDisplayNumber();
 
 					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 					int numRows = stmt.executeUpdate(statementString);
@@ -573,8 +573,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			ChannelSpec channelSpec = new ChannelSpec(getContent());
 			replyMessage.setChannelSpec(channelSpec);
 			replyMessage.setDisplayNum(getDBDisplayNumber());
-				msg = MessageCarrierXML.getReplyMessage(messagingClient.getName(), messagingClient.getLastFrom(), replyMessage );
-			
+			msg = MessageCarrierXML.getReplyMessage(messagingClient.getName(), messagingClient.getLastFrom(), replyMessage);
+
 		} else {
 			msg = MessageCarrierXML.getErrorMessage(messagingClient.getName(), messagingClient.getLastFrom(),
 					"Channel change not successful: " + why);
@@ -954,20 +954,25 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			// TODO -- Should this method be synchronized?
 			// Does it make sense to have two messages processed at the same time, or not?
 
-			if ((messageCount++ % 5) == 0 || msg.getMessageValue() instanceof IsAliveMessage) {
+			if ((messageCount++ % 5) == 0 || msg.getMessageValue() instanceof AreYouAliveMessage) {
 				println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
 						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
 			}
 			lastFrom = msg.getMessageOriginator();
-			if (msg.getMessageRecipient().equals(getName())) { // || msg.getTo().startsWith(getName())) {
-				if (!dcp.processInput(msg)) {
-					sendMessage(MessageCarrierXML.getErrorMessage(msg.getMessageRecipient(), msg.getMessageOriginator(),
-							dcp.getErrorMessageText()));
-				}
-			} else if (debug)
-				println(this.getClass(),
-						screenNumber + ": Ignoring a message of type " + msg.getMessageValue().getClass().getSimpleName()
-								+ ", sent to [" + msg.getMessageRecipient() + "] because I am [" + getName() + "]");
+			// if (msg.getMessageRecipient().equals(getName()) || msg.getMessageRecipient().startsWith(getName())) {
+			// ^^ If we get a message down here, it will always be to this node.  So no need to check. ^^
+			if (!dcp.processInput(msg)) {
+				sendMessage(MessageCarrierXML.getErrorMessage(msg.getMessageRecipient(), msg.getMessageOriginator(),
+						dcp.getErrorMessageText()));
+			}
+			// } else if (debug)
+			// println(this.getClass(),
+			// screenNumber + ": Ignoring a message of type " + msg.getMessageValue().getClass().getSimpleName()
+			// + ", sent to [" + msg.getMessageRecipient() + "] because I am [" + getName() + "]");
+			// Hmmm. This is not right. I see this print all the time:
+			// 1: Ignoring a message of type AreYouAliveMessage, sent to [ad130482.fnal.gov:1 (4)_1] because I am
+			// [ad130482.fnal.gov:1 (4)]
+
 		}
 
 		@Override
@@ -1070,9 +1075,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 		// TODO - We expect these errors to be 403 ("Forbidden"), 404 ("Not Found") or 408 ("Timeout") (and maybe others someday).
 		// Only with the timeout would we expect a simple refresh of the page to fix it.
-		
+
 		// Important false-positive: If the web page is secure, "https://", it can fail and the underlying javaScript that
-		// is supposed to catch it will not see it.  And since almost all of our channels are secure now, this code does 
+		// is supposed to catch it will not see it. And since almost all of our channels are secure now, this code does
 		// not do very much.
 
 		switch (value) {
