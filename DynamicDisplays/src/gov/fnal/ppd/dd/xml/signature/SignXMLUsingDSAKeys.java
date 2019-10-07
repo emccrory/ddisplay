@@ -1,7 +1,9 @@
 package gov.fnal.ppd.dd.xml.signature;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
 import static gov.fnal.ppd.dd.util.Util.println;
@@ -11,7 +13,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.InvalidAlgorithmParameterException;
@@ -42,7 +43,6 @@ import javax.xml.crypto.dsig.XMLSignature;
 import javax.xml.crypto.dsig.XMLSignatureException;
 import javax.xml.crypto.dsig.XMLSignatureFactory;
 import javax.xml.crypto.dsig.dom.DOMSignContext;
-import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
@@ -57,12 +57,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.xml.XMLDocumentAndString;
 
 public class SignXMLUsingDSAKeys {
 
@@ -73,12 +72,19 @@ public class SignXMLUsingDSAKeys {
 	private static XMLSignatureFactory	fac;
 	private static SignedInfo			si;
 	private static KeyInfo				ki;
+
 	static {
 		try {
 			keyFactory = KeyFactory.getInstance(ALG_TYPE);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
+		//
+		// try {
+		// setupDSA(PRIVATE_KEY_LOCATION, getFullSelectorName());
+		// } catch (Exception e1) {
+		// e1.printStackTrace();
+		// }
 	}
 
 	/**
@@ -201,11 +207,23 @@ public class SignXMLUsingDSAKeys {
 	 * @throws KeyException
 	 */
 	public static void setupDSA(String privateKeyFileName, String nodeName)
-			throws InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchAlgorithmException,
-			InvalidAlgorithmParameterException, InvalidKeySpecException, IOException, KeyException {
+			throws InstantiationException, IllegalAccessException, ClassNotFoundException, KeyException, NoSuchAlgorithmException,
+			InvalidAlgorithmParameterException, InvalidKeySpecException, IOException {
+
+		if (!loadPrivateKey(privateKeyFileName) || !loadPublicKeyFromDB(nodeName)) {
+			throw new KeyException("Keys not properly located/configured");
+		}
+		doStuff();
+	}
+
+	public static void doStuff() throws InstantiationException, IllegalAccessException, ClassNotFoundException, KeyException,
+			NoSuchAlgorithmException, InvalidAlgorithmParameterException {
 		String providerName = System.getProperty("jsr105Provider", "org.jcp.xml.dsig.internal.dom.XMLDSigRI");
 
 		fac = XMLSignatureFactory.getInstance("DOM", (Provider) Class.forName(providerName).newInstance());
+
+		KeyInfoFactory kif = fac.getKeyInfoFactory();
+		KeyValue kv = kif.newKeyValue(publicKey);
 
 		Reference ref = fac.newReference("", fac.newDigestMethod(DigestMethod.SHA1, null),
 				Collections.singletonList(fac.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null)), null, null);
@@ -214,76 +232,7 @@ public class SignXMLUsingDSAKeys {
 				fac.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE_WITH_COMMENTS, (C14NMethodParameterSpec) null),
 				fac.newSignatureMethod(SignatureMethod.DSA_SHA1, null), Collections.singletonList(ref));
 
-		if (!loadPrivateKey(privateKeyFileName) || !loadPublicKeyFromDB(nodeName)) {
-			throw new KeyException("Keys not properly located/configured");
-		}
-
-		KeyInfoFactory kif = fac.getKeyInfoFactory();
-		KeyValue kv = kif.newKeyValue(publicKey);
-
 		ki = kif.newKeyInfo(Collections.singletonList(kv));
-	}
-
-	// -------------------------------------------------------------------------------------------
-	// Validation
-	// -------------------------------------------------------------------------------------------
-
-	/**
-	 * Is this XML document properly and validly signed?
-	 * 
-	 * @param xmlDocument
-	 *            - The XML document, as a java.lang.String, to check
-	 * @return if the signature within the XML document is valid
-	 * @throws FileNotFoundException
-	 * @throws SAXException
-	 * @throws IOException
-	 * @throws ParserConfigurationException
-	 * @throws MarshalException
-	 * @throws XMLSignatureException
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws ClassNotFoundException
-	 */
-	public static boolean validate(String xmlDocument) throws SAXException, IOException, ParserConfigurationException,
-			MarshalException, XMLSignatureException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		dbf.setNamespaceAware(true);
-		Document x = dbf.newDocumentBuilder().parse(new InputSource(new StringReader(xmlDocument)));
-		return validate(x);
-	}
-
-	/**
-	 * Is this XML document properly and validly signed?
-	 * 
-	 * @param doc
-	 *            The XML Document to verify
-	 * @return if the signature within the XML document is valid
-	 * 
-	 * @throws FileNotFoundException
-	 * @throws SAXException
-	 * @throws IOException
-	 * @throws ParserConfigurationException
-	 * @throws MarshalException
-	 * @throws XMLSignatureException
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws ClassNotFoundException
-	 */
-	public static boolean validate(Document doc) throws SAXException, IOException, ParserConfigurationException, MarshalException,
-			XMLSignatureException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-		NodeList nl = doc.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
-		if (nl.getLength() == 0) {
-			throw new FileNotFoundException("Cannot find Signature element");
-		}
-
-		String providerName = System.getProperty("jsr105Provider", "org.jcp.xml.dsig.internal.dom.XMLDSigRI");
-
-		XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM", (Provider) Class.forName(providerName).newInstance());
-		DOMValidateContext valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(0));
-
-		XMLSignature signature = fac.unmarshalXMLSignature(valContext);
-		return signature.validate(valContext);
 	}
 
 	/**
@@ -300,9 +249,17 @@ public class SignXMLUsingDSAKeys {
 	 * @throws MarshalException
 	 * @throws XMLSignatureException
 	 * @throws TransformerException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws NoSuchAlgorithmException
+	 * @throws KeyException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	public static void signDocument(String documentFileName, OutputStream out) throws FileNotFoundException, SAXException,
-			IOException, ParserConfigurationException, MarshalException, XMLSignatureException, TransformerException {
+	private static void signDocument(String documentFileName, OutputStream out)
+			throws FileNotFoundException, SAXException, IOException, ParserConfigurationException, MarshalException,
+			XMLSignatureException, TransformerException, InstantiationException, IllegalAccessException, ClassNotFoundException,
+			KeyException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
 
 		if (out == null)
 			out = System.out;
@@ -314,26 +271,39 @@ public class SignXMLUsingDSAKeys {
 	}
 
 	/**
-	 * Sign an existing XML Document that is in a file - this is likely only used for testing purposes.
+	 * Sign an existing XML Document.
 	 * 
 	 * @param doc
 	 *            - the XML document
 	 * @param out
 	 *            - the output, signed XML document. Default: System.out
-	 * @throws FileNotFoundException
 	 * @throws SAXException
-	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 * @throws MarshalException
 	 * @throws XMLSignatureException
 	 * @throws TransformerException
+	 * @throws InvalidAlgorithmParameterException
+	 * @throws NoSuchAlgorithmException
+	 * @throws KeyException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
-	public static void signDocument(Document doc, OutputStream out) throws FileNotFoundException, SAXException, IOException,
-			ParserConfigurationException, MarshalException, XMLSignatureException, TransformerException {
-
+	public static void signDocument(Document doc, OutputStream out)
+			throws MarshalException, XMLSignatureException, TransformerException, InstantiationException, IllegalAccessException,
+			ClassNotFoundException, KeyException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
 		if (out == null)
 			out = System.out;
 
+		if (privateKey == null) {
+			try {
+				setupDSA(PRIVATE_KEY_LOCATION, getFullSelectorName());
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchAlgorithmException
+					| InvalidAlgorithmParameterException | InvalidKeySpecException | KeyException | IOException e) {
+				e.printStackTrace();
+			}
+		}
+		doStuff();
 		DOMSignContext dsc = new DOMSignContext(privateKey, doc.getDocumentElement());
 
 		XMLSignature signature = fac.newXMLSignature(si, ki);
@@ -348,13 +318,13 @@ public class SignXMLUsingDSAKeys {
 
 		if (args[0].equalsIgnoreCase("validate")) {
 			try {
-				if (validate(new String(Files.readAllBytes(Paths.get(args[1])))))
+				XMLDocumentAndString xmlDoc = new XMLDocumentAndString(new String(Files.readAllBytes(Paths.get(args[1]))));
+				if (Validate.isSignatureValid(xmlDoc))
 					System.out.println(args[1] + " is a validly signed XML document!");
 				else
 					System.err.println("XML file '" + args[1] + "' is NOT properly signed!");
 
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SAXException | IOException
-					| ParserConfigurationException | MarshalException | XMLSignatureException e) {
+			} catch (MarshalException | XMLSignatureException | IOException | SignatureNotFoundException e) {
 				e.printStackTrace();
 			}
 			System.exit(0);
