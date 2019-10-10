@@ -123,4 +123,9 @@ public class ChangeChannelList extends MessagingDataXML {
 		return retval + "]";
 	}
 
+	@Override
+	public boolean willNotChangeAnything() {
+		return false;
+	}
+
 }

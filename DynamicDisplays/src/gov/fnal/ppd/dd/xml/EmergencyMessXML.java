@@ -135,4 +135,9 @@ public class EmergencyMessXML extends MessagingDataXML {
 		this.timestamp = timestamp;
 	}
 
+	@Override
+	public boolean willNotChangeAnything() {
+		return false;
+	}
+
 }

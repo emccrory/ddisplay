@@ -83,4 +83,9 @@ public class ChangeChannel extends MessagingDataXML {
 		return true;
 	}
 
+	@Override
+	public boolean willNotChangeAnything() {
+		return false;
+	}
+
 }

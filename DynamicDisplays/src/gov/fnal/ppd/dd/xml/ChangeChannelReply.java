@@ -47,4 +47,11 @@ public class ChangeChannelReply extends MessagingDataXML {
 		this.displayNum = displayNum;
 	}
 
+	/**
+	 * This directive will not change anything - it is status (only) information.
+	 */
+	@Override
+	public boolean willNotChangeAnything() {
+		return true;
+	}
 }

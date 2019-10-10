@@ -56,4 +56,9 @@ public class ChangeChannelByNumber extends MessagingDataXML implements Serializa
 	public void setChecksum(long checksum) {
 		this.checksum = checksum;
 	}
+
+	@Override
+	public boolean willNotChangeAnything() {
+		return false;
+	}
 }

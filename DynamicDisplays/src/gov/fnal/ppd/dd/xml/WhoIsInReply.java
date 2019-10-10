@@ -27,4 +27,9 @@ public class WhoIsInReply extends MessagingDataXML {
 		for (ClientInformation C : clients)
 			this.clients.add(C);
 	}
+
+	@Override
+	public boolean willNotChangeAnything() {
+		return true;
+	}
 }

@@ -4,12 +4,14 @@ import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
+import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.emergency.Severity;
@@ -66,14 +68,14 @@ public class WriteXMLFile {
 					break;
 
 				case 3:
-					// A plain channel spec
-					// ChannelSpec cs = new ChannelSpec(new ChannelImpl("Test Channel",
-					// new ChannelClassification("PUBLIC_DETAILS", "Details"), "This is the desription",
-					// new URI("http://www.fnal.gov"), 23, System.currentTimeMillis() % (24L * 3600L * 1000L)));
-					// stuff = cs;
-					// theType = MessageTypeXML.CHANGECHANNEL;
-					// break;
-
+					// Change Channel Reply
+					ChangeChannelReply ccr = new ChangeChannelReply();
+					ChannelImpl content = new ChannelImpl("Name", ChannelClassification.MISCELLANEOUS, "Descr", new URI("https://www.fnal.gov"),0,299999);
+					ChannelSpec spec = new ChannelSpec(content);
+					ccr.setChannelSpec(spec);
+					stuff = ccr;
+					break;
+					
 				case 4:
 					ChangeChannel cc = new ChangeChannel();
 					cc.setContent(getChannelFromNumber(22));
