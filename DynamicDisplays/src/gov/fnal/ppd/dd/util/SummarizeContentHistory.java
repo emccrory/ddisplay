@@ -18,11 +18,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
+import javax.xml.bind.UnmarshalException;
+
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 /**
@@ -52,11 +54,11 @@ public class SummarizeContentHistory {
 	private int								cut;
 
 	private static class Three {
-		public MessageCarrierXML	chan	= null;
+		public MessagingDataXML	chan	= null;
 		public int					displayID, virtualDisplayID;
 		public int					count	= 0;
 
-		public Three(int dbID, int c, int vDID, EncodedCarrier x) {
+		public Three(int dbID, int c, int vDID, MessagingDataXML x) {
 			displayID = dbID;
 			virtualDisplayID = vDID;
 			count = c;
@@ -64,7 +66,7 @@ public class SummarizeContentHistory {
 		}
 
 		public String getURL() {
-			if (listLength() > 0)
+			if (chan instanceof ChangeChannelList)
 				// This is probably OK, but it is not exactly right
 				return ((ChangeChannelList) chan).getChannelSpec()[0].getURI().toString();
 			else if (chan != null)
@@ -172,6 +174,7 @@ public class SummarizeContentHistory {
 
 	private void get(String query) {
 		System.out.println(query);
+		int unmarshallExceptions = 0, classCastExceptions = 0, oldChangeChannel = 0;
 		try {
 			Connection connection = null;
 			try {
@@ -196,17 +199,31 @@ public class SummarizeContentHistory {
 								if (count < cut)
 									continue;
 
-								if (rawMessage.contains(CHANGE_CHANNEL)) {
-									all.add(new Three(displayID, count, vDID,
-											(ChangeChannel) MyXMLMarshaller.unmarshall(ChangeChannel.class, rawMessage)));
-								} else if (rawMessage.contains(CHANGE_CHANNEL_LIST)) {
-									all.add(new Three(displayID, count, vDID,
-											(ChangeChannelList) MyXMLMarshaller.unmarshall(ChangeChannelList.class, rawMessage)));
-								} else {
-									throw new ErrorProcessingMessage(
-											"Unknown XML data type within this XML document: [Unrecognized XML message received.");
+								try {
+									if (rawMessage.contains("messageCarrierXML")) {
+										MessageCarrierXML content = (MessageCarrierXML) MyXMLMarshaller
+												.unmarshall(MessageCarrierXML.class, rawMessage);
+										all.add(new Three(displayID, count, vDID, content.getMessageValue()));
+									} else if ( rawMessage.contains("changeChannelList")) {
+										ChangeChannelList theList = (ChangeChannelList) MyXMLMarshaller
+												.unmarshall(ChangeChannelList.class, rawMessage);
+										all.add(new Three(displayID, count, vDID, theList));
+									} else if ( rawMessage.contains("changeChannel")) {
+										// Why doesn't this work? Must be some subtle change in the object structure
+										// ChangeChannel theChannel = (ChangeChannel) MyXMLMarshaller.unmarshall(ChangeChannel.class, rawMessage);
+										// all.add(new Three(displayID, count, vDID, theChannel));
+										oldChangeChannel++;
+									} else {
+										System.out.println("\nOTHER\n" + rawMessage);
+									}
+								} catch (UnmarshalException e1) {
+									unmarshallExceptions++;
+									e1.printStackTrace();
+									if (unmarshallExceptions > 10)
+										System.exit(0);
+								} catch (ClassCastException e2) {
+									classCastExceptions++;
 								}
-
 							} while (rs2.next());
 						} else {
 							new Exception().printStackTrace();
@@ -223,6 +240,7 @@ public class SummarizeContentHistory {
 		}
 
 		Collections.sort(all, cThree);
+		System.out.println("Old change channels: " + oldChangeChannel + ", Unmarshal exceptions: " + unmarshallExceptions + ", class cast exceptions: " + classCastExceptions);
 	}
 
 	public List<String> getAllURLs() {
