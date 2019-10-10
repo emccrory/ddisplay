@@ -51,13 +51,14 @@ else
 	    echo "5"
 	    date > $log
 	    echo Automatic software update >> $log
+	    theVersion=`java gov.fnal.ppd.dd.util.version.VersionInformation 4 | grep PRODUCTION | awk '{ print $1 }'`
 
 	    if [ ! -e refreshSoftware.sh ]; then
-		wget http://dynamicdisplays.fnal.gov/software/refreshSoftware.sh
+		wget https://dynamicdisplays.fnal.gov/software/refreshSoftware.sh
 		chmod +x refreshSoftware.sh
 	    fi
 
-	    ./refreshSoftware.sh >> $log &
+	    ./refreshSoftware.sh $theVersion >> $log &
 	    pid=$!
 
 	    # A little trickery here to make the Zenity progress dialog look better.  
