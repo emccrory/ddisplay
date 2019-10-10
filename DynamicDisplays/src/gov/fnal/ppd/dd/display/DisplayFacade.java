@@ -21,10 +21,12 @@ import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.TemporaryDialogBox;
 import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelByNumber;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
+import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.EmergencyMessXML;
 import gov.fnal.ppd.dd.xml.ErrorMessage;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
@@ -257,7 +259,8 @@ public class DisplayFacade extends DisplayImpl {
 				FacadeMessagingClient.sendAMessage(new MessageCarrierXML(FacadeMessagingClient.getMyName(),
 						FacadeMessagingClient.getTargetName(this), theData));
 
-			// A reply is expected. It will come later.
+			// A reply is expected. It happens in DisplayControllerMessagingAbstract.respondToContentChange().
+
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -283,12 +286,8 @@ public class DisplayFacade extends DisplayImpl {
 		FacadeMessagingClient.me.disconnect();
 	}
 
-	protected void respondToContentChange(boolean b) {
-		// Let the real response come in from the client by overriding the faked response in DisplayImpl.
-	}
-
 	/**
-	 * A kludged-up method FO USE ONLY by the status mechanism to set the apparent content, as obtained from elsewhere (like from a
+	 * A kludged-up method OF USE ONLY by the status mechanism to set the apparent content, as obtained from elsewhere (like from a
 	 * database read).
 	 * 
 	 * @param content
@@ -299,8 +298,15 @@ public class DisplayFacade extends DisplayImpl {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		super.actionPerformed(e);
-		receivedAReply = true;
+		if (e instanceof DisplayChangeEvent) {
+			ChangeChannelReply ccr = (ChangeChannelReply) e.getSource();
+			if (ccr.getDisplayNum() == getDBDisplayNumber()) {
+				receivedAReply = true;
+				new TemporaryDialogBox(null, this);
+			} // else it is a reply for some other virtual display here in the channel selector JVM
+		} else {
+			super.actionPerformed(e);
+		}
 	}
 
 	public boolean hasReceivedAReply() {

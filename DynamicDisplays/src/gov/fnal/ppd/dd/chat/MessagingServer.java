@@ -337,7 +337,7 @@ public class MessagingServer {
 
 					if (!read.isReadOnly()) {
 						if (read.isSignatureValid()) {
-							logger.warning("Message is properly signed: " + this.cm);
+							logger.fine("Message is properly signed: " + this.cm);
 						} else {
 							logger.warning("Message is NOT PROPERLY SIGNED: [" + this.cm
 									+ "]; -- ignoring this message and sending an error message back to the client.");
@@ -502,7 +502,7 @@ public class MessagingServer {
 						// broadcast(this.cmSigned);
 					} else {
 						logger.warning("Message rejected!  '" + this.username + "' asked to send message of type "
-								+ this.cm.getMessageValue().getClass().getSimpleName() + " to '" + this.cm.getMessageRecipient()
+								+ clazz.getSimpleName() + " to '" + this.cm.getMessageRecipient()
 								+ "'\n\t\tbut it is not authorized to send a message to this client");
 
 						// Reply to the client that this message was rejected!

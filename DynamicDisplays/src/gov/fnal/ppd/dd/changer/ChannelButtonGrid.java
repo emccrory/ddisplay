@@ -41,7 +41,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 
 	protected JComponent			expGrid;
 
-	private static ReentrantLock	imBusy				= new ReentrantLock();
+	// private static ReentrantLock imBusy = new ReentrantLock();
 
 	/**
 	 * @param cat
@@ -98,22 +98,25 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 					System.err.println(getClass().getSimpleName() + ": Unknown source " + e.getSource().getClass().getSimpleName());
 
 				bg.disableAll(to);
-				// This "imBusy" prevents the other times this is called (see bug note, above) from getting a TemporaryDialogBox.
-				if (imBusy.tryLock()) {
-					// Throw up a dialog box saying, "Well done! You've changed the channel on display #5 to
-					// 'Something or other', URL='http://some.url'"
 
-					if (e.getSource() instanceof Display) {
-						Display di = (Display) e.getSource();
-						new TemporaryDialogBox(this, di);
+				// The feedback to the user that the channel changed is now done correctly - it waits for the reply message!
+				// // This "imBusy" prevents the other times this is called (see bug note, above) from getting a TemporaryDialogBox.
+				// if (imBusy.tryLock()) {
+				// // Throw up a dialog box saying, "Well done! You've changed the channel on display #5 to
+				// // 'Something or other', URL='http://some.url'"
+				//
+				// if (e.getSource() instanceof Display) {
+				// Display di = (Display) e.getSource();
+				// new TemporaryDialogBox(this, di);
+				//
+				// // Sleep here to assure that no other entries can call up this dialog. This is necessary most of the time.
+				// // When this delay was 10msec, I'd get multiple dialog boxes up from time to time.
+				// catchSleep(100);
+				//
+				// imBusy.unlock();
+				// } // Question: Is this ever NOT an instance of Display?
+				// } // else another instance is doing it so I don't have to
 
-						// Sleep here to assure that no other entries can call up this dialog. This is necessary most of the time.
-						// When this delay was 10msec, I'd get multiple dialog boxes up from time to time.
-						catchSleep(100);
-
-						imBusy.unlock();
-					} // Question: Is this ever NOT an instance of Display?
-				} // else another instance is doing it so I don't have to
 				break;
 
 			case CHANGE_COMPLETED:

@@ -42,6 +42,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
+import gov.fnal.ppd.dd.changer.DisplayChangeEvent.DisplayChangeType;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.MapOfChannels;
@@ -228,25 +230,23 @@ public class DCProtocol {
 
 				// } else if (message instanceof ChannelSpec) {
 				// // disableListThread();
-				//	informListeners((ChannelSpec) message);
-			} else if ( message instanceof AreYouAliveMessage ){
+				// informListeners((ChannelSpec) message);
+			} else if (message instanceof AreYouAliveMessage) {
 				; // Now what??
+			} else if (message instanceof ChangeChannelReply) {
+				theReply = message;
+				informListeners((ChangeChannelReply) message);
 			} else {
 				println(getClass(), "The message is of type " + message.getClass().getCanonicalName()
 						+ ".  We will assume they meant it to be 'ChangeChannelReply'");
-			}
-
-			ChangeChannelReply p = new ChangeChannelReply();
-			if (listeners.size() > 0 && listeners.get(0) != null) {
-				// ASSUME that there is one and only one listener here and it is the physical display
+				ChangeChannelReply p = new ChangeChannelReply();
 				p.setDisplayNum(listeners.get(0).getDBDisplayNumber());
 				ChannelSpec spec = new ChannelSpec(listeners.get(0).getContent());
 				p.setChannelSpec(spec);
-			} else {
-				// System.err.println(getClass().getSimpleName() + ".processInput(): No listeners for a 'Pong' message");
-				;
+				theReply = p;
+				informListeners(p);
 			}
-			theReply = p;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -324,7 +324,7 @@ public class DCProtocol {
 		}
 	}
 
-	private void informListeners(ChangeChannel message) {
+	private void informListeners(final ChangeChannel message) {
 		assert (changerThread == null);
 		informListeners(((ChangeChannel) message).getChannelSpec());
 	}
@@ -340,15 +340,22 @@ public class DCProtocol {
 		}
 	}
 
-	private void informListeners(SignageContent c) {
+	private void informListeners(final SignageContent c) {
 		for (Display L : listeners) {
 			L.setContent(c);
 		}
 	}
 
-	private void informListeners(ChannelSpec spec) {
+	private void informListeners(final ChannelSpec spec) {
 		SignageContent c = spec.getContent();
 		informListeners(c);
+	}
+
+	private void informListeners(final ChangeChannelReply reply) {
+		DisplayChangeEvent e = new DisplayChangeEvent(reply,0, DisplayChangeType.CHANGE_COMPLETED);
+		for (Display L : listeners) {
+			L.actionPerformed(e);
+		}
 	}
 
 	/**

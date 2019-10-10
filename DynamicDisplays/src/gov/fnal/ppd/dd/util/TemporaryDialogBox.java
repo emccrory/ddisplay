@@ -28,6 +28,7 @@ import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.xml.ChannelSpec;
 
 /**
  * Creates a borderless pop-up window. Used by {@link gov.fnal.ppd.dd.ChannelSelector}, and others, to let the user know that
@@ -63,8 +64,8 @@ public class TemporaryDialogBox extends JFrame {
 		}
 	}
 
-	boolean dismissNow = false;
-	static int cc = 0;
+	boolean		dismissNow	= false;
+	static int	cc			= 0;
 
 	/**
 	 * 
@@ -75,7 +76,7 @@ public class TemporaryDialogBox extends JFrame {
 	 */
 	public TemporaryDialogBox(final JComponent comp, final Display di) {
 		super(cc++ + " Display " + di + " changed successfully");
-			
+
 		dismissNow = false;
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -86,7 +87,12 @@ public class TemporaryDialogBox extends JFrame {
 			fontColor = Color.white;
 		}
 
-		String urlString = ((Channel) di.getContent()).getURI().toString();
+		String urlString = "";
+		if (di.getContent() instanceof ChannelSpec) {
+			urlString = ((ChannelSpec) di.getContent()).getURI().toString();
+		} else if (di.getContent() instanceof Channel) {
+			urlString = ((Channel) di.getContent()).getURI().toString();
+		}
 		Box h = Box.createVerticalBox();
 		Color bg = di.getPreferredHighlightColor();
 		Color fg = fontColor;
@@ -177,11 +183,11 @@ public class TemporaryDialogBox extends JFrame {
 		new Thread(this.getClass().getSimpleName() + "_Removal") {
 			public void run() {
 				for (int i = tt; i > 0 && !dismissNow; i--) {
-				if ( i > 1 ) {
-					timeLeft.setText("This notification will disappear automatically in " + i + " seconds");
-				} else {
-					timeLeft.setText("This notification will disappear now");
-				}
+					if (i > 1) {
+						timeLeft.setText("This notification will disappear automatically in " + i + " seconds");
+					} else {
+						timeLeft.setText("This notification will disappear now");
+					}
 					catchSleep(1000L);
 				}
 
@@ -191,7 +197,7 @@ public class TemporaryDialogBox extends JFrame {
 	}
 
 	private static String p(SignageContent content) {
-		if (content instanceof ChannelPlayList ) {
+		if (content instanceof ChannelPlayList) {
 			return content.toString().replace(") (", ")<br>(").replace("{", "{<br>").replace("}", "<br>}");
 		}
 		return "'" + content.toString() + "'";

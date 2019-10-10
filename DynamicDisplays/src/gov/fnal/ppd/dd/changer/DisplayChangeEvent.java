@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 public class DisplayChangeEvent extends ActionEvent {
 
 	private static final long	serialVersionUID	= -2282928868265941338L;
+	private static int			localID				= 1001 + (int) Math.random() * 1001;  // Who knows?
 
 	/**
 	 * The type of event this is
@@ -28,7 +29,7 @@ public class DisplayChangeEvent extends ActionEvent {
 		CHANGE_RECEIVED, CHANGE_COMPLETED, ALIVE, ERROR, IDLE,
 	};
 
-	private DisplayChangeType	type	= DisplayChangeType.IDLE;
+	private DisplayChangeType type = DisplayChangeType.IDLE;
 
 	/**
 	 * @param source
@@ -39,7 +40,7 @@ public class DisplayChangeEvent extends ActionEvent {
 	 *            The type of event this is
 	 */
 	public DisplayChangeEvent(final Object source, final int id, final DisplayChangeType t) {
-		super(source, id, "" + t);
+		super(source, (id <= 0 ? localID++ : id), "" + t);
 		// The type becomes the command
 		this.type = t;
 	}
@@ -55,7 +56,7 @@ public class DisplayChangeEvent extends ActionEvent {
 	 *            Extra information to tag onto the event type
 	 */
 	public DisplayChangeEvent(final Object source, final int id, final DisplayChangeType t, final String moreInfo) {
-		super(source, id, "" + t + " -- " + moreInfo);
+		super(source, (id <= 0 ? localID++ : id), "" + t + " -- " + moreInfo);
 		this.type = t;
 	}
 
