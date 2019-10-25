@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.emergency;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -103,7 +104,7 @@ public class EmergencyMessage implements Serializable {
 		if (footnote != null && footnote.length() > 0)
 			retval += "<p class='footnote'>" + footnote.replace("\'", "\"") + "</p>";
 
-		retval += "<p class='footnote'>This message came from " + ipAddress + " at " + timestamp + " </p>";
+		retval += "<p class='footnote'>This message came from " + ipAddress + " at " + new Date(timestamp) + " </p>";
 
 		return retval;
 	}
@@ -138,7 +139,11 @@ public class EmergencyMessage implements Serializable {
 	 *            - The IP Address of the source. I expect it will be, for example, "machinename.fnal.gov - 131.225.1.233"
 	 */
 	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
+		if (ipAddress == null) {
+			this.ipAddress = "Unknown";
+		} else {
+			this.ipAddress = ipAddress;
+		}
 	}
 
 	public long getTimestamp() {
