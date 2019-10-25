@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
+import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -109,8 +110,13 @@ public abstract class DisplayImpl implements Display {
 
 		if (c instanceof EmergencyCommunication) {
 			EmergencyCommunication ec = (EmergencyCommunication) c;
-			println(getClass(), ": Display " + getVirtualDisplayNumber() + " being sent an EMERGENCY MESSAGE [" + ec.getMessage()
-					+ "] at " + (new Date()));
+			if (ec.getMessage().getSeverity() == Severity.REMOVE) {
+				println(getClass(), ": Display " + getVirtualDisplayNumber() + " is removing its Emergency Message ["
+						+ ec.getMessage() + "] at " + (new Date()));
+			} else {
+				println(getClass(), ": Display " + getVirtualDisplayNumber() + " being sent an EMERGENCY MESSAGE ["
+						+ ec.getMessage() + "] at " + (new Date()));
+			}
 			informListeners(DisplayChangeEvent.DisplayChangeType.CHANGE_RECEIVED, null);
 
 			channel = c;

@@ -17,6 +17,10 @@ public class EmergencyMessXML extends MessagingDataXML {
 	private String		ipAddress;
 	private long		timestamp;
 
+	public EmergencyMessXML() {
+		// Nothing to do yet.
+	}
+	
 	public EmergencyMessXML(EmergencyMessage em) {
 		headline = em.getHeadline();
 		message = em.getMessage();
@@ -24,6 +28,7 @@ public class EmergencyMessXML extends MessagingDataXML {
 		severity = em.getSeverity();
 		dwellTime = em.getDwellTime();
 		timestamp = em.getTimestamp();
+		ipAddress = em.getIpAddress();
 	}
 
 	/**

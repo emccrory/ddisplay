@@ -49,6 +49,7 @@ import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.MapOfChannels;
 import gov.fnal.ppd.dd.emergency.EmergCommunicationImpl;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
+import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
@@ -187,7 +188,7 @@ public class DCProtocol {
 	public boolean processInput(final MessagingDataXML message) {
 		errorMessageText = null;
 		try {
-			println(getClass(), ".processInput(): processing '" + message + "'");
+			// println(getClass(), ".processInput(): processing '" + message + "'");
 
 			// TODO -- Verify the IP address of the sender
 			// String ip = carrier.getIPAddress();
@@ -282,7 +283,8 @@ public class DCProtocol {
 				em.setIpAddress(message.getIpAddress());
 				em.setTimestamp(message.getTimestamp());
 
-				println(getClass(), ".processEmergencyMessage(): Emergency message is " + em);
+				if (message.getSeverity() != Severity.REMOVE)
+					println(getClass(), ".processEmergencyMessage(): Emergency message is " + em);
 
 				EmergencyCommunication ec = new EmergCommunicationImpl();
 				ec.setMessage(em);
