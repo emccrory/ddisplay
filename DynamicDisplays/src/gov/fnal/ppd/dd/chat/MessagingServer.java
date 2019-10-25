@@ -41,23 +41,22 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.ObjectSigning;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
-import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
+import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.EmergencyMessXML;
 import gov.fnal.ppd.dd.xml.ErrorMessage;
-import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.LoginMessage;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 import gov.fnal.ppd.dd.xml.SubscriptionSubject;
 import gov.fnal.ppd.dd.xml.WhoIsInMessage;
+import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
 
 /**
  * The server that can be run both as a console application or a GUI
@@ -873,6 +872,9 @@ public class MessagingServer {
 				logger.warning(getClass().getSimpleName() + " -  Hmm.  We have a message on the topic '" + subject
 						+ "' but the list of clients interested in this is empty.  The message is of type "
 						+ mc.getMessageValue().getClass().getCanonicalName());
+				System.err.println("Subjects are:");
+				for (String S : subjectListeners.keySet())
+					System.err.println("\t" + S);
 			}
 		}
 	}
