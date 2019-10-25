@@ -53,10 +53,12 @@ import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.Command;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.ExitHandler;
+import gov.fnal.ppd.dd.util.ObjectSigning;
 import gov.fnal.ppd.dd.util.PerformanceMonitor;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
+import gov.fnal.ppd.dd.xml.EmergencyMessXML;
 import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 
@@ -514,24 +516,28 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			if (em.getSeverity() == Severity.REMOVE) {
 				// setContent(previousChannelStack.pop());
 				showingEmergencyMessage = false;
-			}
+				browserInstance.removeEmergencyCommunication();
+			} else {
+				// Remove this message after a while
+				remainingTimeRemEmergMess = em.getDwellTime();
+				System.err.println(
+						"Initial time for emergency message on " + getDBDisplayNumber() + ": " + remainingTimeRemEmergMess);
+				if (emergencyRemoveThread == null || !emergencyRemoveThread.isAlive()) {
+					emergencyRemoveThread = new Thread("RemoveEmergencyCommunication") {
+						long interval = 2000L;
 
-			// Remove this message after a while
-			remainingTimeRemEmergMess = em.getDwellTime();
-			if (emergencyRemoveThread == null || !emergencyRemoveThread.isAlive()) {
-				emergencyRemoveThread = new Thread("RemoveEmergencyCommunication") {
-					long interval = 2000L;
-
-					public void run() {
-						for (; remainingTimeRemEmergMess > 0; remainingTimeRemEmergMess -= interval) {
-							catchSleep(Math.min(interval, remainingTimeRemEmergMess));
+						public void run() {
+							for (; remainingTimeRemEmergMess > 0
+									&& showingEmergencyMessage; remainingTimeRemEmergMess -= interval) {
+								catchSleep(Math.min(interval, remainingTimeRemEmergMess));
+							}
+							showingEmergencyMessage = false;
+							emergencyRemoveThread = null;
+							browserInstance.removeEmergencyCommunication();
 						}
-						// setContent(previousChannelStack.pop());
-						showingEmergencyMessage = false;
-						emergencyRemoveThread = null;
-					}
-				};
-				emergencyRemoveThread.start();
+					};
+					emergencyRemoveThread.start();
+				}
 			}
 			return retval;
 
@@ -954,13 +960,29 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			// TODO -- Should this method be synchronized?
 			// Does it make sense to have two messages processed at the same time, or not?
 
-			if ((messageCount++ % 5) == 0 || msg.getMessageValue() instanceof AreYouAliveMessage) {
+			if ((messageCount++ % 5) == 0 || !(msg.getMessageValue() instanceof AreYouAliveMessage)) {
 				println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
 						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
 			}
 			lastFrom = msg.getMessageOriginator();
+
+			if (!msg.isReadOnly())
+				if (!(msg.getMessageValue() instanceof EmergencyMessXML)) {
+					if (!ObjectSigning.isClientAuthorized(msg.getMessageOriginator(), msg.getMessageRecipient())) {
+						// Improperly signed message -- oops!
+						sendMessage(MessageCarrierXML.getErrorMessage(msg.getMessageRecipient(), msg.getMessageOriginator(),
+								"The directive to change the channel was not properly signed."));
+						return;
+					}
+					if (showingEmergencyMessage) {
+						// Reject this channel change since we are showing an emergency message right now.
+						sendMessage(MessageCarrierXML.getErrorMessage(msg.getMessageRecipient(), msg.getMessageOriginator(),
+								"This display is showing an emergency message - channel change rejected."));
+						return;
+					}
+				}
 			// if (msg.getMessageRecipient().equals(getName()) || msg.getMessageRecipient().startsWith(getName())) {
-			// ^^ If we get a message down here, it will always be to this node.  So no need to check. ^^
+			// ^^ If we get a message down here, it will always be to this node. So no need to check. ^^
 			if (!dcp.processInput(msg)) {
 				sendMessage(MessageCarrierXML.getErrorMessage(msg.getMessageRecipient(), msg.getMessageOriginator(),
 						dcp.getErrorMessageText()));
