@@ -146,7 +146,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		String osName = System.getProperty("os.name").toUpperCase();
 		String driverFile = null;
 		try {
-			// ASSUME that we are using FireFox, which is the only browser we have tested to date (6/2018)
+			// ASSUME that we are using FireFox, which is the only browser we have tested to date (10/2019)
 
 			// ASSUME the location of FireFox for Linux
 			browserLocation = PropertiesFile.getProperty("binLinux");
