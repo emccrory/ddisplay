@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.display.client.selenium;
 
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.POSSIBLE_RECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -190,8 +191,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 
 			jse = (JavascriptExecutor) driver;
 		} catch (WebDriverException e) {
-			System.err.println(new Date() + " WebDriverException Exception caught in " + getClass().getSimpleName() + ".setBrowserConfig()"
-					+ "\n\t\tWe hope to be able to continue from this, eventually.");
+			System.err.println(new Date() + " WebDriverException Exception caught in " + getClass().getSimpleName()
+					+ ".setBrowserConfig()" + "\n\t\tWe hope to be able to continue from this, eventually.");
 			driver = null;
 			return;
 		} catch (Exception e) {
@@ -210,7 +211,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		afsd = new CheckAndFixScreenDimensions(driver, p, sd);
 
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(afsd, ONE_MINUTE, ONE_MINUTE);
+		timer.schedule(afsd, 15*ONE_SECOND, ONE_MINUTE);
 	}
 
 	@Override
@@ -318,7 +319,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				driver.get(url);
 
 				catchSleep(1000);
-				afsd.goToProperSizeAndPlace();
+				//afsd.goToProperSizeAndPlace();
 
 				// Does not work on GeckoDriver versions before 0.20 ...
 				// driver.manage().window().fullscreen();
