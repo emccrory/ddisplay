@@ -1,6 +1,8 @@
 package gov.fnal.ppd.dd.display.client.selenium;
 
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
+import static gov.fnal.ppd.dd.GlobalVariables.POSSIBLE_RECOVERABLE_ERROR;
+import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
@@ -16,6 +18,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -96,6 +99,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		setBrowserConfig();
 
 		if (driver == null) {
+			connected = false;
 			// Oops! This is not good.
 			println(getClass(), " Aborting in 10 seconds because the connection to the browser seems to have failed.");
 			catchSleep(10000);
@@ -181,17 +185,22 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			} else {
 				System.err.println("\n\n*****");
 				(new Exception("ABORT: Unknown browser type specified: [" + browser + "]")).printStackTrace();
-				System.exit(-2);
+				System.exit(POSSIBLE_RECOVERABLE_ERROR);
 			}
 
 			jse = (JavascriptExecutor) driver;
+		} catch (WebDriverException e) {
+			System.err.println(new Date() + " WebDriverException Exception caught in " + getClass().getSimpleName() + ".setBrowserConfig()"
+					+ "\n\t\tWe hope to be able to continue from this, eventually.");
+			driver = null;
+			return;
 		} catch (Exception e) {
 			System.err.println(new Date() + " Exception caught in " + getClass().getSimpleName() + ".setBrowserConfig()");
 			e.printStackTrace();
 			System.err.println("\n" + new Date() + " Browser driver is " + driverFile + ", Location of browser: " + browserLocation
 					+ ", Operating system: " + osName);
 			System.err.println(new Date() + " Aborting...");
-			System.exit(-2);
+			System.exit(UNRECOVERABLE_ERROR);
 		}
 
 		// Setup the timer task to make sure the screen is the right size, forevermore.

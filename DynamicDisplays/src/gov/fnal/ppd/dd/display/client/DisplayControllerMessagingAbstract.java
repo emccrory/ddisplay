@@ -161,6 +161,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 		}
 
 		public void run() {
+			if ( browserInstance == null ) {
+				printlnErr(ThreadWithStop.class, "run() - Browser connection not established.");
+				return;
+			}
 			println(DisplayControllerMessagingAbstract.this.getClass(), " -- " + hashCode() + browserInstance.getConnectionCode()
 					+ " : starting to play a list of length " + localPlayListCopy.getChannels().size());
 
@@ -405,6 +409,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	}
 
 	protected final boolean localSetContent_notLists() {
+		if ( browserInstance == null ) {
+			printlnErr(getClass(), "localSetContent_notLists() - Browser connection not established.");
+			return false;
+		}
 		// TODO - It is likely that this method goes into the superclass (June 2018)
 
 		// FIXME This line could be risky! But it is needed for URL arguments
@@ -502,6 +510,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	}
 
 	protected final boolean localSetContent() {
+		if ( browserInstance == null ) {
+			printlnErr(getClass(), "localSetContent() - Browser connection not established.");
+			return false;
+		}
+		
 		if (playlistThread != null) {
 			playlistThread.stopMe = true;
 			playlistThread = null;
@@ -591,6 +604,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	}
 
 	private void setRevertThread() {
+		if ( browserInstance == null ) {
+			printlnErr(getClass(), "setRevertThread() - Browser connection not established.");
+			return;
+		}
 		synchronized (revertThreadWaitObject) {
 			revertTimeRemaining = getContent().getExpiration();
 			println(getClass(), browserInstance.getConnectionCode() + " Setting the revert time for this temporary channel to "
@@ -713,6 +730,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	 * milliseconds.
 	 */
 	protected void setupRefreshThread(final long dwellTime, final String url) {
+		if ( browserInstance == null ) {
+			printlnErr(getClass(), "setupRefreshThread() - Browser connection not established.");
+			return;
+		}
 		if (dwellTime > 0) {
 			final int thisChangeCount = changeCount;
 			noErrorsSeen = true;
