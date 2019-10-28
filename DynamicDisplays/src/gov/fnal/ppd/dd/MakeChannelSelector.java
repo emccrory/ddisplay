@@ -16,6 +16,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.RUN_RAISE_SELECTOR_BUTTON;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_EXTENDED_DISPLAY_NAMES;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
+import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.WAIT_FOR_SERVER_TIME;
 import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
@@ -195,7 +196,7 @@ public class MakeChannelSelector {
 									break;
 							} catch (Exception e) {
 								e.printStackTrace();
-								System.exit(-2);
+								System.exit(UNRECOVERABLE_ERROR);
 							}
 				}
 			} catch (SQLException e) {
