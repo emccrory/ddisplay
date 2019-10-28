@@ -65,7 +65,6 @@ public class GlobalVariables {
 	 */
 	public final static boolean			IS_PUBLIC_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.public");
 
-	
 	/**
 	 * Does the user want to have the database index for the display shown (default) or the virtual display numbers?
 	 */
@@ -320,59 +319,67 @@ public class GlobalVariables {
 	/**
 	 * A symbol for 1,000,000,000.
 	 */
-	public final static int			ONE_BILLION				= 1000000000;
+	public final static int		ONE_BILLION					= 1000000000;
 
 	/**
 	 * One second, expressed in milliseconds (e.g., 1000L)
 	 */
-	public final static long		ONE_SECOND				= 1000L;
+	public final static long	ONE_SECOND					= 1000L;
 	/**
 	 * One Minute, expressed in milliseconds (e.g., 60000L)
 	 */
-	public final static long		ONE_MINUTE				= 60L * ONE_SECOND;
+	public final static long	ONE_MINUTE					= 60L * ONE_SECOND;
 	/**
 	 * 15 minutes, expressed in milliseconds (e.g., 900000L)
 	 */
-	public final static long		FIFTEEN_MINUTES			= 15L * ONE_MINUTE;
+	public final static long	FIFTEEN_MINUTES				= 15L * ONE_MINUTE;
 	/**
 	 * One hour, expressed in milliseconds (e.g., 3600000L)
 	 */
-	public final static long		ONE_HOUR				= 60L * ONE_MINUTE;
+	public final static long	ONE_HOUR					= 60L * ONE_MINUTE;
 	/**
 	 * One day (24 hours), expressed in milliseconds (e.g., 86400000L)
 	 */
-	public final static long		ONE_DAY					= 24L * ONE_HOUR;
+	public final static long	ONE_DAY						= 24L * ONE_HOUR;
 	/**
 	 * Used in ChannelSelector to go to the splash screen
 	 */
-	public final static long		INACTIVITY_TIMEOUT		= 3L * ONE_MINUTE;
+	public final static long	INACTIVITY_TIMEOUT			= 3L * ONE_MINUTE;
 	/**
 	 * Used in ChannelSelector
 	 */
-	public final static long		PING_INTERVAL			= 5L * ONE_SECOND;
+	public final static long	PING_INTERVAL				= 5L * ONE_SECOND;
 
 	/**
 	 * How long should the client wait between attempts to reconnect to the server. For displays, ONE_MINUTE is good. For
 	 * Controllers, the user is going to be less patient!
 	 */
-	public static long				WAIT_FOR_SERVER_TIME	= ONE_MINUTE;
+	public static long			WAIT_FOR_SERVER_TIME		= ONE_MINUTE;
 
 	/**
 	 * The string that means "show me your colors"
 	 */
-	public final static String		SELF_IDENTIFY			= "http://identify";
+	public final static String	SELF_IDENTIFY				= "http://identify";
 
 	/**
 	 * The string of a URL that means, perform a full and complete refresh of the page you are showing now
 	 */
-	public final static String		FORCE_REFRESH			= "http://refresh";
+	public final static String	FORCE_REFRESH				= "http://refresh";
+
+	public final static int		PURE_EXIT_OF_JVM			= 0;
+	/* We are pretty sure this is an error we can recover from */
+	public final static int		SIMPLE_RECOVERABLE_ERROR	= -1;
+	/* This is probably an error we can recover from */
+	public final static int		POSSIBLE_RECOVERABLE_ERROR	= -2;
+	/* This is an error we cannot recover from */
+	public final static int		UNRECOVERABLE_ERROR			= -999;
 
 	/**
 	 * The list of Displays in this instance of whatever program you are running. This is used in a couple of places.
 	 */
-	public static List<Display>		displayList				= null;
-	
-	private static Logger logger = null;
+	public static List<Display>	displayList					= null;
+
+	private static Logger		logger						= null;
 
 	/**
 	 * <p>
@@ -385,16 +392,19 @@ public class GlobalVariables {
 	 * <ol>
 	 * </p>
 	 */
-	private final static long		DEFAULT_DWELL_TIME		= 2 * ONE_HOUR;
+	private final static long	DEFAULT_DWELL_TIME			= 2 * ONE_HOUR;
+
 	public final static long getDefaultDwellTime() {
-		// This random 5-second variation is to put default refreshes for different channels and different displays at different times
-		// which I hope will even out the load a little bit.  One common scenario is that all the displays start at the same time, so if
-		// they all have the same default timeout, these will collide.  It might not be a big deal, but it makes me feel better.
-		return (long) (10000L*(0.5-Math.random())) + DEFAULT_DWELL_TIME;
+		// This random 5-second variation is to put default refreshes for different channels and different displays at different
+		// times
+		// which I hope will even out the load a little bit. One common scenario is that all the displays start at the same time, so
+		// if
+		// they all have the same default timeout, these will collide. It might not be a big deal, but it makes me feel better.
+		return (long) (10000L * (0.5 - Math.random())) + DEFAULT_DWELL_TIME;
 	}
 
 	private static int				locationCode;
-	private static List<Integer>	locationCodes			= new ArrayList<Integer>();
+	private static List<Integer>	locationCodes	= new ArrayList<Integer>();
 
 	/**
 	 * Which set of Displays are we controlling here? Controlled by system constant, ddisplay.selector.location
@@ -517,6 +527,7 @@ public class GlobalVariables {
 			}
 		return true;
 	}
+
 	/**
 	 * Start a thread that runs every week (at, say, 0400, plus a random offset) to see if there is a new version of the code
 	 * 
@@ -527,10 +538,10 @@ public class GlobalVariables {
 		// Skip update for the development machine! This can have horrible consequences if the place where the development is
 		// happening all of the sudden replaces the code! Now, it probably won't be all THAT horrible since (a) the update does not
 		// delete anything, and (b) the development machine will always have the latest version. But we don't want any accidents.
-		
-		
-		if ( ! okToUpdateSoftware() ) return;
-		
+
+		if (!okToUpdateSoftware())
+			return;
+
 		Calendar date = Calendar.getInstance();
 		if (PropertiesFile.getProperty("FirstUpdateWait") == null) {
 			date.set(Calendar.MINUTE, 0);
@@ -558,16 +569,16 @@ public class GlobalVariables {
 			period = 1000 * Long.parseLong(PropertiesFile.getProperty("LookForUpdatesPeriod"));
 
 		NotificationClient client = null;
-		if ( isMessagingServer ) 
+		if (isMessagingServer)
 			client = new NotificationClientText();
 		else
 			client = new NotificationClientGUI();
-		
+
 		Timer timer = new Timer();
 		TimerTask myTimerTask = new CheckForUpdatesTimerTask(client);
 		timer.schedule(myTimerTask, date.getTime(), period);
-		
-		// Maybe we should run this update task really frequently so the user can change the update period.  Nah.
+
+		// Maybe we should run this update task really frequently so the user can change the update period. Nah.
 
 		println(GlobalVariables.class, "------------------------- Versioning ------------------------------");
 		println(GlobalVariables.class, "-- This is software version " + getSoftwareVersion());
@@ -585,7 +596,8 @@ public class GlobalVariables {
 	// ----------------------------------------------------------------------------------------------------------------
 
 	public static FLAVOR getFlavor(boolean reset) {
-		if ( reset ) PropertiesFile.reset();
+		if (reset)
+			PropertiesFile.reset();
 		FLAVOR flavor = FLAVOR.PRODUCTION;
 		if (PropertiesFile.getProperty("UpdateFlavor") != null) {
 			try {
