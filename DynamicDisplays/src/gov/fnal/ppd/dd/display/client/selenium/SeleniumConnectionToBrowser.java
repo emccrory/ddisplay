@@ -225,11 +225,10 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		} catch (NullPointerException e) {
 			// Up to now (Late Spring, 2018), this exception has meant that jse is null.
 			e.printStackTrace();
-		} catch (SessionNotCreatedException e) {
+		} catch (WebDriverException e) {
 			printlnErr(getClass(), "- SERIOUS ERROR! - The connection to the browser has been lost. Giving up.");
 			myDisplay.setOfflineMessage("Connection to Selenium disappeared");
-			catchSleep(10000);
-			ExitHandler.saveAndExit("Received " + e.getClass().getName() + " exception");
+			ExitHandler.saveAndExit("Received " + e.getClass().getName() + " exception", -1, 5000L);
 		} catch (Exception e) {
 			lastReturnValue = lastReturnValue.toString() + " - " + " Error sending this to the browser: [" + command + "]";
 			println(getClass(), lastReturnValue.toString());

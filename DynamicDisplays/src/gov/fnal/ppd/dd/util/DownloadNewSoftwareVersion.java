@@ -77,7 +77,7 @@ public class DownloadNewSoftwareVersion {
 
 		if (!isWindows) {
 			// Non-windows version handle the update in the controlling shell script.
-			ExitHandler.saveAndExit("New software version detected", -1);
+			ExitHandler.saveAndExit("New software version detected", -1, 1000L);
 		}
 		// Note that the Linux (and Mac) updates have to be a little different than the Windows updates. Windows
 		// does not let you rename a folder if there is anything running from it or from its sub folders. Since
@@ -104,7 +104,7 @@ public class DownloadNewSoftwareVersion {
 				// }
 				
 				// The Windows script controls the unzipping of the downloaded file
-				ExitHandler.saveAndExit("New software version downloaded", -1);
+				ExitHandler.saveAndExit("New software version downloaded", -1, 1000L);
 			} else {
 				printlnErr(getClass(), "\n\n\t\t\tUpdate failed!");
 				failedOnce = true;

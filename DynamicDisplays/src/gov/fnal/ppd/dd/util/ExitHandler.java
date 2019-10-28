@@ -26,13 +26,13 @@ public class ExitHandler {
 	private ExitHandler() {
 	}
 	public static void saveAndExit(String why) {
-		saveAndExit(why, -1);
+		saveAndExit(why, -1, 1000);
 	}
 	/**
 	 * Run whatever commands have been queued up, and then exit. The exit code of -1 should be a signal to the controlling script
 	 * that we want to be restarted.
 	 */
-	public static void saveAndExit(String why, int exitCode) {
+	public static void saveAndExit(String why, int exitCode, long waitTime) {
 		processingGracefulExit = true;
 		println(ExitHandler.class,
 				"\n\n********** Exit handler called **********\nThere are " + finalCommand.size() + " exit hooks to call");
@@ -46,7 +46,7 @@ public class ExitHandler {
 				count++;
 			}
 
-		catchSleep(1000); // Wait for these commands to complete ...
+		catchSleep(waitTime); // Wait for these commands to complete ...
 
 		println(ExitHandler.class, "\n********** EXITING **********\n [" + why + "] - " + count + " exit commands executed\n");
 		
