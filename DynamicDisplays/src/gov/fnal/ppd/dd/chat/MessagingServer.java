@@ -14,6 +14,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_DAY;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
+import static gov.fnal.ppd.dd.GlobalVariables.SIMPLE_RECOVERABLE_ERROR;
+import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.setLogger;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
@@ -1061,7 +1063,7 @@ public class MessagingServer {
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
-			System.exit(-1);
+			System.exit(SIMPLE_RECOVERABLE_ERROR);
 		}
 
 		synchronized (connection) {
@@ -1081,7 +1083,7 @@ public class MessagingServer {
 								System.out.println("The messaging serverID is " + myDB_ID);
 							} catch (Exception e) {
 								e.printStackTrace();
-								System.exit(-2);
+								System.exit(UNRECOVERABLE_ERROR);
 							}
 							rs2.next();
 						}
