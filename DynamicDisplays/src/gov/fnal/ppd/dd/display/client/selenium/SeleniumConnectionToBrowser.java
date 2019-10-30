@@ -177,6 +177,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				// >>>>>>>>>> Only the Firefox driver has been thoroughly tested (EM 6/2018) <<<<<<<<<<
 				System.setProperty("webdriver.gecko.driver", driverFile);
 				FirefoxDriver ffDriver = new FirefoxDriver();
+				println(getClass(), "Pausing for a bit just for fun.");
+				catchSleep(5000L);
 				
 				if (ffDriver != null) {
 					// I added this block to see if tickling the driver here would reveal a failure - it does not.
@@ -188,8 +190,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 
 					println(getClass(), "Capabilities of the Firefox Driver we just instantiated: " + caps.getBrowserName()
 							+ " version " + caps.getVersion() + ", Running on " + caps.getPlatform() + ".\n" + listOfCaps);
-					println(getClass(), "Pausing for a bit just for fun.");
-					catchSleep(5000L);
+					
 				}
 				driver = ffDriver;
 			} else if (browser.contains("Chrome")) {
