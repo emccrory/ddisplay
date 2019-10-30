@@ -60,7 +60,6 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 	}
 
 	public void run() {
-		println(getClass(), "Here we are, checking the screen dimensions.");
 		boolean adjusted = false;
 		try {
 			Point pos = driver.manage().window().getPosition();

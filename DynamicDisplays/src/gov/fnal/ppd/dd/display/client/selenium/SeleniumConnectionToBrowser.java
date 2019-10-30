@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -102,8 +101,9 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		if (driver == null) {
 			connected = false;
 			// Oops! This is not good.
-			println(getClass(), " Aborting in 10 seconds because the connection to the browser seems to have failed.");
-			catchSleep(10000);
+			long delayTime = 5000;
+			println(getClass(), " Aborting in " + delayTime/1000L + " seconds because the connection to the browser seems to have failed.");
+			catchSleep(delayTime);
 			System.exit(0);
 		}
 
@@ -204,6 +204,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			System.exit(UNRECOVERABLE_ERROR);
 		}
 
+		println(getClass(), "\n\nIt looks like we have a good driver connection - we'll see!\n\n");
+		
 		// Setup the timer task to make sure the screen is the right size, forevermore.
 
 		Point p = new Point(bounds.x, bounds.y);
@@ -211,7 +213,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		afsd = new CheckAndFixScreenDimensions(driver, p, sd);
 
 		Timer timer = new Timer();
-		timer.schedule(afsd, 15*ONE_SECOND, ONE_MINUTE);
+		timer.schedule(afsd, 15 * ONE_SECOND, ONE_MINUTE);
 	}
 
 	@Override
@@ -226,7 +228,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			// Up to now (Late Spring, 2018), this exception has meant that jse is null.
 			e.printStackTrace();
 		} catch (WebDriverException e) {
-			printlnErr(getClass(), "- SERIOUS ERROR! - The connection to the browser has been lost. Giving up.");
+			printlnErr(getClass(), "- SERIOUS ERROR! (" + e.getClass().getCanonicalName()
+					+ ") - The connection to the browser has been lost.  Will exit and try again in a moment.");
 			myDisplay.setOfflineMessage("Connection to Selenium disappeared");
 			ExitHandler.saveAndExit("Received " + e.getClass().getName() + " exception", -1, 5000L);
 		} catch (Exception e) {
@@ -318,7 +321,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				driver.get(url);
 
 				catchSleep(1000);
-				//afsd.goToProperSizeAndPlace();
+				// afsd.goToProperSizeAndPlace();
 
 				// Does not work on GeckoDriver versions before 0.20 ...
 				// driver.manage().window().fullscreen();
