@@ -154,6 +154,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		String browserLocation = null;
 		String osName = System.getProperty("os.name").toUpperCase();
 		String driverFile = null;
+		driver = null;
+		
 		try {
 			// ASSUME that we are using FireFox, which is the only browser we have tested to date (10/2019)
 
@@ -175,15 +177,20 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				// >>>>>>>>>> Only the Firefox driver has been thoroughly tested (EM 6/2018) <<<<<<<<<<
 				System.setProperty("webdriver.gecko.driver", driverFile);
 				FirefoxDriver ffDriver = new FirefoxDriver();
-				Capabilities caps = ffDriver.getCapabilities();
-				Map<String, ?> allCaps = caps.asMap();
-				String listOfCaps = "";
-				for ( String key:allCaps.keySet() )
-					listOfCaps += "\t\t" + key + ": " + allCaps.get(key) + "\n";
-					
-				println(getClass(), "Capabilities of the Firefox Driver we just instantiated: " + caps.getBrowserName() + " version "
-						+ caps.getVersion() + ", Running on " + caps.getPlatform() + ".\n" + listOfCaps);
 				
+				if (ffDriver != null) {
+					// I added this block to see if tickling the driver here would reveal a failure - it does not.
+					Capabilities caps = ffDriver.getCapabilities();
+					Map<String, ?> allCaps = caps.asMap();
+					String listOfCaps = "";
+					for (String key : allCaps.keySet())
+						listOfCaps += "\t\t" + key + ": " + allCaps.get(key) + "\n";
+
+					println(getClass(), "Capabilities of the Firefox Driver we just instantiated: " + caps.getBrowserName()
+							+ " version " + caps.getVersion() + ", Running on " + caps.getPlatform() + ".\n" + listOfCaps);
+					println(getClass(), "Pausing for a bit just for fun.");
+					catchSleep(5000L);
+				}
 				driver = ffDriver;
 			} else if (browser.contains("Chrome")) {
 				// >>>>>>>>>>Initial tests of the Chromium driver were successful (EM 9/2018) <<<<<<<<<<
@@ -218,7 +225,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			System.exit(UNRECOVERABLE_ERROR);
 		}
 
-		println(getClass(), "\n\nIt looks like we have a good driver connection - we'll see!\n\n");
+		println(getClass(), "***** It looks like we have a good driver connection - we'll see! *****");
 
 		// Setup the timer task to make sure the screen is the right size, forevermore.
 
