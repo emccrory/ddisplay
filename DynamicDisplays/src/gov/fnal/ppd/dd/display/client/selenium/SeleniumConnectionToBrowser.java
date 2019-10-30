@@ -11,9 +11,12 @@ import static gov.fnal.ppd.dd.util.Util.printlnErr;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
@@ -102,7 +105,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			connected = false;
 			// Oops! This is not good.
 			long delayTime = 5000;
-			println(getClass(), " Aborting in " + delayTime/1000L + " seconds because the connection to the browser seems to have failed.");
+			println(getClass(),
+					" Aborting in " + delayTime / 1000L + " seconds because the connection to the browser seems to have failed.");
 			catchSleep(delayTime);
 			System.exit(0);
 		}
@@ -170,7 +174,17 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			if (browser.contains("Firefox")) {
 				// >>>>>>>>>> Only the Firefox driver has been thoroughly tested (EM 6/2018) <<<<<<<<<<
 				System.setProperty("webdriver.gecko.driver", driverFile);
-				driver = new FirefoxDriver();
+				FirefoxDriver ffDriver = new FirefoxDriver();
+				Capabilities caps = ffDriver.getCapabilities();
+				Map<String, ?> allCaps = caps.asMap();
+				String listOfCaps = "";
+				for ( String key:allCaps.keySet() )
+					listOfCaps += "\t\t" + key + ": " + allCaps.get(key) + "\n";
+					
+				println(getClass(), "Capabilities of the Firefox Driver we just instantiated: " + caps.getBrowserName() + " version "
+						+ caps.getVersion() + ", Running on " + caps.getPlatform() + ".\n" + listOfCaps);
+				
+				driver = ffDriver;
 			} else if (browser.contains("Chrome")) {
 				// >>>>>>>>>>Initial tests of the Chromium driver were successful (EM 9/2018) <<<<<<<<<<
 				System.setProperty("webdriver.chrome.driver", driverFile);
@@ -205,7 +219,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		}
 
 		println(getClass(), "\n\nIt looks like we have a good driver connection - we'll see!\n\n");
-		
+
 		// Setup the timer task to make sure the screen is the right size, forevermore.
 
 		Point p = new Point(bounds.x, bounds.y);
