@@ -38,7 +38,7 @@ import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 /**
  * This is where all the global constant in the Dynamic Displays system are held.
  * 
- * TODO - Rationalize the place where global constants are defined. Most of them are supposed to be here, but bow are they
+ * TODO - Rationalize the place where global constants are defined. Most of them are supposed to be here, but how are they
  * initialize?
  * 
  * The categories of constants, as I see it now, are:
