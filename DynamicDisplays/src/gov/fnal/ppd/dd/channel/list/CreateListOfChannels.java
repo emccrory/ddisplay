@@ -137,7 +137,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 		private SignageContent		content;
 
 		public TinyButton(final char title, final JLabel lab, SignageContent c) {
-			super("" + (title == '+' ? '▲' : '▼'));
+			super("" + (title == '+' ? "\u25b2" : "\u25bc"));
 			if (!SHOW_IN_WINDOW) {
 				setFont(new Font("Arial", Font.BOLD, 14));
 				setMargin(new Insets(5, 24, 5, 24));
