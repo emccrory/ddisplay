@@ -182,7 +182,6 @@ public class MessagingClient {
 			disconnect();
 			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_SECOND;
 
-			// TODO - if this is the ChannelSelector, need to update the status.
 			return false;
 		}
 
@@ -577,11 +576,13 @@ public class MessagingClient {
 			displayLogMessage(ListenFromServer.class.getSimpleName() + ": Exiting listening thread.");
 		}
 
-		long	nextDump		= 0L;
-		int		messageCounter	= 0;
+		long						nextDump		= 0L;
+		int							messageCounter	= 0;
+		private static final long	QUIET_INTERVAL	= 15 * ONE_MINUTE;
+		private static final long	NOISY_INTERVAL	= 20 * ONE_SECOND;
 
 		/**
-		 * Dump this to the diagnostics stream every 10 minutes, for 30 seconds.
+		 * Dump this to the diagnostics stream every 15 minutes, for 20 seconds.
 		 * 
 		 * @param read
 		 *            The message to dump
@@ -591,9 +592,9 @@ public class MessagingClient {
 			messageCounter++;
 			if (nextDump > System.currentTimeMillis())
 				return;
-			displayLogMessage("Received message: [" + read + "] " + messageCounter);
-			if (nextDump + 30 * ONE_SECOND < System.currentTimeMillis())
-				nextDump = System.currentTimeMillis() + 10 * ONE_MINUTE;
+			displayLogMessage("Received message" + messageCounter + ": [" + read + "]");
+			if (nextDump + NOISY_INTERVAL < System.currentTimeMillis())
+				nextDump = System.currentTimeMillis() + QUIET_INTERVAL;
 		}
 	}
 

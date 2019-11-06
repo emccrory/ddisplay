@@ -8,14 +8,9 @@ package gov.fnal.ppd.dd.util;
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
-import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
-import static gov.fnal.ppd.dd.util.Util.getEntropy;
 
 import java.awt.event.ActionEvent;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.math.BigInteger;
 import java.net.InetAddress;
@@ -70,45 +65,16 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 public class Util {
 	private static final String[]	days			= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
-	// TODO Replace this random selection of default page to show with the page that is specified in the database.
-
-	/**
-	 * The list of default URLs
-	 */
-	public static final String		DEFAULT_URLS[]	= { getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MINOS",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MINERvA",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MiniBooNE",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MicroBooNE",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=Mu2e",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=gMinus2",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=SeaQuest",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NOvA",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=DUNE-LBNF",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NuMI",														//
-	};
-
-	/**
-	 * The list of default names for URLS
-	 */
-	public static final String		DEFAULT_NAMES[]	= { "MINOS Pictures", "MINERvA Pictures", "MiniBooNE Pictures",
-			"MicroBooNE Pictures", "Mu2e Pictures", "g-2 Pictures", "SeaQuest Pictures", "NOvA Pictures", "DUNE/LBNF Pictures",
-			"NuMI Pictures", "Accelerator Status", "Clocks", };
-
 	/**
 	 * The default URL for a Display
 	 */
-	public static final String		MY_URL;
+	public static final String		MY_URL = "https://dynamicdisplays.fnal.gov/standby.html";
 	/**
 	 * The name that is associated with the default URL for a Display
 	 */
-	public static final String		MY_NAME;
+	public static final String		MY_NAME = "unspecified content";
 
-	static {
-		int index = (int) (DEFAULT_URLS.length * Math.random());
-		MY_URL = DEFAULT_URLS[index];
-		MY_NAME = DEFAULT_NAMES[index];
-	}
-
+	
 	private Util() {
 		// Not implement--cannot be instantiated.
 	}
@@ -235,7 +201,7 @@ public class Util {
 	 */
 	public static void println(Class<?> clazz, String message) {
 		//
-		// TODO - Suppress repeated messages
+		// Here is a nice idea: Suppress repeated messages
 		//
 		if (GlobalVariables.getLogger() != null) {
 			GlobalVariables.getLogger().fine(message);
@@ -256,7 +222,7 @@ public class Util {
 	 */
 	public static void printlnErr(Class<?> clazz, String message) {
 		//
-		// TODO - Suppress repeated messages
+		// Here is a nice idea: Suppress repeated messages
 		//
 		if (GlobalVariables.getLogger() != null) {
 			GlobalVariables.getLogger().warning(message);
@@ -293,49 +259,32 @@ public class Util {
 	 *            The Content object to be turned into a string
 	 * @return the content converted to a DB-ready string
 	 */
-	public static String convertContentToDBReadyString(final SignageContent arg) {
-		final boolean useStreamedObject = false;
-
-		if (arg == null)
+	public static String convertContentToDBReadyString(final SignageContent theContent) {
+		if (theContent == null)
 			return null;
 
-		// TODO - This should be an all-ASCII XML document, not a streamed object. Oracle announced in 2018 that they will deprecate
-		// and remove this functionality in a future release of Java (Java 10?).
-
 		String blob = null;
-		if (useStreamedObject) {
-			blob = "";
-			Serializable content = arg;
-			try {
-				ByteArrayOutputStream fout = new ByteArrayOutputStream();
-				ObjectOutputStream oos = new ObjectOutputStream(fout);
-				oos.writeObject(content);
 
-				blob += bytesToString(fout.toByteArray(), false);
-			} catch (Exception e) {
-				e.printStackTrace();
+		String xmlDocument = "";
+		try {
+			if (theContent instanceof ChannelPlayList) {
+				ChangeChannelList ccl = new ChangeChannelList(); // This is the XML class
+				ccl.setContent((ChannelPlayList) theContent);
+				xmlDocument = MyXMLMarshaller.getXML(ccl);
+			} else {
+				ChannelSpec cs = new ChannelSpec(theContent); // This is the XML class
+				xmlDocument = MyXMLMarshaller.getXML(cs);
 			}
-		} else {
-			String xmlDocument = "";
-			try {
-				if (arg instanceof ChannelPlayList) {
-					ChangeChannelList ccl = new ChangeChannelList(); // This is the XML class
-					ccl.setContent((ChannelPlayList) arg);
-					xmlDocument = MyXMLMarshaller.getXML(ccl);
-				} else {
-					ChannelSpec cs = new ChannelSpec(arg); // This is the XML class
-					xmlDocument = MyXMLMarshaller.getXML(cs);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			// blob = xmlDocument.replace("'", "").replace("\"", "");
-			// I think we need to remove all the tick marks and the quote marks from the body of the XML specification of the
-			// channel.
-			// This global removal of them breaks things downstream.
-			blob = xmlDocument;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
+		// blob = xmlDocument.replace("'", "").replace("\"", "");
+		// I think we need to remove all the tick marks and the quote marks from the body of the XML specification of the
+		// channel.
+		// This global removal of them breaks things downstream.
+		blob = xmlDocument;
+
 		return blob;
 	}
 

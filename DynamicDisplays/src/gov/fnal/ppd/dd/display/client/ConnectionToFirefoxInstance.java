@@ -69,7 +69,6 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 
 	}
 
-	@Override
 	protected void setPositionAndSize() {
 		String moveTo = "window.moveTo(" + ((int) bounds.getX()) + "," + ((int) bounds.getY()) + ");";
 		send(moveTo);
@@ -111,26 +110,12 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 
 		case NORMAL:
 			if ((specialCode | 1) != 0) {
-				// TODO - This URL has sound. Hmmm.
+				// This URL has sound. Hmmm.
 			}
 			if ((specialCode | 2) != 0) {
-				// TODO - This URL cannot be used in our border frame URL. Hmmm.
+				// This URL cannot be used in our border frame URL. Hmmm.
 			}
 			if (!showingCanonicalSite.get()) {
-
-				// FIXME - There is a class of URLs that will not let us put their content into our border frame
-				// web site. They are giving an error, "does not permit cross-origin framing".
-
-				// The first site I have encountered for this is the site that shows a Google Sheets presentation. The work-around,
-				// I think, will be to abandon this border web page for these sites (only). This will break the fancy, beautiful
-				// "identify" functionality, but I can probably figure out a work-around for this, too.
-
-				// The solution is (probably) to flag a web page in the database as having this restriction, and then getting that
-				// flag down to here, where this operation can then send just the URL, without the border stuff. There is a field
-				// in the Channel table currently called "Sound". This can be changed to "Flags" and then we can put all kinds of
-				// stuff like that in there ("Does the page have sound?" "Is this a non-cross-origin web page?" Etc.) There is
-				// also a field in the XML transmission called <code>. That flag can go there.
-
 				println(getClass(), instance + " Sending full, new URL to browser, " + WEB_PAGE_EMERGENCY_FRAME);
 				showingCanonicalSite.set(true);
 				s = "window.location=\"" + WEB_PAGE_EMERGENCY_FRAME + "?url=" + URLEncoder.encode(urlString, "UTF-8") + "&display="
@@ -354,7 +339,6 @@ public class ConnectionToFirefoxInstance extends ConnectionToBrowserInstance {
 				char[] cbuf = new char[MAXIMUM_BUFFER_SIZE];
 				int numRead = 0;
 				synchronized (in) {
-					// TODO It would be nice to time out of this blocking read. (At least I think it is blocking)
 					numRead = in.read(cbuf, 0, MAXIMUM_BUFFER_SIZE);
 				}
 				if (numRead > 2) {

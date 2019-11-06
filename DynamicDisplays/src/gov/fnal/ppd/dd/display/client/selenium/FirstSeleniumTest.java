@@ -53,7 +53,7 @@ public class FirstSeleniumTest {
 			connection = new SeleniumConnectionToBrowser(0, 0, 0, Color.red, true, null);
 
 		connection.openConnection();
-		connection.setPositionAndSize();
+		// connection.setPositionAndSize();
 	}
 
 	/**

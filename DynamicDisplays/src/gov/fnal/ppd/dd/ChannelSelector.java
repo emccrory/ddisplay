@@ -3,12 +3,10 @@ package gov.fnal.ppd.dd;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.INSET_SIZE;
-import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.docentName;
 import static gov.fnal.ppd.dd.GlobalVariables.getFlavor;
-import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getSoftwareVersion;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
@@ -49,7 +47,6 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -72,7 +69,6 @@ import gov.fnal.ppd.dd.changer.DDButton.ButtonFieldToUse;
 import gov.fnal.ppd.dd.changer.DetailedInformationGrid;
 import gov.fnal.ppd.dd.changer.DisplayButtons;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
-import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.changer.DocentGrid;
 import gov.fnal.ppd.dd.changer.FileMenu;
 import gov.fnal.ppd.dd.changer.ImageGrid;
@@ -83,7 +79,6 @@ import gov.fnal.ppd.dd.channel.list.ChannelListGUI;
 import gov.fnal.ppd.dd.channel.list.CreateListOfChannels;
 import gov.fnal.ppd.dd.channel.list.CreateListOfChannelsHelper;
 import gov.fnal.ppd.dd.channel.list.ExistingChannelLists;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -130,7 +125,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	 * 
 	 */
 	public static final Dimension			screenDimension				= Toolkit.getDefaultToolkit().getScreenSize();
-	private static JFrame					f							= new JFrame("Dynamic Display Channel Selector");
 
 	private int								refreshActionUnderway		= 0;
 
@@ -142,8 +136,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 																						": Default, unfunctional channel refresh action called");
 																			}
 																		};
-	private static ChannelSelector			channelSelector;
-
 	private List<List<ChannelButtonGrid>>	channelButtonGridList		= new ArrayList<List<ChannelButtonGrid>>();
 	/*
 	 * Each tab contains a specific type of Channels in a CardLayout There is one Card for each Display in the CardLayout A button
@@ -236,9 +228,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	private static String			OFFLINE	= "**Off Line**";
 
 	private void launchStatusThread() {
-		// TODO Put the status of the channel selector into the database.
-		// Schema: (LocalID, ControllerID, Time, Status, Version, Uptime)
-
 		Timer timer = new Timer("StatusUpdate");
 
 		timer.scheduleAtFixedRate(new TimerTask() {
@@ -515,8 +504,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 				ExistingChannelLists ecl = new ExistingChannelLists(display, displayButtonGrooup);
 				ecl.setBackground(display.getPreferredHighlightColor());
 				displayTabPane.add(ecl, " Existing Lists ");
-
-				// TODO - When the user creates or modifies a list, we'll need to rebuild the button list in ExistingChannelLists
 
 				clg.setNewListCreationCallback(ecl);
 			}
@@ -858,48 +845,6 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	// }
 
 	/**
-	 * Run the Channel Selector application. Renamed from "main" so it cannot (easily) be run
-	 * 
-	 * @param args
-	 */
-	public static void oldMain(final String[] args) {
-		MessageCarrier.initializeSignature();
-		println(ChannelSelector.class, ": Initialized our digital signature from '" + PRIVATE_KEY_LOCATION + "'.");
-		println(ChannelSelector.class, ": Expect my client name to be '" + getFullSelectorName() + "'\n");
-
-		displayList = DisplayListFactory.getInstance(getLocationCode());
-		channelSelector = new ChannelSelector();
-		channelSelector.start();
-
-		// SHOW_IN_WINDOW = args.length > 0 && "WINDOW".equals(args[0]);
-
-		channelSelector.createRefreshActions();
-
-		// channelSelector.setRefreshAction(channelSelector.channelRefreshAction);
-
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		if (SHOW_IN_WINDOW) {
-			f.setContentPane(channelSelector);
-			f.pack();
-		} else {
-			// Full-screen display of this app!
-			Box h = Box.createVerticalBox();
-			h.add(channelSelector);
-			SelectorInstructions label = new SelectorInstructions();
-			label.start();
-			h.add(label);
-			channelSelector.setAlignmentX(CENTER_ALIGNMENT);
-			label.setAlignmentX(CENTER_ALIGNMENT);
-			f.setUndecorated(true);
-			f.setContentPane(h);
-			f.setSize(screenDimension);
-		}
-		f.setVisible(true);
-
-	}
-
-	/**
 	 * 
 	 */
 	public void createRefreshActions() {
@@ -978,7 +923,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	protected void destroy() {
 		// Do everything we can to forget everything we can.
-		// TODO Make this work -- no luck so far!
+		// TODO -- Make this work (no luck so far!)
 	}
 
 	// private void setRefreshAction(ActionListener refreshAction2) {

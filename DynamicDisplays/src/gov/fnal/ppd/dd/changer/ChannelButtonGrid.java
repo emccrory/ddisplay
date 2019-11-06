@@ -7,13 +7,11 @@ package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -23,7 +21,6 @@ import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DisplayButtonGroup;
-import gov.fnal.ppd.dd.util.TemporaryDialogBox;
 
 /**
  * Base class for the display grids that hold the channel buttons in the ChannelSelector
@@ -151,10 +148,10 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	}
 
 	/**
-	 * @return Does this panel contain the selected channel?
+	 * @return Does this panel contain the selected channel?  This worked in the early days of the system, but not anymore.
+	 * and it really is not necessary.
 	 */
 	public boolean hasSelectedChannel() {
-		// FIXME !!!
 		// Object o1 = getComponent(0);
 		// if (o1 instanceof JPanel) {
 		// JPanel outer = (JPanel) o1;

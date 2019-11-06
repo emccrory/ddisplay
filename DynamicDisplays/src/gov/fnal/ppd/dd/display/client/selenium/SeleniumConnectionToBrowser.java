@@ -12,7 +12,6 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Date;
 import java.util.Map;
-import java.util.Set;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
@@ -429,11 +428,5 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	@Override
 	public String getConnectionCode() {
 		return instance;
-	}
-
-	@Override
-	protected void setPositionAndSize() {
-		// TODO - Fix this next statement, somehow.
-		// driver.manage().window().setPosition(new Point((int) bounds.getX(), (int) bounds.getY()));
 	}
 }

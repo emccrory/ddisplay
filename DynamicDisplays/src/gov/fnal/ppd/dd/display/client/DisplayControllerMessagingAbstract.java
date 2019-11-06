@@ -6,6 +6,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.FORCE_REFRESH;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.getDefaultDwellTime;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
@@ -56,10 +57,10 @@ import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.ObjectSigning;
 import gov.fnal.ppd.dd.util.PerformanceMonitor;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
+import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 import gov.fnal.ppd.dd.xml.EmergencyMessXML;
-import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 
 /**
@@ -94,31 +95,31 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 	private static final int				STATUS_UPDATE_PERIOD		= 30;
 	private static final long				SHOW_SPLASH_SCREEN_TIME		= 15000l;
+	private static final long				launchTime					= System.currentTimeMillis();
 	private static final String				OFF_LINE					= "Off Line";
 
 	/* --------------- The key attributes are here --------------- */
+	private final MessagingClientLocal		messagingClient;
 	protected BrowserLauncher				browserLauncher;
 	protected ConnectionToBrowserInstance	browserInstance;
-	private MessagingClientLocal			messagingClient;
 	/* --------------- ------------------------------------------- */
 
-	protected boolean						showNumber					= true;
+	protected final boolean					showNumber;
 	protected boolean						badNUC;
 	protected long							lastFullRestTime;
 	protected String						offlineMessage				= "";
 
-	private int								statusUpdatePeriod			= 10;
+	// private int statusUpdatePeriod = 10;
 	private int								changeCount;
 	private long							remainingTimeRemEmergMess	= 0l;
 	private long							revertTimeRemaining			= 0L;
-	private long							launchTime					= System.currentTimeMillis();
 	private boolean							showingEmergencyMessage		= false;
 	private boolean							offLine						= false;
 	private boolean							showingSelfIdentify			= false;
 	private boolean							skipRevert					= false;
 	private double							cpuUsage					= 0.0;
 
-	private String							myName;
+	private final String					myName;
 	private Thread							emergencyRemoveThread		= null;
 	private Thread							revertThread				= null;
 
@@ -130,7 +131,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	private VersionInformation				versionInfo					= VersionInformation.getVersionInformation();
 
 	@SuppressWarnings("unused")
-	private String							mySubject;
+	private final String					mySubject;
 	private Object							revertThreadWaitObject		= "Object for doing synchronization of revert thread";
 	private int								numChannelChanges			= 0;
 	protected boolean						noErrorsSeen				= true;
@@ -161,7 +162,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 		}
 
 		public void run() {
-			if ( browserInstance == null ) {
+			if (browserInstance == null) {
 				printlnErr(ThreadWithStop.class, "run() - Browser connection not established.");
 				return;
 			}
@@ -273,22 +274,19 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 		Timer timer = new Timer("DisplayDaemons");
 
-		timer.scheduleAtFixedRate(new TimerTask() {
+		timer.schedule(new TimerTask() {
 			public void run() {
 				try {
-					if (statusUpdatePeriod-- <= 0) {
-						updateMyStatus();
-						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
-					}
+					updateMyStatus();
 				} catch (Exception e) {
-					println(DisplayControllerMessagingAbstract.class,
+					printlnErr(DisplayControllerMessagingAbstract.class,
 							" !! Exception caught in status update thread, " + e.getLocalizedMessage());
 					e.printStackTrace();
 				}
 			}
-		}, 20000L, 1000L);
+		}, STATUS_UPDATE_PERIOD * ONE_SECOND / 2L, STATUS_UPDATE_PERIOD * ONE_SECOND);
 
-		timer.scheduleAtFixedRate(new TimerTask() {
+		timer.schedule(new TimerTask() {
 			// Once an hour, print something meaningful in the log
 			public void run() {
 				try {
@@ -299,7 +297,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 							+ new Date(messagingClient.getServerTimeStamp());
 					println(DisplayControllerMessagingAbstract.this.getClass(), message);
 				} catch (Exception e) {
-					println(DisplayControllerMessagingAbstract.this.getClass(),
+					printlnErr(DisplayControllerMessagingAbstract.this.getClass(),
 							" !! Exception caught in diagnostic thread, " + e.getLocalizedMessage());
 					e.printStackTrace();
 				}
@@ -315,7 +313,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 				disconnect();
 
-				// TODO - In the Selenium framework, it looks like the geckodriver process sticks around. How does one kill it???
+				// In the Selenium framework, the geckodriver process sticks around. It is assumed that these extra processes are
+				// removed elsewhere. At this time, that task is in the runDisplay startup script.
 			}
 		});
 	}
@@ -330,9 +329,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 		try {
 			connection = ConnectionToDatabase.getDbConnection();
-
-			// TODO - The SignageContent field is a binary blob that represents the streamed SignageContent object. Oracle
-			// will be deprecating this feature. So this must be converted to a pure XML specification of the channel.
 
 			String statementString = "";
 			synchronized (connection) {
@@ -366,9 +362,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 							+ "',ContentName='" + contentName + "', SignageContent=" + X + "'" + blob + "', Uptime=" + uptime
 							+ ", Version='" + version + "', NumChanges=" + numChannelChanges + " where DisplayID="
 							+ getDBDisplayNumber();
-					String succinctString = "Time='" + ft.format(dNow) + "',Content='" + statusString + "',ContentName='"
-							+ contentName + "', SignageContent=" + X + "'" + blob.substring(0, Math.min(20, blob.length()))
-							+ " ...' where DisplayID=" + getDBDisplayNumber();
 
 					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 					int numRows = stmt.executeUpdate(statementString);
@@ -379,11 +372,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 										+ numRows + " rows instead. SQL='" + statementString + "'");
 					}
 					stmt.close();
-					if (statusUpdatePeriod > 0) {
-						println(getClass(),
-								".updateMyStatus() screen " + screenNumber + " Status: \n            " + succinctString);
-						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
-					}
+					// if (statusUpdatePeriod > 0) {
+					// String succinctString = "Time='" + ft.format(dNow) + "',Content='" + statusString + "',ContentName='"
+					// + contentName + "', SignageContent=" + X + "'" + blob.substring(0, Math.min(20, blob.length()))
+					// + " ...' where DisplayID=" + getDBDisplayNumber();
+					// println(getClass(),
+					// ".updateMyStatus() screen " + screenNumber + " Status: \n " + succinctString);
+					// statusUpdatePeriod = STATUS_UPDATE_PERIOD;
+					// }
 				} catch (Exception ex) {
 					String mess = " screen " + screenNumber + " -- Unexpected exception in method updateMyStatus: " + ex
 							+ "\n\t\t\tLast query: [" + statementString + "]\n\t\t\tSkipping this update.";
@@ -409,13 +405,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	}
 
 	protected final boolean localSetContent_notLists() {
-		if ( browserInstance == null ) {
+		if (browserInstance == null) {
 			printlnErr(getClass(), "localSetContent_notLists() - Browser connection not established.");
 			return false;
 		}
-		// TODO - It is likely that this method goes into the superclass (June 2018)
+		// TODO - Maybe this method can go into the superclass (June 2018)
 
-		// FIXME This line could be risky! But it is needed for URL arguments
+		// FIXME - This line could be risky! But it is needed for URL arguments
 		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&");
 
 		final long expiration = getContent().getExpiration();
@@ -510,11 +506,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	}
 
 	protected final boolean localSetContent() {
-		if ( browserInstance == null ) {
+		if (browserInstance == null) {
 			printlnErr(getClass(), "localSetContent() - Browser connection not established.");
 			return false;
 		}
-		
+
 		if (playlistThread != null) {
 			playlistThread.stopMe = true;
 			playlistThread = null;
@@ -604,7 +600,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	}
 
 	private void setRevertThread() {
-		if ( browserInstance == null ) {
+		if (browserInstance == null) {
 			printlnErr(getClass(), "setRevertThread() - Browser connection not established.");
 			return;
 		}
@@ -730,7 +726,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	 * milliseconds.
 	 */
 	protected void setupRefreshThread(final long dwellTime, final String url) {
-		if ( browserInstance == null ) {
+		if (browserInstance == null) {
 			printlnErr(getClass(), "setupRefreshThread() - Browser connection not established.");
 			return;
 		}
@@ -746,13 +742,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 					long localDwellTime = dwellTime;
 					while (true) {
 
-						// TODO -- If there is an emergency message up, we don't want to refresh and make it go away!
-
 						for (long t = localDwellTime; t > 0 && changeCount == thisChangeCount && noErrorsSeen; t -= increment) {
 							catchSleep(Math.min(increment, t));
 						}
 						if (showingEmergencyMessage) {
-							// Emergency message is showing - do nothing with this web page for now
+							// Emergency message is showing - do not refresh the web page.  Check again in one minute.
 							localDwellTime = Math.min(dwellTime, ONE_MINUTE);
 							continue;
 						}
@@ -766,7 +760,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 									println(DisplayControllerMessagingAbstract.this.getClass(),
 											".setupRefreshThread(): Failed to REFRESH content");
 									browserInstance.resetURL();
-									continue; // TODO -- Figure out what to do here. For now, just try again later
+									continue; // This might not be the right thing to do, but so far, it seems OK
 								}
 							} catch (UnsupportedEncodingException e) {
 								e.printStackTrace();
@@ -928,15 +922,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 		return null;
 	}
 
-	/**
-	 * Ask for a status update to the database
-	 */
-	public void resetStatusUpdatePeriod() {
-		statusUpdatePeriod = 0;
-	}
-
 	protected class MessagingClientLocal extends MessagingClient {
-		private boolean		debug			= true;
 		private DCProtocol	dcp				= new DCProtocol();
 		private Thread		myShutdownHook;
 		private String		lastFrom;
