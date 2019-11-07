@@ -1,7 +1,6 @@
 package gov.fnal.ppd.dd.xml;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Encapsulate an error message into an XML class

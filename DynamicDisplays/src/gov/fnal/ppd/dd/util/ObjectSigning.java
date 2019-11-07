@@ -165,6 +165,7 @@ public class ObjectSigning {
 		return false;
 	}
 
+	@SuppressWarnings("unused")
 	private void generateNewKeys() throws NoSuchAlgorithmException {
 		// Generate a 1024-bit Digital Signature Algorithm (DSA) key pair.
 		keyPairGenerator = KeyPairGenerator.getInstance(ALG_TYPE);
@@ -214,6 +215,7 @@ public class ObjectSigning {
 	 * @param clientName
 	 *            -- the name of the client, in the database, that is associated with the public key we need to retrieve
 	 */
+	@SuppressWarnings("unused")
 	private boolean loadPublicKeyFromDB(final String clientName) {
 		Connection connection;
 		try {
@@ -584,6 +586,7 @@ public class ObjectSigning {
 	// }
 	// }
 
+	@SuppressWarnings("unused")
 	private static String dump(byte[] encoded) {
 		String r = "";
 		for (int i = 0; i < encoded.length; i++) {

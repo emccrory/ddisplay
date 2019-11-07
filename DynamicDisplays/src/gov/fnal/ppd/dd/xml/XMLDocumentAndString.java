@@ -21,7 +21,6 @@ import org.xml.sax.SAXException;
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 import gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys;
-import gov.fnal.ppd.dd.xml.signature.SignatureNotFoundException;
 import gov.fnal.ppd.dd.xml.signature.Validate;
 import gov.fnal.ppd.dd.xml.signature.XMLDocumentUtilities;
 

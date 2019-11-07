@@ -196,6 +196,7 @@ public class DownloadNewSoftwareVersion {
 				// Else create the file
 				else {
 					// FIXME - File protections on Linux
+					
 					// I cannot figure out how the Linux command unzip preserves the file protections - all the Google searches I
 					// have done to date say that zip does not store file protections, but this is clearly wrong since doing the
 					// shell command unzip on Linux makes the protections right. So there must be some way to restore those
@@ -234,6 +235,7 @@ public class DownloadNewSoftwareVersion {
 		return true;
 	}
 
+	@SuppressWarnings("unused")
 	private boolean renameOriginalFolder() {
 		// This method does not work under Windows!
 
@@ -278,6 +280,7 @@ public class DownloadNewSoftwareVersion {
 		return true;
 	}
 
+	@SuppressWarnings("unused")
 	private boolean renameNewFolder() {
 		// This method does not work under Windows!
 

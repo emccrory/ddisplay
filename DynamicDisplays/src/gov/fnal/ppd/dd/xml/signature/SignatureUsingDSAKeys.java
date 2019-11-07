@@ -1,9 +1,6 @@
 package gov.fnal.ppd.dd.xml.signature;
 
 import java.io.FileInputStream;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.SecureRandom;
 import java.util.Collections;
 
 import javax.xml.crypto.dsig.CanonicalizationMethod;

@@ -3,7 +3,6 @@ package gov.fnal.ppd.dd.xml;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Encapsulate information about a client node in the Dynamic Displays system
