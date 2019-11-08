@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.display.client.selenium;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.POSSIBLE_RECOVERABLE_ERROR;
+import static gov.fnal.ppd.dd.GlobalVariables.SIMPLE_RECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
@@ -74,7 +75,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		// Make sure we exit the instance(s) of the browser when the VM exits ---------------------------
 		Runtime.getRuntime().addShutdownHook(new Thread("ShutdownHook_Display_" + numberOfScreens) {
 			public void run() {
-				// It looks like a "kill 1" will exit the JVM with an exit code of 129. COuld not get this to work (11/2/2018)
+				// It looks like a "kill 1" will exit the JVM with an exit code of 129. Could not get this to work (11/2/2018)
 				println(getClass(), "Shutdown hook called");
 				exit();
 			}
@@ -107,7 +108,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			println(getClass(),
 					" Aborting in " + delayTime / 1000L + " seconds because the connection to the browser seems to have failed.");
 			catchSleep(delayTime);
-			System.exit(0);
+			System.exit(SIMPLE_RECOVERABLE_ERROR);
 		}
 
 		// Don't wait very long for the pushed Javascript to finish
