@@ -21,22 +21,84 @@ import java.net.URI;
  */
 public class ChannelImpl implements Channel {
 
-	private static final long	serialVersionUID	= -5603360064745048878L;
+	private static final long		serialVersionUID	= -5603360064745048878L;
 
-	protected int				number;
+	protected int					number;
 
-	private String				name, description;
+	private String					name, description;
 
-	private ChannelClassification		category;
+	private ChannelClassification	category;
 
 	// The content for this channel!
 	// private SignageContent content = null;
 
-	private URI					uri;
+	private URI						uri;
 
-	private long				time;
-	private long				expiration			= 0L;
-	private int					code				= 0;
+	private long					time;
+	private long					expiration			= 0L;
+	private int						code				= 0;
+
+	public static class Builder {
+		// This is not used, but I discovered this nifty way to create an object and decided to place it here for posterity.
+
+		// example:
+		// ChannelImpl c = new ChannelImpl.builder("The name")
+		// .withDescription ("The description of this channel")
+		// .withURI (new URI("https://some.webpage.com/page.html"))
+		// .dwells (200000L)
+		// .withChannelNumber(42)
+		// .build();
+
+		// Not the lack of ambiguity as to the meaning of the arguments, and that the order of the arguments is irrelevant as
+		// long as the name is in the constructor and it ends with .build()
+		// (but the compiler will flag it most of the time if you get it wrong)
+
+		private final String			name;
+		private String					desc		= "";
+		private URI						uri			= null;
+		private int						num			= 0;
+		private long					dwell		= 0;
+		private ChannelClassification	category	= ChannelClassification.MISCELLANEOUS;
+
+		public Builder(String name) {
+			this.name = name;
+		}
+
+		public Builder withDescription(String desc) {
+			this.desc = desc;
+			return this;
+		}
+
+		public Builder withURI(final URI uri) {
+			this.uri = uri;
+			return this;
+		}
+
+		public Builder withChanNumber(int num) {
+			this.num = num;
+			return this;
+		}
+
+		public Builder dwells(long dwell) {
+			if (dwell < 0)
+				dwell = 0;
+			this.dwell = dwell;
+			return this;
+		}
+
+		public Builder classification(ChannelClassification category) {
+			this.category = category;
+			return this;
+		}
+
+		public ChannelImpl build() {
+			if (num <= 0)
+				throw new RuntimeException("The channel number must be positive-definite");
+			if (uri == null)
+				throw new RuntimeException("The URL for a channel cannot be null");
+			return new ChannelImpl(name, category, desc, uri, num, dwell);
+		}
+	}
 
 	/**
 	 * @param name
@@ -179,7 +241,6 @@ public class ChannelImpl implements Channel {
 	public URI getURI() {
 		return uri;
 	}
-
 
 	@Override
 	public void setName(String name) {
