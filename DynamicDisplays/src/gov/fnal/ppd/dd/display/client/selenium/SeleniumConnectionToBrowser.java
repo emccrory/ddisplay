@@ -25,6 +25,8 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.opera.OperaDriver;
 
 import gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance;
@@ -176,6 +178,8 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			if (browser.contains("Firefox")) {
 				// >>>>>>>>>> Only the Firefox driver has been thoroughly tested (EM 6/2018) <<<<<<<<<<
 				System.setProperty("webdriver.gecko.driver", driverFile);
+				FirefoxOptions options = new FirefoxOptions();
+				options.setLogLevel(FirefoxDriverLogLevel.TRACE);
 				FirefoxDriver ffDriver = new FirefoxDriver();
 				println(getClass(), "Pausing for a bit just for fun.");
 				catchSleep(5000L);

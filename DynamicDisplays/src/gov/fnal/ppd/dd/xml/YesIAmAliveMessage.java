@@ -1,5 +1,7 @@
 package gov.fnal.ppd.dd.xml;
 
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlElement;
 
 /**
@@ -25,13 +27,18 @@ public class YesIAmAliveMessage extends MessagingDataXML {
 		return client;
 	}
 
-	public void setClient(ClientInformation name) {
-		this.client = name;
+	public void setClient(ClientInformation client) {
+		this.client = client;
 	}
 
 	@Override
 	public boolean willNotChangeAnything() {
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + ": client=[" + client + "]";
 	}
 
 	@Override
