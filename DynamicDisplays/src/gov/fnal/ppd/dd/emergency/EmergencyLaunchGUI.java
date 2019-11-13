@@ -49,7 +49,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
-import gov.fnal.ppd.dd.changer.DisplayChangeEvent.Type;
+import gov.fnal.ppd.dd.changer.DisplayChangeEvent.DisplayChangeType;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.util.CheckDisplayStatus;
@@ -69,14 +69,15 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	public static final boolean			SHOW_MORE_STUFF					= Boolean.getBoolean("ddisplay.extendedinformation");
 
 	private static final String			DEFAULT_EMERGENCY_HEADLINE		= "An Emergency Situation has been delcared";
-	private static final String			DEFAULT_ALERT_HEADLINE			= "An ALERT has been issued";
-	private static final String			DEFAULT_INFORMATION_HEADLINE	= "Important imformation";
+	private static final String			DEFAULT_ALERT_HEADLINE			= "ATTENTION! - ¡ATENCIÓN!";
+	private static final String			DEFAULT_INFORMATION_HEADLINE	= "Important information";
+	private static final String			DEFAULT_TESTING_HEADLINE		= "This is a test of the Emergency Notification System";
 
 	private JTextField					headlineText					= new JTextField(45);
 	private JSpinner					time;
 
-	private JTextArea					messageArea						= new JTextArea(5, 65);
-	private JTextArea					footerArea						= new JTextArea(2, 65);
+	private JTextArea					messageArea						= new JTextArea(4, 65);
+	private JTextArea					footerArea						= new JTextArea(5, 65);
 
 	private JLabel						emergencyStatus					= new JLabel("Have initiated no emergency messages");
 
@@ -124,7 +125,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		});
 		elg.initialize();
 
-		JFrame f = new JFrame("Emergency Message Distribution");
+		JFrame f = new JFrame("Fermilab Emergency Message Distribution Testing - Will not send messages");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		elg.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 20),
 				BorderFactory.createTitledBorder("NOT THE ACTUAL EMERGENCY MESSAGE GUI.")));
@@ -169,7 +170,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
 				public void actionPerformed(ActionEvent e) {
 					DisplayChangeEvent ev = (DisplayChangeEvent) e;
-					if (ev.getType() == Type.ERROR) {
+					if (ev.getType() == DisplayChangeType.ERROR) {
 						launchErrorMessage(e);
 						messageSendErrors = true;
 					}
@@ -184,26 +185,37 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			setBackground(new Color(255, 100, 100));
 			accept.setText("Send Emergency Message");
 
-			// TODO Create default message in the GUI
-			headlineText.setText(DEFAULT_EMERGENCY_HEADLINE);
+			setDefaultTestingText(DEFAULT_EMERGENCY_HEADLINE, false);
 
 		} else if (checkAlert.isSelected()) {
 			setBackground(new Color(220, 160, 160));
 			accept.setText("Send Alert Message");
 
-			headlineText.setText(DEFAULT_ALERT_HEADLINE);
+			setDefaultTestingText(DEFAULT_ALERT_HEADLINE, false);
 
 		} else if (checkInformation.isSelected()) {
 			setBackground(new Color(160, 160, 255));
 			accept.setText("Send Information Message");
 
-			headlineText.setText(DEFAULT_INFORMATION_HEADLINE);
+			setDefaultTestingText(DEFAULT_INFORMATION_HEADLINE, false);
 
 		} else if (checkTesting.isSelected()) {
 			setBackground(new Color(200, 200, 200));
 			accept.setText("Send Test Message");
+
+			setDefaultTestingText(DEFAULT_TESTING_HEADLINE, true);
 		}
 	}
+
+	private void setDefaultTestingText(String fill, boolean all) {
+		headlineText.setText(fill);
+		if (all) {
+			messageArea.setText(fill);
+			footerArea.setText(fill + " " + fill + " " + fill + " " + fill + " " + fill + " " + fill);
+		} else {
+			messageArea.setText("");
+			footerArea.setText("");
+	}}
 
 	private static class MyJScrollPane extends JScrollPane {
 		private static final long serialVersionUID = 4726817736944861133L;
@@ -225,6 +237,8 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
 		headlineText.setFont(new Font("Arial", Font.BOLD, 16));
 		headlineText.setMinimumSize(new Dimension(700, 23));
+		setDefaultTestingText(DEFAULT_TESTING_HEADLINE, true);
+
 		messageArea.setMinimumSize(new Dimension(700, 80));
 		footerArea.setMinimumSize(new Dimension(700, 37));
 		emergencyStatus.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -454,8 +468,8 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	protected static String interp(long val) {
 		DecimalFormat format = new DecimalFormat("#.0");
 		String t = "" + val;
-		if (val < 60L) {
-			t = (val) + " seconds";
+		if (val <= 100L) {
+			return " seconds ( testing only )";
 		} else if (val < 3600) {
 			double min = val / 60.0;
 			t = format.format(min) + " minute" + (min != 1 ? "s" : "");
@@ -469,22 +483,23 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	private static List<Long> getDwellStrings() {
 		ArrayList<Long> retval = new ArrayList<Long>();
 
-		retval.add(120L); // 2 minutes
+		retval.add(10L); // ten seconds (only for testing)
+		retval.add(60L); // 1 minute (only for testing)
 		retval.add(300L); // 5 minutes
 		retval.add(600L); // 10 minutes
 		retval.add(900L); // 15 minutes
-		retval.add(1200L); // 20 minutes
+		// retval.add(1200L); // 20 minutes
 		retval.add(1800L); // 30 minutes
-		retval.add(2700L); // 45 minutes
+		// retval.add(2700L); // 45 minutes
 		retval.add(3600L); // One hour
-		retval.add(2 * 3600L);
-		retval.add(3 * 3600L);
-		retval.add(4 * 3600L);
-		retval.add(5 * 3600L);
-		retval.add(6 * 3600L);
-		retval.add(8 * 3600L); // 8 hours
-		retval.add(10 * 3600L); // 10 hours
-		retval.add(12 * 3600L); // 12 hours
+		retval.add(2L * 3600L); // It seems unlikely that these hours-long dwell times will be useful
+		// retval.add(3 * 3600L);
+		// retval.add(4 * 3600L);
+		// retval.add(5 * 3600L);
+		// retval.add(6 * 3600L);
+		retval.add(8L * 3600L); // 8 hours
+		// retval.add(10 * 3600L); // 10 hours
+		retval.add(12L * 3600L); // 12 hours
 
 		return retval;
 	}

@@ -1,9 +1,15 @@
 package gov.fnal.ppd.dd.xml.signature;
 
+import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
+
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.Key;
 import java.security.KeyException;
 import java.security.PublicKey;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.crypto.AlgorithmMethod;
@@ -13,6 +19,7 @@ import javax.xml.crypto.KeySelectorResult;
 import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.XMLCryptoContext;
 import javax.xml.crypto.XMLStructure;
+import javax.xml.crypto.dsig.Reference;
 import javax.xml.crypto.dsig.SignatureMethod;
 import javax.xml.crypto.dsig.XMLSignature;
 import javax.xml.crypto.dsig.XMLSignatureException;
@@ -25,6 +32,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import gov.fnal.ppd.dd.util.PropertiesFile;
+import gov.fnal.ppd.dd.xml.XMLDocumentAndString;
+
 /**
  * Taken from the example code on the Oracle/Java site.
  * 
@@ -33,6 +43,13 @@ import org.w3c.dom.NodeList;
  */
 public class Validate {
 
+	private static DocumentBuilderFactory	dbf		= DocumentBuilderFactory.newInstance();
+	private static boolean					debug	= PropertiesFile.getBooleanProperty("IncomingMessVerbose", false);
+
+	static {
+		dbf.setNamespaceAware(true);
+	}
+
 	//
 	// Synopsis: java Validate [document]
 	//
@@ -40,18 +57,23 @@ public class Validate {
 	//
 	public static void main(String[] args) throws Exception {
 
+		if (args.length < 1) {
+			System.err.println("Please specify a filename for the signed XML document.");
+			System.exit(-1);
+		}
+
+		System.out.println("Checking file " + args[0] + " for a valid signature");
+
 		// Instantiate the document to be validated
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		dbf.setNamespaceAware(true);
 		Document doc = null;
 		try (FileInputStream fis = new FileInputStream(args[0])) {
 			doc = dbf.newDocumentBuilder().parse(fis);
 		}
-		boolean coreValidity = isSignatureValid(doc);
+		boolean coreValidity = isSignatureValid(new XMLDocumentAndString(doc));
 
 		// Check core validation status
 		if (coreValidity == false) {
-			System.err.println("Signature failed core validation");
+			System.err.println("Signature FAILED core validation");
 		} else {
 			System.out.println("Signature passed core validation");
 		}
@@ -68,10 +90,11 @@ public class Validate {
 	 * @throws MarshalException
 	 * @throws XMLSignatureException
 	 */
-	private static boolean isSignatureValid(Document doc)
+	public static boolean isSignatureValid(XMLDocumentAndString doc)
 			throws SignatureNotFoundException, MarshalException, XMLSignatureException {
+
 		// Find Signature element
-		NodeList nl = doc.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
+		NodeList nl = doc.getTheDocument().getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
 		if (nl.getLength() == 0) {
 			throw new SignatureNotFoundException("Cannot find Signature element");
 		}
@@ -79,49 +102,46 @@ public class Validate {
 		// Create a DOM XMLSignatureFactory that will be used to unmarshal the document containing the XMLSignature
 		XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
 
-		// Create a DOMValidateContext and specify a KeyValue KeySelector and document context
 		DOMValidateContext valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(0));
 
 		// unmarshal the XMLSignature
 		XMLSignature signature = fac.unmarshalXMLSignature(valContext);
 
 		// Validate the XMLSignature (generated above)
-		return signature.validate(valContext);
-	}
+		boolean coreValidity = signature.validate(valContext);
 
-	/**
-	 * Validate the signature of an XML document. You must provide the Public Key that matches the encrypting Private Key for this
-	 * document.
-	 * 
-	 * @param pubKey
-	 *            - The Public Key that matches the encrypting Private Key
-	 * @param doc
-	 *            - The document that is signed.
-	 * @return - Is this document properly signed?
-	 * @throws SignatureNotFoundException
-	 *             - if there is no signature on this document
-	 * @throws MarshalException
-	 * @throws XMLSignatureException
-	 */
-	public static boolean isSignatureValid(PublicKey pubKey, Document doc)
-			throws SignatureNotFoundException, MarshalException, XMLSignatureException {
-		// Find Signature element
-		NodeList nl = doc.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
-		if (nl.getLength() == 0) {
-			throw new SignatureNotFoundException("Cannot find Signature element");
+		if (debug) {
+			System.out.println("Here is a string representation of the internal Document:\n" + doc.getTheXML());
+			boolean sv = signature.getSignatureValue().validate(valContext);
+			System.out.println("Is the signature itself valid? " + sv);
+			// check the validation status of each Reference
+			InputStream is = signature.getSignedInfo().getCanonicalizedData();
+			byte[] b = new byte[doc.getTheXML().length() + 100];
+			try {
+				int num = is.read(b);
+				System.out.println("Read " + num + " bytes: " + Arrays.toString(b));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			for (Object i : signature.getSignedInfo().getReferences()) {
+				if (i instanceof Reference) {
+					Reference R = (Reference) i;
+					boolean refValid = R.validate(valContext);
+					System.out.println("Does the reference, " + R
+							+ ", that the signature is supposed to be signing match properly? " + refValid);
+					System.out.println("Calculated Digest Values: " + Arrays.toString(R.getCalculatedDigestValue()));
+				}
+			}
+		} else {
+			// Check core validation status
+			if (coreValidity == false) {
+				printlnErr(Validate.class, "Signature FAILED validation check");
+			} else {
+				println(Validate.class, "Signature passed validation check");
+			}
 		}
+		return coreValidity;
 
-		// Create a DOM XMLSignatureFactory that will be used to unmarshal the document containing the XMLSignature
-		XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
-
-		// Create a DOMValidateContext and specify a KeyValue KeySelector and document context
-		DOMValidateContext valContext = new DOMValidateContext(pubKey, nl.item(0));
-
-		// unmarshal the XMLSignature
-		XMLSignature signature = fac.unmarshalXMLSignature(valContext);
-
-		// Validate the XMLSignature (generated above)
-		return signature.validate(valContext);
 	}
 
 	/**
@@ -138,9 +158,13 @@ public class Validate {
 			SignatureMethod sm = (SignatureMethod) method;
 			@SuppressWarnings("unchecked")
 			List<XMLStructure> list = keyInfo.getContent();
+			if (debug)
+				println(Validate.class, "We see " + list.size() + " keyInfo elements");
 
 			for (int i = 0; i < list.size(); i++) {
 				XMLStructure xmlStructure = list.get(i);
+				if (debug)
+					println(Validate.class, "Found element of type " + xmlStructure.getClass().getCanonicalName());
 				if (xmlStructure instanceof KeyValue) {
 					PublicKey pk = null;
 					try {
@@ -152,13 +176,15 @@ public class Validate {
 					if (algEquals(sm.getAlgorithm(), pk.getAlgorithm())) {
 						return new SimpleKeySelectorResult(pk);
 					}
+				} else {
 				}
 			}
 			throw new KeySelectorException("No KeyValue element found!");
 		}
 
 		static boolean algEquals(String algURI, String algName) {
-			if (algName.equalsIgnoreCase("DSA") && algURI.equalsIgnoreCase("http://www.w3.org/2009/xmldsig11#dsa-sha256")) {
+			if (algName.equalsIgnoreCase("DSA") && (algURI.equalsIgnoreCase("http://www.w3.org/2009/xmldsig11#dsa-sha256")
+					|| algURI.equalsIgnoreCase("http://www.w3.org/2000/09/xmldsig#dsa-sha1"))) {
 				return true;
 			} else if (algName.equalsIgnoreCase("RSA")
 					&& algURI.equalsIgnoreCase("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256")) {

@@ -9,6 +9,7 @@ package gov.fnal.ppd.dd.chat;
  * The sorts of messages that the Messaging Server can understand
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @deprecated - user MessageTypeXML, or nothing at all (mostly, this is done via instanceof, now)
  * 
  */
 public enum MessageType {

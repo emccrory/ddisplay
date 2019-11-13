@@ -1,9 +1,8 @@
 package gov.fnal.ppd.dd.xml;
 
-import gov.fnal.ppd.dd.signage.SignageContent;
-
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * Message from a Control Panel to the Display Server to change the thing being shown on a Display
@@ -11,8 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Elliott McCrory, Fermilab/AD/Instrumentation, 2012-14
  */
 @SuppressWarnings("javadoc")
-@XmlRootElement
-public class ChangeChannel extends EncodedCarrier {
+public class ChangeChannel extends MessagingDataXML {
 
 	protected SignageContent	content;
 	protected int				displayNum;
@@ -83,6 +81,11 @@ public class ChangeChannel extends EncodedCarrier {
 		if (screenNum != other.screenNum)
 			return false;
 		return true;
+	}
+
+	@Override
+	public boolean willNotChangeAnything() {
+		return false;
 	}
 
 }

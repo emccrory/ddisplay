@@ -154,7 +154,7 @@ public class SaveRestoreListOfChannels extends JPanel implements ActionListener 
 		GridBagConstraints gbag = new GridBagConstraints();
 
 		setAlignmentX(CENTER_ALIGNMENT);
-		JLabel lab = new JLabel("Channel List Database: Archiving, restoring, and deleting");
+		JLabel lab = new JLabel("Archiving, restoring, and deleting saved channel lists");
 		lab.setAlignmentX(CENTER_ALIGNMENT);
 		gbag.gridx = gbag.gridy = 1;
 		gbag.gridwidth = 3;

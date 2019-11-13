@@ -6,6 +6,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.FORCE_REFRESH;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.getDefaultDwellTime;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
@@ -39,13 +40,9 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.xml.bind.JAXBException;
-
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.DCProtocol;
 import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
-import gov.fnal.ppd.dd.chat.MessageCarrier;
-import gov.fnal.ppd.dd.chat.MessageType;
 import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.DisplayImpl;
@@ -57,11 +54,14 @@ import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.Command;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.ExitHandler;
+import gov.fnal.ppd.dd.util.ObjectSigning;
 import gov.fnal.ppd.dd.util.PerformanceMonitor;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
+import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
-import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
+import gov.fnal.ppd.dd.xml.EmergencyMessXML;
+import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 
 /**
  * <p>
@@ -87,7 +87,7 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
  * 
  * Implement a Dynamic Display using an underlying browser through a simple messaging server
  * 
- * FIXME - Contains business logic and database accesses
+ * FIXME - Contains both Business logic and Database accesses (should be refactored)
  * 
  * @author Elliott McCrory, Fermilab (2014-18)
  */
@@ -95,31 +95,31 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 	private static final int				STATUS_UPDATE_PERIOD		= 30;
 	private static final long				SHOW_SPLASH_SCREEN_TIME		= 15000l;
+	private static final long				launchTime					= System.currentTimeMillis();
 	private static final String				OFF_LINE					= "Off Line";
 
 	/* --------------- The key attributes are here --------------- */
+	private final MessagingClientLocal		messagingClient;
 	protected BrowserLauncher				browserLauncher;
 	protected ConnectionToBrowserInstance	browserInstance;
-	private MessagingClientLocal			messagingClient;
 	/* --------------- ------------------------------------------- */
 
-	protected boolean						showNumber					= true;
+	protected final boolean					showNumber;
 	protected boolean						badNUC;
 	protected long							lastFullRestTime;
 	protected String						offlineMessage				= "";
 
-	private int								statusUpdatePeriod			= 10;
+	// private int statusUpdatePeriod = 10;
 	private int								changeCount;
 	private long							remainingTimeRemEmergMess	= 0l;
 	private long							revertTimeRemaining			= 0L;
-	private long							launchTime					= System.currentTimeMillis();
 	private boolean							showingEmergencyMessage		= false;
 	private boolean							offLine						= false;
 	private boolean							showingSelfIdentify			= false;
 	private boolean							skipRevert					= false;
 	private double							cpuUsage					= 0.0;
 
-	private String							myName;
+	private final String					myName;
 	private Thread							emergencyRemoveThread		= null;
 	private Thread							revertThread				= null;
 
@@ -131,7 +131,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	private VersionInformation				versionInfo					= VersionInformation.getVersionInformation();
 
 	@SuppressWarnings("unused")
-	private String							mySubject;
+	private final String					mySubject;
 	private Object							revertThreadWaitObject		= "Object for doing synchronization of revert thread";
 	private int								numChannelChanges			= 0;
 	protected boolean						noErrorsSeen				= true;
@@ -162,6 +162,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 		}
 
 		public void run() {
+			if (browserInstance == null) {
+				printlnErr(ThreadWithStop.class, "run() - Browser connection not established.");
+				return;
+			}
 			println(DisplayControllerMessagingAbstract.this.getClass(), " -- " + hashCode() + browserInstance.getConnectionCode()
 					+ " : starting to play a list of length " + localPlayListCopy.getChannels().size());
 
@@ -270,22 +274,19 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 		Timer timer = new Timer("DisplayDaemons");
 
-		timer.scheduleAtFixedRate(new TimerTask() {
+		timer.schedule(new TimerTask() {
 			public void run() {
 				try {
-					if (statusUpdatePeriod-- <= 0) {
-						updateMyStatus();
-						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
-					}
+					updateMyStatus();
 				} catch (Exception e) {
-					println(DisplayControllerMessagingAbstract.class,
+					printlnErr(DisplayControllerMessagingAbstract.class,
 							" !! Exception caught in status update thread, " + e.getLocalizedMessage());
 					e.printStackTrace();
 				}
 			}
-		}, 20000L, 1000L);
+		}, STATUS_UPDATE_PERIOD * ONE_SECOND / 2L, STATUS_UPDATE_PERIOD * ONE_SECOND);
 
-		timer.scheduleAtFixedRate(new TimerTask() {
+		timer.schedule(new TimerTask() {
 			// Once an hour, print something meaningful in the log
 			public void run() {
 				try {
@@ -296,7 +297,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 							+ new Date(messagingClient.getServerTimeStamp());
 					println(DisplayControllerMessagingAbstract.this.getClass(), message);
 				} catch (Exception e) {
-					println(DisplayControllerMessagingAbstract.this.getClass(),
+					printlnErr(DisplayControllerMessagingAbstract.this.getClass(),
 							" !! Exception caught in diagnostic thread, " + e.getLocalizedMessage());
 					e.printStackTrace();
 				}
@@ -312,7 +313,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 				disconnect();
 
-				// TODO - In the Selenium framework, it looks like the geckodriver process sticks around. How does one kill it???
+				// In the Selenium framework, the geckodriver process sticks around. It is assumed that these extra processes are
+				// removed elsewhere. At this time, that task is in the runDisplay startup script.
 			}
 		});
 	}
@@ -327,9 +329,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 		try {
 			connection = ConnectionToDatabase.getDbConnection();
-
-			// TODO - The SignageContent field is a binary blob that represents the streamed SignageContent object. Oracle
-			// will be deprecating this feature. So this must be converted to a pure XML specification of the channel.
 
 			String statementString = "";
 			synchronized (connection) {
@@ -356,15 +355,12 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 					String blob = convertContentToDBReadyString(getContent());
 
 					String X = "x";
-					if (blob.substring(0, 5).equalsIgnoreCase("<?xml"))
+					if (blob != null && blob.length() > 5 && blob.substring(0, 5).equalsIgnoreCase("<?xml"))
 						X = "";
 
 					statementString = "UPDATE DisplayStatus set Time='" + ft.format(dNow) + "',Content='" + statusString
 							+ "',ContentName='" + contentName + "', SignageContent=" + X + "'" + blob + "', Uptime=" + uptime
 							+ ", Version='" + version + "', NumChanges=" + numChannelChanges + " where DisplayID="
-							+ getDBDisplayNumber();
-					String succinctString = "Time='" + ft.format(dNow) + "',Content='" + statusString + "',ContentName='"
-							+ contentName + "', SignageContent=" + X + "'" + blob.substring(0, 20) + " ...' where DisplayID="
 							+ getDBDisplayNumber();
 
 					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
@@ -376,11 +372,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 										+ numRows + " rows instead. SQL='" + statementString + "'");
 					}
 					stmt.close();
-					if (statusUpdatePeriod > 0) {
-						println(getClass(),
-								".updateMyStatus() screen " + screenNumber + " Status: \n            " + succinctString);
-						statusUpdatePeriod = STATUS_UPDATE_PERIOD;
-					}
+					// if (statusUpdatePeriod > 0) {
+					// String succinctString = "Time='" + ft.format(dNow) + "',Content='" + statusString + "',ContentName='"
+					// + contentName + "', SignageContent=" + X + "'" + blob.substring(0, Math.min(20, blob.length()))
+					// + " ...' where DisplayID=" + getDBDisplayNumber();
+					// println(getClass(),
+					// ".updateMyStatus() screen " + screenNumber + " Status: \n " + succinctString);
+					// statusUpdatePeriod = STATUS_UPDATE_PERIOD;
+					// }
 				} catch (Exception ex) {
 					String mess = " screen " + screenNumber + " -- Unexpected exception in method updateMyStatus: " + ex
 							+ "\n\t\t\tLast query: [" + statementString + "]\n\t\t\tSkipping this update.";
@@ -406,9 +405,13 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	}
 
 	protected final boolean localSetContent_notLists() {
-		// TODO - It is likely that this method goes into the superclass (June 2018)
+		if (browserInstance == null) {
+			printlnErr(getClass(), "localSetContent_notLists() - Browser connection not established.");
+			return false;
+		}
+		// TODO - Maybe this method can go into the superclass (June 2018)
 
-		// FIXME This line could be risky! But it is needed for URL arguments
+		// FIXME - This line could be risky! But it is needed for URL arguments
 		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&");
 
 		final long expiration = getContent().getExpiration();
@@ -503,6 +506,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	}
 
 	protected final boolean localSetContent() {
+		if (browserInstance == null) {
+			printlnErr(getClass(), "localSetContent() - Browser connection not established.");
+			return false;
+		}
+
 		if (playlistThread != null) {
 			playlistThread.stopMe = true;
 			playlistThread = null;
@@ -517,24 +525,28 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			if (em.getSeverity() == Severity.REMOVE) {
 				// setContent(previousChannelStack.pop());
 				showingEmergencyMessage = false;
-			}
+				browserInstance.removeEmergencyCommunication();
+			} else {
+				// Remove this message after a while
+				remainingTimeRemEmergMess = em.getDwellTime();
+				System.err.println(
+						"Initial time for emergency message on " + getDBDisplayNumber() + ": " + remainingTimeRemEmergMess);
+				if (emergencyRemoveThread == null || !emergencyRemoveThread.isAlive()) {
+					emergencyRemoveThread = new Thread("RemoveEmergencyCommunication") {
+						long interval = 2000L;
 
-			// Remove this message after a while
-			remainingTimeRemEmergMess = em.getDwellTime();
-			if (emergencyRemoveThread == null || !emergencyRemoveThread.isAlive()) {
-				emergencyRemoveThread = new Thread("RemoveEmergencyCommunication") {
-					long interval = 2000L;
-
-					public void run() {
-						for (; remainingTimeRemEmergMess > 0; remainingTimeRemEmergMess -= interval) {
-							catchSleep(Math.min(interval, remainingTimeRemEmergMess));
+						public void run() {
+							for (; remainingTimeRemEmergMess > 0
+									&& showingEmergencyMessage; remainingTimeRemEmergMess -= interval) {
+								catchSleep(Math.min(interval, remainingTimeRemEmergMess));
+							}
+							showingEmergencyMessage = false;
+							emergencyRemoveThread = null;
+							browserInstance.removeEmergencyCommunication();
 						}
-						// setContent(previousChannelStack.pop());
-						showingEmergencyMessage = false;
-						emergencyRemoveThread = null;
-					}
-				};
-				emergencyRemoveThread.start();
+					};
+					emergencyRemoveThread.start();
+				}
 			}
 			return retval;
 
@@ -570,22 +582,16 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 		// generate a reply message to the sender
 		println(getClass(),
 				" -- Responding to channel change with " + (b ? "SUCCESS" : "failure") + " to " + messagingClient.getLastFrom());
-		MessageCarrier msg = null;
+		MessageCarrierXML msg = null;
 		if (b) {
 			ChangeChannelReply replyMessage = new ChangeChannelReply();
 			ChannelSpec channelSpec = new ChannelSpec(getContent());
 			replyMessage.setChannelSpec(channelSpec);
-			replyMessage.setDate("" + new Date());
 			replyMessage.setDisplayNum(getDBDisplayNumber());
+			msg = MessageCarrierXML.getReplyMessage(messagingClient.getName(), messagingClient.getLastFrom(), replyMessage);
 
-			try {
-				String xmlMessage = MyXMLMarshaller.getXML(replyMessage);
-				msg = MessageCarrier.getReplyMessage(messagingClient.getName(), messagingClient.getLastFrom(), xmlMessage);
-			} catch (JAXBException e) {
-				e.printStackTrace();
-			}
 		} else {
-			msg = MessageCarrier.getErrorMessage(messagingClient.getName(), messagingClient.getLastFrom(),
+			msg = MessageCarrierXML.getErrorMessage(messagingClient.getName(), messagingClient.getLastFrom(),
 					"Channel change not successful: " + why);
 		}
 
@@ -594,6 +600,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	}
 
 	private void setRevertThread() {
+		if (browserInstance == null) {
+			printlnErr(getClass(), "setRevertThread() - Browser connection not established.");
+			return;
+		}
 		synchronized (revertThreadWaitObject) {
 			revertTimeRemaining = getContent().getExpiration();
 			println(getClass(), browserInstance.getConnectionCode() + " Setting the revert time for this temporary channel to "
@@ -716,6 +726,10 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	 * milliseconds.
 	 */
 	protected void setupRefreshThread(final long dwellTime, final String url) {
+		if (browserInstance == null) {
+			printlnErr(getClass(), "setupRefreshThread() - Browser connection not established.");
+			return;
+		}
 		if (dwellTime > 0) {
 			final int thisChangeCount = changeCount;
 			noErrorsSeen = true;
@@ -728,13 +742,11 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 					long localDwellTime = dwellTime;
 					while (true) {
 
-						// TODO -- If there is an emergency message up, we don't want to refresh and make it go away!
-
 						for (long t = localDwellTime; t > 0 && changeCount == thisChangeCount && noErrorsSeen; t -= increment) {
 							catchSleep(Math.min(increment, t));
 						}
 						if (showingEmergencyMessage) {
-							// Emergency message is showing - do nothing with this web page for now
+							// Emergency message is showing - do not refresh the web page.  Check again in one minute.
 							localDwellTime = Math.min(dwellTime, ONE_MINUTE);
 							continue;
 						}
@@ -748,7 +760,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 									println(DisplayControllerMessagingAbstract.this.getClass(),
 											".setupRefreshThread(): Failed to REFRESH content");
 									browserInstance.resetURL();
-									continue; // TODO -- Figure out what to do here. For now, just try again later
+									continue; // This might not be the right thing to do, but so far, it seems OK
 								}
 							} catch (UnsupportedEncodingException e) {
 								e.printStackTrace();
@@ -910,15 +922,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 		return null;
 	}
 
-	/**
-	 * Ask for a status update to the database
-	 */
-	public void resetStatusUpdatePeriod() {
-		statusUpdatePeriod = 0;
-	}
-
 	protected class MessagingClientLocal extends MessagingClient {
-		private boolean		debug			= true;
 		private DCProtocol	dcp				= new DCProtocol();
 		private Thread		myShutdownHook;
 		private String		lastFrom;
@@ -959,22 +963,45 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 		}
 
 		@Override
-		public void receiveIncomingMessage(MessageCarrier msg) throws ErrorProcessingMessage {
-			// TODO -- Should this method be synchronized? Does it make sense to have two messages processed at the same time, or
-			// not?
+		public void receiveIncomingMessage(MessageCarrierXML msg) throws ErrorProcessingMessage {
+			// TODO -- Should this method be synchronized?
+			// Does it make sense to have two messages processed at the same time, or not?
 
-			if ((messageCount++ % 5) == 0 || msg.getMessageType() != MessageType.ISALIVE) {
+			if ((messageCount++ % 5) == 0 || !(msg.getMessageValue() instanceof AreYouAliveMessage)) {
 				println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
 						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
 			}
 			lastFrom = msg.getMessageOriginator();
-			if (msg.getMessageRecipient().equals(getName())) { // || msg.getTo().startsWith(getName())) {
-				if (!dcp.processInput(msg)) {
-					sendMessage(MessageCarrier.getErrorMessage(msg.getMessageRecipient(), msg.getMessageOriginator(), dcp.getErrorMessageText()));
+
+			if (!msg.isReadOnly())
+				if (!(msg.getMessageValue() instanceof EmergencyMessXML)) {
+					if (!ObjectSigning.isClientAuthorized(msg.getMessageOriginator(), msg.getMessageRecipient())) {
+						// Improperly signed message -- oops!
+						sendMessage(MessageCarrierXML.getErrorMessage(msg.getMessageRecipient(), msg.getMessageOriginator(),
+								"The directive to change the channel was not properly signed."));
+						return;
+					}
+					if (showingEmergencyMessage) {
+						// Reject this channel change since we are showing an emergency message right now.
+						sendMessage(MessageCarrierXML.getErrorMessage(msg.getMessageRecipient(), msg.getMessageOriginator(),
+								"This display is showing an emergency message - channel change rejected."));
+						return;
+					}
 				}
-			} else if (debug)
-				println(this.getClass(), screenNumber + ": Ignoring a message of type " + msg.getMessageType() + ", sent to ["
-						+ msg.getMessageRecipient() + "] because I am [" + getName() + "]");
+			// if (msg.getMessageRecipient().equals(getName()) || msg.getMessageRecipient().startsWith(getName())) {
+			// ^^ If we get a message down here, it will always be to this node. So no need to check. ^^
+			if (!dcp.processInput(msg)) {
+				sendMessage(MessageCarrierXML.getErrorMessage(msg.getMessageRecipient(), msg.getMessageOriginator(),
+						dcp.getErrorMessageText()));
+			}
+			// } else if (debug)
+			// println(this.getClass(),
+			// screenNumber + ": Ignoring a message of type " + msg.getMessageValue().getClass().getSimpleName()
+			// + ", sent to [" + msg.getMessageRecipient() + "] because I am [" + getName() + "]");
+			// Hmmm. This is not right. I see this print all the time:
+			// 1: Ignoring a message of type AreYouAliveMessage, sent to [ad130482.fnal.gov:1 (4)_1] because I am
+			// [ad130482.fnal.gov:1 (4)]
+
 		}
 
 		@Override
@@ -1077,9 +1104,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 		// TODO - We expect these errors to be 403 ("Forbidden"), 404 ("Not Found") or 408 ("Timeout") (and maybe others someday).
 		// Only with the timeout would we expect a simple refresh of the page to fix it.
-		
+
 		// Important false-positive: If the web page is secure, "https://", it can fail and the underlying javaScript that
-		// is supposed to catch it will not see it.  And since almost all of our channels are secure now, this code does 
+		// is supposed to catch it will not see it. And since almost all of our channels are secure now, this code does
 		// not do very much.
 
 		switch (value) {

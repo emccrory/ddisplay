@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# TODO - If we have too much trouble starting the Java/Selenium/Firefox connection,
+# it should revert to running the script startFirefoxOnly.sh
+
 # If we are being called by this script (see the update block, below), we should wait a second for that script to finish
 if [ ! "$1 X" = " X" ]; then
     sleep $1
@@ -61,6 +64,14 @@ fi >> $log 2>&1
 # We need something to run on the X display, otherwise the present version of FireFox, with the
 # kiosk mode enabled, won't let us get to the desktop
 cd $ddHome/log
+
+# Kill the exiting bash scripts that are in the src/log directory
+tempPIDs=temp$$
+pwdx `ps -aef | grep ddisplay | grep "00:00:00 bash" | grep -v grep | grep -v cron | grep -v $0 | awk '{ print $2 }'` 2>/dev/null | grep /log | awk '{ print $1 }' | sed 's/://g' > $tempPIDs
+if [ -s $tempPIDs ]; then
+    kill -9 `cat $tempPIDs`
+fi
+rm $tempPIDs
 
 if [ -e /usr/bin/xterm ]; then
     # SLF 6.x
@@ -203,7 +214,7 @@ fi
 	    echo ""
 	    echo `date` " Display program exited with an understood failure ..."
 	    echo Restarting the display on `hostname` | /usr/bin/mail -s "Display software has restarted" mccrory@fnal.gov
-	    sleep 15
+	    sleep 5
   	    # Maybe there is a new version of the software here.  
 	    # This "cd" should put us in the right place (unless the new version contains a new version of this script.)
 	    cd $workingDirectory

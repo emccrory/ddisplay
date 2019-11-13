@@ -80,7 +80,6 @@ public class DisplayButtons extends JPanel {
 
 				public void stateChanged(ChangeEvent e) {
 					Display disp = displayList.get(getValue());
-					// FIXME The listener is part of the surrounding class--I don't like this
 					listener.actionPerformed(new ActionEvent(disp, getValue(), getDisplayID(disp), System.currentTimeMillis(),
 							java.awt.event.MouseEvent.BUTTON1_MASK | java.awt.event.MouseEvent.BUTTON1_DOWN_MASK));
 				}
@@ -131,7 +130,7 @@ public class DisplayButtons extends JPanel {
 	public static void setToolTip(final Display disp) {
 		if (buttonList == null)
 			return;
-		// TODO This does not work with the Slider selector. So what?!
+		// Note: This does not work with the Slider selector. 
 
 		if (buttonList.size() == 0) {
 			if (normalOperations)

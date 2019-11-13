@@ -5,6 +5,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.awt.Color;
 
@@ -45,24 +46,37 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 
 		new Thread() {
 			public void run() {
-				println(DisplayAsConnectionThroughSelenium.class,
-						".initiate(): Here we go! display number=" + getVirtualDisplayNumber() + " (" + getDBDisplayNumber() + ") "
-								+ ", screen number " + screenNumber + " "
-								+ (showNumber ? "Showing display num" : "Hiding display num"));
+				browserInstance = null;
+				int failCount = 0;
+				while (browserInstance == null) {
+					println(DisplayAsConnectionThroughSelenium.class,
+							".initiate(): Here we go! display number=" + getVirtualDisplayNumber() + " (" + getDBDisplayNumber()
+									+ ") " + ", screen number " + screenNumber + " "
+									+ (showNumber ? "Showing display num" : "Hiding display num"));
 
-				browserInstance = new SeleniumConnectionToBrowser(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
-						highlightColor, showNumber, DisplayAsConnectionThroughSelenium.this);
-				catchSleep(2000); // Wait a bit before trying to talk to this instance of the browser.
-				browserInstance.openConnection();
-				catchSleep(1000); // Wait a bit longer
+					browserInstance = new SeleniumConnectionToBrowser(screenNumber, getVirtualDisplayNumber(), getDBDisplayNumber(),
+							highlightColor, showNumber, DisplayAsConnectionThroughSelenium.this);
+					catchSleep(2000); // Wait a bit before trying to talk to this instance of the browser.
+					browserInstance.openConnection();
+					catchSleep(1000); // Wait a bit longer
 
-				browserInstance.addErrorListener(DisplayAsConnectionThroughSelenium.this);
-				browserInstance.addErrorListener(new AlertThatPageIsNotShowing(DisplayAsConnectionThroughSelenium.this));
-				lastFullRestTime = System.currentTimeMillis();
-				if (initializeSavedChannelObject())
-					return;
+					if (!browserInstance.isConnected()) {
+						// Well, that failed. Let's try again
+						failCount++;
+						browserInstance = null;
+						printlnErr(DisplayAsConnectionThroughSelenium.class, failCount + 
+								" - Failed to connect to browser, will try again in a few seconds.");
+						catchSleep(5000);
+						continue;
+					}
+					browserInstance.addErrorListener(DisplayAsConnectionThroughSelenium.this);
+					browserInstance.addErrorListener(new AlertThatPageIsNotShowing(DisplayAsConnectionThroughSelenium.this));
+					lastFullRestTime = System.currentTimeMillis();
+					if (initializeSavedChannelObject())
+						return;
 
-				localSetContent();
+					localSetContent();
+				}
 			}
 		}.start();
 

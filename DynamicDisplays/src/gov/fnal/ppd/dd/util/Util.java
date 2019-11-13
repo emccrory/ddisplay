@@ -8,14 +8,14 @@ package gov.fnal.ppd.dd.util;
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
-import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 
 import java.awt.event.ActionEvent;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.lang.management.ManagementFactory;
+import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -26,9 +26,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
@@ -61,47 +63,18 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
  * 
  */
 public class Util {
-	private static final String[]			days			= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
-
-	// TODO Replace this random selection of default page to show with the page that is specified in the database.
-
-	/**
-	 * The list of default URLs
-	 */
-	public static final String				DEFAULT_URLS[]	= { getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MINOS",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MINERvA",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MiniBooNE",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=MicroBooNE",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=Mu2e",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=gMinus2",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=SeaQuest",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NOvA",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=DUNE-LBNF",
-			getFullURLPrefix() + "/kenburns/portfolioDisplay.php?exp=NuMI",														//
-			 };
-
-	/**
-	 * The list of default names for URLS
-	 */
-	public static final String				DEFAULT_NAMES[]	= { "MINOS Pictures", "MINERvA Pictures", "MiniBooNE Pictures",
-			"MicroBooNE Pictures", "Mu2e Pictures", "g-2 Pictures", "SeaQuest Pictures", "NOvA Pictures", "DUNE/LBNF Pictures",
-			"NuMI Pictures", "Accelerator Status", "Clocks", };
+	private static final String[]	days			= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
 	/**
 	 * The default URL for a Display
 	 */
-	public static final String				MY_URL;
+	public static final String		MY_URL = "https://dynamicdisplays.fnal.gov/standby.html";
 	/**
 	 * The name that is associated with the default URL for a Display
 	 */
-	public static final String				MY_NAME;
+	public static final String		MY_NAME = "unspecified content";
 
-	static {
-		int index = (int) (DEFAULT_URLS.length * Math.random());
-		MY_URL = DEFAULT_URLS[index];
-		MY_NAME = DEFAULT_NAMES[index];
-	}
-
+	
 	private Util() {
 		// Not implement--cannot be instantiated.
 	}
@@ -158,6 +131,7 @@ public class Util {
 	public static void launchMemoryWatcher() {
 		launchMemoryWatcher(null);
 	}
+
 	/**
 	 * Prints a short memory reckoning every 5 minutes
 	 */
@@ -179,8 +153,8 @@ public class Util {
 					long free = Runtime.getRuntime().freeMemory() / 1024 / 1024;
 					long max = Runtime.getRuntime().maxMemory() / 1024 / 1024;
 					long total = Runtime.getRuntime().totalMemory() / 1024 / 1024;
-					String msg = "Threads: " + tCount + " (" + activeTCount + "), mem: " + total + "M " + free + "M "
-							+ max + "M at " + (new Date()) + " (Sleep " + (time / 1000) + " sec.)";
+					String msg = "Threads: " + tCount + " (" + activeTCount + "), mem: " + total + "M " + free + "M " + max
+							+ "M at " + (new Date()) + " (Sleep " + (time / 1000) + " sec.)";
 					if (logger != null) {
 						logger.fine(msg);
 					} else {
@@ -198,7 +172,8 @@ public class Util {
 	 */
 	public static SignageContent makeEmptyChannel(String url) {
 		try {
-			return new ChannelImpl(MY_NAME, ChannelClassification.MISCELLANEOUS, "This is a default channel", new URI(url == null ? MY_URL : url), 0, 0);
+			return new ChannelImpl(MY_NAME, ChannelClassification.MISCELLANEOUS, "This is a default channel",
+					new URI(url == null ? MY_URL : url), 0, 0);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return null;
@@ -226,15 +201,16 @@ public class Util {
 	 */
 	public static void println(Class<?> clazz, String message) {
 		//
-		// TODO - Suppress repeated messages
+		// Here is a nice idea: Suppress repeated messages
 		//
 		if (GlobalVariables.getLogger() != null) {
 			GlobalVariables.getLogger().fine(message);
 		} else {
-			if (message.startsWith(":"))
-				System.out.println(new Date() + " - " + clazz.getSimpleName() + message);
+			String className = getClassName(clazz);
+			if (message.startsWith(":") || message.startsWith(".") || message.startsWith(" -"))
+				System.out.println(new Date() + " - " + className + message);
 			else
-				System.out.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
+				System.out.println(new Date() + " - " + className + ": " + message);
 		}
 	}
 
@@ -246,16 +222,27 @@ public class Util {
 	 */
 	public static void printlnErr(Class<?> clazz, String message) {
 		//
-		// TODO - Suppress repeated messages
+		// Here is a nice idea: Suppress repeated messages
 		//
 		if (GlobalVariables.getLogger() != null) {
 			GlobalVariables.getLogger().warning(message);
 		} else {
-			if (message.startsWith(":"))
-				System.err.println(new Date() + " - " + clazz.getSimpleName() + message);
+			String className = getClassName(clazz);
+			if (message.startsWith(":") || message.startsWith("."))
+				System.err.println(new Date() + " - " + className + message);
 			else
-				System.err.println(new Date() + " - " + clazz.getSimpleName() + ": " + message);
-		}}
+				System.err.println(new Date() + " - " + className + ": " + message);
+		}
+	}
+
+	private static String getClassName(Class<?> clazz) {
+		String className = clazz.getSimpleName();
+		if ((className == null || className.length() == 0) && clazz.getEnclosingClass() != null)
+			className = clazz.getEnclosingClass().getSimpleName();
+		if (className == null || className.length() == 0)
+			className = "^" + clazz.getSuperclass().getSimpleName();
+		return className;
+	}
 
 	/**
 	 * @param d
@@ -272,48 +259,32 @@ public class Util {
 	 *            The Content object to be turned into a string
 	 * @return the content converted to a DB-ready string
 	 */
-	public static String convertContentToDBReadyString(final SignageContent arg) {
-		final boolean useStreamedObject = false;
-
-		if (arg == null)
+	public static String convertContentToDBReadyString(final SignageContent theContent) {
+		if (theContent == null)
 			return null;
 
-		// TODO - This should be an all-ASCII XML document, not a streamed object. Oracle announced in 2018 that they will deprecate
-		// and remove this functionality in a future release of Java (Java 10?).
-
 		String blob = null;
-		if (useStreamedObject) {
-			blob = "";
-			Serializable content = arg;
-			try {
-				ByteArrayOutputStream fout = new ByteArrayOutputStream();
-				ObjectOutputStream oos = new ObjectOutputStream(fout);
-				oos.writeObject(content);
 
-				blob += bytesToString(fout.toByteArray(), false);
-			} catch (Exception e) {
-				e.printStackTrace();
+		String xmlDocument = "";
+		try {
+			if (theContent instanceof ChannelPlayList) {
+				ChangeChannelList ccl = new ChangeChannelList(); // This is the XML class
+				ccl.setContent((ChannelPlayList) theContent);
+				xmlDocument = MyXMLMarshaller.getXML(ccl);
+			} else {
+				ChannelSpec cs = new ChannelSpec(theContent); // This is the XML class
+				xmlDocument = MyXMLMarshaller.getXML(cs);
 			}
-		} else {
-			String xmlDocument = "";
-			try {
-				if (arg instanceof ChannelPlayList) {
-					ChangeChannelList ccl = new ChangeChannelList(); // This is the XML class
-					ccl.setContent((ChannelPlayList) arg);
-					xmlDocument = MyXMLMarshaller.getXML(ccl);
-				} else {
-					ChannelSpec cs = new ChannelSpec(arg); // This is the XML class
-					xmlDocument = MyXMLMarshaller.getXML(cs);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			// blob = xmlDocument.replace("'", "").replace("\"", "");
-			// I think we need to remove all the tick marks and the quote marks from the body of the XML specification of the channel.
-			// This global removal of them breaks things downstream.
-			blob = xmlDocument;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
+		// blob = xmlDocument.replace("'", "").replace("\"", "");
+		// I think we need to remove all the tick marks and the quote marks from the body of the XML specification of the
+		// channel.
+		// This global removal of them breaks things downstream.
+		blob = xmlDocument;
+
 		return blob;
 	}
 
@@ -373,7 +344,8 @@ public class Util {
 
 		Channel retval = null;
 		try {
-			retval = new ChannelImpl("Fermilab", ChannelClassification.MISCELLANEOUS, "Fermilab", new URI("https://www.fnal.gov"), 0, 360000L);
+			retval = new ChannelImpl("Fermilab", ChannelClassification.MISCELLANEOUS, "Fermilab", new URI("https://www.fnal.gov"),
+					0, 360000L);
 		} catch (URISyntaxException e2) {
 			e2.printStackTrace();
 		}
@@ -464,6 +436,7 @@ public class Util {
 							retval = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, desc, new URI(url),
 									channelNumber, dwell);
 							retval.setCode(specialCode);
+
 							alreadyRetrieved.put(channelNumber, retval);
 
 							stmt.close();
@@ -583,4 +556,67 @@ public class Util {
 		trans.transform(new DOMSource(doc), new StreamResult(os));
 	}
 
+	private static long	_entropy		= 0;
+	private static long	_lastEntropy	= 0;
+	private static long	_myIPNumber		= 0;
+
+	/// Function to get nextPrimeNumber
+	static long nextPrime(long n) {
+		BigInteger b = new BigInteger(String.valueOf(n));
+		return Long.parseLong(b.nextProbablePrime().toString());
+	}
+
+	/// return a large, random, prime number
+	public static long getEntropy() {
+		// There are probably better ways to get a high-entropy value, but this one should be sufficient
+
+		if (_myIPNumber == 0) {
+			try {
+				Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+				while (interfaces.hasMoreElements()) {
+					NetworkInterface iface = interfaces.nextElement();
+					// filters out 127.0.0.1 and inactive interfaces
+					if (iface.isLoopback() || !iface.isUp())
+						continue;
+
+					Enumeration<InetAddress> addresses = iface.getInetAddresses();
+					while (addresses.hasMoreElements()) {
+						InetAddress addr = addresses.nextElement();
+						String ip = addr.getHostAddress();
+						if (ip.contains(":"))
+							continue;
+						// System.out.print("--> " + ip);
+						String reverse = "";
+						for (int i = ip.length() - 1; i >= 0; i--) {
+							if (ip.charAt(i) == '.')
+								reverse += "1";
+							else
+								reverse += ip.charAt(i);
+						}
+						// System.out.println(" .. " + reverse + " ... " + System.nanoTime());
+						_myIPNumber = Long.parseLong(reverse);
+						break;
+					}
+				}
+			} catch (SocketException e) {
+				throw new RuntimeException(e);
+			}
+			_entropy = nextPrime(System.nanoTime() ^ _myIPNumber);
+		}
+		return _entropy;
+	}
+
+	public static long getNextEntropy() {
+		if (_lastEntropy == 0)
+			_lastEntropy = getEntropy();
+		return _lastEntropy = new Random(_lastEntropy).nextLong();
+	}
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 10; i++) {
+			System.out.println(getNextEntropy());
+			// _myIPNumber = 0;
+			catchSleep(555);
+		}
+	}
 }

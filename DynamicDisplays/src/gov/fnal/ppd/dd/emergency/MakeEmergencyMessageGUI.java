@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 
 	private static EmergencyLaunchGUI elg = null;
+
 	/**
 	 * @param args
 	 */
@@ -25,7 +26,8 @@ public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 		MakeEmergencyMessageGUI em = new MakeEmergencyMessageGUI();
 
 		if (!ObjectSigning.getInstance().isEmergMessAllowed(getFullSelectorName())) {
-			JOptionPane.showMessageDialog(null, "\"" + getFullSelectorName() + "\" is not allowed to create emergency messages.");
+			JOptionPane.showMessageDialog(null,
+					"Your PC, \"" + getFullSelectorName() + "\", is not allowed to create emergency messages.");
 			System.exit(-1);
 		}
 
@@ -34,7 +36,7 @@ public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 		elg = new EmergencyLaunchGUI(em);
 		elg.initialize();
 
-		JFrame f = new JFrame("Emergency Message Distribution");
+		JFrame f = new JFrame("Fermilab Emergency Message Distribution App");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setContentPane(elg);
 		f.pack();
@@ -46,7 +48,6 @@ public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 	 */
 	public MakeEmergencyMessageGUI() {
 		credentialsSetup();
-
 		selectorSetup();
 	}
 

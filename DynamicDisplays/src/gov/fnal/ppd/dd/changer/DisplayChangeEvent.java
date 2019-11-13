@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 public class DisplayChangeEvent extends ActionEvent {
 
 	private static final long	serialVersionUID	= -2282928868265941338L;
+	private static int			localID				= 1001 + (int) Math.random() * 1001;  // Who knows?
 
 	/**
 	 * The type of event this is
@@ -24,11 +25,11 @@ public class DisplayChangeEvent extends ActionEvent {
 	 * 
 	 */
 	@SuppressWarnings("javadoc")
-	public static enum Type {
+	public static enum DisplayChangeType {
 		CHANGE_RECEIVED, CHANGE_COMPLETED, ALIVE, ERROR, IDLE,
 	};
 
-	private Type	type	= Type.IDLE;
+	private DisplayChangeType type = DisplayChangeType.IDLE;
 
 	/**
 	 * @param source
@@ -38,8 +39,8 @@ public class DisplayChangeEvent extends ActionEvent {
 	 * @param t
 	 *            The type of event this is
 	 */
-	public DisplayChangeEvent(final Object source, final int id, final Type t) {
-		super(source, id, "" + t);
+	public DisplayChangeEvent(final Object source, final int id, final DisplayChangeType t) {
+		super(source, (id <= 0 ? localID++ : id), "" + t);
 		// The type becomes the command
 		this.type = t;
 	}
@@ -54,8 +55,8 @@ public class DisplayChangeEvent extends ActionEvent {
 	 * @param moreInfo
 	 *            Extra information to tag onto the event type
 	 */
-	public DisplayChangeEvent(final Object source, final int id, final Type t, final String moreInfo) {
-		super(source, id, "" + t + " -- " + moreInfo);
+	public DisplayChangeEvent(final Object source, final int id, final DisplayChangeType t, final String moreInfo) {
+		super(source, (id <= 0 ? localID++ : id), "" + t + " -- " + moreInfo);
 		this.type = t;
 	}
 
@@ -67,7 +68,7 @@ public class DisplayChangeEvent extends ActionEvent {
 	/**
 	 * @return the type of DisplayChangeEvent this is
 	 */
-	public Type getType() {
+	public DisplayChangeType getType() {
 		return type;
 	}
 

@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
+import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -109,9 +110,14 @@ public abstract class DisplayImpl implements Display {
 
 		if (c instanceof EmergencyCommunication) {
 			EmergencyCommunication ec = (EmergencyCommunication) c;
-			println(getClass(), ": Display " + getVirtualDisplayNumber() + " being sent an EMERGENCY MESSAGE [" + ec.getMessage()
-					+ "] at " + (new Date()));
-			informListeners(DisplayChangeEvent.Type.CHANGE_RECEIVED, null);
+			if (ec.getMessage().getSeverity() == Severity.REMOVE) {
+				println(getClass(), ": Display " + getVirtualDisplayNumber() + " is removing its Emergency Message ["
+						+ ec.getMessage() + "] at " + (new Date()));
+			} else {
+				println(getClass(), ": Display " + getVirtualDisplayNumber() + " being sent an EMERGENCY MESSAGE ["
+						+ ec.getMessage() + "] at " + (new Date()));
+			}
+			informListeners(DisplayChangeEvent.DisplayChangeType.CHANGE_RECEIVED, null);
 
 			channel = c;
 
@@ -143,7 +149,7 @@ public abstract class DisplayImpl implements Display {
 			return previousChannelStack.peek();
 		} else {
 			error("The requested channel (URL=" + c.getURI().toString() + ") is not approved to be shown");
-			informListeners(DisplayChangeEvent.Type.ERROR,
+			informListeners(DisplayChangeEvent.DisplayChangeType.ERROR,
 					"The requested channel (URL=" + c.getURI().toString() + ") is not approved to be shown");
 		}
 
@@ -165,7 +171,7 @@ public abstract class DisplayImpl implements Display {
 			// }
 			// }.start();
 		} else {
-			informListeners(DisplayChangeEvent.Type.ERROR, "Channel change unsuccessful: " + why);
+			informListeners(DisplayChangeEvent.DisplayChangeType.ERROR, "Channel change unsuccessful: " + why);
 		}
 	}
 
@@ -287,7 +293,7 @@ public abstract class DisplayImpl implements Display {
 	// }.start();
 	// }
 
-	protected void informListeners(final DisplayChangeEvent.Type t, String more) {
+	protected void informListeners(final DisplayChangeEvent.DisplayChangeType t, String more) {
 		final DisplayChangeEvent ev = new DisplayChangeEvent(this, internalThreadID.getAndIncrement(), t, more);
 		for (final ActionListener L : listeners)
 			new Thread("DisplayInform" + t + "_" + L.getClass().getSimpleName()) {
@@ -307,7 +313,7 @@ public abstract class DisplayImpl implements Display {
 
 	@Override
 	public void errorHandler(String errorMessage) {
-		informListeners(DisplayChangeEvent.Type.ERROR, errorMessage);
+		informListeners(DisplayChangeEvent.DisplayChangeType.ERROR, errorMessage);
 	}
 
 	@Override

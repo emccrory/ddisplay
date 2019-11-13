@@ -11,7 +11,6 @@ package gov.fnal.ppd.dd.chat;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.util.ObjectSigning;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -19,7 +18,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.SignedObject;
-import java.security.spec.InvalidKeySpecException;
+
+import gov.fnal.ppd.dd.util.ObjectSigning;
 
 /**
  * This class holds the messages that will be exchanged between the Clients and the Server. When talking from a Java Client to a
@@ -56,6 +56,7 @@ import java.security.spec.InvalidKeySpecException;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
+ * @deprecated in favor of MessageCarrierXML
  */
 public class MessageCarrier implements Serializable {
 
@@ -65,19 +66,6 @@ public class MessageCarrier implements Serializable {
 	private String				message;
 	private String				to;
 	private String				from;
-
-	/**
-	 * @param from
-	 *            The originator of the message
-	 * @param to
-	 *            The recipient of the message
-	 * @param message
-	 *            The ASCII message to send. Generally, this is an XML document.
-	 * @return the object to send over the wire
-	 */
-	public static MessageCarrier getMessage(final String from, final String to, final String message) {
-		return new MessageCarrier(MessageType.MESSAGE, from, to, message);
-	}
 
 	/**
 	 * @param from
@@ -162,7 +150,7 @@ public class MessageCarrier implements Serializable {
 		// Stream the Emergency Message
 		return new MessageCarrier(MessageType.EMERGENCY, from, to, message);
 	}
-	
+
 	/**
 	 * @param from
 	 * @param to
@@ -294,7 +282,7 @@ public class MessageCarrier implements Serializable {
 		try {
 			ObjectSigning.getInstance().loadPrivateKey(PRIVATE_KEY_LOCATION);
 			return true;
-		} catch (InvalidKeySpecException | NoSuchAlgorithmException | IOException e) {
+		} catch (Exception e) {
 			System.out.println("Problems loading private key for new client");
 			e.printStackTrace();
 		}
@@ -319,6 +307,7 @@ public class MessageCarrier implements Serializable {
 	 * @param signedObject
 	 *            -- the object that (should be) the holder of "this"
 	 * @return -- Has the signedObject been properly signed?
+	 * @deprecated
 	 */
 	public String verifySignedObject(final SignedObject signedObject) {
 		if (!checkSignedMessages()) {

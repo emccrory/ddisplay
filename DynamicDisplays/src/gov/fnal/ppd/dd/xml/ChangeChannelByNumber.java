@@ -1,5 +1,7 @@
 package gov.fnal.ppd.dd.xml;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -11,8 +13,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @SuppressWarnings("javadoc")
 @XmlRootElement
-public class ChangeChannelByNumber extends EncodedCarrier {
+public class ChangeChannelByNumber extends MessagingDataXML implements Serializable {
 
+	private static final long serialVersionUID = 5381672365828058188L;
 	protected int	channel;
 	protected int	displayNum;
 	protected int	screenNum;
@@ -52,5 +55,10 @@ public class ChangeChannelByNumber extends EncodedCarrier {
 
 	public void setChecksum(long checksum) {
 		this.checksum = checksum;
+	}
+
+	@Override
+	public boolean willNotChangeAnything() {
+		return false;
 	}
 }

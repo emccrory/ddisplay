@@ -76,7 +76,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 					// 3. Exit the entire process so we will restart.
 					boolean isWindows = System.getProperty("os.name").toUpperCase().contains("WINDOWS");
 					if (isWindows)
-						ExitHandler.saveAndExit("Deployed new software version.", 99);
+						ExitHandler.saveAndExit("Deployed new software version.", 99, 5000L);
 					else
 						ExitHandler.saveAndExit("Deployed new software version.");
 				} else {

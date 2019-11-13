@@ -83,7 +83,7 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 				adjusted = true;
 			}
 		} catch (org.openqa.selenium.WebDriverException e) {
-			// I observed on May 15, 2019, that this exception itells me that the connection to the browser has been lost.
+			// I observed on May 15, 2019, that this exception tells me that the connection to the browser has been lost.
 			// That means we are hosed and we need to get out of here (and, hopefully, restart the display)
 			ExitHandler.saveAndExit(connection.getConnectionCode() + " Lost communication with the browser");
 		} catch (Exception e) {
@@ -132,7 +132,6 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 	}
 
 	/**
-	 * @param driver
 	 */
 	public void goToProperSizeAndPlace() {
 		myMethod = positioningMethod;

@@ -1,10 +1,9 @@
 package gov.fnal.ppd.dd.xml;
 
+import javax.xml.bind.annotation.XmlElement;
+
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.MapOfChannels;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * A dead-simple XML class to let a channel number (only) be transmitted
@@ -12,7 +11,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-@XmlRootElement
 public class ChannelSpecByNumber extends ChannelSpec {
 	
 	private static final long serialVersionUID = -7250458242146986630L;

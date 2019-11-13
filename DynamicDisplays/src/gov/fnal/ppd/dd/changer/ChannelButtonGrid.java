@@ -7,13 +7,11 @@ package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -23,7 +21,6 @@ import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DisplayButtonGroup;
-import gov.fnal.ppd.dd.util.TemporaryDialogBox;
 
 /**
  * Base class for the display grids that hold the channel buttons in the ChannelSelector
@@ -41,7 +38,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 
 	protected JComponent			expGrid;
 
-	private static ReentrantLock	imBusy				= new ReentrantLock();
+	// private static ReentrantLock imBusy = new ReentrantLock();
 
 	/**
 	 * @param cat
@@ -78,7 +75,7 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 		// Observation (10/10/2014): This method is called for every tab on the screen. So, (at this time) for a general
 		// case, it is called many, many times, depending on the number of tabs of channels there are on the main screen.
 		// So, there is a bit of a bug below, in that the buttons in the entire container bg are "enabled" or "disabled" each time,
-		// over and over again.  Also, the TemporaryDialogBox could be called lots of times (but the ReentrantLock attribute is 
+		// over and over again. Also, the TemporaryDialogBox could be called lots of times (but the ReentrantLock attribute is
 		// used to block the other entries).
 
 		userHasDoneSomething();
@@ -96,24 +93,24 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 					System.err.println(getClass().getSimpleName() + ": Unknown source " + e.getSource().getClass().getSimpleName());
 
 				bg.disableAll(to);
-				// if (!SHOW_IN_WINDOW)
-				if (imBusy.tryLock()) {
-					// Throw up a dialog box saying, "Well done! You've changed the channel on display #5 to
-					// 'Something or other', URL='https://some.url'"
 
-					// This "imBusy" prevents all the other times this is called (see bug note, above)
-					// from throwing up the TemporaryDialogBox.
-					if (e.getSource() instanceof Display) {
-						Display di = (Display) e.getSource();
-						new TemporaryDialogBox(this, di);
-					} // Question: Is this ever NOT an instance of Display?
-
-					// Rest here for a blink to assure that no other entries can call up this dialog.
-					// No wait seems to work all the time, but I bet this won't be true forevermore.
-					catchSleep(100);
-					
-					imBusy.unlock();
-				} // else another instance is doing it so I don't have to
+				// The feedback to the user that the channel changed is now done correctly - it waits for the reply message!
+				// // This "imBusy" prevents the other times this is called (see bug note, above) from getting a TemporaryDialogBox.
+				// if (imBusy.tryLock()) {
+				// // Throw up a dialog box saying, "Well done! You've changed the channel on display #5 to
+				// // 'Something or other', URL='http://some.url'"
+				//
+				// if (e.getSource() instanceof Display) {
+				// Display di = (Display) e.getSource();
+				// new TemporaryDialogBox(this, di);
+				//
+				// // Sleep here to assure that no other entries can call up this dialog. This is necessary most of the time.
+				// // When this delay was 10msec, I'd get multiple dialog boxes up from time to time.
+				// catchSleep(100);
+				//
+				// imBusy.unlock();
+				// } // Question: Is this ever NOT an instance of Display?
+				// } // else another instance is doing it so I don't have to
 
 				break;
 
@@ -149,10 +146,10 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	}
 
 	/**
-	 * @return Does this panel contain the selected channel?
+	 * @return Does this panel contain the selected channel?  This worked in the early days of the system, but not anymore.
+	 * and it really is not necessary.
 	 */
 	public boolean hasSelectedChannel() {
-		// FIXME !!!
 		// Object o1 = getComponent(0);
 		// if (o1 instanceof JPanel) {
 		// JPanel outer = (JPanel) o1;

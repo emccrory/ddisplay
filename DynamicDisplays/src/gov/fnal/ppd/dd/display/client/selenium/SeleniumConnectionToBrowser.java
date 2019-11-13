@@ -1,6 +1,10 @@
 package gov.fnal.ppd.dd.display.client.selenium;
 
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
+import static gov.fnal.ppd.dd.GlobalVariables.POSSIBLE_RECOVERABLE_ERROR;
+import static gov.fnal.ppd.dd.GlobalVariables.SIMPLE_RECOVERABLE_ERROR;
+import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
@@ -8,17 +12,21 @@ import static gov.fnal.ppd.dd.util.Util.printlnErr;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Date;
+import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.opera.OperaDriver;
 
 import gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance;
@@ -69,7 +77,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		// Make sure we exit the instance(s) of the browser when the VM exits ---------------------------
 		Runtime.getRuntime().addShutdownHook(new Thread("ShutdownHook_Display_" + numberOfScreens) {
 			public void run() {
-				// It looks like a "kill 1" will exit the JVM with an exit code of 129. COuld not get this to work (11/2/2018)
+				// It looks like a "kill 1" will exit the JVM with an exit code of 129. Could not get this to work (11/2/2018)
 				println(getClass(), "Shutdown hook called");
 				exit();
 			}
@@ -96,10 +104,13 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		setBrowserConfig();
 
 		if (driver == null) {
+			connected = false;
 			// Oops! This is not good.
-			println(getClass(), " Aborting in 10 seconds because the connection to the browser seems to have failed.");
-			catchSleep(10000);
-			System.exit(0);
+			long delayTime = 5000;
+			println(getClass(),
+					" Aborting in " + delayTime / 1000L + " seconds because the connection to the browser seems to have failed.");
+			catchSleep(delayTime);
+			System.exit(SIMPLE_RECOVERABLE_ERROR);
 		}
 
 		// Don't wait very long for the pushed Javascript to finish
@@ -145,8 +156,10 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		String browserLocation = null;
 		String osName = System.getProperty("os.name").toUpperCase();
 		String driverFile = null;
+		driver = null;
+		
 		try {
-			// ASSUME that we are using FireFox, which is the only browser we have tested to date (6/2018)
+			// ASSUME that we are using FireFox, which is the only browser we have tested to date (10/2019)
 
 			// ASSUME the location of FireFox for Linux
 			browserLocation = PropertiesFile.getProperty("binLinux");
@@ -165,7 +178,25 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			if (browser.contains("Firefox")) {
 				// >>>>>>>>>> Only the Firefox driver has been thoroughly tested (EM 6/2018) <<<<<<<<<<
 				System.setProperty("webdriver.gecko.driver", driverFile);
-				driver = new FirefoxDriver();
+				FirefoxOptions options = new FirefoxOptions();
+				options.setLogLevel(FirefoxDriverLogLevel.TRACE);
+				FirefoxDriver ffDriver = new FirefoxDriver();
+				println(getClass(), "Pausing for a bit just for fun.");
+				catchSleep(5000L);
+				
+				if (ffDriver != null) {
+					// I added this block to see if tickling the driver here would reveal a failure - it does not.
+					Capabilities caps = ffDriver.getCapabilities();
+					Map<String, ?> allCaps = caps.asMap();
+					String listOfCaps = "";
+					for (String key : allCaps.keySet())
+						listOfCaps += "\t\t" + key + ": " + allCaps.get(key) + "\n";
+
+					println(getClass(), "Capabilities of the Firefox Driver we just instantiated: " + caps.getBrowserName()
+							+ " version " + caps.getVersion() + ", Running on " + caps.getPlatform() + ".\n" + listOfCaps);
+					
+				}
+				driver = ffDriver;
 			} else if (browser.contains("Chrome")) {
 				// >>>>>>>>>>Initial tests of the Chromium driver were successful (EM 9/2018) <<<<<<<<<<
 				System.setProperty("webdriver.chrome.driver", driverFile);
@@ -181,18 +212,25 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			} else {
 				System.err.println("\n\n*****");
 				(new Exception("ABORT: Unknown browser type specified: [" + browser + "]")).printStackTrace();
-				System.exit(-2);
+				System.exit(POSSIBLE_RECOVERABLE_ERROR);
 			}
 
 			jse = (JavascriptExecutor) driver;
+		} catch (WebDriverException e) {
+			System.err.println(new Date() + " WebDriverException Exception caught in " + getClass().getSimpleName()
+					+ ".setBrowserConfig()" + "\n\t\tWe hope to be able to continue from this, eventually.");
+			driver = null;
+			return;
 		} catch (Exception e) {
 			System.err.println(new Date() + " Exception caught in " + getClass().getSimpleName() + ".setBrowserConfig()");
 			e.printStackTrace();
 			System.err.println("\n" + new Date() + " Browser driver is " + driverFile + ", Location of browser: " + browserLocation
 					+ ", Operating system: " + osName);
 			System.err.println(new Date() + " Aborting...");
-			System.exit(-2);
+			System.exit(UNRECOVERABLE_ERROR);
 		}
+
+		println(getClass(), "***** It looks like we have a good driver connection - we'll see! *****");
 
 		// Setup the timer task to make sure the screen is the right size, forevermore.
 
@@ -201,7 +239,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		afsd = new CheckAndFixScreenDimensions(driver, p, sd, this);
 
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(afsd, ONE_MINUTE, ONE_MINUTE);
+		timer.schedule(afsd, 15 * ONE_SECOND, ONE_MINUTE);
 	}
 
 	@Override
@@ -215,11 +253,11 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		} catch (NullPointerException e) {
 			// Up to now (Late Spring, 2018), this exception has meant that jse is null.
 			e.printStackTrace();
-		} catch (SessionNotCreatedException e) {
-			printlnErr(getClass(), "- SERIOUS ERROR! - The connection to the browser has been lost. Giving up.");
+		} catch (WebDriverException e) {
+			printlnErr(getClass(), "- SERIOUS ERROR! (" + e.getClass().getCanonicalName()
+					+ ") - The connection to the browser has been lost.  Will exit and try again in a moment.");
 			myDisplay.setOfflineMessage("Connection to Selenium disappeared");
-			catchSleep(10000);
-			ExitHandler.saveAndExit("Received " + e.getClass().getName() + " exception");
+			ExitHandler.saveAndExit("Received " + e.getClass().getName() + " exception", -1, 5000L);
 		} catch (Exception e) {
 			lastReturnValue = lastReturnValue.toString() + " - " + " Error sending this to the browser: [" + command + "]";
 			println(getClass(), lastReturnValue.toString());
@@ -310,7 +348,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 				driver.get(url);
 
 				catchSleep(1000);
-				afsd.goToProperSizeAndPlace();
+				// afsd.goToProperSizeAndPlace();
 
 				// Does not work on GeckoDriver versions before 0.20 ...
 				// driver.manage().window().fullscreen();
@@ -396,11 +434,5 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 	@Override
 	public String getConnectionCode() {
 		return getScreenText();
-	}
-
-	@Override
-	protected void setPositionAndSize() {
-		// TODO - Fix this next statement, somehow.
-		// driver.manage().window().setPosition(new Point((int) bounds.getX(), (int) bounds.getY()));
 	}
 }

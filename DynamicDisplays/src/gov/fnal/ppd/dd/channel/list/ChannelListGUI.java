@@ -72,7 +72,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 
 	private final BigLabel					selectedRowLabel				= new BigLabel(" (no rows selected) ", Font.PLAIN);
 	private final JLabel					header1							= new JLabel("The content of your list");
-	private final JLabel					header2							= new JLabel("Tap on a channel/image to add it to your list");
+	private final JLabel					header2							= new JLabel("Tap on channel/image to add it to list");
 	private JLabel							databaseNameOfThisListHolder	= new JLabel("(none)");
 	private JLabel							lengthOfThisListLabel			= new JLabel("...");
 	private JLabel							timeInterpretLabel;
@@ -250,22 +250,25 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 				textPane.setEditable(false);
 
 				String text = "<html>";
-				text += "<p><font size='+1'>This panel is for creating, editing, and saving lists of channels in the Dynamic Display system.</font></p>";
-				text += "<p>This panel contains the \"Dwell Time (sec)\" at the top, the main panel in the middle, and buttons to deal with lists in the database at the bottom.</p>\n";
-				text += "<p>The main panel is split in half with the list of channel you are creating on the left, and the list of all the channels in the entire system on the right.</p>";
-				text += "<p><b>To create a channel list</b>, you copy a channel from the right to the left panels. Do this by touching the desired channel in the full list on the right.</p>\n"
-						+ " You can add the same channel several times.";
-				text += " The dwell time this channel gets is the \"Dwell Time (sec)\" that appear at the top of the panel.</p>";
-				text += "<p>Remove a channel from the left list by selecting the channel "
-						+ "on the left and then touching the \"✖\" button at the bottom.</p>";
+				text += "<p><font size='+1'>This GUI is for creating, editing, and saving lists of channels in the Dynamic Display system.</font></p>";
+				text += "<p>This GUI is in several sections: The left side is the channel list you have built so far.  ";
+				text += "The right side is a list of all the channels and of all the images in the system.  ";
+				text += "The time one of these will dwell on a display is determined by the \"spinner\" below the channels/Images panel.</p>";
+				text += "<p>To create a channel list, tap on a channel on the full list on the right. Y"
+						+ "ou can add the same channel several times. Try it - you can remove it easily.</p>";
+				text += "<p>Remove a channel from the left list by selecting the channel on the left and then touching the \"✖\" button at the bottom.</p>";
 				text += "<p>With a channel selected on the left, you can use the arrow buttons in the GUI to move this channel up and down in the list.</p>";
-				text += "<p>There are two ways to change the dwell time of a channel in the left panel.  If you have a keyboard, you double-tap the number in the dwell column,\n"
-						+ "enter the number you want.  Windows PC have the option of an on-screen keyboard for this.  Or you can tap on the channel on the left side, "
-						+ "then select the \"Change Dwell Time\" button.</p>";
-				text += "<p>When you have your list the way you want it, hit \"Send this list to the Display\" to send this channel list to your display,\n"
-						+ " or use the \"Save this list\" button to put this channel list permanently into the database.</p>";
+				text += "<p>There are two ways to change the dwell time of a channel in the left panel. If you have a keyboard, you double-tap the number in the dwell column, "
+						+ "enter the number you want. ";
+				text += "Windows PC have the option of an on-screen keyboard for this. "
+						+ "Or you can tap on the channel on the left side, then select the \"Change Dwell Time\" button.</p>";
+				text += "<p>When you have your list the way you want it, you can send it directly to a display or you can save it. </p>";
+				text += "<p>Touch \"Send this list to Display\" to send this channel list to your display. "
+						+ "Or touch the \"Save this list of channels\" button to put this channel list permanently into the database.</p>";
+				text += "<p>An exiting list of channels can be retrieved and then edited, also.</p>";
 				text += "<p>Note that the size of each column can be manipulated just like column values in Excel.</p>";
-				text += "<p>Feel free to contact the author (Elliott) if you have any ideas on this, e.g. how to make the process, or these instructions, simpler. (June, 2017)</p>";
+				text += "<p>Feel free to contact the author (Elliott) if you have any ideas on this, e.g. how to make the process, "
+						+ "or these instructions, simpler. (November 2019)</p>";
 				text += "</html>";
 				textPane.setText(text);
 				textPane.setMaximumSize(new Dimension(700, 600));

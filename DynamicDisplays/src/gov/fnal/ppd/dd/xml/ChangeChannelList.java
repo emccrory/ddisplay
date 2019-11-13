@@ -1,10 +1,10 @@
 package gov.fnal.ppd.dd.xml;
 
-import gov.fnal.ppd.dd.channel.ChannelPlayList;
-import gov.fnal.ppd.dd.signage.SignageContent;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * Message from a Control Panel to the Display Server to change the channel on a Display to a LIST of Channels
@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @SuppressWarnings("javadoc")
 @XmlRootElement
-public class ChangeChannelList extends EncodedCarrier {
+public class ChangeChannelList extends MessagingDataXML {
 
 	// TODO - Add absolute scheduling of the wall-clock time to play channels
 
@@ -121,6 +121,11 @@ public class ChangeChannelList extends EncodedCarrier {
 			retval += cpl.getChannels().get(i).getURI().toString() + " (" + cpl.getChannels().get(i).getTime() + "), ";
 		}
 		return retval + "]";
+	}
+
+	@Override
+	public boolean willNotChangeAnything() {
+		return false;
 	}
 
 }

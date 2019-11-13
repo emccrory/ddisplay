@@ -20,7 +20,7 @@ import gov.fnal.ppd.dd.util.JavaVersion;
 
 /**
  * <p>
- * The messaging server as a GUI
+ * The messaging server as a daemon (not a GUI)
  * </p>
  * <p>
  * Extensively modified by Elliott McCrory, Fermilab AD/Instrumentation, 2014

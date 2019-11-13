@@ -261,9 +261,9 @@ public class VersionInformation implements Serializable {
 	 * @return the most recent save of this persistent object as stored on the project's web site
 	 */
 	public static VersionInformation getDBVersionInformation(FLAVOR f) {
-		assert(f != null);
+		assert (f != null);
 		VersionInformation vi = null;
-			
+
 		Connection connection;
 		try {
 			connection = ConnectionToDatabase.getDbConnection();
@@ -275,16 +275,17 @@ public class VersionInformation implements Serializable {
 					switch (f) {
 					case PRODUCTION:
 						whereClause += "WHERE Flavor='" + FLAVOR.PRODUCTION + "'";
-						break						;
-						
+						break;
+
 					case TEST:
 						whereClause += "WHERE Flavor='" + FLAVOR.PRODUCTION + "' OR Flavor='" + FLAVOR.TEST + "'";
 						break;
-						
+
 					case DEVELOPMENT:
 						break;
 					}
-					String query = "SELECT HashDate,Flavor,Version,Description from GitHashDecode " + whereClause + " ORDER BY HashDate DESC LIMIT 1";
+					String query = "SELECT HashDate,Flavor,Version,Description from GitHashDecode " + whereClause
+							+ " ORDER BY HashDate DESC LIMIT 1";
 
 					try (ResultSet rs = stmt.executeQuery(query);) {
 						if (rs.first()) { // Move to first returned row
@@ -343,7 +344,7 @@ public class VersionInformation implements Serializable {
 	 */
 	public static void saveDBVersionInformation(final VersionInformation vi, String gitHashCode) {
 		Connection connection;
-		String query="";
+		String query = "";
 		try {
 			connection = ConnectionToDatabase.getDbConnection();
 
@@ -394,6 +395,8 @@ public class VersionInformation implements Serializable {
 			which = Integer.parseInt(args[0]);
 		}
 
+		FLAVOR flav = FLAVOR.PRODUCTION;
+		
 		switch (which) {
 		case 0:
 			// READ from disk
@@ -407,7 +410,8 @@ public class VersionInformation implements Serializable {
 			// WRITE to disk
 			System.out.println("First, reading version information from the local disk");
 			vi = getVersionInformation();
-			vi.setDisposition(FLAVOR.TEST);
+			flav = FLAVOR.TEST;
+			vi.setDisposition(flav);
 			vi.setVersionVal(1, 4);
 			System.out.println("... Saving to disk");
 			saveVersionInformation(vi);
@@ -418,9 +422,16 @@ public class VersionInformation implements Serializable {
 			System.out.println("Reading version information from the DB");
 			credentialsSetup();
 
-			vi = getDBVersionInformation(FLAVOR.DEVELOPMENT);
+			vi = getDBVersionInformation(flav);
 			System.out.println(vi);
 			System.out.println(new Date(vi.getTimeStamp()));
+			break;
+
+		case 4:
+			// READ from database, but succinct output
+			credentialsSetup();
+			vi = getDBVersionInformation(flav);
+			System.out.println(vi.getVersionString() + " " + vi.getDisposition());
 			break;
 
 		case 3:
@@ -438,7 +449,7 @@ public class VersionInformation implements Serializable {
 		// For saving ...
 		// VersionInformation vi = new VersionInformation();
 		// vi.setTimeStamp(System.currentTimeMillis());
-		// vi.setVersionDescription("Version description is here.  Blah, blah, blah.");
+		// vi.setVersionDescription("Version description is here. Blah, blah, blah.");
 		// vi.setVersionVal(0, 2);
 		// vi.setVersionVal(1, 1);
 		// vi.setVersionVal(2, 10);

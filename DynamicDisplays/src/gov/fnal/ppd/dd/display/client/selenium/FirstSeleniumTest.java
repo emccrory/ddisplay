@@ -31,8 +31,8 @@ public class FirstSeleniumTest {
 		FirstSeleniumTest t = new FirstSeleniumTest();
 		List<String> urls = new ArrayList<String>();
 
-		urls.add("http://dynamicdisplays.fnal.gov/border7.php");
-		urls.add("http://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none");
+		urls.add("https://dynamicdisplays.fnal.gov/border7.php");
+		urls.add("https://www-bd.fnal.gov/notifyservlet/www?project=HD&refresh=on&infolinks=none");
 		urls.add("https://www.youtube.com/embed/sBDCIOERPNw?autoplay=1&cc_load_policy=1");
 
 		t.runTest(urls);
@@ -53,7 +53,7 @@ public class FirstSeleniumTest {
 			connection = new SeleniumConnectionToBrowser(0, 0, 0, Color.red, true, null);
 
 		connection.openConnection();
-		connection.setPositionAndSize();
+		// connection.setPositionAndSize();
 	}
 
 	/**

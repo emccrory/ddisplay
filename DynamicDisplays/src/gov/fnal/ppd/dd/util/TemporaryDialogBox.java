@@ -77,6 +77,7 @@ public class TemporaryDialogBox extends JFrame {
 	 */
 	public TemporaryDialogBox(final JComponent comp, final Display di) {
 		super(cc++ + " Display " + di + " changed successfully");
+
 		dismissNow = false;
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -87,12 +88,12 @@ public class TemporaryDialogBox extends JFrame {
 			fontColor = Color.white;
 		}
 
-		String urlString = di.getContent().getName();
-		if (di.getContent() instanceof Channel)
-			urlString = ((Channel) di.getContent()).getURI().toString();
-		else if (di.getContent() instanceof ChannelSpec)
+		String urlString = "";
+		if (di.getContent() instanceof ChannelSpec) {
 			urlString = ((ChannelSpec) di.getContent()).getURI().toString();
-
+		} else if (di.getContent() instanceof Channel) {
+			urlString = ((Channel) di.getContent()).getURI().toString();
+		}
 		Box h = Box.createVerticalBox();
 		Color bg = di.getPreferredHighlightColor();
 		Color fg = fontColor;
@@ -109,18 +110,18 @@ public class TemporaryDialogBox extends JFrame {
 		}
 
 		// if (urlString.startsWith("https://")) {
-		int code = 0;
-		if (di.getContent() instanceof Channel)
-			code = ((Channel) di.getContent()).getCode();
-		else if (di.getContent() instanceof ChannelSpec)
-			code = ((ChannelSpec) di.getContent()).getCode();
+        int code = 0;
 
-		if (code == 2) {
-			h.add(new MyLabel(fg, bg, "  ****  N O N - S E C U R E   C O N T E N T   **** ", big * 4 / 3));
+        if (di.getContent() instanceof Channel)
+                code = ((Channel) di.getContent()).getCode();
+        else if (di.getContent() instanceof ChannelSpec)
+                code = ((ChannelSpec) di.getContent()).getCode();
+        if (code == 2) {	
+			h.add(new MyLabel(fg, bg, "  ****  N O N - S E C U R E   C O N T E N T  **** ", big * 4 / 3));
 			h.add(Box.createRigidArea(new Dimension(10, 10)));
 			h.add(new MyLabel(fg, bg, " The content on " + di + " (" + di.getLocation() + ") "), regular);
 			h.add(Box.createRigidArea(new Dimension(10, 10)));
-			h.add(new MyLabel(fg, bg, " MIGHT NOT HAVE BEEN CHANGED to '" + di.getContent().getName()
+			h.add(new MyLabel(fg, bg, " MIGHT NOT HAVE BEEN CHANGED to '" + breakup(di.getContent())
 					+ "' because of a security incompatibility (hhtp versus https)"), regular);
 			h.add(Box.createRigidArea(new Dimension(15, 15)));
 			h.add(new MyLabel(fg, bg,
@@ -138,7 +139,7 @@ public class TemporaryDialogBox extends JFrame {
 			h.add(Box.createRigidArea(new Dimension(10, 10)));
 			h.add(new MyLabel(fg, bg, " The content on " + di + " (" + di.getLocation() + ") "), regular);
 			h.add(Box.createRigidArea(new Dimension(10, 10)));
-			h.add(new MyLabel(fg, bg, "<html>Has been changed to '" + breakup(di.getContent()) + "'</html>"), regular);
+			h.add(new MyLabel(fg, bg, "<html> Has been changed to " + breakup(di.getContent()) + " </html>"), regular);
 		}
 		h.add(Box.createRigidArea(new Dimension(10, 10)));
 		h.add(new MyLabel(fg, bg, " The URL is '" + urlString + "' ", (urlString.length() < 50 ? regular : small)));
@@ -210,9 +211,9 @@ public class TemporaryDialogBox extends JFrame {
 
 	private static String breakup(SignageContent content) {
 		if (content instanceof ChannelPlayList) {
-			return "<br>" + content.toString().replace(") (", ")<br>(");
+			return content.toString().replace(") (", ")<br>(").replace("{", "{<br>").replace("}", "<br>}");
 		}
-		return content.toString();
+		return "'" + content.toString() + "'";
 	}
 
 	/**

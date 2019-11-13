@@ -1,14 +1,23 @@
 package gov.fnal.ppd.dd.xml.signature;
 
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.streamDocument;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
+import java.io.IOException;
+import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +38,8 @@ import javax.xml.crypto.dsig.spec.TransformParameterSpec;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
+
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 /**
  * Taken from examples on the Oracle/java web site.
@@ -76,13 +87,13 @@ import org.w3c.dom.Document;
  *</Envelope>
  * </code>
  * </pre>
+ * 
+ * @deprecated - this algorithm does not work with DSA keys
  */
 
 public class GenEnveloped {
 	// Create a DOM XMLSignatureFactory that will be used to generate the enveloped signature
-	private static XMLSignatureFactory	fac	= XMLSignatureFactory.getInstance("DOM");
-	private static KeyPairGenerator		kpg	= null;
-	private static KeyPair				kp;
+	private static XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
 
 	public static DOMSignContext getSignContent(PrivateKey pk, Document doc) {
 		try {
@@ -122,7 +133,7 @@ public class GenEnveloped {
 
 			// Create a KeyValue containing the RSA PublicKey that was generated
 			KeyInfoFactory kif = fac.getKeyInfoFactory();
-			KeyValue kv = kif.newKeyValue(kp.getPublic());
+			KeyValue kv = kif.newKeyValue(publicKey);
 
 			// Create a KeyInfo and add the KeyValue to it
 			// KeyInfo ki = kif.newKeyInfo(List.of(kv));
@@ -154,11 +165,110 @@ public class GenEnveloped {
 
 			// Marshal, generate (and sign) the enveloped signature
 			signature.sign(dsc);
+			// It fails here with a DSA key - it does not include the public key in the resulting XML.
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	// The existing XML signature stuff expects an RSA key. I have not been able to figure out yet how to convince it to use a DSA
+	// key.
+	 static final String	ALG_TYPE	= "DSA";
+	 static KeyFactory	keyFactory;
+	 static XMLSignature	signature	= null;
+	 static PrivateKey	privateKey	= null;
+	 static PublicKey	publicKey	= null;
+
+	static {
+		try {
+			keyFactory = KeyFactory.getInstance(ALG_TYPE);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @param filename
+	 * @throws IOException
+	 *             -- A problem reading the keystore
+	 * @throws InvalidKeySpecException
+	 *             --
+	 * @throws NoSuchAlgorithmException
+	 *             -- A problem with the encryption service * @throws InvalidKeySpecException
+	 */
+	public static void loadPrivateKey(final String filename) throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
+		if (privateKey != null)
+			return;
+
+		File filePrivateKey = new File(filename);
+		try (FileInputStream fis = new FileInputStream(filename)) {
+			byte[] encodedPrivateKey = new byte[(int) filePrivateKey.length()];
+			fis.read(encodedPrivateKey);
+			fis.close();
+
+			PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(encodedPrivateKey);
+
+			privateKey = keyFactory.generatePrivate(privateKeySpec);
+			// signature = Signature.getInstance(privateKey.getAlgorithm());
+		}
+	}
+
+	/**
+	 * Read the public key from the file system
+	 * 
+	 * @param filename
+	 *            -- The file name containing the public keystore
+	 * @throws IOException
+	 *             -- A problem reading the keystore
+	 */
+	public static void loadPublicKey(final String filename) throws IOException {
+		File filePublicKey = new File(filename);
+		try (FileInputStream fis = new FileInputStream(filename)) {
+			byte[] encodedPublicKey = new byte[(int) filePublicKey.length()];
+			fis.read(encodedPublicKey);
+			X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(encodedPublicKey);
+			try {
+				publicKey = keyFactory.generatePublic(publicKeySpec);
+			} catch (InvalidKeySpecException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	
+	public static boolean loadPublicKeyFromDB(final String clientName) {
+		Connection connection;
+		try {
+			connection = ConnectionToDatabase.getDbConnection();
+
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+					String query = "SELECT PublicKey from PublicKeys WHERE ClientName= '" + clientName + "'";
+
+					try (ResultSet rs = stmt.executeQuery(query);) {
+						if (rs.first()) { // Move to first returned row (there should only be one)
+							Blob pk = rs.getBlob("PublicKey");
+							int len = (int) pk.length();
+							byte[] bytes = pk.getBytes(1, len);
+							publicKey = KeyFactory.getInstance(ALG_TYPE).generatePublic(new X509EncodedKeySpec(bytes));
+
+							println(GenEnveloped.class, ": Got the public key for client " + clientName);
+							return true;
+						}
+						// Likely culprit here: The source of this message does not have a public key in the DB
+						publicKey = null;
+						System.err.println("No public key for client='" + clientName + "' -- it cannot have signed messages.");
+
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+		return false;
+	}
 	//
 	// Synopsis: java GenEnveloped [document] [output]
 	//
@@ -170,29 +280,24 @@ public class GenEnveloped {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setNamespaceAware(true);
 		Document doc = null;
-		try (FileInputStream fis = new FileInputStream(args[0])) {
+		try (FileInputStream fis = new FileInputStream(args[2])) {
 			doc = dbf.newDocumentBuilder().parse(fis);
 		}
 
-		// For the test, make a key pair on the fly
-		try {
-			kpg = KeyPairGenerator.getInstance("RSA");
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		kpg.initialize(2048);
-		kp = kpg.generateKeyPair();
+		// // For the test, make a key pair on the fly
+		// try {
+		// kpg = KeyPairGenerator.getInstance("RSA");
+		// } catch (NoSuchAlgorithmException e) {
+		// e.printStackTrace();
+		// }
+		// kpg.initialize(2048);
+		// kp = kpg.generateKeyPair();
 
-		signXMLDocument(kp.getPrivate(), doc);
+		loadPrivateKey(args[0]);
+		loadPublicKeyFromDB("ad130482 selector 00");
 
-		// output the resulting document
-		OutputStream os;
-		if (args.length > 1) {
-			os = new FileOutputStream(args[1]);
-		} else {
-			os = System.out;
-		}
+		signXMLDocument(privateKey, doc);
 
-		streamDocument(doc, os);
+		streamDocument(doc, System.out);
 	}
 }

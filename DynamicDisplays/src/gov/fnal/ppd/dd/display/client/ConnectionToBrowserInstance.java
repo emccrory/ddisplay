@@ -148,11 +148,6 @@ public abstract class ConnectionToBrowserInstance {
 	}
 
 	/**
-	 * Put the browser window into the right place
-	 */
-	protected abstract void setPositionAndSize();
-
-	/**
 	 * Remove the browser window
 	 */
 	public abstract void exit();
