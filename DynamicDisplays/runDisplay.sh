@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# TODO - If we have too much trouble starting the Java/Selenium/Firefox connection,
+# it should revert to running the script startFirefoxOnly.sh
+
 # If we are being called by this script (see the update block, below), we should wait a second for that script to finish
 if [ ! "$1 X" = " X" ]; then
     sleep $1
