@@ -33,7 +33,7 @@ public class HasChannelSelector {
 			InetAddress ip = InetAddress.getLocalHost();
 			String myName = ip.getCanonicalHostName().replace(".dhcp", "");
 
-			String query = "select count(*) from SelectorLocation where IPName='" + myName + "'";
+			String query = "SELECT count(*) FROM SelectorLocation WHERE IPName='" + myName + "'";
 
 			Connection connection = null;
 			try {

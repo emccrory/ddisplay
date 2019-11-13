@@ -290,9 +290,9 @@ public class ChannelsFromDatabase {
 				// @SuppressWarnings("unused")
 				stmt.executeQuery("USE " + DATABASE_NAME);
 
-				String query1 = "select ChannelNumber,Name,Description,URL,DwellTime from Docent,Channel "
+				String query1 = "select ChannelNumber,Name,Description,URL,DwellTime FROM Docent,Channel "
 						+ "where ChannelNumber=Number AND DocentName='" + docentName + "' AND Approval=1";
-				String query2 = "select PortfolioNumber,Filename,Description,Experiment from Docent,Portfolio "
+				String query2 = "select PortfolioNumber,Filename,Description,Experiment FROM Docent,Portfolio "
 						+ "where PortfolioNumber=PortfolioID AND DocentName='" + docentName + "' AND Approval='Approved'";
 
 				ResultSet rsChan = stmt1.executeQuery(query1);
@@ -407,7 +407,7 @@ public class ChannelsFromDatabase {
 			List<Integer> lists = new ArrayList<Integer>();
 			List<Integer> pictures = new ArrayList<Integer>();
 
-			String q1 = "SELECT Content,PortfolioID from SimplifiedChannelChoice WHERE DisplayID=" + displayID;
+			String q1 = "SELECT Content,PortfolioID FROM SimplifiedChannelChoice WHERE DisplayID=" + displayID;
 			rs = stmt.executeQuery(q1);
 			if (!rs.first()) {// Move to first returned row
 				printlnErr(ChannelsFromDatabase.class, "Tried to execute a query that had no results " + q1);

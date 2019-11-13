@@ -223,7 +223,7 @@ public class ObjectSigning {
 
 			synchronized (connection) {
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-					String query = "SELECT PublicKey from PublicKeys WHERE ClientName= '" + clientName + "'";
+					String query = "SELECT PublicKey FROM PublicKeys WHERE ClientName= '" + clientName + "'";
 
 					try (ResultSet rs = stmt.executeQuery(query);) {
 						if (rs.first()) { // Move to first returned row (there should only be one)
@@ -322,7 +322,7 @@ public class ObjectSigning {
 						} else {
 							// Special case: Is the LocationCode equal to -1, indicating ALL displays are available?
 
-							String query1 = "SELECT LocationCode from SelectorLocation WHERE IPName like '" + ipNameOfClient
+							String query1 = "SELECT LocationCode FROM SelectorLocation WHERE IPName like '" + ipNameOfClient
 									+ "%' AND Instance='" + instanceOfClient + "'";
 							try (ResultSet rs1 = stmt.executeQuery(query1);) {
 								if (rs1.first()) { // Move to first returned row
@@ -485,7 +485,7 @@ public class ObjectSigning {
 				synchronized (connection) {
 					try (Statement stmt = connection.createStatement();
 							ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-						String query = "SELECT EmergMessAllowed from PublicKeys WHERE ClientName= '" + clientName + "'";
+						String query = "SELECT EmergMessAllowed FROM PublicKeys WHERE ClientName= '" + clientName + "'";
 
 						try (ResultSet rs = stmt.executeQuery(query);) {
 							if (rs.first()) { // Move to first returned row (there should only be one)

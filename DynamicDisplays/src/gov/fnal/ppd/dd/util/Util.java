@@ -357,7 +357,7 @@ public class Util {
 		} else if (channelNumber < 0) {
 			// The default channel is a list of channels. Build it!
 
-			String query = "select Channel.Number as Number,Dwell,Name,Description,URL,SequenceNumber,Sound from Channel,ChannelList where ListNumber="
+			String query = "select Channel.Number as Number,Dwell,Name,Description,URL,SequenceNumber,Sound FROM Channel,ChannelList where ListNumber="
 					+ (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
 
 			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
@@ -453,7 +453,7 @@ public class Util {
 		} else {
 			// This is an image. Look up that image number and then make the URL that shows this image.
 			int portfolioID = channelNumber - ONE_BILLION;
-			String query = "SELECT Filename,Description from Portfolio where PortfolioID=" + portfolioID
+			String query = "SELECT Filename,Description FROM Portfolio where PortfolioID=" + portfolioID
 					+ " AND Approval='Approved'";
 			// println(DisplayControllerMessagingAbstract.class, " -- Getting a portfolio image: [" + query + "]");
 			Connection connection;

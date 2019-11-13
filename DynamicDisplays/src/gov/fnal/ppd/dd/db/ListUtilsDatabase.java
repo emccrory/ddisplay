@@ -55,7 +55,7 @@ public class ListUtilsDatabase {
 		Connection connection = ConnectionToDatabase.getDbConnection();
 		// TODO - Add a new column to this table that says if the list is valid or not (which would be used to delete the list but
 		// retain it if it is needed later)
-		String query = "Select ListName,ListAuthor,ListNumber from ChannelListName";
+		String query = "SELECT ListName,ListAuthor,ListNumber FROM ChannelListName";
 
 		synchronized (connection) {
 			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
@@ -181,7 +181,7 @@ public class ListUtilsDatabase {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				String query = "SELECT ListName from ChannelListName WHERE ListNumber=" + listNumber;
+				String query = "SELECT ListName FROM ChannelListName WHERE ListNumber=" + listNumber;
 
 				try (ResultSet rs3 = stmt1.executeQuery(query)) {
 					if (rs3.first()) {
@@ -268,7 +268,7 @@ public class ListUtilsDatabase {
 		try {
 			Connection connection = ConnectionToDatabase.getDbConnection();
 			synchronized (connection) {
-				String isItThereAlready = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "'";
+				String isItThereAlready = "SELECT ListNumber FROM ChannelListName WHERE ListName='" + list + "'";
 
 				try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
 					// Does this list already exist in the database?
@@ -309,7 +309,7 @@ public class ListUtilsDatabase {
 				if (list == null || list.length() == 0)
 					list = "" + new Date();
 
-				String retrieve = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "'";
+				String retrieve = "SELECT ListNumber FROM ChannelListName WHERE ListName='" + list + "'";
 
 				try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
 
@@ -380,7 +380,7 @@ public class ListUtilsDatabase {
 						return; // return "Reading the list number, which we just created, failed";
 					}
 
-					String retrieve = "SELECT ListNumber from ChannelListName WHERE ListName='" + list + "'";
+					String retrieve = "SELECT ListNumber FROM ChannelListName WHERE ListName='" + list + "'";
 
 					ResultSet rs2 = stmt.executeQuery(retrieve);
 					if (rs2.first())

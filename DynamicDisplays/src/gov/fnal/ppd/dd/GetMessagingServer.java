@@ -40,7 +40,7 @@ public class GetMessagingServer {
 			String myName = ip.getCanonicalHostName().replace(".dhcp", "");
 
 			String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description,LocationInformation.LocationCode "
-					+ "as LocationCode from LocationInformation,DisplaySort,Display where "
+					+ "as LocationCode FROM LocationInformation,DisplaySort,Display where "
 					+ "LocationInformation.LocationCode=DisplaySort.LocationCode AND "
 					+ "DisplaySort.DisplayID=Display.DisplayID and IPName='" + myName + "'";
 
@@ -127,7 +127,7 @@ public class GetMessagingServer {
 			String myName = ip.getCanonicalHostName().replace(".dhcp", "");
 
 			String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description,LocationInformation.LocationCode "
-					+ "as LocationCode from LocationInformation,SelectorLocation where "
+					+ "as LocationCode FROM LocationInformation,SelectorLocation where "
 					+ "LocationInformation.LocationCode=SelectorLocation.LocationCode AND IPName='"
 					+ myName
 					+ "' AND Instance='"
@@ -151,7 +151,7 @@ public class GetMessagingServer {
 				InetAddress ip = InetAddress.getLocalHost();
 				String myName = ip.getCanonicalHostName().replace(".dhcp", "");
 
-				String query = "select DocentName from SelectorLocation where IPName='" + myName + "' AND Instance='"
+				String query = "select DocentName FROM SelectorLocation where IPName='" + myName + "' AND Instance='"
 						+ THIS_IP_NAME_INSTANCE + "'";
 
 				Connection connection = null;

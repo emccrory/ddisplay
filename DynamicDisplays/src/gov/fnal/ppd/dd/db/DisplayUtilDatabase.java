@@ -145,7 +145,7 @@ public class DisplayUtilDatabase {
 
 				// TODO -- If the user selects the exact same name for a save set, then we have to delete all these entries first
 				// before inserting them.
-				// select NameOfThisDefaultSet,LocationCode from DefaultChannels; -- or something like that. Should be "distinct"
+				// select NameOfThisDefaultSet,LocationCode FROM DefaultChannels; -- or something like that. Should be "distinct"
 
 				String statementStringStart = "INSERT INTO DefaultChannels VALUES (NULL,";
 

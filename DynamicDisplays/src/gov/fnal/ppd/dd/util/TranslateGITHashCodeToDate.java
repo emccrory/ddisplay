@@ -76,7 +76,7 @@ public class TranslateGITHashCodeToDate {
 			try {
 				Connection connection = ConnectionToDatabase.getDbConnection();
 
-				String query = "Select HashDate,Version,Flavor from GitHashDecode where HashCode='" + hashCode + "'";
+				String query = "Select HashDate,Version,Flavor FROM GitHashDecode where HashCode='" + hashCode + "'";
 
 				synchronized (connection) {
 					try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {
@@ -114,7 +114,7 @@ public class TranslateGITHashCodeToDate {
 		// Look it up in the database
 
 		Connection connection = ConnectionToDatabase.getDbConnection();
-		String query = "Select HashDate,HashCode from GitHashDecode ORDER BY HashDate DESC LIMIT 1";
+		String query = "Select HashDate,HashCode FROM GitHashDecode ORDER BY HashDate DESC LIMIT 1";
 
 		synchronized (connection) {
 			try (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery("USE " + DATABASE_NAME)) {

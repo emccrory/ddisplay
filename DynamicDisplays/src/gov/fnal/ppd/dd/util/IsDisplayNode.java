@@ -35,7 +35,7 @@ public class IsDisplayNode {
 			InetAddress ip = InetAddress.getLocalHost();
 			String myName = ip.getCanonicalHostName().replace(".dhcp", "");
 
-			String query = "select count(*) from Display where IPName='" + myName + "'";
+			String query = "SELECT count(*) FROM Display WHERE IPName='" + myName + "'";
 
 			Connection connection = null;
 			try {
