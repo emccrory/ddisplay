@@ -84,7 +84,7 @@ public class ChannelsFromDatabase {
 					int number = rs.getInt("Number");
 					int dwellTime = rs.getInt("DwellTime");
 					int codevalue = rs.getInt("Sound");
-					String category = rs.getString("Type");
+					String category = rs.getString("Type");  // Note that "Type" is actually the name of the tab this channel gets put on.
 					ChannelClassification classification = new ChannelClassification("MISCELLANEOUS");
 					if (category != null)
 						classification = new ChannelClassification(category);

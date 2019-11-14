@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd.xml;
 
 import javax.xml.bind.annotation.XmlElement;
 
+import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
@@ -15,10 +16,13 @@ public class ChangeChannel extends MessagingDataXML {
 	protected SignageContent	content;
 	protected int				displayNum;
 	protected int				screenNum;
+	protected int				channelNumber;
 
 	@XmlElement
 	public ChannelSpec getChannelSpec() {
 		ChannelSpec cs = new ChannelSpec(content);
+		if (getChannelNumber() != 0)
+			cs.setNumber(getChannelNumber());
 		return cs;
 	}
 
@@ -29,6 +33,18 @@ public class ChangeChannel extends MessagingDataXML {
 
 	public void setDisplayNumber(int d) {
 		displayNum = d;
+	}
+	
+
+	@XmlElement
+	public int getChannelNumber() {
+		if ( channelNumber == 0 && content instanceof Channel ) 
+			return ((Channel) content).getNumber();
+		return channelNumber;
+	}
+
+	public void setChannelNumber(int c) {
+		channelNumber = c;
 	}
 
 	@XmlElement

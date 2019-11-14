@@ -25,16 +25,12 @@ import gov.fnal.ppd.dd.util.ColorNames;
  * that are directly dependent on how the communications happens, and those actions are in the concrete classes.
  * </p>
  * 
- * </P>
- * In June, 2018, we are transitioning to using Selenium, away from using the "pmorch" plugin to Firefox.
- * </p>
- * 
  * <p>
  * Concrete sub-classes are
  * <ul>
- * <li>ConnectionToFirefoxInstance - Assumes Firefox browser and the pmorch plugin</li>
  * <li>SeleniumConnectionToBrowser - Assumes the Selenium framework. Any browser can be used, but Firefox is the one we have tested
  * </li>
+ * <li>SimplifiedBrowserConnection - The connection to the (generic) browser is by running System.exec().</li>
  * <ul>
  * </p>
  * 
@@ -176,23 +172,20 @@ public abstract class ConnectionToBrowserInstance {
 	 * 
 	 * @param urlStrg
 	 *            The URL that this instance should show now.
-	 * @param theWrapper
-	 *            What kind of wrapper page shall this be? Normal, ticker-tape or none ("none" is really not going to work)
 	 * @param specialCode
 	 *            The code, from the database, for this URL (e.g., has sound)
 	 * @return Was the change successful?
 	 * @throws UnsupportedEncodingException
 	 *             -- if the url we have been given is bogus
 	 */
-	public boolean changeURL(String urlStrg, WrapperType theWrapper, int specialCode) throws UnsupportedEncodingException {
+	public boolean changeURL(String urlStrg, int specialCode) throws UnsupportedEncodingException {
 
 		String urlString = urlStrg;
 		if (badNUC && isThisURLNeedAnimation(urlStrg)) {
 			urlString = urlStrg + "&zoom=0";
 		}
 		if (debug)
-			println(getClass(),
-					getScreenText() + " New URL: " + urlString + ", specialCode=" + specialCode + ", wrapper=" + theWrapper);
+			println(getClass(), getScreenText() + " New URL: " + urlString + ", specialCode=" + specialCode);
 
 		if (showingEmergencyCommunication) {
 			removeEmergencyCommunication();
@@ -207,74 +200,49 @@ public abstract class ConnectionToBrowserInstance {
 		// should be.
 		// synchronized (showingCanonicalSite) {
 
-		if (theWrapper == null) {
-			theWrapper = WrapperType.NORMAL;
-		}
-		switch (theWrapper) {
+		switch (specialCode) {
+		case 2:
+			// There is a class of URLs that will not let us put their content into our border frame web site. That is, the site
+			// we want to show is non-secured (http), but the border page is secured (https). Firefox gives the error, "does not
+			// permit cross-origin framing".
 
-		case NORMAL:
-			switch (specialCode) {
-			case 2:
-				// There is a class of URLs that will not let us put their content into our border frame web site. That is, the site
-				// we want to show is non-secured (http), but the border page is secured (https). Firefox gives the error, "does not
-				// permit cross-origin framing".
+			// The first site I have encountered for this is the site that shows a Google Sheets presentation. The
+			// work-around is to abandon this border web page for these sites (only).
 
-				// The first site I have encountered for this is the site that shows a Google Sheets presentation. The
-				// work-around is to abandon this border web page for these sites (only).
+			// This breaks the "identify" functionality, and the full-screen action.
 
-				// This breaks the "identify" functionality, and the full-screen action.
-
-				println(getClass(), "OVERRIDING normal container web page for this URL [" + urlString + "]");
-				javascriptCommandToBrowser = "window.location=\"" + urlString + "\";\n";
-				showingCanonicalSite.set(false);
-				break;
-
-			case 3:
-				// Nothing is defined with this code. But I put this case here so I could write this comment.
-			case 1:
-				// TODO - Reserved code indicating that this page has sound. It is presumed that there are some locations for which
-				// sound is a no-no. But this has not been requested. For now, fall through to the default case
-			case 0:
-				if (!showingCanonicalSite.get()) {
-					// There is nothing to do here if the "border" page is already showing. Otherwise, show it!
-					println(getClass(), getScreenText() + " Sending full, new URL to browser, " + WEB_PAGE_EMERGENCY_FRAME);
-					showingCanonicalSite.set(true);
-					javascriptCommandToBrowser = "window.location=\"" + WEB_PAGE_EMERGENCY_FRAME + "?url="
-							+ URLEncoder.encode(urlString, "UTF-8") + "&display=" + virtualID + "&color=" + colorCode + "&width="
-							+ bounds.width + "&height=" + bounds.height;
-
-					if (!showNumber)
-						javascriptCommandToBrowser += "&shownumber=0";
-					javascriptCommandToBrowser += "\";\n";
-
-					println(getClass(), "Resetting the url with this command: [" + javascriptCommandToBrowser + "]");
-
-					// TODO - Figure this out!
-					// In the Selenium framework, sending a new URL to the browser (which we do from time to time) takes it out of
-					// full-screen mode. The work-around would be to call the class that assures the browser is full screen. but
-					// then there would be a visible glitch in the visuals, so this is not acceptable. Maybe, then, only the
-					// "refresh" from the user will send the URL all over again (which drops it out of full screen) and then quickly
-					// make it full screen again.
-				}
-			}
-
+			println(getClass(), "OVERRIDING normal container web page for this URL [" + urlString + "]");
+			javascriptCommandToBrowser = "window.location=\"" + urlString + "\";\n";
+			showingCanonicalSite.set(false);
 			break;
 
-		case TICKER:
-			// case FERMITICKER:
+		case 3:
+			// Nothing is defined with this code. But I put this case here so I could write this comment.
+		case 1:
+			// TODO - Reserved code indicating that this page has sound. It is presumed that there are some locations for which
+			// sound is a no-no. But this has not been requested. For now, fall through to the default case
+		case 0:
 			if (!showingCanonicalSite.get()) {
-				println(getClass(), getScreenText() + " Sending full, new URL to browser " + TICKERTAPE_WEB_PAGE);
+				// There is nothing to do here if the "border" page is already showing. Otherwise, show it!
+				println(getClass(), getScreenText() + " Sending full, new URL to browser, " + WEB_PAGE_EMERGENCY_FRAME);
 				showingCanonicalSite.set(true);
-				javascriptCommandToBrowser = "window.location=\"" + TICKERTAPE_WEB_PAGE + "?url="
+				javascriptCommandToBrowser = "window.location=\"" + WEB_PAGE_EMERGENCY_FRAME + "?url="
 						+ URLEncoder.encode(urlString, "UTF-8") + "&display=" + virtualID + "&color=" + colorCode + "&width="
-						+ bounds.width + "&height=" + bounds.height + "&feed=" + theWrapper.getTickerName();
+						+ bounds.width + "&height=" + bounds.height;
 
 				if (!showNumber)
 					javascriptCommandToBrowser += "&shownumber=0";
 				javascriptCommandToBrowser += "\";\n";
-			}
-			break;
 
+				println(getClass(), "Resetting the url with this command: [" + javascriptCommandToBrowser + "]");
+
+				// TODO - Figure this out!
+				// In the Selenium framework, sending a new URL to the browser (which we do from time to time) takes it out of
+				// full-screen mode. The work-around would be to call the class that assures the browser is full screen. but
+				// then there would be a visible glitch in the visuals, so this is not acceptable. Maybe, then, only the
+				// "refresh" from the user will send the URL all over again (which drops it out of full screen) and then quickly
+				// make it full screen again.
+			}
 		}
 
 		// ********* Here is where the JavaScript message is sent to FireFox, containing the new URL *************************

@@ -30,6 +30,7 @@ public class ChangeChannelList extends MessagingDataXML {
 	protected ChannelPlayList	cpl	= new ChannelPlayList();
 	protected int				displayNum;
 	protected int				screenNum;
+	protected int				channelListNum;
 	private long				dwell;
 
 	@XmlElement
@@ -49,6 +50,15 @@ public class ChangeChannelList extends MessagingDataXML {
 
 	public void setDisplayNumber(int d) {
 		displayNum = d;
+	}
+	
+	@XmlElement
+	public int getChannelNumber() {
+		return channelListNum;
+	}
+
+	public void setChannelNumber(int c) {
+		channelListNum = c;
 	}
 
 	@XmlElement

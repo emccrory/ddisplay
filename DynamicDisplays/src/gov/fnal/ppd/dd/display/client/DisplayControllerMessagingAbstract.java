@@ -72,8 +72,13 @@ import gov.fnal.ppd.dd.xml.MessageCarrierXML;
  * <p>
  * The key (concrete) sub classes are
  * <ul>
- * <li>DisplayAsConnectionToFireFox - Used since the beginning of the project: Firefox and the pmorch plugin</li>
- * <li>DisplayAsConnectionThroughSelenium - Under development: Firefox and the Selenium framework</li>
+ * <li>DisplayAsConnectionToFireFox - Used at the beginning of the project: Firefox and the pmorch plugin:
+ * <em>Stopped working with Firefox 60 in 2018, and this class was deleted from the repository 11/14/2019</em></li>
+ * <li>DisplayAsConnectionThroughSelenium - Firefox and the Selenium framework. This is the full implementation of a Dynamic
+ * Display.</li>
+ * <li>DisplayAsSimpleBrowser - Uses system access to launch a browser and then relaunches the browser when the channel is changed.
+ * This is a simplified implementation and it loses some of the functionality (full screen guarantee, display number on the screen,
+ * emergency messages, ...</li>
  * </p>
  * 
  * <p>
@@ -89,7 +94,7 @@ import gov.fnal.ppd.dd.xml.MessageCarrierXML;
  * 
  * FIXME - Contains both Business logic and Database accesses (should be refactored)
  * 
- * @author Elliott McCrory, Fermilab (2014-18)
+ * @author Elliott McCrory, Fermilab (2014-20)
  */
 public abstract class DisplayControllerMessagingAbstract extends DisplayImpl implements BrowserErrorListener {
 
@@ -105,7 +110,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	/* --------------- ------------------------------------------- */
 
 	protected final boolean					showNumber;
-	protected boolean						badNUC;
 	protected long							lastFullRestTime;
 	protected String						offlineMessage				= "";
 
@@ -126,7 +130,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	private Command							lastCommand;
 	private ThreadWithStop					playlistThread				= null;
 	private EmergencyMessage				em;
-	private WrapperType						wrapperType;
 	private ListOfValidChannels				listOfValidURLs				= new ListOfValidChannels();
 	private VersionInformation				versionInfo					= VersionInformation.getVersionInformation();
 
@@ -230,10 +233,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 						.replace("https://", "").replace(".fnal.gov", "");
 		}
 		return retval;
-	}
-
-	protected void setWrapperType(WrapperType wrapperType) {
-		this.wrapperType = wrapperType;
 	}
 
 	protected boolean isVerifiedChannel(SignageContent c) {
@@ -409,13 +408,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			printlnErr(getClass(), "localSetContent_notLists() - Browser connection not established.");
 			return false;
 		}
-		// TODO - Maybe this method can go into the superclass (June 2018)
-
 		// FIXME - This line could be risky! But it is needed for URL arguments
 		final String url = getContent().getURI().toASCIIString().replace("&amp;", "&");
-
 		final long expiration = getContent().getExpiration();
-
 		final long dwellTime = (getContent().getTime() == 0 ? getDefaultDwellTime() : getContent().getTime());
 
 		println(getClass(), browserInstance.getConnectionCode() + " Dwell time is " + dwellTime + ", expiration is " + expiration);
@@ -446,7 +441,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 				previousChannelStack.pop(); // Remove the "Refresh" fake channel
 				String lastURL = previousChannelStack.peek().getURI().toASCIIString().replace("&amp;", "&");
 				int code = previousChannelStack.peek().getCode();
-				if (browserInstance.changeURL(lastURL, wrapperType, code)) {
+				if (browserInstance.changeURL(lastURL, code)) {
 					showingSelfIdentify = false;
 				} else {
 					println(getClass(), ".localSetContent():" + browserInstance.getConnectionCode() + " Failed to set content");
@@ -480,7 +475,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 				// }
 
 				// ******************** Normal channel change here ********************
-				if (browserInstance.changeURL(url, wrapperType, getContent().getCode())) {
+				if (browserInstance.changeURL(url, getContent().getCode())) {
 					previousChannelStack.pop(); // Replace the top element of this history stack with the new channel
 					previousChannelStack.push(getContent());
 					showingSelfIdentify = false;
@@ -756,7 +751,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 									".setupRefreshThread():" + browserInstance.getConnectionCode() + " Reloading web page " + url);
 							try {
 								noErrorsSeen = true;
-								if (!browserInstance.changeURL(url, wrapperType, getContent().getCode())) {
+								if (!browserInstance.changeURL(url, getContent().getCode())) {
 									println(DisplayControllerMessagingAbstract.this.getClass(),
 											".setupRefreshThread(): Failed to REFRESH content");
 									browserInstance.resetURL();
@@ -848,11 +843,12 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 								String colorString = rs.getString("ColorCode");
 								Color color = new Color(Integer.parseInt(colorString, 16));
 
-								boolean showNumber = rs.getInt("Port") == 0;
+								// Note that this field, "Port", is a boolean flag as to whether or not it should show its virtual
+								// display number on itself; 0 = show the number, non-zero = hide the number
+								boolean showNumber = rs.getInt("Port") == 0; 
 								int channelNumber = rs.getInt("Content");
 								SignageContent cont = getChannelFromNumber(channelNumber);
 
-								boolean badNUC = rs.getInt("BadNUC") == 1;
 								int screenNumber = rs.getInt("ScreenNumber");
 
 								// Now create the class object
@@ -864,7 +860,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 									d = (DisplayControllerMessagingAbstract) cons.newInstance(
 											new Object[] { myName, vNumber, dbNumber, screenNumber, showNumber, location, color });
 									d.setContentBypass(cont);
-									d.setBadNuc(badNUC);
 									d.initiate();
 									// return d;
 								} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InstantiationException
@@ -899,10 +894,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			}
 		}
 		return d;
-	}
-
-	private void setBadNuc(boolean badNUC) {
-		this.badNUC = badNUC;
 	}
 
 	private static DisplayControllerMessagingAbstract failSafeVersion(Class<?> clazz) {

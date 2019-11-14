@@ -464,7 +464,8 @@ public class ListUtilsDatabase {
 	 */
 	public static Map<String, ChannelPlayList> readTheChannelLists() {
 		Map<String, ArrayList<SignageContent>> allChannelLists = new HashMap<String, ArrayList<SignageContent>>();
-
+		Map<String, Integer> listNumbers = new HashMap<String, Integer>();
+		
 		try {
 
 			Connection connection = ConnectionToDatabase.getDbConnection();
@@ -481,7 +482,7 @@ public class ListUtilsDatabase {
 								// Special case -- abbreviate the code author's name here
 								if (listAuthor.toLowerCase().contains("mccrory"))
 									listAuthor = "EM";
-								// int listNumber = rs2.getInt("ListNumber");
+								int listNumber = rs2.getInt("ListNumber");
 								long dwell = rs2.getLong("Dwell");
 								int sequence = rs2.getInt("SequenceNumber");
 								int chanNumber = rs2.getInt("Number");
@@ -490,6 +491,7 @@ public class ListUtilsDatabase {
 								if (!allChannelLists.containsKey(fullName)) {
 									ArrayList<SignageContent> list = new ArrayList<SignageContent>(sequence + 1);
 									allChannelLists.put(fullName, list);
+									listNumbers.put(fullName, listNumber);
 								}
 								Channel chan = (Channel) getChannelFromNumber(chanNumber);
 								ChannelInList cih = new ChannelInList(chan, sequence, dwell);
@@ -515,10 +517,11 @@ public class ListUtilsDatabase {
 
 			for (String channelListName : allChannelLists.keySet()) {
 				ChannelPlayList theList = new ChannelPlayList(channelListName, allChannelLists.get(channelListName), 60000000);
+				theList.setChannelNumber(listNumbers.get(channelListName));
 				theList.setDescription(allChannelLists.get(channelListName).toString());
 				retval.put(channelListName, theList);
-				// println(ExistingChannelLists.class, ": added list of length " + theList.getChannels().size() + " called '" +
-				// channelListName + "'");
+				// println(ListUtilsDatabase.class, ": added list of length " + theList.getChannels().size() + " called '"
+				//		+ channelListName + "', list number " + listNumbers.get(channelListName));
 			}
 			return retval;
 

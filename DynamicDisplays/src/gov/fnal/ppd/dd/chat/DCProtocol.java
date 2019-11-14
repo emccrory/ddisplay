@@ -319,7 +319,8 @@ public class DCProtocol {
 				Channel c = new ChannelImpl(spec.getContent());
 				channelList.add(c);
 			}
-			ChannelPlayList playList = new ChannelPlayList("" + mess.getTime(), channelList, dwellTime);
+			ChannelPlayList playList = new ChannelPlayList("Channel List", channelList, dwellTime);
+			playList.setChannelNumber(mess.getChannelNumber());
 			for (Display L : listeners) {
 				L.setContent(playList);
 			}

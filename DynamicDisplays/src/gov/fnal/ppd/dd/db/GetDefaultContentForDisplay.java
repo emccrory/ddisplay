@@ -17,12 +17,24 @@ import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 public class GetDefaultContentForDisplay {
 
-	private static final String DEFAULT_DEFAULT_URL = "https://www.fnal.gov";
+	private static final String	DEFAULT_DEFAULT_URL	= "https://www.fnal.gov";
 
-	private static final class DisplayCharacteristics {
-		public String displayType = "XOC";
-		public String defaultURL = DEFAULT_DEFAULT_URL;
+	private int					channelNumber		= 1;
+	public int getChannelNumber() {
+		return channelNumber;
 	}
+
+	public String getDisplayType() {
+		return displayType;
+	}
+
+	public String getDefaultURL() {
+		return defaultURL;
+	}
+
+	private String				displayType			= "XOC";
+	private String				defaultURL			= DEFAULT_DEFAULT_URL;
+
 	/**
 	 * Read the database to figure out what this display shows by default
 	 * 
@@ -30,17 +42,16 @@ public class GetDefaultContentForDisplay {
 	 *            The type of object to instantiate here
 	 * @return The object that is the display controller.
 	 */
-	protected static DisplayCharacteristics getDefaultURL() {
+	public GetDefaultContentForDisplay() {
 		String myNode = "localhost";
-		DisplayCharacteristics retval = new DisplayCharacteristics();
-		
+
 		try {
 			myNode = InetAddress.getLocalHost().getCanonicalHostName().replace(".dhcp.", ".");
 		} catch (UnknownHostException e2) {
 			e2.printStackTrace();
 		}
 
-		String query = "SELECT Content,Type FROM Display where IPName='" + myNode + "'";
+		String query = "SELECT Content,Port FROM Display where IPName='" + myNode + "'";
 
 		Connection connection;
 		try {
@@ -48,7 +59,7 @@ public class GetDefaultContentForDisplay {
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
 			System.err.println("\nNo connection to the Signage/Displays database.");
-			return retval;
+			return;
 		}
 
 		synchronized (connection) {
@@ -63,13 +74,18 @@ public class GetDefaultContentForDisplay {
 						while (!rs.isAfterLast()) {
 							try {
 
-								int channelNumber = rs.getInt("Content");
-								SignageContent cont = getChannelFromNumber(channelNumber);
-								if (cont instanceof Channel) {
-									retval.defaultURL = ((Channel) cont).getURI().toASCIIString();
-									retval.displayType = rs.getString("Type");
-									return retval;
+								channelNumber = rs.getInt("Content");
+								if (channelNumber > 0) {
+									SignageContent cont = getChannelFromNumber(channelNumber);
+									if (cont instanceof Channel) {
+										defaultURL = ((Channel) cont).getURI().toASCIIString();
+									}
+								} else {
+									defaultURL = "LIST";
 								}
+								int dt = rs.getInt("Port");
+								displayType = (dt <= 1) ? "Regular" : "FirefoxOnly";
+								return;
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -88,14 +104,15 @@ public class GetDefaultContentForDisplay {
 				ex.printStackTrace();
 			}
 		}
-		return retval;
+		return;
 	}
 
 	public static void main(String[] args) {
 		credentialsSetup();
 
-		DisplayCharacteristics val = getDefaultURL();
-		System.out.println("DISPLAYTYPE " + val.displayType);
-		System.out.println("DEFAULTCONTENT " + val.defaultURL);
+		GetDefaultContentForDisplay val = new GetDefaultContentForDisplay();
+		System.out.println("CHANNELNUMBER   " + val.channelNumber);
+		System.out.println("DISPLAYTYPE     " + val.displayType);
+		System.out.println("DEFAULTCONTENT  " + val.defaultURL);
 	}
 }

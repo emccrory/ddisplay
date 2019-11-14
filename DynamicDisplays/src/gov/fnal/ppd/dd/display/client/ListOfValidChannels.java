@@ -2,7 +2,6 @@ package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
-import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
@@ -17,6 +16,8 @@ import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 /**
+ * Used by the actual display instances to assure that the channel requested is an approved on in the central database.
+ * 
  * FIXME - This class contains both business logic and database access
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -51,7 +52,8 @@ public class ListOfValidChannels extends HashSet<String> {
 				if (!rs.first()) { // Move to first returned row
 					printlnErr(getClass(),
 							"\n\n** This is a big problem **\n\tThere are no approved channels in the system!  Here is the query that returned no rows: "
-									+ q + "\nRecommended fix: Examine your life choices and then do something else that makes you happy.\n"
+									+ q
+									+ "\nRecommended fix: Examine your life choices and then do something else that makes you happy.\n"
 									+ "\n... Or, I suppose, add some channels to the database.");
 				} else
 					while (!rs.isAfterLast())
@@ -114,21 +116,10 @@ public class ListOfValidChannels extends HashSet<String> {
 		boolean r = contains(c.getURI().toString());
 		System.out.println("---- " + (r ? "Yes, this channel was added recently.  All is right."
 				: "The URL " + c.getURI().toString() + " is is not in the database and therefore cannot be shown."));
-		
+
 		// TODO - It seems appropriate to have the display show some sort of indicator that this failure has happened. At this time
 		// all that happens is that this is recorded in the log file.
-		
+
 		return r;
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(final String[] args) {
-		credentialsSetup();
-
-		ListOfValidChannels v = new ListOfValidChannels();
-		for (String S : v)
-			System.out.println(S);
 	}
 }

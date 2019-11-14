@@ -24,8 +24,6 @@ import gov.fnal.ppd.dd.signage.SignageContent;
  */
 public class ChannelPlayList implements Channel {
 
-	// FIXME -- No, the playing of a list of channels has to be handled by the Real Display.
-
 	private static final long		serialVersionUID	= 7785042152443699996L;
 	private String					description			= null;
 	private List<SignageContent>	channels			= new ArrayList<SignageContent>();
@@ -38,6 +36,7 @@ public class ChannelPlayList implements Channel {
 	private long					expiration			= 0;
 	private String					name				= null;
 	// private long lastAdvanceTime = 0;
+	private int						listNumber			= 0;
 
 	/**
 	 * Create a channel list to play out on the Display.
@@ -85,13 +84,6 @@ public class ChannelPlayList implements Channel {
 	@Override
 	public URI getURI() {
 		return channels.get(currentChannel).getURI();
-	}
-
-	@Override
-	public int getNumber() {
-		if (channels.get(currentChannel) instanceof Channel)
-			return ((Channel) channels.get(currentChannel)).getNumber();
-		return 0;
 	}
 
 	@Override
@@ -254,4 +246,17 @@ public class ChannelPlayList implements Channel {
 		return true;
 	}
 
+	public void setChannelNumber(int listNumber) {
+		this.listNumber = listNumber;
+	}
+
+	@Override
+	public int getNumber() {
+		if (listNumber != 0)
+			return listNumber;
+
+		if (channels.get(currentChannel) instanceof Channel)
+			return ((Channel) channels.get(currentChannel)).getNumber();
+		return 0;
+	}
 }

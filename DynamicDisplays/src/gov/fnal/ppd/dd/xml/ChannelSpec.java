@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import gov.fnal.ppd.dd.changer.ChannelClassification;
+import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
@@ -21,6 +23,7 @@ import gov.fnal.ppd.dd.signage.SignageContent;
 public class ChannelSpec implements SignageContent {
 	private static final long	serialVersionUID	= -3784860691526919774L;
 	protected SignageContent	content;
+	private int					number				= 0;
 
 	public ChannelSpec() {
 		try {
@@ -118,6 +121,20 @@ public class ChannelSpec implements SignageContent {
 		// this.content.setChecksum(checksum);
 	}
 
+	@XmlElement
+	public int getNumber() {
+		if (number == 0 && content instanceof Channel)
+			return ((Channel) content).getNumber();
+		return number;
+	}
+
+	public void setNumber(int number) {
+		if ( content instanceof ChannelImpl ) {
+			((ChannelImpl) content).setNumber(number);
+		}
+		this.number = number;
+	}
+
 	// ----------
 	// The rest of these methods are implementations of the interface SignageContent.
 	// ----------
@@ -166,9 +183,9 @@ public class ChannelSpec implements SignageContent {
 			return false;
 		return true;
 	}
-	
+
 	public String toString() {
 		return content.getURI().toString();
 	}
-	
+
 }

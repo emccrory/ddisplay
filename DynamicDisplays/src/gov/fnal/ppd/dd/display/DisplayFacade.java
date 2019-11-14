@@ -236,6 +236,7 @@ public class DisplayFacade extends DisplayImpl {
 				theData = new ChangeChannelList();
 				((ChangeChannelList) theData).setDisplayNumber(getVirtualDisplayNumber());
 				((ChangeChannelList) theData).setScreenNumber(getScreenNumber());
+				((ChangeChannelList) theData).setChannelNumber(((ChannelPlayList) content).getNumber());
 				((ChangeChannelList) theData).setContent(getContent());
 			} else if (content instanceof EmergencyCommunication) {
 				EmergencyMessage em = ((EmergencyCommunication) content).getMessage();
@@ -254,6 +255,8 @@ public class DisplayFacade extends DisplayImpl {
 					theData = new ChangeChannel();
 					((ChangeChannel) theData).setDisplayNumber(getVirtualDisplayNumber());
 					((ChangeChannel) theData).setScreenNumber(getScreenNumber());
+					if (content instanceof Channel)
+						((ChangeChannel) theData).setChannelNumber(((Channel) content).getNumber());
 					((ChangeChannel) theData).setContent(content);
 				}
 			}

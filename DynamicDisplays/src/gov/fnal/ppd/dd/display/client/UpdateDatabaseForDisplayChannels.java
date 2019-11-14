@@ -17,6 +17,7 @@ import javax.xml.bind.JAXBException;
 
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
+import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
@@ -67,11 +68,13 @@ public class UpdateDatabaseForDisplayChannels implements Display {
 				cc = new ChangeChannelList();
 				((ChangeChannelList) cc).setDisplayNumber(getVirtualDisplayNumber());
 				((ChangeChannelList) cc).setScreenNumber(getScreenNumber());
+				((ChangeChannelList) cc).setChannelNumber(((ChannelPlayList) content).getNumber());
 				((ChangeChannelList) cc).setContent(getContent());
 			} else {
 				cc = new ChangeChannel();
 				((ChangeChannel) cc).setDisplayNumber(getVirtualDisplayNumber());
 				((ChangeChannel) cc).setScreenNumber(getScreenNumber());
+				((ChangeChannel) cc).setChannelNumber(((Channel) content).getNumber());
 				((ChangeChannel) cc).setContent(content);
 			}
 			MessageCarrierXML mcx = new MessageCarrierXML("Display" + displayID, "Database", cc);
@@ -118,71 +121,61 @@ public class UpdateDatabaseForDisplayChannels implements Display {
 
 	@Override
 	public Color getPreferredHighlightColor() {
-		println(getClass(), "getPreferredHighlightColor()");
 		return null;
 	}
 
 	@Override
 	public int getDBDisplayNumber() {
-		println(getClass(), "getDBDisplayNumber()");
 		return displayID;
 	}
 
 	@Override
 	public int getVirtualDisplayNumber() {
-		println(getClass(), "getVirtualDisplayNumber()");
+		// This is routinely called
 		return displayID;
 	}
 
 	@Override
 	public void setDBDisplayNumber(int d) {
-		println(getClass(), "setDBDisplayNumber()");
 		displayID = d;
 	}
 
 	@Override
 	public void setVirtualDisplayNumber(int v) {
-		println(getClass(), "setVirtualDisplayNumber(" + v + ")");
 	}
 
 	@Override
 	public int getScreenNumber() {
-		println(getClass(), "getScreenNumber()");
+		// This is routinely called
 		return 0;
 	}
 
 	@Override
 	public InetAddress getIPAddress() {
-		println(getClass(), "getIPAddress()");
 		return null;
 	}
 
 	@Override
 	public void addListener(ActionListener L) {
-		println(getClass(), "addListener()");
 	}
 
 	@Override
 	public String getDescription() {
-		println(getClass(), "getDescription()");
 		return "Dummy display for listening";
 	}
 
 	@Override
 	public String getLocation() {
-		println(getClass(), "getLocation()");
 		return "Dummy display (location) for listening";
 	}
 
 	@Override
 	public String getStatus() {
-		println(getClass(), "getStatus()");
 		return "Hunky dorie";
 	}
 
 	@Override
 	public String getMessagingName() {
-		println(getClass(), "getMessagingName()");
 		return "DummyName";
 	}
 

@@ -236,6 +236,10 @@ public class ChannelImpl implements Channel {
 	public int getNumber() {
 		return number;
 	}
+	
+	public void setNumber(int n) {
+		number = n;
+	}
 
 	@Override
 	public URI getURI() {
