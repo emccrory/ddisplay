@@ -10,9 +10,9 @@ java gov.fnal.ppd.dd.db.GetDefaultContentForDisplay > $temp
 displayType=`grep DISPLAYTYPE $temp | awk '{ print $2 }'`
 
 if [ $displayType = "Regular" ]; then
-    echo ./runDisplay.sh
+    ./runADisplay.sh
 else
-    echo ./startFirefoxOnly.sh
+    ./startFirefoxOnly.sh
 fi
 
 rm $temp
