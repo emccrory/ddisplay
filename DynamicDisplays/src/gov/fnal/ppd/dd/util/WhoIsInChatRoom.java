@@ -35,6 +35,8 @@ public class WhoIsInChatRoom extends Thread {
 	private DisplayKeeper	alive;
 	private boolean			debug					= false;
 	private long			timeToWaitForResponses	= 2000L;
+	private long			miniumWaitTime			= 1000L;
+	private long			runningAverage			= timeToWaitForResponses;
 
 	/**
 	 * @param alive
@@ -49,7 +51,7 @@ public class WhoIsInChatRoom extends Thread {
 		long sleepTime = 1000;
 		while (true) {
 			catchSleep(sleepTime);
-			sleepTime = 10000;
+			sleepTime = 5000;
 
 			lastAliveList = aliveList;
 			aliveList = new boolean[displayList.size()];
@@ -74,15 +76,32 @@ public class WhoIsInChatRoom extends Thread {
 					alive.setDisplayIsAlive(displayList.get(i).getDBDisplayNumber(), aliveList[i]);
 					numAlive += (aliveList[i] ? 1 : 0);
 				}
-				if (numAlive == aliveList.length) {
-					timeToWaitForResponses = 2000L;
-				} else {
-					printlnErr(WhoIsInChatRoom.class,
-							"Only " + numAlive + " out of " + aliveList.length + " clients responded within " + timeToWaitForResponses / 1000L + " seconds.");
-					timeToWaitForResponses = Math.max(10000L, timeToWaitForResponses + 1000L);
-				}
+				setTimeToWaitForResponses(numAlive == aliveList.length);
 			}
 		}
+	}
+
+	private void setTimeToWaitForResponses(boolean didTheyAllRespond) {
+		// The default that seems to work most of the time is 2 seconds. But occasionally, this gets delayed, so we have to lengthen
+		// this time. I made this method so I could try to be smart about it. If we are always getting all of them to respond, the
+		// we
+		// can reduce the wait time. If we do not see all of the responses, then we should increase the wait time until we DO see
+		// them all.
+		long old = runningAverage;
+		if (didTheyAllRespond) {
+			timeToWaitForResponses = (9 * runningAverage + timeToWaitForResponses) / 10;
+
+			if (timeToWaitForResponses == runningAverage)
+				timeToWaitForResponses -= 100L;
+			else
+				runningAverage = timeToWaitForResponses;
+
+			if (timeToWaitForResponses < miniumWaitTime)
+				timeToWaitForResponses = miniumWaitTime;
+		} else {
+			timeToWaitForResponses += 1000L;
+		}
+		println(getClass(), "timeToWaitForResponses = " + timeToWaitForResponses + ", runningAverage = " + old);
 	}
 
 	private void login() {
