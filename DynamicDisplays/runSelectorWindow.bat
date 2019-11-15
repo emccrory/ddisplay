@@ -15,7 +15,7 @@ CALL config.cmd
 java -Dddisplay.selector.inwindow=TRUE ^
      -Dddisplay.virtualdisplaynumbers=TRUE ^
      -Dddisplay.selector.public=FALSE ^
-     -Xmx1024m ^
+     -Xmx1536m ^
      gov.fnal.ppd.dd.MakeChannelSelector > %LOG% 2>&1
 
 if %ERRORLEVEL% EQU -1 goto loop
