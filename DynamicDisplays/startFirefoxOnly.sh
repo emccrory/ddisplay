@@ -9,7 +9,29 @@
 
 . setupJars.sh
 
-java gov.fnal.ppd.dd.display.simple.DisplayAsSimpleBrowser &
+# Set up log file 
+ddHome=$HOME/src
+node=`uname -n`
+if [ $node = "ad130482.fnal.gov" ]; then
+    ddHome=/home/mccrory/git-ddisplay
+fi
 
-# TODO - make Firefox go full screen (Kiosk mode).  It works rather well if you first start Firefox, 
-# then hit F11, then exit Firefox - it remembers this state most of the time in Scientific Linux.
+log=$ddHome/log/displayStartup.log
+
+if [ -e $log ] ; then
+    # Rename the existing log file with time stamp of the first access (creation time)
+    # This command pipe Assumes A LOT!  So it will probably be brittle
+   suffix=`stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g'`
+
+   mv $log $ddHome/log/displayStartup_$suffix.log
+   gzip    $ddHome/log/displayStartup_$suffix.log &
+fi
+
+touch $log
+
+{
+    java gov.fnal.ppd.dd.display.client.simplified.DisplayAsSimpleBrowser &
+
+    # TODO - make Firefox go full screen (Kiosk mode).  It works rather well if you first start Firefox, 
+    # then hit F11, then exit Firefox - it remembers this state most of the time in Scientific Linux.
+} >> $log 2>&1

@@ -65,77 +65,12 @@ fi >> $log 2>&1
 # kiosk mode enabled, won't let us get to the desktop
 cd $ddHome/log
 
-# Kill the exiting bash scripts that are in the src/log directory
-tempPIDs=temp$$
-pwdx `ps -aef | grep ddisplay | grep "00:00:00 bash" | grep -v grep | grep -v cron | grep -v $0 | awk '{ print $2 }'` 2>/dev/null | grep /log | awk '{ print $1 }' | sed 's/://g' > $tempPIDs
-if [ -s $tempPIDs ]; then
-    kill -9 `cat $tempPIDs`
-fi
-rm $tempPIDs
-
-if [ -e /usr/bin/xterm ]; then
-    # SLF 6.x
-    /usr/bin/xterm -geometry 200x30 -fa 'Monospace' -fs 12 &
-elif [ -e /usr/bin/gnome-terminal ]; then
-    # SL 7.x
-    /usr/bin/gnome-terminal --geometry 200x30 --zoom=1.5 &
-elif [ -e /opt/X11/bin/xterm ]; then
-    # Mac OS
-    # First, wait for the X Server to initialize; starting the xterm usually seems to do it.
-    /opt/X11/bin/xterm -e 'echo "Assuring that X11 is running ..."; sleep 5'
-    # Now start up a permanent X terminal so we can use it to look at log files and stuff
-    /opt/X11/bin/xterm -geometry 200x30 &
-fi >> $log 2>&1
-
 # Remove the json file that seems to be responsible for configuring Firefox.
 # In particular, this holds the last location of the Firefox windows.
 # But this does not seem to have the desired effect (3/2018) - more work needed.
 # ls -l $HOME/.mozilla/firefox/*Dynamic*/*.json >> $log 2>&1
 # echo Removing xulstore.json files >> $log 2>&1
 # rm -fv $HOME/.mozilla/firefox/*Dynamic*/xulstore.json >> $log 2>&1
-
-{
-    cd $workingDirectory
-    # Prepare to run the Java applications
-    . setupJars.sh
-    
-    # Do not begin until we can ping the database server
-    
-    dbs=`echo $databaseServer | sed 's/:/ /g' | awk '{ print $1 }'`
-    sleepTime=5
-
-    # In Linux-land, make sure the screen saver and screen blankers are off.
-    # keep this here for reference, but do not do it uniformly (e.g., not my desktop)
-    if [ "Skip" = "This" ]; then
-	XSET=`command -v xset`
-	
-	if [ "$XSET X" = " X" ]; then
-	    echo Cannot assure that the screen saver / screen blanker is off; 
-	else 
-	    echo Turning off screen saver and screen blanker using $XSET
-	    export DISPLAY=:0.0
-	    $XSET s off
-	    $XSET s noblank
-	    $XSET -dpms
-	fi
-    fi
-
-    while :
-    do
-    # Forever loop. We assume that the DB server will appear eventually
-	if ping -c 1 $dbs 
-	then
-	    break
-	else
-	    echo `date` Waiting $sleepTime seconds for the DB server $dbs to be visible 
-	    sleep $sleepTime;
-	fi
-	let sleepTime=sleepTime+2;
-	if [ $sleepTime -gt 150 ]; then
-	    sleepTime=150; # It looks like we are going to be here a while.  Recheck every 2.5 minutes.
-	fi
-    done
-} >> $log 2>&1
 
 MyName=`uname -n`
 
