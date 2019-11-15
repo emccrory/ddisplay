@@ -29,11 +29,12 @@ import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
 public class WhoIsInChatRoom extends Thread {
 
 	private MessagingClient	client;
-	private boolean[]		aliveList		= null;
+	private boolean[]		aliveList				= null;
 	@SuppressWarnings("unused")
-	private boolean[]		lastAliveList	= null;
+	private boolean[]		lastAliveList			= null;
 	private DisplayKeeper	alive;
-	private boolean			debug			= false;
+	private boolean			debug					= false;
+	private long			timeToWaitForResponses	= 2000L;
 
 	/**
 	 * @param alive
@@ -61,14 +62,25 @@ public class WhoIsInChatRoom extends Thread {
 
 			client.sendMessage(MessageCarrierXML.getWhoIsIn(client.getName()));
 
-			catchSleep(2000); // Wait long enough for all the messages to come in. This is almost always enough. In fact, less than
-								// one second is almost always enough. But there is the occasional time when even 2 seconds is not
-								// enough
+			catchSleep(timeToWaitForResponses);
+			// Wait long enough for all the messages to come in. This is almost always enough.
+			// In fact, less than one second is almost always enough. But there is the occasional time when even 2 seconds is not
+			// enough
 
 			synchronized (aliveList) {
-				for (int i = 0; i < displayList.size(); i++)
+				int numAlive = 0;
+				for (int i = 0; i < displayList.size(); i++) {
 					// if (lastAliveList == null || lastAliveList[i] != aliveList[i])
 					alive.setDisplayIsAlive(displayList.get(i).getDBDisplayNumber(), aliveList[i]);
+					numAlive += (aliveList[i] ? 1 : 0);
+				}
+				if (numAlive == aliveList.length) {
+					timeToWaitForResponses = 2000L;
+				} else {
+					printlnErr(WhoIsInChatRoom.class,
+							"Only " + numAlive + " out of " + aliveList.length + " clients responded within " + timeToWaitForResponses / 1000L + " seconds.");
+					timeToWaitForResponses = Math.max(10000L, timeToWaitForResponses + 1000L);
+				}
 			}
 		}
 	}
