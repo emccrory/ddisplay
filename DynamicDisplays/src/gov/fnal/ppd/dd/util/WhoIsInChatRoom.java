@@ -6,6 +6,7 @@
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.util.Util.catchSleep;
@@ -28,15 +29,19 @@ import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
  */
 public class WhoIsInChatRoom extends Thread {
 
-	private MessagingClient	client;
-	private boolean[]		aliveList				= null;
+	private static final boolean	debug					= PropertiesFile.getBooleanProperty("WhoIsInChatRoomVerbose", false);
+	private static final long		WAIT_TIME_INCREMENT		= 100L;
+	private static final int		PATIENCE_VALUE			= 20;
+	private static final long		ABSOLUTE_MAX_WAIT_TIME	= 5 * ONE_SECOND;
+
+	private MessagingClient			client;
+	private boolean[]				aliveList				= null;
 	@SuppressWarnings("unused")
-	private boolean[]		lastAliveList			= null;
-	private DisplayKeeper	alive;
-	private boolean			debug					= false;
-	private long			timeToWaitForResponses	= 2000L;
-	private long			miniumWaitTime			= 1000L;
-	private long			runningAverage			= timeToWaitForResponses;
+	private boolean[]				lastAliveList			= null;
+	private DisplayKeeper			alive;
+	private long					timeToWaitForResponses	= 2 * ONE_SECOND;
+	private long					minimumWaitTime			= ONE_SECOND;
+	private int						numTriesAtMinimum		= 0;
 
 	/**
 	 * @param alive
@@ -50,8 +55,10 @@ public class WhoIsInChatRoom extends Thread {
 		login();
 		long sleepTime = 1000;
 		while (true) {
+			// Note that the total cycle time of this loop is sleepTime + timeToWaitForResponses. We want this cycle time to be as
+			// short as possible so the user can see all the living displays as quickly as possible
 			catchSleep(sleepTime);
-			sleepTime = 5000;
+			sleepTime = 10 * ONE_SECOND;
 
 			lastAliveList = aliveList;
 			aliveList = new boolean[displayList.size()];
@@ -73,6 +80,9 @@ public class WhoIsInChatRoom extends Thread {
 				int numAlive = 0;
 				for (int i = 0; i < displayList.size(); i++) {
 					// if (lastAliveList == null || lastAliveList[i] != aliveList[i])
+
+					// Note that this call will end up calling the "setEnable()" method for all of the channel buttons that this
+					// display owns, so it does a lot. That's why the cycle time on this thread should be as long as possible.
 					alive.setDisplayIsAlive(displayList.get(i).getDBDisplayNumber(), aliveList[i]);
 					numAlive += (aliveList[i] ? 1 : 0);
 				}
@@ -84,24 +94,42 @@ public class WhoIsInChatRoom extends Thread {
 	private void setTimeToWaitForResponses(boolean didTheyAllRespond) {
 		// The default that seems to work most of the time is 2 seconds. But occasionally, this gets delayed, so we have to lengthen
 		// this time. I made this method so I could try to be smart about it. If we are always getting all of them to respond, the
-		// we
-		// can reduce the wait time. If we do not see all of the responses, then we should increase the wait time until we DO see
+		// we can reduce the wait time. If we do not see all of the responses, then we should increase the wait time until we DO see
 		// them all.
-		long old = runningAverage;
+
+		// On my Linux test server, wait times as low as 1300 ms work well, and 1900 works virtually all the time
+
+		// On a Windows PC, we're seeing that 2500 works most of the time.
+
+		// This algorithm has a problem in that it will always, eventually, set the wait time to be too small so at least one
+		// display will be tardy. This should only happen every 10 cycles or so, once equilibrium is reached.
 		if (didTheyAllRespond) {
-			timeToWaitForResponses = (9 * runningAverage + timeToWaitForResponses) / 10;
+			timeToWaitForResponses -= WAIT_TIME_INCREMENT;
 
-			if (timeToWaitForResponses == runningAverage)
-				timeToWaitForResponses -= 100L;
-			else
-				runningAverage = timeToWaitForResponses;
-
-			if (timeToWaitForResponses < miniumWaitTime)
-				timeToWaitForResponses = miniumWaitTime;
+			if (timeToWaitForResponses < minimumWaitTime)
+				timeToWaitForResponses = minimumWaitTime;
+			if (timeToWaitForResponses == minimumWaitTime) {
+				if (numTriesAtMinimum++ >= PATIENCE_VALUE) {
+					numTriesAtMinimum = 0;
+					// We sat at this wait time for "PATIENCE_VALUE" cycles, so let's decrement the minimum wait time a bit.
+					minimumWaitTime -= WAIT_TIME_INCREMENT;
+				}
+			}
 		} else {
-			timeToWaitForResponses += 1000L;
+			// The last wait time was too long; reset the minimum.
+			minimumWaitTime = timeToWaitForResponses + WAIT_TIME_INCREMENT;
+			numTriesAtMinimum = 0;
+			timeToWaitForResponses += (PATIENCE_VALUE / 4) * WAIT_TIME_INCREMENT;
 		}
-		println(getClass(), "timeToWaitForResponses = " + timeToWaitForResponses + ", runningAverage = " + old);
+
+		// This is relevant since we often have a controller that cannot actually see all of its displays (that is, one of the
+		// displays is powered down, or the network is screwed up). It would be nice to actually KNOW if a display is down so the
+		// wait times can be set more intelligently. But, alas, ...
+		if (timeToWaitForResponses > ABSOLUTE_MAX_WAIT_TIME)
+			timeToWaitForResponses = ABSOLUTE_MAX_WAIT_TIME;
+
+		if (debug)
+			println(getClass(), "timeToWaitForResponses = " + timeToWaitForResponses);
 	}
 
 	private void login() {

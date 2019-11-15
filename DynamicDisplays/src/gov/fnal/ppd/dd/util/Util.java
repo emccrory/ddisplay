@@ -63,18 +63,17 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
  * 
  */
 public class Util {
-	private static final String[]	days			= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+	private static final String[]	days	= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
 	/**
 	 * The default URL for a Display
 	 */
-	public static final String		MY_URL = "https://dynamicdisplays.fnal.gov/standby.html";
+	public static final String		MY_URL	= "https://dynamicdisplays.fnal.gov/standby.html";
 	/**
 	 * The name that is associated with the default URL for a Display
 	 */
-	public static final String		MY_NAME = "unspecified content";
+	public static final String		MY_NAME	= "unspecified content";
 
-	
 	private Util() {
 		// Not implement--cannot be instantiated.
 	}
@@ -235,12 +234,24 @@ public class Util {
 		}
 	}
 
+	/**
+	 * Return a relevant string for this class. If this is an anonymous class of some sort, it tries first to figure out the name of
+	 * the enclosing class and then returns it with an appended caret, "^". Otherwise, it returns the name of the super class with a
+	 * prepended caret. E.g., for an enclosing class of name EnclosingClass, the string it would return is EnclosingClass^. If there
+	 * is no enclosing class, it will return ^BaseClassName.
+	 * 
+	 * @param clazz
+	 *            The Class object to name
+	 * @return The best possible name for this class object.
+	 */
 	private static String getClassName(Class<?> clazz) {
 		String className = clazz.getSimpleName();
-		if ((className == null || className.length() == 0) && clazz.getEnclosingClass() != null)
-			className = clazz.getEnclosingClass().getSimpleName();
-		if (className == null || className.length() == 0)
-			className = "^" + clazz.getSuperclass().getSimpleName();
+		if (className == null || className.length() == 0) {
+			className += "(" + clazz.getSuperclass().getSimpleName();
+			if (clazz.getEnclosingClass() != null)
+				className += " in " + clazz.getEnclosingClass().getSimpleName();
+			className += ")";
+		}
 		return className;
 	}
 
@@ -433,8 +444,8 @@ public class Util {
 							String name = rs.getString("Name");
 							int specialCode = rs.getInt("Sound");
 
-							retval = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, desc, new URI(url),
-									channelNumber, dwell);
+							retval = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, desc, new URI(url), channelNumber,
+									dwell);
 							retval.setCode(specialCode);
 
 							alreadyRetrieved.put(channelNumber, retval);

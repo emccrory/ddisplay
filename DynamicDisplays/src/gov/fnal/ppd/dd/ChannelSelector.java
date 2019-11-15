@@ -622,7 +622,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		displaySelector.setIsAlive(number, alive);
 
 		synchronized (channelButtonGridList) {
-			// Enable the Channel buttons, too
+			// Enable all of this display's Channel buttons, too
 			for (List<ChannelButtonGrid> allGrids : channelButtonGridList)
 				if (allGrids.get(0).getDisplay().getDBDisplayNumber() == number)
 					for (ChannelButtonGrid cbg : allGrids)

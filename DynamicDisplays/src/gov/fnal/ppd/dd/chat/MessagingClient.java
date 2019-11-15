@@ -592,7 +592,7 @@ public class MessagingClient {
 			messageCounter++;
 			if (nextDump > System.currentTimeMillis())
 				return;
-			displayLogMessage("Received message" + messageCounter + ": [" + read + "]");
+			displayLogMessage("Received message #" + messageCounter + ": [" + read + "]");
 			if (nextDump + NOISY_INTERVAL < System.currentTimeMillis())
 				nextDump = System.currentTimeMillis() + QUIET_INTERVAL;
 		}
