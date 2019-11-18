@@ -26,9 +26,12 @@ public class DisplayAsSimpleBrowser extends DisplayControllerMessagingAbstract {
 	@Override
 	public void initiate() {
 		println(getClass(), "Opening a browser with the default content");
+		browserLauncher = new SimplifiedBrowserLauncher(screenNumber);
+		contInitialization();
 
 		browserInstance = new SimplifiedBrowserConnection();
 		browserInstance.openConnection();
+		
 		super.initiate();
 	}
 
@@ -41,11 +44,6 @@ public class DisplayAsSimpleBrowser extends DisplayControllerMessagingAbstract {
 
 		println(getClass(), "The new channel is [" + c + "] of class " + c.getClass().getCanonicalName());
 		if (c instanceof ChannelPlayList) {
-			// TODO - How do we implement this?
-			// At this spot in the running of the display, we only have the URL lists. The channel number (in this case, the list
-			// number) was lost way back in the process. So I think we'll have to add back the list number so this can be
-			// implemented down here.
-
 			int num = ((ChannelPlayList) c).getNumber();
 			println(getClass(), "Changing to list number " + num);
 			browserInstance = new SimplifiedBrowserConnection(-num);
@@ -55,9 +53,9 @@ public class DisplayAsSimpleBrowser extends DisplayControllerMessagingAbstract {
 			if (num != 0) {
 				println(getClass(), "Changing to channel number " + num);
 				browserInstance = new SimplifiedBrowserConnection(num);
-			} else {
-				println(getClass(), "Changing to URL " + url);
-				browserInstance = new SimplifiedBrowserConnection(url);
+//			} else {
+//				println(getClass(), "Changing to URL " + url);
+//				browserInstance = new SimplifiedBrowserConnection(url);
 			}
 		}
 		browserInstance.openConnection();

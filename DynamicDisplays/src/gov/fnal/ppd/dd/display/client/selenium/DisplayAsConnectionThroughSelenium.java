@@ -36,12 +36,14 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 			final boolean showNumber, final String location, final Color color) {
 		super(ipName, vNumber, dbNumber, screenNumber, showNumber, location, color);
 
-		browserLauncher = new BrowserLauncherSelenium(screenNumber);
-		contInitialization();
+	
 	}
 
 	@Override
 	public void initiate() {
+		browserLauncher = new BrowserLauncherSelenium(screenNumber);
+		contInitialization();
+
 		// First connect to the browser, then connect to the messaging server.
 
 		new Thread() {

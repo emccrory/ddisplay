@@ -9,31 +9,23 @@ import gov.fnal.ppd.dd.util.PropertiesFile;
 public class SimplifiedBrowserConnection extends ConnectionToBrowserInstance {
 
 	private Process	browserProcess;
-	private String	browserLocation	= null;
+
 	private int		channelNumber	= 0;
-	private String	channelURL		= null;
 
 	public SimplifiedBrowserConnection() {
 		channelNumber = 0;
-		channelURL = null;
 	}
 
 	public SimplifiedBrowserConnection(int n) {
 		channelNumber = n;
-		channelURL = null;
-	}
-
-	public SimplifiedBrowserConnection(String url) {
-		channelURL = url;
-		channelNumber = 0;
 	}
 
 	@Override
 	public void openConnection() {
+		connected = false;
 		String osName = System.getProperty("os.name").toUpperCase();
-
 		try {
-			browserLocation = PropertiesFile.getProperty("binLinux");
+			String browserLocation = PropertiesFile.getProperty("binLinux");
 
 			if (osName.toUpperCase().contains("WINDOWS")) {
 				browserLocation = PropertiesFile.getProperty("binWindows");
@@ -41,27 +33,22 @@ public class SimplifiedBrowserConnection extends ConnectionToBrowserInstance {
 				browserLocation = PropertiesFile.getProperty("binMac");
 			}
 
-			if (channelURL == null) {
-				if (channelNumber == 0) {
-					channelNumber = new GetDefaultContentForDisplay().getChannelNumber();
-				}
-				String thing = "";
-				if (channelNumber < 0) {
-					thing = browserLocation + " --new-instance --new-window https://dynamicdisplays.fnal.gov/playChannelList.php?n="
-							+ (-channelNumber);
-				} else {
-					thing = browserLocation
-							+ " --new-instance --new-window https://dynamicdisplays.fnal.gov/launchPageFromDB.php?n="
-							+ channelNumber;
-				}
-				println(getClass(), "Launching browser like this: [" + thing + "]");
-				browserProcess = Runtime.getRuntime().exec(thing);
-			} else {
-				browserProcess = Runtime.getRuntime().exec(browserLocation + " --new-instance --new-window " + channelURL);
+			if (channelNumber == 0) {
+				channelNumber = new GetDefaultContentForDisplay().getChannelNumber();
 			}
+			String thing = "";
+			if (channelNumber < 0) {
+				thing = browserLocation + " --new-instance --new-window https://dynamicdisplays.fnal.gov/playChannelList.php?n="
+						+ (-channelNumber);
+			} else {
+				thing = browserLocation + " --new-instance --new-window https://dynamicdisplays.fnal.gov/launchPageFromDB.php?n="
+						+ channelNumber;
+			}
+			println(getClass(), "Launching browser like this: [" + thing + "]");
+			browserProcess = Runtime.getRuntime().exec(thing);
 
-			// Launch the browser with the default channel
-
+			// A bit of a lie
+			connected = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -69,13 +56,12 @@ public class SimplifiedBrowserConnection extends ConnectionToBrowserInstance {
 
 	@Override
 	public void exit() {
-		// TODO Auto-generated method stub
 		browserProcess.destroyForcibly();
 	}
 
 	@Override
 	public Object getTheReply() {
-		return "It is cool";
+		return "No information";
 	}
 
 	@Override
