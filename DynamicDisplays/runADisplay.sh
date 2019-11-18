@@ -63,7 +63,8 @@ fi >> $log 2>&1
 
 # We need something to run on the X display, otherwise the present version of FireFox, with the
 # kiosk mode enabled, won't let us get to the desktop
-cd $ddHome/log
+
+cd $workingDirectory
 
 # Remove the json file that seems to be responsible for configuring Firefox.
 # In particular, this holds the last location of the Firefox windows.
@@ -73,6 +74,8 @@ cd $ddHome/log
 # rm -fv $HOME/.mozilla/firefox/*Dynamic*/xulstore.json >> $log 2>&1
 
 MyName=`uname -n`
+
+. setupJars.sh
 
 screenNum=0
 if [ "$1 X" != " X" ]; then
