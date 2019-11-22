@@ -167,6 +167,8 @@ public class MessagingClient {
 		// try to connect to the server
 		try {
 			socket = new Socket(server, port);
+			// November 2019: It looks like Windows may have changed to a finite timeout by default.
+			socket.setSoTimeout(0);
 		} catch (UnknownHostException ec) {
 			displayLogMessage(
 					"The messaging server just does not exist at this time!! '" + server + ":" + port + "'.  Exception is " + ec);

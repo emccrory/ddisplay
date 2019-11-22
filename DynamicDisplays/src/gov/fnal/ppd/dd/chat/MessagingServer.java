@@ -1120,6 +1120,8 @@ public class MessagingServer {
 				ClientThread t = null;
 				try {
 					Socket socket = serverSocket.accept(); // accept connection if I was asked to stop
+					// November 2019: It looks like Windows may have changed to a finite timeout by default.
+					socket.setSoTimeout(0);
 					// if (!keepGoing) break;
 					t = new ClientThread(socket); // make a thread of it
 				} catch (Exception e) {
