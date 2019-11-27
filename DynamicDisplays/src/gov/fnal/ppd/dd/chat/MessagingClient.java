@@ -349,12 +349,10 @@ public class MessagingClient {
 						counter = 90; // Limit the maximum wait to about 5 minutes
 					MessagingClient.this.start();
 				}
-				displayLogMessage(MessagingClient.class.getSimpleName() + ": Socket for " + username + " is now viable [" + socket
-						+ "]; connection has been restored at " + (new Date()));
+				displayLogMessage(MessagingClient.class.getSimpleName() + ": Socket for " + username
+						+ " is now viable; connection has been restored at " + (new Date()) + "\n\tSocket=[" + socket
+						+ "]\n\tENDING reconnect thread.");
 				restartThreadToServer = null;
-				// }
-
-				displayLogMessage(MessagingClient.class.getSimpleName() + " (" + username + "): ENDING reconnect thread.");
 			}
 		};
 		restartThreadToServer.start();
@@ -462,7 +460,7 @@ public class MessagingClient {
 				}
 				// message WhoIsIn
 				else if (msg.equalsIgnoreCase("WHOISIN")) {
-					client.sendMessage(MessageCarrierXML.getWhoIsIn(userName));
+					client.sendMessage(MessageCarrierXML.getWhoIsIn(userName, serverAddress));
 					// } else { // default to ordinary message
 					// client.sendMessage(MessageCarrierXML.getMessage(userName, null, msg));
 				}
