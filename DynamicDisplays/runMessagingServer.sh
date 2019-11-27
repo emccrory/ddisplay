@@ -20,18 +20,18 @@ cd $ddHome/roc-dynamicdisplays/DynamicDisplays
 
 cd ../../log
 
-logFile=messagingServer.log
+logFile=messagingServerOther.log
 
 if [ -e $logFile ]; then
-    # Rename the existing messagingServer.log with time stamp of the first access (creation time)
+    # Rename the existing messagingServerOther.log with time stamp of the first access (creation time)
     suffix=`stat $logFile | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g'`
     # This command pipe ASSUMES A LOT!  So expect it to be brittle
 
-    mv $logFile messagingServer_$suffix.log
+    mv $logFile messagingServerOther_$suffix.log
 fi
 
 # This compression might take some time, so push it into the background
-gzip messagingServer_*.log &
+gzip messagingServerOther_*.log &
 
 cd ../roc-dynamicdisplays/DynamicDisplays
 workingDirectory=`pwd`
@@ -39,6 +39,10 @@ workingDirectory=`pwd`
 log=../../log/$logFile
 
 touch $log
+
+# Note: Most of the messages from the server are funneled through a java.lang.util.Logger class object.  These
+# go to messagingServer.log.  Everything else this script produces goes to messagingServerOther.log.  That
+# includes the "echo" statements here, and any inadvertant print from within java.
 
 # Verify that this script is not running now
 if ps -aef | grep $workingDirectory/$0 | grep -v grep ; then
