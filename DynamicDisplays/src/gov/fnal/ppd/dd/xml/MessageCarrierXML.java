@@ -79,9 +79,9 @@ public class MessageCarrierXML implements Serializable {
 	 * @param from
 	 * @return A message for the messaging server asking for all the clients that are connected
 	 */
-	public static MessageCarrierXML getWhoIsIn(final String from) {
+	public static MessageCarrierXML getWhoIsIn(final String from, final String to) {
 		WhoIsInMessage wiim = new WhoIsInMessage();
-		return new MessageCarrierXML(from, "NULL", wiim);
+		return new MessageCarrierXML(from, to, wiim);
 	}
 
 	/**
