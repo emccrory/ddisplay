@@ -17,8 +17,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 
+import javax.xml.bind.JAXBException;
+
 import gov.fnal.ppd.dd.chat.MessagingClient;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
+import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
 
 /**
@@ -69,12 +72,22 @@ public class WhoIsInChatRoom extends Thread {
 				println(getClass(), "Sending query to server, " + getMessagingServerName() + ":" + MESSAGING_SERVER_PORT
 						+ ", under the name " + client.getName());
 
-			client.sendMessage(MessageCarrierXML.getWhoIsIn(client.getName()));
+			MessageCarrierXML m = MessageCarrierXML.getWhoIsIn(client.getName(), getMessagingServerName());
+
+			if (debug) {
+				String theMessageString = "exception";
+				try {
+					theMessageString = MyXMLMarshaller.getXML(m);
+				} catch (JAXBException e) {
+					e.printStackTrace();
+				}
+				println(getClass(), "Message to send: " + m + "\n\t" + theMessageString);
+			}
+			client.sendMessage(m);
 
 			catchSleep(timeToWaitForResponses);
-			// Wait long enough for all the messages to come in. This is almost always enough.
-			// In fact, less than one second is almost always enough. But there is the occasional time when even 2 seconds is not
-			// enough
+			// Wait long enough for all the messages to come in. One second is almost always enough. But there is the occasional
+			// time when even 2 seconds is not enough. 3 seconds seems always to be enough.
 
 			synchronized (aliveList) {
 				int numAlive = 0;
@@ -82,9 +95,14 @@ public class WhoIsInChatRoom extends Thread {
 					// if (lastAliveList == null || lastAliveList[i] != aliveList[i])
 
 					// Note that this call will end up calling the "setEnable()" method for all of the channel buttons that this
-					// display owns, so it does a lot. That's why the cycle time on this thread should be as long as possible.
+					// display owns, so it does a lot. So that we are not wasting time and energy setting a button to be enabled
+					// when it is already enabled, the cycle time on this thread should be as long as possible.
+					
 					alive.setDisplayIsAlive(displayList.get(i).getDBDisplayNumber(), aliveList[i]);
 					numAlive += (aliveList[i] ? 1 : 0);
+				}
+				if (debug) {
+					println(getClass(), "numAlive=" + numAlive + " out of " + aliveList.length);
 				}
 				setTimeToWaitForResponses(numAlive == aliveList.length);
 			}
@@ -101,8 +119,6 @@ public class WhoIsInChatRoom extends Thread {
 
 		// On a Windows PC, we're seeing that 2500 works most of the time.
 
-		// This algorithm has a problem in that it will always, eventually, set the wait time to be too small so at least one
-		// display will be tardy. This should only happen every 10 cycles or so, once equilibrium is reached.
 		if (didTheyAllRespond) {
 			timeToWaitForResponses -= WAIT_TIME_INCREMENT;
 
