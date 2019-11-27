@@ -46,14 +46,17 @@ public class MessageConveyor {
 			if ((receiveMessage = receiveRead.readLine()) != null) {
 				// The first line SHOULD BE "BEGIN 1234567890192882\n" where that number is some random long value
 				if (!receiveMessage.startsWith("BEGIN ")) {
-					printlnErr(clazz, "Expecting BEGIN but got [" + receiveMessage + "]");
+					// Often we land here when the Powers That Be are trying to break into our system, so the message is sometimes simply garbage.
+					// We expect it to be all ASCII, but maybe not.
+					String interpretedMessage = escapeThisMessage(receiveMessage);
+					printlnErr(clazz, "Expecting BEGIN but got [" + interpretedMessage + "]");
 					throw new UnrecognizedCommunicationException(
-							"Expecting BEGIN [000 marker 000] but got [" + receiveMessage + "], sInput=" + receiveRead.hashCode());
+							"Expecting BEGIN [000 marker 000] but got [" + interpretedMessage + "], sInput=" + receiveRead.hashCode());
 				}
 			} else {
 				printlnErr(clazz, "Read a null line in getNextMessage()");
 				throw new NullPointerException(
-						"NULL message received.  This probably means that the client has disconnected, so this is not a big deal.");
+						"NULL message received.  This probably means that the client has disconnected, which would not be a big deal.");
 			}
 			if (verbose)
 				System.out.println("*0* " + receiveRead.hashCode() + " " + receiveMessage);
@@ -97,6 +100,20 @@ public class MessageConveyor {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private static String escapeThisMessage(String receiveMessage) {
+		String retval = "";
+		for (int i = 0; i < receiveMessage.length() && i < 50; i++)
+			retval += isPrintable(receiveMessage.charAt(i)) ? receiveMessage.charAt(i) : 'X';
+		if (receiveMessage.length() > 49) {
+			retval += " ... plus " + (receiveMessage.length() - 49) + " more";
+		}
+		return retval;
+	}
+
+	private static final boolean isPrintable(char c) {
+		return c >= 32 && c <= 127;
 	}
 
 	/**
