@@ -228,20 +228,20 @@ public class MessagingServer {
 				logger.fine("'" + this.username + "' has connected.");
 				setName("ClientThread_of_MessagingServer_" + username);
 			} catch (UnrecognizedCommunicationException e) {
-				logger.warning("We have a potential client that is not behaving properly.  We will try to ignore it.");
+				logger.warning("We have a potential client that is not behaving properly.  We will try to ignore it. " + exceptionString(e));
 				try {
 					this.sOutput.close();
 					this.sInput.close();
 				} catch (IOException e1) {
-					logger.warning("Well, there was an exception closing that client!");
-					e1.printStackTrace();
+					logger.warning("Well, there was an exception closing that client!" + exceptionString(e));
+					// e1.printStackTrace();
 				}
 			} catch (Exception e) {
 				// Usually, it seems we fall here when something tries to connect to us but is not one of the Java clients.
 				// At Fermilab, this happens when this port gets scanned.
 				logger.warning(
-						"Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + e);
-				e.printStackTrace();
+						"Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + exceptionString(e));
+				// e.printStackTrace();
 				return;
 			}
 			this.date = new Date();
@@ -1048,14 +1048,17 @@ public class MessagingServer {
 					}
 					stmt.close();
 				} catch (Exception ex) {
-					ex.printStackTrace();
+					logger.warning(exceptionString(ex));
+					//ex.printStackTrace();
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.warning(exceptionString(e));
 		}
 	}
 
+	// Big STATIC block here, run before any class object are initialized.
+	
 	static {
 		Connection connection = null;
 		try {
