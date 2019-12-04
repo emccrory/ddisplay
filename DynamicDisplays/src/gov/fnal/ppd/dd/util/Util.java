@@ -244,7 +244,7 @@ public class Util {
 	 *            The Class object to name
 	 * @return The best possible name for this class object.
 	 */
-	private static String getClassName(Class<?> clazz) {
+	public static String getClassName(Class<?> clazz) {
 		String className = clazz.getSimpleName();
 		if (className == null || className.length() == 0) {
 			className += "(" + clazz.getSuperclass().getSimpleName();
