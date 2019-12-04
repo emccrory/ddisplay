@@ -419,7 +419,7 @@ public class DDSystemStatus extends JFrame {
 		// FIXME -- Maybe there is a way to generate a new tree when these WHOISIN messages come in and then see if the two trees
 		// are equal().
 
-		client.sendMessage(MessageCarrierXML.getWhoIsIn("me"));
+		client.sendMessage(MessageCarrierXML.getWhoIsIn("me", getMessagingServerNameDisplay()));
 		ta.append("\n------ " + new Date() + " ------\n");
 
 		SwingUtilities.invokeLater(new Runnable() {
