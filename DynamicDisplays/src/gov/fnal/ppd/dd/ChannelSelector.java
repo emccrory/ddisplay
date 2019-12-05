@@ -595,7 +595,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 			// Set up a database check every now and then to see what a Display is actually doing (this is inSTEAD of the Ping
 			// thread, above).
-			new CheckDisplayStatus(display, index, footer, channelButtonGridList).start();
+			new CheckDisplayStatus(display, index, footer).start();
 			index++;
 		}
 

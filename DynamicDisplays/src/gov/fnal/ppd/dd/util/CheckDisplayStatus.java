@@ -14,6 +14,7 @@ import static gov.fnal.ppd.dd.util.Util.println;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.io.StreamCorruptedException;
+import java.lang.reflect.Method;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,9 +23,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JLabel;
-
-import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
 import gov.fnal.ppd.dd.changer.DisplayButtons;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
@@ -39,13 +37,16 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 /**
  * Utility class for the main Channel Selector class.
  * 
+ * TODO: This class mixes database access (to see what the status of a display is) and GUI (to show this status in a meaningful way
+ * on the GUI). So this should be refactored into the listening part and the GUI part.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 public class CheckDisplayStatus extends Thread {
 
 	private Display			display;
-	private JLabel			footer;
+	private Object			footer;
 	private static boolean	doDisplayButtons	= true;
 	private final long		initialSleep;
 	private String			lastStreamCorruptedMesage;
@@ -55,15 +56,13 @@ public class CheckDisplayStatus extends Thread {
 	/**
 	 * @param display
 	 * @param index
+	 *            - A value related to the initial sleep for this Thread
 	 * @param footer
-	 * @param grids
 	 */
-	public CheckDisplayStatus(final Display display, final int index, final JLabel footer,
-			final List<List<ChannelButtonGrid>> grids) {
+	public CheckDisplayStatus(final Display display, final int index, final Object footer) {
 		super("Display." + display.getDBDisplayNumber() + "." + display.getScreenNumber() + ".StatusUpdateGrabber");
 		this.display = display;
 		this.footer = footer;
-		// this.grids = grids;
 		initialSleep = 5 * index + 20000L;
 	}
 
@@ -71,7 +70,7 @@ public class CheckDisplayStatus extends Thread {
 	 * @param display
 	 * @param footer
 	 */
-	public CheckDisplayStatus(final Display display, final JLabel footer) {
+	public CheckDisplayStatus(final Display display, final Object footer) {
 		super("Display." + display.getDBDisplayNumber() + "." + display.getScreenNumber() + ".StatusUpdateGrabber");
 		this.display = display;
 		this.footer = footer;
@@ -153,12 +152,12 @@ public class CheckDisplayStatus extends Thread {
 											contentName = contentName.replace(isBeingDisplayed, "");
 											// Create a new footer
 											if (getContentOnDisplays().get(display) != null)
-												footer.setText(startText + getContentOnDisplays().get(display));
+												setText(startText + getContentOnDisplays().get(display));
 											else
-												footer.setText(startText + contentName);
+												setText(startText + contentName);
 
 											if (doDisplayButtons)
-												DisplayButtons.setToolTip(display);
+												setToolTip(display);
 
 											// Enable the Channel buttons, too
 											// synchronized (grids) {
@@ -232,4 +231,22 @@ public class CheckDisplayStatus extends Thread {
 		}
 	}
 
+	private void setToolTip(Display disp) {
+		// This needs to be refactored so there is no direct dependence on this GUI class.
+		DisplayButtons.setToolTip(disp);
+	}
+
+	private void setText(String text) {
+		// Refactored so this class does not need to depend on JLabel (which was the type of the attribute "footer" at one time).
+		try {
+			Method method = footer.getClass().getMethod("setText", String.class);
+			method.invoke(footer, text);
+		} catch (NoSuchMethodException e) {
+			// This one is probably OK
+		} catch (Exception e) {
+			// Everything else, tell me about it.
+			e.printStackTrace();
+		}
+
+	}
 }

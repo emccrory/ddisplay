@@ -33,7 +33,7 @@ public class LoggerForDebugging {
 	 * ALL = 0
 	 */
 
-	protected LoggerForDebugging(String name) {
+	public LoggerForDebugging(String name) {
 		logger = Logger.getLogger(name);
 	}
 
