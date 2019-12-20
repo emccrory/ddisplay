@@ -34,7 +34,7 @@ public class MessageConveyor {
 	 * @return The next message
 	 */
 
-	public static MessageCarrierXML getNextDocument(Class<?> clazz, BufferedReader receiveRead)
+	public static MessageCarrierXML getNextDocument(Class<?> clazz, BufferedReader receiveRead, String username)
 			throws UnrecognizedCommunicationException {
 		if (verbose)
 			System.out.println(
@@ -54,7 +54,7 @@ public class MessageConveyor {
 							"Expecting BEGIN [000 marker 000] but got [" + interpretedMessage + "], sInput=" + receiveRead.hashCode());
 				}
 			} else {
-				printlnErr(clazz, "Read a null line in getNextMessage()");
+				printlnErr(clazz, "Read a null line in getNextDocument() from " + username);
 				throw new NullPointerException(
 						"NULL message received.  This probably means that the client has disconnected, which would not be a big deal.");
 			}
@@ -97,6 +97,7 @@ public class MessageConveyor {
 			retval.setSignatureIsValid(isValid);
 			return retval;
 		} catch (Exception e) {
+			printlnErr(clazz, e.getClass().getCanonicalName() + " caught while receiving an incoming document; returning null.  Details:");
 			e.printStackTrace();
 		}
 		return null;
