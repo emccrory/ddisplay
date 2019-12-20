@@ -823,7 +823,7 @@ public class MessagingServer {
 					}
 					lastLoggerName = record.getLoggerName();
 					return String.format(format2, new Date(record.getMillis()), record.getLevel().getLocalizedName(),
-							record.getLoggerName(), record.getMessage());
+							lastLoggerName, record.getMessage());
 				}
 
 			};
