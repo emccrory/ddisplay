@@ -12,7 +12,7 @@ public class LoggerForDebugging {
 	private static boolean	bypassLogger	= PropertiesFile.getBooleanProperty("BypassStandardLog", false);
 
 	/*
-	 * Note that the levels are in this order: 
+	 * Note that the levels are in this order:
 	 * 
 	 * OFF = Integer.MAX_VALUE
 	 * 
@@ -40,6 +40,14 @@ public class LoggerForDebugging {
 	private void p(String s) {
 		System.out.println(shortDate() + " - " + s);
 	}
+
+	/*
+	 * TODO - Add the calling class name to all the printed/logged messages.
+	 * 
+	 * The way to learn this info is to create a new Exception and then peel off the calling class name that way. This is a little
+	 * heavy, so (meh!) let's not do it now.
+	 * 
+	 */
 
 	public void fine(String string) {
 		if (bypassLogger && logger.isLoggable(Level.FINE))
