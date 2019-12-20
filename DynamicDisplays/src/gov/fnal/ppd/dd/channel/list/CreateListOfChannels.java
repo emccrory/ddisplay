@@ -453,7 +453,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 
 		if (listener == null)
 			helper.accept.addActionListener(new ActionListener() {
-				// Used for testing
+				// Used ONLY for testing
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					int count = 1;
