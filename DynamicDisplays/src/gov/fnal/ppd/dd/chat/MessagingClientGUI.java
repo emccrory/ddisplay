@@ -198,7 +198,7 @@ public class MessagingClientGUI extends JFrame implements ActionListener {
 		}
 		// if it the who is in button
 		if (o == whoIsIn) {
-			client.sendMessage(MessageCarrierXML.getWhoIsIn(client.getName()));
+			client.sendMessage(MessageCarrierXML.getWhoIsIn(client.getName(), defaultHost));
 			currentClients.clear();
 			new Thread("WaitForWhoIsIn"){
 				public void run() {

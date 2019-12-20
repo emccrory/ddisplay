@@ -43,6 +43,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
@@ -183,25 +184,28 @@ public class MessagingServer {
 		// Constructor
 		ClientThread(Socket socket) {
 			super("ClientThread_of_MessagingServer_" + MessagingServer.uniqueId);
+
+			// a unique id
+			this.id = MessagingServer.uniqueId.getAndIncrement();
+			this.socket = socket;
+
+			final int initialID = this.id;
 			this.myShutdownHook = new Thread("ShutdownHook_of_MessagingServer_" + MessagingServer.uniqueId) {
 				public void run() {
+					println(ClientThread.class,
+							"Shutting down client connection, initialID=" + initialID + ", final ID=" + ClientThread.this.id);
 					close(true);
 				}
 			};
 			Runtime.getRuntime().addShutdownHook(this.myShutdownHook);
-			// a unique id
-			this.id = MessagingServer.uniqueId.getAndIncrement();
-			this.socket = socket;
 
 			theIPAddress = socket.getInetAddress();
 
 			MessageCarrierXML read = null;
 			/* Creating both Data Stream */
-			// System.out.println("Thread trying to create Object Input/Output Streams");
 			logger.fine("Starting client at uniqueID=" + id + " connected to " + theIPAddress);
 
 			try {
-				// create output first
 				/*
 				 * FIXME ??? --- On June 2, 2015, 15:16:33 (approximately) I connected a display server with a mixed-up IP address.
 				 * Its internal reckoning of its IP address was different from what DNS said. I was able to connect to the server
@@ -211,11 +215,12 @@ public class MessagingServer {
 				 * So, future self, be warned that this could happen again and foul everything up.
 				 */
 
+				// create output first
 				this.sOutput = socket.getOutputStream();
 				this.sInput = socket.getInputStream();
 				this.receiver = new BufferedReader(new InputStreamReader(sInput));
 
-				read = MessageConveyor.getNextDocument(getClass(), receiver);
+				read = MessageConveyor.getNextDocument(getClass(), receiver, " (new connection, client ID=" + this.id + ")");
 
 				if (!(read.getMessageValue() instanceof LoginMessage)) {
 					logger.warning("Expected " + LoginMessage.class.getCanonicalName() + " message " + read.getMessageValue()
@@ -228,7 +233,8 @@ public class MessagingServer {
 				logger.fine("'" + this.username + "' has connected.");
 				setName("ClientThread_of_MessagingServer_" + username);
 			} catch (UnrecognizedCommunicationException e) {
-				logger.warning("We have a potential client that is not behaving properly.  We will try to ignore it. " + exceptionString(e));
+				logger.warning("We have a potential client that is not behaving properly.  We will try to ignore it. "
+						+ exceptionString(e));
 				try {
 					this.sOutput.close();
 					this.sInput.close();
@@ -239,8 +245,8 @@ public class MessagingServer {
 			} catch (Exception e) {
 				// Usually, it seems we fall here when something tries to connect to us but is not one of the Java clients.
 				// At Fermilab, this happens when this port gets scanned.
-				logger.warning(
-						"Exception creating new Input/output streams on socket (" + socket + ") due to this exception: " + exceptionString(e));
+				logger.warning("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: "
+						+ exceptionString(e));
 				// e.printStackTrace();
 				return;
 			}
@@ -326,7 +332,7 @@ public class MessagingServer {
 			while (this.thisSocketIsActive) {
 				MessageCarrierXML read = null;
 				try {
-					this.cm = read = MessageConveyor.getNextDocument(getClass(), receiver);
+					this.cm = read = MessageConveyor.getNextDocument(getClass(), receiver, username);
 					setLastSeen();
 					if (showAllIncomingMessages)
 						logger.fine("MessagingServer.ClientThread: Got message: " + cm);
@@ -804,7 +810,23 @@ public class MessagingServer {
 			logger = new LoggerForDebugging(MessagingServer.class.getName());
 
 			FileHandler fileTxt = new FileHandler("../../log/messagingServer.log");
-			SimpleFormatter sfh = new SimpleFormatter();
+			SimpleFormatter sfh = new SimpleFormatter() {
+				private static final String	format1			= "[%1$tF %1$tT] [%2$s] %3$s %n";
+				private static final String	format2			= "---------- From Logger %3$s: ---------- %n[%1$tF %1$tT] [%2$s] %4$s %n";
+				private String				lastLoggerName	= "";
+
+				@Override
+				public synchronized String format(LogRecord record) {
+					if (lastLoggerName.equals(record.getLoggerName())) {
+						return String.format(format1, new Date(record.getMillis()), record.getLevel().getLocalizedName(),
+								record.getMessage());
+					}
+					lastLoggerName = record.getLoggerName();
+					return String.format(format2, new Date(record.getMillis()), record.getLevel().getLocalizedName(),
+							record.getLoggerName(), record.getMessage());
+				}
+
+			};
 			fileTxt.setFormatter(sfh);
 			logger.addHandler(fileTxt);
 			// logger.setLevel(Level.FINE);
@@ -1049,7 +1071,7 @@ public class MessagingServer {
 					stmt.close();
 				} catch (Exception ex) {
 					logger.warning(exceptionString(ex));
-					//ex.printStackTrace();
+					// ex.printStackTrace();
 				}
 			}
 		} catch (Exception e) {
@@ -1058,7 +1080,7 @@ public class MessagingServer {
 	}
 
 	// Big STATIC block here, run before any class object are initialized.
-	
+
 	static {
 		Connection connection = null;
 		try {

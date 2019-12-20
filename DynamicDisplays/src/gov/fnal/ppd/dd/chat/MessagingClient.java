@@ -525,7 +525,7 @@ public class MessagingClient {
 			BufferedReader receiver = new BufferedReader(new InputStreamReader(sInput));
 			while (keepMessagingClientGoing) {
 				try {
-					MessageCarrierXML msg = MessageConveyor.getNextDocument(getClass(), receiver);
+					MessageCarrierXML msg = MessageConveyor.getNextDocument(getClass(), receiver, "the messaging server");
 					lastMessageReceived = System.currentTimeMillis();
 					dumpMessage(msg);
 
