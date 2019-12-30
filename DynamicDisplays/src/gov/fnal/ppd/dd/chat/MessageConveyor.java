@@ -22,6 +22,11 @@ import gov.fnal.ppd.dd.xml.signature.Validate;
 public class MessageConveyor {
 
 	private static boolean verbose = PropertiesFile.getBooleanProperty("IncomingMessVerbose", false);
+	private static int badConnectionAttempts = 0;
+
+	public static int getBadConnectionAttempts() {
+		return badConnectionAttempts;
+	}
 
 	private MessageConveyor() {
 	}
@@ -48,8 +53,9 @@ public class MessageConveyor {
 				if (!receiveMessage.startsWith("BEGIN ")) {
 					// Often we land here when the Powers That Be are trying to break into our system, so the message is sometimes simply garbage.
 					// We expect it to be all ASCII, but maybe not.
+					badConnectionAttempts++;
 					String interpretedMessage = escapeThisMessage(receiveMessage);
-					printlnErr(clazz, "Expecting BEGIN but got [" + interpretedMessage + "]");
+					printlnErr(clazz, "Expecting BEGIN but got [" + interpretedMessage + "] (X = unprintable char)");
 					throw new UnrecognizedCommunicationException(
 							"Expecting BEGIN [000 marker 000] but got [" + interpretedMessage + "], sInput=" + receiveRead.hashCode());
 				}
