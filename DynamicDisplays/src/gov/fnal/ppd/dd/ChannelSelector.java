@@ -224,7 +224,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		launchStatusThread();
 	}
 
-	private static SimpleDateFormat	sdf		= new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+	private static SimpleDateFormat	sdf		= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private static String			OFFLINE	= "**Off Line**";
 
 	private void launchStatusThread() {
