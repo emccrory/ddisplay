@@ -792,6 +792,7 @@ public class MessagingServer {
 	private int										numUnexpectedClosedSockets1		= 0;
 	private int										numUnexpectedClosedSockets2		= 0;
 	private int										numDuplicateClients				= 0;
+	private int										numPortScannerAttempts			= 0;
 
 	// private Object oneMessageAtATime = new String("For synchronization");
 
@@ -999,7 +1000,7 @@ public class MessagingServer {
 			long mins = (aliveTime % ONE_HOUR) / ONE_MINUTE;
 			long secs = (aliveTime % ONE_MINUTE) / ONE_SECOND;
 
-			String subjectInfo = "*There are " + subjectListeners.size() + " subjects*  They are:\n";
+			String subjectInfo = "*There are " + subjectListeners.size() + " subjects*\n";
 			String LL = " listeners";
 			String NN = "no";
 			for (String subject : subjectListeners.keySet()) {
@@ -1008,36 +1009,35 @@ public class MessagingServer {
 				LL = "";
 				NN = "none";
 			}
-			String spaces = "XZXZxzxz";
-			String spacesForLog = "\n              ";
 			// String spacesForStatus = " - ";
-			String message = MessagingServer.class.getSimpleName() + " has been alive " + days + " d " + hours + " hr " + mins
-					+ " min " + secs + " sec (" + aliveTime + " msec)" //
-					+ spaces + numConnectionsSeen + " connections accepted, " + listOfMessagingClients.size() + " client"
+			String message = MessagingServer.class.getSimpleName() + " has been alive " + days + "D " + hours + ":" + mins + ":"
+					+ secs + " (" + aliveTime + " msec)" //
+					+ "\n         " + numConnectionsSeen + " connections accepted, " + listOfMessagingClients.size() + " client"
 					+ (listOfMessagingClients.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
 					+ " messages handled" //
-					+ spaces + "Oldest client is " + oldestName //
-					+ spaces + "Num clients put 'on notice': " + numClientsPutOnNotice //
-					+ spaces + "Num clients removed due to lack of response: " + numRemovedForPings1 + " & " + numRemovedForPings2//
-					+ spaces + "Num clients removed for 'bad write': " + numRemovedBadWriteSeen //
-					+ spaces + "Num clients removed for 'null client thread': " + numRemovedNullClientThread //
-					+ spaces + "Num clients removed for null username: " + numRemovedNullUsername //
-					+ spaces + "Num clients removed for null date: " + numRemovedNullDate //
-					+ spaces + "Num clients removed by exiting forever loop: " + numRemovedExitedForeverLoop //
-					+ spaces + "Num clients removed for duplicate name: " + numRemovedDuplicateUsername //
-					+ spaces + "Num clients removed for unexpected closed sockets: " + numUnexpectedClosedSockets1 + " & "
+					+ "\n         Oldest client is " + oldestName //
+					+ "\n         Reasons (NC = Num Clients)              Count" //
+					+ "\n         Num apparent port scanner connections: " + numPortScannerAttempts //
+					+ "\n         NC put 'on notice':                    " + numClientsPutOnNotice //
+					+ "\n         NC removed due to lack of response:    " + numRemovedForPings1 + " & " + numRemovedForPings2//
+					+ "\n         NC rmvd for 'bad write':               " + numRemovedBadWriteSeen //
+					+ "\n         NC rmvd for 'null client thread':      " + numRemovedNullClientThread //
+					+ "\n         NC rmvd for null username:             " + numRemovedNullUsername //
+					+ "\n         NC rmvd for null date:                 " + numRemovedNullDate //
+					+ "\n         NC rmvd by exiting forever loop:       " + numRemovedExitedForeverLoop //
+					+ "\n         NC rmvd for duplicate name:            " + numRemovedDuplicateUsername //
+					+ "\n         NC rmvd for unexpected closed sockets: " + numUnexpectedClosedSockets1 + " & "
 					+ numUnexpectedClosedSockets2 //
-					+ spaces + "Num clients removed for unexpected duplicate clients: " + numDuplicateClients //
-					+ "\n" + subjectInfo;
-			logger.fine("\n                       " + message.replace(spaces, spacesForLog));
-			// updateStatus(message.replace(spaces, spacesForStatus));
+					+ "\n         NC rmvd for unexpected duplicate clients: " + numDuplicateClients //
+					+ "\n    " + subjectInfo;
+			logger.fine(message);
 		}
 	}
 
 	private VersionInformation versionInfo = VersionInformation.getVersionInformation();
 
 	private synchronized void updateStatus(String statusMessage) {
-		SimpleDateFormat sqlFormat = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
+		SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
 		try {
 			long uptime = System.currentTimeMillis() - startTime;
@@ -1204,6 +1204,7 @@ public class MessagingServer {
 						// continue; No, I think (now) that fall through is appropriate.
 					}
 				} else {
+					numPortScannerAttempts++;
 					logger.warning(
 							getClass().getSimpleName() + " - A client attempted to connect, but the username it presented is null."
 									+ "\n\t\tThis usually means that a port scanner has tried to connect.");
@@ -1298,7 +1299,7 @@ public class MessagingServer {
 								+ numUnexpectedClosedSockets1 + ", " + numUnexpectedClosedSockets2 + ", " + numDuplicateClients
 								+ " (" + numClosedCallsSeen + "), " + numClientsPutOnNotice + ", " + numRemovedBadWriteSeen + ", "
 								+ numRemovedNullClientThread + ", " + numRemovedNullUsername + ", " + numRemovedNullDate + ", "
-								+ numRemovedDuplicateUsername + ", " + numLogoutsSeen;
+								+ numRemovedDuplicateUsername + ", " + numLogoutsSeen + ", " + numPortScannerAttempts;
 
 						if (m.length() + stats.length() > MAX_STATUS_MESSAGE_SIZE) {
 							String extra = " (exceeds " + MAX_STATUS_MESSAGE_SIZE + " bytes)";
