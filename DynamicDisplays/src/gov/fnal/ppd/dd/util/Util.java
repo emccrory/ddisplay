@@ -153,7 +153,7 @@ public class Util {
 					long max = Runtime.getRuntime().maxMemory() / 1024 / 1024;
 					long total = Runtime.getRuntime().totalMemory() / 1024 / 1024;
 					String msg = "Threads: " + tCount + " (" + activeTCount + "), mem: " + total + "M " + free + "M " + max
-							+ "M at " + (new Date()) + " (Sleep " + (time / 1000) + " sec.)";
+							+ "M  (Sleeping " + (time / 1000) + " sec)";
 					if (logger != null) {
 						logger.fine(msg);
 					} else {
