@@ -371,21 +371,34 @@ public class MessagingClient {
 	 */
 	protected void close() {
 		keepMessagingClientGoing = false;
+		String progressMessage = "Closing sockets;";
 		try {
-			if (sInput != null)
+			if (sInput != null) {
 				sInput.close();
+				progressMessage += ", closed sInput";
+			} else {
+				progressMessage += ", (sInput was null already)";
+			}
 		} catch (Exception e) {
 			System.err.println("Exception caught while closing sInput! " + e.getLocalizedMessage());
 		} // not much else I can do
 		try {
-			if (sOutput != null)
+			if (sOutput != null) {
 				sOutput.close();
+				progressMessage += ", closed sOutput";
+			} else {
+				progressMessage += ", (sOutput was null already)";
+			}
 		} catch (Exception e) {
 			System.err.println("Exception caught while closing sOutput! " + e.getLocalizedMessage());
 		} // not much else I can do, although it might just be that it is already closed.
 		try {
-			if (socket != null)
+			if (socket != null) {
 				socket.close();
+				progressMessage += ", closed socket";
+			} else {
+				progressMessage += ", (socket was null already)";
+			}
 		} catch (Exception e) {
 			System.err.println("Exception caught while closing socket! " + e.getLocalizedMessage());
 		} // not much else I can do
@@ -394,6 +407,7 @@ public class MessagingClient {
 		sOutput = null;
 		socket = null;
 		listenFromServer = null;
+		println(getClass(), progressMessage);
 	}
 
 	/**

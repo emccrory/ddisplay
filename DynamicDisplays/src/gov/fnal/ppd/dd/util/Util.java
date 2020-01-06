@@ -90,7 +90,7 @@ public class Util {
 	public static final String truncate(final String name, final int chars) {
 		if (name.length() <= chars)
 			return name;
-		return name.substring(0, chars - 3) + " \u2026 " + name.substring(name.length() - 3);
+		return name.substring(0, chars - 3) + " \u2026 "; // + name.substring(name.length() - 3);
 	}
 
 	/**

@@ -261,27 +261,37 @@ public class MessagingServer {
 		}
 
 		protected void close(boolean duringShutdown) {
+			String progress = "";
 			try {
 				logger.fine("Closing client " + username);
 				thisSocketIsActive = false;
 				numClosedCallsSeen++;
 				try {
-					if (this.sOutput != null)
+					if (this.sOutput != null) {
 						this.sOutput.close();
+						progress += " Closed sOutput.";
+					}
 				} catch (Exception e) {
 					logger.warning(exceptionString(e));
+					progress += " Problems closing sOutput.";
 				}
 				try {
-					if (this.sInput != null)
+					if (this.sInput != null) {
 						this.sInput.close();
+						progress += " Closed sInput.";
+					}
 				} catch (Exception e) {
 					logger.warning(exceptionString(e));
+					progress += " Problems closing sInput.";
 				}
 				try {
-					if (this.socket != null)
+					if (this.socket != null) {
 						this.socket.close();
+						progress += " Closed socket.";
+					}
 				} catch (Exception e) {
 					logger.warning(exceptionString(e));
+					progress += " Problems closing socket.";
 				}
 				this.sInput = null;
 				this.sOutput = null;
@@ -290,10 +300,14 @@ public class MessagingServer {
 				if (!duringShutdown && this.myShutdownHook != null) {
 					Runtime.getRuntime().removeShutdownHook(this.myShutdownHook);
 					this.myShutdownHook = null;
+					progress += " Removed shutdown hook.";
+				} else {
+					progress += " No shutdown hook to remove.";
 				}
 			} catch (Exception e) {
 				logger.warning(exceptionString(e));
 			}
+			logger.fine("Closed client " + username + ":" + progress);
 		}
 
 		public long getLastSeen() {
@@ -717,8 +731,8 @@ public class MessagingServer {
 			numConnectionsSeen++;
 			boolean retval = super.add(ct);
 			if (!retval) {
-				logger.fine("Adding a client named " + ct.username + " gives an error from CopyOnWriteArrayList.add()");
-			}
+				logger.warning("Adding a client named " + ct.username + " gives an error from CopyOnWriteArrayList.add()");
+			} 
 			return retval;
 		}
 
@@ -1157,7 +1171,6 @@ public class MessagingServer {
 				if (t.username != null) {
 					if (listOfMessagingClients.add(t)) { // save it in the ArrayList
 						try {
-							// Interim subject, equal to the client name without the appended id number.
 							String subject = t.username.substring(0, t.username.length() - ("_" + t.id).length());
 							ClientThreadList ctl = subjectListeners.get(subject);
 							if (ctl == null) {
@@ -1165,6 +1178,7 @@ public class MessagingServer {
 								subjectListeners.put(subject, ctl);
 							}
 							ctl.add(t);
+							numConnectionsSeen--;  // Duplication of this parameter within the class ClientThreadList.  oops
 							t.start();
 						} catch (Exception e) {
 							logger.warning(getClass().getSimpleName() + "\n" + exceptionString(e) + "\n"
