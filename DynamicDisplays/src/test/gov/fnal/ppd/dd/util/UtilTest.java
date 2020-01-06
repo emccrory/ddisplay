@@ -6,6 +6,7 @@ import static gov.fnal.ppd.dd.util.Util.getNextEntropy;
 import static gov.fnal.ppd.dd.util.Util.getOrdinalSuffix;
 import static gov.fnal.ppd.dd.util.Util.truncate;
 import static gov.fnal.ppd.dd.util.Util.twoDigits;
+import static org.junit.Assert.assertEquals;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,25 +18,25 @@ public class UtilTest {
 	@Test
 	public void testTruncateStringInt() {
 		String testString = "Something";
-		String truncated = "Some  \u2026 ";
-		assert (testString.equals(truncate(testString, testString.length())));
-		assert (truncated.equals(truncate(testString, 7)));
+		String truncated = "Some \u2026 ";
+		assertEquals(testString, truncate(testString, testString.length()));
+		assertEquals(truncated, truncate(testString, 7));
 	}
 
 	@Test
 	public void testTruncateString() {
 		String testString = "123456789112345678921234567893";
-		assert (testString.equals(truncate(testString)));
+		assertEquals(testString, truncate(testString));
 		String appendedTestString = testString + "non";
-		assert ((testString + " \u2026 ").equals(truncate(appendedTestString)));
+		assertEquals(("123456789112345678921234567 \u2026 "), truncate(appendedTestString));
 	}
 
 	@Test
 	public void testTwoDigits() {
-		assert ("01".equals(twoDigits(1)));
-		assert ("09".equals(twoDigits(9)));
-		assert ("10".equals(twoDigits(10)));
-		assert ("99".equals(twoDigits(99)));
+		assertEquals("01", twoDigits(1));
+		assertEquals("09", twoDigits(9));
+		assertEquals("10", twoDigits(10));
+		assertEquals("99", twoDigits(99));
 	}
 
 	@Test
@@ -44,13 +45,14 @@ public class UtilTest {
 		catchSleep(100);
 		long timeNow = System.currentTimeMillis();
 		long duration = timeNow - timeThen;
-		assert (duration >= 99 && duration <= 101);
+		assert(duration >= 99);
+		assert(duration <= 110); // Wow - in the context of running these tests in Maven, duration is 105!
 	}
 
 	@Test
 	public void testGetClassName() {
-		assert (getClass().getSimpleName().equals(getClassName(getClass())));
-		Object o = new ActionListener() {
+		assertEquals(getClass().getSimpleName(), getClassName(getClass()));
+		ActionListener o = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -58,23 +60,23 @@ public class UtilTest {
 			}
 
 		};
-		assert (ActionListener.class.getSimpleName().equals(getClassName(o.getClass())));
+		assertEquals("(Object in UtilTest)", getClassName(o.getClass()));
 	}
 
 	@Test
 	public void testGetOrdinalSuffix() {
-		assert ("st".equals(getOrdinalSuffix(1)));
-		assert ("nd".equals(getOrdinalSuffix(2)));
-		assert ("rd".equals(getOrdinalSuffix(3)));
-		assert ("th".equals(getOrdinalSuffix(4)));
-		assert ("th".equals(getOrdinalSuffix(5)));
-		assert ("th".equals(getOrdinalSuffix(6)));
-		assert ("th".equals(getOrdinalSuffix(7)));
-		assert ("th".equals(getOrdinalSuffix(8)));
-		assert ("th".equals(getOrdinalSuffix(9)));
-		assert ("th".equals(getOrdinalSuffix(10)));
-		assert ("st".equals(getOrdinalSuffix(21)));
-		assert ("nd".equals(getOrdinalSuffix(22)));
+		assertEquals("st", getOrdinalSuffix(1));
+		assertEquals("nd", getOrdinalSuffix(2));
+		assertEquals("rd", getOrdinalSuffix(3));
+		assertEquals("th", getOrdinalSuffix(4));
+		assertEquals("th", getOrdinalSuffix(5));
+		assertEquals("th", getOrdinalSuffix(6));
+		assertEquals("th", getOrdinalSuffix(7));
+		assertEquals("th", getOrdinalSuffix(8));
+		assertEquals("th", getOrdinalSuffix(9));
+		assertEquals("th", getOrdinalSuffix(10));
+		assertEquals("st", getOrdinalSuffix(21));
+		assertEquals("nd", getOrdinalSuffix(22));
 	}
 
 	@Test
@@ -83,7 +85,7 @@ public class UtilTest {
 		long r2 = getNextEntropy();
 		long r3 = getNextEntropy();
 		long r4 = getNextEntropy();
-		// A pitiful test.  In reality, there is a chance that this test will fail.  But given the size of longs, it is quite unlikely
+		// A pitiful test. In reality, there is a chance that this test will fail. But given the size of longs, it is quite unlikely
 		assert (r1 != r2);
 		assert (r1 != r3);
 		assert (r1 != r4);

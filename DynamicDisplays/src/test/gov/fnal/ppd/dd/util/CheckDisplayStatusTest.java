@@ -122,7 +122,7 @@ public class CheckDisplayStatusTest {
 		}, new SetTextClass());
 		cds.start();
 		// In the Fermilab system, the first display responds in about 14 seconds after this test is launched. Usually, we see two
-		// responses in 20 seconds.
+		// responses in 20 seconds.  But it seems to not work at all for maven, even if we wait for 40 seconds.
 		catchSleep(20000);
 		assertNotNull(SetTextClass.text);
 	}
