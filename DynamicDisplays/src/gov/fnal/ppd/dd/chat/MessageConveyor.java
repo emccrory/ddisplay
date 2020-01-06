@@ -5,10 +5,11 @@ import static gov.fnal.ppd.dd.util.Util.getNextEntropy;
 import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+// import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 import gov.fnal.ppd.dd.util.PropertiesFile;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
@@ -141,7 +142,8 @@ public class MessageConveyor {
 
 			if (!msg.isReadOnly()) {
 				XMLDocumentAndString theMessageDocument = new XMLDocumentAndString(theMessageString);
-				ByteOutputStream localOutputStream = new ByteOutputStream();
+				// ByteOutputStream localOutputStream = new ByteOutputStream();
+				ByteArrayOutputStream localOutputStream = new ByteArrayOutputStream();
 				SignXMLUsingDSAKeys.signDocument(theMessageDocument.getTheDocument(), localOutputStream);
 				theMessageString = localOutputStream.toString();
 				XMLDocumentAndString theSignedDoc = new XMLDocumentAndString(theMessageString);

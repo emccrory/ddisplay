@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd.xml;
 
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -18,7 +19,7 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+// import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 import gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys;
 import gov.fnal.ppd.dd.xml.signature.Validate;
@@ -52,7 +53,7 @@ public class XMLDocumentAndString {
 	public XMLDocumentAndString getSignedDocument()
 			throws MarshalException, XMLSignatureException, TransformerException, InstantiationException, IllegalAccessException,
 			ClassNotFoundException, KeyException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-		ByteOutputStream localOutputStream = new ByteOutputStream();
+		ByteArrayOutputStream localOutputStream = new ByteArrayOutputStream();
 		SignXMLUsingDSAKeys.signDocument(getTheDocument(), localOutputStream);
 		String theString = localOutputStream.toString();
 
