@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.Scanner;
@@ -218,7 +219,7 @@ public class MessagingClient {
 			return false;
 		}
 
-		String msg = "Connection accepted to " + socket.getInetAddress() + ", port " + socket.getPort() + ".  Username = '"
+		String msg = "Connection accepted to " + socket.getInetAddress() + ", port #" + socket.getPort() + ".  Username = '"
 				+ username + "' at " + (new Date());
 		displayLogMessage(msg);
 		// new Exception("Connection accepted debug").printStackTrace();
@@ -581,6 +582,9 @@ public class MessagingClient {
 					break; // Leave the forever loop
 				} catch (ErrorProcessingMessage e) {
 					// TODO -- We are catching a failure from the lowest level. Need to send an error response to the sender.
+					e.printStackTrace();
+				} catch (SocketTimeoutException e) {
+					// This is unlikely to happen, given the way we have designed the method.  But it is here anyway,
 					e.printStackTrace();
 				}
 			} // end of while forever loop

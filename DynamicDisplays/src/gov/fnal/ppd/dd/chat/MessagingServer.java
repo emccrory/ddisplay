@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -181,7 +182,12 @@ public class MessagingServer {
 		private InetAddress			theIPAddress;
 		private Thread				myShutdownHook;
 
-		// Constructor
+		/**
+		 * Constructor - call when a potential client connects to the socket. Note that this implementation relies on the fact that
+		 * this constructor will return almost immediately!
+		 * 
+		 * @param socket
+		 */
 		ClientThread(Socket socket) {
 			super("ClientThread_of_MessagingServer_" + MessagingServer.uniqueId);
 
@@ -200,10 +206,21 @@ public class MessagingServer {
 			Runtime.getRuntime().addShutdownHook(this.myShutdownHook);
 
 			theIPAddress = socket.getInetAddress();
+		}
 
+		public void initialize() {
 			MessageCarrierXML read = null;
 			/* Creating both Data Stream */
-			logger.fine("Starting client at uniqueID=" + id + " connected to " + theIPAddress);
+			logger.fine("Starting client thread at uniqueID=" + id + " connected to " + theIPAddress + ", port "
+					+ socket.getLocalPort() + ", remote port " + socket.getPort());
+			boolean probablePortScanner = false;
+			if (theIPAddress.toString().contains("131.225.12.") || theIPAddress.toString().contains("0:0:0:0:0:0:")) {
+				// Well, at Fermilab, this is a port scanner. It would be cheating to ignore these requests altogether since
+				// this is an assumption here (that is, if the suite goes elsewhere, or they change their addressing, this shield
+				// will not help). So we really need to figure out how to withstand these probes.
+				probablePortScanner = true;
+			}
+			int socketTimeout = 10 * ((int) ONE_SECOND);
 
 			try {
 				/*
@@ -215,16 +232,32 @@ public class MessagingServer {
 				 * So, future self, be warned that this could happen again and foul everything up.
 				 */
 
+				socket.setSoTimeout(socketTimeout);
 				// create output first
 				this.sOutput = socket.getOutputStream();
 				this.sInput = socket.getInputStream();
 				this.receiver = new BufferedReader(new InputStreamReader(sInput));
 
+				if (probablePortScanner)
+					logger.fine("First call to MessageConveyor.getNextDocument(), local port=" + this.socket.getLocalPort());
+
+				// Consider this: Maybe we only accept connections from IP addresses we know, from looking inside the database.
+				// Only Displays and Controllers can and may connect.
+
+				// This message MUST be a login message that comes immediately.
 				read = MessageConveyor.getNextDocument(getClass(), receiver, " (new connection, client ID=" + this.id + ")");
+
+				// Whew! Got through the first read, so wait forever on subsequent ones.
+				socket.setSoTimeout(0);
+
+				if (probablePortScanner)
+					logger.fine("Got a document from MessageConveyor.getNextDocument() of type "
+							+ read.getMessageValue().getClass().getCanonicalName());
 
 				if (!(read.getMessageValue() instanceof LoginMessage)) {
 					logger.warning("Expected " + LoginMessage.class.getCanonicalName() + " message " + read.getMessageValue()
 							+ ", but got a " + read.getMessageValue().getClass().getCanonicalName() + " message");
+					close();
 					return;
 				}
 				LoginMessage lm = (LoginMessage) read.getMessageValue();
@@ -232,27 +265,25 @@ public class MessagingServer {
 				this.username = un + "_" + id;
 				logger.fine("'" + this.username + "' has connected.");
 				setName("ClientThread_of_MessagingServer_" + username);
+				this.date = new Date();
 			} catch (UnrecognizedCommunicationException e) {
 				logger.warning("We have a potential client that is not behaving properly.  We will try to ignore it. "
 						+ exceptionString(e));
-				try {
-					this.sOutput.close();
-					this.sInput.close();
-				} catch (IOException e1) {
-					logger.warning("Well, there was an exception closing that client!" + exceptionString(e));
-					// e1.printStackTrace();
-				}
+				close();
+			} catch (SocketTimeoutException e) {
+				logger.warning(
+						"We have a potential client that did not immediately respond to a connection.  We will try to ignore it. "
+								+ exceptionString(e));
+				close();
 			} catch (Exception e) {
 				// Usually, it seems we fall here when something tries to connect to us but is not one of the Java clients.
 				// At Fermilab, this happens when this port gets scanned.
 				logger.warning("Exception creating new Input/output streams on socket (" + socket + ") due to this exception: "
 						+ exceptionString(e));
 				// e.printStackTrace();
-				return;
+				close();
 			}
-			this.date = new Date();
 			// this.dateString = date.toString();
-
 		}
 
 		// try to close everything
@@ -338,9 +369,6 @@ public class MessagingServer {
 			// This block of code is continuing to make problems (7/17/2015). One way to handle it is to simplify it
 			// somehow. There is a lot of diagnostics mixed in with the processing. Maybe I need to pull that out in some way.
 			// Bottom line: Simplify!!
-
-			// TODO -- Streaming Java objects is great and all, but when the class definition changes, one has to update the
-			// clients and this server at the same time. When we change to streamed XML documents, this will go away.
 
 			this.thisSocketIsActive = true;
 			while (this.thisSocketIsActive) {
@@ -732,7 +760,7 @@ public class MessagingServer {
 			boolean retval = super.add(ct);
 			if (!retval) {
 				logger.warning("Adding a client named " + ct.username + " gives an error from CopyOnWriteArrayList.add()");
-			} 
+			}
 			return retval;
 		}
 
@@ -963,7 +991,7 @@ public class MessagingServer {
 
 		String matchPackage = getClass().getName().substring(0, 12);
 		StackTraceElement[] trace = e.getStackTrace();
-		String retval = (e.getMessage() == null ? "" : e.getMessage()) + "\n\t";
+		String retval = e.getClass().getCanonicalName() + ": " + (e.getMessage() == null ? "" : e.getMessage());
 		if (trace != null) {
 			for (StackTraceElement T : trace) {
 				if (T.toString().contains(matchPackage))
@@ -1156,79 +1184,102 @@ public class MessagingServer {
 			while (keepGoing) {
 				// format message saying we are waiting
 				logger.fine("Waiting for Clients on port " + port + ".");
-				ClientThread t = null;
+				// ClientThread aNewClientThread = null;
 				try {
 					Socket socket = serverSocket.accept(); // accept connection if I was asked to stop
-					// November 2019: It looks like Windows may have changed to a finite timeout by default.
-					socket.setSoTimeout(0);
-					// if (!keepGoing) break;
-					t = new ClientThread(socket); // make a thread of it
+
+					final ClientThread aNewClientThread = new ClientThread(socket); // make the thread object for this potential client
+
+					new Thread("InitializeClientThread") {
+						public void run() {
+							
+							// Finish the initialization for this potential client
+							aNewClientThread.initialize();
+
+							if (aNewClientThread.username != null) {
+								if (listOfMessagingClients.add(aNewClientThread)) { // save it in the ArrayList
+									try {
+										String subject = aNewClientThread.username.substring(0,
+												aNewClientThread.username.length() - ("_" + aNewClientThread.id).length());
+										ClientThreadList ctl = subjectListeners.get(subject);
+										if (ctl == null) {
+											ctl = new ClientThreadList();
+											subjectListeners.put(subject, ctl);
+										}
+										ctl.add(aNewClientThread);
+										numConnectionsSeen--; // Duplication of this parameter within the class ClientThreadList.
+																// oops
+
+										// START THE THREAD to listen to this client
+										aNewClientThread.start();
+
+									} catch (Exception e) {
+										logger.warning(getClass().getSimpleName() + "\n" + exceptionString(e) + "\n"
+												+ " - Unexpected exception in messaging server \n\nTHIS SHOULD BE INVESTIGATED AND FIXED.\n\n");
+									}
+								} else {
+
+									// This code is never reached since the add() basically never fails (10/21/15)
+
+									logger.fine("Error! Duplicate username requested, '" + aNewClientThread.username + "'");
+									showAllClientsConnectedNow();
+									aNewClientThread.start();
+									aNewClientThread.writeUnsignedMsg(MessageCarrierXML.getErrorMessage(
+											SPECIAL_SERVER_MESSAGE_USERNAME, aNewClientThread.username, "A client with the name "
+													+ aNewClientThread.username + " has already connected.  Disconnecting now."));
+									numDuplicateClients++;
+									aNewClientThread.close();
+
+									// We should probably remove BOTH clients from the permanent list. There are two cases seen so
+									// far where this happens:
+
+									// 1. The user tries to start a second ChannelSelector from the same place;
+
+									// 2. Something I don't understand happens to a client and (a) we don't drop it here and (b) it
+									// tries to reconnect. In both cases, the real client will eventually try to reconnect.
+
+									int index = 0;
+									for (ClientThread CT : listOfMessagingClients) {
+										if (CT == null || CT.username == null) {
+											logger.fine(
+													"start(): Unexpected null ClientThread at index=" + index + ": [" + CT + "]");
+											remove(CT); // How did THIS happen??
+											numRemovedNullUsername++;
+										} else if (CT.username.equals(aNewClientThread.username)) {
+											logger.fine(
+													"start(): Removing duplicate client " + CT.username + " from the client list");
+											remove(CT); // Duplicate username is not allowed!
+											numRemovedDuplicateUsername++;
+										}
+										index++;
+									}
+
+									// continue; No, I think (now) that fall through is appropriate.
+								}
+							} else {
+								numPortScannerAttempts++;
+								logger.warning(getClass().getSimpleName()
+										+ " - A client attempted to connect, but the username it presented is null."
+										+ "\n\t\tThis usually means that a port scanner has tried to connect.");
+								// This null check is not necessary since this is the else clause of if(t.username!=null).
+								// But it makes me feel better.
+								if (aNewClientThread != null)
+									aNewClientThread.close(); // Close it
+								// aNewClientThread = null; // Forget it
+								// continue;
+							}
+
+							// When this thread exits, either the ClientThread object is for a valid client and it stored, or it is
+							// forgotten and garbage collected.
+
+						}
+					}.start();
 				} catch (Exception e) {
 					logger.warning(getClass().getSimpleName() + " - Unexpected exception when listening to port " + port
 							+ ".  Let's try again.\n" + exceptionString(e));
 					continue;
 				}
-				if (t.username != null) {
-					if (listOfMessagingClients.add(t)) { // save it in the ArrayList
-						try {
-							String subject = t.username.substring(0, t.username.length() - ("_" + t.id).length());
-							ClientThreadList ctl = subjectListeners.get(subject);
-							if (ctl == null) {
-								ctl = new ClientThreadList();
-								subjectListeners.put(subject, ctl);
-							}
-							ctl.add(t);
-							numConnectionsSeen--;  // Duplication of this parameter within the class ClientThreadList.  oops
-							t.start();
-						} catch (Exception e) {
-							logger.warning(getClass().getSimpleName() + "\n" + exceptionString(e) + "\n"
-									+ " - Unexpected exception in messaging server \n\nTHIS SHOULD BE INVESTIGATED AND FIXED.\n\n");
-						}
-					} else {
 
-						// This code is never reached, I think (10/21/15)
-
-						logger.fine("Error! Duplicate username requested, '" + t.username + "'");
-						showAllClientsConnectedNow();
-						t.start();
-						t.writeUnsignedMsg(MessageCarrierXML.getErrorMessage(SPECIAL_SERVER_MESSAGE_USERNAME, t.username,
-								"A client with the name " + t.username + " has already connected.  Disconnecting now."));
-						numDuplicateClients++;
-						t.close();
-
-						// We should probably remove BOTH clients from the permanent list. There are two cases seen so far
-						// where this happens: 1. The user tries to start a second ChannelSelector from the same place; 2. Something
-						// I don't understand happens to a client and (a) we don't drop it here and (b) it tries to reconnect. In
-						// both cases, the real client will eventually try to reconnect.
-
-						int index = 0;
-						for (ClientThread CT : listOfMessagingClients) {
-							if (CT == null || CT.username == null) {
-								logger.fine("start(): Unexpected null ClientThread at index=" + index + ": [" + CT + "]");
-								remove(CT); // How did THIS happen??
-								numRemovedNullUsername++;
-							} else if (CT.username.equals(t.username)) {
-								logger.fine("start(): Removing duplicate client " + CT.username + " from the client list");
-								remove(CT); // Duplicate username is not allowed!
-								numRemovedDuplicateUsername++;
-							}
-							index++;
-						}
-
-						// continue; No, I think (now) that fall through is appropriate.
-					}
-				} else {
-					numPortScannerAttempts++;
-					logger.warning(
-							getClass().getSimpleName() + " - A client attempted to connect, but the username it presented is null."
-									+ "\n\t\tThis usually means that a port scanner has tried to connect.");
-					// This null check is not necessary since this is the else clause of if(t.username!=null).
-					// But it makes me feel better.
-					if (t != null)
-						t.close(); // Close it
-					t = null; // Forget it
-					continue;
-				}
 				if (showClientList == null) {
 
 					// This block is to print out the current set of clients. Rather than printing it out every time
@@ -1358,8 +1409,9 @@ public class MessagingServer {
 	 */
 	private void startPinger() {
 		new Thread("Pinger") {
-			private int		nextClient	= 0;
-			private long	lastPrint	= System.currentTimeMillis();
+			private int		nextClient			= 0;
+			private long	lastPrint			= System.currentTimeMillis();
+			private long	diagnosticPeriod	= 2 * ONE_MINUTE;
 
 			public void run() {
 				catchSleep(15000L); // Wait a bit before starting the pinging and the diagnostics
@@ -1374,6 +1426,7 @@ public class MessagingServer {
 
 						// This sleep period assures that each client is ping'ed at least three times before it is "too old"
 						sleepPeriodBtwPings = Math.min(tooOldTime / listOfMessagingClients.size() / 3L, 10000L);
+						// Note: For 50 clients, the sleep is 400 msec.
 
 						if (sleepPeriodBtwPings < 100L) { // Idiot check
 							if (sleepPeriodBtwPings <= 1L)
@@ -1399,14 +1452,14 @@ public class MessagingServer {
 						ClientThread oldestClientName = null;
 						// Ping any client that is "on notice", plus the oldest one that is not on notice. 200 is about 9 minutes;
 						// 500 is about 22 minutes
-						boolean printMe = (++counter % 200) < 2;
+						boolean printMe = (++counter % (diagnosticPeriod / sleepPeriodBtwPings)) < 2;
 						String diagnostic = "Diagnostic update\n---- Cycle no. " + counter;
 
 						int i = 0;
 						for (ClientThread CT : listOfMessagingClients) {
 							i++;
 							if (printMe || CT.numOutstandingPings > 1) {
-								String firstPart = "---- " + i + " " + CT.username + " ";
+								String firstPart = "---- " + i + " " + CT.username.replace(".fnal.gov", "") + " ";
 								int initialLength = firstPart.length();
 								for (int m = initialLength; m < 40; m++)
 									firstPart += ' ';

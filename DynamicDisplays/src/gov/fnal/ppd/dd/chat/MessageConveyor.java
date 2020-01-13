@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.SocketTimeoutException;
 
 // import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
@@ -41,7 +42,7 @@ public class MessageConveyor {
 	 */
 
 	public static MessageCarrierXML getNextDocument(Class<?> clazz, BufferedReader receiveRead, String username)
-			throws UnrecognizedCommunicationException {
+			throws UnrecognizedCommunicationException, SocketTimeoutException {
 		if (verbose)
 			System.out.println(
 					"-----> Entering getNextDocument() for " + clazz.getCanonicalName() + ", sInput=" + receiveRead.hashCode());
