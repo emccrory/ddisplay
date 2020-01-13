@@ -3,6 +3,7 @@
   <groupId>DynamicDisplays</groupId>
   <artifactId>DynamicDisplays</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>src/test</testSourceDirectory>
