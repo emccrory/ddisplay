@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.SocketTimeoutException;
 
+import javax.xml.bind.JAXBException;
+
 // import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 import gov.fnal.ppd.dd.util.PropertiesFile;
@@ -91,23 +93,30 @@ public class MessageConveyor {
 
 			XMLDocumentAndString theDocument = new XMLDocumentAndString(theXMLDocument);
 
-			MessageCarrierXML retval = (MessageCarrierXML) MyXMLMarshaller.unmarshall(MessageCarrierXML.class,
-					theDocument.getTheXML());
+			MessageCarrierXML retval;
+			try {
+				retval = (MessageCarrierXML) MyXMLMarshaller.unmarshall(MessageCarrierXML.class, theDocument.getTheXML());
+			} catch (Exception e1) {
+				printlnErr(clazz, e1.getClass().getCanonicalName() + " caught while receiving an incoming document; returning null.  Details:");
+				e1.printStackTrace();
+				return null;
+			}
 			boolean isValid = false;
 			try {
 				isValid = Validate.isSignatureValid(theDocument);
-			} catch (SignatureNotFoundException e) {
+			} catch (SignatureNotFoundException e2) {
 				; // This exception is usually OK, so we'll ignore it.
-			} catch (Exception e) {
-				printlnErr(clazz, "Exception when trying to check the signature");
-				e.printStackTrace();
+			} catch (Exception e2) {
+				printlnErr(clazz, e2.getClass().getCanonicalName() + " caught when trying to check the signature");
+				e2.printStackTrace();
 			}
 			retval.setSignatureIsValid(isValid);
 			return retval;
-		} catch (Exception e) {
+		} catch (IOException  e) {
 			printlnErr(clazz, e.getClass().getCanonicalName() + " caught while receiving an incoming document; returning null.  Details:");
 			e.printStackTrace();
 		}
+
 		return null;
 	}
 
