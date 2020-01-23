@@ -1,20 +1,27 @@
 package test.gov.fnal.ppd.dd.changer;
 
-public class ChannelCatalogFactoryTest {
-	// This test does not work within Jenkins since the database credentials are not visible there.
+import static gov.fnal.ppd.dd.changer.ChannelCatalogFactory.getInstance;
+import static gov.fnal.ppd.dd.changer.ChannelCatalogFactory.refresh;
+import static org.junit.Assert.assertNotNull;
 
-//	static {
-//		credentialsSetup();
-//	}
-//	
-//	@Test
-//	public void testGetInstance() {
-//		assertNotNull(getInstance());
-//	}
-//
-//	@Test
-//	public void testRefresh() {
-//		assertNotNull(refresh());
-//	}
+import org.junit.Test;
+
+import test.gov.fnal.ppd.dd.NeedsCredentials;
+
+public class ChannelCatalogFactoryTest extends NeedsCredentials {
+
+	@Test
+	public void testGetInstance() {
+		if (!credentialsOK)
+			return;
+		assertNotNull(getInstance());
+	}
+
+	@Test
+	public void testRefresh() {
+		if (!credentialsOK)
+			return;
+		assertNotNull(refresh());
+	}
 
 }

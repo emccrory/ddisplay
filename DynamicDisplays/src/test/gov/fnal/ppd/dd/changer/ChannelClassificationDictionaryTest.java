@@ -1,15 +1,19 @@
 package test.gov.fnal.ppd.dd.changer;
 
-public class ChannelClassificationDictionaryTest {
-	// This test does not work within Jenkins since the database credentials are not visible there.
+import static gov.fnal.ppd.dd.changer.ChannelClassificationDictionary.getCategories;
+import static org.junit.Assert.assertTrue;
 
-//	static {
-//		credentialsSetup();
-//	}
-//
-//	@Test
-//	public void testGetCategories() {
-//		assertTrue(getCategories().length > 1);
-//	}
+import org.junit.Test;
+
+import test.gov.fnal.ppd.dd.NeedsCredentials;
+
+public class ChannelClassificationDictionaryTest extends NeedsCredentials {
+
+	@Test
+	public void testGetCategories() {
+		if (!credentialsOK)
+			return;
+		assertTrue(getCategories().length > 1);
+	}
 
 }
