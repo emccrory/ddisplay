@@ -5,7 +5,10 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_PASSWORD;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_USER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+import static gov.fnal.ppd.dd.GlobalVariables.getDefaultDwellTime;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.GlobalVariables.getLogger;
+import static gov.fnal.ppd.dd.GlobalVariables.getSoftwareVersion;
 import static gov.fnal.ppd.dd.GlobalVariables.setLogger;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -14,11 +17,30 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
+import com.google.common.base.CharMatcher;
+
 import gov.fnal.ppd.dd.chat.LoggerForDebugging;
 
 public class GlobalVariablesTest {
 
 	// Not much here to test. Maybe someday...
+
+	@Test
+	public void testGetSoftwareVersion() {
+		String val = getSoftwareVersion();
+
+		assertNotNull(val);
+
+		int count = CharMatcher.is('.').countIn(val);
+		assertEquals(count, 2);
+	}
+
+	@Test
+	public void testGetFullURLPrefix() {
+		String val = getFullURLPrefix();
+
+		assert (val.startsWith("https://"));
+	}
 
 	@Test
 	public void testCredentialsSetup() {
@@ -39,4 +61,13 @@ public class GlobalVariablesTest {
 		assertEquals(logger.getLogger(), lgr);
 	}
 
+	@Test
+	public void testGetDefaultDwellTime() {
+		long first = getDefaultDwellTime();
+		long second = getDefaultDwellTime();
+
+		assert (first > 0);
+		assert (second > 0);
+		assert (Math.abs(first - second) < 10000L);
+	}
 }
