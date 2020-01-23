@@ -1,8 +1,8 @@
 package test.gov.fnal.ppd.dd.changer;
 
-public class ListOfExistingContentTest {
+import test.gov.fnal.ppd.dd.NeedsCredentials;
 
-	// This test does not work within Jenkins since the database credentials are not visible there.
+public class ListOfExistingContentTest extends NeedsCredentials {
 
 //	static {
 //		credentialsSetup();

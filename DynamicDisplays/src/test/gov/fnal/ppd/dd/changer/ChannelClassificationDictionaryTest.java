@@ -2,6 +2,7 @@ package test.gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.changer.ChannelClassificationDictionary.getCategories;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
 import org.junit.Test;
 
@@ -11,8 +12,7 @@ public class ChannelClassificationDictionaryTest extends NeedsCredentials {
 
 	@Test
 	public void testGetCategories() {
-		if (!credentialsOK)
-			return;
+		assumeTrue(credentialsOK);
 		assertTrue(getCategories().length > 1);
 	}
 

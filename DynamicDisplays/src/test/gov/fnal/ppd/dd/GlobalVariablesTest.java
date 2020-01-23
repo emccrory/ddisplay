@@ -1,5 +1,9 @@
 package test.gov.fnal.ppd.dd;
 
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_PASSWORD;
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_SERVER_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_USER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.getDefaultDwellTime;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.GlobalVariables.getLogger;
@@ -7,6 +11,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getSoftwareVersion;
 import static gov.fnal.ppd.dd.GlobalVariables.setLogger;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeTrue;
 
 import java.util.logging.Logger;
 
@@ -16,7 +21,7 @@ import com.google.common.base.CharMatcher;
 
 import gov.fnal.ppd.dd.chat.LoggerForDebugging;
 
-public class GlobalVariablesTest {
+public class GlobalVariablesTest extends NeedsCredentials {
 
 	// Not much here to test. Maybe someday...
 
@@ -37,17 +42,15 @@ public class GlobalVariablesTest {
 		assert (val.startsWith("https://"));
 	}
 
-	// This test does not work (it fails silently) within the context of Jenkins - that environment does not know the credentials.
-//	@Test
-//	public void testCredentialsSetup() {
-//		credentialsSetup();
-//		// If it does not crash, then everything should be OK
-//
-//		assertNotNull(DATABASE_SERVER_NAME);
-//		assertNotNull(DATABASE_NAME);
-//		assertNotNull(DATABASE_USER_NAME);
-//		assertNotNull(DATABASE_PASSWORD);
-//	}
+	@Test
+	public void testCredentialsSetup() {
+		assumeTrue(credentialsOK);
+
+		assertNotNull(DATABASE_SERVER_NAME);
+		assertNotNull(DATABASE_NAME);
+		assertNotNull(DATABASE_USER_NAME);
+		assertNotNull(DATABASE_PASSWORD);
+	}
 
 	@Test
 	public void testGetLogger() {

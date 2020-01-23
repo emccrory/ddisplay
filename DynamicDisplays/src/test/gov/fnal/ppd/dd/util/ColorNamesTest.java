@@ -2,6 +2,7 @@ package test.gov.fnal.ppd.dd.util;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assume.assumeTrue;
 
 import org.junit.Test;
 
@@ -9,7 +10,6 @@ import gov.fnal.ppd.dd.util.ColorNames;
 import test.gov.fnal.ppd.dd.NeedsCredentials;
 
 public class ColorNamesTest extends NeedsCredentials {
-	
 
 	private static String[] expectedColorCodes = //
 			{ //
@@ -26,14 +26,14 @@ public class ColorNamesTest extends NeedsCredentials {
 
 	@Test
 	public void testIsEmpty() {
-		if (!credentialsOK) return;
+		assumeTrue(credentialsOK);
 		ColorNames colorTest = new ColorNames();
 		assertFalse(colorTest.isEmpty());
 	}
 
 	@Test
 	public void testContainsKey() {
-		if (!credentialsOK) return;
+		assumeTrue(credentialsOK);
 		ColorNames colorTest = new ColorNames();
 		for (String colorCode : expectedColorCodes)
 			assertNotNull(colorTest.get(colorCode));
