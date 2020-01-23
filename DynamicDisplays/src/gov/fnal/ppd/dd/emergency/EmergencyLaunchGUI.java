@@ -1,5 +1,7 @@
 package gov.fnal.ppd.dd.emergency;
 
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
@@ -61,42 +63,47 @@ import gov.fnal.ppd.dd.util.ObjectSigning;
  */
 public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
-	private static final long			serialVersionUID				= -4454406761200912692L;
+	private static final long			serialVersionUID					= -4454406761200912692L;
 
 	/**
 	 * Set to true to show a more complex UI
 	 */
-	public static final boolean			SHOW_MORE_STUFF					= Boolean.getBoolean("ddisplay.extendedinformation");
+	public static final boolean			SHOW_MORE_STUFF						= Boolean.getBoolean("ddisplay.extendedinformation");
 
-	private static final String			DEFAULT_EMERGENCY_HEADLINE		= "An Emergency Situation has been delcared";
-	private static final String			DEFAULT_ALERT_HEADLINE			= "ATTENTION! - ¡ATENCIÓN!";
-	private static final String			DEFAULT_INFORMATION_HEADLINE	= "Important information";
-	private static final String			DEFAULT_TESTING_HEADLINE		= "This is a test of the Emergency Notification System";
+	private static final String			DEFAULT_EMERGENCY_HEADLINE			= "An Emergency Situation has been delcared";
+	private static final String			DEFAULT_ALERT_HEADLINE				= "ATTENTION! - ¡ATENCIÓN!";
+	private static final String			DEFAULT_INFORMATION_HEADLINE		= "Important information";
+	private static final String			DEFAULT_TESTING_HEADLINE			= "This is a test of the Emergency Notification System";
 
-	private JTextField					headlineText					= new JTextField(45);
+	private static final long			DEFAULT_TEST_MESSAGE_TIME			= ONE_MINUTE / 1000L;
+	private static final long			DEFAULT_EMERGENCY_MESSAGE_TIME		= ONE_HOUR / 1000L;
+	private static final long			DEFAULT_ALERT_MESSAGE_TIME			= 10 * ONE_MINUTE / 1000L;
+	private static final long			DEFAULT_INFORMATION_MESSAGE_TIME	= 5 * ONE_MINUTE / 1000L;
+
+	private JTextField					headlineText						= new JTextField(45);
 	private JSpinner					time;
 
-	private JTextArea					messageArea						= new JTextArea(4, 65);
-	private JTextArea					footerArea						= new JTextArea(5, 65);
+	private JTextArea					messageArea							= new JTextArea(4, 65);
+	private JTextArea					footerArea							= new JTextArea(5, 65);
 
-	private JLabel						emergencyStatus					= new JLabel("Have initiated no emergency messages");
+	private JLabel						emergencyStatus						= new JLabel("Have initiated no emergency messages");
 
-	private JButton						accept							= new JButton("Send Test Message");
-	private JButton						cancel							= new JButton("Exit");
-	private JButton						remove							= new JButton("Remove Message");
+	private JButton						accept								= new JButton("Send Test Message");
+	private JButton						cancel								= new JButton("Exit");
+	private JButton						remove								= new JButton("Remove Message");
 
-	private JRadioButton				checkEmergency					= new JRadioButton("" + Severity.EMERGENCY);
-	private JRadioButton				checkAlert						= new JRadioButton("" + Severity.ALERT);
-	private JRadioButton				checkInformation				= new JRadioButton("" + Severity.INFORMATION);
-	private JRadioButton				checkTesting					= new JRadioButton("" + Severity.TESTING);
-	private ButtonGroup					checkButtonGroup				= new ButtonGroup();
+	private JRadioButton				checkEmergency						= new JRadioButton("" + Severity.EMERGENCY);
+	private JRadioButton				checkAlert							= new JRadioButton("" + Severity.ALERT);
+	private JRadioButton				checkInformation					= new JRadioButton("" + Severity.INFORMATION);
+	private JRadioButton				checkTesting						= new JRadioButton("" + Severity.TESTING);
+	private ButtonGroup					checkButtonGroup					= new ButtonGroup();
 
 	private ActionListener				radioActionListener;
 
 	private EmergencyMessageDistributor	emergencyMessageDistributor;
 	private List<Display>				displays;
-	private List<JLabel>				footers							= new ArrayList<JLabel>();
-	private List<JCheckBox>				checkBoxes						= new ArrayList<JCheckBox>();
+	private List<JLabel>				footers								= new ArrayList<JLabel>();
+	private List<JCheckBox>				checkBoxes							= new ArrayList<JCheckBox>();
 
 	private boolean						messageSendErrors;
 
@@ -184,27 +191,32 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		if (checkEmergency.isSelected()) {
 			setBackground(new Color(255, 100, 100));
 			accept.setText("Send Emergency Message");
-
+			time.setValue(new Long(DEFAULT_EMERGENCY_MESSAGE_TIME));
+			
 			setDefaultTestingText(DEFAULT_EMERGENCY_HEADLINE, false);
 
 		} else if (checkAlert.isSelected()) {
 			setBackground(new Color(220, 160, 160));
 			accept.setText("Send Alert Message");
+			time.setValue(new Long(DEFAULT_ALERT_MESSAGE_TIME));
 
 			setDefaultTestingText(DEFAULT_ALERT_HEADLINE, false);
 
 		} else if (checkInformation.isSelected()) {
 			setBackground(new Color(160, 160, 255));
 			accept.setText("Send Information Message");
+			time.setValue(new Long(DEFAULT_INFORMATION_MESSAGE_TIME));
 
 			setDefaultTestingText(DEFAULT_INFORMATION_HEADLINE, false);
 
 		} else if (checkTesting.isSelected()) {
 			setBackground(new Color(200, 200, 200));
 			accept.setText("Send Test Message");
+			time.setValue(new Long(DEFAULT_TEST_MESSAGE_TIME));
 
 			setDefaultTestingText(DEFAULT_TESTING_HEADLINE, true);
 		}
+		// time.repaint();
 	}
 
 	private void setDefaultTestingText(String fill, boolean all) {
@@ -215,7 +227,8 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		} else {
 			messageArea.setText("");
 			footerArea.setText("");
-	}}
+		}
+	}
 
 	private static class MyJScrollPane extends JScrollPane {
 		private static final long serialVersionUID = 4726817736944861133L;
@@ -436,7 +449,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	private JComponent makeSpinner() {
 		final SpinnerModel model = new SpinnerListModel(getDwellStrings());
 		time = new JSpinner(model);
-		time.setValue(new Long(300l));
+		time.setValue(new Long(DEFAULT_TEST_MESSAGE_TIME));
 		time.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
 		JComponent field = time.getEditor();
