@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.xml.bind.UnmarshalException;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
 import gov.fnal.ppd.dd.xml.ChangeChannelList;
@@ -125,7 +126,13 @@ public class SummarizeContentHistory {
 	}
 
 	public static void main(String[] args) {
-		credentialsSetup();
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
 		selectorSetup();
 
 		int cut = 0;

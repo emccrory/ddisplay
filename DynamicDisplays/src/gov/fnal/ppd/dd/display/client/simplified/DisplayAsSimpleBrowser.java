@@ -7,6 +7,7 @@ import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.awt.Color;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -71,7 +72,12 @@ public class DisplayAsSimpleBrowser extends DisplayControllerMessagingAbstract {
 
 		prepareUpdateWatcher(false);
 
-		credentialsSetup();
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 
 		getMessagingServerNameDisplay();
 

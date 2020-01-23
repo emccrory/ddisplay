@@ -3,6 +3,8 @@ package gov.fnal.ppd.dd.channel;
 import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.db.ChannelsFromDatabase.readValidChannels;
+
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
@@ -75,8 +77,12 @@ public class MapOfChannels extends HashMap<Integer, Channel> {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-		credentialsSetup();
-
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		MapOfChannels v = new MapOfChannels();
 		for (int number : v.keySet())
 			System.out.println(number + ": " + v.get(number));

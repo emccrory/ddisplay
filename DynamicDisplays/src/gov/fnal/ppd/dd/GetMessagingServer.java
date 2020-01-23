@@ -194,8 +194,12 @@ public class GetMessagingServer {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-		credentialsSetup();
-
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		getMessagingServerNameDisplay();
 	}
 }

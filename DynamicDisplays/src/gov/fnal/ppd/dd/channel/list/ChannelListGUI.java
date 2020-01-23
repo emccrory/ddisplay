@@ -39,6 +39,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
@@ -103,7 +104,13 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-		credentialsSetup();
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
 		// MakeChannelSelector.selectorSetup();
 		PART_OF_CHANNEL_SELECTOR = false;
 

@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
+
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *
@@ -23,8 +25,13 @@ public class FirstSeleniumTest {
 	public static void main(final String[] args) {
 
 		prepareUpdateWatcher(false);
-
-		credentialsSetup();
+		
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 
 		getMessagingServerNameDisplay();
 

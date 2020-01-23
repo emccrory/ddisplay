@@ -3,6 +3,8 @@ package gov.fnal.ppd.dd.util.version;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
+
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 import java.io.FileInputStream;
@@ -420,8 +422,12 @@ public class VersionInformation implements Serializable {
 		case 2:
 			// READ from database
 			System.out.println("Reading version information from the DB");
-			credentialsSetup();
-
+			try {
+				credentialsSetup();
+			} catch (CredentialsNotFoundException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 			vi = getDBVersionInformation(flav);
 			System.out.println(vi);
 			System.out.println(new Date(vi.getTimeStamp()));
@@ -429,8 +435,12 @@ public class VersionInformation implements Serializable {
 
 		case 4:
 			// READ from database, but succinct output
-			credentialsSetup();
-			vi = getDBVersionInformation(flav);
+			try {
+				credentialsSetup();
+			} catch (CredentialsNotFoundException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}			vi = getDBVersionInformation(flav);
 			System.out.println(vi.getVersionString() + " " + vi.getDisposition());
 			break;
 
@@ -439,8 +449,12 @@ public class VersionInformation implements Serializable {
 			System.out.println("First, reading version information from the local disk");
 			vi = getVersionInformation();
 
-			credentialsSetup();
-
+			try {
+				credentialsSetup();
+			} catch (CredentialsNotFoundException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 			System.out.println("... Now saving the version to DB, hashCode='" + hash + "'");
 			saveDBVersionInformation(vi, hash);
 			System.out.println("... DB save complete.");

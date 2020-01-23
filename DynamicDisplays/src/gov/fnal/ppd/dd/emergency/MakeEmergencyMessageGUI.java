@@ -3,6 +3,8 @@ package gov.fnal.ppd.dd.emergency;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
+
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.util.ObjectSigning;
@@ -47,7 +49,13 @@ public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 	 * 
 	 */
 	public MakeEmergencyMessageGUI() {
-		credentialsSetup();
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
 		selectorSetup();
 	}
 

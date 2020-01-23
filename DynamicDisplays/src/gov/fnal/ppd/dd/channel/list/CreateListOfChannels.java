@@ -47,6 +47,7 @@ import javax.swing.SpinnerModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
@@ -560,8 +561,12 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 	 */
 	public static void main(final String[] args) {
 
-		credentialsSetup();
-
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		getMessagingServerNameSelector();
 
 		// ChannelCatalogFactory.useRealChannels(true);

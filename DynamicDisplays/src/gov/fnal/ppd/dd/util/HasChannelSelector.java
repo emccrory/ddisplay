@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 /**
@@ -27,8 +28,13 @@ public class HasChannelSelector {
 	public static void main(final String[] args) {
 		boolean hasChannelSelector = false;
 
-		credentialsSetup();
-
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
 		try {
 			InetAddress ip = InetAddress.getLocalHost();
 			String myName = ip.getCanonicalHostName().replace(".dhcp", "");

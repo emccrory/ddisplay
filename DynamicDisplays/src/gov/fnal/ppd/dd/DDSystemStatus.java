@@ -471,7 +471,12 @@ public class DDSystemStatus extends JFrame {
 	 *            Command line arguments (none expected()
 	 */
 	public static void main(String[] args) {
-		credentialsSetup();
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 
 		getMessagingServerNameDisplay();
 		

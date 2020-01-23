@@ -50,6 +50,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent.DisplayChangeType;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
@@ -111,7 +112,12 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-		credentialsSetup();
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}		
 
 		selectorSetup();
 

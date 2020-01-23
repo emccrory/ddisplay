@@ -59,6 +59,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.xml.XMLDocumentAndString;
@@ -332,7 +333,12 @@ public class SignXMLUsingDSAKeys {
 
 		prepareUpdateWatcher(false);
 		prepareSaverImages();
-		credentialsSetup();
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 
 		if (args.length != 2 || !args[0].endsWith(".key") || !args[1].endsWith(".xml")) {
 			System.err.println("Usage: <Private Key> <XML File to sign>");

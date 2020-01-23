@@ -16,6 +16,7 @@ import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.util.Date;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.util.JavaVersion;
 
 /**
@@ -67,8 +68,13 @@ public class MessagingServerDaemon {
 		println(MessagingServerDaemon.class, "Running from java version " + JavaVersion.getCurrentVersion());
 		prepareUpdateWatcher(true);
 
-		credentialsSetup();
-
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
 		MessagingServerDaemon ms = new MessagingServerDaemon(MESSAGING_SERVER_PORT);
 		ms.start();
 	}

@@ -19,6 +19,8 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
+
 // import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 import gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys;
@@ -95,7 +97,12 @@ public class XMLDocumentAndString {
 			// System.out.println("The round-trip constructions: the Docs do NOT match!");
 			// }
 		} else {
-			credentialsSetup();
+			try {
+				credentialsSetup();
+			} catch (CredentialsNotFoundException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
 
 			gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup();
 			try {

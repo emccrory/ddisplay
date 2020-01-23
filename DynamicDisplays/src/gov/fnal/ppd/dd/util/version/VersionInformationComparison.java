@@ -4,6 +4,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 
 import java.util.Date;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 
 /**
@@ -78,7 +79,12 @@ public class VersionInformationComparison {
 	 */
 
 	public static void main(final String[] args) {
-		credentialsSetup();
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		int index = 0;
 		boolean debug = false;
 		FLAVOR flavor = FLAVOR.PRODUCTION;

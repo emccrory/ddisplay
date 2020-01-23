@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 /**
@@ -29,7 +30,12 @@ public class IsDisplayNode {
 	public static void main(final String[] args) {
 		boolean hasDisplay = false;
 
-		credentialsSetup();
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 
 		try {
 			InetAddress ip = InetAddress.getLocalHost();

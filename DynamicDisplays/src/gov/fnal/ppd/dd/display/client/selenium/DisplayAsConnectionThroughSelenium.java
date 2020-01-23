@@ -9,6 +9,7 @@ import static gov.fnal.ppd.dd.util.Util.printlnErr;
 
 import java.awt.Color;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.util.ExitHandler;
 import gov.fnal.ppd.dd.util.JavaVersion;
@@ -94,8 +95,13 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 
 		prepareUpdateWatcher(false);
 
-		credentialsSetup();
-
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
 		getMessagingServerNameDisplay();
 
 		try {

@@ -52,6 +52,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.plaf.FontUIResource;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.NoSuchDisplayException;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -90,8 +91,12 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	public static void main(final String[] args) {
 		prepareSaverImages();
 
-		credentialsSetup();
-
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		selectorSetup();
 
 		title = "Save/Restore a configuration for location=" + getLocationCode();

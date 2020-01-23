@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.util.JTextAreaBottom;
 import gov.fnal.ppd.dd.util.JavaVersion;
 
@@ -158,8 +159,13 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 
 		prepareUpdateWatcher(true);
 
-		credentialsSetup();
-
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
 		MessagingServerGUI ms = new MessagingServerGUI(MESSAGING_SERVER_PORT);
 		ms.start();
 	}

@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
@@ -108,8 +109,13 @@ public class GetDefaultContentForDisplay {
 	}
 
 	public static void main(String[] args) {
-		credentialsSetup();
-
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
 		GetDefaultContentForDisplay val = new GetDefaultContentForDisplay();
 		System.out.println("CHANNELNUMBER   " + val.channelNumber);
 		System.out.println("DISPLAYTYPE     " + val.displayType);

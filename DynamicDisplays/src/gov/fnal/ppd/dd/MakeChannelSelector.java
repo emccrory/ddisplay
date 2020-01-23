@@ -86,8 +86,12 @@ public class MakeChannelSelector {
 
 		prepareSaverImages();
 
-		credentialsSetup();
-
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		selectorSetup();
 
 		WAIT_FOR_SERVER_TIME = 2500L; // Be impatient when a ChannelSelector cannot reach the server

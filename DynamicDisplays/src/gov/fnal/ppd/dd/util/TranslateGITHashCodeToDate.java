@@ -2,6 +2,8 @@ package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 
 import java.sql.Connection;
@@ -185,8 +187,13 @@ public class TranslateGITHashCodeToDate {
 	public static void main(final String[] args) {
 		boolean succinct = true;
 
-		credentialsSetup();
-
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		
 		if (args.length == 0)
 			try {
 				TranslateGITHashCodeToDate hashcodeTranslation = new TranslateGITHashCodeToDate();

@@ -613,7 +613,7 @@ public class GlobalVariables {
 	/**
 	 * Read the file, credentials.txt, for establishing connection to the database
 	 */
-	public static void credentialsSetup() {
+	public static void credentialsSetup() throws CredentialsNotFoundException {
 		String fileName = "credentials.txt";
 		String key_loc = ("/private" + getFullSelectorName() + ".key").toLowerCase();
 
@@ -630,8 +630,7 @@ public class GlobalVariables {
 
 		if (file == null) {
 			System.err.println("Cannot find credentials file.  Looked in these folders: " + Arrays.toString(credentialsPath));
-			System.exit(-1);
-			return;
+			throw new CredentialsNotFoundException("Cannot find credentials file.  Looked in these folders: " + Arrays.toString(credentialsPath));
 		}
 
 		try {
