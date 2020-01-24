@@ -16,4 +16,9 @@ public interface EmergencyMessageDistributor {
 	 * @return Did it work?
 	 */
 	public boolean send(final EmergencyMessage em);
+	
+	/**
+	 * @return A likely count of the displays this will be sent to.
+	 */
+	public int getNumOfDisplays();
 }

@@ -71,9 +71,9 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	 */
 	public static final boolean			SHOW_MORE_STUFF						= Boolean.getBoolean("ddisplay.extendedinformation");
 
-	private static final String			DEFAULT_EMERGENCY_HEADLINE			= "An Emergency Situation has been delcared";
+	private static final String			DEFAULT_EMERGENCY_HEADLINE			= "An EMERGENCY exists! - ¡Existe una EMERGENCIA!";
 	private static final String			DEFAULT_ALERT_HEADLINE				= "ATTENTION! - ¡ATENCIÓN!";
-	private static final String			DEFAULT_INFORMATION_HEADLINE		= "Important information";
+	private static final String			DEFAULT_INFORMATION_HEADLINE		= "Important information - Información importante";
 	private static final String			DEFAULT_TESTING_HEADLINE			= "This is a test of the Emergency Notification System";
 
 	private static final long			DEFAULT_TEST_MESSAGE_TIME			= ONE_MINUTE / 1000L;
@@ -108,6 +108,8 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
 	private boolean						messageSendErrors;
 
+	private JLabel						numAffectedLabel;
+
 	/**
 	 * @param args
 	 */
@@ -117,7 +119,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		} catch (CredentialsNotFoundException e) {
 			e.printStackTrace();
 			System.exit(-1);
-		}		
+		}
 
 		selectorSetup();
 
@@ -134,6 +136,11 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(null,
 						"THIS IS A TEST VERSION THAT DOES NOT SEND ANYTHING OUT.\nThe HTML would look like this:\n" + em.toHTML());
 				return true;
+			}
+
+			@Override
+			public int getNumOfDisplays() {
+				return 1;
 			}
 		});
 		elg.initialize();
@@ -198,7 +205,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			setBackground(new Color(255, 100, 100));
 			accept.setText("Send Emergency Message");
 			time.setValue(new Long(DEFAULT_EMERGENCY_MESSAGE_TIME));
-			
+
 			setDefaultTestingText(DEFAULT_EMERGENCY_HEADLINE, false);
 
 		} else if (checkAlert.isSelected()) {
@@ -433,8 +440,18 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			}
 
 			add(footerPanel, constraints);
-		} // End of SHOW_MORE_STUFF block
+			// End of SHOW_MORE_STUFF block
+		} else {
+			// Well, at least show the number of displays that are likely to be affected.
+			PatientLabel pl = new PatientLabel();
+			pl.start();
 
+			constraints.gridx = 1;
+			constraints.gridy++;
+			constraints.gridwidth = 2;
+			add(pl.theLabel, constraints);
+
+		}
 		constraints.gridx = 1;
 		constraints.gridy++;
 		constraints.gridwidth = 2;
@@ -579,8 +596,30 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			area.setEditable(false);
 			box.add(new JScrollPane(area));
 
-			box.add(new JLabel("Severity = '" + message.getSeverity() + "'"));
-			box.add(new JLabel("Dwell Time = " + time.getValue() + " seconds"));
+			JLabel jl = new JLabel("Severity = '" + message.getSeverity() + "'");
+			Font f = jl.getFont();
+			switch (message.getSeverity()) {
+			case EMERGENCY:
+				f = jl.getFont().deriveFont(24.0f);
+				break;
+			case ALERT:
+				f = jl.getFont().deriveFont(18.0f);
+				break;
+			case INFORMATION:
+				f = jl.getFont().deriveFont(16.0f);
+				break;
+			default:
+				break;
+
+			}
+			jl.setFont(f);
+			box.add(jl);
+			jl = new JLabel("This message should be displayed on " + emergencyMessageDistributor.getNumOfDisplays() + " displays.");
+			jl.setFont(jl.getFont().deriveFont(24.0f));
+			box.add(jl);
+			jl = new JLabel("The messages will remain visible for " + time.getValue() + " seconds");
+			jl.setFont(f);
+			box.add(jl);
 
 			// box.setBackground(message.getSeverity().);
 
@@ -650,5 +689,23 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 				retval.add(displays.get(i));
 
 		return retval;
+	}
+
+	private class PatientLabel extends Thread {
+		public JLabel	theLabel	= new JLabel("");
+		private long	sleep		= 10000L;
+
+		public void run() {
+			while (true) {
+				theLabel.setText("Number of displays that are likely to be affected: "
+						+ emergencyMessageDistributor.getNumOfDisplays() + "   (" + new Date() + ")");
+				try {
+					sleep(sleep);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				sleep = 2500L;
+			}
+		}
 	}
 }

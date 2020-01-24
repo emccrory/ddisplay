@@ -55,13 +55,14 @@ public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
+
 		selectorSetup();
 	}
 
 	@Override
 	public boolean send(EmergencyMessage em) {
 		System.out.println(em);
+		System.out.println("This will be sent to " + elg.getTargetedDisplays().size() + " displays");
 		System.out.println("The HTML looks like this:\n" + em.toHTML());
 
 		EmergencyCommunication ec = new EmergCommunicationImpl();
@@ -75,5 +76,12 @@ public class MakeEmergencyMessageGUI implements EmergencyMessageDistributor {
 	private void initialize() {
 		// Establish connection(s) to the messaging server(s)
 		// displays = DisplayListFactory.getInstance(SignageType.XOC, getLocationCode());
+	}
+
+	@Override
+	public int getNumOfDisplays() {
+		if (elg == null || elg.getTargetedDisplays() == null)
+			return 0;
+		return elg.getTargetedDisplays().size();
 	}
 }
