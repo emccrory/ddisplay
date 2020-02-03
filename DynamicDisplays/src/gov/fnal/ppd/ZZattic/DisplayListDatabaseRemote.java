@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.display;
+package gov.fnal.ppd.ZZattic;
 
 /**
  * The actual list of Displays in the system.

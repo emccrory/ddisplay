@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.xml;
+package gov.fnal.ppd.ZZattic;
 
 import static gov.fnal.ppd.dd.util.Util.MY_NAME;
 import static gov.fnal.ppd.dd.util.Util.MY_URL;

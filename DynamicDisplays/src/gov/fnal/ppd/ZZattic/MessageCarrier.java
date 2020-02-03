@@ -6,7 +6,7 @@
  * 
  * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd.chat;
+package gov.fnal.ppd.ZZattic;
 
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
@@ -19,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.SignedObject;
 
+import gov.fnal.ppd.dd.chat.NoPrivateKeyException;
 import gov.fnal.ppd.dd.util.ObjectSigning;
 
 /**

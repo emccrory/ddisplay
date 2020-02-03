@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd.util;
+package gov.fnal.ppd.ZZattic;
 
 /**
  * Retrieve the color names from the DD database.

@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.xml;
+package gov.fnal.ppd.ZZattic;
 
 
 /**

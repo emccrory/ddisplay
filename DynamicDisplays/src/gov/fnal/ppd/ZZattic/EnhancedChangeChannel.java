@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.xml;
+package gov.fnal.ppd.ZZattic;
 
 /**
  * Message from a Control Panel to the Display Server to change the thing being shown on a Display
