@@ -102,25 +102,7 @@ public class ObjectSigning {
 
 	}
 
-	/**
-	 * @param client
-	 *            -- The name of the client for which you'll need to check the signature
-	 * @return -- The object that knows about this client's public key
-	 * @deprecated
-	 */
-	public static ObjectSigning getPublicSigning(final String client) {
-		// if (keys.containsKey(client) && keys.get(client) != null)
-		// return keys.get(client);
-		//
-		// ObjectSigning thatObject = new ObjectSigning();
-		// if (thatObject.loadPublicKeyFromDB(client)) {
-		// keys.put(client, thatObject);
-		// clientControlList.put(client, loadDisplayListFromDB(client));
-		// return thatObject;
-		// }
-		// keys.remove(client);
-		return null;
-	}
+	
 
 	/**
 	 * Remove a client from the cache of public keys so it can reconnect with different credentials
@@ -446,29 +428,7 @@ public class ObjectSigning {
 		}
 	}
 
-	/**
-	 * @param toSign
-	 *            -- The object to sign. Must be Serialzable.
-	 * @return -- The signed object
-	 * @throws SignatureException
-	 *             -- An invalid signature
-	 * @throws IOException
-	 *             -- A problem reading the keystore
-	 * @throws NoSuchAlgorithmException
-	 *             -- A problem with the encryption service * @throws InvalidKeySpecException
-	 * @throws InvalidKeyException
-	 *             -- The private key is not valid
-	 * @deprecated - use XML signing techniques
-	 */
-	public SignedObject getSignedObject(final Serializable toSign)
-			throws SignatureException, NoSuchAlgorithmException, InvalidKeyException, IOException {
-		assert (privateKey != null);
-
-		if (signature == null)
-			signature = Signature.getInstance(privateKey.getAlgorithm());
-
-		return new SignedObject(toSign, privateKey, signature);
-	}
+	
 
 	/**
 	 * @param clientName
@@ -603,6 +563,93 @@ public class ObjectSigning {
 		return r;
 	}
 
+
+	protected final synchronized void writePublicKeyToDatabase(String clientName) {
+		String blob = "";
+		byte[] encoded = publicKey.getEncoded();
+		for (int i = 0; i < encoded.length; i++) {
+			if ((0x000000ff & encoded[i]) < 16)
+				blob += "0";
+			blob += Integer.toHexString(0x000000ff & encoded[i]);
+
+		}
+		Connection connection;
+		try {
+			connection = ConnectionToDatabase.getDbConnection();
+
+			synchronized (connection) {
+				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+					String statementString = "INSERT INTO PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
+							+ InetAddress.getLocalHost().getHostAddress() + "');";
+
+					int numRows = stmt.executeUpdate(statementString);
+					if (numRows == 0 || numRows > 1) {
+						System.err.println(
+								"Problem while updating status of Display: Expected to modify exactly one row, but  modified "
+										+ numRows + " rows instead. SQL='" + statementString + "'");
+					}
+					stmt.close();
+				} catch (SQLException ex) {
+					System.err.println("cannot execute a query. Is the DB server down?  Try again later.");
+					ex.printStackTrace();
+					System.exit(-1);
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (DatabaseNotVisibleException e) {
+			// not good!
+			System.err.println("No connection.  It is likely that the DB server is down.  Try again later.");
+
+			e.printStackTrace();
+			System.exit(-1);
+		}
+	}
+	
+	/**
+	 * @param client
+	 *            -- The name of the client for which you'll need to check the signature
+	 * @return -- The object that knows about this client's public key
+	 * @deprecated
+	 */
+	public static ObjectSigning getPublicSigning(final String client) {
+		// if (keys.containsKey(client) && keys.get(client) != null)
+		// return keys.get(client);
+		//
+		// ObjectSigning thatObject = new ObjectSigning();
+		// if (thatObject.loadPublicKeyFromDB(client)) {
+		// keys.put(client, thatObject);
+		// clientControlList.put(client, loadDisplayListFromDB(client));
+		// return thatObject;
+		// }
+		// keys.remove(client);
+		return null;
+	}
+	
+	/**
+	 * @param toSign
+	 *            -- The object to sign. Must be Serialzable.
+	 * @return -- The signed object
+	 * @throws SignatureException
+	 *             -- An invalid signature
+	 * @throws IOException
+	 *             -- A problem reading the keystore
+	 * @throws NoSuchAlgorithmException
+	 *             -- A problem with the encryption service * @throws InvalidKeySpecException
+	 * @throws InvalidKeyException
+	 *             -- The private key is not valid
+	 * @deprecated - use XML signing techniques
+	 */
+	public SignedObject getSignedObject(final Serializable toSign)
+			throws SignatureException, NoSuchAlgorithmException, InvalidKeyException, IOException {
+		assert (privateKey != null);
+
+		if (signature == null)
+			signature = Signature.getInstance(privateKey.getAlgorithm());
+
+		return new SignedObject(toSign, privateKey, signature);
+	}
+	
 	/**
 	 * @param signedMess
 	 *            -- The message to test
@@ -674,45 +721,4 @@ public class ObjectSigning {
 		return null;
 	}
 
-	protected final synchronized void writePublicKeyToDatabase(String clientName) {
-		String blob = "";
-		byte[] encoded = publicKey.getEncoded();
-		for (int i = 0; i < encoded.length; i++) {
-			if ((0x000000ff & encoded[i]) < 16)
-				blob += "0";
-			blob += Integer.toHexString(0x000000ff & encoded[i]);
-
-		}
-		Connection connection;
-		try {
-			connection = ConnectionToDatabase.getDbConnection();
-
-			synchronized (connection) {
-				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-					String statementString = "INSERT INTO PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
-							+ InetAddress.getLocalHost().getHostAddress() + "');";
-
-					int numRows = stmt.executeUpdate(statementString);
-					if (numRows == 0 || numRows > 1) {
-						System.err.println(
-								"Problem while updating status of Display: Expected to modify exactly one row, but  modified "
-										+ numRows + " rows instead. SQL='" + statementString + "'");
-					}
-					stmt.close();
-				} catch (SQLException ex) {
-					System.err.println("cannot execute a query. Is the DB server down?  Try again later.");
-					ex.printStackTrace();
-					System.exit(-1);
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				}
-			}
-		} catch (DatabaseNotVisibleException e) {
-			// not good!
-			System.err.println("No connection.  It is likely that the DB server is down.  Try again later.");
-
-			e.printStackTrace();
-			System.exit(-1);
-		}
-	}
 }
