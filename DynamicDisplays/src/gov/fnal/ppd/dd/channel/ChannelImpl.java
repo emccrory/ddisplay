@@ -136,7 +136,6 @@ public class ChannelImpl implements Channel {
 	public ChannelImpl(final String name, ChannelClassification category, final String description, final URI uri, final int number,
 			final long dwellTime) {
 		assert (name != null);
-		assert (number > 0);
 
 		this.name = name;
 		this.number = number;
