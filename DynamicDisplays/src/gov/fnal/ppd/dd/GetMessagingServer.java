@@ -26,7 +26,6 @@ import javax.swing.JOptionPane;
  * 
  */
 public class GetMessagingServer {
-	private static final String	ms	= System.getProperty("ddisplay.messagingserver", "X");
 
 	private GetMessagingServer() {
 	}
@@ -109,10 +108,6 @@ public class GetMessagingServer {
 				e.printStackTrace();
 			}
 
-			if (!ms.equals("X")) {
-				System.err.println("Overriding messaging server to be '" + ms + "'");
-				messagingServerName = ms;
-			}
 		}
 
 		return messagingServerName;

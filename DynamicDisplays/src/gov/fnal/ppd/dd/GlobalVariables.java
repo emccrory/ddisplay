@@ -87,38 +87,6 @@ public class GlobalVariables {
 	 */
 	public final static String			NOCHECK_SIGNED_MESSAGE		= "nocheck";
 
-	/**
-	 * String that says, "Check message signing". This is the default.
-	 */
-	public final static String			CHECK_SIGNED_MESSAGE		= "check";
-
-	/**
-	 * See comment in MakeChannelSelector - this has not been successfully implemented.
-	 */
-	public final static boolean			RUN_RAISE_SELECTOR_BUTTON	= Boolean.getBoolean("ddisplay.selector.showraisebutton");
-
-	/**
-	 * <p>
-	 * How should we deal with signed messages? The options are
-	 * <ol>
-	 * <li>nocheck -- do not check the signature on any signed object</li>
-	 * <li>check -- Check the signature and complain if the signature is bad, but use the message no matter what the check says</li>
-	 * </ol>
-	 * </p>
-	 */
-
-	private final static String			checkSignedMessage			= System.getProperty("ddisplay.checksignedmessage",
-			CHECK_SIGNED_MESSAGE);
-
-	/**
-	 * Do we check for signatures? This seems inappropriate now - it should probably be removed (2-Aug-2018)
-	 * 
-	 * @return Do we need to check the signature on messages?
-	 */
-	public static boolean checkSignedMessages() {
-		return !NOCHECK_SIGNED_MESSAGE.equals(checkSignedMessage);
-	}
-
 	public static String getSoftwareVersion() {
 		if (versionInfo == null) {
 			versionInfo = VersionInformation.getVersionInformation();
