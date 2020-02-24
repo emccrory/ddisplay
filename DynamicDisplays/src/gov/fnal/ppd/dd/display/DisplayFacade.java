@@ -24,6 +24,7 @@ import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.PropertiesFile;
 import gov.fnal.ppd.dd.util.TemporaryDialogBox;
 import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.ChangeChannel;
@@ -46,7 +47,7 @@ import gov.fnal.ppd.dd.xml.WhoIsInReply;
  */
 public class DisplayFacade extends DisplayImpl {
 
-	private static final boolean	CHANNEL_NUMBER_ONLY			= Boolean.getBoolean("ddisplay.transmitchannelnumbers");
+	private static final boolean	CHANNEL_NUMBER_ONLY			= PropertiesFile.getBooleanProperty("UseChanNumsOnly", false);
 	/**
 	 * 
 	 */
