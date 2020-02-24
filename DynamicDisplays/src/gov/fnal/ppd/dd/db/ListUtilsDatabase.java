@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import gov.fnal.ppd.dd.changer.ChannelClassification;
@@ -513,7 +514,7 @@ public class ListUtilsDatabase {
 				}
 
 			}
-			Map<String, ChannelPlayList> retval = new HashMap<String, ChannelPlayList>();
+			Map<String, ChannelPlayList> retval = new TreeMap<String, ChannelPlayList>();
 
 			for (String channelListName : allChannelLists.keySet()) {
 				ChannelPlayList theList = new ChannelPlayList(channelListName, allChannelLists.get(channelListName), 60000000);
