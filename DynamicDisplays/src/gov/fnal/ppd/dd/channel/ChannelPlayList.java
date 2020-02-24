@@ -53,7 +53,7 @@ public class ChannelPlayList implements Channel {
 		this.dwell = millisecondDwellTime;
 		for (SignageContent L : list)
 			this.channels.add(L);
-		this.name = listName + " (Length=" + this.channels.size() + ")";
+		this.name = listName + " (L=" + this.channels.size() + ")";
 	}
 
 	/**
@@ -66,7 +66,6 @@ public class ChannelPlayList implements Channel {
 	@Override
 	public String getName() {
 		return name;
-		// return channels.get(currentChannel).getName() + " (Length=" + channels.size() + ")";
 	}
 
 	@Override

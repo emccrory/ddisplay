@@ -4,20 +4,12 @@ import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.db.ListUtilsDatabase.readTheChannelLists;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
-import gov.fnal.ppd.dd.changer.ChannelClassification;
-import gov.fnal.ppd.dd.changer.DDButton;
-import gov.fnal.ppd.dd.changer.DDButton.ButtonFieldToUse;
-import gov.fnal.ppd.dd.channel.ChannelPlayList;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.util.BigLabel;
-import gov.fnal.ppd.dd.util.DisplayButtonGroup;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -28,19 +20,29 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
+import gov.fnal.ppd.dd.changer.ChannelButtonGrid;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
+import gov.fnal.ppd.dd.changer.DDButton;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.util.BigLabel;
+import gov.fnal.ppd.dd.util.DisplayButtonGroup;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017-18
  * 
  */
 public class ExistingChannelLists extends ChannelButtonGrid implements NewListCreationListener {
-	private static final long	serialVersionUID	= -8050761379148979848L;
+	private static final long				serialVersionUID	= -8050761379148979848L;
 
 	// FIXME - This attribute should probably be created elsewhere and handed to this class in the constructor.
-	private Map<String, ChannelPlayList>		listofChannelLists	= readTheChannelLists();
+	private Map<String, ChannelPlayList>	listofChannelLists	= readTheChannelLists();
 
-	private float				FS;
+	private float							FS;
 
 	private class ListDDButton extends DDButton implements ActionListener {
 		private static final long			serialVersionUID	= 3718209609564437340L;
@@ -52,6 +54,8 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 			super.addActionListener(this);
 			this.buttonName = buttonName;
 			super.setText(buttonName);
+			super.setHorizontalAlignment(SwingConstants.LEFT);
+			setMargin(new Insets(0, 0, 0, 0));
 		}
 
 		public void addActionListener(ActionListener a) {
@@ -62,7 +66,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 		public void actionPerformed(ActionEvent e) {
 			String listContents = this.getChannel().toString().replace("(", "\n(");
 			String succinctName = buttonName.replace("<html>", "").replace("</html>", "").replace("<br>", "");
-			succinctName = succinctName.substring(0, succinctName.indexOf("<i>[Length"));
+			succinctName = succinctName.substring(0, succinctName.indexOf("<i>[L"));
 			if (JOptionPane.showConfirmDialog(this, "Change the channel to '" + succinctName + "'?\n" + listContents, "Continue?",
 					JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
 				for (ActionListener L : listeners)
@@ -72,6 +76,12 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 				// new TemporaryDialogBox(this, getDisplay());
 			}
 		}
+
+		@Override
+		public void setText(final ButtonFieldToUse which) {
+			// Ignore this directive - always show the same thing on this button that represents a list of channels
+		}
+
 	}
 
 	/**
@@ -84,7 +94,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 
 		makeGrid(null);
 	}
-	
+
 	@Override
 	public void makeGrid(ChannelClassification cat) {
 		JPanel panel = new JPanel(new BorderLayout());
@@ -94,7 +104,8 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 		title.setAlignmentY(CENTER_ALIGNMENT);
 
 		JLabel instructions = new JLabel(
-				"To see what is in the list, click the button and it will show you before sending it to the Display", JLabel.CENTER);
+				"To see what is in the list, click the button and it will show you before sending it to the Display",
+				JLabel.CENTER);
 		instructions.setFont(new Font("Arial", Font.ITALIC, 12));
 		instructions.setAlignmentX(CENTER_ALIGNMENT);
 		instructions.setAlignmentY(CENTER_ALIGNMENT);
@@ -112,16 +123,16 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 	private JComponent makeTheGrid() {
 		int cols = 4;
 		// int gap = 5;
-		int maxLen = 50;
+		int maxLen = 100;
 
 		if (listofChannelLists.size() > 39) {
 			FS = 0.5f * FONT_SIZE;
 			cols = 5;
-			maxLen = 17;
+			// maxLen = 17;
 		} else if (listofChannelLists.size() > 18) {
 			FS = 0.6f * FONT_SIZE;
 			cols = 3;
-			maxLen = 15;
+			// maxLen = 15;
 		} else {
 			switch (listofChannelLists.size()) {
 			case 18:
@@ -129,7 +140,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 			case 16:
 				FS = 0.6f * FONT_SIZE;
 				cols = 3;
-				maxLen = 13;
+				// maxLen = 13;
 				break;
 
 			case 15:
@@ -137,14 +148,14 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 			case 13:
 				FS = 0.75f * FONT_SIZE;
 				cols = 3;
-				maxLen = 14;
+				// maxLen = 14;
 				break;
 
 			case 12:
 			case 11:
 				FS = 0.9f * FONT_SIZE;
 				cols = 2;
-				maxLen = 14;
+				// maxLen = 14;
 				break;
 
 			case 10:
@@ -152,25 +163,27 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 			case 8:
 				FS = 0.94f * FONT_SIZE;
 				cols = 2;
-				maxLen = 13;
+				// maxLen = 13;
 				break;
 
 			case 7:
 			case 6:
 				FS = FONT_SIZE;
 				cols = 1;
-				maxLen = 90;
+				// maxLen = 90;
 				break;
 
 			default:
 				FS = 1.2f * FONT_SIZE;
 				cols = 1;
-				maxLen = 80;
+				// maxLen = 80;
 				break;
 			}
 		}
 
-		FS /= 1.5f;
+		if ( SHOW_IN_WINDOW ) {
+			FS /= 1.4f;
+		}
 
 		GridLayout g = new GridLayout(0, cols);
 
@@ -178,12 +191,13 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 		expGrid.setOpaque(true);
 		expGrid.setBackground(display.getPreferredHighlightColor());
 		int numButtons = 0;
+		String pre = "<html><body style='width: 95%'>";
+		String post = "</body></html>";
 		for (String listName : listofChannelLists.keySet()) {
 			numButtons++;
 			ChannelPlayList theChannelList = listofChannelLists.get(listName);
-			final DDButton button = new ListDDButton("<html>" + listName + " <i>[Length=" + theChannelList.getChannels().size()
-					+ "]</i></html>", theChannelList, display, maxLen);
-			button.setText(ButtonFieldToUse.USE_NAME_FIELD); 
+			final DDButton button = new ListDDButton(pre + listName + " (L=" + theChannelList.getChannels().size() + ")" + post,
+					theChannelList, display, maxLen);
 
 			// FIXME - The button that shows the details on this panel messes up the simple names.
 
@@ -209,6 +223,8 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 			button.setSelected(theChannelList.equals(display.getContent()));
 			button.addActionListener(this);
 			button.addActionListener(display);
+			
+			println(getClass(), button.getText() + " -- fontsize " + button.getFont().getSize());
 
 			bg.add(button);
 
