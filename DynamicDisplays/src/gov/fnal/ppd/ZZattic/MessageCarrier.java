@@ -9,8 +9,6 @@
 package gov.fnal.ppd.ZZattic;
 
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
-import static gov.fnal.ppd.dd.GlobalVariables.checkSignedMessages;
-import static gov.fnal.ppd.dd.util.Util.println;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -311,13 +309,7 @@ public class MessageCarrier implements Serializable {
 	 * @deprecated
 	 */
 	public String verifySignedObject(final SignedObject signedObject) {
-		if (!checkSignedMessages()) {
-			// 1. Ignoring signatures
-			println(getClass(), " -- Signature is not being checked.");
-			return null;
-		}
-
-		// Second, verify that the message in the signedObject is me
+			// Second, verify that the message in the signedObject is me
 		try {
 			MessageCarrier signedMessage = (MessageCarrier) signedObject.getObject();
 
