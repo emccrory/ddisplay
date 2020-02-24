@@ -150,6 +150,9 @@ public class MessageConveyor {
 			Class<? extends MessagingDataXML> data = msg.getMessageValue().getClass();
 			String theMessageString = MyXMLMarshaller.getXML(msg);
 
+			if (verbose){
+				System.out.println("Sending message \n[" + theMessageString + "]");
+			}
 			if (!msg.isReadOnly()) {
 				XMLDocumentAndString theMessageDocument = new XMLDocumentAndString(theMessageString);
 				// ByteOutputStream localOutputStream = new ByteOutputStream();
