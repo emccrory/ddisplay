@@ -50,8 +50,7 @@ public class VersionInformationGUI extends JFrame {
 	 */
 	public static void main(final String[] args) {
 		VersionInformationGUI frame = new VersionInformationGUI();
-		
-		
+
 		frame.setMyContent();
 
 		frame.pack();
@@ -237,7 +236,7 @@ public class VersionInformationGUI extends JFrame {
 		Date d = new Date();
 		final JLabel timeStampChosen = new JLabel(" " + d + " ");
 		newVI.setTimeStamp(d.getTime());
-		
+
 		ActionListener rbListener = new ActionListener() {
 
 			@Override

@@ -4,19 +4,20 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
-import gov.fnal.ppd.dd.db.ConnectionToDatabase;
-
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -26,11 +27,21 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
+import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
+
 /**
  * Utility class that reads and writes the current version information on this project. It is stored as a streamed object both
  * locally and on the web server.
  * 
  * Rewrite to have all of this in the database **AND** in a local file.
+ * 
+ * TODO - This needs to be saved as an XML document, not a serialized Java object
  * 
  * The GIT hash code cannot be part of this class. If we were to create a new "version number" and we want this file to represent
  * the current version number of the repository when a client machine clones the repository, we won't know the new GIT hash code to
@@ -39,13 +50,23 @@ import java.util.TimeZone;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
+@XmlRootElement
 public class VersionInformation implements Serializable {
 
-	private static final long			serialVersionUID	= 667424596967348921L;
-	private static final String			FILE_NAME			= "versionInformation.dat";
-	private static final String			WEB_FILE_NAME		= getFullURLPrefix() + "/versionInformation.dat";
-	private static ObjectOutputStream	sOutput				= null;
-	private static ObjectInputStream	sInput				= null;
+	private static boolean		SAVE_AS_XML			= true;
+
+	private static final long	serialVersionUID	= 667424596967348921L;
+	private static final String	FILE_NAME;
+	private static final String	WEB_FILE_NAME;
+
+	static {
+		if (SAVE_AS_XML) {
+			FILE_NAME = "versionInformation.xml";
+		} else {
+			FILE_NAME = "versionInformation.dat";
+		}
+		WEB_FILE_NAME = getFullURLPrefix() + File.pathSeparator + FILE_NAME;
+	}
 
 	/**
 	 * What is the disposition/"flavor" of this version?
@@ -85,6 +106,7 @@ public class VersionInformation implements Serializable {
 	/**
 	 * @return the timeStamp of the latest version of the project
 	 */
+	@XmlElement
 	public long getTimeStamp() {
 		return timeStamp;
 	}
@@ -100,6 +122,7 @@ public class VersionInformation implements Serializable {
 	/**
 	 * @return the disposition
 	 */
+	@XmlElement
 	public FLAVOR getDisposition() {
 		return disposition;
 	}
@@ -116,6 +139,7 @@ public class VersionInformation implements Serializable {
 	/**
 	 * @return the complete description of the project
 	 */
+	@XmlElement
 	public String getVersionDescription() {
 		return versionDescription;
 	}
@@ -131,6 +155,7 @@ public class VersionInformation implements Serializable {
 	/**
 	 * @return The version as a dot string, e.g., "2.4.109"
 	 */
+	@XmlElement
 	public String getVersionString() {
 		String retval = "";
 		for (int I : dotVersion)
@@ -208,16 +233,37 @@ public class VersionInformation implements Serializable {
 	}
 
 	/**
+	 * Get the XML string that describes this VersionInformation object
+	 * 
+	 * @param vi
+	 *            The object to describe
+	 * @return The string that describes this object
+	 */
+	public static String getXMLString(VersionInformation vi) {
+		try {
+			return MyXMLMarshaller.getXML(vi);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
 	 * @return the most recent saved version of this persistent object from a file in the local filesystem
 	 */
 	public static VersionInformation getVersionInformation() {
 		try {
 			InputStream in = new FileInputStream(FILE_NAME);
-			sInput = new ObjectInputStream(in);
-
-			Object read = sInput.readObject();
-
-			// TODO - This is a streamed object that will (someday) need to be redone.
+			Object read = null;
+			if (SAVE_AS_XML) {
+				byte[] b = Files.readAllBytes(Paths.get(FILE_NAME));
+				read = MyXMLMarshaller.unmarshall(VersionInformation.class, new String(b));
+			} else {
+				ObjectInputStream sInput = new ObjectInputStream(in);
+				read = sInput.readObject();
+				sInput.close();
+				sInput = null;
+			}
 			if (read instanceof VersionInformation) {
 				return (VersionInformation) read;
 			}
@@ -229,7 +275,11 @@ public class VersionInformation implements Serializable {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+		} catch (JAXBException e) {
+			e.printStackTrace();
 		}
+
+		// Return a meaningless object!
 		return new VersionInformation();
 	}
 
@@ -239,9 +289,30 @@ public class VersionInformation implements Serializable {
 	public static VersionInformation getWebVersionInformation() {
 		try {
 			InputStream in = new URL(WEB_FILE_NAME).openStream();
-			sInput = new ObjectInputStream(in);
-			Object read = sInput.readObject();
+			Object read = null;
 
+			if (SAVE_AS_XML) {
+				String theXMLDocument = "";
+				BufferedReader receiver = new BufferedReader(new InputStreamReader(in));
+				String receiveMessage;
+				try {
+					while ((receiveMessage = receiver.readLine()) != null) {
+						theXMLDocument += receiveMessage + "\n";
+					}
+				} catch (Exception e) {
+					// Expect an end of file exception.
+				}
+				try {
+					read = MyXMLMarshaller.unmarshall(VersionInformation.class, theXMLDocument);
+					return (VersionInformation) read;
+				} catch (JAXBException e) {
+
+				}
+
+			} else {
+				ObjectInputStream sInput = new ObjectInputStream(in);
+				read = sInput.readObject();
+			}
 			if (read instanceof VersionInformation) {
 				return (VersionInformation) read;
 			}
@@ -306,7 +377,7 @@ public class VersionInformation implements Serializable {
 								vi.setVersionVal(2, Integer.parseInt(vs[2]));
 								vi.setVersionDescription(description);
 
-							} while (rs.next()); // Relly, there should only be one
+							} while (rs.next()); // Really, there should only be one
 						}
 					}
 				}
@@ -324,13 +395,18 @@ public class VersionInformation implements Serializable {
 	 */
 	public static void saveVersionInformation(final VersionInformation vi) {
 		try {
-			if (sOutput == null) {
-				OutputStream out = new FileOutputStream(FILE_NAME);
-				sOutput = new ObjectOutputStream(out);
+			FileOutputStream fos = new FileOutputStream(FILE_NAME);
+			if (SAVE_AS_XML) {
+				fos.write(getXMLString(vi).getBytes());
+				fos.close();
+				fos = null;
+			} else {
+				ObjectOutputStream sOutput = new ObjectOutputStream(fos);
+				sOutput.writeObject(vi);
+				sOutput.reset();
+				sOutput.close();
+				sOutput = null;
 			}
-			sOutput.writeObject(vi);
-			sOutput.reset();
-
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -398,7 +474,7 @@ public class VersionInformation implements Serializable {
 		}
 
 		FLAVOR flav = FLAVOR.PRODUCTION;
-		
+
 		switch (which) {
 		case 0:
 			// READ from disk
@@ -433,17 +509,6 @@ public class VersionInformation implements Serializable {
 			System.out.println(new Date(vi.getTimeStamp()));
 			break;
 
-		case 4:
-			// READ from database, but succinct output
-			try {
-				credentialsSetup();
-			} catch (CredentialsNotFoundException e) {
-				e.printStackTrace();
-				System.exit(-1);
-			}			vi = getDBVersionInformation(flav);
-			System.out.println(vi.getVersionString() + " " + vi.getDisposition());
-			break;
-
 		case 3:
 			// WRITE to database
 			System.out.println("First, reading version information from the local disk");
@@ -459,6 +524,32 @@ public class VersionInformation implements Serializable {
 			saveDBVersionInformation(vi, hash);
 			System.out.println("... DB save complete.");
 			break;
+
+		case 4:
+			// READ from database, but succinct output
+			try {
+				credentialsSetup();
+			} catch (CredentialsNotFoundException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
+			vi = getDBVersionInformation(flav);
+			System.out.println(vi.getVersionString() + " " + vi.getDisposition());
+			break;
+
+		case 5:
+			// Read from database and write to an XML file
+			System.out.println("Reading version information from the DB");
+			try {
+				credentialsSetup();
+			} catch (CredentialsNotFoundException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
+			vi = getDBVersionInformation(flav);
+			String xml = getXMLString(vi);
+			System.out.println(xml);
+
 		}
 		// For saving ...
 		// VersionInformation vi = new VersionInformation();
@@ -478,4 +569,5 @@ public class VersionInformation implements Serializable {
 		// From database
 
 	}
+
 }
