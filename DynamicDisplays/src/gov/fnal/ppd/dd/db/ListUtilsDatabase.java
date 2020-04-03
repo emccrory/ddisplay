@@ -26,9 +26,11 @@ import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelInListImpl;
+import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
 import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 /**
@@ -137,7 +139,7 @@ public class ListUtilsDatabase {
 
 										Channel channel = new ChannelImage(name, desc, uri, portfolioID, exp);
 										channel.setTime(dwell);
-										cih = new ChannelInList(channel, seq, dwell);
+										cih = new ChannelInListImpl(channel, seq, dwell);
 									} else {
 										println(ListUtilsDatabase.class,
 												"getThisList(): Unexpected condition - rs3.first() returned false");
@@ -159,7 +161,7 @@ public class ListUtilsDatabase {
 										URI uri = new URI(url);
 										Channel channel = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, desc, uri,
 												chanNumber, dwell);
-										cih = new ChannelInList(channel, seq, dwell);
+										cih = new ChannelInListImpl(channel, seq, dwell);
 									} // Guaranteed to be exactly one
 								} catch (Exception e) {
 									e.printStackTrace();
@@ -464,7 +466,7 @@ public class ListUtilsDatabase {
 	 * @return The lists of channel lists
 	 */
 	public static Map<String, ChannelPlayList> readTheChannelLists() {
-		Map<String, ArrayList<SignageContent>> allChannelLists = new HashMap<String, ArrayList<SignageContent>>();
+		Map<String, ChannelListHolder> allChannelLists = new HashMap<String, ChannelListHolder>();
 		Map<String, Integer> listNumbers = new HashMap<String, Integer>();
 		
 		try {
@@ -490,14 +492,14 @@ public class ListUtilsDatabase {
 
 								String fullName = listName + " (" + listAuthor + ")";
 								if (!allChannelLists.containsKey(fullName)) {
-									ArrayList<SignageContent> list = new ArrayList<SignageContent>(sequence + 1);
+									ChannelListHolder list = new ConcreteChannelListHolder();
 									allChannelLists.put(fullName, list);
 									listNumbers.put(fullName, listNumber);
 								}
 								Channel chan = (Channel) getChannelFromNumber(chanNumber);
-								ChannelInList cih = new ChannelInList(chan, sequence, dwell);
+								ChannelInList cih = new ChannelInListImpl(chan, sequence, dwell);
 
-								allChannelLists.get(fullName).add(cih);
+								allChannelLists.get(fullName).channelAdd(cih);
 
 							} while (rs2.next());
 						else {
@@ -517,7 +519,7 @@ public class ListUtilsDatabase {
 			Map<String, ChannelPlayList> retval = new TreeMap<String, ChannelPlayList>();
 
 			for (String channelListName : allChannelLists.keySet()) {
-				ChannelPlayList theList = new ChannelPlayList(channelListName, allChannelLists.get(channelListName), 60000000);
+				ChannelPlayList theList = new ChannelPlayList(allChannelLists.get(channelListName), 60000000);
 				theList.setChannelNumber(listNumbers.get(channelListName));
 				theList.setDescription(allChannelLists.get(channelListName).toString());
 				retval.put(channelListName, theList);

@@ -1,11 +1,9 @@
 package gov.fnal.ppd.dd.channel.list;
 
-import static gov.fnal.ppd.dd.GlobalVariables.*;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
+import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.util.Util.println;
-import gov.fnal.ppd.dd.channel.ChannelInList;
-import gov.fnal.ppd.dd.channel.list.table.ChannelCellRenderer;
-import gov.fnal.ppd.dd.channel.list.table.SelectedChannelsTableModel;
-import gov.fnal.ppd.dd.signage.Channel;
 
 import java.util.List;
 
@@ -13,6 +11,12 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
+
+import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelInListImpl;
+import gov.fnal.ppd.dd.channel.list.table.ChannelCellRenderer;
+import gov.fnal.ppd.dd.channel.list.table.SelectedChannelsTableModel;
+import gov.fnal.ppd.dd.signage.Channel;
 
 /**
  * Hold a list of channels that will be sent to the display
@@ -69,7 +73,7 @@ public class SelectedChannelsDisplayAsTable extends JTable {
 	 */
 	public void add(final Channel oldChan, int sequence, long dwell) {
 		// Make a copy of the old channel
-		ChannelInList newChannel = new ChannelInList(oldChan.getName(), oldChan.getChannelClassification(), oldChan.getDescription(),
+		ChannelInList newChannel = new ChannelInListImpl(oldChan.getName(), oldChan.getChannelClassification(), oldChan.getDescription(),
 				oldChan.getURI(), oldChan.getNumber(), 1000L * dwell);
 		newChannel.setSequenceNumber(sequence);
 

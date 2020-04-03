@@ -1,14 +1,16 @@
 package gov.fnal.ppd.dd.channel.list.table;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
-import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
-import gov.fnal.ppd.dd.changer.ChannelClassification;
-import gov.fnal.ppd.dd.channel.ChannelInList;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.SignageContent;
 
 import java.util.Set;
+
+import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
+import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
+import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelInListImpl;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * A table of all the channels in the system (relevant for this location)
@@ -19,7 +21,7 @@ import java.util.Set;
  */
 public class ChannelChooserTableModel extends AbstractChannelTableModel {
 
-	private static final long	serialVersionUID	= 5736576268689815979L;
+	private static final long serialVersionUID = 5736576268689815979L;
 
 	/**
 	 * 
@@ -46,7 +48,7 @@ public class ChannelChooserTableModel extends AbstractChannelTableModel {
 					if (((ChannelInList) CHAN).getSequenceNumber() > count)
 						count = ((ChannelInList) CHAN).getSequenceNumber() + 1;
 				} else {
-					allChannels.add(new ChannelInList((Channel) CHAN, count, CHAN.getTime()));
+					allChannels.add(new ChannelInListImpl((Channel) CHAN, count, CHAN.getTime()));
 					count += 1;
 				}
 			}

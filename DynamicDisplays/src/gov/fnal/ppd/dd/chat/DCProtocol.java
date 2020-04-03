@@ -44,13 +44,15 @@ import java.util.List;
 
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent.DisplayChangeType;
-import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelInListImpl;
+import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
 import gov.fnal.ppd.dd.channel.MapOfChannels;
 import gov.fnal.ppd.dd.emergency.EmergCommunicationImpl;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.emergency.Severity;
-import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -312,14 +314,14 @@ public class DCProtocol {
 			informListeners(specs[0]);
 		} else {
 			long dwellTime = 5000;
-			List<SignageContent> channelList = new ArrayList<SignageContent>();
+			ChannelListHolder channelList = new ConcreteChannelListHolder();
 
 			for (ChannelSpec spec : specs) {
 				// NOTE : Lists of lists are not supported
-				Channel c = new ChannelImpl(spec.getContent());
-				channelList.add(c);
+				ChannelInList c = new ChannelInListImpl(spec.getContent());
+				channelList.channelAdd(c);
 			}
-			ChannelPlayList playList = new ChannelPlayList("Channel List", channelList, dwellTime);
+			ChannelPlayList playList = new ChannelPlayList( channelList, dwellTime);
 			playList.setChannelNumber(mess.getChannelNumber());
 			for (Display L : listeners) {
 				L.setContent(playList);

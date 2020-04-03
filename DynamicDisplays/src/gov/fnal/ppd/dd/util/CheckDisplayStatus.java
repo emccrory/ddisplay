@@ -24,7 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gov.fnal.ppd.dd.changer.DisplayButtons;
+import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelInListImpl;
+import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
 import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.DisplayFacade;
@@ -117,11 +121,13 @@ public class CheckDisplayStatus extends Thread {
 									if (rawMessage.contains("changeChannelList")) {
 										ChangeChannelList ccl = (ChangeChannelList) MyXMLMarshaller
 												.unmarshall(ChangeChannelList.class, rawMessage);
-										List<SignageContent> lsc = new ArrayList<SignageContent>();
+										List<ChannelInList> lsc = new ArrayList<ChannelInList>();
 										for (ChannelSpec C : ccl.getChannelSpec()) {
-											lsc.add(C);
+											lsc.add(new ChannelInListImpl(C));
 										}
-										currentContent = new ChannelPlayList(contentName, lsc, 1000000L);
+										ChannelListHolder holder = new ConcreteChannelListHolder(contentName, lsc);
+										currentContent = new ChannelPlayList(holder, 1000000L);
+										//currentContent = new ChannelPlayList(contentName, lsc, 1000000L);
 									} else if (rawMessage.contains("channelSpec")) {
 										currentContent = (ChannelSpec) MyXMLMarshaller.unmarshall(ChannelSpec.class, rawMessage);
 									} else {

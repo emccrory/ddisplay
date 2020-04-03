@@ -2,12 +2,6 @@ package gov.fnal.ppd.dd.channel.list.table;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
-import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
-import gov.fnal.ppd.dd.changer.ChannelClassification;
-import gov.fnal.ppd.dd.changer.DrawingPanelForImage;
-import gov.fnal.ppd.dd.channel.ChannelImage;
-import gov.fnal.ppd.dd.channel.ChannelInList;
-import gov.fnal.ppd.dd.signage.SignageContent;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -17,6 +11,14 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.swing.ImageIcon;
+
+import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
+import gov.fnal.ppd.dd.changer.ChannelClassification;
+import gov.fnal.ppd.dd.changer.DrawingPanelForImage;
+import gov.fnal.ppd.dd.channel.ChannelImage;
+import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelInListImpl;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * A table of all the channels in the system (relevant for this location)
@@ -62,7 +64,7 @@ public class ImageChooserTableModel extends AbstractChannelTableModel {
 		sortedList.addAll(list);
 
 		for (SignageContent SC : sortedList) {
-			allChannels.add(new ChannelInList(SC));
+			allChannels.add(new ChannelInListImpl(SC));
 			String name = SC.getName(); // This is the URL end, without all the caption stuff.
 			String url = getFullURLPrefix() + "/" + name;
 			DrawingPanelForImage dp = new DrawingPanelForImage(url, Color.green);

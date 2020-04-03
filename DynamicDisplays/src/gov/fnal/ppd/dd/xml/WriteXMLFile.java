@@ -5,15 +5,16 @@ import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.channel.ChannelInListImpl;
+import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.SignageContent;
@@ -124,13 +125,13 @@ public class WriteXMLFile {
 				case 9:
 					Set<SignageContent> map = ChannelCatalogFactory.getInstance()
 							.getChannelCatalog(new ChannelClassification("PUBLIC"));
-					List<SignageContent> lst = new ArrayList<SignageContent>();
+					ChannelListHolder lst = new ConcreteChannelListHolder();
 					for (SignageContent C : map) {
-						if (lst.size() > 3)
+						if (lst.getList().size() > 3)
 							continue;
-						lst.add(C);
+						lst.channelAdd(new ChannelInListImpl(C));
 					}
-					ChannelPlayList cpl = new ChannelPlayList("A list", lst, 60); // This is the SignageContent class
+					ChannelPlayList cpl = new ChannelPlayList(lst, 60); // This is the SignageContent class
 					ChangeChannelList ccl = new ChangeChannelList(); // This is the XML class
 					// ChannelSpec cspec = new ChannelSpec(cpl); // A different XML class? This does not work properly.
 

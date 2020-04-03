@@ -15,7 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -635,7 +634,7 @@ public class ChannelListGUI extends JPanel implements ActionListener, ChannelLis
 	 * @return The list of channels, as a new channel, to be sent to the display
 	 */
 	public SignageContent getChannelList() {
-		return new ChannelPlayList("List created " + new Date(), resultsTable.getChannelList(), ONE_HOUR);
+		return new ChannelPlayList(this, ONE_HOUR);
 	}
 
 	/**

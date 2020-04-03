@@ -52,6 +52,7 @@ import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
 import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelInListImpl;
 import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
@@ -79,7 +80,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 
 	// FIXME -- This kludge job is not working. Adding the Plus and Minus buttons has messed this up.
 
-	ConcreteChannelListHolder			channelList			= new ConcreteChannelListHolder();
+	ChannelListHolder					channelList			= new ConcreteChannelListHolder();
 	List<JLabel>						labelList			= new ArrayList<JLabel>();
 	List<ChanSelectButton>				allChannelButtons	= new ArrayList<ChanSelectButton>();
 	private static List<TinyButton>		allTinyButtons		= new ArrayList<TinyButton>();
@@ -125,7 +126,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 	}
 
 	private static class JLabelPlain extends JLabel {
-		private static final long	serialVersionUID	= -2971746349833357406L;
+		private static final long serialVersionUID = -2971746349833357406L;
 
 		public JLabelPlain(String text) {
 			super(text);
@@ -352,7 +353,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 							long actualDwell = 0;
 							if (CONTENT.getTime() == 0 || CONTENT.getTime() > defaultDwell) {
 								CONTENT.setTime(defaultDwell);
-								channelList.channelAdd(new ChannelInList(CONTENT));
+								channelList.channelAdd(new ChannelInListImpl(CONTENT));
 								actualDwell = defaultDwell;
 								visible = true;
 							} else {
@@ -365,7 +366,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 									if (CONTENT instanceof ChannelInList)
 										channelList.channelAdd((ChannelInList) CONTENT);
 									else
-										channelList.channelAdd(new ChannelInList(CONTENT));
+										channelList.channelAdd(new ChannelInListImpl(CONTENT));
 									actualDwell += CONTENT.getTime();
 									added++;
 								}
@@ -415,15 +416,15 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 		// Now populate the succinct list of channels that has been accumulated so far
 
 		selectedChannels.removeAll();
-		JLabel title = new JLabel("  " + channelList.getList().size() + " channel" + (channelList.getList().size() != 1 ? 's' : "")
-				+ " in the list");
+		JLabel title = new JLabel(
+				"  " + channelList.getList().size() + " channel" + (channelList.getList().size() != 1 ? 's' : "") + " in the list");
 		title.setFont(new Font("Arial", Font.BOLD, (SHOW_IN_WINDOW ? 14 : 20)));
 		selectedChannels.add(title);
 
 		count = 1;
 		for (SignageContent C : channelList.getList()) {
-			selectedChannels.add(new JLabelPlain(count + getOrdinalSuffix(count) + ": " + C.getName() + " [" + C.getTime() / 1000L
-					+ " sec]"));
+			selectedChannels.add(
+					new JLabelPlain(count + getOrdinalSuffix(count) + ": " + C.getName() + " [" + C.getTime() / 1000L + " sec]"));
 			count++;
 			for (ChanSelectButton AB : allChannelButtons) {
 				ChanSelectButton bb = AB;
@@ -479,8 +480,8 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 		JPanel retval = new JPanel(new BorderLayout());
 
 		// Make the button to accept this list really pretty
-		helper.accept.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(h.color, 3),
-				helper.accept.getBorder()));
+		helper.accept.setBorder(
+				BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(h.color, 3), helper.accept.getBorder()));
 
 		// The scroll panel of all the channels
 		final JScrollPane mainSelectionScrollPanel = new JScrollPane(helper.lister);
@@ -501,8 +502,8 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 		GridBagConstraints gbc = new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH,
 				new Insets(1, 1, 1, 1), 0, 0);
 		hb.add(listOfChannelScrollPanel, gbc);
-		gbc = new GridBagConstraints(2, 1, 3, 1, 3.0, 1.0, GridBagConstraints.EAST, GridBagConstraints.BOTH,
-				new Insets(1, 1, 1, 1), 0, 0);
+		gbc = new GridBagConstraints(2, 1, 3, 1, 3.0, 1.0, GridBagConstraints.EAST, GridBagConstraints.BOTH, new Insets(1, 1, 1, 1),
+				0, 0);
 		hb.add(mainSelectionScrollPanel, gbc);
 		hb.setBorder(BorderFactory.createLineBorder(h.color, 2));
 		retval.add(hb, BorderLayout.CENTER);
@@ -545,7 +546,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 	 * @return A play list of channels
 	 */
 	public SignageContent getChannelList() {
-		return new ChannelPlayList("Last amended at " + channelList.getModTime(), channelList.getList(), getDwellTime());
+		return new ChannelPlayList(channelList, getDwellTime());
 	}
 
 	/**
@@ -570,7 +571,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 		getMessagingServerNameSelector();
 
 		// ChannelCatalogFactory.useRealChannels(true);
-	
+
 		JFrame f = new JFrame(CreateListOfChannels.class.getCanonicalName() + " Testing;");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

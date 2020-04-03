@@ -28,11 +28,21 @@ public class ConcreteChannelListHolder implements ChannelListHolder {
 											return super.add(chan);
 										}
 									};
+	private String name;
 
 	/**
+	 * @param lsc 
+	 * @param contentName 
 	 * 
 	 */
 	public ConcreteChannelListHolder() {
+		name = "Content created at " + lastModTime;
+	}
+
+	public ConcreteChannelListHolder(String contentName, List<ChannelInList> cil) {
+		this.name = contentName;
+		for (ChannelInList C : cil)
+			channelList.add(C);
 	}
 
 	@Override
@@ -55,7 +65,7 @@ public class ConcreteChannelListHolder implements ChannelListHolder {
 		// Nothing to do here.
 	}
 
-	public Date getModTime() {
-		return lastModTime;
+	public String getName() {
+		return name;
 	}
 }

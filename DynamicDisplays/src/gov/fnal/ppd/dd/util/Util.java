@@ -23,13 +23,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -46,7 +44,10 @@ import gov.fnal.ppd.dd.GlobalVariables;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelInListImpl;
+import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.signage.Channel;
@@ -380,7 +381,7 @@ public class Util {
 				return null;
 			}
 
-			List<SignageContent> channelList = new ArrayList<SignageContent>();
+			ChannelListHolder channelList = new ConcreteChannelListHolder();
 
 			synchronized (connection) {
 				try (Statement stmt = connection.createStatement();) {
@@ -397,15 +398,15 @@ public class Util {
 							int specialCode = rs.getInt("Sound");
 							int seq = rs.getInt("SequenceNumber");
 
-							ChannelInList c = new ChannelInList(name, ChannelClassification.MISCELLANEOUS, desc, new URI(url),
+							ChannelInList c = new ChannelInListImpl(name, ChannelClassification.MISCELLANEOUS, desc, new URI(url),
 									chanNum, dwell);
 							c.setSequenceNumber(seq);
 							c.setCode(specialCode);
-							channelList.add(c);
+							channelList.channelAdd(c);
 
 						} while (rs.next());
 
-						retval = new ChannelPlayList("List " + (-channelNumber), channelList, 60000L);
+						retval = new ChannelPlayList(channelList, 60000L);
 						alreadyRetrieved.put(channelNumber, retval);
 						stmt.close();
 						rs.close();

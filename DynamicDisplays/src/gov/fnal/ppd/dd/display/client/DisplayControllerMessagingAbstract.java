@@ -789,7 +789,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			e2.printStackTrace();
 		}
 
-		String query = "SELECT IPName,DisplayID,VirtualDisplayNumber,Location,ColorCode,Port,Content,BadNUC,ScreenNumber FROM Display where IPName='"
+		String query = "SELECT IPName,DisplayID,VirtualDisplayNumber,Location,ColorCode,Port,Content,ScreenNumber FROM Display where IPName='"
 				+ myNode + "'";
 
 		Connection connection;

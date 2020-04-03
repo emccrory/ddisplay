@@ -28,7 +28,10 @@ import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelInList;
+import gov.fnal.ppd.dd.channel.ChannelInListImpl;
+import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
@@ -464,7 +467,7 @@ public class ChannelsFromDatabase {
 			}
 
 			for (int CL : lists) {
-				List<SignageContent> theChannelList = new ArrayList<SignageContent>();
+				List<ChannelInList> theChannelList = new ArrayList<ChannelInList>();
 
 				String query = "SELECT ChannelList.ListNumber AS ListNumber,Number,Dwell,ChangeTime,SequenceNumber,ListName,ListAuthor"
 						+ " FROM ChannelList,ChannelListName WHERE ChannelList.ListNumber=ChannelListName.ListNumber "
@@ -487,7 +490,7 @@ public class ChannelsFromDatabase {
 							fullName = listName + " (" + listAuthor + ")";
 
 							Channel chan = (Channel) getChannelFromNumber(chanNumber);
-							ChannelInList cih = new ChannelInList(chan, sequence, dwell);
+							ChannelInList cih = new ChannelInListImpl(chan, sequence, dwell);
 
 							theChannelList.add(cih);
 
@@ -496,7 +499,9 @@ public class ChannelsFromDatabase {
 					System.err.println(query);
 					e.printStackTrace();
 				}
-				ChannelPlayList theList = new ChannelPlayList(fullName, theChannelList, 60000000);
+				// ChannelPlayList theList = new ChannelPlayList(fullName, theChannelList, 60000000);
+				ChannelListHolder holder = new ConcreteChannelListHolder(fullName, theChannelList);
+				ChannelPlayList theList = new ChannelPlayList(holder, 60000000);
 				retval.add(theList);
 			}
 

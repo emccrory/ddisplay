@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
+import gov.fnal.ppd.dd.channel.ChannelInListImpl;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
 import gov.fnal.ppd.dd.display.DisplayFacade;
@@ -85,7 +86,10 @@ public class DisplayUtilDatabase {
 									for (ChannelSpec C : ccl.getChannelSpec()) {
 										lsc.add(C);
 									}
-									newContent = new ChannelPlayList("Channel " + chanNum, lsc, 1000000L);
+									newContent = new ChannelPlayList();
+									newContent.setDescription("Channel " + chanNum);
+									newContent.setTime(1000000L);
+									newContent.setContent(lsc);
 								} else if (rawMessage.contains("channelSpec")) {
 									newContent = (ChannelSpec) MyXMLMarshaller.unmarshall(ChannelSpec.class, rawMessage);
 								} else {
