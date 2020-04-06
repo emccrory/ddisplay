@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
+    <disposition>DEVELOPMENT</disposition>
+    <timeStamp>1586189388546</timeStamp>
+    <versionDescription>Work on the Emergency Messaging GUI</versionDescription>
+    <versionString>5.3.5</versionString>
+</versionInformation>
