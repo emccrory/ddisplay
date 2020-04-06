@@ -133,6 +133,7 @@ public class CheckAndFixScreenDimensions extends TimerTask {
 
 	/**
 	 */
+	@SuppressWarnings("deprecation")
 	public void goToProperSizeAndPlace() {
 		myMethod = positioningMethod;
 		if (adjustCount++ > 2) {

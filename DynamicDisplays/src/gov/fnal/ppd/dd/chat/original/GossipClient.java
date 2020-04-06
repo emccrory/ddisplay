@@ -19,10 +19,12 @@ public class GossipClient {
 
 			// receiving from server ( receiveRead object)
 			InputStream istream = sock.getInputStream();
+			@SuppressWarnings("unused")
 			BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
 
 			System.out.println("Start the chitchat, type and press Enter key");
 
+			@SuppressWarnings("unused")
 			String receiveMessage, sendMessage;
 			while (true) {
 				sendMessage = keyRead.readLine(); // keyboard reading

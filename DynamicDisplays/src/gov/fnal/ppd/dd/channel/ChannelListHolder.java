@@ -1,6 +1,5 @@
 package gov.fnal.ppd.dd.channel;
 
-import java.util.Date;
 import java.util.List;
 
 /**

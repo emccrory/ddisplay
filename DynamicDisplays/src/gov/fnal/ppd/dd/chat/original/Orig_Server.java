@@ -91,6 +91,7 @@ public class Orig_Server {
 	/*
 	 * For the GUI to stop the server
 	 */
+	@SuppressWarnings("resource")
 	protected void stop() {
 		keepGoing = false;
 		// connect to myself as Client to exit statement

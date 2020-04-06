@@ -20,15 +20,18 @@ public class GossipServer {
 			Socket sock = sersock.accept();
 			
 			// reading from keyboard (keyRead object)
+			@SuppressWarnings("unused")
 			BufferedReader keyRead = new BufferedReader(new InputStreamReader(System.in));
 			// sending to client (pwrite object)
 			OutputStream ostream = sock.getOutputStream();
+			@SuppressWarnings("unused")
 			PrintWriter pwrite = new PrintWriter(ostream, true);
 
 			// receiving from server (receiveRead object)
 			InputStream istream = sock.getInputStream();
 			BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
 
+			@SuppressWarnings("unused")
 			String receiveMessage, sendMessage;
 			int count = 0;
 			while (true) {

@@ -48,6 +48,7 @@ public class DisplayAsSimpleBrowser extends DisplayControllerMessagingAbstract {
 			browserInstance = new SimplifiedBrowserConnection(-num);
 		} else {
 			int num = ((Channel) c).getNumber();
+			@SuppressWarnings("unused")
 			String url = ((Channel) c).getURI().toASCIIString();
 			if (num != 0) {
 				println(getClass(), "Changing to channel number " + num);

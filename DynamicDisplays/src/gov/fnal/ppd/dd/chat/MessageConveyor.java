@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.SocketTimeoutException;
 
-import javax.xml.bind.JAXBException;
-
 import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;

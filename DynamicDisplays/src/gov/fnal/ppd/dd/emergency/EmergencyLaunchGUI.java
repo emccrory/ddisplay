@@ -108,8 +108,6 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 
 	private boolean						messageSendErrors;
 
-	private JLabel						numAffectedLabel;
-
 	/**
 	 * @param args
 	 */

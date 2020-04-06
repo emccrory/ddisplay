@@ -176,7 +176,8 @@ public class Orig_Client {
 		if (!client.start())
 			return;
 
-		// wait for messages from user
+		// wait for messages from user - Compile error that there is a resource leak here (left this way)
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		// loop forever for message from the user
 		while (true) {

@@ -31,8 +31,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.beust.jcommander.Strings;
-
 import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
