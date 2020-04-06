@@ -4,7 +4,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.getChannelFromNumber;
+import static gov.fnal.ppd.dd.util.PackageUtilities.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 

@@ -3,8 +3,8 @@ package gov.fnal.ppd.dd.db;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.convertContentToDBReadyString;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.getChannelFromNumber;
+import static gov.fnal.ppd.dd.util.PackageUtilities.convertContentToDBReadyString;
+import static gov.fnal.ppd.dd.util.PackageUtilities.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 

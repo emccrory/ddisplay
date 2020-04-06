@@ -7,7 +7,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getNumberOfLocations;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.getChannelFromNumber;
+import static gov.fnal.ppd.dd.util.PackageUtilities.getChannelFromNumber;
 import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 

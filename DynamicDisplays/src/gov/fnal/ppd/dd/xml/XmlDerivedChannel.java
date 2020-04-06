@@ -1,11 +1,12 @@
 package gov.fnal.ppd.dd.xml;
 
-import static gov.fnal.ppd.dd.util.GeneralUtilities.MY_NAME;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.MY_URL;
-import gov.fnal.ppd.dd.channel.ChannelImpl;
+import static gov.fnal.ppd.dd.util.PackageUtilities.MY_NAME;
+import static gov.fnal.ppd.dd.util.PackageUtilities.MY_URL;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import gov.fnal.ppd.dd.channel.ChannelImpl;
 
 /**
  * An empty channel for use by these XML classes

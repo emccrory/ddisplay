@@ -2,7 +2,7 @@ package gov.fnal.ppd.dd.db;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.getChannelFromNumber;
+import static gov.fnal.ppd.dd.util.PackageUtilities.getChannelFromNumber;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

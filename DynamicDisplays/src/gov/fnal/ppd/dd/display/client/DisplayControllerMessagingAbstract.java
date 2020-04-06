@@ -11,9 +11,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.getDefaultDwellTime;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.convertContentToDBReadyString;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.getChannelFromNumber;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.makeEmptyChannel;
+import static gov.fnal.ppd.dd.util.PackageUtilities.convertContentToDBReadyString;
+import static gov.fnal.ppd.dd.util.PackageUtilities.getChannelFromNumber;
+import static gov.fnal.ppd.dd.util.PackageUtilities.makeEmptyChannel;
 import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 
