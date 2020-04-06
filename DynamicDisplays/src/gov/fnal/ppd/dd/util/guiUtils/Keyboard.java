@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.changer;
+package gov.fnal.ppd.dd.util.guiUtils;
 
 import java.awt.Component;
 import java.awt.Dimension;

@@ -5,6 +5,7 @@
  */
 package gov.fnal.ppd.dd.changer;
 
+import gov.fnal.ppd.dd.interfaces.ChannelCatalog;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 
 /**

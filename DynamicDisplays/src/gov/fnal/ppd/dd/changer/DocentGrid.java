@@ -9,6 +9,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.db.ChannelsFromDatabase.getDocentContent;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.truncate;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,8 +29,9 @@ import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 import gov.fnal.ppd.dd.util.guiUtils.DrawingPanel;
+import gov.fnal.ppd.dd.util.guiUtils.JWhiteLabel;
+import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 
 /**
  * Create a tab that is specifically tailored to the use of the Docents (and tour guides) at the Lab.
@@ -41,7 +43,7 @@ public class DocentGrid extends DetailedInformationGrid {
 
 	private static final long		serialVersionUID	= 3102445872732142334L;
 	private List<SignageContent>	myButtonList;
-	static final int				MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 35 : 40);
+	public static final int			MAX_CAPTION_LENGTH	= (SHOW_IN_WINDOW ? 35 : 40);
 
 	/**
 	 * Create this tab for the ChannelSelector GUI
@@ -56,11 +58,6 @@ public class DocentGrid extends DetailedInformationGrid {
 		myButtonList = getDocentContent(docentName);
 	}
 
-	static String trunc(String text, int maxLen) {
-		if (text.length() < maxLen)
-			return text;
-		return text.substring(0, maxLen - 2) + " ...";
-	}
 
 	@Override
 	protected JComponent makeExpGrid(ChannelClassification set) {
@@ -99,10 +96,11 @@ public class DocentGrid extends DetailedInformationGrid {
 
 						DDButton button = new DDIconButton(imageChannel, display, MAX_CAPTION_LENGTH, dp.getIcon());
 						String[] pieces = name.split("/", -1);
-						String filename = pieces[pieces.length - 1].replace(".jpg", "").replace(".jpeg", "").replace(".JPG", "").replace(".JPEG", "");
-						button.setText(trunc(filename, MAX_CAPTION_LENGTH));
+						String filename = pieces[pieces.length - 1].replace(".jpg", "").replace(".jpeg", "").replace(".JPG", "")
+								.replace(".JPEG", "");
+						button.setText(truncate(filename, MAX_CAPTION_LENGTH));
 						button.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-					
+
 						b.add(new JWhiteLabel(exp, 18.0f));
 						b.add(button);
 						// b.add(dp);

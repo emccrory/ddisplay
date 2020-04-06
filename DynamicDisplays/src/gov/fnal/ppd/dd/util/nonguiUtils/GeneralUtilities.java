@@ -39,9 +39,7 @@ import gov.fnal.ppd.dd.GlobalVariables;
  * 
  */
 public class GeneralUtilities {
-	private static final String[]	days	= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
-
-	
+	private static final String[] days = { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
 	private GeneralUtilities() {
 		// Cannot be instantiated.
@@ -81,7 +79,7 @@ public class GeneralUtilities {
 	 * @return The encoded two-character string
 	 */
 	public static final String twoDigits(final int v) {
-		assert (v < 100);
+		assert(v < 100);
 		if (v < 10)
 			return "0" + v;
 		return "" + v;
@@ -132,7 +130,6 @@ public class GeneralUtilities {
 			}
 		}.start();
 	}
-
 
 	/**
 	 * A helper function to call Thread.sleep() and not throw an exception.

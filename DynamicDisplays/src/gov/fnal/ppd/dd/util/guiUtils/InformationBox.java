@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd.changer;
+package gov.fnal.ppd.dd.util.guiUtils;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;

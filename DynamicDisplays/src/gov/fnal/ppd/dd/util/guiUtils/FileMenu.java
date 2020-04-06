@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.changer;
+package gov.fnal.ppd.dd.util.guiUtils;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 

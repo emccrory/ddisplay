@@ -9,6 +9,7 @@ import static gov.fnal.ppd.dd.db.ChannelsFromDatabase.getChannels;
 import static gov.fnal.ppd.dd.db.ChannelsFromDatabase.getImages;
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
+import gov.fnal.ppd.dd.interfaces.ChannelCatalog;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;

@@ -3,8 +3,9 @@
  *
  * Copyright (c) 2013-18 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd.changer;
+package gov.fnal.ppd.dd.interfaces;
 
+import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 import java.util.Set;
