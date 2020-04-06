@@ -9,7 +9,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationDescription;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.changer.DisplayButtons.normalOperations;
-import static gov.fnal.ppd.dd.util.Util.launchErrorMessage;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.launchErrorMessage;
 
 import java.awt.Color;
 import java.awt.Component;

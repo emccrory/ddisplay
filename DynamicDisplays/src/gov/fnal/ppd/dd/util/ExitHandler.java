@@ -1,7 +1,7 @@
 package gov.fnal.ppd.dd.util;
 
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 
 import java.util.ArrayList;
 import java.util.List;

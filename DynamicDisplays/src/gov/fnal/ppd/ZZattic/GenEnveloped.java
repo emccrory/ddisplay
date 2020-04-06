@@ -1,8 +1,8 @@
 package gov.fnal.ppd.ZZattic;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
-import static gov.fnal.ppd.dd.util.Util.println;
-import static gov.fnal.ppd.dd.util.Util.streamDocument;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.streamDocument;
 
 import java.io.File;
 import java.io.FileInputStream;

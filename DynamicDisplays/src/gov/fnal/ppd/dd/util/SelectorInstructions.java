@@ -8,7 +8,7 @@ package gov.fnal.ppd.dd.util;
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.timeSinceLastUserActivity;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
 
 import java.awt.Font;
 

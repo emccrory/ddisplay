@@ -1,8 +1,8 @@
 package gov.fnal.ppd.dd.chat;
 
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import static gov.fnal.ppd.dd.util.Util.getNextEntropy;
-import static gov.fnal.ppd.dd.util.Util.printlnErr;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.getNextEntropy;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

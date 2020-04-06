@@ -5,8 +5,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.WAIT_FOR_SERVER_TIME;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
 import static gov.fnal.ppd.dd.util.ExitHandler.processingGracefulExit;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 
 import java.io.BufferedReader;
 import java.io.IOException;

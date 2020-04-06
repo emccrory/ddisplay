@@ -3,10 +3,10 @@ package gov.fnal.ppd.dd.db;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
-import static gov.fnal.ppd.dd.util.Util.convertContentToDBReadyString;
-import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
-import static gov.fnal.ppd.dd.util.Util.println;
-import static gov.fnal.ppd.dd.util.Util.printlnErr;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.convertContentToDBReadyString;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.getChannelFromNumber;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 
 import java.awt.Color;
 import java.sql.Blob;
@@ -20,8 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
+import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelInListImpl;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
+import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
 import gov.fnal.ppd.dd.chat.ErrorProcessingMessage;
 import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.signage.Display;
@@ -71,32 +73,30 @@ public class DisplayUtilDatabase {
 							if (chanNum == 0) {
 								// Set the display by the SignageContent object
 								Blob sc = rs.getBlob("SignageContent");
-								
+
 								rawMessage = new String(sc.getBytes(1, (int) sc.length()));
 								newContent = null;
-								rawMessage = rawMessage.replace("version=1.0 encoding=UTF-8 standalone=yes", 
+								rawMessage = rawMessage.replace("version=1.0 encoding=UTF-8 standalone=yes",
 										"version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"");
-								rawMessage = rawMessage.replace("xmlns:xsi=http://www.w3.org/2001/XMLSchema-instance xsi:schemaLocation=http://null signage.xsd", 
+								rawMessage = rawMessage.replace(
+										"xmlns:xsi=http://www.w3.org/2001/XMLSchema-instance xsi:schemaLocation=http://null signage.xsd",
 										"xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://null\"");
-								
+
 								if (rawMessage.contains("changeChannelList")) {
-									ChangeChannelList ccl = (ChangeChannelList) MyXMLMarshaller
-											.unmarshall(ChangeChannelList.class, rawMessage);
-									List<SignageContent> lsc = new ArrayList<SignageContent>();
+									ChangeChannelList ccl = (ChangeChannelList) MyXMLMarshaller.unmarshall(ChangeChannelList.class,
+											rawMessage);
+									List<ChannelInList> lsc = new ArrayList<ChannelInList>();
 									for (ChannelSpec C : ccl.getChannelSpec()) {
-										lsc.add(C);
+										lsc.add(new ChannelInListImpl(C));
 									}
-									newContent = new ChannelPlayList();
-									newContent.setDescription("Channel " + chanNum);
-									newContent.setTime(1000000L);
-									newContent.setContent(lsc);
+									newContent = new ChannelPlayList(new ConcreteChannelListHolder("Channel list " + chanNum, lsc));
 								} else if (rawMessage.contains("channelSpec")) {
 									newContent = (ChannelSpec) MyXMLMarshaller.unmarshall(ChannelSpec.class, rawMessage);
 								} else {
 									throw new ErrorProcessingMessage(
 											"Unknown XML data type within this XML document: [Unrecognized XML message received] -- "
 													+ rawMessage);
-								}								
+								}
 							} else {
 								newContent = getChannelFromNumber(chanNum);
 							}
@@ -116,7 +116,7 @@ public class DisplayUtilDatabase {
 							if (!rs.next())
 								break;
 						} catch (Exception e) {
-							if ( rawMessage != null ) {
+							if (rawMessage != null) {
 								printlnErr(DisplayUtilDatabase.class, " XML is [[" + rawMessage + "]]");
 							}
 							e.printStackTrace();
@@ -156,7 +156,8 @@ public class DisplayUtilDatabase {
 				ListOfExistingContent h = getContentOnDisplays();
 				for (Display D : h.keySet()) {
 					String blob = convertContentToDBReadyString(D.getContent());
-					String fullStatement = statementStringStart + D.getDBDisplayNumber() + ", \"" + s + "\", 0, '" + blob + "', NULL)";
+					String fullStatement = statementStringStart + D.getDBDisplayNumber() + ", \"" + s + "\", 0, '" + blob
+							+ "', NULL)";
 
 					int nrows;
 					if ((nrows = stmt.executeUpdate(fullStatement)) != 1) {

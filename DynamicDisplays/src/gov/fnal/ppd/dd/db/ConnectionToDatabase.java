@@ -9,7 +9,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_PASSWORD;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_USER_NAME;
-import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 import java.net.InetAddress;

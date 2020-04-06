@@ -2,8 +2,8 @@ package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.getFlavor;
 import static gov.fnal.ppd.dd.util.DownloadNewSoftwareVersion.failedOnce;
-import static gov.fnal.ppd.dd.util.Util.println;
-import static gov.fnal.ppd.dd.util.Util.printlnErr;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 
 import java.util.Calendar;
 import java.util.TimerTask;

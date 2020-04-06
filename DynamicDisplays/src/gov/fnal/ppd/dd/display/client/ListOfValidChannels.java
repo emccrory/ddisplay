@@ -2,8 +2,8 @@ package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
-import static gov.fnal.ppd.dd.util.Util.println;
-import static gov.fnal.ppd.dd.util.Util.printlnErr;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

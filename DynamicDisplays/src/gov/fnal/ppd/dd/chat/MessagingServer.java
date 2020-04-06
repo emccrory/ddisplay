@@ -17,9 +17,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.SIMPLE_RECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.setLogger;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
-import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.launchMemoryWatcher;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 
 import java.io.BufferedReader;
 import java.io.IOException;

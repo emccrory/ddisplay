@@ -5,8 +5,8 @@
  */
 package gov.fnal.ppd.dd;
 
-import static gov.fnal.ppd.dd.util.Util.println;
-import static gov.fnal.ppd.dd.util.Util.printlnErr;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 
 import java.awt.Image;
 import java.io.File;

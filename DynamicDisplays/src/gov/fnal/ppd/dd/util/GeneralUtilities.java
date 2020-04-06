@@ -63,7 +63,7 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-public class Util {
+public class GeneralUtilities {
 	private static final String[]	days	= { "", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 
 	/**
@@ -75,7 +75,7 @@ public class Util {
 	 */
 	public static final String		MY_NAME	= "unspecified content";
 
-	private Util() {
+	private GeneralUtilities() {
 		// Not implement--cannot be instantiated.
 	}
 
@@ -364,7 +364,7 @@ public class Util {
 
 		if (channelNumber == 0) {
 			// Using the default, Fermilab home page!
-			println(Util.class, " Using the Fermilab home page as the default channel!");
+			println(GeneralUtilities.class, " Using the Fermilab home page as the default channel!");
 			return retval;
 		} else if (channelNumber < 0) {
 			// The default channel is a list of channels. Build it!

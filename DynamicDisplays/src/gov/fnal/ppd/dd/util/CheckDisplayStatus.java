@@ -9,9 +9,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.PING_INTERVAL;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_VIRTUAL_DISPLAY_NUMS;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import static gov.fnal.ppd.dd.util.Util.println;
-import static gov.fnal.ppd.dd.util.Util.printlnErr;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 
 import java.io.StreamCorruptedException;
 import java.lang.reflect.Method;

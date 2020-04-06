@@ -6,8 +6,8 @@
 package gov.fnal.ppd.dd.util;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-import static gov.fnal.ppd.dd.util.Util.shortDate;
-import static gov.fnal.ppd.dd.util.Util.truncate;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.shortDate;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.truncate;
 
 import java.awt.Dimension;
 

@@ -14,12 +14,12 @@ import static gov.fnal.ppd.dd.changer.FileMenu.CHECK_NEW_VERSION_MENU;
 import static gov.fnal.ppd.dd.changer.FileMenu.HELP_MENU;
 import static gov.fnal.ppd.dd.changer.FileMenu.INFO_BUTTON_MENU;
 import static gov.fnal.ppd.dd.changer.FileMenu.REFRESH_MENU;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import static gov.fnal.ppd.dd.util.Util.getDisplayID;
-import static gov.fnal.ppd.dd.util.Util.launchErrorMessage;
-import static gov.fnal.ppd.dd.util.Util.launchMemoryWatcher;
-import static gov.fnal.ppd.dd.util.Util.println;
-import static gov.fnal.ppd.dd.util.Util.shortDate;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.getDisplayID;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.launchErrorMessage;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.launchMemoryWatcher;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.shortDate;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;

@@ -6,7 +6,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
-import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 
 import java.io.File;
 import java.io.FileInputStream;

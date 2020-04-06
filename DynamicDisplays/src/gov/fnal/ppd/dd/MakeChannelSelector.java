@@ -24,7 +24,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
-import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -59,14 +59,12 @@ import gov.fnal.ppd.dd.util.SelectorInstructions;
  */
 public class MakeChannelSelector {
 
-	/*
-	 * TODO -- Implement a way for this application to check (with the Mother Ship) to see if these is an updated version of the ZIP
-	 * file available.
-	 */
 	static boolean theControllerIsProbablyInFront = true;
 
 	/**
 	 * @param args
+	 *            - no command-line arguments are used in this program; everything is communicated through the database, through
+	 *            "-D" arguments to the JVM, or through the properties file
 	 */
 	public static void main(final String[] args) {
 		println(MakeChannelSelector.class, "Running from java version " + JavaVersion.getCurrentVersion());

@@ -1,7 +1,7 @@
 package gov.fnal.ppd.dd.util;
 
-import static gov.fnal.ppd.dd.util.Util.println;
-import static gov.fnal.ppd.dd.util.Util.printlnErr;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 

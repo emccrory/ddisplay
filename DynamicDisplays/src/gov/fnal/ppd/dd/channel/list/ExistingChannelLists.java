@@ -3,7 +3,7 @@ package gov.fnal.ppd.dd.channel.list;
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.db.ListUtilsDatabase.readTheChannelLists;
-import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -221,10 +221,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 			}
 			button.setSelected(theChannelList.equals(display.getContent()));
 			button.addActionListener(this);
-			button.addActionListener(display);
-			
-			println(getClass(), button.getText() + " -- fontsize " + button.getFont().getSize());
-
+			button.addActionListener(display); 
 			bg.add(button);
 
 			expGrid.add(button);
@@ -243,7 +240,7 @@ public class ExistingChannelLists extends ChannelButtonGrid implements NewListCr
 
 			@Override
 			public void run() {
-				// FIXME - This is not working. The call comes in, but the grid is not recreated from scratch.
+				// FIXME - This is not working. The call comes in, but the grid is not recreated from scratch
 				println(ExistingChannelLists.class, ": Attempting to redraw my grid");
 				invalidate();
 				removeAll();

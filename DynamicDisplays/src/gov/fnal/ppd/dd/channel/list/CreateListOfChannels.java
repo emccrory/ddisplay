@@ -11,8 +11,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.getDwellStrings;
 import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.interp;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import static gov.fnal.ppd.dd.util.Util.getOrdinalSuffix;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.getOrdinalSuffix;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

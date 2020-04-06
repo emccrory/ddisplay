@@ -5,6 +5,8 @@
  */
 package gov.fnal.ppd.dd.channel;
 
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,16 +46,20 @@ public class ChannelPlayList implements Channel {
 	 * @param list
 	 *            - The list of channels to play (must be 2 or greater)
 	 * @param millisecondDwellTime
-	 *            - How long to wait on each channel (must be 2 seconds or longer)
+	 *            - How long to wait on each channel (must be 1 seconds or longer - this is somewhat arbitrary)
 	 */
 	public ChannelPlayList(ChannelListHolder listHolder, long millisecondDwellTime) {
 		assert (listHolder.getList().size() > 1);
-		assert (millisecondDwellTime > 2000);
+		assert (millisecondDwellTime > ONE_SECOND);
 
 		this.dwell = millisecondDwellTime;
 		for (SignageContent L : listHolder.getList())
 			this.channels.add(L);
 		this.name = listHolder.getName() + " (L=" + this.channels.size() + ")";
+	}
+
+	public ChannelPlayList(ChannelListHolder listHolder) {
+		this (listHolder, 30*ONE_SECOND);
 	}
 
 	/**

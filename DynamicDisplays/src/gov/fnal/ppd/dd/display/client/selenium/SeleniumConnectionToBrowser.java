@@ -5,9 +5,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.POSSIBLE_RECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.SIMPLE_RECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
-import static gov.fnal.ppd.dd.util.Util.println;
-import static gov.fnal.ppd.dd.util.Util.printlnErr;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 
 import java.awt.Color;
 import java.awt.Rectangle;

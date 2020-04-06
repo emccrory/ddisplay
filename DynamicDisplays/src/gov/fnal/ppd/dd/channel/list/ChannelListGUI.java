@@ -5,7 +5,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.getDwellStrings;
 import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.interp;
-import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

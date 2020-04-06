@@ -15,7 +15,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.imageWidth;
 import static gov.fnal.ppd.dd.GlobalVariables.offsets;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
 import static gov.fnal.ppd.dd.GlobalVariables.userIsInactive;
-import static gov.fnal.ppd.dd.util.Util.catchSleep;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
 
 import java.awt.Color;
 import java.awt.Container;

@@ -1,6 +1,6 @@
 package gov.fnal.ppd.dd.display.client.simplified;
 
-import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 
 import gov.fnal.ppd.dd.db.GetDefaultContentForDisplay;
 import gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance;

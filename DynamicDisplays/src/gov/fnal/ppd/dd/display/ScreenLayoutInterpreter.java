@@ -6,7 +6,7 @@
 package gov.fnal.ppd.dd.display;
 
 import static gov.fnal.ppd.dd.display.client.BrowserLauncher.debug;
-import static gov.fnal.ppd.dd.util.Util.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;

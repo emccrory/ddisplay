@@ -4,8 +4,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.SOFTWARE_FILE_ZIP;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_PROTOCOL;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.okToUpdateSoftware;
-import static gov.fnal.ppd.dd.util.Util.println;
-import static gov.fnal.ppd.dd.util.Util.printlnErr;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 
 import java.io.BufferedInputStream;
 import java.io.File;

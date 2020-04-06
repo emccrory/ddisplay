@@ -1,6 +1,6 @@
 package gov.fnal.ppd.dd.chat;
 
-import static gov.fnal.ppd.dd.util.Util.shortDate;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.shortDate;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;

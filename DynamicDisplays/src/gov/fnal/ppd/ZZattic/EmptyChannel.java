@@ -1,7 +1,7 @@
 package gov.fnal.ppd.ZZattic;
 
-import static gov.fnal.ppd.dd.util.Util.MY_NAME;
-import static gov.fnal.ppd.dd.util.Util.MY_URL;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.MY_NAME;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.MY_URL;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 

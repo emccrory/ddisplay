@@ -4,9 +4,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
-import static gov.fnal.ppd.dd.util.Util.getChannelFromNumber;
-import static gov.fnal.ppd.dd.util.Util.println;
-import static gov.fnal.ppd.dd.util.Util.printlnErr;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.getChannelFromNumber;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
 
 import java.net.URI;
 import java.net.URLEncoder;
