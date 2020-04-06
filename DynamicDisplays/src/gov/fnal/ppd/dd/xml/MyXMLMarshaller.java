@@ -1,7 +1,6 @@
 package gov.fnal.ppd.dd.xml;
 
 import static gov.fnal.ppd.dd.GlobalVariables.XML_SERVER_NAME;
-import gov.fnal.ppd.dd.util.ExitHandler;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -10,6 +9,8 @@ import java.io.File;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+
+import gov.fnal.ppd.dd.util.nonguiUtils.ExitHandler;
 
 /**
  * Utility class for making Strings out of XML objects, and vice versa.

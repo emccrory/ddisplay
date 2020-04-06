@@ -9,14 +9,15 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_PASSWORD;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_USER_NAME;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 
 /**
  * Deal with the connection to the Dynamic Displays database.

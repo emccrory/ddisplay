@@ -11,8 +11,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.getDwellStrings;
 import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.interp;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.getOrdinalSuffix;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.getOrdinalSuffix;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -58,7 +58,7 @@ import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.BigLabel;
+import gov.fnal.ppd.dd.util.guiUtils.BigLabel;
 
 /**
  * Let the user create a list of channels for a display to play. This is used in CreateListOfChannelsHelper as a GUI element that is

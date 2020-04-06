@@ -1,9 +1,10 @@
 package gov.fnal.ppd.ZZattic;
 
-import static gov.fnal.ppd.dd.util.PackageUtilities.MY_NAME;
-import static gov.fnal.ppd.dd.util.PackageUtilities.MY_URL;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
+
+import static gov.fnal.ppd.dd.util.specific.PackageUtilities.MY_NAME;
+import static gov.fnal.ppd.dd.util.specific.PackageUtilities.MY_URL;
 
 import java.net.URI;
 import java.net.URISyntaxException;

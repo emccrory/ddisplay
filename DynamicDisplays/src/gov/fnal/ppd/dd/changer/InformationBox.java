@@ -6,7 +6,7 @@
 package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
 
 import java.awt.Color;
 import java.awt.Dimension;

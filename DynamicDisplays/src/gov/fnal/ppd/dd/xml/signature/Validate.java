@@ -1,7 +1,7 @@
 package gov.fnal.ppd.dd.xml.signature;
 
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -32,7 +32,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import gov.fnal.ppd.dd.util.PropertiesFile;
+import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 import gov.fnal.ppd.dd.xml.XMLDocumentAndString;
 
 /**

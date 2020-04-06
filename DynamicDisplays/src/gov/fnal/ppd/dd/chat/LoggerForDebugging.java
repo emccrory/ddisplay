@@ -1,11 +1,12 @@
 package gov.fnal.ppd.dd.chat;
 
-import static gov.fnal.ppd.dd.util.GeneralUtilities.shortDate;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.shortDate;
+
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import gov.fnal.ppd.dd.util.PropertiesFile;
+import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 
 public class LoggerForDebugging {
 	private Logger			logger;

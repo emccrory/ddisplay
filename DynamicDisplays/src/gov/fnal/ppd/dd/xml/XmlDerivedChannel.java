@@ -1,7 +1,7 @@
 package gov.fnal.ppd.dd.xml;
 
-import static gov.fnal.ppd.dd.util.PackageUtilities.MY_NAME;
-import static gov.fnal.ppd.dd.util.PackageUtilities.MY_URL;
+import static gov.fnal.ppd.dd.util.specific.PackageUtilities.MY_NAME;
+import static gov.fnal.ppd.dd.util.specific.PackageUtilities.MY_URL;
 
 import java.net.URI;
 import java.net.URISyntaxException;

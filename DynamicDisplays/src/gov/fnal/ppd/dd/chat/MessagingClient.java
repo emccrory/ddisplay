@@ -4,9 +4,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.WAIT_FOR_SERVER_TIME;
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
-import static gov.fnal.ppd.dd.util.ExitHandler.processingGracefulExit;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.ExitHandler.processingGracefulExit;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
 import gov.fnal.ppd.dd.chat.MessageConveyor;
-import gov.fnal.ppd.dd.util.PropertiesFile;
+import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 
 /*
  * MessagingClient

@@ -17,9 +17,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.SIMPLE_RECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.setLogger;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.launchMemoryWatcher;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.launchMemoryWatcher;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -48,8 +48,8 @@ import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
-import gov.fnal.ppd.dd.util.ObjectSigning;
+import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.specific.ObjectSigning;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
 import gov.fnal.ppd.dd.xml.ChangeChannelReply;

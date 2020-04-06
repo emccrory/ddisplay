@@ -20,7 +20,7 @@ import javax.swing.SpinnerModel;
 
 import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.util.BigButtonSpinner;
+import gov.fnal.ppd.dd.util.guiUtils.BigButtonSpinner;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation

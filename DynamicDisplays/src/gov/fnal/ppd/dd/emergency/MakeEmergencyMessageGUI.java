@@ -7,7 +7,7 @@ import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
-import gov.fnal.ppd.dd.util.ObjectSigning;
+import gov.fnal.ppd.dd.util.specific.ObjectSigning;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

@@ -1,6 +1,6 @@
 package gov.fnal.ppd.dd.chat;
 
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import javax.xml.bind.JAXBException;
 

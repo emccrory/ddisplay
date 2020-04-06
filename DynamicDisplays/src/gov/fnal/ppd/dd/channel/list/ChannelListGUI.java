@@ -5,7 +5,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.getDwellStrings;
 import static gov.fnal.ppd.dd.channel.list.ListUtilsGUI.interp;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -47,9 +47,9 @@ import gov.fnal.ppd.dd.channel.list.table.ImageChooserAsTable;
 import gov.fnal.ppd.dd.channel.list.table.SelectedChannelsTableModel;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.BigButtonSpinner;
-import gov.fnal.ppd.dd.util.BigLabel;
-import gov.fnal.ppd.dd.util.VirtualKeyboard;
+import gov.fnal.ppd.dd.util.guiUtils.BigButtonSpinner;
+import gov.fnal.ppd.dd.util.guiUtils.BigLabel;
+import gov.fnal.ppd.dd.util.guiUtils.VirtualKeyboard;
 
 /**
  * The complete user interface for building, modifying, saving and restoring lists of channels in the Dynamic Displays system

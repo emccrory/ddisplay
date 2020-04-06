@@ -18,7 +18,7 @@ import java.security.SignatureException;
 import java.security.SignedObject;
 
 import gov.fnal.ppd.dd.chat.NoPrivateKeyException;
-import gov.fnal.ppd.dd.util.ObjectSigning;
+import gov.fnal.ppd.dd.util.specific.ObjectSigning;
 
 /**
  * This class holds the messages that will be exchanged between the Clients and the Server. When talking from a Java Client to a

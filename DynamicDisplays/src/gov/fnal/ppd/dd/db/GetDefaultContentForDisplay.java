@@ -2,7 +2,7 @@ package gov.fnal.ppd.dd.db;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
-import static gov.fnal.ppd.dd.util.PackageUtilities.getChannelFromNumber;
+import static gov.fnal.ppd.dd.util.specific.PackageUtilities.getChannelFromNumber;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -12,9 +12,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import gov.fnal.ppd.dd.CredentialsNotFoundException;
+import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 public class GetDefaultContentForDisplay {
 

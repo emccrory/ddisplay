@@ -2,7 +2,7 @@ package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
 
 import java.awt.Component;
 import java.awt.Container;

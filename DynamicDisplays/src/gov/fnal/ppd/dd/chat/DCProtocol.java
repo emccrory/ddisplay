@@ -36,7 +36,7 @@
 package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.chat.MessagingServer.SPECIAL_SERVER_MESSAGE_USERNAME;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.util.ArrayList;
 import java.util.Date;

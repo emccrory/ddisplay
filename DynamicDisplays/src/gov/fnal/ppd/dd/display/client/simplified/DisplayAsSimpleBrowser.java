@@ -3,7 +3,7 @@ package gov.fnal.ppd.dd.display.client.simplified;
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.awt.Color;
 
@@ -12,9 +12,7 @@ import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.ExitHandler;
-import gov.fnal.ppd.dd.util.JavaVersion;
-import gov.fnal.ppd.dd.util.SendEmailCommand;
+import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 
 public class DisplayAsSimpleBrowser extends DisplayControllerMessagingAbstract {
@@ -86,7 +84,7 @@ public class DisplayAsSimpleBrowser extends DisplayControllerMessagingAbstract {
 
 			@SuppressWarnings("unused")
 			DisplayAsSimpleBrowser add = (DisplayAsSimpleBrowser) makeTheDisplays(DisplayAsSimpleBrowser.class);
-			ExitHandler.addFinalCommand(new SendEmailCommand());
+			// 	ExitHandler.addFinalCommand(new SendEmailCommand());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

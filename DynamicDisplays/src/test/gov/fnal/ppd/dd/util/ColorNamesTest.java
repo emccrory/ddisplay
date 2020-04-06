@@ -6,7 +6,7 @@ import static org.junit.Assume.assumeTrue;
 
 import org.junit.Test;
 
-import gov.fnal.ppd.dd.util.ColorNames;
+import gov.fnal.ppd.dd.util.nonguiUtils.ColorNames;
 import test.gov.fnal.ppd.dd.NeedsCredentials;
 
 public class ColorNamesTest extends NeedsCredentials {

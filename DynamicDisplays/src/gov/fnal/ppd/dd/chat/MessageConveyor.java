@@ -1,8 +1,8 @@
 package gov.fnal.ppd.dd.chat;
 
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.getNextEntropy;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.getNextEntropy;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -12,9 +12,7 @@ import java.net.SocketTimeoutException;
 
 import javax.xml.bind.JAXBException;
 
-// import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
-
-import gov.fnal.ppd.dd.util.PropertiesFile;
+import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;

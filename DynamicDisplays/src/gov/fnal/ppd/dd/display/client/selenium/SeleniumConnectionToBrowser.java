@@ -5,9 +5,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.POSSIBLE_RECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.SIMPLE_RECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
 
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -31,8 +31,8 @@ import org.openqa.selenium.opera.OperaDriver;
 
 import gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
-import gov.fnal.ppd.dd.util.ExitHandler;
-import gov.fnal.ppd.dd.util.PropertiesFile;
+import gov.fnal.ppd.dd.util.nonguiUtils.ExitHandler;
+import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 
 /**
  * The class that connects us to the browser via Selenium

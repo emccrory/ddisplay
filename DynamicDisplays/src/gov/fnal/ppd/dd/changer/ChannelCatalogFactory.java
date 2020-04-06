@@ -5,7 +5,7 @@
  */
 package gov.fnal.ppd.dd.changer;
 
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 
 /**
  * Singleton class to deal with getting the Channel Catalog to the client.

@@ -3,7 +3,7 @@ package gov.fnal.ppd.dd.display.client;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_PROTOCOL;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.isThisURLNeedAnimation;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.emergency.Severity;
-import gov.fnal.ppd.dd.util.ColorNames;
+import gov.fnal.ppd.dd.util.nonguiUtils.ColorNames;
 
 /**
  * <p>

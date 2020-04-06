@@ -5,8 +5,8 @@
  */
 package gov.fnal.ppd.dd;
 
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
 
 import java.awt.Image;
 import java.io.File;
@@ -27,11 +27,11 @@ import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
+import gov.fnal.ppd.dd.interfaces.NotificationClient;
 import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.util.NotificationClient;
-import gov.fnal.ppd.dd.util.NotificationClientGUI;
-import gov.fnal.ppd.dd.util.NotificationClientText;
-import gov.fnal.ppd.dd.util.PropertiesFile;
+import gov.fnal.ppd.dd.util.guiUtils.NotificationClientText;
+import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
+import gov.fnal.ppd.dd.util.specific.NotificationClientGUI;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 

@@ -4,7 +4,7 @@ import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -36,7 +36,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import gov.fnal.ppd.dd.chat.MessagingClient;
-import gov.fnal.ppd.dd.util.JTextAreaBottom;
+import gov.fnal.ppd.dd.util.guiUtils.JTextAreaBottom;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 
 /**

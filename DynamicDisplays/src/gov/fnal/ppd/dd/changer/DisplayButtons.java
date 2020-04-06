@@ -4,10 +4,10 @@ import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.shortDate;
-import static gov.fnal.ppd.dd.util.PackageUtilities.getDisplayID;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.shortDate;
+import static gov.fnal.ppd.dd.util.specific.PackageUtilities.getDisplayID;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,8 +34,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicSliderUI;
 
 import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.util.DisplayButtonGroup;
-import gov.fnal.ppd.dd.util.DisplayColorSliderUI;
+import gov.fnal.ppd.dd.util.guiUtils.DisplayColorSliderUI;
+import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 
 /**
  * Create the widget of the available displays for the Dynamic Displays "Channel Selector"

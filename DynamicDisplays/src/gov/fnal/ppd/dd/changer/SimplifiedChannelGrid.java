@@ -16,11 +16,11 @@ import javax.swing.JPanel;
 
 import gov.fnal.ppd.dd.channel.ChannelImage;
 import gov.fnal.ppd.dd.db.ChannelsFromDatabase;
+import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
-import gov.fnal.ppd.dd.util.DisplayButtonGroup;
+import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 
 /**
  * Create a button grid that contains all of the channels for this Display in the SimplifiedChannelChoice table.

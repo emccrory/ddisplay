@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.DisplayButtonGroup;
+import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 
 /**
  * Base class for the display grids that hold the channel buttons in the ChannelSelector

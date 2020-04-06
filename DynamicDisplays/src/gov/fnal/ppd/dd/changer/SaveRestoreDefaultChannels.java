@@ -10,8 +10,8 @@ import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.getDisplayContent;
 import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.saveDefaultChannels;
 import static gov.fnal.ppd.dd.db.ListUtilsDatabase.getSavedLists;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -56,7 +56,7 @@ import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.NoSuchDisplayException;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.CheckDisplayStatus;
+import gov.fnal.ppd.dd.util.specific.CheckDisplayStatus;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 
 /**

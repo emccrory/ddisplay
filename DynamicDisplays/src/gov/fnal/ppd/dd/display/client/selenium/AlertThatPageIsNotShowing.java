@@ -1,13 +1,13 @@
 package gov.fnal.ppd.dd.display.client.selenium;
 
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import gov.fnal.ppd.dd.display.client.BrowserErrorListener;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.TemporaryDialogBox;
+import gov.fnal.ppd.dd.util.specific.TemporaryDialogBox;
 
 public class AlertThatPageIsNotShowing implements BrowserErrorListener {
 	private Display			display;

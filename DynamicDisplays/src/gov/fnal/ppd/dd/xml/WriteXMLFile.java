@@ -2,7 +2,7 @@ package gov.fnal.ppd.dd.xml;
 
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
-import static gov.fnal.ppd.dd.util.PackageUtilities.getChannelFromNumber;
+import static gov.fnal.ppd.dd.util.specific.PackageUtilities.getChannelFromNumber;
 
 import java.net.URI;
 import java.util.Set;

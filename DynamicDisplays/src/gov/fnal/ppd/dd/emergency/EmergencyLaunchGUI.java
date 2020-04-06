@@ -9,7 +9,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationDescription;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.changer.DisplayButtons.normalOperations;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.launchErrorMessage;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.launchErrorMessage;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -55,8 +55,8 @@ import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent.DisplayChangeType;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.util.CheckDisplayStatus;
-import gov.fnal.ppd.dd.util.ObjectSigning;
+import gov.fnal.ppd.dd.util.specific.CheckDisplayStatus;
+import gov.fnal.ppd.dd.util.specific.ObjectSigning;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation

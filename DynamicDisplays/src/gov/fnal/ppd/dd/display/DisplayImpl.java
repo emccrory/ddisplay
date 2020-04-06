@@ -8,9 +8,9 @@ package gov.fnal.ppd.dd.display;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_EXTENDED_DISPLAY_NAMES;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_VIRTUAL_DISPLAY_NUMS;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
-import static gov.fnal.ppd.dd.util.PackageUtilities.makeEmptyChannel;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.util.specific.PackageUtilities.makeEmptyChannel;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

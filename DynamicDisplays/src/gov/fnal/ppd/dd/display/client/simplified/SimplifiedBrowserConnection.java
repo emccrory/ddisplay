@@ -1,10 +1,10 @@
 package gov.fnal.ppd.dd.display.client.simplified;
 
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import gov.fnal.ppd.dd.db.GetDefaultContentForDisplay;
 import gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance;
-import gov.fnal.ppd.dd.util.PropertiesFile;
+import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 
 public class SimplifiedBrowserConnection extends ConnectionToBrowserInstance {
 

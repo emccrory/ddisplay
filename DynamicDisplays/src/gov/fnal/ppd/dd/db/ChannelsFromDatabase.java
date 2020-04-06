@@ -7,9 +7,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getNumberOfLocations;
-import static gov.fnal.ppd.dd.util.PackageUtilities.getChannelFromNumber;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.util.specific.PackageUtilities.getChannelFromNumber;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -32,9 +32,9 @@ import gov.fnal.ppd.dd.channel.ChannelInListImpl;
 import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
+import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 /**
  * A collection of methods that deal with learning the channels in the database, in various contexts.

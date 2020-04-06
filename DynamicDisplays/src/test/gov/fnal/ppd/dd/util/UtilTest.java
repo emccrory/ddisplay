@@ -1,11 +1,11 @@
 package test.gov.fnal.ppd.dd.util;
 
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.getClassName;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.getNextEntropy;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.getOrdinalSuffix;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.truncate;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.twoDigits;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.getClassName;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.getNextEntropy;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.getOrdinalSuffix;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.truncate;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.twoDigits;
 import static org.junit.Assert.assertEquals;
 
 import java.awt.event.ActionEvent;

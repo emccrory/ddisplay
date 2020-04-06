@@ -3,17 +3,15 @@ package gov.fnal.ppd.dd.display.client.selenium;
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
 
 import java.awt.Color;
 
 import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
-import gov.fnal.ppd.dd.util.ExitHandler;
-import gov.fnal.ppd.dd.util.JavaVersion;
-import gov.fnal.ppd.dd.util.SendEmailCommand;
+import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 
 /**
@@ -110,7 +108,7 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 			@SuppressWarnings("unused")
 			DisplayAsConnectionThroughSelenium add = (DisplayAsConnectionThroughSelenium) makeTheDisplays(
 					DisplayAsConnectionThroughSelenium.class);
-			ExitHandler.addFinalCommand(new SendEmailCommand());
+			// ExitHandler.addFinalCommand(new SendEmailCommand());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

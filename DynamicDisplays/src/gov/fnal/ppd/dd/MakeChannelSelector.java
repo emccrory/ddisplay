@@ -24,7 +24,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -45,11 +45,11 @@ import javax.swing.JPanel;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
+import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
-import gov.fnal.ppd.dd.util.JavaVersion;
-import gov.fnal.ppd.dd.util.ObjectSigning;
-import gov.fnal.ppd.dd.util.SelectorInstructions;
+import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
+import gov.fnal.ppd.dd.util.specific.ObjectSigning;
+import gov.fnal.ppd.dd.util.specific.SelectorInstructions;
 
 /**
  * Use the database to determine what sort of ChannelSelector to actually run, and then run it.

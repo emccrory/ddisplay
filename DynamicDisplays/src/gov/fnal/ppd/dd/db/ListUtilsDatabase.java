@@ -4,9 +4,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
-import static gov.fnal.ppd.dd.util.PackageUtilities.getChannelFromNumber;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.util.specific.PackageUtilities.getChannelFromNumber;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -30,8 +30,8 @@ import gov.fnal.ppd.dd.channel.ChannelInListImpl;
 import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
+import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.util.DatabaseNotVisibleException;
 
 /**
  * A collection of the methods needed to deal with channel lists in the database.

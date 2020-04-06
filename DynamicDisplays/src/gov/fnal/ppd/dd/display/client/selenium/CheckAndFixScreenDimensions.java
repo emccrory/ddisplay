@@ -1,8 +1,8 @@
 package gov.fnal.ppd.dd.display.client.selenium;
 
-import static gov.fnal.ppd.dd.util.GeneralUtilities.catchSleep;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
 
 import java.util.TimerTask;
 
@@ -14,9 +14,9 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance;
-import gov.fnal.ppd.dd.util.ExitHandler;
-import gov.fnal.ppd.dd.util.PropertiesFile;
-import gov.fnal.ppd.dd.util.PropertiesFile.PositioningMethod;
+import gov.fnal.ppd.dd.util.nonguiUtils.ExitHandler;
+import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
+import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile.PositioningMethod;
 
 /**
  * A thread to keep an eye on the screen size. In principle, this will put the screen to back to full screen when it varies.

@@ -12,7 +12,7 @@ package gov.fnal.ppd.dd.chat;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -31,8 +31,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import gov.fnal.ppd.dd.CredentialsNotFoundException;
-import gov.fnal.ppd.dd.util.JTextAreaBottom;
-import gov.fnal.ppd.dd.util.JavaVersion;
+import gov.fnal.ppd.dd.util.guiUtils.JTextAreaBottom;
+import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 
 /**
  * <p>

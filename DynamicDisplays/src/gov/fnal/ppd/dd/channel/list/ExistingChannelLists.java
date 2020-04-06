@@ -3,7 +3,7 @@ package gov.fnal.ppd.dd.channel.list;
 import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.db.ListUtilsDatabase.readTheChannelLists;
-import static gov.fnal.ppd.dd.util.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -29,8 +29,8 @@ import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.util.BigLabel;
-import gov.fnal.ppd.dd.util.DisplayButtonGroup;
+import gov.fnal.ppd.dd.util.guiUtils.BigLabel;
+import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017-18
