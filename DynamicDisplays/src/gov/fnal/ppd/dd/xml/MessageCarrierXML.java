@@ -14,6 +14,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
+import gov.fnal.ppd.dd.xml.messages.AreYouAliveMessage;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannelReply;
+import gov.fnal.ppd.dd.xml.messages.EmergencyMessXML;
+import gov.fnal.ppd.dd.xml.messages.ErrorMessage;
+import gov.fnal.ppd.dd.xml.messages.LoginMessage;
+import gov.fnal.ppd.dd.xml.messages.WhoIsInMessage;
+import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
 
 /**
  * This class holds the messages that will be exchanged between the Clients and the Server.

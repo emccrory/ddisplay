@@ -1,23 +1,30 @@
-package gov.fnal.ppd.dd.xml;
+package gov.fnal.ppd.dd.xml.messages;
 
 import javax.xml.bind.annotation.XmlElement;
 
+import gov.fnal.ppd.dd.xml.ClientInformation;
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
+
 /**
- * Encapsulate information about a client node in the Dynamic Displays system
+ * Encapsulate an error message into an XML class
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 @SuppressWarnings("javadoc")
-public class YesIAmAliveMessage extends MessagingDataXML {
+public class LoginMessage extends MessagingDataXML {
 	private ClientInformation client;
 
-	public YesIAmAliveMessage() {
-		this(new ClientInformation("unspecified", System.currentTimeMillis()));
+	public LoginMessage() {
+		this(new ClientInformation("no client")); // The time information is not particularly important here.
 	}
 
-	public YesIAmAliveMessage(ClientInformation client) {
-		this.client = client;
+	public LoginMessage(String name) {
+		this(new ClientInformation(name));
+	}
+
+	public LoginMessage(ClientInformation name) {
+		this.client = name;
 	}
 
 	@XmlElement
@@ -28,7 +35,6 @@ public class YesIAmAliveMessage extends MessagingDataXML {
 	public void setClient(ClientInformation client) {
 		this.client = client;
 	}
-
 	@Override
 	public boolean willNotChangeAnything() {
 		return true;
@@ -36,12 +42,11 @@ public class YesIAmAliveMessage extends MessagingDataXML {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + ": client=[" + client + "]";
+		return "Login for " + client;
 	}
-
 	@Override
 	public int hashCode() {
-		final int prime = 61;
+		final int prime = 51;
 		int result = 1;
 		result = prime * result + ((client == null) ? 0 : client.hashCode());
 		return result;
@@ -55,7 +60,7 @@ public class YesIAmAliveMessage extends MessagingDataXML {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		YesIAmAliveMessage other = (YesIAmAliveMessage) obj;
+		LoginMessage other = (LoginMessage) obj;
 		if (client == null) {
 			if (other.client != null)
 				return false;

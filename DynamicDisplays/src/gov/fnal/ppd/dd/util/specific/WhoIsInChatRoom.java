@@ -24,7 +24,7 @@ import gov.fnal.ppd.dd.interfaces.DisplayKeeper;
 import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
-import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
+import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
 
 /**
  * Helper class to keep track of who is in the chat room. Used by the top-level GUI(s) to say if a Display is available.

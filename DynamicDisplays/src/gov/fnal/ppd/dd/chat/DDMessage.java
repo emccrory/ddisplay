@@ -4,11 +4,11 @@ import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import javax.xml.bind.JAXBException;
 
-import gov.fnal.ppd.dd.xml.ChangeChannel;
-import gov.fnal.ppd.dd.xml.ChangeChannelByNumber;
-import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannel;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannelByNumber;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
 
 /**
  * Interprets the messages within the protocol for the client and the server

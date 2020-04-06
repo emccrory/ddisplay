@@ -3,9 +3,12 @@
  *
  * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd.xml;
+package gov.fnal.ppd.dd.xml.messages;
 
 import javax.xml.bind.annotation.XmlElement;
+
+import gov.fnal.ppd.dd.xml.ChannelSpec;
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
 
 /**
  * The reply message to a change-channel request.

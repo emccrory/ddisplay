@@ -1,9 +1,10 @@
-package gov.fnal.ppd.dd.xml;
+package gov.fnal.ppd.dd.xml.messages;
 
 import javax.xml.bind.annotation.XmlElement;
 
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.emergency.Severity;
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
 
 /**
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017-18

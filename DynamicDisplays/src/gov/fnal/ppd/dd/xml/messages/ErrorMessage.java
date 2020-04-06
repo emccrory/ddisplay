@@ -1,6 +1,8 @@
-package gov.fnal.ppd.dd.xml;
+package gov.fnal.ppd.dd.xml.messages;
 
 import javax.xml.bind.annotation.XmlElement;
+
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
 
 /**
  * Encapsulate an error message into an XML class

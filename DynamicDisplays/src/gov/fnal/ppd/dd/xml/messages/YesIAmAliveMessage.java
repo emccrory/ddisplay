@@ -1,27 +1,26 @@
-package gov.fnal.ppd.dd.xml;
+package gov.fnal.ppd.dd.xml.messages;
 
 import javax.xml.bind.annotation.XmlElement;
 
+import gov.fnal.ppd.dd.xml.ClientInformation;
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
+
 /**
- * Encapsulate an error message into an XML class
+ * Encapsulate information about a client node in the Dynamic Displays system
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 @SuppressWarnings("javadoc")
-public class LoginMessage extends MessagingDataXML {
+public class YesIAmAliveMessage extends MessagingDataXML {
 	private ClientInformation client;
 
-	public LoginMessage() {
-		this(new ClientInformation("no client")); // The time information is not particularly important here.
+	public YesIAmAliveMessage() {
+		this(new ClientInformation("unspecified", System.currentTimeMillis()));
 	}
 
-	public LoginMessage(String name) {
-		this(new ClientInformation(name));
-	}
-
-	public LoginMessage(ClientInformation name) {
-		this.client = name;
+	public YesIAmAliveMessage(ClientInformation client) {
+		this.client = client;
 	}
 
 	@XmlElement
@@ -32,6 +31,7 @@ public class LoginMessage extends MessagingDataXML {
 	public void setClient(ClientInformation client) {
 		this.client = client;
 	}
+
 	@Override
 	public boolean willNotChangeAnything() {
 		return true;
@@ -39,11 +39,12 @@ public class LoginMessage extends MessagingDataXML {
 
 	@Override
 	public String toString() {
-		return "Login for " + client;
+		return getClass().getSimpleName() + ": client=[" + client + "]";
 	}
+
 	@Override
 	public int hashCode() {
-		final int prime = 51;
+		final int prime = 61;
 		int result = 1;
 		result = prime * result + ((client == null) ? 0 : client.hashCode());
 		return result;
@@ -57,7 +58,7 @@ public class LoginMessage extends MessagingDataXML {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LoginMessage other = (LoginMessage) obj;
+		YesIAmAliveMessage other = (YesIAmAliveMessage) obj;
 		if (client == null) {
 			if (other.client != null)
 				return false;

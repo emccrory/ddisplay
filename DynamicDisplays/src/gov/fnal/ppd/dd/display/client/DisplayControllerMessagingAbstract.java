@@ -57,11 +57,11 @@ import gov.fnal.ppd.dd.util.nonguiUtils.ExitHandler;
 import gov.fnal.ppd.dd.util.nonguiUtils.PerformanceMonitor;
 import gov.fnal.ppd.dd.util.specific.ObjectSigning;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
-import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
-import gov.fnal.ppd.dd.xml.ChangeChannelReply;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
-import gov.fnal.ppd.dd.xml.EmergencyMessXML;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
+import gov.fnal.ppd.dd.xml.messages.AreYouAliveMessage;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannelReply;
+import gov.fnal.ppd.dd.xml.messages.EmergencyMessXML;
 
 /**
  * <p>

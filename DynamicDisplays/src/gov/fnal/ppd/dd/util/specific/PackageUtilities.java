@@ -27,9 +27,9 @@ import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities;
-import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
 
 public class PackageUtilities {
 	/**

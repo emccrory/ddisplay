@@ -1,10 +1,12 @@
-package gov.fnal.ppd.dd.xml;
+package gov.fnal.ppd.dd.xml.messages;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.xml.ChannelSpec;
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
 
 /**
  * Message from a Control Panel to the Display Server to change the channel on a Display to a LIST of Channels

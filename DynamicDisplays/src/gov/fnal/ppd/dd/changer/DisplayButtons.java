@@ -40,14 +40,14 @@ import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 /**
  * Create the widget of the available displays for the Dynamic Displays "Channel Selector"
  * 
- * @author Elliott McCrory, Fermilab AD, 2012-16
+ * @author Elliott McCrory, Fermilab AD, 2012-20
  */
 public class DisplayButtons extends JPanel {
 
 	/**
 	 * Make a JSlider with a tool-tip that is determined from where the mouse is. Put all the functionality for this class in here.
 	 * 
-	 * @author Elliott McCrory, Fermilab AD, 2012-14
+	 * @author Elliott McCrory, Fermilab AD, 2012-20
 	 */
 	private class MyJSlider extends JSlider {
 		private static final long	serialVersionUID	= 6272217247978609017L;

@@ -1,9 +1,11 @@
-package gov.fnal.ppd.dd.xml;
+package gov.fnal.ppd.dd.xml.messages;
 
 import javax.xml.bind.annotation.XmlElement;
 
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.xml.ChannelSpec;
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
 
 /**
  * Message from a Control Panel to the Display Server to change the thing being shown on a Display

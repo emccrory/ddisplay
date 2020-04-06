@@ -51,16 +51,16 @@ import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.specific.ObjectSigning;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
-import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
-import gov.fnal.ppd.dd.xml.ChangeChannelReply;
-import gov.fnal.ppd.dd.xml.EmergencyMessXML;
-import gov.fnal.ppd.dd.xml.ErrorMessage;
-import gov.fnal.ppd.dd.xml.LoginMessage;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 import gov.fnal.ppd.dd.xml.SubscriptionSubject;
-import gov.fnal.ppd.dd.xml.WhoIsInMessage;
-import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
+import gov.fnal.ppd.dd.xml.messages.AreYouAliveMessage;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannelReply;
+import gov.fnal.ppd.dd.xml.messages.EmergencyMessXML;
+import gov.fnal.ppd.dd.xml.messages.ErrorMessage;
+import gov.fnal.ppd.dd.xml.messages.LoginMessage;
+import gov.fnal.ppd.dd.xml.messages.WhoIsInMessage;
+import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
 
 /**
  * The server that can be run both as a console application or a GUI

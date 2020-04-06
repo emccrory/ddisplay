@@ -20,6 +20,7 @@ import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.guiUtils.DrawingPanel;
 import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 
 /**

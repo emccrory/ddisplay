@@ -9,21 +9,12 @@ import static gov.fnal.ppd.dd.GlobalVariables.FONT_SIZE;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.db.ChannelsFromDatabase.getDocentContent;
-import gov.fnal.ppd.dd.channel.ChannelImage;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -32,6 +23,13 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+
+import gov.fnal.ppd.dd.channel.ChannelImage;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
+import gov.fnal.ppd.dd.util.guiUtils.DrawingPanel;
 
 /**
  * Create a tab that is specifically tailored to the use of the Docents (and tour guides) at the Lab.
@@ -158,15 +156,4 @@ public class DocentGrid extends DetailedInformationGrid {
 		return expGrid;
 	}
 
-	static BufferedImage createResizedCopy(Image originalImage, int scaledWidth, int scaledHeight, boolean preserveAlpha) {
-		int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
-		BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
-		Graphics2D g = scaledBI.createGraphics();
-		if (preserveAlpha) {
-			g.setComposite(AlphaComposite.Src);
-		}
-		g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null);
-		g.dispose();
-		return scaledBI;
-	}
 }

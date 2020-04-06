@@ -7,6 +7,12 @@ import javax.swing.Icon;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 
+/**
+ * Create a DDButtong that shows a thumbnail image, instead of text.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class DDIconButton extends DDButton {
 
 	private static final long	serialVersionUID	= -8377645551707373769L;

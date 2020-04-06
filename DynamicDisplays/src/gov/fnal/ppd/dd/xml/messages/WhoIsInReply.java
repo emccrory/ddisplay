@@ -1,9 +1,12 @@
-package gov.fnal.ppd.dd.xml;
+package gov.fnal.ppd.dd.xml.messages;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
+
+import gov.fnal.ppd.dd.xml.ClientInformation;
+import gov.fnal.ppd.dd.xml.MessagingDataXML;
 
 /**
  * Encapsulate the reply to a "WHOISIN" request

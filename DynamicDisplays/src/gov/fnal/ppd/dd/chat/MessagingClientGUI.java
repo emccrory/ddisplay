@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
-import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
+import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
 
 /**
  * The Client with its GUI

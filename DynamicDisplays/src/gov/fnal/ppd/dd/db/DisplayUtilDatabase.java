@@ -29,9 +29,9 @@ import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
 
 /**
  * This class gets the channels that each display is supposed to show for a particular save set.

@@ -1,10 +1,12 @@
-package gov.fnal.ppd.dd.changer;
+package gov.fnal.ppd.dd.util.guiUtils;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
@@ -15,12 +17,13 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-class DrawingPanel extends JPanel {
+public class DrawingPanel extends JPanel {
 
 	private static final long				serialVersionUID	= 8963747596403311688L;
 	private static Map<String, ImageIcon>	cache				= new HashMap<String, ImageIcon>();
 	private ImageIcon						icon;
 	private static int						LONG_EDGE			= 220;
+
 	static {
 		if (SHOW_IN_WINDOW) {
 			LONG_EDGE = 180;
@@ -56,7 +59,7 @@ class DrawingPanel extends JPanel {
 				}
 				Image img = icon0.getImage();
 
-				BufferedImage smallImage = DocentGrid.createResizedCopy(img, width, height, true);
+				BufferedImage smallImage = createResizedCopy(img, width, height, true);
 				icon = new ImageIcon(smallImage);
 				cache.put(url, icon);
 			} catch (MalformedURLException e) {
@@ -68,6 +71,18 @@ class DrawingPanel extends JPanel {
 		setPreferredSize(new Dimension(width, height));
 		setBackground(bgColor);
 		setAlignmentX(JPanel.LEFT_ALIGNMENT);
+	}
+
+	static BufferedImage createResizedCopy(Image originalImage, int scaledWidth, int scaledHeight, boolean preserveAlpha) {
+		int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
+		BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
+		Graphics2D g = scaledBI.createGraphics();
+		if (preserveAlpha) {
+			g.setComposite(AlphaComposite.Src);
+		}
+		g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null);
+		g.dispose();
+		return scaledBI;
 	}
 
 	@Override

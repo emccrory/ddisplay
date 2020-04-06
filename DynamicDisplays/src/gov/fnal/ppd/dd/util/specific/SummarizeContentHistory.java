@@ -23,11 +23,11 @@ import javax.xml.bind.UnmarshalException;
 import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
-import gov.fnal.ppd.dd.xml.ChangeChannel;
-import gov.fnal.ppd.dd.xml.ChangeChannelList;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannel;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
 
 /**
  * Look at the ContentHistory table in the Dynamic Displays database.

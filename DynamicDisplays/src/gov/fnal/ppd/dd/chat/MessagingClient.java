@@ -21,8 +21,8 @@ import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import gov.fnal.ppd.dd.xml.YesIAmAliveMessage;
-import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
+import gov.fnal.ppd.dd.xml.messages.AreYouAliveMessage;
+import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
 import gov.fnal.ppd.dd.chat.MessageConveyor;

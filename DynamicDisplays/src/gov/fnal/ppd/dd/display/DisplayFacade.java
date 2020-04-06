@@ -23,16 +23,16 @@ import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 import gov.fnal.ppd.dd.util.specific.TemporaryDialogBox;
-import gov.fnal.ppd.dd.xml.AreYouAliveMessage;
-import gov.fnal.ppd.dd.xml.ChangeChannel;
-import gov.fnal.ppd.dd.xml.ChangeChannelByNumber;
-import gov.fnal.ppd.dd.xml.ChangeChannelList;
-import gov.fnal.ppd.dd.xml.ChangeChannelReply;
-import gov.fnal.ppd.dd.xml.EmergencyMessXML;
-import gov.fnal.ppd.dd.xml.ErrorMessage;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
-import gov.fnal.ppd.dd.xml.WhoIsInReply;
+import gov.fnal.ppd.dd.xml.messages.AreYouAliveMessage;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannel;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannelByNumber;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
+import gov.fnal.ppd.dd.xml.messages.ChangeChannelReply;
+import gov.fnal.ppd.dd.xml.messages.EmergencyMessXML;
+import gov.fnal.ppd.dd.xml.messages.ErrorMessage;
+import gov.fnal.ppd.dd.xml.messages.WhoIsInReply;
 
 /**
  * On the computer with the channel selector, this is the way you talk to a remote Dynamic Display. This classed is used in the GUI
