@@ -31,6 +31,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.beust.jcommander.Strings;
+
 import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
@@ -53,14 +55,14 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 @XmlRootElement
 public class VersionInformation implements Serializable {
 
-	private static boolean		SAVE_AS_XML			= true;
+	private static boolean AS_XML = true;
 
 	private static final long	serialVersionUID	= 667424596967348921L;
 	private static final String	FILE_NAME;
 	private static final String	WEB_FILE_NAME;
 
 	static {
-		if (SAVE_AS_XML) {
+		if (AS_XML) {
 			FILE_NAME = "versionInformation.xml";
 		} else {
 			FILE_NAME = "versionInformation.dat";
@@ -94,8 +96,9 @@ public class VersionInformation implements Serializable {
 	// Attributes
 	private long	timeStamp			= 0L;
 	private String	versionDescription	= null;
-	private int[]	dotVersion			= new int[3];
+	private int[]	dotVersion			= { -1, -1, -1 };
 	private FLAVOR	disposition			= FLAVOR.PRODUCTION;
+	private String	versionString		= null;
 
 	/**
 	 * Create an empty instance in order to save a new one in persistent storage
@@ -158,9 +161,27 @@ public class VersionInformation implements Serializable {
 	@XmlElement
 	public String getVersionString() {
 		String retval = "";
+		if (dotVersion[0] == -1) {
+			parseDotVersion();
+		}
 		for (int I : dotVersion)
 			retval += I + ".";
 		return retval.substring(0, retval.length() - 1);
+	}
+
+	private void parseDotVersion() {
+		try {
+			String dots[] = versionString.split("\\.");
+			for (int i = 0; i < 3; i++)
+				dotVersion[i] = Integer.parseInt(dots[i]);
+		} catch (Exception e) {
+			System.err.println(versionString);
+			e.printStackTrace();
+		}
+	}
+
+	public void setVersionString(String vs) {
+		versionString = vs;
 	}
 
 	/**
@@ -170,6 +191,7 @@ public class VersionInformation implements Serializable {
 	 *            The value for this version field
 	 */
 	public void setVersionVal(final int field, int val) {
+		System.out.println(hashCode() + " Setting field " + field + " to " + val);
 		dotVersion[field] = val;
 	}
 
@@ -180,6 +202,8 @@ public class VersionInformation implements Serializable {
 	 * @return The value of the dot field
 	 */
 	public int getVersionVal(int field) {
+		if (dotVersion[0] == -1)
+			parseDotVersion();
 		return dotVersion[field];
 	}
 
@@ -249,13 +273,13 @@ public class VersionInformation implements Serializable {
 	}
 
 	/**
-	 * @return the most recent saved version of this persistent object from a file in the local filesystem
+	 * @return the most recent saved version of this persistent object from a file in the local file system
 	 */
 	public static VersionInformation getVersionInformation() {
 		try {
 			InputStream in = new FileInputStream(FILE_NAME);
 			Object read = null;
-			if (SAVE_AS_XML) {
+			if (AS_XML) {
 				byte[] b = Files.readAllBytes(Paths.get(FILE_NAME));
 				read = MyXMLMarshaller.unmarshall(VersionInformation.class, new String(b));
 			} else {
@@ -267,15 +291,11 @@ public class VersionInformation implements Serializable {
 			if (read instanceof VersionInformation) {
 				return (VersionInformation) read;
 			}
-			System.err.println("unexpectedly got an object of type " + read.getClass().getCanonicalName());
+			System.err.println("unexpectedly got an object of type " + read.getClass().getCanonicalName()
+					+ ". Returning a meaningless object.");
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (JAXBException e) {
+		} catch (Exception e) {
+			System.err.println("Funny business when reading " + FILE_NAME);
 			e.printStackTrace();
 		}
 
@@ -291,7 +311,7 @@ public class VersionInformation implements Serializable {
 			InputStream in = new URL(WEB_FILE_NAME).openStream();
 			Object read = null;
 
-			if (SAVE_AS_XML) {
+			if (AS_XML) {
 				String theXMLDocument = "";
 				BufferedReader receiver = new BufferedReader(new InputStreamReader(in));
 				String receiveMessage;
@@ -334,7 +354,7 @@ public class VersionInformation implements Serializable {
 	 * @return the most recent save of this persistent object as stored on the project's web site
 	 */
 	public static VersionInformation getDBVersionInformation(FLAVOR f) {
-		assert (f != null);
+		assert(f != null);
 		VersionInformation vi = null;
 
 		Connection connection;
@@ -396,7 +416,7 @@ public class VersionInformation implements Serializable {
 	public static void saveVersionInformation(final VersionInformation vi) {
 		try {
 			FileOutputStream fos = new FileOutputStream(FILE_NAME);
-			if (SAVE_AS_XML) {
+			if (AS_XML) {
 				fos.write(getXMLString(vi).getBytes());
 				fos.close();
 				fos = null;
