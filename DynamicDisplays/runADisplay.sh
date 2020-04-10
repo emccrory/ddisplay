@@ -102,7 +102,7 @@ fi
     fi
     
     echo `date` "Determining if I should run a ChannelSelector"
-    if java gov.fnal.ppd.dd.util.HasChannelSelector; then
+    if java gov.fnal.ppd.dd.util.specific.HasChannelSelector; then
 	if ps -aef | grep MakeChannelSelector | grep -v grep; then
 	    echo "Already running the ChannelSelector."
 	else
@@ -115,7 +115,7 @@ fi
 
     echo `date` "Determining if this node should run a display ..."
 
-    if java gov.fnal.ppd.dd.util.IsDisplayNode; then
+    if java gov.fnal.ppd.dd.util.specific.IsDisplayNode; then
 	if ps -aef | grep DisplayAs | grep -v grep; then
 	    echo "Already running the display software."
 	    exit;
