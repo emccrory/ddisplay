@@ -63,3 +63,6 @@ DynamicDisplays/bin/gov/fnal/ppd/dd/chat/xml
 DynamicDisplays/src/gov/fnal/ppd/dd/chat/xml/*
 DynamicDisplays/bin/gov/fnal/ppd/dd/chat/xml/*
 merge.txt
+doc/latex
+doc/html
+
