@@ -7,14 +7,36 @@ timestamps {
 	stage ('DynamicDisplaysSuite - Checkout') {
  	  checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://cdcvs.fnal.gov/projects/roc-dynamicdisplays']]]) 
 	}
+
+
 	stage ('DynamicDisplaysSuite - Build') {
-      // Unable to convert a build step referring to "hudson.plugins.ws__cleanup.PreBuildCleanup". Please verify and convert manually if required.		
-      // Shell build step
-      sh """ 
-      # Hmm.  It does not see all of the tests.  Don't know why
-      cd DynamicDisplays
-      mvn clean test 
-      """ 
+           // Unable to convert a build step referring to "hudson.plugins.ws__cleanup.PreBuildCleanup". Please verify and convert manually if required.		
+           // Shell build step
+           sh """ 
+           # Hmm.  It does not see all of the tests.  Don't know why
+           cd DynamicDisplays
+           mvn clean test 
+           """ 
 	}
+
+    post {
+        always {
+            echo 'This will always run'
+        }
+        success {
+            echo 'This will run only if successful'
+        }
+        failure {
+            echo 'This will run only if failed'
+        }
+        unstable {
+            echo 'This will run only if the run was marked as unstable'
+        }
+        changed {
+            echo 'This will run only if the state of the Pipeline has changed'
+            echo 'For example, if the Pipeline was previously failing but is now successful'
+        }
+    }
+
   }
 }
