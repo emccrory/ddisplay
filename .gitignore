@@ -45,6 +45,8 @@ version3jars
 *.key
 headlines.txt
 temp*
+*temp
+*hold
 newsfeed.xml
 weather*
 KDPA.xml
@@ -58,11 +60,6 @@ sciencefeed.xml
 symfeed.xml
 symmetry.txt
 *_tempXMLFile
-DynamicDisplays/src/gov/fnal/ppd/dd/chat/xml
-DynamicDisplays/bin/gov/fnal/ppd/dd/chat/xml
-DynamicDisplays/src/gov/fnal/ppd/dd/chat/xml/*
-DynamicDisplays/bin/gov/fnal/ppd/dd/chat/xml/*
 merge.txt
 doc/latex
-doc/html
 
