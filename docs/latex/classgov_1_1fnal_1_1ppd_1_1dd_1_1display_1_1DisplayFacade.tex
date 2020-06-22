@@ -1,0 +1,247 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade}{\section{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade}\index{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade@{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade}}
+}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a44ab17c633b7d08fbe62ebfa8ba9596e}{Display\-Facade} (final int loc\-Code, final String ip\-Name, final int v\-Number, final int db\-Number, final int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ace620614bde13cee492129c27f38db4e}{screen\-Number}, final String location, final Color color)
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_aa103a2459e11731f78208f581d6df230}{local\-Set\-Content} ()
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_ad22aeb5c8a46e05ba8afee5f85fa03c4}{get\-Messaging\-Name} ()
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a52ef55dc309ff13a29e56e60df0ec10a}{get\-Status} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a97295fbdea4502156b438b39b498568f}{disconnect} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a98d5e27ef58b716f26938e98d47d3f2f}{set\-Content\-Value\-Backdoor} (final \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} content)
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_afaa48e979816a840fea8dbffbe5300c7}{action\-Performed} (Action\-Event e)
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a007114c29a3b378a97f389f0dc897786}{has\-Received\-A\-Reply} ()
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a682817a09de18ad0065d76b52baab114}{to\-String} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a78b803ae9cb502e09f8bbd65d7fa741e}{get\-Present\-Status} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a0e46150fb1f40a87bac5060ea85c6dcc}{try\-To\-Connect\-To\-Displays\-Now} = false
+\item 
+static Atomic\-Boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a385e34731c409e71b2cea39b88b7e918}{already\-Waiting} = new Atomic\-Boolean(false)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+On the computer with the channel selector, this is the way you talk to a remote Dynamic Display. This classed is used in the G\-U\-I as the Facade between the G\-U\-I and the actual display. That actual display sits on the other side of the network connection, through the messaging server.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation, First version\-: 2013 
+\end{DoxyAuthor}
+
+
+Definition at line 47 of file Display\-Facade.\-java.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a44ab17c633b7d08fbe62ebfa8ba9596e}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}!Display\-Facade@{Display\-Facade}}
+\index{Display\-Facade@{Display\-Facade}!gov::fnal::ppd::dd::display::DisplayFacade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}}
+\subsubsection[{Display\-Facade}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade.\-Display\-Facade (
+\begin{DoxyParamCaption}
+\item[{final int}]{loc\-Code, }
+\item[{final String}]{ip\-Name, }
+\item[{final int}]{v\-Number, }
+\item[{final int}]{db\-Number, }
+\item[{final int}]{screen\-Number, }
+\item[{final String}]{location, }
+\item[{final Color}]{color}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a44ab17c633b7d08fbe62ebfa8ba9596e}
+
+\begin{DoxyParams}{Parameters}
+{\em loc\-Code} & -- The location code of this display \\
+\hline
+{\em ip\-Name} & The name of the display \\
+\hline
+{\em v\-Number} & The virtual display number (for local consumption) \\
+\hline
+{\em db\-Number} & The database index for this display \\
+\hline
+{\em screen\-Number} & The screen number (like 0 or 1) \\
+\hline
+{\em location} & A description of the location of this display \\
+\hline
+{\em color} & the highlight color for this display \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 199 of file Display\-Facade.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_afaa48e979816a840fea8dbffbe5300c7}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}!action\-Performed@{action\-Performed}}
+\index{action\-Performed@{action\-Performed}!gov::fnal::ppd::dd::display::DisplayFacade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}}
+\subsubsection[{action\-Performed}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade.\-action\-Performed (
+\begin{DoxyParamCaption}
+\item[{Action\-Event}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_afaa48e979816a840fea8dbffbe5300c7}
+
+
+Definition at line 306 of file Display\-Facade.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a97295fbdea4502156b438b39b498568f}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}!disconnect@{disconnect}}
+\index{disconnect@{disconnect}!gov::fnal::ppd::dd::display::DisplayFacade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}}
+\subsubsection[{disconnect}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade.\-disconnect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a97295fbdea4502156b438b39b498568f}
+Disconnect a display from the rest of the world (if appropriate) 
+
+Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ae9ca738d32324acee3e6f912726a70ff}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
+
+
+
+Definition at line 290 of file Display\-Facade.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_ad22aeb5c8a46e05ba8afee5f85fa03c4}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}!get\-Messaging\-Name@{get\-Messaging\-Name}}
+\index{get\-Messaging\-Name@{get\-Messaging\-Name}!gov::fnal::ppd::dd::display::DisplayFacade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}}
+\subsubsection[{get\-Messaging\-Name}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade.\-get\-Messaging\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_ad22aeb5c8a46e05ba8afee5f85fa03c4}
+\begin{DoxyReturn}{Returns}
+The name that this Display uses on the Messaging system 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0bab243c1435802ba0e8b74c45ea35cb}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
+
+
+
+Definition at line 278 of file Display\-Facade.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a78b803ae9cb502e09f8bbd65d7fa741e}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}!get\-Present\-Status@{get\-Present\-Status}}
+\index{get\-Present\-Status@{get\-Present\-Status}!gov::fnal::ppd::dd::display::DisplayFacade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}}
+\subsubsection[{get\-Present\-Status}]{\setlength{\rightskip}{0pt plus 5cm}static String gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade.\-get\-Present\-Status (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a78b803ae9cb502e09f8bbd65d7fa741e}
+
+
+Definition at line 329 of file Display\-Facade.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a52ef55dc309ff13a29e56e60df0ec10a}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}!get\-Status@{get\-Status}}
+\index{get\-Status@{get\-Status}!gov::fnal::ppd::dd::display::DisplayFacade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}}
+\subsubsection[{get\-Status}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade.\-get\-Status (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a52ef55dc309ff13a29e56e60df0ec10a}
+Return the status of this Display, which is expected to include if it is live and, if so, what it is showing.
+
+\begin{DoxyReturn}{Returns}
+String status message 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a45ec755ef206791045dbc59bdc264875}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
+
+
+
+Definition at line 284 of file Display\-Facade.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a007114c29a3b378a97f389f0dc897786}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}!has\-Received\-A\-Reply@{has\-Received\-A\-Reply}}
+\index{has\-Received\-A\-Reply@{has\-Received\-A\-Reply}!gov::fnal::ppd::dd::display::DisplayFacade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}}
+\subsubsection[{has\-Received\-A\-Reply}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade.\-has\-Received\-A\-Reply (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a007114c29a3b378a97f389f0dc897786}
+
+
+Definition at line 318 of file Display\-Facade.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_aa103a2459e11731f78208f581d6df230}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}!local\-Set\-Content@{local\-Set\-Content}}
+\index{local\-Set\-Content@{local\-Set\-Content}!gov::fnal::ppd::dd::display::DisplayFacade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}}
+\subsubsection[{local\-Set\-Content}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade.\-local\-Set\-Content (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_aa103a2459e11731f78208f581d6df230}
+
+
+Implements \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad7d3f64a1788e1ba7887fc47028fb9c3}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}.
+
+
+
+Definition at line 228 of file Display\-Facade.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a98d5e27ef58b716f26938e98d47d3f2f}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}!set\-Content\-Value\-Backdoor@{set\-Content\-Value\-Backdoor}}
+\index{set\-Content\-Value\-Backdoor@{set\-Content\-Value\-Backdoor}!gov::fnal::ppd::dd::display::DisplayFacade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}}
+\subsubsection[{set\-Content\-Value\-Backdoor}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade.\-set\-Content\-Value\-Backdoor (
+\begin{DoxyParamCaption}
+\item[{final {\bf Signage\-Content}}]{content}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a98d5e27ef58b716f26938e98d47d3f2f}
+A kludged-\/up method O\-F U\-S\-E O\-N\-L\-Y by the status mechanism to set the apparent content, as obtained from elsewhere (like from a database read).
+
+
+\begin{DoxyParams}{Parameters}
+{\em content} & -- The apparent content on this display \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 302 of file Display\-Facade.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a682817a09de18ad0065d76b52baab114}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!gov::fnal::ppd::dd::display::DisplayFacade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade.\-to\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a682817a09de18ad0065d76b52baab114}
+
+
+Definition at line 322 of file Display\-Facade.\-java.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a385e34731c409e71b2cea39b88b7e918}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}!already\-Waiting@{already\-Waiting}}
+\index{already\-Waiting@{already\-Waiting}!gov::fnal::ppd::dd::display::DisplayFacade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}}
+\subsubsection[{already\-Waiting}]{\setlength{\rightskip}{0pt plus 5cm}Atomic\-Boolean gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade.\-already\-Waiting = new Atomic\-Boolean(false)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a385e34731c409e71b2cea39b88b7e918}
+
+
+Definition at line 57 of file Display\-Facade.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a0e46150fb1f40a87bac5060ea85c6dcc}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}!try\-To\-Connect\-To\-Displays\-Now@{try\-To\-Connect\-To\-Displays\-Now}}
+\index{try\-To\-Connect\-To\-Displays\-Now@{try\-To\-Connect\-To\-Displays\-Now}!gov::fnal::ppd::dd::display::DisplayFacade@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Facade}}
+\subsubsection[{try\-To\-Connect\-To\-Displays\-Now}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade.\-try\-To\-Connect\-To\-Displays\-Now = false\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_a0e46150fb1f40a87bac5060ea85c6dcc}
+
+
+Definition at line 53 of file Display\-Facade.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/display/\hyperlink{DisplayFacade_8java}{Display\-Facade.\-java}\end{DoxyCompactItemize}

@@ -1,0 +1,129 @@
+\hypertarget{classorg_1_1json_1_1HTTP}{\section{org.\-json.\-H\-T\-T\-P Class Reference}
+\label{classorg_1_1json_1_1HTTP}\index{org.\-json.\-H\-T\-T\-P@{org.\-json.\-H\-T\-T\-P}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} \hyperlink{classorg_1_1json_1_1HTTP_a9ac2cf295e6a84bfeed1af10dc9dae33}{to\-J\-S\-O\-N\-Object} (String string)  throws J\-S\-O\-N\-Exception 
+\item 
+static String \hyperlink{classorg_1_1json_1_1HTTP_aee0416336b82e1c7c7941350a2a409d7}{to\-String} (\hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} jo)  throws J\-S\-O\-N\-Exception 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static final String \hyperlink{classorg_1_1json_1_1HTTP_a7feb3304ccde0415ee29b8f997fb65b6}{C\-R\-L\-F} = \char`\"{}\textbackslash{}r\textbackslash{}n\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Convert an \hyperlink{classorg_1_1json_1_1HTTP}{H\-T\-T\-P} header to a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} and back. \begin{DoxyAuthor}{Author}
+J\-S\-O\-N.\-org 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2015-\/12-\/09 
+\end{DoxyVersion}
+
+
+Definition at line 34 of file H\-T\-T\-P.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classorg_1_1json_1_1HTTP_a9ac2cf295e6a84bfeed1af10dc9dae33}{\index{org\-::json\-::\-H\-T\-T\-P@{org\-::json\-::\-H\-T\-T\-P}!to\-J\-S\-O\-N\-Object@{to\-J\-S\-O\-N\-Object}}
+\index{to\-J\-S\-O\-N\-Object@{to\-J\-S\-O\-N\-Object}!org::json::HTTP@{org\-::json\-::\-H\-T\-T\-P}}
+\subsubsection[{to\-J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf J\-S\-O\-N\-Object} org.\-json.\-H\-T\-T\-P.\-to\-J\-S\-O\-N\-Object (
+\begin{DoxyParamCaption}
+\item[{String}]{string}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1HTTP_a9ac2cf295e6a84bfeed1af10dc9dae33}
+Convert an \hyperlink{classorg_1_1json_1_1HTTP}{H\-T\-T\-P} header string into a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. It can be a request header or a response header. A request header will contain 
+\begin{DoxyPre}\{
+   Method: "POST" (for example),
+   "Request-URI": "/" (for example),
+   "HTTP-Version": "HTTP/1.1" (for example)
+\}\end{DoxyPre}
+ A response header will contain 
+\begin{DoxyPre}\{
+   "HTTP-Version": "HTTP/1.1" (for example),
+   "Status-Code": "200" (for example),
+   "Reason-Phrase": "OK" (for example)
+\}\end{DoxyPre}
+ In addition, the other parameters in the header will be captured, using the \hyperlink{classorg_1_1json_1_1HTTP}{H\-T\-T\-P} field names as J\-S\-O\-N names, so that 
+\begin{DoxyPre}
+   Date: Sun, 26 May 2002 18:06:04 GMT
+   \hyperlink{classorg_1_1json_1_1Cookie}{Cookie}: Q=q2=PPEAsg--; B=677gi6ouf29bn\&b=2\&f=s
+   Cache-Control: no-cache\end{DoxyPre}
+ become 
+\begin{DoxyPre}\{...
+   Date: "Sun, 26 May 2002 18:06:04 GMT",
+   \hyperlink{classorg_1_1json_1_1Cookie}{Cookie}: "Q=q2=PPEAsg--; B=677gi6ouf29bn&b=2&f=s",
+   "Cache-Control": "no-cache",
+...\}\end{DoxyPre}
+ It does no further checking or conversion. It does not parse dates. It does not do '' transforms on U\-R\-Ls. 
+\begin{DoxyParams}{Parameters}
+{\em string} & An \hyperlink{classorg_1_1json_1_1HTTP}{H\-T\-T\-P} header string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} containing the elements and attributes of the \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} string. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 71 of file H\-T\-T\-P.\-java.
+
+\hypertarget{classorg_1_1json_1_1HTTP_aee0416336b82e1c7c7941350a2a409d7}{\index{org\-::json\-::\-H\-T\-T\-P@{org\-::json\-::\-H\-T\-T\-P}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!org::json::HTTP@{org\-::json\-::\-H\-T\-T\-P}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}static String org.\-json.\-H\-T\-T\-P.\-to\-String (
+\begin{DoxyParamCaption}
+\item[{{\bf J\-S\-O\-N\-Object}}]{jo}
+\end{DoxyParamCaption}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1HTTP_aee0416336b82e1c7c7941350a2a409d7}
+Convert a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} into an \hyperlink{classorg_1_1json_1_1HTTP}{H\-T\-T\-P} header. A request header must contain 
+\begin{DoxyPre}\{
+   Method: "POST" (for example),
+   "Request-URI": "/" (for example),
+   "HTTP-Version": "HTTP/1.1" (for example)
+\}\end{DoxyPre}
+ A response header must contain 
+\begin{DoxyPre}\{
+   "HTTP-Version": "HTTP/1.1" (for example),
+   "Status-Code": "200" (for example),
+   "Reason-Phrase": "OK" (for example)
+\}\end{DoxyPre}
+ Any other members of the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} will be output as \hyperlink{classorg_1_1json_1_1HTTP}{H\-T\-T\-P} fields. The result will end with two C\-R\-L\-F pairs. 
+\begin{DoxyParams}{Parameters}
+{\em jo} & A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An \hyperlink{classorg_1_1json_1_1HTTP}{H\-T\-T\-P} header string. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the object does not contain enough information. \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 127 of file H\-T\-T\-P.\-java.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classorg_1_1json_1_1HTTP_a7feb3304ccde0415ee29b8f997fb65b6}{\index{org\-::json\-::\-H\-T\-T\-P@{org\-::json\-::\-H\-T\-T\-P}!C\-R\-L\-F@{C\-R\-L\-F}}
+\index{C\-R\-L\-F@{C\-R\-L\-F}!org::json::HTTP@{org\-::json\-::\-H\-T\-T\-P}}
+\subsubsection[{C\-R\-L\-F}]{\setlength{\rightskip}{0pt plus 5cm}final String org.\-json.\-H\-T\-T\-P.\-C\-R\-L\-F = \char`\"{}\textbackslash{}r\textbackslash{}n\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1HTTP_a7feb3304ccde0415ee29b8f997fb65b6}
+Carriage return/line feed. 
+
+Definition at line 37 of file H\-T\-T\-P.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/org/json/\hyperlink{HTTP_8java}{H\-T\-T\-P.\-java}\end{DoxyCompactItemize}

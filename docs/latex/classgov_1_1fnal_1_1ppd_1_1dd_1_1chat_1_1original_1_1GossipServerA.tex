@@ -1,0 +1,76 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServerA}{\section{gov.\-fnal.\-ppd.\-dd.\-chat.\-original.\-Gossip\-Server\-A Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServerA}\index{gov.\-fnal.\-ppd.\-dd.\-chat.\-original.\-Gossip\-Server\-A@{gov.\-fnal.\-ppd.\-dd.\-chat.\-original.\-Gossip\-Server\-A}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServerA_a46abdc4798bd0f2cefa9085bdebd0229}{main} (String\mbox{[}$\,$\mbox{]} args)  throws Exception 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServerA_a4a676478d98fd09ff72e452da6eefc7f}{thread\-Number} = 0
+\item 
+static int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServerA_a7028f4794e09c2b9fbf294ef563ac64e}{counter} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Modified from \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServer}{Gossip\-Server} to handle multiple connections at once.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 18 of file Gossip\-Server\-A.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServerA_a46abdc4798bd0f2cefa9085bdebd0229}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::original\-::\-Gossip\-Server\-A@{gov\-::fnal\-::ppd\-::dd\-::chat\-::original\-::\-Gossip\-Server\-A}!main@{main}}
+\index{main@{main}!gov::fnal::ppd::dd::chat::original::GossipServerA@{gov\-::fnal\-::ppd\-::dd\-::chat\-::original\-::\-Gossip\-Server\-A}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-chat.\-original.\-Gossip\-Server\-A.\-main (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{args}
+\end{DoxyParamCaption}
+) throws Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServerA_a46abdc4798bd0f2cefa9085bdebd0229}
+The conclusion here is as follows. 
+
+When you are reading A\-S\-C\-I\-I text, we read it line by line. There is no a priori way to know that the message has been fully sent. I think we will have to invent one. For example, a message could have a form like this\-: 
+
+
+\begin{DoxyPre}
+Line 1: BEGIN [A random long integer]
+Line 2: <?xml version="1.0"?>
+line 3: <firstXMLTag>
+...
+Line N-1: </firstXMLTag>
+Line N: END [The same random long integer]
+\end{DoxyPre}
+
+
+Definition at line 22 of file Gossip\-Server\-A.\-java.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServerA_a7028f4794e09c2b9fbf294ef563ac64e}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::original\-::\-Gossip\-Server\-A@{gov\-::fnal\-::ppd\-::dd\-::chat\-::original\-::\-Gossip\-Server\-A}!counter@{counter}}
+\index{counter@{counter}!gov::fnal::ppd::dd::chat::original::GossipServerA@{gov\-::fnal\-::ppd\-::dd\-::chat\-::original\-::\-Gossip\-Server\-A}}
+\subsubsection[{counter}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-chat.\-original.\-Gossip\-Server\-A.\-counter = 0\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServerA_a7028f4794e09c2b9fbf294ef563ac64e}
+
+
+Definition at line 20 of file Gossip\-Server\-A.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServerA_a4a676478d98fd09ff72e452da6eefc7f}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::original\-::\-Gossip\-Server\-A@{gov\-::fnal\-::ppd\-::dd\-::chat\-::original\-::\-Gossip\-Server\-A}!thread\-Number@{thread\-Number}}
+\index{thread\-Number@{thread\-Number}!gov::fnal::ppd::dd::chat::original::GossipServerA@{gov\-::fnal\-::ppd\-::dd\-::chat\-::original\-::\-Gossip\-Server\-A}}
+\subsubsection[{thread\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-chat.\-original.\-Gossip\-Server\-A.\-thread\-Number = 0\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServerA_a4a676478d98fd09ff72e452da6eefc7f}
+
+
+Definition at line 19 of file Gossip\-Server\-A.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/chat/original/\hyperlink{GossipServerA_8java}{Gossip\-Server\-A.\-java}\end{DoxyCompactItemize}

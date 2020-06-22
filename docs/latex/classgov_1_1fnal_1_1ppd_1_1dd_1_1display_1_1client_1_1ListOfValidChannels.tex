@@ -1,0 +1,84 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels}{\section{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-List\-Of\-Valid\-Channels Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels}\index{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-List\-Of\-Valid\-Channels@{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-List\-Of\-Valid\-Channels}}
+}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-List\-Of\-Valid\-Channels\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels_a32b06c35045255ed512433f0a9c3d115}{List\-Of\-Valid\-Channels} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels_ac7e8b27fed18f295c739273b25cc16f3}{reset\-Channel\-List} ()
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels_a46ab473927c0c932b8465dd400e5058b}{contains} (\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} c)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Used by the actual display instances to assure that the channel requested is an approved on in the central database.
+
+F\-I\-X\-M\-E -\/ This class contains both business logic and database access
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 26 of file List\-Of\-Valid\-Channels.\-java.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels_a32b06c35045255ed512433f0a9c3d115}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-List\-Of\-Valid\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-List\-Of\-Valid\-Channels}!List\-Of\-Valid\-Channels@{List\-Of\-Valid\-Channels}}
+\index{List\-Of\-Valid\-Channels@{List\-Of\-Valid\-Channels}!gov::fnal::ppd::dd::display::client::ListOfValidChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-List\-Of\-Valid\-Channels}}
+\subsubsection[{List\-Of\-Valid\-Channels}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-List\-Of\-Valid\-Channels.\-List\-Of\-Valid\-Channels (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels_a32b06c35045255ed512433f0a9c3d115}
+Create a new instance by reading the list of valid U\-R\-Ls from the database 
+
+Definition at line 33 of file List\-Of\-Valid\-Channels.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels_a46ab473927c0c932b8465dd400e5058b}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-List\-Of\-Valid\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-List\-Of\-Valid\-Channels}!contains@{contains}}
+\index{contains@{contains}!gov::fnal::ppd::dd::display::client::ListOfValidChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-List\-Of\-Valid\-Channels}}
+\subsubsection[{contains}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-List\-Of\-Valid\-Channels.\-contains (
+\begin{DoxyParamCaption}
+\item[{{\bf Signage\-Content}}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels_a46ab473927c0c932b8465dd400e5058b}
+
+\begin{DoxyParams}{Parameters}
+{\em c} & the content to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If this bit of content is \char`\"{}approved\char`\"{} 
+\end{DoxyReturn}
+
+
+Definition at line 101 of file List\-Of\-Valid\-Channels.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels_ac7e8b27fed18f295c739273b25cc16f3}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-List\-Of\-Valid\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-List\-Of\-Valid\-Channels}!reset\-Channel\-List@{reset\-Channel\-List}}
+\index{reset\-Channel\-List@{reset\-Channel\-List}!gov::fnal::ppd::dd::display::client::ListOfValidChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-List\-Of\-Valid\-Channels}}
+\subsubsection[{reset\-Channel\-List}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-List\-Of\-Valid\-Channels.\-reset\-Channel\-List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels_ac7e8b27fed18f295c739273b25cc16f3}
+Re-\/read the list of valid U\-R\-Ls from the database 
+
+Definition at line 89 of file List\-Of\-Valid\-Channels.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/display/client/\hyperlink{ListOfValidChannels_8java}{List\-Of\-Valid\-Channels.\-java}\end{DoxyCompactItemize}

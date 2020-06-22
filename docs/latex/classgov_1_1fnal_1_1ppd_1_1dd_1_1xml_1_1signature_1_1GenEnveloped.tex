@@ -1,0 +1,194 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped}{\section{gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Gen\-Enveloped Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped}\index{gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Gen\-Enveloped@{gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Gen\-Enveloped}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static D\-O\-M\-Sign\-Context \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a14df81eeaa8d9607d12ae959e4f45cff}{get\-Sign\-Content} (Private\-Key pk, Document doc)
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a86010943e39ea4f238731c3b6890033e}{sign\-X\-M\-L\-Document} (Private\-Key private\-Key, Document doc)
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a1537e34dda8980c9a83352b30895eb77}{load\-Private\-Key} (final String filename)  throws I\-O\-Exception, Invalid\-Key\-Spec\-Exception, No\-Such\-Algorithm\-Exception 
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a5d97ac332f4ad0e9ef7051e77d3d6296}{load\-Public\-Key} (final String filename)  throws I\-O\-Exception 
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a21b820b493c7ce4ba5cb8429112ab738}{load\-Public\-Key\-From\-D\-B} (final String client\-Name)
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a16023580ac338dc85c74053b151ad680}{main} (String\mbox{[}$\,$\mbox{]} args)  throws Exception 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Taken from examples on the Oracle/java web site.
+
+This is a simple example of generating an Enveloped X\-M\-L Signature using the Java X\-M\-L Digital Signature A\-P\-I. The resulting signature will look like (key and signature values will be different)\-:
+
+
+\begin{DoxyPre}
+ {\ttfamily 
+<Envelope xmlns="urn:envelope">
+ <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+   <SignedInfo>
+     <CanonicalizationMethod algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">
+     <SignatureMethod algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256">
+     <Reference uri="">
+       <Transforms>
+         <Transform algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature">
+       </Transforms>
+       <DigestMethod algorithm="http://www.w3.org/2001/04/xmlenc#sha256">
+       <DigestValue>/juoQ4bDxElf1M+KJauO20euW+QAvvPP0nDCruCQooM=<DigestValue>
+     </Reference>
+   </SignedInfo>
+   <SignatureValue>
+     YeS+F0uiYv0h946M69Q9pKFNnD6dxUwLA8QT3GX/0H3cSPKRnNFyZiR4RPgaA1ir/ztb4rt6Lqb8
+     hgwPERIa5qhoGUJyHDfUTcQ0Xqn1jYCVoC3ho+oUgJPXNVgtMAtpvOgxcWXUPATYdyimO6RrHF8+
+     JXDkeICI9BPA4NKN1i77CAy6JJbaA87aNIpMJPImwJf8CM7mYsXremZz+RsafNE2cXXRzAoNOynC
+     pi4oPYpE7CBLzhd23gf7zYRoyT06/bVIj4j3qOlVY1TQofsQ20NtAz6PbqAs7QkNoDzkX1CYlDSJ
+     U8cGHuwXpul/UIpOiL6MZF8I/YI4ZlJn+O8Mvg==
+   </SignatureValue>
+   <KeyInfo>
+     <KeyValue>
+       <RSAKeyValue>
+         <Modulus>
+           mH0S/iw2K2tFTFHI75BtB67pzjR52HvQ8K7Xi5UX3NJm0oA+KX2mm0IrVcUuv609vbAAyQoW7CWm
+           4kswVgStCm68dlw36309cxrEmPhG+PKBmUaGuBmRzwityjXRyRZJ6yaLenE8SJO/DC5ntQvmHqQQ
+           qeOJYvz2Cbi2bi6x9XwmpqOfZCE5iTvYwioEsrglhP1uLG9fiXyNR2PXUTyLqD91HLhZFj1CEiU7
+           aE++WfkKaowIx5p8e3F6hQ+VFRNXjtemK5aajuL0gwU+Oujg9ijgbyMh19vBoI8LruJoMOBrYFNN
+           2boQJ3wP0Ek7CPIqAzQB5MnmvKc9jICKiiZVZw==
+         </Modulus>
+         <Exponent>AQAB</Exponent>
+       </RSAKeyValue>
+     </KeyValue>
+   </KeyInfo>
+ </Signature>
+</Envelope>
+ }
+ \end{DoxyPre}
+
+
+\begin{DoxyRefDesc}{Deprecated}
+\item[\hyperlink{deprecated__deprecated000017}{Deprecated}]
+\begin{DoxyItemize}
+\item this algorithm does not work with D\-S\-A keys 
+\end{DoxyItemize}\end{DoxyRefDesc}
+
+
+Definition at line 94 of file Gen\-Enveloped.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a14df81eeaa8d9607d12ae959e4f45cff}{\index{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped}!get\-Sign\-Content@{get\-Sign\-Content}}
+\index{get\-Sign\-Content@{get\-Sign\-Content}!gov::fnal::ppd::dd::xml::signature::GenEnveloped@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped}}
+\subsubsection[{get\-Sign\-Content}]{\setlength{\rightskip}{0pt plus 5cm}static D\-O\-M\-Sign\-Context gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Gen\-Enveloped.\-get\-Sign\-Content (
+\begin{DoxyParamCaption}
+\item[{Private\-Key}]{pk, }
+\item[{Document}]{doc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a14df81eeaa8d9607d12ae959e4f45cff}
+
+
+Definition at line 98 of file Gen\-Enveloped.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a1537e34dda8980c9a83352b30895eb77}{\index{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped}!load\-Private\-Key@{load\-Private\-Key}}
+\index{load\-Private\-Key@{load\-Private\-Key}!gov::fnal::ppd::dd::xml::signature::GenEnveloped@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped}}
+\subsubsection[{load\-Private\-Key}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Gen\-Enveloped.\-load\-Private\-Key (
+\begin{DoxyParamCaption}
+\item[{final String}]{filename}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception, Invalid\-Key\-Spec\-Exception, No\-Such\-Algorithm\-Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a1537e34dda8980c9a83352b30895eb77}
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & -- A problem reading the keystore \subsubsection*{Invalid\-Key\-Spec\-Exception }\\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & -- A problem with the encryption service $\ast$ \\
+\hline
+{\em Invalid\-Key\-Spec\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 199 of file Gen\-Enveloped.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a5d97ac332f4ad0e9ef7051e77d3d6296}{\index{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped}!load\-Public\-Key@{load\-Public\-Key}}
+\index{load\-Public\-Key@{load\-Public\-Key}!gov::fnal::ppd::dd::xml::signature::GenEnveloped@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped}}
+\subsubsection[{load\-Public\-Key}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Gen\-Enveloped.\-load\-Public\-Key (
+\begin{DoxyParamCaption}
+\item[{final String}]{filename}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a5d97ac332f4ad0e9ef7051e77d3d6296}
+Read the public key from the file system
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & -- The file name containing the public keystore \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & -- A problem reading the keystore \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 224 of file Gen\-Enveloped.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a21b820b493c7ce4ba5cb8429112ab738}{\index{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped}!load\-Public\-Key\-From\-D\-B@{load\-Public\-Key\-From\-D\-B}}
+\index{load\-Public\-Key\-From\-D\-B@{load\-Public\-Key\-From\-D\-B}!gov::fnal::ppd::dd::xml::signature::GenEnveloped@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped}}
+\subsubsection[{load\-Public\-Key\-From\-D\-B}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Gen\-Enveloped.\-load\-Public\-Key\-From\-D\-B (
+\begin{DoxyParamCaption}
+\item[{final String}]{client\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a21b820b493c7ce4ba5cb8429112ab738}
+
+
+Definition at line 239 of file Gen\-Enveloped.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a16023580ac338dc85c74053b151ad680}{\index{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped}!main@{main}}
+\index{main@{main}!gov::fnal::ppd::dd::xml::signature::GenEnveloped@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Gen\-Enveloped.\-main (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{args}
+\end{DoxyParamCaption}
+) throws Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a16023580ac338dc85c74053b151ad680}
+
+
+Definition at line 278 of file Gen\-Enveloped.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a86010943e39ea4f238731c3b6890033e}{\index{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped}!sign\-X\-M\-L\-Document@{sign\-X\-M\-L\-Document}}
+\index{sign\-X\-M\-L\-Document@{sign\-X\-M\-L\-Document}!gov::fnal::ppd::dd::xml::signature::GenEnveloped@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Gen\-Enveloped}}
+\subsubsection[{sign\-X\-M\-L\-Document}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Gen\-Enveloped.\-sign\-X\-M\-L\-Document (
+\begin{DoxyParamCaption}
+\item[{Private\-Key}]{private\-Key, }
+\item[{Document}]{doc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1GenEnveloped_a86010943e39ea4f238731c3b6890033e}
+Cryptographically sign an X\-M\-L document.
+
+
+\begin{DoxyParams}{Parameters}
+{\em private\-Key} & 
+\begin{DoxyItemize}
+\item The private key for signing the document 
+\end{DoxyItemize}\\
+\hline
+{\em doc} & 
+\begin{DoxyItemize}
+\item The X\-M\-L document to sign. This document is modified -\/ the signature is added to it. 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 161 of file Gen\-Enveloped.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/xml/signature/\hyperlink{GenEnveloped_8java}{Gen\-Enveloped.\-java}\end{DoxyCompactItemize}

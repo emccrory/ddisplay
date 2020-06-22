@@ -1,0 +1,378 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient}{\section{gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient}\index{gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client@{gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client}}
+}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries Listen\-From\-Server}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_ae80bb10f995ac1e56519651d6e7bbc3a}{Messaging\-Client} (String server, int port, String username)
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a68a15cf975653221f512387755cf392e}{start} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a13f893f839b69ca54b3ff1e7d8e890d7}{display\-Log\-Message} (final String msg)
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_afa39b6278a4a60bf1b272e1a70317dfb}{display\-Log\-Message} (boolean show, final String msg)
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a0fea6f95402827dbbd88ebc22d357d8b}{receive\-Incoming\-Message} (final \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessageCarrierXML}{Message\-Carrier\-X\-M\-L} msg)  throws Error\-Processing\-Message 
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a40df82f525cdeda6046be90c2f80f095}{send\-Message} (\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessageCarrierXML}{Message\-Carrier\-X\-M\-L} msg)
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a1db3a15685ceaa8514f041edb3dea297}{retry\-Connection} ()
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_afe1ec3b4d646cebe99db9579a6682643}{get\-Name} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_ab28012456765215ffdf3b9beb3f3ef00}{disconnect} ()
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a0f0d1ad1f8dcf7eec17aea757a892f36}{is\-Read\-Only} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a17056456457c874463b76d4bd0c7c167}{set\-Read\-Only} (final boolean read\-Only)
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_afcf0a1f43fdbdee733d51f75ad9845f9}{reply\-To\-An\-Error} (final String why)
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a774e53e588366cf5ab9ec1497e355844}{get\-Present\-Status} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_aecbd81343fff7acb75d14ba29c973ed3}{main} (String\mbox{[}$\,$\mbox{]} args)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_ae7a2a256431770ac9b0f06d444aa636e}{connection\-Accepted} ()
+\item 
+synchronized void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_ab42c0b4f0a822c6d2612f1121698ae01}{connection\-Failed} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a701c9889979e93718a0066cb45f063bb}{close} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Output\-Stream \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_aad2bc447bb305f210db3d55142adc077}{s\-Output}
+\item 
+long \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a5a6bddbcf19712e979b10e3f122c29bc}{last\-Message\-Received} = 0l
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The Client that can be run both as a console or a G\-U\-I 
+
+Taken from the internet on 5/12/2014. \begin{DoxySeeAlso}{See Also}
+$<$a href=\char`\"{}http\-://www.\-dreamincode.\-net/forums/topic/259777-\/a-\/simple-\/chat-\/program-\/with-\/clientserver-\/gui-\/optional/\char`\"{} dreamincode.\-net 
+\end{DoxySeeAlso}
+
+
+Extensively modified by Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation, 2014-\/16 
+
+T\-O\-D\-O -- Is there a way for two clients on the same node to talk directly to each other without a server? There is a use case that has emerged whereby the user interacts with a display directly on that display through the Channel Selector. When a choice is made, it sends this to the messaging server, which sends it right back to the same node but communicating with the display. This would only work if there was some way to short-\/circuit this communication here in the messaging client. At this time (January, 2016), the solution is not at all obvious (if it is possible at all). 
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 57 of file Messaging\-Client.\-java.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_ae80bb10f995ac1e56519651d6e7bbc3a}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!Messaging\-Client@{Messaging\-Client}}
+\index{Messaging\-Client@{Messaging\-Client}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{Messaging\-Client}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-Messaging\-Client (
+\begin{DoxyParamCaption}
+\item[{String}]{server, }
+\item[{int}]{port, }
+\item[{String}]{username}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_ae80bb10f995ac1e56519651d6e7bbc3a}
+Constructor called by console mode server\-: the server address port\-: the port number username\-: the username
+
+
+\begin{DoxyParams}{Parameters}
+{\em server} & The name of the server, e.\-g., \char`\"{}localhost\char`\"{} \\
+\hline
+{\em port} & The port number, e.\-g. 1500 \\
+\hline
+{\em username} & The name of the user you want to be identified as \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 97 of file Messaging\-Client.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a701c9889979e93718a0066cb45f063bb}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!close@{close}}
+\index{close@{close}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{close}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-close (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a701c9889979e93718a0066cb45f063bb}
+Disconnect from the server. 
+
+Definition at line 373 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_ae7a2a256431770ac9b0f06d444aa636e}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!connection\-Accepted@{connection\-Accepted}}
+\index{connection\-Accepted@{connection\-Accepted}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{connection\-Accepted}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-connection\-Accepted (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_ae7a2a256431770ac9b0f06d444aa636e}
+
+
+Definition at line 297 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_ab42c0b4f0a822c6d2612f1121698ae01}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!connection\-Failed@{connection\-Failed}}
+\index{connection\-Failed@{connection\-Failed}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{connection\-Failed}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-connection\-Failed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_ab42c0b4f0a822c6d2612f1121698ae01}
+
+
+Definition at line 317 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_ab28012456765215ffdf3b9beb3f3ef00}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!disconnect@{disconnect}}
+\index{disconnect@{disconnect}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{disconnect}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-disconnect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_ab28012456765215ffdf3b9beb3f3ef00}
+When something goes wrong Close the Input/\-Output streams, disconnect and then try to reconnect 
+
+Definition at line 365 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a13f893f839b69ca54b3ff1e7d8e890d7}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!display\-Log\-Message@{display\-Log\-Message}}
+\index{display\-Log\-Message@{display\-Log\-Message}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{display\-Log\-Message}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-display\-Log\-Message (
+\begin{DoxyParamCaption}
+\item[{final String}]{msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a13f893f839b69ca54b3ff1e7d8e890d7}
+To send a message to the console or the G\-U\-I. Overridable to enable other sorts of usages.
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 245 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_afa39b6278a4a60bf1b272e1a70317dfb}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!display\-Log\-Message@{display\-Log\-Message}}
+\index{display\-Log\-Message@{display\-Log\-Message}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{display\-Log\-Message}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-display\-Log\-Message (
+\begin{DoxyParamCaption}
+\item[{boolean}]{show, }
+\item[{final String}]{msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_afa39b6278a4a60bf1b272e1a70317dfb}
+
+
+Definition at line 249 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_afe1ec3b4d646cebe99db9579a6682643}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!get\-Name@{get\-Name}}
+\index{get\-Name@{get\-Name}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{get\-Name}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-get\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_afe1ec3b4d646cebe99db9579a6682643}
+\begin{DoxyReturn}{Returns}
+the user name of this client in the messaging system 
+\end{DoxyReturn}
+
+
+Definition at line 313 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a774e53e588366cf5ab9ec1497e355844}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!get\-Present\-Status@{get\-Present\-Status}}
+\index{get\-Present\-Status@{get\-Present\-Status}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{get\-Present\-Status}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-get\-Present\-Status (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a774e53e588366cf5ab9ec1497e355844}
+
+
+Definition at line 619 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a0f0d1ad1f8dcf7eec17aea757a892f36}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!is\-Read\-Only@{is\-Read\-Only}}
+\index{is\-Read\-Only@{is\-Read\-Only}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{is\-Read\-Only}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-is\-Read\-Only (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a0f0d1ad1f8dcf7eec17aea757a892f36}
+\begin{DoxyReturn}{Returns}
+Is this client a read-\/only client? 
+\end{DoxyReturn}
+
+
+Definition at line 491 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_aecbd81343fff7acb75d14ba29c973ed3}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!main@{main}}
+\index{main@{main}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-main (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_aecbd81343fff7acb75d14ba29c973ed3}
+To start the Client in console mode use one of the following command $>$ java Client $>$ java Client username $>$ java Client username port\-Number $>$ java Client username port\-Number server\-Address at the console prompt If the port\-Number is not specified 1500 is used If the server\-Address is not specified \char`\"{}local\-Host\char`\"{} is used If the username is not specified \char`\"{}\-Anonymous\char`\"{} is used $>$ java Client is equivalent to $>$ java Client Anonymous 1500 localhost are eqquivalent
+
+In console mode, if an error occurs the program simply stops when a G\-U\-I id used, the G\-U\-I is informed of the disconnection
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & Command-\/line arguments \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 425 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a0fea6f95402827dbbd88ebc22d357d8b}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!receive\-Incoming\-Message@{receive\-Incoming\-Message}}
+\index{receive\-Incoming\-Message@{receive\-Incoming\-Message}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{receive\-Incoming\-Message}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-receive\-Incoming\-Message (
+\begin{DoxyParamCaption}
+\item[{final {\bf Message\-Carrier\-X\-M\-L}}]{msg}
+\end{DoxyParamCaption}
+) throws {\bf Error\-Processing\-Message}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a0fea6f95402827dbbd88ebc22d357d8b}
+Overridable to enable other sorts of usages.
+
+Changed the name from \char`\"{}display\-Incoming\-Message\char`\"{} in order to convey that this is an important aspect of dealing with messages that are received, beyond simply printing it out. In practice, many implementers of this method actually A\-N\-A\-L\-Y\-Z\-E the message and act on it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & The message that was received just now. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1ErrorProcessingMessage}{Error\-Processing\-Message}} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 266 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_afcf0a1f43fdbdee733d51f75ad9845f9}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!reply\-To\-An\-Error@{reply\-To\-An\-Error}}
+\index{reply\-To\-An\-Error@{reply\-To\-An\-Error}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{reply\-To\-An\-Error}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-reply\-To\-An\-Error (
+\begin{DoxyParamCaption}
+\item[{final String}]{why}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_afcf0a1f43fdbdee733d51f75ad9845f9}
+Give the sub-\/classes here the chance to do something complicated when there is an error
+
+
+\begin{DoxyParams}{Parameters}
+{\em why} & Why was there an error \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 509 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a1db3a15685ceaa8514f041edb3dea297}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!retry\-Connection@{retry\-Connection}}
+\index{retry\-Connection@{retry\-Connection}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{retry\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-retry\-Connection (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a1db3a15685ceaa8514f041edb3dea297}
+
+
+Definition at line 304 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a40df82f525cdeda6046be90c2f80f095}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!send\-Message@{send\-Message}}
+\index{send\-Message@{send\-Message}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{send\-Message}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-send\-Message (
+\begin{DoxyParamCaption}
+\item[{{\bf Message\-Carrier\-X\-M\-L}}]{msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a40df82f525cdeda6046be90c2f80f095}
+Send a message to the server, converting it to a signed message if the messaging client, here, has the authority
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & -- The message to sign and then send. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 276 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a17056456457c874463b76d4bd0c7c167}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!set\-Read\-Only@{set\-Read\-Only}}
+\index{set\-Read\-Only@{set\-Read\-Only}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{set\-Read\-Only}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-set\-Read\-Only (
+\begin{DoxyParamCaption}
+\item[{final boolean}]{read\-Only}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a17056456457c874463b76d4bd0c7c167}
+
+\begin{DoxyParams}{Parameters}
+{\em read\-Only} & -- Should this client be read-\/only? \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 499 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a68a15cf975653221f512387755cf392e}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!start@{start}}
+\index{start@{start}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a68a15cf975653221f512387755cf392e}
+Start the dialog between the client, here, and the server.
+
+\begin{DoxyReturn}{Returns}
+if we were successful 
+\end{DoxyReturn}
+We need to be sure that the server is still there.
+
+There have been times when the server disappears (I think this is when the server machine accidentally goes to sleep/hybernates) and the client does not notice it.
+
+This thread does that
+
+Definition at line 109 of file Messaging\-Client.\-java.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a5a6bddbcf19712e979b10e3f122c29bc}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!last\-Message\-Received@{last\-Message\-Received}}
+\index{last\-Message\-Received@{last\-Message\-Received}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{last\-Message\-Received}]{\setlength{\rightskip}{0pt plus 5cm}long gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-last\-Message\-Received = 0l\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_a5a6bddbcf19712e979b10e3f122c29bc}
+
+
+Definition at line 76 of file Messaging\-Client.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_aad2bc447bb305f210db3d55142adc077}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}!s\-Output@{s\-Output}}
+\index{s\-Output@{s\-Output}!gov::fnal::ppd::dd::chat::MessagingClient@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Client}}
+\subsubsection[{s\-Output}]{\setlength{\rightskip}{0pt plus 5cm}Output\-Stream gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Client.\-s\-Output\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_aad2bc447bb305f210db3d55142adc077}
+
+
+Definition at line 65 of file Messaging\-Client.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/chat/\hyperlink{MessagingClient_8java}{Messaging\-Client.\-java}\end{DoxyCompactItemize}

@@ -1,0 +1,128 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels}{\section{gov.\-fnal.\-ppd.\-dd.\-channel.\-Map\-Of\-Channels Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels}\index{gov.\-fnal.\-ppd.\-dd.\-channel.\-Map\-Of\-Channels@{gov.\-fnal.\-ppd.\-dd.\-channel.\-Map\-Of\-Channels}}
+}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-channel.\-Map\-Of\-Channels\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a50904afe8dc2195a5bdc156efc32e065}{Map\-Of\-Channels} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a2631777fd0adabe06c3c3941190e4e0b}{reset\-Channel\-List} ()
+\item 
+\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel}{Channel} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a1fe019368302baecc21d10cf1def241a}{get\-A\-Channel} (final int number)
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_abc6f10d676361ad8d26cb8e6a581cc31}{contains} (\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} c)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a2e3cd81fac45f2de2333d26dc534b699}{main} (final String\mbox{[}$\,$\mbox{]} args)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Holds a map of A\-L\-L the channels in the Dynamic Displays database
+
+Simple testing (see \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a2e3cd81fac45f2de2333d26dc534b699}{main()}, below) indicates that the memory required is about 6.\-5\-M\-B + 1k\-B per channel
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 21 of file Map\-Of\-Channels.\-java.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a50904afe8dc2195a5bdc156efc32e065}{\index{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels}!Map\-Of\-Channels@{Map\-Of\-Channels}}
+\index{Map\-Of\-Channels@{Map\-Of\-Channels}!gov::fnal::ppd::dd::channel::MapOfChannels@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels}}
+\subsubsection[{Map\-Of\-Channels}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-channel.\-Map\-Of\-Channels.\-Map\-Of\-Channels (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a50904afe8dc2195a5bdc156efc32e065}
+Create a new instance by reading the list of valid U\-R\-Ls from the database 
+
+Definition at line 28 of file Map\-Of\-Channels.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_abc6f10d676361ad8d26cb8e6a581cc31}{\index{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels}!contains@{contains}}
+\index{contains@{contains}!gov::fnal::ppd::dd::channel::MapOfChannels@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels}}
+\subsubsection[{contains}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-channel.\-Map\-Of\-Channels.\-contains (
+\begin{DoxyParamCaption}
+\item[{{\bf Signage\-Content}}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_abc6f10d676361ad8d26cb8e6a581cc31}
+
+\begin{DoxyParams}{Parameters}
+{\em c} & the content to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If this bit of content is \char`\"{}approved\char`\"{} 
+\end{DoxyReturn}
+
+
+Definition at line 59 of file Map\-Of\-Channels.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a1fe019368302baecc21d10cf1def241a}{\index{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels}!get\-A\-Channel@{get\-A\-Channel}}
+\index{get\-A\-Channel@{get\-A\-Channel}!gov::fnal::ppd::dd::channel::MapOfChannels@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels}}
+\subsubsection[{get\-A\-Channel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Channel} gov.\-fnal.\-ppd.\-dd.\-channel.\-Map\-Of\-Channels.\-get\-A\-Channel (
+\begin{DoxyParamCaption}
+\item[{final int}]{number}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a1fe019368302baecc21d10cf1def241a}
+Return a Channel object that is identified with this channel number.
+
+
+\begin{DoxyParams}{Parameters}
+{\em number} & The Channel number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The Channel object that is identified with this channel number. 
+\end{DoxyReturn}
+
+
+Definition at line 50 of file Map\-Of\-Channels.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a2e3cd81fac45f2de2333d26dc534b699}{\index{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels}!main@{main}}
+\index{main@{main}!gov::fnal::ppd::dd::channel::MapOfChannels@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-channel.\-Map\-Of\-Channels.\-main (
+\begin{DoxyParamCaption}
+\item[{final String\mbox{[}$\,$\mbox{]}}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a2e3cd81fac45f2de2333d26dc534b699}
+
+\begin{DoxyParams}{Parameters}
+{\em args} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 79 of file Map\-Of\-Channels.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a2631777fd0adabe06c3c3941190e4e0b}{\index{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels}!reset\-Channel\-List@{reset\-Channel\-List}}
+\index{reset\-Channel\-List@{reset\-Channel\-List}!gov::fnal::ppd::dd::channel::MapOfChannels@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Map\-Of\-Channels}}
+\subsubsection[{reset\-Channel\-List}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-channel.\-Map\-Of\-Channels.\-reset\-Channel\-List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels_a2631777fd0adabe06c3c3941190e4e0b}
+Re-\/read the list of valid U\-R\-Ls from the database 
+
+Definition at line 38 of file Map\-Of\-Channels.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/channel/\hyperlink{MapOfChannels_8java}{Map\-Of\-Channels.\-java}\end{DoxyCompactItemize}

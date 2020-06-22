@@ -1,0 +1,532 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}{\section{gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}\index{gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier@{gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier}}
+}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{enumgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageType}{Message\-Type} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_acd6dda2603952e714aca5678f7758fe1}{get\-Message\-Type} ()
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a040740dc58eabbc8c55b4e129e6abd1a}{get\-Message\-Value} ()
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a6fe680384a1b50d5499f666253e88fc2}{get\-Message\-Recipient} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a72cf47448f7e9a741d8eaff765b8534f}{set\-Message\-Recipient} (final String to)
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a03209614a5ba67f403b24b7b642b0acb}{get\-Message\-Originator} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a594aad4d369789156b8f4875b81da234}{set\-Message\-Originator} (final String from)
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_aae023e6861947c5ef768ceb040b01b6d}{to\-String} ()
+\item 
+Signed\-Object \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_aa9e27300a13c639253bf5955d6062495}{get\-Signed\-Object} ()  throws No\-Private\-Key\-Exception 
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a2ce4e682637b506575889db4917a379f}{verify\-Signed\-Object} (final Signed\-Object signed\-Object)
+\item 
+int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a2ef587730f13d97fc9bcf57a371f9543}{hash\-Code} ()
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a43e9cdeae36815d03d8ccd528171a6d9}{equals} (Object obj)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a0b3d0cac46ac4c642045a98e78a5d541}{get\-Reply\-Message} (final String from, final String to, final String message)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a58cfc7579e97952714838a1a69488a3e}{get\-Logout} ()
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_aaa7970bd6d632f5e2e56884fd2e5d528}{get\-Login} (final String username)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_ab7af24fd90518abf7a0facac05d64b3e}{get\-Who\-Is\-In} (final String from)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a04ca970aa1904aed4189a72a2109e76d}{get\-Is\-Alive} (final String from, final String to)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_ad3ae47a06a161739da95be215dd7781a}{get\-I\-Am\-Alive} (final String from, final String to, String message)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a7b99547dc0124d5ae6d197f31c55effd}{get\-Error\-Message} (final String from, final String to, final String message)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a41ee3b86b92786ed41ad66f9a139ab8c}{get\-Emergency\-Message} (final String from, final String to, final String message)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_abe59d0d2e555a9c418b51ca931647070}{get\-Subscribe\-Message} (final String from, final String to, final String subject)
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_abeb424991e7911d1efd533b61e35fd6a}{is\-Username\-Match} (final String the\-Name\-From\-The\-Server, final String the\-Name\-From\-The\-Client)
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a5ddfee4147bfa09f7f059dfaab267da7}{initialize\-Signature} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static final long \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a9baff4617fbbc2df811eae214ec9980c}{serial\-Version\-U\-I\-D} = 1112122200\-L
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class holds the messages that will be exchanged between the Clients and the Server. When talking from a Java Client to a Java Server, it is a lot easier to stream Java objects, so that is what we do here.
+
+T\-O\-D\-O -- replace this class and the X\-M\-L classes with one, unified message, probably in J\-S\-O\-N. It would be best, at that time, to stop streaming a Java object here so that other languages can get into the game--we would just stream A\-S\-C\-I\-I messages.
+
+Off the top of my head, here is what a J\-S\-O\-N message that carries all the information might looks like.
+
+
+\begin{DoxyPre}
+\{ "message": \{
+    "Type"    : "message",
+    "To"      : "destinationClientName",
+    "From"    : "sourceClientName",
+    "IP"      : "131.225.1.1",
+    "Date"    : "Jan 1, 2015 12:34:56 CST",
+    "Display" : "12",
+    "Screen"  : "0",
+    "Content" : \{
+            "Type" : "Web Page",
+         "Name" : "Channel Name",
+         "URI"  : "http://www.fnal.gov",
+         "Time" : "0",
+         "Code" : "0",         
+    \}
+    "Signature" : "82736152635fe62de82ab7fe901ab82",
+  \}
+\}
+\end{DoxyPre}
+
+
+As stated above, if/when we change to this J\-S\-O\-N scheme, it will be important N\-O\-T to stream an object.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation
+\end{DoxyAuthor}
+\begin{DoxyRefDesc}{Deprecated}
+\item[\hyperlink{deprecated__deprecated000001}{Deprecated}]in favor of Message\-Carrier\-X\-M\-L \end{DoxyRefDesc}
+
+
+Definition at line 61 of file Message\-Carrier.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a43e9cdeae36815d03d8ccd528171a6d9}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!equals@{equals}}
+\index{equals@{equals}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{equals}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-equals (
+\begin{DoxyParamCaption}
+\item[{Object}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a43e9cdeae36815d03d8ccd528171a6d9}
+
+
+Definition at line 358 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a41ee3b86b92786ed41ad66f9a139ab8c}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Emergency\-Message@{get\-Emergency\-Message}}
+\index{get\-Emergency\-Message@{get\-Emergency\-Message}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Emergency\-Message}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Emergency\-Message (
+\begin{DoxyParamCaption}
+\item[{final String}]{from, }
+\item[{final String}]{to, }
+\item[{final String}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a41ee3b86b92786ed41ad66f9a139ab8c}
+This is an emergency message for all clients in the system.
+
+
+\begin{DoxyParams}{Parameters}
+{\em from} & The originator of the message \\
+\hline
+{\em to} & The recipient of the message \\
+\hline
+{\em message} & The message itself. It is anticipated that this will be an H\-T\-M\-L-\/encoded message that can be shown by the client. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A message to the messaging server that conveys the emergency 
+\end{DoxyReturn}
+
+
+Definition at line 149 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a7b99547dc0124d5ae6d197f31c55effd}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Error\-Message@{get\-Error\-Message}}
+\index{get\-Error\-Message@{get\-Error\-Message}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Error\-Message}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Error\-Message (
+\begin{DoxyParamCaption}
+\item[{final String}]{from, }
+\item[{final String}]{to, }
+\item[{final String}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a7b99547dc0124d5ae6d197f31c55effd}
+There has been an error with message communications.
+
+
+\begin{DoxyParams}{Parameters}
+{\em from} & The originator of the message \\
+\hline
+{\em to} & The recipient of the message \\
+\hline
+{\em message} & The message itself. It is anticipated that this will be just a statement of the error (i.\-e., not X\-M\-L) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A message to the messaging server that says, \char`\"{}\-There has been an error\char`\"{} 
+\end{DoxyReturn}
+
+
+Definition at line 134 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_ad3ae47a06a161739da95be215dd7781a}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-I\-Am\-Alive@{get\-I\-Am\-Alive}}
+\index{get\-I\-Am\-Alive@{get\-I\-Am\-Alive}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-I\-Am\-Alive}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-I\-Am\-Alive (
+\begin{DoxyParamCaption}
+\item[{final String}]{from, }
+\item[{final String}]{to, }
+\item[{String}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_ad3ae47a06a161739da95be215dd7781a}
+
+\begin{DoxyParams}{Parameters}
+{\em from} & \\
+\hline
+{\em to} & \\
+\hline
+{\em message} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A message to the messaging server that says, \char`\"{}\-Yes, I am alive\char`\"{} 
+\end{DoxyReturn}
+
+
+Definition at line 119 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a04ca970aa1904aed4189a72a2109e76d}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Is\-Alive@{get\-Is\-Alive}}
+\index{get\-Is\-Alive@{get\-Is\-Alive}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Is\-Alive}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Is\-Alive (
+\begin{DoxyParamCaption}
+\item[{final String}]{from, }
+\item[{final String}]{to}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a04ca970aa1904aed4189a72a2109e76d}
+
+\begin{DoxyParams}{Parameters}
+{\em from} & \\
+\hline
+{\em to} & The name of the client for whom this message is intended \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A message for the messaging server asking if a client is alive 
+\end{DoxyReturn}
+
+
+Definition at line 109 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_aaa7970bd6d632f5e2e56884fd2e5d528}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Login@{get\-Login}}
+\index{get\-Login@{get\-Login}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Login}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Login (
+\begin{DoxyParamCaption}
+\item[{final String}]{username}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_aaa7970bd6d632f5e2e56884fd2e5d528}
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A login message for the messaging server 
+\end{DoxyReturn}
+
+
+Definition at line 91 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a58cfc7579e97952714838a1a69488a3e}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Logout@{get\-Logout}}
+\index{get\-Logout@{get\-Logout}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Logout}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Logout (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a58cfc7579e97952714838a1a69488a3e}
+\begin{DoxyReturn}{Returns}
+A logout message for the messaging server 
+\end{DoxyReturn}
+
+
+Definition at line 83 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a03209614a5ba67f403b24b7b642b0acb}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Message\-Originator@{get\-Message\-Originator}}
+\index{get\-Message\-Originator@{get\-Message\-Originator}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Message\-Originator}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Message\-Originator (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a03209614a5ba67f403b24b7b642b0acb}
+\begin{DoxyReturn}{Returns}
+who is this message from? 
+\end{DoxyReturn}
+
+
+Definition at line 218 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a6fe680384a1b50d5499f666253e88fc2}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Message\-Recipient@{get\-Message\-Recipient}}
+\index{get\-Message\-Recipient@{get\-Message\-Recipient}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Message\-Recipient}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Message\-Recipient (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a6fe680384a1b50d5499f666253e88fc2}
+\begin{DoxyReturn}{Returns}
+Who is this message intended to be received by? 
+\end{DoxyReturn}
+
+
+Definition at line 203 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_acd6dda2603952e714aca5678f7758fe1}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Message\-Type@{get\-Message\-Type}}
+\index{get\-Message\-Type@{get\-Message\-Type}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Message\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Message\-Type} gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Message\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_acd6dda2603952e714aca5678f7758fe1}
+\begin{DoxyReturn}{Returns}
+The type of the message 
+\end{DoxyReturn}
+
+
+Definition at line 189 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a040740dc58eabbc8c55b4e129e6abd1a}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Message\-Value@{get\-Message\-Value}}
+\index{get\-Message\-Value@{get\-Message\-Value}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Message\-Value}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Message\-Value (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a040740dc58eabbc8c55b4e129e6abd1a}
+\begin{DoxyReturn}{Returns}
+The body of the message 
+\end{DoxyReturn}
+
+
+Definition at line 196 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a0b3d0cac46ac4c642045a98e78a5d541}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Reply\-Message@{get\-Reply\-Message}}
+\index{get\-Reply\-Message@{get\-Reply\-Message}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Reply\-Message}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Reply\-Message (
+\begin{DoxyParamCaption}
+\item[{final String}]{from, }
+\item[{final String}]{to, }
+\item[{final String}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a0b3d0cac46ac4c642045a98e78a5d541}
+
+\begin{DoxyParams}{Parameters}
+{\em from} & \\
+\hline
+{\em to} & \\
+\hline
+{\em message} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reply message from a client back to the requester 
+\end{DoxyReturn}
+
+
+Definition at line 76 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_aa9e27300a13c639253bf5955d6062495}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Signed\-Object@{get\-Signed\-Object}}
+\index{get\-Signed\-Object@{get\-Signed\-Object}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Signed\-Object}]{\setlength{\rightskip}{0pt plus 5cm}Signed\-Object gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Signed\-Object (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws {\bf No\-Private\-Key\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_aa9e27300a13c639253bf5955d6062495}
+\begin{DoxyReturn}{Returns}
+-- A Signed version of this \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier}{Message\-Carrier} object 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1NoPrivateKeyException}{No\-Private\-Key\-Exception}} & -- If the originator of this message does not have a private key, it cannot generator a signed object. \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 297 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_abe59d0d2e555a9c418b51ca931647070}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Subscribe\-Message@{get\-Subscribe\-Message}}
+\index{get\-Subscribe\-Message@{get\-Subscribe\-Message}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Subscribe\-Message}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Subscribe\-Message (
+\begin{DoxyParamCaption}
+\item[{final String}]{from, }
+\item[{final String}]{to, }
+\item[{final String}]{subject}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_abe59d0d2e555a9c418b51ca931647070}
+
+\begin{DoxyParams}{Parameters}
+{\em from} & \\
+\hline
+{\em to} & \\
+\hline
+{\em subject} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the message itself that contains the subscription subject 
+\end{DoxyReturn}
+
+
+Definition at line 160 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_ab7af24fd90518abf7a0facac05d64b3e}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!get\-Who\-Is\-In@{get\-Who\-Is\-In}}
+\index{get\-Who\-Is\-In@{get\-Who\-Is\-In}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{get\-Who\-Is\-In}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-get\-Who\-Is\-In (
+\begin{DoxyParamCaption}
+\item[{final String}]{from}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_ab7af24fd90518abf7a0facac05d64b3e}
+
+\begin{DoxyParams}{Parameters}
+{\em from} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A message for the messaging server asking for all the clients that are connected 
+\end{DoxyReturn}
+
+
+Definition at line 99 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a2ef587730f13d97fc9bcf57a371f9543}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!hash\-Code@{hash\-Code}}
+\index{hash\-Code@{hash\-Code}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{hash\-Code}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-hash\-Code (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a2ef587730f13d97fc9bcf57a371f9543}
+
+
+Definition at line 347 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a5ddfee4147bfa09f7f059dfaab267da7}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!initialize\-Signature@{initialize\-Signature}}
+\index{initialize\-Signature@{initialize\-Signature}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{initialize\-Signature}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-initialize\-Signature (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a5ddfee4147bfa09f7f059dfaab267da7}
+
+\begin{DoxyParams}{Parameters}
+{\em username} & The user name to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Is this message intended for this user? Read the private key so we can initialize out signature
+
+Did we properly initialize the signature? 
+\end{DoxyReturn}
+
+
+Definition at line 281 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_abeb424991e7911d1efd533b61e35fd6a}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!is\-Username\-Match@{is\-Username\-Match}}
+\index{is\-Username\-Match@{is\-Username\-Match}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{is\-Username\-Match}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-is\-Username\-Match (
+\begin{DoxyParamCaption}
+\item[{final String}]{the\-Name\-From\-The\-Server, }
+\item[{final String}]{the\-Name\-From\-The\-Client}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_abeb424991e7911d1efd533b61e35fd6a}
+
+\begin{DoxyParams}{Parameters}
+{\em the\-Name\-From\-The\-Server} & \\
+\hline
+{\em the\-Name\-From\-The\-Client} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Do these names match? 
+\end{DoxyReturn}
+
+
+Definition at line 240 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a594aad4d369789156b8f4875b81da234}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!set\-Message\-Originator@{set\-Message\-Originator}}
+\index{set\-Message\-Originator@{set\-Message\-Originator}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{set\-Message\-Originator}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-set\-Message\-Originator (
+\begin{DoxyParamCaption}
+\item[{final String}]{from}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a594aad4d369789156b8f4875b81da234}
+
+\begin{DoxyParams}{Parameters}
+{\em from} & Who is this message from \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 226 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a72cf47448f7e9a741d8eaff765b8534f}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!set\-Message\-Recipient@{set\-Message\-Recipient}}
+\index{set\-Message\-Recipient@{set\-Message\-Recipient}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{set\-Message\-Recipient}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-set\-Message\-Recipient (
+\begin{DoxyParamCaption}
+\item[{final String}]{to}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a72cf47448f7e9a741d8eaff765b8534f}
+
+\begin{DoxyParams}{Parameters}
+{\em to} & Set to whom this message is aimed \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 211 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_aae023e6861947c5ef768ceb040b01b6d}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-to\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_aae023e6861947c5ef768ceb040b01b6d}
+
+
+Definition at line 231 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a2ce4e682637b506575889db4917a379f}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!verify\-Signed\-Object@{verify\-Signed\-Object}}
+\index{verify\-Signed\-Object@{verify\-Signed\-Object}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{verify\-Signed\-Object}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-verify\-Signed\-Object (
+\begin{DoxyParamCaption}
+\item[{final Signed\-Object}]{signed\-Object}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a2ce4e682637b506575889db4917a379f}
+
+\begin{DoxyParams}{Parameters}
+{\em signed\-Object} & -- the object that (should be) the holder of \char`\"{}this\char`\"{} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-- Has the signed\-Object been properly signed? 
+\end{DoxyReturn}
+\begin{DoxyRefDesc}{Deprecated}
+\item[\hyperlink{deprecated__deprecated000002}{Deprecated}]\end{DoxyRefDesc}
+
+
+Definition at line 312 of file Message\-Carrier.\-java.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a9baff4617fbbc2df811eae214ec9980c}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}!serial\-Version\-U\-I\-D@{serial\-Version\-U\-I\-D}}
+\index{serial\-Version\-U\-I\-D@{serial\-Version\-U\-I\-D}!gov::fnal::ppd::dd::chat::MessageCarrier@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Carrier}}
+\subsubsection[{serial\-Version\-U\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}final long gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Carrier.\-serial\-Version\-U\-I\-D = 1112122200\-L\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageCarrier_a9baff4617fbbc2df811eae214ec9980c}
+
+
+Definition at line 63 of file Message\-Carrier.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/chat/\hyperlink{MessageCarrier_8java}{Message\-Carrier.\-java}\end{DoxyCompactItemize}

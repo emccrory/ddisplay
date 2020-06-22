@@ -1,0 +1,199 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup}{\section{gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup}\index{gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group@{gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group}}
+}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a628fcdbe99086050bfb9330f5884885d}{Display\-Button\-Group} (final \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} display)
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_aff590ec2454274430d3d1d4ccb4e3908}{set\-Action\-Listener} (final Action\-Listener L)
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a003106629408dbb253941e2fcc4f072f}{Display\-Button\-Group} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_aea209fc7486f839c17551ea5d126c8b4}{add} (final \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton}{D\-D\-Button} b)
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a2fdcfdeab05400e40eafe6f0afbd254b}{action\-Performed} (Action\-Event ev)
+\item 
+\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a26958c7d02d984388afdce9bb0fddd66}{get\-Display} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a5894e1f01e08a0b5f57589eeffd53367}{disable\-All} (final Object object)
+\item 
+synchronized void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a75da48ccd352d5f4f2fcc59dfabee189}{enable\-All} ()
+\item 
+int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_ad5a3d425e222f388ee90114f83307eeb}{get\-Num\-Buttons} ()
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton}{D\-D\-Button} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a4199ff481f806c60516df3447823079a}{get\-A\-Button} (final int index)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A simple implementation of a button group, assuming buttons of type D\-D\-Button, which shows buttons as selected for a specific Display
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 24 of file Display\-Button\-Group.\-java.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a628fcdbe99086050bfb9330f5884885d}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}!Display\-Button\-Group@{Display\-Button\-Group}}
+\index{Display\-Button\-Group@{Display\-Button\-Group}!gov::fnal::ppd::dd::util::DisplayButtonGroup@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}}
+\subsubsection[{Display\-Button\-Group}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group.\-Display\-Button\-Group (
+\begin{DoxyParamCaption}
+\item[{final {\bf Display}}]{display}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a628fcdbe99086050bfb9330f5884885d}
+
+\begin{DoxyParams}{Parameters}
+{\em display} & The Display that owns these buttons \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 37 of file Display\-Button\-Group.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a003106629408dbb253941e2fcc4f072f}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}!Display\-Button\-Group@{Display\-Button\-Group}}
+\index{Display\-Button\-Group@{Display\-Button\-Group}!gov::fnal::ppd::dd::util::DisplayButtonGroup@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}}
+\subsubsection[{Display\-Button\-Group}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group.\-Display\-Button\-Group (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a003106629408dbb253941e2fcc4f072f}
+Create a group 
+
+Definition at line 52 of file Display\-Button\-Group.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a2fdcfdeab05400e40eafe6f0afbd254b}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}!action\-Performed@{action\-Performed}}
+\index{action\-Performed@{action\-Performed}!gov::fnal::ppd::dd::util::DisplayButtonGroup@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}}
+\subsubsection[{action\-Performed}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group.\-action\-Performed (
+\begin{DoxyParamCaption}
+\item[{Action\-Event}]{ev}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a2fdcfdeab05400e40eafe6f0afbd254b}
+
+
+Definition at line 91 of file Display\-Button\-Group.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_aea209fc7486f839c17551ea5d126c8b4}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}!add@{add}}
+\index{add@{add}!gov::fnal::ppd::dd::util::DisplayButtonGroup@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}}
+\subsubsection[{add}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group.\-add (
+\begin{DoxyParamCaption}
+\item[{final {\bf D\-D\-Button}}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_aea209fc7486f839c17551ea5d126c8b4}
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The My\-Button to add to this button group \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 83 of file Display\-Button\-Group.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a5894e1f01e08a0b5f57589eeffd53367}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}!disable\-All@{disable\-All}}
+\index{disable\-All@{disable\-All}!gov::fnal::ppd::dd::util::DisplayButtonGroup@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}}
+\subsubsection[{disable\-All}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group.\-disable\-All (
+\begin{DoxyParamCaption}
+\item[{final Object}]{object}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a5894e1f01e08a0b5f57589eeffd53367}
+
+\begin{DoxyParams}{Parameters}
+{\em object} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 112 of file Display\-Button\-Group.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a75da48ccd352d5f4f2fcc59dfabee189}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}!enable\-All@{enable\-All}}
+\index{enable\-All@{enable\-All}!gov::fnal::ppd::dd::util::DisplayButtonGroup@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}}
+\subsubsection[{enable\-All}]{\setlength{\rightskip}{0pt plus 5cm}synchronized void gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group.\-enable\-All (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a75da48ccd352d5f4f2fcc59dfabee189}
+
+
+Definition at line 134 of file Display\-Button\-Group.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a4199ff481f806c60516df3447823079a}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}!get\-A\-Button@{get\-A\-Button}}
+\index{get\-A\-Button@{get\-A\-Button}!gov::fnal::ppd::dd::util::DisplayButtonGroup@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}}
+\subsubsection[{get\-A\-Button}]{\setlength{\rightskip}{0pt plus 5cm}{\bf D\-D\-Button} gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group.\-get\-A\-Button (
+\begin{DoxyParamCaption}
+\item[{final int}]{index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a4199ff481f806c60516df3447823079a}
+
+\begin{DoxyParams}{Parameters}
+{\em index} & The button to return \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A particular button 
+\end{DoxyReturn}
+
+
+Definition at line 157 of file Display\-Button\-Group.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a26958c7d02d984388afdce9bb0fddd66}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}!get\-Display@{get\-Display}}
+\index{get\-Display@{get\-Display}!gov::fnal::ppd::dd::util::DisplayButtonGroup@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}}
+\subsubsection[{get\-Display}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Display} gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group.\-get\-Display (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_a26958c7d02d984388afdce9bb0fddd66}
+\begin{DoxyReturn}{Returns}
+The Display that owns this Button Group 
+\end{DoxyReturn}
+
+
+Definition at line 105 of file Display\-Button\-Group.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_ad5a3d425e222f388ee90114f83307eeb}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}!get\-Num\-Buttons@{get\-Num\-Buttons}}
+\index{get\-Num\-Buttons@{get\-Num\-Buttons}!gov::fnal::ppd::dd::util::DisplayButtonGroup@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}}
+\subsubsection[{get\-Num\-Buttons}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group.\-get\-Num\-Buttons (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_ad5a3d425e222f388ee90114f83307eeb}
+\begin{DoxyReturn}{Returns}
+The number of buttons in this group 
+\end{DoxyReturn}
+
+
+Definition at line 146 of file Display\-Button\-Group.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_aff590ec2454274430d3d1d4ccb4e3908}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}!set\-Action\-Listener@{set\-Action\-Listener}}
+\index{set\-Action\-Listener@{set\-Action\-Listener}!gov::fnal::ppd::dd::util::DisplayButtonGroup@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Display\-Button\-Group}}
+\subsubsection[{set\-Action\-Listener}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-util.\-Display\-Button\-Group.\-set\-Action\-Listener (
+\begin{DoxyParamCaption}
+\item[{final Action\-Listener}]{L}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_aff590ec2454274430d3d1d4ccb4e3908}
+
+\begin{DoxyParams}{Parameters}
+{\em L} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 45 of file Display\-Button\-Group.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/util/\hyperlink{DisplayButtonGroup_8java}{Display\-Button\-Group.\-java}\end{DoxyCompactItemize}

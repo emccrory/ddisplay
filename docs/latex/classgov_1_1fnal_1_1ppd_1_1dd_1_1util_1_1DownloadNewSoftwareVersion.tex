@@ -1,0 +1,93 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion}{\section{gov.\-fnal.\-ppd.\-dd.\-util.\-Download\-New\-Software\-Version Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion}\index{gov.\-fnal.\-ppd.\-dd.\-util.\-Download\-New\-Software\-Version@{gov.\-fnal.\-ppd.\-dd.\-util.\-Download\-New\-Software\-Version}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion_a9a66f120b2ba0510d7b7972de80da51f}{Download\-New\-Software\-Version} (String version)
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion_a52e23aa564f9a29136d2e4b60205514e}{has\-Succeeded} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion_a2e54ce8c9ddc405b08e518931c9544e6}{main} (String\mbox{[}$\,$\mbox{]} args)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion_ab4dfef8f6d3204b58e58d82e514324b0}{failed\-Once} = false
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Download a new version of the software from the Dynamic Displays web server.
+
+After a few months of using this class to do the task at hand, we see weird problems, possibly related to changing the Java runtime environment while the display is running. The Linux startup script will check for updates, so it was decided to simply exit the program and let it restart.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 37 of file Download\-New\-Software\-Version.\-java.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion_a9a66f120b2ba0510d7b7972de80da51f}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Download\-New\-Software\-Version@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Download\-New\-Software\-Version}!Download\-New\-Software\-Version@{Download\-New\-Software\-Version}}
+\index{Download\-New\-Software\-Version@{Download\-New\-Software\-Version}!gov::fnal::ppd::dd::util::DownloadNewSoftwareVersion@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Download\-New\-Software\-Version}}
+\subsubsection[{Download\-New\-Software\-Version}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-util.\-Download\-New\-Software\-Version.\-Download\-New\-Software\-Version (
+\begin{DoxyParamCaption}
+\item[{String}]{version}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion_a9a66f120b2ba0510d7b7972de80da51f}
+
+
+Definition at line 76 of file Download\-New\-Software\-Version.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion_a52e23aa564f9a29136d2e4b60205514e}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Download\-New\-Software\-Version@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Download\-New\-Software\-Version}!has\-Succeeded@{has\-Succeeded}}
+\index{has\-Succeeded@{has\-Succeeded}!gov::fnal::ppd::dd::util::DownloadNewSoftwareVersion@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Download\-New\-Software\-Version}}
+\subsubsection[{has\-Succeeded}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-util.\-Download\-New\-Software\-Version.\-has\-Succeeded (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion_a52e23aa564f9a29136d2e4b60205514e}
+Did the process of grabbing the new Z\-I\-P file, unpacking it and (on Linux) renaming the folders succeed?
+
+\begin{DoxyReturn}{Returns}
+Did it succeed? 
+\end{DoxyReturn}
+
+
+Definition at line 121 of file Download\-New\-Software\-Version.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion_a2e54ce8c9ddc405b08e518931c9544e6}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Download\-New\-Software\-Version@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Download\-New\-Software\-Version}!main@{main}}
+\index{main@{main}!gov::fnal::ppd::dd::util::DownloadNewSoftwareVersion@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Download\-New\-Software\-Version}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-util.\-Download\-New\-Software\-Version.\-main (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion_a2e54ce8c9ddc405b08e518931c9544e6}
+
+
+Definition at line 58 of file Download\-New\-Software\-Version.\-java.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion_ab4dfef8f6d3204b58e58d82e514324b0}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Download\-New\-Software\-Version@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Download\-New\-Software\-Version}!failed\-Once@{failed\-Once}}
+\index{failed\-Once@{failed\-Once}!gov::fnal::ppd::dd::util::DownloadNewSoftwareVersion@{gov\-::fnal\-::ppd\-::dd\-::util\-::\-Download\-New\-Software\-Version}}
+\subsubsection[{failed\-Once}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-util.\-Download\-New\-Software\-Version.\-failed\-Once = false\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DownloadNewSoftwareVersion_ab4dfef8f6d3204b58e58d82e514324b0}
+
+
+Definition at line 39 of file Download\-New\-Software\-Version.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/util/\hyperlink{DownloadNewSoftwareVersion_8java}{Download\-New\-Software\-Version.\-java}\end{DoxyCompactItemize}
