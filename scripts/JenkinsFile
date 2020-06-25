@@ -5,7 +5,7 @@ timestamps {
   node () {
 
 	stage ('DynamicDisplaysSuite - Checkout') {
- 	  checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://cdcvs.fnal.gov/projects/roc-dynamicdisplays']]]) 
+ 	  checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/emccrory/ddisplay.git']]]) 
 	}
 
 
