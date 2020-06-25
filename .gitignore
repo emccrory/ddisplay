@@ -5,6 +5,8 @@
 *.exe
 *.o
 *.so
+DynamicDisplays/bin/*
+*.class
  
 # Packages #
 ############
@@ -63,3 +65,6 @@ symmetry.txt
 merge.txt
 doc/latex
 
+/.classpath
+/.project
+/.settings/

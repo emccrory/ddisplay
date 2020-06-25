@@ -2,6 +2,7 @@ package gov.fnal.ppd.dd.util.nonguiUtils;
 
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -14,7 +15,7 @@ import java.util.Properties;
  */
 public class PropertiesFile {
 	private static Properties	prop			= new Properties();
-	private final static String	PROPERTY_FILE	= System.getProperty("user.dir") + "/config/config.properties";
+	private final static String	PROPERTY_FILE	= System.getProperty("user.dir") + "config" + File.separator + "config.properties";
 
 	/**
 	 * The ways to try to position and full-screen the browser

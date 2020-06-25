@@ -57,6 +57,7 @@ public class VersionInformation implements Serializable {
 
 	private static final long	serialVersionUID	= 667424596967348921L;
 	private static final String	FILE_NAME;
+	private static final String	LOCAL_FILE_NAME;
 	private static final String	WEB_FILE_NAME;
 
 	static {
@@ -65,7 +66,8 @@ public class VersionInformation implements Serializable {
 		} else {
 			FILE_NAME = "versionInformation.dat";
 		}
-		WEB_FILE_NAME = getFullURLPrefix() + File.pathSeparator + FILE_NAME;
+		WEB_FILE_NAME = getFullURLPrefix() + File.separator + FILE_NAME;
+		LOCAL_FILE_NAME = "config" + File.separator + FILE_NAME;
 	}
 
 	/**
@@ -275,10 +277,10 @@ public class VersionInformation implements Serializable {
 	 */
 	public static VersionInformation getVersionInformation() {
 		try {
-			InputStream in = new FileInputStream(FILE_NAME);
+			InputStream in = new FileInputStream(LOCAL_FILE_NAME);
 			Object read = null;
 			if (AS_XML) {
-				byte[] b = Files.readAllBytes(Paths.get(FILE_NAME));
+				byte[] b = Files.readAllBytes(Paths.get(LOCAL_FILE_NAME));
 				read = MyXMLMarshaller.unmarshall(VersionInformation.class, new String(b));
 			} else {
 				ObjectInputStream sInput = new ObjectInputStream(in);
@@ -293,7 +295,7 @@ public class VersionInformation implements Serializable {
 					+ ". Returning a meaningless object.");
 
 		} catch (Exception e) {
-			System.err.println("Cannot find the version information file, " + FILE_NAME);
+			System.err.println("Cannot find the version information file, " + LOCAL_FILE_NAME);
 			e.printStackTrace();
 		}
 
