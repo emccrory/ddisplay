@@ -293,7 +293,7 @@ public class VersionInformation implements Serializable {
 					+ ". Returning a meaningless object.");
 
 		} catch (Exception e) {
-			System.err.println("Funny business when reading " + FILE_NAME);
+			System.err.println("Cannot find the version information file, " + FILE_NAME);
 			e.printStackTrace();
 		}
 
