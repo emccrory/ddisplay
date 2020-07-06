@@ -26,5 +26,12 @@ timestamps {
 		mvn -B test
 		"""
 	}
+	
+	stage ('Rudimentary Run Test Linux') {
+		sh """
+		cd DynamicDisplays
+		. ./setupJars.sh
+		java gov.fnal.ppd.dd.util.JavaVersion
+		"""
   }
  }
