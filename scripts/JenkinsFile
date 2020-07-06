@@ -36,12 +36,11 @@ timestamps {
 		java gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion
 		
 		echo "Testing that the PropertiesFile class runs"
-		CONFIG="../config"
-		cp -p $CONFIG/config.properties $CONFIG/config.properties_hold
+		cp -p ../config/config.properties ../config/config.properties_hold
 		java gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile
-		ls -l $CONFIG/config.properties $CONFIG/config.properties_hold
-		rm $CONFIG/config.properties 
-		mv $CONFIG/config.properties_hold $CONFIG/config.properties
+		ls -l ../config/config.properties ../config/config.properties_hold
+		rm ../config/config.properties 
+		mv ../config/config.properties_hold ../config/config.properties
 		"""
 	}
   }

@@ -3,6 +3,7 @@ package gov.fnal.ppd.dd.util.version;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -61,8 +62,8 @@ public class VersionInformation implements Serializable {
 
 	private static final long serialVersionUID = 667424596967348921L;
 	private static final String FILE_NAME;
-	private static final String LOCAL_FILE_NAME;
 	private static final String WEB_FILE_NAME;
+	private static String LOCAL_FILE_NAME;
 
 	static {
 		if (AS_XML) {
@@ -72,6 +73,18 @@ public class VersionInformation implements Serializable {
 		}
 		WEB_FILE_NAME = getFullURLPrefix() + File.separator + FILE_NAME;
 		LOCAL_FILE_NAME = "config" + File.separator + FILE_NAME;
+		File t = new File(LOCAL_FILE_NAME);
+		if (!t.exists()) {
+			LOCAL_FILE_NAME = ".." + File.separator + "config" + File.separator + FILE_NAME;
+			t = new File(LOCAL_FILE_NAME);
+			if (!t.exists()) {
+				printlnErr(VersionInformation.class,
+						"Cannot find the local version information file.  Tried:\n\t" + getFullURLPrefix()
+								+ File.separator + FILE_NAME + " and \n\t" + ".." + File.separator + "config"
+								+ File.separator + FILE_NAME);
+				System.exit(-1);
+			}
+		}
 	}
 
 	/**
@@ -519,7 +532,8 @@ public class VersionInformation implements Serializable {
 			break;
 
 		case 1:
-			// WRITE to disk - ONLY FOR TESTING (it sets the version number to 4.x.x)
+			// WRITE to disk - ONLY FOR TESTING (it sets the version number to
+			// 4.x.x)
 			System.out.println("First, reading version information from the local disk");
 			vi = getVersionInformation();
 			flav = FLAVOR.TEST;
