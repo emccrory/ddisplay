@@ -7,15 +7,17 @@ timestamps {
 	}
 
 	stage ('Build') {
-        steps {
-           sh 'mvn -B -DskipTests clean package' 
-        }
+		sh """
+		cd DynamicDisplays
+		mvn -B -DskipTests clean package
+		""" 
 	}
 	
 	stage ('Unit Tests') {
-		steps {
-			sh 'mvn test'
-		}
+		sh """
+		cd DynamicDisplays
+		sh 'mvn test'
+		"""
 	}
   }
  }
