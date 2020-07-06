@@ -15,13 +15,16 @@ getArray() {
     done < $1
 }
 
-getArray "$HOME/keystore/credentials.txt"
+CREDENTIALS="$HOME/keystore/credentials.txt"
+if [ -e $CREDENTIALS ]; then
+	getArray $CREDENTIALS
 
-export databaseServer=${array[0]}:${array[1]}
-export databaseName=${array[2]}
-export databaseUsername=${array[3]}
-export databasePassword=${array[4]}
+	export databaseServer=${array[0]}:${array[1]}
+	export databaseName=${array[2]}
+	export databaseUsername=${array[3]}
+	export databasePassword=${array[4]}
 
-# echo $databaseServer $databaseUsername $databasePassword 
+	# echo $databaseServer $databaseUsername $databasePassword 
+fi
 
 export PATH=$PATH:/Applications/Firefox.app/Contents/MacOS
