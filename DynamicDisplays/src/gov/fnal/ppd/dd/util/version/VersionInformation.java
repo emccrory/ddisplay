@@ -36,16 +36,20 @@ import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 /**
- * Utility class that reads and writes the current version information on this project. It is stored as a streamed object both
- * locally and on the web server.
+ * Utility class that reads and writes the current version information on this
+ * project. It is stored as a streamed object both locally and on the web
+ * server.
  * 
  * Rewrite to have all of this in the database **AND** in a local file.
  * 
- * TODO - This needs to be saved as an XML document, not a serialized Java object
+ * TODO - This needs to be saved as an XML document, not a serialized Java
+ * object
  * 
- * The GIT hash code cannot be part of this class. If we were to create a new "version number" and we want this file to represent
- * the current version number of the repository when a client machine clones the repository, we won't know the new GIT hash code to
- * put into this file until this file is saved and committed to GIT.
+ * The GIT hash code cannot be part of this class. If we were to create a new
+ * "version number" and we want this file to represent the current version
+ * number of the repository when a client machine clones the repository, we
+ * won't know the new GIT hash code to put into this file until this file is
+ * saved and committed to GIT.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -55,10 +59,10 @@ public class VersionInformation implements Serializable {
 
 	private static boolean AS_XML = true;
 
-	private static final long	serialVersionUID	= 667424596967348921L;
-	private static final String	FILE_NAME;
-	private static final String	LOCAL_FILE_NAME;
-	private static final String	WEB_FILE_NAME;
+	private static final long serialVersionUID = 667424596967348921L;
+	private static final String FILE_NAME;
+	private static final String LOCAL_FILE_NAME;
+	private static final String WEB_FILE_NAME;
 
 	static {
 		if (AS_XML) {
@@ -78,27 +82,30 @@ public class VersionInformation implements Serializable {
 	 */
 	public static enum FLAVOR {
 		/**
-		 * The first level of the disposition and the default for all new versions.
+		 * The first level of the disposition and the default for all new
+		 * versions.
 		 */
 		DEVELOPMENT,
 
 		/**
-		 * The first level of the disposition that could be used in the field, for testing
+		 * The first level of the disposition that could be used in the field,
+		 * for testing
 		 */
 		TEST,
 
 		/**
-		 * The final version, which has been "thoroughly tested" (I am being optimistic here)
+		 * The final version, which has been "thoroughly tested" (I am being
+		 * optimistic here)
 		 */
 		PRODUCTION
 	};
 
 	// Attributes
-	private long	timeStamp			= 0L;
-	private String	versionDescription	= null;
-	private int[]	dotVersion			= { -1, -1, -1 };
-	private FLAVOR	disposition			= FLAVOR.PRODUCTION;
-	private String	versionString		= null;
+	private long timeStamp = 0L;
+	private String versionDescription = null;
+	private int[] dotVersion = { -1, -1, -1 };
+	private FLAVOR disposition = FLAVOR.PRODUCTION;
+	private String versionString = null;
 
 	/**
 	 * Create an empty instance in order to save a new one in persistent storage
@@ -273,7 +280,8 @@ public class VersionInformation implements Serializable {
 	}
 
 	/**
-	 * @return the most recent saved version of this persistent object from a file in the local file system
+	 * @return the most recent saved version of this persistent object from a
+	 *         file in the local file system
 	 */
 	public static VersionInformation getVersionInformation() {
 		try {
@@ -304,7 +312,8 @@ public class VersionInformation implements Serializable {
 	}
 
 	/**
-	 * @return the most recent save of this persistent object as stored on the project's web site
+	 * @return the most recent save of this persistent object as stored on the
+	 *         project's web site
 	 */
 	public static VersionInformation getWebVersionInformation() {
 		try {
@@ -351,7 +360,8 @@ public class VersionInformation implements Serializable {
 	/**
 	 * @param f
 	 *            The sort of version to retrieve
-	 * @return the most recent save of this persistent object as stored on the project's web site
+	 * @return the most recent save of this persistent object as stored on the
+	 *         project's web site
 	 */
 	public static VersionInformation getDBVersionInformation(FLAVOR f) {
 		assert(f != null);
@@ -362,7 +372,8 @@ public class VersionInformation implements Serializable {
 			connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
-				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+				try (Statement stmt = connection.createStatement();
+						ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 
 					String whereClause = "";
 					switch (f) {
@@ -397,7 +408,8 @@ public class VersionInformation implements Serializable {
 								vi.setVersionVal(2, Integer.parseInt(vs[2]));
 								vi.setVersionDescription(description);
 
-							} while (rs.next()); // Really, there should only be one
+							} while (rs.next()); // Really, there should only be
+													// one
 						}
 					}
 				}
@@ -447,15 +459,16 @@ public class VersionInformation implements Serializable {
 			connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
-				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+				try (Statement stmt = connection.createStatement();
+						ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 
 					Calendar c = new GregorianCalendar();
 					c.setTimeInMillis(vi.getTimeStamp());
 					c.setTimeZone(TimeZone.getDefault());
 
 					String dateString = c.get(Calendar.YEAR) + "-" + (1 + c.get(Calendar.MONTH)) + "-"
-							+ c.get(Calendar.DAY_OF_MONTH) + " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":"
-							+ c.get(Calendar.SECOND);
+							+ c.get(Calendar.DAY_OF_MONTH) + " " + c.get(Calendar.HOUR_OF_DAY) + ":"
+							+ c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
 
 					query = "INSERT INTO GitHashDecode (HashCode, HashDate, Flavor, Version, Description) VALUES (" + //
 							"'" + gitHashCode + "', " + //
@@ -475,7 +488,8 @@ public class VersionInformation implements Serializable {
 	}
 
 	public String toString() {
-		return "[" + getVersionString() + ", " + timeStamp + ", " + getDisposition() + "]\n" + versionDescription;
+		return "[" + getVersionString() + ", " + timeStamp + ", " + getDisposition()
+				+ "]\nDescription of the commit for this version number:\n" + versionDescription;
 	}
 
 	/**
@@ -501,11 +515,11 @@ public class VersionInformation implements Serializable {
 			System.out.println("Reading version information from the local disk");
 			vi = getVersionInformation();
 			System.out.println(vi);
-			System.out.println(new Date(vi.getTimeStamp()));
+			System.out.println("Date of this version: " + new Date(vi.getTimeStamp()));
 			break;
 
 		case 1:
-			// WRITE to disk
+			// WRITE to disk - ONLY FOR TESTING (it sets the version number to 4.x.x)
 			System.out.println("First, reading version information from the local disk");
 			vi = getVersionInformation();
 			flav = FLAVOR.TEST;
@@ -530,7 +544,7 @@ public class VersionInformation implements Serializable {
 			break;
 
 		case 3:
-			// WRITE to database
+			// WRITE to database - FOR TESTING ONLY
 			System.out.println("First, reading version information from the local disk");
 			vi = getVersionInformation();
 
@@ -574,7 +588,8 @@ public class VersionInformation implements Serializable {
 		// For saving ...
 		// VersionInformation vi = new VersionInformation();
 		// vi.setTimeStamp(System.currentTimeMillis());
-		// vi.setVersionDescription("Version description is here. Blah, blah, blah.");
+		// vi.setVersionDescription("Version description is here. Blah, blah,
+		// blah.");
 		// vi.setVersionVal(0, 2);
 		// vi.setVersionVal(1, 1);
 		// vi.setVersionVal(2, 10);
