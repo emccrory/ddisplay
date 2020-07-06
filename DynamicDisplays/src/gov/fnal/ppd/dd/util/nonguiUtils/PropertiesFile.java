@@ -15,7 +15,7 @@ import java.util.Properties;
  */
 public class PropertiesFile {
 	private static Properties	prop			= new Properties();
-	private final static String	PROPERTY_FILE	= System.getProperty("user.dir") + "config" + File.separator + "config.properties";
+	private final static String	PROPERTY_FILE	= System.getProperty("user.dir") + File.separator + "config" + File.separator + "config.properties";
 
 	/**
 	 * The ways to try to position and full-screen the browser
