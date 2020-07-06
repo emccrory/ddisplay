@@ -23,7 +23,7 @@ timestamps {
 	stage ('Unit Tests') {
 		sh """
 		cd DynamicDisplays
-		sh 'mvn test'
+		mvn -B test
 		"""
 	}
   }
