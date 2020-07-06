@@ -4,7 +4,9 @@ import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
@@ -14,8 +16,26 @@ import java.util.Properties;
  *
  */
 public class PropertiesFile {
-	private static Properties	prop			= new Properties();
-	private final static String	PROPERTY_FILE	= System.getProperty("user.dir") + File.separator + "config" + File.separator + "config.properties";
+	private static Properties prop = new Properties();
+	private static String PROPERTY_FILE;
+
+	static {
+		PROPERTY_FILE = System.getProperty("user.dir") + File.separator + "config" + File.separator
+				+ "config.properties";
+		File t = new File(PROPERTY_FILE);
+		if (!t.exists()) {
+			PROPERTY_FILE = System.getProperty("user.dir") + File.separator + ".." + File.separator + "config"
+					+ File.separator + "config.properties";
+			t = new File(PROPERTY_FILE);
+			if ( !t.exists() ) {
+				printlnErr(PropertiesFile.class, "Connot find the properties configuration file.  Tried:\n\"" +
+						System.getProperty("user.dir") + File.separator + "config" + File.separator
+						+ "config.properties" + "\" and \n\t" +System.getProperty("user.dir") + File.separator + ".." + File.separator + "config"
+						+ File.separator + "config.properties");
+				System.exit(-1);
+			}
+		}
+	}
 
 	/**
 	 * The ways to try to position and full-screen the browser
@@ -26,22 +46,18 @@ public class PropertiesFile {
 		/**
 		 * Use the JavaScript "maximize()" function
 		 */
-		DirectPositioning,
-		/**
-		 * 
-		 */
-		UseHiddenButton,
-		/**
-		 * 
-		 */
-		ChangeIframe,
-		/**
-		 * 
-		 */
-		PressF11,
-		/**
-		 * 
-		 */
+		DirectPositioning, /**
+							 * 
+							 */
+		UseHiddenButton, /**
+							 * 
+							 */
+		ChangeIframe, /**
+						 * 
+						 */
+		PressF11, /**
+					 * 
+					 */
 		DoNothing
 	}
 
@@ -52,7 +68,7 @@ public class PropertiesFile {
 		writePropertiesFile("Testing");
 		readPropertiesFile();
 	}
-	
+
 	public static void reset() {
 		prop = new Properties();
 	}
@@ -61,7 +77,9 @@ public class PropertiesFile {
 	public static void readPropertiesFile() {
 		try (InputStream is = new FileInputStream(PROPERTY_FILE)) {
 			prop.load(is);
-		} catch (Exception e) {
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -70,7 +88,9 @@ public class PropertiesFile {
 	public static void writePropertiesFile(final String comment) {
 		try (OutputStream output = new FileOutputStream(PROPERTY_FILE)) {
 			prop.store(output, comment);
-		} catch (Exception e) {
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -123,7 +143,8 @@ public class PropertiesFile {
 		try {
 			return Integer.parseInt(val);
 		} catch (NumberFormatException e) {
-			printlnErr(PropertiesFile.class, "Problem interpreting the value of '" + theProperty + "' (" + val + ") - " + e.getMessage());
+			printlnErr(PropertiesFile.class,
+					"Problem interpreting the value of '" + theProperty + "' (" + val + ") - " + e.getMessage());
 		}
 		return theDefault;
 	}
