@@ -33,5 +33,6 @@ timestamps {
 		. ./setupJars.sh
 		java gov.fnal.ppd.dd.util.JavaVersion
 		"""
+	}
   }
  }
