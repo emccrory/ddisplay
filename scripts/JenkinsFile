@@ -31,7 +31,7 @@ timestamps {
 		sh """
 		cd DynamicDisplays
 		. ./setupJars.sh
-		java gov.fnal.ppd.dd.util.JavaVersion
+		java gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion
 		"""
 	}
   }
