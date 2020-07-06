@@ -6,10 +6,17 @@ timestamps {
  	  checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/emccrory/ddisplay.git']]]) 
 	}
 
+	stage ('Validate') {
+		sh """
+		cd DynamicDisplays
+		mvn -B -DskipTests clean validate
+		"""
+	}
+	
 	stage ('Build') {
 		sh """
 		cd DynamicDisplays
-		mvn -B -DskipTests clean package
+		mvn -B -DskipTests clean compile
 		""" 
 	}
 	
