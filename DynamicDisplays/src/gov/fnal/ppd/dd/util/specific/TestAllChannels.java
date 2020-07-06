@@ -11,7 +11,7 @@ import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.nonguiUtils.URLTest;
+import gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL;
 
 /**
  * Test all the channels in the system so we can remove invalid channels from the system
@@ -41,7 +41,7 @@ public class TestAllChannels {
 					continue;
 				if ((numTested++) % 25 == 0)
 					System.out.println("... testing " + numTested);
-				if (!URLTest.isValid(u)) {
+				if (!VerifyURL.isValid(u)) {
 					Channel chan = (Channel) SC;
 					numBad++;
 					System.out.println("     " + chan.getNumber() + " (" + chan.getName() + ") [" + u + "]");
