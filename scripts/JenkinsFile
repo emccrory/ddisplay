@@ -6,17 +6,41 @@ timestamps {
  	  checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/emccrory/ddisplay.git']]]) 
 	}
 
+	stage ('Validate') {
+		sh """
+		cd DynamicDisplays
+		mvn -B -DskipTests clean validate
+		"""
+	}
+	
 	stage ('Build') {
 		sh """
 		cd DynamicDisplays
-		mvn -B -DskipTests clean package
+		mvn -B -DskipTests clean compile
 		""" 
 	}
 	
 	stage ('Unit Tests') {
 		sh """
 		cd DynamicDisplays
-		sh 'mvn test'
+		mvn -B test
+		"""
+	}
+	
+	stage ('Rudimentary Run Test Linux') {
+		sh """
+		cd DynamicDisplays
+		. ./setupJars.sh
+		
+		echo "Testing that the JavaVersion class runs"
+		java gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion
+		
+		echo "Testing that the PropertiesFile class runs"
+		cp -p ../config/config.properties ../config/config.properties_hold
+		java gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile
+		ls -l ../config/config.properties ../config/config.properties_hold
+		rm ../config/config.properties 
+		mv ../config/config.properties_hold ../config/config.properties
 		"""
 	}
   }

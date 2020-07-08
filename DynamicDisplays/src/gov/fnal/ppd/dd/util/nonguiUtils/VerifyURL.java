@@ -15,11 +15,11 @@ import java.net.URL;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *
  */
-public class URLTest {
+public class VerifyURL {
 
 	private static String whyFailed = null;
 
-	private URLTest() {
+	private VerifyURL() {
 		// Only the static method isValid is needed
 	}
 

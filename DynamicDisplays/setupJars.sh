@@ -1,4 +1,4 @@
-export CLASSPATH=bin:lib/mysql-connector-java-5.1.27.jar:lib/slf4j-api-1.5.8.jar:lib/slf4j-log4j12-1.5.8.jar:lib/selenium/selenium-server-standalone-3.141.59.jar
+export CLASSPATH=bin:target/classes/:lib/mysql-connector-java-5.1.27.jar:lib/slf4j-api-1.5.8.jar:lib/slf4j-log4j12-1.5.8.jar:lib/selenium/selenium-server-standalone-3.141.59.jar
 
 # Backup database server is irrelevant
 export databaseServer="nothing.fnal.gov"
@@ -15,13 +15,16 @@ getArray() {
     done < $1
 }
 
-getArray "$HOME/keystore/credentials.txt"
+CREDENTIALS="$HOME/keystore/credentials.txt"
+if [ -e $CREDENTIALS ]; then
+	getArray $CREDENTIALS
 
-export databaseServer=${array[0]}:${array[1]}
-export databaseName=${array[2]}
-export databaseUsername=${array[3]}
-export databasePassword=${array[4]}
+	export databaseServer=${array[0]}:${array[1]}
+	export databaseName=${array[2]}
+	export databaseUsername=${array[3]}
+	export databasePassword=${array[4]}
 
-# echo $databaseServer $databaseUsername $databasePassword 
+	# echo $databaseServer $databaseUsername $databasePassword 
+fi
 
 export PATH=$PATH:/Applications/Firefox.app/Contents/MacOS
