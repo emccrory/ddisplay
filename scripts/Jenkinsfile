@@ -1,22 +1,7 @@
-timestamps {
+pipeline {
+    agent any
 
-  node () {
-
-	stage ('Checkout') {
-	  // see https://www.jenkins.io/doc/pipeline/steps/workflow-scm-step/
- 	  checkout(
-		[ $class: 'GitSCM', 
-	  	  branches: [[name: '**']], 
-		  doGenerateSubmoduleConfigurations: false, 
-	  	  extensions: [], 
-		  submoduleCfg: [], 
-		  userRemoteConfigs: 
-		  [
-		    [credentialsId: '', url: 'https://github.com/emccrory/ddisplay.git']
-		  ]
-		]
-	    ) 
-	}
+    stages {
 
 	stage ('Validate') {
 		sh """
@@ -55,5 +40,5 @@ timestamps {
 		mv ../config/config.properties_hold ../config/config.properties
 		"""
 	}
-  }
+    }
  }
