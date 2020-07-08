@@ -3,7 +3,19 @@ timestamps {
   node () {
 
 	stage ('Checkout') {
- 	  checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/emccrory/ddisplay.git']]]) 
+	  // see https://www.jenkins.io/doc/pipeline/steps/workflow-scm-step/
+ 	  checkout(
+		[ $class: 'GitSCM', 
+	  	  branches: [[name: '**']], 
+		  doGenerateSubmoduleConfigurations: false, 
+	  	  extensions: [], 
+		  submoduleCfg: [], 
+		  userRemoteConfigs: 
+		  [
+		    [credentialsId: '', url: 'https://github.com/emccrory/ddisplay.git']
+		  ]
+		]
+	    ) 
 	}
 
 	stage ('Validate') {
