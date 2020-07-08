@@ -4,27 +4,34 @@ pipeline {
     stages {
 
 	stage ('Validate') {
+ 	    steps {
 		sh """
 		cd DynamicDisplays
 		mvn -B -DskipTests clean validate
 		"""
+	    }
 	}
 	
 	stage ('Build') {
+ 	    steps {
 		sh """
 		cd DynamicDisplays
 		mvn -B -DskipTests clean compile
 		""" 
+	    }
 	}
 	
 	stage ('Unit Tests') {
+ 	    steps {
 		sh """
 		cd DynamicDisplays
 		mvn -B test
 		"""
+	    }
 	}
 	
 	stage ('Rudimentary Run Test Linux') {
+ 	    steps {
 		sh """
 		cd DynamicDisplays
 		. ./setupJars.sh
@@ -39,6 +46,7 @@ pipeline {
 		rm ../config/config.properties 
 		mv ../config/config.properties_hold ../config/config.properties
 		"""
+	    }
 	}
     }
  }
