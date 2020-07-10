@@ -34,7 +34,7 @@ import gov.fnal.ppd.dd.util.guiUtils.JWhiteLabel;
 import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 
 /**
- * Create a tab that is specifically tailored to the use of the Docents (and tour guides) at the Lab.
+ * Create a tab that is specifically tailored for the use of the Docents (and tour guides) at the Lab.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -81,9 +81,6 @@ public class DocentGrid extends DetailedInformationGrid {
 						ChannelImage imageChannel = (ChannelImage) content;
 						String name = imageChannel.getName(); // This is the URL end
 						String url = getFullURLPrefix() + "/" + name;
-						// if (index++ % 10 == 0)
-						// System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): resizing " + index + " -- " +
-						// url);
 						DrawingPanel dp = new DrawingPanel(url, display.getPreferredHighlightColor());
 
 						url += "&color=" + colorString;
@@ -103,7 +100,7 @@ public class DocentGrid extends DetailedInformationGrid {
 
 						b.add(new JWhiteLabel(exp, 18.0f));
 						b.add(button);
-						// b.add(dp);
+
 						if (SHOW_IN_WINDOW) {
 							button.setFont(button.getFont().deriveFont(Font.PLAIN, 10.0f));
 							b.add(new JWhiteLabel(desc, Font.PLAIN, 11.0f));
@@ -113,7 +110,6 @@ public class DocentGrid extends DetailedInformationGrid {
 								BorderFactory.createLineBorder(display.getPreferredHighlightColor(), 2)));
 
 						button.addActionListener(display);
-
 						bg.add(button);
 
 						pictureButtonBox.add(b);

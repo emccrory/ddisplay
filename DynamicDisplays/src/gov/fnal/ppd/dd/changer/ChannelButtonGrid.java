@@ -150,36 +150,6 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	 * and it really is not necessary.
 	 */
 	public boolean hasSelectedChannel() {
-		// Object o1 = getComponent(0);
-		// if (o1 instanceof JPanel) {
-		// JPanel outer = (JPanel) o1;
-		// Object o2 = outer.getComponent(0); // This line fails with ArrayINdexOutOfBoundsException
-		// if (o2 instanceof JPanel) {
-		// JPanel expGrid = (JPanel) o2;
-		// for (Component C : expGrid.getComponents())
-		// if (C instanceof DDButton) {
-		// if (((DDButton) C).isSelected())
-		// return true;
-		// }
-		// } else if (o2 instanceof DDButton) {
-		// for (Component C : outer.getComponents())
-		// if (C instanceof DDButton) {
-		// if (((DDButton) C).isSelected())
-		// return true;
-		// }
-		// }
-		// } else if (o1 instanceof JScrollPane) {
-		// JViewport internal = (JViewport) ((JScrollPane) o1).getComponent(0);
-		// JPanel c0 = (JPanel) internal.getComponent(0);
-		// for (Component C : c0.getComponents())
-		// if (C instanceof Box) {
-		// JComponent c1 = (JComponent) ((Box) C).getComponent(0);
-		// if (c1 instanceof DDButton)
-		// if (((DDButton) c1).isSelected())
-		// return true;
-		// }
-		// }
-
 		return false;
 	}
 
@@ -198,23 +168,4 @@ public abstract class ChannelButtonGrid extends JPanel implements ActionListener
 	public DisplayButtonGroup getBg() {
 		return bg;
 	}
-
-	// public void addExitButton() {
-	// if (expGrid != null) {
-	// JButton exit = new JButton("Exit the GUI");
-	// exit.addActionListener(new ActionListener() {
-	//
-	// @Override
-	// public void actionPerformed(ActionEvent e) {
-	// if (JOptionPane.showConfirmDialog(expGrid, "Do you _really_ want to exit the Channel Selector Application?",
-	// "Exit?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-	// System.exit(0);
-	// }
-	// });
-	//
-	// Border bor = exit.getBorder();
-	// exit.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.RED, 10), bor));
-	// expGrid.add(exit);
-	// }
-	// }
 }

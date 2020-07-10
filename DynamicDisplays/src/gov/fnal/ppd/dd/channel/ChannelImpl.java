@@ -49,7 +49,7 @@ public class ChannelImpl implements Channel {
 		// .withChannelNumber(42)
 		// .build();
 
-		// Not the lack of ambiguity as to the meaning of the arguments, and that the order of the arguments is irrelevant as
+		// Note the lack of ambiguity as to the meaning of the arguments, and that the order of the arguments is irrelevant as
 		// long as the name is in the constructor and it ends with .build()
 		// (but the compiler will flag it most of the time if you get it wrong)
 

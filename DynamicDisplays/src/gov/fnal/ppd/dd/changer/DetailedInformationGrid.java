@@ -32,8 +32,6 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 
 	private float				FS;
 
-	// private int IS;
-
 	/**
 	 * @param display
 	 *            The Display for which these buttons relate

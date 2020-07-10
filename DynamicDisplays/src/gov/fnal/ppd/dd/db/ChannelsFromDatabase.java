@@ -405,7 +405,7 @@ public class ChannelsFromDatabase {
 		int count = 0;
 		try {
 
-			// Get all of the content for this display
+			// Get the "preferred" content for this display (stored in the table SimplifiedChannelChoice)
 			List<Integer> channels = new ArrayList<Integer>();
 			List<Integer> lists = new ArrayList<Integer>();
 			List<Integer> pictures = new ArrayList<Integer>();

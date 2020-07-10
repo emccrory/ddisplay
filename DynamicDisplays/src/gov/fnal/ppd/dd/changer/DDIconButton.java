@@ -8,7 +8,7 @@ import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 
 /**
- * Create a DDButtong that shows a thumbnail image, instead of text.
+ * Create a DDButton that shows a thumbnail image instead of text.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *

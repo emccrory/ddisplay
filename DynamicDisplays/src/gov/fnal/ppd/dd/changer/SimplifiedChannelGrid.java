@@ -24,7 +24,10 @@ import gov.fnal.ppd.dd.util.guiUtils.DrawingPanel;
 import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 
 /**
- * Create a button grid that contains all of the channels for this Display in the SimplifiedChannelChoice table.
+ * Create a button grid that contains all of the channels for this Display in the SimplifiedChannelChoice database table.
+ * 
+ * This is the table that specifies the channels to put on the tab that is created for each display in the system, 
+ * representing the channels that have been decided are the ones most likely to be shown on that display.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *

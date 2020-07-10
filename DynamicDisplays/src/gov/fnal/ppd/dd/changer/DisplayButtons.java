@@ -251,6 +251,13 @@ public class DisplayButtons extends JPanel {
 		}
 	}
 
+	/**
+	 * There are too many displays to show them all as buttons.  So we created this slider, based on JSlider,
+	 * to allow a user to select from that plethora of channels more easily.  Realistically, this is likely
+	 * not to be used: It is kind of ugly, and a smart user can handle a LOT of display buttons, and (finally)
+	 * no Dynamic Display location is likely to have nearly that many displays.  One could imagine, however,
+	 * that a controller that could change all the displays on site would have that many buttons.
+	 */
 	private void makeScreenGridSlider() {
 		buttonBox = Box.createVerticalBox();
 
