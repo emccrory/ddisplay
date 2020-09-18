@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1600462184634</timeStamp>
-    <versionDescription>No changes to the Java code.  Added a Jenkinsfile, and began construction of a template for a kickstart config file.</versionDescription>
-    <versionString>5.3.7</versionString>
+    <timeStamp>1600463649667</timeStamp>
+    <versionDescription>Restored some missing files.</versionDescription>
+    <versionString>5.3.8</versionString>
 </versionInformation>
