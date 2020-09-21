@@ -100,6 +100,7 @@ public class VersionInformationGUI extends JFrame {
 					System.out.println("No change in version information");
 					System.exit(-1);
 				} else {
+					
 					System.out.println("Accepted new version, " + newVI.getVersionString() + " with the description '" + newVI.getVersionDescription() + "'");
 					VersionInformation.saveVersionInformation(newVI);
 					System.exit(0);
@@ -227,46 +228,14 @@ public class VersionInformationGUI extends JFrame {
 
 	private Container getDateComponents() {
 		Box box = Box.createHorizontalBox();
-		box.add(Box.createRigidArea(new Dimension(10, 10)));
-		box.add(new JLabel("Time stamp: "));
-		final JRadioButton rb1 = new JRadioButton("Now");
-		rb1.setSelected(true);
-		final JRadioButton rb2 = new JRadioButton("No change");
-		rb2.setSelected(false);
-
+		box.add(new JLabel("Time of this action: "));
+		
 		Date d = new Date();
 		final JLabel timeStampChosen = new JLabel(" " + d + " ");
 		newVI.setTimeStamp(d.getTime());
-
-		ActionListener rbListener = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (rb1.isSelected()) {
-					Date d = new Date();
-					newVI.setTimeStamp(d.getTime());
-				} else if (rb2.isSelected()) {
-					newVI.setTimeStamp(oldVI.getTimeStamp());
-				}
-				timeStampChosen.setText("" + new Date(newVI.getTimeStamp()) + " ");
-			}
-		};
-		rb1.addActionListener(rbListener);
-		rb2.addActionListener(rbListener);
-
-		ButtonGroup timeGroup = new ButtonGroup();
-		timeGroup.add(rb1);
-		timeGroup.add(rb2);
-
-		box.add(rb1);
-		box.add(rb2);
-		box.add(Box.createRigidArea(new Dimension(10, 10)));
-		box.add(new JSeparator(JSeparator.VERTICAL));
+		
 		box.add(Box.createRigidArea(new Dimension(10, 10)));
 		box.add(timeStampChosen);
-		box.add(Box.createRigidArea(new Dimension(10, 10)));
-
-		box.add(Box.createHorizontalGlue());
 
 		box.setBorder(b());
 		box.setAlignmentX(LEFT_ALIGNMENT);
