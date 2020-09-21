@@ -37,20 +37,16 @@ import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 /**
- * Utility class that reads and writes the current version information on this
- * project. It is stored as a streamed object both locally and on the web
- * server.
+ * Utility class that reads and writes the current version information on this project. It is stored as a streamed object both
+ * locally and on the web server.
  * 
  * Rewrite to have all of this in the database **AND** in a local file.
  * 
- * TODO - This needs to be saved as an XML document, not a serialized Java
- * object
+ * Changed to be an XML document (not a serialized Java object).
  * 
- * The GIT hash code cannot be part of this class. If we were to create a new
- * "version number" and we want this file to represent the current version
- * number of the repository when a client machine clones the repository, we
- * won't know the new GIT hash code to put into this file until this file is
- * saved and committed to GIT.
+ * The GIT hash code cannot be part of this class. If we were to create a new "version number" and we want this file to represent
+ * the current version number of the repository when a client machine clones the repository, we won't know the new GIT hash code to
+ * put into this file until this file is saved and committed to GIT.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -58,12 +54,12 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 @XmlRootElement
 public class VersionInformation implements Serializable {
 
-	private static boolean AS_XML = true;
+	private static boolean		AS_XML				= true;
 
-	private static final long serialVersionUID = 667424596967348921L;
-	private static final String FILE_NAME;
-	private static final String WEB_FILE_NAME;
-	private static String LOCAL_FILE_NAME;
+	private static final long	serialVersionUID	= 667424596967348921L;
+	private static final String	FILE_NAME;
+	private static final String	WEB_FILE_NAME;
+	private static String		LOCAL_FILE_NAME;
 
 	static {
 		if (AS_XML) {
@@ -79,9 +75,8 @@ public class VersionInformation implements Serializable {
 			t = new File(LOCAL_FILE_NAME);
 			if (!t.exists()) {
 				printlnErr(VersionInformation.class,
-						"Cannot find the local version information file.  Tried:\n\t" + getFullURLPrefix()
-								+ File.separator + FILE_NAME + " and \n\t" + ".." + File.separator + "config"
-								+ File.separator + FILE_NAME);
+						"Cannot find the local version information file.  Tried:\n\t" + getFullURLPrefix() + File.separator
+								+ FILE_NAME + " and \n\t" + ".." + File.separator + "config" + File.separator + FILE_NAME);
 				System.exit(-1);
 			}
 		}
@@ -95,30 +90,27 @@ public class VersionInformation implements Serializable {
 	 */
 	public static enum FLAVOR {
 		/**
-		 * The first level of the disposition and the default for all new
-		 * versions.
+		 * The first level of the disposition and the default for all new versions.
 		 */
 		DEVELOPMENT,
 
 		/**
-		 * The first level of the disposition that could be used in the field,
-		 * for testing
+		 * The first level of the disposition that could be used in the field, for testing
 		 */
 		TEST,
 
 		/**
-		 * The final version, which has been "thoroughly tested" (I am being
-		 * optimistic here)
+		 * The final version, which has been "thoroughly tested" (I am being optimistic here)
 		 */
 		PRODUCTION
 	};
 
 	// Attributes
-	private long timeStamp = 0L;
-	private String versionDescription = null;
-	private int[] dotVersion = { -1, -1, -1 };
-	private FLAVOR disposition = FLAVOR.PRODUCTION;
-	private String versionString = null;
+	private long	timeStamp			= 0L;
+	private String	versionDescription	= null;
+	private int[]	dotVersion			= { -1, -1, -1 };
+	private FLAVOR	disposition			= FLAVOR.PRODUCTION;
+	private String	versionString		= null;
 
 	/**
 	 * Create an empty instance in order to save a new one in persistent storage
@@ -293,28 +285,20 @@ public class VersionInformation implements Serializable {
 	}
 
 	/**
-	 * @return the most recent saved version of this persistent object from a
-	 *         file in the local file system
+	 * @return the most recent saved version of this persistent object from a file in the local file system
 	 */
 	public static VersionInformation getVersionInformation() {
 		try {
-			InputStream in = new FileInputStream(LOCAL_FILE_NAME);
-			Object read = null;
-			if (AS_XML) {
-				byte[] b = Files.readAllBytes(Paths.get(LOCAL_FILE_NAME));
-				read = MyXMLMarshaller.unmarshall(VersionInformation.class, new String(b));
-			} else {
-				ObjectInputStream sInput = new ObjectInputStream(in);
-				read = sInput.readObject();
-				sInput.close();
-				sInput = null;
-			}
-			if (read instanceof VersionInformation) {
-				return (VersionInformation) read;
-			}
-			System.err.println("unexpectedly got an object of type " + read.getClass().getCanonicalName()
-					+ ". Returning a meaningless object.");
-
+			// if (AS_XML) {
+			byte[] b = Files.readAllBytes(Paths.get(LOCAL_FILE_NAME));
+			return (VersionInformation) MyXMLMarshaller.unmarshall(VersionInformation.class, new String(b));
+			// } else {
+			// InputStream in = new FileInputStream(LOCAL_FILE_NAME);
+			// ObjectInputStream sInput = new ObjectInputStream(in);
+			// read = sInput.readObject();
+			// sInput.close();
+			// sInput = null;
+			// }
 		} catch (Exception e) {
 			System.err.println("Cannot find the version information file, " + LOCAL_FILE_NAME);
 			e.printStackTrace();
@@ -325,8 +309,7 @@ public class VersionInformation implements Serializable {
 	}
 
 	/**
-	 * @return the most recent save of this persistent object as stored on the
-	 *         project's web site
+	 * @return the most recent save of this persistent object as stored on the project's web site
 	 */
 	public static VersionInformation getWebVersionInformation() {
 		try {
@@ -373,11 +356,10 @@ public class VersionInformation implements Serializable {
 	/**
 	 * @param f
 	 *            The sort of version to retrieve
-	 * @return the most recent save of this persistent object as stored on the
-	 *         project's web site
+	 * @return the most recent save of this persistent object as stored on the project's web site
 	 */
 	public static VersionInformation getDBVersionInformation(FLAVOR f) {
-		assert(f != null);
+		assert (f != null);
 		VersionInformation vi = null;
 
 		Connection connection;
@@ -385,8 +367,7 @@ public class VersionInformation implements Serializable {
 			connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
-				try (Statement stmt = connection.createStatement();
-						ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 
 					String whereClause = "";
 					switch (f) {
@@ -440,18 +421,19 @@ public class VersionInformation implements Serializable {
 	 */
 	public static void saveVersionInformation(final VersionInformation vi) {
 		try {
-			FileOutputStream fos = new FileOutputStream(FILE_NAME);
-			if (AS_XML) {
-				fos.write(getXMLString(vi).getBytes());
-				fos.close();
-				fos = null;
-			} else {
-				ObjectOutputStream sOutput = new ObjectOutputStream(fos);
-				sOutput.writeObject(vi);
-				sOutput.reset();
-				sOutput.close();
-				sOutput = null;
-			}
+			System.out.println("Saving version information to the XML file " + LOCAL_FILE_NAME);
+			FileOutputStream fos = new FileOutputStream(LOCAL_FILE_NAME);
+			// if (AS_XML) {
+			fos.write(getXMLString(vi).getBytes());
+			fos.close();
+			fos = null;
+			// } else {
+			// ObjectOutputStream sOutput = new ObjectOutputStream(fos);
+			// sOutput.writeObject(vi);
+			// sOutput.reset();
+			// sOutput.close();
+			// sOutput = null;
+			// }
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -472,16 +454,15 @@ public class VersionInformation implements Serializable {
 			connection = ConnectionToDatabase.getDbConnection();
 
 			synchronized (connection) {
-				try (Statement stmt = connection.createStatement();
-						ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
+				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
 
 					Calendar c = new GregorianCalendar();
 					c.setTimeInMillis(vi.getTimeStamp());
 					c.setTimeZone(TimeZone.getDefault());
 
 					String dateString = c.get(Calendar.YEAR) + "-" + (1 + c.get(Calendar.MONTH)) + "-"
-							+ c.get(Calendar.DAY_OF_MONTH) + " " + c.get(Calendar.HOUR_OF_DAY) + ":"
-							+ c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
+							+ c.get(Calendar.DAY_OF_MONTH) + " " + c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":"
+							+ c.get(Calendar.SECOND);
 
 					query = "INSERT INTO GitHashDecode (HashCode, HashDate, Flavor, Version, Description) VALUES (" + //
 							"'" + gitHashCode + "', " + //
@@ -518,6 +499,10 @@ public class VersionInformation implements Serializable {
 			which = 3;
 		} else if (args.length > 0) {
 			which = Integer.parseInt(args[0]);
+			if (which == 3) {
+				System.err.println("Cannot ask for option=3 - supply a hash value instead.");
+				System.exit(-1);
+			}
 		}
 
 		FLAVOR flav = FLAVOR.PRODUCTION;
@@ -537,10 +522,22 @@ public class VersionInformation implements Serializable {
 			System.out.println("First, reading version information from the local disk");
 			vi = getVersionInformation();
 			flav = FLAVOR.TEST;
+			if (args.length >= 2) {
+				flav = FLAVOR.valueOf(args[1]);
+			}
 			vi.setDisposition(flav);
 			vi.setVersionVal(1, 4);
-			System.out.println("... Saving to disk");
+			if (args.length >= 3) {
+				vi.setVersionString(args[2]);
+			}
+			System.out.println("... Saving to disk, flavor = " + flav + ", version = " + vi.getVersionString());
 			saveVersionInformation(vi);
+			System.out.println(" .. now re-reading ...");
+
+			System.out.println("Reading version information from the local disk");
+			vi = getVersionInformation();
+			System.out.println(vi);
+			System.out.println("Date of this version: " + new Date(vi.getTimeStamp()));
 			break;
 
 		case 2:
@@ -558,8 +555,9 @@ public class VersionInformation implements Serializable {
 			break;
 
 		case 3:
-			// WRITE to database - FOR TESTING ONLY
-			System.out.println("First, reading version information from the local disk");
+			// WRITE to database - We have been supplied with a hash
+			System.out.println("Will write the new Hash value to the DB based on the information in " + LOCAL_FILE_NAME
+					+ ". \n... First, read that file.");
 			vi = getVersionInformation();
 
 			try {
@@ -568,7 +566,8 @@ public class VersionInformation implements Serializable {
 				e.printStackTrace();
 				System.exit(-1);
 			}
-			System.out.println("... Now saving the version to DB, hashCode='" + hash + "'");
+			System.out.println("... Now saving the version (" + vi.getVersionString() + ", " + new Date(vi.getTimeStamp())
+					+ ") to DB, hashCode='" + hash + "'");
 			saveDBVersionInformation(vi, hash);
 			System.out.println("... DB save complete.");
 			break;

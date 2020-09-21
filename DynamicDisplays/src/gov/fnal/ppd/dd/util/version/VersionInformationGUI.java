@@ -100,6 +100,7 @@ public class VersionInformationGUI extends JFrame {
 					System.out.println("No change in version information");
 					System.exit(-1);
 				} else {
+					System.out.println("Accepted new version, " + newVI.getVersionString() + " with the description '" + newVI.getVersionDescription() + "'");
 					VersionInformation.saveVersionInformation(newVI);
 					System.exit(0);
 				}

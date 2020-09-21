@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1586196153046</timeStamp>
-    <versionDescription>Refactoring .. a lot of refactoring.
-
-1. I tried to rationalize the Channel List classes
-2. I broke up three of the largest sub-packages:
-   a. util becomes 3 new packages
-   b. channel - several classes moved to one of the util packages
-   c. move all instances of messages into xml.messages
-
-Eclipse should have done all the re-wiring; running the ChannelSelector works fine.</versionDescription>
-    <versionString>5.3.6</versionString>
+    <timeStamp>1600723880853</timeStamp>
+    <versionDescription>Create Jenkinsfile for CI/CD; begin to make a kickstart.cfg file.</versionDescription>
+    <versionString>5.3.7</versionString>
 </versionInformation>
