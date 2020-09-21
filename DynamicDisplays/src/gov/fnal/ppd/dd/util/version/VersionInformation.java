@@ -421,8 +421,9 @@ public class VersionInformation implements Serializable {
 	 */
 	public static void saveVersionInformation(final VersionInformation vi) {
 		try {
-			System.out.println("Saving version information to the XML file " + LOCAL_FILE_NAME);
 			FileOutputStream fos = new FileOutputStream(LOCAL_FILE_NAME);
+			System.out.println("Saving version information to the XML file " + new File(LOCAL_FILE_NAME).getPath());
+
 			// if (AS_XML) {
 			fos.write(getXMLString(vi).getBytes());
 			fos.close();
