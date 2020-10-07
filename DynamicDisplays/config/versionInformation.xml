@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1600727033142</timeStamp>
-    <versionDescription>Create Jenkinsfile for CI/CD; begiinn to make a kickstart.cfg file.</versionDescription>
+    <timeStamp>1602100585324</timeStamp>
+    <versionDescription>Try to stop the startup script(s) if the disk space runs low.</versionDescription>
     <versionString>5.3.8</versionString>
 </versionInformation>
