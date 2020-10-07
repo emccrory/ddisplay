@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Launch the Dynamic Displays program(s) that this node should be running.  The options are
+#  -- The messaging server
+#  -- The Channel Selector GUI
+#  -- The display
+
 # TODO - If we have too much trouble starting the Java/Selenium/Firefox connection,
 # it should revert to running the script startFirefoxOnly.sh
 
@@ -32,6 +37,24 @@ fi
 
 touch $log
 
+# --------------------------------------------------------------------------------
+# Idiot Check - Don't run if we are almost out of disk space
+
+ONEGIG=1048576
+# Assuming that df returns kilobytes remaining in column 4
+let GB=`df | grep home | awk '{ print $4 }'`/$ONEGIG
+minimum=3
+if [ $GB -lt $minimum ]; then
+    echo Insufficient disk space, $GB GB, to run the Dynamic Displays software.  Log files for this application and for the system need at least $minimum GB.
+    echo Here is the df command.
+    df 
+    echo
+    echo This situation is unexpected.  Exiting.
+    text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">\n        Insufficient Disk Space, " $GB "GB,\n                        to run the\n            Dynamic Display Software\n</span>"
+    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error B" --text=$text
+    exit;
+fi >> $log 2>&1
+
 # Setup executables location
 workingDirectory=$ddHome/roc-dynamicdisplays/DynamicDisplays
 
@@ -45,24 +68,7 @@ cd $workingDirectory
 
 echo `date` Working directory is `pwd` >> $log 2>&1
 
-# Check the version of the code
-if ( ./runVersionInformation.sh Y  ); then
-    echo "There is a new version, which we have retrieved.  Restarting this script."
-    cd $workingDirectory
-    exec $0 2
-    exit 0
-fi >> $log 2>&1
-
-# Test for and remove the cache file from disk
-if [ -e $HOME/.mozilla/firefox/*.default/places.sqlite ]; then
-    cd $HOME/.mozilla/firefox/*.default
-    ls -l  places.sqlite
-    echo Removing disk-based history/cache
-    rm -fv places.sqlite 
-fi >> $log 2>&1
-
-# We need something to run on the X display, otherwise the present version of FireFox, with the
-# kiosk mode enabled, won't let us get to the desktop
+# Removed the check for the new version - this is in the script that calls us here.
 
 cd $workingDirectory
 
@@ -86,7 +92,7 @@ fi
     # Get the messaging server for me
     messagingServer=`java -Xmx512m gov.fnal.ppd.dd.GetMessagingServer | grep "MessagingServer=" | awk '{ print $2 }'`
 
-    # Am I the messaging server??
+    # Am I a messaging server?
     if [ $messagingServer = $MyName ]; then
 	if java -Dddisplay.messagingserver=$messagingServer \
 	    -Xmx512m gov.fnal.ppd.dd.chat.MessagingServerTest; then
@@ -109,7 +115,7 @@ fi
 	    echo "Starting the ChannelSelector";
 	    ./runSelector.sh SKIP
 	    # Give it a head start before starting the display software
-	    sleep 2;y
+	    sleep 2;
 	fi
     fi
 

@@ -1,16 +1,21 @@
 #!/bin/bash
 
-# Should I run a full-on Dynamic Display, or should I run the super-simplified Firefox-only display?
+# The script for doing everything that needs to be done to start an instance of a Dynamic Displays display.
+# Look out, though.  This has gotten quite complicated over the years, even thought the part that actually
+# runs the Java program for the display has been factored out into another script (at the end).
 
 . setupJars.sh
+
 
 # Set up log file 
 ddHome=$HOME/src
 node=`uname -n`
 if [ $node = "ad130482.fnal.gov" ]; then
+    # This is the desktop Linux PC on McCrory's desk.
     ddHome=/home/mccrory/git-ddisplay
 fi
 
+# Set up the log file for the startup process
 log=$ddHome/log/displayStartup.log
 
 if [ -e $log ] ; then
@@ -23,6 +28,26 @@ if [ -e $log ] ; then
 fi
 
 touch $log
+
+# --------------------------------------------------------------------------------
+# Idiot Check - Don't run if we are almost out of disk space
+
+ONEGIG=1048576
+# Assuming that df returns kilobytes remaining in column 4
+let GB=`df | grep home | awk '{ print $4 }'`/$ONEGIG
+minimum=3
+if [ $GB -lt $minimum ]; then
+    echo Insufficient disk space, $GB GB, to run the Dynamic Displays software.  Log files for this application and for the system need at least $minimum GB.
+    echo Here is the df command.
+    df 
+    echo
+    echo This situation is unexpected.  Exiting.
+    text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">\n        Insufficient Disk Space, " $GB "GB,\n                        to run the\n            Dynamic Display Software\n</span>"
+    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error A" --text=$text
+    exit;
+fi >> $log 2>&1
+# --------------------------------------------------------------------------------
+
 # Setup executables location
 workingDirectory=$ddHome/roc-dynamicdisplays/DynamicDisplays
 
@@ -64,6 +89,7 @@ if [ -s $tempPIDs ]; then
 fi
 rm $tempPIDs
 
+# Find the best terminal to start (depending on the OS)  Note, we are SOOL for Windows
 if [ -e /usr/bin/xterm ]; then
     # SLF 6.x
     /usr/bin/xterm -geometry 200x30 -fa 'Monospace' -fs 12 &
@@ -78,18 +104,14 @@ elif [ -e /opt/X11/bin/xterm ]; then
     /opt/X11/bin/xterm -geometry 200x30 &
 fi >> $log 2>&1
 
+# -----------------------------------------------------------------------------------------------------
+# This is the heart of the script.  Put it into a block of code so we can pipe it all to the log file.
+
 {
     cd $workingDirectory
     # Prepare to run the Java applications
     . setupJars.sh
     
-    # --------------------------------------------------------------------------------
-    # Do not begin until we can ping the database server
-    # --------------------------------------------------------------------------------
-    
-    dbs=`echo $databaseServer | sed 's/:/ /g' | awk '{ print $1 }'`
-    sleepTime=5
-
     # In Linux-land, make sure the screen saver and screen blankers are off.
     # keep this here for reference, but do not do it uniformly (e.g., not my desktop)
     if [ "Skip" = "This" ]; then
@@ -105,6 +127,13 @@ fi >> $log 2>&1
 	    $XSET -dpms
 	fi
     fi
+
+    # --------------------------------------------------------------------------------
+    # Do not begin until we can ping the database server
+    # --------------------------------------------------------------------------------
+    
+    dbs=`echo $databaseServer | sed 's/:/ /g' | awk '{ print $1 }'`
+    sleepTime=5
 
     while :
     do
@@ -123,7 +152,7 @@ fi >> $log 2>&1
     done
 
     # --------------------------------------------------------------------------------
-    # Now decide if we run a full version or the simpler, less capable version.
+    # Decide if we run a full version or the simpler, less capable version.
     # --------------------------------------------------------------------------------
 
     temp=temp$$
@@ -137,5 +166,7 @@ fi >> $log 2>&1
 	./startFirefoxOnly.sh &
     fi
     
+    # Since the start commands are pushed into the background, we are done now.
+
     rm $temp
 } >> $log 2>&1

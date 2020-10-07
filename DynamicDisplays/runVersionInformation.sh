@@ -4,13 +4,34 @@
 # Script to learn if there is a newer version of the software available from the server.
 #
 
+. setupJars.sh
+
+# ----------------------------------------------------------------------
+# IDIOT CHECK: Is there enough disk space to proceed?
+# ----------------------------------------------------------------------
+
+let GB=`df | grep home | awk '{ print $4 }'`/1048576
+minimumToProceed=30
+if [ $GB -lt $minimumToProceed ]; then
+    echo Insufficient disk space, $GB GB, to continue with the check for a new version.  The minimum disk space to continue is $minumimToProceed GB.
+    df 
+    echo
+    echo This usually means that the startup script is in an infinite loop and keeps trying to download 
+    echo a new version, or one of the log files has gotten too big.
+    echo
+    echo Will let the system continue with the present version of the software.
+    java gov.fnal.ppd.dd.util.version.VersionInformation 0
+    exit 1;
+fi
+
+# End of IDIOT Check ---------------------------------------------------
+
+
 # for the display software, use the command line argument, "Y" to do the update, no questions asked.
 yes=0;
 if [ "$1 X" = "Y X" ]; then
     yes=1;
 fi
-
-. setupJars.sh
 
 d=`date +%F`
 
