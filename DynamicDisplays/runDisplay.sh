@@ -23,12 +23,14 @@ fi
 # Set up the log file for the startup process and check that it is not from a moment ago
 log=$ddHome/log/displayStartup.log
 
+# ----- Check if the old log file is relatively new
+minutes=3
 if [ -e $log ] ; then
     # Check the date on the old log file and stop if it is "too new"
-    minutes=3
-    if test `find "$log" -mmin +$minutes` ; then 
-	text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">Log file $log was modified less than $minutes mintues ago.\nStopping this script since this indicates that we might be in an infinite loop.</span>"
-	zenity --error --width=900 --title="Dynamic Displays Software Fatal Error C" --text=$text
+    if test `find "$log" -type f -mmin -$minutes` ; then 
+	ls -l $log
+	text="Log file $log was modified less than $minutes mintues ago.\n\nStopping this script since this indicates that we might be in an infinite loop."
+	zenity --error --width=900 --title="Dynamic Displays Software Fatal Error C" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"20000\">$text</span>"
 	exit;
     fi
     # Rename the existing log file with time stamp of the first access (creation time)
@@ -41,7 +43,24 @@ fi
 
 touch $log
 
-# Now check disk usage
+# ----- Check if there are "several new" instances of roc-dynamicdisplays-old??? in the src folder
+
+cd $ddHome
+t=temp_$$
+minutes=$(( $minutes * 2 ))
+
+for i in `ls -td roc-dynamicdisplays-old??? `; do
+    # Which are newer than 10 minutes?
+    find $i -mmin +$minutes
+done | wc -l > $t 2>/dev/null
+if [ `cat $t` -gt 2 ]; then
+    # We saw 3 or more of the roc-dynamicdisplays-old* folders that were new
+    text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">\nToo many instances of recent\nroc-dynamicdisplays-old folders - Stopping now.</span>";
+    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error D" --text=$text
+    exit
+fi
+
+# ----- Check disk usage
 ONEGIG=1048576
 # Assuming that df returns kilobytes remaining in column 4
 let GB=`df | grep home | awk '{ print $4 }'`/$ONEGIG
