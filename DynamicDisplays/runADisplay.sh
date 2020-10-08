@@ -26,17 +26,21 @@ fi
 
 log=$ddHome/log/display.log
 
-if [ -e $log ] ; then
-    # Rename the existing log file with time stamp of the first access (creation time)
-    # This command pipe Assumes A LOT!  So it will probably be brittle
-   suffix=`stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g'`
+tempLog=tempLog_$$
+{
+    if [ -e $log ] ; then
+	# Rename the existing log file with time stamp of the first access (creation time)
+	# This command pipe Assumes A LOT!  So it will probably be brittle
+	suffix=`stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g'`
+	
+	mv $log $ddHome/log/display_$suffix.log
+	gzip    $ddHome/log/display_$suffix.log &
+    fi
+    
+    touch $log
+} > $tempLog 2>&1
 
-   mv $log $ddHome/log/display_$suffix.log
-   gzip    $ddHome/log/display_$suffix.log &
-fi
-
-touch $log
-
+cat $tempLog >> $log
 # --------------------------------------------------------------------------------
 # Idiot Check - Don't run if we are almost out of disk space
 
@@ -50,8 +54,8 @@ if [ $GB -lt $minimum ]; then
     df 
     echo
     echo This situation is unexpected.  Exiting.
-    text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">\n        Insufficient Disk Space, " $GB "GB,\n                        to run the\n            Dynamic Display Software\n</span>"
-    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error B" --text=$text
+    text="\n        Insufficient Disk Space, " $GB "GB,\n                        to run the\n            Dynamic Display Software\n"
+    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error B" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">$text</span>"
     exit;
 fi >> $log 2>&1
 

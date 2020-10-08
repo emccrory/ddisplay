@@ -46,20 +46,23 @@ touch $log
 # ----- Check if there are "several new" instances of roc-dynamicdisplays-old??? in the src folder
 
 cd $ddHome
-t=temp_$$
 minutes=$(( $minutes * 2 ))
 
-for i in `ls -td roc-dynamicdisplays-old??? `; do
-    # Which are newer than 10 minutes?
-    find $i -mmin +$minutes
-done | wc -l > $t 2>/dev/null
-if [ `cat $t` -gt 2 ]; then
-    # We saw 3 or more of the roc-dynamicdisplays-old* folders that were new
-    text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">\nToo many instances of recent\nroc-dynamicdisplays-old folders - Stopping now.</span>";
-    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error D" --text=$text
-    exit
-fi
-
+{
+    t=temp_$$
+    for i in `ls -td roc-dynamicdisplays-old??? `; do
+	# Which are newer than 10 minutes?
+	find $i -mmin -$minutes
+    done | wc -l > $t 2>/dev/null
+    if [ `cat $t` -gt 2 ]; then
+	ls -td roc-dynamicdisplays-old??? | head -10
+	# We saw 3 or more of the roc-dynamicdisplays-old* folders that were new
+	text="\nToo many instances of recent\nroc-dynamicdisplays-old folders - Stopping now.";
+	zenity --error --width=900 --title="Dynamic Displays Software Fatal Error D" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">$text</span>"
+	exit
+    fi
+} > $log 2>&1
+    
 # ----- Check disk usage
 ONEGIG=1048576
 # Assuming that df returns kilobytes remaining in column 4
@@ -71,8 +74,8 @@ if [ $GB -lt $minimum ]; then
     df 
     echo
     echo This situation is unexpected.  Exiting.
-    text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">\n        Insufficient Disk Space, " $GB "GB,\n                        to run the\n            Dynamic Display Software\n</span>"
-    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error A" --text=$text
+    text="\n        Insufficient Disk Space, " $GB "GB,\n                        to run the\n            Dynamic Display Software\n"
+    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error A" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">$text</span>"
     exit;
 fi >> $log 2>&1
 # --------------------------------------------------------------------------------
