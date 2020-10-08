@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1602191557752</timeStamp>
-    <versionDescription>Add more "idiot checks" during startup.</versionDescription>
-    <versionString>5.3.10</versionString>
+    <timeStamp>1602192749006</timeStamp>
+    <versionDescription>Debug the "idiot checks" during startup.</versionDescription>
+    <versionString>5.3.11</versionString>
 </versionInformation>
