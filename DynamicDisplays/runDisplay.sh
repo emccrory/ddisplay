@@ -6,7 +6,6 @@
 
 . setupJars.sh
 
-
 # Set up log file 
 ddHome=$HOME/src
 node=`uname -n`
@@ -15,10 +14,23 @@ if [ $node = "ad130482.fnal.gov" ]; then
     ddHome=/home/mccrory/git-ddisplay
 fi
 
-# Set up the log file for the startup process
+# --------------------------------------------------------------------------------
+# Idiot Checks - Don't run if:
+#   -- the most recent log file is very new (indicating we might be in an infinite loop)
+#   -- we are almost out of disk space
+#
+
+# Set up the log file for the startup process and check that it is not from a moment ago
 log=$ddHome/log/displayStartup.log
 
 if [ -e $log ] ; then
+    # Check the date on the old log file and stop if it is "too new"
+    minutes=3
+    if test `find "$log" -mmin +$minutes` ; then 
+	text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">Log file $log was modified less than $minutes mintues ago.\nStopping this script since this indicates that we might be in an infinite loop.</span>"
+	zenity --error --width=900 --title="Dynamic Displays Software Fatal Error C" --text=$text
+	exit;
+    fi
     # Rename the existing log file with time stamp of the first access (creation time)
     # This command pipe Assumes A LOT!  So it will probably be brittle
    suffix=`stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g'`
@@ -29,9 +41,7 @@ fi
 
 touch $log
 
-# --------------------------------------------------------------------------------
-# Idiot Check - Don't run if we are almost out of disk space
-
+# Now check disk usage
 ONEGIG=1048576
 # Assuming that df returns kilobytes remaining in column 4
 let GB=`df | grep home | awk '{ print $4 }'`/$ONEGIG
