@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1602168620029</timeStamp>
-    <versionDescription>Try to stop the startup script(s) if the disk space runs low and if the log file "displayStartup.log" is less than a few minutes old</versionDescription>
-    <versionString>5.3.9</versionString>
+    <timeStamp>1602191386117</timeStamp>
+    <versionDescription>Add more "idiot checks" during startup.</versionDescription>
+    <versionString>5.3.10</versionString>
 </versionInformation>
