@@ -3,7 +3,7 @@
 if [ "$1 X" = "SKIP X" ]; then
     shift;
 else
-    cd ~/src/log
+    cd ~/src/log || exit
     
     if [ -e /usr/bin/xterm ]; then
     # SLF
@@ -15,7 +15,7 @@ else
 fi
 
 workingDirectory=~/src/roc-dynamicdisplays/DynamicDisplays
-cd $workingDirectory
+cd "$workingDirectory" || exit
 
 ./runVersionInformation.sh
 
@@ -40,45 +40,42 @@ fi
 
 # Set up log file 
 ddHome=$HOME/src
-node=`uname -n`
-if [ $node = "ad130482.fnal.gov" ]; then
+node=$(uname -n)
+if [ "$node" = "ad130482.fnal.gov" ]; then
     ddHome=/home/mccrory/git-ddisplay
 fi
 
-log=$ddHome/log/selector.log
+log="$ddHome/log/selector.log"
 
-if [ -e $log ] ; then
+if [ -e "$log" ] ; then
     # Rename the existing log file with time stamp of the first access (creation time)
     # This command pipe Assumes A LOT!  So it will probably be brittle
-   suffix=`stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g'`
+   suffix=$(stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g')
 
-   mv $log $ddHome/log/selector_$suffix.log
-   gzip    $ddHome/log/selector_$suffix.log &
+   mv "$log" "$ddHome/log/selector_$suffix.log"
+   gzip      "$ddHome/log/selector_$suffix.log" &
 fi
 
-d=`date +%F`
 {
     while {
 	java -Dddisplay.selector.inwindow=$window \
-	    -Dddisplay.selector.public=$public \
-	    -Dddisplay.virtualdisplaynumbers=TRUE \
-	    -Xmx1024m  gov.fnal.ppd.dd.MakeChannelSelector
+	     -Dddisplay.selector.public=$public \
+	     -Dddisplay.virtualdisplaynumbers=TRUE \
+	     -Xmx1024m  gov.fnal.ppd.dd.MakeChannelSelector
 	test $? -eq 255
     }
     do
 	echo ""
 	echo ""
 	echo ""
-	echo `date` " Controller program exited because user requested a refresh"
+	echo "$(date) Controller program exited because user requested a refresh"
 	# Maybe there is a new version of the software here.  This "cd" should put us in the right place
-	cd $workingDirectory
+	cd "$workingDirectory" || exit
 	sleep 1
 	echo "     ..."
-	echo `date` " Starting the Channel Selector again now."
+	echo "$(date) Starting the Channel Selector again now."
 	echo ""
 	echo ""
 	echo ""
     done
 } > $log 2>&1 &
-
-

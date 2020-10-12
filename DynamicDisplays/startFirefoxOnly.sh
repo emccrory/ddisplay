@@ -11,20 +11,20 @@
 
 # Set up log file 
 ddHome=$HOME/src
-node=`uname -n`
-if [ $node = "ad130482.fnal.gov" ]; then
+node=$(uname -n)
+if [ "$node" = "ad130482.fnal.gov" ]; then
     ddHome=/home/mccrory/git-ddisplay
 fi
 
-log=$ddHome/log/display.log
+log="$ddHome/log/display.log"
 
-if [ -e $log ] ; then
+if [ -e "$log" ] ; then
     # Rename the existing log file with time stamp of the first access (creation time)
     # This command pipe Assumes A LOT!  So it will probably be brittle
-   suffix=`stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g'`
+   suffix=$(stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g')
 
-   mv $log $ddHome/log/display_$suffix.log
-   gzip    $ddHome/log/display_$suffix.log &
+   mv "$log" "$ddHome/log/display_$suffix.log"
+   gzip      "$ddHome/log/display_$suffix.log" &
 fi
 
 touch $log
