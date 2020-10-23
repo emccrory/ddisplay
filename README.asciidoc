@@ -4,29 +4,28 @@
 ////
 == About DynamicDisplay
 
-This is the ROC DynamicDisplay application.  It was originally developed at
+This is the Dynamic Displays application suite.  It was originally developed at
 Fermilab for efficient and elegant digital displays.
 
 === Development
 You can fetch the most recent release via:
 [source,shell]
 ----
-git clone http://cdcvs.fnal.gov/projects/roc-dynamicdisplays/
+git clone https://github.com/emccrory/ddisplay.git
 ----
 
 ==== External Packages
-This codebase includes code from:
-* https://github.com/pmorch/FF-Remote-Control
 
 === How to Install
 NOTE: you may need to remove ~/.mozilla if it already exists
 [source,shell]
 ----
 cd ~/
-git clone http://cdcvs.fnal.gov/projects/roc-dynamicdisplays/ .
+git clone https://github.com/emccrory/ddisplay.git
 ----
 More details to follow
 
 === How to Use
-TBA
+Under Construction.  For the time being, see 
+https://dynamicdisplays.fnal.gov/about.php
 

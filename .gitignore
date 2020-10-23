@@ -20,11 +20,9 @@ DynamicDisplays/bin/*
 *.tar
 *.zip
  
-# Logs and databases #
-######################
+# Logs files #
+##############
 *.log
-*.sql
-*.sqlite
  
 # OS generated files #
 ######################
