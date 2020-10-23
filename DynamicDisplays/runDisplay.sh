@@ -29,7 +29,7 @@ initialTemp=temp_$$
     minutes=3
     if [ -e "$log" ] ; then
 	# Check the date on the old log file and stop if it is "too new"
-	if test "$(find \"$log\" -type f -mmin -\"$minutes\")" ; then 
+	if test "$(find \"$log\" -type f -mmin -$minutes)" ; then 
 	    ls -l $log
 	    text="Log file $log was modified less than $minutes mintues ago.\n\nStopping this script since this indicates that we might be in an infinite loop."
 	    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error C" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"20000\">$text</span>"
