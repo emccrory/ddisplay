@@ -5,8 +5,6 @@
 # runs the Java program for the display has been factored out into another script (at the end).
 initialTemp=temp_$$
 {
-    . setupJars.sh
-    
     # Set up log file 
     ddHome=$HOME/src
     node=$(uname -n)
@@ -25,17 +23,18 @@ initialTemp=temp_$$
     # Set up the log file for the startup process and check that it is not from a moment ago
     log="$ddHome/log/displayStartup.log"
     
-    # ----- Check if the old log file is relatively new
+    echo Checking if the old log file is relatively new
     minutes=3
     if [ -e "$log" ] ; then
 	# Check the date on the old log file and stop if it is "too new"
-	if test "$(find \"$log\" -type f -mmin -$minutes)" ; then 
+	if test "$(find $log -type f -mmin -$minutes)" ; then
+	    echo There is a new log file.  This is an abort condition.
 	    ls -l $log
 	    text="Log file $log was modified less than $minutes mintues ago.\n\nStopping this script since this indicates that we might be in an infinite loop."
 	    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error C" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"20000\">$text</span>"
 	    exit;
 	fi
-	# Rename the existing log file with time stamp of the first access (creation time)
+	echo Renaming the existing log file with time stamp of the first access, creation time.
 	# This command pipe Assumes A LOT!  So it will probably be brittle
 	suffix=$(stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g')
 	
@@ -96,6 +95,8 @@ initialTemp=temp_$$
     fi 
 
     cd $workingDirectory || exit
+    . setupJars.sh
+    
     date
     echo Working directory is "$(pwd)" 
 
