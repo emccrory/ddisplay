@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1604066182114</timeStamp>
-    <versionDescription>Fix a couple of errors in runDisplay.sh, which were discovered when I was implementing new Display nodes on Dell OptiPlex 7070 PCs</versionDescription>
-    <versionString>5.3.13</versionString>
+    <timeStamp>1604069707889</timeStamp>
+    <versionDescription>Updates for the GitHub-suggested JUnit update</versionDescription>
+    <versionString>5.3.14</versionString>
 </versionInformation>
