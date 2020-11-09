@@ -18,10 +18,10 @@ java -Dddisplay.selector.inwindow=TRUE ^
      -Xmx1024m ^
      gov.fnal.ppd.dd.MakeChannelSelector > %LOG% 2>&1
 
-REM This next command is not working. It always seems to loop back even if the exit is not one that should loop back
-REM if %ERRORLEVEL% EQU -1 goto loop
+REM See https://www.computerhope.com/jargon/e/erroleve.htm
+if NOT ERRORLEVEL 1 goto loop
 
-if %ERRORLEVEL% EQU 99 {
+if ERRORLEVEL 99 {
 	REM This is a special batch script that says we are trying to do a self-update
 
 	COPY finishSoftwareUpdate.bat ..\..
