@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1602536892726</timeStamp>
-    <versionDescription>Implement "shellcheck" tests for all the Bash scripts in the suite.</versionDescription>
-    <versionString>5.3.12</versionString>
+    <timeStamp>1610730466428</timeStamp>
+    <versionDescription>The PropertiesFile method to read a property removed all spaces from the returned value. This was a mistake.
+
+Correct two Windows DOS scripts</versionDescription>
+    <versionString>5.3.13</versionString>
 </versionInformation>
