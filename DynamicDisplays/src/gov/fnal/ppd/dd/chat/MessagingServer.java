@@ -835,11 +835,13 @@ public class MessagingServer {
 	private int										numUnexpectedClosedSockets2		= 0;
 	private int										numDuplicateClients				= 0;
 	private int										numPortScannerAttempts			= 0;
+	private int                                     numberOfServerMessagesReceived  = 0;
 
 	// private Object oneMessageAtATime = new String("For synchronization");
 
 	// protected Logger logger;
 	protected LoggerForDebugging					logger;
+
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -935,13 +937,15 @@ public class MessagingServer {
 			} else if (mc.getMessageValue() instanceof YesIAmAliveMessage) {
 				// We get a lot of these - ignore it
 				return;
-			} else {
+			} else if ( !subject.equalsIgnoreCase("Server Message")){
 				logger.warning(getClass().getSimpleName() + " -  Hmm.  We have a message on the topic '" + subject
 						+ "' but the list of clients interested in this is empty.  The message is of type "
 						+ mc.getMessageValue().getClass().getCanonicalName());
 				System.err.println("Subjects are:");
 				for (String S : subjectListeners.keySet())
 					System.err.println("\t" + S);
+			} else {
+				numberOfServerMessagesReceived++;
 			}
 		}
 	}
@@ -1060,6 +1064,7 @@ public class MessagingServer {
 					+ "\n         Oldest client is " + oldestName //
 					+ "\n         Reasons (NC = Num Clients)              Count" //
 					+ "\n         Num apparent port scanner connections: " + numPortScannerAttempts //
+					+ "\n         Number of 'Server Message' messages:   " + numberOfServerMessagesReceived //
 					+ "\n         NC put 'on notice':                    " + numClientsPutOnNotice //
 					+ "\n         NC removed due to lack of response:    " + numRemovedForPings1 + " & " + numRemovedForPings2//
 					+ "\n         NC rmvd for 'bad write':               " + numRemovedBadWriteSeen //
@@ -1360,7 +1365,7 @@ public class MessagingServer {
 							}
 						}
 						String stats = "\nNum Subjects: " + subjectListeners.size() + ".\nOther stats: "
-								+ numRemovedExitedForeverLoop + ", " + numRemovedForPings1 + ", " + numRemovedForPings2 + ", "
+								+ numRemovedExitedForeverLoop + ", " + numRemovedForPings1 + ", " + numberOfServerMessagesReceived + ", "
 								+ numUnexpectedClosedSockets1 + ", " + numUnexpectedClosedSockets2 + ", " + numDuplicateClients
 								+ " (" + numClosedCallsSeen + "), " + numClientsPutOnNotice + ", " + numRemovedBadWriteSeen + ", "
 								+ numRemovedNullClientThread + ", " + numRemovedNullUsername + ", " + numRemovedNullDate + ", "

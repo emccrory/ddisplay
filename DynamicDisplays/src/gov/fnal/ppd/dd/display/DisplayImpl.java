@@ -39,6 +39,12 @@ import gov.fnal.ppd.dd.signage.SignageContent;
  */
 public abstract class DisplayImpl implements Display {
 
+	/**
+	 * A way for the Display to handle errors from the messaging system
+	 * 
+	 * @param message
+	 */
+
 	private static int				displayCount			= 1;
 	// private int displayNumber = displayCount++;
 
