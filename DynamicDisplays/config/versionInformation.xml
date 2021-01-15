@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1610730466428</timeStamp>
+    <timeStamp>1610739798650</timeStamp>
     <versionDescription>The PropertiesFile method to read a property removed all spaces from the returned value. This was a mistake.
 
-Correct two Windows DOS scripts</versionDescription>
+Correct two Windows DOS scripts.
+
+Change the config parameters for the browser and for the "gecko" program to all be OS specific (Windows, Linux and Mac)</versionDescription>
     <versionString>5.3.13</versionString>
 </versionInformation>
