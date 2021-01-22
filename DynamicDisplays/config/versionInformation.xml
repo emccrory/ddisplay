@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1611331000306</timeStamp>
-    <versionDescription>Add a class to the MakeKeys environment that tells the user what JVM thinks is the name of their computer.  Fix up the makeKeys.sh script.</versionDescription>
-    <versionString>5.3.14</versionString>
+    <timeStamp>1611339701796</timeStamp>
+    <versionDescription>More fixup of the makeKeys.sh script.</versionDescription>
+    <versionString>5.3.15</versionString>
 </versionInformation>
