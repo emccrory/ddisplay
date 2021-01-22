@@ -10,7 +10,7 @@ REM SET /P dbclient=Enter the name of the database user:
 
 IF "%dbclient%" == "" GOTO ERROR
 
-ECHO Using %dbclient% for accessing the database
+ECHO Using the user %dbclient% for accessing the database
 
 
 for /f "delims=" %%a in ('hostname') do @set myHost=%%a
