@@ -88,6 +88,8 @@ import gov.fnal.ppd.dd.util.guiUtils.FileMenu;
 import gov.fnal.ppd.dd.util.guiUtils.InformationBox;
 import gov.fnal.ppd.dd.util.guiUtils.JLabelFooter;
 import gov.fnal.ppd.dd.util.guiUtils.SplashScreens;
+import gov.fnal.ppd.dd.util.nonguiUtils.JavaChangeListener;
+import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 import gov.fnal.ppd.dd.util.specific.CheckDisplayStatus;
 import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 import gov.fnal.ppd.dd.util.specific.DownloadNewSoftwareVersion;
@@ -112,7 +114,7 @@ import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation, 2013-14
  */
-public class ChannelSelector extends JPanel implements ActionListener, DisplayCardActivator, DisplayKeeper {
+public class ChannelSelector extends JPanel implements ActionListener, DisplayCardActivator, DisplayKeeper, JavaChangeListener {
 
 	private static final long				serialVersionUID			= 5044030472140151291L;
 
@@ -222,6 +224,8 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		initComponents();
 		launchMemoryWatcher();
 		launchStatusThread();
+		JavaVersion javaVersion = new JavaVersion();
+		javaVersion.addJavaChangeListener(this);
 	}
 
 	private static SimpleDateFormat	sdf		= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -943,6 +947,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	public void setSelectorID(int m) {
 		myDB_ID = m;
+	}
+
+	@Override
+	public void javaHasChanged() {
+		System.out.println("The Java version has changed!  Now what?");		
 	}
 
 }

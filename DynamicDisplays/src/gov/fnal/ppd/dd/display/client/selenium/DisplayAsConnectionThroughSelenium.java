@@ -93,7 +93,7 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 	 *            Expect no command line arguments
 	 */
 	public static void main(final String[] args) {
-		println(DisplayAsConnectionThroughSelenium.class, "Running from java version " + JavaVersion.getCurrentVersion());
+		println(DisplayAsConnectionThroughSelenium.class, "Running from Java version " + JavaVersion.get());
 
 		prepareUpdateWatcher(false);
 
@@ -117,5 +117,10 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void javaHasChanged() {
+		// Deal with the fact that the Java Version has changed.
 	}
 }

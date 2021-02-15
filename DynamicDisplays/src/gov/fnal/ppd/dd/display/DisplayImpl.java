@@ -29,6 +29,8 @@ import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.EmergencyCommunication;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.nonguiUtils.JavaChangeListener;
+import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 
 /**
  * The implementation of a Display. This is made concrete on the controller side through DisplayFacade, and on the display side
@@ -37,7 +39,7 @@ import gov.fnal.ppd.dd.signage.SignageContent;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-public abstract class DisplayImpl implements Display {
+public abstract class DisplayImpl implements Display, JavaChangeListener {
 
 	/**
 	 * A way for the Display to handle errors from the messaging system
@@ -63,6 +65,7 @@ public abstract class DisplayImpl implements Display {
 	protected List<ActionListener>	listeners				= new ArrayList<ActionListener>();
 	private InetAddress				ipAddress;
 	private String					location;
+	private JavaVersion             javaVersion;
 
 	// protected TimerTask heartbeatThread = new TimerTask() {
 	// public void run() {
@@ -86,6 +89,9 @@ public abstract class DisplayImpl implements Display {
 		assert (vDisplay >= 0);
 		assert (dbDisplay >= 0);
 
+		javaVersion = new JavaVersion();
+		javaVersion.addJavaChangeListener(this);
+		
 		// myName = ipName + ":" + screenNumber + " (" + displayNumber + ")";
 
 		try {
