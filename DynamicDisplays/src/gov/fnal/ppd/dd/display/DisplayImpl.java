@@ -401,4 +401,9 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public void javaHasChanged() {
+		// By default, do nothing.
+	}
 }
