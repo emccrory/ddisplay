@@ -159,30 +159,27 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 		driver = null;
 		
 		try {
-			// ASSUME that we are using FireFox, which is the only browser we have tested to date (10/2019)
-
-			// ASSUME the location of FireFox for Linux
-			browserLocation = PropertiesFile.getProperty("binLinux");
-
-			driverFile = System.getProperty("user.dir") + PropertiesFile.getProperty("browserDriver");
-
+			String os = "Linux";
 			if (osName.toUpperCase().contains("WINDOWS")) {
-				browserLocation = PropertiesFile.getProperty("binWindows");
+				os = "Windows";
 			} else if (osName.toUpperCase().contains("MAC")) {
-				driverFile = System.getProperty("user.dir") + PropertiesFile.getProperty("browserDriverMac");
-				browserLocation = PropertiesFile.getProperty("binMac");
+				os = "Mac";
 			}
 
+			driverFile = System.getProperty("user.dir") + PropertiesFile.getProperty("browserDriver" + os);
+			browserLocation = PropertiesFile.getProperty("bin" + os);
+			
 			println(getClass(), "Browser driver is " + driverFile + ", Browser executable is " + browserLocation);
 
 			if (browser.contains("Firefox")) {
-				// >>>>>>>>>> Only the Firefox driver has been thoroughly tested (EM 6/2018) <<<<<<<<<<
+				// ASSUME >>>>>>>>>> Only the Firefox driver has been thoroughly tested (EM 6/2018) <<<<<<<<<<
 				System.setProperty("webdriver.gecko.driver", driverFile);
 				FirefoxOptions options = new FirefoxOptions();
 				options.setLogLevel(FirefoxDriverLogLevel.TRACE);
 				FirefoxDriver ffDriver = new FirefoxDriver();
-				println(getClass(), "Pausing for a bit just for fun.");
-				catchSleep(5000L);
+				long pause = 5000;
+				println(getClass(), "Pausing for " + pause + "msec.  The optimum duration of the pause has not beed determined.");
+				catchSleep(pause);
 				
 				if (ffDriver != null) {
 					// I added this block to see if tickling the driver here would reveal a failure - it does not.

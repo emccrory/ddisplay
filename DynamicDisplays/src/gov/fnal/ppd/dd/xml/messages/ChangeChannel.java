@@ -100,6 +100,11 @@ public class ChangeChannel extends MessagingDataXML {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return getDisplayNumber() + " " + getChannelNumber() + " " + getChannelSpec();
+	}
 
 	@Override
 	public boolean willNotChangeAnything() {

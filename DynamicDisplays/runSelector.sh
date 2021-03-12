@@ -1,9 +1,10 @@
 #!/bin/bash
 
+workingDirectory=`pwd`
 if [ "$1 X" = "SKIP X" ]; then
     shift;
 else
-    cd ~/src/log || exit
+    cd ../../log || exit
     
     if [ -e /usr/bin/xterm ]; then
     # SLF
@@ -14,7 +15,6 @@ else
     fi
 fi
 
-workingDirectory=~/src/roc-dynamicdisplays/DynamicDisplays
 cd "$workingDirectory" || exit
 
 ./runVersionInformation.sh
@@ -39,7 +39,7 @@ if [ "$1 X" = "XOC X" ]; then
 fi
 
 # Set up log file 
-ddHome=$HOME/src
+ddHome=../..
 node=$(uname -n)
 if [ "$node" = "ad130482.fnal.gov" ]; then
     ddHome=/home/mccrory/git-ddisplay
@@ -61,7 +61,7 @@ fi
 	java -Dddisplay.selector.inwindow=$window \
 	     -Dddisplay.selector.public=$public \
 	     -Dddisplay.virtualdisplaynumbers=TRUE \
-	     -Xmx1024m  gov.fnal.ppd.dd.MakeChannelSelector
+	     -Xmx2048m  gov.fnal.ppd.dd.MakeChannelSelector
 	test $? -eq 255
     }
     do

@@ -104,7 +104,7 @@ public class PropertiesFile {
 			return null;
 		while (retval.endsWith(" "))
 			retval = retval.substring(0, retval.length() - 1);
-		return prop.getProperty(string).replace(" ", "");
+		return retval;
 	}
 
 	/**

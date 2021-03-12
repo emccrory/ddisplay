@@ -437,7 +437,7 @@ public class ChannelsFromDatabase {
 
 			// Parse out the simple channels
 			for (int CN : channels) {
-				String q = "SELECT Channel.Number,Name,Description,URL,Category,DwellTime,Sound "
+				String q = "SELECT Channel.Number,Name,Description,URL,DwellTime,Sound "
 						+ "FROM Channel WHERE Approval=1 AND Number=" + CN;
 				rs = stmt.executeQuery(q);
 				if (!rs.first()) {// Move to first returned row

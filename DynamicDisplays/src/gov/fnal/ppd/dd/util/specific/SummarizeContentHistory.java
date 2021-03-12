@@ -47,8 +47,8 @@ public class SummarizeContentHistory {
 															if (o1.equals(o2))
 																return 0;
 															if (o1.displayID == o2.displayID)
-																return ((Integer) o2.count).compareTo((Integer) o1.count);				// Descending
-															return ((Integer) o1.displayID).compareTo(o2.displayID);					// Ascending
+																return ((Integer) o2.count).compareTo((Integer) o1.count);					// Descending
+															return ((Integer) o2.displayID).compareTo((Integer) o1.displayID);				// Descending
 														}
 													};
 
@@ -57,8 +57,8 @@ public class SummarizeContentHistory {
 
 	private static class Three {
 		public MessagingDataXML	chan	= null;
-		public int					displayID, virtualDisplayID;
-		public int					count	= 0;
+		public int				displayID, virtualDisplayID;
+		public int				count	= 0;
 
 		public Three(int dbID, int c, int vDID, MessagingDataXML x) {
 			displayID = dbID;
@@ -94,24 +94,23 @@ public class SummarizeContentHistory {
 			if (getClass() != obj.getClass())
 				return false;
 			Three other = (Three) obj;
+			if (displayID != other.displayID)
+				return false;
+
 			if (chan == null) {
 				if (other.chan != null)
 					return false;
 			} else if (!chan.equals(other.chan))
 				return false;
 
-			if (displayID != other.displayID)
-				return false;
 			return true;
 		}
 
 		public String toString() {
-			if (listLength() == 0)
-				return count + "\t" + displayID + " | " + virtualDisplayID + "\t" + getURL();
+//			if (listLength() == 0)
+//				return displayID + "(" + virtualDisplayID + ")\t" + count + "\t" + getURL();
 
-			// return count + "\t" + displayID + " | " + virtualDisplayID + "\t" + Arrays.toString(((ChangeChannelList)
-			// chan).getChannelSpec());
-			return count + "\t" + displayID + " | " + virtualDisplayID + "\t" + chan;
+			return displayID + "(" + virtualDisplayID + ")\t" + count + "\t" + chan;
 		}
 
 		public int listLength() {
@@ -122,7 +121,7 @@ public class SummarizeContentHistory {
 		}
 
 		public static String getHeader() {
-			return "Count\tDisp\tURL";
+			return "Disp\tCount\tURL";
 		}
 	}
 
@@ -133,7 +132,7 @@ public class SummarizeContentHistory {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
+
 		selectorSetup();
 
 		int cut = 0;
@@ -212,13 +211,14 @@ public class SummarizeContentHistory {
 										MessageCarrierXML content = (MessageCarrierXML) MyXMLMarshaller
 												.unmarshall(MessageCarrierXML.class, rawMessage);
 										all.add(new Three(displayID, count, vDID, content.getMessageValue()));
-									} else if ( rawMessage.contains("changeChannelList")) {
+									} else if (rawMessage.contains("changeChannelList")) {
 										ChangeChannelList theList = (ChangeChannelList) MyXMLMarshaller
 												.unmarshall(ChangeChannelList.class, rawMessage);
 										all.add(new Three(displayID, count, vDID, theList));
-									} else if ( rawMessage.contains("changeChannel")) {
+									} else if (rawMessage.contains("changeChannel")) {
 										// Why doesn't this work? Must be some subtle change in the object structure
-										// ChangeChannel theChannel = (ChangeChannel) MyXMLMarshaller.unmarshall(ChangeChannel.class, rawMessage);
+										// ChangeChannel theChannel = (ChangeChannel)
+										// MyXMLMarshaller.unmarshall(ChangeChannel.class, rawMessage);
 										// all.add(new Three(displayID, count, vDID, theChannel));
 										oldChangeChannel++;
 									} else {
@@ -248,7 +248,8 @@ public class SummarizeContentHistory {
 		}
 
 		Collections.sort(all, cThree);
-		System.out.println("Old change channels: " + oldChangeChannel + ", Unmarshal exceptions: " + unmarshallExceptions + ", class cast exceptions: " + classCastExceptions);
+		System.out.println("Old change channels: " + oldChangeChannel + ", Unmarshal exceptions: " + unmarshallExceptions
+				+ ", class cast exceptions: " + classCastExceptions);
 	}
 
 	public List<String> getAllURLs() {
@@ -264,7 +265,8 @@ public class SummarizeContentHistory {
 
 		System.out.println("\n\n" + Three.getHeader());
 		for (Three T : all) {
-			retval += T + "\n";
+			if (T.count > 1)
+				retval += T + "\n";
 		}
 		return retval;
 	}

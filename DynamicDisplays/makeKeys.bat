@@ -10,8 +10,7 @@ REM SET /P dbclient=Enter the name of the database user:
 
 IF "%dbclient%" == "" GOTO ERROR
 
-ECHO Using %dbclient% for accessing the database
-
+ECHO Using the user %dbclient% for accessing the database
 
 
 for /f "delims=" %%a in ('hostname') do @set myHost=%%a
@@ -25,17 +24,14 @@ IF "%selname%" == "" GOTO ERROR
 
 ECHO Using "%selname%" for your selector name
 
-
+java gov.fnal.ppd.security.CheckHostName
 
 echo java -Dddisplay.dbserver=%databaseServer% -Dddisplay.dbname=%databaseName% gov.fnal.ppd.security.GenerateNewKeyPair "%selname%" %dbclient%
 
-
- java -Dddisplay.dbserver=%databaseServer% -Dddisplay.dbname=%databaseName% gov.fnal.ppd.security.GenerateNewKeyPair "%selname%" %dbclient%
-
+java -Dddisplay.dbserver=%databaseServer% -Dddisplay.dbname=%databaseName% gov.fnal.ppd.security.GenerateNewKeyPair "%selname%" %dbclient%
 
 
 GOTO End
-
 
 :Error
 ECHO You did not enter the information properly.  Bye.

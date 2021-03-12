@@ -21,8 +21,8 @@ import gov.fnal.ppd.dd.xml.signature.Validate;
 
 public class MessageConveyor {
 
-	private static boolean verbose = PropertiesFile.getBooleanProperty("IncomingMessVerbose", false);
-	private static int badConnectionAttempts = 0;
+	private static boolean	verbose					= PropertiesFile.getBooleanProperty("IncomingMessVerbose", false);
+	private static int		badConnectionAttempts	= 0;
 
 	public static int getBadConnectionAttempts() {
 		return badConnectionAttempts;
@@ -56,8 +56,8 @@ public class MessageConveyor {
 					badConnectionAttempts++;
 					String interpretedMessage = escapeThisMessage(receiveMessage);
 					printlnErr(clazz, "Expecting BEGIN but got [" + interpretedMessage + "] (X = unprintable char)");
-					throw new UnrecognizedCommunicationException(
-							"Expecting BEGIN [000 marker 000] but got [" + interpretedMessage + "], sInput=" + receiveRead.hashCode());
+					throw new UnrecognizedCommunicationException("Expecting BEGIN [000 marker 000] but got [" + interpretedMessage
+							+ "], sInput=" + receiveRead.hashCode());
 				}
 			} else {
 				printlnErr(clazz, "Read a null line in getNextDocument() from " + username);
@@ -93,8 +93,12 @@ public class MessageConveyor {
 			try {
 				retval = (MessageCarrierXML) MyXMLMarshaller.unmarshall(MessageCarrierXML.class, theDocument.getTheXML());
 			} catch (Exception e1) {
-				printlnErr(clazz, e1.getClass().getCanonicalName() + " caught while receiving an incoming document; returning null.  Details:");
-				e1.printStackTrace();
+				StackTraceElement[] trace = e1.getStackTrace();
+				printlnErr(clazz, e1.getClass().getCanonicalName()
+						+ " caught while unmarshalling an incoming document; returning null.  Details (" + trace.length + " lines): ");
+				// e1.printStackTrace();
+				for ( int j=0; j<trace.length && j<3; j++)
+					System.err.println(trace[j] + "\n");
 				return null;
 			}
 			boolean isValid = false;
@@ -108,8 +112,12 @@ public class MessageConveyor {
 			}
 			retval.setSignatureIsValid(isValid);
 			return retval;
-		} catch (IOException  e) {
-			printlnErr(clazz, e.getClass().getCanonicalName() + " caught while receiving an incoming document; returning null.  Details:");
+		} catch (SocketTimeoutException e) {
+			printlnErr(clazz,
+					e.getClass().getCanonicalName() + " caught while receiving an incoming document; returning null.  This is likely a port scanner connection.");
+		} catch (IOException e) {
+			printlnErr(clazz,
+					e.getClass().getCanonicalName() + " caught while receiving an incoming document; returning null.  Details:");
 			e.printStackTrace();
 		}
 
@@ -146,7 +154,7 @@ public class MessageConveyor {
 			Class<? extends MessagingDataXML> data = msg.getMessageValue().getClass();
 			String theMessageString = MyXMLMarshaller.getXML(msg);
 
-			if (verbose){
+			if (verbose) {
 				System.out.println("Sending message \n[" + theMessageString + "]");
 			}
 			if (!msg.isReadOnly()) {

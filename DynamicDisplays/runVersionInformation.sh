@@ -10,7 +10,7 @@
 # IDIOT CHECK: Is there enough disk space to proceed?
 # ----------------------------------------------------------------------
 ONEGIG=1048576
-GB=$(($(df | grep home | awk '{ print $4 }')/ONEGIG))
+GB=$(($(df | grep home | grep -v home2 | awk '{ print $4 }')/$ONEGIG))
 minimumToProceed=30
 if [ "$GB" -lt "$minimumToProceed" ]; then
     echo "Insufficient disk space, $GB GB, to continue with the check for a new version.  The minimum disk space to continue is $minimumToProceed GB."

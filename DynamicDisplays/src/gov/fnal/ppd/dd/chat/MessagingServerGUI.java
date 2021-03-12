@@ -155,7 +155,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		println(MessagingServerGUI.class, "Running from java version " + JavaVersion.getCurrentVersion());
+		println(MessagingServerGUI.class, "Running from java version " + JavaVersion.getInstance().get());
 
 		prepareUpdateWatcher(true);
 

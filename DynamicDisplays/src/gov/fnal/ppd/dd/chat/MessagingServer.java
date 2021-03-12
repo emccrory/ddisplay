@@ -49,6 +49,8 @@ import java.util.logging.SimpleFormatter;
 
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.nonguiUtils.JavaChangeListener;
+import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 import gov.fnal.ppd.dd.util.specific.ObjectSigning;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
@@ -127,7 +129,7 @@ import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  */
-public class MessagingServer {
+public class MessagingServer implements JavaChangeListener {
 
 	private static boolean		showAliveMessages		= false;
 
@@ -835,11 +837,14 @@ public class MessagingServer {
 	private int										numUnexpectedClosedSockets2		= 0;
 	private int										numDuplicateClients				= 0;
 	private int										numPortScannerAttempts			= 0;
+	private int										numberOfServerMessagesReceived	= 0;
 
 	// private Object oneMessageAtATime = new String("For synchronization");
 
 	// protected Logger logger;
 	protected LoggerForDebugging					logger;
+
+	private JavaVersion javaVersion;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -848,6 +853,8 @@ public class MessagingServer {
 	 */
 	public MessagingServer(int port) {
 		this.port = port;
+		JavaVersion.getInstance().addJavaChangeListener(this);
+		
 		try {
 			// logger = Logger.getLogger(MessagingServer.class.getName());
 			logger = new LoggerForDebugging(MessagingServer.class.getName());
@@ -935,13 +942,15 @@ public class MessagingServer {
 			} else if (mc.getMessageValue() instanceof YesIAmAliveMessage) {
 				// We get a lot of these - ignore it
 				return;
-			} else {
+			} else if (!subject.equalsIgnoreCase("Server Message")) {
 				logger.warning(getClass().getSimpleName() + " -  Hmm.  We have a message on the topic '" + subject
 						+ "' but the list of clients interested in this is empty.  The message is of type "
 						+ mc.getMessageValue().getClass().getCanonicalName());
 				System.err.println("Subjects are:");
 				for (String S : subjectListeners.keySet())
 					System.err.println("\t" + S);
+			} else {
+				numberOfServerMessagesReceived++;
 			}
 		}
 	}
@@ -1060,6 +1069,7 @@ public class MessagingServer {
 					+ "\n         Oldest client is " + oldestName //
 					+ "\n         Reasons (NC = Num Clients)              Count" //
 					+ "\n         Num apparent port scanner connections: " + numPortScannerAttempts //
+					+ "\n         Number of 'Server Message' messages:   " + numberOfServerMessagesReceived //
 					+ "\n         NC put 'on notice':                    " + numClientsPutOnNotice //
 					+ "\n         NC removed due to lack of response:    " + numRemovedForPings1 + " & " + numRemovedForPings2//
 					+ "\n         NC rmvd for 'bad write':               " + numRemovedBadWriteSeen //
@@ -1188,11 +1198,12 @@ public class MessagingServer {
 				try {
 					Socket socket = serverSocket.accept(); // accept connection if I was asked to stop
 
-					final ClientThread aNewClientThread = new ClientThread(socket); // make the thread object for this potential client
+					final ClientThread aNewClientThread = new ClientThread(socket); // make the thread object for this potential
+																					// client
 
 					new Thread("InitializeClientThread") {
 						public void run() {
-							
+
 							// Finish the initialization for this potential client
 							aNewClientThread.initialize();
 
@@ -1360,11 +1371,12 @@ public class MessagingServer {
 							}
 						}
 						String stats = "\nNum Subjects: " + subjectListeners.size() + ".\nOther stats: "
-								+ numRemovedExitedForeverLoop + ", " + numRemovedForPings1 + ", " + numRemovedForPings2 + ", "
-								+ numUnexpectedClosedSockets1 + ", " + numUnexpectedClosedSockets2 + ", " + numDuplicateClients
-								+ " (" + numClosedCallsSeen + "), " + numClientsPutOnNotice + ", " + numRemovedBadWriteSeen + ", "
-								+ numRemovedNullClientThread + ", " + numRemovedNullUsername + ", " + numRemovedNullDate + ", "
-								+ numRemovedDuplicateUsername + ", " + numLogoutsSeen + ", " + numPortScannerAttempts;
+								+ numRemovedExitedForeverLoop + ", " + numRemovedForPings1 + ", " + numberOfServerMessagesReceived
+								+ ", " + numUnexpectedClosedSockets1 + ", " + numUnexpectedClosedSockets2 + ", "
+								+ numDuplicateClients + " (" + numClosedCallsSeen + "), " + numClientsPutOnNotice + ", "
+								+ numRemovedBadWriteSeen + ", " + numRemovedNullClientThread + ", " + numRemovedNullUsername + ", "
+								+ numRemovedNullDate + ", " + numRemovedDuplicateUsername + ", " + numLogoutsSeen + ", "
+								+ numPortScannerAttempts;
 
 						if (m.length() + stats.length() > MAX_STATUS_MESSAGE_SIZE) {
 							String extra = " (exceeds " + MAX_STATUS_MESSAGE_SIZE + " bytes)";
@@ -1547,6 +1559,11 @@ public class MessagingServer {
 			// nothing I can really do
 			logger.warning(exceptionString(e));
 		}
+	}
+
+	@Override
+	public void javaHasChanged() {
+		println(getClass(), "The Java version has changed.");		
 	}
 
 }

@@ -22,20 +22,24 @@ import gov.fnal.ppd.dd.util.version.VersionInformation;
 public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagingAbstract {
 
 	/**
-	 * @param showNumber
 	 * @param ipName
+	 *            - The Internet name for this computer
 	 * @param vNumber
+	 *            - the virtual display number
 	 * @param dbNumber
+	 *            - the database display number
 	 * @param screenNumber
+	 *            - The screen numbers (1/2021 - this is always 0)
+	 * @param showNumber
+	 *            - Do we want to show the number on this display?
 	 * @param location
+	 *            - The name of the location of this display
 	 * @param color
-	 * @param type
+	 *            - The proper background color for this display
 	 */
 	public DisplayAsConnectionThroughSelenium(final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
 			final boolean showNumber, final String location, final Color color) {
 		super(ipName, vNumber, dbNumber, screenNumber, showNumber, location, color);
-
-	
 	}
 
 	@Override
@@ -65,8 +69,8 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 						// Well, that failed. Let's try again
 						failCount++;
 						browserInstance = null;
-						printlnErr(DisplayAsConnectionThroughSelenium.class, failCount + 
-								" - Failed to connect to browser, will try again in a few seconds.");
+						printlnErr(DisplayAsConnectionThroughSelenium.class,
+								failCount + " - Failed to connect to browser, will try again in a few seconds.");
 						catchSleep(5000);
 						continue;
 					}
@@ -89,7 +93,7 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 	 *            Expect no command line arguments
 	 */
 	public static void main(final String[] args) {
-		println(DisplayAsConnectionThroughSelenium.class, "Running from java version " + JavaVersion.getCurrentVersion());
+		println(DisplayAsConnectionThroughSelenium.class, "Running from Java version " + JavaVersion.getInstance().get());
 
 		prepareUpdateWatcher(false);
 
@@ -99,7 +103,7 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
+
 		getMessagingServerNameDisplay();
 
 		try {
@@ -113,5 +117,10 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void javaHasChanged() {
+		// Deal with the fact that the Java Version has changed.
 	}
 }

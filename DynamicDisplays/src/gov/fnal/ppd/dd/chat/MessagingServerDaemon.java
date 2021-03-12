@@ -65,7 +65,7 @@ public class MessagingServerDaemon {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		println(MessagingServerDaemon.class, "Running from java version " + JavaVersion.getCurrentVersion());
+		println(MessagingServerDaemon.class, "Running from java version " + JavaVersion.getInstance().get());
 		prepareUpdateWatcher(true);
 
 		try {
