@@ -224,8 +224,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 		initComponents();
 		launchMemoryWatcher();
 		launchStatusThread();
-		JavaVersion javaVersion = new JavaVersion();
-		javaVersion.addJavaChangeListener(this);
+		JavaVersion.getInstance().addJavaChangeListener(this);
 	}
 
 	private static SimpleDateFormat	sdf		= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -22,14 +22,21 @@ import java.util.TimerTask;
  */
 public class JavaVersion {
 
-	private static final String InitialVersion = System.getProperty("java.version");
+	private static JavaVersion	me				= null;
+	private final String		InitialVersion	= System.getProperty("java.version");
+
+	public static JavaVersion getInstance() {
+		if (me == null)
+			me = new JavaVersion();
+		return me;
+	}
 
 	/**
 	 * What is the version of the currently-running JVM?
 	 * 
 	 * @return String the version
 	 */
-	private static String getInitialVersion() {
+	private String getInitialVersion() {
 		return InitialVersion;
 	}
 
@@ -38,7 +45,7 @@ public class JavaVersion {
 	 * 
 	 * @return String the version
 	 */
-	public static String get() {
+	public String get() {
 		return getInitialVersion();
 	}
 
@@ -47,7 +54,7 @@ public class JavaVersion {
 	 * 
 	 * @return The Java version, like "1.8.0_123"
 	 */
-	private static String executeJavaCommand() {
+	private String executeJavaCommand() {
 		try {
 
 			// Expect the output to look like this:
@@ -88,7 +95,7 @@ public class JavaVersion {
 	 * 
 	 * @return String the new version
 	 */
-	private static String getCurrentVersionThroughLS() {
+	private String getCurrentVersionThroughLS() {
 		// This can only work in Linux environment (and it assumes a lot about the way the ls command works)
 
 		boolean isWindows = System.getProperty("os.name").toUpperCase().contains("WINDOWS");
@@ -133,32 +140,31 @@ public class JavaVersion {
 	 * 
 	 * @return The Java version, like "1.8.0_123"
 	 */
-	public static String getCurrentVersion() {
+	public String getCurrentVersion() {
 		// return getCurrentVersionThroughLS();
 		return executeJavaCommand();
 	}
 
-	/**ONE_MINUTE, ONE_HOUR
-	 * Is the Java version in the JVM different from the Java version if we were to restart the JVM?
+	/**
+	 * ONE_MINUTE, ONE_HOUR Is the Java version in the JVM different from the Java version if we were to restart the JVM?
 	 * 
 	 * @return The version is unchanged?
 	 */
-	public static boolean hasVersionChanged() {
+	public boolean hasVersionChanged() {
 		return !((getCurrentVersion().replace(".", "_").equals(getInitialVersion().replace(".", "_"))));
 	}
 
-
-	public JavaVersion() {
+	private JavaVersion() {
 		println(getClass(), "Initiating watch for the Java version to change away from " + getInitialVersion());
 		TimerTask t = new TimerTask() {
 			@Override
 			public void run() {
-				if ( hasVersionChanged() ) {
+				if (hasVersionChanged()) {
 					System.out.println("The java version has changed!  We will try to restart now.");
 
-					for ( JavaChangeListener jcl: listener ) 
+					for (JavaChangeListener jcl : listener)
 						jcl.javaHasChanged();
-					
+
 					try {
 						Thread.sleep(10000);
 					} catch (InterruptedException e) {
@@ -166,28 +172,27 @@ public class JavaVersion {
 					}
 					System.exit(-1);
 				} else {
-					System.out.println(new Date() + ": The Java version, " + executeJavaCommand() + ", remains " + getInitialVersion());
+					System.out.println(
+							new Date() + ": The Java version, " + executeJavaCommand() + ", remains " + getInitialVersion());
 				}
 			}
 		};
-		
+
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(t, ONE_HOUR, ONE_HOUR);
 	}
-	
+
 	private List<JavaChangeListener> listener = new ArrayList<JavaChangeListener>();
-	
+
 	public void addJavaChangeListener(JavaChangeListener jcl) {
 		listener.add(jcl);
 	}
 
-	
-
 	public static void main(String[] args) {
-		System.out.println("The version as seen through the JVM:           " + getInitialVersion());
+		System.out.println("The version as seen through the JVM:           " + getInstance().getInitialVersion());
 
-		System.out.println("The version as seen from the operating system: " + getCurrentVersionThroughLS());
+		System.out.println("The version as seen from the operating system: " + getInstance().getCurrentVersionThroughLS());
 
-		System.out.println("The Java version " + (hasVersionChanged() ? "has changed" : "is unchanged"));
+		System.out.println("The Java version " + (getInstance().hasVersionChanged() ? "has changed" : "is unchanged"));
 	}
 }

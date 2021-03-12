@@ -67,7 +67,7 @@ public class DisplayAsSimpleBrowser extends DisplayControllerMessagingAbstract {
 	 *            Expect no command line arguments
 	 */
 	public static void main(final String[] args) {
-		println(DisplayAsSimpleBrowser.class, "Running from java version " + JavaVersion.get());
+		println(DisplayAsSimpleBrowser.class, "Running from java version " + JavaVersion.getInstance().get());
 
 		prepareUpdateWatcher(false);
 

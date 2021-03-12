@@ -89,8 +89,7 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 		assert (vDisplay >= 0);
 		assert (dbDisplay >= 0);
 
-		javaVersion = new JavaVersion();
-		javaVersion.addJavaChangeListener(this);
+		JavaVersion.getInstance().addJavaChangeListener(this);
 		
 		// myName = ipName + ":" + screenNumber + " (" + displayNumber + ")";
 

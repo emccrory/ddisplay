@@ -93,7 +93,7 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 	 *            Expect no command line arguments
 	 */
 	public static void main(final String[] args) {
-		println(DisplayAsConnectionThroughSelenium.class, "Running from Java version " + JavaVersion.get());
+		println(DisplayAsConnectionThroughSelenium.class, "Running from Java version " + JavaVersion.getInstance().get());
 
 		prepareUpdateWatcher(false);
 

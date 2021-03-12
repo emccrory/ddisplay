@@ -853,8 +853,7 @@ public class MessagingServer implements JavaChangeListener {
 	 */
 	public MessagingServer(int port) {
 		this.port = port;
-		javaVersion = new JavaVersion();
-		javaVersion.addJavaChangeListener(this);
+		JavaVersion.getInstance().addJavaChangeListener(this);
 		
 		try {
 			// logger = Logger.getLogger(MessagingServer.class.getName());

@@ -67,7 +67,7 @@ public class MakeChannelSelector {
 	 *            "-D" arguments to the JVM, or through the properties file
 	 */
 	public static void main(final String[] args) {
-		println(MakeChannelSelector.class, "Running from java version " + JavaVersion.get());
+		println(MakeChannelSelector.class, "Running from java version " + JavaVersion.getInstance().get());
 
 		// MessageConveyor.debug = true;
 
