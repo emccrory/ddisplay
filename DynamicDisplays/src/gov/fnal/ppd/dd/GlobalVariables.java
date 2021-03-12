@@ -81,11 +81,6 @@ public class GlobalVariables {
 	private static long					lastUserActivity			= 0L;
 	private static VersionInformation	versionInfo					= null;
 
-	/**
-	 * String that says, "Do not check message signing". This is the only word that will turn off checking. All other words will
-	 * result in checking.
-	 */
-	public final static String			NOCHECK_SIGNED_MESSAGE		= "nocheck";
 
 	public static String getSoftwareVersion() {
 		if (versionInfo == null) {
@@ -125,13 +120,6 @@ public class GlobalVariables {
 	 */
 	public final static String getFullSelectorName() {
 		return THIS_IP_NAME + " selector " + THIS_IP_NAME_INSTANCE;
-	}
-
-	/**
-	 * @return Should the display show its number (all the time) on itself?
-	 */
-	public static boolean showNumberOnDisplay() {
-		return locationCode != 3;
 	}
 
 	/**
@@ -265,26 +253,6 @@ public class GlobalVariables {
 			getFullURLPrefix() + "/portfolioOneSlide.php?photo=");
 
 	/**
-	 * What is the signature of a URL that can lead to a "Bad NUC" showing a bad web page?
-	 * 
-	 */
-	public final static String		URL_REQUIRING_LOTS_OF_GRAPHICS	= System.getProperty("ddisplay.animationurl",
-			"^\\S+dynamicdisplays.fnal.gov/kenburns/portfolioDisplayChoice.php\\S+$");
-	private final static Pattern	urlMatchingPattern				= Pattern.compile(URL_REQUIRING_LOTS_OF_GRAPHICS);
-
-	/**
-	 * 
-	 * @param testURL
-	 *            the URL to test
-	 * @return Do we think that this URL is one of the ones that will cause a "bad NUC" to mess up?
-	 */
-	public static boolean isThisURLNeedAnimation(final String testURL) {
-		System.out.println("\n\nREGEX url: '" + URL_REQUIRING_LOTS_OF_GRAPHICS + "'");
-		System.out.println("URL to match: '" + testURL + "'");
-		return urlMatchingPattern.matcher(testURL).matches();
-	}
-
-	/**
 	 * A symbol for 1,000,000,000.
 	 */
 	public final static int		ONE_BILLION					= 1000000000;
@@ -356,7 +324,7 @@ public class GlobalVariables {
 	 * 
 	 * <ol>
 	 * <li>Many pages really do need refreshing because they "end", like YouTube videos and PowerPoint presentations</li>
-	 * <li>Many we pages just fail from time to time. For example, the webcam pages and the "Channel 13" accelerator display.</li>
+	 * <li>Many web pages just fail from time to time. For example, the webcam pages and the "Channel 13" accelerator display.</li>
 	 * <ol>
 	 * </p>
 	 */
@@ -370,7 +338,6 @@ public class GlobalVariables {
 		return (long) (10000L * (0.5 - Math.random())) + DEFAULT_DWELL_TIME;
 	}
 
-	private static int				locationCode;
 	private static List<Integer>	locationCodes	= new ArrayList<Integer>();
 
 	/**
