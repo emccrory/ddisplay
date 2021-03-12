@@ -93,9 +93,12 @@ public class MessageConveyor {
 			try {
 				retval = (MessageCarrierXML) MyXMLMarshaller.unmarshall(MessageCarrierXML.class, theDocument.getTheXML());
 			} catch (Exception e1) {
+				StackTraceElement[] trace = e1.getStackTrace();
 				printlnErr(clazz, e1.getClass().getCanonicalName()
-						+ " caught while unmarshalling an incoming document; returning null.  Details:");
-				e1.printStackTrace();
+						+ " caught while unmarshalling an incoming document; returning null.  Details (" + trace.length + " lines): ");
+				// e1.printStackTrace();
+				for ( int j=0; j<trace.length && j<3; j++)
+					System.err.println(trace[j] + "\n");
 				return null;
 			}
 			boolean isValid = false;
