@@ -2,7 +2,6 @@ package gov.fnal.ppd.dd.display.client;
 
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_PROTOCOL;
 import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.isThisURLNeedAnimation;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.awt.Color;
@@ -181,9 +180,6 @@ public abstract class ConnectionToBrowserInstance {
 	public boolean changeURL(String urlStrg, int specialCode) throws UnsupportedEncodingException {
 
 		String urlString = urlStrg;
-		if (badNUC && isThisURLNeedAnimation(urlStrg)) {
-			urlString = urlStrg + "&zoom=0";
-		}
 		if (debug)
 			println(getClass(), getScreenText() + " New URL: " + urlString + ", specialCode=" + specialCode);
 
