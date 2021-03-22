@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1615575504551</timeStamp>
-    <versionDescription>Implement a way to exit the JVM when the version of Java (in the OS) changes.  Merge to git master</versionDescription>
-    <versionString>5.3.19</versionString>
+    <timeStamp>1616440979607</timeStamp>
+    <versionDescription>testing the wrap up script from its new location</versionDescription>
+    <versionString>5.3.20</versionString>
 </versionInformation>

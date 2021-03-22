@@ -160,7 +160,8 @@ public class JavaVersion {
 			@Override
 			public void run() {
 				if (hasVersionChanged()) {
-					System.out.println("The java version has changed!  We will try to restart now.");
+					System.out.println("The java version has changed from " + getInitialVersion() + " to " + executeJavaCommand()
+							+ ". This app should be restarted.");
 
 					for (JavaChangeListener jcl : listener)
 						jcl.javaHasChanged();
