@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1616440979607</timeStamp>
-    <versionDescription>testing the wrap up script from its new location</versionDescription>
-    <versionString>5.3.20</versionString>
+    <disposition>PRODUCTION</disposition>
+    <timeStamp>1618326953274</timeStamp>
+    <versionDescription>Fix a bug in the way channel numbers were converted to lists (when the list contained an individual image, it missed it).</versionDescription>
+    <versionString>5.3.21</versionString>
 </versionInformation>
