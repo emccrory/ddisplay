@@ -129,9 +129,12 @@ public class PackageUtilities {
 		} else if (channelNumber < 0) {
 			// The default channel is a list of channels. Build it!
 
-			String query = "select Channel.Number as Number,Dwell,Name,Description,URL,SequenceNumber,Sound FROM Channel,ChannelList where ListNumber="
-					+ (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
+			// This is the old query that got all the channels, but ignored the portfolio entries
+			// String query = "select Channel.Number as Number,Dwell,Name,Description,URL,SequenceNumber,Sound FROM
+			// Channel,ChannelList where ListNumber=" + (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
 
+			String query = "SELECT Number,Dwell,SequenceNumber from ChannelList where ListNumber=" + (-channelNumber);
+			
 			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
 			Connection connection;
 			try {
@@ -152,18 +155,14 @@ public class PackageUtilities {
 						do {
 							int chanNum = rs.getInt("Number");
 							int dwell = rs.getInt("Dwell");
-							String name = rs.getString("Name");
-							String desc = rs.getString("Description");
-							String url = rs.getString("URL");
-							int specialCode = rs.getInt("Sound");
 							int seq = rs.getInt("SequenceNumber");
 
-							ChannelInList c = new ChannelInListImpl(name, ChannelClassification.MISCELLANEOUS, desc, new URI(url),
-									chanNum, dwell);
+							SignageContent content = getChannelFromNumber(chanNum); // Recursive call - will this work??
+							ChannelInList c = new ChannelInListImpl(content.getName(), ChannelClassification.MISCELLANEOUS,
+									content.getDescription(), content.getURI(), chanNum, dwell);
 							c.setSequenceNumber(seq);
-							c.setCode(specialCode);
+							c.setCode(content.getCode());
 							channelList.channelAdd(c);
-
 						} while (rs.next());
 
 						retval = new ChannelPlayList(channelList, 60000L);

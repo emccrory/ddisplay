@@ -84,7 +84,8 @@ import gov.fnal.ppd.dd.xml.messages.EmergencyMessXML;
  * <p>
  * It has these key attributes that deal with all the communications into an out of this class:
  * <ol>
- * <li>BrowserLauncher browserLauncher - Initializes the connection to the browser, e.g., starts it.</li>
+ * <li>BrowserLauncher browserLauncher - Initializes the connection to the browser, e.g., starts it. However,
+ * as time as passed, this class has become mostly obsolete.</li>
  * <li>ConnectionToBrowserInstance browserInstance - Handles all communications with the browser</li>
  * <li>MessagingClientLocal messagingClient - The messaging client that communicates with the server</li>
  * </ol>
