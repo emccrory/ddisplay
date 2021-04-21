@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1618696167411</timeStamp>
-    <versionDescription>Fix a bug in the way channel numbers were converted to lists (when the list contained an individual image, it missed it).
-
-Still trying to debug a distribution error.</versionDescription>
-    <versionString>5.3.23</versionString>
+    <disposition>TEST</disposition>
+    <timeStamp>1619036215757</timeStamp>
+    <versionDescription>Debugged diatribution error.  And ran JUnit tests successfully.</versionDescription>
+    <versionString>5.3.24</versionString>
 </versionInformation>
