@@ -5,6 +5,9 @@
  */
 package gov.fnal.ppd.dd.changer;
 
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
+
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.interfaces.ChannelCatalog;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 
@@ -49,10 +52,21 @@ public class ChannelCatalogFactory {
 		try {
 			ChannelMap cfd = new ChannelMap();
 			cfd.load();
+			//System.out.println("Got catalogs " + cfd);
 			me = cfd;
 		} catch (DatabaseNotVisibleException e) {
 			e.printStackTrace();
 		}
 		return me;
+	}
+	
+	public static void main(String[] args) {
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Baby: " + getInstance());
 	}
 }
