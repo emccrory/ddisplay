@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1619104406528</timeStamp>
+    <timeStamp>1619104487443</timeStamp>
     <versionDescription>Fixed some scripts to look at the config.properties file for "UpdateFlavor".  Added new test for class GetDefaultContentForDisplay</versionDescription>
     <versionString>5.3.25</versionString>
 </versionInformation>
