@@ -28,7 +28,7 @@ tempLog=tempLog_$$
 {
     if [ -e "$log" ] ; then
 	# Rename the existing log file with time stamp of the first access (creation time)
-	# This command pipe Assumes A LOT!  So it will probably be brittle
+	# This command pipe Assumes A LOT!  IT WILL BE BRITTLE
 	suffix=$(stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g')
 	
 	mv "$log" "$ddHome/log/display_$suffix.log"
@@ -42,7 +42,7 @@ mv "$tempLog" "$log"
 # Idiot Check - Don't run if we are almost out of disk space
 
 ONEGIG=1048576
-# Assuming that df returns kilobytes remaining in column 4
+# ASSUME that df returns kilobytes remaining in column 4
 GB=$(($(df | grep home | awk '{ print $4 }')/ONEGIG))
 minimum=3
 if [ "$GB" -lt "$minimum" ]; then
@@ -131,8 +131,9 @@ MyName=$(uname -n)
 	
         # An exit code of -1 (255 here) is going to mean that there was a problem from which we should try to recover.
 	while {
- 	    # Diagnostic to record if there is someone who has port 49999 open (to the messaging server)
-	    lsof -i :49999
+ 	    # Diagnostic to record if there is someone who has our port to the messaging server open
+	    port=$(./property.sh messagingPort)
+	    lsof -i :$port
 
 	    # Kill previously started versions of geckodriver 
             # (TODO - this should be handled automatically, but this seems to be an active Selenium issue)
