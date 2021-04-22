@@ -23,7 +23,7 @@ initialTemp=temp_$$
     # Set up the log file for the startup process and check that it is not from a moment ago
     log="$ddHome/log/displayStartup.log"
     
-    echo Checking if the old log file is relatively new
+    echo Checking if the old log file is relatively new so that we are not in a tight restart loop
     minutes=3
     if [ -e "$log" ] ; then
 	# Check the date on the old log file and stop if it is "too new"
@@ -35,7 +35,7 @@ initialTemp=temp_$$
 	    exit;
 	fi
 	echo Renaming the existing log file with time stamp of the first access, creation time.
-	# This command pipe Assumes A LOT!  So it will probably be brittle
+	# This command pipe ASSUMES A LOT!  So it will probably be brittle
 	suffix=$(stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g')
 	
 	mv "$log" "$ddHome/log/displayStartup_$suffix.log"
