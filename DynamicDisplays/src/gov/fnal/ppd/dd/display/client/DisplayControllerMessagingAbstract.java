@@ -310,7 +310,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 				// keepGoing = false;
 				offLine = true;
 				updateMyStatus();
-
+				catchSleep(2000);
 				disconnect();
 
 				// In the Selenium framework, the geckodriver process sticks around. It is assumed that these extra processes are
