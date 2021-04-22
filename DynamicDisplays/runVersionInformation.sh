@@ -46,11 +46,16 @@ if [ "$hostname" = "xocnuc01.fnal.gov" ]; then
     flavor="DEVELOPMENT";
 elif [ "$hostname" = "roc-w-10.fnal.gov" ]; then
     flavor="TEST"
+else 
+    configFlavor=$(./property.sh UpdateFlavor | sed 's/.\{1\}$//') # Remove "\r" character at the end
+    if [ "$configFlavor X" != " X" ]; then
+	flavor=$configFlavor;
+    fi
 fi
 
 exitCode=0
 if java gov.fnal.ppd.dd.util.version.VersionInformationComparison "$flavor"; then
-    echo You are running the latest version of the software
+    echo You are running the latest \"$flavor\" version of the software
     exitCode=1
 else
     doTheUpdate=$yes;
@@ -72,7 +77,7 @@ else
 	    echo "5"
 	    date > "$log"
 	    echo Automatic software update >> "$log"
-	    theVersion=$(java gov.fnal.ppd.dd.util.version.VersionInformation 4 | grep PRODUCTION | awk '{ print $1 }')
+	    theVersion=$(java gov.fnal.ppd.dd.util.version.VersionInformation 4 | grep $flavor | awk '{ print $1 }')
 
 	    if [ ! -e refreshSoftware.sh ]; then
 		wget https://dynamicdisplays.fnal.gov/software/refreshSoftware.sh
