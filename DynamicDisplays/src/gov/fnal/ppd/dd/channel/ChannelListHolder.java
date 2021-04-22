@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Anything that is a list of channels implements this interface.
  * 
- * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017-18
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
  *
  */
 public interface ChannelListHolder {

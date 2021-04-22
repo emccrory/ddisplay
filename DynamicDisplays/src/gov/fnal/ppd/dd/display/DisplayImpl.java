@@ -34,7 +34,7 @@ import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 
 /**
  * The implementation of a Display. This is made concrete on the controller side through DisplayFacade, and on the display side
- * through DisplayControllerMessagingAbstract (which is today (3/2017) made concrete as DisplayAsConnectionToFireFox)
+ * through DisplayControllerMessagingAbstract (which is made concrete as DisplayAsConnectionThroughSelenium)
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

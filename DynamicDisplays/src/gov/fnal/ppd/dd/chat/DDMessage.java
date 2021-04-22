@@ -20,11 +20,7 @@ public class DDMessage {
 	private String				rawMessage;
 
 	private Object				receivedMessage;
-	// private final static String SCREEN = "Screen:";
 	private static final String	XMLPRE				= "<?xml";
-	// private static final String PING = "<ping ";
-	// private static final String PONG = "<pong ";
-	// private static final String HEARTBEAT = "<heartBeat ";
 	private static final String	CHANGE_CHANNEL		= "<changeChannel ";
 	private static final String	CHANGE_CHANNEL_LIST	= "<changeChannelList ";
 	private static final String	CHANNEL_SPEC		= "<channelSpec ";

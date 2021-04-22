@@ -3,11 +3,9 @@ package gov.fnal.ppd.dd.channel;
 import gov.fnal.ppd.dd.signage.Channel;
 
 /**
- * Extend the Channel class to hold a sequence number.
+ * Extend the Channel interface to hold a sequence number.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2016-18
- * 
  * 
  */
 public interface ChannelInList extends Channel {

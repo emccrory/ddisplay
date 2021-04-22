@@ -1,7 +1,7 @@
 /*
  * NoPrivateKeyException
  *
- * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
+ * Copyright (c) 2015-21 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
 package gov.fnal.ppd.dd.chat;
 
@@ -15,31 +15,7 @@ package gov.fnal.ppd.dd.chat;
 public class NoPrivateKeyException extends Exception {
 	private static final long	serialVersionUID	= -6598594995368928L;
 
-	/**
-	 * Create an exception
-	 */
-	public NoPrivateKeyException() {
-		super();
-	}
-
-	/**
-	 * @param message
-	 * @param cause
-	 * @param enableSuppression
-	 * @param writableStackTrace
-	 */
-	public NoPrivateKeyException(final String message, final Throwable cause, final boolean enableSuppression,
-			final boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
-
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public NoPrivateKeyException(final String message, final Throwable cause) {
-		super(message, cause);
-	}
+	/* *** Force the user to use only the String constructor *** */
 
 	/**
 	 * @param message
@@ -48,11 +24,5 @@ public class NoPrivateKeyException extends Exception {
 		super(message);
 	}
 
-	/**
-	 * @param cause
-	 */
-	public NoPrivateKeyException(final Throwable cause) {
-		super(cause);
-	}
 
 }

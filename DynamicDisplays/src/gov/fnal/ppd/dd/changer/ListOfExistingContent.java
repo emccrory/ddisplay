@@ -8,44 +8,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A simple list of SignageContent at each Display. This is here to ensure that it can be streamed
+ * A simple list of SignageContent at each Display. It is intended to hold the contents of all the Displays under the control of a
+ * ChannelSelector, in the context of doing a "Super Save". The implementing class is probably going to find out what content is
+ * showing on each display - the results will be collected in that class and presented to the others with this signature.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 public class ListOfExistingContent extends HashMap<Display, SignageContent> implements Serializable {
 
-	private static final long	serialVersionUID	= -1771561314944627805L;
+	private static final long serialVersionUID = -1771561314944627805L;
 
 	/**
 	 * 
 	 */
 	public ListOfExistingContent() {
 		super();
-	}
-
-	// None of these remaining constructors are used in the suite.
-	
-	/**
-	 * @param initialCapacity
-	 * @param loadFactor
-	 */
-	public ListOfExistingContent(final int initialCapacity, final float loadFactor) {
-		super(initialCapacity, loadFactor);
-	}
-
-	/**
-	 * @param initialCapacity
-	 */
-	public ListOfExistingContent(final int initialCapacity) {
-		super(initialCapacity);
-	}
-
-	/**
-	 * @param m
-	 */
-	public ListOfExistingContent(final Map<? extends Display, ? extends SignageContent> m) {
-		super(m);
 	}
 
 	// It is necessary to create a method that returns the content as a function of the Display _number_, rather than the
@@ -65,10 +43,9 @@ public class ListOfExistingContent extends HashMap<Display, SignageContent> impl
 
 	@Override
 	public SignageContent put(Display key, SignageContent value) {
-		if ( key == null ) 
+		if (key == null)
 			throw new NullPointerException("Unexpected null display. SignageContent is " + value + " though.");
 		return super.put(key, value);
 	}
-	
-	
+
 }

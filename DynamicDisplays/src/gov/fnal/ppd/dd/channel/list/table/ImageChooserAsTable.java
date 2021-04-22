@@ -45,7 +45,14 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
 
 /**
- * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017
+ * This class contains the complexities for creating a Java table (JTable). This is used in one place - The ChannelListGUI that is
+ * used in the ChannelSelector for letting the user create a list of channels to send to a display.
+ * 
+ * In my opinion, JTables are quite complicated. And this class tries to contain all that so the calling class is not overly
+ * complex. But the upshot is that the GUI presented to the user is also rather complicated. In a perfect world with a lot more time
+ * and expertise, this would be made MUCH simpler for the user.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017-21
  * 
  */
 public class ImageChooserAsTable extends JTable {

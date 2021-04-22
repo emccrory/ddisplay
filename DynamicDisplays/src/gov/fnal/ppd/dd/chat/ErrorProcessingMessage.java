@@ -9,13 +9,8 @@ public class ErrorProcessingMessage extends Exception {
 	private static final long	serialVersionUID	= -3793753596302036490L;
 
 	/**
+	 * Create the exception with the user-supplied message
 	 * 
-	 */
-	public ErrorProcessingMessage() {
-		super();
-	}
-
-	/**
 	 * @param message
 	 */
 	public ErrorProcessingMessage(final String message) {
