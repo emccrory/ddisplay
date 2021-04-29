@@ -203,7 +203,6 @@ public class VersionInformation implements Serializable {
 	 *            The value for this version field
 	 */
 	public void setVersionVal(final int field, int val) {
-		System.out.println(hashCode() + " Setting field " + field + " to " + val);
 		dotVersion[field] = val;
 	}
 
@@ -495,6 +494,7 @@ public class VersionInformation implements Serializable {
 		VersionInformation vi;
 		int which = 0;
 		String hash = "";
+		FLAVOR flav = FLAVOR.PRODUCTION;
 
 		if (args.length > 0 && args[0].length() > 1) {
 			hash = args[0];
@@ -505,9 +505,9 @@ public class VersionInformation implements Serializable {
 				System.err.println("Cannot ask for option=3 - supply a hash value instead.");
 				System.exit(-1);
 			}
+			if (args.length > 1)
+				flav = FLAVOR.valueOf(args[1]);
 		}
-
-		FLAVOR flav = FLAVOR.PRODUCTION;
 
 		switch (which) {
 		case 0:
@@ -544,7 +544,7 @@ public class VersionInformation implements Serializable {
 
 		case 2:
 			// READ from database
-			System.out.println("Reading version information from the DB");
+			System.out.println("Reading " + flav + " version information from the DB");
 			try {
 				credentialsSetup();
 			} catch (CredentialsNotFoundException e) {

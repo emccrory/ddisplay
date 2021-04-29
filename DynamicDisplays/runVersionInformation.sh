@@ -47,7 +47,7 @@ if [ "$hostname" = "xocnuc01.fnal.gov" ]; then
 elif [ "$hostname" = "roc-w-10.fnal.gov" ]; then
     flavor="TEST"
 else 
-    configFlavor=$(./property.sh UpdateFlavor | sed 's/.\{1\}$//') # Remove "\r" character at the end
+    configFlavor=$(./property.sh UpdateFlavor)
     if [ "$configFlavor X" != " X" ]; then
 	flavor=$configFlavor;
     fi
@@ -60,11 +60,11 @@ if java gov.fnal.ppd.dd.util.version.VersionInformationComparison "$flavor"; the
 else
     doTheUpdate=$yes;
     if [ $yes = 0 ]; then 
-	details=$(java gov.fnal.ppd.dd.util.version.VersionInformation 2)
-	title="New version detected"
+	details=$(java gov.fnal.ppd.dd.util.version.VersionInformation 2 $flavor)
+	title="New $flavor version detected"
 	text="The server has a newer version of the Dynamic Displays software.\nNew version details:\n\n$details\n\nShall we update to the newest version?";
 
-	if zenity --question --title="$title" --text="$text"; then 
+	if zenity --question --width=900 --title="$title" --text="$text"; then 
 	    doTheUpdate=1;
 	fi
     fi
