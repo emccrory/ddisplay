@@ -44,8 +44,9 @@ initialTemp=temp_$$
 
 } > "$initialTemp" 2>&1
 
+mv "$initialTemp" "$log"
+
 {
-    mv "$initialTemp" "$log"
 
     # ----- Check if there are "several new" instances of roc-dynamicdisplays-old??? in the src folder
 

@@ -11,13 +11,13 @@
 # ----------------------------------------------------------------------
 ONEGIG=1048576
 GB=$(($(df | grep home | grep -v home2 | awk '{ print $4 }')/$ONEGIG))
-minimumToProceed=30
+minimumToProceed=5
 if [ "$GB" -lt "$minimumToProceed" ]; then
     echo "Insufficient disk space, $GB GB, to continue with the check for a new version.  The minimum disk space to continue is $minimumToProceed GB."
     df 
     echo
-    echo This usually means that the startup script is in an infinite loop and keeps trying to download 
-    echo a new version, or one of the log files has gotten too big.
+    echo This sometimes means that the startup script is in an infinite loop and keeps trying 
+    echo to download a new version, or one of the log files has gotten too big.
     echo
     echo Will let the system continue with the present version of the software.
     java gov.fnal.ppd.dd.util.version.VersionInformation 0
@@ -42,15 +42,9 @@ d=$(date +%F)
 # FIXME The decision on which sort of release to download for a client needs to be put into the database
 hostname=$(hostname)
 flavor="PRODUCTION"
-if [ "$hostname" = "xocnuc01.fnal.gov" ]; then
-    flavor="DEVELOPMENT";
-elif [ "$hostname" = "roc-w-10.fnal.gov" ]; then
-    flavor="TEST"
-else 
-    configFlavor=$(./getFlavor.sh)
-    if [ "$configFlavor X" != " X" ]; then
-	flavor=$configFlavor;
-    fi
+configFlavor=$(./getFlavor.sh)
+if [ "$configFlavor X" != " X" ]; then
+    flavor=$configFlavor;
 fi
 
 exitCode=0
