@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>TEST</disposition>
-    <timeStamp>1619733081891</timeStamp>
+    <disposition>DEVELOPMENT</disposition>
+    <timeStamp>1619735252833</timeStamp>
     <versionDescription>Remove the trailing "\r" from the output of property.sh.   This is is a TEST release for testing if the auto update works overnight</versionDescription>
     <versionString>5.3.31</versionString>
 </versionInformation>
