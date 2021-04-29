@@ -39,7 +39,11 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
 
 /**
- * This class gets the channels that each display is supposed to show for a particular save set.
+ * This class does a couple of tasks for displays with respect to the database.
+ * <ol>
+ * <li>Gets the channels that each display is supposed to show for a particular save set.</li>
+ * <li>Gets the FLAVOR that this display is supposed to be looking for, from the database.</li>
+ * </ol>
  * 
  * Note that if a Display is removed and it was saved in a save set, this will throw a silent error.
  * 
