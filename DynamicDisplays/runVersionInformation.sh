@@ -47,7 +47,7 @@ if [ "$hostname" = "xocnuc01.fnal.gov" ]; then
 elif [ "$hostname" = "roc-w-10.fnal.gov" ]; then
     flavor="TEST"
 else 
-    configFlavor=$(./property.sh UpdateFlavor)
+    configFlavor=$(./getFlavor.sh)
     if [ "$configFlavor X" != " X" ]; then
 	flavor=$configFlavor;
     fi
