@@ -380,6 +380,7 @@ public class VersionInformation implements Serializable {
 						break;
 
 					case DEVELOPMENT:
+						// Accept all flavors
 						break;
 					}
 					String query = "SELECT HashDate,Flavor,Version,Description from GitHashDecode " + whereClause

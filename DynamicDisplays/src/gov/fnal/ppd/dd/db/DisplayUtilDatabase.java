@@ -29,6 +29,7 @@ import gov.fnal.ppd.dd.display.DisplayFacade;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
@@ -287,5 +288,28 @@ public class DisplayUtilDatabase {
 		println(DisplayUtilDatabase.class,
 				": Found " + count + " displays at locationCode=" + locationCode + " and displayDBNumber=" + displayDBNumber);
 		return theList;
+	}
+
+	public static FLAVOR getFlavorFromDatabase(String ipName) {
+		FLAVOR retval = FLAVOR.PRODUCTION;
+		String query = "SELECT Flavor from Display WHERE IPName = '" + ipName;
+		try {
+			Connection connection = ConnectionToDatabase.getDbConnection();
+
+			synchronized (connection) {
+
+				try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query);) {
+					if (!rs.first()) { // Move to first returned row
+						printlnErr(DisplayUtilDatabase.class, "Executed a query that returned no results: " + query);
+					} else
+						while (!rs.isAfterLast())
+							retval = FLAVOR.valueOf(rs.getString("Flavor"));
+				}
+			}
+		} catch (Exception e) {
+			printlnErr(DisplayUtilDatabase.class, "Exception caught and ignored: " + e.getMessage());
+		}
+
+		return retval;
 	}
 }

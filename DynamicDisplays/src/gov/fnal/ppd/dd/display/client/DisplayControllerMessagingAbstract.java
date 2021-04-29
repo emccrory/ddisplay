@@ -10,6 +10,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
 import static gov.fnal.ppd.dd.GlobalVariables.getDefaultDwellTime;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
+import static gov.fnal.ppd.dd.GlobalVariables.setFlavorFromDatabase;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
@@ -790,6 +791,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			e2.printStackTrace();
 		}
 
+		setFlavorFromDatabase(myNode);
 		String query = "SELECT IPName,DisplayID,VirtualDisplayNumber,Location,ColorCode,Port,Content,ScreenNumber FROM Display where IPName='"
 				+ myNode + "'";
 

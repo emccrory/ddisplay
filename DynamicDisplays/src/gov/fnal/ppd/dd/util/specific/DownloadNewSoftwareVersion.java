@@ -33,6 +33,8 @@ import gov.fnal.ppd.dd.util.nonguiUtils.ExitHandler;
  * runtime environment while the display is running. The Linux startup script will check for updates, so it was decided to simply
  * exit the program and let it restart.
  * 
+ * In other words, the original purpose of this class *****  IS NO LONGER IMPLEMENTED for Linux  *****
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *
  */

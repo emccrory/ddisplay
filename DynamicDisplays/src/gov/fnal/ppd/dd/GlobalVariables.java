@@ -7,6 +7,7 @@ package gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
+import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.getFlavorFromDatabase;
 
 import java.awt.Image;
 import java.io.File;
@@ -80,7 +81,6 @@ public class GlobalVariables {
 	 */
 	private static long					lastUserActivity			= 0L;
 	private static VersionInformation	versionInfo					= null;
-
 
 	public static String getSoftwareVersion() {
 		if (versionInfo == null) {
@@ -221,35 +221,35 @@ public class GlobalVariables {
 		return WEB_PROTOCOL + "://" + WEB_SERVER_NAME;
 	}
 
-	public static final String		SOFTWARE_FILE_ZIP				= PropertiesFile.getProperty("SoftwareFileZip");
-	public static final String		UNZIP_PROGRAM_LOCATION			= PropertiesFile.getProperty("UnzipLocation");
+	public static final String	SOFTWARE_FILE_ZIP			= PropertiesFile.getProperty("SoftwareFileZip");
+	public static final String	UNZIP_PROGRAM_LOCATION		= PropertiesFile.getProperty("UnzipLocation");
 	/**
 	 * Where is the Database server? Controlled by system constant ddisplay.dbserver
 	 */
-	public static String			DATABASE_SERVER_NAME			= System.getProperty("ddisplay.dbserver");
+	public static String		DATABASE_SERVER_NAME		= System.getProperty("ddisplay.dbserver");
 	/**
 	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
 	 */
-	public static String			DATABASE_NAME					= System.getProperty("ddisplay.dbname");
+	public static String		DATABASE_NAME				= System.getProperty("ddisplay.dbname");
 	/**
 	 * The username for accessing the database
 	 */
-	public static String			DATABASE_USER_NAME				= System.getProperty("ddisplay.dbusername");
+	public static String		DATABASE_USER_NAME			= System.getProperty("ddisplay.dbusername");
 	/**
 	 * the password corresponding to the username that accesses the database. Note that this MUST be entered by hand for each time
 	 * one runs an application. (This is not the actual password.)
 	 */
-	public static String			DATABASE_PASSWORD				= System.getProperty("ddisplay.dbpassword");
+	public static String		DATABASE_PASSWORD			= System.getProperty("ddisplay.dbpassword");
 	/**
 	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
 	 * Controlled by system constant ddisplay.xmlserver
 	 */
-	public final static String		XML_SERVER_NAME					= System.getProperty("ddisplay.xmlserver");
+	public final static String	XML_SERVER_NAME				= System.getProperty("ddisplay.xmlserver");
 
 	/**
 	 * The URL that is the single image display web page. This is a bit of a kludge!
 	 */
-	public final static String		SINGLE_IMAGE_DISPLAY			= PropertiesFile.getProperty("singleImageDisplay",
+	public final static String	SINGLE_IMAGE_DISPLAY		= PropertiesFile.getProperty("singleImageDisplay",
 			getFullURLPrefix() + "/portfolioOneSlide.php?photo=");
 
 	/**
@@ -332,13 +332,13 @@ public class GlobalVariables {
 
 	public final static long getDefaultDwellTime() {
 		// This random 5-second variation is to put default refreshes for different channels and different displays at different
-		// times which I hope will even out the load a little bit. One common scenario is that all the displays start at the 
-		// same time, so if they all have the same default timeout, these will collide. It might not be a big deal, but it 
+		// times which I hope will even out the load a little bit. One common scenario is that all the displays start at the
+		// same time, so if they all have the same default timeout, these will collide. It might not be a big deal, but it
 		// makes me feel better.
 		return (long) (10000L * (0.5 - Math.random())) + DEFAULT_DWELL_TIME;
 	}
 
-	private static List<Integer>	locationCodes	= new ArrayList<Integer>();
+	private static List<Integer> locationCodes = new ArrayList<Integer>();
 
 	/**
 	 * Which set of Displays are we controlling here? Controlled by system constant, ddisplay.selector.location
@@ -529,17 +529,30 @@ public class GlobalVariables {
 
 	// ----------------------------------------------------------------------------------------------------------------
 
+	private static String DISPLAY_NODE_NAME = null;
+
+
+	public static void setFlavorFromDatabase(String f) {
+		DISPLAY_NODE_NAME = f;
+		println(GlobalVariables.class, "Will be getting the update FLAVOR for this node, " + f + ", from the database.");
+	}
+
 	public static FLAVOR getFlavor(boolean reset) {
-		if (reset)
-			PropertiesFile.reset();
 		FLAVOR flavor = FLAVOR.PRODUCTION;
-		if (PropertiesFile.getProperty("UpdateFlavor") != null) {
-			try {
-				flavor = FLAVOR.valueOf(PropertiesFile.getProperty("UpdateFlavor"));
-			} catch (Exception e) {
-				printlnErr(GlobalVariables.class, "Unrecognized software flavor in the configuration file: "
-						+ PropertiesFile.getProperty("UpdateFlavor") + ". Will use " + FLAVOR.PRODUCTION);
-				flavor = FLAVOR.PRODUCTION;
+
+		if (DISPLAY_NODE_NAME != null) {
+			return getFlavorFromDatabase(DISPLAY_NODE_NAME);
+		} else {
+			if (reset)
+				PropertiesFile.reset();
+			if (PropertiesFile.getProperty("UpdateFlavor") != null) {
+				try {
+					flavor = FLAVOR.valueOf(PropertiesFile.getProperty("UpdateFlavor"));
+				} catch (Exception e) {
+					printlnErr(GlobalVariables.class, "Unrecognized software flavor in the configuration file: "
+							+ PropertiesFile.getProperty("UpdateFlavor") + ". Will use " + FLAVOR.PRODUCTION);
+					flavor = FLAVOR.PRODUCTION;
+				}
 			}
 		}
 		return flavor;
@@ -565,7 +578,8 @@ public class GlobalVariables {
 
 		if (file == null) {
 			System.err.println("Cannot find credentials file.  Looked in these folders: " + Arrays.toString(credentialsPath));
-			throw new CredentialsNotFoundException("Cannot find credentials file.  Looked in these folders: " + Arrays.toString(credentialsPath));
+			throw new CredentialsNotFoundException(
+					"Cannot find credentials file.  Looked in these folders: " + Arrays.toString(credentialsPath));
 		}
 
 		try {

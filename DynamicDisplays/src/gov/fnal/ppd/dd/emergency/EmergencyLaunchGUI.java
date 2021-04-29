@@ -355,6 +355,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 		add(box, constraints);
 
 		if (SHOW_MORE_STUFF) {
+			// Give the user the option to skip some of the displays
 			constraints.gridx = 1;
 			constraints.gridy++;
 			constraints.gridwidth = 2;
@@ -440,7 +441,7 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 			add(footerPanel, constraints);
 			// End of SHOW_MORE_STUFF block
 		} else {
-			// Well, at least show the number of displays that are likely to be affected.
+			// Show the number of displays that are likely to be affected.
 			PatientLabel pl = new PatientLabel();
 			pl.start();
 

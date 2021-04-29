@@ -40,6 +40,15 @@ import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 /**
  * Create the widget of the available displays for the Dynamic Displays "Channel Selector"
  * 
+ * When this was written, it was imagined that we could have many dozen displays to control at a time.  This turns out
+ * to be true only when the ChannelSelector is asked to control all of the displays in the system.  This Use Case has not,
+ * as of this time (April 2021) been seen except when the main developer tests it.
+ * 
+ * The break point when the slider is used is 20 displays (MAXIMUM_DISPLAY_BUTTONS), but only when the controller is showing
+ * as full screen.
+ * 
+ * When it is in a window, it uses the "compact" set of buttons
+ * 
  * @author Elliott McCrory, Fermilab AD, 2012-20
  */
 public class DisplayButtons extends JPanel {
