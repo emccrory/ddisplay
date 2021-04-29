@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1619721884426</timeStamp>
-    <versionDescription>Put the update into the script, runADisplay.sh.  Also, place the knowledge of the update FLAVOR into the database and retrieve it from there.</versionDescription>
-    <versionString>5.3.27</versionString>
+    <disposition>TEST</disposition>
+    <timeStamp>1619724694329</timeStamp>
+    <versionDescription>Put the update into the script, runADisplay.sh.  Also, place the knowledge of the update FLAVOR into the database and retrieve it from there. Also, this version is the TEST flavor</versionDescription>
+    <versionString>5.3.28</versionString>
 </versionInformation>
