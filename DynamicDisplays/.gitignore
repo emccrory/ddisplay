@@ -1,3 +1,5 @@
 markMerged.sh
 target
-/#temp#
+temp*
+\#*
+.\#*
