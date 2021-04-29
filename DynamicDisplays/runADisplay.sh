@@ -156,7 +156,15 @@ MyName=$(uname -n)
 	    echo "$(date)" " Display program exited with an understood failure ..."
 	    echo Restarting the display on "$(hostname)" | /usr/bin/mail -s "Display software has restarted" mccrory@fnal.gov
 	    sleep 5
-  	    # Maybe there is a new version of the software here.  
+	    #
+	    # The assumption here is that this script will perform the update.
+	    #
+
+	    # Check the version of the code
+	    if ( ./runVersionInformation.sh Y  ); then
+		echo "There is a new version, which we have retrieved.  Restarting this display application."
+	    fi 
+	    
 	    # This "cd" should put us in the right place (unless the new version contains a new version of this script.)
 	    cd "$workingDirectory" || exit
 	    echo ""
