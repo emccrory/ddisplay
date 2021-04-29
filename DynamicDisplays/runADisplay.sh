@@ -42,8 +42,8 @@ mv "$tempLog" "$log"
 # Idiot Check - Don't run if we are almost out of disk space
 
 ONEGIG=1048576
-# ASSUME that df returns kilobytes remaining in column 4
-GB=$(($(df | grep home | awk '{ print $4 }')/ONEGIG))
+# ASSUME that df returns "kilobytes remaining" in column 4
+GB=$(($(df | grep home | grep -v home2 | awk '{ print $4 }')/ONEGIG))
 minimum=3
 if [ "$GB" -lt "$minimum" ]; then
     echo Insufficient disk space, "$GB" GB, to run the Dynamic Displays software.  Log files for this application and for the system need at least "$minimum" GB.

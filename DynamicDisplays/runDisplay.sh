@@ -30,7 +30,7 @@ initialTemp=temp_$$
 	if test "$(find $log -type f -mmin -$minutes)" ; then
 	    echo There is a new log file.  This is an abort condition.
 	    ls -l $log
-	    text="Log file $log was modified less than $minutes mintues ago.\n\nStopping this script since this indicates that we might be in an infinite loop."
+	    text="Log file $log was modified less than $minutes mintues ago.\n\nThis might mean that we are an infinite loop."
 	    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error C" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"20000\">$text</span>"
 	    exit;
 	fi
@@ -70,7 +70,7 @@ mv "$initialTemp" "$log"
     # ----- Check disk usage
     ONEGIG=1048576
     # Assuming that df returns kilobytes remaining in column 4
-    ((GB=$(df | grep home | awk '{ print $4 }')/ONEGIG))
+    ((GB=$(df | grep home | grep -v home2 | awk '{ print $4 }')/ONEGIG))
     
     minimum=3
     if [ "$GB" -lt "$minimum" ]; then
