@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.db;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
@@ -9,6 +10,8 @@ import static gov.fnal.ppd.dd.util.specific.PackageUtilities.convertContentToDBR
 import static gov.fnal.ppd.dd.util.specific.PackageUtilities.getChannelFromNumber;
 
 import java.awt.Color;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelInListImpl;
@@ -292,7 +296,7 @@ public class DisplayUtilDatabase {
 
 	public static FLAVOR getFlavorFromDatabase(String ipName) {
 		FLAVOR retval = FLAVOR.PRODUCTION;
-		String query = "SELECT Flavor from Display WHERE IPName = '" + ipName;
+		String query = "SELECT Flavor from Display WHERE IPName = '" + ipName + "'";
 		try {
 			Connection connection = ConnectionToDatabase.getDbConnection();
 
@@ -301,9 +305,13 @@ public class DisplayUtilDatabase {
 				try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query);) {
 					if (!rs.first()) { // Move to first returned row
 						printlnErr(DisplayUtilDatabase.class, "Executed a query that returned no results: " + query);
+						return null;
 					} else
-						while (!rs.isAfterLast())
+						while (!rs.isAfterLast()) {
 							retval = FLAVOR.valueOf(rs.getString("Flavor"));
+							if (!rs.next())
+								break;
+						}
 				}
 			}
 		} catch (Exception e) {
@@ -311,5 +319,26 @@ public class DisplayUtilDatabase {
 		}
 
 		return retval;
+	}
+
+	public static void main(String[] args) {
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+		String myNode = "localhost";
+		try {
+			myNode = InetAddress.getLocalHost().getCanonicalHostName().replace(".dhcp.", ".");
+		} catch (UnknownHostException e2) {
+			e2.printStackTrace();
+		}
+
+		FLAVOR flavor = getFlavorFromDatabase(myNode);
+		if (flavor != null)
+			System.out.println("FLAVOR = " + flavor);
+		System.exit(0);
 	}
 }
