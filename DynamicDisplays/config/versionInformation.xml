@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>TEST</disposition>
-    <timeStamp>1619113357677</timeStamp>
-    <versionDescription>This version has no code changes from the previous version.  The changes are in the comments and to remove a few unused constructors.  But, primarily, this push is to make a new "TEST" version, which should excercise the local updates on a handful of display nodes.</versionDescription>
-    <versionString>5.3.26</versionString>
+    <disposition>DEVELOPMENT</disposition>
+    <timeStamp>1619718084103</timeStamp>
+    <versionDescription>Put the update into the script, runADisplay.sh.  Also, place the knowlede of the update FLAVOR into the database</versionDescription>
+    <versionString>5.3.27</versionString>
 </versionInformation>
