@@ -8,21 +8,8 @@
 
 # ----------------------------------------------------------------------
 # IDIOT CHECK: Is there enough disk space to proceed?
-# ----------------------------------------------------------------------
-ONEGIG=1048576
-GB=$(($(df | grep home | grep -v home2 | awk '{ print $4 }')/$ONEGIG))
-minimumToProceed=5
-if [ "$GB" -lt "$minimumToProceed" ]; then
-    echo "Insufficient disk space, $GB GB, to continue with the check for a new version.  The minimum disk space to continue is $minimumToProceed GB."
-    df 
-    echo
-    echo This sometimes means that the startup script is in an infinite loop and keeps trying 
-    echo to download a new version, or one of the log files has gotten too big.
-    echo
-    echo Will let the system continue with the present version of the software.
-    java gov.fnal.ppd.dd.util.version.VersionInformation 0
-    exit 1;
-fi
+
+./checkDiskSpace.sh $0 || { echo "$0: Insufficient disk space" ; exit 1; } 
 
 # End of IDIOT Check ---------------------------------------------------
 

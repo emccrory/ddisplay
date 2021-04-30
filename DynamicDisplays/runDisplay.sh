@@ -62,38 +62,19 @@ mv "$initialTemp" "$log"
     done | wc -l > $t 2>/dev/null
     if [ "$(cat $t)" -gt 2 ]; then
 	# We saw 3 or more of the roc-dynamicdisplays-old* folders that were new
-	text="\nToo many instances of recent\nroc-dynamicdisplays-old folders - Stopping now.";
+	text="\nToo many 'new' instances of recent\nroc-dynamicdisplays-old folders - Stopping now.";
 	zenity --error --width=900 --title="Dynamic Displays Software Fatal Error D" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">$text</span>"
 	exit
     fi
     
     # ----- Check disk usage
-    ONEGIG=1048576
-    # Assuming that df returns kilobytes remaining in column 4
-    ((GB=$(df | grep home | grep -v home2 | awk '{ print $4 }')/ONEGIG))
-    
-    minimum=3
-    if [ "$GB" -lt "$minimum" ]; then
-	echo Insufficient disk space, "$GB" GB, to run the Dynamic Displays software.  Log files for this application and for the system need at least "$minimum" GB.
-	echo Here is the df command.
-	df 
-	echo
-	echo This situation is unexpected.  Exiting.
-	text="\n        Insufficient Disk Space, " "$GB" "GB,\n                        to run the\n            Dynamic Display Software\n"
-	zenity --error --width=900 --title="Dynamic Displays Software Fatal Error A" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">$text</span>"
-	exit;
-    fi
-# --------------------------------------------------------------------------------
+    ./checkDiskSpace.sh $0 || { echo "$0: Insufficient disk space" ; exit 1; }
 
     # Setup executables location
     workingDirectory=$ddHome/roc-dynamicdisplays/DynamicDisplays
     
     # Verify that this script is not running now
-    if pgrep -a "$workingDirectory/$0" ; then
-	date
-	echo It looks like this script is already running 
-	exit 1;
-    fi 
+    pgrep -a "$workingDirectory/$0" || { date; echo It looks like $0 is already running; exit 1; }
 
     cd $workingDirectory || exit
     . setupJars.sh
@@ -103,7 +84,7 @@ mv "$initialTemp" "$log"
 
     # Check the version of the code
     if ( ./runVersionInformation.sh Y  ); then
-	echo "There is a new version, which we have retrieved.  Restarting this script."
+	echo "There is a new version of the Dynamic Displays software, which we have retrieved.  Restarting this script."
 	cd $workingDirectory || exit
 	exec "$0" 2
 	exit 0
