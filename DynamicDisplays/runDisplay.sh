@@ -67,9 +67,6 @@ mv "$initialTemp" "$log"
 	exit
     fi
     
-    # ----- Check disk usage
-    ./checkDiskSpace.sh $0 || { echo "$0: Insufficient disk space" ; exit 1; }
-
     # Setup executables location
     workingDirectory=$ddHome/roc-dynamicdisplays/DynamicDisplays
     
@@ -77,6 +74,10 @@ mv "$initialTemp" "$log"
     pgrep -a "$workingDirectory/$0" || { date; echo It looks like $0 is already running; exit 1; }
 
     cd $workingDirectory || exit
+
+    # ----- Check disk usage
+    ./checkDiskSpace.sh $0 || { echo "$0: Insufficient disk space" ; exit 1; }
+
     . setupJars.sh
     
     date

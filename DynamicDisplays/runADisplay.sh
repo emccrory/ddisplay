@@ -38,11 +38,6 @@ tempLog=tempLog_$$
 
 mv "$tempLog" "$log"
 
-# --------------------------------------------------------------------------------
-# Idiot Checks - Don't run if we are almost out of disk space
-
-./checkDiskSpace.sh $0 || { echo "$0: Insufficient disk space" ; exit 1; } >> $log 2>&1
-
 # Setup executables location
 workingDirectory=$ddHome/roc-dynamicdisplays/DynamicDisplays
 
@@ -56,6 +51,11 @@ echo "$(date)" Working directory is "$(pwd)" >> $log 2>&1
 # Removed the check for the new version - this is in the script that calls us here.
 
 cd "$workingDirectory" || exit
+
+# --------------------------------------------------------------------------------
+# Idiot Checks - Don't run if we are almost out of disk space
+
+./checkDiskSpace.sh $0 || { echo "$0: Insufficient disk space" ; exit 1; } >> $log 2>&1
 
 # Remove the json file that seems to be responsible for configuring Firefox.
 # In particular, this holds the last location of the Firefox windows.

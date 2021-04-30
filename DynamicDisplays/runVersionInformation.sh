@@ -13,7 +13,6 @@
 
 # End of IDIOT Check ---------------------------------------------------
 
-
 # for the display software, use the command line argument, "Y" to do the update, no questions asked.
 yes=0;
 if [ "$1 X" = "Y X" ]; then
