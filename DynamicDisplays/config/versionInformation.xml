@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1619786929948</timeStamp>
+    <timeStamp>1619787492508</timeStamp>
     <versionDescription>Coordinate the checking of disk space among all the "run*.sh" scripts.  And make the minimum disk space requirement 3GB.</versionDescription>
     <versionString>5.3.32</versionString>
 </versionInformation>
