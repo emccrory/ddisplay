@@ -71,7 +71,7 @@ mv "$initialTemp" "$log"
     workingDirectory=$ddHome/roc-dynamicdisplays/DynamicDisplays
     
     # Verify that this script is not running now
-    pgrep -a "$workingDirectory/$0" || { date; echo It looks like $0 is already running; exit 1; }
+    pgrep -a "$workingDirectory/$0" && { date; echo It looks like $0 is already running; exit 1; }
 
     cd $workingDirectory || exit
 
