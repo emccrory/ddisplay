@@ -1,6 +1,6 @@
 package test.gov.fnal.ppd.dd.display;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 
 import java.awt.Color;
@@ -9,12 +9,14 @@ import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.util.Stack;
 
 import org.junit.Test;
 
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.display.DisplayImpl;
 import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * Simple unit tests for the Display class.
@@ -49,6 +51,10 @@ public class DisplayImplTest {
 			}
 
 		}
+		
+		public Stack<SignageContent> getStack() {
+			return this.previousChannelStack;
+		}
 
 		@Override
 		public String getMessagingName() {
@@ -80,10 +86,39 @@ public class DisplayImplTest {
 	public void testSetContent() {
 		assumeTrue(testingDisplay.fullyValid);
 		try {
-			Channel c = new ChannelImpl("TestingAgain", "Testing Again Desc", new URI("https://dynamicdisplays.fnal.gov"), 314, 23456789L);
+			Channel c = new ChannelImpl("TestingAgain", "Testing Again Desc", new URI("https://dynamicdisplays.fnal.gov"), 314,
+					23456789L);
 			testingDisplay.setContent(c);
 			assertEquals(testingDisplay.getContent(), c);
 			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+			assert (false);
+		}
+	}
+
+	@Test
+	public void testChannelStack() {
+		// Test that the process of showing the self-identify screen brings us back to the original content
+		assumeTrue(testingDisplay.fullyValid);
+		try {
+
+			Channel c1 = new ChannelImpl("Testing_01", "Testing One Desc", new URI("https://dynamicdisplays.fnal.gov/one"), 314,
+					23456789L);
+			Channel c2 = new ChannelImpl("Testing_02", "Testing Two Desc", new URI("https://dynamicdisplays.fnal.gov/two"), 314,
+					23456789L);
+			
+			Stack<SignageContent> stack = testingDisplay.getStack();
+			assertNotNull(stack);
+			assert(stack.size() == 0);
+			SignageContent s1 = testingDisplay.setContent(c1);
+			assert(s1.equals(c1));
+			SignageContent s2 = testingDisplay.setContent(c2);
+			assert(s2.equals(c2));
+			stack = testingDisplay.getStack();
+			assertNotNull(stack);
+			assert(stack.size() == 2);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			assert (false);
@@ -127,7 +162,7 @@ public class DisplayImplTest {
 	}
 
 	@Test
-	public void testaddListener() {
+	public void testAddListener() {
 		assumeTrue(testingDisplay.fullyValid);
 
 		try {
