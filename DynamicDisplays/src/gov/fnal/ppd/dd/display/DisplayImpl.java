@@ -65,7 +65,6 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 	protected List<ActionListener>	listeners				= new ArrayList<ActionListener>();
 	private InetAddress				ipAddress;
 	private String					location;
-	private JavaVersion             javaVersion;
 
 	// protected TimerTask heartbeatThread = new TimerTask() {
 	// public void run() {
@@ -76,12 +75,17 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 
 	/**
 	 * @param ipName
+	 *            - the IPName of this node
 	 * @param vDisplay
+	 *            - the virtual (local) display number for this display
 	 * @param dbDisplay
+	 *            - the index number in the database for this display
 	 * @param screenNumber
+	 *            - the screen number for this display
 	 * @param location
+	 *            - The description of the location
 	 * @param color
-	 * @param type
+	 *            - the highlight color
 	 */
 	public DisplayImpl(final String ipName, final int vDisplay, final int dbDisplay, final int screenNumber, final String location,
 			final Color color) {
@@ -90,7 +94,7 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 		assert (dbDisplay >= 0);
 
 		JavaVersion.getInstance().addJavaChangeListener(this);
-		
+
 		// myName = ipName + ":" + screenNumber + " (" + displayNumber + ")";
 
 		try {
@@ -116,7 +120,7 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 		// TODO -- When an emergency message is up, we should (probably) not allow the channel to change.
 		//
 		// The ideal way would be to change the underlying channel while keeping the emergency message up, but this is hard.
-		// ACtually, the way to do this is to have the emergency message EXPIRE after a suitable amount of time (an hour?).  Then
+		// ACtually, the way to do this is to have the emergency message EXPIRE after a suitable amount of time (an hour?). Then
 		// the last channel will reappear.
 
 		if (c instanceof EmergencyCommunication) {
@@ -167,16 +171,22 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 		return channel;
 	}
 
-	// This should be overridden in the real display client
-	protected void respondToContentChange(boolean b, final String why) {
-		println(getClass(), " >>>> Setting the content in setConent(): " + (b ? "SUCCESS" : "F-A-I-L-U-R-E"));
-		if (b) {
+	/**
+	 * This should be overridden in the real display client
+	 * 
+	 * @param success
+	 *            - did the channel change work?
+	 * @param why
+	 *            - Why did it fail
+	 */
+	protected void respondToContentChange(boolean success, final String why) {
+		println(getClass(), " >>>> Setting the content in setConent(): " + (success ? "SUCCESS" : "F-A-I-L-U-R-E"));
+		if (success) {
+			// Prototyping - make a fake "Yay, it worked" thread.
 			// new Thread("FakeChangeComplete") {
 			// long sleepTime = (SHOW_IN_WINDOW ? 1000 : 5000);
 			//
 			// public void run() {
-			// // TODO -- This event needs to be triggered by the display actually indicating that it has changed the
-			// // channel.
 			// catchSleep(sleepTime);
 			// informListeners(DisplayChangeEvent.Type.CHANGE_COMPLETED, "Channel change succeeded");
 			// }
@@ -187,7 +197,7 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 	}
 
 	/**
-	 * Override if this is something you need to check
+	 * Had the validness of this channel been checked, and is it valid? Override if this is something you need to check
 	 * 
 	 * @param c
 	 * @return
@@ -251,13 +261,6 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 		return "Display " + displayNumber;
 	}
 
-	// @Override
-	// public int getNumber() {
-	// if (SHOW_VIRTUAL_DISPLAY_NUMS)
-	// return getVirtualDisplayNumber();
-	// return getDBDisplayNumber();
-	// }
-
 	@Override
 	public int getDBDisplayNumber() {
 		return dbDisplayNumber;
@@ -291,18 +294,6 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 		} else
 			throw new RuntimeException("Unexpected source: " + e.getSource().getClass().getCanonicalName());
 	}
-
-	// protected void informListeners(final ActionEvent e) {
-	// new Thread("inform") {
-	// public void run() {
-	// try {
-	// informListeners(e.getID(), DisplayChangeEvent.Type.CHANGE_RECEIVED);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }.start();
-	// }
 
 	protected void informListeners(final DisplayChangeEvent.DisplayChangeType t, String more) {
 		final DisplayChangeEvent ev = new DisplayChangeEvent(this, internalThreadID.getAndIncrement(), t, more);
@@ -358,10 +349,12 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 
 	@Override
 	public String getStatus() {
-		// return "Displaying: " + (getContent() != null ? getContent().getName() : "No channel");
 		return "" + getContent();
 	}
 
+	/**
+	 * Disconnect this display from the browser
+	 */
 	public void disconnect() {
 		// Nothing to do except for facade displays
 	}
@@ -400,7 +393,7 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public void javaHasChanged() {
 		// By default, do nothing.

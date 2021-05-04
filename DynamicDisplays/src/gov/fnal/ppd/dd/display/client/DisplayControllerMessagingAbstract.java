@@ -85,8 +85,8 @@ import gov.fnal.ppd.dd.xml.messages.EmergencyMessXML;
  * <p>
  * It has these key attributes that deal with all the communications into an out of this class:
  * <ol>
- * <li>BrowserLauncher browserLauncher - Initializes the connection to the browser, e.g., starts it. However,
- * as time as passed, this class has become mostly obsolete.</li>
+ * <li>BrowserLauncher browserLauncher - Initializes the connection to the browser, e.g., starts it. However, as time as passed,
+ * this class has become mostly obsolete.</li>
  * <li>ConnectionToBrowserInstance browserInstance - Handles all communications with the browser</li>
  * <li>MessagingClientLocal messagingClient - The messaging client that communicates with the server</li>
  * </ol>
@@ -141,18 +141,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	private int								numChannelChanges			= 0;
 	protected boolean						noErrorsSeen				= true;
 
-	// private long[] frameRemovalTime = { 0L, 0L, 0L, 0L, 0L };
-	// private SignageContent previousPreviousChannel = null;
-	// private Thread[] frameRemovalThread = { null, null, null, null, null };
-	// private boolean[] removeFrame = { false, false, false, false, false };
-	// private boolean newListIsPlaying = false;
-	// private boolean keepGoing = true;
-
-	// Use messaging to get change requests from the changers -->
-	// private boolean actAsServerNoMessages = true;
-
 	/**
-	 * Extension to the Thread class to allow me to stop it later, gracefully.
+	 * Orchestrate the playing of a list of channels. This extension to the Thread class also allows us to stop it later,
+	 * gracefully.
 	 * 
 	 * @author Elliott McCrory, Fermilab AD/Instrumentation
 	 * 
@@ -196,13 +187,19 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 	/**
 	 * @param ipName
+	 *            - the IPName of this node
 	 * @param vNumber
+	 *            - the virtual (local) display number for this display
 	 * @param dbNumber
+	 *            - the index number in the database for this display
 	 * @param screenNumber
+	 *            - the screen number for this display
 	 * @param showNumber
+	 *            - does this display show its number?
 	 * @param location
+	 *            - The description of the location
 	 * @param color
-	 * @param type
+	 *            - the highlight color
 	 */
 	public DisplayControllerMessagingAbstract(final String ipName, final int vNumber, final int dbNumber, final int screenNumber,
 			final boolean showNumber, final String location, final Color color) {
@@ -277,6 +274,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 		timer.schedule(new TimerTask() {
 			public void run() {
+				// The thread that updates the status in the database
 				try {
 					updateMyStatus();
 				} catch (Exception e) {
@@ -307,11 +305,12 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 		Runtime.getRuntime().addShutdownHook(new Thread("ConnectionShutdownHook") {
 			public void run() {
+				// The shutdown hook.
 				println(DisplayControllerMessagingAbstract.this.getClass(), "Exit hook called.");
 				// keepGoing = false;
 				offLine = true;
 				updateMyStatus();
-				catchSleep(2000);
+				catchSleep(250);
 				disconnect();
 
 				// In the Selenium framework, the geckodriver process sticks around. It is assumed that these extra processes are
@@ -352,7 +351,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 					String contentName = getContent().getName().replace("'", "").replace("\"", "").replace(";", "").replace("\\",
 							"");
 
-					// Create the stream of the current content object
+					// Create the stream of the current SignageContent object
 					String blob = convertContentToDBReadyString(getContent());
 
 					String X = "x";
@@ -364,7 +363,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 							+ ", Version='" + version + "', NumChanges=" + numChannelChanges + " where DisplayID="
 							+ getDBDisplayNumber();
 
-					// System.out.println(getClass().getSimpleName()+ ".updateMyStatus(): query=" + statementString);
 					int numRows = stmt.executeUpdate(statementString);
 					if (numRows == 0 || numRows > 1) {
 						println(getClass(),
@@ -373,14 +371,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 										+ numRows + " rows instead. SQL='" + statementString + "'");
 					}
 					stmt.close();
-					// if (statusUpdatePeriod > 0) {
-					// String succinctString = "Time='" + ft.format(dNow) + "',Content='" + statusString + "',ContentName='"
-					// + contentName + "', SignageContent=" + X + "'" + blob.substring(0, Math.min(20, blob.length()))
-					// + " ...' where DisplayID=" + getDBDisplayNumber();
-					// println(getClass(),
-					// ".updateMyStatus() screen " + screenNumber + " Status: \n " + succinctString);
-					// statusUpdatePeriod = STATUS_UPDATE_PERIOD;
-					// }
+
 				} catch (Exception ex) {
 					String mess = " screen " + screenNumber + " -- Unexpected exception in method updateMyStatus: " + ex
 							+ "\n\t\t\tLast query: [" + statementString + "]\n\t\t\tSkipping this update.";
@@ -426,6 +417,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 				browserInstance.showIdentity();
 				new Thread() {
 					public void run() {
+						// Wait for the prescribed time to remove the self-identification screen
 						catchSleep(SHOW_SPLASH_SCREEN_TIME);
 						browserInstance.removeIdentify();
 						showingSelfIdentify = false;
@@ -435,7 +427,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 						updateMyStatus();
 					}
 				}.start();
-				// }
 			}
 		} else if (url.equalsIgnoreCase(FORCE_REFRESH)) {
 			try {
@@ -450,8 +441,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 					return false;
 				}
 			} catch (Exception e) {
-				// System.err.println(getClass().getSimpleName() + ":" + browserInstance.getInstance()
-				// + " Something is wrong with this re-used URL: [" + previousChannel.getURI().toASCIIString() + "]");
 				System.err.println(getClass().getSimpleName() + ":" + browserInstance.getConnectionCode()
 						+ " Somthing is wrong with this re-used URL: [" + previousChannelStack.peek().getURI().toASCIIString()
 						+ "]");
@@ -471,10 +460,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 				}
 
 				changeCount++;
-				// if (playlistThread != null) {
-				// playlistThread.stopMe = true;
-				// playlistThread = null;
-				// }
 
 				// ******************** Normal channel change here ********************
 				if (browserInstance.changeURL(url, getContent().getCode())) {
@@ -743,7 +728,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 							catchSleep(Math.min(increment, t));
 						}
 						if (showingEmergencyMessage) {
-							// Emergency message is showing - do not refresh the web page.  Check again in one minute.
+							// Emergency message is showing - do not refresh the web page. Check again in one minute.
 							localDwellTime = Math.min(dwellTime, ONE_MINUTE);
 							continue;
 						}
@@ -848,7 +833,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 								// Note that this field, "Port", is a boolean flag as to whether or not it should show its virtual
 								// display number on itself; 0 = show the number, non-zero = hide the number
-								boolean showNumber = rs.getInt("Port") == 0; 
+								boolean showNumber = rs.getInt("Port") == 0;
 								int channelNumber = rs.getInt("Content");
 								SignageContent cont = getChannelFromNumber(channelNumber);
 
