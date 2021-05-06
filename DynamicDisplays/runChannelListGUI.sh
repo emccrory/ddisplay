@@ -2,9 +2,9 @@
 
 cd ~/src/roc-dynamicdisplays/DynamicDisplays || exit
 
-./runVersionInformation.sh
+. ./setupEnvironment.sh
 
-. setupJars.sh
+./runVersionInformation.sh
 
 d=$(date +%F)
 

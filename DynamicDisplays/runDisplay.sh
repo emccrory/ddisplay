@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. ./setupEnvironment.sh
+
 # The script for doing everything that needs to be done to start an instance of a Dynamic Displays display.
 # Look out, though.  This has gotten quite complicated over the years, even thought the part that actually
 # runs the Java program for the display has been factored out into another script (at the end).
@@ -9,9 +11,9 @@ initialTemp=temp_$$
     ddHome=$HOME/src
     node=$(uname -n)
     
-    if [ "$node" = "ad130482.fnal.gov" ]; then
+    if [ "$node" = "$adminNode" ] ; then
 	# This is the desktop Linux PC on McCrory's desk.
-	ddHome=/home/mccrory/git-ddisplay
+	ddHome=$adminWorkspace
     fi
     
     # --------------------------------------------------------------------------------
@@ -71,15 +73,13 @@ mv "$initialTemp" "$log"
     workingDirectory=$ddHome/roc-dynamicdisplays/DynamicDisplays
     
     # Verify that this script is not running now
-    pgrep -a "$workingDirectory/$0" && { date; echo It looks like $0 is already running; exit 1; }
+    pgrep -a "$workingDirectory/$0" && { date; echo "It looks like $0 is already running"; exit 1; }
 
     cd $workingDirectory || exit
 
     # ----- Check disk usage
-    ./checkDiskSpace.sh $0 || { echo "$0: Insufficient disk space" ; exit 1; }
+    ./checkDiskSpace.sh "$0" || { echo "$0: Insufficient disk space" ; exit 1; }
 
-    . setupJars.sh
-    
     date
     echo Working directory is "$(pwd)" 
 
@@ -131,8 +131,6 @@ mv "$initialTemp" "$log"
 # This is the heart of the script.  Put it into a block of code so we can pipe it all to the log file.
 
     cd $workingDirectory || exit
-    # Prepare to run the Java applications
-    . setupJars.sh
     
     # In Linux-land, make sure the screen saver and screen blankers are off.
     # keep this here for reference, but do not do it uniformly (e.g., not my desktop)

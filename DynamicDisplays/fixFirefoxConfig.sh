@@ -2,7 +2,7 @@
 
 # Do we run two instances of the Display?  Not sure.
 # We'll look for the two config files and modify them anyway.
-. setupJars.sh
+. setupEnvironment.sh
 
 XUL1=$(ls -d ~/.mozilla/firefox/*.DynamicDisplay)
 XUL2=$(s -d ~/.mozilla/firefox/*.DynamicDisplay2)

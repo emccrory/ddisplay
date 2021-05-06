@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. setupJars.sh
+. setupEnvironment.sh
 
 d=$(date +%F)
 log="../../log/messagingClient_${d}_$$.log"

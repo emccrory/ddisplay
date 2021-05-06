@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>PRODUCTION</disposition>
-    <timeStamp>1620249774629</timeStamp>
-    <versionDescription>Pull in all the changes through 2020 and 2021 into a new PRODUCTION release.</versionDescription>
-    <versionString>5.3.34</versionString>
+    <disposition>DEVELOPMENT</disposition>
+    <timeStamp>1620329710954</timeStamp>
+    <versionDescription>Change the startup scripts - mostly this (a) has them all pass the bash-script syntax checks, and (b) puts the Fermilab-specific stuff into (a newly renamed script) setupEnvironment.sh</versionDescription>
+    <versionString>5.3.35</versionString>
 </versionInformation>

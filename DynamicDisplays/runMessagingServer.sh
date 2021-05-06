@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. setupEnvironment.sh
+
 # Start the messaging server.  There are several things that need to happen to be sure that the
 # environment is right.
 
@@ -10,32 +12,31 @@ fi
 
 ddHome="$HOME/src"
 node=$(uname -n)
-if [ "$node" = "ad130482.fnal.gov" ]; then
-    ddHome=/home/mccrory/git-ddisplay
+if [ "$node" = "$adminNode" ]; then
+    ddHome=$adminWorkspace
 fi
 
 cd "$ddHome/roc-dynamicdisplays/DynamicDisplays" || exit
 
-. setupJars.sh
-
 cd ../../log || exit
 
-logFile=messagingServerOther.log
+for logFile in messagingServerOther messagingServer; do
+    if [ -e $logFile.log ]; then
+	# Rename the existing messagingServerOther.log with time stamp of the first access (creation time)
+	suffix=$(stat $logFile.log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g')
+	# This command pipe ASSUMES A LOT!  So expect it to be brittle
+	
+	mv "${logFile}.log" "${logFile}_$suffix.log"
+    fi
+done
 
-if [ -e "$logFile" ]; then
-    # Rename the existing messagingServerOther.log with time stamp of the first access (creation time)
-    suffix=$(stat $logFile | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g')
-    # This command pipe ASSUMES A LOT!  So expect it to be brittle
-
-    mv "$logFile" "messagingServerOther_$suffix.log"
-fi
-
-# This compression might take some time, so push it into the background
-gzip ./messagingServerOther_*.log &
+# This compression might take some time.  Wait for it so the log file doesn't get overwritten
+gzip ./messagingServerOther_*.log messagingServer_*.log 
 
 cd ../roc-dynamicdisplays/DynamicDisplays || exit
 workingDirectory=$(pwd)
 
+logFile=messagingServerOther.log
 log="../../log/$logFile"
 
 touch "$log"
@@ -56,15 +57,16 @@ touch "$log"
     if ( ./runVersionInformation.sh Y  ); then
 	echo "There is a new version, which we have retrieved.  Restarting this script."
 	cd "$workingDirectory" || exit
-	exec ./runMessagingServer.sh 2
+	exec "$0" 2
 	exit 0
     fi 
 
     # Do not need to wait on the DB server, so forge ahead!
 
     while {
- 	# Diagnostic to record if there is someone who already has port 49999 open 
-	lsof -i :49999
+ 	# Diagnostic to record if there is someone who already has our messaging port open
+	port=$(./property.sh messagingPort)
+	/usr/sbin/lsof -i :"$port"
 	
 	#################### And now, finally, here is the messaging server daemon startup
 
@@ -80,10 +82,22 @@ touch "$log"
 	echo ""
 	echo ""
 	echo "$(date) Messaging server daemon exited with an understood failure ..."
-	echo "Restarting the messaging server on $(hostname)" | /usr/bin/mail -s "Messaging server has restarted" mccrory@fnal.gov
-	sleep 15
-  	# Maybe there is a new version of the software here.  
-	# This "cd" should put us in the right place (unless the new version contains a new version of this script.)
+	echo "Restarting the messaging server on $(hostname)" | /usr/bin/mail -s "Messaging server has restarted" $adminEmail
+	sleep 5
+
+  	#
+	# The assumption here is that THIS SCRIPT will perform the update, NOT the Java app.
+	#
+	
+	# Check the version of the code
+	if ( ./runVersionInformation.sh Y  ); then
+
+	    echo "There is a new version, which we have retrieved.  Restarting this display application."
+	fi 
+
+	# Note that this process is running the "old" version of the script.  
+	# The new suite version may have a new version of this script.
+	# This "cd" should put us in the right place 
 	cd "$workingDirectory" || exit
 	echo ""
 	echo "$(date) Exec'ing  $0.  Working directory is $(pwd)"
@@ -91,7 +105,7 @@ touch "$log"
 	echo ""
 	echo ""
 	exec "$0" || exit
-	# OK, the new version of this script is now running.
+	# OK, the new version of this script should be running.
     done
     
     echo ""

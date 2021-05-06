@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. setupEnvironment.sh
+
 # Launch the Dynamic Displays program(s) that this node should be running.  The options are
 #  -- The messaging server
 #  -- The Channel Selector GUI
@@ -18,8 +20,8 @@ fi
 # Set up log file 
 ddHome=$HOME/src
 node=$(uname -n)
-if [ "$node" = "ad130482.fnal.gov" ]; then
-    ddHome=/home/mccrory/git-ddisplay
+if [ "$node" = "$adminNode" ]; then
+    ddHome=$adminWorkspace
 fi
 
 log="$ddHome/log/display.log"
@@ -42,7 +44,7 @@ mv "$tempLog" "$log"
 workingDirectory=$ddHome/roc-dynamicdisplays/DynamicDisplays
 
 # Verify that this script is not running now
-pgrep -a "$workingDirectory/$0" && {  echo "$(date)" It looks like $0 is already running; exit 1; } >> $log 2>&1
+pgrep -a "$workingDirectory/$0" && {  echo "$(date)" "It looks like $0 is already running"; exit 1; } >> $log 2>&1
 
 cd "$workingDirectory" || exit
 
@@ -55,7 +57,7 @@ cd "$workingDirectory" || exit
 # --------------------------------------------------------------------------------
 # Idiot Checks - Don't run if we are almost out of disk space
 
-./checkDiskSpace.sh $0 || { echo "$0: Insufficient disk space" ; exit 1; } >> $log 2>&1
+./checkDiskSpace.sh "$0" || { echo "$0: Insufficient disk space" ; exit 1; } >> $log 2>&1
 
 # Remove the json file that seems to be responsible for configuring Firefox.
 # In particular, this holds the last location of the Firefox windows.
@@ -65,8 +67,6 @@ cd "$workingDirectory" || exit
 # rm -fv $HOME/.mozilla/firefox/*Dynamic*/xulstore.json >> $log 2>&1
 
 MyName=$(uname -n)
-
-. setupJars.sh
 
 {
     echo "$(date)" "Obtaining the messaging server, and determining if it is this node ... "
@@ -117,7 +117,7 @@ MyName=$(uname -n)
 	while {
  	    # Diagnostic to record if there is someone who has our port to the messaging server open
 	    port=$(./property.sh messagingPort)
-	    lsof -i :$port
+	    lsof -i :"$port"
 
 	    # Kill previously started versions of geckodriver 
             # (TODO - this should be handled automatically, but this seems to be an active Selenium issue)
@@ -138,10 +138,10 @@ MyName=$(uname -n)
 	    echo ""
 	    echo ""
 	    echo "$(date)" " Display program exited with an understood failure ..."
-	    echo Restarting the display on "$(hostname)" | /usr/bin/mail -s "Display software has restarted" mccrory@fnal.gov
+	    echo Restarting the display on "$(hostname)" | /usr/bin/mail -s "Display software has restarted" $adminEmail
 	    sleep 5
 	    #
-	    # The assumption here is that this script will perform the update.
+	    # The assumption here is that this script will perform the update, NOT the Java app.
 	    #
 
 	    # Check the version of the code

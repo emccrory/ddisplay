@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# All the scripts treat the development node special.  Change these as appropriate
+export adminEmail="mccrory@fnal.gov"
+export adminNode="ad130482.fnal.gov"
+export adminWorkspace="/home/mccrory/git-ddisplay"
+
 export CLASSPATH=target/classes/:bin/:lib/mysql-connector-java-5.1.27.jar:lib/slf4j-api-1.5.8.jar:lib/slf4j-log4j12-1.5.8.jar:lib/selenium/selenium-server-standalone-3.141.59.jar
 
 # Backup database server is irrelevant

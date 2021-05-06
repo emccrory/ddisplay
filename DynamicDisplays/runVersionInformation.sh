@@ -4,12 +4,12 @@
 # Script to learn if there is a newer version of the software available from the server.
 #
 
-. setupJars.sh
+. setupEnvironment.sh
 
 # ----------------------------------------------------------------------
 # IDIOT CHECK: Is there enough disk space to proceed?
 
-./checkDiskSpace.sh $0 || { echo "$0: Insufficient disk space" ; exit 1; } 
+./checkDiskSpace.sh "$0" || { echo "$0: Insufficient disk space" ; exit 1; } 
 
 # End of IDIOT Check ---------------------------------------------------
 
@@ -25,8 +25,7 @@ d=$(date +%F)
 # Evaluate if there is a newer version of the software out there
 #
 
-# FIXME The decision on which sort of release to download for a client needs to be put into the database
-hostname=$(hostname)
+# Figure out the flavor of updates this node is going to get.
 flavor="PRODUCTION"
 configFlavor=$(./getFlavor.sh)
 if [ "$configFlavor X" != " X" ]; then
@@ -35,12 +34,12 @@ fi
 
 exitCode=0
 if java gov.fnal.ppd.dd.util.version.VersionInformationComparison "$flavor"; then
-    echo You are running the latest \"$flavor\" version of the software
+    echo "You are running the latest \"$flavor\" version of the software"
     exitCode=1
 else
     doTheUpdate=$yes;
     if [ $yes = 0 ]; then 
-	details=$(java gov.fnal.ppd.dd.util.version.VersionInformation 2 $flavor)
+	details=$(java gov.fnal.ppd.dd.util.version.VersionInformation 2 "$flavor")
 	title="New $flavor version detected"
 	text="The server has a newer version of the Dynamic Displays software.\nNew version details:\n\n$details\n\nShall we update to the newest version?";
 
@@ -57,7 +56,7 @@ else
 	    echo "5"
 	    date > "$log"
 	    echo Automatic software update >> "$log"
-	    theVersion=$(java gov.fnal.ppd.dd.util.version.VersionInformation 4 | grep $flavor | awk '{ print $1 }')
+	    theVersion=$(java gov.fnal.ppd.dd.util.version.VersionInformation 4 | grep "$flavor" | awk '{ print $1 }')
 
 	    if [ ! -e refreshSoftware.sh ]; then
 		wget https://dynamicdisplays.fnal.gov/software/refreshSoftware.sh

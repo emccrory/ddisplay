@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./setupJars.sh
+. ./setupEnvironment.sh
 
 dbFlavor=$(java gov.fnal.ppd.dd.db.DisplayUtilDatabase | grep FLAVOR | awk '{ print $3 }')
 

@@ -7,6 +7,6 @@
 #
 
 # Prepare to run the Java applications
-. setupJars.sh
+. setupEnvironment.sh
 
 java gov.fnal.ppd.dd.util.version.VersionInformationLocal

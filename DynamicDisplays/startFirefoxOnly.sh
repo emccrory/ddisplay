@@ -7,13 +7,13 @@
 
 # It would be appropriate to use this script for a lot of the displays since they almost never get changed. 
 
-. setupJars.sh
+. setupEnvironment.sh
 
 # Set up log file 
 ddHome=$HOME/src
 node=$(uname -n)
-if [ "$node" = "ad130482.fnal.gov" ]; then
-    ddHome=/home/mccrory/git-ddisplay
+if [ "$node" = "$adminNode" ]; then
+    ddHome=$adminWorkspace
 fi
 
 log="$ddHome/log/display.log"

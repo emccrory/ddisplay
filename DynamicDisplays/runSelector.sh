@@ -1,6 +1,6 @@
 #!/bin/bash
 
-workingDirectory=`pwd`
+workingDirectory=$(pwd)
 if [ "$1 X" = "SKIP X" ]; then
     shift;
 else
@@ -19,7 +19,7 @@ cd "$workingDirectory" || exit
 
 ./runVersionInformation.sh
 
-. setupJars.sh
+. setupEnvironment.sh
 
 window="true"
 public="false"
@@ -41,8 +41,8 @@ fi
 # Set up log file 
 ddHome=../..
 node=$(uname -n)
-if [ "$node" = "ad130482.fnal.gov" ]; then
-    ddHome=/home/mccrory/git-ddisplay
+if [ "$node" = "$adminNode" ]; then
+    ddHome=$adminWorkspace
 fi
 
 log="$ddHome/log/selector.log"
