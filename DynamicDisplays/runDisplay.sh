@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. ./setupEnvironment.sh
-
 # The script for doing everything that needs to be done to start an instance of a Dynamic Displays display.
 # Look out, though.  This has gotten quite complicated over the years, even thought the part that actually
 # runs the Java program for the display has been factored out into another script (at the end).
@@ -11,6 +9,8 @@ initialTemp=temp_$$
     ddHome=$HOME/src
     node=$(uname -n)
     
+    adminNode="ad130482.fnal.gov"
+    adminWorkspace="/home/mccrory/git-ddisplay"
     if [ "$node" = "$adminNode" ] ; then
 	# This is the desktop Linux PC on McCrory's desk.
 	ddHome=$adminWorkspace
@@ -53,6 +53,7 @@ mv "$initialTemp" "$log"
     # ----- Check if there are "several new" instances of roc-dynamicdisplays-old??? in the src folder
 
     cd $ddHome || exit
+    . setupEnvironment.sh
 
     minutes=$(( minutes * 2 ))
 

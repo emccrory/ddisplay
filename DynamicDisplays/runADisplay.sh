@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. setupEnvironment.sh
-
 # Launch the Dynamic Displays program(s) that this node should be running.  The options are
 #  -- The messaging server
 #  -- The Channel Selector GUI
@@ -20,6 +18,8 @@ fi
 # Set up log file 
 ddHome=$HOME/src
 node=$(uname -n)
+adminNode="ad130482.fnal.gov"
+adminWorkspace="/home/mccrory/git-ddisplay"
 if [ "$node" = "$adminNode" ]; then
     ddHome=$adminWorkspace
 fi
@@ -47,6 +47,7 @@ workingDirectory=$ddHome/roc-dynamicdisplays/DynamicDisplays
 pgrep -a "$workingDirectory/$0" && {  echo "$(date)" "It looks like $0 is already running"; exit 1; } >> $log 2>&1
 
 cd "$workingDirectory" || exit
+. setupEnvironment.sh
 
 echo "$(date)" Working directory is "$(pwd)" >> $log 2>&1
 

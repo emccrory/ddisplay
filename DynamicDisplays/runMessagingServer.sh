@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. setupEnvironment.sh
-
 # Start the messaging server.  There are several things that need to happen to be sure that the
 # environment is right.
 
@@ -12,11 +10,14 @@ fi
 
 ddHome="$HOME/src"
 node=$(uname -n)
+adminNode="ad130482.fnal.gov"
+adminWorkspace="/home/mccrory/git-ddisplay"
 if [ "$node" = "$adminNode" ]; then
     ddHome=$adminWorkspace
 fi
 
 cd "$ddHome/roc-dynamicdisplays/DynamicDisplays" || exit
+. setupEnvironment.sh
 
 cd ../../log || exit
 
