@@ -1,8 +1,15 @@
 #!/bin/bash
 
-# The script for doing everything that needs to be done to start an instance of a Dynamic Displays display.
-# Look out, though.  This has gotten quite complicated over the years, even thought the part that actually
-# runs the Java program for the display has been factored out into another script (at the end).
+if [ "$1 X" != " X" ]; then
+    # We are being called by this script.  In order to have the log file date check succeed, wait.
+    sleep $(($1*60+30))
+    export haveBeenCalled=1
+fi
+# The script for doing everything that needs to be done to start an instance of a 
+# Dynamic Displays display. Look out, though.  This has gotten quite complicated 
+# over the years, even thought the part that actually runs the Java program for the 
+# display has been factored out into another script (at the end).
+rm -f temp_*
 initialTemp=temp_$$
 {
     # Set up log file 
@@ -30,9 +37,9 @@ initialTemp=temp_$$
     if [ -e "$log" ] ; then
 	# Check the date on the old log file and stop if it is "too new"
 	if test "$(find $log -type f -mmin -$minutes)" ; then
-	    echo There is a new log file.  This is an abort condition.
+	    text="Log file $log was modified less than $minutes mintues ago.\n\nThis is an error condition because it might mean that we are an infinite loop."
+	    echo $text
 	    ls -l $log
-	    text="Log file $log was modified less than $minutes mintues ago.\n\nThis might mean that we are an infinite loop."
 	    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error C" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"20000\">$text</span>"
 	    exit;
 	fi
@@ -49,11 +56,9 @@ initialTemp=temp_$$
 mv "$initialTemp" "$log"
 
 {
-
     # ----- Check if there are "several new" instances of roc-dynamicdisplays-old??? in the src folder
 
     cd $ddHome || exit
-    . setupEnvironment.sh
 
     minutes=$(( minutes * 2 ))
 
@@ -77,6 +82,7 @@ mv "$initialTemp" "$log"
     pgrep -a "$workingDirectory/$0" && { date; echo "It looks like $0 is already running"; exit 1; }
 
     cd $workingDirectory || exit
+    . setupEnvironment.sh
 
     # ----- Check disk usage
     ./checkDiskSpace.sh "$0" || { echo "$0: Insufficient disk space" ; exit 1; }
@@ -85,12 +91,17 @@ mv "$initialTemp" "$log"
     echo Working directory is "$(pwd)" 
 
     # Check the version of the code
-    if ( ./runVersionInformation.sh Y  ); then
-	echo "There is a new version of the Dynamic Displays software, which we have retrieved.  Restarting this script."
-	cd $workingDirectory || exit
-	exec "$0" 2
-	exit 0
-    fi 
+    if [ "$haveBeenCalled X" = " X" ]; then
+	if ( ./runVersionInformation.sh Y  ); then
+	    min=4
+	    echo "There is a new version of the Dynamic Displays software, which we have retrieved.  Restarting this script in $min minutes."
+	    cd $workingDirectory || exit
+	    exec "$0" "$min"
+	    exit 0
+	fi 
+    else
+	echo "Skipping version check since we were just called to do this a few minutes ago."
+    fi
 
     # Test for and remove the cache file from disk
     if [ -e "$HOME/.mozilla/firefox/*.default/places.sqlite" ]; then
