@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1620329710954</timeStamp>
-    <versionDescription>Change the startup scripts - mostly this (a) has them all pass the bash-script syntax checks, and (b) puts the Fermilab-specific stuff into (a newly renamed script) setupEnvironment.sh</versionDescription>
-    <versionString>5.3.35</versionString>
+    <timeStamp>1620332475985</timeStamp>
+    <versionDescription>Change the startup scripts - mostly this (a) has them all pass the bash-script syntax checks, and (b) puts the Fermilab-specific stuff into (a newly renamed script) setupEnvironment.sh.  However, there were some bugs in the previous version, that this version fixes</versionDescription>
+    <versionString>5.3.36</versionString>
 </versionInformation>
