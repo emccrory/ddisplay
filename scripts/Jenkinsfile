@@ -43,8 +43,10 @@ pipeline {
  	    steps {
 		sh """
 		cd DynamicDisplays
+		set +x		
 		. ./setupEnvironment.sh
-		
+		set -x
+
 		echo "Testing that the JavaVersion class runs"
 		java gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion
 
