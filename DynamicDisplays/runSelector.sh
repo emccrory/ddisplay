@@ -50,7 +50,7 @@ log="$ddHome/log/selector.log"
 if [ -e "$log" ] ; then
     # Rename the existing log file with time stamp of the first access (creation time)
     # This command pipe Assumes A LOT!  So it will probably be brittle
-   suffix=$(stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g')
+   suffix=$(stat "$log" | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g')
 
    mv "$log" "$ddHome/log/selector_$suffix.log"
    gzip      "$ddHome/log/selector_$suffix.log" &
@@ -78,4 +78,4 @@ fi
 	echo ""
 	echo ""
     done
-} > $log 2>&1 &
+} > "$log" 2>&1 &

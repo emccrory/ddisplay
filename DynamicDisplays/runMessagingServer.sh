@@ -83,7 +83,7 @@ touch "$log"
 	echo ""
 	echo ""
 	echo "$(date) Messaging server daemon exited with an understood failure ..."
-	echo "Restarting the messaging server on $(hostname)" | /usr/bin/mail -s "Messaging server has restarted" $adminEmail
+	echo "Restarting the messaging server on $(hostname)" | /usr/bin/mail -s "Messaging server has restarted" "$adminEmail"
 	sleep 5
 
   	#

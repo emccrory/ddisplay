@@ -2,7 +2,7 @@
 
 cd ~/src/roc-dynamicdisplays/DynamicDisplays || exit
 
-. ./setupEnvironment.sh
+. setupEnvironment.sh
 
 ./runVersionInformation.sh
 

@@ -1,18 +1,21 @@
 #!/bin/bash
 
-if [ "$1 X" != " X" ]; then
-    # We are being called by this script.  In order to have the log file date check succeed, wait.
-    sleep $(($1*60+30))
-    export haveBeenCalled=1
-fi
-# The script for doing everything that needs to be done to start an instance of a 
-# Dynamic Displays display. Look out, though.  This has gotten quite complicated 
+# This is the script for doing everything that needs to be done to start an instance 
+# of a Dynamic Displays display. Look out, though.  This has gotten quite complicated 
 # over the years, even thought the part that actually runs the Java program for the 
 # display has been factored out into another script (at the end).
-rm -f temp_*
-initialTemp=temp_$$
+
+initialTemp=displayPreliminary_$$
+
 {
-    # Set up log file 
+    if [ "$1 X" != " X" ]; then
+	# We are being called by this script.  In order to have the log file date check succeed, wait.
+	echo "Sleeping for a bit prior to getting started - we are in a look, it seems."
+	sleep $(($1*60+30))
+	export haveBeenCalled=1
+    fi
+
+    # Where are we?
     ddHome=$HOME/src
     node=$(uname -n)
     
@@ -23,22 +26,22 @@ initialTemp=temp_$$
 	ddHome=$adminWorkspace
     fi
     
-    # --------------------------------------------------------------------------------
-    # Idiot Checks - Don't run if:
+    # Set up the log file for the startup process and check that it is not from a moment ago
+    log="$ddHome/log/displayStartup.log"
+    
+    # ---------------------------------------------------------------------------------------
+    # Sanity Checks - Don't run if:
     #   -- the most recent log file is very new (indicating we might be in an infinite loop)
     #   -- we are almost out of disk space
     #
-    
-    # Set up the log file for the startup process and check that it is not from a moment ago
-    log="$ddHome/log/displayStartup.log"
     
     echo Checking if the old log file is relatively new so that we are not in a tight restart loop
     minutes=3
     if [ -e "$log" ] ; then
 	# Check the date on the old log file and stop if it is "too new"
 	if test "$(find $log -type f -mmin -$minutes)" ; then
-	    text="Log file $log was modified less than $minutes mintues ago.\n\nThis is an error condition because it might mean that we are an infinite loop."
-	    echo $text
+	    text="Log file $log was modified less than $minutes mintues ago.\n\nThis is an error condition because it might mean\nthat we are an infinite loop."
+	    echo "$text"
 	    ls -l $log
 	    zenity --error --width=900 --title="Dynamic Displays Software Fatal Error C" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"20000\">$text</span>"
 	    exit;
@@ -48,11 +51,12 @@ initialTemp=temp_$$
 	suffix=$(stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g')
 	
 	mv "$log" "$ddHome/log/displayStartup_$suffix.log"
-	gzip      "$ddHome/log/displayStartup_$suffix.log" &
+	gzip      "$ddHome/log/displayStartup_$suffix.log" 
     fi 
 
 } > "$initialTemp" 2>&1
 
+# Preliminaries completed - go to the final log file.
 mv "$initialTemp" "$log"
 
 {
@@ -60,17 +64,18 @@ mv "$initialTemp" "$log"
 
     cd $ddHome || exit
 
-    minutes=$(( minutes * 2 ))
+    minutesFolder=$(( minutes * 2 ))
 
     t=temp_$$
     for i in roc-dynamicdisplays-old???; do
-	# Which are newer than 10 minutes?
+	# Which are newer than the specified number of minutes?
 	[[ -e "$i" ]] || break;
-	find "$i" -mmin -$minutes
+	find "$i" -mmin -$minutesFolder
     done | wc -l > $t 2>/dev/null
     if [ "$(cat $t)" -gt 2 ]; then
 	# We saw 3 or more of the roc-dynamicdisplays-old* folders that were new
 	text="\nToo many 'new' instances of recent\nroc-dynamicdisplays-old folders - Stopping now.";
+	echo "$text"
 	zenity --error --width=900 --title="Dynamic Displays Software Fatal Error D" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">$text</span>"
 	exit
     fi

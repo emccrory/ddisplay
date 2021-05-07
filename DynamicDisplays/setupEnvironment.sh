@@ -28,8 +28,7 @@ else
     echo "Database credentials file not found.  This is unexpected."
 fi
 
-if [ "$databaseServer X" = " X" -or "$databaseName X" = " X" -or
-	"$databaseUsername X" = " X" -or "$databasePassword X" = " X" ]; then
+if [ "$databaseServer X" = " X" ] || [ "$databaseName X" = " X" ] || [ "$databaseUsername X" = " X" ] || [ "$databasePassword X" = " X" ]; then
     echo "Database credentials file not read properly.  This is unexpected."
 fi 2>/dev/null
 

@@ -8,7 +8,8 @@
 # TODO - If we have too much trouble starting the Java/Selenium/Firefox connection,
 # it should revert to running the script startFirefoxOnly.sh
 
-# If we are being called by this script (see the update block, below), we should wait a second for that script to finish
+# If we are being called by this script (see the update block, below), we should wait a second for that 
+# script to finish and to let the log files age out properly.
 if [ ! "$1 X" = " X" ]; then
     sleep "$1"
 fi
@@ -139,7 +140,7 @@ MyName=$(uname -n)
 	    echo ""
 	    echo ""
 	    echo "$(date)" " Display program exited with an understood failure ..."
-	    echo Restarting the display on "$(hostname)" | /usr/bin/mail -s "Display software has restarted" $adminEmail
+	    echo Restarting the display on "$(hostname)" | /usr/bin/mail -s "Display software has restarted" "$adminEmail"
 	    sleep 5
 	    #
 	    # The assumption here is that this script will perform the update, NOT the Java app.
@@ -157,7 +158,7 @@ MyName=$(uname -n)
 	    echo ""
 	    echo ""
 	    echo ""
-	    exec "$0" || exit
+	    exec "$0" 3 || exit
 	    # OK, the new version of this script is now running.
 	done
 	

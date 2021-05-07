@@ -3,7 +3,7 @@
 # Shell script to orchestrate giving this computer a public/private key pair
 #
 
-. ./setupEnvironment.sh
+. setupEnvironment.sh
 
 DBUSER=insertpublickey
 DBNAME=xoc_prd
