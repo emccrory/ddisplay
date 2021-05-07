@@ -11,7 +11,7 @@ public class PropertiesFileTest {
 
 	@Test
 	public void testHasPortPorperty() {
-		assertNotEquals(getIntProperty("port", 0), 0);
+		assertNotEquals(getIntProperty("messagingPort", 0), 0);
 	}
 
 	@Test
