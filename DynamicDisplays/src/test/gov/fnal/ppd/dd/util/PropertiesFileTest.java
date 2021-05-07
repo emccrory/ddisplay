@@ -14,10 +14,12 @@ public class PropertiesFileTest {
 		assertNotEquals(getIntProperty("port", 0), 0);
 	}
 
+	@Test
 	public void testHasProtocolPorperty() {
 		assertEquals(getProperty("defaultWebProtocol", "undefined"), "https");
 	}
 
+	@Test
 	public void testDoesNotHaveUndefined() {
 		assertEquals(getProperty("NotAProperty", "default"), "default");
 	}

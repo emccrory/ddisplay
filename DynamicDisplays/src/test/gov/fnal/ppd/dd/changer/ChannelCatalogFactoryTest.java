@@ -22,7 +22,6 @@ public class ChannelCatalogFactoryTest extends NeedsCredentials {
 			e.printStackTrace();
 		}
 
-		System.out.println("A");
 		assumeTrue(credentialsOK);
 		assertNotNull(getInstance());
 	}
@@ -36,11 +35,8 @@ public class ChannelCatalogFactoryTest extends NeedsCredentials {
 			e.printStackTrace();
 		}
 
-		System.out.println("C");
 		assumeTrue(credentialsOK);
-		System.out.println("D");
 		assertNotNull(refresh());
-		System.out.println("E");
 	}
 
 }
