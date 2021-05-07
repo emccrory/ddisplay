@@ -6,7 +6,7 @@ import gov.fnal.ppd.dd.xml.ClientInformation;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
 
 /**
- * Encapsulate an error message into an XML class
+ * Encapsulate the login message into an XML class
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -35,6 +35,7 @@ public class LoginMessage extends MessagingDataXML {
 	public void setClient(ClientInformation client) {
 		this.client = client;
 	}
+
 	@Override
 	public boolean willNotChangeAnything() {
 		return true;
@@ -44,6 +45,7 @@ public class LoginMessage extends MessagingDataXML {
 	public String toString() {
 		return "Login for " + client;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 51;
@@ -68,5 +70,4 @@ public class LoginMessage extends MessagingDataXML {
 			return false;
 		return true;
 	}
-
 }

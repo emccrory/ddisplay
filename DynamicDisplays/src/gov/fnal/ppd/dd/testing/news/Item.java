@@ -3,7 +3,7 @@
  * 
  * Copyright (c) 2015 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd.xml.news;
+package gov.fnal.ppd.dd.testing.news;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

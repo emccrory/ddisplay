@@ -2,6 +2,12 @@ package gov.fnal.ppd.dd.xml.messages;
 
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
 
+/**
+ * This message is used to get a list of who is logged in.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class WhoIsInMessage extends MessagingDataXML {
 	public WhoIsInMessage() {
 	}

@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.xml.news;
+package gov.fnal.ppd.dd.testing.news;
 
 /*
  * Channel
