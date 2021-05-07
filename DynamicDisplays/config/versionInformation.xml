@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1620388781253</timeStamp>
-    <versionDescription>Remove problems found by the shellcheck script</versionDescription>
-    <versionString>5.3.38</versionString>
+    <timeStamp>1620391323156</timeStamp>
+    <versionDescription>Add a few more tests</versionDescription>
+    <versionString>5.3.39</versionString>
 </versionInformation>
