@@ -6,8 +6,8 @@ import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.db.ListUtilsDatabase;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.nonguiUtils.ListSelectionForSaveList;
-import gov.fnal.ppd.dd.util.nonguiUtils.ListSelectionForSaveList.SpecialLocalListChangeListener;
+import gov.fnal.ppd.dd.util.guiUtils.ListSelectionForSaveList;
+import gov.fnal.ppd.dd.util.guiUtils.ListSelectionForSaveList.SpecialLocalListChangeListener;
 
 import java.awt.Color;
 import java.awt.Dimension;

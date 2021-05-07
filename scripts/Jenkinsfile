@@ -45,8 +45,11 @@ pipeline {
 		cd DynamicDisplays
 		. ./setupEnvironment.sh
 		
-		# echo "Testing that the JavaVersion class runs"
-		# java gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion
+		echo "Testing that the JavaVersion class runs"
+		java gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion
+
+		echo "Testing that the PerformanceMonitor class runs"
+		java gov.fnal.ppd.dd.util.nonguiUtils.PerformanceMonitor
 		
 		echo "Testing that the PropertiesFile class runs"
 		cp -p ../config/config.properties ../config/config.properties_hold

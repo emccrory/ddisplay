@@ -1,7 +1,7 @@
-package gov.fnal.ppd.dd.util.nonguiUtils;
+package gov.fnal.ppd.dd.testing;
 
 /**
- * Create QR codes on the fly.
+ * Create QR codes on the fly. UNUSED and UNTESTED
  * 
  * TODO: Figure out a way to use this on the ChannelSelector GUI. Maybe we can add it to the channel button, or maybe there can be a
  * way to launch a new dialog box that shows this (that is, "Please give me the URL as a QR code for a channel button."). Or maybe

@@ -10,7 +10,8 @@ public class VerifyURLTest {
 	@Test
 	public void testIsValid() {
 		assert(isValid("https://www.fnal.gov"));
+		assert(isValid("https://www.fnal.gov/?arg1=1&arg2=1"));
 		assert(isValid(getFullURLPrefix()));
+		assert(!isValid("Gobbledygook"));
 	}
-
 }

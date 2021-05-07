@@ -23,11 +23,12 @@ import java.util.TimerTask;
 public class JavaVersion {
 
 	private static JavaVersion	me				= null;
+	private static boolean		watch			= true;
 	private final String		InitialVersion	= System.getProperty("java.version");
 
 	public static JavaVersion getInstance() {
 		if (me == null)
-			me = new JavaVersion();
+			me = new JavaVersion(watch);
 		return me;
 	}
 
@@ -154,33 +155,35 @@ public class JavaVersion {
 		return !((getCurrentVersion().replace(".", "_").equals(getInitialVersion().replace(".", "_"))));
 	}
 
-	private JavaVersion() {
-		println(getClass(), "Initiating watch for the Java version to change away from " + getInitialVersion());
-		TimerTask t = new TimerTask() {
-			@Override
-			public void run() {
-				if (hasVersionChanged()) {
-					System.out.println("The java version has changed from " + getInitialVersion() + " to " + executeJavaCommand()
-							+ ". This app should be restarted.");
+	private JavaVersion(Boolean doWatch) {
+		if (doWatch) {
+			println(getClass(), "Initiating watch for the Java version to change away from " + getInitialVersion());
+			TimerTask t = new TimerTask() {
+				@Override
+				public void run() {
+					if (hasVersionChanged()) {
+						System.out.println("The java version has changed from " + getInitialVersion() + " to "
+								+ executeJavaCommand() + ". This app should be restarted.");
 
-					for (JavaChangeListener jcl : listener)
-						jcl.javaHasChanged();
+						for (JavaChangeListener jcl : listener)
+							jcl.javaHasChanged();
 
-					try {
-						Thread.sleep(10000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+						try {
+							Thread.sleep(10000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						System.exit(-1);
+					} else {
+						System.out.println(
+								new Date() + ": The Java version, " + executeJavaCommand() + ", remains " + getInitialVersion());
 					}
-					System.exit(-1);
-				} else {
-					System.out.println(
-							new Date() + ": The Java version, " + executeJavaCommand() + ", remains " + getInitialVersion());
 				}
-			}
-		};
+			};
 
-		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(t, ONE_HOUR, ONE_HOUR);
+			Timer timer = new Timer();
+			timer.scheduleAtFixedRate(t, ONE_HOUR, ONE_HOUR);
+		}
 	}
 
 	private List<JavaChangeListener> listener = new ArrayList<JavaChangeListener>();
@@ -190,10 +193,14 @@ public class JavaVersion {
 	}
 
 	public static void main(String[] args) {
+		watch = false;
 		System.out.println("The version as seen through the JVM:           " + getInstance().getInitialVersion());
 
 		System.out.println("The version as seen from the operating system: " + getInstance().getCurrentVersionThroughLS());
 
-		System.out.println("The Java version " + (getInstance().hasVersionChanged() ? "has changed" : "is unchanged"));
+		System.out
+				.println("(Sanity check) The Java version " + (getInstance().hasVersionChanged() ? "has changed" : "is unchanged"));
+
+		System.exit(0);
 	}
 }
