@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash +x
 
 # Backup database server is irrelevant
 export databaseServer="nothing.fnal.gov"
