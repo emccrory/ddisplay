@@ -10,7 +10,7 @@ initialTemp=displayPreliminary_$$
 {
     if [ "$1 X" != " X" ]; then
 	# We are being called by this script.  In order to have the log file date check succeed, wait.
-	echo "Sleeping for a bit prior to getting started - we are in a look, it seems."
+	echo "Sleeping for a bit prior to getting started."
 	sleep $(($1*60+30))
 	export haveBeenCalled=1
     fi

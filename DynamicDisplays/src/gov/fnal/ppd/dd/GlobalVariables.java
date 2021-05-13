@@ -516,7 +516,7 @@ public class GlobalVariables {
 
 		println(GlobalVariables.class, "------------------------- Versioning ------------------------------");
 		println(GlobalVariables.class, "-- This is software version " + getSoftwareVersion());
-		println(GlobalVariables.class, "-- The desired flavor of software is " + getFlavor(false) + ", but this can change.");
+		println(GlobalVariables.class, "-- The desired flavor of software is will be determined when we check for updates.");
 		if (period < 2 * ONE_HOUR)
 			println(GlobalVariables.class,
 					"-- Will check for updates every " + period / 1000 + " seconds starting at " + date.getTime());

@@ -9,8 +9,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.locationDescription;
 import static gov.fnal.ppd.dd.GlobalVariables.locationName;
 import static gov.fnal.ppd.dd.GlobalVariables.messagingServerName;
-import gov.fnal.ppd.dd.db.ConnectionToDatabase;
-import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.*;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -21,7 +20,12 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
+import gov.fnal.ppd.dd.db.ConnectionToDatabase;
+import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
+
 /**
+ * Handle the retrieval of the messaging server
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
@@ -58,7 +62,7 @@ public class GetMessagingServer {
 			connection = ConnectionToDatabase.getDbConnection();
 		} catch (DatabaseNotVisibleException e1) {
 			e1.printStackTrace();
-			System.err.println("\nNo connection to the Signage/Displays database.");
+			println(GetMessagingServer.class, "\n ** No connection to the Signage/Displays database **");
 			System.exit(-1);
 			return null;
 		}
@@ -73,11 +77,15 @@ public class GetMessagingServer {
 						locationDescription = rs2.getString("Description");
 						int locationCode = rs2.getInt("LocationCode");
 						addLocationCode(locationCode);
-						System.out.println("MessagingServer= " + messagingServerName + "\nLocationCode= " + getLocationCode()
-								+ "\nLocationName= " + locationName + "\nLocationDescription= " + locationDescription);
-
+						println(GetMessagingServer.class,
+								"\n" //
+										+ "   MessagingServer = " + messagingServerName + "\n" //
+										+ "      LocationCode = " + getLocationCode() + "\n" //
+										+ "      LocationName = " + locationName + "\n" //
+										+ "LocationDescription= " + locationDescription);
 					} else {
-						System.err.println("No location information for this device, " + myName + "\n\nQuery:\n" + query);
+						printlnErr(GetMessagingServer.class,
+								"No location information for this device, " + myName + "\n\nQuery:\n" + query);
 						new Exception().printStackTrace();
 						String typeOfQuery = "The database contains NO INFORMATION for a display for node, " + myName;
 						String programName = "Dynamic Display";
@@ -88,18 +96,14 @@ public class GetMessagingServer {
 						}
 
 						Object[] options = { "Exit program", "Show failed database query and then exit" };
-						if (JOptionPane
-								.showOptionDialog(
-										null,
-										"<html><h1>Database configuration error!</h1>"
-												+ typeOfQuery
-												+ ".<br>The database entry for this node must be entered properly in order to run this program.</html>",
-										"Cannot start " + programName, JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE, null,
-										options, options[0]) == 1) {
+						if (JOptionPane.showOptionDialog(null,
+								"<html><h1>Database configuration error!</h1>" + typeOfQuery
+										+ ".<br>The database entry for this node must be entered properly in order to run this program.</html>",
+								"Cannot start " + programName, JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE, null,
+								options, options[0]) == 1) {
 							JOptionPane.showMessageDialog(null, query.replace("from", "\nfrom").replace("FROM", "\nFROM"),
 									"The failed query", JOptionPane.ERROR_MESSAGE);
 						}
-
 						System.exit(0);
 					}
 				}
@@ -107,9 +111,7 @@ public class GetMessagingServer {
 				System.err.println(query);
 				e.printStackTrace();
 			}
-
 		}
-
 		return messagingServerName;
 	}
 
@@ -123,9 +125,7 @@ public class GetMessagingServer {
 
 			String query = "select MessagingServerName,LocationInformation.LocationName,LocationInformation.Description,LocationInformation.LocationCode "
 					+ "as LocationCode FROM LocationInformation,SelectorLocation where "
-					+ "LocationInformation.LocationCode=SelectorLocation.LocationCode AND IPName='"
-					+ myName
-					+ "' AND Instance='"
+					+ "LocationInformation.LocationCode=SelectorLocation.LocationCode AND IPName='" + myName + "' AND Instance='"
 					+ THIS_IP_NAME_INSTANCE + "'";
 
 			return getMessagingServerName(query, myName);
@@ -154,7 +154,7 @@ public class GetMessagingServer {
 					connection = ConnectionToDatabase.getDbConnection();
 				} catch (DatabaseNotVisibleException e1) {
 					e1.printStackTrace();
-					System.err.println("\nNo connection to the Signage/Displays database.");
+					println(GetMessagingServer.class, "\nNo connection to the Signage/Displays database (2).");
 					System.exit(-1);
 				}
 
@@ -165,7 +165,8 @@ public class GetMessagingServer {
 							if (rs2.first()) {
 								docentName = rs2.getString("DocentName");
 							} else {
-								System.err.println("No location information for this device, " + myName + "\n\nQuery:\n" + query);
+								printlnErr(GetMessagingServer.class,
+										"No location information for this device, " + myName + "\n\nQuery:\n" + query);
 								new Exception().printStackTrace();
 								System.exit(-1);
 							}
@@ -174,14 +175,12 @@ public class GetMessagingServer {
 						System.err.println(query);
 						e.printStackTrace();
 					}
-
 				}
-
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 				System.exit(-1);
 			}
-			System.out.println("Docent tab name is '" + docentName + "'");
+			println(GetMessagingServer.class, "Docent tab name is '" + docentName + "'");
 		}
 	}
 
