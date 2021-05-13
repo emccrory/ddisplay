@@ -227,7 +227,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			System.exit(UNRECOVERABLE_ERROR);
 		}
 
-		println(getClass(), "***** It looks like we have a good driver connection - we'll see! *****");
+		println(getClass(), "***** It looks like we have a good driver connection to Firefox *****");
 
 		// Setup the timer task to make sure the screen is the right size, forevermore.
 

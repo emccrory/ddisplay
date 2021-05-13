@@ -175,8 +175,9 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 					catchSleep(localPlayListCopy.getTime());
 					localPlayListCopy.advanceChannel();
 					println(DisplayControllerMessagingAbstract.this.getClass(),
-							" -- " + hashCode() + browserInstance.getConnectionCode() + " : List play continues with channel=["
-									+ localPlayListCopy.getDescription() + ", " + localPlayListCopy.getTime() + "msec] " + count++);
+							" " + Integer.toHexString(hashCode()) + browserInstance.getConnectionCode()
+									+ ": List play continues with channel=[" + localPlayListCopy.getName() + ", "
+									+ localPlayListCopy.getTime() + "msec], iteration " + count++);
 				} else
 					catchSleep(Math.min(localPlayListCopy.getTime(), ONE_MINUTE));
 			}
@@ -750,7 +751,7 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 						} else {
 							println(DisplayControllerMessagingAbstract.this.getClass(),
 									".setupRefreshThread():" + browserInstance.getConnectionCode() + " Not necessary to refresh "
-											+ url + " because the channel was changed.  Bye!");
+											+ url + " because channel was changed already.");
 							return;
 						}
 					}
