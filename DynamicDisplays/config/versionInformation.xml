@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1620932965503</timeStamp>
-    <versionDescription>Prepare for a new PRODUCTION version (a couple of minor changes in this version)</versionDescription>
-    <versionString>5.3.40</versionString>
+    <disposition>PRODUCTION</disposition>
+    <timeStamp>1620934724503</timeStamp>
+    <versionDescription>Some minor, cosmetic changes to enable a new PRODUCTION release</versionDescription>
+    <versionString>5.3.41</versionString>
 </versionInformation>
