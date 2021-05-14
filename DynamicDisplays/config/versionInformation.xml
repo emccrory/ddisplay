@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>PRODUCTION</disposition>
-    <timeStamp>1620934724503</timeStamp>
-    <versionDescription>Some minor, cosmetic changes to enable a new PRODUCTION release</versionDescription>
-    <versionString>5.3.41</versionString>
+    <disposition>DEVELOPMENT</disposition>
+    <timeStamp>1621022939330</timeStamp>
+    <versionDescription>Remove the check for running the messaging server from runADisplay.  Also, make some changes in the comments</versionDescription>
+    <versionString>5.3.42</versionString>
 </versionInformation>
