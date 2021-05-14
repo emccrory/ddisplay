@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Start the messaging server.  There are several things that need to happen to be sure that the
-# environment is right.
+# Start the messaging server.  
+# There are several things that need to happen to be sure that the environment is right.
 
 # If we are being called by this script (see the update block, below), we should wait a second for that script to finish
 if [ ! "$1 X" = " X" ]; then
@@ -32,7 +32,8 @@ for logFile in messagingServerOther messagingServer; do
 done
 
 # This compression might take some time.  Wait for it so the log file doesn't get overwritten
-gzip ./messagingServerOther_*.log messagingServer_*.log 
+gzip messagingServerOther_*.log messagingServer_*.log 
+mv *.gz oldLogs
 
 cd ../roc-dynamicdisplays/DynamicDisplays || exit
 workingDirectory=$(pwd)
@@ -69,11 +70,12 @@ touch "$log"
 	port=$(./property.sh messagingPort)
 	/usr/sbin/lsof -i :"$port"
 	
-	#################### And now, finally, here is the messaging server daemon startup
+	# ------------------------------------------------------------------------------------------
+	# -----  Here is the messaging server daemon startup ---------------------------------------
 
 	java -Xmx1024m gov.fnal.ppd.dd.chat.MessagingServerDaemon
 
-	####################
+	# ------------------------------------------------------------------------------------------
 
         # This command establishes the exit code of the while-loop test.  Looking for exit code of -1
 	test "$?" -eq 255
@@ -92,7 +94,6 @@ touch "$log"
 	
 	# Check the version of the code
 	if ( ./runVersionInformation.sh Y  ); then
-
 	    echo "There is a new version, which we have retrieved.  Restarting this display application."
 	fi 
 

@@ -32,10 +32,14 @@ if [ "$databaseServer X" = " X" ] || [ "$databaseName X" = " X" ] || [ "$databas
     echo "Database credentials file not read properly.  This is unexpected."
 fi 2>/dev/null
 
+# ------------------------------------------------------------------------------------------
 # All the scripts treat the development node special.  Change these as appropriate
 export adminEmail="mccrory@fnal.gov"
+# These two are here to remind you that they will need to be changed in several of the other shell scripts
+# These definitions are made AFTER these variables would be used.
 export adminNode="ad130482.fnal.gov"
 export adminWorkspace="/home/mccrory/git-ddisplay"
+# ------------------------------------------------------------------------------------------
 
 export CLASSPATH=target/classes/:bin/:lib/mysql-connector-java-5.1.27.jar:lib/slf4j-api-1.5.8.jar:lib/slf4j-log4j12-1.5.8.jar:lib/selenium/selenium-server-standalone-3.141.59.jar
 

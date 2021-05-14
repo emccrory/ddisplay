@@ -71,25 +71,9 @@ cd "$workingDirectory" || exit
 MyName=$(uname -n)
 
 {
-    echo "$(date)" "Obtaining the messaging server, and determining if it is this node ... "
-    # Get the messaging server for me
-    messagingServer=$(java -Xmx512m gov.fnal.ppd.dd.GetMessagingServer | grep "MessagingServer=" | awk '{ print $2 }')
+    # This used top check to see if this node is supposed to run the messaging server.  This is not relevant anymore.
+    # The node designated to run the messaging server will run the startup script directly after a reboot.
 
-    # Am I a messaging server?
-    if [ "$messagingServer" = "$MyName" ]; then
-	if java -Dddisplay.messagingserver="$messagingServer" \
-	    -Xmx512m gov.fnal.ppd.dd.chat.MessagingServerTest; then
-	    echo Messaging server already running;
-	else
-	    echo Messaging server is not present so we shall start it
-	    ./runMessagingServer.sh & 
-	    # Give it time to start before trying to start the display software (it does not need much)
-	    sleep 2;
-	fi
-    else
-	echo "$(date) The messaging server is $messagingServer, which is not this node"
-    fi
-    
     echo "$(date) Determining if I should run a ChannelSelector"
     if java gov.fnal.ppd.dd.util.specific.HasChannelSelector; then
 	if pgrep -a MakeChannelSelector ; then
@@ -130,8 +114,14 @@ MyName=$(uname -n)
             # Do we need to run two instances of the display?  Then fix the position of the firefox windows
 	    # ./fixFirefoxConfig.sh -- not working on all display nodes.
 	    
+	    # ------------------------------------------------------------------------------------------
+	    # ----- Here is the startup of the display software  ---------------------------------------
+	    # ------------------------------------------------------------------------------------------
+
 	    java -Xmx1024m gov.fnal.ppd.dd.display.client.selenium.DisplayAsConnectionThroughSelenium 
-	    
+
+	    # ------------------------------------------------------------------------------------------
+
             # This command establishes the exit code of the while-loop test.  Looking for exit code of -1
 	    test $? -eq 255
 	}
