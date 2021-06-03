@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1621022939330</timeStamp>
-    <versionDescription>Remove the check for running the messaging server from runADisplay.  Also, make some changes in the comments</versionDescription>
-    <versionString>5.3.42</versionString>
+    <disposition>TEST</disposition>
+    <timeStamp>1622754870339</timeStamp>
+    <versionDescription>Remove fielf IPAddress from table PublicKeys.  Clean up some log files while running some of the shell scripts</versionDescription>
+    <versionString>5.3.43</versionString>
 </versionInformation>
