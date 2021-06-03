@@ -580,8 +580,7 @@ public class ObjectSigning {
 
 			synchronized (connection) {
 				try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-					String statementString = "INSERT INTO PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
-							+ InetAddress.getLocalHost().getHostAddress() + "');";
+					String statementString = "INSERT INTO PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', 0);";
 
 					int numRows = stmt.executeUpdate(statementString);
 					if (numRows == 0 || numRows > 1) {
@@ -594,8 +593,6 @@ public class ObjectSigning {
 					System.err.println("cannot execute a query. Is the DB server down?  Try again later.");
 					ex.printStackTrace();
 					System.exit(-1);
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
 				}
 			}
 		} catch (DatabaseNotVisibleException e) {

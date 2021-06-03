@@ -236,8 +236,7 @@ public class GenerateNewKeyPair {
 		}
 
 		try (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery("USE " + DATABASE_NAME);) {
-			String statementString = "INSERT INTO PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', '"
-					+ InetAddress.getLocalHost().getHostAddress() + "', 0);";
+			String statementString = "INSERT INTO PublicKeys VALUES (NULL, '" + clientName + "', x'" + blob + "', 0);";
 
 			System.out.println(statementString);
 			int numRows = stmt.executeUpdate(statementString);
@@ -250,8 +249,6 @@ public class GenerateNewKeyPair {
 			System.err.println("cannot execute a query. Is the DB server down?  Try again later.");
 			ex.printStackTrace();
 			System.exit(-1);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
 		}
 
 	}
