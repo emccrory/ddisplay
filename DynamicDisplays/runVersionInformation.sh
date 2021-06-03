@@ -48,6 +48,17 @@ else
 	fi
     fi
 
+    # clean up some old log files
+    if ( ls update_*.log >/dev/null 2>&1 ); then
+	gzip log/update_*.log
+	mv log/*.gz log/oldLogs
+    fi
+    if ( ls refresh_*.log >/dev/null 2>&1 ); then
+	gzip log/refresh_*.log
+	mv log/*.gz log/oldLogs
+    fi
+
+    # New log file name
     log=log/update_${d}_$$.log
 
     if [ $doTheUpdate = 1 ]; then

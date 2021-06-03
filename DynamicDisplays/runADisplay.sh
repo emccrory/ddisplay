@@ -27,6 +27,11 @@ fi
 
 log="$ddHome/log/display.log"
 
+# Are there any old zip files in the log folder?  If so, move them to the archive folder
+if ( ls $ddHome/log/*.gz >/dev/null 2>&1 ) then
+    mv $ddHome/log/*.gz "$ddHome/log/oldLogs"
+fi
+
 tempLog=tempLog_$$
 {
     if [ -e "$log" ] ; then
@@ -35,7 +40,7 @@ tempLog=tempLog_$$
 	suffix=$(stat $log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g')
 	
 	mv "$log" "$ddHome/log/display_$suffix.log"
-	gzip      "$ddHome/log/display_$suffix.log" &
+	gzip      "$ddHome/log/display_$suffix.log" 
     fi
 } > $tempLog 2>&1
 
