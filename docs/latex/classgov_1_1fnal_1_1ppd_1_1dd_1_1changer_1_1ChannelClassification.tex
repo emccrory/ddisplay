@@ -1,6 +1,22 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification}{\section{gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification}\index{gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification@{gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification}}
 }
+
+
+\subsection{Detailed Description}
+The way the channels are organized/sorted for the user.
+
+This corresponds to the field Channel\-Tab\-Sort.\-Type in the database. (I really need to unify these names!)
+
+T\-O\-D\-O -\/ Currently, there is a one-\/to-\/one relationship between Channels and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification}{Channel\-Classification}'s. This might not be the right choice. In other words, why can't a Channel be associated with two categories?
+
+F\-I\-X\-M\-E -\/ There seems to be some confusion. There is the Channel\-Tab\-Sort.\-Type field, and then this class is used to distinguish between regular, web-\/based content and content that comes directly from an image.
+
+April 2018\-: Removed the pre-\/defined categories. This is held exclusively in the database
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -24,11 +40,14 @@ String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificat
 \item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a38f17aa3b3c05853fe24e25560ae6524}{set\-Abbreviation} (final String abbreviation)
 \item 
-int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a6dbfc4ec668a08ef137a872514303232}{hash\-Code} ()
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a6dbfc4ec668a08ef137a872514303232}{int {\bfseries hash\-Code} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a6dbfc4ec668a08ef137a872514303232}
+
 \item 
-boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a79f9f40e816a97f3043f096077836e96}{equals} (Object obj)
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a79f9f40e816a97f3043f096077836e96}{boolean {\bfseries equals} (Object obj)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a79f9f40e816a97f3043f096077836e96}
+
 \item 
-String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a9b2bb357ea4192a8c2693fa66a0ce244}{to\-String} ()
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a9b2bb357ea4192a8c2693fa66a0ce244}{String {\bfseries to\-String} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a9b2bb357ea4192a8c2693fa66a0ce244}
+
 \end{DoxyCompactItemize}
 \subsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
@@ -39,26 +58,6 @@ static final \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClass
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-The way the channels are organized/sorted for the user.
-
-This corresponds to the field Channel\-Tab\-Sort.\-Type in the database. (I really need to unify these names!)
-
-T\-O\-D\-O -\/ Currently, there is a one-\/to-\/one relationship between Channels and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification}{Channel\-Classification}'s. This might not be the right choice. In other words, why can't a Channel be associated with two categories?
-
-F\-I\-X\-M\-E -\/ There seems to be some confusion. There is the Channel\-Tab\-Sort.\-Type field, and then this class is used to distinguish between regular, web-\/based content and content that comes directly from an image.
-
-April 2018\-: Removed the pre-\/defined categories. This is held exclusively in the database
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
-\end{DoxyAuthor}
-
-
-Definition at line 26 of file Channel\-Classification.\-java.
-
-
-
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a2e255093510c2aa02327d5444757bf66}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!Channel\-Classification@{Channel\-Classification}}
 \index{Channel\-Classification@{Channel\-Classification}!gov::fnal::ppd::dd::changer::ChannelClassification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}}
@@ -66,27 +65,19 @@ Definition at line 26 of file Channel\-Classification.\-java.
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a2e255093510c2aa02327d5444757bf66}
-Needed for X\-M\-L encoding and decoding 
-
-Definition at line 46 of file Channel\-Classification.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a56c6ead212681a663a5c3c06bbc58491}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!Channel\-Classification@{Channel\-Classification}}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a2e255093510c2aa02327d5444757bf66}
+Needed for X\-M\-L encoding and decoding \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a56c6ead212681a663a5c3c06bbc58491}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!Channel\-Classification@{Channel\-Classification}}
 \index{Channel\-Classification@{Channel\-Classification}!gov::fnal::ppd::dd::changer::ChannelClassification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}}
 \subsubsection[{Channel\-Classification}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification.\-Channel\-Classification (
 \begin{DoxyParamCaption}
 \item[{final String}]{s}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a56c6ead212681a663a5c3c06bbc58491}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a56c6ead212681a663a5c3c06bbc58491}
 
 \begin{DoxyParams}{Parameters}
 {\em s} & \\
 \hline
 \end{DoxyParams}
-
-
-Definition at line 52 of file Channel\-Classification.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_ad0a87c979cb6ad8f63bf9cb0973dc6b8}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!Channel\-Classification@{Channel\-Classification}}
 \index{Channel\-Classification@{Channel\-Classification}!gov::fnal::ppd::dd::changer::ChannelClassification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}}
 \subsubsection[{Channel\-Classification}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification.\-Channel\-Classification (
@@ -94,7 +85,7 @@ Definition at line 52 of file Channel\-Classification.\-java.
 \item[{final String}]{s, }
 \item[{final String}]{a}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_ad0a87c979cb6ad8f63bf9cb0973dc6b8}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_ad0a87c979cb6ad8f63bf9cb0973dc6b8}
 
 \begin{DoxyParams}{Parameters}
 {\em s} & \\
@@ -104,84 +95,46 @@ Definition at line 52 of file Channel\-Classification.\-java.
 \end{DoxyParams}
 
 
-Definition at line 65 of file Channel\-Classification.\-java.
-
-
-
 \subsection{Member Function Documentation}
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a79f9f40e816a97f3043f096077836e96}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!equals@{equals}}
-\index{equals@{equals}!gov::fnal::ppd::dd::changer::ChannelClassification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}}
-\subsubsection[{equals}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification.\-equals (
-\begin{DoxyParamCaption}
-\item[{Object}]{obj}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a79f9f40e816a97f3043f096077836e96}
-
-
-Definition at line 108 of file Channel\-Classification.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a587fe4a47a59ece62db68ea68d7a5e68}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!get\-Abbreviation@{get\-Abbreviation}}
 \index{get\-Abbreviation@{get\-Abbreviation}!gov::fnal::ppd::dd::changer::ChannelClassification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}}
 \subsubsection[{get\-Abbreviation}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification.\-get\-Abbreviation (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a587fe4a47a59ece62db68ea68d7a5e68}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a587fe4a47a59ece62db68ea68d7a5e68}
 \begin{DoxyReturn}{Returns}
 -- The short name for this category 
 \end{DoxyReturn}
-
-
-Definition at line 88 of file Channel\-Classification.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a3ecc2bd9c9c0cbc8df2fdb4c1e8dc794}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!get\-Value@{get\-Value}}
 \index{get\-Value@{get\-Value}!gov::fnal::ppd::dd::changer::ChannelClassification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}}
 \subsubsection[{get\-Value}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification.\-get\-Value (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a3ecc2bd9c9c0cbc8df2fdb4c1e8dc794}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a3ecc2bd9c9c0cbc8df2fdb4c1e8dc794}
 \begin{DoxyReturn}{Returns}
 -- The name of the category 
 \end{DoxyReturn}
-
-
-Definition at line 73 of file Channel\-Classification.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a6dbfc4ec668a08ef137a872514303232}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!hash\-Code@{hash\-Code}}
-\index{hash\-Code@{hash\-Code}!gov::fnal::ppd::dd::changer::ChannelClassification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}}
-\subsubsection[{hash\-Code}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification.\-hash\-Code (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a6dbfc4ec668a08ef137a872514303232}
-
-
-Definition at line 100 of file Channel\-Classification.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a38f17aa3b3c05853fe24e25560ae6524}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!set\-Abbreviation@{set\-Abbreviation}}
 \index{set\-Abbreviation@{set\-Abbreviation}!gov::fnal::ppd::dd::changer::ChannelClassification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}}
 \subsubsection[{set\-Abbreviation}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification.\-set\-Abbreviation (
 \begin{DoxyParamCaption}
 \item[{final String}]{abbreviation}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a38f17aa3b3c05853fe24e25560ae6524}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a38f17aa3b3c05853fe24e25560ae6524}
 
 \begin{DoxyParams}{Parameters}
 {\em abbreviation} & \\
 \hline
 \end{DoxyParams}
-
-
-Definition at line 95 of file Channel\-Classification.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a975c43d435f30a41b3bcbafa54dd0d56}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!set\-Value@{set\-Value}}
 \index{set\-Value@{set\-Value}!gov::fnal::ppd::dd::changer::ChannelClassification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}}
 \subsubsection[{set\-Value}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification.\-set\-Value (
 \begin{DoxyParamCaption}
 \item[{final String}]{value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a975c43d435f30a41b3bcbafa54dd0d56}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a975c43d435f30a41b3bcbafa54dd0d56}
 
 \begin{DoxyParams}{Parameters}
 {\em value} & -- The new name for this category \\
@@ -189,38 +142,15 @@ Definition at line 95 of file Channel\-Classification.\-java.
 \end{DoxyParams}
 
 
-Definition at line 81 of file Channel\-Classification.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a9b2bb357ea4192a8c2693fa66a0ce244}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!to\-String@{to\-String}}
-\index{to\-String@{to\-String}!gov::fnal::ppd::dd::changer::ChannelClassification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}}
-\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification.\-to\-String (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a9b2bb357ea4192a8c2693fa66a0ce244}
-
-
-Definition at line 125 of file Channel\-Classification.\-java.
-
-
-
 \subsection{Member Data Documentation}
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a368a93f6624e94cdd2a80b67e37d6187}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!I\-M\-A\-G\-E@{I\-M\-A\-G\-E}}
 \index{I\-M\-A\-G\-E@{I\-M\-A\-G\-E}!gov::fnal::ppd::dd::changer::ChannelClassification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}}
 \subsubsection[{I\-M\-A\-G\-E}]{\setlength{\rightskip}{0pt plus 5cm}final {\bf Channel\-Classification} gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification.\-I\-M\-A\-G\-E = new {\bf Channel\-Classification}(\char`\"{}Image\char`\"{})\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_a368a93f6624e94cdd2a80b67e37d6187}
-The second of two assumed categories\-: Channels that are J\-P\-E\-G images 
-
-Definition at line 38 of file Channel\-Classification.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_aff2ea773d09e0647abdcb5642bbbec0b}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!M\-I\-S\-C\-E\-L\-L\-A\-N\-E\-O\-U\-S@{M\-I\-S\-C\-E\-L\-L\-A\-N\-E\-O\-U\-S}}
+The second of two assumed categories\-: Channels that are J\-P\-E\-G images \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_aff2ea773d09e0647abdcb5642bbbec0b}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}!M\-I\-S\-C\-E\-L\-L\-A\-N\-E\-O\-U\-S@{M\-I\-S\-C\-E\-L\-L\-A\-N\-E\-O\-U\-S}}
 \index{M\-I\-S\-C\-E\-L\-L\-A\-N\-E\-O\-U\-S@{M\-I\-S\-C\-E\-L\-L\-A\-N\-E\-O\-U\-S}!gov::fnal::ppd::dd::changer::ChannelClassification@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Classification}}
 \subsubsection[{M\-I\-S\-C\-E\-L\-L\-A\-N\-E\-O\-U\-S}]{\setlength{\rightskip}{0pt plus 5cm}final {\bf Channel\-Classification} gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Classification.\-M\-I\-S\-C\-E\-L\-L\-A\-N\-E\-O\-U\-S = new {\bf Channel\-Classification}(\char`\"{}Miscellaneous\char`\"{})\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_aff2ea773d09e0647abdcb5642bbbec0b}
 The first of two assumed categories\-: Web-\/page content (presumably) 
 
-Definition at line 33 of file Channel\-Classification.\-java.
-
-
-
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/gov/fnal/ppd/dd/changer/\hyperlink{ChannelClassification_8java}{Channel\-Classification.\-java}\end{DoxyCompactItemize}
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/changer/Channel\-Classification.\-java\end{DoxyCompactItemize}

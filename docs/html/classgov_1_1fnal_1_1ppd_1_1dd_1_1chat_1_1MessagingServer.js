@@ -3,6 +3,7 @@ var classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer =
     [ "MessagingServer", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer.html#a9b02c801edad834dcc2a0c96071900af", null ],
     [ "broadcast", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer.html#ad4cb5effceeb2b11031e3cf2ec0e5939", null ],
     [ "exceptionString", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer.html#afe655a915ee116333ee6f1c8331b7929", null ],
+    [ "javaHasChanged", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer.html#a8ca524f1db3320d40d3e5c0144802765", null ],
     [ "performDiagnostics", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer.html#af24f72f6ce9d270c33afb4032d9c968b", null ],
     [ "showAllClientsConnectedNow", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer.html#a90da887bb782b08af3fb1dbce8c3e502", null ],
     [ "start", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer.html#a69cf69b0f944a33ba7e1b9c32dd60ee6", null ],

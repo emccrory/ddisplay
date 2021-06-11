@@ -1,0 +1,147 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped}{\section{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped}\index{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped@{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped}}
+}
+
+
+\subsection{Detailed Description}
+Taken from examples on the Oracle/java web site.
+
+This is a simple example of generating an Enveloped X\-M\-L Signature using the Java X\-M\-L Digital Signature A\-P\-I. The resulting signature will look like (key and signature values will be different)\-:
+
+
+\begin{DoxyPre}
+ {\ttfamily 
+<Envelope xmlns="urn:envelope">
+ <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+   <SignedInfo>
+     <CanonicalizationMethod algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">
+     <SignatureMethod algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256">
+     <Reference uri="">
+       <Transforms>
+         <Transform algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature">
+       </Transforms>
+       <DigestMethod algorithm="http://www.w3.org/2001/04/xmlenc#sha256">
+       <DigestValue>/juoQ4bDxElf1M+KJauO20euW+QAvvPP0nDCruCQooM=<DigestValue>
+     </Reference>
+   </SignedInfo>
+   <SignatureValue>
+     YeS+F0uiYv0h946M69Q9pKFNnD6dxUwLA8QT3GX/0H3cSPKRnNFyZiR4RPgaA1ir/ztb4rt6Lqb8
+     hgwPERIa5qhoGUJyHDfUTcQ0Xqn1jYCVoC3ho+oUgJPXNVgtMAtpvOgxcWXUPATYdyimO6RrHF8+
+     JXDkeICI9BPA4NKN1i77CAy6JJbaA87aNIpMJPImwJf8CM7mYsXremZz+RsafNE2cXXRzAoNOynC
+     pi4oPYpE7CBLzhd23gf7zYRoyT06/bVIj4j3qOlVY1TQofsQ20NtAz6PbqAs7QkNoDzkX1CYlDSJ
+     U8cGHuwXpul/UIpOiL6MZF8I/YI4ZlJn+O8Mvg==
+   </SignatureValue>
+   <KeyInfo>
+     <KeyValue>
+       <RSAKeyValue>
+         <Modulus>
+           mH0S/iw2K2tFTFHI75BtB67pzjR52HvQ8K7Xi5UX3NJm0oA+KX2mm0IrVcUuv609vbAAyQoW7CWm
+           4kswVgStCm68dlw36309cxrEmPhG+PKBmUaGuBmRzwityjXRyRZJ6yaLenE8SJO/DC5ntQvmHqQQ
+           qeOJYvz2Cbi2bi6x9XwmpqOfZCE5iTvYwioEsrglhP1uLG9fiXyNR2PXUTyLqD91HLhZFj1CEiU7
+           aE++WfkKaowIx5p8e3F6hQ+VFRNXjtemK5aajuL0gwU+Oujg9ijgbyMh19vBoI8LruJoMOBrYFNN
+           2boQJ3wP0Ek7CPIqAzQB5MnmvKc9jICKiiZVZw==
+         </Modulus>
+         <Exponent>AQAB</Exponent>
+       </RSAKeyValue>
+     </KeyValue>
+   </KeyInfo>
+ </Signature>
+</Envelope>
+ }
+ \end{DoxyPre}
+
+
+\begin{DoxyRefDesc}{Deprecated}
+\item[\hyperlink{deprecated__deprecated000013}{Deprecated}]
+\begin{DoxyItemize}
+\item this algorithm does not work with D\-S\-A keys 
+\end{DoxyItemize}\end{DoxyRefDesc}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a69be7eea0c284cf04dc66e76138895a8}{static D\-O\-M\-Sign\-Context {\bfseries get\-Sign\-Content} (Private\-Key pk, Document doc)}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a69be7eea0c284cf04dc66e76138895a8}
+
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_aa8e572349a537781033c6e6313e49dbb}{sign\-X\-M\-L\-Document} (Private\-Key private\-Key, Document doc)
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a80d09b491d9a3a3c64651101e5510065}{load\-Private\-Key} (final String filename)  throws I\-O\-Exception, Invalid\-Key\-Spec\-Exception, No\-Such\-Algorithm\-Exception 
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_abf95b0c7110d6a16d5329e91606475de}{load\-Public\-Key} (final String filename)  throws I\-O\-Exception 
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a303d48c06a4ed04baa8d16799f4fc8a0}{static boolean {\bfseries load\-Public\-Key\-From\-D\-B} (final String client\-Name)}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a303d48c06a4ed04baa8d16799f4fc8a0}
+
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a46554c2e6c56eb3fa74c7a794ced385e}{static void {\bfseries main} (String\mbox{[}$\,$\mbox{]} args)  throws Exception }\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a46554c2e6c56eb3fa74c7a794ced385e}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a80d09b491d9a3a3c64651101e5510065}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}!load\-Private\-Key@{load\-Private\-Key}}
+\index{load\-Private\-Key@{load\-Private\-Key}!gov::fnal::ppd::ZZattic::GenEnveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}}
+\subsubsection[{load\-Private\-Key}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped.\-load\-Private\-Key (
+\begin{DoxyParamCaption}
+\item[{final String}]{filename}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception, Invalid\-Key\-Spec\-Exception, No\-Such\-Algorithm\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a80d09b491d9a3a3c64651101e5510065}
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & -- A problem reading the keystore \subsubsection*{Invalid\-Key\-Spec\-Exception }\\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & -- A problem with the encryption service $\ast$ \\
+\hline
+{\em Invalid\-Key\-Spec\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_abf95b0c7110d6a16d5329e91606475de}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}!load\-Public\-Key@{load\-Public\-Key}}
+\index{load\-Public\-Key@{load\-Public\-Key}!gov::fnal::ppd::ZZattic::GenEnveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}}
+\subsubsection[{load\-Public\-Key}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped.\-load\-Public\-Key (
+\begin{DoxyParamCaption}
+\item[{final String}]{filename}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_abf95b0c7110d6a16d5329e91606475de}
+Read the public key from the file system
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & -- The file name containing the public keystore \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & -- A problem reading the keystore \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_aa8e572349a537781033c6e6313e49dbb}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}!sign\-X\-M\-L\-Document@{sign\-X\-M\-L\-Document}}
+\index{sign\-X\-M\-L\-Document@{sign\-X\-M\-L\-Document}!gov::fnal::ppd::ZZattic::GenEnveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}}
+\subsubsection[{sign\-X\-M\-L\-Document}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped.\-sign\-X\-M\-L\-Document (
+\begin{DoxyParamCaption}
+\item[{Private\-Key}]{private\-Key, }
+\item[{Document}]{doc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_aa8e572349a537781033c6e6313e49dbb}
+Cryptographically sign an X\-M\-L document.
+
+
+\begin{DoxyParams}{Parameters}
+{\em private\-Key} & 
+\begin{DoxyItemize}
+\item The private key for signing the document 
+\end{DoxyItemize}\\
+\hline
+{\em doc} & 
+\begin{DoxyItemize}
+\item The X\-M\-L document to sign. This document is modified -\/ the signature is added to it. 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/\-Z\-Zattic/Gen\-Enveloped.\-java\end{DoxyCompactItemize}

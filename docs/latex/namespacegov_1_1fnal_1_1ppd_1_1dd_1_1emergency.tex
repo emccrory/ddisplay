@@ -1,7 +1,20 @@
 \hypertarget{namespacegov_1_1fnal_1_1ppd_1_1dd_1_1emergency}{\section{Package gov.\-fnal.\-ppd.\-dd.\-emergency}
 \label{namespacegov_1_1fnal_1_1ppd_1_1dd_1_1emergency}\index{gov.\-fnal.\-ppd.\-dd.\-emergency@{gov.\-fnal.\-ppd.\-dd.\-emergency}}
 }
-\subsection*{Classes}
+
+
+\subsection{Detailed Description}
+Fermilab's Dynamic Displays System -- Implementation of the Emergency Messages in the system. 
+
+The basic idea is that a small group of carefully-\/selected people at the lab will have the rights/credentials to issue what we are calling \char`\"{}\-Emergency Messages\char`\"{} to the Dynamic Display systems. When this emergency message is received by the messaging server, and the identity of the sender is verified and cleared (using the signature the message), the server will forward this message to all of the displays at the lab. (Note\-: It is possible to reduce the number of displays that get this message, e.\-g., for a directed message or for testing.) 
+
+When a display receives the message, it will also verify the signature of the message. When it passes this test, the message will appear on top of the channel that is playing on that display. The display decides how to display the message -\/ this is based mostly on the \char`\"{}severity\char`\"{} of the received message. That is, a message of severity \char`\"{}\-E\-M\-E\-R\-G\-E\-N\-C\-Y\char`\"{} will show in large font and a bold red outline. 
+
+The length of time the message is the lesser of (a) the length of time indicated on the message, or (2) when the user who launched the message sends another message to remove it. (a) is determined in the G\-U\-I and can be adjusted by the user. But the defaults are 60 seconds for the least severe level (\char`\"{}\-T\-E\-S\-T\char`\"{}) to one hour for the most severe (\char`\"{}\-E\-M\-E\-R\-G\-E\-N\-C\-Y\char`\"{}) 
+
+To be clear, it is thought that something like an active shooter incident would be \char`\"{}\-E\-M\-E\-R\-G\-E\-N\-C\-Y\char`\"{}. An \char`\"{}\-A\-L\-E\-R\-T\char`\"{} might be a snow storm that is closing the lab. A \char`\"{}\-T\-E\-S\-T\char`\"{} would be just that -\/ a test of the system. 
+
+Elliott Mc\-Crory, Fermilab/\-F\-R\-A, Instrumentation Department \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 class \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl}{Emerg\-Communication\-Impl}

@@ -1,9 +1,9 @@
 var NAVTREE =
 [
-  [ "Fermilab Dynamic Displays System", "index.html", [
+  [ "Fermilab Dynamic Displays", "index.html", [
     [ "Deprecated List", "deprecated.html", null ],
-    [ "Namespaces", null, [
-      [ "Namespace List", "namespaces.html", "namespaces" ]
+    [ "Packages", null, [
+      [ "Packages", "namespaces.html", "namespaces" ]
     ] ],
     [ "Classes", null, [
       [ "Class List", "annotated.html", "annotated" ],
@@ -15,24 +15,19 @@ var NAVTREE =
         [ "Variables", "functions_vars.html", null ],
         [ "Enumerator", "functions_eval.html", null ]
       ] ]
-    ] ],
-    [ "Files", null, [
-      [ "File List", "files.html", "files" ]
     ] ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"AbstractChannelTableModel_8java.html",
-"Item_8java.html",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ChannelCellRenderer.html#a5c16a9f6ea6f40ff97232ec3397b24d1",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance.html#ab58e70a2a6f47d1dc596f16fe33dedab",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html#aa7d5e87c6606d7a8d910d94bffd2bf13",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1WhoIsInReply.html#a25569ff0d8b0d145ca887f2d09a8de99",
-"classorg_1_1json_1_1JSONObject.html#a56087516560b91c8aebbba67efda1a61",
-"functions_0x75.html"
+".html",
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList.html#af6a62dd284fed342597292000aece6c3",
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#a798cf0131dd1b3f20267f9aca0f12f60",
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a2894606116f3a77ff2121106206852a1",
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a4c20313da2c3573d12684dd21b12ad39",
+"classorg_1_1json_1_1JSONArray.html#a820390cf8f7846a2363c59119e303a2d",
+"enumgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageType.html#abdccf8a588a0067210be6d65a361ca5e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

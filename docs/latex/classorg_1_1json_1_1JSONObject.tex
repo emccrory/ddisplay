@@ -1,6 +1,41 @@
 \hypertarget{classorg_1_1json_1_1JSONObject}{\section{org.\-json.\-J\-S\-O\-N\-Object Class Reference}
 \label{classorg_1_1json_1_1JSONObject}\index{org.\-json.\-J\-S\-O\-N\-Object@{org.\-json.\-J\-S\-O\-N\-Object}}
 }
+
+
+\subsection{Detailed Description}
+A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} is an unordered collection of name/value pairs. Its external form is a string wrapped in curly braces with colons between the names and values, and commas between the values and names. The internal form is an object having {\ttfamily get} and {\ttfamily opt} methods for accessing the values by name, and {\ttfamily put} methods for adding or replacing values by name. The values can be any of these types\-: {\ttfamily Boolean}, {\ttfamily \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array}}, {\ttfamily \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}}, {\ttfamily Number}, {\ttfamily String}, or the {\ttfamily \hyperlink{classorg_1_1json_1_1JSONObject_a01c74a31a1abfd34ab13beb9347855ac}{J\-S\-O\-N\-Object.\-N\-U\-L\-L}} object. A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} constructor can be used to convert an external form J\-S\-O\-N text into an internal form whose values can be retrieved with the {\ttfamily get} and {\ttfamily opt} methods, or to convert values into a J\-S\-O\-N text using the {\ttfamily put} and {\ttfamily to\-String} methods. A {\ttfamily get} method returns a value if one can be found, and throws an exception if one cannot be found. An {\ttfamily opt} method returns a default value instead of throwing an exception, and so is useful for obtaining optional values. 
+
+The generic {\ttfamily \hyperlink{classorg_1_1json_1_1JSONObject_ac98329762a354373a0d3fddc2855dd61}{get()}} and {\ttfamily \hyperlink{classorg_1_1json_1_1JSONObject_a51eeabb3fde00474d3ffd7381ad5d311}{opt()}} methods return an object, which you can cast or query for type. There are also typed {\ttfamily get} and {\ttfamily opt} methods that do type checking and type coercion for you. The opt methods differ from the get methods in that they do not throw. Instead, they return a specified value, such as null. 
+
+The {\ttfamily put} methods add or replace values in an object. For example,
+
+
+\begin{DoxyPre}
+myString = new \hyperlink{classorg_1_1json_1_1JSONObject_a7c17e59daff74ce50c6677c6f5da233d}{JSONObject()}
+        .put("JSON", "Hello, World!").\hyperlink{classorg_1_1json_1_1JSONObject_a7f8cab6eb354ceb416a421574b4be424}{toString()};
+\end{DoxyPre}
+
+
+produces the string {\ttfamily \{\char`\"{}\-J\-S\-O\-N\char`\"{}\-: \char`\"{}\-Hello, World\char`\"{}\}}. 
+
+The texts produced by the {\ttfamily to\-String} methods strictly conform to the J\-S\-O\-N syntax rules. The constructors are more forgiving in the texts they will accept\-: 
+\begin{DoxyItemize}
+\item An extra {\ttfamily ,}~
+\footnotesize (comma)
+\normalsize  may appear just before the closing brace. 
+\item Strings may be quoted with {\ttfamily '}~
+\footnotesize (single quote)
+\normalsize . 
+\item Strings do not need to be quoted at all if they do not begin with a quote or single quote, and if they do not contain leading or trailing spaces, and if they do not contain any of these characters\-: {\ttfamily \{ \} \mbox{[} \mbox{]} / \textbackslash{} \-: , \#} and if they do not look like numbers and if they are not the reserved words {\ttfamily true}, {\ttfamily false}, or {\ttfamily null}. 
+\end{DoxyItemize}
+
+\begin{DoxyAuthor}{Author}
+J\-S\-O\-N.\-org 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2016-\/08-\/15 
+\end{DoxyVersion}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -157,7 +192,8 @@ static String \hyperlink{classorg_1_1json_1_1JSONObject_a5ea1eb29e2e3bdc7b4fae05
 \item 
 static String \hyperlink{classorg_1_1json_1_1JSONObject_abe60222a3919d3f88f104486c1ef13fe}{quote} (String string)
 \item 
-static Writer \hyperlink{classorg_1_1json_1_1JSONObject_aac3d22e558d472049d4c8702cdaf676a}{quote} (String string, Writer w)  throws I\-O\-Exception 
+\hypertarget{classorg_1_1json_1_1JSONObject_aac3d22e558d472049d4c8702cdaf676a}{static Writer {\bfseries quote} (String string, Writer w)  throws I\-O\-Exception }\label{classorg_1_1json_1_1JSONObject_aac3d22e558d472049d4c8702cdaf676a}
+
 \item 
 static Object \hyperlink{classorg_1_1json_1_1JSONObject_a23f861897abe58eb41c044dd63667319}{string\-To\-Value} (String string)
 \item 
@@ -188,45 +224,6 @@ static Number \hyperlink{classorg_1_1json_1_1JSONObject_a0c62c982cd3f51d62218599
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} is an unordered collection of name/value pairs. Its external form is a string wrapped in curly braces with colons between the names and values, and commas between the values and names. The internal form is an object having {\ttfamily get} and {\ttfamily opt} methods for accessing the values by name, and {\ttfamily put} methods for adding or replacing values by name. The values can be any of these types\-: {\ttfamily Boolean}, {\ttfamily \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array}}, {\ttfamily \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}}, {\ttfamily Number}, {\ttfamily String}, or the {\ttfamily \hyperlink{classorg_1_1json_1_1JSONObject_a01c74a31a1abfd34ab13beb9347855ac}{J\-S\-O\-N\-Object.\-N\-U\-L\-L}} object. A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} constructor can be used to convert an external form J\-S\-O\-N text into an internal form whose values can be retrieved with the {\ttfamily get} and {\ttfamily opt} methods, or to convert values into a J\-S\-O\-N text using the {\ttfamily put} and {\ttfamily to\-String} methods. A {\ttfamily get} method returns a value if one can be found, and throws an exception if one cannot be found. An {\ttfamily opt} method returns a default value instead of throwing an exception, and so is useful for obtaining optional values. 
-
-The generic {\ttfamily \hyperlink{classorg_1_1json_1_1JSONObject_ac98329762a354373a0d3fddc2855dd61}{get()}} and {\ttfamily \hyperlink{classorg_1_1json_1_1JSONObject_a51eeabb3fde00474d3ffd7381ad5d311}{opt()}} methods return an object, which you can cast or query for type. There are also typed {\ttfamily get} and {\ttfamily opt} methods that do type checking and type coercion for you. The opt methods differ from the get methods in that they do not throw. Instead, they return a specified value, such as null. 
-
-The {\ttfamily put} methods add or replace values in an object. For example,
-
-
-\begin{DoxyPre}
-myString = new \hyperlink{classorg_1_1json_1_1JSONObject_a7c17e59daff74ce50c6677c6f5da233d}{JSONObject()}
-        .put("JSON", "Hello, World!").\hyperlink{classorg_1_1json_1_1JSONObject_a7f8cab6eb354ceb416a421574b4be424}{toString()};
-\end{DoxyPre}
-
-
-produces the string {\ttfamily \{\char`\"{}\-J\-S\-O\-N\char`\"{}\-: \char`\"{}\-Hello, World\char`\"{}\}}. 
-
-The texts produced by the {\ttfamily to\-String} methods strictly conform to the J\-S\-O\-N syntax rules. The constructors are more forgiving in the texts they will accept\-: 
-\begin{DoxyItemize}
-\item An extra {\ttfamily ,}~
-\footnotesize (comma)
-\normalsize  may appear just before the closing brace. 
-\item Strings may be quoted with {\ttfamily '}~
-\footnotesize (single quote)
-\normalsize . 
-\item Strings do not need to be quoted at all if they do not begin with a quote or single quote, and if they do not contain leading or trailing spaces, and if they do not contain any of these characters\-: {\ttfamily \{ \} \mbox{[} \mbox{]} / \textbackslash{} \-: , \#} and if they do not look like numbers and if they are not the reserved words {\ttfamily true}, {\ttfamily false}, or {\ttfamily null}. 
-\end{DoxyItemize}
-
-\begin{DoxyAuthor}{Author}
-J\-S\-O\-N.\-org 
-\end{DoxyAuthor}
-\begin{DoxyVersion}{Version}
-2016-\/08-\/15 
-\end{DoxyVersion}
-
-
-Definition at line 101 of file J\-S\-O\-N\-Object.\-java.
-
-
-
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classorg_1_1json_1_1JSONObject_a7c17e59daff74ce50c6677c6f5da233d}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}}
 \index{J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
@@ -234,19 +231,15 @@ Definition at line 101 of file J\-S\-O\-N\-Object.\-java.
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a7c17e59daff74ce50c6677c6f5da233d}
-Construct an empty \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. 
-
-Definition at line 169 of file J\-S\-O\-N\-Object.\-java.
-
-\hypertarget{classorg_1_1json_1_1JSONObject_a0e61a2a56e4a34ac5c8730497c320fe9}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}}
+)}}\label{classorg_1_1json_1_1JSONObject_a7c17e59daff74ce50c6677c6f5da233d}
+Construct an empty \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. \hypertarget{classorg_1_1json_1_1JSONObject_a0e61a2a56e4a34ac5c8730497c320fe9}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}}
 \index{J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}org.\-json.\-J\-S\-O\-N\-Object.\-J\-S\-O\-N\-Object (
 \begin{DoxyParamCaption}
 \item[{{\bf J\-S\-O\-N\-Object}}]{jo, }
 \item[{String\mbox{[}$\,$\mbox{]}}]{names}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a0e61a2a56e4a34ac5c8730497c320fe9}
+)}}\label{classorg_1_1json_1_1JSONObject_a0e61a2a56e4a34ac5c8730497c320fe9}
 Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from a subset of another \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. An array of strings is used to identify the keys that should be copied. Missing keys are ignored.
 
 
@@ -256,17 +249,13 @@ Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from 
 {\em names} & An array of strings. \\
 \hline
 \end{DoxyParams}
-
-
-Definition at line 189 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a30954f996711f48cb2dc9b456824e02e}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}}
 \index{J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}org.\-json.\-J\-S\-O\-N\-Object.\-J\-S\-O\-N\-Object (
 \begin{DoxyParamCaption}
 \item[{{\bf J\-S\-O\-N\-Tokener}}]{x}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a30954f996711f48cb2dc9b456824e02e}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a30954f996711f48cb2dc9b456824e02e}
 Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from a \hyperlink{classorg_1_1json_1_1JSONTokener}{J\-S\-O\-N\-Tokener}.
 
 
@@ -279,17 +268,13 @@ Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from 
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If there is a syntax error in the source string or a duplicated key. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 208 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a424ab17cdb94e2a79165bf852bee570c}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}}
 \index{J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}org.\-json.\-J\-S\-O\-N\-Object.\-J\-S\-O\-N\-Object (
 \begin{DoxyParamCaption}
 \item[{Map$<$?,?$>$}]{m}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a424ab17cdb94e2a79165bf852bee570c}
+)}}\label{classorg_1_1json_1_1JSONObject_a424ab17cdb94e2a79165bf852bee570c}
 Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from a Map.
 
 
@@ -297,17 +282,13 @@ Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from 
 {\em m} & A map object that can be used to initialize the contents of the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. \\
 \hline
 \end{DoxyParams}
-
-
-Definition at line 275 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_adf96cd2952efa10c86156b9c8f4fe9b1}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}}
 \index{J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}org.\-json.\-J\-S\-O\-N\-Object.\-J\-S\-O\-N\-Object (
 \begin{DoxyParamCaption}
 \item[{Object}]{bean}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_adf96cd2952efa10c86156b9c8f4fe9b1}
+)}}\label{classorg_1_1json_1_1JSONObject_adf96cd2952efa10c86156b9c8f4fe9b1}
 Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from an Object using bean getters. It reflects on all of the public methods of the object. For each of the methods with no parameters and a name starting with {\ttfamily \char`\"{}get\char`\"{}} or {\ttfamily \char`\"{}is\char`\"{}} followed by an uppercase letter, the method is invoked, and a key and the value returned from the getter method are put into the new \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. 
 
 The key is formed by removing the {\ttfamily \char`\"{}get\char`\"{}} or {\ttfamily \char`\"{}is\char`\"{}} prefix. If the second remaining character is not upper case, then the first character is converted to lower case. 
@@ -321,10 +302,6 @@ Methods that return {\ttfamily void} as well as {\ttfamily static} methods are i
 {\em bean} & An object that has getter methods that should be used to make a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. \\
 \hline
 \end{DoxyParams}
-
-
-Definition at line 313 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_af3f343eaf2cca8718a55d0f105807f9b}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}}
 \index{J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}org.\-json.\-J\-S\-O\-N\-Object.\-J\-S\-O\-N\-Object (
@@ -332,7 +309,7 @@ Definition at line 313 of file J\-S\-O\-N\-Object.\-java.
 \item[{Object}]{object, }
 \item[{String}]{names\mbox{[}$\,$\mbox{]}}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_af3f343eaf2cca8718a55d0f105807f9b}
+)}}\label{classorg_1_1json_1_1JSONObject_af3f343eaf2cca8718a55d0f105807f9b}
 Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from an Object, using reflection to find the public members. The resulting \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}'s keys will be the strings from the names array, and the values will be the field values associated with those keys in the object. If a key is not found or not visible, then it will not be copied into the new \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}.
 
 
@@ -342,17 +319,13 @@ Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from 
 {\em names} & An array of strings, the names of the fields to be obtained from the object. \\
 \hline
 \end{DoxyParams}
-
-
-Definition at line 332 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a015b17aea42a3c1762b66cd1c0803d04}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}}
 \index{J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}org.\-json.\-J\-S\-O\-N\-Object.\-J\-S\-O\-N\-Object (
 \begin{DoxyParamCaption}
 \item[{String}]{source}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a015b17aea42a3c1762b66cd1c0803d04}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a015b17aea42a3c1762b66cd1c0803d04}
 Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from a source J\-S\-O\-N text string. This is the most commonly used \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} constructor.
 
 
@@ -369,10 +342,6 @@ Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from 
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If there is a syntax error in the source string or a duplicated key. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 356 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a8c9f78e54c6e38ecb786fee7163e26fa}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}}
 \index{J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}org.\-json.\-J\-S\-O\-N\-Object.\-J\-S\-O\-N\-Object (
@@ -380,7 +349,7 @@ Definition at line 356 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{base\-Name, }
 \item[{Locale}]{locale}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a8c9f78e54c6e38ecb786fee7163e26fa}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a8c9f78e54c6e38ecb786fee7163e26fa}
 Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from a Resource\-Bundle.
 
 
@@ -395,17 +364,13 @@ Construct a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} from 
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If any J\-S\-O\-N\-Exceptions are detected. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 370 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a4e9429020d2998c7be3de1ab691dd67f}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}}
 \index{J\-S\-O\-N\-Object@{J\-S\-O\-N\-Object}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}org.\-json.\-J\-S\-O\-N\-Object.\-J\-S\-O\-N\-Object (
 \begin{DoxyParamCaption}
 \item[{int}]{initial\-Capacity}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classorg_1_1json_1_1JSONObject_a4e9429020d2998c7be3de1ab691dd67f}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classorg_1_1json_1_1JSONObject_a4e9429020d2998c7be3de1ab691dd67f}
 Constructor to specify an initial capacity of the internal map. Useful for library internal calls where we know, or at least can best guess, how big this \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} will be.
 
 
@@ -413,10 +378,6 @@ Constructor to specify an initial capacity of the internal map. Useful for libra
 {\em initial\-Capacity} & initial capacity of the internal map. \\
 \hline
 \end{DoxyParams}
-
-
-Definition at line 410 of file J\-S\-O\-N\-Object.\-java.
-
 
 
 \subsection{Member Function Documentation}
@@ -427,7 +388,7 @@ Definition at line 410 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{Object}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a2c8b90ffd10c970175d63daf3e682634}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a2c8b90ffd10c970175d63daf3e682634}
 Accumulate values under a key. It is similar to the put method except that if there is already an object stored under the key then a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} is stored under the key to hold all of the accumulated values. If there is already a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array}, then the new value is appended to it. In contrast, the put method replaces the previous value.
 
 If only one value is accumulated that is not a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array}, then the result will be the same as using put. But if multiple values are accumulated, then the result will be like append.
@@ -447,10 +408,6 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the value is an invalid number or if the key is null. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 433 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ae6f06b948080a76425a818ebcfb2c001}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!append@{append}}
 \index{append@{append}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{append}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-append (
@@ -458,7 +415,7 @@ Definition at line 433 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{Object}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_ae6f06b948080a76425a818ebcfb2c001}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_ae6f06b948080a76425a818ebcfb2c001}
 Append values to the array under a key. If the key does not exist in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}, then the key is put in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} with its value being a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} containing the value parameter. If the key was already associated with a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array}, then the value parameter is appended to it.
 
 
@@ -476,17 +433,13 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the key is null or if the current value associated with the key is not a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array}. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 463 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_aad3ea50c3546331486737bcb24e42460}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!double\-To\-String@{double\-To\-String}}
 \index{double\-To\-String@{double\-To\-String}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{double\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}static String org.\-json.\-J\-S\-O\-N\-Object.\-double\-To\-String (
 \begin{DoxyParamCaption}
 \item[{double}]{d}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_aad3ea50c3546331486737bcb24e42460}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_aad3ea50c3546331486737bcb24e42460}
 Produce a string from a double. The string \char`\"{}null\char`\"{} will be returned if the number is not finite.
 
 
@@ -497,17 +450,13 @@ Produce a string from a double. The string \char`\"{}null\char`\"{} will be retu
 \begin{DoxyReturn}{Returns}
 A String. 
 \end{DoxyReturn}
-
-
-Definition at line 485 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a004c3da5b5bfc5fc768cc1346afb4ac1}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!entry\-Set@{entry\-Set}}
 \index{entry\-Set@{entry\-Set}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{entry\-Set}]{\setlength{\rightskip}{0pt plus 5cm}Set$<$Entry$<$String, Object$>$ $>$ org.\-json.\-J\-S\-O\-N\-Object.\-entry\-Set (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classorg_1_1json_1_1JSONObject_a004c3da5b5bfc5fc768cc1346afb4ac1}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classorg_1_1json_1_1JSONObject_a004c3da5b5bfc5fc768cc1346afb4ac1}
 Get a set of entries of the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. These are raw values and may not match what is returned by the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} get$\ast$ and opt$\ast$ functions. Modifying the returned Entry\-Set or the Entry objects contained therein will modify the backing \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. This does not return a clone or a read-\/only view.
 
 Use with caution.
@@ -518,17 +467,13 @@ Map\-::entry\-Set()
 \begin{DoxyReturn}{Returns}
 An Entry Set 
 \end{DoxyReturn}
-
-
-Definition at line 907 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ac98329762a354373a0d3fddc2855dd61}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get@{get}}
 \index{get@{get}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get}]{\setlength{\rightskip}{0pt plus 5cm}Object org.\-json.\-J\-S\-O\-N\-Object.\-get (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_ac98329762a354373a0d3fddc2855dd61}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_ac98329762a354373a0d3fddc2855dd61}
 Get the value object associated with a key.
 
 
@@ -544,17 +489,13 @@ The object associated with the key.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the key is not found. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 514 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_aa4a743f61e251547b1edb81a6b8150f4}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-Big\-Decimal@{get\-Big\-Decimal}}
 \index{get\-Big\-Decimal@{get\-Big\-Decimal}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-Big\-Decimal}]{\setlength{\rightskip}{0pt plus 5cm}Big\-Decimal org.\-json.\-J\-S\-O\-N\-Object.\-get\-Big\-Decimal (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_aa4a743f61e251547b1edb81a6b8150f4}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_aa4a743f61e251547b1edb81a6b8150f4}
 Get the Big\-Decimal value associated with a key.
 
 
@@ -570,17 +511,13 @@ The numeric value.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the key is not found or if the value cannot be converted to Big\-Decimal. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 605 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_aa236e8c9ea6f66d366f962536f5b58b6}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-Big\-Integer@{get\-Big\-Integer}}
 \index{get\-Big\-Integer@{get\-Big\-Integer}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-Big\-Integer}]{\setlength{\rightskip}{0pt plus 5cm}Big\-Integer org.\-json.\-J\-S\-O\-N\-Object.\-get\-Big\-Integer (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_aa236e8c9ea6f66d366f962536f5b58b6}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_aa236e8c9ea6f66d366f962536f5b58b6}
 Get the Big\-Integer value associated with a key.
 
 
@@ -596,17 +533,13 @@ The numeric value.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the key is not found or if the value cannot be converted to Big\-Integer. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 585 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ab40aab8de47233591ac4ad9d1b31adc0}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-Boolean@{get\-Boolean}}
 \index{get\-Boolean@{get\-Boolean}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-Boolean}]{\setlength{\rightskip}{0pt plus 5cm}boolean org.\-json.\-J\-S\-O\-N\-Object.\-get\-Boolean (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_ab40aab8de47233591ac4ad9d1b31adc0}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_ab40aab8de47233591ac4ad9d1b31adc0}
 Get the boolean value associated with a key.
 
 
@@ -622,17 +555,13 @@ The truth.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the value is not a Boolean or the String \char`\"{}true\char`\"{} or \char`\"{}false\char`\"{}. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 560 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_abeec5fe03f3a260b7ec7a2b3076ca5ec}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-Double@{get\-Double}}
 \index{get\-Double@{get\-Double}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-Double}]{\setlength{\rightskip}{0pt plus 5cm}double org.\-json.\-J\-S\-O\-N\-Object.\-get\-Double (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_abeec5fe03f3a260b7ec7a2b3076ca5ec}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_abeec5fe03f3a260b7ec7a2b3076ca5ec}
 Get the double value associated with a key.
 
 
@@ -648,17 +577,13 @@ The numeric value.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the key is not found or if the value is not a Number object and cannot be converted to a number. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 628 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a79ebc458b6a9617d0e3f5e606ef085d7}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-Float@{get\-Float}}
 \index{get\-Float@{get\-Float}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-Float}]{\setlength{\rightskip}{0pt plus 5cm}float org.\-json.\-J\-S\-O\-N\-Object.\-get\-Float (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a79ebc458b6a9617d0e3f5e606ef085d7}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a79ebc458b6a9617d0e3f5e606ef085d7}
 Get the float value associated with a key.
 
 
@@ -674,17 +599,13 @@ The numeric value.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the key is not found or if the value is not a Number object and cannot be converted to a number. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 649 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a3756c60c7c7bfecbdde3c3b5b1bcf385}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-Int@{get\-Int}}
 \index{get\-Int@{get\-Int}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-Int}]{\setlength{\rightskip}{0pt plus 5cm}int org.\-json.\-J\-S\-O\-N\-Object.\-get\-Int (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a3756c60c7c7bfecbdde3c3b5b1bcf385}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a3756c60c7c7bfecbdde3c3b5b1bcf385}
 Get the int value associated with a key.
 
 
@@ -700,17 +621,13 @@ The integer value.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the key is not found or if the value cannot be converted to an integer. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 693 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a884ee44fe958e9ea737d6c5e1180cb62}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-J\-S\-O\-N\-Array@{get\-J\-S\-O\-N\-Array}}
 \index{get\-J\-S\-O\-N\-Array@{get\-J\-S\-O\-N\-Array}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-J\-S\-O\-N\-Array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Array} org.\-json.\-J\-S\-O\-N\-Object.\-get\-J\-S\-O\-N\-Array (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a884ee44fe958e9ea737d6c5e1180cb62}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a884ee44fe958e9ea737d6c5e1180cb62}
 Get the \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} value associated with a key.
 
 
@@ -726,17 +643,13 @@ A \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} which is the valu
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the key is not found or if the value is not a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array}. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 713 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a6011679cb15a3aac5944bb4a8af9f7fb}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-J\-S\-O\-N\-Object@{get\-J\-S\-O\-N\-Object}}
 \index{get\-J\-S\-O\-N\-Object@{get\-J\-S\-O\-N\-Object}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-get\-J\-S\-O\-N\-Object (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a6011679cb15a3aac5944bb4a8af9f7fb}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a6011679cb15a3aac5944bb4a8af9f7fb}
 Get the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} value associated with a key.
 
 
@@ -752,17 +665,13 @@ A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} which is the va
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the key is not found or if the value is not a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 731 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a3547552ed2f4c5d415eab8202e8d6158}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-Long@{get\-Long}}
 \index{get\-Long@{get\-Long}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-Long}]{\setlength{\rightskip}{0pt plus 5cm}long org.\-json.\-J\-S\-O\-N\-Object.\-get\-Long (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a3547552ed2f4c5d415eab8202e8d6158}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a3547552ed2f4c5d415eab8202e8d6158}
 Get the long value associated with a key.
 
 
@@ -778,49 +687,37 @@ The long value.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the key is not found or if the value cannot be converted to a long. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 750 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a30d4e44e4c8e03341c346970a00ba283}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-Names@{get\-Names}}
 \index{get\-Names@{get\-Names}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-Names}]{\setlength{\rightskip}{0pt plus 5cm}static String \mbox{[}$\,$\mbox{]} org.\-json.\-J\-S\-O\-N\-Object.\-get\-Names (
 \begin{DoxyParamCaption}
 \item[{{\bf J\-S\-O\-N\-Object}}]{jo}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_a30d4e44e4c8e03341c346970a00ba283}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_a30d4e44e4c8e03341c346970a00ba283}
 Get an array of field names from a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}.
 
 \begin{DoxyReturn}{Returns}
 An array of field names, or null if there are no names. 
 \end{DoxyReturn}
-
-
-Definition at line 766 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_acf2ec104b4cbbf2947b155d54047efe8}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-Names@{get\-Names}}
 \index{get\-Names@{get\-Names}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-Names}]{\setlength{\rightskip}{0pt plus 5cm}static String \mbox{[}$\,$\mbox{]} org.\-json.\-J\-S\-O\-N\-Object.\-get\-Names (
 \begin{DoxyParamCaption}
 \item[{Object}]{object}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_acf2ec104b4cbbf2947b155d54047efe8}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_acf2ec104b4cbbf2947b155d54047efe8}
 Get an array of field names from an Object.
 
 \begin{DoxyReturn}{Returns}
 An array of field names, or null if there are no names. 
 \end{DoxyReturn}
-
-
-Definition at line 779 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_adb035aa00f7b0e60fcedc5a9268e47d2}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-Number@{get\-Number}}
 \index{get\-Number@{get\-Number}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-Number}]{\setlength{\rightskip}{0pt plus 5cm}Number org.\-json.\-J\-S\-O\-N\-Object.\-get\-Number (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_adb035aa00f7b0e60fcedc5a9268e47d2}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_adb035aa00f7b0e60fcedc5a9268e47d2}
 Get the Number value associated with a key.
 
 
@@ -836,17 +733,13 @@ The numeric value.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the key is not found or if the value is not a Number object and cannot be converted to a number. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 670 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a7140df2bac96f4d75a3f338ed16d1212}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!get\-String@{get\-String}}
 \index{get\-String@{get\-String}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{get\-String}]{\setlength{\rightskip}{0pt plus 5cm}String org.\-json.\-J\-S\-O\-N\-Object.\-get\-String (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a7140df2bac96f4d75a3f338ed16d1212}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a7140df2bac96f4d75a3f338ed16d1212}
 Get the string associated with a key.
 
 
@@ -862,17 +755,13 @@ A string which is the value.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if there is no string value for the key. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 805 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_aa3d594c3e7a5b6d9b89aa6cda03bac28}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!has@{has}}
 \index{has@{has}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{has}]{\setlength{\rightskip}{0pt plus 5cm}boolean org.\-json.\-J\-S\-O\-N\-Object.\-has (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_aa3d594c3e7a5b6d9b89aa6cda03bac28}
+)}}\label{classorg_1_1json_1_1JSONObject_aa3d594c3e7a5b6d9b89aa6cda03bac28}
 Determine if the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} contains a specific key.
 
 
@@ -883,17 +772,13 @@ Determine if the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} 
 \begin{DoxyReturn}{Returns}
 true if the key exists in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. 
 \end{DoxyReturn}
-
-
-Definition at line 820 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a4c808cfee4389ecf543781feaa1b950c}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!increment@{increment}}
 \index{increment@{increment}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{increment}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-increment (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a4c808cfee4389ecf543781feaa1b950c}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a4c808cfee4389ecf543781feaa1b950c}
 Increment a property of a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. If there is no such property, create one with a value of 1. If there is such a property, and if it is an Integer, Long, Double, or Float, then add one to it.
 
 
@@ -909,17 +794,13 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If there is already a property with this name that is not an Integer, Long, Double, or Float. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 836 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a17e05be71de51c2af80323ceda1a5449}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!is\-Decimal\-Notation@{is\-Decimal\-Notation}}
 \index{is\-Decimal\-Notation@{is\-Decimal\-Notation}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{is\-Decimal\-Notation}]{\setlength{\rightskip}{0pt plus 5cm}static boolean org.\-json.\-J\-S\-O\-N\-Object.\-is\-Decimal\-Notation (
 \begin{DoxyParamCaption}
 \item[{final String}]{val}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [protected]}}}\label{classorg_1_1json_1_1JSONObject_a17e05be71de51c2af80323ceda1a5449}
+)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classorg_1_1json_1_1JSONObject_a17e05be71de51c2af80323ceda1a5449}
 Tests if the value should be tried as a decimal. It makes no test if there are actual digits.
 
 
@@ -930,17 +811,13 @@ Tests if the value should be tried as a decimal. It makes no test if there are a
 \begin{DoxyReturn}{Returns}
 true if the string is \char`\"{}-\/0\char`\"{} or if it contains '.', 'e', or 'E', false otherwise. 
 \end{DoxyReturn}
-
-
-Definition at line 1876 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a8de41c5807522df5a7b888a0ffd6b69b}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!is\-Null@{is\-Null}}
 \index{is\-Null@{is\-Null}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{is\-Null}]{\setlength{\rightskip}{0pt plus 5cm}boolean org.\-json.\-J\-S\-O\-N\-Object.\-is\-Null (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a8de41c5807522df5a7b888a0ffd6b69b}
+)}}\label{classorg_1_1json_1_1JSONObject_a8de41c5807522df5a7b888a0ffd6b69b}
 Determine if the value associated with the key is null or if there is no value.
 
 
@@ -951,17 +828,13 @@ Determine if the value associated with the key is null or if there is no value.
 \begin{DoxyReturn}{Returns}
 true if there is no value associated with the key or if the value is the \hyperlink{classorg_1_1json_1_1JSONObject_a01c74a31a1abfd34ab13beb9347855ac}{J\-S\-O\-N\-Object.\-N\-U\-L\-L} object. 
 \end{DoxyReturn}
-
-
-Definition at line 867 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_aff3bbed67e07e0714a04470d0640a5be}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!keys@{keys}}
 \index{keys@{keys}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{keys}]{\setlength{\rightskip}{0pt plus 5cm}Iterator$<$String$>$ org.\-json.\-J\-S\-O\-N\-Object.\-keys (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_aff3bbed67e07e0714a04470d0640a5be}
+)}}\label{classorg_1_1json_1_1JSONObject_aff3bbed67e07e0714a04470d0640a5be}
 Get an enumeration of the keys of the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. Modifying this key Set will also modify the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. Use with caution.
 
 \begin{DoxySeeAlso}{See Also}
@@ -970,17 +843,13 @@ Set\-::iterator()
 \begin{DoxyReturn}{Returns}
 An iterator of the keys. 
 \end{DoxyReturn}
-
-
-Definition at line 879 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a6ab562229c57b51785e17c4179b31c87}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!key\-Set@{key\-Set}}
 \index{key\-Set@{key\-Set}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{key\-Set}]{\setlength{\rightskip}{0pt plus 5cm}Set$<$String$>$ org.\-json.\-J\-S\-O\-N\-Object.\-key\-Set (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a6ab562229c57b51785e17c4179b31c87}
+)}}\label{classorg_1_1json_1_1JSONObject_a6ab562229c57b51785e17c4179b31c87}
 Get a set of keys of the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. Modifying this key Set will also modify the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. Use with caution.
 
 \begin{DoxySeeAlso}{See Also}
@@ -989,49 +858,37 @@ Map\-::key\-Set()
 \begin{DoxyReturn}{Returns}
 A key\-Set. 
 \end{DoxyReturn}
-
-
-Definition at line 891 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a2c47910737728e063a8395d3a9152d42}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!length@{length}}
 \index{length@{length}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{length}]{\setlength{\rightskip}{0pt plus 5cm}int org.\-json.\-J\-S\-O\-N\-Object.\-length (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a2c47910737728e063a8395d3a9152d42}
+)}}\label{classorg_1_1json_1_1JSONObject_a2c47910737728e063a8395d3a9152d42}
 Get the number of keys stored in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}.
 
 \begin{DoxyReturn}{Returns}
 The number of keys in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. 
 \end{DoxyReturn}
-
-
-Definition at line 916 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a02e83de70e290231527d1760c4dd30fc}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!names@{names}}
 \index{names@{names}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{names}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Array} org.\-json.\-J\-S\-O\-N\-Object.\-names (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a02e83de70e290231527d1760c4dd30fc}
+)}}\label{classorg_1_1json_1_1JSONObject_a02e83de70e290231527d1760c4dd30fc}
 Produce a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} containing the names of the elements of this \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}.
 
 \begin{DoxyReturn}{Returns}
 A \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} containing the key strings, or null if the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} is empty. 
 \end{DoxyReturn}
-
-
-Definition at line 927 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a5ea1eb29e2e3bdc7b4fae0579ead8525}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!number\-To\-String@{number\-To\-String}}
 \index{number\-To\-String@{number\-To\-String}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{number\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}static String org.\-json.\-J\-S\-O\-N\-Object.\-number\-To\-String (
 \begin{DoxyParamCaption}
 \item[{Number}]{number}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_a5ea1eb29e2e3bdc7b4fae0579ead8525}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_a5ea1eb29e2e3bdc7b4fae0579ead8525}
 Produce a string from a Number.
 
 
@@ -1047,17 +904,13 @@ A String.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If n is a non-\/finite number. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 943 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a51eeabb3fde00474d3ffd7381ad5d311}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt@{opt}}
 \index{opt@{opt}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt}]{\setlength{\rightskip}{0pt plus 5cm}Object org.\-json.\-J\-S\-O\-N\-Object.\-opt (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a51eeabb3fde00474d3ffd7381ad5d311}
+)}}\label{classorg_1_1json_1_1JSONObject_a51eeabb3fde00474d3ffd7381ad5d311}
 Get an optional value associated with a key.
 
 
@@ -1068,10 +921,6 @@ Get an optional value associated with a key.
 \begin{DoxyReturn}{Returns}
 An object which is the value, or null if there is no value. 
 \end{DoxyReturn}
-
-
-Definition at line 971 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a5bfcfddd039cd791d1337f575d06540a}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Big\-Decimal@{opt\-Big\-Decimal}}
 \index{opt\-Big\-Decimal@{opt\-Big\-Decimal}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Big\-Decimal}]{\setlength{\rightskip}{0pt plus 5cm}Big\-Decimal org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Big\-Decimal (
@@ -1079,7 +928,7 @@ Definition at line 971 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{Big\-Decimal}]{default\-Value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a5bfcfddd039cd791d1337f575d06540a}
+)}}\label{classorg_1_1json_1_1JSONObject_a5bfcfddd039cd791d1337f575d06540a}
 Get an optional Big\-Decimal associated with a key, or the default\-Value if there is no such key or if its value is not a number. If the value is a string, an attempt will be made to evaluate it as a number.
 
 
@@ -1092,10 +941,6 @@ Get an optional Big\-Decimal associated with a key, or the default\-Value if the
 \begin{DoxyReturn}{Returns}
 An object which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1070 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a3117de378a1e3df3149be1d951db7ad0}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Big\-Integer@{opt\-Big\-Integer}}
 \index{opt\-Big\-Integer@{opt\-Big\-Integer}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Big\-Integer}]{\setlength{\rightskip}{0pt plus 5cm}Big\-Integer org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Big\-Integer (
@@ -1103,7 +948,7 @@ Definition at line 1070 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{Big\-Integer}]{default\-Value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a3117de378a1e3df3149be1d951db7ad0}
+)}}\label{classorg_1_1json_1_1JSONObject_a3117de378a1e3df3149be1d951db7ad0}
 Get an optional Big\-Integer associated with a key, or the default\-Value if there is no such key or if its value is not a number. If the value is a string, an attempt will be made to evaluate it as a number.
 
 
@@ -1116,17 +961,13 @@ Get an optional Big\-Integer associated with a key, or the default\-Value if the
 \begin{DoxyReturn}{Returns}
 An object which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1107 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ae2fd84f0e465ade590e47ba7bdce683b}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Boolean@{opt\-Boolean}}
 \index{opt\-Boolean@{opt\-Boolean}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Boolean}]{\setlength{\rightskip}{0pt plus 5cm}boolean org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Boolean (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_ae2fd84f0e465ade590e47ba7bdce683b}
+)}}\label{classorg_1_1json_1_1JSONObject_ae2fd84f0e465ade590e47ba7bdce683b}
 Get an optional boolean associated with a key. It returns false if there is no such key, or if the value is not Boolean.\-T\-R\-U\-E or the String \char`\"{}true\char`\"{}.
 
 
@@ -1137,10 +978,6 @@ Get an optional boolean associated with a key. It returns false if there is no s
 \begin{DoxyReturn}{Returns}
 The truth. 
 \end{DoxyReturn}
-
-
-Definition at line 1028 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ae46a66bde2bc443b63ed93cb26677e34}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Boolean@{opt\-Boolean}}
 \index{opt\-Boolean@{opt\-Boolean}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Boolean}]{\setlength{\rightskip}{0pt plus 5cm}boolean org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Boolean (
@@ -1148,7 +985,7 @@ Definition at line 1028 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{boolean}]{default\-Value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_ae46a66bde2bc443b63ed93cb26677e34}
+)}}\label{classorg_1_1json_1_1JSONObject_ae46a66bde2bc443b63ed93cb26677e34}
 Get an optional boolean associated with a key. It returns the default\-Value if there is no such key, or if it is not a Boolean or the String \char`\"{}true\char`\"{} or \char`\"{}false\char`\"{} (case insensitive).
 
 
@@ -1161,17 +998,13 @@ Get an optional boolean associated with a key. It returns the default\-Value if 
 \begin{DoxyReturn}{Returns}
 The truth. 
 \end{DoxyReturn}
-
-
-Definition at line 1043 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a69bf1cb7de87f4b196c0081ddc4c6f58}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Double@{opt\-Double}}
 \index{opt\-Double@{opt\-Double}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Double}]{\setlength{\rightskip}{0pt plus 5cm}double org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Double (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a69bf1cb7de87f4b196c0081ddc4c6f58}
+)}}\label{classorg_1_1json_1_1JSONObject_a69bf1cb7de87f4b196c0081ddc4c6f58}
 Get an optional double associated with a key, or Na\-N if there is no such key or if its value is not a number. If the value is a string, an attempt will be made to evaluate it as a number.
 
 
@@ -1182,10 +1015,6 @@ Get an optional double associated with a key, or Na\-N if there is no such key o
 \begin{DoxyReturn}{Returns}
 An object which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1151 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ab5c3964b0ef382a85927000e743f8281}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Double@{opt\-Double}}
 \index{opt\-Double@{opt\-Double}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Double}]{\setlength{\rightskip}{0pt plus 5cm}double org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Double (
@@ -1193,7 +1022,7 @@ Definition at line 1151 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{double}]{default\-Value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_ab5c3964b0ef382a85927000e743f8281}
+)}}\label{classorg_1_1json_1_1JSONObject_ab5c3964b0ef382a85927000e743f8281}
 Get an optional double associated with a key, or the default\-Value if there is no such key or if its value is not a number. If the value is a string, an attempt will be made to evaluate it as a number.
 
 
@@ -1206,17 +1035,13 @@ Get an optional double associated with a key, or the default\-Value if there is 
 \begin{DoxyReturn}{Returns}
 An object which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1166 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ab51c4b3e6851330f5311731ba0808297}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Float@{opt\-Float}}
 \index{opt\-Float@{opt\-Float}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Float}]{\setlength{\rightskip}{0pt plus 5cm}float org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Float (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_ab51c4b3e6851330f5311731ba0808297}
+)}}\label{classorg_1_1json_1_1JSONObject_ab51c4b3e6851330f5311731ba0808297}
 Get the optional double value associated with an index. Na\-N is returned if there is no value for the index, or if the value is not a number and cannot be converted to a number.
 
 
@@ -1227,10 +1052,6 @@ Get the optional double value associated with an index. Na\-N is returned if the
 \begin{DoxyReturn}{Returns}
 The value. 
 \end{DoxyReturn}
-
-
-Definition at line 1193 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a0954db33b1a3c33b493310798218c9a9}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Float@{opt\-Float}}
 \index{opt\-Float@{opt\-Float}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Float}]{\setlength{\rightskip}{0pt plus 5cm}float org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Float (
@@ -1238,7 +1059,7 @@ Definition at line 1193 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{float}]{default\-Value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a0954db33b1a3c33b493310798218c9a9}
+)}}\label{classorg_1_1json_1_1JSONObject_a0954db33b1a3c33b493310798218c9a9}
 Get the optional double value associated with an index. The default\-Value is returned if there is no value for the index, or if the value is not a number and cannot be converted to a number.
 
 
@@ -1251,17 +1072,13 @@ Get the optional double value associated with an index. The default\-Value is re
 \begin{DoxyReturn}{Returns}
 The value. 
 \end{DoxyReturn}
-
-
-Definition at line 1208 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_abeb2c17bd5a09ab51b25e4b330983a97}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Int@{opt\-Int}}
 \index{opt\-Int@{opt\-Int}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Int}]{\setlength{\rightskip}{0pt plus 5cm}int org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Int (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_abeb2c17bd5a09ab51b25e4b330983a97}
+)}}\label{classorg_1_1json_1_1JSONObject_abeb2c17bd5a09ab51b25e4b330983a97}
 Get an optional int value associated with a key, or zero if there is no such key or if the value is not a number. If the value is a string, an attempt will be made to evaluate it as a number.
 
 
@@ -1272,10 +1089,6 @@ Get an optional int value associated with a key, or zero if there is no such key
 \begin{DoxyReturn}{Returns}
 An object which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1235 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a80567fb28cd07b9d5148d7610605305e}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Int@{opt\-Int}}
 \index{opt\-Int@{opt\-Int}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Int}]{\setlength{\rightskip}{0pt plus 5cm}int org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Int (
@@ -1283,7 +1096,7 @@ Definition at line 1235 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{int}]{default\-Value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a80567fb28cd07b9d5148d7610605305e}
+)}}\label{classorg_1_1json_1_1JSONObject_a80567fb28cd07b9d5148d7610605305e}
 Get an optional int value associated with a key, or the default if there is no such key or if the value is not a number. If the value is a string, an attempt will be made to evaluate it as a number.
 
 
@@ -1296,17 +1109,13 @@ Get an optional int value associated with a key, or the default if there is no s
 \begin{DoxyReturn}{Returns}
 An object which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1250 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a1e0dce653705a1df438636fbb4fe94e2}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-J\-S\-O\-N\-Array@{opt\-J\-S\-O\-N\-Array}}
 \index{opt\-J\-S\-O\-N\-Array@{opt\-J\-S\-O\-N\-Array}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-J\-S\-O\-N\-Array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Array} org.\-json.\-J\-S\-O\-N\-Object.\-opt\-J\-S\-O\-N\-Array (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a1e0dce653705a1df438636fbb4fe94e2}
+)}}\label{classorg_1_1json_1_1JSONObject_a1e0dce653705a1df438636fbb4fe94e2}
 Get an optional \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} associated with a key. It returns null if there is no such key, or if its value is not a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array}.
 
 
@@ -1317,17 +1126,13 @@ Get an optional \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} ass
 \begin{DoxyReturn}{Returns}
 A \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1277 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_aa1024c804613178b09532ef7549e7b2b}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-J\-S\-O\-N\-Object@{opt\-J\-S\-O\-N\-Object}}
 \index{opt\-J\-S\-O\-N\-Object@{opt\-J\-S\-O\-N\-Object}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-opt\-J\-S\-O\-N\-Object (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_aa1024c804613178b09532ef7549e7b2b}
+)}}\label{classorg_1_1json_1_1JSONObject_aa1024c804613178b09532ef7549e7b2b}
 Get an optional \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} associated with a key. It returns null if there is no such key, or if its value is not a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}.
 
 
@@ -1338,17 +1143,13 @@ Get an optional \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} a
 \begin{DoxyReturn}{Returns}
 A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1290 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_af37dbbf760c1833402c986a62c4baef8}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Long@{opt\-Long}}
 \index{opt\-Long@{opt\-Long}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Long}]{\setlength{\rightskip}{0pt plus 5cm}long org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Long (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_af37dbbf760c1833402c986a62c4baef8}
+)}}\label{classorg_1_1json_1_1JSONObject_af37dbbf760c1833402c986a62c4baef8}
 Get an optional long value associated with a key, or zero if there is no such key or if the value is not a number. If the value is a string, an attempt will be made to evaluate it as a number.
 
 
@@ -1359,10 +1160,6 @@ Get an optional long value associated with a key, or zero if there is no such ke
 \begin{DoxyReturn}{Returns}
 An object which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1304 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_aa826ad7537ebfac8adda13f53ee0008b}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Long@{opt\-Long}}
 \index{opt\-Long@{opt\-Long}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Long}]{\setlength{\rightskip}{0pt plus 5cm}long org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Long (
@@ -1370,7 +1167,7 @@ Definition at line 1304 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{long}]{default\-Value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_aa826ad7537ebfac8adda13f53ee0008b}
+)}}\label{classorg_1_1json_1_1JSONObject_aa826ad7537ebfac8adda13f53ee0008b}
 Get an optional long value associated with a key, or the default if there is no such key or if the value is not a number. If the value is a string, an attempt will be made to evaluate it as a number.
 
 
@@ -1383,17 +1180,13 @@ Get an optional long value associated with a key, or the default if there is no 
 \begin{DoxyReturn}{Returns}
 An object which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1319 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a1c71caf892b19475f16140b917ba47d0}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Number@{opt\-Number}}
 \index{opt\-Number@{opt\-Number}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Number}]{\setlength{\rightskip}{0pt plus 5cm}Number org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Number (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a1c71caf892b19475f16140b917ba47d0}
+)}}\label{classorg_1_1json_1_1JSONObject_a1c71caf892b19475f16140b917ba47d0}
 Get an optional \hyperlink{}{Number} value associated with a key, or {\ttfamily null} if there is no such key or if the value is not a number. If the value is a string, an attempt will be made to evaluate it as a number (\hyperlink{}{Big\-Decimal}). This method would be used in cases where type coercion of the number value is unwanted.
 
 
@@ -1404,10 +1197,6 @@ Get an optional \hyperlink{}{Number} value associated with a key, or {\ttfamily 
 \begin{DoxyReturn}{Returns}
 An object which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1348 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a7cbdf3b15e0a5a7925739e216bf90e3d}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Number@{opt\-Number}}
 \index{opt\-Number@{opt\-Number}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Number}]{\setlength{\rightskip}{0pt plus 5cm}Number org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Number (
@@ -1415,7 +1204,7 @@ Definition at line 1348 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{Number}]{default\-Value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a7cbdf3b15e0a5a7925739e216bf90e3d}
+)}}\label{classorg_1_1json_1_1JSONObject_a7cbdf3b15e0a5a7925739e216bf90e3d}
 Get an optional \hyperlink{}{Number} value associated with a key, or the default if there is no such key or if the value is not a number. If the value is a string, an attempt will be made to evaluate it as a number. This method would be used in cases where type coercion of the number value is unwanted.
 
 
@@ -1428,17 +1217,13 @@ Get an optional \hyperlink{}{Number} value associated with a key, or the default
 \begin{DoxyReturn}{Returns}
 An object which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1364 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a62ad8bc6bf63791326ab16339359e71c}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Query@{opt\-Query}}
 \index{opt\-Query@{opt\-Query}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Query}]{\setlength{\rightskip}{0pt plus 5cm}Object org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Query (
 \begin{DoxyParamCaption}
 \item[{String}]{json\-Pointer}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a62ad8bc6bf63791326ab16339359e71c}
+)}}\label{classorg_1_1json_1_1JSONObject_a62ad8bc6bf63791326ab16339359e71c}
 Queries and returns a value from this object using
 \begin{DoxyCode}
 jsonPointer 
@@ -1466,17 +1251,13 @@ jsonPointer
  has invalid syntax \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1713 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a33a5e800ffb58b0de4336f0aad9bc703}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-Query@{opt\-Query}}
 \index{opt\-Query@{opt\-Query}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-Query}]{\setlength{\rightskip}{0pt plus 5cm}Object org.\-json.\-J\-S\-O\-N\-Object.\-opt\-Query (
 \begin{DoxyParamCaption}
 \item[{{\bf J\-S\-O\-N\-Pointer}}]{json\-Pointer}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a33a5e800ffb58b0de4336f0aad9bc703}
+)}}\label{classorg_1_1json_1_1JSONObject_a33a5e800ffb58b0de4336f0aad9bc703}
 Queries and returns a value from this object using
 \begin{DoxyCode}
 jsonPointer 
@@ -1504,17 +1285,13 @@ jsonPointer
  has invalid syntax \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1725 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_afee65e7bb15356d0fa9006ef391449e0}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-String@{opt\-String}}
 \index{opt\-String@{opt\-String}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-String}]{\setlength{\rightskip}{0pt plus 5cm}String org.\-json.\-J\-S\-O\-N\-Object.\-opt\-String (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_afee65e7bb15356d0fa9006ef391449e0}
+)}}\label{classorg_1_1json_1_1JSONObject_afee65e7bb15356d0fa9006ef391449e0}
 Get an optional string associated with a key. It returns an empty string if there is no such key. If the value is not a string and is not null, then it is converted to a string.
 
 
@@ -1525,10 +1302,6 @@ Get an optional string associated with a key. It returns an empty string if ther
 \begin{DoxyReturn}{Returns}
 A string which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1392 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a6501a2a9b5a97560d74337c082a32732}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!opt\-String@{opt\-String}}
 \index{opt\-String@{opt\-String}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{opt\-String}]{\setlength{\rightskip}{0pt plus 5cm}String org.\-json.\-J\-S\-O\-N\-Object.\-opt\-String (
@@ -1536,7 +1309,7 @@ Definition at line 1392 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{String}]{default\-Value}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a6501a2a9b5a97560d74337c082a32732}
+)}}\label{classorg_1_1json_1_1JSONObject_a6501a2a9b5a97560d74337c082a32732}
 Get an optional string associated with a key. It returns the default\-Value if there is no such key.
 
 
@@ -1549,10 +1322,6 @@ Get an optional string associated with a key. It returns the default\-Value if t
 \begin{DoxyReturn}{Returns}
 A string which is the value. 
 \end{DoxyReturn}
-
-
-Definition at line 1406 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a92b8b4edda8b4805abca24f5b689748b}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!put@{put}}
 \index{put@{put}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{put}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-put (
@@ -1560,7 +1329,7 @@ Definition at line 1406 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{boolean}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a92b8b4edda8b4805abca24f5b689748b}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a92b8b4edda8b4805abca24f5b689748b}
 Put a key/boolean pair in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}.
 
 
@@ -1578,10 +1347,6 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the key is null. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1490 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ae1461f04b8ba9133aaf689e1ef192295}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!put@{put}}
 \index{put@{put}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{put}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-put (
@@ -1589,7 +1354,7 @@ Definition at line 1490 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{Collection$<$?$>$}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_ae1461f04b8ba9133aaf689e1ef192295}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_ae1461f04b8ba9133aaf689e1ef192295}
 Put a key/value pair in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}, where the value will be a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} which is produced from a Collection.
 
 
@@ -1607,10 +1372,6 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1506 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a669cae1e6dd7bcab4a55d4a7078a0e72}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!put@{put}}
 \index{put@{put}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{put}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-put (
@@ -1618,7 +1379,7 @@ Definition at line 1506 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{double}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a669cae1e6dd7bcab4a55d4a7078a0e72}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a669cae1e6dd7bcab4a55d4a7078a0e72}
 Put a key/double pair in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}.
 
 
@@ -1636,10 +1397,6 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the key is null or if the number is invalid. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1522 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a420cbb510cef3161d54f59801279cda0}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!put@{put}}
 \index{put@{put}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{put}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-put (
@@ -1647,7 +1404,7 @@ Definition at line 1522 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{float}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a420cbb510cef3161d54f59801279cda0}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a420cbb510cef3161d54f59801279cda0}
 Put a key/float pair in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}.
 
 
@@ -1665,10 +1422,6 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the key is null or if the number is invalid. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1538 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a36a08204331752dffedc6e9d1b6aa297}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!put@{put}}
 \index{put@{put}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{put}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-put (
@@ -1676,7 +1429,7 @@ Definition at line 1538 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{int}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a36a08204331752dffedc6e9d1b6aa297}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a36a08204331752dffedc6e9d1b6aa297}
 Put a key/int pair in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}.
 
 
@@ -1694,10 +1447,6 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the key is null. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1554 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a5807cd038e9ae979a692db1b99461205}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!put@{put}}
 \index{put@{put}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{put}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-put (
@@ -1705,7 +1454,7 @@ Definition at line 1554 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{long}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a5807cd038e9ae979a692db1b99461205}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a5807cd038e9ae979a692db1b99461205}
 Put a key/long pair in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}.
 
 
@@ -1723,10 +1472,6 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the key is null. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1570 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ae2efab9c8dd3029750be85e6fd43dddc}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!put@{put}}
 \index{put@{put}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{put}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-put (
@@ -1734,7 +1479,7 @@ Definition at line 1570 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{Map$<$?,?$>$}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_ae2efab9c8dd3029750be85e6fd43dddc}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_ae2efab9c8dd3029750be85e6fd43dddc}
 Put a key/value pair in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}, where the value will be a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} which is produced from a Map.
 
 
@@ -1752,10 +1497,6 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1586 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a2af440c4653ad8a23b0ac5ded37cd4d5}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!put@{put}}
 \index{put@{put}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{put}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-put (
@@ -1763,7 +1504,7 @@ Definition at line 1586 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{Object}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a2af440c4653ad8a23b0ac5ded37cd4d5}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a2af440c4653ad8a23b0ac5ded37cd4d5}
 Put a key/value pair in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. If the value is null, then the key will be removed from the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} if it is present.
 
 
@@ -1781,10 +1522,6 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the value is non-\/finite number or if the key is null. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1605 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ac6cc7fe095a7711be90f2e02163ef49e}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!put\-Once@{put\-Once}}
 \index{put\-Once@{put\-Once}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{put\-Once}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-put\-Once (
@@ -1792,7 +1529,7 @@ Definition at line 1605 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{Object}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_ac6cc7fe095a7711be90f2e02163ef49e}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_ac6cc7fe095a7711be90f2e02163ef49e}
 Put a key/value pair in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}, but only if the key and the value are both non-\/null, and only if there is not already a member with that name.
 
 
@@ -1810,10 +1547,6 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & if the key is a duplicate \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1629 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a023672439a8c851a663a183120fc126e}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!put\-Opt@{put\-Opt}}
 \index{put\-Opt@{put\-Opt}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{put\-Opt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Object} org.\-json.\-J\-S\-O\-N\-Object.\-put\-Opt (
@@ -1821,7 +1554,7 @@ Definition at line 1629 of file J\-S\-O\-N\-Object.\-java.
 \item[{String}]{key, }
 \item[{Object}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a023672439a8c851a663a183120fc126e}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a023672439a8c851a663a183120fc126e}
 Put a key/value pair in the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}, but only if the key and the value are both non-\/null.
 
 
@@ -1839,17 +1572,13 @@ this.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the value is a non-\/finite number. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1653 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ae78919e793b1e545f6b146d1d526dae1}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!query@{query}}
 \index{query@{query}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{query}]{\setlength{\rightskip}{0pt plus 5cm}Object org.\-json.\-J\-S\-O\-N\-Object.\-query (
 \begin{DoxyParamCaption}
 \item[{String}]{json\-Pointer}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_ae78919e793b1e545f6b146d1d526dae1}
+)}}\label{classorg_1_1json_1_1JSONObject_ae78919e793b1e545f6b146d1d526dae1}
 Creates a \hyperlink{classorg_1_1json_1_1JSONPointer}{J\-S\-O\-N\-Pointer} using an initialization string and tries to match it to an item within this \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. For example, given a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} initialized with this document\-: 
 \begin{DoxyPre}
 \{
@@ -1870,17 +1599,13 @@ Creates a \hyperlink{classorg_1_1json_1_1JSONPointer}{J\-S\-O\-N\-Pointer} using
 \begin{DoxyReturn}{Returns}
 the item matched by the \hyperlink{classorg_1_1json_1_1JSONPointer}{J\-S\-O\-N\-Pointer}, otherwise null 
 \end{DoxyReturn}
-
-
-Definition at line 1679 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a48e5986121273fefaba4cd85fa8ed521}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!query@{query}}
 \index{query@{query}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{query}]{\setlength{\rightskip}{0pt plus 5cm}Object org.\-json.\-J\-S\-O\-N\-Object.\-query (
 \begin{DoxyParamCaption}
 \item[{{\bf J\-S\-O\-N\-Pointer}}]{json\-Pointer}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a48e5986121273fefaba4cd85fa8ed521}
+)}}\label{classorg_1_1json_1_1JSONObject_a48e5986121273fefaba4cd85fa8ed521}
 Uses a user initialized \hyperlink{classorg_1_1json_1_1JSONPointer}{J\-S\-O\-N\-Pointer} and tries to match it to an item within this \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. For example, given a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} initialized with this document\-: 
 \begin{DoxyPre}
 \{
@@ -1901,17 +1626,13 @@ Uses a user initialized \hyperlink{classorg_1_1json_1_1JSONPointer}{J\-S\-O\-N\-
 \begin{DoxyReturn}{Returns}
 the item matched by the \hyperlink{classorg_1_1json_1_1JSONPointer}{J\-S\-O\-N\-Pointer}, otherwise null 
 \end{DoxyReturn}
-
-
-Definition at line 1701 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_abe60222a3919d3f88f104486c1ef13fe}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!quote@{quote}}
 \index{quote@{quote}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{quote}]{\setlength{\rightskip}{0pt plus 5cm}static String org.\-json.\-J\-S\-O\-N\-Object.\-quote (
 \begin{DoxyParamCaption}
 \item[{String}]{string}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_abe60222a3919d3f88f104486c1ef13fe}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_abe60222a3919d3f88f104486c1ef13fe}
 Produce a string in double quotes with backslash sequences in all the right places. A backslash will be inserted within $<$/, producing $<$\textbackslash{}/, allowing J\-S\-O\-N text to be delivered in H\-T\-M\-L. In J\-S\-O\-N text, a string cannot contain a control character or an unescaped quote or backslash.
 
 
@@ -1922,29 +1643,13 @@ Produce a string in double quotes with backslash sequences in all the right plac
 \begin{DoxyReturn}{Returns}
 A String correctly formatted for insertion in a J\-S\-O\-N text. 
 \end{DoxyReturn}
-
-
-Definition at line 1743 of file J\-S\-O\-N\-Object.\-java.
-
-\hypertarget{classorg_1_1json_1_1JSONObject_aac3d22e558d472049d4c8702cdaf676a}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!quote@{quote}}
-\index{quote@{quote}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
-\subsubsection[{quote}]{\setlength{\rightskip}{0pt plus 5cm}static Writer org.\-json.\-J\-S\-O\-N\-Object.\-quote (
-\begin{DoxyParamCaption}
-\item[{String}]{string, }
-\item[{Writer}]{w}
-\end{DoxyParamCaption}
-) throws I\-O\-Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_aac3d22e558d472049d4c8702cdaf676a}
-
-
-Definition at line 1755 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_af4faca830e4bb6a00bccad695bd58c4d}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!remove@{remove}}
 \index{remove@{remove}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{remove}]{\setlength{\rightskip}{0pt plus 5cm}Object org.\-json.\-J\-S\-O\-N\-Object.\-remove (
 \begin{DoxyParamCaption}
 \item[{String}]{key}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_af4faca830e4bb6a00bccad695bd58c4d}
+)}}\label{classorg_1_1json_1_1JSONObject_af4faca830e4bb6a00bccad695bd58c4d}
 Remove a name and its value, if present.
 
 
@@ -1955,17 +1660,13 @@ Remove a name and its value, if present.
 \begin{DoxyReturn}{Returns}
 The value that was associated with the name, or null if there was no value. 
 \end{DoxyReturn}
-
-
-Definition at line 1822 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_aafd339041f6c72c195769e4cd4ef6daf}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!similar@{similar}}
 \index{similar@{similar}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{similar}]{\setlength{\rightskip}{0pt plus 5cm}boolean org.\-json.\-J\-S\-O\-N\-Object.\-similar (
 \begin{DoxyParamCaption}
 \item[{Object}]{other}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_aafd339041f6c72c195769e4cd4ef6daf}
+)}}\label{classorg_1_1json_1_1JSONObject_aafd339041f6c72c195769e4cd4ef6daf}
 Determine if two J\-S\-O\-N\-Objects are similar. They must contain the same set of names which must be associated with similar values.
 
 
@@ -1976,17 +1677,13 @@ Determine if two J\-S\-O\-N\-Objects are similar. They must contain the same set
 \begin{DoxyReturn}{Returns}
 true if they are equal 
 \end{DoxyReturn}
-
-
-Definition at line 1834 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a0c62c982cd3f51d62218599feabc04b7}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!string\-To\-Number@{string\-To\-Number}}
 \index{string\-To\-Number@{string\-To\-Number}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{string\-To\-Number}]{\setlength{\rightskip}{0pt plus 5cm}static Number org.\-json.\-J\-S\-O\-N\-Object.\-string\-To\-Number (
 \begin{DoxyParamCaption}
 \item[{final String}]{val}
 \end{DoxyParamCaption}
-) throws Number\-Format\-Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [protected]}}}\label{classorg_1_1json_1_1JSONObject_a0c62c982cd3f51d62218599feabc04b7}
+) throws Number\-Format\-Exception\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classorg_1_1json_1_1JSONObject_a0c62c982cd3f51d62218599feabc04b7}
 Converts a string to a number using the narrowest possible type. Possible returns for this function are Big\-Decimal, Double, Big\-Integer, Long, and Integer. When a Double is returned, it should always be a valid Double and not Na\-N or +-\/infinity.
 
 
@@ -2002,17 +1699,13 @@ Number representation of the value.
 {\em Number\-Format\-Exception} & thrown if the value is not a valid number. A public caller should catch this and wrap it in a \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception} if applicable. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 1891 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a23f861897abe58eb41c044dd63667319}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!string\-To\-Value@{string\-To\-Value}}
 \index{string\-To\-Value@{string\-To\-Value}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{string\-To\-Value}]{\setlength{\rightskip}{0pt plus 5cm}static Object org.\-json.\-J\-S\-O\-N\-Object.\-string\-To\-Value (
 \begin{DoxyParamCaption}
 \item[{String}]{string}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_a23f861897abe58eb41c044dd63667319}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_a23f861897abe58eb41c044dd63667319}
 Try to convert a string into a number, boolean, or null. If the string can't be converted, return the string.
 
 
@@ -2023,17 +1716,13 @@ Try to convert a string into a number, boolean, or null. If the string can't be 
 \begin{DoxyReturn}{Returns}
 A simple J\-S\-O\-N value. 
 \end{DoxyReturn}
-
-
-Definition at line 1955 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a406920be130176bad74d605bae04a6da}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!test\-Validity@{test\-Validity}}
 \index{test\-Validity@{test\-Validity}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{test\-Validity}]{\setlength{\rightskip}{0pt plus 5cm}static void org.\-json.\-J\-S\-O\-N\-Object.\-test\-Validity (
 \begin{DoxyParamCaption}
 \item[{Object}]{o}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_a406920be130176bad74d605bae04a6da}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_a406920be130176bad74d605bae04a6da}
 Throw an exception if the object is a Na\-N or infinite number.
 
 
@@ -2046,17 +1735,13 @@ Throw an exception if the object is a Na\-N or infinite number.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If o is a non-\/finite number. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 2007 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_acafa0ef1407022894738177b3195e9f3}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!to\-J\-S\-O\-N\-Array@{to\-J\-S\-O\-N\-Array}}
 \index{to\-J\-S\-O\-N\-Array@{to\-J\-S\-O\-N\-Array}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{to\-J\-S\-O\-N\-Array}]{\setlength{\rightskip}{0pt plus 5cm}{\bf J\-S\-O\-N\-Array} org.\-json.\-J\-S\-O\-N\-Object.\-to\-J\-S\-O\-N\-Array (
 \begin{DoxyParamCaption}
 \item[{{\bf J\-S\-O\-N\-Array}}]{names}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_acafa0ef1407022894738177b3195e9f3}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_acafa0ef1407022894738177b3195e9f3}
 Produce a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} containing the values of the members of this \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}.
 
 
@@ -2072,17 +1757,13 @@ A \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} of values.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If any of the values are non-\/finite numbers. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 2034 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a681b6f283f7155f4e7f8c6519fea3ae5}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!to\-Map@{to\-Map}}
 \index{to\-Map@{to\-Map}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{to\-Map}]{\setlength{\rightskip}{0pt plus 5cm}Map$<$String, Object$>$ org.\-json.\-J\-S\-O\-N\-Object.\-to\-Map (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a681b6f283f7155f4e7f8c6519fea3ae5}
+)}}\label{classorg_1_1json_1_1JSONObject_a681b6f283f7155f4e7f8c6519fea3ae5}
 Returns a java.\-util.\-Map containing all of the entries in this object. If an entry in the object is a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} or \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} it will also be converted. 
 
 Warning\-: This method assumes that the data structure is acyclical.
@@ -2090,17 +1771,13 @@ Warning\-: This method assumes that the data structure is acyclical.
 \begin{DoxyReturn}{Returns}
 a java.\-util.\-Map containing the entries of this object 
 \end{DoxyReturn}
-
-
-Definition at line 2343 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a7f8cab6eb354ceb416a421574b4be424}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!to\-String@{to\-String}}
 \index{to\-String@{to\-String}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}String org.\-json.\-J\-S\-O\-N\-Object.\-to\-String (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a7f8cab6eb354ceb416a421574b4be424}
+)}}\label{classorg_1_1json_1_1JSONObject_a7f8cab6eb354ceb416a421574b4be424}
 Make a J\-S\-O\-N text of this \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. For compactness, no whitespace is added. If this would not result in a syntactically correct J\-S\-O\-N text, then null will be returned instead. 
 
 {\bfseries  Warning\-: This method assumes that the data structure is acyclical. }
@@ -2112,17 +1789,13 @@ a printable, displayable, portable, transmittable representation of the object, 
 \footnotesize (right brace)
 \normalsize . 
 \end{DoxyReturn}
-
-
-Definition at line 2059 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a56087516560b91c8aebbba67efda1a61}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!to\-String@{to\-String}}
 \index{to\-String@{to\-String}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}String org.\-json.\-J\-S\-O\-N\-Object.\-to\-String (
 \begin{DoxyParamCaption}
 \item[{int}]{indent\-Factor}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_a56087516560b91c8aebbba67efda1a61}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_a56087516560b91c8aebbba67efda1a61}
 Make a pretty-\/printed J\-S\-O\-N text of this \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}.
 
 If {\ttfamily indent\-Factor $>$ 0} and the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} has only one key, then the object will be output on a single line\-: 
@@ -2160,17 +1833,13 @@ a printable, displayable, portable, transmittable representation of the object, 
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the object contains an invalid number. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 2093 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ab386b6f594205eecdbe023ad7cb26105}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!value\-To\-String@{value\-To\-String}}
 \index{value\-To\-String@{value\-To\-String}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{value\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}static String org.\-json.\-J\-S\-O\-N\-Object.\-value\-To\-String (
 \begin{DoxyParamCaption}
 \item[{Object}]{value}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_ab386b6f594205eecdbe023ad7cb26105}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_ab386b6f594205eecdbe023ad7cb26105}
 Make a J\-S\-O\-N text of an Object value. If the object has an value.\-to\-J\-S\-O\-N\-String() method, then that method will be used to produce the J\-S\-O\-N text. The method is required to produce a strictly conforming text. If the object does not contain a to\-J\-S\-O\-N\-String method (which is the most common case), then a text will be produced by other means. If the value is an array or Collection, then a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array} will be made from it and its to\-J\-S\-O\-N\-String method will be called. If the value is a M\-A\-P, then a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} will be made from it and its to\-J\-S\-O\-N\-String method will be called. Otherwise, the value's to\-String method will be called, and the result will be quoted.
 
 Warning\-: This method assumes that the data structure is acyclical.
@@ -2192,17 +1861,13 @@ a printable, displayable, transmittable representation of the object, beginning 
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the value is or contains an invalid number. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 2124 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_a5aa793d5ebe4bb6002bd37d84d65742e}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!wrap@{wrap}}
 \index{wrap@{wrap}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{wrap}]{\setlength{\rightskip}{0pt plus 5cm}static Object org.\-json.\-J\-S\-O\-N\-Object.\-wrap (
 \begin{DoxyParamCaption}
 \item[{Object}]{object}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_a5aa793d5ebe4bb6002bd37d84d65742e}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_a5aa793d5ebe4bb6002bd37d84d65742e}
 Wrap an object, if necessary. If the object is null, return the N\-U\-L\-L object. If it is an array or collection, wrap it in a \hyperlink{classorg_1_1json_1_1JSONArray}{J\-S\-O\-N\-Array}. If it is a map, wrap it in a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. If it is a standard property (Double, String, et al) then it is already wrapped. Otherwise, if it comes from one of the java packages, turn it into a string. And if it doesn't, try to wrap it in a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. If the wrapping fails, then null is returned.
 
 
@@ -2213,17 +1878,13 @@ Wrap an object, if necessary. If the object is null, return the N\-U\-L\-L objec
 \begin{DoxyReturn}{Returns}
 The wrapped value 
 \end{DoxyReturn}
-
-
-Definition at line 2144 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_ac810606f683376f15962ed9b32db9eba}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!write@{write}}
 \index{write@{write}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}Writer org.\-json.\-J\-S\-O\-N\-Object.\-write (
 \begin{DoxyParamCaption}
 \item[{Writer}]{writer}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_ac810606f683376f15962ed9b32db9eba}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_ac810606f683376f15962ed9b32db9eba}
 Write the contents of the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} as J\-S\-O\-N text to a writer. For compactness, no whitespace is added. 
 
 {\bfseries  Warning\-: This method assumes that the data structure is acyclical. }
@@ -2236,10 +1897,6 @@ The writer.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 2195 of file J\-S\-O\-N\-Object.\-java.
-
 \hypertarget{classorg_1_1json_1_1JSONObject_afccc699dd9731cbee68c4e3efa8f45c8}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!write@{write}}
 \index{write@{write}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}Writer org.\-json.\-J\-S\-O\-N\-Object.\-write (
@@ -2248,7 +1905,7 @@ Definition at line 2195 of file J\-S\-O\-N\-Object.\-java.
 \item[{int}]{indent\-Factor, }
 \item[{int}]{indent}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1JSONObject_afccc699dd9731cbee68c4e3efa8f45c8}
+) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1JSONObject_afccc699dd9731cbee68c4e3efa8f45c8}
 Write the contents of the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} as J\-S\-O\-N text to a writer.
 
 If {\ttfamily indent\-Factor $>$ 0} and the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} has only one key, then the object will be output on a single line\-: 
@@ -2288,20 +1945,12 @@ The writer.
 \end{DoxyExceptions}
 
 
-Definition at line 2279 of file J\-S\-O\-N\-Object.\-java.
-
-
-
 \subsection{Member Data Documentation}
 \hypertarget{classorg_1_1json_1_1JSONObject_a01c74a31a1abfd34ab13beb9347855ac}{\index{org\-::json\-::\-J\-S\-O\-N\-Object@{org\-::json\-::\-J\-S\-O\-N\-Object}!N\-U\-L\-L@{N\-U\-L\-L}}
 \index{N\-U\-L\-L@{N\-U\-L\-L}!org::json::JSONObject@{org\-::json\-::\-J\-S\-O\-N\-Object}}
 \subsubsection[{N\-U\-L\-L}]{\setlength{\rightskip}{0pt plus 5cm}final Object org.\-json.\-J\-S\-O\-N\-Object.\-N\-U\-L\-L = new Null()\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1JSONObject_a01c74a31a1abfd34ab13beb9347855ac}
 It is sometimes more convenient and less ambiguous to have a {\ttfamily N\-U\-L\-L} object than to use Java's {\ttfamily null} value. {\ttfamily J\-S\-O\-N\-Object.\-N\-U\-L\-L.\-equals(null)} returns {\ttfamily true}. {\ttfamily J\-S\-O\-N\-Object.\-N\-U\-L\-L.\-to\-String()} returns {\ttfamily \char`\"{}null\char`\"{}}. 
 
-Definition at line 164 of file J\-S\-O\-N\-Object.\-java.
-
-
-
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/org/json/\hyperlink{JSONObject_8java}{J\-S\-O\-N\-Object.\-java}\end{DoxyCompactItemize}
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/org/json/J\-S\-O\-N\-Object.\-java\end{DoxyCompactItemize}

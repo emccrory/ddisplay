@@ -3,27 +3,73 @@
 }
 
 
-Inherited by gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server\-Daemon.\-Local\-Messaging\-Server, and gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server\-G\-U\-I.\-Local\-Messaging\-Server.
+\subsection{Detailed Description}
+The central messaging server for the Dynamic Displays system
 
+In this application of the idea, I have pretty much a stove-\/pipe server with only one bit of a protocol, handled elsewhere. The message is an object (see Message\-Carrier\-X\-M\-L.\-java) with four attributes\-: 
+\begin{DoxyItemize}
+\item Message\-Type type; -- An enum of the sorts of messages we expect 
+\item String message; -- The message body (if it is required). in principle, this can be encrypted (and then A\-S\-C\-I\-I-\/fied). In this architecture, when the message is used, it is usually an X\-M\-L document 
+\item String to; -- The name of the client who is supposed to get this message. {\itshape This could be changed to a \char`\"{}subscription topic.\char`\"{}} 
+\item String from; -- The name of the client who sent the message (allowing a reply of some sort) 
+\end{DoxyItemize}
+
+It may be possible to use Object\-Output\-Stream and Object\-Input\-Stream to send the Encoded\-Carrier (X\-M\-L) object directly, without the existing X\-M\-L marshalling and unmarshalling. But since this works, I have little motivation to make this change. Future developers may be more enthusiastic to do this. The existing scheme makes it easy to add on encryption of the message (which is the X\-M\-L document), which would allow the routing of the message without decrypting. 
+
+What about encryption? If we ever need to secure this communication, it should be possible to encrypt parts of the message. A simple way to implement this would be to add a time stamp to Message\-Carrier\-X\-M\-L which is encrypted and re-\/\-A\-S\-C\-I\-I-\/fied. Using an asymmetric encryption, the source (the \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}{Channel\-Selector}) can encrypt it with its secret key and then the destination (the Display) can decrypt it with the public key and then verify that the date is \char`\"{}recent\char`\"{}. Or one can encrypt the X\-M\-L document itself (which includes a time stamp). This will probably not be necessary at Fermilab as it is hard to imagine a situation where someone would put bad stuff into the stream of messages and foul things up. But hackers are a clever bunch, so never say never. 
+
+We have opted not to encrypt these messages, but rather to cryptographically sign them. 
+
+An operational observation\-: A Client often drop out without saying goodbye. Almost always when this happens, the socket connection between the server and the client gets corrupted and the server notices. When it does notice, it can delete this client from its inventory. But sometimes this corruption does not happen and the socket somehow remains viable from the server's perspective. In this situation, when the Client tries to reconnect it is turned away as its name is already in use. Thus, I have implemented a heart beat from the server to each client to see if this client really is alive. See start\-Pinger() method for details. 
+
+{\bfseries T\-O\-D\-O} -\/ Improve the architecture 
+
+According to \href{http://docs.oracle.com/cd/E19957-01/816-6024-10/apa.htm}{\tt http\-://docs.\-oracle.\-com/cd/\-E19957-\/01/816-\/6024-\/10/apa.\-htm} (the first hit on Google for \char`\"{}\-Messaging Server Architecture\char`\"{} ), a well-\/built messaging server has these six components\-: 
+\begin{DoxyItemize}
+\item The dispatcher is the daemon (or service) component of the Messaging Server. It coordinates the activities of all other modules. In Figure A.\-1, the dispatcher can be thought of as an envelope that contains and initiates the processes of all items shown within the largest box. {\itshape Yes-\/ish} 
+\item The module configuration database contains general configuration information for the other modules.{\itshape Yes-\/ish} 
+\item The message transfer agent (M\-T\-A) handles all message accepting, routing, and delivery tasks. {\itshape Yes-\/ish} 
+\item The Messaging Server managers facilitate remote configuration and operation of the system and ensure that the modules are doing their job and following the rules. {\itshape Not really} 
+\item The Auto\-Reply utility lets the Messaging Server automatically reply to incoming messages with predefined responses of your choice. {\itshape No} 
+\item The directory database--either a local directory database or a Directory Server--contains user and group account information for the other modules. {\itshape Yes-\/ish} 
+\end{DoxyItemize}
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer}
+\end{center}
+\end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a9b02c801edad834dcc2a0c96071900af}{Messaging\-Server} (int port)
 \item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a69cf69b0f944a33ba7e1b9c32dd60ee6}{start} ()
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a8ca524f1db3320d40d3e5c0144802765}{void {\bfseries java\-Has\-Changed} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a8ca524f1db3320d40d3e5c0144802765}
+
 \end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ae9c73322e842357c87634a60426e5bf0}{num\-Removed\-Bad\-Write\-Seen} = 0
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ae9c73322e842357c87634a60426e5bf0}{int {\bfseries num\-Removed\-Bad\-Write\-Seen} = 0}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ae9c73322e842357c87634a60426e5bf0}
+
 \item 
-int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a3fe04e43605b1c81c063cf9d334fb763}{num\-Removed\-Null\-Client\-Thread} = 0
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a3fe04e43605b1c81c063cf9d334fb763}{int {\bfseries num\-Removed\-Null\-Client\-Thread} = 0}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a3fe04e43605b1c81c063cf9d334fb763}
+
 \item 
-int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a84d7bc143f1eee20c7e39ce9024783c9}{num\-Removed\-Null\-Username} = 0
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a84d7bc143f1eee20c7e39ce9024783c9}{int {\bfseries num\-Removed\-Null\-Username} = 0}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a84d7bc143f1eee20c7e39ce9024783c9}
+
 \item 
-int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ab986fa29bcdc51bd186ad23e1c699426}{num\-Removed\-Null\-Date} = 0
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ab986fa29bcdc51bd186ad23e1c699426}{int {\bfseries num\-Removed\-Null\-Date} = 0}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ab986fa29bcdc51bd186ad23e1c699426}
+
 \item 
-int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a189ff6081d21eb1a9c98887d84e23b17}{num\-Removed\-Exited\-Forever\-Loop} = 0
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a189ff6081d21eb1a9c98887d84e23b17}{int {\bfseries num\-Removed\-Exited\-Forever\-Loop} = 0}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a189ff6081d21eb1a9c98887d84e23b17}
+
 \end{DoxyCompactItemize}
 \subsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
@@ -37,75 +83,27 @@ void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ad4cb5e
 \item 
 String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_afe655a915ee116333ee6f1c8331b7929}{exception\-String} (Exception e)
 \item 
-void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_af24f72f6ce9d270c33afb4032d9c968b}{perform\-Diagnostics} (boolean show)
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_af24f72f6ce9d270c33afb4032d9c968b}{void {\bfseries perform\-Diagnostics} (boolean show)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_af24f72f6ce9d270c33afb4032d9c968b}
+
 \item 
-void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a90da887bb782b08af3fb1dbce8c3e502}{show\-All\-Clients\-Connected\-Now} ()
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a90da887bb782b08af3fb1dbce8c3e502}{void {\bfseries show\-All\-Clients\-Connected\-Now} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a90da887bb782b08af3fb1dbce8c3e502}
+
 \item 
-void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a2ab9736895b528ec810dd27eb5761295}{stop} ()
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a2ab9736895b528ec810dd27eb5761295}{void {\bfseries stop} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a2ab9736895b528ec810dd27eb5761295}
+
 \end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-Simple\-Date\-Format \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ac727c375b30722fb0d0a88f27eb97954}{sdf}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ac727c375b30722fb0d0a88f27eb97954}{Simple\-Date\-Format {\bfseries sdf}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ac727c375b30722fb0d0a88f27eb97954}
+
 \item 
-int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a6847562b2441991b550f7b3cb7fe8f2d}{total\-Messsages\-Handled} = 0
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a6847562b2441991b550f7b3cb7fe8f2d}{int {\bfseries total\-Messsages\-Handled} = 0}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a6847562b2441991b550f7b3cb7fe8f2d}
+
 \item 
-\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1LoggerForDebugging}{Logger\-For\-Debugging} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_acc91232824dd5e89347e0d8ac29abae8}{logger}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_acc91232824dd5e89347e0d8ac29abae8}{\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1LoggerForDebugging}{Logger\-For\-Debugging} {\bfseries logger}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_acc91232824dd5e89347e0d8ac29abae8}
+
 \end{DoxyCompactItemize}
-
-
-\subsection{Detailed Description}
-The server that can be run both as a console application or a G\-U\-I
-
-T\-O\-D\-O\-: Improve the architecture
-
-According to \href{http://docs.oracle.com/cd/E19957-01/816-6024-10/apa.htm}{\tt http\-://docs.\-oracle.\-com/cd/\-E19957-\/01/816-\/6024-\/10/apa.\-htm} (the first hit on Google for \char`\"{}\-Messaging Server Architecture\char`\"{} ), a well-\/built messaging server has these six components\-: 
-\begin{DoxyItemize}
-\item The dispatcher is the daemon (or service) component of the Messaging Server. It coordinates the activities of all other modules. In Figure A.\-1, the dispatcher can be thought of as an envelope that contains and initiates the processes of all items shown within the largest box. 
-\item The module configuration database contains general configuration information for the other modules. 
-\item The message transfer agent (M\-T\-A) handles all message accepting, routing, and delivery tasks. 
-\item The Messaging Server managers facilitate remote configuration and operation of the system and ensure that the modules are doing their job and following the rules. 
-\item The Auto\-Reply utility lets the Messaging Server automatically reply to incoming messages with predefined responses of your choice. 
-\item The directory database--either a local directory database or a Directory Server--contains user and group account information for the other modules. 
-\end{DoxyItemize}
-
-In this application of the idea, I have pretty much a stove-\/pipe server with only one bit of a protocol, handled elsewhere. The message is an object (see \hyperlink{MessageCarrierXML_8java}{Message\-Carrier\-X\-M\-L.\-java}) with four attributes\-: 
-\begin{DoxyItemize}
-\item \hyperlink{enumgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageType}{Message\-Type} type; -- An enum of the sorts of messages we expect 
-\item String message; -- The message body (if it is required). in principle, this can be encrypted (and then A\-S\-C\-I\-I-\/fied). In this architecture, when the message is used, it is usually an X\-M\-L document 
-\item String to; -- The name of the client who is supposed to get this message. {\itshape This could be changed to a {\itshape \char`\"{}subscription topic.\char`\"{}} }
-\item {\itshape String from; -- The name of the client who sent the message (allowing a reply of some sort) }
-\end{DoxyItemize}
-
-{\itshape }
-
-{\itshape }
-
-{\itshape  It may be possible to use Object\-Output\-Stream and Object\-Input\-Stream to send the Encoded\-Carrier (X\-M\-L) object directly, without the existing X\-M\-L marshalling and unmarshalling. But since this works, I have little motivation to make this change. Future developers may be more enthusiastic to do this. The existing scheme makes it easy to add on encryption of the message (which is the X\-M\-L document), which would allow the routing of the message without decrypting. }
-
-{\itshape }
-
-{\itshape }
-
-{\itshape  What about encryption? If we ever need to secure this communication, it should be possible to encrypt parts of the message. A simple way to implement this would be to add a time stamp to Message\-Carrier\-X\-M\-L which is encrypted and re-\/\-A\-S\-C\-I\-I-\/fied. Using an asymmetric encryption, the source (the \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}{Channel\-Selector}) can encrypt it with its secret key and then the destination (the Display) can decrypt it with the public key and then verify that the date is \char`\"{}recent\char`\"{}. Or one can encrypt the X\-M\-L document itself (which includes a time stamp). This will probably not be necessary at Fermilab as it is hard to imagine a situation where someone would put bad stuff into the stream of messages and foul things up. But hackers are a clever bunch, so never say never. }
-
-{\itshape  }
-
-{\itshape  We have opted not to encrypt these messages, but rather to cryptographically sign them. }
-
-{\itshape  }
-
-{\itshape  An operational observation\-: A Client often drop out without saying goodbye. Almost always when this happens, the socket connection between the server and the client gets corrupted and the server notices. When it does notice, it can delete this client from its inventory. But sometimes this corruption does not happen and the socket somehow remains viable from the server's perspective. In this situation, when the Client tries to reconnect it is turned away as its name is already in use. Thus, I have implemented a heart beat from the server to each client to see if this client really is alive. See start\-Pinger() method for details. }
-
-{\itshape }
-
-{\itshape \begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
-\end{DoxyAuthor}
-}
-
-Definition at line 130 of file Messaging\-Server.\-java.
-
 
 
 \subsection{Constructor \& Destructor Documentation}
@@ -115,7 +113,7 @@ Definition at line 130 of file Messaging\-Server.\-java.
 \begin{DoxyParamCaption}
 \item[{int}]{port}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a9b02c801edad834dcc2a0c96071900af}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a9b02c801edad834dcc2a0c96071900af}
 server constructor that receive the port to listen to for connection as parameter in console
 
 
@@ -125,10 +123,6 @@ server constructor that receive the port to listen to for connection as paramete
 \end{DoxyParams}
 
 
-Definition at line 849 of file Messaging\-Server.\-java.
-
-
-
 \subsection{Member Function Documentation}
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ad4cb5effceeb2b11031e3cf2ec0e5939}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!broadcast@{broadcast}}
 \index{broadcast@{broadcast}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
@@ -136,7 +130,7 @@ Definition at line 849 of file Messaging\-Server.\-java.
 \begin{DoxyParamCaption}
 \item[{{\bf Message\-Carrier\-X\-M\-L}}]{mc}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ad4cb5effceeb2b11031e3cf2ec0e5939}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ad4cb5effceeb2b11031e3cf2ec0e5939}
 Broadcast an unsigned message to a Client
 
 Overrideable if the base class wants to know about the messages.
@@ -148,133 +142,28 @@ Be sure to call super.\-broadcast(message) to actually get the message broadcast
 {\em mc} & The message to broadcast \\
 \hline
 \end{DoxyParams}
-
-
-Definition at line 909 of file Messaging\-Server.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_afe655a915ee116333ee6f1c8331b7929}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!exception\-String@{exception\-String}}
 \index{exception\-String@{exception\-String}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
 \subsubsection[{exception\-String}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-exception\-String (
 \begin{DoxyParamCaption}
 \item[{Exception}]{e}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_afe655a915ee116333ee6f1c8331b7929}
-Display a message to the console or the G\-U\-I 
-
-Definition at line 988 of file Messaging\-Server.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_af24f72f6ce9d270c33afb4032d9c968b}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!perform\-Diagnostics@{perform\-Diagnostics}}
-\index{perform\-Diagnostics@{perform\-Diagnostics}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
-\subsubsection[{perform\-Diagnostics}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-perform\-Diagnostics (
-\begin{DoxyParamCaption}
-\item[{boolean}]{show}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_af24f72f6ce9d270c33afb4032d9c968b}
-
-
-Definition at line 1008 of file Messaging\-Server.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a90da887bb782b08af3fb1dbce8c3e502}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!show\-All\-Clients\-Connected\-Now@{show\-All\-Clients\-Connected\-Now}}
-\index{show\-All\-Clients\-Connected\-Now@{show\-All\-Clients\-Connected\-Now}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
-\subsubsection[{show\-All\-Clients\-Connected\-Now}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-show\-All\-Clients\-Connected\-Now (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a90da887bb782b08af3fb1dbce8c3e502}
-
-
-Definition at line 1394 of file Messaging\-Server.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a69cf69b0f944a33ba7e1b9c32dd60ee6}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!start@{start}}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_afe655a915ee116333ee6f1c8331b7929}
+Display a message to the console or the G\-U\-I \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a69cf69b0f944a33ba7e1b9c32dd60ee6}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!start@{start}}
 \index{start@{start}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
 \subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-start (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a69cf69b0f944a33ba7e1b9c32dd60ee6}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a69cf69b0f944a33ba7e1b9c32dd60ee6}
 Start the messaging server 
 
-Definition at line 1174 of file Messaging\-Server.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a2ab9736895b528ec810dd27eb5761295}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!stop@{stop}}
-\index{stop@{stop}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
-\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-stop (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a2ab9736895b528ec810dd27eb5761295}
-
-
-Definition at line 1539 of file Messaging\-Server.\-java.
-
-
-
 \subsection{Member Data Documentation}
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_acc91232824dd5e89347e0d8ac29abae8}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!logger@{logger}}
-\index{logger@{logger}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
-\subsubsection[{logger}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Logger\-For\-Debugging} gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-logger\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_acc91232824dd5e89347e0d8ac29abae8}
-
-
-Definition at line 842 of file Messaging\-Server.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ae9c73322e842357c87634a60426e5bf0}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!num\-Removed\-Bad\-Write\-Seen@{num\-Removed\-Bad\-Write\-Seen}}
-\index{num\-Removed\-Bad\-Write\-Seen@{num\-Removed\-Bad\-Write\-Seen}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
-\subsubsection[{num\-Removed\-Bad\-Write\-Seen}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-num\-Removed\-Bad\-Write\-Seen = 0}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ae9c73322e842357c87634a60426e5bf0}
-
-
-Definition at line 825 of file Messaging\-Server.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a189ff6081d21eb1a9c98887d84e23b17}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!num\-Removed\-Exited\-Forever\-Loop@{num\-Removed\-Exited\-Forever\-Loop}}
-\index{num\-Removed\-Exited\-Forever\-Loop@{num\-Removed\-Exited\-Forever\-Loop}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
-\subsubsection[{num\-Removed\-Exited\-Forever\-Loop}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-num\-Removed\-Exited\-Forever\-Loop = 0}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a189ff6081d21eb1a9c98887d84e23b17}
-
-
-Definition at line 829 of file Messaging\-Server.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a3fe04e43605b1c81c063cf9d334fb763}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!num\-Removed\-Null\-Client\-Thread@{num\-Removed\-Null\-Client\-Thread}}
-\index{num\-Removed\-Null\-Client\-Thread@{num\-Removed\-Null\-Client\-Thread}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
-\subsubsection[{num\-Removed\-Null\-Client\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-num\-Removed\-Null\-Client\-Thread = 0}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a3fe04e43605b1c81c063cf9d334fb763}
-
-
-Definition at line 826 of file Messaging\-Server.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ab986fa29bcdc51bd186ad23e1c699426}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!num\-Removed\-Null\-Date@{num\-Removed\-Null\-Date}}
-\index{num\-Removed\-Null\-Date@{num\-Removed\-Null\-Date}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
-\subsubsection[{num\-Removed\-Null\-Date}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-num\-Removed\-Null\-Date = 0}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ab986fa29bcdc51bd186ad23e1c699426}
-
-
-Definition at line 828 of file Messaging\-Server.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a84d7bc143f1eee20c7e39ce9024783c9}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!num\-Removed\-Null\-Username@{num\-Removed\-Null\-Username}}
-\index{num\-Removed\-Null\-Username@{num\-Removed\-Null\-Username}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
-\subsubsection[{num\-Removed\-Null\-Username}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-num\-Removed\-Null\-Username = 0}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a84d7bc143f1eee20c7e39ce9024783c9}
-
-
-Definition at line 827 of file Messaging\-Server.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ac727c375b30722fb0d0a88f27eb97954}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!sdf@{sdf}}
-\index{sdf@{sdf}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
-\subsubsection[{sdf}]{\setlength{\rightskip}{0pt plus 5cm}Simple\-Date\-Format gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-sdf\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_ac727c375b30722fb0d0a88f27eb97954}
-
-
-Definition at line 812 of file Messaging\-Server.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a738da0a18944421491268d2220a3c7a4}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!S\-P\-E\-C\-I\-A\-L\-\_\-\-S\-E\-R\-V\-E\-R\-\_\-\-M\-E\-S\-S\-A\-G\-E\-\_\-\-U\-S\-E\-R\-N\-A\-M\-E@{S\-P\-E\-C\-I\-A\-L\-\_\-\-S\-E\-R\-V\-E\-R\-\_\-\-M\-E\-S\-S\-A\-G\-E\-\_\-\-U\-S\-E\-R\-N\-A\-M\-E}}
 \index{S\-P\-E\-C\-I\-A\-L\-\_\-\-S\-E\-R\-V\-E\-R\-\_\-\-M\-E\-S\-S\-A\-G\-E\-\_\-\-U\-S\-E\-R\-N\-A\-M\-E@{S\-P\-E\-C\-I\-A\-L\-\_\-\-S\-E\-R\-V\-E\-R\-\_\-\-M\-E\-S\-S\-A\-G\-E\-\_\-\-U\-S\-E\-R\-N\-A\-M\-E}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
 \subsubsection[{S\-P\-E\-C\-I\-A\-L\-\_\-\-S\-E\-R\-V\-E\-R\-\_\-\-M\-E\-S\-S\-A\-G\-E\-\_\-\-U\-S\-E\-R\-N\-A\-M\-E}]{\setlength{\rightskip}{0pt plus 5cm}final String gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-S\-P\-E\-C\-I\-A\-L\-\_\-\-S\-E\-R\-V\-E\-R\-\_\-\-M\-E\-S\-S\-A\-G\-E\-\_\-\-U\-S\-E\-R\-N\-A\-M\-E = \char`\"{}Server Message\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a738da0a18944421491268d2220a3c7a4}
 The name we use for the messaging server, when it is sending a message out 
 
-Definition at line 772 of file Messaging\-Server.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a6847562b2441991b550f7b3cb7fe8f2d}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}!total\-Messsages\-Handled@{total\-Messsages\-Handled}}
-\index{total\-Messsages\-Handled@{total\-Messsages\-Handled}!gov::fnal::ppd::dd::chat::MessagingServer@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server}}
-\subsubsection[{total\-Messsages\-Handled}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server.\-total\-Messsages\-Handled = 0\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_a6847562b2441991b550f7b3cb7fe8f2d}
-
-
-Definition at line 820 of file Messaging\-Server.\-java.
-
-
-
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/gov/fnal/ppd/dd/chat/\hyperlink{MessagingServer_8java}{Messaging\-Server.\-java}\end{DoxyCompactItemize}
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/chat/Messaging\-Server.\-java\end{DoxyCompactItemize}

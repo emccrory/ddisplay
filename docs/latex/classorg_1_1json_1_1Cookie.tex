@@ -1,6 +1,15 @@
 \hypertarget{classorg_1_1json_1_1Cookie}{\section{org.\-json.\-Cookie Class Reference}
 \label{classorg_1_1json_1_1Cookie}\index{org.\-json.\-Cookie@{org.\-json.\-Cookie}}
 }
+
+
+\subsection{Detailed Description}
+Convert a web browser cookie specification to a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} and back. J\-S\-O\-N and Cookies are both notations for name/value pairs. \begin{DoxyAuthor}{Author}
+J\-S\-O\-N.\-org 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2015-\/12-\/09 
+\end{DoxyVersion}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -14,19 +23,6 @@ static String \hyperlink{classorg_1_1json_1_1Cookie_aea680b85e70e5a4bb34279c00b4
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-Convert a web browser cookie specification to a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} and back. J\-S\-O\-N and Cookies are both notations for name/value pairs. \begin{DoxyAuthor}{Author}
-J\-S\-O\-N.\-org 
-\end{DoxyAuthor}
-\begin{DoxyVersion}{Version}
-2015-\/12-\/09 
-\end{DoxyVersion}
-
-
-Definition at line 33 of file Cookie.\-java.
-
-
-
 \subsection{Member Function Documentation}
 \hypertarget{classorg_1_1json_1_1Cookie_a4422021192515d995de2cef87d7836f2}{\index{org\-::json\-::\-Cookie@{org\-::json\-::\-Cookie}!escape@{escape}}
 \index{escape@{escape}!org::json::Cookie@{org\-::json\-::\-Cookie}}
@@ -34,7 +30,7 @@ Definition at line 33 of file Cookie.\-java.
 \begin{DoxyParamCaption}
 \item[{String}]{string}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1Cookie_a4422021192515d995de2cef87d7836f2}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1Cookie_a4422021192515d995de2cef87d7836f2}
 Produce a copy of a string in which the characters '+', '', '=', ';' and control characters are replaced with \char`\"{}\%hh\char`\"{}. This is a gentle form of U\-R\-L encoding, attempting to cause as little distortion to the string as possible. The characters '=' and ';' are meta characters in cookies. By convention, they are escaped using the U\-R\-L-\/encoding. This is only a convention, not a standard. Often, cookies are expected to have encoded values. We encode '=' and ';' because we must. We encode '' and '+' because they are meta characters in U\-R\-L encoding. 
 \begin{DoxyParams}{Parameters}
 {\em string} & The source string. \\
@@ -43,17 +39,13 @@ Produce a copy of a string in which the characters '+', '', '=', ';' and control
 \begin{DoxyReturn}{Returns}
 The escaped result. 
 \end{DoxyReturn}
-
-
-Definition at line 47 of file Cookie.\-java.
-
 \hypertarget{classorg_1_1json_1_1Cookie_aaa6ae4ad2aa1db11eef24362049ce982}{\index{org\-::json\-::\-Cookie@{org\-::json\-::\-Cookie}!to\-J\-S\-O\-N\-Object@{to\-J\-S\-O\-N\-Object}}
 \index{to\-J\-S\-O\-N\-Object@{to\-J\-S\-O\-N\-Object}!org::json::Cookie@{org\-::json\-::\-Cookie}}
 \subsubsection[{to\-J\-S\-O\-N\-Object}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf J\-S\-O\-N\-Object} org.\-json.\-Cookie.\-to\-J\-S\-O\-N\-Object (
 \begin{DoxyParamCaption}
 \item[{String}]{string}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1Cookie_aaa6ae4ad2aa1db11eef24362049ce982}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1Cookie_aaa6ae4ad2aa1db11eef24362049ce982}
 Convert a cookie specification string into a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. The string will contain a name value pair separated by '='. The name and the value will be unescaped, possibly converting '+' and '' sequences. The cookie properties may follow, separated by ';', also represented as name=value (except the secure property, which does not have a value). The name will be stored under the key \char`\"{}name\char`\"{}, and the value will be stored under the key \char`\"{}value\char`\"{}. This method does not do checking or validation of the parameters. It only converts the cookie string into a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object}. 
 \begin{DoxyParams}{Parameters}
 {\em string} & The cookie specification string. \\
@@ -67,17 +59,13 @@ A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} containing \cha
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 81 of file Cookie.\-java.
-
 \hypertarget{classorg_1_1json_1_1Cookie_a474a31a5f0b4f23d94b11c69e1d62cd1}{\index{org\-::json\-::\-Cookie@{org\-::json\-::\-Cookie}!to\-String@{to\-String}}
 \index{to\-String@{to\-String}!org::json::Cookie@{org\-::json\-::\-Cookie}}
 \subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}static String org.\-json.\-Cookie.\-to\-String (
 \begin{DoxyParamCaption}
 \item[{{\bf J\-S\-O\-N\-Object}}]{jo}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1Cookie_a474a31a5f0b4f23d94b11c69e1d62cd1}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1Cookie_a474a31a5f0b4f23d94b11c69e1d62cd1}
 Convert a \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} into a cookie specification string. The \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} must contain \char`\"{}name\char`\"{} and \char`\"{}value\char`\"{} members. If the \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} contains \char`\"{}expires\char`\"{}, \char`\"{}domain\char`\"{}, \char`\"{}path\char`\"{}, or \char`\"{}secure\char`\"{} members, they will be appended to the cookie specification string. All other members are ignored. 
 \begin{DoxyParams}{Parameters}
 {\em jo} & A \hyperlink{classorg_1_1json_1_1JSONObject}{J\-S\-O\-N\-Object} \\
@@ -91,17 +79,13 @@ A cookie specification string
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 118 of file Cookie.\-java.
-
 \hypertarget{classorg_1_1json_1_1Cookie_aea680b85e70e5a4bb34279c00b4c4bdd}{\index{org\-::json\-::\-Cookie@{org\-::json\-::\-Cookie}!unescape@{unescape}}
 \index{unescape@{unescape}!org::json::Cookie@{org\-::json\-::\-Cookie}}
 \subsubsection[{unescape}]{\setlength{\rightskip}{0pt plus 5cm}static String org.\-json.\-Cookie.\-unescape (
 \begin{DoxyParamCaption}
 \item[{String}]{string}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classorg_1_1json_1_1Cookie_aea680b85e70e5a4bb34279c00b4c4bdd}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1Cookie_aea680b85e70e5a4bb34279c00b4c4bdd}
 Convert {\ttfamily \%}{\itshape hh} sequences to single characters, and convert plus to space. 
 \begin{DoxyParams}{Parameters}
 {\em string} & A string that may contain {\ttfamily +}~
@@ -114,10 +98,6 @@ The unescaped string.
 \end{DoxyReturn}
 
 
-Definition at line 150 of file Cookie.\-java.
-
-
-
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/org/json/\hyperlink{Cookie_8java}{Cookie.\-java}\end{DoxyCompactItemize}
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/org/json/Cookie.\-java\end{DoxyCompactItemize}

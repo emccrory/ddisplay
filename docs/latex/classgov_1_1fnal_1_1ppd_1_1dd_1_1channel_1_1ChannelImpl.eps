@@ -5,7 +5,7 @@
 %%For: 
 %Magnification: 1.00
 %%Orientation: Portrait
-%%BoundingBox: 0 0 500 100.000000
+%%BoundingBox: 0 0 500 96.153846
 %%Pages: 0
 %%BeginSetup
 %%EndSetup
@@ -19,7 +19,7 @@
 /marginwidth 10 def
 /distx 20 def
 /disty 40 def
-/boundaspect 5.000000 def  % aspect ratio of the BoundingBox (width/height)
+/boundaspect 5.200000 def  % aspect ratio of the BoundingBox (width/height)
 /boundx 500 def
 /boundy boundx boundaspect div def
 /xspacing 0 def
@@ -178,9 +178,9 @@ boxfont setfont
 (gov.fnal.ppd.dd.signage.SignageContent) cw
 (Serializable) cw
 (gov.fnal.ppd.dd.channel.ChannelImage) cw
-(gov.fnal.ppd.dd.channel.ChannelInList) cw
-(gov.fnal.ppd.dd.xml.EmptyChannel) cw
+(gov.fnal.ppd.dd.channel.ChannelInListImpl) cw
 (gov.fnal.ppd.dd.xml.XmlDerivedChannel) cw
+(gov.fnal.ppd.ZZattic.EmptyChannel) cw
 /boxwidth boxwidth marginwidth 2 mul add def
 /xspacing boxwidth distx add def
 /yspacing boxheight disty add def
@@ -197,9 +197,9 @@ boundx scalefactor div boundy scalefactor div scale
  (gov.fnal.ppd.dd.signage.SignageContent) 1.500000 3.000000 box
  (Serializable) 1.500000 4.000000 box
  (gov.fnal.ppd.dd.channel.ChannelImage) 0.000000 0.000000 box
- (gov.fnal.ppd.dd.channel.ChannelInList) 1.000000 0.000000 box
- (gov.fnal.ppd.dd.xml.EmptyChannel) 2.000000 0.000000 box
- (gov.fnal.ppd.dd.xml.XmlDerivedChannel) 3.000000 0.000000 box
+ (gov.fnal.ppd.dd.channel.ChannelInListImpl) 1.000000 0.000000 box
+ (gov.fnal.ppd.dd.xml.XmlDerivedChannel) 2.000000 0.000000 box
+ (gov.fnal.ppd.ZZattic.EmptyChannel) 3.000000 0.000000 box
 
 % ----- relations -----
 

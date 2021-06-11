@@ -175,6 +175,7 @@ boxfont setfont
 1 boundaspect scale
 (gov.fnal.ppd.dd.display.DisplayImpl) cw
 (gov.fnal.ppd.dd.signage.Display) cw
+(gov.fnal.ppd.dd.util.nonguiUtils.JavaChangeListener) cw
 (ActionListener) cw
 (gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract) cw
 (gov.fnal.ppd.dd.display.DisplayFacade) cw
@@ -192,8 +193,9 @@ boundx scalefactor div boundy scalefactor div scale
 % ----- classes -----
 
  (gov.fnal.ppd.dd.display.DisplayImpl) 1.000000 2.000000 box
- (gov.fnal.ppd.dd.signage.Display) 1.000000 3.000000 box
- (ActionListener) 1.000000 4.000000 box
+ (gov.fnal.ppd.dd.signage.Display) 0.500000 3.000000 box
+ (gov.fnal.ppd.dd.util.nonguiUtils.JavaChangeListener) 1.500000 3.000000 box
+ (ActionListener) 0.500000 4.000000 box
  (gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract) 0.500000 1.000000 box
  (gov.fnal.ppd.dd.display.DisplayFacade) 1.500000 1.000000 box
  (gov.fnal.ppd.dd.display.client.selenium.DisplayAsConnectionThroughSelenium) 0.000000 0.000000 box
@@ -204,11 +206,15 @@ boundx scalefactor div boundy scalefactor div scale
 solid
 0 1.000000 2.000000 out
 solid
-1 1.000000 3.000000 in
+0.500000 1.500000 3.000000 conn
 solid
-0 1.000000 3.000000 out
+1 0.500000 3.000000 in
 solid
-1 1.000000 4.000000 in
+0 0.500000 3.000000 out
+solid
+1 1.500000 3.000000 in
+solid
+1 0.500000 4.000000 in
 solid
 1 1.000000 1.250000 out
 solid

@@ -1,6 +1,7 @@
 var classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList =
 [
-    [ "ChannelPlayList", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList.html#a9235b6c790a7ee1587b5a3ae04afc8e9", null ],
+    [ "ChannelPlayList", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList.html#ae3affc943df1f88088d8e3ffd9377ed3", null ],
+    [ "ChannelPlayList", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList.html#a501e9386af6bd9603c2bb1e68aff17eb", null ],
     [ "ChannelPlayList", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList.html#af6a62dd284fed342597292000aece6c3", null ],
     [ "advanceChannel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList.html#a98bb559bcfd42b2f26aeb2082e2e89fd", null ],
     [ "equals", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList.html#aa117d6780ca09a5e94592efcee06cc1c", null ],

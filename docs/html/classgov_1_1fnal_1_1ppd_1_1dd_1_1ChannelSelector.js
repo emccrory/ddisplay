@@ -5,6 +5,7 @@ var classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector =
     [ "activateCard", "classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector.html#a637dbc852a236c96841cd5d5492a1079", null ],
     [ "createRefreshActions", "classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector.html#a23fbec08667c8708a2a9833005e1edec", null ],
     [ "destroy", "classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector.html#a72b3571d9e3fda6bba926fc732c583b1", null ],
+    [ "javaHasChanged", "classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector.html#ad73f42989480ef9af3f5ed0e1f5d364c", null ],
     [ "setAllTabs", "classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector.html#abba1a8a5599959eb2e7a905f6bfd1685", null ],
     [ "setDisplayIsAlive", "classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector.html#ab92bc1ecd4b25b8a2a1fed26b57d4d57", null ],
     [ "setSelectorID", "classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector.html#a930233587284af74e0533faffc368804", null ],

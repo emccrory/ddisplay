@@ -11,6 +11,7 @@ var classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1version_1_1VersionInformation =
     [ "setDisposition", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1version_1_1VersionInformation.html#a1e3cec92f0dbdd71120e000e6787750e", null ],
     [ "setTimeStamp", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1version_1_1VersionInformation.html#a5564d38346f3a936840c82318e1cdc2e", null ],
     [ "setVersionDescription", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1version_1_1VersionInformation.html#aa2815f5f73561ad56a803674fa70c87b", null ],
+    [ "setVersionString", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1version_1_1VersionInformation.html#a989971bf610d2063f265417fbd65c6ed", null ],
     [ "setVersionVal", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1version_1_1VersionInformation.html#a6481bf957491a248df4420de2e0dbf94", null ],
     [ "toString", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1version_1_1VersionInformation.html#ae6b3fbd1f3fd907536651c2a7d8160f0", null ]
 ];

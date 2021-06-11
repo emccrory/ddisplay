@@ -1,6 +1,20 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons}{\section{gov.\-fnal.\-ppd.\-dd.\-changer.\-Display\-Buttons Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons}\index{gov.\-fnal.\-ppd.\-dd.\-changer.\-Display\-Buttons@{gov.\-fnal.\-ppd.\-dd.\-changer.\-Display\-Buttons}}
 }
+
+
+\subsection{Detailed Description}
+Create the widget of the available displays for the Dynamic Displays \char`\"{}\-Channel Selector\char`\"{}
+
+When this was written, it was imagined that we could have many dozen displays to control at a time. This turns out to be true only when the \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}{Channel\-Selector} is asked to control all of the displays in the system. This Use Case has not, as of this time (April 2021) been seen except when the main developer tests it.
+
+The break point when the slider is used is 20 displays (M\-A\-X\-I\-M\-U\-M\-\_\-\-D\-I\-S\-P\-L\-A\-Y\-\_\-\-B\-U\-T\-T\-O\-N\-S), but only when the controller is showing as full screen.
+
+When it is in a window, it uses the \char`\"{}compact\char`\"{} set of buttons
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D, 2012-\/20 
+\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-changer.\-Display\-Buttons\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -31,20 +45,9 @@ static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayBut
 \subsection*{Static Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-static final Color \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_ab2b83431c13a58c3f26a01086ec4ac8d}{slider\-B\-G} = new Color(0xe0e0e0)
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_ab2b83431c13a58c3f26a01086ec4ac8d}{static final Color {\bfseries slider\-B\-G} = new Color(0xe0e0e0)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_ab2b83431c13a58c3f26a01086ec4ac8d}
+
 \end{DoxyCompactItemize}
-
-
-\subsection{Detailed Description}
-Create the widget of the available displays for the Dynamic Displays \char`\"{}\-Channel Selector\char`\"{}
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D, 2012-\/16 
-\end{DoxyAuthor}
-
-
-Definition at line 44 of file Display\-Buttons.\-java.
-
 
 
 \subsection{Constructor \& Destructor Documentation}
@@ -54,7 +57,7 @@ Definition at line 44 of file Display\-Buttons.\-java.
 \begin{DoxyParamCaption}
 \item[{final Action\-Listener}]{listener}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_a3ac04af83dc6cf06f9189b85817c6e2f}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_a3ac04af83dc6cf06f9189b85817c6e2f}
 
 \begin{DoxyParams}{Parameters}
 {\em cat} & The type of Display to allow control of, here \\
@@ -64,10 +67,6 @@ Definition at line 44 of file Display\-Buttons.\-java.
 \end{DoxyParams}
 
 
-Definition at line 164 of file Display\-Buttons.\-java.
-
-
-
 \subsection{Member Function Documentation}
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_a98d2836ddfbad3b37a3e21fdf3c5f8d2}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons}!get\-First\-Display@{get\-First\-Display}}
 \index{get\-First\-Display@{get\-First\-Display}!gov::fnal::ppd::dd::changer::DisplayButtons@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons}}
@@ -75,21 +74,17 @@ Definition at line 164 of file Display\-Buttons.\-java.
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_a98d2836ddfbad3b37a3e21fdf3c5f8d2}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_a98d2836ddfbad3b37a3e21fdf3c5f8d2}
 \begin{DoxyReturn}{Returns}
 The first display in the internal list 
 \end{DoxyReturn}
-
-
-Definition at line 371 of file Display\-Buttons.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_ac924a30ee1e2898ea503268668d26806}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons}!reset\-Tool\-Tip@{reset\-Tool\-Tip}}
 \index{reset\-Tool\-Tip@{reset\-Tool\-Tip}!gov::fnal::ppd::dd::changer::DisplayButtons@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons}}
 \subsubsection[{reset\-Tool\-Tip}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-changer.\-Display\-Buttons.\-reset\-Tool\-Tip (
 \begin{DoxyParamCaption}
 \item[{final {\bf Display}}]{display}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_ac924a30ee1e2898ea503268668d26806}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_ac924a30ee1e2898ea503268668d26806}
 Re-\/write the Tool\-Tips\-Text for this Display button
 
 
@@ -97,10 +92,6 @@ Re-\/write the Tool\-Tips\-Text for this Display button
 {\em display} & The Display number for which to reset the Tool\-Tip\-Text \\
 \hline
 \end{DoxyParams}
-
-
-Definition at line 329 of file Display\-Buttons.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_ac3046bb71b1529e3afc7bf5395495176}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons}!set\-Is\-Alive@{set\-Is\-Alive}}
 \index{set\-Is\-Alive@{set\-Is\-Alive}!gov::fnal::ppd::dd::changer::DisplayButtons@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons}}
 \subsubsection[{set\-Is\-Alive}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-changer.\-Display\-Buttons.\-set\-Is\-Alive (
@@ -108,7 +99,7 @@ Definition at line 329 of file Display\-Buttons.\-java.
 \item[{final int}]{display\-Num, }
 \item[{final boolean}]{alive}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_ac3046bb71b1529e3afc7bf5395495176}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_ac3046bb71b1529e3afc7bf5395495176}
 
 \begin{DoxyParams}{Parameters}
 {\em display\-Num} & The Display number of concern here \\
@@ -116,17 +107,13 @@ Definition at line 329 of file Display\-Buttons.\-java.
 {\em alive} & Is this Display alive? \\
 \hline
 \end{DoxyParams}
-
-
-Definition at line 344 of file Display\-Buttons.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_a2ed67969ae9a00aa1c744c2862a53307}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons}!set\-Tool\-Tip@{set\-Tool\-Tip}}
 \index{set\-Tool\-Tip@{set\-Tool\-Tip}!gov::fnal::ppd::dd::changer::DisplayButtons@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons}}
 \subsubsection[{set\-Tool\-Tip}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-changer.\-Display\-Buttons.\-set\-Tool\-Tip (
 \begin{DoxyParamCaption}
 \item[{final {\bf Display}}]{disp}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_a2ed67969ae9a00aa1c744c2862a53307}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_a2ed67969ae9a00aa1c744c2862a53307}
 Find this Display in the list and then set the Tool\-Tip for it based on the status of the Display.
 
 
@@ -136,27 +123,12 @@ Find this Display in the list and then set the Tool\-Tip for it based on the sta
 \end{DoxyParams}
 
 
-Definition at line 130 of file Display\-Buttons.\-java.
-
-
-
 \subsection{Member Data Documentation}
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_aee30976132133400c5f8cb6a48599aa9}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons}!normal\-Operations@{normal\-Operations}}
 \index{normal\-Operations@{normal\-Operations}!gov::fnal::ppd::dd::changer::DisplayButtons@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons}}
 \subsubsection[{normal\-Operations}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-changer.\-Display\-Buttons.\-normal\-Operations = true\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_aee30976132133400c5f8cb6a48599aa9}
 Make this false if this is some special application, one that does not have display buttons (for some reason) 
 
-Definition at line 122 of file Display\-Buttons.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_ab2b83431c13a58c3f26a01086ec4ac8d}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons}!slider\-B\-G@{slider\-B\-G}}
-\index{slider\-B\-G@{slider\-B\-G}!gov::fnal::ppd::dd::changer::DisplayButtons@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Display\-Buttons}}
-\subsubsection[{slider\-B\-G}]{\setlength{\rightskip}{0pt plus 5cm}final Color gov.\-fnal.\-ppd.\-dd.\-changer.\-Display\-Buttons.\-slider\-B\-G = new Color(0xe0e0e0)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons_ab2b83431c13a58c3f26a01086ec4ac8d}
-
-
-Definition at line 116 of file Display\-Buttons.\-java.
-
-
-
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/gov/fnal/ppd/dd/changer/\hyperlink{DisplayButtons_8java}{Display\-Buttons.\-java}\end{DoxyCompactItemize}
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/changer/Display\-Buttons.\-java\end{DoxyCompactItemize}

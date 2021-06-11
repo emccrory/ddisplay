@@ -1,10 +1,22 @@
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{\section{gov.\-fnal.\-ppd.\-dd.\-signage.\-Signage\-Content Interface Reference}
 \label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}\index{gov.\-fnal.\-ppd.\-dd.\-signage.\-Signage\-Content@{gov.\-fnal.\-ppd.\-dd.\-signage.\-Signage\-Content}}
 }
+
+
+\subsection{Detailed Description}
+The signature for content in the Dynamic \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} system. 
+
+In order to be fully serializable, the concrete classes must implement all the getters and setters. 
+
+Originally, it was thought that there could be all kinds of different content, like in a commercial digital signage system. But we have settled on all content being a \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel}{Channel}, and all channels are web pages. So this interface is not any more useful that the \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel}{Channel} interface. But it is used in a few places where we want to be the most general. 
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab, 2012-\/21 
+\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-signage.\-Signage\-Content\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=1.444788cm]{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}
+\includegraphics[height=0.963192cm]{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
@@ -42,22 +54,6 @@ long \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_a
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-A place holder for the Signage Content.
-
-In order to be fully serializable, the concrete classes must implement all the getters and setters.
-
-T\-O\-D\-O -- This should be pared down a bit more, e.\-g., get rid of the U\-R\-I. This will allow a cleaner implementation of other sorts of content, e.\-g., sending an image directly to a display, emergency messages, ... Also, we never used the whole \char`\"{}code\char`\"{} thing, so that should be dumped, too.
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab, 2012-\/16 
-\end{DoxyAuthor}
-
-
-Definition at line 19 of file Signage\-Content.\-java.
-
-
-
 \subsection{Member Function Documentation}
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_af70a2ffc728ecec3cfa9075c93b8f9b8}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!get\-Channel\-Classification@{get\-Channel\-Classification}}
 \index{get\-Channel\-Classification@{get\-Channel\-Classification}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -73,7 +69,7 @@ The category of this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1
 \end{DoxyReturn}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_abf99f1bbe72901a00d1d39228f02cff1}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_a2d4a8fcd1f8c2bbea51d753e6e82510c}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a8e1ce06c00064455483d664b4d0fef17}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_a1d603af23e42a20faa68eaf2de08cbcd}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a24166b1e786b9e7ca56349721e161661}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_abf99f1bbe72901a00d1d39228f02cff1}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_a216c416721cea3ee76cef1bcfb6ece33}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a8e1ce06c00064455483d664b4d0fef17}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_a1d603af23e42a20faa68eaf2de08cbcd}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a24166b1e786b9e7ca56349721e161661}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_aa1e28916946037eaa2b042c39aa2fa5f}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!get\-Checksum@{get\-Checksum}}
 \index{get\-Checksum@{get\-Checksum}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -89,7 +85,7 @@ The checksum
 \end{DoxyReturn}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_abfc920cea3e8ce7156aad3d9a87213c8}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a7a41f216f9725c9167dbabfe1332e0f6}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_ae27f0af45c0765c05eaaac6ff59048ea}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_af6031cc896aab247e2f620410b55110e}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a5ffaf23342954c53da3ece0b2f0321ff}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_abfc920cea3e8ce7156aad3d9a87213c8}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a7a41f216f9725c9167dbabfe1332e0f6}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_aa3036509e0eecf5806d2ce35196d2bf3}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_af6031cc896aab247e2f620410b55110e}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a5ffaf23342954c53da3ece0b2f0321ff}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_a3dc6baeec235eea0df5d74a2a7c99599}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!get\-Code@{get\-Code}}
 \index{get\-Code@{get\-Code}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -103,7 +99,7 @@ the special code that may be applicable for the content
 \end{DoxyReturn}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_ab7c659985471afada6dece70c1d75b61}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a63f0a55d5f714b9b510b5d9b52ab5294}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_a7a0feeabd65ee32a3f305c42aad14f5e}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_afcf5791a5c549b60452054993bd9b9b0}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_aea7331dbc6aa67209d9a33c5c8d86468}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_ab7c659985471afada6dece70c1d75b61}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a63f0a55d5f714b9b510b5d9b52ab5294}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_a23e95423093af64abec0b08e239cabdf}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_afcf5791a5c549b60452054993bd9b9b0}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_aea7331dbc6aa67209d9a33c5c8d86468}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_a1d593870dfae0479501eaf97bb6f4bb7}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!get\-Description@{get\-Description}}
 \index{get\-Description@{get\-Description}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -119,7 +115,7 @@ The description
 \end{DoxyReturn}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_aa990515286ca3d8245b15b3f50989714}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a69b4c6a07e6bad99c3bc1648c3fed93d}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_aed5c1861d6d1da0f2da5b82184191e1b}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a1b1c73554407ef5d5f8f7f3b239a1f12}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_abb47282cc4f97a7f5b8a2f95ef98801b}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_aa990515286ca3d8245b15b3f50989714}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a69b4c6a07e6bad99c3bc1648c3fed93d}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_a5772baf85233ba1e686e78d54cdb0924}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a1b1c73554407ef5d5f8f7f3b239a1f12}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_abb47282cc4f97a7f5b8a2f95ef98801b}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_abb88634660b49fdbff2877a0699bcac1}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!get\-Expiration@{get\-Expiration}}
 \index{get\-Expiration@{get\-Expiration}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -133,7 +129,7 @@ The expiration time in milliseconds. Negative or zero means no expiration time. 
 \end{DoxyReturn}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_af509fea6b9340b85522025b70cc4e64e}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a6af41cecbc1b1c903c5dc7544466b169}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_a10f6c4c72d605566ec089752e734d81b}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_ab232b4e07d053e1f92801c62f80d0fed}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a4c20313da2c3573d12684dd21b12ad39}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_af509fea6b9340b85522025b70cc4e64e}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a6af41cecbc1b1c903c5dc7544466b169}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_af6dcb0d9e3d10e6463c2a8b3578dfefe}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_ab232b4e07d053e1f92801c62f80d0fed}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a4c20313da2c3573d12684dd21b12ad39}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_abb7ff00f26a78f246315840f9ff3c81f}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!get\-Name@{get\-Name}}
 \index{get\-Name@{get\-Name}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -149,7 +145,7 @@ The name of this content
 \end{DoxyReturn}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_afdf0ebebdeb8dce27f58bb59da71dc7d}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_a855aebfe39e3ded135640617650fddaf}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a1c2d3e0fcb9cee5cad06dc3d7bdb96e9}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a6aac0c216c658ef18bc54d5d8b61d4d4}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_a777c8533c18e551ffc31e3004c2b129d}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_afdf0ebebdeb8dce27f58bb59da71dc7d}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_ae1ae95f243def8820b3f480f364256e0}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a1c2d3e0fcb9cee5cad06dc3d7bdb96e9}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a6aac0c216c658ef18bc54d5d8b61d4d4}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_a777c8533c18e551ffc31e3004c2b129d}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_a460e0a1acc526f39da30a2ab508fe083}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!get\-Time@{get\-Time}}
 \index{get\-Time@{get\-Time}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -163,7 +159,7 @@ The time associated with this content. Generally, this will be the dwell time (o
 \end{DoxyReturn}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_aa2d5c561810b90f2401e5da2c1972774}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_aeffef12153803eb9b53b8465605926a9}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_a02f8f320ee14917afb0fb94f7802c890}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_a479c9d6bc4063377c83d165b6f5132b6}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a98b9534e6dd2561a140735af84281d67}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_aa2d5c561810b90f2401e5da2c1972774}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_aeffef12153803eb9b53b8465605926a9}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_a0275666a82661b15d9b17f6a116a48eb}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_a479c9d6bc4063377c83d165b6f5132b6}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a98b9534e6dd2561a140735af84281d67}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_afd665283ce4c195fddc9e53db55989fe}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!get\-U\-R\-I@{get\-U\-R\-I}}
 \index{get\-U\-R\-I@{get\-U\-R\-I}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -179,7 +175,7 @@ The U\-R\-I for this content
 \end{DoxyReturn}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_a9004e74f2476cb8f7a4d56285d49ba45}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_afb522472056287c1a6f65dba7d410d81}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_a23961848cdf05cefb74d75ce49266443}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a6f2e7a1655fb99a2e711c225912d2d79}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_ab68ea958a435d5ae82a8ab8ed1de147f}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_a9004e74f2476cb8f7a4d56285d49ba45}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_afb522472056287c1a6f65dba7d410d81}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_addaeeee79f68396985167b16acde3ce5}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a6f2e7a1655fb99a2e711c225912d2d79}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_ab68ea958a435d5ae82a8ab8ed1de147f}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_a75a9a3ce37e847772ff866aabb8a2788}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!set\-Channel\-Classification@{set\-Channel\-Classification}}
 \index{set\-Channel\-Classification@{set\-Channel\-Classification}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -195,7 +191,7 @@ Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImp
 \end{DoxyParams}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_a4e64970f8cfaf5c9fabe173feb40a0d4}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_aa82db2fcb345593207808984b4de9ce8}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a145fde3f59f8025e8c79117024d5d3ab}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_a4af13843cde9c0635c9c9159382f56af}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_aef1831e2c9ce866b7385d3ce26d7c7a6}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_a4e64970f8cfaf5c9fabe173feb40a0d4}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_ab25a808ba87049d6712aeed798d4fa1d}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a145fde3f59f8025e8c79117024d5d3ab}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_a4af13843cde9c0635c9c9159382f56af}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_aef1831e2c9ce866b7385d3ce26d7c7a6}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_a161670495469c9985fea14548d3a2943}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!set\-Code@{set\-Code}}
 \index{set\-Code@{set\-Code}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -229,7 +225,7 @@ Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_ac
 \end{DoxyParams}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_abb1380a6a0403aa8b3603d39cdc38ea4}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a0104e505b8b30f58257561e3d65c1950}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_a994cccf425e7905f06754dfb236971ed}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a1321936810234139f911c5a1c7d6a7af}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_a68bef53238492c65abac631c7d830201}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_abb1380a6a0403aa8b3603d39cdc38ea4}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a0104e505b8b30f58257561e3d65c1950}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_ac50110d5fa4d1c6e3c486c8ebfc7001a}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a1321936810234139f911c5a1c7d6a7af}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_a68bef53238492c65abac631c7d830201}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_a2a60873657be44f167ce0fdc582af179}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!set\-Expiration@{set\-Expiration}}
 \index{set\-Expiration@{set\-Expiration}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -245,7 +241,7 @@ Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImp
 \end{DoxyParams}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_a9428ab2c22c4272e97c2251eb38e8b2e}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a6685e37b070296e6c0e68604d3d61b8a}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_ae6c23a8415f978cb4ccbb2b20f53648b}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_aa355b690547d8073523804141988b532}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_a9428ab2c22c4272e97c2251eb38e8b2e}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a6685e37b070296e6c0e68604d3d61b8a}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_ae9ca8a2cfaab1eaf21c2784e4f548c47}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_aa355b690547d8073523804141988b532}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_aa294c7319aa6f4c71cdc1bb67fac7c4d}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!set\-Name@{set\-Name}}
 \index{set\-Name@{set\-Name}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -261,7 +257,7 @@ Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImp
 \end{DoxyParams}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_a0d227de9590cc6ce476497c8f919f2e4}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_aad2196606acfda8cdba44893f4767552}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_add9a4e4bdd0370b68ed3190ba1677070}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a7b261516ee8d2de69bbebd5edb0d4f54}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_ac3b27088fbf8a1641390f94a9bceae05}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_a0d227de9590cc6ce476497c8f919f2e4}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_a1715fb4d37028675d5b53d87a4d5070e}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_add9a4e4bdd0370b68ed3190ba1677070}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_a7b261516ee8d2de69bbebd5edb0d4f54}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_ac3b27088fbf8a1641390f94a9bceae05}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_aa06f8e1789f16e9ba36520c26b852a60}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!set\-Time@{set\-Time}}
 \index{set\-Time@{set\-Time}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -277,7 +273,7 @@ Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImp
 \end{DoxyParams}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_ae5c03927d8473ecae11b4002395da886}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_ac1efd270a0a6ac0c723a6cbd7d97b9a5}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_af78af6af95d883037423fca35cf113a5}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_adeaeaa2f1d16e60ac141358bdb55695e}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_ae5c03927d8473ecae11b4002395da886}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_ac1efd270a0a6ac0c723a6cbd7d97b9a5}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_a127548cb0dc1ceb8d9885510a223f070}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_adeaeaa2f1d16e60ac141358bdb55695e}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_a59c75e24dcec3ea729297104328a7852}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}!set\-U\-R\-I@{set\-U\-R\-I}}
 \index{set\-U\-R\-I@{set\-U\-R\-I}!gov::fnal::ppd::dd::signage::SignageContent@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Signage\-Content}}
@@ -293,10 +289,10 @@ Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImp
 \end{DoxyParams}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_a685f3caf0f4e3d501e68c55794f38111}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_ad7a23aa407de30f14c3546e67c560b38}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent_a5390f4ad0482e2d2501126b73fc3d2f9}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a7bb16de560ccbd745ee6a4f12e7756ae}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_a1c1908434df69dea4854e5b5f44fff68}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_a685f3caf0f4e3d501e68c55794f38111}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Impl}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec_ad7a23aa407de30f14c3546e67c560b38}{gov.\-fnal.\-ppd.\-dd.\-xml.\-Channel\-Spec}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ImageContent_ab9f1a6ff63fca216fa45b3a952eb03b8}{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Image\-Content}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList_a7bb16de560ccbd745ee6a4f12e7756ae}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-Play\-List}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImpl_a1c1908434df69dea4854e5b5f44fff68}{gov.\-fnal.\-ppd.\-dd.\-emergency.\-Emerg\-Communication\-Impl}.
 
 
 
 The documentation for this interface was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/gov/fnal/ppd/dd/signage/\hyperlink{SignageContent_8java}{Signage\-Content.\-java}\end{DoxyCompactItemize}
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/signage/Signage\-Content.\-java\end{DoxyCompactItemize}

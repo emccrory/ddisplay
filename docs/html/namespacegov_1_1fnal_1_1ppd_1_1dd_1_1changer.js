@@ -2,7 +2,6 @@ var namespacegov_1_1fnal_1_1ppd_1_1dd_1_1changer =
 [
     [ "ChangeDefaultsActionListener", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChangeDefaultsActionListener.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChangeDefaultsActionListener" ],
     [ "ChannelButtonGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid" ],
-    [ "ChannelCatalog", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog.html", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog" ],
     [ "ChannelCatalogFactory", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalogFactory.html", null ],
     [ "ChannelClassification", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification" ],
     [ "ChannelClassificationDictionary", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html", null ],
@@ -15,11 +14,7 @@ var namespacegov_1_1fnal_1_1ppd_1_1dd_1_1changer =
     [ "DisplayListFactory", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayListFactory.html", null ],
     [ "DocentGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid" ],
     [ "DrawingPanelForImage", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DrawingPanelForImage.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DrawingPanelForImage" ],
-    [ "FileMenu", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1FileMenu.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1FileMenu" ],
     [ "ImageGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ImageGrid.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ImageGrid" ],
-    [ "InformationBox", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1InformationBox.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1InformationBox" ],
-    [ "JWhiteLabel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1JWhiteLabel.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1JWhiteLabel" ],
-    [ "Keyboard", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1Keyboard.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1Keyboard" ],
     [ "ListOfExistingContent", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ListOfExistingContent.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ListOfExistingContent" ],
     [ "SaveRestoreDefaultChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1SaveRestoreDefaultChannels.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1SaveRestoreDefaultChannels" ],
     [ "SimplifiedChannelGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1SimplifiedChannelGrid.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1SimplifiedChannelGrid" ]

@@ -1,6 +1,14 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair}{\section{gov.\-fnal.\-ppd.\-security.\-Generate\-New\-Key\-Pair Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair}\index{gov.\-fnal.\-ppd.\-security.\-Generate\-New\-Key\-Pair@{gov.\-fnal.\-ppd.\-security.\-Generate\-New\-Key\-Pair}}
 }
+
+
+\subsection{Detailed Description}
+A class to generate a new public/private key pair 
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -16,22 +24,12 @@ static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-final synchronized void \hyperlink{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_a5848fc4da11044885fe5baf92e88a0c4}{get\-Connection} (String client\-Name, String user, char\mbox{[}$\,$\mbox{]} password)
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_a5848fc4da11044885fe5baf92e88a0c4}{final synchronized void {\bfseries get\-Connection} (String client\-Name, String user, char\mbox{[}$\,$\mbox{]} password)}\label{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_a5848fc4da11044885fe5baf92e88a0c4}
+
 \item 
-final synchronized void \hyperlink{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_a0df582e5aa3c2c81e890760384247b3d}{write\-Public\-Key\-To\-Database} (String client\-Name)
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_a0df582e5aa3c2c81e890760384247b3d}{final synchronized void {\bfseries write\-Public\-Key\-To\-Database} (String client\-Name)}\label{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_a0df582e5aa3c2c81e890760384247b3d}
+
 \end{DoxyCompactItemize}
-
-
-\subsection{Detailed Description}
-A class to generate a new public/private key pair 
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
-\end{DoxyAuthor}
-
-
-Definition at line 36 of file Generate\-New\-Key\-Pair.\-java.
-
 
 
 \subsection{Member Function Documentation}
@@ -42,7 +40,7 @@ Definition at line 36 of file Generate\-New\-Key\-Pair.\-java.
 \item[{final String}]{filename\-Public, }
 \item[{final String}]{filename\-Private}
 \end{DoxyParamCaption}
-) throws No\-Such\-Algorithm\-Exception, I\-O\-Exception\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_a8fd10e2d562feed30edd515a65c65935}
+) throws No\-Such\-Algorithm\-Exception, I\-O\-Exception}}\label{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_a8fd10e2d562feed30edd515a65c65935}
 
 \begin{DoxyParams}{Parameters}
 {\em filename\-Public} & -- The name of the public keystore file \\
@@ -57,23 +55,6 @@ Definition at line 36 of file Generate\-New\-Key\-Pair.\-java.
 {\em I\-O\-Exception} & -- A problem writing the public or private keystores. \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 191 of file Generate\-New\-Key\-Pair.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_a5848fc4da11044885fe5baf92e88a0c4}{\index{gov\-::fnal\-::ppd\-::security\-::\-Generate\-New\-Key\-Pair@{gov\-::fnal\-::ppd\-::security\-::\-Generate\-New\-Key\-Pair}!get\-Connection@{get\-Connection}}
-\index{get\-Connection@{get\-Connection}!gov::fnal::ppd::security::GenerateNewKeyPair@{gov\-::fnal\-::ppd\-::security\-::\-Generate\-New\-Key\-Pair}}
-\subsubsection[{get\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}final synchronized void gov.\-fnal.\-ppd.\-security.\-Generate\-New\-Key\-Pair.\-get\-Connection (
-\begin{DoxyParamCaption}
-\item[{String}]{client\-Name, }
-\item[{String}]{user, }
-\item[{char\mbox{[}$\,$\mbox{]}}]{password}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_a5848fc4da11044885fe5baf92e88a0c4}
-
-
-Definition at line 216 of file Generate\-New\-Key\-Pair.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_aee008581c8b456ffcdc83a6396e773eb}{\index{gov\-::fnal\-::ppd\-::security\-::\-Generate\-New\-Key\-Pair@{gov\-::fnal\-::ppd\-::security\-::\-Generate\-New\-Key\-Pair}!get\-Db\-Connection@{get\-Db\-Connection}}
 \index{get\-Db\-Connection@{get\-Db\-Connection}!gov::fnal::ppd::security::GenerateNewKeyPair@{gov\-::fnal\-::ppd\-::security\-::\-Generate\-New\-Key\-Pair}}
 \subsubsection[{get\-Db\-Connection}]{\setlength{\rightskip}{0pt plus 5cm}static Connection gov.\-fnal.\-ppd.\-security.\-Generate\-New\-Key\-Pair.\-get\-Db\-Connection (
@@ -81,7 +62,7 @@ Definition at line 216 of file Generate\-New\-Key\-Pair.\-java.
 \item[{String}]{user, }
 \item[{char\mbox{[}$\,$\mbox{]}}]{passwd}
 \end{DoxyParamCaption}
-) throws {\bf Database\-Not\-Visible\-Exception}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_aee008581c8b456ffcdc83a6396e773eb}
+) throws {\bf Database\-Not\-Visible\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_aee008581c8b456ffcdc83a6396e773eb}
 
 \begin{DoxyParams}{Parameters}
 {\em user} & \\
@@ -97,17 +78,13 @@ the D\-B connection object
 {\em \hyperlink{classgov_1_1fnal_1_1ppd_1_1security_1_1DatabaseNotVisibleException}{Database\-Not\-Visible\-Exception}} & if it cannot connect to the database server \\
 \hline
 \end{DoxyExceptions}
-
-
-Definition at line 54 of file Generate\-New\-Key\-Pair.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_afe479a0827a3f54f723f59eda57ae050}{\index{gov\-::fnal\-::ppd\-::security\-::\-Generate\-New\-Key\-Pair@{gov\-::fnal\-::ppd\-::security\-::\-Generate\-New\-Key\-Pair}!main@{main}}
 \index{main@{main}!gov::fnal::ppd::security::GenerateNewKeyPair@{gov\-::fnal\-::ppd\-::security\-::\-Generate\-New\-Key\-Pair}}
 \subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-security.\-Generate\-New\-Key\-Pair.\-main (
 \begin{DoxyParamCaption}
 \item[{final String\mbox{[}$\,$\mbox{]}}]{args}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_afe479a0827a3f54f723f59eda57ae050}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_afe479a0827a3f54f723f59eda57ae050}
 
 \begin{DoxyParams}{Parameters}
 {\em args} & \\
@@ -115,21 +92,6 @@ Definition at line 54 of file Generate\-New\-Key\-Pair.\-java.
 \end{DoxyParams}
 
 
-Definition at line 115 of file Generate\-New\-Key\-Pair.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_a0df582e5aa3c2c81e890760384247b3d}{\index{gov\-::fnal\-::ppd\-::security\-::\-Generate\-New\-Key\-Pair@{gov\-::fnal\-::ppd\-::security\-::\-Generate\-New\-Key\-Pair}!write\-Public\-Key\-To\-Database@{write\-Public\-Key\-To\-Database}}
-\index{write\-Public\-Key\-To\-Database@{write\-Public\-Key\-To\-Database}!gov::fnal::ppd::security::GenerateNewKeyPair@{gov\-::fnal\-::ppd\-::security\-::\-Generate\-New\-Key\-Pair}}
-\subsubsection[{write\-Public\-Key\-To\-Database}]{\setlength{\rightskip}{0pt plus 5cm}final synchronized void gov.\-fnal.\-ppd.\-security.\-Generate\-New\-Key\-Pair.\-write\-Public\-Key\-To\-Database (
-\begin{DoxyParamCaption}
-\item[{String}]{client\-Name}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_a0df582e5aa3c2c81e890760384247b3d}
-
-
-Definition at line 228 of file Generate\-New\-Key\-Pair.\-java.
-
-
-
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/gov/fnal/ppd/security/\hyperlink{GenerateNewKeyPair_8java}{Generate\-New\-Key\-Pair.\-java}\end{DoxyCompactItemize}
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/security/Generate\-New\-Key\-Pair.\-java\end{DoxyCompactItemize}

@@ -1,6 +1,16 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ChannelCooserAsTable}{\section{gov.\-fnal.\-ppd.\-dd.\-channel.\-list.\-table.\-Channel\-Cooser\-As\-Table Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ChannelCooserAsTable}\index{gov.\-fnal.\-ppd.\-dd.\-channel.\-list.\-table.\-Channel\-Cooser\-As\-Table@{gov.\-fnal.\-ppd.\-dd.\-channel.\-list.\-table.\-Channel\-Cooser\-As\-Table}}
 }
+
+
+\subsection{Detailed Description}
+This class contains the complexities for creating a Java table (J\-Table). This is used in one place -\/ The \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1ChannelListGUI}{Channel\-List\-G\-U\-I} that is used in the \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}{Channel\-Selector} for letting the user create a list of channels to send to a display.
+
+In my opinion, J\-Tables are quite complicated. And this class tries to contain all that so the calling class is not overly complex. But the upshot is that the G\-U\-I presented to the user is also rather complicated. In a perfect world with a lot more time and expertise, this would be made M\-U\-C\-H simpler for the user.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation, 2017-\/21 
+\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-channel.\-list.\-table.\-Channel\-Cooser\-As\-Table\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -10,34 +20,8 @@ Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-channel.\-list.\-table.\-Channel
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ChannelCooserAsTable_a3e9192a1e78a896dd27ed80ad78277df}{Channel\-Cooser\-As\-Table} ()
-\item 
 \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel}{Channel} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ChannelCooserAsTable_acb5af42a57b27a5bffd85fd6e3a3dbcf}{get\-Row} (final int view\-Row)
 \end{DoxyCompactItemize}
-
-
-\subsection{Detailed Description}
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation, 2017-\/18 
-\end{DoxyAuthor}
-
-
-Definition at line 52 of file Channel\-Cooser\-As\-Table.\-java.
-
-
-
-\subsection{Constructor \& Destructor Documentation}
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ChannelCooserAsTable_a3e9192a1e78a896dd27ed80ad78277df}{\index{gov\-::fnal\-::ppd\-::dd\-::channel\-::list\-::table\-::\-Channel\-Cooser\-As\-Table@{gov\-::fnal\-::ppd\-::dd\-::channel\-::list\-::table\-::\-Channel\-Cooser\-As\-Table}!Channel\-Cooser\-As\-Table@{Channel\-Cooser\-As\-Table}}
-\index{Channel\-Cooser\-As\-Table@{Channel\-Cooser\-As\-Table}!gov::fnal::ppd::dd::channel::list::table::ChannelCooserAsTable@{gov\-::fnal\-::ppd\-::dd\-::channel\-::list\-::table\-::\-Channel\-Cooser\-As\-Table}}
-\subsubsection[{Channel\-Cooser\-As\-Table}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-channel.\-list.\-table.\-Channel\-Cooser\-As\-Table.\-Channel\-Cooser\-As\-Table (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ChannelCooserAsTable_a3e9192a1e78a896dd27ed80ad78277df}
-
-
-Definition at line 59 of file Channel\-Cooser\-As\-Table.\-java.
-
 
 
 \subsection{Member Function Documentation}
@@ -47,7 +31,7 @@ Definition at line 59 of file Channel\-Cooser\-As\-Table.\-java.
 \begin{DoxyParamCaption}
 \item[{final int}]{view\-Row}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ChannelCooserAsTable_acb5af42a57b27a5bffd85fd6e3a3dbcf}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ChannelCooserAsTable_acb5af42a57b27a5bffd85fd6e3a3dbcf}
 
 \begin{DoxyParams}{Parameters}
 {\em view\-Row} & \\
@@ -58,10 +42,6 @@ the channel at this row
 \end{DoxyReturn}
 
 
-Definition at line 86 of file Channel\-Cooser\-As\-Table.\-java.
-
-
-
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/gov/fnal/ppd/dd/channel/list/table/\hyperlink{ChannelCooserAsTable_8java}{Channel\-Cooser\-As\-Table.\-java}\end{DoxyCompactItemize}
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/channel/list/table/Channel\-Cooser\-As\-Table.\-java\end{DoxyCompactItemize}

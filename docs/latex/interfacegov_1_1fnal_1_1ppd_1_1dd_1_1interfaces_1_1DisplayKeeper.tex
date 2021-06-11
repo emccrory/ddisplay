@@ -1,0 +1,51 @@
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayKeeper}{\section{gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Display\-Keeper Interface Reference}
+\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayKeeper}\index{gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Display\-Keeper@{gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Display\-Keeper}}
+}
+
+
+\subsection{Detailed Description}
+An interface to allow a details class to tell a high-\/level class when a display is alive (breaking a circular dependency)
+
+The name of this class is supposed to be what the implementer is -\/ it is a \char`\"{}\-Keeper of (lots of) Displays\char`\"{}. Basically, the only class that implements this is the \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}{Channel\-Selector}.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Display\-Keeper\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayKeeper}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayKeeper_ab647c0c13a64d5c5f258852f17407639}{set\-Display\-Is\-Alive} (int display\-Number, boolean is\-Alive)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayKeeper_ab647c0c13a64d5c5f258852f17407639}{\index{gov\-::fnal\-::ppd\-::dd\-::interfaces\-::\-Display\-Keeper@{gov\-::fnal\-::ppd\-::dd\-::interfaces\-::\-Display\-Keeper}!set\-Display\-Is\-Alive@{set\-Display\-Is\-Alive}}
+\index{set\-Display\-Is\-Alive@{set\-Display\-Is\-Alive}!gov::fnal::ppd::dd::interfaces::DisplayKeeper@{gov\-::fnal\-::ppd\-::dd\-::interfaces\-::\-Display\-Keeper}}
+\subsubsection[{set\-Display\-Is\-Alive}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Display\-Keeper.\-set\-Display\-Is\-Alive (
+\begin{DoxyParamCaption}
+\item[{int}]{display\-Number, }
+\item[{boolean}]{is\-Alive}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayKeeper_ab647c0c13a64d5c5f258852f17407639}
+
+\begin{DoxyParams}{Parameters}
+{\em display\-Number} & \\
+\hline
+{\em is\-Alive} & \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ab92bc1ecd4b25b8a2a1fed26b57d4d57}{gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector}.
+
+
+
+The documentation for this interface was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/interfaces/Display\-Keeper.\-java\end{DoxyCompactItemize}

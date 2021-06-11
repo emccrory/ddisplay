@@ -1,6 +1,14 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid}{\section{gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid}\index{gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid@{gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid}}
 }
+
+
+\subsection{Detailed Description}
+Base class for the display grids that hold the channel buttons in the \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}{Channel\-Selector}
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -12,11 +20,12 @@ Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid\
 \item 
 abstract void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a5acf39593b87514d5015b219e91ddeac}{make\-Grid} (\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification}{Channel\-Classification} cat)
 \item 
-\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a71bade30c8299336c618dbc8f32b3a07}{Channel\-Button\-Grid} (\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a3c06b51489dcaacd16f6efcefe06bcaa}{display}, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup}{Display\-Button\-Group} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_adf258a89161282e5215b4642ecbec812}{bg})
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a71bade30c8299336c618dbc8f32b3a07}{Channel\-Button\-Grid} (\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} display, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup}{Display\-Button\-Group} bg)
 \item 
 Component \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a456b0016723ac7fec8acaf6f7d6cbabf}{add} (J\-Panel comp)
 \item 
-void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_afaef645111328ee05291017d3282201d}{action\-Performed} (Action\-Event e)
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_afaef645111328ee05291017d3282201d}{void {\bfseries action\-Performed} (Action\-Event e)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_afaef645111328ee05291017d3282201d}
+
 \item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_ae3b31f44dc32cfc243a1f10a3e0040c9}{set\-Alive} (boolean b)
 \item 
@@ -24,29 +33,20 @@ boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid
 \item 
 \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a08d1ab6630432d9e1817e36a9b6e857a}{get\-Display} ()
 \item 
-\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup}{Display\-Button\-Group} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a58309efc70714f1b3fc2810823a5df3c}{get\-Bg} ()
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup}{Display\-Button\-Group} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a58309efc70714f1b3fc2810823a5df3c}{get\-Bg} ()
 \end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-final \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a3c06b51489dcaacd16f6efcefe06bcaa}{display}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a3c06b51489dcaacd16f6efcefe06bcaa}{final \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} {\bfseries display}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a3c06b51489dcaacd16f6efcefe06bcaa}
+
 \item 
-\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup}{Display\-Button\-Group} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_adf258a89161282e5215b4642ecbec812}{bg}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_adf258a89161282e5215b4642ecbec812}{\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup}{Display\-Button\-Group} {\bfseries bg}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_adf258a89161282e5215b4642ecbec812}
+
 \item 
-J\-Component \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a28bdcf8d7b7664142d4360cd82f1b725}{exp\-Grid}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a28bdcf8d7b7664142d4360cd82f1b725}{J\-Component {\bfseries exp\-Grid}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a28bdcf8d7b7664142d4360cd82f1b725}
+
 \end{DoxyCompactItemize}
-
-
-\subsection{Detailed Description}
-Base class for the display grids that hold the channel buttons in the \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}{Channel\-Selector}
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
-\end{DoxyAuthor}
-
-
-Definition at line 31 of file Channel\-Button\-Grid.\-java.
-
 
 
 \subsection{Constructor \& Destructor Documentation}
@@ -57,7 +57,7 @@ Definition at line 31 of file Channel\-Button\-Grid.\-java.
 \item[{{\bf Display}}]{display, }
 \item[{{\bf Display\-Button\-Group}}]{bg}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a71bade30c8299336c618dbc8f32b3a07}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a71bade30c8299336c618dbc8f32b3a07}
 
 \begin{DoxyParams}{Parameters}
 {\em display} & \\
@@ -67,29 +67,14 @@ Definition at line 31 of file Channel\-Button\-Grid.\-java.
 \end{DoxyParams}
 
 
-Definition at line 53 of file Channel\-Button\-Grid.\-java.
-
-
-
 \subsection{Member Function Documentation}
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_afaef645111328ee05291017d3282201d}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}!action\-Performed@{action\-Performed}}
-\index{action\-Performed@{action\-Performed}!gov::fnal::ppd::dd::changer::ChannelButtonGrid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}}
-\subsubsection[{action\-Performed}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid.\-action\-Performed (
-\begin{DoxyParamCaption}
-\item[{Action\-Event}]{e}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_afaef645111328ee05291017d3282201d}
-
-
-Definition at line 74 of file Channel\-Button\-Grid.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a456b0016723ac7fec8acaf6f7d6cbabf}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}!add@{add}}
 \index{add@{add}!gov::fnal::ppd::dd::changer::ChannelButtonGrid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}}
 \subsubsection[{add}]{\setlength{\rightskip}{0pt plus 5cm}Component gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid.\-add (
 \begin{DoxyParamCaption}
 \item[{J\-Panel}]{comp}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a456b0016723ac7fec8acaf6f7d6cbabf}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a456b0016723ac7fec8acaf6f7d6cbabf}
 Override (sort of) the base class add so I can make it the right color
 
 
@@ -100,54 +85,38 @@ Override (sort of) the base class add so I can make it the right color
 \begin{DoxyReturn}{Returns}
 The component argument 
 \end{DoxyReturn}
-
-
-Definition at line 66 of file Channel\-Button\-Grid.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a58309efc70714f1b3fc2810823a5df3c}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}!get\-Bg@{get\-Bg}}
 \index{get\-Bg@{get\-Bg}!gov::fnal::ppd::dd::changer::ChannelButtonGrid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}}
 \subsubsection[{get\-Bg}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Display\-Button\-Group} gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid.\-get\-Bg (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a58309efc70714f1b3fc2810823a5df3c}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a58309efc70714f1b3fc2810823a5df3c}
 Get the buttons that are controlled/owned by this grid
 
 \begin{DoxyReturn}{Returns}
 the button group 
 \end{DoxyReturn}
-
-
-Definition at line 198 of file Channel\-Button\-Grid.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a08d1ab6630432d9e1817e36a9b6e857a}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}!get\-Display@{get\-Display}}
 \index{get\-Display@{get\-Display}!gov::fnal::ppd::dd::changer::ChannelButtonGrid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}}
 \subsubsection[{get\-Display}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Display} gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid.\-get\-Display (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a08d1ab6630432d9e1817e36a9b6e857a}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a08d1ab6630432d9e1817e36a9b6e857a}
 \begin{DoxyReturn}{Returns}
 The Display associated with this grid 
 \end{DoxyReturn}
-
-
-Definition at line 189 of file Channel\-Button\-Grid.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_af108bf6c3ca64c53f11326765fff1611}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}!has\-Selected\-Channel@{has\-Selected\-Channel}}
 \index{has\-Selected\-Channel@{has\-Selected\-Channel}!gov::fnal::ppd::dd::changer::ChannelButtonGrid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}}
 \subsubsection[{has\-Selected\-Channel}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid.\-has\-Selected\-Channel (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_af108bf6c3ca64c53f11326765fff1611}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_af108bf6c3ca64c53f11326765fff1611}
 \begin{DoxyReturn}{Returns}
 Does this panel contain the selected channel? This worked in the early days of the system, but not anymore. and it really is not necessary. 
 \end{DoxyReturn}
-
-
-Definition at line 152 of file Channel\-Button\-Grid.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a5acf39593b87514d5015b219e91ddeac}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}!make\-Grid@{make\-Grid}}
 \index{make\-Grid@{make\-Grid}!gov::fnal::ppd::dd::changer::ChannelButtonGrid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}}
 \subsubsection[{make\-Grid}]{\setlength{\rightskip}{0pt plus 5cm}abstract void gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid.\-make\-Grid (
@@ -157,7 +126,7 @@ Definition at line 152 of file Channel\-Button\-Grid.\-java.
 )\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a5acf39593b87514d5015b219e91ddeac}
 
 \begin{DoxyParams}{Parameters}
-{\em cat} & make a grid of channels of this category \\
+{\em catget} & make a grid of channels of this category \\
 \hline
 \end{DoxyParams}
 
@@ -170,7 +139,7 @@ Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1Ex
 \begin{DoxyParamCaption}
 \item[{boolean}]{b}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_ae3b31f44dc32cfc243a1f10a3e0040c9}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_ae3b31f44dc32cfc243a1f10a3e0040c9}
 Is the display associated with this panel alive, really?
 
 
@@ -180,34 +149,6 @@ Is the display associated with this panel alive, really?
 \end{DoxyParams}
 
 
-Definition at line 141 of file Channel\-Button\-Grid.\-java.
-
-
-
-\subsection{Member Data Documentation}
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_adf258a89161282e5215b4642ecbec812}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}!bg@{bg}}
-\index{bg@{bg}!gov::fnal::ppd::dd::changer::ChannelButtonGrid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}}
-\subsubsection[{bg}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Display\-Button\-Group} gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid.\-bg\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_adf258a89161282e5215b4642ecbec812}
-
-
-Definition at line 37 of file Channel\-Button\-Grid.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a3c06b51489dcaacd16f6efcefe06bcaa}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}!display@{display}}
-\index{display@{display}!gov::fnal::ppd::dd::changer::ChannelButtonGrid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}}
-\subsubsection[{display}]{\setlength{\rightskip}{0pt plus 5cm}final {\bf Display} gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid.\-display\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a3c06b51489dcaacd16f6efcefe06bcaa}
-
-
-Definition at line 35 of file Channel\-Button\-Grid.\-java.
-
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a28bdcf8d7b7664142d4360cd82f1b725}{\index{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}!exp\-Grid@{exp\-Grid}}
-\index{exp\-Grid@{exp\-Grid}!gov::fnal::ppd::dd::changer::ChannelButtonGrid@{gov\-::fnal\-::ppd\-::dd\-::changer\-::\-Channel\-Button\-Grid}}
-\subsubsection[{exp\-Grid}]{\setlength{\rightskip}{0pt plus 5cm}J\-Component gov.\-fnal.\-ppd.\-dd.\-changer.\-Channel\-Button\-Grid.\-exp\-Grid\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_a28bdcf8d7b7664142d4360cd82f1b725}
-
-
-Definition at line 39 of file Channel\-Button\-Grid.\-java.
-
-
-
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/gov/fnal/ppd/dd/changer/\hyperlink{ChannelButtonGrid_8java}{Channel\-Button\-Grid.\-java}\end{DoxyCompactItemize}
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/changer/Channel\-Button\-Grid.\-java\end{DoxyCompactItemize}

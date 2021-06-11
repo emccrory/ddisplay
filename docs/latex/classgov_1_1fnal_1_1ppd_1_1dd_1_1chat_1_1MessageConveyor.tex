@@ -1,10 +1,21 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor}{\section{gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Conveyor Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor}\index{gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Conveyor@{gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Conveyor}}
 }
+
+
+\subsection{Detailed Description}
+A place to hold the code for reading from and writing to an input stream using the specialty object defined in this suite.
+
+This class holds several static methods. It cannot be instantiated.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_aebb7c15f246ede2ca14fc803978c7b7e}{get\-Bad\-Connection\-Attempts} ()
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_aebb7c15f246ede2ca14fc803978c7b7e}{static int {\bfseries get\-Bad\-Connection\-Attempts} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_aebb7c15f246ede2ca14fc803978c7b7e}
+
 \item 
 static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessageCarrierXML}{Message\-Carrier\-X\-M\-L} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_ae56d91de80414057b1d55c555a188194}{get\-Next\-Document} (Class$<$?$>$ clazz, Buffered\-Reader receive\-Read, String username)  throws Unrecognized\-Communication\-Exception, Socket\-Timeout\-Exception 
 \item 
@@ -14,25 +25,7 @@ static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConvey
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-
-
-Definition at line 26 of file Message\-Conveyor.\-java.
-
-
-
 \subsection{Member Function Documentation}
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_aebb7c15f246ede2ca14fc803978c7b7e}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Conveyor@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Conveyor}!get\-Bad\-Connection\-Attempts@{get\-Bad\-Connection\-Attempts}}
-\index{get\-Bad\-Connection\-Attempts@{get\-Bad\-Connection\-Attempts}!gov::fnal::ppd::dd::chat::MessageConveyor@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Conveyor}}
-\subsubsection[{get\-Bad\-Connection\-Attempts}]{\setlength{\rightskip}{0pt plus 5cm}static int gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Conveyor.\-get\-Bad\-Connection\-Attempts (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_aebb7c15f246ede2ca14fc803978c7b7e}
-
-
-Definition at line 31 of file Message\-Conveyor.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_ae56d91de80414057b1d55c555a188194}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Conveyor@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Conveyor}!get\-Next\-Document@{get\-Next\-Document}}
 \index{get\-Next\-Document@{get\-Next\-Document}!gov::fnal::ppd::dd::chat::MessageConveyor@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Conveyor}}
 \subsubsection[{get\-Next\-Document}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier\-X\-M\-L} gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Conveyor.\-get\-Next\-Document (
@@ -41,7 +34,7 @@ Definition at line 31 of file Message\-Conveyor.\-java.
 \item[{Buffered\-Reader}]{receive\-Read, }
 \item[{String}]{username}
 \end{DoxyParamCaption}
-) throws {\bf Unrecognized\-Communication\-Exception}, Socket\-Timeout\-Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_ae56d91de80414057b1d55c555a188194}
+) throws {\bf Unrecognized\-Communication\-Exception}, Socket\-Timeout\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_ae56d91de80414057b1d55c555a188194}
 Read the input socket for the next, complete X\-M\-L document. This A\-S\-S\-U\-M\-E\-S that we only get complete X\-M\-L documents!
 
 
@@ -52,10 +45,6 @@ Read the input socket for the next, complete X\-M\-L document. This A\-S\-S\-U\-
 \begin{DoxyReturn}{Returns}
 The next message 
 \end{DoxyReturn}
-
-
-Definition at line 46 of file Message\-Conveyor.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_ad75f4183546edf67ecc120cd4a763f5b}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Conveyor@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Conveyor}!send\-Message@{send\-Message}}
 \index{send\-Message@{send\-Message}!gov::fnal::ppd::dd::chat::MessageConveyor@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Conveyor}}
 \subsubsection[{send\-Message}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Conveyor.\-send\-Message (
@@ -64,7 +53,7 @@ Definition at line 46 of file Message\-Conveyor.\-java.
 \item[{{\bf Message\-Carrier\-X\-M\-L}}]{msg, }
 \item[{Output\-Stream}]{s\-Output}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_ad75f4183546edf67ecc120cd4a763f5b}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_ad75f4183546edf67ecc120cd4a763f5b}
 Send a message
 
 
@@ -79,10 +68,6 @@ Send a message
 \begin{DoxyReturn}{Returns}
 Did it work? 
 \end{DoxyReturn}
-
-
-Definition at line 148 of file Message\-Conveyor.\-java.
-
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_a3f948d3a9e2544f6ccd6fa371d1db792}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Conveyor@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Conveyor}!write\-To\-Socket@{write\-To\-Socket}}
 \index{write\-To\-Socket@{write\-To\-Socket}!gov::fnal::ppd::dd::chat::MessageConveyor@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Message\-Conveyor}}
 \subsubsection[{write\-To\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-dd.\-chat.\-Message\-Conveyor.\-write\-To\-Socket (
@@ -90,7 +75,7 @@ Definition at line 148 of file Message\-Conveyor.\-java.
 \item[{String}]{the\-Ascii\-Document, }
 \item[{Output\-Stream}]{os}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_a3f948d3a9e2544f6ccd6fa371d1db792}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor_a3f948d3a9e2544f6ccd6fa371d1db792}
 
 \begin{DoxyParams}{Parameters}
 {\em the\-Ascii\-Document} & The message to send through the socket \\
@@ -103,10 +88,6 @@ Did it work?
 \end{DoxyReturn}
 
 
-Definition at line 186 of file Message\-Conveyor.\-java.
-
-
-
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/gov/fnal/ppd/dd/chat/\hyperlink{MessageConveyor_8java}{Message\-Conveyor.\-java}\end{DoxyCompactItemize}
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/chat/Message\-Conveyor.\-java\end{DoxyCompactItemize}

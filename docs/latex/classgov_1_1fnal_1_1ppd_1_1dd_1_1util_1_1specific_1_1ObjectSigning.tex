@@ -1,0 +1,294 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning}{\section{gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning}\index{gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing@{gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing}}
+}
+
+
+\subsection{Detailed Description}
+A class to sign any seiralizable object 
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_af0b44b53a18273c1ac9b2965e62c496e}{generate\-New\-Keys} (final String filename\-Public, final String filename\-Private)  throws No\-Such\-Algorithm\-Exception, I\-O\-Exception 
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_adb2220ffd868f2c90669a60e103eabfe}{load\-Public\-Key} (final String filename)  throws I\-O\-Exception 
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a28634898ffa14ba174a785f3a40cb1de}{set\-Public\-Key} (final byte\mbox{[}$\,$\mbox{]} encoded\-Public\-Key)
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_ad05b0cd592f8f25aa296a80928f31cc7}{load\-Private\-Key} (final String filename)
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a561eedb67812a4082d737ec182fe288c}{is\-Emerg\-Mess\-Allowed} (String client\-Name)
+\item 
+Signed\-Object \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a720162748082c95b69a5b755f0e3cf19}{get\-Signed\-Object} (final Serializable to\-Sign)  throws Signature\-Exception, No\-Such\-Algorithm\-Exception, Invalid\-Key\-Exception, I\-O\-Exception 
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a56dcff2cb63bc6937c100cd76434137a}{verify\-Signature} (final Signed\-Object signed\-Mess)
+\item 
+Signed\-Object \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a65b93cbc9f0e89beba2add9cd7ad5797}{example} (final Serializable to\-Sign)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning}{Object\-Signing} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a905548cd8a28135026ff8cd2e3f09598}{get\-Instance} ()
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a2c6282d1254482c733c5bdb01ae4fd2b}{save\-Client} (final String client)
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_ab51a44acbc4795b78f9b608c361e9369}{drop\-Client} (final String client)
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a462a209a028c4c3f44ab861d0a56ab8f}{is\-Client\-Authorized} (final String client, final String display\-Name)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning}{Object\-Signing} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a48a7965d0e3f9d1c827589b816ca3b45}{get\-Public\-Signing} (final String client)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a07b9c0efe4e036f0902c8d4a18e05693}{final synchronized void {\bfseries write\-Public\-Key\-To\-Database} (String client\-Name)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a07b9c0efe4e036f0902c8d4a18e05693}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_ab51a44acbc4795b78f9b608c361e9369}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!drop\-Client@{drop\-Client}}
+\index{drop\-Client@{drop\-Client}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{drop\-Client}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-drop\-Client (
+\begin{DoxyParamCaption}
+\item[{final String}]{client}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_ab51a44acbc4795b78f9b608c361e9369}
+Remove a client from the cache of public keys so it can reconnect with different credentials
+
+
+\begin{DoxyParams}{Parameters}
+{\em client} & The name of the client to remove \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+if this client was actually in the list. 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a65b93cbc9f0e89beba2add9cd7ad5797}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!example@{example}}
+\index{example@{example}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{example}]{\setlength{\rightskip}{0pt plus 5cm}Signed\-Object gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-example (
+\begin{DoxyParamCaption}
+\item[{final Serializable}]{to\-Sign}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a65b93cbc9f0e89beba2add9cd7ad5797}
+
+\begin{DoxyParams}{Parameters}
+{\em to\-Sign} & -- The object to sign \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-- The signed object that corresponds to the passed object 
+\end{DoxyReturn}
+\begin{DoxyRefDesc}{Deprecated}
+\item[\hyperlink{deprecated__deprecated000006}{Deprecated}]\end{DoxyRefDesc}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_af0b44b53a18273c1ac9b2965e62c496e}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!generate\-New\-Keys@{generate\-New\-Keys}}
+\index{generate\-New\-Keys@{generate\-New\-Keys}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{generate\-New\-Keys}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-generate\-New\-Keys (
+\begin{DoxyParamCaption}
+\item[{final String}]{filename\-Public, }
+\item[{final String}]{filename\-Private}
+\end{DoxyParamCaption}
+) throws No\-Such\-Algorithm\-Exception, I\-O\-Exception}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_af0b44b53a18273c1ac9b2965e62c496e}
+
+\begin{DoxyParams}{Parameters}
+{\em filename\-Public} & -- The name of the public keystore file \\
+\hline
+{\em filename\-Private} & -- The name of the private keystore file \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em No\-Such\-Algorithm\-Exception} & -- A problem with the encryption service \\
+\hline
+{\em I\-O\-Exception} & -- A problem writing the public or private keystores. \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a905548cd8a28135026ff8cd2e3f09598}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!get\-Instance@{get\-Instance}}
+\index{get\-Instance@{get\-Instance}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{get\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Object\-Signing} gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-get\-Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a905548cd8a28135026ff8cd2e3f09598}
+\begin{DoxyReturn}{Returns}
+the instance of this \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning}{Object\-Signing} object for this J\-V\-M 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a48a7965d0e3f9d1c827589b816ca3b45}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!get\-Public\-Signing@{get\-Public\-Signing}}
+\index{get\-Public\-Signing@{get\-Public\-Signing}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{get\-Public\-Signing}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Object\-Signing} gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-get\-Public\-Signing (
+\begin{DoxyParamCaption}
+\item[{final String}]{client}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a48a7965d0e3f9d1c827589b816ca3b45}
+
+\begin{DoxyParams}{Parameters}
+{\em client} & -- The name of the client for which you'll need to check the signature \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-- The object that knows about this client's public key 
+\end{DoxyReturn}
+\begin{DoxyRefDesc}{Deprecated}
+\item[\hyperlink{deprecated__deprecated000003}{Deprecated}]\end{DoxyRefDesc}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a720162748082c95b69a5b755f0e3cf19}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!get\-Signed\-Object@{get\-Signed\-Object}}
+\index{get\-Signed\-Object@{get\-Signed\-Object}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{get\-Signed\-Object}]{\setlength{\rightskip}{0pt plus 5cm}Signed\-Object gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-get\-Signed\-Object (
+\begin{DoxyParamCaption}
+\item[{final Serializable}]{to\-Sign}
+\end{DoxyParamCaption}
+) throws Signature\-Exception, No\-Such\-Algorithm\-Exception, Invalid\-Key\-Exception, I\-O\-Exception}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a720162748082c95b69a5b755f0e3cf19}
+
+\begin{DoxyParams}{Parameters}
+{\em to\-Sign} & -- The object to sign. Must be Serialzable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-- The signed object 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Signature\-Exception} & -- An invalid signature \\
+\hline
+{\em I\-O\-Exception} & -- A problem reading the keystore \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & -- A problem with the encryption service $\ast$ \\
+\hline
+{\em Invalid\-Key\-Spec\-Exception} & \\
+\hline
+{\em Invalid\-Key\-Exception} & -- The private key is not valid \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyRefDesc}{Deprecated}
+\item[\hyperlink{deprecated__deprecated000004}{Deprecated}]
+\begin{DoxyItemize}
+\item use X\-M\-L signing techniques 
+\end{DoxyItemize}\end{DoxyRefDesc}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a462a209a028c4c3f44ab861d0a56ab8f}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!is\-Client\-Authorized@{is\-Client\-Authorized}}
+\index{is\-Client\-Authorized@{is\-Client\-Authorized}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{is\-Client\-Authorized}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-is\-Client\-Authorized (
+\begin{DoxyParamCaption}
+\item[{final String}]{client, }
+\item[{final String}]{display\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a462a209a028c4c3f44ab861d0a56ab8f}
+
+\begin{DoxyParams}{Parameters}
+{\em client} & The client trying to make changes to the display \\
+\hline
+{\em display\-Name} & The I\-D of the display (i.\-e., the display number) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Is this client authorized to change the channel on this display? 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a561eedb67812a4082d737ec182fe288c}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!is\-Emerg\-Mess\-Allowed@{is\-Emerg\-Mess\-Allowed}}
+\index{is\-Emerg\-Mess\-Allowed@{is\-Emerg\-Mess\-Allowed}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{is\-Emerg\-Mess\-Allowed}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-is\-Emerg\-Mess\-Allowed (
+\begin{DoxyParamCaption}
+\item[{String}]{client\-Name}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a561eedb67812a4082d737ec182fe288c}
+
+\begin{DoxyParams}{Parameters}
+{\em client\-Name} & the name of this client, according to the database \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Is this client allowed to be the source of an \char`\"{}emergency message\char`\"{}? 
+\end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_ad05b0cd592f8f25aa296a80928f31cc7}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!load\-Private\-Key@{load\-Private\-Key}}
+\index{load\-Private\-Key@{load\-Private\-Key}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{load\-Private\-Key}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-load\-Private\-Key (
+\begin{DoxyParamCaption}
+\item[{final String}]{filename}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_ad05b0cd592f8f25aa296a80928f31cc7}
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & -- A problem reading the keystore \subsubsection*{Invalid\-Key\-Spec\-Exception }\\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & -- A problem with the encryption service \\
+\hline
+{\em Invalid\-Key\-Spec\-Exception} & \\
+\hline
+{\em I\-O\-Exception} & \\
+\hline
+{\em No\-Such\-Algorithm\-Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_adb2220ffd868f2c90669a60e103eabfe}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!load\-Public\-Key@{load\-Public\-Key}}
+\index{load\-Public\-Key@{load\-Public\-Key}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{load\-Public\-Key}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-load\-Public\-Key (
+\begin{DoxyParamCaption}
+\item[{final String}]{filename}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_adb2220ffd868f2c90669a60e103eabfe}
+Read the public key from the file system
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & -- The file name containing the public keystore \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Exception} & -- A problem reading the keystore \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a2c6282d1254482c733c5bdb01ae4fd2b}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!save\-Client@{save\-Client}}
+\index{save\-Client@{save\-Client}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{save\-Client}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-save\-Client (
+\begin{DoxyParamCaption}
+\item[{final String}]{client}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a2c6282d1254482c733c5bdb01ae4fd2b}
+
+\begin{DoxyParams}{Parameters}
+{\em client} & -- The name of the client for which you'll need to check the signature \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a28634898ffa14ba174a785f3a40cb1de}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!set\-Public\-Key@{set\-Public\-Key}}
+\index{set\-Public\-Key@{set\-Public\-Key}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{set\-Public\-Key}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-set\-Public\-Key (
+\begin{DoxyParamCaption}
+\item[{final byte\mbox{[}$\,$\mbox{]}}]{encoded\-Public\-Key}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a28634898ffa14ba174a785f3a40cb1de}
+
+\begin{DoxyParams}{Parameters}
+{\em encoded\-Public\-Key} & -- The encoded public key \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a56dcff2cb63bc6937c100cd76434137a}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}!verify\-Signature@{verify\-Signature}}
+\index{verify\-Signature@{verify\-Signature}!gov::fnal::ppd::dd::util::specific::ObjectSigning@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Object\-Signing}}
+\subsubsection[{verify\-Signature}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Object\-Signing.\-verify\-Signature (
+\begin{DoxyParamCaption}
+\item[{final Signed\-Object}]{signed\-Mess}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_a56dcff2cb63bc6937c100cd76434137a}
+
+\begin{DoxyParams}{Parameters}
+{\em signed\-Mess} & -- The message to test \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-- null if the message is signed properly; a string explaining why if it is not. 
+\end{DoxyReturn}
+\begin{DoxyRefDesc}{Deprecated}
+\item[\hyperlink{deprecated__deprecated000005}{Deprecated}]
+\begin{DoxyItemize}
+\item use Signed\-X\-M\-L\-Document now-\/a-\/days 
+\end{DoxyItemize}\end{DoxyRefDesc}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/util/specific/Object\-Signing.\-java\end{DoxyCompactItemize}

@@ -1,6 +1,14 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop}{\section{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Display\-Controller\-Messaging\-Abstract.\-Thread\-With\-Stop Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop}\index{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Display\-Controller\-Messaging\-Abstract.\-Thread\-With\-Stop@{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Display\-Controller\-Messaging\-Abstract.\-Thread\-With\-Stop}}
 }
+
+
+\subsection{Detailed Description}
+Orchestrate the playing of a list of channels. This extension to the Thread class also allows us to stop it later, gracefully.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Display\-Controller\-Messaging\-Abstract.\-Thread\-With\-Stop\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -10,67 +18,20 @@ Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Display\-Cont
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_aebe2e9dec1d69ac75d74ebcc867ed921}{Thread\-With\-Stop} (final \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList}{Channel\-Play\-List} pl)
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_aebe2e9dec1d69ac75d74ebcc867ed921}{{\bfseries Thread\-With\-Stop} (final \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList}{Channel\-Play\-List} pl)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_aebe2e9dec1d69ac75d74ebcc867ed921}
+
 \item 
-void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_a3a8072938a59f88b0b1a62775ef1809b}{run} ()
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_a3a8072938a59f88b0b1a62775ef1809b}{void {\bfseries run} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_a3a8072938a59f88b0b1a62775ef1809b}
+
 \end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_a0b29b8779d6f9c197704bc33bbac3efb}{stop\-Me} = false
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_a0b29b8779d6f9c197704bc33bbac3efb}{boolean {\bfseries stop\-Me} = false}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_a0b29b8779d6f9c197704bc33bbac3efb}
+
 \end{DoxyCompactItemize}
-
-
-\subsection{Detailed Description}
-Extension to the Thread class to allow me to stop it later, gracefully.
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
-\end{DoxyAuthor}
-
-
-Definition at line 158 of file Display\-Controller\-Messaging\-Abstract.\-java.
-
-
-
-\subsection{Constructor \& Destructor Documentation}
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_aebe2e9dec1d69ac75d74ebcc867ed921}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Display\-Controller\-Messaging\-Abstract\-::\-Thread\-With\-Stop@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Display\-Controller\-Messaging\-Abstract\-::\-Thread\-With\-Stop}!Thread\-With\-Stop@{Thread\-With\-Stop}}
-\index{Thread\-With\-Stop@{Thread\-With\-Stop}!gov::fnal::ppd::dd::display::client::DisplayControllerMessagingAbstract::ThreadWithStop@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Display\-Controller\-Messaging\-Abstract\-::\-Thread\-With\-Stop}}
-\subsubsection[{Thread\-With\-Stop}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Display\-Controller\-Messaging\-Abstract.\-Thread\-With\-Stop.\-Thread\-With\-Stop (
-\begin{DoxyParamCaption}
-\item[{final {\bf Channel\-Play\-List}}]{pl}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_aebe2e9dec1d69ac75d74ebcc867ed921}
-
-
-Definition at line 162 of file Display\-Controller\-Messaging\-Abstract.\-java.
-
-
-
-\subsection{Member Function Documentation}
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_a3a8072938a59f88b0b1a62775ef1809b}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Display\-Controller\-Messaging\-Abstract\-::\-Thread\-With\-Stop@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Display\-Controller\-Messaging\-Abstract\-::\-Thread\-With\-Stop}!run@{run}}
-\index{run@{run}!gov::fnal::ppd::dd::display::client::DisplayControllerMessagingAbstract::ThreadWithStop@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Display\-Controller\-Messaging\-Abstract\-::\-Thread\-With\-Stop}}
-\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Display\-Controller\-Messaging\-Abstract.\-Thread\-With\-Stop.\-run (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_a3a8072938a59f88b0b1a62775ef1809b}
-
-
-Definition at line 167 of file Display\-Controller\-Messaging\-Abstract.\-java.
-
-
-
-\subsection{Member Data Documentation}
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_a0b29b8779d6f9c197704bc33bbac3efb}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Display\-Controller\-Messaging\-Abstract\-::\-Thread\-With\-Stop@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Display\-Controller\-Messaging\-Abstract\-::\-Thread\-With\-Stop}!stop\-Me@{stop\-Me}}
-\index{stop\-Me@{stop\-Me}!gov::fnal::ppd::dd::display::client::DisplayControllerMessagingAbstract::ThreadWithStop@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Display\-Controller\-Messaging\-Abstract\-::\-Thread\-With\-Stop}}
-\subsubsection[{stop\-Me}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Display\-Controller\-Messaging\-Abstract.\-Thread\-With\-Stop.\-stop\-Me = false}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop_a0b29b8779d6f9c197704bc33bbac3efb}
-
-
-Definition at line 159 of file Display\-Controller\-Messaging\-Abstract.\-java.
-
 
 
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/gov/fnal/ppd/dd/display/client/\hyperlink{DisplayControllerMessagingAbstract_8java}{Display\-Controller\-Messaging\-Abstract.\-java}\end{DoxyCompactItemize}
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/display/client/Display\-Controller\-Messaging\-Abstract.\-java\end{DoxyCompactItemize}

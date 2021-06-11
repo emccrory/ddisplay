@@ -1,0 +1,151 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl}{\section{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-In\-List\-Impl Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl}\index{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-In\-List\-Impl@{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-In\-List\-Impl}}
+}
+
+
+\subsection{Detailed Description}
+Extend the \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl}{Channel\-Impl} class and implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInList}{Channel\-In\-List}.
+
+The purpose of this extension to the interface Channel is to make life a little easier when one has a lists of channels that behave as a channel. The bit missing from the Channel interface is the sequence number, that is, where the channel sits in the list.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation, 2016-\/21 
+\end{DoxyAuthor}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-In\-List\-Impl\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a305c35a433a166f8f3d4da96c89971b7}{Channel\-In\-List\-Impl} (final \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} c)
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a7da4424fa40cba92ec8534a0925c4065}{Channel\-In\-List\-Impl} (final String name, final \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification}{Channel\-Classification} category, final String description, final U\-R\-I uri, final int number, final long dwell\-Time)
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a8e42fcff08b52add9a348c9da75acef6}{Channel\-In\-List\-Impl} (final \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel}{Channel} c, final int seq\-Num, final long dwell)
+\item 
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a14e33f31c3c7c15fd601617d8160c53f}{Channel\-In\-List\-Impl} (final \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel}{Channel} c, final int seq\-Num)
+\item 
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_ae7951128c28acebbdfb2c5ce5ecc9fb2}{String {\bfseries to\-String} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_ae7951128c28acebbdfb2c5ce5ecc9fb2}
+
+\item 
+int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a5e73b434e0de404051c085308bba70b9}{get\-Sequence\-Number} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a3d7875d359431d5e2dc13b60db55cf72}{set\-Sequence\-Number} (final int sequence\-Number)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a305c35a433a166f8f3d4da96c89971b7}{\index{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl}!Channel\-In\-List\-Impl@{Channel\-In\-List\-Impl}}
+\index{Channel\-In\-List\-Impl@{Channel\-In\-List\-Impl}!gov::fnal::ppd::dd::channel::ChannelInListImpl@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl}}
+\subsubsection[{Channel\-In\-List\-Impl}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-In\-List\-Impl.\-Channel\-In\-List\-Impl (
+\begin{DoxyParamCaption}
+\item[{final {\bf Signage\-Content}}]{c}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a305c35a433a166f8f3d4da96c89971b7}
+
+\begin{DoxyParams}{Parameters}
+{\em c} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a7da4424fa40cba92ec8534a0925c4065}{\index{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl}!Channel\-In\-List\-Impl@{Channel\-In\-List\-Impl}}
+\index{Channel\-In\-List\-Impl@{Channel\-In\-List\-Impl}!gov::fnal::ppd::dd::channel::ChannelInListImpl@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl}}
+\subsubsection[{Channel\-In\-List\-Impl}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-In\-List\-Impl.\-Channel\-In\-List\-Impl (
+\begin{DoxyParamCaption}
+\item[{final String}]{name, }
+\item[{final {\bf Channel\-Classification}}]{category, }
+\item[{final String}]{description, }
+\item[{final U\-R\-I}]{uri, }
+\item[{final int}]{number, }
+\item[{final long}]{dwell\-Time}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a7da4424fa40cba92ec8534a0925c4065}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & \\
+\hline
+{\em category} & \\
+\hline
+{\em description} & \\
+\hline
+{\em uri} & \\
+\hline
+{\em number} & \\
+\hline
+{\em dwell\-Time} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a8e42fcff08b52add9a348c9da75acef6}{\index{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl}!Channel\-In\-List\-Impl@{Channel\-In\-List\-Impl}}
+\index{Channel\-In\-List\-Impl@{Channel\-In\-List\-Impl}!gov::fnal::ppd::dd::channel::ChannelInListImpl@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl}}
+\subsubsection[{Channel\-In\-List\-Impl}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-In\-List\-Impl.\-Channel\-In\-List\-Impl (
+\begin{DoxyParamCaption}
+\item[{final {\bf Channel}}]{c, }
+\item[{final int}]{seq\-Num, }
+\item[{final long}]{dwell}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a8e42fcff08b52add9a348c9da75acef6}
+
+\begin{DoxyParams}{Parameters}
+{\em c} & \\
+\hline
+{\em seq\-Num} & \\
+\hline
+{\em dwell} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a14e33f31c3c7c15fd601617d8160c53f}{\index{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl}!Channel\-In\-List\-Impl@{Channel\-In\-List\-Impl}}
+\index{Channel\-In\-List\-Impl@{Channel\-In\-List\-Impl}!gov::fnal::ppd::dd::channel::ChannelInListImpl@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl}}
+\subsubsection[{Channel\-In\-List\-Impl}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-In\-List\-Impl.\-Channel\-In\-List\-Impl (
+\begin{DoxyParamCaption}
+\item[{final {\bf Channel}}]{c, }
+\item[{final int}]{seq\-Num}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a14e33f31c3c7c15fd601617d8160c53f}
+
+\begin{DoxyParams}{Parameters}
+{\em c} & \\
+\hline
+{\em seq\-Num} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a5e73b434e0de404051c085308bba70b9}{\index{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl}!get\-Sequence\-Number@{get\-Sequence\-Number}}
+\index{get\-Sequence\-Number@{get\-Sequence\-Number}!gov::fnal::ppd::dd::channel::ChannelInListImpl@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl}}
+\subsubsection[{get\-Sequence\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-In\-List\-Impl.\-get\-Sequence\-Number (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a5e73b434e0de404051c085308bba70b9}
+\begin{DoxyReturn}{Returns}
+the sequence\-Number 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInList_a73b9620309ba3f2e8cd7142e9f107227}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-In\-List}.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a3d7875d359431d5e2dc13b60db55cf72}{\index{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl}!set\-Sequence\-Number@{set\-Sequence\-Number}}
+\index{set\-Sequence\-Number@{set\-Sequence\-Number}!gov::fnal::ppd::dd::channel::ChannelInListImpl@{gov\-::fnal\-::ppd\-::dd\-::channel\-::\-Channel\-In\-List\-Impl}}
+\subsubsection[{set\-Sequence\-Number}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-In\-List\-Impl.\-set\-Sequence\-Number (
+\begin{DoxyParamCaption}
+\item[{final int}]{sequence\-Number}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl_a3d7875d359431d5e2dc13b60db55cf72}
+
+\begin{DoxyParams}{Parameters}
+{\em sequence\-Number} & the sequence\-Number to set -\/ If negative, then this will be interpreted elsewhere as being added to the end of the list. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInList_a248382f22bfd71369082af07784e0fff}{gov.\-fnal.\-ppd.\-dd.\-channel.\-Channel\-In\-List}.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/channel/Channel\-In\-List\-Impl.\-java\end{DoxyCompactItemize}
