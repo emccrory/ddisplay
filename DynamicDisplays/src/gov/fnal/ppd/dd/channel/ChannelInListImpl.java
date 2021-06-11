@@ -7,10 +7,13 @@ import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
- * Extend the ChannelImpl class to hold a sequence number.
+ * Extend the ChannelImpl class and implements ChannelInList.
  * 
- * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2016-18
+ * The purpose of this extension to the interface Channel is to make life a little easier when one has a lists of channels that
+ * behave as a channel. The bit missing from the Channel interface is the sequence number, that is, where the channel sits in the
+ * list.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2016-21
  * 
  * 
  */

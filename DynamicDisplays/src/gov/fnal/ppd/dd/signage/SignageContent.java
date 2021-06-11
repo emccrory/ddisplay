@@ -6,15 +6,19 @@ import java.io.Serializable;
 import java.net.URI;
 
 /**
- * A place holder for the Signage Content.
- * 
+ * <p>
+ * The signature for content in the Dynamic Display system.
+ * </p>
+ * <p>
  * In order to be fully serializable, the concrete classes must implement all the getters and setters.
+ * </p>
+ * <p>
+ * Originally, it was thought that there could be all kinds of different content, like in a commercial digital signage system. But
+ * we have settled on all content being a Channel, and all channels are web pages. So this interface is not any more useful that the
+ * Channel interface. But it is used in a few places where we want to be the most general.
+ * </p>
  * 
- * TODO -- This should be pared down a bit more, e.g., get rid of the URI. This will allow a cleaner implementation of other sorts
- * of content, e.g., sending an image directly to a display, emergency messages, ... Also, we never used the whole "code" thing, so
- * that should be dumped, too.
- * 
- * @author Elliott McCrory, Fermilab, 2012-16
+ * @author Elliott McCrory, Fermilab, 2012-21
  */
 public interface SignageContent extends Serializable {
 

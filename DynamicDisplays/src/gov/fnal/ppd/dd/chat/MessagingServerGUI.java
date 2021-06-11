@@ -36,13 +36,23 @@ import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 
 /**
  * <p>
- * The messaging server as a GUI
+ * The messaging server as a GUI.
  * </p>
  * <p>
- * Extensively modified by Elliott McCrory, Fermilab AD/Instrumentation, 2014
+ * This class is a close copy of the original chat suite's messaging server on which the messaging system is based. There are some
+ * window dressings for selecting the port number, and there are a couple of text windows for messages.
+ * </p>
+ * <p>
+ * Later, we realized that these GUI elements are not necessary, and that they (in fact) make the server more complicated.
  * </p>
  * 
+ * @see MessagingServerDaemon
+ *      <p>
+ *      Extensively modified by Elliott McCrory, Fermilab AD/Instrumentation, 2014
+ *      </p>
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @deprecated Use MessagingServerDaemon instead
  */
 public class MessagingServerGUI extends JFrame implements ActionListener, WindowListener {
 
@@ -165,7 +175,7 @@ public class MessagingServerGUI extends JFrame implements ActionListener, Window
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
+
 		MessagingServerGUI ms = new MessagingServerGUI(MESSAGING_SERVER_PORT);
 		ms.start();
 	}

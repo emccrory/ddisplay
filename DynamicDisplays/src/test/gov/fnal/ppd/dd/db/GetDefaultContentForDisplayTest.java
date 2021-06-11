@@ -29,7 +29,7 @@ public class GetDefaultContentForDisplayTest {
 	public void testGetDisplayType() {
 		String t = defaultContent.getDisplayType();
 		assertNotNull(t);
-		assertTrue(t.equals("Regular") || t.equals("FirefoxOnly"));
+		assertTrue(t.equals("Regular/Selenium") || t.equals("FirefoxOnly"));
 	}
 
 	@Test

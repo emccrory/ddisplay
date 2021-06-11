@@ -25,8 +25,7 @@ import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
 /**
  * This class holds the messages that will be exchanged between the Clients and the Server.
  * 
- * This is a replacement that is in full XML. Streamed objects in Java are about to be deprecated, so we are streaming pure-ascii
- * XML documents.
+ * Streamed objects in Java have been deprecated. We are streaming pure-ASCII XML documents.
  * 
  * Here is what an XML message that carries all the information looks like.
  * 
@@ -38,7 +37,7 @@ import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
    	<messageTimeStamp>Jan  1, 2019 01:23:45 CST</messageTimeStamp>
     <messageValue>  
     
-    # This is an XML representation of the transmitted object        
+    # This would be the XML representation of the transmitted object        
 
     </messageValue> 
     <signature> 
@@ -62,7 +61,7 @@ public class MessageCarrierXML implements Serializable {
 	private String				from;
 	private long				creationDate;
 
-	private boolean validSignature;
+	private boolean				validSignature;
 
 	/**
 	 * @param name
@@ -283,12 +282,12 @@ public class MessageCarrierXML implements Serializable {
 	// }
 	// return sXMLD.getSignedDocument() != null;
 	// }
-	
+
 	public boolean isSignatureValid() {
 		return validSignature;
 	}
 
 	public void setSignatureIsValid(boolean signatureValid) {
-		validSignature = signatureValid;		
+		validSignature = signatureValid;
 	}
 }

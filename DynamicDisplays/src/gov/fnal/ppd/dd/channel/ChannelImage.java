@@ -12,7 +12,7 @@ import gov.fnal.ppd.dd.signage.SignageContent;
 import java.net.URI;
 
 /**
- * Simple extension to ChannelImpl to add an image.
+ * Simple extension to ChannelImpl to add an image.  This is depicted as a tiny, low-res thumbnail and a image title.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

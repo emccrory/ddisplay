@@ -42,7 +42,8 @@ import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
  * This class does a couple of tasks for displays with respect to the database.
  * <ol>
  * <li>Gets the channels that each display is supposed to show for a particular save set.</li>
- * <li>Gets the FLAVOR that this display is supposed to be looking for, from the database.</li>
+ * <li>Gets the FLAVOR (gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR) that this display is supposed to be looking for
+ * during an update. This is obtained from the database.</li>
  * </ol>
  * 
  * Note that if a Display is removed and it was saved in a save set, this will throw a silent error.
@@ -56,8 +57,11 @@ public class DisplayUtilDatabase {
 	}
 
 	/**
+	 * Get the save set associated with setName
+	 * 
 	 * @param setName
-	 * @return the content at each display
+	 *            - the name of the save set in the database
+	 * @return the content at each display for this save set.
 	 */
 	public static Map<Display, SignageContent> getDisplayContent(final String setName) throws NoSuchDisplayException {
 		Map<Display, SignageContent> restoreMap = new HashMap<Display, SignageContent>();
@@ -142,7 +146,7 @@ public class DisplayUtilDatabase {
 	}
 
 	/**
-	 * Save a set of default channels in ALL of the displays in this location to the database. it reads the present content from
+	 * Save a set of default channels in ALL of the displays in this location to the database. It reads the present content from
 	 * these displays and saves that as this set.
 	 * 
 	 * @param s
@@ -186,7 +190,10 @@ public class DisplayUtilDatabase {
 	}
 
 	/**
+	 * Return all the displays that exist at the specified location
+	 * 
 	 * @param locationCode
+	 *            - the location of interest
 	 * @return The displays at this location
 	 */
 	public static List<Display> getDisplays(final int locationCode) {
@@ -244,59 +251,13 @@ public class DisplayUtilDatabase {
 	}
 
 	/**
-	 * @param displayDBNumber
-	 * @param locationCode
-	 * @return the list
+	 * Find out from the database what the FLAVOR (that is, DEVELOPMENT, TEST, or PRODUCTION) that this client is supposed to look
+	 * for.
+	 * 
+	 * @param ipName
+	 *            - The name of this node, like 'display-01.fnal.gov'
+	 * @return The FLAVOR of the version this node is supposed to get
 	 */
-	public static List<Display> getADisplay(final int displayDBNumber, final int locationCode) {
-		int count = 0;
-		List<Display> theList = new ArrayList<Display>();
-		try {
-			Connection connection = ConnectionToDatabase.getDbConnection();
-
-			synchronized (connection) {
-				String q = "SELECT Location,IPName,Display.DisplayID as DisplayID,VirtualDisplayNumber,DisplaySort.LocationCode as LocationCode,"
-						+ "ScreenNumber,ColorCode FROM Display LEFT JOIN DisplaySort ON (Display.DisplayID=DisplaySort.DisplayID) "
-						+ "ORDER BY VirtualDisplayNumber";
-				try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(q);) {
-					if (!rs.first()) { // Move to first returned row
-						printlnErr(DisplayUtilDatabase.class, "Executed a query that returned no results: " + q);
-					} else
-						while (!rs.isAfterLast())
-							try {
-								String location = rs.getString("Location");
-								String ipName = rs.getString("IPName");
-								int locCode = rs.getInt("LocationCode");
-								int displayID = rs.getInt("DisplayID");
-								int vDisplayNum = rs.getInt("VirtualDisplayNumber");
-								int screenNumber = rs.getInt("ScreenNumber");
-								int colorCode = Integer.parseInt(rs.getString("ColorCode"), 16);
-								if ((locationCode < 0 || locCode == locationCode) && displayDBNumber == displayID) {
-									Display p = new DisplayFacade(locCode, ipName, vDisplayNum, displayID, screenNumber, location,
-											new Color(colorCode));
-									p.setVirtualDisplayNumber(vDisplayNum);
-
-									theList.add(p);
-									count++;
-								}
-								if (!rs.next())
-									break;
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-
-					stmt.close();
-					rs.close();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		println(DisplayUtilDatabase.class,
-				": Found " + count + " displays at locationCode=" + locationCode + " and displayDBNumber=" + displayDBNumber);
-		return theList;
-	}
 
 	public static FLAVOR getFlavorFromDatabase(String ipName) {
 		FLAVOR retval = FLAVOR.PRODUCTION;
@@ -325,6 +286,12 @@ public class DisplayUtilDatabase {
 		return retval;
 	}
 
+	/**
+	 * A wrapper for the method getFlavorFromDatabase. This allows this class to be used to retrieve that flavor for a node.
+	 * 
+	 * @param args
+	 *            (No arguments are used)
+	 */
 	public static void main(String[] args) {
 		try {
 			credentialsSetup();

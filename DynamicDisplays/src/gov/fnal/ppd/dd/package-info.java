@@ -1,5 +1,6 @@
 /**
- * <p>Fermilab's Dynamic Displays System -- top-level package.  Defines the main GUI classes for the DD system: ChannelSelector and DDSystemStatus.</p>
+ * <p>Fermilab's Dynamic Displays System -- top-level package.</p>
+ * <p>The classes in this top-level package define the GUI controller, MakeChannelSelector.</p>
  */
 package gov.fnal.ppd.dd;
 

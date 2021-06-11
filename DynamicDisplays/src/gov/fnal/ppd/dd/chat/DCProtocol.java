@@ -69,7 +69,7 @@ import gov.fnal.ppd.dd.xml.messages.ErrorMessage;
 
 /**
  * <p>
- * This is the protocol for the messages between a Channel Changer and a Display.
+ * This is the protocol for the messages between a Channel Selector and a Display.
  * </p>
  * <p>
  * <em>DC</em> stands for <em>Display Communications</em>

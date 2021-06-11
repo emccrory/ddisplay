@@ -1,7 +1,7 @@
 package gov.fnal.ppd.dd.chat;
 
 /**
- * Used in MessageConveyor to signal that an unknown string was seen in communicating with a client.
+ * This exception is thrown from MessageConveyor. This signals that an unknown string was seen in communicating with a client.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *
@@ -9,6 +9,8 @@ package gov.fnal.ppd.dd.chat;
 public class UnrecognizedCommunicationException extends Exception {
 
 	private static final long serialVersionUID = -5788105482013640042L;
+
+	/* Only the String constructor is used */
 
 	public UnrecognizedCommunicationException(String message) {
 		super(message);

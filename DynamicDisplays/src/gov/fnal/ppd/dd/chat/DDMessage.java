@@ -11,9 +11,14 @@ import gov.fnal.ppd.dd.xml.messages.ChangeChannelByNumber;
 import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
 
 /**
- * Interprets the messages within the protocol for the client and the server
+ * The class for the messages, using the correct protocol, between and among the clients and the server(s). This class has an
+ * awareness of the structure of the message. Right now, that means that it peeks into the XML to see what kind of message it is.
  * 
- * @author Elliott McCrory, Fermilab AD/Instrumentation, 2014
+ * It was originally imagined that there would be a variety of messages, including something like a "Ping" and a "Pong" message.
+ * However, it turned out that the only sorts of messages this class contains are the ones that instruct a display to change the
+ * channel.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2014-21
  * 
  */
 public class DDMessage {
@@ -27,15 +32,18 @@ public class DDMessage {
 	private static final String	CHANNEL_SPEC_NUMBER	= "<changeChannelByNumber ";
 
 	/**
+	 * Take a raw message from the messaging system and interpret into the sort of command it represents.
+	 * 
 	 * @param raw
 	 *            The body of the message to create
-	 * @throws ErrorProcessingMessage When the message cannot be interpreted properly.
+	 * @throws ErrorProcessingMessage
+	 *             When the message cannot be interpreted properly.
 	 */
 	public DDMessage(final String raw) throws ErrorProcessingMessage {
 		if (raw != null && raw.length() > 0) {
 			// remove all the non-printable characters, but put back in the newlines
-			String resultString = raw.replaceAll("[^\\x20-\\x7F]", "").replaceAll(" +", " ").replace("><", ">\n<")
-					.replace("> <", ">\n<");
+			String resultString = raw.replaceAll("[^\\x20-\\x7F]", "").replaceAll(" +", " ").replace("><", ">\n<").replace("> <",
+					">\n<");
 
 			// System.out.println(DDMessage.class.getSimpleName() + ".ctor(): Message received [" + resultString + "]");
 
@@ -66,14 +74,14 @@ public class DDMessage {
 						} else if (rawMessage.contains(CHANNEL_SPEC_NUMBER)) {
 							receivedMessage = MyXMLMarshaller.unmarshall(ChangeChannelByNumber.class, rawMessage);
 						} else {
-							throw new ErrorProcessingMessage("Unknown XML data type within this XML document: [Unrecognized XML message received.");
+							throw new ErrorProcessingMessage(
+									"Unknown XML data type within this XML document: [Unrecognized XML message received.");
 						}
 					} catch (JAXBException e) {
 						e.printStackTrace();
 					}
 					if (receivedMessage != null) {
-						println(getClass(), 
-								".decode(): Incoming message interpreted as an object of type "
+						println(getClass(), ".decode(): Incoming message interpreted as an object of type "
 								+ receivedMessage.getClass().getCanonicalName());
 					} else if (rawMessage != null)
 						throw new ErrorProcessingMessage("Unknown XML data type within this XML document: [" + rawMessage + "]");

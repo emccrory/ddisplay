@@ -21,28 +21,41 @@ import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 
 /**
  * <p>
- * The messaging server as a daemon (not a GUI)
+ * The messaging server as a daemon (not a GUI).
  * </p>
  * <p>
- * Extensively modified by Elliott McCrory, Fermilab AD/Instrumentation, 2014
+ * <b>History</b> - When the Dynamic Display system first started, it was nice to have the central messaging server be a GUI. All
+ * the messages were dumped onto the GUI, and I could keep track of it rather easily. But as the system matured, it became apparent
+ * that the overhead of the GUI was unnecessary - just be sure that everything gets put into log files. So that is what we have now.
  * </p>
+ * <p>
+ * This class, as you will see, is very small. Essentially all this class does is provide a main method to run the messaging server
+ * itself (class MessagingServer)
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  */
 public class MessagingServerDaemon {
 
-	// my server
+	/// The local server as an attribute to this class
 	private static LocalMessagingServer	server;
+
+	/// The IP port (socket) number on which all communications begin
 	private int							port;
 
+	/**
+	 * Local instance of the MessagingServer class
+	 * 
+	 * @author Elliott McCrory, Fermilab AD/Instrumentation
+	 *
+	 */
 	private class LocalMessagingServer extends MessagingServer {
 		public LocalMessagingServer(int port) {
 			super(port);
 		}
 	};
 
-	// server constructor that receive the port to listen to for connection as parameter
-	MessagingServerDaemon(int port) {
+	/// server constructor that receive the port to listen to for connection as parameter
+	private MessagingServerDaemon(int port) {
 		// super("Dynamic Displays Messaging Server");
 		server = null;
 		this.port = port;
@@ -56,13 +69,13 @@ public class MessagingServerDaemon {
 		server = new LocalMessagingServer(port);
 		// and start it as a thread
 		new ServerRunning().start();
-		server.logger.info("Server started at " + (new Date()) + "\n");
+		server.logger.info(getClass() + ": Server started at " + (new Date()) + "\n");
 	}
 
 	/**
-	 * entry point to start the Server without the GUI
+	 * This is the entry point to start the Server that does not use a GUI
 	 * 
-	 * @param args
+	 * @param args (No arguments are used)
 	 */
 	public static void main(String[] args) {
 		println(MessagingServerDaemon.class, "Running from java version " + JavaVersion.getInstance().get());
@@ -74,7 +87,7 @@ public class MessagingServerDaemon {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
+
 		MessagingServerDaemon ms = new MessagingServerDaemon(MESSAGING_SERVER_PORT);
 		ms.start();
 	}
@@ -82,12 +95,12 @@ public class MessagingServerDaemon {
 	/**
 	 * A thread to run the Server
 	 */
-	class ServerRunning extends Thread {
+	private class ServerRunning extends Thread {
 		public void run() {
-			server.start(); // should stay in this method until it fails
+			server.start(); // should stay in the call of this method until it fails
 
 			// the server failed
-			server.logger.info("Server has stopped at " + (new Date()) + "\n");
+			server.logger.info(MessagingServerDaemon.class + ": Server has stopped at " + (new Date()) + "\n");
 			server = null;
 		}
 	}

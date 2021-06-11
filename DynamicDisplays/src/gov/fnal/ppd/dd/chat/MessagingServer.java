@@ -65,27 +65,7 @@ import gov.fnal.ppd.dd.xml.messages.WhoIsInMessage;
 import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
 
 /**
- * The server that can be run both as a console application or a GUI
- * 
- * TODO: Improve the architecture
- * 
- * <p>
- * According to http://docs.oracle.com/cd/E19957-01/816-6024-10/apa.htm (the first hit on Google for "Messaging Server Architecture"
- * ), a well-built messaging server has these six components:
- * <ul>
- * <li>The dispatcher is the daemon (or service) component of the Messaging Server. It coordinates the activities of all other
- * modules. In Figure A.1, the dispatcher can be thought of as an envelope that contains and initiates the processes of all items
- * shown within the largest box.</li>
- * <li>The module configuration database contains general configuration information for the other modules.</li>
- * <li>The message transfer agent (MTA) handles all message accepting, routing, and delivery tasks.</li>
- * <li>The Messaging Server managers facilitate remote configuration and operation of the system and ensure that the modules are
- * doing their job and following the rules.</li>
- * <li>The AutoReply utility lets the Messaging Server automatically reply to incoming messages with predefined responses of your
- * choice.</li>
- * <li>The directory database--either a local directory database or a Directory Server--contains user and group account information
- * for the other modules.</li>
- * </ul>
- * </p>
+ * The central messaging server for the Dynamic Displays system
  * 
  * <p>
  * In this application of the idea, I have pretty much a stove-pipe server with only one bit of a protocol, handled elsewhere. The
@@ -95,7 +75,7 @@ import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
  * <li>String message; -- The message body (if it is required). in principle, this can be encrypted (and then ASCII-fied). In this
  * architecture, when the message is used, it is usually an XML document</li>
  * <li>String to; -- The name of the client who is supposed to get this message.
- * <em>This could be changed to a <em>"subscription topic."</em></li>
+ * <em>This could be changed to a "subscription topic."</em></li>
  * <li>String from; -- The name of the client who sent the message (allowing a reply of some sort)</li>
  * </ul>
  * </p>
@@ -125,6 +105,28 @@ import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
  * perspective. In this situation, when the Client tries to reconnect it is turned away as its name is already in use. Thus, I have
  * implemented a heart beat from the server to each client to see if this client really is alive. See startPinger() method for
  * details.
+ * </p>
+ * 
+ * <p>
+ * <b>TODO</b> - Improve the architecture
+ * </p>
+ * 
+ * <p>
+ * According to http://docs.oracle.com/cd/E19957-01/816-6024-10/apa.htm (the first hit on Google for "Messaging Server Architecture"
+ * ), a well-built messaging server has these six components:
+ * <ul>
+ * <li>The dispatcher is the daemon (or service) component of the Messaging Server. It coordinates the activities of all other
+ * modules. In Figure A.1, the dispatcher can be thought of as an envelope that contains and initiates the processes of all items
+ * shown within the largest box. <i>Yes-ish</i></li>
+ * <li>The module configuration database contains general configuration information for the other modules.<i>Yes-ish</i></li>
+ * <li>The message transfer agent (MTA) handles all message accepting, routing, and delivery tasks. <i>Yes-ish</i></li>
+ * <li>The Messaging Server managers facilitate remote configuration and operation of the system and ensure that the modules are
+ * doing their job and following the rules. <i>Not really</i></li>
+ * <li>The AutoReply utility lets the Messaging Server automatically reply to incoming messages with predefined responses of your
+ * choice. <i>No</i></li>
+ * <li>The directory database--either a local directory database or a Directory Server--contains user and group account information
+ * for the other modules. <i>Yes-ish</i></li>
+ * </ul>
  * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
@@ -844,7 +846,7 @@ public class MessagingServer implements JavaChangeListener {
 	// protected Logger logger;
 	protected LoggerForDebugging					logger;
 
-	private JavaVersion javaVersion;
+	private JavaVersion								javaVersion;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -854,7 +856,7 @@ public class MessagingServer implements JavaChangeListener {
 	public MessagingServer(int port) {
 		this.port = port;
 		JavaVersion.getInstance().addJavaChangeListener(this);
-		
+
 		try {
 			// logger = Logger.getLogger(MessagingServer.class.getName());
 			logger = new LoggerForDebugging(MessagingServer.class.getName());
@@ -1563,7 +1565,7 @@ public class MessagingServer implements JavaChangeListener {
 
 	@Override
 	public void javaHasChanged() {
-		println(getClass(), "The Java version has changed.");		
+		println(getClass(), "The Java version has changed.");
 	}
 
 }

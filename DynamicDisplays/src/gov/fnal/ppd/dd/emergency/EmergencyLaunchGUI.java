@@ -59,6 +59,10 @@ import gov.fnal.ppd.dd.util.specific.CheckDisplayStatus;
 import gov.fnal.ppd.dd.util.specific.ObjectSigning;
 
 /**
+ * This is the Emergency Messaging GUI.
+ * 
+ * Running this class directly will NOT actually send out a true emergency message. @see MakeEmergencyMessageGUI
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
@@ -109,7 +113,11 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	private boolean						messageSendErrors;
 
 	/**
+	 * Launch a test instance of the Emergency Messaging GUI. This cannot actually send out a true emergency message. @see
+	 * MakeEmergencyMessageGUI
+	 * 
 	 * @param args
+	 *            (No arguments are used)
 	 */
 	public static void main(final String[] args) {
 		try {
@@ -153,7 +161,11 @@ public class EmergencyLaunchGUI extends JPanel implements ActionListener {
 	}
 
 	/**
+	 * Construct this object
+	 * 
 	 * @param emd
+	 *            The EmergencyMessageDistributor object that can take care of sending out the message.
+	 * 
 	 */
 	public EmergencyLaunchGUI(final EmergencyMessageDistributor emd) {
 		super(new GridBagLayout());

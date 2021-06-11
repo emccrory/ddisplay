@@ -19,7 +19,7 @@ import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
- * This class holds a list of Channels that is to be played on a Display
+ * This class holds a list of Channels that is to be played on a Display.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -29,12 +29,11 @@ public class ChannelPlayList implements Channel {
 	private static final long		serialVersionUID	= 7785042152443699996L;
 	private String					description			= null;
 	private List<SignageContent>	channels			= new ArrayList<SignageContent>();
+	// It seems like we should be able to use the class ChannelListHolder here.  But it is not perfectly straight-forward.
+	// private ChannelListHolder channels;
 	private int						currentChannel		= 0;
 	private long					dwell				= 5000l;
-	// private boolean running = true;
-	// private Thread playThread = null;
-	// private Display myDisplay = null;
-	// private int frameNumber = 0;
+	
 	private long					expiration			= 0;
 	private String					name				= null;
 	// private long lastAdvanceTime = 0;

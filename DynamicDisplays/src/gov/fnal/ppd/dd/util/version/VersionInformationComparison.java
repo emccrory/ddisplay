@@ -8,7 +8,9 @@ import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 
 /**
+ * <p>
  * Compare local versioning information to the info on the web site. Error exit iff the web version is newer than the local version.
+ * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -52,8 +54,8 @@ public class VersionInformationComparison {
 
 		if (diff < MAXIMUM_ALLOWABLE_TIME_DIFFERENCE) {
 			if (debug)
-				System.out.println(
-						"Time stamp of database version is basically the same as the local version.  Delta=" + diff + " milliseconds");
+				System.out.println("Time stamp of database version is basically the same as the local version.  Delta=" + diff
+						+ " milliseconds");
 			return false;
 		} else if (viWeb.getTimeStamp() > viLocal.getTimeStamp()) {
 			double days = ((double) diff / 3600000.0) / 24.0;

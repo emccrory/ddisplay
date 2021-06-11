@@ -24,7 +24,7 @@ import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 
 /**
- * Handle the retrieval of the messaging server
+ * Handle the retrieval of the messaging server.  This is used within the startup scripts of all of the apps in this suite.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

@@ -19,6 +19,14 @@ import gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys;
 import gov.fnal.ppd.dd.xml.signature.SignatureNotFoundException;
 import gov.fnal.ppd.dd.xml.signature.Validate;
 
+/**
+ * A place to hold the code for reading from and writing to an input stream using the specialty object defined in this suite.
+ * 
+ * This class holds several static methods. It cannot be instantiated.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class MessageConveyor {
 
 	private static boolean	verbose					= PropertiesFile.getBooleanProperty("IncomingMessVerbose", false);
@@ -51,7 +59,8 @@ public class MessageConveyor {
 			if ((receiveMessage = receiveRead.readLine()) != null) {
 				// The first line SHOULD BE "BEGIN 1234567890192882\n" where that number is some random long value
 				if (!receiveMessage.startsWith("BEGIN ")) {
-					// Often we land here when the Powers That Be are trying to break into our system, so the message is sometimes simply garbage.
+					// Often we land here when the Powers That Be are trying to break into our system, so the message is sometimes
+					// simply garbage.
 					// We expect it to be all ASCII, but maybe not.
 					badConnectionAttempts++;
 					String interpretedMessage = escapeThisMessage(receiveMessage);
@@ -94,10 +103,12 @@ public class MessageConveyor {
 				retval = (MessageCarrierXML) MyXMLMarshaller.unmarshall(MessageCarrierXML.class, theDocument.getTheXML());
 			} catch (Exception e1) {
 				StackTraceElement[] trace = e1.getStackTrace();
-				printlnErr(clazz, e1.getClass().getCanonicalName()
-						+ " caught while unmarshalling an incoming document; returning null.  Details (" + trace.length + " lines): ");
+				printlnErr(clazz,
+						e1.getClass().getCanonicalName()
+								+ " caught while unmarshalling an incoming document; returning null.  Details (" + trace.length
+								+ " lines): ");
 				// e1.printStackTrace();
-				for ( int j=0; j<trace.length && j<3; j++)
+				for (int j = 0; j < trace.length && j < 3; j++)
 					System.err.println(trace[j] + "\n");
 				return null;
 			}
@@ -113,8 +124,8 @@ public class MessageConveyor {
 			retval.setSignatureIsValid(isValid);
 			return retval;
 		} catch (SocketTimeoutException e) {
-			printlnErr(clazz,
-					e.getClass().getCanonicalName() + " caught while receiving an incoming document; returning null.  This is likely a port scanner connection.");
+			printlnErr(clazz, e.getClass().getCanonicalName()
+					+ " caught while receiving an incoming document; returning null.  This is likely a port scanner connection.");
 		} catch (IOException e) {
 			printlnErr(clazz,
 					e.getClass().getCanonicalName() + " caught while receiving an incoming document; returning null.  Details:");
@@ -196,7 +207,8 @@ public class MessageConveyor {
 		// .printStackTrace();
 		if (os == null) {
 			// We have not connected to the server yet, so we cannot ask who is there
-			printlnErr(MessageConveyor.class, "Have not connected to the messaging server yet, so cannot send the requested document to it.");
+			printlnErr(MessageConveyor.class,
+					"Have not connected to the messaging server yet, so cannot send the requested document to it.");
 			return false;
 		}
 

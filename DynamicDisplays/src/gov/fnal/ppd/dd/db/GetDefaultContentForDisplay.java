@@ -12,15 +12,23 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import gov.fnal.ppd.dd.CredentialsNotFoundException;
+import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
+/**
+ * Read the database to figure out what this display shows by default.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class GetDefaultContentForDisplay {
 
 	private static final String	DEFAULT_DEFAULT_URL	= "https://www.fnal.gov";
 
 	private int					channelNumber		= 1;
+
 	public int getChannelNumber() {
 		return channelNumber;
 	}
@@ -33,8 +41,8 @@ public class GetDefaultContentForDisplay {
 		return defaultURL;
 	}
 
-	private String				displayType			= "XOC";
-	private String				defaultURL			= DEFAULT_DEFAULT_URL;
+	private String	displayType	= "XOC";
+	private String	defaultURL	= DEFAULT_DEFAULT_URL;
 
 	/**
 	 * Read the database to figure out what this display shows by default
@@ -76,16 +84,17 @@ public class GetDefaultContentForDisplay {
 							try {
 
 								channelNumber = rs.getInt("Content");
+								SignageContent cont = getChannelFromNumber(channelNumber);
 								if (channelNumber > 0) {
-									SignageContent cont = getChannelFromNumber(channelNumber);
 									if (cont instanceof Channel) {
 										defaultURL = ((Channel) cont).getURI().toASCIIString();
 									}
 								} else {
-									defaultURL = "LIST";
+									defaultURL = ((ChannelPlayList) cont).getChannels().get(0).getURI().toASCIIString() + 
+									" (This is the first element of the list of length " + ((ChannelPlayList) cont).getChannels().size() + ")";
 								}
 								int dt = rs.getInt("Port");
-								displayType = (dt <= 1) ? "Regular" : "FirefoxOnly";
+								displayType = (dt <= 1) ? "Regular/Selenium" : "FirefoxOnly";
 								return;
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -108,6 +117,12 @@ public class GetDefaultContentForDisplay {
 		return;
 	}
 
+	/**
+	 * A test of the operation of this class
+	 * 
+	 * @param args
+	 *            (No arguments are used)
+	 */
 	public static void main(String[] args) {
 		try {
 			credentialsSetup();
@@ -115,7 +130,7 @@ public class GetDefaultContentForDisplay {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		
+
 		GetDefaultContentForDisplay val = new GetDefaultContentForDisplay();
 		System.out.println("CHANNELNUMBER   " + val.channelNumber);
 		System.out.println("DISPLAYTYPE     " + val.displayType);

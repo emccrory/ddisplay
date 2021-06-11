@@ -11,21 +11,23 @@ import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 
 /**
+ * <p>
+ * This application program should be used when a new version of the suite is to be created. It takes care of the proper format for
+ * the version numbers, and ties in with the controlling shell script so that the version is properly maintained.
+ * </p>
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
@@ -100,8 +102,9 @@ public class VersionInformationGUI extends JFrame {
 					System.out.println("No change in version information");
 					System.exit(-1);
 				} else {
-					
-					System.out.println("Accepted new version, " + newVI.getVersionString() + " with the description '" + newVI.getVersionDescription() + "'");
+
+					System.out.println("Accepted new version, " + newVI.getVersionString() + " with the description '"
+							+ newVI.getVersionDescription() + "'");
 					VersionInformation.saveVersionInformation(newVI);
 					System.exit(0);
 				}
@@ -229,11 +232,11 @@ public class VersionInformationGUI extends JFrame {
 	private Container getDateComponents() {
 		Box box = Box.createHorizontalBox();
 		box.add(new JLabel("Time of this action: "));
-		
+
 		Date d = new Date();
 		final JLabel timeStampChosen = new JLabel(" " + d + " ");
 		newVI.setTimeStamp(d.getTime());
-		
+
 		box.add(Box.createRigidArea(new Dimension(10, 10)));
 		box.add(timeStampChosen);
 

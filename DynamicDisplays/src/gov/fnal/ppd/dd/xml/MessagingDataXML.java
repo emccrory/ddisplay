@@ -18,6 +18,13 @@ import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
 		EmergencyMessXML.class, ErrorMessage.class, AreYouAliveMessage.class, LoginMessage.class, ChangeChannelReply.class,
 		SubscriptionSubject.class, WhoIsInMessage.class, WhoIsInReply.class })
 
+/**
+ * The base class for all the messaging classes in the Dynamic Displays system. Having this base class is required by Java's XML
+ * marshalling package.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class MessagingDataXML {
 
 	public MessagingDataXML() {

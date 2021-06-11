@@ -12,17 +12,21 @@ import javax.xml.bind.DatatypeConverter;
 /**
  * A service for conducting the encryption of messages.
  * 
+ * This has not been used yet. It does not seem necessary to encrypt the messages here - the signature is fine. But we leave it here
+ * in case that impression changes.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
 public final class EncryptionService {
-	private static EncryptionService	instance;
+	private static EncryptionService instance;
 
 	private EncryptionService() {
 	}
 
 	/**
-	 * @param plaintext The String to encrypt
+	 * @param plaintext
+	 *            The String to encrypt
 	 * @return The encrypted string
 	 * @throws Exception
 	 */

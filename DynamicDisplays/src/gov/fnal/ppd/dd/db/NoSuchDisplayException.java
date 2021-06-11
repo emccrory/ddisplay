@@ -1,7 +1,7 @@
 package gov.fnal.ppd.dd.db;
 
 /**
- * A special exception used during startup.
+ * An exception that is thrown in the (hopefully never seen) case when the display cannot be figured out.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *
@@ -14,5 +14,4 @@ public class NoSuchDisplayException extends Exception {
 		super(message);
 	}
 
-	
 }

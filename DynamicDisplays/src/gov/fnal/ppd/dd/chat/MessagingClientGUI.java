@@ -26,7 +26,7 @@ import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
 
 /**
- * The Client with its GUI
+ * The Messaging Client with a GUI
  * 
  * Taken from http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/ on 5/12/2014
  */

@@ -1,7 +1,6 @@
 package gov.fnal.ppd.dd.db;
 
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_BILLION;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
@@ -233,8 +232,7 @@ public class ChannelsFromDatabase {
 							e.printStackTrace();
 						}
 				else {
-					System.err.println("No definition of what tabs to show for locationCode=" + getLocationCode()
-							+ " and Controller Type=" + (IS_PUBLIC_CONTROLLER ? "Public" : "XOC"));
+					System.err.println("No definition of what tabs to show for locationCode=" + getLocationCode());
 					System.exit(-1);
 				}
 				stmt.close();

@@ -101,30 +101,29 @@ import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
 
 /**
  * <p>
+ * This is the class that is used to create the GUI for the so-called Channel Selector.
+ * </p>
+ * <p>
  * Allows the user to select the Channel that is being displayed on each Display in the Dynamic Displays system
  * </p>
  * <p>
- * This is the main GUI class for performing the Channel selection on the Displays. The configuration of the GUI is determined by a
- * series of system parameters, which are held in {@link gov.fnal.ppd.dd.GlobalVariables}:
- * <ul>
- * <li>{@link gov.fnal.ppd.dd.GlobalVariables#SHOW_IN_WINDOW} -- false means make it full screen</li>
- * <li>{@link gov.fnal.ppd.dd.GlobalVariables#IS_PUBLIC_CONTROLLER} -- false mean show all possible channels</li>
- * </ul>
+ * The configuration of the GUI is determined by a series of system parameters, which are held in
+ * {@link gov.fnal.ppd.dd.GlobalVariables}.
  * </p>
  * 
- * @author Elliott McCrory, Fermilab AD/Instrumentation, 2013-14
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2013-21
  */
 public class ChannelSelector extends JPanel implements ActionListener, DisplayCardActivator, DisplayKeeper, JavaChangeListener {
 
 	private static final long				serialVersionUID			= 5044030472140151291L;
 
 	/**
-	 * Soes this instance (of the Channel selector) need to show the docent tab?
+	 * Does this instance (of the Channel selector) need to show the docent tab?
 	 */
 	public static boolean					SHOW_DOCENT_TAB				= false;
 
 	/**
-	 * 
+	 * The dimensions of the screen as fetched from java.awt.Toolkit
 	 */
 	public static final Dimension			screenDimension				= Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -346,11 +345,11 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	}
 
 	public static ProgressMonitor progressMonitor;
+
 	private void initializeTabs() {
 		ChannelClassification[] categories = ChannelClassificationDictionary.getCategories();
 
-		progressMonitor = new ProgressMonitor(null,
-				"Building Channel Selector GUI for location=" + getLocationCode(), "", 0,
+		progressMonitor = new ProgressMonitor(null, "Building Channel Selector GUI for location=" + getLocationCode(), "", 0,
 				displayList.size() * (1 + categories.length));
 		progressMonitor.setNote("Launching");
 		String note = "Starting to build image database";
@@ -950,7 +949,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 	@Override
 	public void javaHasChanged() {
-		System.out.println("The Java version has changed!  Now what?");		
+		System.out.println("The Java version has changed!  Now what?");
 	}
 
 }

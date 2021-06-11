@@ -45,7 +45,7 @@ import gov.fnal.ppd.dd.xml.MessageCarrierXML;
  * </p>
  * 
  * <p>
- * Taken from web page on 5/12/2014: @see <a
+ * This mechanism was taken from the following web page on 5/12/2014: @see <a
  * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/">dreamincode.net</a>
  * </p>
  */
@@ -54,7 +54,7 @@ public class DDSystemStatus extends JFrame {
 	private static final long		serialVersionUID	= -1080299322567836987L;
 
 	/**
-	 * The French spelling of 'facade'
+	 * The French spelling of 'facade', with the 'tail' on the c.
 	 */
 	public static final String		FACADE				= "FA\u00c7ADE";
 
@@ -468,7 +468,7 @@ public class DDSystemStatus extends JFrame {
 
 	/**
 	 * @param args
-	 *            Command line arguments (none expected()
+	 *            Command line arguments (none expected())
 	 */
 	public static void main(String[] args) {
 		try {

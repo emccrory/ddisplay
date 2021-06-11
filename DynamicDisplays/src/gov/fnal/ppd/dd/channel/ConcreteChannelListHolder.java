@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author Elliott McCrory, Fermilab AD/Instrumentation copyright 2018
+ * A simple implementation of the interface.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, copyright 2018-21
  * 
  */
 public class ConcreteChannelListHolder implements ChannelListHolder {

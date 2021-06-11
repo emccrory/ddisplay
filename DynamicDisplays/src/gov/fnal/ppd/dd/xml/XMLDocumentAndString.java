@@ -27,6 +27,13 @@ import gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys;
 import gov.fnal.ppd.dd.xml.signature.Validate;
 import gov.fnal.ppd.dd.xml.signature.XMLDocumentUtilities;
 
+/**
+ * Contains the logic to go between a raw text file (e.g., streamed to/from the messaging system) and an XML document (e.g., an
+ * object converted to XML).
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class XMLDocumentAndString {
 
 	private static DocumentBuilderFactory	dbf	= DocumentBuilderFactory.newInstance();
@@ -65,6 +72,12 @@ public class XMLDocumentAndString {
 		return new XMLDocumentAndString(theString);
 	}
 
+	/**
+	 * Test if this class is working right
+	 * 
+	 * @param args
+	 *            - The first argument is required: The filename of the (signed) XML document to interpret
+	 */
 	public static void main(String[] args) {
 		if (args.length < 1) {
 			System.err.println("Please specify a filename for the signed XML document.");

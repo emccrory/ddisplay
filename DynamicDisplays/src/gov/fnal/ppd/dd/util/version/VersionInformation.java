@@ -7,14 +7,12 @@ import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.nio.file.Files;
@@ -37,16 +35,21 @@ import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 
 /**
+ * <p>
  * Utility class that reads and writes the current version information on this project. It is stored as a streamed object both
  * locally and on the web server.
- * 
+ * </p>
+ * <p>
  * Rewrite to have all of this in the database **AND** in a local file.
- * 
+ * </p>
+ * <p>
  * Changed to be an XML document (not a serialized Java object).
- * 
+ * </p>
+ * <p>
  * The GIT hash code cannot be part of this class. If we were to create a new "version number" and we want this file to represent
  * the current version number of the repository when a client machine clones the repository, we won't know the new GIT hash code to
  * put into this file until this file is saved and committed to GIT.
+ * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

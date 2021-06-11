@@ -30,14 +30,14 @@ import gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys;
 
 /**
  * <p>
- * Test program to show how to create XML files from the Channel/Display architecture developed here.
+ * Test program to show how to create XML files from the Channel/Display architecture developed here, and to verify that they work,
  * </p>
  * 
  * <p>
  * The relevant XML classes (that work) are
  * <ul>
- * <li><strong>Ping</strong> - A message that requests a status (Pong) reply</li>
- * <li><strong>Pong</strong> - A message that is a reply to a Ping message</li>
+ * <li><strong>Ping</strong> - A message that requests a status (Pong) reply <i>Not used elsewhere</i></li>
+ * <li><strong>Pong</strong> - A message that is a reply to a Ping message <i>Not used elsewhere</i></li>
  * <li><strong>ChannelSpec</strong> - Fully specifies a Channel</li>
  * <li><strong>ChangeChannel</strong> - A message that asks a Display to show a specific Channel</li>
  * <li><strong>ChangeChannelList</strong> - A message that asks a Display to show a list of Channels</li>

@@ -40,7 +40,7 @@ import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
  * This is where all the global constant in the Dynamic Displays system are held.
  * 
  * TODO - Rationalize the place where global constants are defined. Most of them are supposed to be here, but how are they
- * initialize?
+ * initialized?
  * 
  * The categories of constants, as I see it now, are:
  * 
@@ -61,11 +61,7 @@ public class GlobalVariables {
 	 * Do we show in full screen or in a window? Controlled by system constant, ddisplay.selector.inwindow
 	 */
 	public final static boolean			SHOW_IN_WINDOW				= Boolean.getBoolean("ddisplay.selector.inwindow");
-	/**
-	 * Is this a PUBLIC controller? Controlled by system constant, ddisplay.selector.public
-	 */
-	public final static boolean			IS_PUBLIC_CONTROLLER		= Boolean.getBoolean("ddisplay.selector.public");
-
+	
 	/**
 	 * Does the user want to have the database index for the display shown (default) or the virtual display numbers?
 	 */
@@ -105,9 +101,6 @@ public class GlobalVariables {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-
-		if (IS_PUBLIC_CONTROLLER)
-			SHOW_EXTENDED_DISPLAY_NAMES = true;
 	}
 
 	/**

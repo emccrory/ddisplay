@@ -9,9 +9,7 @@ import static gov.fnal.ppd.dd.ChannelSelector.SHOW_DOCENT_TAB;
 import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
-import static gov.fnal.ppd.dd.GlobalVariables.IS_PUBLIC_CONTROLLER;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
-import static gov.fnal.ppd.dd.GlobalVariables.SHOW_EXTENDED_DISPLAY_NAMES;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
@@ -171,9 +169,7 @@ public class MakeChannelSelector {
 
 								SHOW_DOCENT_TAB = rs2.getBoolean("DocentTab");
 								myDB_ID = rs2.getInt("LocalID");
-								if (IS_PUBLIC_CONTROLLER)
-									SHOW_EXTENDED_DISPLAY_NAMES = true;
-
+								
 								if (displayList == null)
 									displayList = DisplayListFactory.getInstance(lc);
 								else {

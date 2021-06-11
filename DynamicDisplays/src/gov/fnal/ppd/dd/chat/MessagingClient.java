@@ -28,21 +28,17 @@ import gov.fnal.ppd.dd.xml.MessagingDataXML;
 import gov.fnal.ppd.dd.chat.MessageConveyor;
 import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 
-/*
- * MessagingClient
- *
- */
 /**
  * <p>
- * The Client that can be run both as a console or a GUI
+ * An implementation of a Messaging Client in the Dynamic Displays system.  This class can be run both from the command line or as a GUI
  * </p>
  * 
  * <p>
- * Taken from the internet on 5/12/2014. @see <a
+ * Taken from the Internet on 5/12/2014. <a
  * href="http://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/" dreamincode.net</a>
  * </p>
  * <p>
- * Extensively modified by Elliott McCrory, Fermilab AD/Instrumentation, 2014-16
+ * Extensively modified by the author.
  * </p>
  * <p>
  * TODO -- Is there a way for two clients on the same node to talk directly to each other without a server? There is a use case that
@@ -52,7 +48,7 @@ import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
  * 2016), the solution is not at all obvious (if it is possible at all).
  * </p>
  * 
- * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2014-21
  */
 public class MessagingClient {
 
@@ -66,10 +62,10 @@ public class MessagingClient {
 	private Socket					socket							= null;
 	private DocumentBuilderFactory	dbf								= DocumentBuilderFactory.newInstance();
 
-	// the server, the port and the username
+	// the name of our messaging server and our username
 	private String					server, username;
 
-	private int						port;
+	private int						portNumber;
 	private ListenFromServer		listenFromServer;
 	private Thread					restartThreadToServer;
 
@@ -85,18 +81,18 @@ public class MessagingClient {
 	private String					presentStatus					= "Initializing";
 
 	/**
-	 * Constructor called by console mode server: the server address port: the port number username: the username
+	 * Constructor called by console mode server: the server address name: the port number: the username for this instance
 	 * 
 	 * @param server
-	 *            The name of the server, e.g., "localhost"
+	 *            The name of the server, e.g., "localhost" or "vip-mariadb-foobar.fnal.gov"
 	 * @param port
-	 *            The port number, e.g. 1500
+	 *            The port number, e.g. 12345 (this is a 16-bit, IP socket number)
 	 * @param username
 	 *            The name of the user you want to be identified as
 	 */
 	public MessagingClient(String server, int port, String username) {
 		this.server = server;
-		this.port = port;
+		this.portNumber = port;
 		this.username = username;
 		dbf.setNamespaceAware(true);
 	}
@@ -162,17 +158,17 @@ public class MessagingClient {
 		if (socket != null) {
 			throw new RuntimeException("Already started the server for " + username + ".");
 		}
-		displayLogMessage("Connecting to server '" + server + "' on port " + port + " at " + (new Date()));
+		displayLogMessage("Connecting to server '" + server + "' on port " + portNumber + " at " + (new Date()));
 		// new Exception("Connecting to server debug").printStackTrace();
 
 		// try to connect to the server
 		try {
-			socket = new Socket(server, port);
+			socket = new Socket(server, portNumber);
 			// November 2019: It looks like Windows may have changed to a finite timeout by default.
 			socket.setSoTimeout(0);
 		} catch (UnknownHostException ec) {
 			displayLogMessage(
-					"The messaging server just does not exist at this time!! '" + server + ":" + port + "'.  Exception is " + ec);
+					"The messaging server just does not exist at this time!! '" + server + ":" + portNumber + "'.  Exception is " + ec);
 			disconnect();
 			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 5 * ONE_MINUTE;
 			displayLogMessage(false,
@@ -181,7 +177,7 @@ public class MessagingClient {
 		} catch (Exception ec) {
 			// if it failed not much I can do except wait
 			displayLogMessage(
-					"Error connecting " + username + " to messaging server, '" + server + ":" + port + "'.  Exception is " + ec);
+					"Error connecting " + username + " to messaging server, '" + server + ":" + portNumber + "'.  Exception is " + ec);
 			disconnect();
 			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_SECOND;
 

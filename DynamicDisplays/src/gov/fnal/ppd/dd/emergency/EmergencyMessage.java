@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * The class to hold all the information that defines an emergency message in the Dynamic Displays system.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
@@ -20,7 +22,7 @@ public class EmergencyMessage implements Serializable {
 	private long				timestamp;
 
 	/**
-	 * 
+	 * Construct a TEST message with a timestamp of now.
 	 */
 	public EmergencyMessage() {
 		setSeverity(Severity.TESTING);
@@ -35,7 +37,10 @@ public class EmergencyMessage implements Serializable {
 	}
 
 	/**
+	 * Set the sub-text for this message
+	 * 
 	 * @param footnote
+	 *            the sub-text of this message
 	 */
 	public void setFootnote(final String footnote) {
 		this.footnote = footnote.replaceAll("(\\r|\\n)", " ");
@@ -50,7 +55,10 @@ public class EmergencyMessage implements Serializable {
 	}
 
 	/**
+	 * Set the prominent headline that appears in this message
+	 * 
 	 * @param headline
+	 *            the headline of this message
 	 */
 	public void setHeadline(final String headline) {
 		this.headline = headline.replaceAll("(\\r|\\n)", " ");
@@ -64,7 +72,10 @@ public class EmergencyMessage implements Serializable {
 	}
 
 	/**
+	 * Set the detailed message that pertains to this emergency message
+	 * 
 	 * @param message
+	 *            the message string
 	 */
 	public void setMessage(final String message) {
 		this.message = message.replaceAll("(\\r|\\n)", " ");
@@ -78,7 +89,10 @@ public class EmergencyMessage implements Serializable {
 	}
 
 	/**
+	 * Set the Severity of this message.
+	 * 
 	 * @param severity
+	 *            the Severity code of this message
 	 */
 	public void setSeverity(final Severity severity) {
 		this.severity = severity;
@@ -91,7 +105,8 @@ public class EmergencyMessage implements Serializable {
 	}
 
 	/**
-	 * @return an HTML string that represents this emergency message
+	 * @return an HTML string that represents this emergency message. This HTML should be what the display uses to show this
+	 *         message.
 	 */
 	public String toHTML() {
 		String retval = "";
@@ -118,8 +133,13 @@ public class EmergencyMessage implements Serializable {
 	}
 
 	/**
+	 * <p>
+	 * How long to keep the message visible.
+	 * </p>
+	 * <p>
 	 * IMHO, it makes no sense to show an "emergency message" for days and days. Therefore, there has to be a limit to the time any
 	 * message is shown.
+	 * </p>
 	 * 
 	 * @param dwellTime
 	 *            the amount of time this message should be seen
@@ -128,6 +148,10 @@ public class EmergencyMessage implements Serializable {
 		this.dwellTime = dwellTime;
 	}
 
+	/**
+	 * 
+	 * @return The IP Address of the source. I expect it will be, for example, "machinename.fnal.gov - 131.225.1.234"
+	 */
 	public String getIpAddress() {
 		return ipAddress;
 	}
@@ -136,7 +160,7 @@ public class EmergencyMessage implements Serializable {
 	 * Who is responsible for this message?
 	 * 
 	 * @param ipAddress
-	 *            - The IP Address of the source. I expect it will be, for example, "machinename.fnal.gov - 131.225.1.233"
+	 *            - The IP Address of the source. I expect it will be, for example, "machinename.fnal.gov - 131.225.1.234"
 	 */
 	public void setIpAddress(String ipAddress) {
 		if (ipAddress == null) {
@@ -146,10 +170,18 @@ public class EmergencyMessage implements Serializable {
 		}
 	}
 
+	/**
+	 * The time this message was created
+	 * @return
+	 */
 	public long getTimestamp() {
 		return timestamp;
 	}
 
+	/**
+	 * 
+	 * @param t - the timestamp for when this message was created.
+	 */
 	public void setTimestamp(long t) {
 		timestamp = t;
 	}

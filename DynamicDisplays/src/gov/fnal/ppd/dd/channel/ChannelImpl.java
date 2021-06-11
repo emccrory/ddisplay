@@ -38,6 +38,13 @@ public class ChannelImpl implements Channel {
 	private long					expiration			= 0L;
 	private int						code				= 0;
 
+	/**
+	 * This inner class is an experiment with using the Builder pattern to construct a channel instance. It is not used anywhere,
+	 * but it us a cool idea that _should_ be used.
+	 * 
+	 * @author Elliott McCrory, Fermilab AD/Instrumentation
+	 * 
+	 */
 	public static class Builder {
 		// This is not used, but I discovered this nifty way to create an object and decided to place it here for posterity.
 

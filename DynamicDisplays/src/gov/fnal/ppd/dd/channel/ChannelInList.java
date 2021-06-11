@@ -3,7 +3,7 @@ package gov.fnal.ppd.dd.channel;
 import gov.fnal.ppd.dd.signage.Channel;
 
 /**
- * Extend the Channel interface to hold a sequence number.
+ * Extend the Channel interface to hold a sequence number.  This will be used when creating lists of channels.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

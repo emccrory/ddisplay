@@ -8,6 +8,13 @@ import java.util.logging.Logger;
 
 import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 
+/**
+ * A container for an object of type java.util.logging.Logger, which also allows the client to have messages simply go to stdout (if
+ * that is what it wants).
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class LoggerForDebugging {
 	private Logger			logger;
 	private static boolean	bypassLogger	= PropertiesFile.getBooleanProperty("BypassStandardLog", false);
