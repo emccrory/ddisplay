@@ -24,10 +24,10 @@ var NAVTREEINDEX =
 ".html",
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelPlayList.html#af6a62dd284fed342597292000aece6c3",
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#a798cf0131dd1b3f20267f9aca0f12f60",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a2894606116f3a77ff2121106206852a1",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a4c20313da2c3573d12684dd21b12ad39",
-"classorg_1_1json_1_1JSONArray.html#a820390cf8f7846a2363c59119e303a2d",
-"enumgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageType.html#abdccf8a588a0067210be6d65a361ca5e"
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html",
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a5ffaf23342954c53da3ece0b2f0321ff",
+"classorg_1_1json_1_1JSONArray.html#a8e84855241ff2c9af58f47043273956c",
+"enumgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageTypeXML.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

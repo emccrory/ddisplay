@@ -1,6 +1,15 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys}{\section{gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Sign\-X\-M\-L\-Using\-D\-S\-A\-Keys Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys}\index{gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Sign\-X\-M\-L\-Using\-D\-S\-A\-Keys@{gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Sign\-X\-M\-L\-Using\-D\-S\-A\-Keys}}
 }
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+2014-\/21 
+\end{DoxyCopyright}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -12,13 +21,9 @@ static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1S
 \item 
 static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys_abb9261a032fa3b30e53b00cc00951a1f}{setup\-D\-S\-A} (String private\-Key\-File\-Name, String node\-Name)  throws Instantiation\-Exception, Illegal\-Access\-Exception, Class\-Not\-Found\-Exception, Key\-Exception, No\-Such\-Algorithm\-Exception, 			\-Invalid\-Algorithm\-Parameter\-Exception, Invalid\-Key\-Spec\-Exception, I\-O\-Exception 
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys_ad5903686ba075a760d9966c74eae5577}{static void {\bfseries do\-Stuff} ()  throws Instantiation\-Exception, Illegal\-Access\-Exception, Class\-Not\-Found\-Exception, Key\-Exception, 			\-No\-Such\-Algorithm\-Exception, Invalid\-Algorithm\-Parameter\-Exception }\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys_ad5903686ba075a760d9966c74eae5577}
-
-\item 
 static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys_a69c317767c62c0502026667b6366f1e1}{sign\-Document} (Document doc, Output\-Stream out)  throws Marshal\-Exception, X\-M\-L\-Signature\-Exception, Transformer\-Exception, Instantiation\-Exception, Illegal\-Access\-Exception, 			\-Class\-Not\-Found\-Exception, Key\-Exception, No\-Such\-Algorithm\-Exception, Invalid\-Algorithm\-Parameter\-Exception 
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys_a2d236c020bc49fdb4733a457151ca2cd}{static void {\bfseries main} (String\mbox{[}$\,$\mbox{]} args)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys_a2d236c020bc49fdb4733a457151ca2cd}
-
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys_a2d236c020bc49fdb4733a457151ca2cd}{main} (String\mbox{[}$\,$\mbox{]} args)
 \end{DoxyCompactItemize}
 
 
@@ -94,6 +99,23 @@ Read the public key from the Dynamic Displays' Database
 \end{DoxyItemize}\\
 \hline
 \end{DoxyExceptions}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys_a2d236c020bc49fdb4733a457151ca2cd}{\index{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Sign\-X\-M\-L\-Using\-D\-S\-A\-Keys@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Sign\-X\-M\-L\-Using\-D\-S\-A\-Keys}!main@{main}}
+\index{main@{main}!gov::fnal::ppd::dd::xml::signature::SignXMLUsingDSAKeys@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Sign\-X\-M\-L\-Using\-D\-S\-A\-Keys}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Sign\-X\-M\-L\-Using\-D\-S\-A\-Keys.\-main (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{args}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys_a2d236c020bc49fdb4733a457151ca2cd}
+Test this class. Used during the creation of the class.
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & 
+\begin{DoxyItemize}
+\item \mbox{[}if the first argument (\mbox{[}0\mbox{]}) is equal to \char`\"{}validate\char`\"{}, the next argument is an X\-M\-L file to self-\/validate. If the first argument is not \char`\"{}validate\char`\"{}, the first argument must be a public key file, and the second argument is the X\-M\-L document to verify against this key. Not that the X\-M\-L will contain the public key. 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys_abb9261a032fa3b30e53b00cc00951a1f}{\index{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Sign\-X\-M\-L\-Using\-D\-S\-A\-Keys@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Sign\-X\-M\-L\-Using\-D\-S\-A\-Keys}!setup\-D\-S\-A@{setup\-D\-S\-A}}
 \index{setup\-D\-S\-A@{setup\-D\-S\-A}!gov::fnal::ppd::dd::xml::signature::SignXMLUsingDSAKeys@{gov\-::fnal\-::ppd\-::dd\-::xml\-::signature\-::\-Sign\-X\-M\-L\-Using\-D\-S\-A\-Keys}}
 \subsubsection[{setup\-D\-S\-A}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-xml.\-signature.\-Sign\-X\-M\-L\-Using\-D\-S\-A\-Keys.\-setup\-D\-S\-A (

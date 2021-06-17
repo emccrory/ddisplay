@@ -188,7 +188,7 @@ var hierarchy =
     [ "gov.fnal.ppd.dd.util.specific.SummarizeContentHistory", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SummarizeContentHistory.html", null ],
     [ "gov.fnal.ppd.dd.testing.SwingTest", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1SwingTest.html", null ],
     [ "gov.fnal.ppd.dd.util.specific.TestAllChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TestAllChannels.html", null ],
-    [ "gov.fnal.ppd.dd.util.specific.TestExitCode", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TestExitCode.html", null ],
+    [ "gov.fnal.ppd.dd.testing.TestExitCode", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1TestExitCode.html", null ],
     [ "Thread", null, [
       [ "gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract.ThreadWithStop", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_1_1ThreadWithStop.html", null ],
       [ "gov.fnal.ppd.dd.util.guiUtils.SplashScreens", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html", null ],
@@ -245,7 +245,7 @@ var hierarchy =
         [ "gov.fnal.ppd.dd.display.client.UpdateDatabaseForDisplayChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels.html", null ],
         [ "gov.fnal.ppd.dd.display.DisplayImpl", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html", null ]
       ] ],
-      [ "gov.fnal.ppd.dd.util.guiUtils.Keyboard", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1Keyboard.html", null ],
+      [ "gov.fnal.ppd.dd.testing.Keyboard", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1Keyboard.html", null ],
       [ "gov.fnal.ppd.dd.util.specific.DisplayButtonGroup", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup.html", null ]
     ] ],
     [ "BasicSliderUI", null, [
@@ -293,8 +293,8 @@ var hierarchy =
       [ "gov.fnal.ppd.dd.channel.list.SaveRestoreListOfChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1SaveRestoreListOfChannels.html", null ],
       [ "gov.fnal.ppd.dd.ChannelSelector", "classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector.html", null ],
       [ "gov.fnal.ppd.dd.emergency.EmergencyLaunchGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergencyLaunchGUI.html", null ],
+      [ "gov.fnal.ppd.dd.testing.Keyboard", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1Keyboard.html", null ],
       [ "gov.fnal.ppd.dd.util.guiUtils.DrawingPanel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1DrawingPanel.html", null ],
-      [ "gov.fnal.ppd.dd.util.guiUtils.Keyboard", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1Keyboard.html", null ],
       [ "gov.fnal.ppd.dd.util.guiUtils.ListSelectionForSaveList", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1ListSelectionForSaveList.html", null ],
       [ "gov.fnal.ppd.dd.util.specific.SelectorInstructions", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html", null ]
     ] ],

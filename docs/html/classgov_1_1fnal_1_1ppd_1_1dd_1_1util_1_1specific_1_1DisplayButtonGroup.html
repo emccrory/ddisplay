@@ -74,7 +74,7 @@ $(document).ready(function(){initNavTree('classgov_1_1fnal_1_1ppd_1_1dd_1_1util_
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A simple implementation of a button group, assuming buttons of type DDButton, which shows buttons as selected for a specific Display</p>
+<div class="textblock"><p>An implementation of a button group for the Fermilab Dynamic Displays system. All buttons are of type DDButton</p>
 <dl class="section author"><dt>Author</dt><dd>Elliott McCrory, Fermilab AD/Instrumentation </dd></dl>
 </div><div class="dynheader">
 Inheritance diagram for gov.fnal.ppd.dd.util.specific.DisplayButtonGroup:</div>
@@ -95,8 +95,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa923be0edd34fa1f305617331dc319b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17247fef1235129760371a73db7ac4d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup.html#a17247fef1235129760371a73db7ac4d0">add</a> (final <a class="el" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton.html">DDButton</a> b)</td></tr>
 <tr class="separator:a17247fef1235129760371a73db7ac4d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32cc420f7da391926d3409690f5ddf55"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a32cc420f7da391926d3409690f5ddf55"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>actionPerformed</b> (ActionEvent ev)</td></tr>
+<tr class="memitem:a32cc420f7da391926d3409690f5ddf55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup.html#a32cc420f7da391926d3409690f5ddf55">actionPerformed</a> (ActionEvent ev)</td></tr>
 <tr class="separator:a32cc420f7da391926d3409690f5ddf55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65b7c3ebe0e08f2251a61bc8aa4ba573"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html">Display</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup.html#a65b7c3ebe0e08f2251a61bc8aa4ba573">getDisplay</a> ()</td></tr>
 <tr class="separator:a65b7c3ebe0e08f2251a61bc8aa4ba573"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,11 +144,28 @@ synchronized void&#160;</td><td class="memItemRight" valign="bottom"><b>enableAl
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Create a group </p>
+<p>Create a group of DDButtons. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a32cc420f7da391926d3409690f5ddf55"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gov.fnal.ppd.dd.util.specific.DisplayButtonGroup.actionPerformed </td>
+          <td>(</td>
+          <td class="paramtype">ActionEvent&#160;</td>
+          <td class="paramname"><em>ev</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Whenever a button is pressed, this group learns of it here. It then propagates that click to all registered listeners </p>
+
+</div>
+</div>
 <a class="anchor" id="a17247fef1235129760371a73db7ac4d0"></a>
 <div class="memitem">
 <div class="memproto">
@@ -165,7 +181,7 @@ synchronized void&#160;</td><td class="memItemRight" valign="bottom"><b>enableAl
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">b</td><td>The MyButton to add to this button group </td></tr>
+    <tr><td class="paramname">b</td><td>The DDButton to add to this button group </td></tr>
   </table>
   </dd>
 </dl>

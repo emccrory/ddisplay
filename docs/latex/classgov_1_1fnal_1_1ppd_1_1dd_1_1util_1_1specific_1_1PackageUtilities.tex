@@ -1,6 +1,17 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1PackageUtilities}{\section{gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Package\-Utilities Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1PackageUtilities}\index{gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Package\-Utilities@{gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Package\-Utilities}}
 }
+
+
+\subsection{Detailed Description}
+A collection of utilities that
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+2014-\/21 
+\end{DoxyCopyright}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -29,6 +40,8 @@ static final String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific
 \item[{final {\bf Signage\-Content}}]{the\-Content}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1PackageUtilities_a77b0bd55fcfdef42895b14ee8fd86e1b}
+Convert a Signage\-Content object to an X\-M\-L document. This assumes that the Signage\-Content argument is a Channel.
+
 
 \begin{DoxyParams}{Parameters}
 {\em content} & The Content object to be turned into a string \\
@@ -44,6 +57,13 @@ the content converted to a D\-B-\/ready string
 \item[{int}]{channel\-Number}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1PackageUtilities_aed411058ce30f98adc137f40cfa053f8}
+Given a number, retrieve the Channel that corresponds to this from the database. 
+
+This assumes\-: 
+\begin{DoxyItemize}
+\item Negative numbers are lists of channels. (-\/channel\-Number) is the index of the list from the database 
+\end{DoxyItemize}Number bigger than a billion are images. (channe\-Number -\/ 1\-E9) is the index of the image from the database  All other numbers (that is, between 0 and 1\-E9, exclusive) are assumed to be an index for the channel from the database   
+
 
 \begin{DoxyParams}{Parameters}
 {\em channel\-Number} & The channel number to look up \\
@@ -59,6 +79,8 @@ The channel that is specified by this channel number
 \item[{final {\bf Display}}]{d}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1PackageUtilities_ac76f976bf20f252c63f3fe1a5e934d55}
+Convert a Display object into a succinct string
+
 
 \begin{DoxyParams}{Parameters}
 {\em d} & The display to identify \\

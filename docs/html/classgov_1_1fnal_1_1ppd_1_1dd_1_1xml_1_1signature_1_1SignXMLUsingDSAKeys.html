@@ -73,7 +73,10 @@ $(document).ready(function(){initNavTree('classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1
 <div class="title">gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><dl class="section author"><dt>Author</dt><dd>Elliott McCrory, Fermilab AD/Instrumentation </dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>2014-21 </dd></dl>
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:adf116a793a94389c6e5117b275e6e831"><td class="memItemLeft" align="right" valign="top">static boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys.html#adf116a793a94389c6e5117b275e6e831">loadPrivateKey</a> (final String filename)  throws IOException, InvalidKeySpecException, NoSuchAlgorithmException </td></tr>
@@ -84,13 +87,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a309817e89eb4349b00220e86dd5576ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb9261a032fa3b30e53b00cc00951a1f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys.html#abb9261a032fa3b30e53b00cc00951a1f">setupDSA</a> (String privateKeyFileName, String nodeName)  throws InstantiationException, IllegalAccessException, ClassNotFoundException, KeyException, NoSuchAlgorithmException, 			InvalidAlgorithmParameterException, InvalidKeySpecException, IOException </td></tr>
 <tr class="separator:abb9261a032fa3b30e53b00cc00951a1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5903686ba075a760d9966c74eae5577"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad5903686ba075a760d9966c74eae5577"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>doStuff</b> ()  throws InstantiationException, IllegalAccessException, ClassNotFoundException, KeyException, 			NoSuchAlgorithmException, InvalidAlgorithmParameterException </td></tr>
-<tr class="separator:ad5903686ba075a760d9966c74eae5577"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69c317767c62c0502026667b6366f1e1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys.html#a69c317767c62c0502026667b6366f1e1">signDocument</a> (Document doc, OutputStream out)  throws MarshalException, XMLSignatureException, TransformerException, InstantiationException, IllegalAccessException, 			ClassNotFoundException, KeyException, NoSuchAlgorithmException, InvalidAlgorithmParameterException </td></tr>
 <tr class="separator:a69c317767c62c0502026667b6366f1e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d236c020bc49fdb4733a457151ca2cd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2d236c020bc49fdb4733a457151ca2cd"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>main</b> (String[] args)</td></tr>
+<tr class="memitem:a2d236c020bc49fdb4733a457151ca2cd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys.html#a2d236c020bc49fdb4733a457151ca2cd">main</a> (String[] args)</td></tr>
 <tr class="separator:a2d236c020bc49fdb4733a457151ca2cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -208,6 +207,40 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>main</b> (Stri
   <table class="exception">
     <tr><td class="paramname">InvalidKeySpecException</td><td><ul>
 <li>Invalid key was fetched </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a2d236c020bc49fdb4733a457151ca2cd"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys.main </td>
+          <td>(</td>
+          <td class="paramtype">String[]&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Test this class. Used during the creation of the class.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">args</td><td><ul>
+<li>[if the first argument ([0]) is equal to "validate", the next argument is an XML file to self-validate. If the first argument is not "validate", the first argument must be a public key file, and the second argument is the XML document to verify against this key. Not that the XML will contain the public key. </li>
 </ul>
 </td></tr>
   </table>

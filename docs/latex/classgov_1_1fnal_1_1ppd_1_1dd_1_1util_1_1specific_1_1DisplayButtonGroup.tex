@@ -4,7 +4,7 @@
 
 
 \subsection{Detailed Description}
-A simple implementation of a button group, assuming buttons of type D\-D\-Button, which shows buttons as selected for a specific Display
+An implementation of a button group for the Fermilab Dynamic Displays system. All buttons are of type D\-D\-Button
 
 \begin{DoxyAuthor}{Author}
 Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
@@ -26,8 +26,7 @@ void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButt
 \item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_a17247fef1235129760371a73db7ac4d0}{add} (final \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton}{D\-D\-Button} b)
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_a32cc420f7da391926d3409690f5ddf55}{void {\bfseries action\-Performed} (Action\-Event ev)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_a32cc420f7da391926d3409690f5ddf55}
-
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_a32cc420f7da391926d3409690f5ddf55}{action\-Performed} (Action\-Event ev)
 \item 
 \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_a65b7c3ebe0e08f2251a61bc8aa4ba573}{get\-Display} ()
 \item 
@@ -62,10 +61,17 @@ int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButto
 {}
 \end{DoxyParamCaption}
 )}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_aa923be0edd34fa1f305617331dc319b0}
-Create a group 
+Create a group of D\-D\-Buttons. 
 
 \subsection{Member Function Documentation}
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_a17247fef1235129760371a73db7ac4d0}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Display\-Button\-Group}!add@{add}}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_a32cc420f7da391926d3409690f5ddf55}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Display\-Button\-Group}!action\-Performed@{action\-Performed}}
+\index{action\-Performed@{action\-Performed}!gov::fnal::ppd::dd::util::specific::DisplayButtonGroup@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Display\-Button\-Group}}
+\subsubsection[{action\-Performed}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Display\-Button\-Group.\-action\-Performed (
+\begin{DoxyParamCaption}
+\item[{Action\-Event}]{ev}
+\end{DoxyParamCaption}
+)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_a32cc420f7da391926d3409690f5ddf55}
+Whenever a button is pressed, this group learns of it here. It then propagates that click to all registered listeners \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_a17247fef1235129760371a73db7ac4d0}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Display\-Button\-Group}!add@{add}}
 \index{add@{add}!gov::fnal::ppd::dd::util::specific::DisplayButtonGroup@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Display\-Button\-Group}}
 \subsubsection[{add}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Display\-Button\-Group.\-add (
 \begin{DoxyParamCaption}
@@ -74,7 +80,7 @@ Create a group
 )}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_a17247fef1235129760371a73db7ac4d0}
 
 \begin{DoxyParams}{Parameters}
-{\em b} & The My\-Button to add to this button group \\
+{\em b} & The D\-D\-Button to add to this button group \\
 \hline
 \end{DoxyParams}
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_a6b4d63b4caabfe2bb8bc321466e5d1a4}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Display\-Button\-Group@{gov\-::fnal\-::ppd\-::dd\-::util\-::specific\-::\-Display\-Button\-Group}!disable\-All@{disable\-All}}

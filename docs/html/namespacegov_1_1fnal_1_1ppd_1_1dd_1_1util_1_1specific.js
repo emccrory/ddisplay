@@ -13,7 +13,6 @@ var namespacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific =
     [ "SummarizeContentHistory", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SummarizeContentHistory.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SummarizeContentHistory" ],
     [ "TemporaryDialogBox", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TemporaryDialogBox.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TemporaryDialogBox" ],
     [ "TestAllChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TestAllChannels.html", null ],
-    [ "TestExitCode", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TestExitCode.html", null ],
     [ "TranslateGITHashCodeToDate", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TranslateGITHashCodeToDate.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TranslateGITHashCodeToDate" ],
     [ "WhoIsInChatRoom", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1WhoIsInChatRoom.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1WhoIsInChatRoom" ]
 ];

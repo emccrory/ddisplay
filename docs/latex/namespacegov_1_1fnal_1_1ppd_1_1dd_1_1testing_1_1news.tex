@@ -4,7 +4,16 @@
 
 
 \subsection{Detailed Description}
-Fermilab's Dynamic Displays System -- Implementation of X\-M\-L objects for an R\-S\-S News feed.\subsection*{Classes}
+Fermilab's Dynamic Displays System -- Implementation of X\-M\-L objects for an R\-S\-S News feed. 
+
+This was abandoned in 2019 because it had become clear that doing this right would be a big project in and of itself. The complexities include\-: 
+\begin{DoxyItemize}
+\item That the X\-M\-L used in an arbitrary R\-S\-S feed is really complicated. We'd have to implement a full X\-M\-L interpreter. Java has this, but understanding that implementation in order to make a meaningful text-\/only display of that information (alone) would be really hard. 
+\item R\-S\-S Feeds are not as popular now (2021) as they were in, say, 2015. Are they on their way out? 
+\item The H\-T\-M\-L implementation of a scrolling chyron, sitting on top of an arbitrary web page, is also hard. 
+\end{DoxyItemize}
+
+I\-M\-H\-O, this is the sort of problem that would/could be solved by putting lots of smart people on is -\/ maybe the solution is doable and simple, but I do not see it. \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 class \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Channel}{Channel}
