@@ -19,8 +19,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- * helper class for CreateListOfChannels, to make the panel in the dialog box presented to the user. Shamelessly stolen from the
- * Oracle/Java "How To" examples.
+ * <p>Helper class for CreateListOfChannels, to make the panel in the dialog box presented to the user. Shamelessly stolen from the
+ * Oracle/Java "How To" examples.</P>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

@@ -16,22 +16,22 @@ import java.util.Properties;
  *
  */
 public class PropertiesFile {
-	private static Properties prop = new Properties();
-	private static String PROPERTY_FILE;
+	private static Properties	prop	= new Properties();
+	private static String		PROPERTY_FILE;
 
 	static {
-		PROPERTY_FILE = System.getProperty("user.dir") + File.separator + "config" + File.separator
-				+ "config.properties";
+		PROPERTY_FILE = System.getProperty("user.dir") + File.separator + "config" + File.separator + "config.properties";
 		File t = new File(PROPERTY_FILE);
 		if (!t.exists()) {
-			PROPERTY_FILE = System.getProperty("user.dir") + File.separator + ".." + File.separator + "config"
-					+ File.separator + "config.properties";
+			PROPERTY_FILE = System.getProperty("user.dir") + File.separator + ".." + File.separator + "config" + File.separator
+					+ "config.properties";
 			t = new File(PROPERTY_FILE);
-			if ( !t.exists() ) {
-				printlnErr(PropertiesFile.class, "Connot find the properties configuration file.  Tried:\n\"" +
-						System.getProperty("user.dir") + File.separator + "config" + File.separator
-						+ "config.properties" + "\" and \n\t" +System.getProperty("user.dir") + File.separator + ".." + File.separator + "config"
-						+ File.separator + "config.properties");
+			if (!t.exists()) {
+				printlnErr(PropertiesFile.class,
+						"Connot find the properties configuration file.  Tried:\n\"" + System.getProperty("user.dir")
+								+ File.separator + "config" + File.separator + "config.properties" + "\" and \n\t"
+								+ System.getProperty("user.dir") + File.separator + ".." + File.separator + "config"
+								+ File.separator + "config.properties");
 				System.exit(-1);
 			}
 		}
@@ -46,18 +46,22 @@ public class PropertiesFile {
 		/**
 		 * Use the JavaScript "maximize()" function
 		 */
-		DirectPositioning, /**
-							 * 
-							 */
-		UseHiddenButton, /**
-							 * 
-							 */
-		ChangeIframe, /**
-						 * 
-						 */
-		PressF11, /**
-					 * 
-					 */
+		DirectPositioning,
+		/**
+		 * Use a secret, hidden button
+		 */
+		UseHiddenButton,
+		/**
+		 * 
+		 */
+		ChangeIframe,
+		/**
+		 * Simulate the keyboard F11 press
+		 */
+		PressF11,
+		/**
+		 * Do nothing - in other words, punt on this.
+		 */
 		DoNothing
 	}
 

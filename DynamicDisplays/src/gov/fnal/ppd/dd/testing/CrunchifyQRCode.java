@@ -1,11 +1,20 @@
 package gov.fnal.ppd.dd.testing;
 
 /**
+ * <p>
  * Create QR codes on the fly. UNUSED and UNTESTED
+ * </p>
  * 
- * TODO: Figure out a way to use this on the ChannelSelector GUI. Maybe we can add it to the channel button, or maybe there can be a
- * way to launch a new dialog box that shows this (that is, "Please give me the URL as a QR code for a channel button."). Or maybe
+ * <p>
+ * The purpose of this test was to try and implement a way to show the user of a display in the system what URL was showing. This
+ * would be useful for some content.
+ * </p>
+ * 
+ * <p>
+ * *TODO*: Figure out a way to use this on the ChannelSelector GUI. Maybe we can add it to the channel button, or maybe there can be
+ * a way to launch a new dialog box that shows this (that is, "Please give me the URL as a QR code for a channel button."). Or maybe
  * it can be part of the Display screen in some special situation (e.g., "Identify")
+ * </p>
  * 
  * @author Crunchify.com Retrieved: 4/10/2015
  */

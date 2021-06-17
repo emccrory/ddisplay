@@ -38,7 +38,7 @@ import gov.fnal.ppd.dd.xml.XMLDocumentAndString;
 /**
  * Taken from the example code on the Oracle/Java site.
  * 
- * This is a simple example of validating an XML Signature using the XML Signature API. It assumes the key needed to validate the
+ * This is an example of validating an XML Signature using the XML Signature API. It assumes the key needed to validate the
  * signature is contained in a KeyValue KeyInfo.
  */
 public class Validate {

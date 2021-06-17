@@ -13,7 +13,10 @@ package gov.fnal.ppd.dd.testing;
 /**
  * Example code for retrieving a Users Primary Group from Microsoft Active Directory via its LDAP API
  * 
+ * Code removed
+ * 
  * @author Adam Retter <adam.retter@googlemail.com>
+ * @deprecated
  */
 public class LDAPTest {
 //

@@ -15,6 +15,12 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
 import javax.swing.plaf.basic.BasicSpinnerUI;
 
+/**
+ * Create a version of a javax.swing.JSpinner that has big, finger-pressable buttons.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class BigButtonSpinner {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

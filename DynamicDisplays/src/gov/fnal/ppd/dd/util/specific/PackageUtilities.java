@@ -31,6 +31,14 @@ import gov.fnal.ppd.dd.xml.ChannelSpec;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
 
+/**
+ * <p>
+ * A collection of utilities that
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014-21
+ *
+ */
 public class PackageUtilities {
 	/**
 	 * The default URL for a Display
@@ -60,6 +68,8 @@ public class PackageUtilities {
 	}
 
 	/**
+	 * Convert a Display object into a succinct string
+	 * 
 	 * @param d
 	 *            The display to identify
 	 * @return A unique string to identify this display.
@@ -70,6 +80,8 @@ public class PackageUtilities {
 	}
 
 	/**
+	 * Convert a SignageContent object to an XML document. This assumes that the SignageContent argument is a Channel.
+	 * 
 	 * @param content
 	 *            The Content object to be turned into a string
 	 * @return the content converted to a DB-ready string
@@ -106,6 +118,20 @@ public class PackageUtilities {
 	private static HashMap<Integer, Channel> alreadyRetrieved = new HashMap<Integer, Channel>();
 
 	/**
+	 * Given a number, retrieve the Channel that corresponds to this from the database.
+	 * </p>
+	 * <p>
+	 * This assumes:
+	 * <ul>
+	 * <li>Negative numbers are lists of channels. (-channelNumber) is the index of the list from the database
+	 * </ul>
+	 * <li>Number bigger than a billion are images. (channeNumber - 1E9) is the index of the image from the database
+	 * </ul>
+	 * <li>All other numbers (that is, between 0 and 1E9, exclusive) are assumed to be an index for the channel from the database
+	 * </li>
+	 * </ul>
+	 * </p>
+	 * 
 	 * @param channelNumber
 	 *            The channel number to look up
 	 * @return The channel that is specified by this channel number
@@ -131,10 +157,11 @@ public class PackageUtilities {
 
 			// This is the old query that got all the channels, but ignored the portfolio entries
 			// String query = "select Channel.Number as Number,Dwell,Name,Description,URL,SequenceNumber,Sound FROM
-			// Channel,ChannelList where ListNumber=" + (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY SequenceNumber";
+			// Channel,ChannelList where ListNumber=" + (-channelNumber) + " and Channel.Number=ChannelList.Number ORDER BY
+			// SequenceNumber";
 
 			String query = "SELECT Number,Dwell,SequenceNumber from ChannelList where ListNumber=" + (-channelNumber);
-			
+
 			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
 			Connection connection;
 			try {
@@ -262,8 +289,6 @@ public class PackageUtilities {
 				}
 			}
 		}
-
 		return retval;
 	}
-
 }

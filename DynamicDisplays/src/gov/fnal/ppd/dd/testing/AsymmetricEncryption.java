@@ -25,6 +25,9 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
 /**
+ * The reason for this class has been lost to history. I think (2021) that this was a direct copy of some example code I found
+ * through StackOverflow, or something like that.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */

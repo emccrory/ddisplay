@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple implementation of a button group, assuming buttons of type DDButton, which shows buttons as selected for a specific
- * Display
+ * An implementation of a button group for the Fermilab Dynamic Displays system. All buttons are of type DDButton
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -47,7 +46,7 @@ public class DisplayButtonGroup implements ActionListener {
 	}
 
 	/**
-	 * Create a group
+	 * Create a group of DDButtons.
 	 */
 	public DisplayButtonGroup() {
 		new Thread("ButtonGroupCheck." + (objCount++)) {
@@ -78,16 +77,18 @@ public class DisplayButtonGroup implements ActionListener {
 
 	/**
 	 * @param b
-	 *            The MyButton to add to this button group
+	 *            The DDButton to add to this button group
 	 */
 	public void add(final DDButton b) {
 		synchronized (buttons) {
 			b.addActionListener(this);
 			buttons.add(b);
-			// b.setSelected(buttons.size() == 1);
 		}
 	}
 
+	/**
+	 * Whenever a button is pressed, this group learns of it here. It then propagates that click to all registered listeners
+	 */
 	public void actionPerformed(ActionEvent ev) {
 		if (display != null)
 			display.setContent(((DDButton) ev.getSource()).getChannel());

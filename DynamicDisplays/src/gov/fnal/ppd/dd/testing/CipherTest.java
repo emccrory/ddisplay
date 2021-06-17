@@ -6,9 +6,7 @@
 package gov.fnal.ppd.dd.testing;
 
 /**
- * Use the Cipher stuff in javax.crypto
- * 
- * @author Elliott McCrory, Fermilab AD/Instrumentation
- * 
+ * Code removed
+ * @deprecated
  */
 public class CipherTest {}

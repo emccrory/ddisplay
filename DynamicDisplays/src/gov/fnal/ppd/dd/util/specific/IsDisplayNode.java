@@ -17,7 +17,7 @@ import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 
 /**
- * A simple utility class to see if this node is supposed to show a display.
+ * A utility class to see if this node is supposed to be a display.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

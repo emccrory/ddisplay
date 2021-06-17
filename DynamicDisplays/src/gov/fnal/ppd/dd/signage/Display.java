@@ -10,7 +10,9 @@ import java.awt.event.ActionListener;
 import java.net.InetAddress;
 
 /**
- * The signature of a Dynamic Display in the Fermilab Dynamic Display System
+ * The signature of an electronic content displayer in the Fermilab Dynamic Displays system. This is implemented as a physical
+ * monitor attached to a small Linux-based PC, or as an abstraction for that physical configuration within the GUI, a.k.a.,
+ * ChannelSelector.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

@@ -10,10 +10,18 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
 /**
- * A simple extension to the JTextArea class which tried to have the bottom of the area visible at all times.
+ * <p>
+ * A simple extension to the JTextArea class which has the bottom of the area visible at all times.
+ * </p>
  * 
- * 10/2014: Limit the size of the object to 10MB so that this cannot lead to a memory problem.
+ * <p>
+ * *10/2014*: Limit the size of the object to 10MB so that this cannot lead to a memory problem.
+ * </p>
  * 
+ * <p>
+ * This class is not used in production anymore -- it was used in the GUI version of the MessagingServer. But it is also used in the
+ * utility GUI, DDSystemStatus.
+ * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -21,7 +29,7 @@ import javax.swing.text.Document;
 public class JTextAreaBottom extends JTextArea {
 
 	private static final long	serialVersionUID	= 6409040285176732876L;
-	private int					maxLength			= 10 * 1024 * 1024;	// 10MB default limit
+	private int					maxLength			= 10 * 1024 * 1024;		// 10MB default limit
 
 	/**
 	 * Link to the JTextArea constructor

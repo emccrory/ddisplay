@@ -33,7 +33,7 @@ import org.w3c.dom.Document;
 import gov.fnal.ppd.dd.GlobalVariables;
 
 /**
- * Some general utilities in the DD system
+ * Some general utilities in the Fermilab Dynamic Displays system
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

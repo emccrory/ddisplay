@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Extend a JLabel to give the user some basic guidance on the use of the full-screen App.
+ * Extend a JLabel to give the user some basic guidance on the use of the full-screen ChannelSelector application program.
  * 
  * TODO: Be sensitive to when the user successfully utilizes the App and reduce my size (or maybe make invisible). Then, after some
  * time of quiet (15 minutes?), go back to full-on, in-your-face presentation for the next user.

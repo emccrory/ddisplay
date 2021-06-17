@@ -1,7 +1,7 @@
 package gov.fnal.ppd.dd.testing;
 
 /**
- * @author Elliott McCrory, Fermilab AD/Instrumentation
- * 
+ * Code removed
+ * @deprecated
  */
 public class GetMessagingServerAlt {}

@@ -1,3 +1,8 @@
 package gov.fnal.ppd.dd.testing;
 
-public class ChecksumTest {}
+/**
+ * Code removed
+ * @deprecated
+ */
+public class ChecksumTest {
+}

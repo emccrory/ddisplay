@@ -1,6 +1,13 @@
-package gov.fnal.ppd.dd.util.specific;
+package gov.fnal.ppd.dd.testing;
 
-@SuppressWarnings("javadoc")
+/**
+ * This test program was used to learn how exit codes are generated in the JVM across different architectures (e.g., Windows versus
+ * Linux versus Mac)
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2020-21
+ *
+ */
 public class TestExitCode {
 	public static void main(String[] args) {
 		int exitCode = 0;

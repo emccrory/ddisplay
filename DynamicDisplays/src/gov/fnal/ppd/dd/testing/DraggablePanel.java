@@ -1,12 +1,8 @@
 package gov.fnal.ppd.dd.testing;
 
 /**
- * 
- * Copied from the Internet, this would be an example of code, using JavaFX, that allows for gestured manipulation of a Java GUI
- * panel, e.g., touch scrolling.
- * 
- * @author Elliott McCrory, Fermilab AD/Instrumentation
- * 
+ * Code removed
+ * @deprecated
  */
 public final class DraggablePanel {
 

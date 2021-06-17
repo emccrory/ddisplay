@@ -16,9 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * I am not sure about this class yet. It seems that the class ObjectSigning is doing two sublty differnt things that should
- * probably be separated: (1) It is an object that can be signed; (2) it checks the validity of an object's signature. At this time
- * I have these so intertwined that I cannot unmix them easily. (Or it may be that these two functions are in my imaginnation.)
+ * <p>
+ * I am not sure about this class yet. It seems that the class ObjectSigning is doing two sublty different things that should
+ * probably be separated: (1) It is an object that can be signed; (2) it checks the validity of an object's signature.
+ * </p>
+ * <p>
+ * At this time I have these so intertwined that I cannot unmix them easily. (Or it may be that these two functions are in my
+ * imagination.)
+ * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -92,7 +97,9 @@ public class ObjectSigningRepository {
 		return false;
 	}
 
-	static List<String> loadDisplayListFromDB(final String clientName) {return null;}
+	static List<String> loadDisplayListFromDB(final String clientName) {
+		return null;
+	}
 
 	@SuppressWarnings("unused")
 	private static String getIPName(String ipName) {

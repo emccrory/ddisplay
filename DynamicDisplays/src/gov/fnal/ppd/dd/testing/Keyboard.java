@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.util.guiUtils;
+package gov.fnal.ppd.dd.testing;
 
 import java.awt.Component;
 import java.awt.Dimension;

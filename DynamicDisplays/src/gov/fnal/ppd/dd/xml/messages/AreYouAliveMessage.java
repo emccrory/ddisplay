@@ -3,7 +3,7 @@ package gov.fnal.ppd.dd.xml.messages;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
 
 /**
- * A simple implementation of MesssagingDataXML, which is used by the server to see if a client is alive.
+ * An implementation of MesssagingDataXML, which is used by the server to see if a client is alive.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *

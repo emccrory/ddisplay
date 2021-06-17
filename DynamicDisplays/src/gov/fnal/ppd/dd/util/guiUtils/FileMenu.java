@@ -11,6 +11,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
+ * Implementation of a simple menu drop-down for the Fermilab Dynamic Displays system.
+ * 
  * Written/modified by alvin alexander, devdaily.com, and Elliott McCrory, Fermilab.
  * 
  */

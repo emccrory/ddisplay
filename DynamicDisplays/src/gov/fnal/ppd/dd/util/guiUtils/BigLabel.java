@@ -9,14 +9,15 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 /**
- * A utility class used in more than one place.
+ * A utility class, used in more than one place, that makes a large text label that is centered. It is aware of the global parameter
+ * SHOW_IN_WINDOW.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
- * @copyright 2017
+ * @copyright 2017-21
  * 
  */
 public class BigLabel extends JLabel {
-	private static final long	serialVersionUID	= 8296427549410976741L;
+	private static final long serialVersionUID = 8296427549410976741L;
 
 	/**
 	 * @param title

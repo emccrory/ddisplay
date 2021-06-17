@@ -11,6 +11,13 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 
+/**
+ * Utilities for going between text and XML documents.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014-21
+ *
+ */
 @XmlRootElement
 public class XMLDocumentUtilities {
 	private XMLDocumentUtilities() {

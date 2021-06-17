@@ -7,7 +7,9 @@ import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
 
 /**
- * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017-18
+ * The class that defines the Fermilab Dynamic Displays system emergency message
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation, 2017-21
  *
  */
 public class EmergencyMessXML extends MessagingDataXML {

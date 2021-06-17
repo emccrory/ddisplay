@@ -7,7 +7,7 @@ import java.net.URI;
 
 /**
  * <p>
- * The signature for content in the Dynamic Display system.
+ * The signature for content in the Fermilab Dynamic Displays system.
  * </p>
  * <p>
  * In order to be fully serializable, the concrete classes must implement all the getters and setters.
@@ -15,7 +15,8 @@ import java.net.URI;
  * <p>
  * Originally, it was thought that there could be all kinds of different content, like in a commercial digital signage system. But
  * we have settled on all content being a Channel, and all channels are web pages. So this interface is not any more useful that the
- * Channel interface. But it is used in a few places where we want to be the most general.
+ * Channel interface. Nevertheless, it is used in a few places where we want to be the most general. If the system were to be
+ * extended to allow for more general sort of content, this interface _might_ make that extension a little easier.
  * </p>
  * 
  * @author Elliott McCrory, Fermilab, 2012-21

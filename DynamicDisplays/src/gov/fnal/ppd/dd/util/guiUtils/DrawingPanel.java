@@ -17,6 +17,14 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+/**
+ * Specific to the environment of the Fermilab Dynamic Displays system, this widget holds a thumbnail and a URL for an image, and it
+ * behaves like a button.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014-21
+ *
+ */
 public class DrawingPanel extends JPanel {
 
 	private static final long				serialVersionUID	= 8963747596403311688L;

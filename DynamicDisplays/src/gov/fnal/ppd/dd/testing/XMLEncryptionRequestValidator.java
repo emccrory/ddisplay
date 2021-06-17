@@ -1,4 +1,18 @@
 package gov.fnal.ppd.dd.testing;
+
+//import javax.xml.crypto.KeySelector;
+//import javax.xml.crypto.KeySelectorResult;
+//import javax.xml.crypto.dsig.XMLSignature;
+//import javax.xml.crypto.dsig.XMLSignatureException;
+//import javax.xml.crypto.dsig.XMLSignatureFactory;
+//import javax.xml.crypto.dsig.dom.DOMValidateContext;
+//
+////import org.eclipse.scada.utils.statuscodes.StatusCode;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+//import org.w3c.dom.Document;
+//import org.w3c.dom.NodeList;
+
 /*******************************************************************************
  * Copyright (c) 2013 Jens Reimann and others.
  * All rights reserved. This program and the accompanying materials
@@ -8,20 +22,11 @@ package gov.fnal.ppd.dd.testing;
  *
  * Contributors:
  *     Jens Reimann - initial API and implementation
+ *     
+ * Code removed
+ * @deprecated
  *******************************************************************************/
 
-//import javax.xml.crypto.KeySelector;
-//import javax.xml.crypto.KeySelectorResult;
-//import javax.xml.crypto.dsig.XMLSignature;
-//import javax.xml.crypto.dsig.XMLSignatureException;
-//import javax.xml.crypto.dsig.XMLSignatureFactory;
-//import javax.xml.crypto.dsig.dom.DOMValidateContext;
-//
-//// import org.eclipse.scada.utils.statuscodes.StatusCode;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.w3c.dom.Document;
-//import org.w3c.dom.NodeList;
 
 public class XMLEncryptionRequestValidator {
 //

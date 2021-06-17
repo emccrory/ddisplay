@@ -1,6 +1,6 @@
 /**
  * <p>
- * Fermilab's Dynamic Displays System -- These are the definitions of the messages in the system, encapsulated in an XML document.
+ * Fermilab's Dynamic Displays System -- These are the definitions of the messages in the system, encapsulated in XML documents.
  * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation

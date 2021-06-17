@@ -26,7 +26,8 @@ import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicSliderUI;
 
 /**
- * Implement a JSlider. This is used when there are too many Displays to show on a ChannelSelector as individual buttons.
+ * Implement a JSlider with the right amount of coloring. This is used when there are too many Displays to show on a ChannelSelector
+ * as individual buttons.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -35,8 +36,8 @@ public class DisplayColorSliderUI extends BasicSliderUI {
 
 	private Color				backgroundColor	= new Color(0xeeeeee);
 
-	private static final Color	myWhite			= new Color(255, 255, 255); // , 200);
-	private static final Color	myGray			= new Color(182, 182, 182); // , 200);
+	private static final Color	myWhite			= new Color(255, 255, 255);	// , 200);
+	private static final Color	myGray			= new Color(182, 182, 182);	// , 200);
 
 	private int					WIDTH			= 60;
 	private Color[]				colors;
@@ -51,8 +52,11 @@ public class DisplayColorSliderUI extends BasicSliderUI {
 		JSlider slider = new JSlider(SwingConstants.VERTICAL, 0, 20, 3);
 
 		System.out.println(Color.white + ", " + Color.gray.brighter() + ", " + myWhite + ", " + myGray);
-		slider.setUI(new DisplayColorSliderUI(slider,
-				new Color[] { Color.red, Color.white, Color.orange, Color.white, Color.blue }, new String[] { "1", "5", "9", "22", "23" }));
+		String[] labels = new String[] { "1", "5", "9", "12", "14", "15", "16", "22", "23" };
+		Color[] colors = new Color[labels.length];
+		for (int i = 0; i < labels.length; i++)
+			colors[i] = new Color((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256));
+		slider.setUI(new DisplayColorSliderUI(slider, colors, labels));
 
 		slider.setSnapToTicks(true);
 		slider.setPaintTicks(true);

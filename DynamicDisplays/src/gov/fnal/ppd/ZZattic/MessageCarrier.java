@@ -10,11 +10,7 @@ package gov.fnal.ppd.ZZattic;
 
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
 import java.security.SignedObject;
 
 import gov.fnal.ppd.dd.chat.NoPrivateKeyException;
@@ -293,12 +289,8 @@ public class MessageCarrier implements Serializable {
 	 * @throws NoPrivateKeyException
 	 *             -- If the originator of this message does not have a private key, it cannot generator a signed object.
 	 */
-	public SignedObject getSignedObject() throws NoPrivateKeyException {
-		try {
-			return ObjectSigning.getInstance().getSignedObject(this);
-		} catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException | IOException e) {
-			e.printStackTrace();
-		}
+	public SignedObject getSignedObject()  {
+		//Code removed to avoid error messages
 		return null;
 	}
 
@@ -309,30 +301,9 @@ public class MessageCarrier implements Serializable {
 	 * @deprecated
 	 */
 	public String verifySignedObject(final SignedObject signedObject) {
-			// Second, verify that the message in the signedObject is me
-		try {
-			MessageCarrier signedMessage = (MessageCarrier) signedObject.getObject();
+		//Code removed to avoid error messages
 
-			if (!signedMessage.equals(this))
-				// 2. The object being tested is not equal to this!
-				return "The message being checked has been modified";
-		} catch (IOException e) {
-			e.printStackTrace();
-			// 3. Casting exception!
-			return "There was an IO exception in reading the message";
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return "The returned message was not of type " + MessageCarrier.class.getCanonicalName();
-		}
-
-		// Now verify the signature
-		ObjectSigning signing = ObjectSigning.getPublicSigning(getMessageOriginator());
-		if (signing == null)
-			// 4. No public key found
-			return "There is no public key for client '" + getMessageOriginator() + "'";
-
-		// 5. Does the signature actually match?
-		return signing.verifySignature(signedObject);
+		return null;
 	}
 
 	// Eclipse-generated hashCode and equals

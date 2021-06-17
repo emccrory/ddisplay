@@ -64,6 +64,12 @@ import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.xml.XMLDocumentAndString;
 
+/**
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ * @copyright 2014-21
+ *
+ */
 public class SignXMLUsingDSAKeys {
 
 	private static final String			ALG_TYPE	= "DSA";
@@ -217,7 +223,7 @@ public class SignXMLUsingDSAKeys {
 		doStuff();
 	}
 
-	public static void doStuff() throws InstantiationException, IllegalAccessException, ClassNotFoundException, KeyException,
+	private static void doStuff() throws InstantiationException, IllegalAccessException, ClassNotFoundException, KeyException,
 			NoSuchAlgorithmException, InvalidAlgorithmParameterException {
 		String providerName = System.getProperty("jsr105Provider", "org.jcp.xml.dsig.internal.dom.XMLDSigRI");
 
@@ -315,6 +321,14 @@ public class SignXMLUsingDSAKeys {
 		trans.transform(new DOMSource(doc), new StreamResult(out));
 	}
 
+	/**
+	 * Test this class. Used during the creation of the class.
+	 * 
+	 * @param args
+	 *            - [if the first argument ([0]) is equal to "validate", the next argument is an XML file to self-validate. If the
+	 *            first argument is not "validate", the first argument must be a public key file, and the second argument is the XML
+	 *            document to verify against this key. Not that the XML will contain the public key.
+	 */
 	public static void main(String[] args) {
 
 		if (args[0].equalsIgnoreCase("validate")) {

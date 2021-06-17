@@ -3,7 +3,7 @@ package gov.fnal.ppd.dd.signage;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 
 /**
- * Abstraction for the XOC Dynamic Display "Emergency" Channel
+ * Abstraction for the object that carries an emergency message in the Fermilab Dynamic Displays system
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  */

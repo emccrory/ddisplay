@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * There are several places in the code where it is necessary to restart the whole shebang. This class handles a graceful exit by
+ * There are several places in the code where it is necessary to restart the entire JVM. This class handles a graceful exit by
  * running the commands that others have set up to assure that the restart is clean.
  * 
- * This is implemented in the Display client so that it can save the current Channel and then show it again when it gets restarted.
+ * This is implemented in the display client so that it can save the current channel and then show it again when it gets restarted.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 

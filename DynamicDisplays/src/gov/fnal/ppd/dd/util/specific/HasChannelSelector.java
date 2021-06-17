@@ -15,7 +15,7 @@ import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 
 /**
- * A simple utility class to see if this node has an entry in the SelectorLocation table
+ * A utility class to see if this node has an entry in the SelectorLocation table
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
