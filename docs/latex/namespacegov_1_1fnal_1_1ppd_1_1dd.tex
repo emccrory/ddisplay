@@ -4,9 +4,51 @@
 
 
 \subsection{Detailed Description}
-Fermilab's Dynamic Displays System -- top-\/level package.
+\subsection*{Fermilab's Dynamic Displays System}
 
-The classes in this top-\/level package define the G\-U\-I controller, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1MakeChannelSelector}{Make\-Channel\-Selector}.\subsection*{Packages}
+\subsubsection*{Introduction}
+
+The Dynamic Display system at Fermilab allows for customized content to be shown on dedicated high-\/definition T\-V’s throughout the lab. The content that is being shown on each display can be changed quickly by an untrained person with access to a control point. 
+
+Content definitions are stored in a database. Each content instance is approved by a manager at Fermilab. Many of the functions for administering this database are available on-\/site at Fermilab (only) via interactive web pages. 
+
+Content is web pages. Many of the web pages used by the Fermilab experiments can be used directly as content for these displays. 
+
+The features of this system have been developed to have a robust, dynamic display system for use in the two remote operations centers in the Wilson Hall Atrium, the R\-O\-C-\/\-W (Neutrino experiments) and the R\-O\-C-\/\-E (C\-M\-S). The system has expanded to other locations. 
+
+This system is an alternative to commercial “digital signage” systems, with advantages unique to Fermilab\-: 
+\begin{DoxyEnumerate}
+\item All content is hosted web pages; no special, proprietary content system is required. 
+\item The decision as to what is shown on a display is given to the user; it usually takes less than one second for a touch on a control screen to be seen on a display point. 
+\item The system can run on Windows, Mac and Unix platforms; we have chosen Scientific Linux Fermilab for most of the systems and have demonstrated the other systems. 
+\item There are no licensing fees. 
+\end{DoxyEnumerate}
+
+Features that this system has in common with commercial digital signage include\-: 
+\begin{DoxyEnumerate}
+\item The content is administered and approved centrally 
+\item The configuration of each element in the system is administered centrally 
+\item The status of the system is available at all times, as are local log files of activities. 
+\item It uses the Internet for all communications 
+\item Security (authorization and authentication) of these communications is designed into the system 
+\item Display units use commodity computers and H\-D\-T\-Vs 
+\end{DoxyEnumerate}
+
+\subsubsection*{package \hyperlink{namespacegov_1_1fnal_1_1ppd_1_1dd}{gov.\-fnal.\-ppd.\-dd}}
+
+The classes in this top-\/level package 
+\begin{DoxyItemize}
+\item Define the G\-U\-I controller, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1MakeChannelSelector}{Make\-Channel\-Selector} 
+\item Define global constants and attributes for the suite, see \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1GlobalVariables}{Global\-Variables} 
+\item Contain a couple of other high-\/level classes 
+\end{DoxyItemize}
+
+More information, including links to more documentation, can be found at the web site, \href{https://dynamicdisplays.fnal.gov}{\tt https\-://dynamicdisplays.\-fnal.\-gov}. This site is accessible only from inside Fermilab, with Fermilab Services credentials 
+
+\begin{DoxyAuthor}{Author}
+Elliott Simkins Mc\-Crory, Ph\-D, Fermilab A\-D/\-Instrumentation, 2010-\/21 
+\end{DoxyAuthor}
+\subsection*{Packages}
 \begin{DoxyCompactItemize}
 \item 
 package \hyperlink{namespacegov_1_1fnal_1_1ppd_1_1dd_1_1changer}{changer}

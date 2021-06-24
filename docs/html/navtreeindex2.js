@@ -1,12 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#a798cf0131dd1b3f20267f9aca0f12f60":[2,0,0,0,0,0,4,2,4],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#aa322597e9f586d4a5c4dfb78e2b7e793":[2,0,0,0,0,0,4,2,26],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#aa3ac511af5cffdea8fe664ec9f79e0c8":[2,0,0,0,0,0,4,2,9],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#aa48e0f9679a07f8bff85867c4831d528":[2,0,0,0,0,0,4,2,7],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#aa4a7dad0a486d2f888cf47921423e2c1":[2,0,0,0,0,0,4,2,29],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#ab240ed8a72e4006fb21eb6f30765f3df":[2,0,0,0,0,0,4,2,5],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#ab3982221fd0e7382f530b3c349121838":[2,0,0,0,0,0,4,2,3],
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#ac26f8f2c8b7935585ee0c1f58a56ec4d":[2,0,0,0,0,0,4,2,2],
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#ac7077820239a58d29a1cb8d17666180e":[2,0,0,0,0,0,4,2,13],
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#acb6974b45a772ac261c72c99d0df724b":[2,0,0,0,0,0,4,2,0],
@@ -249,5 +242,12 @@ var NAVTREEINDEX2 =
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Channel.html#acf2cf29674132eca2c953827c0cc4a09":[2,0,0,0,0,0,8,0,0,8],
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Channel.html#adc8c876fbb40c13e30307637953eb990":[2,0,0,0,0,0,8,0,0,13],
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Channel.html#add366d14b9a3373380ef6d9e82a1a03a":[2,0,0,0,0,0,8,0,0,12],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Channel.html#afa4eff66db8872326e6abfa31d6fe1bd":[2,0,0,0,0,0,8,0,0,18]
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Channel.html#afa4eff66db8872326e6abfa31d6fe1bd":[2,0,0,0,0,0,8,0,0,18],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html":[2,0,0,0,0,0,8,0,2],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a04907433ee6b9bfad0222da989fd4281":[2,0,0,0,0,0,8,0,2,3],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a0f2086ee2be859413af461796aad4c5b":[2,0,0,0,0,0,8,0,2,5],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a1ae9767f009163f714c959bdafbe0485":[2,0,0,0,0,0,8,0,2,0],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a2894606116f3a77ff2121106206852a1":[2,0,0,0,0,0,8,0,2,13],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a39e6ef157f3d1422c204482bca44ff04":[2,0,0,0,0,0,8,0,2,8],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a51b764f78e4e17c68634943fb60ab411":[2,0,0,0,0,0,8,0,2,12]
 };

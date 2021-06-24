@@ -13,7 +13,7 @@ var namespaces =
       [ "gov", null, [
         [ "fnal", null, [
           [ "ppd", null, [
-            [ "dd", "namespacetest_1_1gov_1_1fnal_1_1ppd_1_1dd.html", null ]
+            [ "dd", "namespacetest_1_1gov_1_1fnal_1_1ppd_1_1dd.html", "namespacetest_1_1gov_1_1fnal_1_1ppd_1_1dd" ]
           ] ]
         ] ]
       ] ]

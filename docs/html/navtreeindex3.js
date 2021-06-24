@@ -1,12 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html":[2,0,0,0,0,0,8,0,2],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a04907433ee6b9bfad0222da989fd4281":[2,0,0,0,0,0,8,0,2,3],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a0f2086ee2be859413af461796aad4c5b":[2,0,0,0,0,0,8,0,2,5],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a1ae9767f009163f714c959bdafbe0485":[2,0,0,0,0,0,8,0,2,0],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a2894606116f3a77ff2121106206852a1":[2,0,0,0,0,0,8,0,2,13],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a39e6ef157f3d1422c204482bca44ff04":[2,0,0,0,0,0,8,0,2,8],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a51b764f78e4e17c68634943fb60ab411":[2,0,0,0,0,0,8,0,2,12],
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a66dbc074049a62ce0ac49de6f7a2c335":[2,0,0,0,0,0,8,0,2,2],
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a6817f6e0074446f56bafffa4d288050b":[2,0,0,0,0,0,8,0,2,10],
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a7732248eb514b5db1da4b957695ef5c2":[2,0,0,0,0,0,8,0,2,11],
@@ -249,5 +242,12 @@ var NAVTREEINDEX3 =
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a2880efebb90446bef7c6f688bd20b7b1":[2,0,0,0,0,0,10,2,19],
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a4c20313da2c3573d12684dd21b12ad39":[2,0,0,0,0,0,10,2,8],
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a4ff5d008129ace28d4aa8e78840da189":[2,0,0,0,0,0,10,2,15],
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a5ea9412ca266ecdb2b4766abfeb0fd60":[2,0,0,0,0,0,10,2,22]
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a5ea9412ca266ecdb2b4766abfeb0fd60":[2,0,0,0,0,0,10,2,22],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a5ffaf23342954c53da3ece0b2f0321ff":[2,0,0,0,0,0,10,2,4],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a69b4c6a07e6bad99c3bc1648c3fed93d":[2,0,0,0,0,0,10,2,7],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a6aac0c216c658ef18bc54d5d8b61d4d4":[2,0,0,0,0,0,10,2,9],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a7b261516ee8d2de69bbebd5edb0d4f54":[2,0,0,0,0,0,10,2,20],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#a98b9534e6dd2561a140735af84281d67":[2,0,0,0,0,0,10,2,11],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#aa1d393c9393922f8de3982466251582f":[2,0,0,0,0,0,10,2,21],
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#abe2d2d6c4dcb5adf92b7e3feaf4a3441":[2,0,0,0,0,0,10,2,6]
 };
