@@ -1,13 +1,16 @@
 package test.gov.fnal.ppd.dd.xml;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
-import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
-import gov.fnal.ppd.dd.xml.messages.ChangeChannel;
 
+/**
+ * Test of the class MyXMLMrshaller. The test conceived for here were too fragile to be useful, so there are actually no tests here.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class MyXMLMarshallerTest {
 
+	@SuppressWarnings("unused")
 	private static String rawMessage = //
 			"<?xml version=\"1.0\" encoding=\"UTF-8\"?><messageCarrierXML xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://null signage.xsd\">\n"
 					+ //
@@ -37,15 +40,15 @@ public class MyXMLMarshallerTest {
 
 	@Test
 	public void testXMLRoundTrip() {
-		assert(true); // Not working yet
+		assert (true); // Not working yet
 	}
 
 	public static void main(String[] args) {
-//		try {
-//			// 5/7/2021 - this is not working.  Getting an UnmarshallException
-//			ChangeChannel receivedMessage = (ChangeChannel) MyXMLMarshaller.unmarshall(ChangeChannel.class, rawMessage);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		// // 5/7/2021 - this is not working. Getting an UnmarshallException
+		// ChangeChannel receivedMessage = (ChangeChannel) MyXMLMarshaller.unmarshall(ChangeChannel.class, rawMessage);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 	}
 }

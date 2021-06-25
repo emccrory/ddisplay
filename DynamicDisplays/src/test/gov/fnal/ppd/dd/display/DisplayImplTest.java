@@ -19,7 +19,7 @@ import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
- * Simple unit tests for the Display class.
+ * Unit tests for the Display class.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *

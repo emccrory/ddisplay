@@ -8,6 +8,12 @@ import org.junit.Test;
 import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.GetDefaultContentForDisplay;
 
+/**
+ * Tests of the class GetDefaultContentForDisplay
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class GetDefaultContentForDisplayTest {
 	private GetDefaultContentForDisplay defaultContent = new GetDefaultContentForDisplay();
 
@@ -18,7 +24,7 @@ public class GetDefaultContentForDisplayTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testGetChannelNumber() {
 		int d = defaultContent.getChannelNumber();

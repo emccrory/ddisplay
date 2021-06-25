@@ -10,7 +10,12 @@ import org.junit.Test;
 
 import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import test.gov.fnal.ppd.dd.NeedsCredentials;
-
+/**
+ * Tests of the class ChannelCatalogFactory
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class ChannelCatalogFactoryTest extends NeedsCredentials {
 
 	@Test

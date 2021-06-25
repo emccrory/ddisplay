@@ -9,6 +9,12 @@ import org.junit.Test;
 import gov.fnal.ppd.dd.util.nonguiUtils.ColorNames;
 import test.gov.fnal.ppd.dd.NeedsCredentials;
 
+/**
+ * Tests of the class ColorNames
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class ColorNamesTest extends NeedsCredentials {
 
 	private static String[] expectedColorCodes = //

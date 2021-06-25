@@ -7,6 +7,12 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
+/**
+ * Tests of the class PropertiesFile
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class PropertiesFileTest {
 
 	@Test

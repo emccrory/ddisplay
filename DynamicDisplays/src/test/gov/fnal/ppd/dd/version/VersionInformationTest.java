@@ -8,7 +8,7 @@ import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 
 /**
- * Simple unit tests for the VersionInformation class.
+ * Unit tests for the VersionInformation class.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *

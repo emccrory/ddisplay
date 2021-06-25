@@ -10,7 +10,7 @@ import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.emergency.Severity;
 
 /**
- * Simple unit tests for the class that holds the emergency messaging text and related stuff.
+ * Unit tests for the class, EmergencyMessage, that holds the emergency messaging text and related stuff.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *

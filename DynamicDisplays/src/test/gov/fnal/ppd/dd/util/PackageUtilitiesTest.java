@@ -14,6 +14,12 @@ import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import test.gov.fnal.ppd.dd.NeedsCredentials;
 
+/**
+ * Tests of the class PackageUtilties
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class PackageUtilitiesTest extends NeedsCredentials {
 
 	@Test

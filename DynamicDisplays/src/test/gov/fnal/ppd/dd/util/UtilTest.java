@@ -13,6 +13,12 @@ import java.awt.event.ActionListener;
 
 import org.junit.Test;
 
+/**
+ * Tests of the class GeneralUtilities
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class UtilTest {
 
 	@Test

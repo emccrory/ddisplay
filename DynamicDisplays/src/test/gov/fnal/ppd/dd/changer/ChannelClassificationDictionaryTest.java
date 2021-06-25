@@ -8,6 +8,12 @@ import org.junit.Test;
 
 import test.gov.fnal.ppd.dd.NeedsCredentials;
 
+/**
+ * Tests of the class ChannelClassificationDictionary
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class ChannelClassificationDictionaryTest extends NeedsCredentials {
 
 	@Test
