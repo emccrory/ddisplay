@@ -77,6 +77,7 @@ public class GetDefaultContentForDisplay {
 				try (ResultSet rs = stmt.executeQuery("USE " + DATABASE_NAME)) {
 				}
 
+				SignageContent cont = null;
 				try (ResultSet rs = stmt.executeQuery(query);) {
 					// Move to first returned row (there will be more than one if there are multiple screens on this PC)
 					if (rs.first()) {
@@ -84,18 +85,23 @@ public class GetDefaultContentForDisplay {
 							try {
 
 								channelNumber = rs.getInt("Content");
-								SignageContent cont = getChannelFromNumber(channelNumber);
+								cont = getChannelFromNumber(channelNumber);
 								if (channelNumber > 0) {
 									if (cont instanceof Channel) {
 										defaultURL = ((Channel) cont).getURI().toASCIIString();
 									}
 								} else {
-									defaultURL = ((ChannelPlayList) cont).getChannels().get(0).getURI().toASCIIString() + 
-									" (This is the first element of the list of length " + ((ChannelPlayList) cont).getChannels().size() + ")";
+									defaultURL = ((ChannelPlayList) cont).getChannels().get(0).getURI().toASCIIString()
+											+ " (This is the first element of the list of length "
+											+ ((ChannelPlayList) cont).getChannels().size() + ")";
 								}
 								int dt = rs.getInt("Port");
 								displayType = (dt <= 1) ? "Regular/Selenium" : "FirefoxOnly";
 								return;
+							} catch (ClassCastException e) {
+								System.out.println("Channel number " + channelNumber + ", Expecting ChannelPlayList but got " + cont.getClass().getCanonicalName());
+								e.printStackTrace();
+								System.exit(0);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
