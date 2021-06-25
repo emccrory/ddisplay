@@ -135,7 +135,12 @@ MyName=$(uname -n)
 	    echo ""
 	    echo ""
 	    echo "$(date)" " Display program exited with an understood failure ..."
-	    echo Restarting the display on "$(hostname)" | /usr/bin/mail -s "Display software has restarted" "$adminEmail"
+	    mailapp=/usr/bin/mail
+	    if [ -x $mailapp ] then
+		echo Restarting the display on "$(hostname)" | $mailapp -s "Display software has restarted" "$adminEmail"
+	    else
+		echo "Mail application, $mailapp, is not installed on this node"
+	    fi
 	    sleep 5
 	    #
 	    # The assumption here is that this script will perform the update, NOT the Java app.
