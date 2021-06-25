@@ -115,7 +115,7 @@ public class PackageUtilities {
 		return blob;
 	}
 
-	private static HashMap<Integer, Channel> alreadyRetrieved = new HashMap<Integer, Channel>();
+	// private static HashMap<Integer, Channel> alreadyRetrieved = new HashMap<Integer, Channel>();
 
 	/**
 	 * Given a number, retrieve the Channel that corresponds to this from the database.
@@ -137,8 +137,8 @@ public class PackageUtilities {
 	 * @return The channel that is specified by this channel number
 	 */
 	public static SignageContent getChannelFromNumber(int channelNumber) {
-		if (alreadyRetrieved.containsKey(channelNumber))
-			return new ChannelImpl(alreadyRetrieved.get(channelNumber));
+		// if (alreadyRetrieved.containsKey(channelNumber))
+		// return new ChannelImpl(alreadyRetrieved.get(channelNumber));
 
 		Channel retval = null;
 		try {
@@ -193,7 +193,7 @@ public class PackageUtilities {
 						} while (rs.next());
 
 						retval = new ChannelPlayList(channelList, 60000L);
-						alreadyRetrieved.put(channelNumber, retval);
+						// alreadyRetrieved.put(channelNumber, retval);
 						stmt.close();
 						rs.close();
 					} catch (Exception e) {
@@ -235,7 +235,7 @@ public class PackageUtilities {
 									dwell);
 							retval.setCode(specialCode);
 
-							alreadyRetrieved.put(channelNumber, retval);
+							// alreadyRetrieved.put(channelNumber, retval);
 
 							stmt.close();
 							rs.close();
@@ -275,7 +275,7 @@ public class PackageUtilities {
 							String[] array = filename.split("/", -1);
 							retval = new ChannelImpl(array[array.length - 1], ChannelClassification.IMAGE, desc, new URI(url),
 									channelNumber, 0L);
-							alreadyRetrieved.put(channelNumber, retval);
+							// alreadyRetrieved.put(channelNumber, retval);
 
 							stmt.close();
 							rs.close();
