@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1624649913879</timeStamp>
-    <versionDescription>Fix a bug that happens when a list of channels is the default choice for a display, and then make a JUnit test to assure that this specific bug does not return.</versionDescription>
-    <versionString>5.3.45</versionString>
+    <disposition>PRODUCTION</disposition>
+    <timeStamp>1624836684469</timeStamp>
+    <versionDescription>Fix a bug that happens when a list of channels is the default choice for a display, and then make a JUnit test to assure that this specific bug does not return.
+
+Make some changes to the JavaDoc comments and make this a PRODUCTION release.</versionDescription>
+    <versionString>5.3.46</versionString>
 </versionInformation>
