@@ -27,7 +27,7 @@ var NAVTREEINDEX =
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a66dbc074049a62ce0ac49de6f7a2c335",
 "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#ac0d09ebac9464f3923193f3763e34521",
 "classorg_1_1json_1_1JSONArray.html#ac7b9da6fc6276ca0211a5bfb80d0f059",
-"enumgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1Severity.html#aaf755550765aa7e569baf503397ecd12"
+"enumgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton_1_1ButtonFieldToUse.html#a49d0f646fba74578ef1a73a09c0c943b"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

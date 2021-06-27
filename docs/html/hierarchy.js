@@ -156,7 +156,8 @@ var hierarchy =
       [ "test.gov.fnal.ppd.dd.changer.ListOfExistingContentTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ListOfExistingContentTest.html", null ],
       [ "test.gov.fnal.ppd.dd.GetMessagingServerTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1GetMessagingServerTest.html", null ],
       [ "test.gov.fnal.ppd.dd.GlobalVariablesTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1GlobalVariablesTest.html", null ],
-      [ "test.gov.fnal.ppd.dd.util.ColorNamesTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNamesTest.html", null ]
+      [ "test.gov.fnal.ppd.dd.util.ColorNamesTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNamesTest.html", null ],
+      [ "test.gov.fnal.ppd.dd.util.PackageUtilitiesTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1PackageUtilitiesTest.html", null ]
     ] ],
     [ "gov.fnal.ppd.dd.channel.list.NewListCreationListener", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1NewListCreationListener.html", [
       [ "gov.fnal.ppd.dd.channel.list.ExistingChannelLists", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1ExistingChannelLists.html", null ]
