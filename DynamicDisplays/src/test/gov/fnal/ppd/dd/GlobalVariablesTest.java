@@ -21,6 +21,12 @@ import com.google.common.base.CharMatcher;
 
 import gov.fnal.ppd.dd.chat.LoggerForDebugging;
 
+/**
+ * Check the validity and integrity of several of the global variables and constants used throughout the suite.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class GlobalVariablesTest extends NeedsCredentials {
 
 	// Not much here to test. Maybe someday...
