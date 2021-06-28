@@ -11,8 +11,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
 
+import gov.fnal.ppd.dd.GlobalVariables;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelInList;
@@ -21,12 +21,10 @@ import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
-import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
@@ -40,27 +38,18 @@ import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
  *
  */
 public class PackageUtilities {
-	/**
-	 * The default URL for a Display
-	 */
-	public static final String	MY_URL	= "https://dynamicdisplays.fnal.gov/standby.html";
-	/**
-	 * The name that is associated with the default URL for a Display
-	 */
-	public static final String	MY_NAME	= "unspecified content";
-
 	private PackageUtilities() {
 		// Do not instantiate
 	}
 
 	/**
 	 * @param url
-	 *            The URL to show in this empty channel (which can be null)
+	 *            The URL to show in this empty channel (which can be null)R
 	 * @return An empty channel
 	 */
 	public static SignageContent makeEmptyChannel(String url) {
 		try {
-			return new ChannelImpl(MY_NAME, "This is a default channel", new URI(url == null ? MY_URL : url), 0, 0);
+			return new ChannelImpl(GlobalVariables.STANDBY_URL_NAME, "This is a default channel", new URI(url == null ? GlobalVariables.STANDBY_URL : url), 0, 0);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return null;
@@ -137,8 +126,9 @@ public class PackageUtilities {
 	 * @return The channel that is specified by this channel number
 	 */
 	public static SignageContent getChannelFromNumber(int channelNumber) {
-		// if (alreadyRetrieved.containsKey(channelNumber))
-		// return new ChannelImpl(alreadyRetrieved.get(channelNumber));
+		//--  This complexity really does not seem worthwhile.
+		//--  if (alreadyRetrieved.containsKey(channelNumber))
+		//--   return new ChannelImpl(alreadyRetrieved.get(channelNumber));
 
 		Channel retval = null;
 		try {
@@ -150,7 +140,7 @@ public class PackageUtilities {
 
 		if (channelNumber == 0) {
 			// Using the default, Fermilab home page!
-			println(GeneralUtilities.class, " Using the Fermilab home page as the default channel!");
+			println(PackageUtilities.class, "***** Received a channel number of 0 - this is unexpected. Using the Fermilab home page as the default channel!");
 			return retval;
 		} else if (channelNumber < 0) {
 			// The default channel is a list of channels. Build it!
@@ -162,7 +152,7 @@ public class PackageUtilities {
 
 			String query = "SELECT Number,Dwell,SequenceNumber from ChannelList where ListNumber=" + (-channelNumber);
 
-			println(DisplayControllerMessagingAbstract.class, " -- Getting default channel list: [" + query + "]");
+			println(PackageUtilities.class, " -- Getting default channel list: [" + query + "]");
 			Connection connection;
 			try {
 				connection = ConnectionToDatabase.getDbConnection();
@@ -200,7 +190,7 @@ public class PackageUtilities {
 						e.printStackTrace();
 					}
 				} catch (SQLException ex) {
-					System.err.println("It is likely that the DB server is down.  We'll try again later.");
+					System.err.println("It is likely that the DB server is down.  We'll try again later. (1)");
 					ex.printStackTrace();
 				}
 			}
@@ -244,7 +234,7 @@ public class PackageUtilities {
 						e.printStackTrace();
 					}
 				} catch (SQLException ex) {
-					System.err.println("It is likely that the DB server is down.  We'll try again later.");
+					System.err.println("It is likely that the DB server is down.  We'll try again later. (2)");
 					ex.printStackTrace();
 				}
 			}
@@ -284,7 +274,7 @@ public class PackageUtilities {
 						e.printStackTrace();
 					}
 				} catch (SQLException ex) {
-					System.err.println("It is likely that the DB server is down.  We'll try again later.");
+					System.err.println("It is likely that the DB server is down.  We'll try again later. (3)");
 					ex.printStackTrace();
 				}
 			}

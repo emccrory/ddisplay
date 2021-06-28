@@ -61,7 +61,7 @@ public class GlobalVariables {
 	 * Do we show in full screen or in a window? Controlled by system constant, ddisplay.selector.inwindow
 	 */
 	public final static boolean			SHOW_IN_WINDOW				= Boolean.getBoolean("ddisplay.selector.inwindow");
-	
+
 	/**
 	 * Does the user want to have the database index for the display shown (default) or the virtual display numbers?
 	 */
@@ -304,6 +304,16 @@ public class GlobalVariables {
 	public final static int		UNRECOVERABLE_ERROR			= -999;
 
 	/**
+	 * The name that is associated with the default URL for a Display
+	 */
+	public static final String	STANDBY_URL_NAME			= "unspecified content";
+
+	/**
+	 * The default URL for a Display
+	 */
+	public static final String	STANDBY_URL					= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/standby.html";
+
+	/**
 	 * The list of Displays in this instance of whatever program you are running. This is used in a couple of places.
 	 */
 	public static List<Display>	displayList					= null;
@@ -523,7 +533,6 @@ public class GlobalVariables {
 	// ----------------------------------------------------------------------------------------------------------------
 
 	private static String DISPLAY_NODE_NAME = null;
-
 
 	public static void setFlavorFromDatabase(String f) {
 		DISPLAY_NODE_NAME = f;
