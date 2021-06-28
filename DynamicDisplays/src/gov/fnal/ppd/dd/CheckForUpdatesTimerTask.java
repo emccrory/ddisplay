@@ -38,9 +38,9 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 				return;
 			}
 			if (workingOnAnUpdate) {
-				// This should never happen in a real installation as this update takes a few minutes, but these checks happen only
-				// once per day. But there are test situations when the updates happen more frequently than normal, and this can
-				// overlap with the next update check.
+				// This should never happen in a real installation as this update only takes a few minutes, and it usually only
+				// happen only once per day. But we have made test situations that happen a lot more frequently than normal, and
+				// this can overlap with the next update check.
 				println(getClass(), "Skipping update check because we are already working on one.");
 				return;
 			}
@@ -50,7 +50,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 			int dow = date.get(Calendar.DAY_OF_WEEK);
 			int hour = date.get(Calendar.HOUR_OF_DAY);
 			if (dow == Calendar.SATURDAY || dow == Calendar.SUNDAY || (dow == Calendar.MONDAY && hour < 10)) {
-				println(getClass(), "Skipping update check on weekends");
+				println(getClass(), "Skipping update check on weekends, which is defined to be Saturday, Sunday, or Monday (before 10AM)");
 				workingOnAnUpdate = false;
 				return;
 			}
@@ -58,11 +58,10 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 			FLAVOR flavor = getFlavor(true);
 			println(getClass(), "Checking to see if there is a " + flavor + " update for the software");
 
-			// 1. See if an update is available
+			//-- 1. See if an update is available
 
 			if (VersionInformationComparison.lookup(flavor, true)) {
-
-				// 2. If so, download it.
+				//-- 2. If so, download it.
 				VersionInformation viWeb = VersionInformation.getDBVersionInformation(flavor);
 				client.showNewUpdateInformation(flavor, viWeb.getVersionString());
 
@@ -73,7 +72,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 				if (d.hasSucceeded()) {
 					workingOnAnUpdate = false;
 					client.success();
-					// 3. Exit the entire process so we will restart.
+					//-- 3. Exit the entire process so we will restart.
 					boolean isWindows = System.getProperty("os.name").toUpperCase().contains("WINDOWS");
 					if (isWindows)
 						ExitHandler.saveAndExit("Deployed new software version.", 99, 5000L);
