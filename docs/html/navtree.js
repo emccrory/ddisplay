@@ -22,12 +22,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ConcreteChannelListHolder.html#aef1741e4b499729c50dce421c87938b8",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#ac26f8f2c8b7935585ee0c1f58a56ec4d",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a66dbc074049a62ce0ac49de6f7a2c335",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#ac0d09ebac9464f3923193f3763e34521",
-"classorg_1_1json_1_1JSONArray.html#ac7b9da6fc6276ca0211a5bfb80d0f059",
-"enumgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton_1_1ButtonFieldToUse.html#a49d0f646fba74578ef1a73a09c0c943b"
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels.html",
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#acb6974b45a772ac261c72c99d0df724b",
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Item.html#a7732248eb514b5db1da4b957695ef5c2",
+"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpec.html#acd9ae95dee1e080486835368864a8bc1",
+"classorg_1_1json_1_1JSONArray.html#ad0fbfe8fea05cdf7f06ddfe20db7c8c6",
+"enumgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton_1_1ButtonFieldToUse.html#af2ef4fcf39c333af8e9bc670a7c19840"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

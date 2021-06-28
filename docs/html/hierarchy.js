@@ -63,6 +63,7 @@ var hierarchy =
       [ "gov.fnal.ppd.dd.emergency.MakeEmergencyMessageGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1MakeEmergencyMessageGUI.html", null ]
     ] ],
     [ "test.gov.fnal.ppd.dd.emergency.EmergencyMessageTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergencyMessageTest.html", null ],
+    [ "gov.fnal.ppd.ZZattic.EmptyChannel", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EmptyChannel.html", null ],
     [ "gov.fnal.ppd.ZZattic.EncodedCarrier", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html", null ],
     [ "gov.fnal.ppd.dd.xml.EncryptionService", "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncryptionService.html", null ],
     [ "gov.fnal.ppd.dd.testing.EncryptUtils", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1EncryptUtils.html", null ],
@@ -320,8 +321,7 @@ var hierarchy =
           [ "gov.fnal.ppd.dd.channel.ChannelImpl", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html", [
             [ "gov.fnal.ppd.dd.channel.ChannelImage", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImage.html", null ],
             [ "gov.fnal.ppd.dd.channel.ChannelInListImpl", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl.html", null ],
-            [ "gov.fnal.ppd.dd.xml.XmlDerivedChannel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XmlDerivedChannel.html", null ],
-            [ "gov.fnal.ppd.ZZattic.EmptyChannel", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EmptyChannel.html", null ]
+            [ "gov.fnal.ppd.dd.xml.XmlDerivedChannel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XmlDerivedChannel.html", null ]
           ] ],
           [ "gov.fnal.ppd.dd.channel.ChannelInList", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInList.html", [
             [ "gov.fnal.ppd.dd.channel.ChannelInListImpl", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl.html", null ]

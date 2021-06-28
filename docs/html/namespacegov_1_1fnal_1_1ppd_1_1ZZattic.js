@@ -2,7 +2,7 @@ var namespacegov_1_1fnal_1_1ppd_1_1ZZattic =
 [
     [ "ChannelListResponse", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ChannelListResponse.html", null ],
     [ "DisplayListDatabaseRemote", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1DisplayListDatabaseRemote.html", null ],
-    [ "EmptyChannel", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EmptyChannel.html", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EmptyChannel" ],
+    [ "EmptyChannel", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EmptyChannel.html", null ],
     [ "EncodedCarrier", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier" ],
     [ "EnhancedChangeChannel", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EnhancedChangeChannel.html", null ],
     [ "EnhancedEncodedCarrier", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EnhancedEncodedCarrier.html", null ],
