@@ -17,15 +17,12 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-
-import javax.swing.ImageIcon;
 
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.interfaces.NotificationClient;
@@ -57,27 +54,29 @@ import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
  * 
  */
 public class GlobalVariables {
-	/**
-	 * Do we show in full screen or in a window? Controlled by system constant, ddisplay.selector.inwindow
-	 */
+
+	private GlobalVariables() {
+		// Do not instantiate
+	}
+
+	/** Do we show in full screen or in a window? Controlled by system constant, ddisplay.selector.inwindow */
 	public final static boolean			SHOW_IN_WINDOW				= Boolean.getBoolean("ddisplay.selector.inwindow");
 
-	/**
-	 * Does the user want to have the database index for the display shown (default) or the virtual display numbers?
-	 */
+	/** Does the user want to have the database index for the display shown (default) or the virtual display numbers? */
 	public final static boolean			SHOW_VIRTUAL_DISPLAY_NUMS	= Boolean.getBoolean("ddisplay.virtualdisplaynumbers");
 
-	/**
-	 * Does the user want to show and extended display name on the display buttons?
-	 */
+	/** Does the user want to show and extended display name on the display buttons? */
 	public static boolean				SHOW_EXTENDED_DISPLAY_NAMES	= Boolean.getBoolean("ddisplay.extendeddisplaynnames");
 
-	/**
-	 * How long since last user activity?
-	 */
+	/** How long since last user activity? */
 	private static long					lastUserActivity			= 0L;
 	private static VersionInformation	versionInfo					= null;
 
+	/**
+	 * What is the version of the suite this instance is running?
+	 * 
+	 * @return the 3-field version number of the software suite right now.
+	 */
 	public static String getSoftwareVersion() {
 		if (versionInfo == null) {
 			versionInfo = VersionInformation.getVersionInformation();
@@ -87,7 +86,7 @@ public class GlobalVariables {
 	}
 
 	/**
-	 * My IP Name
+	 * The IP Name that this instance is running on.
 	 */
 	public static String THIS_IP_NAME;
 	static {
@@ -104,7 +103,8 @@ public class GlobalVariables {
 	}
 
 	/**
-	 * 
+	 * To allow for multiple Channel Selectors in one node, it will be differentiated with this tag. This has not been used except
+	 * in testing.
 	 */
 	public final static String THIS_IP_NAME_INSTANCE = System.getProperty("ddisplay.selectorinstance", "00");
 
@@ -116,63 +116,8 @@ public class GlobalVariables {
 	}
 
 	/**
-	 * The names of the image files used in the screen saver
-	 */
-	public final static String[]	imageNames	= { "fermilab3.jpg", "fermilab1.jpg", "fermilab2.jpg", "fermilab4.jpg",
-			"fermilab5.jpg", "fermilab6.jpg", "fermilab7.jpg", "fermilab8.jpg", "fermilab9.jpg", "fermilab10.jpg", "fermilab11.jpg",
-			"fermilab12.jpg", "fermilab13.jpg", "fermilab14.jpg", "fermilab15.jpg", "fermilab16.jpg", "fermilab17.jpg",
-			"fermilab18.jpg", "fermilab19.jpg", "fermilab20.jpg", "fermilab21.jpg", "Baginski_1319.jpg", "Baginski_1649.jpg",
-			"Biron_9077.jpg", "Brown_5472.jpg", "Chapman_1066.jpg", "Chapman_2860.jpg", "Chapman_3859.jpg", "Chapman_4721.jpg",
-			"Chapman_7196.jpg", "Chapman_8814.jpg", "Dyer_3235.jpg", "Ferguson_2539.jpg", "Flores_9904.jpg", "Hahn_4109.jpg",
-			"Higgins_7961.jpg", "Iraci_6742.jpg", "Kroc_9559.jpg", "Limberg_9772.jpg", "McCrory_2555.jpg", "McCrory_3368.jpg",
-			"McCrory_3902.jpg", "McCrory_7002.jpg", "McCrory_8865.jpg", "Murphy_2507.jpg", "Murphy_3460.jpg", "Murphy_4658.jpg",
-			"Nicol_1322.jpg", "Nicol_2066.jpg", "Nicol_7967.jpg", "Olsen_6219.jpg", "Paterno_6012.jpg", "Pygott_6098.jpg",
-			"Robertson_7776.jpg", "Santucci_3708.jpg", "Schwender_7961.jpg", "Scroggins_1293.jpg", "Scroggins_9472.jpg",
-			"Shaddix_1745.jpg", "Shaddix_2506.jpg", "Shaddix_3843.jpg", "Shaddix_5138.jpg", "american-lotus-2.jpg",
-			"auditorium-stairs.jpg", "behind-tall-grass.jpg", "bright-tevatron-tunnel.jpg", "coyote-wilson-hall.jpg",
-			"egret-spots.jpg", "feynman-fountain.jpg", "iarc-angles.jpg", "july-fourth-coyote.jpg",
-			"lightning-storm-over-fermilab.jpg", "main-ring-magnets.jpg", "pom-pom.jpg", "ramsey-wilson.jpg",
-			"sunset-at-caseys-pond.jpg", "water-moon-venus.jpg", "wilson-hall-moon-airplane.jpg", "yellow-flowers.jpg",
-			"yellowwildflowers.jpg", };
-
-	/**
-	 * The images corresponding to the image names specified above
-	 */
-	public final static Image[]		bgImage		= new Image[imageNames.length];
-	/**
-	 * How wide is each image, nominally?
-	 */
-	public final static int[]		imageWidth	= new int[imageNames.length];
-	/**
-	 * how tall is each image, nominally?
-	 */
-	public final static int[]		imageHeight	= new int[imageNames.length];
-	/**
-	 * The offset from the top of the screen to put the text
-	 */
-	public final static int[]		offsets		= new int[imageNames.length];
-
-	/**
-	 * Must be called by the ChannelSelector prior to startup! This was simply a "static" block, but this is entirely unnecessary
-	 * for the Displays
-	 */
-	public final static void prepareSaverImages() {
-		List<String> a = Arrays.asList(imageNames);
-		Collections.shuffle(a); // Randomize the presentation
-		int i = 0;
-		for (String name : a) {
-			ImageIcon icon = new ImageIcon("bin/gov/fnal/ppd/dd/images/" + name);
-			bgImage[i] = icon.getImage();
-			imageWidth[i] = icon.getIconWidth();
-			imageHeight[i] = icon.getIconHeight();
-			offsets[i] = (int) (50.0 + 150.0 * Math.random());
-			i++;
-		}
-	}
-
-	/**
-	 * 
-	 */
+		 * 
+		 */
 	public static int			INSET_SIZE				= 10;
 	/**
 	 * 
@@ -189,19 +134,12 @@ public class GlobalVariables {
 	 * (49152 - 65535) Controlled by system constant ddisplay.messagingserver. I like primes.
 	 */
 	public final static int		MESSAGING_SERVER_PORT	= PropertiesFile.getIntProperty("messagingPort", 49999);
-	// public final static int MESSAGING_SERVER_PORT = Integer.getInteger("ddisplay.messagingport", 49999);
-	/**
-	 * Where is the Web server? Controlled by system constant ddisplay.webserver
-	 */
+	/** Where is the Web server? Controlled by system constant ddisplay.webserver */
 	public final static String	WEB_SERVER_NAME			= PropertiesFile.getProperty("webServer", "dynamicdisplays.fnal.gov");
-	/**
-	 * Where is the Web server? Controlled by system constant ddisplay.webserver
-	 */
+	/** Where is the Web server? Controlled by system constant ddisplay.webserver */
 	private final static String	WEB_SERVER_FOLDER		= PropertiesFile.getProperty("webFolder", "");
 
-	/**
-	 * Do we use http or https?
-	 */
+	/** Do we use http or https? */
 	public final static String	WEB_PROTOCOL			= PropertiesFile.getProperty("defaultWebProtocol", "https");
 
 	/**
@@ -214,19 +152,15 @@ public class GlobalVariables {
 		return WEB_PROTOCOL + "://" + WEB_SERVER_NAME;
 	}
 
+	/** The name of the ZIP file that will contain a software update */
 	public static final String	SOFTWARE_FILE_ZIP			= PropertiesFile.getProperty("SoftwareFileZip");
+	/** The location of the ZIP file that will contain a software update */
 	public static final String	UNZIP_PROGRAM_LOCATION		= PropertiesFile.getProperty("UnzipLocation");
-	/**
-	 * Where is the Database server? Controlled by system constant ddisplay.dbserver
-	 */
+	/** Where is the Database server? Controlled by system constant ddisplay.dbserver */
 	public static String		DATABASE_SERVER_NAME		= System.getProperty("ddisplay.dbserver");
-	/**
-	 * The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname
-	 */
+	/** The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname */
 	public static String		DATABASE_NAME				= System.getProperty("ddisplay.dbname");
-	/**
-	 * The username for accessing the database
-	 */
+	/** The username for accessing the database */
 	public static String		DATABASE_USER_NAME			= System.getProperty("ddisplay.dbusername");
 	/**
 	 * the password corresponding to the username that accesses the database. Note that this MUST be entered by hand for each time
@@ -239,78 +173,49 @@ public class GlobalVariables {
 	 */
 	public final static String	XML_SERVER_NAME				= System.getProperty("ddisplay.xmlserver");
 
-	/**
-	 * The URL that is the single image display web page. This is a bit of a kludge!
-	 */
+	/** The URL that is the single image display web page. This is a bit of a kludge! */
 	public final static String	SINGLE_IMAGE_DISPLAY		= PropertiesFile.getProperty("singleImageDisplay",
 			getFullURLPrefix() + "/portfolioOneSlide.php?photo=");
 
-	/**
-	 * A symbol for 1,000,000,000.
-	 */
+	/** A symbol for 1,000,000,000. */
 	public final static int		ONE_BILLION					= 1000000000;
 
-	/**
-	 * One second, expressed in milliseconds (e.g., 1000L)
-	 */
+	/** One second, expressed in milliseconds (e.g., 1000L) */
 	public final static long	ONE_SECOND					= 1000L;
-	/**
-	 * One Minute, expressed in milliseconds (e.g., 60000L)
-	 */
+	/** One Minute, expressed in milliseconds (e.g., 60000L) */
 	public final static long	ONE_MINUTE					= 60L * ONE_SECOND;
-	/**
-	 * 15 minutes, expressed in milliseconds (e.g., 900000L)
-	 */
+	/** 15 minutes, expressed in milliseconds (e.g., 900000L) */
 	public final static long	FIFTEEN_MINUTES				= 15L * ONE_MINUTE;
-	/**
-	 * One hour, expressed in milliseconds (e.g., 3600000L)
-	 */
+	/** One hour, expressed in milliseconds (e.g., 3600000L) */
 	public final static long	ONE_HOUR					= 60L * ONE_MINUTE;
-	/**
-	 * One day (24 hours), expressed in milliseconds (e.g., 86400000L)
-	 */
+	/** One day (24 hours), expressed in milliseconds (e.g., 86400000L) */
 	public final static long	ONE_DAY						= 24L * ONE_HOUR;
-	/**
-	 * Used in ChannelSelector to go to the splash screen
-	 */
+	/** Used in ChannelSelector to go to the splash screen */
 	public final static long	INACTIVITY_TIMEOUT			= 3L * ONE_MINUTE;
-	/**
-	 * Used in ChannelSelector
-	 */
+	/** Used in ChannelSelector */
 	public final static long	PING_INTERVAL				= 5L * ONE_SECOND;
 
 	/**
 	 * How long should the client wait between attempts to reconnect to the server. For displays, ONE_MINUTE is good. For
 	 * Controllers, the user is going to be less patient!
 	 */
-	public static long			WAIT_FOR_SERVER_TIME		= ONE_MINUTE;
+	public final static long	WAIT_FOR_SERVER_TIME		= ONE_MINUTE;
 
-	/**
-	 * The string that means "show me your colors"
-	 */
+	/** The string that means "show me your colors" */
 	public final static String	SELF_IDENTIFY				= "http://identify";
-
-	/**
-	 * The string of a URL that means, perform a full and complete refresh of the page you are showing now
-	 */
+	/** The string of a URL that means, perform a full and complete refresh of the page you are showing now */
 	public final static String	FORCE_REFRESH				= "http://refresh";
-
+	/** Expected exit codes: This signifies a normal exit, and we should be able to recover from it */
 	public final static int		PURE_EXIT_OF_JVM			= 0;
-	/* We are pretty sure this is an error we can recover from */
+	/** Expected exit codes: This signifies an exit we should be able to recover from */
 	public final static int		SIMPLE_RECOVERABLE_ERROR	= -1;
-	/* This is probably an error we can recover from */
+	/** Expected exit codes: This signifies an error we might be able to recover from */
 	public final static int		POSSIBLE_RECOVERABLE_ERROR	= -2;
-	/* This is an error we cannot recover from */
+	/** Expected exit codes: This signifies an error we cannot recover from */
 	public final static int		UNRECOVERABLE_ERROR			= -999;
-
-	/**
-	 * The name that is associated with the default URL for a Display
-	 */
+	/** The name that is associated with the default URL for a Display */
 	public static final String	STANDBY_URL_NAME			= "unspecified content";
-
-	/**
-	 * The default URL for a Display
-	 */
+	/** The default URL for a Display */
 	public static final String	STANDBY_URL					= WEB_PROTOCOL + "://" + WEB_SERVER_NAME + "/standby.html";
 
 	/**
@@ -319,6 +224,8 @@ public class GlobalVariables {
 	public static List<Display>	displayList					= null;
 
 	private static Logger		logger						= null;
+
+	private final static long	DEFAULT_DWELL_TIME			= 2 * ONE_HOUR;
 
 	/**
 	 * <p>
@@ -331,13 +238,12 @@ public class GlobalVariables {
 	 * <ol>
 	 * </p>
 	 */
-	private final static long	DEFAULT_DWELL_TIME			= 2 * ONE_HOUR;
-
 	public final static long getDefaultDwellTime() {
 		// This random 5-second variation is to put default refreshes for different channels and different displays at different
 		// times which I hope will even out the load a little bit. One common scenario is that all the displays start at the
-		// same time, so if they all have the same default timeout, these will collide. It might not be a big deal, but it
-		// makes me feel better.
+		// same time, so if they all have the same default timeout, these will collide.
+
+		// It might not be a big deal, but it makes me feel better.
 		return (long) (10000L * (0.5 - Math.random())) + DEFAULT_DWELL_TIME;
 	}
 
@@ -397,12 +303,13 @@ public class GlobalVariables {
 	 * Long name for the location of the displays
 	 */
 	static String	locationDescription;
+	static String	messagingServerName	= null;
 
 	/**
 	 * @return the location (short) name corresponding to this index value
 	 */
 	public static String getLocationName() {
-		checkName();
+		checkName(); // Be sure to read the database
 		return locationName;
 	}
 
@@ -425,13 +332,11 @@ public class GlobalVariables {
 
 	}
 
-	static String messagingServerName = null;
-
 	/**
 	 * @return The name of our messaging server, e.g., roc-w-11.fnal.gov
 	 */
 	public static String getMessagingServerName() {
-		checkName();
+		checkName(); // Be sure to read the database
 		return messagingServerName;
 	}
 
@@ -440,7 +345,7 @@ public class GlobalVariables {
 	 * 
 	 * On Linux (& MAC) the default will be $HOME/keystore/private\<ipname\> selector 00.key
 	 * 
-	 * On Windows the default will be %HOMEDIR%\\keystore\\private\<ipname\> selector 00.key
+	 * On Windows the default is expected to be C:\\keystore\\\<ipname\> selector 00.key
 	 * 
 	 */
 	public static String	PRIVATE_KEY_LOCATION;
@@ -453,6 +358,11 @@ public class GlobalVariables {
 	private static String[]	credentialsPath	= { "/keystore/", System.getenv("HOME") + "/keystore/",
 			System.getenv("HOMEPATH") + "/keystore/" };
 
+	/**
+	 * Every machine EXCEPT places where the development happens will be eligible to update their code.
+	 * 
+	 * @return Return if this is NOT a development machine
+	 */
 	public static boolean okToUpdateSoftware() {
 		for (String test : PropertiesFile.getProperty("DevelopmentMachine").split(":"))
 			if (THIS_IP_NAME.equals(test)) {
@@ -534,11 +444,26 @@ public class GlobalVariables {
 
 	private static String DISPLAY_NODE_NAME = null;
 
+	/**
+	 * Set the location this node gets the default FLAVOR of the software to be from the database. If this is not called, it will
+	 * get that FLAVOR from the Properties file.
+	 * 
+	 * @param f
+	 *            The name of this node
+	 */
 	public static void setFlavorFromDatabase(String f) {
 		DISPLAY_NODE_NAME = f;
 		println(GlobalVariables.class, "Will be getting the update FLAVOR for this node, " + f + ", from the database.");
 	}
 
+	/**
+	 * What FLAVOR of the software should this instance be looking for.
+	 * 
+	 * @param reset
+	 *            If true, then positively re-read the Properties file. This has no effect if the FLAVOR is being read from the
+	 *            database.
+	 * @return The FLAVOR of the software should this instance be looking for.
+	 */
 	public static FLAVOR getFlavor(boolean reset) {
 		FLAVOR flavor = FLAVOR.PRODUCTION;
 
@@ -645,13 +570,10 @@ public class GlobalVariables {
 	private static ListOfExistingContent contentOnDisplays = new ListOfExistingContent();
 
 	/**
-	 * @return the contentOnDisplays
+	 * @return the the list of content that can be shown
 	 */
 	public static ListOfExistingContent getContentOnDisplays() {
 		return contentOnDisplays;
-	}
-
-	private GlobalVariables() {
 	}
 
 	/**
@@ -675,10 +597,19 @@ public class GlobalVariables {
 		GlobalVariables.lastUserActivity = System.currentTimeMillis();
 	}
 
+	/**
+	 * 
+	 * @return The logger that this instance should be using
+	 */
 	public static Logger getLogger() {
 		return logger;
 	}
 
+	/**
+	 * 
+	 * @param l
+	 *            The logger that this instance should be using
+	 */
 	public static void setLogger(Logger l) {
 		logger = l;
 	}

@@ -5,7 +5,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getContentOnDisplays;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
-import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.getDisplayContent;
 import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.saveDefaultChannels;
@@ -56,6 +55,7 @@ import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.NoSuchDisplayException;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.guiUtils.SplashScreens;
 import gov.fnal.ppd.dd.util.specific.CheckDisplayStatus;
 import gov.fnal.ppd.dd.xml.ChannelSpec;
 
@@ -89,7 +89,7 @@ public class SaveRestoreDefaultChannels implements ActionListener {
 	 * @param args
 	 */
 	public static void main(final String[] args) {
-		prepareSaverImages();
+		SplashScreens.prepareSaverImages();
 
 		try {
 			credentialsSetup();

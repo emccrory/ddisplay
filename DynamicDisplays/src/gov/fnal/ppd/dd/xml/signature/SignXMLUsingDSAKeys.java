@@ -4,7 +4,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
-import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
@@ -62,6 +61,7 @@ import org.xml.sax.SAXException;
 import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.guiUtils.SplashScreens;
 import gov.fnal.ppd.dd.xml.XMLDocumentAndString;
 
 /**
@@ -346,7 +346,7 @@ public class SignXMLUsingDSAKeys {
 		}
 
 		prepareUpdateWatcher(false);
-		prepareSaverImages();
+		SplashScreens.prepareSaverImages();
 		try {
 			credentialsSetup();
 		} catch (CredentialsNotFoundException e) {

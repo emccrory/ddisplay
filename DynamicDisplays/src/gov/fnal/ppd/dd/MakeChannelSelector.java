@@ -20,7 +20,6 @@ import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
-import static gov.fnal.ppd.dd.GlobalVariables.prepareSaverImages;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
@@ -45,6 +44,7 @@ import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.util.guiUtils.SplashScreens;
 import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 import gov.fnal.ppd.dd.util.specific.ObjectSigning;
 import gov.fnal.ppd.dd.util.specific.SelectorInstructions;
@@ -71,7 +71,7 @@ public class MakeChannelSelector {
 
 		prepareUpdateWatcher(false);
 
-		prepareSaverImages();
+		SplashScreens.prepareSaverImages();
 
 		try {
 			credentialsSetup();
@@ -80,8 +80,6 @@ public class MakeChannelSelector {
 			System.exit(-1);
 		}
 		selectorSetup();
-
-		WAIT_FOR_SERVER_TIME = 2500L; // Be impatient when a ChannelSelector cannot reach the server
 
 		ChannelSelector channelSelector = new ChannelSelector();
 		channelSelector.setSelectorID(myDB_ID);
