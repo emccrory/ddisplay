@@ -86,7 +86,7 @@ touch "$log"
 	echo ""
 	echo "$(date) Messaging server daemon exited with an understood failure ..."
 	mailapp=/usr/bin/mail
-	if [ -x $mailapp ] then
+	if [ -x $mailapp ]; then
 	    echo Restarting the messaging server on "$(hostname)" | $mailapp -s "Messaging server has restarted" "$adminEmail"
 	else
 	    echo "Mail application, $mailapp, is not installed on this node"

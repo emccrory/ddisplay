@@ -136,7 +136,7 @@ MyName=$(uname -n)
 	    echo ""
 	    echo "$(date)" " Display program exited with an understood failure ..."
 	    mailapp=/usr/bin/mail
-	    if [ -x $mailapp ] then
+	    if [ -x $mailapp ]; then
 		echo Restarting the display on "$(hostname)" | $mailapp -s "Display software has restarted" "$adminEmail"
 	    else
 		echo "Mail application, $mailapp, is not installed on this node"
