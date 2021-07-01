@@ -72,8 +72,7 @@ cd "$workingDirectory" || exit
 # ls -l $HOME/.mozilla/firefox/*Dynamic*/*.json >> $log 2>&1
 # echo Removing xulstore.json files >> $log 2>&1
 # rm -fv $HOME/.mozilla/firefox/*Dynamic*/xulstore.json >> $log 2>&1
-
-MyName=$(uname -n)
+# MyName=$(uname -n)
 
 {
     # This used top check to see if this node is supposed to run the messaging server.  This is not relevant anymore.

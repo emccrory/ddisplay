@@ -33,7 +33,7 @@ done
 
 # This compression might take some time.  Wait for it so the log file doesn't get overwritten
 gzip messagingServerOther_*.log messagingServer_*.log 
-mv *.gz oldLogs
+mv ./*.gz oldLogs
 
 cd ../roc-dynamicdisplays/DynamicDisplays || exit
 workingDirectory=$(pwd)
