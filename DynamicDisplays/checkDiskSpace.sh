@@ -5,8 +5,8 @@
 #  (1) - String to attach to the error dialog (Optional)
 #
 # Exit codes:
-#  0 - Everything is OK - there is enough disk space
-# -1 - There is not enough disk space!
+#  0  - Everything is OK - there is enough disk space
+# 255 - There is not enough disk space!
 #
 
 export minimumDiskSpace=3 #GB
@@ -25,10 +25,10 @@ if [ "$GB" -lt "$minimumDiskSpace" ]; then
     ( 
 	for i in {1..100..2}
 	do
-	    echo $i
+	    echo "$i"
 	    sleep 1;
 	done
     ) |
     zenity --auto-close --percentage=0 --progress --width=800 --title="Dynamic Displays Software Fatal Error - $1" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">$text</span>"
-    exit -1;
+    exit 255;
 fi

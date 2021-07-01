@@ -7,5 +7,5 @@ dbFlavor=$(java gov.fnal.ppd.dd.db.DisplayUtilDatabase | grep FLAVOR | awk '{ pr
 if [ "X $dbFlavor" = "X " ]; then
     ./property.sh UpdateFlavor
 else
-    echo $dbFlavor
+    echo "$dbFlavor"
 fi

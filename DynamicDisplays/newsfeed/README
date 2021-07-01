@@ -1,0 +1,10 @@
+The files in this folder were an attempt to hack a newsfeed scroll at the bottom of the displays.
+
+This did some fairly fragile text matching to scrape the new text from an RSS feed.
+
+This was abandoned in early 2018.
+
+If this were to be somthing that others would like to continue, I recommend that it starts with a well-tested XML interpreter.
+
+Elliott McCrory
+July 2021.
