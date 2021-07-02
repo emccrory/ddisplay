@@ -59,7 +59,7 @@ pipeline {
 		    gov.fnal.ppd.dd.util.specific.SummarizeContentHistory \
 		    gov.fnal.ppd.dd.util.specific.TranslateGITHashCodeToDate \
 		    gov.fnal.ppd.security.CheckHostName \
-		do
+		; do
 		      echo "      $i"
 		      java $i
 
