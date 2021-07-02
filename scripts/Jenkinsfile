@@ -45,7 +45,7 @@ pipeline {
 		cd DynamicDisplays
 		set +x		
 		. ./setupEnvironment.sh
-		set -x
+
 		echo "----- Testing that certain classes run ----"
 
 		echo
@@ -105,6 +105,8 @@ pipeline {
 		ls -l ../config/config.properties ../config/config.properties_hold
 		rm ../config/config.properties 
 		mv ../config/config.properties_hold ../config/config.properties
+
+		set -x
 		"""
 	    }
 	}
