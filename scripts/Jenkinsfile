@@ -89,10 +89,6 @@ pipeline {
 		java gov.fnal.ppd.dd.util.specific.IsDisplayNode 
 
 		echo
-		echo "======================================================================"
-		echo "==========" gov.fnal.ppd.dd.util.specific.SummarizeContentHistory 
-		java gov.fnal.ppd.dd.util.specific.SummarizeContentHistory 
-
 		echo
 		echo "======================================================================"
 		echo "==========" gov.fnal.ppd.dd.util.specific.TranslateGITHashCodeToDate 
