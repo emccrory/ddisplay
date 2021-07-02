@@ -99,7 +99,9 @@ pipeline {
 		echo "==========" gov.fnal.ppd.security.CheckHostName
 		java gov.fnal.ppd.security.CheckHostName
 
-		echo "Testing that the PropertiesFile class runs"
+		echo
+		echo "======================================================================"
+		echo "========= Testing that the PropertiesFile class runs"
 		cp -p ../config/config.properties ../config/config.properties_hold
 		java gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile
 		ls -l ../config/config.properties ../config/config.properties_hold
