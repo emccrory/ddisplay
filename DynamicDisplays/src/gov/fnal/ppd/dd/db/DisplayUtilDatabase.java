@@ -305,6 +305,7 @@ public class DisplayUtilDatabase {
 			myNode = InetAddress.getLocalHost().getCanonicalHostName().replace(".dhcp.", ".");
 		} catch (UnknownHostException e2) {
 			e2.printStackTrace();
+			System.exit(-1);
 		}
 
 		FLAVOR flavor = getFlavorFromDatabase(myNode);

@@ -200,8 +200,5 @@ public class JavaVersion {
 
 		System.out
 				.println("(Sanity check) The Java version " + (getInstance().hasVersionChanged() ? "has changed" : "is unchanged"));
-
-		// Check to see that this causes the Jenkins task to fail.
-		System.exit(-1);
 	}
 }

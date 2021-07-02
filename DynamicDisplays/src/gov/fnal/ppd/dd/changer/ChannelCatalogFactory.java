@@ -66,7 +66,8 @@ public class ChannelCatalogFactory {
 		} catch (CredentialsNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.exit(-1);
 		}
-		System.out.println("Baby: " + getInstance());
+		System.out.println("ChannelCatalogFactory: " + getInstance().toString().length() + " characters.  First 1024:\n" + getInstance().toString().substring(0, 1024).replace(',', '\n') + " ... ");
 	}
 }

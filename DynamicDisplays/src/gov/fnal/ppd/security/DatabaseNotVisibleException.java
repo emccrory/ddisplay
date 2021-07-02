@@ -19,12 +19,4 @@ public class DatabaseNotVisibleException extends Exception {
 	public DatabaseNotVisibleException(final String s) {
 		super(s);
 	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(final String[] args) {
-		new DatabaseNotVisibleException("Howdy!").printStackTrace();
-	}
-	
 }

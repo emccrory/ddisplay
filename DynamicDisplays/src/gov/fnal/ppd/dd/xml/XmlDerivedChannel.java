@@ -29,11 +29,4 @@ public class XmlDerivedChannel extends ChannelImpl {
 	public XmlDerivedChannel(String string) throws URISyntaxException {
 		super(string, "This channel is " + string, new URI(GlobalVariables.STANDBY_URL), 0, 0);
 	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(final String[] args) {
-		System.out.println(GlobalVariables.STANDBY_URL);
-	}
 }
