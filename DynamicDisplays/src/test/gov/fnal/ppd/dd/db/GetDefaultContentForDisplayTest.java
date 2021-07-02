@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.GetDefaultContentForDisplay;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 
 /**
  * Tests of the class GetDefaultContentForDisplay

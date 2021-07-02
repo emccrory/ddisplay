@@ -7,9 +7,9 @@ package gov.fnal.ppd.dd.changer;
 
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.interfaces.ChannelCatalog;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 
 /**
  * Singleton class to deal with getting the Channel Catalog to the client.

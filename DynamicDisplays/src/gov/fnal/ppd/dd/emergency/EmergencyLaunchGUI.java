@@ -50,11 +50,11 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent.DisplayChangeType;
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.util.specific.CheckDisplayStatus;
 import gov.fnal.ppd.dd.util.specific.ObjectSigning;
 

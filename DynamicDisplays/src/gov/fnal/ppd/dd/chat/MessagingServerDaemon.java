@@ -16,7 +16,7 @@ import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.util.Date;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 
 /**

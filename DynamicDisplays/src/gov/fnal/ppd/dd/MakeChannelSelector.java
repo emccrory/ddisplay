@@ -45,6 +45,7 @@ import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.util.guiUtils.SplashScreens;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 import gov.fnal.ppd.dd.util.specific.ObjectSigning;
 import gov.fnal.ppd.dd.util.specific.SelectorInstructions;

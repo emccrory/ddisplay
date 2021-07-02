@@ -2,7 +2,7 @@ package test.gov.fnal.ppd.dd;
 
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 
 /**
  * Several tests in this part of the suite need to make a connection to the database. They should all extend this class so that the

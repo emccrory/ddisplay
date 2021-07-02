@@ -8,7 +8,7 @@ import static org.junit.Assume.assumeTrue;
 
 import org.junit.Test;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 import test.gov.fnal.ppd.dd.NeedsCredentials;
 /**
  * Tests of the class ChannelCatalogFactory

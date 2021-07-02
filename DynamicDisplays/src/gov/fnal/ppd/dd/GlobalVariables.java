@@ -28,6 +28,8 @@ import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.interfaces.NotificationClient;
 import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.util.guiUtils.NotificationClientText;
+import gov.fnal.ppd.dd.util.nonguiUtils.CheckForUpdatesTimerTask;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 import gov.fnal.ppd.dd.util.specific.NotificationClientGUI;
 import gov.fnal.ppd.dd.util.version.VersionInformation;

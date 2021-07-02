@@ -38,7 +38,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.channel.ChannelInList;
 import gov.fnal.ppd.dd.channel.ChannelListHolder;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
@@ -50,6 +49,7 @@ import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.guiUtils.BigButtonSpinner;
 import gov.fnal.ppd.dd.util.guiUtils.BigLabel;
 import gov.fnal.ppd.dd.util.guiUtils.VirtualKeyboard;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 
 /**
  * The complete user interface for building, modifying, saving and restoring lists of channels in the Dynamic Displays system

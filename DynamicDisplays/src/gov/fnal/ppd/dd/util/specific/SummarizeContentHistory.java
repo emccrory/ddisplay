@@ -20,9 +20,9 @@ import java.util.List;
 
 import javax.xml.bind.UnmarshalException;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
 import gov.fnal.ppd.dd.xml.MyXMLMarshaller;

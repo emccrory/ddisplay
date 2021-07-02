@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd;
+package gov.fnal.ppd.dd.chat;
 
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;
 import static gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;
@@ -35,8 +35,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-import gov.fnal.ppd.dd.chat.MessagingClient;
+import gov.fnal.ppd.dd.ChannelSelector;
 import gov.fnal.ppd.dd.util.guiUtils.JTextAreaBottom;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 
 /**

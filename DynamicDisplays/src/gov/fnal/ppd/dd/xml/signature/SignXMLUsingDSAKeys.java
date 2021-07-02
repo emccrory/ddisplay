@@ -58,10 +58,10 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.util.guiUtils.SplashScreens;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.xml.XMLDocumentAndString;
 
 /**
@@ -364,7 +364,7 @@ public class SignXMLUsingDSAKeys {
 			signDocument(args[1], System.out);
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
-
 }

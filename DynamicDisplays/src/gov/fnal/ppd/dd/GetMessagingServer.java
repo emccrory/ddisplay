@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 
 /**
  * Handle the retrieval of the messaging server.  This is used within the startup scripts of all of the apps in this suite.

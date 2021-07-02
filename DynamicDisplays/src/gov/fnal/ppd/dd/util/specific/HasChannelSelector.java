@@ -10,9 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 
 /**
  * A utility class to see if this node has an entry in the SelectorLocation table
@@ -68,8 +68,8 @@ public class HasChannelSelector {
 				} catch (SQLException e) {
 					System.err.println(query);
 					e.printStackTrace();
+					System.exit(-1);
 				}
-
 			}
 
 		} catch (UnknownHostException e) {
@@ -79,6 +79,5 @@ public class HasChannelSelector {
 		
 		System.out.println (hasChannelSelector? "This node is expected to run a channel selector" : "This node will NOT run a channel selector");
 		System.exit(hasChannelSelector ? 0 : -1);
-
 	}
 }

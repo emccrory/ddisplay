@@ -3,9 +3,9 @@ package gov.fnal.ppd.dd.util.specific;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -209,6 +209,7 @@ public class TranslateGITHashCodeToDate {
 				return;
 			} catch (Exception e) {
 				e.printStackTrace();
+				System.exit(-1);
 			}
 		else {
 			TranslateGITHashCodeToDate hashcodeTranslation = new TranslateGITHashCodeToDate(args[0]);
@@ -229,6 +230,7 @@ public class TranslateGITHashCodeToDate {
 						System.out.println("The hash code '" + hashcodeTranslation.getHashCode()
 								+ "' has no corresponding time stamp in the DB");
 					}
+					System.exit(-1);
 				}
 		}
 	}

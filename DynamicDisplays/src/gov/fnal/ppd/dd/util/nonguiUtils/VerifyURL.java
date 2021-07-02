@@ -50,6 +50,7 @@ public class VerifyURL {
 			System.out.println("The url [" + args[0] + "] is " + (isValid(args[0]) ? "valid" : "NOT valid - " + whyFailed));
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 }

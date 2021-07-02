@@ -19,7 +19,7 @@ import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 
 // import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
@@ -89,6 +89,7 @@ public class XMLDocumentAndString {
 			doc = dbf.newDocumentBuilder().parse(fis);
 		} catch (IOException | SAXException | ParserConfigurationException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 		XMLDocumentAndString d1 = new XMLDocumentAndString(doc);
 		XMLDocumentAndString d2 = new XMLDocumentAndString(d1.getTheXML());
@@ -122,8 +123,8 @@ public class XMLDocumentAndString {
 				SignXMLUsingDSAKeys.setupDSA(args[1], "ad130482 selector 00");
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchAlgorithmException
 					| InvalidAlgorithmParameterException | InvalidKeySpecException | KeyException | IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				System.exit(-1);
 			}
 
 			// Sign the document from the file and see what happens
@@ -136,6 +137,7 @@ public class XMLDocumentAndString {
 
 			} catch (Exception e) {
 				e.printStackTrace();
+				System.exit(-1);
 			}
 			System.exit(0);
 		}

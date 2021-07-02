@@ -7,11 +7,11 @@ import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.awt.Color;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.channel.ChannelPlayList;
 import gov.fnal.ppd.dd.display.client.DisplayControllerMessagingAbstract;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 

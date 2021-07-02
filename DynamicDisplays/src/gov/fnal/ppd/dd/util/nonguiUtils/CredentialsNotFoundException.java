@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd;
+package gov.fnal.ppd.dd.util.nonguiUtils;
 
 /**
  * An exception that is thrown if no credentials to access the database are found

@@ -37,9 +37,8 @@ public class GenerateNewKeyPair {
 
 	private static final String			ALG_TYPE				= "DSA";
 	private volatile static Connection	connection;
-	private static final String			DEFAULT_SERVER			= "mccrory.fnal.gov";
 	private static final String			DATABASE_NAME			= System.getProperty("ddisplay.dbname", "xoc_dev");
-	private static final String			DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver", DEFAULT_SERVER);
+	private static final String			DATABASE_SERVER_NAME	= System.getProperty("ddisplay.dbserver");
 	private static String				serverNode				= DATABASE_SERVER_NAME;
 	private static String				thisNode;
 
@@ -63,6 +62,7 @@ public class GenerateNewKeyPair {
 		} catch (UnknownHostException e) {
 			System.err.println("Cannot get my own IP name.  IP Address is " + ip);
 			e.printStackTrace();
+			System.exit(-1);
 		}
 
 		if (serverNode.equals(thisNode))
@@ -106,7 +106,7 @@ public class GenerateNewKeyPair {
 	 *            the message to print
 	 */
 	private static void println(Class<?> clazz, String message) {
-		System.out.println(new Date() + " -- " + clazz.getSimpleName() + message);
+		System.out.println(new Date() + " -- " + clazz.getSimpleName() + ": " + message);
 	}
 
 	/**

@@ -3,11 +3,13 @@
  *
  * Copyright (c) 2013-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.
  */
-package gov.fnal.ppd.dd;
+package gov.fnal.ppd.ZZattic;
 
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
+import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 
+import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,13 +18,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 
 /**
  * Let the user ask each Display in the Dynamic Display system to go to the "Identify" screen. Since this Channel is designed to
@@ -44,7 +50,7 @@ public class IdentifyAll implements ActionListener {
 	private static IdentifyAll	me;
 
 	private static class PlainURLChannel extends ChannelImpl {
-		private static final long	serialVersionUID	= 1713902164277236377L;
+		private static final long serialVersionUID = 1713902164277236377L;
 
 		/**
 		 * @param theURL
@@ -145,9 +151,18 @@ public class IdentifyAll implements ActionListener {
 	}
 
 	/**
+	 * Create the "Identify All" GUI to allow the "Identify All" directive to all the local displays
+	 * 
 	 * @param args
+	 *            No args are expected
 	 */
 	public static void main(final String[] args) {
+		try {
+			credentialsSetup();
+		} catch (CredentialsNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector();
 
 		title = "Identify all at location=" + getLocationCode();
@@ -155,7 +170,12 @@ public class IdentifyAll implements ActionListener {
 		JFrame f = new JFrame(IdentifyAll.class.getSimpleName());
 		IdentifyAll.setup(null, 30.0f, new Insets(20, 50, 20, 50));
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setContentPane(IdentifyAll.getButton());
+		Box b = Box.createVerticalBox();
+		b.add(new JLabel("Pressing this button will send the 'Identify All' directive to all the displays"));
+		b.add(Box.createRigidArea(new Dimension(10, 10)));
+		b.add(IdentifyAll.getButton());
+		b.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		f.setContentPane(b);
 		f.pack();
 		f.setVisible(true);
 	}

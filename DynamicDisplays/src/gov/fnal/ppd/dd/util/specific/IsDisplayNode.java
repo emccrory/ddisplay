@@ -12,9 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 
 /**
  * A utility class to see if this node is supposed to be a display.
@@ -70,8 +70,8 @@ public class IsDisplayNode {
 				} catch (SQLException e) {
 					printlnErr(IsDisplayNode.class, query);
 					e.printStackTrace();
+					System.exit(-1);
 				}
-
 			}
 
 		} catch (UnknownHostException e) {

@@ -4,9 +4,9 @@ import static gov.fnal.ppd.dd.GlobalVariables.SINGLE_IMAGE_DISPLAY;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.db.ChannelsFromDatabase.readValidChannels;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.signage.Channel;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 
 import java.util.HashMap;
 

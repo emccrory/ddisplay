@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd;
+package gov.fnal.ppd.dd.util.nonguiUtils;
 
 import static gov.fnal.ppd.dd.GlobalVariables.getFlavor;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.TimerTask;
 
 import gov.fnal.ppd.dd.interfaces.NotificationClient;
-import gov.fnal.ppd.dd.util.nonguiUtils.ExitHandler;
 import gov.fnal.ppd.dd.util.specific.DownloadNewSoftwareVersion;
 import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;

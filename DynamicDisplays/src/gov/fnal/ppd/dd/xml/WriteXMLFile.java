@@ -7,7 +7,6 @@ import static gov.fnal.ppd.dd.util.specific.PackageUtilities.getChannelFromNumbe
 import java.net.URI;
 import java.util.Set;
 
-import gov.fnal.ppd.dd.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
@@ -18,6 +17,7 @@ import gov.fnal.ppd.dd.channel.ConcreteChannelListHolder;
 import gov.fnal.ppd.dd.emergency.EmergencyMessage;
 import gov.fnal.ppd.dd.emergency.Severity;
 import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 import gov.fnal.ppd.dd.xml.messages.ChangeChannel;
 import gov.fnal.ppd.dd.xml.messages.ChangeChannelByNumber;
 import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
