@@ -14,6 +14,7 @@ public class CheckHostName {
 			System.out.println("The host name, according to the JVM, is '" + hostname + "' (derived from '" + h + "')");
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace();
+			System.exit(-1);
 		}		
 	}
 }
