@@ -47,21 +47,23 @@ pipeline {
 		. ./setupEnvironment.sh
 		set -x
 		echo "----- Testing that certain classes run ----"
-		for i in \
-		    gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion \
-		    gov.fnal.ppd.dd.util.nonguiUtils.PerformanceMonitor \
-		    gov.fnal.ppd.dd.changer.ChannelCatalogFactory \
-		    gov.fnal.ppd.dd.channel.MapOfChannels \
-		    gov.fnal.ppd.dd.db.DisplayUtilDatabase \
-		    gov.fnal.ppd.dd.db.GetDefaultContentForDisplay \
-		    gov.fnal.ppd.dd.util.specific.HasChannelSelector \
-		    gov.fnal.ppd.dd.util.specific.IsDisplayNode \
-		    gov.fnal.ppd.dd.util.specific.SummarizeContentHistory \
-		    gov.fnal.ppd.dd.util.specific.TranslateGITHashCodeToDate \
-		    gov.fnal.ppd.security.CheckHostName \
-		; do
-		      echo "      $i"
-		      java $i
+		myArray=( gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion )
+		myArray+=( gov.fnal.ppd.dd.util.nonguiUtils.PerformanceMonitor )
+		myArray+=( gov.fnal.ppd.dd.changer.ChannelCatalogFactory )
+		myArray+=( gov.fnal.ppd.dd.channel.MapOfChannels )
+		myArray+=( gov.fnal.ppd.dd.db.DisplayUtilDatabase )
+		myArray+=( gov.fnal.ppd.dd.db.GetDefaultContentForDisplay )
+		myArray+=( gov.fnal.ppd.dd.util.specific.HasChannelSelector )
+		myArray+=( gov.fnal.ppd.dd.util.specific.IsDisplayNode )
+		myArray+=( gov.fnal.ppd.dd.util.specific.SummarizeContentHistory )
+		myArray+=( gov.fnal.ppd.dd.util.specific.TranslateGITHashCodeToDate )
+		myArray+=( gov.fnal.ppd.security.CheckHostName )
+		for i in ${myArray[@]} ; do 
+		    echo
+		    echo "======================================================================"
+		    echo "========== $i"
+		    echo "      $i"
+		    java $i
 
 		done		    
 
