@@ -57,15 +57,6 @@ public class ChannelInListImpl extends ChannelImpl implements ChannelInList {
 		setTime(dwell);
 	}
 
-	/**
-	 * @param c
-	 * @param seqNum
-	 */
-	public ChannelInListImpl(final Channel c, final int seqNum) {
-		this(c);
-		setSequenceNumber(seqNum);
-	}
-
 	public String toString() {
 		return sequenceNumber + ": Channel #" + getNumber() + " [ " + getName() + " ] (" + getTime() + " milliseconds)";
 	}
