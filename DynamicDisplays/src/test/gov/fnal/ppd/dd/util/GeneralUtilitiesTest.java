@@ -19,7 +19,7 @@ import org.junit.Test;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *
  */
-public class UtilTest {
+public class GeneralUtilitiesTest {
 
 	@Test
 	public void testTruncateStringInt() {
