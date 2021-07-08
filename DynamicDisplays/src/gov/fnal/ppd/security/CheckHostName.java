@@ -3,6 +3,12 @@ package gov.fnal.ppd.security;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/** 
+ * This class is used during the key-pair generation to get the hostname, as determined by the JVM.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class CheckHostName {
 
 	public static void main(String[] args) {
