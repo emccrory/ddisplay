@@ -66,7 +66,7 @@ public class GeneralUtilitiesTest {
 			}
 
 		};
-		assertEquals("(Object in UtilTest)", getClassName(o.getClass()));
+		assertEquals("(Object in GeneralUtilitiesTest)", getClassName(o.getClass()));
 	}
 
 	@Test

@@ -1,7 +1,5 @@
 package test.gov.fnal.ppd.dd;
 
-import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
-
 /**
  * Several tests in this part of the suite need to make a connection to the database. They should all extend this class so that the
  * static block, here, is executed. And then the classes that need the connection should check the value of credentialsOK. This code
@@ -15,7 +13,8 @@ public class NeedsCredentials {
 	protected static boolean credentialsOK = false;
 	static {
 		try {
-			credentialsSetup();
+			System.out.println("Hi there");
+			gov.fnal.ppd.dd.GlobalVariables.credentialsSetup();
 			credentialsOK = true;
 		} catch (gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException e) {
 			e.printStackTrace();
