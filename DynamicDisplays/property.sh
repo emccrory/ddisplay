@@ -12,9 +12,11 @@ if [ "$1" ]; then
     unset IFS
     
     # Look up the parameters as passed as the first argument here
-    # the old way -> echo "${CONFIG[$1]}" # | sed 's/\r//g' # It always seems to end in \r
-    # The new way, that passes shellcheck
-    c="${CONFIG[$1]//"$(printf '%s' '\r')"/}"
+    prop="${CONFIG[$1]}"
+    # for reasons unkonwn to me, the last character is the \r character.  This removal is not ideal - one would really want 
+    # to remove the \r character and leave the string unchanged if this fizes itself somehow.  But the echo|sed line that 
+    # works does not pass shellcheck.  And I could not get the other way, "${var//sub/for}", thing to work.
+    c=${prop%?}
     echo "$c"
 fi
 

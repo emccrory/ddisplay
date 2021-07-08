@@ -199,11 +199,22 @@ mv "$initialTemp" "$log"
     java gov.fnal.ppd.dd.db.GetDefaultContentForDisplay > $temp
     
     displayType=$(grep DISPLAYTYPE "$temp" | awk '{ print $2 }')
-    
-    if [ "$displayType" = "Regular" ]; then
+    reg="Regular/Selenium"
+    ff="FirefoxOnly"
+    if [ "$displayType" = "$reg" ]; then
+	echo "$0 - Running the regular, Selenium-based browser"
 	./runADisplay.sh &
-    else
+    elif [  "$displayType" = "ff" ]; then
+	echo "$0 - Running the simplified, Firefox-only browser.  This version is less capable than the regular version."
 	./startFirefoxOnly.sh &
+    else
+	text1="\nThe type of browser connection, '$displayType', is undefined.";
+	text2="\nExpected '$reg' '$ff'";
+	text3="\n\nScript $0 - Take a picture of this and send it to an expert.";
+	echo "$text1"
+	echo "$text2"
+	echo "$text3"
+	zenity --error --width=900 --title="Dynamic Displays Software Fatal Error E" --text="<span font-family=\"sans\" font-weight=\"900\" font-size=\"40000\">$text1</span><span font-family=\"sans\" font-weight=\"400\" font-size=\"20000\">$text2</span><span font-family=\"sans\" font-weight=\"400\" font-size=\"10000\">$text3</span>"
     fi
     
     # Since the start commands are pushed into the background, we are done now.

@@ -80,7 +80,7 @@ cd "$workingDirectory" || exit
 
     echo "$(date) Determining if I should run a ChannelSelector"
     if java gov.fnal.ppd.dd.util.specific.HasChannelSelector; then
-	if pgrep -a MakeChannelSelector ; then
+	if ps -aef | grep MakeChannelSelector ; then
 	    echo "Already running the ChannelSelector."
 	else
 	    echo "Starting the ChannelSelector";
