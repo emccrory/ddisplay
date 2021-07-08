@@ -204,7 +204,7 @@ mv "$initialTemp" "$log"
     if [ "$displayType" = "$reg" ]; then
 	echo "$0 - Running the regular, Selenium-based browser"
 	./runADisplay.sh &
-    elif [  "$displayType" = "ff" ]; then
+    elif [  "$displayType" = "$ff" ]; then
 	echo "$0 - Running the simplified, Firefox-only browser.  This version is less capable than the regular version."
 	./startFirefoxOnly.sh &
     else
