@@ -58,6 +58,7 @@ public class GeneralUtilitiesTest {
 	@Test
 	public void testGetClassName() {
 		assertEquals(getClass().getSimpleName(), getClassName(getClass()));
+		// Create an anonymous class name here as this is used elsewhere.  So if Java changes the way anonymous classes are named, this will fail.
 		ActionListener o = new ActionListener() {
 
 			@Override
