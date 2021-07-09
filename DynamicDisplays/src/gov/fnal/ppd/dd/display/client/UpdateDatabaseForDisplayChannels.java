@@ -26,6 +26,14 @@ import gov.fnal.ppd.dd.xml.MyXMLMarshaller;
 import gov.fnal.ppd.dd.xml.messages.ChangeChannel;
 import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
 
+/**
+ * An implementation of the Display interface that is suitable for pushing into the database. This is used to update the database
+ * table that keeps track of the channels that a Display has been showing. One bit that is unique is that the channel time stamp is
+ * a single number (which is 1500000000, July 14, 2017 2:40:00 AM GMT)
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class UpdateDatabaseForDisplayChannels implements Display {
 
 	private int				displayID;
@@ -78,7 +86,7 @@ public class UpdateDatabaseForDisplayChannels implements Display {
 				((ChangeChannel) cc).setContent(content);
 			}
 			MessageCarrierXML mcx = new MessageCarrierXML("Display" + displayID, "Database", cc);
-			mcx.setTimeStamp(150000000000L);  // We make a common date here so SQL can match identical content
+			mcx.setTimeStamp(150000000000L); // We make a common date here so SQL can match identical content
 
 			String xmlDocument = MyXMLMarshaller.getXML(mcx);
 			println(getClass(), "New content is " + xmlDocument.length() + " bytes long.");
@@ -108,11 +116,11 @@ public class UpdateDatabaseForDisplayChannels implements Display {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		
+
 		// The SQL query that will read which Channels are the most prolific for this Display is:
-		
+
 		// SELECT ContentSpecification,COUNT(*) FROM ContentHistory WHERE DisplayID=46 GROUP BY ContentSpecification
-		
+
 	}
 
 	protected final synchronized void updateMyStatus() {
