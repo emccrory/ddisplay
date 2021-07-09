@@ -1,5 +1,8 @@
 package test.gov.fnal.ppd.dd;
 
+import static gov.fnal.ppd.dd.GetMessagingServer.getDocentNameSelector;
+import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;
+import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assume.assumeTrue;
 
@@ -24,21 +27,21 @@ public class GetMessagingServerTest extends NeedsCredentials {
 		assumeTrue(credentialsOK);
 
 		// This is not necessarily satisfiable since not every node is a Display node
-		assertNotNull(gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay());
+		assertNotNull(getMessagingServerNameDisplay());
 	}
 
 	@Test
 	public void testGetMessagingServerNameSelector() {
 		assumeTrue(credentialsOK);
 		// This is not necessarily satisfiable since not every node is a Selector node
-		assertNotNull(gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector());
+		assertNotNull(getMessagingServerNameSelector());
 	}
 
 	@Test
 	public void testGetDocentNameSelector() {
 		assumeTrue(credentialsOK);
 		// This is not necessarily satisfiable since not every node is a Selector node
-		gov.fnal.ppd.dd.GetMessagingServer.getDocentNameSelector();
+		getDocentNameSelector();
 		assertNotNull(GlobalVariables.docentName);
 	}
 
