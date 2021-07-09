@@ -1,7 +1,10 @@
 package test.gov.fnal.ppd.dd.display;
 
-import static org.junit.Assert.*;
-import static org.junit.Assume.assumeTrue;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -26,32 +29,25 @@ import gov.fnal.ppd.dd.signage.SignageContent;
  */
 public class DisplayImplTest {
 
-	private final int		dbDisplay	= 10;
-	private final int		vDisplay	= 1;
-	private final int		screenNo	= 0;
-	private final String	myName		= "localhost";
-	private final String	myLocation	= "a location";
-	private final Color		myColor		= Color.BLACK;
-	private static Channel	testingChan	= null;
+	private class LocalDisplayImpl extends DisplayImpl {
 
-	private class D extends DisplayImpl {
+		boolean				fullyValid	= false;
+		protected String	errorMessage;
 
-		boolean fullyValid = false;
-
-		public D(String ipName, int vDisplay, int dbDisplay, int screenNumber, String location, Color color) {
+		public LocalDisplayImpl(String ipName, int vDisplay, int dbDisplay, int screenNumber, String location, Color color) {
 			super(ipName, vDisplay, dbDisplay, screenNumber, location, color);
 
 			fullyValid = true;
 			try {
 				@SuppressWarnings("unused")
 				InetAddress t = InetAddress.getByName(ipName);
-				fullyValid = false;
 			} catch (UnknownHostException e) {
 				System.err.println("Host not found: " + ipName);
+				fullyValid = false;
 			}
 
 		}
-		
+
 		public Stack<SignageContent> getStack() {
 			return this.previousChannelStack;
 		}
@@ -65,81 +61,86 @@ public class DisplayImplTest {
 		protected boolean localSetContent() {
 			return true;
 		}
-	}
 
-	public DisplayImplTest() {
-		if (testingDisplay == null) {
-			testingDisplay = new D(myName, vDisplay, dbDisplay, screenNo, myLocation, myColor);
-			try {
-				testingChan = new ChannelImpl("Testing", "Testing desc", new URI("https://www.fnal.gov"), 1, 200000L);
-				testingDisplay.setContent(testingChan);
-			} catch (Exception e) {
-				e.printStackTrace();
-				testingDisplay.fullyValid = false;
-			}
+		public int getListenersSize() {
+			return listeners.size();
 		}
 	}
 
-	private static D testingDisplay = null;
+	private final int			dbDisplay		= 10;
+	private final int			vDisplay		= 1;
+	private final int			screenNo		= 0;
+	private final String		myName			= "localhost";
+	private final String		myLocation		= "a location";
+	private final Color			myColor			= Color.BLACK;
+	 Channel				testingChan		= null;
+	private LocalDisplayImpl	testingDisplay	= new LocalDisplayImpl(myName, vDisplay, dbDisplay, screenNo, myLocation, myColor);
 
+	public DisplayImplTest() {
+		try {
+			testingChan = new ChannelImpl("Testing", "Testing desc", new URI("https://www.fnal.gov"), 1, 200000L);
+			testingDisplay.setContent(testingChan);
+		} catch (Exception e) {
+			e.printStackTrace();
+			testingDisplay.fullyValid = false;
+		}
+	}
+	
 	@Test
 	public void testSetContent() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 		try {
 			Channel c = new ChannelImpl("TestingAgain", "Testing Again Desc", new URI("https://dynamicdisplays.fnal.gov"), 314,
 					23456789L);
 			testingDisplay.setContent(c);
 			assertEquals(testingDisplay.getContent(), c);
-			return;
 		} catch (Exception e) {
-			e.printStackTrace();
-			assert (false);
+			fail("Exception caught: " + e.getClass().getSimpleName() + " -- " + e.getLocalizedMessage());
 		}
 	}
 
 	@Test
 	public void testChannelStack() {
 		// Test that the process of showing the self-identify screen brings us back to the original content
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 		try {
 
 			Channel c1 = new ChannelImpl("Testing_01", "Testing One Desc", new URI("https://dynamicdisplays.fnal.gov/one"), 314,
 					23456789L);
 			Channel c2 = new ChannelImpl("Testing_02", "Testing Two Desc", new URI("https://dynamicdisplays.fnal.gov/two"), 314,
 					23456789L);
-			
+
 			Stack<SignageContent> stack = testingDisplay.getStack();
 			assertNotNull(stack);
-			assert(stack.size() == 0);
+			assertEquals(2, stack.size());
 			SignageContent s1 = testingDisplay.setContent(c1);
-			assert(s1.equals(c1));
+			assertEquals(testingChan, s1);
 			SignageContent s2 = testingDisplay.setContent(c2);
-			assert(s2.equals(c2));
+			assertEquals(c1, s2);
 			stack = testingDisplay.getStack();
 			assertNotNull(stack);
-			assert(stack.size() == 2);
-			
+			assertEquals(4, stack.size());
+
 		} catch (Exception e) {
-			e.printStackTrace();
-			assert (false);
+			fail("Exception caught: " + e.getClass().getSimpleName() + " -- " + e.getLocalizedMessage());
 		}
 	}
 
 	@Test
 	public void testGetDBDisplayNumber() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 		assertEquals(dbDisplay, testingDisplay.getDBDisplayNumber());
 	}
 
 	@Test
 	public void testGetVirtualDisplayNumber() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 		assertEquals(vDisplay, testingDisplay.getVirtualDisplayNumber());
 	}
 
 	@Test
 	public void testSetDBDisplayNumber() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 		int nextDBNum = dbDisplay + 1;
 		testingDisplay.setDBDisplayNumber(nextDBNum);
 		assertEquals(nextDBNum, dbDisplay + 1);
@@ -148,7 +149,7 @@ public class DisplayImplTest {
 
 	@Test
 	public void testSetVirtualDisplayNumber() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 		int nextDBNum = vDisplay + 1;
 		testingDisplay.setVirtualDisplayNumber(nextDBNum);
 		assertEquals(nextDBNum, vDisplay + 1);
@@ -157,13 +158,13 @@ public class DisplayImplTest {
 
 	@Test
 	public void testGetPreferredHighlightColor() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 		assertEquals(myColor, testingDisplay.getPreferredHighlightColor());
 	}
 
 	@Test
 	public void testAddListener() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 
 		try {
 			testingDisplay.addListener(new ActionListener() {
@@ -172,34 +173,50 @@ public class DisplayImplTest {
 				public void actionPerformed(ActionEvent e) {
 				}
 			});
-			assert (true);
-			return;
+			assertTrue(testingDisplay.getListenersSize() > 0);
 		} catch (Exception e) {
-			e.printStackTrace();
-			assert (false);
+			fail("Exception caught: " + e.getClass().getSimpleName() + " -- " + e.getLocalizedMessage());
 		}
 	}
 
 	@Test
 	public void testErrorHandler() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
+
+		try {
+			testingDisplay.addListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("Listener called with " + e.getSource());
+					testingDisplay.errorMessage = e.getSource().toString();
+				}
+			});
+			assertTrue(testingDisplay.getListenersSize() > 0);
+			String message = "Error message " + Math.random();
+			testingDisplay.errorHandler(message);
+			catchSleep(100);
+			assertEquals("Display 10", testingDisplay.errorMessage);
+		} catch (Exception e) {
+			fail("Exception caught: " + e.getClass().getSimpleName() + " -- " + e.getLocalizedMessage());
+		}
 	}
 
 	@Test
 	public void testGetContent() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 		assertEquals(testingChan, testingDisplay.getContent());
 	}
 
 	@Test
 	public void testGetScreenNumber() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 		assertEquals(screenNo, testingDisplay.getScreenNumber());
 	}
 
 	@Test
 	public void testGetIPAddress() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 		try {
 			@SuppressWarnings("unused")
 			InetAddress inet = testingDisplay.getIPAddress();
@@ -213,13 +230,13 @@ public class DisplayImplTest {
 
 	@Test
 	public void testGetLocation() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 		assertEquals(myLocation, testingDisplay.getLocation());
 	}
 
 	@Test
 	public void testGetStatus() {
-		assumeTrue(testingDisplay.fullyValid);
+		assertTrue(testingDisplay.fullyValid);
 		assertEquals(testingChan.toString(), testingDisplay.getStatus());
 	}
 
