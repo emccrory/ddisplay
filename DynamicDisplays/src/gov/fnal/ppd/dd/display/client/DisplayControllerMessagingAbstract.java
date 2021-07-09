@@ -96,7 +96,9 @@ import gov.fnal.ppd.dd.xml.messages.EmergencyMessXML;
  * 
  * FIXME - Contains both Business logic and Database accesses (should be refactored)
  * 
- * @author Elliott McCrory, Fermilab (2014-20)
+ * TODO - Implement some Unit tests.  Some of this SHOULD be testable!
+ * 
+ * @author Elliott McCrory, Fermilab (2014-21)
  */
 public abstract class DisplayControllerMessagingAbstract extends DisplayImpl implements BrowserErrorListener {
 
