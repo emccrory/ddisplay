@@ -39,7 +39,6 @@ public class ListOfValidChannels extends HashSet<String> {
 		Statement stmt = null;
 		ResultSet rs = null;
 		Connection connection;
-		int count = 0;
 
 		try {
 			connection = ConnectionToDatabase.getDbConnection();
@@ -66,7 +65,6 @@ public class ListOfValidChannels extends HashSet<String> {
 
 							if (!rs.next())
 								break;
-							count++;
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -80,7 +78,7 @@ public class ListOfValidChannels extends HashSet<String> {
 			e.printStackTrace();
 		}
 
-		println(this.getClass(), "Found " + count + " URLs.");
+		println(this.getClass(), "Found " + size() + " unique URLs.");
 	}
 
 	/**
