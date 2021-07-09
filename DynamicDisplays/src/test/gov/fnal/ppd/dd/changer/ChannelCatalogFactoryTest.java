@@ -33,5 +33,4 @@ public class ChannelCatalogFactoryTest extends NeedsCredentials {
 		assumeTrue(credentialsOK);
 		assertNotNull(refresh());
 	}
-
 }

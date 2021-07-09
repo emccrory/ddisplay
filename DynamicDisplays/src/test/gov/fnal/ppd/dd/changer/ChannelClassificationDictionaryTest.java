@@ -21,5 +21,4 @@ public class ChannelClassificationDictionaryTest extends NeedsCredentials {
 		assumeTrue(credentialsOK);
 		assertTrue(getCategories().length > 1);
 	}
-
 }
