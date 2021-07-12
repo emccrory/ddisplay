@@ -5,7 +5,6 @@
  */
 package gov.fnal.ppd.dd.display;
 
-import static gov.fnal.ppd.dd.display.client.BrowserLauncher.debug;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.awt.GraphicsConfiguration;
@@ -24,6 +23,8 @@ import java.util.List;
  */
 public class ScreenLayoutInterpreter {
 	private static List<Rectangle>	rects	= new ArrayList<Rectangle>();
+	/// Turn on debugging in this class
+	public static boolean			debug	= false;
 
 	// private static boolean debug = true;
 

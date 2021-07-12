@@ -25,7 +25,6 @@ public class DisplayAsSimpleBrowser extends DisplayControllerMessagingAbstract {
 	@Override
 	public void initiate() {
 		println(getClass(), "Opening a browser with the default content");
-		browserLauncher = new SimplifiedBrowserLauncher(screenNumber);
 		contInitialization();
 
 		browserInstance = new SimplifiedBrowserConnection();

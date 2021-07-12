@@ -109,7 +109,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 
 	/* --------------- The key attributes are here --------------- */
 	private final MessagingClientLocal		messagingClient;
-	protected BrowserLauncher				browserLauncher;
 	protected ConnectionToBrowserInstance	browserInstance;
 	/* --------------- ------------------------------------------- */
 
@@ -174,7 +173,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 			while (!stopMe) {
 				if (!showingEmergencyMessage) {
 					localSetContent_notLists();
-					catchSleep(localPlayListCopy.getTime());
+					catchSleep(localPlayListCopy.getTime());	
+
 					localPlayListCopy.advanceChannel();
 					println(DisplayControllerMessagingAbstract.this.getClass(),
 							" " + Integer.toHexString(hashCode()) + browserInstance.getConnectionCode()
@@ -247,8 +247,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	public void disconnect() {
 		if (browserInstance != null)
 			browserInstance.exit();
-		if (browserLauncher != null)
-			browserLauncher.exit();
 	}
 
 	/**
@@ -271,8 +269,6 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 	 * This method must be called by concrete class. Start various threads necessary to maintain this job.
 	 */
 	protected synchronized final void contInitialization() {
-		browserLauncher.startBrowser();
-
 		Timer timer = new Timer("DisplayDaemons");
 
 		timer.schedule(new TimerTask() {

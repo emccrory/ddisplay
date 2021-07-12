@@ -44,7 +44,6 @@ public class DisplayAsConnectionThroughSelenium extends DisplayControllerMessagi
 
 	@Override
 	public void initiate() {
-		browserLauncher = new BrowserLauncherSelenium(screenNumber);
 		contInitialization();
 
 		// First connect to the browser, then connect to the messaging server.
