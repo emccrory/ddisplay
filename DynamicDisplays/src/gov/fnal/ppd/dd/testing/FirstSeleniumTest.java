@@ -1,4 +1,4 @@
-package gov.fnal.ppd.dd.display.client.selenium;
+package gov.fnal.ppd.dd.testing;
 
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.fnal.ppd.dd.display.client.selenium.SeleniumConnectionToBrowser;
 import gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException;
 
 /**
