@@ -1,6 +1,18 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels}{\section{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels}\index{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels@{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}}
 }
+
+
+\subsection{Detailed Description}
+An implementation of the Display interface that is suitable for pushing into the database. This is used to update the database table that keeps track of the channels that a Display has been showing. 
+
+The part that is unique to this implementation is that the channel time stamp is fixed (1500000000\-: July 14, 2017 2\-:40\-:00 A\-M G\-M\-T) In the class that looks at these, this makes comparing channels easier. 
+
+See Summarize\-Content\-History 
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels\-:\begin{figure}[H]
 \begin{center}
 \leavevmode

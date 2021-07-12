@@ -20,7 +20,6 @@ var classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessa
     [ "setupRefreshThread", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract.html#a29b0a1677df18d26fdc7c5efb123baa5", null ],
     [ "updateMyStatus", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract.html#affb454bd94fc49410c790fece9c6cc52", null ],
     [ "browserInstance", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract.html#a9aa126a982c0632f38391be7cad4b141", null ],
-    [ "browserLauncher", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract.html#a4e93373451e1d06dbf5e0506e4e942a9", null ],
     [ "lastFullRestTime", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract.html#ad7195dfea86f9821bea794e23a9642ca", null ],
     [ "noErrorsSeen", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract.html#ad9efc61d6643e94dc2e6d8bc144e43a2", null ],
     [ "offlineMessage", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract.html#a6c6ececd9f4e0f03ff305dedcc8d81cf", null ],

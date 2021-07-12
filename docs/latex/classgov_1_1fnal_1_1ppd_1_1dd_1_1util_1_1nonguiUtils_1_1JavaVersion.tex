@@ -24,6 +24,8 @@ boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaV
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_a1feaadadf0d1163f6df8ef6b4d783f3b}{set\-Watch} (boolean watch)
+\item 
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_af95cfca80d031461d235ea2a10a7d3d3}{static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion}{Java\-Version} {\bfseries get\-Instance} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_af95cfca80d031461d235ea2a10a7d3d3}
 
 \item 
@@ -69,6 +71,20 @@ O\-N\-E\-\_\-\-M\-I\-N\-U\-T\-E, O\-N\-E\-\_\-\-H\-O\-U\-R Is the Java version i
 \begin{DoxyReturn}{Returns}
 The version is unchanged? 
 \end{DoxyReturn}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_a1feaadadf0d1163f6df8ef6b4d783f3b}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Java\-Version@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Java\-Version}!set\-Watch@{set\-Watch}}
+\index{set\-Watch@{set\-Watch}!gov::fnal::ppd::dd::util::nonguiUtils::JavaVersion@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Java\-Version}}
+\subsubsection[{set\-Watch}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-util.\-nongui\-Utils.\-Java\-Version.\-set\-Watch (
+\begin{DoxyParamCaption}
+\item[{boolean}]{watch}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_a1feaadadf0d1163f6df8ef6b4d783f3b}
+Instruct the instance to watch for a change in the Java version (J\-V\-M). Normally, this should be true. But when during J\-Unit testing, this should be false (else the J\-Unit test will not exit)
+
+
+\begin{DoxyParams}{Parameters}
+{\em watch} & Watch for a change in the Java version \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}

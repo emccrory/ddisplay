@@ -92,6 +92,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>addJavaChangeListener
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a1feaadadf0d1163f6df8ef6b4d783f3b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a1feaadadf0d1163f6df8ef6b4d783f3b">setWatch</a> (boolean watch)</td></tr>
+<tr class="separator:a1feaadadf0d1163f6df8ef6b4d783f3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af95cfca80d031461d235ea2a10a7d3d3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af95cfca80d031461d235ea2a10a7d3d3"></a>
 static <a class="el" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html">JavaVersion</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getInstance</b> ()</td></tr>
 <tr class="separator:af95cfca80d031461d235ea2a10a7d3d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,6 +150,37 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>main</b> (Stri
 </div><div class="memdoc">
 <p>ONE_MINUTE, ONE_HOUR Is the Java version in the JVM different from the Java version if we were to restart the JVM?</p>
 <dl class="section return"><dt>Returns</dt><dd>The version is unchanged? </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1feaadadf0d1163f6df8ef6b4d783f3b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion.setWatch </td>
+          <td>(</td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>watch</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Instruct the instance to watch for a change in the Java version (JVM). Normally, this should be true. But when during JUnit testing, this should be false (else the JUnit test will not exit)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">watch</td><td>Watch for a change in the Java version </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

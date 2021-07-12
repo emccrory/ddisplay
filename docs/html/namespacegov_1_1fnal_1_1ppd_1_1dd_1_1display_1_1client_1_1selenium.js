@@ -1,9 +1,7 @@
 var namespacegov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium =
 [
     [ "AlertThatPageIsNotShowing", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1AlertThatPageIsNotShowing.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1AlertThatPageIsNotShowing" ],
-    [ "BrowserLauncherSelenium", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1BrowserLauncherSelenium.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1BrowserLauncherSelenium" ],
     [ "CheckAndFixScreenDimensions", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions" ],
     [ "DisplayAsConnectionThroughSelenium", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1DisplayAsConnectionThroughSelenium.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1DisplayAsConnectionThroughSelenium" ],
-    [ "FirstSeleniumTest", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest" ],
     [ "SeleniumConnectionToBrowser", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1SeleniumConnectionToBrowser.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1SeleniumConnectionToBrowser" ]
 ];

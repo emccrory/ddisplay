@@ -13,11 +13,7 @@ var namespacegov_1_1fnal_1_1ppd_1_1dd =
     [ "util", "namespacegov_1_1fnal_1_1ppd_1_1dd_1_1util.html", "namespacegov_1_1fnal_1_1ppd_1_1dd_1_1util" ],
     [ "xml", "namespacegov_1_1fnal_1_1ppd_1_1dd_1_1xml.html", "namespacegov_1_1fnal_1_1ppd_1_1dd_1_1xml" ],
     [ "ChannelSelector", "classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector" ],
-    [ "CheckForUpdatesTimerTask", "classgov_1_1fnal_1_1ppd_1_1dd_1_1CheckForUpdatesTimerTask.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1CheckForUpdatesTimerTask" ],
-    [ "CredentialsNotFoundException", "classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException" ],
-    [ "DDSystemStatus", "classgov_1_1fnal_1_1ppd_1_1dd_1_1DDSystemStatus.html", null ],
     [ "GetMessagingServer", "classgov_1_1fnal_1_1ppd_1_1dd_1_1GetMessagingServer.html", null ],
     [ "GlobalVariables", "classgov_1_1fnal_1_1ppd_1_1dd_1_1GlobalVariables.html", null ],
-    [ "IdentifyAll", "classgov_1_1fnal_1_1ppd_1_1dd_1_1IdentifyAll.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1IdentifyAll" ],
     [ "MakeChannelSelector", "classgov_1_1fnal_1_1ppd_1_1dd_1_1MakeChannelSelector.html", null ]
 ];

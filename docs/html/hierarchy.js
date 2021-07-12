@@ -10,10 +10,6 @@ var hierarchy =
       ] ],
       [ "gov.fnal.ppd.dd.display.client.selenium.AlertThatPageIsNotShowing", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1AlertThatPageIsNotShowing.html", null ]
     ] ],
-    [ "gov.fnal.ppd.dd.display.client.BrowserLauncher", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1BrowserLauncher.html", [
-      [ "gov.fnal.ppd.dd.display.client.selenium.BrowserLauncherSelenium", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1BrowserLauncherSelenium.html", null ],
-      [ "gov.fnal.ppd.dd.display.client.simplified.SimplifiedBrowserLauncher", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified_1_1SimplifiedBrowserLauncher.html", null ]
-    ] ],
     [ "gov.fnal.ppd.dd.changer.DDButton.ButtonFieldToUse", "enumgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton_1_1ButtonFieldToUse.html", null ],
     [ "org.json.CDL", "classorg_1_1json_1_1CDL.html", null ],
     [ "gov.fnal.ppd.dd.testing.news.Channel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1Channel.html", null ],
@@ -22,6 +18,7 @@ var hierarchy =
     ] ],
     [ "gov.fnal.ppd.dd.changer.ChannelCatalogFactory", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalogFactory.html", null ],
     [ "gov.fnal.ppd.dd.changer.ChannelClassificationDictionary", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html", null ],
+    [ "test.gov.fnal.ppd.dd.channel.ChannelInListTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListTest.html", null ],
     [ "gov.fnal.ppd.dd.channel.ChannelListHolder", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelListHolder.html", [
       [ "gov.fnal.ppd.dd.channel.ConcreteChannelListHolder", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ConcreteChannelListHolder.html", null ],
       [ "gov.fnal.ppd.dd.channel.list.ChannelListGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1ChannelListGUI.html", null ],
@@ -29,12 +26,14 @@ var hierarchy =
     ] ],
     [ "gov.fnal.ppd.ZZattic.ChannelListResponse", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ChannelListResponse.html", null ],
     [ "gov.fnal.ppd.dd.db.ChannelsFromDatabase", "classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabase.html", null ],
+    [ "test.gov.fnal.ppd.dd.db.ChannelsFromDatabaseTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ChannelsFromDatabaseTest.html", null ],
     [ "test.gov.fnal.ppd.dd.util.CheckDisplayStatusTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CheckDisplayStatusTest.html", null ],
     [ "gov.fnal.ppd.security.CheckHostName", "classgov_1_1fnal_1_1ppd_1_1security_1_1CheckHostName.html", null ],
     [ "gov.fnal.ppd.dd.testing.ChecksumTest", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1ChecksumTest.html", null ],
     [ "gov.fnal.ppd.dd.testing.CipherTest", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CipherTest.html", null ],
     [ "gov.fnal.ppd.dd.xml.ClientInformation", "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ClientInformation.html", null ],
     [ "gov.fnal.ppd.dd.util.nonguiUtils.Command", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1Command.html", null ],
+    [ "test.gov.fnal.ppd.dd.channel.ConcreteChannelListHolderTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ConcreteChannelListHolderTest.html", null ],
     [ "gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance.html", [
       [ "gov.fnal.ppd.dd.display.client.selenium.SeleniumConnectionToBrowser", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1SeleniumConnectionToBrowser.html", null ],
       [ "gov.fnal.ppd.dd.display.client.simplified.SimplifiedBrowserConnection", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified_1_1SimplifiedBrowserConnection.html", null ]
@@ -59,6 +58,7 @@ var hierarchy =
     [ "gov.fnal.ppd.dd.db.DisplayUtilDatabase", "classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase.html", null ],
     [ "gov.fnal.ppd.dd.util.specific.DownloadNewSoftwareVersion", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DownloadNewSoftwareVersion.html", null ],
     [ "gov.fnal.ppd.dd.testing.DraggablePanel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1DraggablePanel.html", null ],
+    [ "test.gov.fnal.ppd.dd.emergency.EmergCommunicationImplTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergCommunicationImplTest.html", null ],
     [ "gov.fnal.ppd.dd.emergency.EmergencyMessageDistributor", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergencyMessageDistributor.html", [
       [ "gov.fnal.ppd.dd.emergency.MakeEmergencyMessageGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1MakeEmergencyMessageGUI.html", null ]
     ] ],
@@ -73,16 +73,17 @@ var hierarchy =
       [ "gov.fnal.ppd.dd.chat.ErrorProcessingMessage", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1ErrorProcessingMessage.html", null ],
       [ "gov.fnal.ppd.dd.chat.NoPrivateKeyException", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1NoPrivateKeyException.html", null ],
       [ "gov.fnal.ppd.dd.chat.UnrecognizedCommunicationException", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1UnrecognizedCommunicationException.html", null ],
-      [ "gov.fnal.ppd.dd.CredentialsNotFoundException", "classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html", null ],
       [ "gov.fnal.ppd.dd.db.NoSuchDisplayException", "classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1NoSuchDisplayException.html", null ],
       [ "gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException", "classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException.html", null ],
+      [ "gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html", null ],
       [ "gov.fnal.ppd.dd.xml.signature.SignatureNotFoundException", "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignatureNotFoundException.html", null ],
       [ "gov.fnal.ppd.security.DatabaseNotVisibleException", "classgov_1_1fnal_1_1ppd_1_1security_1_1DatabaseNotVisibleException.html", null ]
     ] ],
     [ "gov.fnal.ppd.dd.util.nonguiUtils.ExitHandler", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler.html", null ],
-    [ "gov.fnal.ppd.dd.display.client.selenium.FirstSeleniumTest", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html", null ],
+    [ "gov.fnal.ppd.dd.testing.FirstSeleniumTest", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html", null ],
     [ "gov.fnal.ppd.ZZattic.GenEnveloped", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped.html", null ],
     [ "gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1GeneralUtilities.html", null ],
+    [ "test.gov.fnal.ppd.dd.util.GeneralUtilitiesTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1GeneralUtilitiesTest.html", null ],
     [ "gov.fnal.ppd.security.GenerateNewKeyPair", "classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair.html", null ],
     [ "gov.fnal.ppd.ZZattic.GetColorsFromDatabase", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GetColorsFromDatabase.html", null ],
     [ "gov.fnal.ppd.dd.db.GetDefaultContentForDisplay", "classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1GetDefaultContentForDisplay.html", null ],
@@ -93,6 +94,7 @@ var hierarchy =
     [ "gov.fnal.ppd.dd.chat.original.GossipClient", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipClient.html", null ],
     [ "gov.fnal.ppd.dd.chat.original.GossipServer", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServer.html", null ],
     [ "gov.fnal.ppd.dd.chat.original.GossipServerA", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipServerA.html", null ],
+    [ "gov.fnal.ppd.dd.testing.GuessEntropy", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1GuessEntropy.html", null ],
     [ "gov.fnal.ppd.dd.util.specific.HasChannelSelector", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1HasChannelSelector.html", null ],
     [ "org.json.HTTP", "classorg_1_1json_1_1HTTP.html", null ],
     [ "gov.fnal.ppd.dd.util.specific.IsDisplayNode", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1IsDisplayNode.html", null ],
@@ -109,6 +111,7 @@ var hierarchy =
       ] ]
     ] ],
     [ "gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html", null ],
+    [ "test.gov.fnal.ppd.dd.util.JavaVersionTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersionTest.html", null ],
     [ "org.json.JSONML", "classorg_1_1json_1_1JSONML.html", null ],
     [ "org.json.JSONObject", "classorg_1_1json_1_1JSONObject.html", null ],
     [ "org.json.JSONPointer", "classorg_1_1json_1_1JSONPointer.html", null ],
@@ -155,6 +158,8 @@ var hierarchy =
       [ "test.gov.fnal.ppd.dd.changer.ChannelCatalogFactoryTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalogFactoryTest.html", null ],
       [ "test.gov.fnal.ppd.dd.changer.ChannelClassificationDictionaryTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionaryTest.html", null ],
       [ "test.gov.fnal.ppd.dd.changer.ListOfExistingContentTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ListOfExistingContentTest.html", null ],
+      [ "test.gov.fnal.ppd.dd.client.ListOfValidChannelsTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1client_1_1ListOfValidChannelsTest.html", null ],
+      [ "test.gov.fnal.ppd.dd.db.ConnectionToDatabaseTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabaseTest.html", null ],
       [ "test.gov.fnal.ppd.dd.GetMessagingServerTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1GetMessagingServerTest.html", null ],
       [ "test.gov.fnal.ppd.dd.GlobalVariablesTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1GlobalVariablesTest.html", null ],
       [ "test.gov.fnal.ppd.dd.util.ColorNamesTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNamesTest.html", null ],
@@ -198,7 +203,6 @@ var hierarchy =
       [ "gov.fnal.ppd.dd.util.specific.WhoIsInChatRoom", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1WhoIsInChatRoom.html", null ]
     ] ],
     [ "gov.fnal.ppd.dd.util.specific.TranslateGITHashCodeToDate", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TranslateGITHashCodeToDate.html", null ],
-    [ "test.gov.fnal.ppd.dd.util.UtilTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1UtilTest.html", null ],
     [ "gov.fnal.ppd.dd.xml.signature.Validate", "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html", null ],
     [ "gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html", null ],
     [ "test.gov.fnal.ppd.dd.util.VerifyURLTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VerifyURLTest.html", null ],
@@ -242,13 +246,13 @@ var hierarchy =
       [ "gov.fnal.ppd.dd.chat.original.Orig_ClientGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1Orig__ClientGUI.html", null ],
       [ "gov.fnal.ppd.dd.chat.original.Orig_ServerGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1Orig__ServerGUI.html", null ],
       [ "gov.fnal.ppd.dd.emergency.EmergencyLaunchGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1EmergencyLaunchGUI.html", null ],
-      [ "gov.fnal.ppd.dd.IdentifyAll", "classgov_1_1fnal_1_1ppd_1_1dd_1_1IdentifyAll.html", null ],
       [ "gov.fnal.ppd.dd.signage.Display", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html", [
         [ "gov.fnal.ppd.dd.display.client.UpdateDatabaseForDisplayChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels.html", null ],
         [ "gov.fnal.ppd.dd.display.DisplayImpl", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html", null ]
       ] ],
       [ "gov.fnal.ppd.dd.testing.Keyboard", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1Keyboard.html", null ],
-      [ "gov.fnal.ppd.dd.util.specific.DisplayButtonGroup", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup.html", null ]
+      [ "gov.fnal.ppd.dd.util.specific.DisplayButtonGroup", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup.html", null ],
+      [ "gov.fnal.ppd.ZZattic.IdentifyAll", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1IdentifyAll.html", null ]
     ] ],
     [ "BasicSliderUI", null, [
       [ "gov.fnal.ppd.dd.util.guiUtils.DisplayColorSliderUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1DisplayColorSliderUI.html", null ]
@@ -268,11 +272,11 @@ var hierarchy =
       ] ]
     ] ],
     [ "JFrame", null, [
+      [ "gov.fnal.ppd.dd.chat.DDSystemStatus", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1DDSystemStatus.html", null ],
       [ "gov.fnal.ppd.dd.chat.MessagingClientGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClientGUI.html", null ],
       [ "gov.fnal.ppd.dd.chat.MessagingServerGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerGUI.html", null ],
       [ "gov.fnal.ppd.dd.chat.original.Orig_ClientGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1Orig__ClientGUI.html", null ],
       [ "gov.fnal.ppd.dd.chat.original.Orig_ServerGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1Orig__ServerGUI.html", null ],
-      [ "gov.fnal.ppd.dd.DDSystemStatus", "classgov_1_1fnal_1_1ppd_1_1dd_1_1DDSystemStatus.html", null ],
       [ "gov.fnal.ppd.dd.util.guiUtils.InformationBox", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1InformationBox.html", null ],
       [ "gov.fnal.ppd.dd.util.specific.TemporaryDialogBox", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TemporaryDialogBox.html", null ],
       [ "gov.fnal.ppd.dd.util.version.VersionInformationGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1version_1_1VersionInformationGUI.html", null ]
@@ -346,8 +350,8 @@ var hierarchy =
       [ "gov.fnal.ppd.dd.channel.list.table.ChannelImageCellRenderer", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ChannelImageCellRenderer.html", null ]
     ] ],
     [ "TimerTask", null, [
-      [ "gov.fnal.ppd.dd.CheckForUpdatesTimerTask", "classgov_1_1fnal_1_1ppd_1_1dd_1_1CheckForUpdatesTimerTask.html", null ],
-      [ "gov.fnal.ppd.dd.display.client.selenium.CheckAndFixScreenDimensions", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html", null ]
+      [ "gov.fnal.ppd.dd.display.client.selenium.CheckAndFixScreenDimensions", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html", null ],
+      [ "gov.fnal.ppd.dd.util.nonguiUtils.CheckForUpdatesTimerTask", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CheckForUpdatesTimerTask.html", null ]
     ] ],
     [ "WindowListener", null, [
       [ "gov.fnal.ppd.dd.chat.MessagingServerGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerGUI.html", null ],

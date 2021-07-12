@@ -3,6 +3,7 @@ var namespacegov_1_1fnal_1_1ppd_1_1dd_1_1chat =
     [ "original", "namespacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original.html", "namespacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original" ],
     [ "DCProtocol", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1DCProtocol.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1DCProtocol" ],
     [ "DDMessage", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1DDMessage.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1DDMessage" ],
+    [ "DDSystemStatus", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1DDSystemStatus.html", null ],
     [ "ErrorProcessingMessage", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1ErrorProcessingMessage.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1ErrorProcessingMessage" ],
     [ "LoggerForDebugging", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1LoggerForDebugging.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1LoggerForDebugging" ],
     [ "MessageConveyor", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor.html", null ],

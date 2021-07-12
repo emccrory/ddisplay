@@ -1,6 +1,5 @@
 var namespacegov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified =
 [
     [ "DisplayAsSimpleBrowser", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified_1_1DisplayAsSimpleBrowser.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified_1_1DisplayAsSimpleBrowser" ],
-    [ "SimplifiedBrowserConnection", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified_1_1SimplifiedBrowserConnection.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified_1_1SimplifiedBrowserConnection" ],
-    [ "SimplifiedBrowserLauncher", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified_1_1SimplifiedBrowserLauncher.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified_1_1SimplifiedBrowserLauncher" ]
+    [ "SimplifiedBrowserConnection", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified_1_1SimplifiedBrowserConnection.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified_1_1SimplifiedBrowserConnection" ]
 ];
