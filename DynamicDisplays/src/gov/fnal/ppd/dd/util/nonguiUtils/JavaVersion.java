@@ -22,13 +22,24 @@ import java.util.TimerTask;
  */
 public class JavaVersion {
 
-	private static JavaVersion	me				= null;
-	private static boolean		watch			= true;
-	private final String		InitialVersion	= System.getProperty("java.version");
+	private static JavaVersion	me		= null;
+	private static boolean		watch	= true;
+
+	/**
+	 * Instruct the instance to watch for a change in the Java version (JVM).  Normally, this should be true.
+	 * But when during JUnit testing, this should be false (else the JUnit test will not exit)
+	 * 
+	 * @param watch Watch for a change in the Java version
+	 */
+	public static void setWatch(boolean watch) {
+		JavaVersion.watch = watch;
+	}
+
+	private final String InitialVersion = System.getProperty("java.version");
 
 	public static JavaVersion getInstance() {
 		if (me == null)
-			me = new JavaVersion(watch);
+			me = new JavaVersion();
 		return me;
 	}
 
@@ -155,8 +166,8 @@ public class JavaVersion {
 		return !((getCurrentVersion().replace(".", "_").equals(getInitialVersion().replace(".", "_"))));
 	}
 
-	private JavaVersion(Boolean doWatch) {
-		if (doWatch) {
+	private JavaVersion() {
+		if (watch) {
 			println(getClass(), "Initiating watch for the Java version to change away from " + getInitialVersion());
 			TimerTask t = new TimerTask() {
 				@Override
@@ -193,7 +204,7 @@ public class JavaVersion {
 	}
 
 	public static void main(String[] args) {
-		watch = false;
+		setWatch(false);
 		System.out.println("The version as seen through the JVM:           " + getInstance().getInitialVersion());
 
 		System.out.println("The version as seen from the operating system: " + getInstance().getCurrentVersionThroughLS());
