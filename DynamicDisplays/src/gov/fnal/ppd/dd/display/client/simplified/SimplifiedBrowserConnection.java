@@ -6,6 +6,14 @@ import gov.fnal.ppd.dd.db.GetDefaultContentForDisplay;
 import gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance;
 import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 
+/**
+ * A connection to the browser through the operating system. That is, when the channel is changed, we have to restart the browser at
+ * the new locations. It is thought that this sort of browser connection would be used only when (a) the channel pretty much never
+ * changes, and/or (b) the target web page is an http (non-secure) page. The channel change does NOT happen here.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class SimplifiedBrowserConnection extends ConnectionToBrowserInstance {
 
 	private Process	browserProcess;

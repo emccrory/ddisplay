@@ -48,15 +48,8 @@ public class DisplayAsSimpleBrowser extends DisplayControllerMessagingAbstract {
 			browserInstance = new SimplifiedBrowserConnection(-num);
 		} else {
 			int num = ((Channel) c).getNumber();
-			@SuppressWarnings("unused")
-			String url = ((Channel) c).getURI().toASCIIString();
-			if (num != 0) {
-				println(getClass(), "Changing to channel number " + num);
-				browserInstance = new SimplifiedBrowserConnection(num);
-//			} else {
-//				println(getClass(), "Changing to URL " + url);
-//				browserInstance = new SimplifiedBrowserConnection(url);
-			}
+			println(getClass(), "Changing to channel number " + num);
+			browserInstance = new SimplifiedBrowserConnection(num);
 		}
 		browserInstance.openConnection();
 		return c;
