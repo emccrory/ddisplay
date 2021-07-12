@@ -27,9 +27,17 @@ import gov.fnal.ppd.dd.xml.messages.ChangeChannel;
 import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
 
 /**
+ * <p>
  * An implementation of the Display interface that is suitable for pushing into the database. This is used to update the database
- * table that keeps track of the channels that a Display has been showing. One bit that is unique is that the channel time stamp is
- * a single number (which is 1500000000, July 14, 2017 2:40:00 AM GMT)
+ * table that keeps track of the channels that a Display has been showing.
+ * </p>
+ * <p>
+ * The part that is unique to this implementation is that the channel time stamp is fixed (1500000000: July 14, 2017 2:40:00 AM GMT)
+ * In the class that looks at these, this makes comparing channels easier.
+ * </p>
+ * <p>
+ * See SummarizeContentHistory
+ * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *

@@ -16,7 +16,7 @@ import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
- * Used by the actual display instances to assure that the channel requested is an approved on in the central database.
+ * Used by the actual display instances to assure that the channel requested is an approved one in the central database.
  * 
  * FIXME - This class contains both business logic and database access
  * 

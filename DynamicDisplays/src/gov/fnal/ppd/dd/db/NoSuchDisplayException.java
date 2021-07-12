@@ -1,7 +1,7 @@
 package gov.fnal.ppd.dd.db;
 
 /**
- * An exception that is thrown in the (hopefully never seen) case when the display cannot be figured out.
+ * An exception that is thrown in the (hopefully never seen) case when the display details cannot be figured out.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *

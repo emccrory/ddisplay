@@ -9,6 +9,12 @@ import gov.fnal.ppd.dd.signage.Display;
 import gov.fnal.ppd.dd.signage.SignageContent;
 import gov.fnal.ppd.dd.util.specific.TemporaryDialogBox;
 
+/**
+ * The implementation of the BrowserErrorListener, which pops up a temporary error dialog when there is a problem.
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
 public class AlertThatPageIsNotShowing implements BrowserErrorListener {
 	private Display			display;
 	private static boolean	isShowing	= false;
@@ -50,7 +56,7 @@ public class AlertThatPageIsNotShowing implements BrowserErrorListener {
 						break;
 
 					default:
-						// An unknown error.
+						line3 = value + " is an unknown error.";
 						break;
 					}
 
