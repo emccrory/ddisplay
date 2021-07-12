@@ -15,7 +15,7 @@ public enum Severity {
 	EMERGENCY,
 
 	/**
-	 * An important message. IT is thought that this would be a very important message, like
+	 * An important message. It is thought that this would be a very important message, like
 	 * "The lab will be closing at 2PM because of the snow"
 	 */
 	ALERT,
