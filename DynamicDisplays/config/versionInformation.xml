@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
     <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1626723608093</timeStamp>
+    <timeStamp>1626724688587</timeStamp>
     <versionDescription>Add some diagnostics to the MessagingServer, trying to figure out why certain clients drop out a lot.</versionDescription>
     <versionString>5.3.48</versionString>
 </versionInformation>
