@@ -7,6 +7,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
 import static gov.fnal.ppd.dd.GlobalVariables.docentName;
 import static gov.fnal.ppd.dd.GlobalVariables.getFlavor;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getSoftwareVersion;
 import static gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;
@@ -785,7 +786,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 
 		case HELP_MENU:
 			String text = SelectorInstructions.getInstructions().replace("</html>",
-					"<br><br>For more information, see <u>https://dynamicdisplays.fnal.gov/about.php</u></html>");
+					"<br><br>For more information, see <u>" + getFullURLPrefix() + "/about.php</u></html>");
 			JOptionPane.showMessageDialog(ChannelSelector.this, text, "The Dynamic Displays Channel Selector",
 					JOptionPane.PLAIN_MESSAGE);
 			break;

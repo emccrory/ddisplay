@@ -1,6 +1,7 @@
 package gov.fnal.ppd.dd.display.client.simplified;
 
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
+import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 
 import gov.fnal.ppd.dd.db.GetDefaultContentForDisplay;
 import gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance;
@@ -46,10 +47,10 @@ public class SimplifiedBrowserConnection extends ConnectionToBrowserInstance {
 			}
 			String thing = "";
 			if (channelNumber < 0) {
-				thing = browserLocation + " --new-instance --new-window https://dynamicdisplays.fnal.gov/playChannelList.php?n="
+				thing = browserLocation + " --new-instance --new-window "+ getFullURLPrefix() + "/playChannelList.php?n="
 						+ (-channelNumber);
 			} else {
-				thing = browserLocation + " --new-instance --new-window https://dynamicdisplays.fnal.gov/launchPageFromDB.php?n="
+				thing = browserLocation + " --new-instance --new-window "+ getFullURLPrefix() + "/launchPageFromDB.php?n="
 						+ channelNumber;
 			}
 			println(getClass(), "Launching browser like this: [" + thing + "]");

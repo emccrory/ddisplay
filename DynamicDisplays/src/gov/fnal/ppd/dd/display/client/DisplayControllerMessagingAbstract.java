@@ -8,6 +8,8 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.SELF_IDENTIFY;
+import static gov.fnal.ppd.dd.GlobalVariables.TOP_LEVEL_DOMAIN;
+import static gov.fnal.ppd.dd.GlobalVariables.WEB_SERVER_NAME;
 import static gov.fnal.ppd.dd.GlobalVariables.getDefaultDwellTime;
 import static gov.fnal.ppd.dd.GlobalVariables.getMessagingServerName;
 import static gov.fnal.ppd.dd.GlobalVariables.setFlavorFromDatabase;
@@ -231,8 +233,8 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 				retval += (previousChannelStack.peek().getURI() + " (" + getStatus() + ")").replace("'", "");
 			} else
 				retval += (getStatus() + " (" + getContent().getURI() + ")").replace("'", "")
-						.replace("dynamicdisplays.fnal.gov", "dd").replace("Pictures", "Pics").replace("http://", "")
-						.replace("https://", "").replace(".fnal.gov", "");
+						.replace(WEB_SERVER_NAME, "dd").replace("Pictures", "Pics").replace("http://", "")
+						.replace("https://", "").replace("." + TOP_LEVEL_DOMAIN, "");
 		}
 		return retval;
 	}

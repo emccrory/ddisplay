@@ -7,6 +7,7 @@
  */
 package gov.fnal.ppd.dd.util.specific;
 
+import static gov.fnal.ppd.dd.GlobalVariables.TOP_LEVEL_DOMAIN;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.net.InetAddress;
@@ -110,7 +111,7 @@ public class ObjectSigningRepository {
 			e.printStackTrace();
 		}
 		try {
-			InetAddress address = InetAddress.getByName(ipName + ".dhcp.fnal.gov");
+			InetAddress address = InetAddress.getByName(ipName + ".dhcp." + TOP_LEVEL_DOMAIN);
 			return address.getHostAddress();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

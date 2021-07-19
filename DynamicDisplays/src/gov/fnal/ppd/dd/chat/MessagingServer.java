@@ -15,6 +15,7 @@ import static gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.SIMPLE_RECOVERABLE_ERROR;
+import static gov.fnal.ppd.dd.GlobalVariables.TOP_LEVEL_DOMAIN;
 import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
 import static gov.fnal.ppd.dd.GlobalVariables.setLogger;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
@@ -159,7 +160,7 @@ public class MessagingServer implements JavaChangeListener {
 		// String dateString;
 		Date						date;
 
-		// my unique id (easier for deconnection)
+		// my unique id (easier for disconnection)
 		int							id;
 
 		// When was this client last seen?
@@ -453,7 +454,7 @@ public class MessagingServer implements JavaChangeListener {
 				if (clazz.equals(AreYouAliveMessage.class)
 						&& SPECIAL_SERVER_MESSAGE_USERNAME.equals(this.cm.getMessageRecipient())) {
 					if (showAliveMessages)
-						logger.fine("Alive msg: " + cm.getMessageOriginator().trim().replace(".fnal.gov", ""));
+						logger.fine("Alive msg: " + cm.getMessageOriginator().trim().replace("." + TOP_LEVEL_DOMAIN, ""));
 					continue; // That's all for this while-loop iteration. Go read the socket again...
 				}
 
@@ -684,8 +685,8 @@ public class MessagingServer implements JavaChangeListener {
 			this.onNotice = onNotice;
 		}
 
-		public boolean incrementNumOutstandingPings() {
-			return ++numOutstandingPings > 4;
+		public void incrementNumOutstandingPings() {
+			++numOutstandingPings;
 		}
 
 		public void resetNumOutstandingPings() {
@@ -819,7 +820,7 @@ public class MessagingServer implements JavaChangeListener {
 
 	private long									sleepPeriodBtwPings				= 2 * ONE_SECOND;
 	// "Too Old Time" is one minute
-	private long									tooOldTime						= ONE_MINUTE;
+	private long									tooOldTime						= 90 * ONE_SECOND;
 
 	protected int									totalMesssagesHandled			= 0;
 
@@ -846,7 +847,7 @@ public class MessagingServer implements JavaChangeListener {
 	// protected Logger logger;
 	protected LoggerForDebugging					logger;
 
-	private JavaVersion								javaVersion;
+	// private JavaVersion								javaVersion;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -1029,6 +1030,8 @@ public class MessagingServer implements JavaChangeListener {
 			}
 			if ((System.currentTimeMillis() - CT.getLastSeen()) > tooOldTime) {
 
+				// Hmm.  It looks like this block of code is never executed.
+				
 				// Give this client a second chance.
 
 				if (CT.isOnNotice()) {
@@ -1367,8 +1370,8 @@ public class MessagingServer implements JavaChangeListener {
 							String ip = "Address=";
 							String idn = "Local ID=";
 							for (ClientThread CT : listOfMessagingClients) {
-								m += "[" + un + CT.username.replace(".fnal.gov", "") + "|" + ip + CT.getRemoteIPAddress() + "|"
-										+ idn + CT.id + "]\n";
+								m += "[" + un + CT.username.replace("." + TOP_LEVEL_DOMAIN, "") + "|" + ip + CT.getRemoteIPAddress()
+										+ "|" + idn + CT.id + "]\n";
 								un = ip = idn = "";
 							}
 						}
@@ -1464,22 +1467,25 @@ public class MessagingServer implements JavaChangeListener {
 
 						long oldestTime = System.currentTimeMillis();
 						ClientThread oldestClientName = null;
-						// Ping any client that is "on notice", plus the oldest one that is not on notice. 200 is about 9 minutes;
-						// 500 is about 22 minutes
+						// Ping any client that is "on notice", plus the oldest one that is not on notice. 
+						
+						// This variable, printme, should be true twice per diagnostic period.
 						boolean printMe = (++counter % (diagnosticPeriod / sleepPeriodBtwPings)) < 2;
 						String diagnostic = "Diagnostic update\n---- Cycle no. " + counter;
 
-						int i = 0;
+						int i = 0, theMostPings=0;
 						for (ClientThread CT : listOfMessagingClients) {
 							i++;
 							if (printMe || CT.numOutstandingPings > 1) {
-								String firstPart = "---- " + i + " " + CT.username.replace(".fnal.gov", "") + " ";
+								String firstPart = "---- " + i + " " + CT.username.replace("." + TOP_LEVEL_DOMAIN, "") + " ";
 								int initialLength = firstPart.length();
 								for (int m = initialLength; m < 40; m++)
 									firstPart += ' ';
 								diagnostic += "\n" + (firstPart + (new Date(CT.lastSeen)).toString().substring(4, 19) + ", "
 										+ (System.currentTimeMillis() - CT.lastSeen) / 1000L + " secs ago"
 										+ (CT.numOutstandingPings > 0 ? "; num pings=" + CT.numOutstandingPings : ""));
+								if ( CT.numOutstandingPings > theMostPings ) 
+									theMostPings = CT.numOutstandingPings;
 							}
 							if (CT.isOnNotice())
 								clist.add(CT);
@@ -1489,7 +1495,7 @@ public class MessagingServer implements JavaChangeListener {
 							}
 						}
 
-						if (printMe)
+						if (printMe || theMostPings > 4)
 							logger.fine(diagnostic);
 
 						clist.add(oldestClientName);
@@ -1502,7 +1508,8 @@ public class MessagingServer implements JavaChangeListener {
 							if (printMe)
 								logger.fine("Sending isAlive message to " + CT);
 							MessageCarrierXML mc = MessageCarrierXML.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, CT.username);
-							if (CT.incrementNumOutstandingPings()) {
+							CT.incrementNumOutstandingPings();
+							if (CT.numOutstandingPings > 8) {
 								logger.warning("Too many pings (" + CT.numOutstandingPings + ") to the client " + CT.username
 										+ "; removing it!");
 								remove(CT);
@@ -1510,6 +1517,9 @@ public class MessagingServer implements JavaChangeListener {
 								numRemovedForPings2++;
 								CT = null; // Not really necessary, but it makes me feel better.
 								continue;
+							} else if ( CT.numOutstandingPings > 4 ) {
+								logger.warning("Almost Too many pings (" + CT.numOutstandingPings + ") to the client " + CT.username
+										+ ".");
 							}
 							// This is a read-only message and DOES NOT NEED a signature.
 							broadcast(mc);

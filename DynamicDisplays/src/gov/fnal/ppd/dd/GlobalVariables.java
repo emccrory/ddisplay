@@ -140,9 +140,10 @@ public class GlobalVariables {
 	public final static String	WEB_SERVER_NAME			= PropertiesFile.getProperty("webServer", "dynamicdisplays.fnal.gov");
 	/** Where is the Web server? Controlled by system constant ddisplay.webserver */
 	private final static String	WEB_SERVER_FOLDER		= PropertiesFile.getProperty("webFolder", "");
-
 	/** Do we use http or https? */
 	public final static String	WEB_PROTOCOL			= PropertiesFile.getProperty("defaultWebProtocol", "https");
+	/** The top level domains for this installation */
+	public final static String	TOP_LEVEL_DOMAIN		= PropertiesFile.getProperty("TopLevelDomain", "nothing.net");
 
 	/**
 	 * @return The web server prefix, dealing with whether or not there is a folder in there, too.
