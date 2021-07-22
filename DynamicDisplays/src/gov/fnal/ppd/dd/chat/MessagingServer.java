@@ -204,7 +204,7 @@ public class MessagingServer implements JavaChangeListener {
 			this.myShutdownHook = new Thread("ShutdownHook_of_MessagingServer_" + MessagingServer.uniqueId) {
 				public void run() {
 					println(ClientThread.class,
-							"Shutting down client connection, initialID=" + initialID + ", final ID=" + ClientThread.this.id);
+							"Shutdown hook called to shutdown client, initialID=" + initialID + ", final ID=" + ClientThread.this.id);
 					close(true);
 				}
 			};
@@ -847,7 +847,7 @@ public class MessagingServer implements JavaChangeListener {
 	// protected Logger logger;
 	protected LoggerForDebugging					logger;
 
-	// private JavaVersion								javaVersion;
+	// private JavaVersion javaVersion;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -1030,8 +1030,8 @@ public class MessagingServer implements JavaChangeListener {
 			}
 			if ((System.currentTimeMillis() - CT.getLastSeen()) > tooOldTime) {
 
-				// Hmm.  It looks like this block of code is never executed.
-				
+				// Hmm. It looks like this block of code is never executed.
+
 				// Give this client a second chance.
 
 				if (CT.isOnNotice()) {
@@ -1432,7 +1432,7 @@ public class MessagingServer implements JavaChangeListener {
 
 			public void run() {
 				catchSleep(15000L); // Wait a bit before starting the pinging and the diagnostics
-				int counter = 0;
+				int counter = 0, randomCycleModulo=2;
 
 				while (keepGoing)
 					try {
@@ -1442,8 +1442,9 @@ public class MessagingServer implements JavaChangeListener {
 							continue;
 
 						// This sleep period assures that each client is ping'ed at least three times before it is "too old"
-						sleepPeriodBtwPings = Math.min(tooOldTime / listOfMessagingClients.size() / 3L, 10000L);
-						// Note: For 50 clients, the sleep is 400 msec.
+						sleepPeriodBtwPings = Math.min(tooOldTime / listOfMessagingClients.size() / 3L, 10 * ONE_SECOND);
+						// Note: For 50 clients and tooOld = 90 seconds:  
+						// The sleep is 600 msec., and every client is pinged at a period of 30 seconds
 
 						if (sleepPeriodBtwPings < 100L) { // Idiot check
 							if (sleepPeriodBtwPings <= 1L)
@@ -1467,13 +1468,13 @@ public class MessagingServer implements JavaChangeListener {
 
 						long oldestTime = System.currentTimeMillis();
 						ClientThread oldestClientName = null;
-						// Ping any client that is "on notice", plus the oldest one that is not on notice. 
-						
-						// This variable, printme, should be true twice per diagnostic period.
-						boolean printMe = (++counter % (diagnosticPeriod / sleepPeriodBtwPings)) < 2;
+						// Ping any client that is "on notice", plus the oldest one that is not on notice.
+
+						// This variable, printme, will be true twice per diagnostic period.
+						boolean printMe = (++counter % (diagnosticPeriod / sleepPeriodBtwPings)) == randomCycleModulo;
 						String diagnostic = "Diagnostic update\n---- Cycle no. " + counter;
 
-						int i = 0, theMostPings=0;
+						int i = 0, theMostPings = 0;
 						for (ClientThread CT : listOfMessagingClients) {
 							i++;
 							if (printMe || CT.numOutstandingPings > 1) {
@@ -1484,7 +1485,7 @@ public class MessagingServer implements JavaChangeListener {
 								diagnostic += "\n" + (firstPart + (new Date(CT.lastSeen)).toString().substring(4, 19) + ", "
 										+ (System.currentTimeMillis() - CT.lastSeen) / 1000L + " secs ago"
 										+ (CT.numOutstandingPings > 0 ? "; num pings=" + CT.numOutstandingPings : ""));
-								if ( CT.numOutstandingPings > theMostPings ) 
+								if (CT.numOutstandingPings > theMostPings)
 									theMostPings = CT.numOutstandingPings;
 							}
 							if (CT.isOnNotice())
@@ -1495,9 +1496,12 @@ public class MessagingServer implements JavaChangeListener {
 							}
 						}
 
+						if (printMe) {
+							randomCycleModulo = (int) (Math.random() * 5.0);
+						}
 						if (printMe || theMostPings > 4)
-							logger.fine(diagnostic);
-
+							logger.fine(diagnostic + "\n (Next modulo is " + randomCycleModulo + ")");
+						
 						clist.add(oldestClientName);
 						lastOldestClientName = oldestClientName;
 
@@ -1517,7 +1521,7 @@ public class MessagingServer implements JavaChangeListener {
 								numRemovedForPings2++;
 								CT = null; // Not really necessary, but it makes me feel better.
 								continue;
-							} else if ( CT.numOutstandingPings > 4 ) {
+							} else if (CT.numOutstandingPings > 4) {
 								logger.warning("Almost Too many pings (" + CT.numOutstandingPings + ") to the client " + CT.username
 										+ ".");
 							}
