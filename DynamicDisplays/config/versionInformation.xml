@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1627331626751</timeStamp>
+    <disposition>PRODUCTION</disposition>
+    <timeStamp>1627331945300</timeStamp>
     <versionDescription>Add more diagnostics to the MessagingServer.  Some internal changes to MessagingServer.java.</versionDescription>
     <versionString>5.3.50</versionString>
 </versionInformation>
