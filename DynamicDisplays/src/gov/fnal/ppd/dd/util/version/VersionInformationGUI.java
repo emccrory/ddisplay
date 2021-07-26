@@ -89,7 +89,7 @@ public class VersionInformationGUI extends JFrame {
 		hb.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 		content.add(hb);
 
-		JButton accept = new JButton("Accept this versionn information and close");
+		JButton accept = new JButton("Accept this version information and close");
 		hb.add(accept);
 
 		accept.addActionListener(new ActionListener() {
