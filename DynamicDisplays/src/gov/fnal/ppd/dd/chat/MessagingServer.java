@@ -134,11 +134,20 @@ import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
  */
 public class MessagingServer implements JavaChangeListener {
 
-	private static boolean		showAliveMessages		= false;
+	private static boolean		showAliveMessages				= false;
 
-	private static boolean		showAllIncomingMessages	= false;
+	private static boolean		showAllIncomingMessages			= false;
 
-	private static final int	MAX_STATUS_MESSAGE_SIZE	= 4196;
+	private static final int	MAX_STATUS_MESSAGE_SIZE			= 4196;
+
+	/**
+	 * The name we use for the messaging server, when it is sending a message out
+	 */
+	public static final String	SPECIAL_SERVER_MESSAGE_USERNAME	= "Server Message";
+
+	protected static final int	MAX_CONSECUTIVE_UNPONGED_PINGS	= 10;
+
+	private static int			myDB_ID							= 0;
 
 	/*************************************************************************************************************************
 	 * Handle the communications with a specific client in the messaging system. One instance of this thread will run for each
@@ -158,7 +167,7 @@ public class MessagingServer implements JavaChangeListener {
 
 		// the date I connected
 		// String dateString;
-		Date						date;
+		Date						creationDate;
 
 		// my unique id (easier for disconnection)
 		int							id;
@@ -203,8 +212,8 @@ public class MessagingServer implements JavaChangeListener {
 			final int initialID = this.id;
 			this.myShutdownHook = new Thread("ShutdownHook_of_MessagingServer_" + MessagingServer.uniqueId) {
 				public void run() {
-					println(ClientThread.class,
-							"Shutdown hook called to shutdown client, initialID=" + initialID + ", final ID=" + ClientThread.this.id);
+					println(ClientThread.class, "Shutdown hook called to shutdown client, initialID=" + initialID + ", final ID="
+							+ ClientThread.this.id);
 					close(true);
 				}
 			};
@@ -270,7 +279,7 @@ public class MessagingServer implements JavaChangeListener {
 				this.username = un + "_" + id;
 				logger.fine("'" + this.username + "' has connected.");
 				setName("ClientThread_of_MessagingServer_" + username);
-				this.date = new Date();
+				this.creationDate = new Date();
 			} catch (UnrecognizedCommunicationException e) {
 				logger.warning("We have a potential client that is not behaving properly.  We will try to ignore it. "
 						+ exceptionString(e));
@@ -475,7 +484,7 @@ public class MessagingServer implements JavaChangeListener {
 					// The iterator (implicitly used here) makes a thread-safe copy of the list prior to traversing it.
 					// logger.fine("Responding to WhoIsIn message with data from " + listOfMessagingClients.size() + " clients");
 					for (ClientThread ct : listOfMessagingClients) {
-						if (ct != null && ct.username != null && ct.date != null) {
+						if (ct != null && ct.username != null && ct.creationDate != null) {
 
 							// This message comes from the server, who is acting on behalf of the client to say that it is alive.
 							// This is not right in the context of signed messages--the server does not know how to sign this
@@ -490,8 +499,8 @@ public class MessagingServer implements JavaChangeListener {
 							// logger.fine("Responding with 'YesIAmAlive' message to " + this.cm.getMessageOriginator() + " from " +
 							// ct.username);
 
-							writeUnsignedMsg(
-									MessageCarrierXML.getIAmAlive(ct.username, this.cm.getMessageOriginator(), date.getTime()));
+							writeUnsignedMsg(MessageCarrierXML.getIAmAlive(ct.username, this.cm.getMessageOriginator(),
+									creationDate.getTime()));
 						} else {
 							logger.warning("Talking to " + this.username + " socket " + this.socket.getLocalAddress()
 									+ ". Error!  Unexpectedly have a null client");
@@ -509,8 +518,8 @@ public class MessagingServer implements JavaChangeListener {
 								remove(CT);
 								CT.thisSocketIsActive = false;
 								numRemovedNullUsername++;
-							} else if (CT.date == null) {
-								logger.fine("Removing ClientThread with null date [" + CT + "]");
+							} else if (CT.creationDate == null) {
+								logger.fine("Removing ClientThread with null creation date [" + CT + "]");
 								remove(CT);
 								CT.thisSocketIsActive = false;
 								numRemovedNullDate++;
@@ -597,7 +606,7 @@ public class MessagingServer implements JavaChangeListener {
 
 		@Override
 		public String toString() {
-			return this.username + ", socket=[" + socket + "], date=" + date;
+			return this.username + ", socket=[" + socket + "]";
 		}
 
 		/**
@@ -770,13 +779,6 @@ public class MessagingServer implements JavaChangeListener {
 		}
 
 	}
-
-	/**
-	 * The name we use for the messaging server, when it is sending a message out
-	 */
-	public static final String						SPECIAL_SERVER_MESSAGE_USERNAME	= "Server Message";
-
-	private static int								myDB_ID							= 0;
 
 	/*
 	 * ************************************************************************************************************************
@@ -1432,18 +1434,18 @@ public class MessagingServer implements JavaChangeListener {
 
 			public void run() {
 				catchSleep(15000L); // Wait a bit before starting the pinging and the diagnostics
-				int counter = 0, randomCycleModulo=2;
+				int counter = 0, randomCycleModulo = 2;
 
 				while (keepGoing)
 					try {
-						catchSleep(sleepPeriodBtwPings); 
+						catchSleep(sleepPeriodBtwPings);
 
 						if (listOfMessagingClients.size() == 0)
 							continue;
 
 						// This sleep period assures that each client is ping'ed at least three times before it is "too old"
 						sleepPeriodBtwPings = Math.min(tooOldTime / listOfMessagingClients.size() / 3L, 10 * ONE_SECOND);
-						// Note: For 50 clients and tooOld = 90 seconds:  
+						// Note: For 50 clients and tooOld = 90 seconds:
 						// The sleep is 600 msec., and every client is pinged at a period of 30 seconds
 
 						if (sleepPeriodBtwPings < 100L) { // Idiot check
@@ -1513,7 +1515,7 @@ public class MessagingServer implements JavaChangeListener {
 								logger.fine("Sending isAlive message to " + CT);
 							MessageCarrierXML mc = MessageCarrierXML.getIsAlive(SPECIAL_SERVER_MESSAGE_USERNAME, CT.username);
 							CT.incrementNumOutstandingPings();
-							if (CT.numOutstandingPings > 15) {
+							if (CT.numOutstandingPings > MAX_CONSECUTIVE_UNPONGED_PINGS) {
 								logger.warning("Too many pings (" + CT.numOutstandingPings + ") to the client " + CT.username
 										+ "; removing it!");
 								remove(CT);
@@ -1521,7 +1523,7 @@ public class MessagingServer implements JavaChangeListener {
 								numRemovedForPings2++;
 								CT = null; // Not really necessary, but it makes me feel better.
 								continue;
-							} else if (CT.numOutstandingPings > 4) {
+							} else if (CT.numOutstandingPings > MAX_CONSECUTIVE_UNPONGED_PINGS / 2) {
 								logger.warning("Almost too many pings (" + CT.numOutstandingPings + ") to the client " + CT.username
 										+ ". currentTimeMillis=" + System.currentTimeMillis());
 							}
