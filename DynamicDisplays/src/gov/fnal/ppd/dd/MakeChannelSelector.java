@@ -9,11 +9,11 @@ import static gov.fnal.ppd.dd.ChannelSelector.SHOW_DOCENT_TAB;
 import static gov.fnal.ppd.dd.ChannelSelector.screenDimension;
 import static gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameSelector;
 import static gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.PRIVATE_KEY_LOCATION;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.THIS_IP_NAME_INSTANCE;
 import static gov.fnal.ppd.dd.GlobalVariables.UNRECOVERABLE_ERROR;
-import static gov.fnal.ppd.dd.GlobalVariables.WAIT_FOR_SERVER_TIME;
 import static gov.fnal.ppd.dd.GlobalVariables.addLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.GlobalVariables.displayList;
@@ -21,9 +21,11 @@ import static gov.fnal.ppd.dd.GlobalVariables.getFullSelectorName;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationCode;
 import static gov.fnal.ppd.dd.GlobalVariables.getLocationName;
 import static gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;
+import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.net.InetAddress;
@@ -38,6 +40,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.ProgressMonitor;
 
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
@@ -58,7 +61,36 @@ import gov.fnal.ppd.dd.util.specific.SelectorInstructions;
  */
 public class MakeChannelSelector {
 
-	static boolean theControllerIsProbablyInFront = true;
+	/**
+	 * Extension of java.swing.ProgressMonitor so that it can be checked if the user has cancelled the startup
+	 * 
+	 * @author Elliott McCrory, Fermilab AD/Instrumentation
+	 *
+	 */
+	private static class MyProgressMonitor extends ProgressMonitor {
+		public MyProgressMonitor(String string, int maxProgress) {
+			super(null, string, "Starting", 0, maxProgress);
+			setMillisToDecideToPopup(100);
+			setMillisToPopup(100);
+			setProgress(0);
+		}
+
+		public void setNote(String note) {
+			if (isCanceled())
+				System.exit(0);
+			super.setNote(note);
+		}
+
+		public void setProgress(int p) {
+			if (isCanceled())
+				System.exit(0);
+			super.setProgress(p);
+		}
+	}
+
+	public static ProgressMonitor	progressMonitor;
+
+	static boolean					theControllerIsProbablyInFront	= true;
 
 	/**
 	 * @param args
@@ -81,8 +113,10 @@ public class MakeChannelSelector {
 			System.exit(-1);
 		}
 		selectorSetup();
+		progressMonitor = new MyProgressMonitor("Building Channel Selector GUI for location=" + getLocationCode(),
+				10 * (displayList.size() + 1));
 
-		ChannelSelector channelSelector = new ChannelSelector();
+		ChannelSelector channelSelector = new ChannelSelector(progressMonitor);
 		channelSelector.setSelectorID(myDB_ID);
 		channelSelector.start();
 		// channelSelector.createRefreshActions();
@@ -120,12 +154,15 @@ public class MakeChannelSelector {
 		f.setVisible(true);
 		f.setLocation(bounds.x, bounds.y);
 
+		progressMonitor.close();
+
 		if (missing)
 			JOptionPane
 					.showMessageDialog(null,
 							"This device, " + myIPName + ", is not listed in the Dynamic Displays database; "
 									+ "It cannot start an instance of ChannelSelector.",
 							"Cannot Continue", JOptionPane.ERROR_MESSAGE);
+
 	}
 
 	private static boolean	missing		= true;
@@ -168,7 +205,7 @@ public class MakeChannelSelector {
 
 								SHOW_DOCENT_TAB = rs2.getBoolean("DocentTab");
 								myDB_ID = rs2.getInt("LocalID");
-								
+
 								if (displayList == null)
 									displayList = DisplayListFactory.getInstance(lc);
 								else {
