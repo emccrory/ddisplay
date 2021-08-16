@@ -5,16 +5,9 @@
  */
 package gov.fnal.ppd.dd.changer;
 
-import static gov.fnal.ppd.dd.ChannelSelector.progressMonitor;
 import static gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;
 import static gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
-
-import gov.fnal.ppd.dd.channel.ChannelImage;
-import gov.fnal.ppd.dd.signage.Channel;
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageContent;
-import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
@@ -43,6 +36,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+
+import gov.fnal.ppd.dd.channel.ChannelImage;
+import gov.fnal.ppd.dd.signage.Channel;
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
+import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
 
 /**
  * Create a tab of images that can be shown on a Display. This is a very different way of giving user content to see because it ties
@@ -124,8 +123,6 @@ public class ImageGrid extends DetailedInformationGrid {
 
 	@Override
 	protected JComponent makeExpGrid(ChannelClassification set) {
-		int progMonStart = progressMonitor.getMaximum()/3;
-		int progMonCount = 0;
 		int ncol = 4;
 		if (SHOW_IN_WINDOW)
 			ncol = 2;
@@ -162,8 +159,7 @@ public class ImageGrid extends DetailedInformationGrid {
 				println(this.getClass(),
 						".makeExpGrid(): working on the images for display number " + display.getVirtualDisplayNumber() + " ...");
 				beginResizingAt = System.currentTimeMillis();
-			} else
-				System.out.print(display.getVirtualDisplayNumber() + " ");
+			} 
 
 			TreeSet<SignageContent> newList = new TreeSet<SignageContent>(new Comparator<SignageContent>() {
 				public int compare(SignageContent o1, SignageContent o2) {
@@ -190,13 +186,9 @@ public class ImageGrid extends DetailedInformationGrid {
 			String colorString = String.format("%06X", display.getPreferredHighlightColor().getRGB() & 0xFFFFFF);
 			for (SignageContent content : newList)
 				try {
-					if (firstTime) {
-						progressMonitor.setProgress(progMonStart + (progMonCount++) / 200);
-					}
 					ChannelImage imageChannel = (ChannelImage) content;
 					String name = imageChannel.getName(); // This is the URL end
 					String url = getFullURLPrefix() + "/" + name;
-					// System.out.println(this.getClass().getSimpleName() + ".makeExpGrid(): resizing " + url);
 
 					DrawingPanelForImage dp = new DrawingPanelForImage(url, display.getPreferredHighlightColor());
 
