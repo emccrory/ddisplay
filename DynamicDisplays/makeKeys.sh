@@ -7,7 +7,7 @@
 
 DBUSER=insertpublickey
 DBNAME=xoc_prd
-CLIENTNAME=$(hostname | sed 's/.fnal.gov//g' | sed 's/.local//g' )
+CLIENTNAME=$(hostname | sed 's/.fnal.gov//g' | sed 's/.local//g' | sed 's/.dhcp//g' )
 
 echo "The system name from the operating system for this computer is $CLIENTNAME"
 java gov.fnal.ppd.security.CheckHostName
