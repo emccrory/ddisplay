@@ -10,9 +10,12 @@ import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
@@ -26,7 +29,7 @@ import javax.swing.border.Border;
  */
 public class InformationBox extends JFrame {
 
-	private static final long	serialVersionUID	= 4866012215771895245L;
+	private static final long serialVersionUID = 4866012215771895245L;
 
 	/**
 	 * A simple extension of JLabel to assist in the proper setup of the fonts and stuff
@@ -36,7 +39,7 @@ public class InformationBox extends JFrame {
 	 */
 	private static class MyLabel extends JLabel {
 
-		private static final long	serialVersionUID	= 5368553680158650696L;
+		private static final long serialVersionUID = 5368553680158650696L;
 
 		MyLabel(String text, float size) {
 			super(text, JLabel.CENTER);
@@ -55,6 +58,18 @@ public class InformationBox extends JFrame {
 	public InformationBox(final String message1, final String message2) {
 		this(1.0F, message1, message2);
 	}
+	
+	/**
+	 * 
+	 * @param message1
+	 *            The headline message
+	 * @param message2
+	 *            The sub message
+	 */
+	public InformationBox(final int sec, final String message1, final String message2) {
+		super("URL Refresh Action");
+		setup(sec, 1.0F, message1, message2);
+	}
 
 	/**
 	 * 
@@ -69,8 +84,12 @@ public class InformationBox extends JFrame {
 		super("URL Refresh Action");
 		setup(scale, message1, message2);
 	}
-	
+
 	private synchronized void setup(final float scale, final String message1, final String message2) {
+		setup(5, scale, message1, message2);
+	}
+
+	private synchronized void setup(final int seconds, final float scale, final String message1, final String message2) {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		Box h = Box.createVerticalBox();
@@ -80,10 +99,21 @@ public class InformationBox extends JFrame {
 		h.add(new MyLabel(message2, scale * 24.0f));
 		h.add(Box.createRigidArea(new Dimension(10, 10)));
 
-		final MyLabel timeLeft = new MyLabel("This will disappear in 5 seconds", 10.0f);
-		h.add(timeLeft);
-		h.add(Box.createRigidArea(new Dimension(10, 10)));
+		final MyLabel timeLeft = new MyLabel("This will disappear in " + seconds + " seconds", 10.0f);
+		if (seconds > 0) {
+			h.add(timeLeft);
+			h.add(Box.createRigidArea(new Dimension(10, 10)));
+		} else {
+			JButton dismiss = new JButton("Dismiss this popup");
+			dismiss.addActionListener(new ActionListener() {
 
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					InformationBox.this.dispose();
+				}
+			});
+			h.add(dismiss);
+		}
 		Border b0 = BorderFactory.createLineBorder(Color.black);
 		Border b1 = BorderFactory.createLineBorder(Color.white, 15);
 		Border b2 = BorderFactory.createLineBorder(Color.black, 20);
@@ -99,14 +129,15 @@ public class InformationBox extends JFrame {
 		setVisible(true);
 		setAlwaysOnTop(true);
 
-		new Thread(this.getClass().getSimpleName() + "_Removal") {
-			public void run() {
-				for (int i = 5; i > 0; i--) {
-					timeLeft.setText("This will disappear in " + i + " seconds");
-					catchSleep(1000L);
+		if (seconds > 0)
+			new Thread(this.getClass().getSimpleName() + "_Removal") {
+				public void run() {
+					for (int i = 5; i > 0; i--) {
+						timeLeft.setText("This will disappear in " + i + " seconds");
+						catchSleep(1000L);
+					}
+					InformationBox.this.dispose();
 				}
-				InformationBox.this.dispose();
-			}
-		}.start();
+			}.start();
 	}
 }
