@@ -22,7 +22,7 @@ public class ColorNamesTest extends NeedsCredentials {
 					"000000", // Black
 					"004397", // FermiBlue
 					"008000", // Green
-					"f20019", // Red
+					"c80013", // Red
 					"ffcc00", // Yellow
 					"ffffff", // White
 			};
