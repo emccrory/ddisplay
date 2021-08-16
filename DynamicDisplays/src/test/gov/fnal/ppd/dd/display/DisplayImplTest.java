@@ -215,20 +215,6 @@ public class DisplayImplTest {
 	}
 
 	@Test
-	public void testGetIPAddress() {
-		assertTrue(testingDisplay.fullyValid);
-		try {
-			@SuppressWarnings("unused")
-			InetAddress inet = testingDisplay.getIPAddress();
-			assert (true);
-			return;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		assert (false);
-	}
-
-	@Test
 	public void testGetLocation() {
 		assertTrue(testingDisplay.fullyValid);
 		assertEquals(myLocation, testingDisplay.getLocation());
