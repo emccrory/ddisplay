@@ -79,11 +79,11 @@ public interface Display extends ActionListener {
 	public int getScreenNumber();
 
 	/**
-	 * What is the IP Address of this Display?
+	 * What is the IP Name of this Display?
 	 * 
-	 * @return the IP number
+	 * @return the IP name
 	 */
-	public InetAddress getIPAddress();
+	public String getIPAddress();
 
 	/**
 	 * Add a listener to see when things change on a Display
