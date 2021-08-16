@@ -63,7 +63,7 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 
 	protected Color					highlightColor;
 	protected List<ActionListener>	listeners				= new ArrayList<ActionListener>();
-	private InetAddress				ipAddress;
+	private String					ipName;
 	private String					location;
 
 	// protected TimerTask heartbeatThread = new TimerTask() {
@@ -97,11 +97,7 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 
 		// myName = ipName + ":" + screenNumber + " (" + displayNumber + ")";
 
-		try {
-			this.ipAddress = InetAddress.getByName(ipName);
-		} catch (UnknownHostException e) {
-			System.err.println("Host not found: " + ipName);
-		}
+		this.ipName = ipName;
 		this.screenNumber = screenNumber;
 		this.location = location;
 		this.dbDisplayNumber = dbDisplay;
@@ -338,8 +334,8 @@ public abstract class DisplayImpl implements Display, JavaChangeListener {
 	}
 
 	@Override
-	public InetAddress getIPAddress() {
-		return ipAddress;
+	public String getIPAddress() {
+		return ipName;
 	}
 
 	@Override
