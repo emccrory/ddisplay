@@ -167,8 +167,8 @@ public class UpdateDatabaseForDisplayChannels implements Display {
 	}
 
 	@Override
-	public InetAddress getIPAddress() {
-		return null;
+	public String getIPAddress() {
+		return "MimicedDisplay";
 	}
 
 	@Override
