@@ -29,7 +29,12 @@ public class VerifyURL {
 
 	/**
 	 * To the best of our knowledge, is this URL valid at this time?
-	 * 
+	 * 		echo
+		echo "======================================================================"
+		echo "==========" gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion 
+		java gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion 
+
+
 	 * @param u
 	 *            The URL to test
 	 * @return Is it valid?

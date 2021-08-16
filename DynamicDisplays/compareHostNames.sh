@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Shell script to orchestrate giving this computer a public/private key pair
+# Shell script to check that the hostname from the JVM matches the hostname from the system
 #
 
 . setupEnvironment.sh

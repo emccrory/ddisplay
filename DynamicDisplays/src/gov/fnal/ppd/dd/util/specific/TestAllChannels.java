@@ -3,6 +3,8 @@ package gov.fnal.ppd.dd.util.specific;
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
 import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import gov.fnal.ppd.dd.changer.ChannelCatalogFactory;
@@ -37,10 +39,11 @@ public class TestAllChannels {
 
 		selectorSetup();
 
-		int numTested = 0, numGood = 0, numBad = 0;
+		int numTested = 0, numGood = 0;
 		System.out.println(
 				"\nThe channels that are not valid, from the categories that are relevant to this location, are listed here\n\n");
 		ChannelClassification[] categories = ChannelClassificationDictionary.getCategories();
+		List<Channel> badChans = new ArrayList<Channel>();
 		for (ChannelClassification set : categories) {
 			System.out.println("***** Testing all the channels in the category " + set);
 			Set<SignageContent> list = ChannelCatalogFactory.getInstance().getChannelCatalog(set);
@@ -53,14 +56,21 @@ public class TestAllChannels {
 				if (!VerifyURL.isValid(u)) {
 					// Falling here means that it could not open the URL
 					Channel chan = (Channel) SC;
-					numBad++;
-					System.out.println("     " + chan.getNumber() + " is not valid -- (" + chan.getName() + ") [" + u + "]");
+					badChans.add(chan);
+					System.out.println("     " + chan.getNumber() + " is not valid, could not open the URL -- (" + chan.getName()
+							+ ") [" + u + "]");
+					// It looks like a web site that takes a long time to respond, like
+					// https://earth.nullschool.net/#current/wind/surface/level/orthographic=-86.98,41.19,3000, can give a false
+					// failure
 				} else {
 					numGood++;
 				}
 			}
 		}
-		System.out.println("Tested " + numTested + " channels: " + numGood + " were good and " + numBad + " were bad.");
+		System.out.println("\n----------\nTested " + numTested + " channels: " + numGood + " were good and " + badChans.size()
+				+ " were bad.\n\nThe bad ones were:");
+		for (Channel c : badChans)
+			System.out.println("     " + c.getNumber() + " \t " + c.getName() + "\t[" + c.getURI().toASCIIString() + "]");
 		System.exit(0);
 	}
 }

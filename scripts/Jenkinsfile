@@ -43,16 +43,22 @@ pipeline {
  	    steps {
 		sh """
 		cd DynamicDisplays
+		echo "----- Verify that hostname from JVM matches hostname from the OS -----"
 		./compareHostNames.sh
 		set +x		
 		. ./setupEnvironment.sh
 
-		echo "----- Testing that certain classes run ----"
+		echo "----- Testing that certain classes run -------------------------------"
 
 		echo
 		echo "======================================================================"
 		echo "==========" gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion 
 		java gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion 
+
+		echo
+		echo "======================================================================"
+		echo "==========" gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL 
+		java gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL https://dynamicdisplays.fnal.gov/borderA.php?url=https%3A%2F%2Fdynamicdisplays.fnal.gov%2Fabout.php
 
 		echo
 		echo "======================================================================"
