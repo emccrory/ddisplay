@@ -55,6 +55,16 @@
  * <li>Contain a couple of other high-level classes</li>
  * </ul>
  * </p>
+ * <h2>Java Versions and this suite</h2>
+ * <p>
+ * This suite has been developed under Java 7 and Java 8 (a.k/a, 1.7 and 1.8). Java 16 is available and in the pipeline to be
+ * adopted at Fermilab (maybe by 2029). So it needs to be tested with this advanced version. And plans should be made to move with
+ * the new java releases beyond that (e.g., Java 20). This web site gives the differences between Java 8 and Java 16 (retrieved
+ * August 2021): https://ondro.inginea.eu/index.php/new-features-in-java-versions-since-java-8/
+ * </p>
+ * <p>
+ * Most of the changes are additions to the language definition. But there are some deprecations and removals.
+ * </p>
  * <p>
  * More information, including links to more documentation, can be found at the web site, https://dynamicdisplays.fnal.gov. This
  * site is accessible only from inside Fermilab, with Fermilab Services credentials
