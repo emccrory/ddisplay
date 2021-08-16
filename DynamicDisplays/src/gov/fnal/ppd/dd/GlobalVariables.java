@@ -545,7 +545,6 @@ public class GlobalVariables {
 						}
 						lineNumber++;
 					}
-					// System.out.println(newline);
 				}
 			}
 		} catch (FileNotFoundException e) {
