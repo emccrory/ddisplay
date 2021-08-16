@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class ChangeDefaultsActionListener implements ActionListener {
@@ -38,11 +39,13 @@ public class ChangeDefaultsActionListener implements ActionListener {
 		Box all = Box.createVerticalBox();
 		all.add(SaveRestoreDefaultChannels.getGUI());
 		JButton button = new JButton("<html><i>Dismiss this window</i></html>");
-		button.setFont(button.getFont().deriveFont(24.0f));
+		button.setFont(button.getFont().deriveFont(18.0f));
 		button.setHorizontalAlignment(JButton.CENTER);
 		button.setAlignmentX(Component.CENTER_ALIGNMENT);
-		button.setMargin(new Insets(20, 50, 20, 50));
-		all.add(button);
+		button.setMargin(new Insets(10, 30, 10, 30));
+		JPanel bp = new JPanel();
+		bp.add(button); // This makes the button smaller.  Putting it right into the vertical box makes it fill the slot.
+		all.add(bp);
 		button.addActionListener(new ActionListener() {
 
 			@Override
@@ -53,12 +56,12 @@ public class ChangeDefaultsActionListener implements ActionListener {
 				}
 			}
 		});
-		// Automatically dismiss this window after it is clear that the user has lost interest in it. Let's say that is 20 minutes.
+		// Automatically dismiss this window after it is clear that the user has lost interest in it. Let's say that is 10 minutes.
 		// (What seems to happen most, when the user gets bored, is that the window gets covered by the GUI. Not sure how this can
 		// happen since it is supposed to be always on top. Whatever.)
-		new Thread("Dismiss S/R Popup") {
+		new Thread("Wait to dismiss S/R Popup") {
 			public void run() {
-				catchSleep(ONE_MINUTE);
+				catchSleep(10*ONE_MINUTE);
 				if (saveRestoreDialogWindow != null) {
 					saveRestoreDialogWindow.setVisible(false);
 					saveRestoreDialogWindow = null;
@@ -75,7 +78,4 @@ public class ChangeDefaultsActionListener implements ActionListener {
 		saveRestoreDialogWindow.setAlwaysOnTop(true);
 		saveRestoreDialogWindow.setVisible(true);
 	}
-	
-	
-	
 }
