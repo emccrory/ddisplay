@@ -62,6 +62,12 @@ pipeline {
 
 		echo
 		echo "======================================================================"
+		echo "==========" gov.fnal.ppd.dd.util.specific.TestAllChannels silent
+		echo "Note: This is a check of whether or not all of the \"Approved\" channels are still viable"
+		java gov.fnal.ppd.dd.util.specific.TestAllChannels
+
+		echo
+		echo "======================================================================"
 		echo "==========" gov.fnal.ppd.dd.util.nonguiUtils.PerformanceMonitor 
 		java gov.fnal.ppd.dd.util.nonguiUtils.PerformanceMonitor 
 
