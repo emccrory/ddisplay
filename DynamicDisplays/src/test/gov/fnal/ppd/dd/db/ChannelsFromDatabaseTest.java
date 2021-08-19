@@ -42,7 +42,7 @@ public class ChannelsFromDatabaseTest {
 
 	@Test
 	public void testGetCategoriesDatabase() {
-		ChannelClassification[] c = getCategoriesDatabase();
+		ChannelClassification[] c = getCategoriesDatabaseForLocation();
 		assertTrue(c.length > 0);
 	}
 

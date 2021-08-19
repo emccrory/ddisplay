@@ -5,7 +5,8 @@
  */
 package gov.fnal.ppd.dd.changer;
 
-import static gov.fnal.ppd.dd.db.ChannelsFromDatabase.getCategoriesDatabase;
+import static gov.fnal.ppd.dd.db.ChannelsFromDatabase.getCategoriesDatabaseForLocation;
+import static gov.fnal.ppd.dd.db.ChannelsFromDatabase.getCategoriesDatabaseForAllChannels;
 
 /**
  * Retrieve the categories (a.k.a., the Tab Names) that are to be used by the ChannelSelector GUI
@@ -23,9 +24,19 @@ public class ChannelClassificationDictionary {
 	/**
 	 * @return The array of Channel categories that are appropriate for this instance of the ChannelSelector GUI
 	 */
-	public static ChannelClassification[] getCategories() {
+	public static ChannelClassification[] getCategoriesForLocation() {
 		if (categories == null) {
-			categories = getCategoriesDatabase();
+			categories = getCategoriesDatabaseForLocation();
+		}
+		return categories;
+	}
+	
+	/**
+	 * @return The array of Channel categories for all channels in the system
+	 */
+	public static ChannelClassification[] getCategoriesDatabaseAllChannels() {
+		if (categories == null) {
+			categories = getCategoriesDatabaseForAllChannels();
 		}
 		return categories;
 	}
