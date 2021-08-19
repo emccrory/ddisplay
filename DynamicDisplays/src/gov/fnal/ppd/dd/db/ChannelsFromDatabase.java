@@ -43,6 +43,12 @@ import gov.fnal.ppd.dd.signage.SignageContent;
  */
 public class ChannelsFromDatabase {
 
+	private static boolean verbose = false;
+
+	public static void setVerbose(boolean v) {
+		verbose = v;
+	}
+
 	private ChannelsFromDatabase() {
 		// Do not instantiate
 	}
@@ -69,7 +75,7 @@ public class ChannelsFromDatabase {
 		}
 
 		int count = 0;
-		Map<ChannelClassification, Integer> ccc = new HashMap<ChannelClassification, Integer> ();
+		Map<ChannelClassification, Integer> ccc = new HashMap<ChannelClassification, Integer>();
 		try {
 			String q = "SELECT Channel.Number as Number,Name,Description,URL,Type,DwellTime,Sound "
 					+ "FROM Channel LEFT JOIN ChannelTabSort ON (Channel.Number=ChannelTabSort.Number) WHERE Approval=1";
@@ -86,7 +92,8 @@ public class ChannelsFromDatabase {
 					int number = rs.getInt("Number");
 					int dwellTime = rs.getInt("DwellTime");
 					int codevalue = rs.getInt("Sound");
-					String category = rs.getString("Type");  // Note that "Type" is actually the name of the tab this channel gets put on.
+					String category = rs.getString("Type"); // Note that "Type" is actually the name of the tab this channel gets
+															// put on.
 					ChannelClassification classification = new ChannelClassification("MISCELLANEOUS");
 					if (category != null)
 						classification = new ChannelClassification(category);
@@ -108,11 +115,15 @@ public class ChannelsFromDatabase {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		String info = "Found " + count + " channels in these categories:\n";
-		for ( ChannelClassification C: ccc.keySet()){
-			info += "\t" + C + ": " + ccc.get(C) + "\n";
+		if (verbose) {
+			String info = "Found " + count + " channels in these categories:\n";
+			for (ChannelClassification C : ccc.keySet()) {
+				info += "\t" + C + ": " + ccc.get(C) + "\n";
+			}
+			println(ChannelsFromDatabase.class, info);
+		} else {
+			println(ChannelsFromDatabase.class, "Got " + count + " channels from the database.");
 		}
-		println(ChannelsFromDatabase.class, info);
 	}
 
 	/**
@@ -222,6 +233,7 @@ public class ChannelsFromDatabase {
 		ChannelClassification[] retval = cats.toArray(new ChannelClassification[0]);
 		return retval;
 	}
+
 	/**
 	 * @return An array of channel categories for the location specified by the current node's configuration.
 	 */
@@ -241,7 +253,6 @@ public class ChannelsFromDatabase {
 			System.exit(1);
 			return null;
 		}
-		
 
 		synchronized (connection) {
 			String q = "SELECT DISTINCT TabName,Abbreviation FROM LocationTab";
@@ -361,7 +372,8 @@ public class ChannelsFromDatabase {
 					long dwell = rsChan.getLong("DwellTime");
 					int chanNum = rsChan.getInt("ChannelNumber");
 
-					SignageContent c = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, descr, new URI(url), chanNum, dwell);
+					SignageContent c = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, descr, new URI(url), chanNum,
+							dwell);
 					c.setExpiration(revertTime);
 
 					retval.add(c);
@@ -416,7 +428,8 @@ public class ChannelsFromDatabase {
 					int number = rs.getInt("Number");
 					long dwell = rs.getLong("DwellTime");
 					try {
-						ChannelImpl c = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, desc, new URI(theURL), number, dwell);
+						ChannelImpl c = new ChannelImpl(name, ChannelClassification.MISCELLANEOUS, desc, new URI(theURL), number,
+								dwell);
 						theMap.put(number, c);
 					} catch (Exception e) {
 						e.printStackTrace();

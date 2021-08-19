@@ -43,6 +43,7 @@ import javax.swing.JPanel;
 import javax.swing.ProgressMonitor;
 
 import gov.fnal.ppd.dd.changer.DisplayListFactory;
+import gov.fnal.ppd.dd.db.ChannelsFromDatabase;
 import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.display.ScreenLayoutInterpreter;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
@@ -103,6 +104,7 @@ public class MakeChannelSelector {
 		// MessageConveyor.debug = true;
 
 		prepareUpdateWatcher(false);
+		ChannelsFromDatabase.setVerbose(true);
 
 		SplashScreens.prepareSaverImages();
 

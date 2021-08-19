@@ -75,7 +75,7 @@ public class MapOfChannels extends HashMap<Integer, Channel> {
 
 	/**
 	 * A simple test of the overarching operation of this class.  It should list all the valid channels in the database.
-	 * @param args (None expected)
+	 * @param args If the first argument is "verbose", then print all the channels
 	 */
 	public static void main(final String[] args) {
 		try {
@@ -85,10 +85,11 @@ public class MapOfChannels extends HashMap<Integer, Channel> {
 			System.exit(-1);
 		}
 		MapOfChannels v = new MapOfChannels();
-		for (int number : v.keySet())
-			System.out.println(spaces(number) + number + ": " + v.get(number));
+		if (args.length > 0 && args[0].equalsIgnoreCase("verbose"))
+			for (int number : v.keySet())
+				System.out.println(spaces(number) + number + ": " + v.get(number));
 		System.out.print("\nRetrieved " + v.keySet().size() + " channels.");
-		
+
 	}
 
 	private static String spaces(int number) {

@@ -64,7 +64,6 @@ public class ChannelCatalogFactory {
 		try {
 			credentialsSetup();
 		} catch (CredentialsNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.exit(-1);
 		}
