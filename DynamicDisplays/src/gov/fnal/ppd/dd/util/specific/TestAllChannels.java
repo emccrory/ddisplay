@@ -82,7 +82,7 @@ public class TestAllChannels {
 		if (args.length > 0 && args[0].equalsIgnoreCase("silent"))
 			verbose = false;
 
-		selectorSetup();
+		// selectorSetup();
 
 		int numGood = 0;
 		int checkAt = 25;
