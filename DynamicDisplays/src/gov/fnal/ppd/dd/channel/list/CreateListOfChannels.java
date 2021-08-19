@@ -260,7 +260,7 @@ public class CreateListOfChannels extends JPanel implements ChannelListHolder {
 
 		// ----------------------------------------
 
-		ChannelClassification categories[] = ChannelClassificationDictionary.getCategories();
+		ChannelClassification categories[] = ChannelClassificationDictionary.getCategoriesForLocation();
 		Box mainPanel = Box.createVerticalBox();
 		final Color bg1 = new Color(235, 230, 230);
 		final Color bg2 = new Color(241, 241, 244);

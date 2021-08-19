@@ -284,7 +284,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	// ---------- STARTUP
 	private void initializeTabs() {
 		int progress = 1;
-		ChannelClassification[] categories = ChannelClassificationDictionary.getCategories();
+		ChannelClassification[] categories = ChannelClassificationDictionary.getCategoriesForLocation();
 		int index = 0;
 		for (final Display display : displayList) {
 			progressMonitor.setNote("Building display " + (index + 1) + " of " + displayList.size());

@@ -35,7 +35,7 @@ public class ChannelChooserTableModel extends AbstractChannelTableModel {
 
 		columnNames = new String[] { "Classification", "Chan#", "Channel Details" };
 
-		ChannelClassification categories[] = ChannelClassificationDictionary.getCategories();
+		ChannelClassification categories[] = ChannelClassificationDictionary.getCategoriesForLocation();
 
 		for (ChannelClassification CAT : categories) {
 			if (CAT.getValue().equals("Archive"))

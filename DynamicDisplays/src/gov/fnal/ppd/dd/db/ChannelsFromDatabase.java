@@ -170,9 +170,9 @@ public class ChannelsFromDatabase {
 	}
 
 	/**
-	 * @return An array of channel categories
+	 * @return An array of channel categories for all the approved channels in the DB.
 	 */
-	public static ChannelClassification[] getCategoriesDatabase() {
+	public static ChannelClassification[] getCategoriesDatabaseForAllChannels() {
 		List<ChannelClassification> cats = new ArrayList<ChannelClassification>();
 
 		Connection connection = null;
@@ -188,6 +188,60 @@ public class ChannelsFromDatabase {
 			System.exit(1);
 			return null;
 		}
+
+		String query1 = "select distinct ChannelTabSort.Type,Abbreviation from ChannelTabSort,LocationTab where ChannelTabSort.Type=TabName";
+
+		try {
+			synchronized (connection) {
+				// String query2 = "select DISTINCT Type from Channel,ChannelTabSort where Channel.Number=ChannelTabSort.Number and
+				// Approval=1";
+				rs = stmt.executeQuery(query1);
+				if (rs.first()) // Move to first returned row
+					while (!rs.isAfterLast())
+						try {
+							String cat = decode(rs.getString("ChannelTabSort.Type"));
+							String abb = decode(rs.getString("Abbreviation"));
+							cats.add(new ChannelClassification(cat, abb));
+
+							if (!rs.next())
+								break;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+				else {
+					System.err.println("No definition of what tabs to show for locationCode=" + getLocationCode());
+					System.exit(-1);
+				}
+				stmt.close();
+				rs.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.err.println("Query was '" + query1 + "'");
+		}
+		ChannelClassification[] retval = cats.toArray(new ChannelClassification[0]);
+		return retval;
+	}
+	/**
+	 * @return An array of channel categories for the location specified by the current node's configuration.
+	 */
+	public static ChannelClassification[] getCategoriesDatabaseForLocation() {
+		List<ChannelClassification> cats = new ArrayList<ChannelClassification>();
+
+		Connection connection = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			connection = ConnectionToDatabase.getDbConnection();
+
+			stmt = connection.createStatement();
+			rs = stmt.executeQuery("USE " + DATABASE_NAME);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.exit(1);
+			return null;
+		}
+		
 
 		synchronized (connection) {
 			String q = "SELECT DISTINCT TabName,Abbreviation FROM LocationTab";

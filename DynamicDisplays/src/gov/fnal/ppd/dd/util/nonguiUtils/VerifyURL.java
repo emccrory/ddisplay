@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import gov.fnal.ppd.security.TrustAllSSL;
+
 /**
  * <p>
  * Check to see if a specific URL corresponds to an active and visible web page.
@@ -22,19 +24,18 @@ import java.net.URL;
 public class VerifyURL {
 
 	private static String whyFailed = null;
+	
 
 	private VerifyURL() {
 		// Only the static method isValid is needed
 	}
 
 	/**
-	 * To the best of our knowledge, is this URL valid at this time?
-	 * 		echo
-		echo "======================================================================"
-		echo "==========" gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion 
-		java gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion 
-
-
+	 * To the best of our knowledge, is this URL valid at this time? echo echo
+	 * "======================================================================" echo "=========="
+	 * gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion java gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion
+	 * 
+	 * 
 	 * @param u
 	 *            The URL to test
 	 * @return Is it valid?
@@ -48,6 +49,10 @@ public class VerifyURL {
 			whyFailed = e.getClass().getCanonicalName();
 			return false;
 		}
+	}
+
+	public static String getWhyFailed() {
+		return whyFailed;
 	}
 
 	public static void main(String[] args) {
