@@ -39,7 +39,7 @@ pipeline {
 	    }
 	}
 	
-	stage ('Rudimentary Run Test Linux') {
+	stage ('Run Tests Part 1') {
  	    steps {
 		sh """
 		cd DynamicDisplays
@@ -80,6 +80,19 @@ pipeline {
 		echo "======================================================================"
 		echo "==========" gov.fnal.ppd.dd.channel.MapOfChannels 
 		java gov.fnal.ppd.dd.channel.MapOfChannels 
+		"""
+	    }
+	}
+	
+	stage ('Run Tests Part 2') {
+ 	    steps {
+		sh """
+
+		cd DynamicDisplays
+		set +x		
+		. ./setupEnvironment.sh
+
+		echo "----- Testing that more classes run -------------------------------"
 
 		echo
 		echo "======================================================================"
