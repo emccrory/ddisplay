@@ -57,6 +57,11 @@ pipeline {
 
 		echo
 		echo "======================================================================"
+		echo "==========" gov.fnal.ppd.dd.util.nonguiUtils.PerformanceMonitor 
+		java gov.fnal.ppd.dd.util.nonguiUtils.PerformanceMonitor 
+
+		echo
+		echo "======================================================================"
 		echo "==========" gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL 
 		java gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL https://dynamicdisplays.fnal.gov/borderA.php?url=https%3A%2F%2Fdynamicdisplays.fnal.gov%2Fabout.php
 
@@ -64,12 +69,7 @@ pipeline {
 		echo "======================================================================"
 		echo "==========" gov.fnal.ppd.dd.util.specific.TestAllChannels silent
 		echo "Note: This is a check of whether or not all of the \"Approved\" channels are still viable"
-		java gov.fnal.ppd.dd.util.specific.TestAllChannels
-
-		echo
-		echo "======================================================================"
-		echo "==========" gov.fnal.ppd.dd.util.nonguiUtils.PerformanceMonitor 
-		java gov.fnal.ppd.dd.util.nonguiUtils.PerformanceMonitor 
+		java gov.fnal.ppd.dd.util.specific.TestAllChannels silent
 
 		echo
 		echo "======================================================================"
