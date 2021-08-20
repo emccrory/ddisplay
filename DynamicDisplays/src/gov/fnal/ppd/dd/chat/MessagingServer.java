@@ -1429,7 +1429,14 @@ public class MessagingServer implements JavaChangeListener {
 		new Thread("Pinger") {
 			private int		nextClient			= 0;
 			private long	lastPrint			= System.currentTimeMillis();
-			private long	diagnosticPeriod	= 2 * ONE_MINUTE;
+			/*
+			 * Experience says that nodes do not drop off the network very often. They seemed to drop off a lot in the early days,
+			 * but not now. Each diagnostic dump is about 2.5k. 2 minutes is plenty fast enough, but produces about 47 dumps of who
+			 * is alive every hour. This implies that upwards of 2.7MB per day is logged because of these dumps. Setting this
+			 * parameter slower means that when a node drops off the network, it will take about half of that wait time for the
+			 * server to forget it - then the node will try again.
+			 */
+			private long	diagnosticPeriod	= 3 * ONE_MINUTE;
 			private long	sleepPeriodBtwPings	= 2 * ONE_SECOND;
 
 			public void run() {
@@ -1474,7 +1481,8 @@ public class MessagingServer implements JavaChangeListener {
 
 						// This variable, printme, will be true once or twice per diagnostic period.
 						boolean printMe = (++counter % (diagnosticPeriod / sleepPeriodBtwPings)) == randomCycleModulo;
-						String diagnostic = "Diagnostic update\n---- Cycle no. " + counter;
+						String diagnostic = "Diagnostic update\n---- Cycle no. " + counter + " (%"
+								+ (diagnosticPeriod / sleepPeriodBtwPings) + "=" + randomCycleModulo + ")";
 
 						int i = 0, theMostPings = 0;
 						for (ClientThread CT : listOfMessagingClients) {
@@ -1502,7 +1510,7 @@ public class MessagingServer implements JavaChangeListener {
 							randomCycleModulo = (int) (Math.random() * 5.0);
 						printMe = printMe || theMostPings > 2;
 						if (printMe)
-							logger.fine(diagnostic + "\n (Next modulo is " + randomCycleModulo + ")");
+							logger.fine(diagnostic + "\n\t(" + randomCycleModulo + ")");
 
 						clist.add(oldestClientName);
 						lastOldestClientName = oldestClientName;
