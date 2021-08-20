@@ -39,7 +39,7 @@ import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-public class DocentGrid extends DetailedInformationGrid {
+public class DocentGrid extends FullChannelGrid {
 
 	private static final long		serialVersionUID	= 3102445872732142334L;
 	private List<SignageContent>	myButtonList;

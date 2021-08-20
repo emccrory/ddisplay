@@ -26,7 +26,7 @@ import javax.swing.JPanel;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-public class DetailedInformationGrid extends ChannelButtonGrid {
+public class FullChannelGrid extends ChannelButtonGrid {
 
 	private static final long	serialVersionUID	= 1983175217360627923L;
 
@@ -38,7 +38,7 @@ public class DetailedInformationGrid extends ChannelButtonGrid {
 	 * @param bg
 	 *            The button group into which these buttons go
 	 */
-	public DetailedInformationGrid(final Display display, final DisplayButtonGroup bg) {
+	public FullChannelGrid(final Display display, final DisplayButtonGroup bg) {
 		super(display, bg);
 	}
 

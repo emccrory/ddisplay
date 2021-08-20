@@ -63,7 +63,7 @@ import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.changer.ChannelClassificationDictionary;
 import gov.fnal.ppd.dd.changer.DDButton;
 import gov.fnal.ppd.dd.changer.DDButton.ButtonFieldToUse;
-import gov.fnal.ppd.dd.changer.DetailedInformationGrid;
+import gov.fnal.ppd.dd.changer.FullChannelGrid;
 import gov.fnal.ppd.dd.changer.DisplayButtons;
 import gov.fnal.ppd.dd.changer.DisplayChangeEvent;
 import gov.fnal.ppd.dd.changer.DocentGrid;
@@ -284,6 +284,7 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 	// ---------- STARTUP
 	private void initializeTabs() {
 		int progress = 1;
+		/* Get our list of tabs from the database */
 		ChannelClassification[] categories = ChannelClassificationDictionary.getCategoriesForLocation();
 		int index = 0;
 		for (final Display display : displayList) {
@@ -312,13 +313,16 @@ public class ChannelSelector extends JPanel implements ActionListener, DisplayCa
 			}
 
 			DisplayButtonGroup displayButtonGroup = new DisplayButtonGroup();
-
-			// Make a tab for each of the channel categories (Public, Misc, Videos, Weather, CMS, NoVA, etc.)
 			Component theSelectedTab = null;
+
+			/*
+			 * Make a tab for each of the channel categories (Public, Misc, Videos, Weather, CMS, NoVA, etc. - whatever the database
+			 * tells us to do)
+			 */
 			for (int cat = 0; cat < categories.length; cat++) {
 				progressMonitor.setNote("Building display " + (index + 1) + " - " + categories[cat]);
 
-				ChannelButtonGrid grid = new DetailedInformationGrid(display, displayButtonGroup);
+				ChannelButtonGrid grid = new FullChannelGrid(display, displayButtonGroup);
 				grid.makeGrid(categories[cat]);
 				allGrids.add(grid);
 				display.addListener(grid);

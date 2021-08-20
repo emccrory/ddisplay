@@ -62,7 +62,7 @@ import gov.fnal.ppd.dd.util.specific.DisplayButtonGroup;
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
-public class ImageGrid extends DetailedInformationGrid {
+public class ImageGrid extends FullChannelGrid {
 
 	private static final long serialVersionUID = 3102445872732142334L;
 
