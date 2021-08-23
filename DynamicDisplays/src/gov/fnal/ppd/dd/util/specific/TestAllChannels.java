@@ -1,10 +1,8 @@
 package gov.fnal.ppd.dd.util.specific;
 
 import static gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;
-import static gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 

@@ -5,11 +5,10 @@
  */
 package gov.fnal.ppd.dd;
 
+import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.getFlavorFromDatabase;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;
-import static gov.fnal.ppd.dd.db.DisplayUtilDatabase.getFlavorFromDatabase;
 
-import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.InetAddress;
@@ -22,7 +21,6 @@ import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 import gov.fnal.ppd.dd.changer.ListOfExistingContent;
 import gov.fnal.ppd.dd.interfaces.NotificationClient;

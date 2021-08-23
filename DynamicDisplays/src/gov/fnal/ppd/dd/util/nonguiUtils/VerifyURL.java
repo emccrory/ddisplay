@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import gov.fnal.ppd.security.TrustAllSSL;
-
 /**
  * <p>
  * Check to see if a specific URL corresponds to an active and visible web page.

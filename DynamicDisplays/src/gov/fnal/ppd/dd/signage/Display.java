@@ -7,7 +7,6 @@ package gov.fnal.ppd.dd.signage;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.net.InetAddress;
 
 /**
  * The signature of an electronic content displayer in the Fermilab Dynamic Displays system. This is implemented as a physical

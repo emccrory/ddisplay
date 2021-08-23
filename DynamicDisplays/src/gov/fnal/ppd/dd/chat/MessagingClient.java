@@ -1,5 +1,6 @@
 package gov.fnal.ppd.dd.chat;
 
+import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.WAIT_FOR_SERVER_TIME;
@@ -21,12 +22,11 @@ import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import gov.fnal.ppd.dd.xml.messages.AreYouAliveMessage;
-import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
+import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
 import gov.fnal.ppd.dd.xml.MessageCarrierXML;
 import gov.fnal.ppd.dd.xml.MessagingDataXML;
-import gov.fnal.ppd.dd.chat.MessageConveyor;
-import gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile;
+import gov.fnal.ppd.dd.xml.messages.AreYouAliveMessage;
+import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
 
 /**
  * <p>
@@ -592,7 +592,7 @@ public class MessagingClient {
 
 		long						nextDump		= 0L;
 		int							messageCounter	= 0;
-		private static final long	QUIET_INTERVAL	= 15 * ONE_MINUTE;
+		private static final long	QUIET_INTERVAL	= FIFTEEN_MINUTES;
 		private static final long	NOISY_INTERVAL	= 20 * ONE_SECOND;
 
 		/**

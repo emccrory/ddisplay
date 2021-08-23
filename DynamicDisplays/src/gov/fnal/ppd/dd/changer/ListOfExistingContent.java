@@ -1,11 +1,10 @@
 package gov.fnal.ppd.dd.changer;
 
-import gov.fnal.ppd.dd.signage.Display;
-import gov.fnal.ppd.dd.signage.SignageContent;
-
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
+
+import gov.fnal.ppd.dd.signage.Display;
+import gov.fnal.ppd.dd.signage.SignageContent;
 
 /**
  * A simple list of SignageContent at each Display. It is intended to hold the contents of all the Displays under the control of a

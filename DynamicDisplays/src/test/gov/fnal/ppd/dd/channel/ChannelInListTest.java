@@ -1,7 +1,8 @@
 package test.gov.fnal.ppd.dd.channel;
 
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.net.URI;
 
@@ -10,7 +11,6 @@ import org.junit.Test;
 import gov.fnal.ppd.dd.changer.ChannelClassification;
 import gov.fnal.ppd.dd.channel.ChannelImpl;
 import gov.fnal.ppd.dd.channel.ChannelInListImpl;
-import gov.fnal.ppd.dd.signage.Channel;
 
 public class ChannelInListTest {
 
