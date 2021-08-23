@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1629487091420</timeStamp>
-    <versionDescription>Add more diagnostics to the MessagingServer.  Cleaned up a couple of GUI elements in ChannelSelector (they were being constructed all the time - now they are only constructed once).  Change the name of one of the classes to (hopefully) be more meaningful.  Add a couple more tests in the Jenkinsfile.  This will turn into a PRODUCTION release after a little more testing.</versionDescription>
-    <versionString>5.3.51</versionString>
+    <disposition>PRODUCTION</disposition>
+    <timeStamp>1629740293381</timeStamp>
+    <versionDescription>Collect several reacent commits into a new PRODUCTION release.  The most significant changes are in the way diagnotics messages are printed.</versionDescription>
+    <versionString>5.3.52</versionString>
 </versionInformation>
