@@ -108,7 +108,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 			// Oops! This is not good.
 			long delayTime = 5000;
 			println(getClass(),
-					" Aborting in " + delayTime / 1000L + " seconds because the connection to the browser seems to have failed.");
+					"Aborting in " + delayTime / 1000L + " seconds because the connection to the browser seems to have failed.");
 			catchSleep(delayTime);
 			System.exit(SIMPLE_RECOVERABLE_ERROR);
 		}
@@ -241,7 +241,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 
 	@Override
 	public synchronized void send(String command) {
-		println(getClass(), " Sending " + getScreenText() + " [" + command.substring(0, command.length() - 2) + "]");
+		println(getClass(), "Sending " + getScreenText() + " [" + command.substring(0, command.length() - 2) + "]");
 		try {
 			command += "return 1;\n";
 			lastReturnValue = jse.executeScript(command, new Object[] { "nothing" });
@@ -273,7 +273,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 					if ( !showingCanonicalSite.get()) return;
 					// Read the Javascript Variable "mostRecentLoadResult"
 					long returnValue = (Long) jse.executeScript("return getMostRecentLoadResult();", new Object[] { "nothing" });
-					println(SeleniumConnectionToBrowser.class, " Verification of iframe load returns [" + returnValue + "]");
+					println(SeleniumConnectionToBrowser.class, "Verification of iframe load returns [" + returnValue + "]");
 
 					// Important false-positive: If the web page is secure, "https://", it can fail and the underlying javaScript
 					// that is supposed to catch it will not see it. And since almost all of our channels are secure now, this
@@ -318,7 +318,7 @@ public class SeleniumConnectionToBrowser extends ConnectionToBrowserInstance {
 									waitForTimeoutErrorsDuration = 0;
 									notWaitingToLookForTimeoutErrors = true;
 									println(SeleniumConnectionToBrowser.class,
-											" Verification of iframe timeout returns [" + returnValue + "]");
+											"Verification of iframe timeout returns [" + returnValue + "]");
 								}
 							}.start();
 						}
