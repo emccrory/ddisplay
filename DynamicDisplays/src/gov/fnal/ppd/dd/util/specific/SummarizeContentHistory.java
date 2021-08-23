@@ -113,12 +113,12 @@ public class SummarizeContentHistory {
 			return displayID + "(" + virtualDisplayID + ")\t" + count + "\t" + chan;
 		}
 
-		public int listLength() {
-			if (chan != null && chan instanceof ChangeChannelList) {
-				return ((ChangeChannelList) chan).getChannelSpec().length;
-			}
-			return 0;
-		}
+//		public int listLength() {
+//			if (chan != null && chan instanceof ChangeChannelList) {
+//				return ((ChangeChannelList) chan).getChannelSpec().length;
+//			}
+//			return 0;
+//		}
 
 		public static String getHeader() {
 			return "Disp\tCount\tURL";
