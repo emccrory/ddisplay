@@ -6,6 +6,7 @@
 package gov.fnal.ppd.dd.util.nonguiUtils;
 
 import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
+import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 
 import java.awt.event.ActionEvent;
 import java.io.OutputStream;
@@ -14,10 +15,12 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -79,7 +82,7 @@ public class GeneralUtilities {
 	 * @return The encoded two-character string
 	 */
 	public static final String twoDigits(final int v) {
-		assert(v < 100);
+		assert (v < 100);
 		if (v < 10)
 			return "0" + v;
 		return "" + v;
@@ -145,23 +148,119 @@ public class GeneralUtilities {
 	}
 
 	/**
+	 * Used in println to prevent lots of repeated messages from filling the log file. This is very limited - I don't want to remove
+	 * anything important.
+	 * 
+	 * The idea is that there is an array of recent messages (which is a List that is kept at a size of MAX_REMEMBERED). The logic
+	 * is that we check if the list contains the message. The equality of "contains" is the exact same message, AND less than 15
+	 * minutes old.
+	 * 
+	 * In other words, the system kind of resets every 15 minutes, and it prints compressed messages in the meantime.
+	 * 
+	 * The use case this handles is the channel that refreshes very frequently - the "Showing channel such-and-such" message will
+	 * not be repeated quite so much. This also removes the message we get a lot that says,
+	 * "Verification of iframe load returns [0]"
+	 * 
+	 * I am not sure that this is OK, but we'll try it.
+	 * 
+	 * The use case that this does NOT handle is a quickly repeated list - if the list is more than 3 channels, it will probably
+	 * show all the changes.
+	 * 
+	 * @author Elliott McCrory, Fermilab AD/Instrumentation Implemented: August 2021
+	 *
+	 */
+	private static class _StringTime {
+		public String	s;
+		public long		t;
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((s == null) ? 0 : s.hashCode());
+			result = prime * result + (int) (t ^ (t >>> 32));
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			// The strings must be equal and the times must be less that 15 minutes apart
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			_StringTime other = (_StringTime) obj;
+			if (s == null) {
+				if (other.s != null)
+					return false;
+			} else if (!s.equals(other.s))
+				return false;
+			if (Math.abs(t - other.t) > FIFTEEN_MINUTES)
+				return false;
+			return true;
+		}
+
+		public _StringTime(String a, long b) {
+			s = a;
+			t = b;
+		}
+	}
+
+	private static List<_StringTime>	recentMessages		= new ArrayList<_StringTime>();
+	private static final int			MAX_REMEMBERED		= 10;
+	private static final long			_initIsOver			= System.currentTimeMillis() + 5 * ONE_MINUTE;
+	private static final String			ELLIPSIS			= "\u2026";
+	private static String				_beginSupression	= "\n\nBeginning supression of identical messages.\n"
+			+ "They will look like this: <timestamp> <Class> (15 chars) " + ELLIPSIS + " 0x<hashCode of message>\n";
+	private static final int			NUM_TO_SHOW			= 16;
+
+	private static boolean fullyInitialized() {
+		return System.currentTimeMillis() > _initIsOver;
+	}
+
+	/**
+	 * Control and print diagnostic messages.
+	 * 
+	 * August 2021: Added content supression for identical messages.
+	 * 
 	 * @param clazz
 	 *            The type of the caller
 	 * @param message
 	 *            the message to print
 	 */
 	public static void println(Class<?> clazz, String message) {
-		//
-		// Here is a nice idea: Suppress repeated messages
-		//
+
+		// ----- Suppress repeated, longish messages
+		String timeStamp = (new Date()).toString();
+		_StringTime st = new _StringTime(message, System.currentTimeMillis());
+		if (fullyInitialized() && message.length() > (NUM_TO_SHOW + (" " + ELLIPSIS + " 0x12345678..").length())
+				&& recentMessages.contains(st)) {
+			if (_beginSupression != null) {
+				String s = _beginSupression;
+				_beginSupression = null;
+				println(GeneralUtilities.class, s); // Recursion
+			}
+			// This message becomes 29 chars long, hence the number 33, above.
+			message = message.substring(0, 16) + " " + ELLIPSIS + " 0x" + Integer.toHexString(message.hashCode());
+			timeStamp = shortDate();
+		} else {
+			recentMessages.add(st);
+			if (recentMessages.size() > MAX_REMEMBERED)
+				recentMessages.remove(0);
+		}
+
+		// ----- The actual printing is here
+
 		if (GlobalVariables.getLogger() != null) {
 			GlobalVariables.getLogger().fine(message);
 		} else {
 			String className = getClassName(clazz);
 			if (message.startsWith(":") || message.startsWith(".") || message.startsWith(" -"))
-				System.out.println(new Date() + " - " + className + message);
+				System.out.println(timeStamp + " - " + className + message);
 			else
-				System.out.println(new Date() + " - " + className + ": " + message);
+				System.out.println(timeStamp + " - " + className + ": " + message);
 		}
 	}
 
