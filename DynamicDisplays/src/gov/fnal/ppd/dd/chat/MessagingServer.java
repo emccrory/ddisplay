@@ -1509,8 +1509,8 @@ public class MessagingServer implements JavaChangeListener {
 						if (printMe)
 							randomCycleModulo = (int) (Math.random() * 5.0);
 						printMe = printMe || theMostPings > 2;
-						if (printMe)
-							logger.fine(diagnostic + "\n\t(" + randomCycleModulo + ")");
+						// if (printMe)
+						// logger.fine(diagnostic + "\n\t(" + randomCycleModulo + ")");
 
 						clist.add(oldestClientName);
 						lastOldestClientName = oldestClientName;
