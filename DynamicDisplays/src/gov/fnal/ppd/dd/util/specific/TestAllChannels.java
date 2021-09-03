@@ -32,10 +32,17 @@ import gov.fnal.ppd.security.TrustAllSSL;
 public class TestAllChannels {
 
 	static {
-		// There are a few URLs that don't do SSL right as far as Java is concerned. This class will cause the JVM to trust ALL
-		// certificates. It is not advisable to do this routinely! The URLs that failed before this was put here were all from
-		// https://uscms.org. These work fine from a regular browser - no SSL issues reported. I bet this is because the cache
-		// of certificate things is different from a real browser when you use the JVM to fetch the URL.
+		/*
+		 * There are a few URLs that the Java JVM says don't do SSL right. This seems to be a problem only with the JVM's
+		 * understanding of "trust." This error does not happen in real browsers (Firefox, Chrome).
+		 */
+
+		/*
+		 * This class will cause the JVM to trust ALL certificates. It is not advisable to do this routinely! The URLs that failed
+		 * before this was put here were all from https://uscms.org. These work fine from a regular browser - no SSL issues
+		 * reported. I bet this is because the cache of certificate things is different from a real browser when you use the JVM to
+		 * fetch the URL.
+		 */
 		new TrustAllSSL();
 	}
 
@@ -53,8 +60,11 @@ public class TestAllChannels {
 
 	public static void main(String[] args) {
 
-		// With 306 channels, this takes about 31 seconds. In order to make this a viable Jenkins test, this thread will force it to
-		// stop after (an arbitrarily selected) 120 seconds.
+		/*
+		 * With 306 channels, this takes about 31 seconds. In order to make this a viable Jenkins test, this thread will force it to
+		 * stop after (an arbitrarily selected) 120 seconds.
+		 */
+
 		new Thread("DoNotLingerTooLong") {
 			public void run() {
 				long waitSeconds = 120L;
@@ -68,7 +78,7 @@ public class TestAllChannels {
 				System.exit(-1);
 			}
 		}.start();
-		
+
 		try {
 			credentialsSetup();
 		} catch (CredentialsNotFoundException e) {
@@ -130,7 +140,7 @@ public class TestAllChannels {
 	}
 
 	private static String getSpaces(String name, int minimum) {
-		if ( name == null ) 
+		if (name == null)
 			name = "null";
 		String spaces = " ";
 		for (int i = minimum - name.length(); i > 0; i--)

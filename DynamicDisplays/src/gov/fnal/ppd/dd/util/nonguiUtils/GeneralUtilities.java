@@ -15,6 +15,7 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -413,6 +414,7 @@ public class GeneralUtilities {
 	private static long	_entropy		= 0;
 	private static long	_lastEntropy	= 0;
 	private static long	_myIPNumber		= 0;
+	private static long	_goodSeed 		= 0;
 
 	/// Function to get nextPrimeNumber
 	static long nextPrime(long n) {
@@ -448,14 +450,25 @@ public class GeneralUtilities {
 								reverse += ip.charAt(i);
 						}
 						// System.out.println(" .. " + reverse + " ... " + System.nanoTime());
+						
+						// This is apparently not necessary as the Random class does an excellent job of giving a
+						// good random number sequence even with no seed.  Whatever.
 						_myIPNumber = Long.parseLong(reverse);
+						SecureRandom sr = new SecureRandom();
+						byte[] ran = sr.generateSeed(6);
+						_goodSeed = _myIPNumber;
+						for ( int i=0; i<6; i++){
+							long b = 0x00ff & ran[i];
+							long c = (b<<(i*8));
+							_goodSeed = (c) ^ _goodSeed;
+						}
 						break;
 					}
 				}
 			} catch (SocketException e) {
 				throw new RuntimeException(e);
 			}
-			_entropy = nextPrime(System.nanoTime() ^ _myIPNumber);
+			_entropy = nextPrime(System.nanoTime() ^ _goodSeed);
 		}
 		return _entropy;
 	}
@@ -470,7 +483,7 @@ public class GeneralUtilities {
 		for (int i = 0; i < 10; i++) {
 			System.out.println(getNextEntropy());
 			// _myIPNumber = 0;
-			catchSleep(555);
-		}
+			catchSleep(100);
+		}	
 	}
 }
