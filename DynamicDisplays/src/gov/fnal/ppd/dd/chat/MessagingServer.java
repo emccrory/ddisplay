@@ -1062,7 +1062,13 @@ public class MessagingServer implements JavaChangeListener {
 			String NN = "no";
 			for (String subject : subjectListeners.keySet()) {
 				ClientThreadList ctl = subjectListeners.get(subject);
+				// Remove subjects that contain the string "_WHO_" and have no listeners
+				if ( subject.contains("_WHO_") && (ctl == null || ctl.size() == 0 ) ) {
+					subjectListeners.remove(subject);
+					LL = " - removed this subject";
+				}
 				subjectInfo += "     " + subject + "\t[" + (ctl == null ? NN : ctl.size()) + LL + "]\n";
+
 				LL = "";
 				NN = "none";
 			}
