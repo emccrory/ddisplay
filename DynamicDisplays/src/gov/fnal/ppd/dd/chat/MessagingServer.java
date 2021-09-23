@@ -108,8 +108,10 @@ import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
  * details.
  * </p>
  * 
+ * <h1>To Do list</h1>
+ * 
  * <p>
- * <b>TODO</b> - Improve the architecture
+ * <b>TODO (0)</b> -- Improve the architecture
  * </p>
  * 
  * <p>
@@ -129,6 +131,44 @@ import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
  * for the other modules. <i>Yes-ish</i></li>
  * </ul>
  * </p>
+ * 
+ * 
+ * <b>TODO (1)</b> -- New message to return the status of the server
+ * 
+ * It would be a useful diagnostic to ask the server to return a diagnostics dump. The data in this dump would include the stuff
+ * that is kept in the diagnostics method, like the client names, how many messages there have been, some accounting for the errors
+ * that have been handled, how old each client is and how long since we have last seen it, etc.
+ * 
+ * This would be a new message type, I think.
+ * 
+ * In a publish/subscribe implementation, this would be a dedicated subject called something like "ServerStatus".
+ * 
+ * <b>TODO (2)</b> -- Handshake
+ * 
+ * I think, in general, there needs to be a handshake in the protocol. The thing that is missing is that the client that sends a
+ * "change the channel" message gets no feedback that its signature is wrong or that it does not have the authority to command that
+ * display. This new message will need this sort of handshake, and we definitely can use this handshake in the normal message flow.
+ * 
+ * This has been partially implemented (2021). The client gets an acknowledgement that the channel has been changed.
+ * 
+ * <b>TODO (3)</b> -- Publish/Subscribe
+ * 
+ * This has been partially implemented. While it would certainly be possible to take this partial implementation to completion, it
+ * would probably be more reliable and useful to find a package that does publish/subscribe and work that into this class.
+ * 
+ * Here is a bare-bones example implementation: https://medium.com/easyread/create-your-own-java-pubsub-library-fbee21d0bb44
+ * 
+ * There are many other simple implementations available. Simple could be the best, but it needs to withstand the 24x7 demands of
+ * this system.
+ * 
+ * The advantages of this approach, IMHO, would be:
+ * <ul>
+ * <li>More reliable code because someone else wrote it and debugged it on a wider set of projects than this suite</li>
+ * <li>It seems likely that a lot of the complexity of the server will be reduced, but that remains to be seen</li>
+ * <li>Several new things become available, like when a display re-connects, it knows what the last "Change Channel" command was
+ * </li>
+ * <li>New, useful things (many of them listed above) can be implemented, like a "Status" subject, and a "Heartbeat" subject.</li>
+ * </ul>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  */
@@ -553,6 +593,7 @@ public class MessagingServer implements JavaChangeListener {
 					if (ctl == null) {
 						ctl = new ClientThreadList();
 						subjectListeners.put(subject.getTopic(), ctl);
+						// TODO - Send this client the last message on this subject.
 					}
 					ctl.add(this);
 				} else {
@@ -716,23 +757,6 @@ public class MessagingServer implements JavaChangeListener {
 		return ObjectSigning.getInstance().isEmergMessAllowed(from);
 	}
 
-	/*
-	 * TODO -- New message to return the status of the server
-	 * 
-	 * It would be a useful diagnostic to ask the server to return to a client a diagnostics dump. The data in this dump would
-	 * include the stuff that is kept in the diagnostics method, like the client names, how many messages there have been, some
-	 * accounting for the errors that have been handled, how old each client is and how long since we have last seen it, etc.
-	 * 
-	 * This would be a new message type, I think.
-	 * 
-	 * I think, in general, I need to implement a handshake in the protocol. The thing that is missing is that the client that sends
-	 * a "change the channel" message gets no feedback that its signature is wrong or that it does not have the authority to command
-	 * that display. This new message will need this sort of handshake, and we definitely can use this handshake in the normal
-	 * message flow.
-	 * 
-	 * 3/20/2015 -- E. McCrory.
-	 */
-
 	/*************************************************************************************************************************
 	 * Simple inner class to handle the insertion of a ClientThread object into a list.
 	 * 
@@ -805,6 +829,8 @@ public class MessagingServer implements JavaChangeListener {
 
 	// A hash of the most recent message published on each subject
 	ConcurrentHashMap<String, MessageCarrierXML>	lastMessage;
+	// TODO - When a client attaches to the server, it should subscribe to subject(s). Then it will receive the last message on that
+	// subject. (This is kind of the point of subject/subscribe)
 
 	// A synchronization object
 	private Object									broadcasting					= "Object 1 for Java synchronization";
@@ -914,8 +940,7 @@ public class MessagingServer implements JavaChangeListener {
 	 * 
 	 * Be sure to call super.broadcast(message) to actually get the message broadcast, though!
 	 * 
-	 * @param mc
-	 *            The message to broadcast
+	 * @param mc The message to broadcast
 	 */
 	protected void broadcast(MessageCarrierXML mc) {
 		synchronized (broadcasting) { // Only send one message at a time
@@ -1062,8 +1087,13 @@ public class MessagingServer implements JavaChangeListener {
 			String NN = "no";
 			for (String subject : subjectListeners.keySet()) {
 				ClientThreadList ctl = subjectListeners.get(subject);
-				// Remove subjects that contain the string "_WHO_" and have no listeners
-				if ( subject.contains("_WHO_") && (ctl == null || ctl.size() == 0 ) ) {
+				/*
+				 * Remove subjects that contain the string "_WHO_" and have no listeners. These subjects belong to ChannelSelector
+				 * instances, and serve to learn who is in the system. The right way to do this would be to create a static subject
+				 * that all the clients know, and then publish the nodes on the system to this subject at regular intervals. The way
+				 * this is implemented, these specific subjects are never going to reappear.
+				 */
+				if (subject.contains("_WHO_") && (ctl == null || ctl.size() == 0)) {
 					subjectListeners.remove(subject);
 					LL = " - removed this subject";
 				}
@@ -1211,7 +1241,7 @@ public class MessagingServer implements JavaChangeListener {
 					Socket socket = serverSocket.accept(); // accept connection if I was asked to stop
 
 					final ClientThread aNewClientThread = new ClientThread(socket); // make the thread object for this potential
-																					// client
+																					 // client
 
 					new Thread("InitializeClientThread") {
 						public void run() {
@@ -1231,7 +1261,7 @@ public class MessagingServer implements JavaChangeListener {
 										}
 										ctl.add(aNewClientThread);
 										numConnectionsSeen--; // Duplication of this parameter within the class ClientThreadList.
-																// oops
+																 // oops
 
 										// START THE THREAD to listen to this client
 										aNewClientThread.start();
@@ -1551,6 +1581,9 @@ public class MessagingServer implements JavaChangeListener {
 						 * have each client wait some random number of milliseconds so the messages come in with few(er) collisions.
 						 * The method here works, but it takes some time to go through all the clients. This delay means that it is
 						 * a long time before we actually learn that a client is not there.
+						 * 
+						 * This would be easy (-ish) to do if/when we move to full publish/subscribe. There would be a well-known
+						 * subject called something like "HeartbeatSubject" that each and every client must subscribe to.
 						 */
 
 						/*
