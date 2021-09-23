@@ -1,16 +1,11 @@
 package gov.fnal.ppd.dd.chat.pubsub;
+/**
+ * 
+ * @author Elliott McCrory, Fermilab AD/Instrumentation
+ *
+ */
+public enum Topic {
 
-public class Topic {
+	TopicOne, TopicTwo
 
-	// Maybe this class is not necessary - maybe only the Enum is required.
-
-	private TopicEnum name;
-
-	public Topic(TopicEnum name) {
-		this.name = name;
-	}
-
-	public TopicEnum getName() {
-		return name;
-	}
 }
