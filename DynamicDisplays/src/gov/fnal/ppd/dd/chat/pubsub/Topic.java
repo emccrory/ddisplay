@@ -6,6 +6,7 @@ package gov.fnal.ppd.dd.chat.pubsub;
  */
 public enum Topic {
 
+	// Placeholders
 	TopicOne, TopicTwo
 
 }
