@@ -32,10 +32,10 @@ public class SubscriberClient implements Subscriber {
 	 */
 	@Override
 	public void receivedMessage(Topic t, Message m) {
-		switch (t) {
-		case TopicOne:
+		switch (t.toString()) {
+		case "TopicOne":
 			break;
-		case TopicTwo:
+		case "TopicTwo":
 			break;
 		}
 	}
