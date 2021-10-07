@@ -16,4 +16,12 @@ public class AreYouAliveMessage extends MessagingDataXML {
 	public boolean willNotChangeAnything() {
 		return true;
 	}
+
+	/*
+	 * Note - there is no need to override toString(). The default one, which includes the class name and a hashCode, for example:
+	 * 
+	 * gov.fnal.ppd.dd.xml.messages.AreYouAliveMessage@7de1b574 
+	 * 
+	 * is almost perfect already.
+	 */
 }
