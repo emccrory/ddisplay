@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/SplashScreens.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/guiUtils/SplashScreens.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -112,146 +112,187 @@ $(document).ready(function(){initNavTree('SplashScreens_8java_source.html','');}
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util.guiUtils;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.bgImage;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.getLocationDescription;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.getLocationName;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.imageHeight;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.imageNames;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.imageWidth;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.offsets;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.userIsInactive;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.catchSleep;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">import</span> java.awt.Color;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">import</span> java.awt.Container;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">import</span> java.awt.Dimension;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">import</span> java.awt.Graphics;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">import</span> javax.swing.Box;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.getLocationDescription;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.getLocationName;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.userHasDoneSomething;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.userIsInactive;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">import</span> java.awt.Color;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">import</span> java.awt.Container;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">import</span> java.awt.Dimension;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">import</span> java.awt.Graphics;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">import</span> java.awt.Image;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">import</span> java.util.Arrays;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">import</span> java.util.Collections;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">import</span> java.util.List;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">import</span> javax.swing.Box;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">import</span> javax.swing.ImageIcon;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">import</span> javax.swing.JPanel;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html">   35</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html">SplashScreens</a> <span class="keyword">extends</span> Thread {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">private</span> Box[]                   splashPanel     = <span class="keyword">new</span> Box[imageNames.length];</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">private</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayCardActivator.html">DisplayCardActivator</a>    listener;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">private</span> <span class="keywordtype">int</span>                     activeScreen    = -1;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html#a3951a9bd85370e3f2dd19c1607c5f465">   44</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html#a3951a9bd85370e3f2dd19c1607c5f465">SplashScreens</a>(<span class="keyword">final</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayCardActivator.html">DisplayCardActivator</a> listener, <span class="keyword">final</span> Container displayChannelPanel) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        this.listener = listener;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="comment">// Create a nice splash screen that it comes back to after a period of inactivity</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SimpleMouseListener.html">SimpleMouseListener</a> splashListener = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SimpleMouseListener.html">SimpleMouseListener</a>(listener);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="comment">// char arrow = &#39;\u21E8&#39;;</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">float</span> headline = 70, subHead = 30;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">int</span> gap = 25;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> index = 0; index &lt; splashPanel.length; index++) {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            Box splash = splashPanel[index] = Box.createVerticalBox();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keyword">final</span> <span class="keywordtype">int</span> indexForThisImage = index;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            JPanel p = <span class="keyword">new</span> JPanel() {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = -2364511327267313957L;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                @Override</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="keyword">protected</span> <span class="keywordtype">void</span> paintComponent(Graphics g) {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    super.paintComponent(g);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    <span class="comment">// Implement a &quot;fit&quot; algorithm so the image is seen in its entirety, not stretched or cropped.</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    <span class="keywordtype">int</span> w = getWidth();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    <span class="keywordtype">int</span> h = getHeight();</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                    <span class="keywordtype">int</span> x = 0, y = 0;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                        <span class="keywordtype">double</span> imgAspect = ((double) imageWidth[indexForThisImage]) / ((double) imageHeight[indexForThisImage]); <span class="comment">// Say 16:9 or 1.778</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                        <span class="keywordtype">double</span> scrAspect = ((double) w) / ((double) h); <span class="comment">// Say 3:2 or 1.5</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                        <span class="keywordflow">if</span> (imgAspect &gt; scrAspect) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                            <span class="comment">// image is wider than the screen: reduce the height of the screen (and it will fill the width)</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                            h = (int) (w / imgAspect);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                            y = (getHeight() - h) / 2;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                            <span class="comment">// screen is wider than the image: Reduce the width of the screen (and it will fill the height)</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                            w = (int) (h * imgAspect);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                            x = (getWidth() - w) / 2;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                        }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                        <span class="comment">// System.out.println(w + &quot;,&quot; + h + &quot;,&quot; + getWidth() + &quot;,&quot; + getHeight() + &quot;,&quot; + x + &quot;,&quot; + y + &quot;,&quot; +</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                        <span class="comment">// imgAspect + &quot;,&quot; + scrAspect);</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    } <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                        <span class="comment">// ignore what is probably a divide-by-zero exception</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                    }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                    g.drawImage(bgImage[indexForThisImage], x, y, w, h, <span class="keyword">this</span>); <span class="comment">// draw the image</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            };</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            p.setBackground(Color.black);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            p.setOpaque(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            p.addMouseListener(splashListener);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            splash.add(Box.createRigidArea(<span class="keyword">new</span> Dimension(50, 50)));</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordtype">boolean</span> hasCredits = (index % 7 == 0);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keywordtype">int</span> h = offsets[index];</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">if</span> (hasCredits)</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                h = 100;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="comment">// System.out.println(&quot;Splash screen &quot; + index + &quot; has vertical offset of &quot; + h);</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            splash.add(Box.createRigidArea(<span class="keyword">new</span> Dimension(100, h)));</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            splash.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JLabelCenter.html">JLabelCenter</a>(<span class="stringliteral">&quot;   Welcome to &quot;</span> + getLocationName() + <span class="stringliteral">&quot;!   &quot;</span>, headline));</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            splash.add(Box.createRigidArea(<span class="keyword">new</span> Dimension(50, gap)));</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            splash.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JLabelCenter.html">JLabelCenter</a>(<span class="stringliteral">&quot;   &quot;</span> + getLocationDescription() + <span class="stringliteral">&quot;   &quot;</span>, subHead));</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            splash.add(Box.createRigidArea(<span class="keyword">new</span> Dimension(50, gap)));</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            splash.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JLabelCenter.html">JLabelCenter</a>(<span class="stringliteral">&quot;&lt;html&gt;&lt;em&gt;Touch to continue&lt;/em&gt;&lt;/html&gt;&quot;</span>, subHead));</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="keywordflow">if</span> (hasCredits) {</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                splash.add(Box.createRigidArea(<span class="keyword">new</span> Dimension(50, gap)));</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                splash.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JLabelCenter.html">JLabelCenter</a>(<span class="stringliteral">&quot;&lt;html&gt;&lt;p align=&#39;center&#39;&gt;&quot;</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                        + <span class="stringliteral">&quot;&lt;em&gt;Dynamic Display System software written by Elliott McCrory, Fermilab AD/Instrumentation&lt;br&gt;&quot;</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                        + <span class="stringliteral">&quot;&lt;br&gt;All pictures are by Fermilab photographers&lt;/em&gt;&lt;/p&gt;&lt;/html&gt;&quot;</span>, 12));</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            }</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="comment">// splash.add(new JLabelCenter(&quot;&quot; + arrow, arrowSize));</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">import</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayCardActivator.html">gov.fnal.ppd.dd.interfaces.DisplayCardActivator</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html">   37</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html">SplashScreens</a> <span class="keyword">extends</span> Thread {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">private</span> Box[]                   splashPanel     = <span class="keyword">new</span> Box[imageNames.length];</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">private</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayCardActivator.html">DisplayCardActivator</a>    listener;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">private</span> <span class="keywordtype">int</span>                     activeScreen    = -1;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String[]   imageNames      = { <span class="stringliteral">&quot;fermilab3.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab1.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab2.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab4.jpg&quot;</span>,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="stringliteral">&quot;fermilab5.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab6.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab7.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab8.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab9.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab10.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab11.jpg&quot;</span>,</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="stringliteral">&quot;fermilab12.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab13.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab14.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab15.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab16.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab17.jpg&quot;</span>,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="stringliteral">&quot;fermilab18.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab19.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab20.jpg&quot;</span>, <span class="stringliteral">&quot;fermilab21.jpg&quot;</span>, <span class="stringliteral">&quot;Baginski_1319.jpg&quot;</span>, <span class="stringliteral">&quot;Baginski_1649.jpg&quot;</span>,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="stringliteral">&quot;Biron_9077.jpg&quot;</span>, <span class="stringliteral">&quot;Brown_5472.jpg&quot;</span>, <span class="stringliteral">&quot;Chapman_1066.jpg&quot;</span>, <span class="stringliteral">&quot;Chapman_2860.jpg&quot;</span>, <span class="stringliteral">&quot;Chapman_3859.jpg&quot;</span>, <span class="stringliteral">&quot;Chapman_4721.jpg&quot;</span>,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="stringliteral">&quot;Chapman_7196.jpg&quot;</span>, <span class="stringliteral">&quot;Chapman_8814.jpg&quot;</span>, <span class="stringliteral">&quot;Dyer_3235.jpg&quot;</span>, <span class="stringliteral">&quot;Ferguson_2539.jpg&quot;</span>, <span class="stringliteral">&quot;Flores_9904.jpg&quot;</span>, <span class="stringliteral">&quot;Hahn_4109.jpg&quot;</span>,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="stringliteral">&quot;Higgins_7961.jpg&quot;</span>, <span class="stringliteral">&quot;Iraci_6742.jpg&quot;</span>, <span class="stringliteral">&quot;Kroc_9559.jpg&quot;</span>, <span class="stringliteral">&quot;Limberg_9772.jpg&quot;</span>, <span class="stringliteral">&quot;McCrory_2555.jpg&quot;</span>, <span class="stringliteral">&quot;McCrory_3368.jpg&quot;</span>,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="stringliteral">&quot;McCrory_3902.jpg&quot;</span>, <span class="stringliteral">&quot;McCrory_7002.jpg&quot;</span>, <span class="stringliteral">&quot;McCrory_8865.jpg&quot;</span>, <span class="stringliteral">&quot;Murphy_2507.jpg&quot;</span>, <span class="stringliteral">&quot;Murphy_3460.jpg&quot;</span>, <span class="stringliteral">&quot;Murphy_4658.jpg&quot;</span>,</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="stringliteral">&quot;Nicol_1322.jpg&quot;</span>, <span class="stringliteral">&quot;Nicol_2066.jpg&quot;</span>, <span class="stringliteral">&quot;Nicol_7967.jpg&quot;</span>, <span class="stringliteral">&quot;Olsen_6219.jpg&quot;</span>, <span class="stringliteral">&quot;Paterno_6012.jpg&quot;</span>, <span class="stringliteral">&quot;Pygott_6098.jpg&quot;</span>,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="stringliteral">&quot;Robertson_7776.jpg&quot;</span>, <span class="stringliteral">&quot;Santucci_3708.jpg&quot;</span>, <span class="stringliteral">&quot;Schwender_7961.jpg&quot;</span>, <span class="stringliteral">&quot;Scroggins_1293.jpg&quot;</span>, <span class="stringliteral">&quot;Scroggins_9472.jpg&quot;</span>,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="stringliteral">&quot;Shaddix_1745.jpg&quot;</span>, <span class="stringliteral">&quot;Shaddix_2506.jpg&quot;</span>, <span class="stringliteral">&quot;Shaddix_3843.jpg&quot;</span>, <span class="stringliteral">&quot;Shaddix_5138.jpg&quot;</span>, <span class="stringliteral">&quot;american-lotus-2.jpg&quot;</span>,</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="stringliteral">&quot;auditorium-stairs.jpg&quot;</span>, <span class="stringliteral">&quot;behind-tall-grass.jpg&quot;</span>, <span class="stringliteral">&quot;bright-tevatron-tunnel.jpg&quot;</span>, <span class="stringliteral">&quot;coyote-wilson-hall.jpg&quot;</span>,</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="stringliteral">&quot;egret-spots.jpg&quot;</span>, <span class="stringliteral">&quot;feynman-fountain.jpg&quot;</span>, <span class="stringliteral">&quot;iarc-angles.jpg&quot;</span>, <span class="stringliteral">&quot;july-fourth-coyote.jpg&quot;</span>,</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="stringliteral">&quot;lightning-storm-over-fermilab.jpg&quot;</span>, <span class="stringliteral">&quot;main-ring-magnets.jpg&quot;</span>, <span class="stringliteral">&quot;pom-pom.jpg&quot;</span>, <span class="stringliteral">&quot;ramsey-wilson.jpg&quot;</span>,</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="stringliteral">&quot;sunset-at-caseys-pond.jpg&quot;</span>, <span class="stringliteral">&quot;water-moon-venus.jpg&quot;</span>, <span class="stringliteral">&quot;wilson-hall-moon-airplane.jpg&quot;</span>, <span class="stringliteral">&quot;yellow-flowers.jpg&quot;</span>,</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="stringliteral">&quot;yellowwildflowers.jpg&quot;</span>, };</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Image[]    bgImage         = <span class="keyword">new</span> Image[imageNames.length];</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="keywordtype">int</span>[]      imageWidth      = <span class="keyword">new</span> <span class="keywordtype">int</span>[imageNames.length];</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="keywordtype">int</span>[]      imageHeight     = <span class="keyword">new</span> <span class="keywordtype">int</span>[imageNames.length];</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="keywordtype">int</span>[]      offsets         = <span class="keyword">new</span> <span class="keywordtype">int</span>[imageNames.length];</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#a922c8ee14d1c31b73bce2b7380ffed16">   78</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#a922c8ee14d1c31b73bce2b7380ffed16">prepareSaverImages</a>() {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        List&lt;String&gt; a = Arrays.asList(imageNames);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        Collections.shuffle(a); <span class="comment">// Randomize the presentation</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordtype">int</span> i = 0;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">for</span> (String name : a) {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            ImageIcon icon = <span class="keyword">new</span> ImageIcon(<span class="stringliteral">&quot;bin/gov/fnal/ppd/dd/images/&quot;</span> + name);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            bgImage[i] = icon.getImage();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            imageWidth[i] = icon.getIconWidth();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            imageHeight[i] = icon.getIconHeight();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            offsets[i] = (int) (50.0 + 150.0 * Math.random());</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            i++;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#a3b01fff5fc7c9d20e1229bd9441d66ce">   96</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#a3b01fff5fc7c9d20e1229bd9441d66ce">SplashScreens</a>(<span class="keyword">final</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayCardActivator.html">DisplayCardActivator</a> listener, <span class="keyword">final</span> Container displayChannelPanel) {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        this.listener = listener;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="comment">// Create a nice splash screen that it comes back to after a period of inactivity</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SimpleMouseListener.html">SimpleMouseListener</a> splashListener = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SimpleMouseListener.html">SimpleMouseListener</a>(listener);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="comment">// char arrow = &#39;\u21E8&#39;;</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordtype">float</span> headline = 70, subHead = 30;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordtype">int</span> gap = 25;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> index = 0; index &lt; splashPanel.length; index++) {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            Box splash = splashPanel[index] = Box.createVerticalBox();</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keyword">final</span> <span class="keywordtype">int</span> indexForThisImage = index;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            JPanel p = <span class="keyword">new</span> JPanel() {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = -2364511327267313957L;</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            <span class="comment">// splash.setOpaque(true);</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <span class="comment">// splash.setBackground(new Color(200 + (int) (Math.random() * 40.0), 200 + (int) (Math.random() * 40.0),</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="comment">// 200 + (int) (Math.random() * 40.0)));</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            p.add(splash);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            displayChannelPanel.add(p, <span class="stringliteral">&quot;Splash Screen&quot;</span> + index);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        }</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    }</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
-<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html#adb81aa078a65f2a043f96d8db686bd5c">  126</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html#adb81aa078a65f2a043f96d8db686bd5c">getLength</a>() {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">return</span> splashPanel.length;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    }</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html#a334862829af49ec6ccbcb9502195c6b3">  130</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html#a334862829af49ec6ccbcb9502195c6b3">run</a>() {</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keywordflow">if</span> (userIsInactive()) {</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                listener.activateCard(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                userHasDoneSomething();</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            }</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            catchSleep(ONE_SECOND);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        }</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                @Override</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="keyword">protected</span> <span class="keywordtype">void</span> paintComponent(Graphics g) {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                    super.paintComponent(g);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                    <span class="comment">// Implement a &quot;fit&quot; algorithm so the image is seen in its entirety, not stretched or cropped.</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                    <span class="keywordtype">int</span> w = getWidth();</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                    <span class="keywordtype">int</span> h = getHeight();</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                    <span class="keywordtype">int</span> x = 0, y = 0;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                    <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                        <span class="keywordtype">double</span> imgAspect = ((double) imageWidth[indexForThisImage]) / ((double) imageHeight[indexForThisImage]); <span class="comment">// Say</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                                                                                                                                    <span class="comment">// 16:9</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                                                                                                                                    <span class="comment">// or</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                                                                                                                                    <span class="comment">// 1.778</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                        <span class="keywordtype">double</span> scrAspect = ((double) w) / ((double) h); <span class="comment">// Say 3:2 or 1.5</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                        <span class="keywordflow">if</span> (imgAspect &gt; scrAspect) {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                            <span class="comment">// image is wider than the screen: reduce the height of the screen (and it will fill the width)</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                            h = (int) (w / imgAspect);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                            y = (getHeight() - h) / 2;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                            <span class="comment">// screen is wider than the image: Reduce the width of the screen (and it will fill the height)</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                            w = (int) (h * imgAspect);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                            x = (getWidth() - w) / 2;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                        }</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                        <span class="comment">// System.out.println(w + &quot;,&quot; + h + &quot;,&quot; + getWidth() + &quot;,&quot; + getHeight() + &quot;,&quot; + x + &quot;,&quot; + y + &quot;,&quot; +</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                        <span class="comment">// imgAspect + &quot;,&quot; + scrAspect);</span></div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
-<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html#a7e222fd082c2535e819365fb90bdb603">  143</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html#a7e222fd082c2535e819365fb90bdb603">getNext</a>() {</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        activeScreen = (activeScreen + 1) % splashPanel.length;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Splash Screen&quot;</span> + activeScreen;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    }</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;}</div>
-<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayCardActivator_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayCardActivator.html">gov.fnal.ppd.dd.util.DisplayCardActivator</a></div><div class="ttdef"><b>Definition:</b> <a href="DisplayCardActivator_8java_source.html#l00015">DisplayCardActivator.java:15</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens_html_a7e222fd082c2535e819365fb90bdb603"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html#a7e222fd082c2535e819365fb90bdb603">gov.fnal.ppd.dd.util.SplashScreens.getNext</a></div><div class="ttdeci">String getNext()</div><div class="ttdef"><b>Definition:</b> <a href="SplashScreens_8java_source.html#l00143">SplashScreens.java:143</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SimpleMouseListener_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SimpleMouseListener.html">gov.fnal.ppd.dd.util.SimpleMouseListener</a></div><div class="ttdef"><b>Definition:</b> <a href="SimpleMouseListener_8java_source.html#l00017">SimpleMouseListener.java:17</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens_html_a3951a9bd85370e3f2dd19c1607c5f465"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html#a3951a9bd85370e3f2dd19c1607c5f465">gov.fnal.ppd.dd.util.SplashScreens.SplashScreens</a></div><div class="ttdeci">SplashScreens(final DisplayCardActivator listener, final Container displayChannelPanel)</div><div class="ttdef"><b>Definition:</b> <a href="SplashScreens_8java_source.html#l00044">SplashScreens.java:44</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html">gov.fnal.ppd.dd.util.SplashScreens</a></div><div class="ttdef"><b>Definition:</b> <a href="SplashScreens_8java_source.html#l00035">SplashScreens.java:35</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens_html_a334862829af49ec6ccbcb9502195c6b3"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html#a334862829af49ec6ccbcb9502195c6b3">gov.fnal.ppd.dd.util.SplashScreens.run</a></div><div class="ttdeci">void run()</div><div class="ttdef"><b>Definition:</b> <a href="SplashScreens_8java_source.html#l00130">SplashScreens.java:130</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JLabelCenter_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JLabelCenter.html">gov.fnal.ppd.dd.util.JLabelCenter</a></div><div class="ttdef"><b>Definition:</b> <a href="JLabelCenter_8java_source.html#l00018">JLabelCenter.java:18</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens_html_adb81aa078a65f2a043f96d8db686bd5c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SplashScreens.html#adb81aa078a65f2a043f96d8db686bd5c">gov.fnal.ppd.dd.util.SplashScreens.getLength</a></div><div class="ttdeci">int getLength()</div><div class="ttdef"><b>Definition:</b> <a href="SplashScreens_8java_source.html#l00126">SplashScreens.java:126</a></div></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                    } <span class="keywordflow">catch</span> (Exception e) {</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                        <span class="comment">// ignore what is probably a divide-by-zero exception</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                    }</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                    g.drawImage(bgImage[indexForThisImage], x, y, w, h, <span class="keyword">this</span>); <span class="comment">// draw the image</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            };</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            p.setBackground(Color.black);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            p.setOpaque(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            p.addMouseListener(splashListener);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            splash.add(Box.createRigidArea(<span class="keyword">new</span> Dimension(50, 50)));</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <span class="keywordtype">boolean</span> hasCredits = (index % 7 == 0);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <span class="keywordtype">int</span> h = offsets[index];</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <span class="keywordflow">if</span> (hasCredits)</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                h = 100;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <span class="comment">// System.out.println(&quot;Splash screen &quot; + index + &quot; has vertical offset of &quot; + h);</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            splash.add(Box.createRigidArea(<span class="keyword">new</span> Dimension(100, h)));</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            splash.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JLabelCenter.html">JLabelCenter</a>(<span class="stringliteral">&quot;   Welcome to &quot;</span> + getLocationName() + <span class="stringliteral">&quot;!   &quot;</span>, headline));</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            splash.add(Box.createRigidArea(<span class="keyword">new</span> Dimension(50, gap)));</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            splash.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JLabelCenter.html">JLabelCenter</a>(<span class="stringliteral">&quot;   &quot;</span> + getLocationDescription() + <span class="stringliteral">&quot;   &quot;</span>, subHead));</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            splash.add(Box.createRigidArea(<span class="keyword">new</span> Dimension(50, gap)));</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            splash.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JLabelCenter.html">JLabelCenter</a>(<span class="stringliteral">&quot;&lt;html&gt;&lt;em&gt;Touch to continue&lt;/em&gt;&lt;/html&gt;&quot;</span>, subHead));</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <span class="keywordflow">if</span> (hasCredits) {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                splash.add(Box.createRigidArea(<span class="keyword">new</span> Dimension(50, gap)));</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                splash.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JLabelCenter.html">JLabelCenter</a>(<span class="stringliteral">&quot;&lt;html&gt;&lt;p align=&#39;center&#39;&gt;&quot;</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                        + <span class="stringliteral">&quot;&lt;em&gt;Dynamic Display System software written by Elliott McCrory, Fermilab AD/Instrumentation&lt;br&gt;&quot;</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                        + <span class="stringliteral">&quot;&lt;br&gt;All pictures are by Fermilab photographers&lt;/em&gt;&lt;/p&gt;&lt;/html&gt;&quot;</span>, 12));</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            <span class="comment">// splash.add(new JLabelCenter(&quot;&quot; + arrow, arrowSize));</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="comment">// splash.setOpaque(true);</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="comment">// splash.setBackground(new Color(200 + (int) (Math.random() * 40.0), 200 + (int) (Math.random() * 40.0),</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="comment">// 200 + (int) (Math.random() * 40.0)));</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            p.add(splash);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            displayChannelPanel.add(p, <span class="stringliteral">&quot;Splash Screen&quot;</span> + index);</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        }</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    }</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
+<div class="line"><a name="l00181"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#aa72109c01206e7fc3866440d8d9680be">  181</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#aa72109c01206e7fc3866440d8d9680be">getLength</a>() {</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="keywordflow">return</span> splashPanel.length;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    }</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
+<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#af5353d7417b0c9b0c3955e34fc40619c">  185</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#af5353d7417b0c9b0c3955e34fc40619c">run</a>() {</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="keywordflow">if</span> (userIsInactive()) {</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                listener.activateCard(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                userHasDoneSomething();</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            }</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            catchSleep(ONE_SECOND);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        }</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    }</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div>
+<div class="line"><a name="l00198"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#a19bce9c642238c470303f72048935cd1">  198</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#a19bce9c642238c470303f72048935cd1">getNext</a>() {</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        activeScreen = (activeScreen + 1) % splashPanel.length;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Splash Screen&quot;</span> + activeScreen;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    }</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens_html_af5353d7417b0c9b0c3955e34fc40619c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#af5353d7417b0c9b0c3955e34fc40619c">gov.fnal.ppd.dd.util.guiUtils.SplashScreens.run</a></div><div class="ttdeci">void run()</div><div class="ttdef"><b>Definition:</b> <a href="SplashScreens_8java_source.html#l00185">SplashScreens.java:185</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens_html_aa72109c01206e7fc3866440d8d9680be"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#aa72109c01206e7fc3866440d8d9680be">gov.fnal.ppd.dd.util.guiUtils.SplashScreens.getLength</a></div><div class="ttdeci">int getLength()</div><div class="ttdef"><b>Definition:</b> <a href="SplashScreens_8java_source.html#l00181">SplashScreens.java:181</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html">gov.fnal.ppd.dd.util.guiUtils.SplashScreens</a></div><div class="ttdef"><b>Definition:</b> <a href="SplashScreens_8java_source.html#l00037">SplashScreens.java:37</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens_html_a922c8ee14d1c31b73bce2b7380ffed16"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#a922c8ee14d1c31b73bce2b7380ffed16">gov.fnal.ppd.dd.util.guiUtils.SplashScreens.prepareSaverImages</a></div><div class="ttdeci">static final void prepareSaverImages()</div><div class="ttdef"><b>Definition:</b> <a href="SplashScreens_8java_source.html#l00078">SplashScreens.java:78</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JLabelCenter_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JLabelCenter.html">gov.fnal.ppd.dd.util.guiUtils.JLabelCenter</a></div><div class="ttdef"><b>Definition:</b> <a href="JLabelCenter_8java_source.html#l00018">JLabelCenter.java:18</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens_html_a19bce9c642238c470303f72048935cd1"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#a19bce9c642238c470303f72048935cd1">gov.fnal.ppd.dd.util.guiUtils.SplashScreens.getNext</a></div><div class="ttdeci">String getNext()</div><div class="ttdef"><b>Definition:</b> <a href="SplashScreens_8java_source.html#l00198">SplashScreens.java:198</a></div></div>
+<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayCardActivator_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayCardActivator.html">gov.fnal.ppd.dd.interfaces.DisplayCardActivator</a></div><div class="ttdef"><b>Definition:</b> <a href="DisplayCardActivator_8java_source.html#l00015">DisplayCardActivator.java:15</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens_html_a3b01fff5fc7c9d20e1229bd9441d66ce"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html#a3b01fff5fc7c9d20e1229bd9441d66ce">gov.fnal.ppd.dd.util.guiUtils.SplashScreens.SplashScreens</a></div><div class="ttdeci">SplashScreens(final DisplayCardActivator listener, final Container displayChannelPanel)</div><div class="ttdef"><b>Definition:</b> <a href="SplashScreens_8java_source.html#l00096">SplashScreens.java:96</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SimpleMouseListener_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SimpleMouseListener.html">gov.fnal.ppd.dd.util.guiUtils.SimpleMouseListener</a></div><div class="ttdef"><b>Definition:</b> <a href="SimpleMouseListener_8java_source.html#l00019">SimpleMouseListener.java:19</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="SplashScreens_8java.html">SplashScreens.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="dir_24537923d3e6c260dac2e886461eff28.html">guiUtils</a></li><li class="navelem"><a class="el" href="SplashScreens_8java.html">SplashScreens.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

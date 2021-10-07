@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/JavaVersion.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/nonguiUtils/JavaVersion.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -107,87 +107,191 @@ $(document).ready(function(){initNavTree('JavaVersion_8java_source.html','');});
 <div class="title">JavaVersion.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="JavaVersion_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util;</div>
+<a href="JavaVersion_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util.nonguiUtils;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.println;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.printlnErr;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> java.io.BufferedReader;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> java.io.InputStreamReader;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html">   16</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html">JavaVersion</a> {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String InitialVersion = System.getProperty(<span class="stringliteral">&quot;java.version&quot;</span>);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#aa40b3f3db4ff65495edd5a18adbeed55">   25</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#aa40b3f3db4ff65495edd5a18adbeed55">getInitialVersion</a>() {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keywordflow">return</span> InitialVersion;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    }</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#ab127bb617d7b81a0c0e6146b434ebff0">   34</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#ab127bb617d7b81a0c0e6146b434ebff0">getCurrentVersion</a>() {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="comment">// This can only work in Linux environment (but it really does not work very well, as it is now)</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">boolean</span> isWindows = System.getProperty(<span class="stringliteral">&quot;os.name&quot;</span>).toUpperCase().contains(<span class="stringliteral">&quot;WINDOWS&quot;</span>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">if</span> ( isWindows ) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            println(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html">JavaVersion</a>.class, <span class="stringliteral">&quot;Microsoft Windows installation: We haven&#39;t implemented a way to determine accurately which version of Java is installed.&quot;</span>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Not Known (Running Windows)&quot;</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        Runtime r = Runtime.getRuntime();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="comment">// Not sure why I cannot do exec(&quot;java -version&quot;)</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="comment">// String [] ca = {&quot;/usr/bin/java&quot;, &quot;-version&quot;};</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            String[] ca = { <span class="stringliteral">&quot;ls&quot;</span>, <span class="stringliteral">&quot;-l&quot;</span>, <span class="stringliteral">&quot;/etc/alternatives/java&quot;</span> };</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="comment">// Expect the output to look like this:</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="comment">// lrwxrwxrwx. 1 root root 73 Dec 4 08:44 /etc/alternatives/java -&gt; /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64/jre/bin/java</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            Process p = r.exec(ca);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordtype">int</span> exitVal = p.waitFor();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">if</span> (exitVal != 0) {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                printlnErr(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html">JavaVersion</a>.class, <span class="stringliteral">&quot;Unexpected non-zero error return, &quot;</span> + exitVal);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keywordflow">return</span> null;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            BufferedReader b = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(p.getInputStream()));</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            String retval = <span class="stringliteral">&quot;&quot;</span>, line = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">while</span> ((line = b.readLine()) != null) {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keywordtype">int</span> startAt = line.indexOf(ca[2]) + ca[2].length() + 4;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                String subString1 = line.substring(startAt);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                startAt = subString1.indexOf(<span class="stringliteral">&quot;/jvm/&quot;</span>) + 24;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                retval = subString1.substring(startAt, startAt + 9);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            b.close();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">return</span> retval;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        } <span class="keywordflow">catch</span> (Throwable e) {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="comment">// Windows comes here because there is no &quot;ls&quot; command.</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">return</span> null;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.ONE_HOUR;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> java.io.BufferedReader;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> java.io.IOException;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> java.io.InputStreamReader;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> java.util.ArrayList;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> java.util.Date;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> java.util.List;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> java.util.Timer;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> java.util.TimerTask;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html">   23</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html">JavaVersion</a> {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html">JavaVersion</a>  me      = null;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">boolean</span>      watch   = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a1feaadadf0d1163f6df8ef6b4d783f3b">   34</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a1feaadadf0d1163f6df8ef6b4d783f3b">setWatch</a>(<span class="keywordtype">boolean</span> watch) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        JavaVersion.watch = watch;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">private</span> <span class="keyword">final</span> String InitialVersion = System.getProperty(<span class="stringliteral">&quot;java.version&quot;</span>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#af95cfca80d031461d235ea2a10a7d3d3">   40</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html">JavaVersion</a> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#af95cfca80d031461d235ea2a10a7d3d3">getInstance</a>() {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">if</span> (me == null)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            me = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html">JavaVersion</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">return</span> me;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">private</span> String getInitialVersion() {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">return</span> InitialVersion;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a4cf56269f3f9b24efd54f9dd9fb582d5">   60</a></span>&#160;    <span class="keyword">public</span> String <span class="keyword">get</span>() {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">return</span> getInitialVersion();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">private</span> String executeJavaCommand() {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">try</span> {</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#a664336c886ac7e00d30220ebb1f8b0f5">   72</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#a664336c886ac7e00d30220ebb1f8b0f5">hasVersionChanged</a>() {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">return</span> !((<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#ab127bb617d7b81a0c0e6146b434ebff0">getCurrentVersion</a>().replace(<span class="stringliteral">&quot;.&quot;</span>, <span class="stringliteral">&quot;_&quot;</span>).equals(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#aa40b3f3db4ff65495edd5a18adbeed55">getInitialVersion</a>().replace(<span class="stringliteral">&quot;.&quot;</span>,  <span class="stringliteral">&quot;_&quot;</span>))));</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html">JavaVersion</a>() {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="comment">// Not instantiated</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#ad7df44b9056ee809a98c0cb215069832">   80</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#ad7df44b9056ee809a98c0cb215069832">main</a>(String[] args) {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        System.out.println(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#aa40b3f3db4ff65495edd5a18adbeed55">getInitialVersion</a>());</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        System.out.println(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#ab127bb617d7b81a0c0e6146b434ebff0">getCurrentVersion</a>());</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        System.out.println(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#a664336c886ac7e00d30220ebb1f8b0f5">hasVersionChanged</a>() ? <span class="stringliteral">&quot;Changed&quot;</span> : <span class="stringliteral">&quot;Unchanged&quot;</span>);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html">gov.fnal.ppd.dd.util.JavaVersion</a></div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00016">JavaVersion.java:16</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion_html_a664336c886ac7e00d30220ebb1f8b0f5"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#a664336c886ac7e00d30220ebb1f8b0f5">gov.fnal.ppd.dd.util.JavaVersion.hasVersionChanged</a></div><div class="ttdeci">static boolean hasVersionChanged()</div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00072">JavaVersion.java:72</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion_html_ab127bb617d7b81a0c0e6146b434ebff0"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#ab127bb617d7b81a0c0e6146b434ebff0">gov.fnal.ppd.dd.util.JavaVersion.getCurrentVersion</a></div><div class="ttdeci">static String getCurrentVersion()</div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00034">JavaVersion.java:34</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion_html_ad7df44b9056ee809a98c0cb215069832"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#ad7df44b9056ee809a98c0cb215069832">gov.fnal.ppd.dd.util.JavaVersion.main</a></div><div class="ttdeci">static void main(String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00080">JavaVersion.java:80</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion_html_aa40b3f3db4ff65495edd5a18adbeed55"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#aa40b3f3db4ff65495edd5a18adbeed55">gov.fnal.ppd.dd.util.JavaVersion.getInitialVersion</a></div><div class="ttdeci">static String getInitialVersion()</div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00025">JavaVersion.java:25</a></div></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="comment">// Expect the output to look like this:</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="comment">// openjdk version &quot;1.8.0_272&quot;</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            Process process = Runtime.getRuntime().exec(<span class="keyword">new</span> String[] { <span class="stringliteral">&quot;/usr/bin/java&quot;</span>, <span class="stringliteral">&quot;-version&quot;</span> });</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            StringBuilder output = <span class="keyword">new</span> StringBuilder();</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(process.getErrorStream()));</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            String line;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            String firstLine = null;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keywordflow">while</span> ((line = reader.readLine()) != null) {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                <span class="keywordflow">if</span> (firstLine == null)</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    firstLine = line;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                output.append(line + <span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordtype">int</span> exitVal = process.waitFor();</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">if</span> (exitVal == 0) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="keywordflow">return</span> firstLine.replace(<span class="stringliteral">&quot;openjdk version &quot;</span>, <span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;\&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="keywordflow">return</span> <span class="stringliteral">&quot;Error&quot;</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        } <span class="keywordflow">catch</span> (IOException e) {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        } <span class="keywordflow">catch</span> (InterruptedException e) {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Not expected&quot;</span>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keyword">private</span> String getCurrentVersionThroughLS() {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="comment">// This can only work in Linux environment (and it assumes a lot about the way the ls command works)</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordtype">boolean</span> isWindows = System.getProperty(<span class="stringliteral">&quot;os.name&quot;</span>).toUpperCase().contains(<span class="stringliteral">&quot;WINDOWS&quot;</span>);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">if</span> (isWindows) {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            println(JavaVersion.class,</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                    <span class="stringliteral">&quot;Microsoft Windows installation: We haven&#39;t implemented a way to determine accurately which version of Java is installed.&quot;</span>);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="keywordflow">return</span> <span class="stringliteral">&quot;Not Known (Running Windows)&quot;</span>;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        Runtime r = Runtime.getRuntime();</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="comment">// Not sure why I cannot do exec(&quot;java -version&quot;) - *SOLVED* The &#39;-version&#39; argument send output to stderr</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            String[] ca = { <span class="stringliteral">&quot;ls&quot;</span>, <span class="stringliteral">&quot;-l&quot;</span>, <span class="stringliteral">&quot;/etc/alternatives/java&quot;</span> };</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="comment">// Expect the output to look like this:</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="comment">// lrwxrwxrwx. 1 root root 73 Dec 4 08:44 /etc/alternatives/java -&gt;</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="comment">// /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64/jre/bin/java</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            Process p = r.exec(ca);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            <span class="keywordtype">int</span> exitVal = p.waitFor();</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">if</span> (exitVal != 0) {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                printlnErr(JavaVersion.class, <span class="stringliteral">&quot;Unexpected non-zero error return, &quot;</span> + exitVal);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                <span class="keywordflow">return</span> null;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            }</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            BufferedReader b = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(p.getInputStream()));</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            String retval = <span class="stringliteral">&quot;&quot;</span>, line = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keywordflow">while</span> ((line = b.readLine()) != null) {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <span class="keywordtype">int</span> startAt = line.indexOf(ca[2]) + ca[2].length() + 4;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                String subString1 = line.substring(startAt);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                startAt = subString1.indexOf(<span class="stringliteral">&quot;/jvm/&quot;</span>) + 24;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                retval = subString1.substring(startAt, startAt + 9);</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            }</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            b.close();</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            <span class="keywordflow">return</span> retval;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        } <span class="keywordflow">catch</span> (Throwable e) {</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <span class="comment">// Windows comes here because there is no &quot;ls&quot; command.</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        }</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        System.out.println(<span class="stringliteral">&quot;Hmmm&quot;</span>);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="keywordflow">return</span> null;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    }</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a62a8c1919158951af98647fedf0dec57">  155</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a62a8c1919158951af98647fedf0dec57">getCurrentVersion</a>() {</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="comment">// return getCurrentVersionThroughLS();</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keywordflow">return</span> executeJavaCommand();</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    }</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#aa2e6bfccd08763f02d852f94d92756b3">  165</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#aa2e6bfccd08763f02d852f94d92756b3">hasVersionChanged</a>() {</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="keywordflow">return</span> !((<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a62a8c1919158951af98647fedf0dec57">getCurrentVersion</a>().replace(<span class="stringliteral">&quot;.&quot;</span>, <span class="stringliteral">&quot;_&quot;</span>).equals(getInitialVersion().replace(<span class="stringliteral">&quot;.&quot;</span>, <span class="stringliteral">&quot;_&quot;</span>))));</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html">JavaVersion</a>() {</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keywordflow">if</span> (watch) {</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            println(getClass(), <span class="stringliteral">&quot;Initiating watch for the Java version to change away from &quot;</span> + getInitialVersion());</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            TimerTask t = <span class="keyword">new</span> TimerTask() {</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                @Override</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                <span class="keyword">public</span> <span class="keywordtype">void</span> run() {</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                    <span class="keywordflow">if</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#aa2e6bfccd08763f02d852f94d92756b3">hasVersionChanged</a>()) {</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                        System.out.println(<span class="stringliteral">&quot;The java version has changed from &quot;</span> + getInitialVersion() + <span class="stringliteral">&quot; to &quot;</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                                + executeJavaCommand() + <span class="stringliteral">&quot;. This app should be restarted.&quot;</span>);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                        <span class="keywordflow">for</span> (<a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaChangeListener.html">JavaChangeListener</a> jcl : listener)</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                            jcl.javaHasChanged();</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                            Thread.sleep(10000);</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                        } <span class="keywordflow">catch</span> (InterruptedException e) {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                            e.printStackTrace();</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                        }</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                        System.exit(-1);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                        System.out.println(</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                                <span class="keyword">new</span> Date() + <span class="stringliteral">&quot;: The Java version, &quot;</span> + executeJavaCommand() + <span class="stringliteral">&quot;, remains &quot;</span> + getInitialVersion());</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                    }</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                }</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            };</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            Timer timer = <span class="keyword">new</span> Timer();</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            timer.scheduleAtFixedRate(t, ONE_HOUR, ONE_HOUR);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        }</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    }</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keyword">private</span> List&lt;JavaChangeListener&gt; listener = <span class="keyword">new</span> ArrayList&lt;JavaChangeListener&gt;();</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
+<div class="line"><a name="l00202"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a287cd5bd534c301887af7af810ffd166">  202</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a287cd5bd534c301887af7af810ffd166">addJavaChangeListener</a>(<a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaChangeListener.html">JavaChangeListener</a> jcl) {</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        listener.add(jcl);</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    }</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;</div>
+<div class="line"><a name="l00206"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#ab3e14c1ea46c3dae60f9d35a07f9c549">  206</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#ab3e14c1ea46c3dae60f9d35a07f9c549">main</a>(String[] args) {</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a1feaadadf0d1163f6df8ef6b4d783f3b">setWatch</a>(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        System.out.println(<span class="stringliteral">&quot;The version as seen through the JVM:           &quot;</span> + <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#af95cfca80d031461d235ea2a10a7d3d3">getInstance</a>().getInitialVersion());</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        System.out.println(<span class="stringliteral">&quot;The version as seen from the operating system: &quot;</span> + <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#af95cfca80d031461d235ea2a10a7d3d3">getInstance</a>().getCurrentVersionThroughLS());</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        System.out</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                .println(<span class="stringliteral">&quot;(Sanity check) The Java version &quot;</span> + (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#af95cfca80d031461d235ea2a10a7d3d3">getInstance</a>().hasVersionChanged() ? <span class="stringliteral">&quot;has changed&quot;</span> : <span class="stringliteral">&quot;is unchanged&quot;</span>));</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    }</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_html_af95cfca80d031461d235ea2a10a7d3d3"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#af95cfca80d031461d235ea2a10a7d3d3">gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion.getInstance</a></div><div class="ttdeci">static JavaVersion getInstance()</div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00040">JavaVersion.java:40</a></div></div>
+<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaChangeListener_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaChangeListener.html">gov.fnal.ppd.dd.util.nonguiUtils.JavaChangeListener</a></div><div class="ttdef"><b>Definition:</b> <a href="JavaChangeListener_8java_source.html#l00009">JavaChangeListener.java:9</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_html_ab3e14c1ea46c3dae60f9d35a07f9c549"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#ab3e14c1ea46c3dae60f9d35a07f9c549">gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion.main</a></div><div class="ttdeci">static void main(String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00206">JavaVersion.java:206</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_html_a62a8c1919158951af98647fedf0dec57"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a62a8c1919158951af98647fedf0dec57">gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion.getCurrentVersion</a></div><div class="ttdeci">String getCurrentVersion()</div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00155">JavaVersion.java:155</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html">gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion</a></div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00023">JavaVersion.java:23</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_html_a1feaadadf0d1163f6df8ef6b4d783f3b"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a1feaadadf0d1163f6df8ef6b4d783f3b">gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion.setWatch</a></div><div class="ttdeci">static void setWatch(boolean watch)</div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00034">JavaVersion.java:34</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_html_a287cd5bd534c301887af7af810ffd166"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#a287cd5bd534c301887af7af810ffd166">gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion.addJavaChangeListener</a></div><div class="ttdeci">void addJavaChangeListener(JavaChangeListener jcl)</div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00202">JavaVersion.java:202</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_html_aa2e6bfccd08763f02d852f94d92756b3"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#aa2e6bfccd08763f02d852f94d92756b3">gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion.hasVersionChanged</a></div><div class="ttdeci">boolean hasVersionChanged()</div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00165">JavaVersion.java:165</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="JavaVersion_8java.html">JavaVersion.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="dir_628a4efc05c150573ef110f2ce0d8035.html">nonguiUtils</a></li><li class="navelem"><a class="el" href="JavaVersion_8java.html">JavaVersion.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

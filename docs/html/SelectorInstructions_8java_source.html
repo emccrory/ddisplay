@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/SelectorInstructions.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/specific/SelectorInstructions.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -112,19 +112,19 @@ $(document).ready(function(){initNavTree('SelectorInstructions_8java_source.html
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Copyright (c) 2014-15 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util.specific;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.timeSinceLastUserActivity;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.catchSleep;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> java.awt.Font;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">import</span> javax.swing.JLabel;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">import</span> javax.swing.JPanel;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html">   27</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html">SelectorInstructions</a> <span class="keyword">extends</span> JPanel {</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html">   27</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html">SelectorInstructions</a> <span class="keyword">extends</span> JPanel {</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span>   serialVersionUID    = 4509134236620234614L;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String INSTRUCTIONS_TEXT   = <span class="stringliteral">&quot;&lt;html&gt;&lt;center&gt;This App allows you to change the channel, that is, the visible content, &quot;</span></div>
@@ -138,7 +138,7 @@ $(document).ready(function(){initNavTree('SelectorInstructions_8java_source.html
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">private</span> <span class="keywordtype">boolean</span>             isLargeFont         = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">private</span> JLabel              lab                 = <span class="keyword">new</span> JLabel(INSTRUCTIONS_TEXT, JLabel.CENTER);</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html#aa7d5e87c6606d7a8d910d94bffd2bf13">   44</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html#aa7d5e87c6606d7a8d910d94bffd2bf13">SelectorInstructions</a>() {</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html#a47e9f61f9d6edf54d0ac63288fe53a2b">   44</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html#a47e9f61f9d6edf54d0ac63288fe53a2b">SelectorInstructions</a>() {</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        super();</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        largeFont = lab.getFont().deriveFont(20.0f);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        smallFont = lab.getFont().deriveFont(8.0f);</div>
@@ -146,7 +146,7 @@ $(document).ready(function(){initNavTree('SelectorInstructions_8java_source.html
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        add(lab);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html#a90e36e8a6819e15ab5bef2a9a5ff835f">   55</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html#a90e36e8a6819e15ab5bef2a9a5ff835f">start</a>() {</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html#acc5173794b299a9e4f9062cead781bad">   55</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html#acc5173794b299a9e4f9062cead781bad">start</a>() {</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">new</span> Thread(this.getClass().getSimpleName() + <span class="stringliteral">&quot;_heartbeat&quot;</span>) {</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keyword">public</span> <span class="keywordtype">void</span> run() {</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keywordtype">long</span> sleepTime = 30000L;</div>
@@ -175,20 +175,20 @@ $(document).ready(function(){initNavTree('SelectorInstructions_8java_source.html
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        }</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html#ac180ad936016af951d993e518f5a4ac4">   84</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html#ac180ad936016af951d993e518f5a4ac4">getInstructions</a>() {</div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html#a512c9d611cefc2c1053d9af36ec59213">   84</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html#a512c9d611cefc2c1053d9af36ec59213">getInstructions</a>() {</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">return</span> INSTRUCTIONS_TEXT;</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions_html_a90e36e8a6819e15ab5bef2a9a5ff835f"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html#a90e36e8a6819e15ab5bef2a9a5ff835f">gov.fnal.ppd.dd.util.SelectorInstructions.start</a></div><div class="ttdeci">void start()</div><div class="ttdef"><b>Definition:</b> <a href="SelectorInstructions_8java_source.html#l00055">SelectorInstructions.java:55</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html">gov.fnal.ppd.dd.util.SelectorInstructions</a></div><div class="ttdef"><b>Definition:</b> <a href="SelectorInstructions_8java_source.html#l00027">SelectorInstructions.java:27</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions_html_ac180ad936016af951d993e518f5a4ac4"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html#ac180ad936016af951d993e518f5a4ac4">gov.fnal.ppd.dd.util.SelectorInstructions.getInstructions</a></div><div class="ttdeci">static String getInstructions()</div><div class="ttdef"><b>Definition:</b> <a href="SelectorInstructions_8java_source.html#l00084">SelectorInstructions.java:84</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions_html_aa7d5e87c6606d7a8d910d94bffd2bf13"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1SelectorInstructions.html#aa7d5e87c6606d7a8d910d94bffd2bf13">gov.fnal.ppd.dd.util.SelectorInstructions.SelectorInstructions</a></div><div class="ttdeci">SelectorInstructions()</div><div class="ttdef"><b>Definition:</b> <a href="SelectorInstructions_8java_source.html#l00044">SelectorInstructions.java:44</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions_html_a512c9d611cefc2c1053d9af36ec59213"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html#a512c9d611cefc2c1053d9af36ec59213">gov.fnal.ppd.dd.util.specific.SelectorInstructions.getInstructions</a></div><div class="ttdeci">static String getInstructions()</div><div class="ttdef"><b>Definition:</b> <a href="SelectorInstructions_8java_source.html#l00084">SelectorInstructions.java:84</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions_html_a47e9f61f9d6edf54d0ac63288fe53a2b"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html#a47e9f61f9d6edf54d0ac63288fe53a2b">gov.fnal.ppd.dd.util.specific.SelectorInstructions.SelectorInstructions</a></div><div class="ttdeci">SelectorInstructions()</div><div class="ttdef"><b>Definition:</b> <a href="SelectorInstructions_8java_source.html#l00044">SelectorInstructions.java:44</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html">gov.fnal.ppd.dd.util.specific.SelectorInstructions</a></div><div class="ttdef"><b>Definition:</b> <a href="SelectorInstructions_8java_source.html#l00027">SelectorInstructions.java:27</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions_html_acc5173794b299a9e4f9062cead781bad"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html#acc5173794b299a9e4f9062cead781bad">gov.fnal.ppd.dd.util.specific.SelectorInstructions.start</a></div><div class="ttdeci">void start()</div><div class="ttdef"><b>Definition:</b> <a href="SelectorInstructions_8java_source.html#l00055">SelectorInstructions.java:55</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="SelectorInstructions_8java.html">SelectorInstructions.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="dir_acbb63a72dc47e1f5dc5cd4ae62bc1a5.html">specific</a></li><li class="navelem"><a class="el" href="SelectorInstructions_8java.html">SelectorInstructions.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

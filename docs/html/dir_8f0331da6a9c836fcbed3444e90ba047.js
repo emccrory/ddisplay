@@ -24,5 +24,5 @@ var dir_8f0331da6a9c836fcbed3444e90ba047 =
     [ "Orig_ServerGUI.java", "Orig__ServerGUI_8java.html", [
       [ "Orig_ServerGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1Orig__ServerGUI.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1Orig__ServerGUI" ]
     ] ],
-    [ "package-info.java", "dd_2chat_2original_2package-info_8java.html", null ]
+    [ "package-info.java", "gov_2fnal_2ppd_2dd_2chat_2original_2package-info_8java.html", null ]
 ];

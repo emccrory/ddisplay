@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/xml/ErrorMessage.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/xml/messages/ErrorMessage.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -107,76 +107,78 @@ $(document).ready(function(){initNavTree('ErrorMessage_8java_source.html','');})
 <div class="title">ErrorMessage.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="ErrorMessage_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.xml;</div>
+<a href="ErrorMessage_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.xml.messages;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> javax.xml.bind.annotation.XmlElement;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;@SuppressWarnings(<span class="stringliteral">&quot;javadoc&quot;</span>)</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html">   12</a></span>&#160;public class <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html">ErrorMessage</a> extends <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML.html">MessagingDataXML</a> {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">private</span> String theErrorMessage;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#a9210f3e300e2c0961de7a1742389454e">   15</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#a9210f3e300e2c0961de7a1742389454e">ErrorMessage</a>() {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">this</span>(<span class="stringliteral">&quot;no topic&quot;</span>);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    }</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#a20c56047229852f141ad657497d36b3d">   19</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#a20c56047229852f141ad657497d36b3d">ErrorMessage</a>(String name) {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        this.theErrorMessage = name;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    @XmlElement</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#ac346f500e04be35960d80693882ff122">   24</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#ac346f500e04be35960d80693882ff122">getErrorMessageText</a>() {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">return</span> theErrorMessage;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#aa67ba64ad1acae4e25a6854baa57082d">   28</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#aa67ba64ad1acae4e25a6854baa57082d">setErrorMessageText</a>(String text) {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        this.theErrorMessage = text;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    @Override</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#a67ebc471081d32a5d55667f810f43922">   32</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#a67ebc471081d32a5d55667f810f43922">willNotChangeAnything</a>() {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    @Override</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#a7bc631ea7c6078efdd1a0a20200a6912">   37</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#a7bc631ea7c6078efdd1a0a20200a6912">hashCode</a>() {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keyword">final</span> <span class="keywordtype">int</span> prime = 43;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">int</span> result = 1;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        result = prime * result + ((theErrorMessage == null) ? 0 : theErrorMessage.hashCode());</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    @Override</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#ad56cd30cfdccf540a65f09a63fb72b89">   45</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#ad56cd30cfdccf540a65f09a63fb72b89">equals</a>(Object obj) {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">this</span> == obj)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">if</span> (obj == null)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">if</span> (getClass() != obj.getClass())</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML.html">gov.fnal.ppd.dd.xml.MessagingDataXML</a>;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;@SuppressWarnings(<span class="stringliteral">&quot;javadoc&quot;</span>)</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html">   14</a></span>&#160;public class <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html">ErrorMessage</a> extends <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML.html">MessagingDataXML</a> {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">private</span> String theErrorMessage;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#abd8f8a3938c1ba67adcea29f8cc50832">   17</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#abd8f8a3938c1ba67adcea29f8cc50832">ErrorMessage</a>() {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">this</span>(<span class="stringliteral">&quot;no topic&quot;</span>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    }</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#aafbd59ec35884901d3c530680489d075">   21</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#aafbd59ec35884901d3c530680489d075">ErrorMessage</a>(String name) {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        this.theErrorMessage = name;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    @XmlElement</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a75afa5bffa52d1dec9229c82062a0b6d">   26</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a75afa5bffa52d1dec9229c82062a0b6d">getErrorMessageText</a>() {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">return</span> theErrorMessage;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    }</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a269c7f1eaf795a7a6a3803ce567e8607">   30</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a269c7f1eaf795a7a6a3803ce567e8607">setErrorMessageText</a>(String text) {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        this.theErrorMessage = text;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    @Override</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a730d05a055e96b98ef0e6723cd3d85a9">   34</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a730d05a055e96b98ef0e6723cd3d85a9">willNotChangeAnything</a>() {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    @Override</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a835f9f39c5379b96cc772d1cc6c39ecd">   39</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a835f9f39c5379b96cc772d1cc6c39ecd">hashCode</a>() {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">final</span> <span class="keywordtype">int</span> prime = 43;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">int</span> result = 1;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        result = prime * result + ((theErrorMessage == null) ? 0 : theErrorMessage.hashCode());</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    @Override</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a1a3858d7b600d60db4f5d1d9e1941987">   47</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a1a3858d7b600d60db4f5d1d9e1941987">equals</a>(Object obj) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">this</span> == obj)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">if</span> (obj == null)</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html">ErrorMessage</a> other = (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html">ErrorMessage</a>) obj;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">if</span> (theErrorMessage == null) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keywordflow">if</span> (other.theErrorMessage != null)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!theErrorMessage.equals(other.theErrorMessage))</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage_html_aa67ba64ad1acae4e25a6854baa57082d"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#aa67ba64ad1acae4e25a6854baa57082d">gov.fnal.ppd.dd.xml.ErrorMessage.setErrorMessageText</a></div><div class="ttdeci">void setErrorMessageText(String text)</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00028">ErrorMessage.java:28</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage_html_a20c56047229852f141ad657497d36b3d"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#a20c56047229852f141ad657497d36b3d">gov.fnal.ppd.dd.xml.ErrorMessage.ErrorMessage</a></div><div class="ttdeci">ErrorMessage(String name)</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00019">ErrorMessage.java:19</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage_html_ad56cd30cfdccf540a65f09a63fb72b89"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#ad56cd30cfdccf540a65f09a63fb72b89">gov.fnal.ppd.dd.xml.ErrorMessage.equals</a></div><div class="ttdeci">boolean equals(Object obj)</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00045">ErrorMessage.java:45</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html">gov.fnal.ppd.dd.xml.ErrorMessage</a></div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00012">ErrorMessage.java:12</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage_html_a67ebc471081d32a5d55667f810f43922"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#a67ebc471081d32a5d55667f810f43922">gov.fnal.ppd.dd.xml.ErrorMessage.willNotChangeAnything</a></div><div class="ttdeci">boolean willNotChangeAnything()</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00032">ErrorMessage.java:32</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML.html">gov.fnal.ppd.dd.xml.MessagingDataXML</a></div><div class="ttdef"><b>Definition:</b> <a href="MessagingDataXML_8java_source.html#l00009">MessagingDataXML.java:9</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage_html_a7bc631ea7c6078efdd1a0a20200a6912"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#a7bc631ea7c6078efdd1a0a20200a6912">gov.fnal.ppd.dd.xml.ErrorMessage.hashCode</a></div><div class="ttdeci">int hashCode()</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00037">ErrorMessage.java:37</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage_html_a9210f3e300e2c0961de7a1742389454e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#a9210f3e300e2c0961de7a1742389454e">gov.fnal.ppd.dd.xml.ErrorMessage.ErrorMessage</a></div><div class="ttdeci">ErrorMessage()</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00015">ErrorMessage.java:15</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage_html_ac346f500e04be35960d80693882ff122"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ErrorMessage.html#ac346f500e04be35960d80693882ff122">gov.fnal.ppd.dd.xml.ErrorMessage.getErrorMessageText</a></div><div class="ttdeci">String getErrorMessageText()</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00024">ErrorMessage.java:24</a></div></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">if</span> (getClass() != obj.getClass())</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html">ErrorMessage</a> other = (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html">ErrorMessage</a>) obj;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">if</span> (theErrorMessage == null) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">if</span> (other.theErrorMessage != null)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!theErrorMessage.equals(other.theErrorMessage))</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage_html_aafbd59ec35884901d3c530680489d075"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#aafbd59ec35884901d3c530680489d075">gov.fnal.ppd.dd.xml.messages.ErrorMessage.ErrorMessage</a></div><div class="ttdeci">ErrorMessage(String name)</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00021">ErrorMessage.java:21</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage_html_abd8f8a3938c1ba67adcea29f8cc50832"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#abd8f8a3938c1ba67adcea29f8cc50832">gov.fnal.ppd.dd.xml.messages.ErrorMessage.ErrorMessage</a></div><div class="ttdeci">ErrorMessage()</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00017">ErrorMessage.java:17</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage_html_a75afa5bffa52d1dec9229c82062a0b6d"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a75afa5bffa52d1dec9229c82062a0b6d">gov.fnal.ppd.dd.xml.messages.ErrorMessage.getErrorMessageText</a></div><div class="ttdeci">String getErrorMessageText()</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00026">ErrorMessage.java:26</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage_html_a269c7f1eaf795a7a6a3803ce567e8607"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a269c7f1eaf795a7a6a3803ce567e8607">gov.fnal.ppd.dd.xml.messages.ErrorMessage.setErrorMessageText</a></div><div class="ttdeci">void setErrorMessageText(String text)</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00030">ErrorMessage.java:30</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html">gov.fnal.ppd.dd.xml.messages.ErrorMessage</a></div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00014">ErrorMessage.java:14</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage_html_a730d05a055e96b98ef0e6723cd3d85a9"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a730d05a055e96b98ef0e6723cd3d85a9">gov.fnal.ppd.dd.xml.messages.ErrorMessage.willNotChangeAnything</a></div><div class="ttdeci">boolean willNotChangeAnything()</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00034">ErrorMessage.java:34</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML.html">gov.fnal.ppd.dd.xml.MessagingDataXML</a></div><div class="ttdef"><b>Definition:</b> <a href="MessagingDataXML_8java_source.html#l00028">MessagingDataXML.java:28</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage_html_a835f9f39c5379b96cc772d1cc6c39ecd"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a835f9f39c5379b96cc772d1cc6c39ecd">gov.fnal.ppd.dd.xml.messages.ErrorMessage.hashCode</a></div><div class="ttdeci">int hashCode()</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00039">ErrorMessage.java:39</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage_html_a1a3858d7b600d60db4f5d1d9e1941987"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1messages_1_1ErrorMessage.html#a1a3858d7b600d60db4f5d1d9e1941987">gov.fnal.ppd.dd.xml.messages.ErrorMessage.equals</a></div><div class="ttdeci">boolean equals(Object obj)</div><div class="ttdef"><b>Definition:</b> <a href="ErrorMessage_8java_source.html#l00047">ErrorMessage.java:47</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_3dd24a9f42974190030323a5c32a50b0.html">xml</a></li><li class="navelem"><a class="el" href="ErrorMessage_8java.html">ErrorMessage.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_3dd24a9f42974190030323a5c32a50b0.html">xml</a></li><li class="navelem"><a class="el" href="dir_549c35c101c90e455a631ffb1a6b3c46.html">messages</a></li><li class="navelem"><a class="el" href="ErrorMessage_8java.html">ErrorMessage.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

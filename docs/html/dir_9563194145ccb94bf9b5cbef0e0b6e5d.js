@@ -19,7 +19,7 @@ var dir_9563194145ccb94bf9b5cbef0e0b6e5d =
     [ "NewListCreationListener.java", "NewListCreationListener_8java.html", [
       [ "NewListCreationListener", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1NewListCreationListener.html", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1NewListCreationListener" ]
     ] ],
-    [ "package-info.java", "dd_2channel_2list_2package-info_8java.html", null ],
+    [ "package-info.java", "gov_2fnal_2ppd_2dd_2channel_2list_2package-info_8java.html", null ],
     [ "SaveRestoreListOfChannels.java", "SaveRestoreListOfChannels_8java.html", [
       [ "SaveRestoreListOfChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1SaveRestoreListOfChannels.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1SaveRestoreListOfChannels" ]
     ] ],

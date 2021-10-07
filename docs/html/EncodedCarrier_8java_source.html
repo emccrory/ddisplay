@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/xml/EncodedCarrier.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/ZZattic/EncodedCarrier.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -107,67 +107,66 @@ $(document).ready(function(){initNavTree('EncodedCarrier_8java_source.html','');
 <div class="title">EncodedCarrier.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="EncodedCarrier_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.xml;</div>
+<a href="EncodedCarrier_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.ZZattic;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> java.io.StringWriter;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> java.text.DateFormat;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> java.text.SimpleDateFormat;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> java.util.Date;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> java.util.Locale;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> javax.xml.bind.annotation.XmlElement;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html">   17</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html">EncodedCarrier</a> {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a54239a994c69adb2dde01ebb6e1e69a9">   19</a></span>&#160;    <span class="keyword">protected</span> String    <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a54239a994c69adb2dde01ebb6e1e69a9">dateString</a>  = <span class="keyword">new</span> Date().toString();</div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a28c58a66382080af31eed8d56a53b62a">   20</a></span>&#160;    <span class="keyword">protected</span> String    <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a28c58a66382080af31eed8d56a53b62a">ipAddress</a>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    @XmlElement</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a7f0d7411aee2e510e85b66cf111fb51c">   26</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a7f0d7411aee2e510e85b66cf111fb51c">getDate</a>() {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a54239a994c69adb2dde01ebb6e1e69a9">dateString</a>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    }</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#ac801c5a72181571aeaddff4321669133">   33</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#ac801c5a72181571aeaddff4321669133">setDate</a>(<span class="keyword">final</span> String d) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a54239a994c69adb2dde01ebb6e1e69a9">dateString</a> = d;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    @XmlElement</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a27e11d86bf75a88340237c060038b288">   41</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a27e11d86bf75a88340237c060038b288">getIPAddress</a>() {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a28c58a66382080af31eed8d56a53b62a">ipAddress</a>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a8f73e4716b57c5330045fb2868252904">   48</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a8f73e4716b57c5330045fb2868252904">setIPAddress</a>(<span class="keyword">final</span> String d) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a28c58a66382080af31eed8d56a53b62a">ipAddress</a> = d;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a2ebe62987fc3e79a6a32f636935da736">   55</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">long</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a2ebe62987fc3e79a6a32f636935da736">howOld</a>() {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">try</span> { <span class="comment">// Thu Dec 18 15:54:43 CST 2014</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            DateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="stringliteral">&quot;EEE MMM dd HH:mm:ss zzz yyyy&quot;</span>, Locale.ENGLISH);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            Date dd = format.parse(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a54239a994c69adb2dde01ebb6e1e69a9">dateString</a>);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordtype">long</span> then = dd.getTime();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="comment">// System.out.println(&quot;----------&gt; Date from message interpreted as &#39;&quot; + dd + &quot;&#39;&quot;);</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">return</span> System.currentTimeMillis() - then;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">return</span> 3600 * 1000L; <span class="comment">// an hour</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier_html_a54239a994c69adb2dde01ebb6e1e69a9"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a54239a994c69adb2dde01ebb6e1e69a9">gov.fnal.ppd.dd.xml.EncodedCarrier.dateString</a></div><div class="ttdeci">String dateString</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00019">EncodedCarrier.java:19</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier_html_a8f73e4716b57c5330045fb2868252904"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a8f73e4716b57c5330045fb2868252904">gov.fnal.ppd.dd.xml.EncodedCarrier.setIPAddress</a></div><div class="ttdeci">void setIPAddress(final String d)</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00048">EncodedCarrier.java:48</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier_html_ac801c5a72181571aeaddff4321669133"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#ac801c5a72181571aeaddff4321669133">gov.fnal.ppd.dd.xml.EncodedCarrier.setDate</a></div><div class="ttdeci">void setDate(final String d)</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00033">EncodedCarrier.java:33</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier_html_a2ebe62987fc3e79a6a32f636935da736"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a2ebe62987fc3e79a6a32f636935da736">gov.fnal.ppd.dd.xml.EncodedCarrier.howOld</a></div><div class="ttdeci">long howOld()</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00055">EncodedCarrier.java:55</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html">gov.fnal.ppd.dd.xml.EncodedCarrier</a></div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00017">EncodedCarrier.java:17</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier_html_a28c58a66382080af31eed8d56a53b62a"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a28c58a66382080af31eed8d56a53b62a">gov.fnal.ppd.dd.xml.EncodedCarrier.ipAddress</a></div><div class="ttdeci">String ipAddress</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00020">EncodedCarrier.java:20</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier_html_a7f0d7411aee2e510e85b66cf111fb51c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a7f0d7411aee2e510e85b66cf111fb51c">gov.fnal.ppd.dd.xml.EncodedCarrier.getDate</a></div><div class="ttdeci">String getDate()</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00026">EncodedCarrier.java:26</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier_html_a27e11d86bf75a88340237c060038b288"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EncodedCarrier.html#a27e11d86bf75a88340237c060038b288">gov.fnal.ppd.dd.xml.EncodedCarrier.getIPAddress</a></div><div class="ttdeci">String getIPAddress()</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00041">EncodedCarrier.java:41</a></div></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> java.text.DateFormat;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> java.text.SimpleDateFormat;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> java.util.Date;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> java.util.Locale;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> javax.xml.bind.annotation.XmlElement;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html">   16</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html">EncodedCarrier</a> {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a52e1a21b7119b6db2906234788c669ac">   18</a></span>&#160;    <span class="keyword">protected</span> String    <a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a52e1a21b7119b6db2906234788c669ac">dateString</a>  = <span class="keyword">new</span> Date().toString();</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a92ce35341bcff56215a1541d67eeb04a">   19</a></span>&#160;    <span class="keyword">protected</span> String    <a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a92ce35341bcff56215a1541d67eeb04a">ipAddress</a>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    @XmlElement</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a78d0cd10e1a13e78e697e6559b265aa5">   25</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a78d0cd10e1a13e78e697e6559b265aa5">getDate</a>() {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a52e1a21b7119b6db2906234788c669ac">dateString</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    }</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#aec293d5ce2d9ca7c8c13091085c4cad8">   32</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#aec293d5ce2d9ca7c8c13091085c4cad8">setDate</a>(<span class="keyword">final</span> String d) {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a52e1a21b7119b6db2906234788c669ac">dateString</a> = d;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    @XmlElement</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a099c08a698c6dad95fe960430c7d24e2">   40</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a099c08a698c6dad95fe960430c7d24e2">getIPAddress</a>() {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a92ce35341bcff56215a1541d67eeb04a">ipAddress</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#aeddf788b5506883bd7398d45f2115497">   47</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#aeddf788b5506883bd7398d45f2115497">setIPAddress</a>(<span class="keyword">final</span> String d) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a92ce35341bcff56215a1541d67eeb04a">ipAddress</a> = d;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#ab4252d10a9b8b817738c26305dc0fa23">   54</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">long</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#ab4252d10a9b8b817738c26305dc0fa23">howOld</a>() {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">try</span> { <span class="comment">// Thu Dec 18 15:54:43 CST 2014</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            DateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="stringliteral">&quot;EEE MMM dd HH:mm:ss zzz yyyy&quot;</span>, Locale.ENGLISH);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            Date dd = format.parse(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a52e1a21b7119b6db2906234788c669ac">dateString</a>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordtype">long</span> then = dd.getTime();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="comment">// System.out.println(&quot;----------&gt; Date from message interpreted as &#39;&quot; + dd + &quot;&#39;&quot;);</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">return</span> System.currentTimeMillis() - then;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">return</span> 3600 * 1000L; <span class="comment">// an hour</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier_html_aec293d5ce2d9ca7c8c13091085c4cad8"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#aec293d5ce2d9ca7c8c13091085c4cad8">gov.fnal.ppd.ZZattic.EncodedCarrier.setDate</a></div><div class="ttdeci">void setDate(final String d)</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00032">EncodedCarrier.java:32</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier_html_ab4252d10a9b8b817738c26305dc0fa23"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#ab4252d10a9b8b817738c26305dc0fa23">gov.fnal.ppd.ZZattic.EncodedCarrier.howOld</a></div><div class="ttdeci">long howOld()</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00054">EncodedCarrier.java:54</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier_html_a78d0cd10e1a13e78e697e6559b265aa5"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a78d0cd10e1a13e78e697e6559b265aa5">gov.fnal.ppd.ZZattic.EncodedCarrier.getDate</a></div><div class="ttdeci">String getDate()</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00025">EncodedCarrier.java:25</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier_html_a52e1a21b7119b6db2906234788c669ac"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a52e1a21b7119b6db2906234788c669ac">gov.fnal.ppd.ZZattic.EncodedCarrier.dateString</a></div><div class="ttdeci">String dateString</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00018">EncodedCarrier.java:18</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier_html_a099c08a698c6dad95fe960430c7d24e2"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a099c08a698c6dad95fe960430c7d24e2">gov.fnal.ppd.ZZattic.EncodedCarrier.getIPAddress</a></div><div class="ttdeci">String getIPAddress()</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00040">EncodedCarrier.java:40</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier_html_aeddf788b5506883bd7398d45f2115497"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#aeddf788b5506883bd7398d45f2115497">gov.fnal.ppd.ZZattic.EncodedCarrier.setIPAddress</a></div><div class="ttdeci">void setIPAddress(final String d)</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00047">EncodedCarrier.java:47</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html">gov.fnal.ppd.ZZattic.EncodedCarrier</a></div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00016">EncodedCarrier.java:16</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier_html_a92ce35341bcff56215a1541d67eeb04a"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EncodedCarrier.html#a92ce35341bcff56215a1541d67eeb04a">gov.fnal.ppd.ZZattic.EncodedCarrier.ipAddress</a></div><div class="ttdeci">String ipAddress</div><div class="ttdef"><b>Definition:</b> <a href="EncodedCarrier_8java_source.html#l00019">EncodedCarrier.java:19</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_3dd24a9f42974190030323a5c32a50b0.html">xml</a></li><li class="navelem"><a class="el" href="EncodedCarrier_8java.html">EncodedCarrier.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_e0c7be87d9f8670d1760a461e0f8accd.html">ZZattic</a></li><li class="navelem"><a class="el" href="EncodedCarrier_8java.html">EncodedCarrier.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

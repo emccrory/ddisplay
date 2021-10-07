@@ -6,7 +6,6 @@ var classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImplTest =
     [ "testErrorHandler", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImplTest.html#a95221bf0c828171b7416f67146742356", null ],
     [ "testGetContent", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImplTest.html#af6c021d0c40bf17371f5ec348b1952f1", null ],
     [ "testGetDBDisplayNumber", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImplTest.html#a63163c6a6839bfdabb28b7abd061ce5e", null ],
-    [ "testGetIPAddress", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImplTest.html#a04be333aa1449938f99b135b21252aec", null ],
     [ "testGetLocation", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImplTest.html#aabee964c785c7d8572b967bc85eb3093", null ],
     [ "testGetPreferredHighlightColor", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImplTest.html#a5878b575062d983fd455666bf9f47a02", null ],
     [ "testGetScreenNumber", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImplTest.html#ae75ef33d21eee00cd2d946f6930bc4c4", null ],

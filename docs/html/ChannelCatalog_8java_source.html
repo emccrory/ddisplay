@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/changer/ChannelCatalog.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/interfaces/ChannelCatalog.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -112,27 +112,28 @@ $(document).ready(function(){initNavTree('ChannelCatalog_8java_source.html','');
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * Copyright (c) 2013-18 by Fermilab Research Alliance (FRA), Batavia, Illinois, USA.</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.changer;</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="namespacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces.html">    6</a></span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.interfaces;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">gov.fnal.ppd.dd.signage.SignageContent</a>;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> java.util.Set;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog.html">   19</a></span>&#160;<span class="keyword">public</span> <span class="keyword">interface </span><a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog.html">ChannelCatalog</a> {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">public</span> <span class="keyword">abstract</span> Set&lt;SignageContent&gt; <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog.html#afa94549b979299708605d160be60ca35">getChannelCatalog</a>(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> cat);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
-<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">gov.fnal.ppd.dd.signage.SignageContent</a></div><div class="ttdef"><b>Definition:</b> <a href="SignageContent_8java_source.html#l00019">SignageContent.java:19</a></div></div>
-<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog_html_afa94549b979299708605d160be60ca35"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog.html#afa94549b979299708605d160be60ca35">gov.fnal.ppd.dd.changer.ChannelCatalog.getChannelCatalog</a></div><div class="ttdeci">abstract Set&lt; SignageContent &gt; getChannelCatalog(ChannelClassification cat)</div></div>
-<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog.html">gov.fnal.ppd.dd.changer.ChannelCatalog</a></div><div class="ttdef"><b>Definition:</b> <a href="ChannelCatalog_8java_source.html#l00019">ChannelCatalog.java:19</a></div></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">gov.fnal.ppd.dd.changer.ChannelClassification</a>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">gov.fnal.ppd.dd.signage.SignageContent</a>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> java.util.Set;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1ChannelCatalog.html">   20</a></span>&#160;<span class="keyword">public</span> <span class="keyword">interface </span><a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1ChannelCatalog.html">ChannelCatalog</a> {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">public</span> <span class="keyword">abstract</span> Set&lt;SignageContent&gt; <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1ChannelCatalog.html#ad80585eea22d7939113a225e4f63a929">getChannelCatalog</a>(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> cat);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
+<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1ChannelCatalog_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1ChannelCatalog.html">gov.fnal.ppd.dd.interfaces.ChannelCatalog</a></div><div class="ttdef"><b>Definition:</b> <a href="ChannelCatalog_8java_source.html#l00020">ChannelCatalog.java:20</a></div></div>
+<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">gov.fnal.ppd.dd.signage.SignageContent</a></div><div class="ttdef"><b>Definition:</b> <a href="SignageContent_8java_source.html#l00024">SignageContent.java:24</a></div></div>
+<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1ChannelCatalog_html_ad80585eea22d7939113a225e4f63a929"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1ChannelCatalog.html#ad80585eea22d7939113a225e4f63a929">gov.fnal.ppd.dd.interfaces.ChannelCatalog.getChannelCatalog</a></div><div class="ttdeci">abstract Set&lt; SignageContent &gt; getChannelCatalog(ChannelClassification cat)</div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">gov.fnal.ppd.dd.changer.ChannelClassification</a></div><div class="ttdef"><b>Definition:</b> <a href="ChannelClassification_8java_source.html#l00026">ChannelClassification.java:26</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_65e0482f3da2605f755b4ab60ae7b273.html">changer</a></li><li class="navelem"><a class="el" href="ChannelCatalog_8java.html">ChannelCatalog.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_b9a257a3f882f668a10c1820a458fc99.html">interfaces</a></li><li class="navelem"><a class="el" href="ChannelCatalog_8java.html">ChannelCatalog.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -138,24 +138,24 @@ $(document).ready(function(){initNavTree('GenerateNewKeyPair_8java_source.html',
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String         ALG_TYPE                = <span class="stringliteral">&quot;DSA&quot;</span>;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Connection  connection;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String         DEFAULT_SERVER          = <span class="stringliteral">&quot;mccrory.fnal.gov&quot;</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String         DATABASE_NAME           = System.getProperty(<span class="stringliteral">&quot;ddisplay.dbname&quot;</span>, <span class="stringliteral">&quot;xoc_dev&quot;</span>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String         DATABASE_SERVER_NAME    = System.getProperty(<span class="stringliteral">&quot;ddisplay.dbserver&quot;</span>, DEFAULT_SERVER);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> String               serverNode              = DATABASE_SERVER_NAME;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> String               thisNode;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair.html#aee008581c8b456ffcdc83a6396e773eb">   54</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> Connection <a class="code" href="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair.html#aee008581c8b456ffcdc83a6396e773eb">getDbConnection</a>(String user, <span class="keywordtype">char</span>[] passwd) <span class="keywordflow">throws</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1security_1_1DatabaseNotVisibleException.html">DatabaseNotVisibleException</a> {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">if</span> (connection != null) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">return</span> connection;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        InetAddress ip = null;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            ip = InetAddress.getLocalHost();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            thisNode = ip.getCanonicalHostName();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        } <span class="keywordflow">catch</span> (UnknownHostException e) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            System.err.println(<span class="stringliteral">&quot;Cannot get my own IP name.  IP Address is &quot;</span> + ip);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String         DATABASE_NAME           = System.getProperty(<span class="stringliteral">&quot;ddisplay.dbname&quot;</span>, <span class="stringliteral">&quot;xoc_dev&quot;</span>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String         DATABASE_SERVER_NAME    = System.getProperty(<span class="stringliteral">&quot;ddisplay.dbserver&quot;</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> String               serverNode              = DATABASE_SERVER_NAME;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> String               thisNode;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair.html#aee008581c8b456ffcdc83a6396e773eb">   53</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> Connection <a class="code" href="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair.html#aee008581c8b456ffcdc83a6396e773eb">getDbConnection</a>(String user, <span class="keywordtype">char</span>[] passwd) <span class="keywordflow">throws</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1security_1_1DatabaseNotVisibleException.html">DatabaseNotVisibleException</a> {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">if</span> (connection != null) {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">return</span> connection;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        InetAddress ip = null;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            ip = InetAddress.getLocalHost();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            thisNode = ip.getCanonicalHostName();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        } <span class="keywordflow">catch</span> (UnknownHostException e) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            System.err.println(<span class="stringliteral">&quot;Cannot get my own IP name.  IP Address is &quot;</span> + ip);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            System.exit(-1);</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">if</span> (serverNode.equals(thisNode))</div>
@@ -193,7 +193,7 @@ $(document).ready(function(){initNavTree('GenerateNewKeyPair_8java_source.html',
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> println(Class&lt;?&gt; clazz, String message) {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        System.out.println(<span class="keyword">new</span> Date() + <span class="stringliteral">&quot; -- &quot;</span> + clazz.getSimpleName() + message);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        System.out.println(<span class="keyword">new</span> Date() + <span class="stringliteral">&quot; -- &quot;</span> + clazz.getSimpleName() + <span class="stringliteral">&quot;: &quot;</span> + message);</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
 <div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair.html#afe479a0827a3f54f723f59eda57ae050">  115</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair.html#afe479a0827a3f54f723f59eda57ae050">main</a>(<span class="keyword">final</span> String[] args) {</div>
@@ -307,29 +307,26 @@ $(document).ready(function(){initNavTree('GenerateNewKeyPair_8java_source.html',
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        }</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <span class="keywordflow">try</span> (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery(<span class="stringliteral">&quot;USE &quot;</span> + DATABASE_NAME);) {</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            String statementString = <span class="stringliteral">&quot;REPLACE PublicKeys VALUES (NULL, &#39;&quot;</span> + clientName + <span class="stringliteral">&quot;&#39;, x&#39;&quot;</span> + blob + <span class="stringliteral">&quot;&#39;, &#39;&quot;</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                    + InetAddress.getLocalHost().getHostAddress() + <span class="stringliteral">&quot;&#39;, 0);&quot;</span>;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            System.out.println(statementString);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <span class="keywordtype">int</span> numRows = stmt.executeUpdate(statementString);</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            <span class="keywordflow">if</span> (numRows == 0 || numRows &gt; 1) {</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                System.err.println(<span class="stringliteral">&quot;Problem while updating status of Display: Expected to modify exactly one row, but  modified &quot;</span></div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                        + numRows + <span class="stringliteral">&quot; rows instead. SQL=&#39;&quot;</span> + statementString + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            }</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            stmt.close();</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        } <span class="keywordflow">catch</span> (SQLException ex) {</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            System.err.println(<span class="stringliteral">&quot;cannot execute a query. Is the DB server down?  Try again later.&quot;</span>);</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            ex.printStackTrace();</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            System.exit(-1);</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        } <span class="keywordflow">catch</span> (UnknownHostException e) {</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        }</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    }</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;}</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            String statementString = <span class="stringliteral">&quot;INSERT INTO PublicKeys VALUES (NULL, &#39;&quot;</span> + clientName + <span class="stringliteral">&quot;&#39;, x&#39;&quot;</span> + blob + <span class="stringliteral">&quot;&#39;, 0);&quot;</span>;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            System.out.println(statementString);</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            <span class="keywordtype">int</span> numRows = stmt.executeUpdate(statementString);</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <span class="keywordflow">if</span> (numRows == 0 || numRows &gt; 1) {</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                System.err.println(<span class="stringliteral">&quot;Problem while updating status of Display: Expected to modify exactly one row, but  modified &quot;</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                        + numRows + <span class="stringliteral">&quot; rows instead. SQL=&#39;&quot;</span> + statementString + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            }</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            stmt.close();</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        } <span class="keywordflow">catch</span> (SQLException ex) {</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            System.err.println(<span class="stringliteral">&quot;cannot execute a query. Is the DB server down?  Try again later.&quot;</span>);</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            ex.printStackTrace();</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            System.exit(-1);</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        }</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    }</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;}</div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair.html">gov.fnal.ppd.security.GenerateNewKeyPair</a></div><div class="ttdef"><b>Definition:</b> <a href="GenerateNewKeyPair_8java_source.html#l00036">GenerateNewKeyPair.java:36</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_html_aee008581c8b456ffcdc83a6396e773eb"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair.html#aee008581c8b456ffcdc83a6396e773eb">gov.fnal.ppd.security.GenerateNewKeyPair.getDbConnection</a></div><div class="ttdeci">static Connection getDbConnection(String user, char[] passwd)</div><div class="ttdef"><b>Definition:</b> <a href="GenerateNewKeyPair_8java_source.html#l00054">GenerateNewKeyPair.java:54</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_html_aee008581c8b456ffcdc83a6396e773eb"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair.html#aee008581c8b456ffcdc83a6396e773eb">gov.fnal.ppd.security.GenerateNewKeyPair.getDbConnection</a></div><div class="ttdeci">static Connection getDbConnection(String user, char[] passwd)</div><div class="ttdef"><b>Definition:</b> <a href="GenerateNewKeyPair_8java_source.html#l00053">GenerateNewKeyPair.java:53</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_html_a0df582e5aa3c2c81e890760384247b3d"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair.html#a0df582e5aa3c2c81e890760384247b3d">gov.fnal.ppd.security.GenerateNewKeyPair.writePublicKeyToDatabase</a></div><div class="ttdeci">final synchronized void writePublicKeyToDatabase(String clientName)</div><div class="ttdef"><b>Definition:</b> <a href="GenerateNewKeyPair_8java_source.html#l00228">GenerateNewKeyPair.java:228</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1security_1_1DatabaseNotVisibleException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1security_1_1DatabaseNotVisibleException.html">gov.fnal.ppd.security.DatabaseNotVisibleException</a></div><div class="ttdef"><b>Definition:</b> <a href="security_2DatabaseNotVisibleException_8java_source.html#l00012">DatabaseNotVisibleException.java:12</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair_html_a8fd10e2d562feed30edd515a65c65935"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1security_1_1GenerateNewKeyPair.html#a8fd10e2d562feed30edd515a65c65935">gov.fnal.ppd.security.GenerateNewKeyPair.generateNewKeys</a></div><div class="ttdeci">void generateNewKeys(final String filenamePublic, final String filenamePrivate)</div><div class="ttdef"><b>Definition:</b> <a href="GenerateNewKeyPair_8java_source.html#l00191">GenerateNewKeyPair.java:191</a></div></div>

@@ -1,33 +1,11 @@
 var NAVTREE =
 [
-  [ "Fermilab Dynamic Displays", "index.html", [
-    [ "Deprecated List", "deprecated.html", null ],
-    [ "Packages", null, [
-      [ "Packages", "namespaces.html", "namespaces" ]
-    ] ],
-    [ "Classes", null, [
-      [ "Class List", "annotated.html", "annotated" ],
-      [ "Class Index", "classes.html", null ],
-      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
-      [ "Class Members", "functions.html", [
-        [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", "functions_func" ],
-        [ "Variables", "functions_vars.html", null ],
-        [ "Enumerator", "functions_eval.html", null ]
-      ] ]
-    ] ]
-  ] ]
+  [ "Fermilab Dynamic Displays System", "index.html", ]
 ];
 
 var NAVTREEINDEX =
 [
-".html",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1ChannelListGUI.html#a0248f91962f51286514741ca3ae22be5",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl.html#af12ff2aa5231a9bb08e12b1dbd0dea7c",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1news_1_1current__observation.html#a155455b56109457ccdd026ff2e157694",
-"classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1ChannelSpecByNumber.html#ac3c84eea796719655257be7356a65e5b",
-"classorg_1_1json_1_1JSONArray.html#afea94e2d9ced169765099b47fee63972",
-"classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VerifyURLTest.html"
+"index.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

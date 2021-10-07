@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/NotificationClientText.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/guiUtils/NotificationClientText.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -107,44 +107,45 @@ $(document).ready(function(){initNavTree('NotificationClientText_8java_source.ht
 <div class="title">NotificationClientText.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="NotificationClientText_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util;</div>
+<a href="NotificationClientText_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util.guiUtils;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.println;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.printlnErr;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText.html">    9</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText.html">NotificationClientText</a> <span class="keyword">implements</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClient.html">NotificationClient</a> {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="comment">// I am not sure that we need to do anything (much) here.</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    @Override</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText.html#a101830e2bc0bd606f0c1d51e2426cafd">   14</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText.html#a101830e2bc0bd606f0c1d51e2426cafd">showNewUpdateInformation</a>(FLAVOR flavor, String versionString) {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        println(getClass(), <span class="stringliteral">&quot;Starting an update, version=&quot;</span> + versionString + <span class="stringliteral">&quot;, flavor=&quot;</span> + flavor);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    }</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    @Override</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText.html#ac45efc4a5d0d7f50d21cbae42f9e08cb">   19</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText.html#ac45efc4a5d0d7f50d21cbae42f9e08cb">failure</a>() {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        printlnErr(getClass(), <span class="stringliteral">&quot;The update failed!&quot;</span>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    @Override</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText.html#a5deeec962527801cc0eed2c78f303d9d">   24</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText.html#a5deeec962527801cc0eed2c78f303d9d">success</a>() {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        println(getClass(), <span class="stringliteral">&quot;The update succeeded&quot;</span>);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
-<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClient_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClient.html">gov.fnal.ppd.dd.util.NotificationClient</a></div><div class="ttdef"><b>Definition:</b> <a href="NotificationClient_8java_source.html#l00005">NotificationClient.java:5</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText_html_a5deeec962527801cc0eed2c78f303d9d"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText.html#a5deeec962527801cc0eed2c78f303d9d">gov.fnal.ppd.dd.util.NotificationClientText.success</a></div><div class="ttdeci">void success()</div><div class="ttdef"><b>Definition:</b> <a href="NotificationClientText_8java_source.html#l00024">NotificationClientText.java:24</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText_html_a101830e2bc0bd606f0c1d51e2426cafd"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText.html#a101830e2bc0bd606f0c1d51e2426cafd">gov.fnal.ppd.dd.util.NotificationClientText.showNewUpdateInformation</a></div><div class="ttdeci">void showNewUpdateInformation(FLAVOR flavor, String versionString)</div><div class="ttdef"><b>Definition:</b> <a href="NotificationClientText_8java_source.html#l00014">NotificationClientText.java:14</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText.html">gov.fnal.ppd.dd.util.NotificationClientText</a></div><div class="ttdef"><b>Definition:</b> <a href="NotificationClientText_8java_source.html#l00009">NotificationClientText.java:9</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText_html_ac45efc4a5d0d7f50d21cbae42f9e08cb"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1NotificationClientText.html#ac45efc4a5d0d7f50d21cbae42f9e08cb">gov.fnal.ppd.dd.util.NotificationClientText.failure</a></div><div class="ttdeci">void failure()</div><div class="ttdef"><b>Definition:</b> <a href="NotificationClientText_8java_source.html#l00019">NotificationClientText.java:19</a></div></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient.html">gov.fnal.ppd.dd.interfaces.NotificationClient</a>;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText.html">   10</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText.html">NotificationClientText</a> <span class="keyword">implements</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient.html">NotificationClient</a> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="comment">// I am not sure that we need to do anything (much) here.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    @Override</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText.html#ab4879ecf03b2d00f8d4e085c8bd41f0a">   15</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText.html#ab4879ecf03b2d00f8d4e085c8bd41f0a">showNewUpdateInformation</a>(FLAVOR flavor, String versionString) {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        println(getClass(), <span class="stringliteral">&quot;Starting an update, version=&quot;</span> + versionString + <span class="stringliteral">&quot;, flavor=&quot;</span> + flavor);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    }</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    @Override</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText.html#a60f0c1ad444844a27c015753fd23f54a">   20</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText.html#a60f0c1ad444844a27c015753fd23f54a">failure</a>() {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        printlnErr(getClass(), <span class="stringliteral">&quot;The update failed!&quot;</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    }</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    @Override</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText.html#a8de8c375474d901a6554bd3c39d4cf46">   25</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText.html#a8de8c375474d901a6554bd3c39d4cf46">success</a>() {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        println(getClass(), <span class="stringliteral">&quot;The update succeeded&quot;</span>);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    }</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText_html_a60f0c1ad444844a27c015753fd23f54a"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText.html#a60f0c1ad444844a27c015753fd23f54a">gov.fnal.ppd.dd.util.guiUtils.NotificationClientText.failure</a></div><div class="ttdeci">void failure()</div><div class="ttdoc">If the update task gets an error, tell the client. </div><div class="ttdef"><b>Definition:</b> <a href="NotificationClientText_8java_source.html#l00020">NotificationClientText.java:20</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText.html">gov.fnal.ppd.dd.util.guiUtils.NotificationClientText</a></div><div class="ttdef"><b>Definition:</b> <a href="NotificationClientText_8java_source.html#l00010">NotificationClientText.java:10</a></div></div>
+<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient.html">gov.fnal.ppd.dd.interfaces.NotificationClient</a></div><div class="ttdef"><b>Definition:</b> <a href="NotificationClient_8java_source.html#l00013">NotificationClient.java:13</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText_html_a8de8c375474d901a6554bd3c39d4cf46"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText.html#a8de8c375474d901a6554bd3c39d4cf46">gov.fnal.ppd.dd.util.guiUtils.NotificationClientText.success</a></div><div class="ttdeci">void success()</div><div class="ttdoc">When the update task succeeds, tell the client. </div><div class="ttdef"><b>Definition:</b> <a href="NotificationClientText_8java_source.html#l00025">NotificationClientText.java:25</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText_html_ab4879ecf03b2d00f8d4e085c8bd41f0a"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText.html#ab4879ecf03b2d00f8d4e085c8bd41f0a">gov.fnal.ppd.dd.util.guiUtils.NotificationClientText.showNewUpdateInformation</a></div><div class="ttdeci">void showNewUpdateInformation(FLAVOR flavor, String versionString)</div><div class="ttdoc">When the update task starts grabbing an update, tell the client. </div><div class="ttdef"><b>Definition:</b> <a href="NotificationClientText_8java_source.html#l00015">NotificationClientText.java:15</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="NotificationClientText_8java.html">NotificationClientText.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="dir_24537923d3e6c260dac2e886461eff28.html">guiUtils</a></li><li class="navelem"><a class="el" href="NotificationClientText_8java.html">NotificationClientText.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

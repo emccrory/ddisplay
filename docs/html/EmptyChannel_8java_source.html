@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/xml/EmptyChannel.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/ZZattic/EmptyChannel.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -107,45 +107,18 @@ $(document).ready(function(){initNavTree('EmptyChannel_8java_source.html','');})
 <div class="title">EmptyChannel.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="EmptyChannel_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.xml;</div>
+<a href="EmptyChannel_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.ZZattic;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.MY_NAME;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.MY_URL;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">gov.fnal.ppd.dd.changer.ChannelClassification</a>;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html">gov.fnal.ppd.dd.channel.ChannelImpl</a>;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> java.net.URI;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> java.net.URISyntaxException;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel.html">   19</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel.html">EmptyChannel</a> <span class="keyword">extends</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html">ChannelImpl</a> {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = -419375552528263824L;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel.html#aa5fef3cb69b155b97f5984de3407b927">   28</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel.html#aa5fef3cb69b155b97f5984de3407b927">EmptyChannel</a>() throws URISyntaxException {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">this</span>(MY_NAME, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html#aff2ea773d09e0647abdcb5642bbbec0b">ChannelClassification.MISCELLANEOUS</a>);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel.html#a0bb92f6a27ea9a2049b5f44b0a57b0ba">   33</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel.html#a0bb92f6a27ea9a2049b5f44b0a57b0ba">EmptyChannel</a>(String <span class="keywordtype">string</span>, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> categ) <span class="keywordflow">throws</span> URISyntaxException {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        super(<span class="keywordtype">string</span>, categ, <span class="stringliteral">&quot;This channel is &quot;</span> + <span class="keywordtype">string</span>, <span class="keyword">new</span> URI(MY_URL), 0, 0);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel.html#a149cbad6be33e6bf6e45608bffc2f95e">   40</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel.html#a149cbad6be33e6bf6e45608bffc2f95e">main</a>(<span class="keyword">final</span> String[] args) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        System.out.println(MY_URL);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_html_aff2ea773d09e0647abdcb5642bbbec0b"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html#aff2ea773d09e0647abdcb5642bbbec0b">gov.fnal.ppd.dd.changer.ChannelClassification.MISCELLANEOUS</a></div><div class="ttdeci">static final ChannelClassification MISCELLANEOUS</div><div class="ttdef"><b>Definition:</b> <a href="ChannelClassification_8java_source.html#l00033">ChannelClassification.java:33</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html">gov.fnal.ppd.dd.channel.ChannelImpl</a></div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00022">ChannelImpl.java:22</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel.html">gov.fnal.ppd.dd.xml.EmptyChannel</a></div><div class="ttdef"><b>Definition:</b> <a href="EmptyChannel_8java_source.html#l00019">EmptyChannel.java:19</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel_html_a0bb92f6a27ea9a2049b5f44b0a57b0ba"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel.html#a0bb92f6a27ea9a2049b5f44b0a57b0ba">gov.fnal.ppd.dd.xml.EmptyChannel.EmptyChannel</a></div><div class="ttdeci">EmptyChannel(String string, ChannelClassification categ)</div><div class="ttdef"><b>Definition:</b> <a href="EmptyChannel_8java_source.html#l00033">EmptyChannel.java:33</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel_html_a149cbad6be33e6bf6e45608bffc2f95e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel.html#a149cbad6be33e6bf6e45608bffc2f95e">gov.fnal.ppd.dd.xml.EmptyChannel.main</a></div><div class="ttdeci">static void main(final String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="EmptyChannel_8java_source.html#l00040">EmptyChannel.java:40</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">gov.fnal.ppd.dd.changer.ChannelClassification</a></div><div class="ttdef"><b>Definition:</b> <a href="ChannelClassification_8java_source.html#l00026">ChannelClassification.java:26</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel_html_aa5fef3cb69b155b97f5984de3407b927"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1EmptyChannel.html#aa5fef3cb69b155b97f5984de3407b927">gov.fnal.ppd.dd.xml.EmptyChannel.EmptyChannel</a></div><div class="ttdeci">EmptyChannel()</div><div class="ttdef"><b>Definition:</b> <a href="EmptyChannel_8java_source.html#l00028">EmptyChannel.java:28</a></div></div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EmptyChannel.html">    7</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EmptyChannel.html">EmptyChannel</a> {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="comment">// Code removed - see git repository for details.</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EmptyChannel_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1EmptyChannel.html">gov.fnal.ppd.ZZattic.EmptyChannel</a></div><div class="ttdef"><b>Definition:</b> <a href="EmptyChannel_8java_source.html#l00007">EmptyChannel.java:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_3dd24a9f42974190030323a5c32a50b0.html">xml</a></li><li class="navelem"><a class="el" href="EmptyChannel_8java.html">EmptyChannel.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_e0c7be87d9f8670d1760a461e0f8accd.html">ZZattic</a></li><li class="navelem"><a class="el" href="EmptyChannel_8java.html">EmptyChannel.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

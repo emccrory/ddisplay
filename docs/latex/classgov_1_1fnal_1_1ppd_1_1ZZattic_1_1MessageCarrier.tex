@@ -1,6 +1,67 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{\section{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}\index{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier@{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier}}
 }
+Inheritance diagram for gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{enumgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageType}{Message\-Type} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a2815136c8454ff691761c23dac942d23}{get\-Message\-Type} ()
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_af81213bb578f70befcd2392ddf083628}{get\-Message\-Value} ()
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a3b36f242dd877bcd0d7addff3328566a}{get\-Message\-Recipient} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a63f5a9d0dda64711b4abab44fc459e28}{set\-Message\-Recipient} (final String to)
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a9041fb2440cfeb821c3143ddc641892e}{get\-Message\-Originator} ()
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_aabc6ee957150d1935f78294d443d3205}{set\-Message\-Originator} (final String from)
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_af2efc53e04503aa52cf35c76733da79f}{to\-String} ()
+\item 
+Signed\-Object \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a75bcc6f6e84614494d9121e858f2b48e}{get\-Signed\-Object} ()
+\item 
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_afdb0e1272d9c3f27065bddc9d520087e}{verify\-Signed\-Object} (final Signed\-Object signed\-Object)
+\item 
+int \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a9184009b9338ac902a60a6bde4774bd1}{hash\-Code} ()
+\item 
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a7cd6ea7fb22a369f3a2af0090f70dfad}{equals} (Object obj)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a05fcdd9a65e13647a607f02dbbb7951e}{get\-Reply\-Message} (final String from, final String to, final String message)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad9e1be15442ebf3281dcea40659f371b}{get\-Logout} ()
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad98002f66c7e7153bbbd467ac905f0e3}{get\-Login} (final String username)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a3676c7c503d34d46f3dee419089f6f75}{get\-Who\-Is\-In} (final String from)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a86a35463360886690da6dea7c575264b}{get\-Is\-Alive} (final String from, final String to)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a4d77813aa4228365836ec44a2d791ebe}{get\-I\-Am\-Alive} (final String from, final String to, String message)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a02824e0d50129653a9f1eb264de59565}{get\-Error\-Message} (final String from, final String to, final String message)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad2376d2ae604000b73c70a6492e87849}{get\-Emergency\-Message} (final String from, final String to, final String message)
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a586e9b5efc107c371d7dca8295577fcc}{get\-Subscribe\-Message} (final String from, final String to, final String subject)
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a605f24a95d6bd8bd5537401c8df3e849}{is\-Username\-Match} (final String the\-Name\-From\-The\-Server, final String the\-Name\-From\-The\-Client)
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a7f557da468c7a4c3e60ab76447ee0132}{initialize\-Signature} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static final long \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad53d90e55cdc6a470cf2ee8a715017e1}{serial\-Version\-U\-I\-D} = 1112122200\-L
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -40,74 +101,24 @@ Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation
 \end{DoxyAuthor}
 \begin{DoxyRefDesc}{Deprecated}
 \item[\hyperlink{deprecated__deprecated000017}{Deprecated}]in favor of Message\-Carrier\-X\-M\-L \end{DoxyRefDesc}
-Inheritance diagram for gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier\-:\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[height=2.000000cm]{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}
-\end{center}
-\end{figure}
-\subsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\hyperlink{enumgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageType}{Message\-Type} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a2815136c8454ff691761c23dac942d23}{get\-Message\-Type} ()
-\item 
-String \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_af81213bb578f70befcd2392ddf083628}{get\-Message\-Value} ()
-\item 
-String \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a3b36f242dd877bcd0d7addff3328566a}{get\-Message\-Recipient} ()
-\item 
-void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a63f5a9d0dda64711b4abab44fc459e28}{set\-Message\-Recipient} (final String to)
-\item 
-String \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a9041fb2440cfeb821c3143ddc641892e}{get\-Message\-Originator} ()
-\item 
-void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_aabc6ee957150d1935f78294d443d3205}{set\-Message\-Originator} (final String from)
-\item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_af2efc53e04503aa52cf35c76733da79f}{String {\bfseries to\-String} ()}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_af2efc53e04503aa52cf35c76733da79f}
 
-\item 
-Signed\-Object \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a75bcc6f6e84614494d9121e858f2b48e}{get\-Signed\-Object} ()
-\item 
-String \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_afdb0e1272d9c3f27065bddc9d520087e}{verify\-Signed\-Object} (final Signed\-Object signed\-Object)
-\item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a9184009b9338ac902a60a6bde4774bd1}{int {\bfseries hash\-Code} ()}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a9184009b9338ac902a60a6bde4774bd1}
 
-\item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a7cd6ea7fb22a369f3a2af0090f70dfad}{boolean {\bfseries equals} (Object obj)}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a7cd6ea7fb22a369f3a2af0090f70dfad}
+Definition at line 56 of file Message\-Carrier.\-java.
 
-\end{DoxyCompactItemize}
-\subsection*{Static Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a05fcdd9a65e13647a607f02dbbb7951e}{get\-Reply\-Message} (final String from, final String to, final String message)
-\item 
-static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad9e1be15442ebf3281dcea40659f371b}{get\-Logout} ()
-\item 
-static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad98002f66c7e7153bbbd467ac905f0e3}{get\-Login} (final String username)
-\item 
-static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a3676c7c503d34d46f3dee419089f6f75}{get\-Who\-Is\-In} (final String from)
-\item 
-static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a86a35463360886690da6dea7c575264b}{get\-Is\-Alive} (final String from, final String to)
-\item 
-static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a4d77813aa4228365836ec44a2d791ebe}{get\-I\-Am\-Alive} (final String from, final String to, String message)
-\item 
-static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a02824e0d50129653a9f1eb264de59565}{get\-Error\-Message} (final String from, final String to, final String message)
-\item 
-static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad2376d2ae604000b73c70a6492e87849}{get\-Emergency\-Message} (final String from, final String to, final String message)
-\item 
-static \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a586e9b5efc107c371d7dca8295577fcc}{get\-Subscribe\-Message} (final String from, final String to, final String subject)
-\item 
-static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a605f24a95d6bd8bd5537401c8df3e849}{is\-Username\-Match} (final String the\-Name\-From\-The\-Server, final String the\-Name\-From\-The\-Client)
-\item 
-static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a7f557da468c7a4c3e60ab76447ee0132}{initialize\-Signature} ()
-\end{DoxyCompactItemize}
-\subsection*{Static Protected Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad53d90e55cdc6a470cf2ee8a715017e1}{static final long {\bfseries serial\-Version\-U\-I\-D} = 1112122200\-L}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad53d90e55cdc6a470cf2ee8a715017e1}
-
-\end{DoxyCompactItemize}
 
 
 \subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a7cd6ea7fb22a369f3a2af0090f70dfad}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!equals@{equals}}
+\index{equals@{equals}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
+\subsubsection[{equals}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-equals (
+\begin{DoxyParamCaption}
+\item[{Object}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a7cd6ea7fb22a369f3a2af0090f70dfad}
+
+
+Definition at line 322 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad2376d2ae604000b73c70a6492e87849}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Emergency\-Message@{get\-Emergency\-Message}}
 \index{get\-Emergency\-Message@{get\-Emergency\-Message}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Emergency\-Message}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Emergency\-Message (
@@ -116,7 +127,7 @@ static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a
 \item[{final String}]{to, }
 \item[{final String}]{message}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad2376d2ae604000b73c70a6492e87849}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad2376d2ae604000b73c70a6492e87849}
 This is an emergency message for all clients in the system.
 
 
@@ -131,6 +142,10 @@ This is an emergency message for all clients in the system.
 \begin{DoxyReturn}{Returns}
 A message to the messaging server that conveys the emergency 
 \end{DoxyReturn}
+
+
+Definition at line 144 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a02824e0d50129653a9f1eb264de59565}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Error\-Message@{get\-Error\-Message}}
 \index{get\-Error\-Message@{get\-Error\-Message}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Error\-Message}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Error\-Message (
@@ -139,7 +154,7 @@ A message to the messaging server that conveys the emergency
 \item[{final String}]{to, }
 \item[{final String}]{message}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a02824e0d50129653a9f1eb264de59565}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a02824e0d50129653a9f1eb264de59565}
 There has been an error with message communications.
 
 
@@ -154,6 +169,10 @@ There has been an error with message communications.
 \begin{DoxyReturn}{Returns}
 A message to the messaging server that says, \char`\"{}\-There has been an error\char`\"{} 
 \end{DoxyReturn}
+
+
+Definition at line 129 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a4d77813aa4228365836ec44a2d791ebe}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-I\-Am\-Alive@{get\-I\-Am\-Alive}}
 \index{get\-I\-Am\-Alive@{get\-I\-Am\-Alive}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-I\-Am\-Alive}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-I\-Am\-Alive (
@@ -162,7 +181,7 @@ A message to the messaging server that says, \char`\"{}\-There has been an error
 \item[{final String}]{to, }
 \item[{String}]{message}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a4d77813aa4228365836ec44a2d791ebe}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a4d77813aa4228365836ec44a2d791ebe}
 
 \begin{DoxyParams}{Parameters}
 {\em from} & \\
@@ -175,6 +194,10 @@ A message to the messaging server that says, \char`\"{}\-There has been an error
 \begin{DoxyReturn}{Returns}
 A message to the messaging server that says, \char`\"{}\-Yes, I am alive\char`\"{} 
 \end{DoxyReturn}
+
+
+Definition at line 114 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a86a35463360886690da6dea7c575264b}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Is\-Alive@{get\-Is\-Alive}}
 \index{get\-Is\-Alive@{get\-Is\-Alive}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Is\-Alive}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Is\-Alive (
@@ -182,7 +205,7 @@ A message to the messaging server that says, \char`\"{}\-Yes, I am alive\char`\"
 \item[{final String}]{from, }
 \item[{final String}]{to}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a86a35463360886690da6dea7c575264b}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a86a35463360886690da6dea7c575264b}
 
 \begin{DoxyParams}{Parameters}
 {\em from} & \\
@@ -193,13 +216,17 @@ A message to the messaging server that says, \char`\"{}\-Yes, I am alive\char`\"
 \begin{DoxyReturn}{Returns}
 A message for the messaging server asking if a client is alive 
 \end{DoxyReturn}
+
+
+Definition at line 104 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad98002f66c7e7153bbbd467ac905f0e3}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Login@{get\-Login}}
 \index{get\-Login@{get\-Login}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Login}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Login (
 \begin{DoxyParamCaption}
 \item[{final String}]{username}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad98002f66c7e7153bbbd467ac905f0e3}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad98002f66c7e7153bbbd467ac905f0e3}
 
 \begin{DoxyParams}{Parameters}
 {\em username} & \\
@@ -208,56 +235,80 @@ A message for the messaging server asking if a client is alive
 \begin{DoxyReturn}{Returns}
 A login message for the messaging server 
 \end{DoxyReturn}
+
+
+Definition at line 86 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad9e1be15442ebf3281dcea40659f371b}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Logout@{get\-Logout}}
 \index{get\-Logout@{get\-Logout}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Logout}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Logout (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad9e1be15442ebf3281dcea40659f371b}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad9e1be15442ebf3281dcea40659f371b}
 \begin{DoxyReturn}{Returns}
 A logout message for the messaging server 
 \end{DoxyReturn}
+
+
+Definition at line 78 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a9041fb2440cfeb821c3143ddc641892e}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Message\-Originator@{get\-Message\-Originator}}
 \index{get\-Message\-Originator@{get\-Message\-Originator}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Message\-Originator}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Message\-Originator (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a9041fb2440cfeb821c3143ddc641892e}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a9041fb2440cfeb821c3143ddc641892e}
 \begin{DoxyReturn}{Returns}
 who is this message from? 
 \end{DoxyReturn}
+
+
+Definition at line 213 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a3b36f242dd877bcd0d7addff3328566a}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Message\-Recipient@{get\-Message\-Recipient}}
 \index{get\-Message\-Recipient@{get\-Message\-Recipient}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Message\-Recipient}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Message\-Recipient (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a3b36f242dd877bcd0d7addff3328566a}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a3b36f242dd877bcd0d7addff3328566a}
 \begin{DoxyReturn}{Returns}
 Who is this message intended to be received by? 
 \end{DoxyReturn}
+
+
+Definition at line 198 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a2815136c8454ff691761c23dac942d23}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Message\-Type@{get\-Message\-Type}}
 \index{get\-Message\-Type@{get\-Message\-Type}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Message\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Message\-Type} gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Message\-Type (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a2815136c8454ff691761c23dac942d23}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a2815136c8454ff691761c23dac942d23}
 \begin{DoxyReturn}{Returns}
 The type of the message 
 \end{DoxyReturn}
+
+
+Definition at line 184 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_af81213bb578f70befcd2392ddf083628}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Message\-Value@{get\-Message\-Value}}
 \index{get\-Message\-Value@{get\-Message\-Value}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Message\-Value}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Message\-Value (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_af81213bb578f70befcd2392ddf083628}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_af81213bb578f70befcd2392ddf083628}
 \begin{DoxyReturn}{Returns}
 The body of the message 
 \end{DoxyReturn}
+
+
+Definition at line 191 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a05fcdd9a65e13647a607f02dbbb7951e}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Reply\-Message@{get\-Reply\-Message}}
 \index{get\-Reply\-Message@{get\-Reply\-Message}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Reply\-Message}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Reply\-Message (
@@ -266,7 +317,7 @@ The body of the message
 \item[{final String}]{to, }
 \item[{final String}]{message}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a05fcdd9a65e13647a607f02dbbb7951e}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a05fcdd9a65e13647a607f02dbbb7951e}
 
 \begin{DoxyParams}{Parameters}
 {\em from} & \\
@@ -279,13 +330,17 @@ The body of the message
 \begin{DoxyReturn}{Returns}
 A reply message from a client back to the requester 
 \end{DoxyReturn}
+
+
+Definition at line 71 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a75bcc6f6e84614494d9121e858f2b48e}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Signed\-Object@{get\-Signed\-Object}}
 \index{get\-Signed\-Object@{get\-Signed\-Object}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Signed\-Object}]{\setlength{\rightskip}{0pt plus 5cm}Signed\-Object gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Signed\-Object (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a75bcc6f6e84614494d9121e858f2b48e}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a75bcc6f6e84614494d9121e858f2b48e}
 \begin{DoxyReturn}{Returns}
 -- A Signed version of this \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier}{Message\-Carrier} object 
 \end{DoxyReturn}
@@ -294,6 +349,10 @@ A reply message from a client back to the requester
 {\em No\-Private\-Key\-Exception} & -- If the originator of this message does not have a private key, it cannot generator a signed object. \\
 \hline
 \end{DoxyExceptions}
+
+
+Definition at line 292 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a586e9b5efc107c371d7dca8295577fcc}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Subscribe\-Message@{get\-Subscribe\-Message}}
 \index{get\-Subscribe\-Message@{get\-Subscribe\-Message}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Subscribe\-Message}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Subscribe\-Message (
@@ -302,7 +361,7 @@ A reply message from a client back to the requester
 \item[{final String}]{to, }
 \item[{final String}]{subject}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a586e9b5efc107c371d7dca8295577fcc}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a586e9b5efc107c371d7dca8295577fcc}
 
 \begin{DoxyParams}{Parameters}
 {\em from} & \\
@@ -315,13 +374,17 @@ A reply message from a client back to the requester
 \begin{DoxyReturn}{Returns}
 the message itself that contains the subscription subject 
 \end{DoxyReturn}
+
+
+Definition at line 155 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a3676c7c503d34d46f3dee419089f6f75}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!get\-Who\-Is\-In@{get\-Who\-Is\-In}}
 \index{get\-Who\-Is\-In@{get\-Who\-Is\-In}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{get\-Who\-Is\-In}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Message\-Carrier} gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-get\-Who\-Is\-In (
 \begin{DoxyParamCaption}
 \item[{final String}]{from}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a3676c7c503d34d46f3dee419089f6f75}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a3676c7c503d34d46f3dee419089f6f75}
 
 \begin{DoxyParams}{Parameters}
 {\em from} & \\
@@ -330,13 +393,28 @@ the message itself that contains the subscription subject
 \begin{DoxyReturn}{Returns}
 A message for the messaging server asking for all the clients that are connected 
 \end{DoxyReturn}
+
+
+Definition at line 94 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a9184009b9338ac902a60a6bde4774bd1}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!hash\-Code@{hash\-Code}}
+\index{hash\-Code@{hash\-Code}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
+\subsubsection[{hash\-Code}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-hash\-Code (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a9184009b9338ac902a60a6bde4774bd1}
+
+
+Definition at line 311 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a7f557da468c7a4c3e60ab76447ee0132}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!initialize\-Signature@{initialize\-Signature}}
 \index{initialize\-Signature@{initialize\-Signature}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{initialize\-Signature}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-initialize\-Signature (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a7f557da468c7a4c3e60ab76447ee0132}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a7f557da468c7a4c3e60ab76447ee0132}
 
 \begin{DoxyParams}{Parameters}
 {\em username} & The user name to check \\
@@ -347,6 +425,10 @@ Is this message intended for this user? Read the private key so we can initializ
 
 Did we properly initialize the signature? 
 \end{DoxyReturn}
+
+
+Definition at line 276 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a605f24a95d6bd8bd5537401c8df3e849}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!is\-Username\-Match@{is\-Username\-Match}}
 \index{is\-Username\-Match@{is\-Username\-Match}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{is\-Username\-Match}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-is\-Username\-Match (
@@ -354,7 +436,7 @@ Did we properly initialize the signature?
 \item[{final String}]{the\-Name\-From\-The\-Server, }
 \item[{final String}]{the\-Name\-From\-The\-Client}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a605f24a95d6bd8bd5537401c8df3e849}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a605f24a95d6bd8bd5537401c8df3e849}
 
 \begin{DoxyParams}{Parameters}
 {\em the\-Name\-From\-The\-Server} & \\
@@ -365,37 +447,60 @@ Did we properly initialize the signature?
 \begin{DoxyReturn}{Returns}
 Do these names match? 
 \end{DoxyReturn}
+
+
+Definition at line 235 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_aabc6ee957150d1935f78294d443d3205}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!set\-Message\-Originator@{set\-Message\-Originator}}
 \index{set\-Message\-Originator@{set\-Message\-Originator}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{set\-Message\-Originator}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-set\-Message\-Originator (
 \begin{DoxyParamCaption}
 \item[{final String}]{from}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_aabc6ee957150d1935f78294d443d3205}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_aabc6ee957150d1935f78294d443d3205}
 
 \begin{DoxyParams}{Parameters}
 {\em from} & Who is this message from \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 221 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a63f5a9d0dda64711b4abab44fc459e28}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!set\-Message\-Recipient@{set\-Message\-Recipient}}
 \index{set\-Message\-Recipient@{set\-Message\-Recipient}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{set\-Message\-Recipient}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-set\-Message\-Recipient (
 \begin{DoxyParamCaption}
 \item[{final String}]{to}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a63f5a9d0dda64711b4abab44fc459e28}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_a63f5a9d0dda64711b4abab44fc459e28}
 
 \begin{DoxyParams}{Parameters}
 {\em to} & Set to whom this message is aimed \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 206 of file Message\-Carrier.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_af2efc53e04503aa52cf35c76733da79f}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-to\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_af2efc53e04503aa52cf35c76733da79f}
+
+
+Definition at line 226 of file Message\-Carrier.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_afdb0e1272d9c3f27065bddc9d520087e}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!verify\-Signed\-Object@{verify\-Signed\-Object}}
 \index{verify\-Signed\-Object@{verify\-Signed\-Object}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
 \subsubsection[{verify\-Signed\-Object}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-verify\-Signed\-Object (
 \begin{DoxyParamCaption}
 \item[{final Signed\-Object}]{signed\-Object}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_afdb0e1272d9c3f27065bddc9d520087e}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_afdb0e1272d9c3f27065bddc9d520087e}
 
 \begin{DoxyParams}{Parameters}
 {\em signed\-Object} & -- the object that (should be) the holder of \char`\"{}this\char`\"{} \\
@@ -408,6 +513,20 @@ Do these names match?
 \item[\hyperlink{deprecated__deprecated000018}{Deprecated}]\end{DoxyRefDesc}
 
 
+Definition at line 303 of file Message\-Carrier.\-java.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad53d90e55cdc6a470cf2ee8a715017e1}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}!serial\-Version\-U\-I\-D@{serial\-Version\-U\-I\-D}}
+\index{serial\-Version\-U\-I\-D@{serial\-Version\-U\-I\-D}!gov::fnal::ppd::ZZattic::MessageCarrier@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Message\-Carrier}}
+\subsubsection[{serial\-Version\-U\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}final long gov.\-fnal.\-ppd.\-Z\-Zattic.\-Message\-Carrier.\-serial\-Version\-U\-I\-D = 1112122200\-L\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageCarrier_ad53d90e55cdc6a470cf2ee8a715017e1}
+
+
+Definition at line 58 of file Message\-Carrier.\-java.
+
+
+
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/\-Z\-Zattic/Message\-Carrier.\-java\end{DoxyCompactItemize}
+src/gov/fnal/ppd/\-Z\-Zattic/\hyperlink{MessageCarrier_8java}{Message\-Carrier.\-java}\end{DoxyCompactItemize}

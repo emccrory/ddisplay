@@ -3,6 +3,7 @@ var searchData=
   ['makechannelselector_2ejava',['MakeChannelSelector.java',['../MakeChannelSelector_8java.html',1,'']]],
   ['makeemergencymessagegui_2ejava',['MakeEmergencyMessageGUI.java',['../MakeEmergencyMessageGUI_8java.html',1,'']]],
   ['mapofchannels_2ejava',['MapOfChannels.java',['../MapOfChannels_8java.html',1,'']]],
+  ['message_2ejava',['Message.java',['../Message_8java.html',1,'']]],
   ['messagecarrier_2ejava',['MessageCarrier.java',['../MessageCarrier_8java.html',1,'']]],
   ['messagecarrierxml_2ejava',['MessageCarrierXML.java',['../MessageCarrierXML_8java.html',1,'']]],
   ['messageconveyor_2ejava',['MessageConveyor.java',['../MessageConveyor_8java.html',1,'']]],
@@ -17,5 +18,6 @@ var searchData=
   ['messagingservergui_2ejava',['MessagingServerGUI.java',['../MessagingServerGUI_8java.html',1,'']]],
   ['messagingservertest_2ejava',['MessagingServerTest.java',['../MessagingServerTest_8java.html',1,'']]],
   ['messagingserverxml_2ejava',['MessagingServerXML.java',['../MessagingServerXML_8java.html',1,'']]],
-  ['myxmlmarshaller_2ejava',['MyXMLMarshaller.java',['../MyXMLMarshaller_8java.html',1,'']]]
+  ['myxmlmarshaller_2ejava',['MyXMLMarshaller.java',['../MyXMLMarshaller_8java.html',1,'']]],
+  ['myxmlmarshallertest_2ejava',['MyXMLMarshallerTest.java',['../MyXMLMarshallerTest_8java.html',1,'']]]
 ];

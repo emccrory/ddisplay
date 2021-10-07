@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -111,68 +111,68 @@ $(document).ready(function(){initNavTree('SubscriptionSubject_8java_source.html'
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> javax.xml.bind.annotation.XmlElement;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;@SuppressWarnings(<span class="stringliteral">&quot;javadoc&quot;</span>)</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html">   12</a></span>&#160;public class <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html">SubscriptionSubject</a> extends <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML.html">MessagingDataXML</a> {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">private</span> String topic;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    @XmlElement</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a01f2393abc6ac326202690123bda8dad">   17</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a01f2393abc6ac326202690123bda8dad">getTopic</a>() {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">return</span> topic;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    }</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;@SuppressWarnings(<span class="stringliteral">&quot;javadoc&quot;</span>)</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html">   19</a></span>&#160;public class <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html">SubscriptionSubject</a> extends <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML.html">MessagingDataXML</a> {</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a83846589b011cc7e49435511dddb598e">   21</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a83846589b011cc7e49435511dddb598e">setTopic</a>(String topic) {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        this.topic = topic;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a01d1baa11a755117fc36d96614a51c22">   25</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a01d1baa11a755117fc36d96614a51c22">SubscriptionSubject</a>() {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">this</span>(<span class="stringliteral">&quot;no topic&quot;</span>);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    }</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#ab9fa2bcb8c215704cd9b51d4e829832c">   29</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#ab9fa2bcb8c215704cd9b51d4e829832c">SubscriptionSubject</a>(String name) {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        topic = name;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    @Override</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#aca1d74e3e4b6dccf912b092956c551f8">   34</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#aca1d74e3e4b6dccf912b092956c551f8">willNotChangeAnything</a>() {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    @Override</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a0c977f51ce1c32fdef687190d23a4ea7">   39</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a0c977f51ce1c32fdef687190d23a4ea7">hashCode</a>() {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">final</span> <span class="keywordtype">int</span> prime = 101;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">int</span> result = 1;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        result = prime * result + ((topic == null) ? 0 : topic.hashCode());</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    @Override</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#af0e768945dc11038a1ae7a298ac328ee">   47</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#af0e768945dc11038a1ae7a298ac328ee">equals</a>(Object obj) {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">this</span> == obj)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">if</span> (obj == null)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">if</span> (getClass() != obj.getClass())</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html">SubscriptionSubject</a> other = (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html">SubscriptionSubject</a>) obj;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">if</span> (topic == null) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">if</span> (other.topic != null)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!topic.equals(other.topic))</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_ab9fa2bcb8c215704cd9b51d4e829832c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#ab9fa2bcb8c215704cd9b51d4e829832c">gov.fnal.ppd.dd.xml.SubscriptionSubject.SubscriptionSubject</a></div><div class="ttdeci">SubscriptionSubject(String name)</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00029">SubscriptionSubject.java:29</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_a01f2393abc6ac326202690123bda8dad"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a01f2393abc6ac326202690123bda8dad">gov.fnal.ppd.dd.xml.SubscriptionSubject.getTopic</a></div><div class="ttdeci">String getTopic()</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00017">SubscriptionSubject.java:17</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_a0c977f51ce1c32fdef687190d23a4ea7"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a0c977f51ce1c32fdef687190d23a4ea7">gov.fnal.ppd.dd.xml.SubscriptionSubject.hashCode</a></div><div class="ttdeci">int hashCode()</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00039">SubscriptionSubject.java:39</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_aca1d74e3e4b6dccf912b092956c551f8"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#aca1d74e3e4b6dccf912b092956c551f8">gov.fnal.ppd.dd.xml.SubscriptionSubject.willNotChangeAnything</a></div><div class="ttdeci">boolean willNotChangeAnything()</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00034">SubscriptionSubject.java:34</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_a83846589b011cc7e49435511dddb598e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a83846589b011cc7e49435511dddb598e">gov.fnal.ppd.dd.xml.SubscriptionSubject.setTopic</a></div><div class="ttdeci">void setTopic(String topic)</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00021">SubscriptionSubject.java:21</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_af0e768945dc11038a1ae7a298ac328ee"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#af0e768945dc11038a1ae7a298ac328ee">gov.fnal.ppd.dd.xml.SubscriptionSubject.equals</a></div><div class="ttdeci">boolean equals(Object obj)</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00047">SubscriptionSubject.java:47</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html">gov.fnal.ppd.dd.xml.SubscriptionSubject</a></div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00012">SubscriptionSubject.java:12</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML.html">gov.fnal.ppd.dd.xml.MessagingDataXML</a></div><div class="ttdef"><b>Definition:</b> <a href="MessagingDataXML_8java_source.html#l00009">MessagingDataXML.java:9</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_a01d1baa11a755117fc36d96614a51c22"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a01d1baa11a755117fc36d96614a51c22">gov.fnal.ppd.dd.xml.SubscriptionSubject.SubscriptionSubject</a></div><div class="ttdeci">SubscriptionSubject()</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00025">SubscriptionSubject.java:25</a></div></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">private</span> String topic;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    @XmlElement</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a01f2393abc6ac326202690123bda8dad">   24</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a01f2393abc6ac326202690123bda8dad">getTopic</a>() {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">return</span> topic;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a83846589b011cc7e49435511dddb598e">   28</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a83846589b011cc7e49435511dddb598e">setTopic</a>(String topic) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        this.topic = topic;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a01d1baa11a755117fc36d96614a51c22">   32</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a01d1baa11a755117fc36d96614a51c22">SubscriptionSubject</a>() {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">this</span>(<span class="stringliteral">&quot;no topic&quot;</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#ab9fa2bcb8c215704cd9b51d4e829832c">   36</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#ab9fa2bcb8c215704cd9b51d4e829832c">SubscriptionSubject</a>(String name) {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        topic = name;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    @Override</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#aca1d74e3e4b6dccf912b092956c551f8">   41</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#aca1d74e3e4b6dccf912b092956c551f8">willNotChangeAnything</a>() {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    @Override</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a0c977f51ce1c32fdef687190d23a4ea7">   46</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a0c977f51ce1c32fdef687190d23a4ea7">hashCode</a>() {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">final</span> <span class="keywordtype">int</span> prime = 101;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">int</span> result = 1;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        result = prime * result + ((topic == null) ? 0 : topic.hashCode());</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    @Override</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#af0e768945dc11038a1ae7a298ac328ee">   54</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#af0e768945dc11038a1ae7a298ac328ee">equals</a>(Object obj) {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">this</span> == obj)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">if</span> (obj == null)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">if</span> (getClass() != obj.getClass())</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html">SubscriptionSubject</a> other = (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html">SubscriptionSubject</a>) obj;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">if</span> (topic == null) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">if</span> (other.topic != null)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!topic.equals(other.topic))</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_ab9fa2bcb8c215704cd9b51d4e829832c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#ab9fa2bcb8c215704cd9b51d4e829832c">gov.fnal.ppd.dd.xml.SubscriptionSubject.SubscriptionSubject</a></div><div class="ttdeci">SubscriptionSubject(String name)</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00036">SubscriptionSubject.java:36</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_a01f2393abc6ac326202690123bda8dad"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a01f2393abc6ac326202690123bda8dad">gov.fnal.ppd.dd.xml.SubscriptionSubject.getTopic</a></div><div class="ttdeci">String getTopic()</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00024">SubscriptionSubject.java:24</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_a0c977f51ce1c32fdef687190d23a4ea7"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a0c977f51ce1c32fdef687190d23a4ea7">gov.fnal.ppd.dd.xml.SubscriptionSubject.hashCode</a></div><div class="ttdeci">int hashCode()</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00046">SubscriptionSubject.java:46</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_aca1d74e3e4b6dccf912b092956c551f8"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#aca1d74e3e4b6dccf912b092956c551f8">gov.fnal.ppd.dd.xml.SubscriptionSubject.willNotChangeAnything</a></div><div class="ttdeci">boolean willNotChangeAnything()</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00041">SubscriptionSubject.java:41</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_a83846589b011cc7e49435511dddb598e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a83846589b011cc7e49435511dddb598e">gov.fnal.ppd.dd.xml.SubscriptionSubject.setTopic</a></div><div class="ttdeci">void setTopic(String topic)</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00028">SubscriptionSubject.java:28</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_af0e768945dc11038a1ae7a298ac328ee"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#af0e768945dc11038a1ae7a298ac328ee">gov.fnal.ppd.dd.xml.SubscriptionSubject.equals</a></div><div class="ttdeci">boolean equals(Object obj)</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00054">SubscriptionSubject.java:54</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html">gov.fnal.ppd.dd.xml.SubscriptionSubject</a></div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00019">SubscriptionSubject.java:19</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1MessagingDataXML.html">gov.fnal.ppd.dd.xml.MessagingDataXML</a></div><div class="ttdef"><b>Definition:</b> <a href="MessagingDataXML_8java_source.html#l00028">MessagingDataXML.java:28</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject_html_a01d1baa11a755117fc36d96614a51c22"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html#a01d1baa11a755117fc36d96614a51c22">gov.fnal.ppd.dd.xml.SubscriptionSubject.SubscriptionSubject</a></div><div class="ttdeci">SubscriptionSubject()</div><div class="ttdef"><b>Definition:</b> <a href="SubscriptionSubject_8java_source.html#l00032">SubscriptionSubject.java:32</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

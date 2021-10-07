@@ -1,18 +1,6 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels}{\section{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels}\index{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels@{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}}
 }
-
-
-\subsection{Detailed Description}
-An implementation of the Display interface that is suitable for pushing into the database. This is used to update the database table that keeps track of the channels that a Display has been showing. 
-
-The part that is unique to this implementation is that the channel time stamp is fixed (1500000000\-: July 14, 2017 2\-:40\-:00 A\-M G\-M\-T) In the class that looks at these, this makes comparing channels easier. 
-
-See Summarize\-Content\-History 
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
-\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -22,11 +10,9 @@ Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Datab
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a66161ae3d778923070b8e76e261b8919}{{\bfseries Update\-Database\-For\-Display\-Channels} (int display\-I\-D)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a66161ae3d778923070b8e76e261b8919}
-
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a66161ae3d778923070b8e76e261b8919}{Update\-Database\-For\-Display\-Channels} (int display\-I\-D)
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_afca6ea4cce3f74bfb0234d7a64df3128}{void {\bfseries action\-Performed} (Action\-Event e)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_afca6ea4cce3f74bfb0234d7a64df3128}
-
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_afca6ea4cce3f74bfb0234d7a64df3128}{action\-Performed} (Action\-Event e)
 \item 
 \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_ad4db53bb973088f68a06f874256e4225}{get\-Content} ()
 \item 
@@ -44,7 +30,7 @@ void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateData
 \item 
 int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a14bd3dcb4e49bcba64ee0dcfc0be9cc7}{get\-Screen\-Number} ()
 \item 
-Inet\-Address \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6ecfe0b5c74a7e574ac3770d7428a2b5}{get\-I\-P\-Address} ()
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a2e49dee6b3facaacf44af23e8324dd6f}{get\-I\-P\-Address} ()
 \item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a8e5f09fc6cc000ce10a80ee4b19db666}{add\-Listener} (Action\-Listener L)
 \item 
@@ -63,19 +49,59 @@ void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateData
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a1743e409cda7e6d714197c2ec35cdece}{final synchronized void {\bfseries update\-My\-Status} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a1743e409cda7e6d714197c2ec35cdece}
-
+final synchronized void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a1743e409cda7e6d714197c2ec35cdece}{update\-My\-Status} ()
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+An implementation of the Display interface that is suitable for pushing into the database. This is used to update the database table that keeps track of the channels that a Display has been showing. 
+
+The part that is unique to this implementation is that the channel time stamp is fixed (1500000000\-: July 14, 2017 2\-:40\-:00 A\-M G\-M\-T) In the class that looks at these, this makes comparing channels easier. 
+
+See Summarize\-Content\-History 
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 44 of file Update\-Database\-For\-Display\-Channels.\-java.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a66161ae3d778923070b8e76e261b8919}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!Update\-Database\-For\-Display\-Channels@{Update\-Database\-For\-Display\-Channels}}
+\index{Update\-Database\-For\-Display\-Channels@{Update\-Database\-For\-Display\-Channels}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
+\subsubsection[{Update\-Database\-For\-Display\-Channels}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-Update\-Database\-For\-Display\-Channels (
+\begin{DoxyParamCaption}
+\item[{int}]{display\-I\-D}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a66161ae3d778923070b8e76e261b8919}
+
+
+Definition at line 49 of file Update\-Database\-For\-Display\-Channels.\-java.
+
+
+
 \subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_afca6ea4cce3f74bfb0234d7a64df3128}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!action\-Performed@{action\-Performed}}
+\index{action\-Performed@{action\-Performed}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
+\subsubsection[{action\-Performed}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-action\-Performed (
+\begin{DoxyParamCaption}
+\item[{Action\-Event}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_afca6ea4cce3f74bfb0234d7a64df3128}
+
+
+Definition at line 54 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a8e5f09fc6cc000ce10a80ee4b19db666}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!add\-Listener@{add\-Listener}}
 \index{add\-Listener@{add\-Listener}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{add\-Listener}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-add\-Listener (
 \begin{DoxyParamCaption}
 \item[{Action\-Listener}]{L}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a8e5f09fc6cc000ce10a80ee4b19db666}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a8e5f09fc6cc000ce10a80ee4b19db666}
 Add a listener to see when things change on a Display
 
 
@@ -87,16 +113,24 @@ Add a listener to see when things change on a Display
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_abbf3b133460808b9361107fcd5a3ae19}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 174 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a16818671921624744a8323ef36766517}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!disconnect@{disconnect}}
 \index{disconnect@{disconnect}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{disconnect}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-disconnect (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a16818671921624744a8323ef36766517}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a16818671921624744a8323ef36766517}
 Disconnect a display from the rest of the world (if appropriate) 
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ae9ca738d32324acee3e6f912726a70ff}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
+
+
+
+Definition at line 198 of file Update\-Database\-For\-Display\-Channels.\-java.
 
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_aa76c9578b86e1ffed9c4287d3633f821}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!error\-Handler@{error\-Handler}}
 \index{error\-Handler@{error\-Handler}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
@@ -104,7 +138,7 @@ Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ae
 \begin{DoxyParamCaption}
 \item[{String}]{message}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_aa76c9578b86e1ffed9c4287d3633f821}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_aa76c9578b86e1ffed9c4287d3633f821}
 A way for the Display to handle errors from the messaging system
 
 
@@ -116,13 +150,17 @@ A way for the Display to handle errors from the messaging system
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a2acc4186323118548cf5e57b61101350}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 203 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_ad4db53bb973088f68a06f874256e4225}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!get\-Content@{get\-Content}}
 \index{get\-Content@{get\-Content}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{get\-Content}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Signage\-Content} gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-get\-Content (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_ad4db53bb973088f68a06f874256e4225}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_ad4db53bb973088f68a06f874256e4225}
 What content is playing on this Display?
 
 \begin{DoxyReturn}{Returns}
@@ -132,13 +170,17 @@ The Signage\-Content that is playing now on this Display
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ab5979ea942bdd40fb9ea00375eccde78}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 59 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a33565e806ad51bbfd459d1aded545e6a}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!get\-D\-B\-Display\-Number@{get\-D\-B\-Display\-Number}}
 \index{get\-D\-B\-Display\-Number@{get\-D\-B\-Display\-Number}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{get\-D\-B\-Display\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-get\-D\-B\-Display\-Number (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a33565e806ad51bbfd459d1aded545e6a}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a33565e806ad51bbfd459d1aded545e6a}
 What is the Display number? This is either the Database Index or the virutal number the user wants to see.
 
 \begin{DoxyReturn}{Returns}
@@ -150,13 +192,17 @@ The index into the database of this display. This used to be the actual display 
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a16cd7303182205627ccffe5024e041d9}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 143 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_afb2e0f2aa3dd741909b329bf7fe743b4}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!get\-Description@{get\-Description}}
 \index{get\-Description@{get\-Description}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{get\-Description}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-get\-Description (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_afb2e0f2aa3dd741909b329bf7fe743b4}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_afb2e0f2aa3dd741909b329bf7fe743b4}
 A long description, presumably including the location, of this Display
 
 \begin{DoxyReturn}{Returns}
@@ -166,21 +212,29 @@ the Description
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_afdd0f4294902140944f4aff8b8bc94d0}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6ecfe0b5c74a7e574ac3770d7428a2b5}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!get\-I\-P\-Address@{get\-I\-P\-Address}}
+
+
+Definition at line 178 of file Update\-Database\-For\-Display\-Channels.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a2e49dee6b3facaacf44af23e8324dd6f}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!get\-I\-P\-Address@{get\-I\-P\-Address}}
 \index{get\-I\-P\-Address@{get\-I\-P\-Address}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
-\subsubsection[{get\-I\-P\-Address}]{\setlength{\rightskip}{0pt plus 5cm}Inet\-Address gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-get\-I\-P\-Address (
+\subsubsection[{get\-I\-P\-Address}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-get\-I\-P\-Address (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6ecfe0b5c74a7e574ac3770d7428a2b5}
-What is the I\-P Address of this Display?
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a2e49dee6b3facaacf44af23e8324dd6f}
+What is the I\-P Name of this Display?
 
 \begin{DoxyReturn}{Returns}
-the I\-P number 
+the I\-P name 
 \end{DoxyReturn}
 
 
-Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0ddd8e7cd161e52c853bf4af8c1ae2bd}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
+Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_afd6500b33d87915eb5f09df692141000}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
+
+
+
+Definition at line 169 of file Update\-Database\-For\-Display\-Channels.\-java.
 
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a753f8c4ad34a649221a78ad963f44d28}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!get\-Location@{get\-Location}}
 \index{get\-Location@{get\-Location}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
@@ -188,7 +242,7 @@ Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a753f8c4ad34a649221a78ad963f44d28}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a753f8c4ad34a649221a78ad963f44d28}
 \begin{DoxyReturn}{Returns}
 A description of the precise location of this Display 
 \end{DoxyReturn}
@@ -196,13 +250,17 @@ A description of the precise location of this Display
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a569a001d11cb30ff98590241d05d88b9}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 183 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6bd0e5cfb4362cd534592faf1df8e381}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!get\-Messaging\-Name@{get\-Messaging\-Name}}
 \index{get\-Messaging\-Name@{get\-Messaging\-Name}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{get\-Messaging\-Name}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-get\-Messaging\-Name (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6bd0e5cfb4362cd534592faf1df8e381}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6bd0e5cfb4362cd534592faf1df8e381}
 \begin{DoxyReturn}{Returns}
 The name that this Display uses on the Messaging system 
 \end{DoxyReturn}
@@ -210,13 +268,17 @@ The name that this Display uses on the Messaging system
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0bab243c1435802ba0e8b74c45ea35cb}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 193 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a0935cd1139a69a4a554edf57dba26879}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!get\-Preferred\-Highlight\-Color@{get\-Preferred\-Highlight\-Color}}
 \index{get\-Preferred\-Highlight\-Color@{get\-Preferred\-Highlight\-Color}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{get\-Preferred\-Highlight\-Color}]{\setlength{\rightskip}{0pt plus 5cm}Color gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-get\-Preferred\-Highlight\-Color (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a0935cd1139a69a4a554edf57dba26879}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a0935cd1139a69a4a554edf57dba26879}
 What is the color coding for this Display?
 
 \begin{DoxyReturn}{Returns}
@@ -226,13 +288,17 @@ the coded Color of this display
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_adc3c8118f22dd4d82c837da04a88723f}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 138 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a14bd3dcb4e49bcba64ee0dcfc0be9cc7}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!get\-Screen\-Number@{get\-Screen\-Number}}
 \index{get\-Screen\-Number@{get\-Screen\-Number}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{get\-Screen\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-get\-Screen\-Number (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a14bd3dcb4e49bcba64ee0dcfc0be9cc7}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a14bd3dcb4e49bcba64ee0dcfc0be9cc7}
 What is the Screen number within this Display?
 
 \begin{DoxyReturn}{Returns}
@@ -242,13 +308,17 @@ the Screen number
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_aebf42d7e0cbc3e6f0a4009bb61ddfdfb}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 163 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a839b068caf40194233bb6040c6a7a29d}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!get\-Status@{get\-Status}}
 \index{get\-Status@{get\-Status}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{get\-Status}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-get\-Status (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a839b068caf40194233bb6040c6a7a29d}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a839b068caf40194233bb6040c6a7a29d}
 Return the status of this Display, which is expected to include if it is live and, if so, what it is showing.
 
 \begin{DoxyReturn}{Returns}
@@ -258,13 +328,17 @@ String status message
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a45ec755ef206791045dbc59bdc264875}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 188 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_ad84614dc11788234e7f7dfedde8506dc}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!get\-Virtual\-Display\-Number@{get\-Virtual\-Display\-Number}}
 \index{get\-Virtual\-Display\-Number@{get\-Virtual\-Display\-Number}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{get\-Virtual\-Display\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-get\-Virtual\-Display\-Number (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_ad84614dc11788234e7f7dfedde8506dc}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_ad84614dc11788234e7f7dfedde8506dc}
 \begin{DoxyReturn}{Returns}
 The display number that the user wants to show on this display 
 \end{DoxyReturn}
@@ -272,13 +346,17 @@ The display number that the user wants to show on this display
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a5f3b01b971133b1278f6c80b1aed58e5}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 148 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6fd26afda65661aeed0154a9985e3225}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!set\-Content@{set\-Content}}
 \index{set\-Content@{set\-Content}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{set\-Content}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Signage\-Content} gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-set\-Content (
 \begin{DoxyParamCaption}
 \item[{{\bf Signage\-Content}}]{c}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6fd26afda65661aeed0154a9985e3225}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6fd26afda65661aeed0154a9985e3225}
 Change the Channel that is showing on this Display
 
 
@@ -293,13 +371,17 @@ The old Signage\-Content that was replaced by this call
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a703f091805d557d9866d520a32d73929}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 64 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a316be5caadb9b6d95d4e7c3264472da1}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!set\-D\-B\-Display\-Number@{set\-D\-B\-Display\-Number}}
 \index{set\-D\-B\-Display\-Number@{set\-D\-B\-Display\-Number}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{set\-D\-B\-Display\-Number}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-set\-D\-B\-Display\-Number (
 \begin{DoxyParamCaption}
 \item[{int}]{d}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a316be5caadb9b6d95d4e7c3264472da1}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a316be5caadb9b6d95d4e7c3264472da1}
 
 \begin{DoxyParams}{Parameters}
 {\em d} & \\
@@ -309,13 +391,17 @@ Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a7
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a97b825cca932ae53677073f95a0f93bd}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 154 of file Update\-Database\-For\-Display\-Channels.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a20deb9f5431d716492d8af09ee38683d}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!set\-Virtual\-Display\-Number@{set\-Virtual\-Display\-Number}}
 \index{set\-Virtual\-Display\-Number@{set\-Virtual\-Display\-Number}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
 \subsubsection[{set\-Virtual\-Display\-Number}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-set\-Virtual\-Display\-Number (
 \begin{DoxyParamCaption}
 \item[{int}]{v}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a20deb9f5431d716492d8af09ee38683d}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a20deb9f5431d716492d8af09ee38683d}
 
 \begin{DoxyParams}{Parameters}
 {\em v} & \\
@@ -327,6 +413,21 @@ Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a7
 
 
 
+Definition at line 159 of file Update\-Database\-For\-Display\-Channels.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a1743e409cda7e6d714197c2ec35cdece}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}!update\-My\-Status@{update\-My\-Status}}
+\index{update\-My\-Status@{update\-My\-Status}!gov::fnal::ppd::dd::display::client::UpdateDatabaseForDisplayChannels@{gov\-::fnal\-::ppd\-::dd\-::display\-::client\-::\-Update\-Database\-For\-Display\-Channels}}
+\subsubsection[{update\-My\-Status}]{\setlength{\rightskip}{0pt plus 5cm}final synchronized void gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels.\-update\-My\-Status (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a1743e409cda7e6d714197c2ec35cdece}
+
+
+Definition at line 133 of file Update\-Database\-For\-Display\-Channels.\-java.
+
+
+
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/display/client/Update\-Database\-For\-Display\-Channels.\-java\end{DoxyCompactItemize}
+src/gov/fnal/ppd/dd/display/client/\hyperlink{UpdateDatabaseForDisplayChannels_8java}{Update\-Database\-For\-Display\-Channels.\-java}\end{DoxyCompactItemize}

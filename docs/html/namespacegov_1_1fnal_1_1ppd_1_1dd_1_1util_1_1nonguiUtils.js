@@ -10,5 +10,6 @@ var namespacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils =
     [ "JavaVersion", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion" ],
     [ "PerformanceMonitor", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1PerformanceMonitor.html", null ],
     [ "PropertiesFile", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1PropertiesFile.html", null ],
+    [ "RunPerformanceMonitor", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1RunPerformanceMonitor.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1RunPerformanceMonitor" ],
     [ "VerifyURL", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html", null ]
 ];

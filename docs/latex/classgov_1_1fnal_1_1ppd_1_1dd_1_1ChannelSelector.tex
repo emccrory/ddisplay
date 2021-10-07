@@ -1,18 +1,6 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}{\section{gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}\index{gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector@{gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector}}
 }
-
-
-\subsection{Detailed Description}
-This is the class that is used to create the G\-U\-I for the so-\/called Channel Selector. 
-
-Allows the user to select the Channel that is being displayed on each Display in the Dynamic Displays system 
-
-The configuration of the G\-U\-I is determined by a series of system parameters, which are held in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1GlobalVariables}{gov.\-fnal.\-ppd.\-dd.\-Global\-Variables}. 
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation, 2013-\/21 
-\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -22,76 +10,103 @@ Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector\-:\begin{figur
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a95df49bb45dc325360d7af8ef4a4da22}{Channel\-Selector} ()
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a89e4bddacf4bcb255c41f3542273059e}{Channel\-Selector} (Progress\-Monitor progress\-Monitor)
 \item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a9df07ecad4e75132a866bc81169e0df6}{start} ()
 \item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a930233587284af74e0533faffc368804}{set\-Selector\-I\-D} (int m)
+\item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ab92bc1ecd4b25b8a2a1fed26b57d4d57}{set\-Display\-Is\-Alive} (int number, boolean alive)
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a58d155d92e2b6f64d228cadc3b1039e9}{void {\bfseries action\-Performed} (Action\-Event e)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a58d155d92e2b6f64d228cadc3b1039e9}
-
-\item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a23fbec08667c8708a2a9833005e1edec}{void {\bfseries create\-Refresh\-Actions} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a23fbec08667c8708a2a9833005e1edec}
-
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a58d155d92e2b6f64d228cadc3b1039e9}{action\-Performed} (Action\-Event e)
 \item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a637dbc852a236c96841cd5d5492a1079}{activate\-Card} (boolean showing\-Splash)
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a930233587284af74e0533faffc368804}{void {\bfseries set\-Selector\-I\-D} (int m)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a930233587284af74e0533faffc368804}
-
-\item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ad73f42989480ef9af3f5ed0e1f5d364c}{void {\bfseries java\-Has\-Changed} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ad73f42989480ef9af3f5ed0e1f5d364c}
-
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ad73f42989480ef9af3f5ed0e1f5d364c}{java\-Has\-Changed} ()
 \end{DoxyCompactItemize}
 \subsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ad9e88d31f70467252e90a59943338df0}{S\-H\-O\-W\-\_\-\-D\-O\-C\-E\-N\-T\-\_\-\-T\-A\-B} = false
-\item 
 static final Dimension \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a78f6040f260da659faca3b09d0617e7e}{screen\-Dimension} = Toolkit.\-get\-Default\-Toolkit().get\-Screen\-Size()
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a000b7d7465b66bd829ae995a9494505b}{static Progress\-Monitor {\bfseries progress\-Monitor}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a000b7d7465b66bd829ae995a9494505b}
-
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ad9e88d31f70467252e90a59943338df0}{S\-H\-O\-W\-\_\-\-D\-O\-C\-E\-N\-T\-\_\-\-T\-A\-B} = false
 \end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_abba1a8a5599959eb2e7a905f6bfd1685}{set\-All\-Tabs} (int selected\-Index)
-\item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a72b3571d9e3fda6bba926fc732c583b1}{void {\bfseries destroy} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a72b3571d9e3fda6bba926fc732c583b1}
-
 \end{DoxyCompactItemize}
 \subsection*{Static Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a984845b48df72e93fb62ca3d36701ba4}{static Border {\bfseries get\-Title\-Border} (Color c)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a984845b48df72e93fb62ca3d36701ba4}
-
+static Border \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a984845b48df72e93fb62ca3d36701ba4}{get\-Title\-Border} (Color c)
 \end{DoxyCompactItemize}
-\subsection*{Protected Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a362da806f034eb1259564c1db7e67ad5}{int {\bfseries selected\-Tab}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a362da806f034eb1259564c1db7e67ad5}
 
-\end{DoxyCompactItemize}
+
+\subsection{Detailed Description}
+This is the class that is used to create the G\-U\-I for the so-\/called Dynamic Displays Channel Selector. 
+
+Allows the user to select the Channel that is being displayed on each Display in the Dynamic Displays system 
+
+The configuration of the G\-U\-I is determined by a series of system parameters, which are held in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1GlobalVariables}{gov.\-fnal.\-ppd.\-dd.\-Global\-Variables}, in the D\-B and in the Properties\-File. 
+
+{\bfseries T\-O\-D\-O -\/ Refactor this complicated class.} There are several aspects of the channel selector that are mixed together in this class\-: 
+\begin{DoxyItemize}
+\item Building the G\-U\-I (Commented with S\-T\-A\-R\-T\-U\-P) 
+\item maintaining the G\-U\-I (e.\-g., responding to user input; R\-U\-N\-\_\-\-G\-U\-I), 
+\item dealing with the logic of the channel selector (L\-O\-G\-I\-C), 
+\item presenting the user with various bits of \char`\"{}eye candy\char`\"{} (C\-A\-N\-D\-Y). 
+\end{DoxyItemize}A reasonable goal would be to split this into more testable pieces (e.\-g., using the model-\/view-\/controller pattern). More simply, It seems like we should be able to factor out the building of the G\-U\-I (at least). 
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation, 2013-\/21 
+\end{DoxyAuthor}
+
+
+Definition at line 123 of file Channel\-Selector.\-java.
+
 
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a95df49bb45dc325360d7af8ef4a4da22}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!Channel\-Selector@{Channel\-Selector}}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a89e4bddacf4bcb255c41f3542273059e}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!Channel\-Selector@{Channel\-Selector}}
 \index{Channel\-Selector@{Channel\-Selector}!gov::fnal::ppd::dd::ChannelSelector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}}
 \subsubsection[{Channel\-Selector}]{\setlength{\rightskip}{0pt plus 5cm}gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector.\-Channel\-Selector (
 \begin{DoxyParamCaption}
-{}
+\item[{Progress\-Monitor}]{progress\-Monitor}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a95df49bb45dc325360d7af8ef4a4da22}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a89e4bddacf4bcb255c41f3542273059e}
 Create the channel selector G\-U\-I in the normal way 
 
+Definition at line 182 of file Channel\-Selector.\-java.
+
+
+
 \subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a58d155d92e2b6f64d228cadc3b1039e9}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!action\-Performed@{action\-Performed}}
+\index{action\-Performed@{action\-Performed}!gov::fnal::ppd::dd::ChannelSelector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}}
+\subsubsection[{action\-Performed}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector.\-action\-Performed (
+\begin{DoxyParamCaption}
+\item[{Action\-Event}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a58d155d92e2b6f64d228cadc3b1039e9}
+Service the pull-\/down menu
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 804 of file Channel\-Selector.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a637dbc852a236c96841cd5d5492a1079}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!activate\-Card@{activate\-Card}}
 \index{activate\-Card@{activate\-Card}!gov::fnal::ppd::dd::ChannelSelector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}}
 \subsubsection[{activate\-Card}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector.\-activate\-Card (
 \begin{DoxyParamCaption}
 \item[{boolean}]{show}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a637dbc852a236c96841cd5d5492a1079}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a637dbc852a236c96841cd5d5492a1079}
 
 \begin{DoxyParams}{Parameters}
 {\em show} & \\
@@ -101,13 +116,43 @@ Create the channel selector G\-U\-I in the normal way
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayCardActivator_a76f499c19694618b4cd1830a65c56783}{gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Display\-Card\-Activator}.
 
+
+
+Definition at line 885 of file Channel\-Selector.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a984845b48df72e93fb62ca3d36701ba4}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!get\-Title\-Border@{get\-Title\-Border}}
+\index{get\-Title\-Border@{get\-Title\-Border}!gov::fnal::ppd::dd::ChannelSelector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}}
+\subsubsection[{get\-Title\-Border}]{\setlength{\rightskip}{0pt plus 5cm}static Border gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector.\-get\-Title\-Border (
+\begin{DoxyParamCaption}
+\item[{Color}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a984845b48df72e93fb62ca3d36701ba4}
+
+
+Definition at line 546 of file Channel\-Selector.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ad73f42989480ef9af3f5ed0e1f5d364c}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!java\-Has\-Changed@{java\-Has\-Changed}}
+\index{java\-Has\-Changed@{java\-Has\-Changed}!gov::fnal::ppd::dd::ChannelSelector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}}
+\subsubsection[{java\-Has\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector.\-java\-Has\-Changed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ad73f42989480ef9af3f5ed0e1f5d364c}
+
+
+Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaChangeListener_af445b8c9b305e7493a08dc75266e2c7b}{gov.\-fnal.\-ppd.\-dd.\-util.\-nongui\-Utils.\-Java\-Change\-Listener}.
+
+
+
+Definition at line 895 of file Channel\-Selector.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_abba1a8a5599959eb2e7a905f6bfd1685}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!set\-All\-Tabs@{set\-All\-Tabs}}
 \index{set\-All\-Tabs@{set\-All\-Tabs}!gov::fnal::ppd::dd::ChannelSelector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}}
 \subsubsection[{set\-All\-Tabs}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector.\-set\-All\-Tabs (
 \begin{DoxyParamCaption}
 \item[{int}]{selected\-Index}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_abba1a8a5599959eb2e7a905f6bfd1685}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_abba1a8a5599959eb2e7a905f6bfd1685}
 Set all tabs for all Displays to the same thing
 
 
@@ -115,6 +160,10 @@ Set all tabs for all Displays to the same thing
 {\em selected\-Index} & The index that should be selected \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 777 of file Channel\-Selector.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ab92bc1ecd4b25b8a2a1fed26b57d4d57}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!set\-Display\-Is\-Alive@{set\-Display\-Is\-Alive}}
 \index{set\-Display\-Is\-Alive@{set\-Display\-Is\-Alive}!gov::fnal::ppd::dd::ChannelSelector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}}
 \subsubsection[{set\-Display\-Is\-Alive}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector.\-set\-Display\-Is\-Alive (
@@ -122,7 +171,7 @@ Set all tabs for all Displays to the same thing
 \item[{int}]{display\-Number, }
 \item[{boolean}]{is\-Alive}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ab92bc1ecd4b25b8a2a1fed26b57d4d57}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ab92bc1ecd4b25b8a2a1fed26b57d4d57}
 
 \begin{DoxyParams}{Parameters}
 {\em display\-Number} & \\
@@ -134,24 +183,51 @@ Set all tabs for all Displays to the same thing
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DisplayKeeper_ab647c0c13a64d5c5f258852f17407639}{gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Display\-Keeper}.
 
+
+
+Definition at line 785 of file Channel\-Selector.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a930233587284af74e0533faffc368804}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!set\-Selector\-I\-D@{set\-Selector\-I\-D}}
+\index{set\-Selector\-I\-D@{set\-Selector\-I\-D}!gov::fnal::ppd::dd::ChannelSelector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}}
+\subsubsection[{set\-Selector\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector.\-set\-Selector\-I\-D (
+\begin{DoxyParamCaption}
+\item[{int}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a930233587284af74e0533faffc368804}
+
+
+Definition at line 620 of file Channel\-Selector.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a9df07ecad4e75132a866bc81169e0df6}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!start@{start}}
 \index{start@{start}!gov::fnal::ppd::dd::ChannelSelector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}}
 \subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector.\-start (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a9df07ecad4e75132a866bc81169e0df6}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a9df07ecad4e75132a866bc81169e0df6}
 In order to obey the rule-\/of-\/thumb to not start threads within the context of a constructor, this start method is provided. 
+
+Definition at line 231 of file Channel\-Selector.\-java.
+
+
 
 \subsection{Member Data Documentation}
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a78f6040f260da659faca3b09d0617e7e}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!screen\-Dimension@{screen\-Dimension}}
 \index{screen\-Dimension@{screen\-Dimension}!gov::fnal::ppd::dd::ChannelSelector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}}
 \subsubsection[{screen\-Dimension}]{\setlength{\rightskip}{0pt plus 5cm}final Dimension gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector.\-screen\-Dimension = Toolkit.\-get\-Default\-Toolkit().get\-Screen\-Size()\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_a78f6040f260da659faca3b09d0617e7e}
-The dimensions of the screen as fetched from java.\-awt.\-Toolkit \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ad9e88d31f70467252e90a59943338df0}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!S\-H\-O\-W\-\_\-\-D\-O\-C\-E\-N\-T\-\_\-\-T\-A\-B@{S\-H\-O\-W\-\_\-\-D\-O\-C\-E\-N\-T\-\_\-\-T\-A\-B}}
+The dimensions of the screen as fetched from java.\-awt.\-Toolkit 
+
+Definition at line 131 of file Channel\-Selector.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ad9e88d31f70467252e90a59943338df0}{\index{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}!S\-H\-O\-W\-\_\-\-D\-O\-C\-E\-N\-T\-\_\-\-T\-A\-B@{S\-H\-O\-W\-\_\-\-D\-O\-C\-E\-N\-T\-\_\-\-T\-A\-B}}
 \index{S\-H\-O\-W\-\_\-\-D\-O\-C\-E\-N\-T\-\_\-\-T\-A\-B@{S\-H\-O\-W\-\_\-\-D\-O\-C\-E\-N\-T\-\_\-\-T\-A\-B}!gov::fnal::ppd::dd::ChannelSelector@{gov\-::fnal\-::ppd\-::dd\-::\-Channel\-Selector}}
 \subsubsection[{S\-H\-O\-W\-\_\-\-D\-O\-C\-E\-N\-T\-\_\-\-T\-A\-B}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-Channel\-Selector.\-S\-H\-O\-W\-\_\-\-D\-O\-C\-E\-N\-T\-\_\-\-T\-A\-B = false\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector_ad9e88d31f70467252e90a59943338df0}
 Does this instance (of the Channel selector) need to show the docent tab? 
 
+Definition at line 141 of file Channel\-Selector.\-java.
+
+
+
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/Channel\-Selector.\-java\end{DoxyCompactItemize}
+src/gov/fnal/ppd/dd/\hyperlink{ChannelSelector_8java}{Channel\-Selector.\-java}\end{DoxyCompactItemize}

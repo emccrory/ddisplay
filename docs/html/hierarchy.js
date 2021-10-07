@@ -39,6 +39,7 @@ var hierarchy =
       [ "gov.fnal.ppd.dd.display.client.simplified.SimplifiedBrowserConnection", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified_1_1SimplifiedBrowserConnection.html", null ]
     ] ],
     [ "gov.fnal.ppd.dd.db.ConnectionToDatabase", "classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase.html", null ],
+    [ "gov.fnal.ppd.dd.chat.pubsub.ContentServer", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1ContentServer.html", null ],
     [ "org.json.Cookie", "classorg_1_1json_1_1Cookie.html", null ],
     [ "org.json.CookieList", "classorg_1_1json_1_1CookieList.html", null ],
     [ "gov.fnal.ppd.dd.channel.list.CreateListOfChannelsHelper", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1CreateListOfChannelsHelper.html", null ],
@@ -128,6 +129,7 @@ var hierarchy =
     [ "gov.fnal.ppd.dd.channel.list.ListUtilsGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1ListUtilsGUI.html", null ],
     [ "gov.fnal.ppd.dd.chat.LoggerForDebugging", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1LoggerForDebugging.html", null ],
     [ "gov.fnal.ppd.dd.MakeChannelSelector", "classgov_1_1fnal_1_1ppd_1_1dd_1_1MakeChannelSelector.html", null ],
+    [ "gov.fnal.ppd.dd.chat.pubsub.Message", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Message.html", null ],
     [ "gov.fnal.ppd.dd.chat.MessageConveyor", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor.html", null ],
     [ "gov.fnal.ppd.ZZattic.MessageType", "enumgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageType.html", null ],
     [ "gov.fnal.ppd.ZZattic.MessageTypeXML", "enumgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageTypeXML.html", null ],
@@ -181,7 +183,9 @@ var hierarchy =
     [ "gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1PropertiesFile.html", null ],
     [ "test.gov.fnal.ppd.dd.util.PropertiesFileTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1PropertiesFileTest.html", null ],
     [ "org.json.Property", "classorg_1_1json_1_1Property.html", null ],
+    [ "gov.fnal.ppd.dd.chat.pubsub.Publisher", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Publisher.html", null ],
     [ "gov.fnal.ppd.dd.testing.RewriteJsonConfigFileForFirefox", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1RewriteJsonConfigFileForFirefox.html", null ],
+    [ "gov.fnal.ppd.dd.util.nonguiUtils.RunPerformanceMonitor", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1RunPerformanceMonitor.html", null ],
     [ "RuntimeException", null, [
       [ "org.json.JSONException", "classorg_1_1json_1_1JSONException.html", [
         [ "org.json.JSONPointerException", "classorg_1_1json_1_1JSONPointerException.html", null ]
@@ -192,6 +196,7 @@ var hierarchy =
     [ "gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys", "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys.html", null ],
     [ "gov.fnal.ppd.ZZattic.Snippet", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1Snippet.html", null ],
     [ "gov.fnal.ppd.dd.util.guiUtils.ListSelectionForSaveList.SpecialLocalListChangeListener", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1ListSelectionForSaveList_1_1SpecialLocalListChangeListener.html", null ],
+    [ "gov.fnal.ppd.dd.chat.pubsub.Subscriber", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Subscriber.html", null ],
     [ "gov.fnal.ppd.dd.util.specific.SummarizeContentHistory", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SummarizeContentHistory.html", null ],
     [ "gov.fnal.ppd.dd.testing.SwingTest", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1SwingTest.html", null ],
     [ "gov.fnal.ppd.dd.util.specific.TestAllChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TestAllChannels.html", null ],
@@ -202,7 +207,10 @@ var hierarchy =
       [ "gov.fnal.ppd.dd.util.specific.CheckDisplayStatus", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1CheckDisplayStatus.html", null ],
       [ "gov.fnal.ppd.dd.util.specific.WhoIsInChatRoom", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1WhoIsInChatRoom.html", null ]
     ] ],
+    [ "gov.fnal.ppd.dd.chat.pubsub.Topic", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Topic.html", null ],
+    [ "gov.fnal.ppd.dd.chat.pubsub.TopicEnum", "enumgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1TopicEnum.html", null ],
     [ "gov.fnal.ppd.dd.util.specific.TranslateGITHashCodeToDate", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TranslateGITHashCodeToDate.html", null ],
+    [ "gov.fnal.ppd.security.TrustAllSSL", "classgov_1_1fnal_1_1ppd_1_1security_1_1TrustAllSSL.html", null ],
     [ "gov.fnal.ppd.dd.xml.signature.Validate", "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html", null ],
     [ "gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html", null ],
     [ "test.gov.fnal.ppd.dd.util.VerifyURLTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VerifyURLTest.html", null ],
@@ -216,6 +224,7 @@ var hierarchy =
     [ "gov.fnal.ppd.dd.xml.signature.XMLDocumentUtilities", "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html", null ],
     [ "gov.fnal.ppd.dd.testing.XMLEncryptionRequestValidator", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1XMLEncryptionRequestValidator.html", null ],
     [ "gov.fnal.ppd.dd.xml.XMLUtilities", "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLUtilities.html", null ],
+    [ "test.gov.fnal.ppd.dd.xml.YesIAmAliveMessageTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1YesIAmAliveMessageTest.html", null ],
     [ "AbstractTableModel", null, [
       [ "gov.fnal.ppd.dd.channel.list.table.AbstractChannelTableModel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1AbstractChannelTableModel.html", [
         [ "gov.fnal.ppd.dd.channel.list.table.ChannelChooserTableModel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ChannelChooserTableModel.html", null ],
@@ -229,7 +238,7 @@ var hierarchy =
     [ "ActionListener", null, [
       [ "gov.fnal.ppd.dd.changer.ChangeDefaultsActionListener", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChangeDefaultsActionListener.html", null ],
       [ "gov.fnal.ppd.dd.changer.ChannelButtonGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html", [
-        [ "gov.fnal.ppd.dd.changer.DetailedInformationGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DetailedInformationGrid.html", [
+        [ "gov.fnal.ppd.dd.changer.FullChannelGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1FullChannelGrid.html", [
           [ "gov.fnal.ppd.dd.changer.DocentGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html", null ],
           [ "gov.fnal.ppd.dd.changer.ImageGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ImageGrid.html", null ]
         ] ],
@@ -288,7 +297,7 @@ var hierarchy =
       [ "gov.fnal.ppd.dd.util.guiUtils.JWhiteLabel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JWhiteLabel.html", null ]
     ] ],
     [ "JMenuBar", null, [
-      [ "gov.fnal.ppd.dd.util.guiUtils.FileMenu", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1FileMenu.html", null ]
+      [ "gov.fnal.ppd.dd.util.guiUtils.ChannelSelectorFileMenu", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1ChannelSelectorFileMenu.html", null ]
     ] ],
     [ "JPanel", null, [
       [ "gov.fnal.ppd.dd.changer.ChannelButtonGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html", null ],

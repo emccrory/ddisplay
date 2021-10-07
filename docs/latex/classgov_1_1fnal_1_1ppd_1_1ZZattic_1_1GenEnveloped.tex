@@ -1,6 +1,21 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped}{\section{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped}\index{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped@{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped}}
 }
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static D\-O\-M\-Sign\-Context \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a69be7eea0c284cf04dc66e76138895a8}{get\-Sign\-Content} (Private\-Key pk, Document doc)
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_aa8e572349a537781033c6e6313e49dbb}{sign\-X\-M\-L\-Document} (Private\-Key private\-Key, Document doc)
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a80d09b491d9a3a3c64651101e5510065}{load\-Private\-Key} (final String filename)  throws I\-O\-Exception, Invalid\-Key\-Spec\-Exception, No\-Such\-Algorithm\-Exception 
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_abf95b0c7110d6a16d5329e91606475de}{load\-Public\-Key} (final String filename)  throws I\-O\-Exception 
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a303d48c06a4ed04baa8d16799f4fc8a0}{load\-Public\-Key\-From\-D\-B} (final String client\-Name)
+\item 
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a46554c2e6c56eb3fa74c7a794ced385e}{main} (String\mbox{[}$\,$\mbox{]} args)  throws Exception 
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -56,34 +71,32 @@ This is a simple example of generating an Enveloped X\-M\-L Signature using the 
 \begin{DoxyItemize}
 \item this algorithm does not work with D\-S\-A keys 
 \end{DoxyItemize}\end{DoxyRefDesc}
-\subsection*{Static Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a69be7eea0c284cf04dc66e76138895a8}{static D\-O\-M\-Sign\-Context {\bfseries get\-Sign\-Content} (Private\-Key pk, Document doc)}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a69be7eea0c284cf04dc66e76138895a8}
 
-\item 
-static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_aa8e572349a537781033c6e6313e49dbb}{sign\-X\-M\-L\-Document} (Private\-Key private\-Key, Document doc)
-\item 
-static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a80d09b491d9a3a3c64651101e5510065}{load\-Private\-Key} (final String filename)  throws I\-O\-Exception, Invalid\-Key\-Spec\-Exception, No\-Such\-Algorithm\-Exception 
-\item 
-static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_abf95b0c7110d6a16d5329e91606475de}{load\-Public\-Key} (final String filename)  throws I\-O\-Exception 
-\item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a303d48c06a4ed04baa8d16799f4fc8a0}{static boolean {\bfseries load\-Public\-Key\-From\-D\-B} (final String client\-Name)}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a303d48c06a4ed04baa8d16799f4fc8a0}
 
-\item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a46554c2e6c56eb3fa74c7a794ced385e}{static void {\bfseries main} (String\mbox{[}$\,$\mbox{]} args)  throws Exception }\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a46554c2e6c56eb3fa74c7a794ced385e}
+Definition at line 94 of file Gen\-Enveloped.\-java.
 
-\end{DoxyCompactItemize}
 
 
 \subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a69be7eea0c284cf04dc66e76138895a8}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}!get\-Sign\-Content@{get\-Sign\-Content}}
+\index{get\-Sign\-Content@{get\-Sign\-Content}!gov::fnal::ppd::ZZattic::GenEnveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}}
+\subsubsection[{get\-Sign\-Content}]{\setlength{\rightskip}{0pt plus 5cm}static D\-O\-M\-Sign\-Context gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped.\-get\-Sign\-Content (
+\begin{DoxyParamCaption}
+\item[{Private\-Key}]{pk, }
+\item[{Document}]{doc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a69be7eea0c284cf04dc66e76138895a8}
+
+
+Definition at line 98 of file Gen\-Enveloped.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a80d09b491d9a3a3c64651101e5510065}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}!load\-Private\-Key@{load\-Private\-Key}}
 \index{load\-Private\-Key@{load\-Private\-Key}!gov::fnal::ppd::ZZattic::GenEnveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}}
 \subsubsection[{load\-Private\-Key}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped.\-load\-Private\-Key (
 \begin{DoxyParamCaption}
 \item[{final String}]{filename}
 \end{DoxyParamCaption}
-) throws I\-O\-Exception, Invalid\-Key\-Spec\-Exception, No\-Such\-Algorithm\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a80d09b491d9a3a3c64651101e5510065}
+) throws I\-O\-Exception, Invalid\-Key\-Spec\-Exception, No\-Such\-Algorithm\-Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a80d09b491d9a3a3c64651101e5510065}
 
 \begin{DoxyParams}{Parameters}
 {\em filename} & \\
@@ -98,13 +111,17 @@ static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_abf95b
 {\em Invalid\-Key\-Spec\-Exception} & \\
 \hline
 \end{DoxyExceptions}
+
+
+Definition at line 199 of file Gen\-Enveloped.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_abf95b0c7110d6a16d5329e91606475de}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}!load\-Public\-Key@{load\-Public\-Key}}
 \index{load\-Public\-Key@{load\-Public\-Key}!gov::fnal::ppd::ZZattic::GenEnveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}}
 \subsubsection[{load\-Public\-Key}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped.\-load\-Public\-Key (
 \begin{DoxyParamCaption}
 \item[{final String}]{filename}
 \end{DoxyParamCaption}
-) throws I\-O\-Exception\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_abf95b0c7110d6a16d5329e91606475de}
+) throws I\-O\-Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_abf95b0c7110d6a16d5329e91606475de}
 Read the public key from the file system
 
 
@@ -117,6 +134,32 @@ Read the public key from the file system
 {\em I\-O\-Exception} & -- A problem reading the keystore \\
 \hline
 \end{DoxyExceptions}
+
+
+Definition at line 224 of file Gen\-Enveloped.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a303d48c06a4ed04baa8d16799f4fc8a0}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}!load\-Public\-Key\-From\-D\-B@{load\-Public\-Key\-From\-D\-B}}
+\index{load\-Public\-Key\-From\-D\-B@{load\-Public\-Key\-From\-D\-B}!gov::fnal::ppd::ZZattic::GenEnveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}}
+\subsubsection[{load\-Public\-Key\-From\-D\-B}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped.\-load\-Public\-Key\-From\-D\-B (
+\begin{DoxyParamCaption}
+\item[{final String}]{client\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a303d48c06a4ed04baa8d16799f4fc8a0}
+
+
+Definition at line 239 of file Gen\-Enveloped.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a46554c2e6c56eb3fa74c7a794ced385e}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}!main@{main}}
+\index{main@{main}!gov::fnal::ppd::ZZattic::GenEnveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped.\-main (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{args}
+\end{DoxyParamCaption}
+) throws Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_a46554c2e6c56eb3fa74c7a794ced385e}
+
+
+Definition at line 278 of file Gen\-Enveloped.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_aa8e572349a537781033c6e6313e49dbb}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}!sign\-X\-M\-L\-Document@{sign\-X\-M\-L\-Document}}
 \index{sign\-X\-M\-L\-Document@{sign\-X\-M\-L\-Document}!gov::fnal::ppd::ZZattic::GenEnveloped@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Gen\-Enveloped}}
 \subsubsection[{sign\-X\-M\-L\-Document}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-Z\-Zattic.\-Gen\-Enveloped.\-sign\-X\-M\-L\-Document (
@@ -124,7 +167,7 @@ Read the public key from the file system
 \item[{Private\-Key}]{private\-Key, }
 \item[{Document}]{doc}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_aa8e572349a537781033c6e6313e49dbb}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1GenEnveloped_aa8e572349a537781033c6e6313e49dbb}
 Cryptographically sign an X\-M\-L document.
 
 
@@ -142,6 +185,10 @@ Cryptographically sign an X\-M\-L document.
 \end{DoxyParams}
 
 
+Definition at line 161 of file Gen\-Enveloped.\-java.
+
+
+
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/\-Z\-Zattic/Gen\-Enveloped.\-java\end{DoxyCompactItemize}
+src/gov/fnal/ppd/\-Z\-Zattic/\hyperlink{GenEnveloped_8java}{Gen\-Enveloped.\-java}\end{DoxyCompactItemize}

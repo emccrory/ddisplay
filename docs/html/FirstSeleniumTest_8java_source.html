@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/display/client/selenium/FirstSeleniumTest.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/testing/FirstSeleniumTest.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -107,88 +107,89 @@ $(document).ready(function(){initNavTree('FirstSeleniumTest_8java_source.html','
 <div class="title">FirstSeleniumTest.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="FirstSeleniumTest_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.display.client.selenium;</div>
+<a href="FirstSeleniumTest_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.testing;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GetMessagingServer.getMessagingServerNameDisplay;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.catchSleep;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> java.awt.Color;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> java.util.ArrayList;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> java.util.List;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.CredentialsNotFoundException</a>;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html">   18</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html">FirstSeleniumTest</a> {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1SeleniumConnectionToBrowser.html">SeleniumConnectionToBrowser</a> connection;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html#a3d9afcec8509f5fdc5c7b837dc86337b">   25</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html#a3d9afcec8509f5fdc5c7b837dc86337b">main</a>(<span class="keyword">final</span> String[] args) {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        prepareUpdateWatcher(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            credentialsSetup();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html">CredentialsNotFoundException</a> e) {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            System.exit(-1);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        getMessagingServerNameDisplay();</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html">FirstSeleniumTest</a> t = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html#ab757d31d6ef1da3054ac563844ded8a7">FirstSeleniumTest</a>();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        List&lt;String&gt; urls = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        urls.add(<span class="stringliteral">&quot;https://dynamicdisplays.fnal.gov/border7.php&quot;</span>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        urls.add(<span class="stringliteral">&quot;https://www-bd.fnal.gov/notifyservlet/www?project=HD&amp;refresh=on&amp;infolinks=none&quot;</span>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        urls.add(<span class="stringliteral">&quot;https://www.youtube.com/embed/sBDCIOERPNw?autoplay=1&amp;cc_load_policy=1&quot;</span>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        t.runTest(urls);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        System.exit(0);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html#ab757d31d6ef1da3054ac563844ded8a7">   52</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html#ab757d31d6ef1da3054ac563844ded8a7">FirstSeleniumTest</a>() {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">boolean</span> simple = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">if</span> (simple)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="comment">// Simple startup for testing</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            connection = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1SeleniumConnectionToBrowser.html">SeleniumConnectionToBrowser</a>();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="comment">// Full startup.</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            connection = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1SeleniumConnectionToBrowser.html">SeleniumConnectionToBrowser</a>(0, 0, 0, Color.red, <span class="keyword">true</span>, null);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        connection.openConnection();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment">// connection.setPositionAndSize();</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html#a2d2a0e6d397cb83c11e764529ea355e5">   69</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html#a2d2a0e6d397cb83c11e764529ea355e5">runTest</a>(<span class="keyword">final</span> List&lt;String&gt; urls) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">long</span> sleep = 15000L;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">for</span> (String url : urls) {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            connection.setURL(url);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            catchSleep(sleep);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment">// Do an &quot;Identify&quot;</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        connection.showIdentity();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        catchSleep(sleep);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        connection.removeIdentify();</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        catchSleep(sleep);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest_html_a2d2a0e6d397cb83c11e764529ea355e5"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html#a2d2a0e6d397cb83c11e764529ea355e5">gov.fnal.ppd.dd.display.client.selenium.FirstSeleniumTest.runTest</a></div><div class="ttdeci">void runTest(final List&lt; String &gt; urls)</div><div class="ttdef"><b>Definition:</b> <a href="FirstSeleniumTest_8java_source.html#l00069">FirstSeleniumTest.java:69</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest_html_a3d9afcec8509f5fdc5c7b837dc86337b"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html#a3d9afcec8509f5fdc5c7b837dc86337b">gov.fnal.ppd.dd.display.client.selenium.FirstSeleniumTest.main</a></div><div class="ttdeci">static void main(final String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="FirstSeleniumTest_8java_source.html#l00025">FirstSeleniumTest.java:25</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest_html_ab757d31d6ef1da3054ac563844ded8a7"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html#ab757d31d6ef1da3054ac563844ded8a7">gov.fnal.ppd.dd.display.client.selenium.FirstSeleniumTest.FirstSeleniumTest</a></div><div class="ttdeci">FirstSeleniumTest()</div><div class="ttdef"><b>Definition:</b> <a href="FirstSeleniumTest_8java_source.html#l00052">FirstSeleniumTest.java:52</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1FirstSeleniumTest.html">gov.fnal.ppd.dd.display.client.selenium.FirstSeleniumTest</a></div><div class="ttdef"><b>Definition:</b> <a href="FirstSeleniumTest_8java_source.html#l00018">FirstSeleniumTest.java:18</a></div></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1SeleniumConnectionToBrowser.html">gov.fnal.ppd.dd.display.client.selenium.SeleniumConnectionToBrowser</a>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException</a>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html">   19</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html">FirstSeleniumTest</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1SeleniumConnectionToBrowser.html">SeleniumConnectionToBrowser</a> connection;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html#af5f159fe30f1bcffc4fa8e7536a095b9">   26</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html#af5f159fe30f1bcffc4fa8e7536a095b9">main</a>(<span class="keyword">final</span> String[] args) {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        prepareUpdateWatcher(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            credentialsSetup();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html">CredentialsNotFoundException</a> e) {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            System.exit(-1);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        getMessagingServerNameDisplay();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html">FirstSeleniumTest</a> t = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html#a0db11ced86149bf3e4f2afb0e42665c2">FirstSeleniumTest</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        List&lt;String&gt; urls = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        urls.add(<span class="stringliteral">&quot;https://dynamicdisplays.fnal.gov/border7.php&quot;</span>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        urls.add(<span class="stringliteral">&quot;https://www-bd.fnal.gov/notifyservlet/www?project=HD&amp;refresh=on&amp;infolinks=none&quot;</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        urls.add(<span class="stringliteral">&quot;https://www.youtube.com/embed/sBDCIOERPNw?autoplay=1&amp;cc_load_policy=1&quot;</span>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        t.runTest(urls);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        System.exit(0);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html#a0db11ced86149bf3e4f2afb0e42665c2">   53</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html#a0db11ced86149bf3e4f2afb0e42665c2">FirstSeleniumTest</a>() {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">boolean</span> simple = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">if</span> (simple)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="comment">// Simple startup for testing</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            connection = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1SeleniumConnectionToBrowser.html">SeleniumConnectionToBrowser</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="comment">// Full startup.</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            connection = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1SeleniumConnectionToBrowser.html">SeleniumConnectionToBrowser</a>(0, 0, 0, Color.red, <span class="keyword">true</span>, null);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        connection.openConnection();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="comment">// connection.setPositionAndSize();</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html#aa563e9301b63fb25d4ca1e997e5f00c6">   70</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html#aa563e9301b63fb25d4ca1e997e5f00c6">runTest</a>(<span class="keyword">final</span> List&lt;String&gt; urls) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordtype">long</span> sleep = 15000L;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">for</span> (String url : urls) {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            connection.setURL(url);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            catchSleep(sleep);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="comment">// Do an &quot;Identify&quot;</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        connection.showIdentity();</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        catchSleep(sleep);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        connection.removeIdentify();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        catchSleep(sleep);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest_html_af5f159fe30f1bcffc4fa8e7536a095b9"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html#af5f159fe30f1bcffc4fa8e7536a095b9">gov.fnal.ppd.dd.testing.FirstSeleniumTest.main</a></div><div class="ttdeci">static void main(final String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="FirstSeleniumTest_8java_source.html#l00026">FirstSeleniumTest.java:26</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException</a></div><div class="ttdef"><b>Definition:</b> <a href="CredentialsNotFoundException_8java_source.html#l00009">CredentialsNotFoundException.java:9</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest_html_a0db11ced86149bf3e4f2afb0e42665c2"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html#a0db11ced86149bf3e4f2afb0e42665c2">gov.fnal.ppd.dd.testing.FirstSeleniumTest.FirstSeleniumTest</a></div><div class="ttdeci">FirstSeleniumTest()</div><div class="ttdef"><b>Definition:</b> <a href="FirstSeleniumTest_8java_source.html#l00053">FirstSeleniumTest.java:53</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html">gov.fnal.ppd.dd.testing.FirstSeleniumTest</a></div><div class="ttdef"><b>Definition:</b> <a href="FirstSeleniumTest_8java_source.html#l00019">FirstSeleniumTest.java:19</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1SeleniumConnectionToBrowser_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1SeleniumConnectionToBrowser.html">gov.fnal.ppd.dd.display.client.selenium.SeleniumConnectionToBrowser</a></div><div class="ttdef"><b>Definition:</b> <a href="SeleniumConnectionToBrowser_8java_source.html#l00043">SeleniumConnectionToBrowser.java:43</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.CredentialsNotFoundException</a></div><div class="ttdef"><b>Definition:</b> <a href="CredentialsNotFoundException_8java_source.html#l00003">CredentialsNotFoundException.java:3</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest_html_aa563e9301b63fb25d4ca1e997e5f00c6"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1FirstSeleniumTest.html#aa563e9301b63fb25d4ca1e997e5f00c6">gov.fnal.ppd.dd.testing.FirstSeleniumTest.runTest</a></div><div class="ttdeci">void runTest(final List&lt; String &gt; urls)</div><div class="ttdef"><b>Definition:</b> <a href="FirstSeleniumTest_8java_source.html#l00070">FirstSeleniumTest.java:70</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_3c3cc68cbead6cf60f144433d1c83e0c.html">display</a></li><li class="navelem"><a class="el" href="dir_1d438392b01995f5d27b8864295a44da.html">client</a></li><li class="navelem"><a class="el" href="dir_3b5c5819655bbb64b92bd46f3015883a.html">selenium</a></li><li class="navelem"><a class="el" href="FirstSeleniumTest_8java.html">FirstSeleniumTest.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_bd49752d5b1f58b48b5cb04315435765.html">testing</a></li><li class="navelem"><a class="el" href="FirstSeleniumTest_8java.html">FirstSeleniumTest.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

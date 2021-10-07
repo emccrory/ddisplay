@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -109,9 +109,9 @@ $(document).ready(function(){initNavTree('CheckAndFixScreenDimensions_8java_sour
 <div class="contents">
 <a href="CheckAndFixScreenDimensions_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.display.client.selenium;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.catchSleep;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.println;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.printlnErr;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.catchSleep;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> java.util.TimerTask;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
@@ -123,9 +123,9 @@ $(document).ready(function(){initNavTree('CheckAndFixScreenDimensions_8java_sour
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> org.openqa.selenium.firefox.FirefoxDriver;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance.html">gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance</a>;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ExitHandler.html">gov.fnal.ppd.dd.util.ExitHandler</a>;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1PropertiesFile.html">gov.fnal.ppd.dd.util.PropertiesFile</a>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">import</span> gov.fnal.ppd.dd.util.PropertiesFile.PositioningMethod;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler.html">gov.fnal.ppd.dd.util.nonguiUtils.ExitHandler</a>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1PropertiesFile.html">gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">import</span> gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile.PositioningMethod;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
 <div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html">   33</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html">CheckAndFixScreenDimensions</a> <span class="keyword">extends</span> TimerTask {</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
@@ -217,58 +217,59 @@ $(document).ready(function(){initNavTree('CheckAndFixScreenDimensions_8java_sour
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        ++counter;</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    }</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html#ae141a36b6c496443e18172b63c40af35">  136</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html#ae141a36b6c496443e18172b63c40af35">goToProperSizeAndPlace</a>() {</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        myMethod = positioningMethod;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">if</span> (adjustCount++ &gt; 2) {</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            myMethod = PositioningMethod.DirectPositioning;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            adjustCount = 0;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        }</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <span class="keywordflow">switch</span> (myMethod) {</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keywordflow">case</span> UseHiddenButton:</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <span class="keywordflow">if</span> (connection.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance.html#a6e969328f1fcd309a1a46bbe737eb6cf">isShowingSpecialURL</a>()) {</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                println(getClass(), <span class="stringliteral">&quot;Cannot go to full screen if we aren&#39;t using the standard wrapper web page&quot;</span>);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            }</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            driver.manage().window().setPosition(screenPosition);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            driver.findElement(<span class="keyword">new</span> By.ByName(<span class="stringliteral">&quot;hiddenButton&quot;</span>)).click();</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keywordflow">case</span> DirectPositioning:</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            driver.manage().window().setPosition(screenPosition);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            driver.manage().window().setSize(screenDimension);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            driver.manage().window().maximize();</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keywordflow">case</span> PressF11:</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            driver.manage().window().setPosition(screenPosition);</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <span class="keywordflow">if</span> (driver instanceof FirefoxDriver) {</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                <span class="comment">// May 2019: Either one of these calls to pressKey() will throw an exception</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                String f11Sequence = <span class="keyword">new</span> String(<span class="keyword">new</span> byte[] { 0x1b, <span class="charliteral">&#39;[&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;3&#39;</span>, <span class="charliteral">&#39;~&#39;</span> });</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                ((FirefoxDriver) driver).getKeyboard().pressKey(f11Sequence);</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                <span class="comment">// ((FirefoxDriver) driver).getKeyboard().pressKey(Keys.F11);</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            }</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keywordflow">case</span> ChangeIframe:</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="keywordflow">case</span> DoNothing:</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        }</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        catchSleep(100);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        println(getClass(), counter + <span class="stringliteral">&quot; Window layout - Position: &quot;</span> + driver.manage().window().getPosition() + <span class="stringliteral">&quot;, Dimensions: &quot;</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                + driver.manage().window().getSize() + <span class="stringliteral">&quot;\n\t\tUsed &quot;</span> + myMethod);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    }</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1PropertiesFile_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1PropertiesFile.html">gov.fnal.ppd.dd.util.PropertiesFile</a></div><div class="ttdef"><b>Definition:</b> <a href="PropertiesFile_8java_source.html#l00015">PropertiesFile.java:15</a></div></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    @SuppressWarnings(<span class="stringliteral">&quot;deprecation&quot;</span>)</div>
+<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html#ae141a36b6c496443e18172b63c40af35">  137</a></span>&#160;    public <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html#ae141a36b6c496443e18172b63c40af35">goToProperSizeAndPlace</a>() {</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        myMethod = positioningMethod;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <span class="keywordflow">if</span> (adjustCount++ &gt; 2) {</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            myMethod = PositioningMethod.DirectPositioning;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            adjustCount = 0;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        }</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">switch</span> (myMethod) {</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordflow">case</span> UseHiddenButton:</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="keywordflow">if</span> (connection.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance.html#a6e969328f1fcd309a1a46bbe737eb6cf">isShowingSpecialURL</a>()) {</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                println(getClass(), <span class="stringliteral">&quot;Cannot go to full screen if we aren&#39;t using the standard wrapper web page&quot;</span>);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            }</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            driver.manage().window().setPosition(screenPosition);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            driver.findElement(<span class="keyword">new</span> By.ByName(<span class="stringliteral">&quot;hiddenButton&quot;</span>)).click();</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">case</span> DirectPositioning:</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            driver.manage().window().setPosition(screenPosition);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            driver.manage().window().setSize(screenDimension);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            driver.manage().window().maximize();</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="keywordflow">case</span> PressF11:</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            driver.manage().window().setPosition(screenPosition);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <span class="keywordflow">if</span> (driver instanceof FirefoxDriver) {</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                <span class="comment">// May 2019: Either one of these calls to pressKey() will throw an exception</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                String f11Sequence = <span class="keyword">new</span> String(<span class="keyword">new</span> byte[] { 0x1b, <span class="charliteral">&#39;[&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;3&#39;</span>, <span class="charliteral">&#39;~&#39;</span> });</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                ((FirefoxDriver) driver).getKeyboard().pressKey(f11Sequence);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                <span class="comment">// ((FirefoxDriver) driver).getKeyboard().pressKey(Keys.F11);</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            }</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="keywordflow">case</span> ChangeIframe:</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="keywordflow">case</span> DoNothing:</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        }</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        catchSleep(100);</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        println(getClass(), counter + <span class="stringliteral">&quot; Window layout - Position: &quot;</span> + driver.manage().window().getPosition() + <span class="stringliteral">&quot;, Dimensions: &quot;</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                + driver.manage().window().getSize() + <span class="stringliteral">&quot;\n\t\tUsed &quot;</span> + myMethod);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    }</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;}</div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html">gov.fnal.ppd.dd.display.client.selenium.CheckAndFixScreenDimensions</a></div><div class="ttdef"><b>Definition:</b> <a href="CheckAndFixScreenDimensions_8java_source.html#l00033">CheckAndFixScreenDimensions.java:33</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_html_ae141a36b6c496443e18172b63c40af35"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html#ae141a36b6c496443e18172b63c40af35">gov.fnal.ppd.dd.display.client.selenium.CheckAndFixScreenDimensions.goToProperSizeAndPlace</a></div><div class="ttdeci">void goToProperSizeAndPlace()</div><div class="ttdef"><b>Definition:</b> <a href="CheckAndFixScreenDimensions_8java_source.html#l00136">CheckAndFixScreenDimensions.java:136</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_html_ae141a36b6c496443e18172b63c40af35"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html#ae141a36b6c496443e18172b63c40af35">gov.fnal.ppd.dd.display.client.selenium.CheckAndFixScreenDimensions.goToProperSizeAndPlace</a></div><div class="ttdeci">void goToProperSizeAndPlace()</div><div class="ttdef"><b>Definition:</b> <a href="CheckAndFixScreenDimensions_8java_source.html#l00137">CheckAndFixScreenDimensions.java:137</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1PropertiesFile_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1PropertiesFile.html">gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile</a></div><div class="ttdef"><b>Definition:</b> <a href="PropertiesFile_8java_source.html#l00018">PropertiesFile.java:18</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_html_a78a97c7a284cd33ea543d39aaa663ebc"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html#a78a97c7a284cd33ea543d39aaa663ebc">gov.fnal.ppd.dd.display.client.selenium.CheckAndFixScreenDimensions.run</a></div><div class="ttdeci">void run()</div><div class="ttdef"><b>Definition:</b> <a href="CheckAndFixScreenDimensions_8java_source.html#l00067">CheckAndFixScreenDimensions.java:67</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance_html_a6e969328f1fcd309a1a46bbe737eb6cf"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance.html#a6e969328f1fcd309a1a46bbe737eb6cf">gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance.isShowingSpecialURL</a></div><div class="ttdeci">boolean isShowingSpecialURL()</div><div class="ttdef"><b>Definition:</b> <a href="ConnectionToBrowserInstance_8java_source.html#l00451">ConnectionToBrowserInstance.java:451</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler.html">gov.fnal.ppd.dd.util.nonguiUtils.ExitHandler</a></div><div class="ttdef"><b>Definition:</b> <a href="ExitHandler_8java_source.html#l00018">ExitHandler.java:18</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance_html_a6e969328f1fcd309a1a46bbe737eb6cf"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance.html#a6e969328f1fcd309a1a46bbe737eb6cf">gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance.isShowingSpecialURL</a></div><div class="ttdeci">boolean isShowingSpecialURL()</div><div class="ttdef"><b>Definition:</b> <a href="ConnectionToBrowserInstance_8java_source.html#l00447">ConnectionToBrowserInstance.java:447</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance_html_ada329c14279c5b9c099f7d9a3444f1e5"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance.html#ada329c14279c5b9c099f7d9a3444f1e5">gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance.getConnectionCode</a></div><div class="ttdeci">abstract String getConnectionCode()</div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance.html">gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance</a></div><div class="ttdef"><b>Definition:</b> <a href="ConnectionToBrowserInstance_8java_source.html#l00040">ConnectionToBrowserInstance.java:40</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ExitHandler_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ExitHandler.html">gov.fnal.ppd.dd.util.ExitHandler</a></div><div class="ttdef"><b>Definition:</b> <a href="ExitHandler_8java_source.html#l00019">ExitHandler.java:19</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance.html">gov.fnal.ppd.dd.display.client.ConnectionToBrowserInstance</a></div><div class="ttdef"><b>Definition:</b> <a href="ConnectionToBrowserInstance_8java_source.html#l00039">ConnectionToBrowserInstance.java:39</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions_html_ab880551add7643dc6df11cae3aaa83b4"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium_1_1CheckAndFixScreenDimensions.html#ab880551add7643dc6df11cae3aaa83b4">gov.fnal.ppd.dd.display.client.selenium.CheckAndFixScreenDimensions.CheckAndFixScreenDimensions</a></div><div class="ttdeci">CheckAndFixScreenDimensions(final WebDriver d, final Point p, final Dimension sd, final ConnectionToBrowserInstance c)</div><div class="ttdef"><b>Definition:</b> <a href="CheckAndFixScreenDimensions_8java_source.html#l00059">CheckAndFixScreenDimensions.java:59</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

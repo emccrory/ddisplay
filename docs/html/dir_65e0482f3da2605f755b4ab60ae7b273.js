@@ -6,9 +6,6 @@ var dir_65e0482f3da2605f755b4ab60ae7b273 =
     [ "ChannelButtonGrid.java", "ChannelButtonGrid_8java.html", [
       [ "ChannelButtonGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid" ]
     ] ],
-    [ "ChannelCatalog.java", "ChannelCatalog_8java.html", [
-      [ "ChannelCatalog", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog.html", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalog" ]
-    ] ],
     [ "ChannelCatalogFactory.java", "ChannelCatalogFactory_8java.html", [
       [ "ChannelCatalogFactory", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelCatalogFactory.html", null ]
     ] ],
@@ -28,9 +25,6 @@ var dir_65e0482f3da2605f755b4ab60ae7b273 =
     [ "DDIconButton.java", "DDIconButton_8java.html", [
       [ "DDIconButton", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDIconButton.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDIconButton" ]
     ] ],
-    [ "DetailedInformationGrid.java", "DetailedInformationGrid_8java.html", [
-      [ "DetailedInformationGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DetailedInformationGrid.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DetailedInformationGrid" ]
-    ] ],
     [ "DisplayButtons.java", "DisplayButtons_8java.html", [
       [ "DisplayButtons", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DisplayButtons" ]
     ] ],
@@ -43,29 +37,19 @@ var dir_65e0482f3da2605f755b4ab60ae7b273 =
     [ "DocentGrid.java", "DocentGrid_8java.html", [
       [ "DocentGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid" ]
     ] ],
-    [ "DrawingPanel.java", "DrawingPanel_8java.html", null ],
     [ "DrawingPanelForImage.java", "DrawingPanelForImage_8java.html", [
       [ "DrawingPanelForImage", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DrawingPanelForImage.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DrawingPanelForImage" ]
     ] ],
-    [ "FileMenu.java", "FileMenu_8java.html", [
-      [ "FileMenu", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1FileMenu.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1FileMenu" ]
+    [ "FullChannelGrid.java", "FullChannelGrid_8java.html", [
+      [ "FullChannelGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1FullChannelGrid.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1FullChannelGrid" ]
     ] ],
     [ "ImageGrid.java", "ImageGrid_8java.html", [
       [ "ImageGrid", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ImageGrid.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ImageGrid" ]
     ] ],
-    [ "InformationBox.java", "InformationBox_8java.html", [
-      [ "InformationBox", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1InformationBox.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1InformationBox" ]
-    ] ],
-    [ "JWhiteLabel.java", "JWhiteLabel_8java.html", [
-      [ "JWhiteLabel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1JWhiteLabel.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1JWhiteLabel" ]
-    ] ],
-    [ "Keyboard.java", "Keyboard_8java.html", [
-      [ "Keyboard", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1Keyboard.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1Keyboard" ]
-    ] ],
     [ "ListOfExistingContent.java", "ListOfExistingContent_8java.html", [
       [ "ListOfExistingContent", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ListOfExistingContent.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ListOfExistingContent" ]
     ] ],
-    [ "package-info.java", "dd_2changer_2package-info_8java.html", null ],
+    [ "package-info.java", "gov_2fnal_2ppd_2dd_2changer_2package-info_8java.html", null ],
     [ "SaveRestoreDefaultChannels.java", "SaveRestoreDefaultChannels_8java.html", [
       [ "SaveRestoreDefaultChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1SaveRestoreDefaultChannels.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1SaveRestoreDefaultChannels" ]
     ] ],

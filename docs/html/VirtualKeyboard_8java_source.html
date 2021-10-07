@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/VirtualKeyboard.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/guiUtils/VirtualKeyboard.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -107,14 +107,14 @@ $(document).ready(function(){initNavTree('VirtualKeyboard_8java_source.html','')
 <div class="title">VirtualKeyboard.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="VirtualKeyboard_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util;</div>
+<a href="VirtualKeyboard_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util.guiUtils;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> java.io.File;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> java.io.IOException;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard.html">   13</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard.html">VirtualKeyboard</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard.html">   13</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard.html">VirtualKeyboard</a> {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard.html">VirtualKeyboard</a>() {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard.html">VirtualKeyboard</a>() {</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    }</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> Process p = null;</div>
@@ -126,8 +126,8 @@ $(document).ready(function(){initNavTree('VirtualKeyboard_8java_source.html','')
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        viable = f.exists();</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard.html#a2e4127247571b047a3f531f2b8875db6">   27</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard.html#a2e4127247571b047a3f531f2b8875db6">launch</a>() {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">if</span> ( <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard.html#aad08082770cb80392d9acd7d21e5245c">isViable</a>() ) {</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard.html#a9fd433156506d4941931cd57f30e30cc">   27</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard.html#a9fd433156506d4941931cd57f30e30cc">launch</a>() {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">if</span> ( <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard.html#a6de1d707a87c165fe832b796e6a5b7ef">isViable</a>() ) {</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="comment">// On Windows only - the Linux virtual keyboard is not commonly installed through Scientific Linux</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">if</span> (p == null || !p.isAlive())</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keywordflow">try</span> {</div>
@@ -139,27 +139,27 @@ $(document).ready(function(){initNavTree('VirtualKeyboard_8java_source.html','')
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="comment">// What if the keyboard is hidden??</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard.html#af8fa0153cbc34c2522b9c1f934c2d02f">   40</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">void</span> <span class="keyword">remove</span>() {</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard.html#a0b339889e908be4ef22fb75ec48ce82f">   40</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">void</span> <span class="keyword">remove</span>() {</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">if</span> (p != null &amp;&amp; p.isAlive()) {</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            p.destroy();</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            p = null;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        }</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard.html#aad08082770cb80392d9acd7d21e5245c">   47</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard.html#aad08082770cb80392d9acd7d21e5245c">isViable</a>() {</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard.html#a6de1d707a87c165fe832b796e6a5b7ef">   47</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard.html#a6de1d707a87c165fe832b796e6a5b7ef">isViable</a>() {</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">return</span> viable;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard.html">gov.fnal.ppd.dd.util.VirtualKeyboard</a></div><div class="ttdef"><b>Definition:</b> <a href="VirtualKeyboard_8java_source.html#l00013">VirtualKeyboard.java:13</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard_html_a2e4127247571b047a3f531f2b8875db6"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard.html#a2e4127247571b047a3f531f2b8875db6">gov.fnal.ppd.dd.util.VirtualKeyboard.launch</a></div><div class="ttdeci">static final void launch()</div><div class="ttdef"><b>Definition:</b> <a href="VirtualKeyboard_8java_source.html#l00027">VirtualKeyboard.java:27</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard_html_aad08082770cb80392d9acd7d21e5245c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1VirtualKeyboard.html#aad08082770cb80392d9acd7d21e5245c">gov.fnal.ppd.dd.util.VirtualKeyboard.isViable</a></div><div class="ttdeci">static boolean isViable()</div><div class="ttdef"><b>Definition:</b> <a href="VirtualKeyboard_8java_source.html#l00047">VirtualKeyboard.java:47</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard_html_a6de1d707a87c165fe832b796e6a5b7ef"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard.html#a6de1d707a87c165fe832b796e6a5b7ef">gov.fnal.ppd.dd.util.guiUtils.VirtualKeyboard.isViable</a></div><div class="ttdeci">static boolean isViable()</div><div class="ttdef"><b>Definition:</b> <a href="VirtualKeyboard_8java_source.html#l00047">VirtualKeyboard.java:47</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard.html">gov.fnal.ppd.dd.util.guiUtils.VirtualKeyboard</a></div><div class="ttdef"><b>Definition:</b> <a href="VirtualKeyboard_8java_source.html#l00013">VirtualKeyboard.java:13</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard_html_a9fd433156506d4941931cd57f30e30cc"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1VirtualKeyboard.html#a9fd433156506d4941931cd57f30e30cc">gov.fnal.ppd.dd.util.guiUtils.VirtualKeyboard.launch</a></div><div class="ttdeci">static final void launch()</div><div class="ttdef"><b>Definition:</b> <a href="VirtualKeyboard_8java_source.html#l00027">VirtualKeyboard.java:27</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="VirtualKeyboard_8java.html">VirtualKeyboard.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="dir_24537923d3e6c260dac2e886461eff28.html">guiUtils</a></li><li class="navelem"><a class="el" href="VirtualKeyboard_8java.html">VirtualKeyboard.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

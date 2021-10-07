@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -118,170 +118,154 @@ $(document).ready(function(){initNavTree('DocentGrid_8java_source.html','');});
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.getFullURLPrefix;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.db.ChannelsFromDatabase.getDocentContent;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImage.html">gov.fnal.ppd.dd.channel.ChannelImage</a>;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel.html">gov.fnal.ppd.dd.signage.Channel</a>;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html">gov.fnal.ppd.dd.signage.Display</a>;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">import</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">gov.fnal.ppd.dd.signage.SignageContent</a>;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup.html">gov.fnal.ppd.dd.util.DisplayButtonGroup</a>;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">import</span> java.awt.AlphaComposite;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">import</span> java.awt.Color;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">import</span> java.awt.Dimension;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">import</span> java.awt.Font;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">import</span> java.awt.Graphics2D;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">import</span> java.awt.GridLayout;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">import</span> java.awt.Image;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">import</span> java.awt.Insets;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">import</span> java.awt.image.BufferedImage;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">import</span> java.util.List;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">import</span> javax.swing.BorderFactory;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">import</span> javax.swing.Box;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">import</span> javax.swing.JComponent;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">import</span> javax.swing.JPanel;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">import</span> javax.swing.JScrollBar;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">import</span> javax.swing.JScrollPane;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.truncate;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> java.awt.Color;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">import</span> java.awt.Dimension;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">import</span> java.awt.Font;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">import</span> java.awt.GridLayout;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">import</span> java.awt.Insets;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">import</span> java.util.List;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">import</span> javax.swing.BorderFactory;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">import</span> javax.swing.Box;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">import</span> javax.swing.JComponent;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">import</span> javax.swing.JPanel;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">import</span> javax.swing.JScrollBar;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">import</span> javax.swing.JScrollPane;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImage.html">gov.fnal.ppd.dd.channel.ChannelImage</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">import</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel.html">gov.fnal.ppd.dd.signage.Channel</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">import</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html">gov.fnal.ppd.dd.signage.Display</a>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">import</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">gov.fnal.ppd.dd.signage.SignageContent</a>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1DrawingPanel.html">gov.fnal.ppd.dd.util.guiUtils.DrawingPanel</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JWhiteLabel.html">gov.fnal.ppd.dd.util.guiUtils.JWhiteLabel</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup.html">gov.fnal.ppd.dd.util.specific.DisplayButtonGroup</a>;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html">   42</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html">DocentGrid</a> <span class="keyword">extends</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DetailedInformationGrid.html">DetailedInformationGrid</a> {</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html">   42</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html">DocentGrid</a> <span class="keyword">extends</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1FullChannelGrid.html">FullChannelGrid</a> {</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span>       serialVersionUID    = 3102445872732142334L;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">private</span> List&lt;SignageContent&gt;    myButtonList;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span>                MAX_CAPTION_LENGTH  = (SHOW_IN_WINDOW ? 35 : 40);</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#aebf6698c77d6b3a216c185900f253373">   46</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">int</span>         <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#aebf6698c77d6b3a216c185900f253373">MAX_CAPTION_LENGTH</a>  = (SHOW_IN_WINDOW ? 35 : 40);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#a8d11fc4a2cae91c4b626b99ad1c8051a">   56</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#a8d11fc4a2cae91c4b626b99ad1c8051a">DocentGrid</a>(<span class="keyword">final</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html">Display</a> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>, <span class="keyword">final</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup.html">DisplayButtonGroup</a> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#adf258a89161282e5215b4642ecbec812">bg</a>, String docentName) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#a8d11fc4a2cae91c4b626b99ad1c8051a">   56</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#a8d11fc4a2cae91c4b626b99ad1c8051a">DocentGrid</a>(<span class="keyword">final</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html">Display</a> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>, <span class="keyword">final</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup.html">DisplayButtonGroup</a> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#adf258a89161282e5215b4642ecbec812">bg</a>, String docentName) {</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        super(display, bg);</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        myButtonList = getDocentContent(docentName);</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">static</span> String trunc(String text, <span class="keywordtype">int</span> maxLen) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">if</span> (text.length() &lt; maxLen)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">return</span> text;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">return</span> text.substring(0, maxLen - 2) + <span class="stringliteral">&quot; ...&quot;</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    @Override</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#a049a89e704008b6edc63cd15cc9b48f4">   68</a></span>&#160;    <span class="keyword">protected</span> JComponent <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#a049a89e704008b6edc63cd15cc9b48f4">makeExpGrid</a>(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> set) {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordtype">int</span> ncol = 5;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">if</span> (SHOW_IN_WINDOW)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            ncol = 3;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keyword">final</span> JPanel channelButtonBox = <span class="keyword">new</span> JPanel(<span class="keyword">new</span> GridLayout(0, 3));</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        channelButtonBox.setOpaque(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        channelButtonBox.setBackground(display.getPreferredHighlightColor());</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keyword">final</span> JPanel pictureButtonBox = <span class="keyword">new</span> JPanel(<span class="keyword">new</span> GridLayout(0, ncol));</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        pictureButtonBox.setOpaque(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        pictureButtonBox.setBackground(display.getPreferredHighlightColor());</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keyword">synchronized</span> (myButtonList) {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            String colorString = String.format(<span class="stringliteral">&quot;%06X&quot;</span>, display.getPreferredHighlightColor().getRGB() &amp; 0xFFFFFF);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keywordflow">for</span> (<a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">SignageContent</a> content : myButtonList)</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    <span class="keywordflow">if</span> (content instanceof <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImage.html">ChannelImage</a>) {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                        ChannelImage imageChannel = (ChannelImage) content;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                        String name = imageChannel.getName(); <span class="comment">// This is the URL end</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                        String url = getFullURLPrefix() + <span class="stringliteral">&quot;/&quot;</span> + name;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                        <span class="comment">// if (index++ % 10 == 0)</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                        <span class="comment">// System.out.println(this.getClass().getSimpleName() + &quot;.makeExpGrid(): resizing &quot; + index + &quot; -- &quot; +</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                        <span class="comment">// url);</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                        DrawingPanel dp = <span class="keyword">new</span> DrawingPanel(url, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>.<a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html#adc3c8118f22dd4d82c837da04a88723f">getPreferredHighlightColor</a>());</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    @Override</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#a049a89e704008b6edc63cd15cc9b48f4">   63</a></span>&#160;    <span class="keyword">protected</span> JComponent <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#a049a89e704008b6edc63cd15cc9b48f4">makeExpGrid</a>(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> set) {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordtype">int</span> ncol = 5;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> (SHOW_IN_WINDOW)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            ncol = 3;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">final</span> JPanel channelButtonBox = <span class="keyword">new</span> JPanel(<span class="keyword">new</span> GridLayout(0, 3));</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        channelButtonBox.setOpaque(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        channelButtonBox.setBackground(display.getPreferredHighlightColor());</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keyword">final</span> JPanel pictureButtonBox = <span class="keyword">new</span> JPanel(<span class="keyword">new</span> GridLayout(0, ncol));</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        pictureButtonBox.setOpaque(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        pictureButtonBox.setBackground(display.getPreferredHighlightColor());</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keyword">synchronized</span> (myButtonList) {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            String colorString = String.format(<span class="stringliteral">&quot;%06X&quot;</span>, display.getPreferredHighlightColor().getRGB() &amp; 0xFFFFFF);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">for</span> (<a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">SignageContent</a> content : myButtonList)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    <span class="keywordflow">if</span> (content instanceof <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImage.html">ChannelImage</a>) {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                        ChannelImage imageChannel = (ChannelImage) content;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                        String name = imageChannel.getName(); <span class="comment">// This is the URL end</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                        String url = getFullURLPrefix() + <span class="stringliteral">&quot;/&quot;</span> + name;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1DrawingPanel.html">DrawingPanel</a> dp = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1DrawingPanel.html">DrawingPanel</a>(url, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>.<a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html#adc3c8118f22dd4d82c837da04a88723f">getPreferredHighlightColor</a>());</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                        url += <span class="stringliteral">&quot;&amp;color=&quot;</span> + colorString;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                        String desc = imageChannel.getDescription();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                        String exp = imageChannel.getExp();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                        Box b = Box.createVerticalBox();</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                        b.setOpaque(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                        b.setAlignmentX(CENTER_ALIGNMENT);</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                        url += <span class="stringliteral">&quot;&amp;color=&quot;</span> + colorString;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                        String desc = imageChannel.getDescription();</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                        String exp = imageChannel.getExp();</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                        Box b = Box.createVerticalBox();</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                        b.setOpaque(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                        b.setAlignmentX(CENTER_ALIGNMENT);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton.html">DDButton</a> button = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDIconButton.html">DDIconButton</a>(imageChannel, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>, MAX_CAPTION_LENGTH, dp.getIcon());</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                        String[] pieces = name.split(<span class="stringliteral">&quot;/&quot;</span>, -1);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                        String filename = pieces[pieces.length - 1].replace(<span class="stringliteral">&quot;.jpg&quot;</span>, <span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;.jpeg&quot;</span>, <span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;.JPG&quot;</span>, <span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;.JPEG&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                        button.setText(trunc(filename, MAX_CAPTION_LENGTH));</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                        button.setAlignmentX(JPanel.CENTER_ALIGNMENT);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                    </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                        b.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1JWhiteLabel.html">JWhiteLabel</a>(exp, 18.0f));</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                        b.add(button);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                        <span class="comment">// b.add(dp);</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                        <span class="keywordflow">if</span> (SHOW_IN_WINDOW) {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                            button.setFont(button.getFont().deriveFont(Font.PLAIN, 10.0f));</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                            b.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1JWhiteLabel.html">JWhiteLabel</a>(desc, Font.PLAIN, 11.0f));</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                        } <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                            b.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1JWhiteLabel.html">JWhiteLabel</a>(desc));</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                        b.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white),</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                                BorderFactory.createLineBorder(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>.<a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html#adc3c8118f22dd4d82c837da04a88723f">getPreferredHighlightColor</a>(), 2)));</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                        button.addActionListener(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                        bg.add(button);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                        pictureButtonBox.add(b);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton.html">DDButton</a> button = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton.html">DDButton</a>((<a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel.html">Channel</a>) content, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>, 50);</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                        <span class="keywordflow">if</span> (SHOW_IN_WINDOW) {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                            button.setFont(button.getFont().deriveFont(Font.PLAIN, 2 * FONT_SIZE / 5));</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                            button.setFont(button.getFont().deriveFont(FONT_SIZE / 2));</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                            button.setMargin(<span class="keyword">new</span> Insets(30, 2, 30, 2));</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                        }</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                        button.addActionListener(<span class="keyword">this</span>); <span class="comment">// Order is important for the GUI. This one goes last.</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                        button.addActionListener(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                        bg.add(button);</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                        channelButtonBox.add(button);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                    }</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                } <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                    e.printStackTrace();</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                }</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        }</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        Box outerBox = Box.createVerticalBox();</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        outerBox.setOpaque(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        outerBox.setBackground(display.getPreferredHighlightColor());</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        outerBox.add(channelButtonBox);</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        outerBox.add(pictureButtonBox);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a28bdcf8d7b7664142d4360cd82f1b725">expGrid</a> = <span class="keyword">new</span> JScrollPane(outerBox);</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        expGrid.setAlignmentX(JComponent.TOP_ALIGNMENT);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        JScrollBar sb = ((JScrollPane) expGrid).getVerticalScrollBar();</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        sb.setUnitIncrement(20);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        sb.setBlockIncrement(317);</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keywordflow">if</span> (!SHOW_IN_WINDOW) {</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            sb.setPreferredSize(<span class="keyword">new</span> Dimension(40, 0));</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            sb.setBlockIncrement(450);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        }</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a28bdcf8d7b7664142d4360cd82f1b725">expGrid</a>;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    }</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keyword">static</span> BufferedImage createResizedCopy(Image originalImage, <span class="keywordtype">int</span> scaledWidth, <span class="keywordtype">int</span> scaledHeight, <span class="keywordtype">boolean</span> preserveAlpha) {</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="keywordtype">int</span> imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        BufferedImage scaledBI = <span class="keyword">new</span> BufferedImage(scaledWidth, scaledHeight, imageType);</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        Graphics2D g = scaledBI.createGraphics();</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="keywordflow">if</span> (preserveAlpha) {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            g.setComposite(AlphaComposite.Src);</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        }</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        g.dispose();</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keywordflow">return</span> scaledBI;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    }</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;}</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton.html">DDButton</a> button = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDIconButton.html">DDIconButton</a>(imageChannel, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#aebf6698c77d6b3a216c185900f253373">MAX_CAPTION_LENGTH</a>, dp.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1DrawingPanel.html#ad2f449ee150fda74537d48b529a4467c">getIcon</a>());</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                        String[] pieces = name.split(<span class="stringliteral">&quot;/&quot;</span>, -1);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                        String filename = pieces[pieces.length - 1].replace(<span class="stringliteral">&quot;.jpg&quot;</span>, <span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;.jpeg&quot;</span>, <span class="stringliteral">&quot;&quot;</span>).replace(<span class="stringliteral">&quot;.JPG&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                                .replace(<span class="stringliteral">&quot;.JPEG&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                        button.setText(truncate(filename, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#aebf6698c77d6b3a216c185900f253373">MAX_CAPTION_LENGTH</a>));</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                        button.setAlignmentX(JPanel.CENTER_ALIGNMENT);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                        b.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JWhiteLabel.html">JWhiteLabel</a>(exp, 18.0f));</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                        b.add(button);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                        <span class="keywordflow">if</span> (SHOW_IN_WINDOW) {</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                            button.setFont(button.getFont().deriveFont(Font.PLAIN, 10.0f));</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                            b.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JWhiteLabel.html">JWhiteLabel</a>(desc, Font.PLAIN, 11.0f));</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                        } <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                            b.add(<span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JWhiteLabel.html">JWhiteLabel</a>(desc));</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                        b.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white),</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                                BorderFactory.createLineBorder(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>.<a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html#adc3c8118f22dd4d82c837da04a88723f">getPreferredHighlightColor</a>(), 2)));</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                        button.addActionListener(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                        bg.add(button);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                        pictureButtonBox.add(b);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton.html">DDButton</a> button = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton.html">DDButton</a>((<a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel.html">Channel</a>) content, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>, 50);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                        <span class="keywordflow">if</span> (SHOW_IN_WINDOW) {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                            button.setFont(button.getFont().deriveFont(Font.PLAIN, 2 * FONT_SIZE / 5));</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                            button.setFont(button.getFont().deriveFont(FONT_SIZE / 2));</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                            button.setMargin(<span class="keyword">new</span> Insets(30, 2, 30, 2));</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                        }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                        button.addActionListener(<span class="keyword">this</span>); <span class="comment">// Order is important for the GUI. This one goes last.</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                        button.addActionListener(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">display</a>);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                        bg.add(button);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                        channelButtonBox.add(button);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                    }</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                } <span class="keywordflow">catch</span> (Exception e) {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                    e.printStackTrace();</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                }</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        }</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        Box outerBox = Box.createVerticalBox();</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        outerBox.setOpaque(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        outerBox.setBackground(display.getPreferredHighlightColor());</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        outerBox.add(channelButtonBox);</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        outerBox.add(pictureButtonBox);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a28bdcf8d7b7664142d4360cd82f1b725">expGrid</a> = <span class="keyword">new</span> JScrollPane(outerBox);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        expGrid.setAlignmentX(JComponent.TOP_ALIGNMENT);</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        JScrollBar sb = ((JScrollPane) expGrid).getVerticalScrollBar();</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        sb.setUnitIncrement(20);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        sb.setBlockIncrement(317);</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordflow">if</span> (!SHOW_IN_WINDOW) {</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            sb.setPreferredSize(<span class="keyword">new</span> Dimension(40, 0));</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            sb.setBlockIncrement(450);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        }</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a28bdcf8d7b7664142d4360cd82f1b725">expGrid</a>;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    }</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;}</div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid_html_a8d11fc4a2cae91c4b626b99ad1c8051a"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#a8d11fc4a2cae91c4b626b99ad1c8051a">gov.fnal.ppd.dd.changer.DocentGrid.DocentGrid</a></div><div class="ttdeci">DocentGrid(final Display display, final DisplayButtonGroup bg, String docentName)</div><div class="ttdef"><b>Definition:</b> <a href="DocentGrid_8java_source.html#l00056">DocentGrid.java:56</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_html_a3c06b51489dcaacd16f6efcefe06bcaa"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a3c06b51489dcaacd16f6efcefe06bcaa">gov.fnal.ppd.dd.changer.ChannelButtonGrid.display</a></div><div class="ttdeci">final Display display</div><div class="ttdef"><b>Definition:</b> <a href="ChannelButtonGrid_8java_source.html#l00035">ChannelButtonGrid.java:35</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DetailedInformationGrid_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DetailedInformationGrid.html">gov.fnal.ppd.dd.changer.DetailedInformationGrid</a></div><div class="ttdef"><b>Definition:</b> <a href="DetailedInformationGrid_8java_source.html#l00029">DetailedInformationGrid.java:29</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid_html_aebf6698c77d6b3a216c185900f253373"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#aebf6698c77d6b3a216c185900f253373">gov.fnal.ppd.dd.changer.DocentGrid.MAX_CAPTION_LENGTH</a></div><div class="ttdeci">static final int MAX_CAPTION_LENGTH</div><div class="ttdef"><b>Definition:</b> <a href="DocentGrid_8java_source.html#l00046">DocentGrid.java:46</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImage_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImage.html">gov.fnal.ppd.dd.channel.ChannelImage</a></div><div class="ttdef"><b>Definition:</b> <a href="ChannelImage_8java_source.html#l00020">ChannelImage.java:20</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html">gov.fnal.ppd.dd.changer.DocentGrid</a></div><div class="ttdef"><b>Definition:</b> <a href="DocentGrid_8java_source.html#l00042">DocentGrid.java:42</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDIconButton_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDIconButton.html">gov.fnal.ppd.dd.changer.DDIconButton</a></div><div class="ttdef"><b>Definition:</b> <a href="DDIconButton_8java_source.html#l00010">DDIconButton.java:10</a></div></div>
-<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">gov.fnal.ppd.dd.signage.SignageContent</a></div><div class="ttdef"><b>Definition:</b> <a href="SignageContent_8java_source.html#l00019">SignageContent.java:19</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DisplayButtonGroup.html">gov.fnal.ppd.dd.util.DisplayButtonGroup</a></div><div class="ttdef"><b>Definition:</b> <a href="DisplayButtonGroup_8java_source.html#l00024">DisplayButtonGroup.java:24</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JWhiteLabel_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1JWhiteLabel.html">gov.fnal.ppd.dd.util.guiUtils.JWhiteLabel</a></div><div class="ttdef"><b>Definition:</b> <a href="JWhiteLabel_8java_source.html#l00016">JWhiteLabel.java:16</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDIconButton_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDIconButton.html">gov.fnal.ppd.dd.changer.DDIconButton</a></div><div class="ttdef"><b>Definition:</b> <a href="DDIconButton_8java_source.html#l00016">DDIconButton.java:16</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1DrawingPanel_html_ad2f449ee150fda74537d48b529a4467c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1DrawingPanel.html#ad2f449ee150fda74537d48b529a4467c">gov.fnal.ppd.dd.util.guiUtils.DrawingPanel.getIcon</a></div><div class="ttdeci">ImageIcon getIcon()</div><div class="ttdef"><b>Definition:</b> <a href="DrawingPanel_8java_source.html#l00102">DrawingPanel.java:102</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1DisplayButtonGroup.html">gov.fnal.ppd.dd.util.specific.DisplayButtonGroup</a></div><div class="ttdef"><b>Definition:</b> <a href="DisplayButtonGroup_8java_source.html#l00023">DisplayButtonGroup.java:23</a></div></div>
+<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">gov.fnal.ppd.dd.signage.SignageContent</a></div><div class="ttdef"><b>Definition:</b> <a href="SignageContent_8java_source.html#l00024">SignageContent.java:24</a></div></div>
 <div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel.html">gov.fnal.ppd.dd.signage.Channel</a></div><div class="ttdef"><b>Definition:</b> <a href="signage_2Channel_8java_source.html#l00008">Channel.java:8</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_html_a28bdcf8d7b7664142d4360cd82f1b725"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#a28bdcf8d7b7664142d4360cd82f1b725">gov.fnal.ppd.dd.changer.ChannelButtonGrid.expGrid</a></div><div class="ttdeci">JComponent expGrid</div><div class="ttdef"><b>Definition:</b> <a href="ChannelButtonGrid_8java_source.html#l00039">ChannelButtonGrid.java:39</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1FullChannelGrid_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1FullChannelGrid.html">gov.fnal.ppd.dd.changer.FullChannelGrid</a></div><div class="ttdef"><b>Definition:</b> <a href="FullChannelGrid_8java_source.html#l00029">FullChannelGrid.java:29</a></div></div>
 <div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_html_adc3c8118f22dd4d82c837da04a88723f"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html#adc3c8118f22dd4d82c837da04a88723f">gov.fnal.ppd.dd.signage.Display.getPreferredHighlightColor</a></div><div class="ttdeci">Color getPreferredHighlightColor()</div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">gov.fnal.ppd.dd.changer.ChannelClassification</a></div><div class="ttdef"><b>Definition:</b> <a href="ChannelClassification_8java_source.html#l00026">ChannelClassification.java:26</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1JWhiteLabel_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1JWhiteLabel.html">gov.fnal.ppd.dd.changer.JWhiteLabel</a></div><div class="ttdef"><b>Definition:</b> <a href="JWhiteLabel_8java_source.html#l00006">JWhiteLabel.java:6</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DDButton.html">gov.fnal.ppd.dd.changer.DDButton</a></div><div class="ttdef"><b>Definition:</b> <a href="DDButton_8java_source.html#l00025">DDButton.java:25</a></div></div>
-<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html">gov.fnal.ppd.dd.signage.Display</a></div><div class="ttdef"><b>Definition:</b> <a href="Display_8java_source.html#l00018">Display.java:18</a></div></div>
+<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display.html">gov.fnal.ppd.dd.signage.Display</a></div><div class="ttdef"><b>Definition:</b> <a href="Display_8java_source.html#l00019">Display.java:19</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1DrawingPanel_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1DrawingPanel.html">gov.fnal.ppd.dd.util.guiUtils.DrawingPanel</a></div><div class="ttdef"><b>Definition:</b> <a href="DrawingPanel_8java_source.html#l00028">DrawingPanel.java:28</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid_html_adf258a89161282e5215b4642ecbec812"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelButtonGrid.html#adf258a89161282e5215b4642ecbec812">gov.fnal.ppd.dd.changer.ChannelButtonGrid.bg</a></div><div class="ttdeci">DisplayButtonGroup bg</div><div class="ttdef"><b>Definition:</b> <a href="ChannelButtonGrid_8java_source.html#l00037">ChannelButtonGrid.java:37</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid_html_a049a89e704008b6edc63cd15cc9b48f4"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#a049a89e704008b6edc63cd15cc9b48f4">gov.fnal.ppd.dd.changer.DocentGrid.makeExpGrid</a></div><div class="ttdeci">JComponent makeExpGrid(ChannelClassification set)</div><div class="ttdef"><b>Definition:</b> <a href="DocentGrid_8java_source.html#l00068">DocentGrid.java:68</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid_html_a049a89e704008b6edc63cd15cc9b48f4"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1DocentGrid.html#a049a89e704008b6edc63cd15cc9b48f4">gov.fnal.ppd.dd.changer.DocentGrid.makeExpGrid</a></div><div class="ttdeci">JComponent makeExpGrid(ChannelClassification set)</div><div class="ttdef"><b>Definition:</b> <a href="DocentGrid_8java_source.html#l00063">DocentGrid.java:63</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -5,9 +5,6 @@ var dir_1d438392b01995f5d27b8864295a44da =
     [ "BrowserErrorListener.java", "BrowserErrorListener_8java.html", [
       [ "BrowserErrorListener", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1BrowserErrorListener.html", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1BrowserErrorListener" ]
     ] ],
-    [ "BrowserLauncher.java", "BrowserLauncher_8java.html", [
-      [ "BrowserLauncher", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1BrowserLauncher.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1BrowserLauncher" ]
-    ] ],
     [ "ConnectionToBrowserInstance.java", "ConnectionToBrowserInstance_8java.html", [
       [ "ConnectionToBrowserInstance", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ConnectionToBrowserInstance" ]
     ] ],
@@ -19,7 +16,7 @@ var dir_1d438392b01995f5d27b8864295a44da =
     [ "ListOfValidChannels.java", "ListOfValidChannels_8java.html", [
       [ "ListOfValidChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1ListOfValidChannels" ]
     ] ],
-    [ "package-info.java", "dd_2display_2client_2package-info_8java.html", null ],
+    [ "package-info.java", "gov_2fnal_2ppd_2dd_2display_2client_2package-info_8java.html", null ],
     [ "UpdateDatabaseForDisplayChannels.java", "UpdateDatabaseForDisplayChannels_8java.html", [
       [ "UpdateDatabaseForDisplayChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels" ]
     ] ]

@@ -9,7 +9,7 @@ var dir_c274ef0f6093d83b6208769afc54a9e5 =
     [ "EmergencyCommunication.java", "EmergencyCommunication_8java.html", [
       [ "EmergencyCommunication", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1EmergencyCommunication.html", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1EmergencyCommunication" ]
     ] ],
-    [ "package-info.java", "dd_2signage_2package-info_8java.html", null ],
+    [ "package-info.java", "gov_2fnal_2ppd_2dd_2signage_2package-info_8java.html", null ],
     [ "SignageContent.java", "SignageContent_8java.html", [
       [ "SignageContent", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent" ]
     ] ]

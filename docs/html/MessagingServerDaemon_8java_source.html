@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -121,73 +121,72 @@ $(document).ready(function(){initNavTree('MessagingServerDaemon_8java_source.htm
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.prepareUpdateWatcher;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.println;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">import</span> java.util.Date;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.CredentialsNotFoundException</a>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html">gov.fnal.ppd.dd.util.JavaVersion</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException</a>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html">gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion</a>;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">   32</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">MessagingServerDaemon</a> {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment">// my server</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> LocalMessagingServer server;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">private</span> <span class="keywordtype">int</span>                         port;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">private</span> <span class="keyword">class </span>LocalMessagingServer <span class="keyword">extends</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer.html">MessagingServer</a> {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">public</span> LocalMessagingServer(<span class="keywordtype">int</span> port) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            super(port);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    };</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">// server constructor that receive the port to listen to for connection as parameter</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">MessagingServerDaemon</a>(<span class="keywordtype">int</span> port) {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="comment">// super(&quot;Dynamic Displays Messaging Server&quot;);</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        server = null;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        this.port = port;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html#a00cbd9c8eec08febc8d4c8baba8bf5fd">   54</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html#a00cbd9c8eec08febc8d4c8baba8bf5fd">start</a>() {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment">// create a new Server</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        server = <span class="keyword">new</span> LocalMessagingServer(port);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="comment">// and start it as a thread</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">new</span> ServerRunning().start();</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        server.logger.info(<span class="stringliteral">&quot;Server started at &quot;</span> + (<span class="keyword">new</span> Date()) + <span class="stringliteral">&quot;\n&quot;</span>);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html#a00c5f81d7957dbba0fe6ef52b10d21f0">   67</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html#a00c5f81d7957dbba0fe6ef52b10d21f0">main</a>(String[] args) {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        println(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">MessagingServerDaemon</a>.class, <span class="stringliteral">&quot;Running from java version &quot;</span> + <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html">JavaVersion</a>.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#ab127bb617d7b81a0c0e6146b434ebff0">getCurrentVersion</a>());</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        prepareUpdateWatcher(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            credentialsSetup();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html">CredentialsNotFoundException</a> e) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            System.exit(-1);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">MessagingServerDaemon</a> ms = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">MessagingServerDaemon</a>(MESSAGING_SERVER_PORT);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        ms.start();</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">class </span>ServerRunning <span class="keyword">extends</span> Thread {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> run() {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            server.start(); <span class="comment">// should stay in this method until it fails</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="comment">// the server failed</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            server.logger.info(<span class="stringliteral">&quot;Server has stopped at &quot;</span> + (<span class="keyword">new</span> Date()) + <span class="stringliteral">&quot;\n&quot;</span>);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            server = null;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">   37</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">MessagingServerDaemon</a> {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> LocalMessagingServer server;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">private</span> <span class="keywordtype">int</span>                         port;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">private</span> <span class="keyword">class </span>LocalMessagingServer <span class="keyword">extends</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer.html">MessagingServer</a> {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">public</span> LocalMessagingServer(<span class="keywordtype">int</span> port) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            super(port);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    };</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">MessagingServerDaemon</a>(<span class="keywordtype">int</span> port) {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment">// super(&quot;Dynamic Displays Messaging Server&quot;);</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        server = null;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        this.port = port;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html#a00cbd9c8eec08febc8d4c8baba8bf5fd">   67</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html#a00cbd9c8eec08febc8d4c8baba8bf5fd">start</a>() {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="comment">// create a new Server</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        server = <span class="keyword">new</span> LocalMessagingServer(port);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="comment">// and start it as a thread</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keyword">new</span> ServerRunning().start();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        server.logger.info(getClass() + <span class="stringliteral">&quot;: Server started at &quot;</span> + (<span class="keyword">new</span> Date()) + <span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html#a00c5f81d7957dbba0fe6ef52b10d21f0">   80</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html#a00c5f81d7957dbba0fe6ef52b10d21f0">main</a>(String[] args) {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        println(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">MessagingServerDaemon</a>.class, <span class="stringliteral">&quot;Running from java version &quot;</span> + <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html">JavaVersion</a>.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#af95cfca80d031461d235ea2a10a7d3d3">getInstance</a>().get());</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        prepareUpdateWatcher(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            credentialsSetup();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html">CredentialsNotFoundException</a> e) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            System.exit(-1);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">MessagingServerDaemon</a> ms = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">MessagingServerDaemon</a>(MESSAGING_SERVER_PORT);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        ms.start();</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    }</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html">gov.fnal.ppd.dd.util.JavaVersion</a></div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00016">JavaVersion.java:16</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">gov.fnal.ppd.dd.chat.MessagingServerDaemon</a></div><div class="ttdef"><b>Definition:</b> <a href="MessagingServerDaemon_8java_source.html#l00032">MessagingServerDaemon.java:32</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion_html_ab127bb617d7b81a0c0e6146b434ebff0"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1JavaVersion.html#ab127bb617d7b81a0c0e6146b434ebff0">gov.fnal.ppd.dd.util.JavaVersion.getCurrentVersion</a></div><div class="ttdeci">static String getCurrentVersion()</div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00034">JavaVersion.java:34</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon_html_a00c5f81d7957dbba0fe6ef52b10d21f0"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html#a00c5f81d7957dbba0fe6ef52b10d21f0">gov.fnal.ppd.dd.chat.MessagingServerDaemon.main</a></div><div class="ttdeci">static void main(String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="MessagingServerDaemon_8java_source.html#l00067">MessagingServerDaemon.java:67</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon_html_a00cbd9c8eec08febc8d4c8baba8bf5fd"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html#a00cbd9c8eec08febc8d4c8baba8bf5fd">gov.fnal.ppd.dd.chat.MessagingServerDaemon.start</a></div><div class="ttdeci">void start()</div><div class="ttdef"><b>Definition:</b> <a href="MessagingServerDaemon_8java_source.html#l00054">MessagingServerDaemon.java:54</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.CredentialsNotFoundException</a></div><div class="ttdef"><b>Definition:</b> <a href="CredentialsNotFoundException_8java_source.html#l00003">CredentialsNotFoundException.java:3</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer.html">gov.fnal.ppd.dd.chat.MessagingServer</a></div><div class="ttdef"><b>Definition:</b> <a href="MessagingServer_8java_source.html#l00130">MessagingServer.java:130</a></div></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">private</span> <span class="keyword">class </span>ServerRunning <span class="keyword">extends</span> Thread {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> run() {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            server.start(); <span class="comment">// should stay in the call of this method until it fails</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="comment">// the server failed</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            server.logger.info(MessagingServerDaemon.class + <span class="stringliteral">&quot;: Server has stopped at &quot;</span> + (<span class="keyword">new</span> Date()) + <span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            server = null;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_html_af95cfca80d031461d235ea2a10a7d3d3"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html#af95cfca80d031461d235ea2a10a7d3d3">gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion.getInstance</a></div><div class="ttdeci">static JavaVersion getInstance()</div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00040">JavaVersion.java:40</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException</a></div><div class="ttdef"><b>Definition:</b> <a href="CredentialsNotFoundException_8java_source.html#l00009">CredentialsNotFoundException.java:9</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaVersion.html">gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion</a></div><div class="ttdef"><b>Definition:</b> <a href="JavaVersion_8java_source.html#l00023">JavaVersion.java:23</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html">gov.fnal.ppd.dd.chat.MessagingServerDaemon</a></div><div class="ttdef"><b>Definition:</b> <a href="MessagingServerDaemon_8java_source.html#l00037">MessagingServerDaemon.java:37</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon_html_a00c5f81d7957dbba0fe6ef52b10d21f0"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html#a00c5f81d7957dbba0fe6ef52b10d21f0">gov.fnal.ppd.dd.chat.MessagingServerDaemon.main</a></div><div class="ttdeci">static void main(String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="MessagingServerDaemon_8java_source.html#l00080">MessagingServerDaemon.java:80</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon_html_a00cbd9c8eec08febc8d4c8baba8bf5fd"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon.html#a00cbd9c8eec08febc8d4c8baba8bf5fd">gov.fnal.ppd.dd.chat.MessagingServerDaemon.start</a></div><div class="ttdeci">void start()</div><div class="ttdef"><b>Definition:</b> <a href="MessagingServerDaemon_8java_source.html#l00067">MessagingServerDaemon.java:67</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer.html">gov.fnal.ppd.dd.chat.MessagingServer</a></div><div class="ttdef"><b>Definition:</b> <a href="MessagingServer_8java_source.html#l00175">MessagingServer.java:175</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

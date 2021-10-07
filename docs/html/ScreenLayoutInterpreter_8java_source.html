@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -114,69 +114,70 @@ $(document).ready(function(){initNavTree('ScreenLayoutInterpreter_8java_source.h
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.display;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.display.client.BrowserLauncher.debug;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.println;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> java.awt.GraphicsConfiguration;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> java.awt.GraphicsDevice;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> java.awt.GraphicsEnvironment;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> java.awt.Rectangle;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">import</span> java.util.ArrayList;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">import</span> java.util.Arrays;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">import</span> java.util.List;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html">   25</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html">ScreenLayoutInterpreter</a> {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;Rectangle&gt;  rects   = <span class="keyword">new</span> ArrayList&lt;Rectangle&gt;();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="comment">// private static boolean debug = true;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html">ScreenLayoutInterpreter</a>() {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> init() {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        GraphicsDevice[] gs = ge.getScreenDevices();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">int</span> gsNum = 0;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">if</span> (debug)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            System.out.println(<span class="stringliteral">&quot;Screen/Config\tRect Bounds\tDimensions&quot;</span>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">for</span> (GraphicsDevice curGs : gs) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            GraphicsConfiguration[] gc = curGs.getConfigurations();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordtype">int</span> gcNum = 0;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            Rectangle lastRectangle = null;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keywordflow">for</span> (GraphicsConfiguration curGc : gc) {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                Rectangle bounds = curGc.getBounds();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keywordflow">if</span> (!bounds.equals(lastRectangle))</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    rects.add(bounds);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                lastRectangle = bounds;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="keywordflow">if</span> (debug)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                    System.out.println(gsNum + <span class="stringliteral">&quot;/&quot;</span> + (gcNum++) + <span class="stringliteral">&quot;:\t\t(&quot;</span> + bounds.getX() + <span class="stringliteral">&quot;,&quot;</span> + bounds.getY() + <span class="stringliteral">&quot;)\t(&quot;</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                            + bounds.getWidth() + <span class="stringliteral">&quot;x&quot;</span> + bounds.getHeight() + <span class="stringliteral">&quot;), rects.size()=&quot;</span> + rects.size());</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            ++gsNum;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        println(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html">ScreenLayoutInterpreter</a>.class, <span class="stringliteral">&quot; Display locations: &quot;</span> + Arrays.toString(rects.toArray()));</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#a28bf32f519c6365ebf15a0d8d539595f">   60</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#a28bf32f519c6365ebf15a0d8d539595f">getNumScreens</a>() {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">if</span> (rects.size() == 0)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            init();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">return</span> rects.size();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#a1202af9585c07cffdc214d0674d30e35">   71</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> Rectangle <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#a1202af9585c07cffdc214d0674d30e35">getBounds</a>(<span class="keywordtype">int</span> screenNumber) {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">if</span> (rects.size() == 0)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            init();</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">if</span> (screenNumber &lt; 0)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            screenNumber = 0;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">if</span> (screenNumber &gt;= rects.size())</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            screenNumber = rects.size() - 1;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">return</span> rects.get(screenNumber);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html">gov.fnal.ppd.dd.display.ScreenLayoutInterpreter</a></div><div class="ttdef"><b>Definition:</b> <a href="ScreenLayoutInterpreter_8java_source.html#l00025">ScreenLayoutInterpreter.java:25</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter_html_a28bf32f519c6365ebf15a0d8d539595f"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#a28bf32f519c6365ebf15a0d8d539595f">gov.fnal.ppd.dd.display.ScreenLayoutInterpreter.getNumScreens</a></div><div class="ttdeci">static int getNumScreens()</div><div class="ttdef"><b>Definition:</b> <a href="ScreenLayoutInterpreter_8java_source.html#l00060">ScreenLayoutInterpreter.java:60</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter_html_a1202af9585c07cffdc214d0674d30e35"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#a1202af9585c07cffdc214d0674d30e35">gov.fnal.ppd.dd.display.ScreenLayoutInterpreter.getBounds</a></div><div class="ttdeci">static Rectangle getBounds(int screenNumber)</div><div class="ttdef"><b>Definition:</b> <a href="ScreenLayoutInterpreter_8java_source.html#l00071">ScreenLayoutInterpreter.java:71</a></div></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> java.awt.GraphicsConfiguration;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> java.awt.GraphicsDevice;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> java.awt.GraphicsEnvironment;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> java.awt.Rectangle;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> java.util.ArrayList;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">import</span> java.util.Arrays;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">import</span> java.util.List;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html">   24</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html">ScreenLayoutInterpreter</a> {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;Rectangle&gt;  rects   = <span class="keyword">new</span> ArrayList&lt;Rectangle&gt;();</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#aa00d08475435546dab252b31c72e982d">   27</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">boolean</span>           <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#aa00d08475435546dab252b31c72e982d">debug</a>   = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">// private static boolean debug = true;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html">ScreenLayoutInterpreter</a>() {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> init() {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        GraphicsDevice[] gs = ge.getScreenDevices();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">int</span> gsNum = 0;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#aa00d08475435546dab252b31c72e982d">debug</a>)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            System.out.println(<span class="stringliteral">&quot;Screen/Config\tRect Bounds\tDimensions&quot;</span>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">for</span> (GraphicsDevice curGs : gs) {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            GraphicsConfiguration[] gc = curGs.getConfigurations();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <span class="keywordtype">int</span> gcNum = 0;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            Rectangle lastRectangle = null;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">for</span> (GraphicsConfiguration curGc : gc) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                Rectangle bounds = curGc.getBounds();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">if</span> (!bounds.equals(lastRectangle))</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                    rects.add(bounds);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                lastRectangle = bounds;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#aa00d08475435546dab252b31c72e982d">debug</a>)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                    System.out.println(gsNum + <span class="stringliteral">&quot;/&quot;</span> + (gcNum++) + <span class="stringliteral">&quot;:\t\t(&quot;</span> + bounds.getX() + <span class="stringliteral">&quot;,&quot;</span> + bounds.getY() + <span class="stringliteral">&quot;)\t(&quot;</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                            + bounds.getWidth() + <span class="stringliteral">&quot;x&quot;</span> + bounds.getHeight() + <span class="stringliteral">&quot;), rects.size()=&quot;</span> + rects.size());</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            ++gsNum;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        println(ScreenLayoutInterpreter.class, <span class="stringliteral">&quot; Display locations: &quot;</span> + Arrays.toString(rects.toArray()));</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#a28bf32f519c6365ebf15a0d8d539595f">   61</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#a28bf32f519c6365ebf15a0d8d539595f">getNumScreens</a>() {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">if</span> (rects.size() == 0)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            init();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">return</span> rects.size();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#a1202af9585c07cffdc214d0674d30e35">   72</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> Rectangle <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#a1202af9585c07cffdc214d0674d30e35">getBounds</a>(<span class="keywordtype">int</span> screenNumber) {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">if</span> (rects.size() == 0)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            init();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">if</span> (screenNumber &lt; 0)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            screenNumber = 0;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">if</span> (screenNumber &gt;= rects.size())</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            screenNumber = rects.size() - 1;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">return</span> rects.get(screenNumber);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html">gov.fnal.ppd.dd.display.ScreenLayoutInterpreter</a></div><div class="ttdef"><b>Definition:</b> <a href="ScreenLayoutInterpreter_8java_source.html#l00024">ScreenLayoutInterpreter.java:24</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter_html_a28bf32f519c6365ebf15a0d8d539595f"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#a28bf32f519c6365ebf15a0d8d539595f">gov.fnal.ppd.dd.display.ScreenLayoutInterpreter.getNumScreens</a></div><div class="ttdeci">static int getNumScreens()</div><div class="ttdef"><b>Definition:</b> <a href="ScreenLayoutInterpreter_8java_source.html#l00061">ScreenLayoutInterpreter.java:61</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter_html_a1202af9585c07cffdc214d0674d30e35"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#a1202af9585c07cffdc214d0674d30e35">gov.fnal.ppd.dd.display.ScreenLayoutInterpreter.getBounds</a></div><div class="ttdeci">static Rectangle getBounds(int screenNumber)</div><div class="ttdef"><b>Definition:</b> <a href="ScreenLayoutInterpreter_8java_source.html#l00072">ScreenLayoutInterpreter.java:72</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter_html_aa00d08475435546dab252b31c72e982d"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1ScreenLayoutInterpreter.html#aa00d08475435546dab252b31c72e982d">gov.fnal.ppd.dd.display.ScreenLayoutInterpreter.debug</a></div><div class="ttdeci">static boolean debug</div><div class="ttdoc">Turn on debugging in this class. </div><div class="ttdef"><b>Definition:</b> <a href="ScreenLayoutInterpreter_8java_source.html#l00027">ScreenLayoutInterpreter.java:27</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -1,14 +1,6 @@
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{\section{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display Interface Reference}
 \label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}\index{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display@{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}}
 }
-
-
-\subsection{Detailed Description}
-The signature of an electronic content displayer in the Fermilab Dynamic Displays system. This is implemented as a physical monitor attached to a small Linux-\/based P\-C, or as an abstraction for that physical configuration within the G\-U\-I, a.\-k.\-a., \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}{Channel\-Selector}.
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
-\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-signage.\-Display\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -34,7 +26,7 @@ void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a7c16648
 \item 
 int \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_aebf42d7e0cbc3e6f0a4009bb61ddfdfb}{get\-Screen\-Number} ()
 \item 
-Inet\-Address \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0ddd8e7cd161e52c853bf4af8c1ae2bd}{get\-I\-P\-Address} ()
+String \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_afd6500b33d87915eb5f09df692141000}{get\-I\-P\-Address} ()
 \item 
 void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_abbf3b133460808b9361107fcd5a3ae19}{add\-Listener} (Action\-Listener L)
 \item 
@@ -50,6 +42,18 @@ void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ae9ca738
 \item 
 void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a2acc4186323118548cf5e57b61101350}{error\-Handler} (String message)
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The signature of an electronic content displayer in the Fermilab Dynamic Displays system. This is implemented as a physical monitor attached to a small Linux-\/based P\-C, or as an abstraction for that physical configuration within the G\-U\-I, a.\-k.\-a., \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}{Channel\-Selector}.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 19 of file Display.\-java.
+
 
 
 \subsection{Member Function Documentation}
@@ -150,21 +154,21 @@ the Description
 
 Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa3ac511af5cffdea8fe664ec9f79e0c8}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_afb2e0f2aa3dd741909b329bf7fe743b4}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
 
-\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0ddd8e7cd161e52c853bf4af8c1ae2bd}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-I\-P\-Address@{get\-I\-P\-Address}}
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_afd6500b33d87915eb5f09df692141000}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-I\-P\-Address@{get\-I\-P\-Address}}
 \index{get\-I\-P\-Address@{get\-I\-P\-Address}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
-\subsubsection[{get\-I\-P\-Address}]{\setlength{\rightskip}{0pt plus 5cm}Inet\-Address gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-get\-I\-P\-Address (
+\subsubsection[{get\-I\-P\-Address}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-signage.\-Display.\-get\-I\-P\-Address (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0ddd8e7cd161e52c853bf4af8c1ae2bd}
-What is the I\-P Address of this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display}?
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_afd6500b33d87915eb5f09df692141000}
+What is the I\-P Name of this \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display}{Display}?
 
 \begin{DoxyReturn}{Returns}
-the I\-P number 
+the I\-P name 
 \end{DoxyReturn}
 
 
-Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a76124d9580e72f645acb77257c033389}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a6ecfe0b5c74a7e574ac3770d7428a2b5}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a86f25906887ba6b4c39fd099b0b74b3e}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1UpdateDatabaseForDisplayChannels_a2e49dee6b3facaacf44af23e8324dd6f}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Update\-Database\-For\-Display\-Channels}.
 
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a569a001d11cb30ff98590241d05d88b9}{\index{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}!get\-Location@{get\-Location}}
 \index{get\-Location@{get\-Location}!gov::fnal::ppd::dd::signage::Display@{gov\-::fnal\-::ppd\-::dd\-::signage\-::\-Display}}
@@ -313,4 +317,4 @@ Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1
 
 The documentation for this interface was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/signage/Display.\-java\end{DoxyCompactItemize}
+src/gov/fnal/ppd/dd/signage/\hyperlink{Display_8java}{Display.\-java}\end{DoxyCompactItemize}

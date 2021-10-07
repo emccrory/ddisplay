@@ -21,7 +21,7 @@ var dir_ed956dd60df23b1289ebe679027577e9 =
     [ "ImageChooserTableModel.java", "ImageChooserTableModel_8java.html", [
       [ "ImageChooserTableModel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ImageChooserTableModel.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1ImageChooserTableModel" ]
     ] ],
-    [ "package-info.java", "dd_2channel_2list_2table_2package-info_8java.html", null ],
+    [ "package-info.java", "gov_2fnal_2ppd_2dd_2channel_2list_2table_2package-info_8java.html", null ],
     [ "SelectedChannelsTableModel.java", "SelectedChannelsTableModel_8java.html", [
       [ "SelectedChannelsTableModel", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1SelectedChannelsTableModel.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table_1_1SelectedChannelsTableModel" ]
     ] ]

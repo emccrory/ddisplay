@@ -1,20 +1,6 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase}{\section{gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase}\index{gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database@{gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database}}
 }
-
-
-\subsection{Detailed Description}
-This class does a couple of tasks for displays with respect to the database. 
-\begin{DoxyEnumerate}
-\item Gets the channels that each display is supposed to show for a particular save set. 
-\item Gets the F\-L\-A\-V\-O\-R (gov.\-fnal.\-ppd.\-dd.\-util.\-version.\-Version\-Information.\-F\-L\-A\-V\-O\-R) that this display is supposed to be looking for during an update. This is obtained from the database. 
-\end{DoxyEnumerate}
-
-Note that if a Display is removed and it was saved in a save set, this will throw a silent error.
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation, 2018 
-\end{DoxyAuthor}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -31,6 +17,24 @@ static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabas
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+This class does a couple of tasks for displays with respect to the database. 
+\begin{DoxyEnumerate}
+\item Gets the channels that each display is supposed to show for a particular save set. 
+\item Gets the F\-L\-A\-V\-O\-R (gov.\-fnal.\-ppd.\-dd.\-util.\-version.\-Version\-Information.\-F\-L\-A\-V\-O\-R) that this display is supposed to be looking for during an update. This is obtained from the database. 
+\end{DoxyEnumerate}
+
+Note that if a Display is removed and it was saved in a save set, this will throw a silent error.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation, 2018 
+\end{DoxyAuthor}
+
+
+Definition at line 54 of file Display\-Util\-Database.\-java.
+
+
+
 \subsection{Member Function Documentation}
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_a446a9bd0e9237759231cd69e51c309f1}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}!get\-Display\-Content@{get\-Display\-Content}}
 \index{get\-Display\-Content@{get\-Display\-Content}!gov::fnal::ppd::dd::db::DisplayUtilDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}}
@@ -38,7 +42,7 @@ static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabas
 \begin{DoxyParamCaption}
 \item[{final String}]{set\-Name}
 \end{DoxyParamCaption}
-) throws {\bf No\-Such\-Display\-Exception}\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_a446a9bd0e9237759231cd69e51c309f1}
+) throws {\bf No\-Such\-Display\-Exception}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_a446a9bd0e9237759231cd69e51c309f1}
 Get the save set associated with set\-Name
 
 
@@ -52,13 +56,17 @@ Get the save set associated with set\-Name
 \begin{DoxyReturn}{Returns}
 the content at each display for this save set. 
 \end{DoxyReturn}
+
+
+Definition at line 66 of file Display\-Util\-Database.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af34cf8a1aba7561cc426fa40461042db}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}!get\-Displays@{get\-Displays}}
 \index{get\-Displays@{get\-Displays}!gov::fnal::ppd::dd::db::DisplayUtilDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}}
 \subsubsection[{get\-Displays}]{\setlength{\rightskip}{0pt plus 5cm}static List$<${\bf Display}$>$ gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database.\-get\-Displays (
 \begin{DoxyParamCaption}
 \item[{final int}]{location\-Code}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af34cf8a1aba7561cc426fa40461042db}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af34cf8a1aba7561cc426fa40461042db}
 Return all the displays that exist at the specified location
 
 
@@ -72,13 +80,17 @@ Return all the displays that exist at the specified location
 \begin{DoxyReturn}{Returns}
 The displays at this location 
 \end{DoxyReturn}
+
+
+Definition at line 199 of file Display\-Util\-Database.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af00bdcfa3338d983d8d54c1feb5eb1b5}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}!get\-Flavor\-From\-Database@{get\-Flavor\-From\-Database}}
 \index{get\-Flavor\-From\-Database@{get\-Flavor\-From\-Database}!gov::fnal::ppd::dd::db::DisplayUtilDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}}
 \subsubsection[{get\-Flavor\-From\-Database}]{\setlength{\rightskip}{0pt plus 5cm}static F\-L\-A\-V\-O\-R gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database.\-get\-Flavor\-From\-Database (
 \begin{DoxyParamCaption}
 \item[{String}]{ip\-Name}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af00bdcfa3338d983d8d54c1feb5eb1b5}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af00bdcfa3338d983d8d54c1feb5eb1b5}
 Find out from the database what the F\-L\-A\-V\-O\-R (that is, D\-E\-V\-E\-L\-O\-P\-M\-E\-N\-T, T\-E\-S\-T, or P\-R\-O\-D\-U\-C\-T\-I\-O\-N) that this client is supposed to look for.
 
 
@@ -92,13 +104,17 @@ Find out from the database what the F\-L\-A\-V\-O\-R (that is, D\-E\-V\-E\-L\-O\
 \begin{DoxyReturn}{Returns}
 The F\-L\-A\-V\-O\-R of the version this node is supposed to get 
 \end{DoxyReturn}
+
+
+Definition at line 262 of file Display\-Util\-Database.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_abf232a2d04f1ff79ab71b796aa891164}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}!main@{main}}
 \index{main@{main}!gov::fnal::ppd::dd::db::DisplayUtilDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}}
 \subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database.\-main (
 \begin{DoxyParamCaption}
 \item[{String\mbox{[}$\,$\mbox{]}}]{args}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_abf232a2d04f1ff79ab71b796aa891164}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_abf232a2d04f1ff79ab71b796aa891164}
 A wrapper for the method get\-Flavor\-From\-Database. This allows this class to be used to retrieve that flavor for a node.
 
 
@@ -106,13 +122,17 @@ A wrapper for the method get\-Flavor\-From\-Database. This allows this class to 
 {\em args} & (No arguments are used) \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 295 of file Display\-Util\-Database.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af822fc88bb63cd8996c336f75e550813}{\index{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}!save\-Default\-Channels@{save\-Default\-Channels}}
 \index{save\-Default\-Channels@{save\-Default\-Channels}!gov::fnal::ppd::dd::db::DisplayUtilDatabase@{gov\-::fnal\-::ppd\-::dd\-::db\-::\-Display\-Util\-Database}}
 \subsubsection[{save\-Default\-Channels}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-db.\-Display\-Util\-Database.\-save\-Default\-Channels (
 \begin{DoxyParamCaption}
 \item[{String}]{s}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af822fc88bb63cd8996c336f75e550813}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1DisplayUtilDatabase_af822fc88bb63cd8996c336f75e550813}
 Save a set of default channels in A\-L\-L of the displays in this location to the database. It reads the present content from these displays and saves that as this set.
 
 
@@ -122,6 +142,10 @@ Save a set of default channels in A\-L\-L of the displays in this location to th
 \end{DoxyParams}
 
 
+Definition at line 155 of file Display\-Util\-Database.\-java.
+
+
+
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/db/Display\-Util\-Database.\-java\end{DoxyCompactItemize}
+src/gov/fnal/ppd/dd/db/\hyperlink{DisplayUtilDatabase_8java}{Display\-Util\-Database.\-java}\end{DoxyCompactItemize}

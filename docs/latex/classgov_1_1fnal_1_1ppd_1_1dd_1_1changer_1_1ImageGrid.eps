@@ -5,7 +5,7 @@
 %%For: 
 %Magnification: 1.00
 %%Orientation: Portrait
-%%BoundingBox: 0 0 500 135.135135
+%%BoundingBox: 0 0 500 148.148148
 %%Pages: 0
 %%BeginSetup
 %%EndSetup
@@ -19,7 +19,7 @@
 /marginwidth 10 def
 /distx 20 def
 /disty 40 def
-/boundaspect 3.700000 def  % aspect ratio of the BoundingBox (width/height)
+/boundaspect 3.375000 def  % aspect ratio of the BoundingBox (width/height)
 /boundx 500 def
 /boundy boundx boundaspect div def
 /xspacing 0 def
@@ -174,7 +174,7 @@
 boxfont setfont
 1 boundaspect scale
 (gov.fnal.ppd.dd.changer.ImageGrid) cw
-(gov.fnal.ppd.dd.changer.DetailedInformationGrid) cw
+(gov.fnal.ppd.dd.changer.FullChannelGrid) cw
 (gov.fnal.ppd.dd.changer.ChannelButtonGrid) cw
 (JPanel) cw
 (ActionListener) cw
@@ -190,7 +190,7 @@ boundx scalefactor div boundy scalefactor div scale
 % ----- classes -----
 
  (gov.fnal.ppd.dd.changer.ImageGrid) 0.500000 0.000000 box
- (gov.fnal.ppd.dd.changer.DetailedInformationGrid) 0.500000 1.000000 box
+ (gov.fnal.ppd.dd.changer.FullChannelGrid) 0.500000 1.000000 box
  (gov.fnal.ppd.dd.changer.ChannelButtonGrid) 0.500000 2.000000 box
  (JPanel) 0.000000 3.000000 box
  (ActionListener) 1.000000 3.000000 box

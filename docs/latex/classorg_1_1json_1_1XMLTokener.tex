@@ -1,15 +1,6 @@
 \hypertarget{classorg_1_1json_1_1XMLTokener}{\section{org.\-json.\-X\-M\-L\-Tokener Class Reference}
 \label{classorg_1_1json_1_1XMLTokener}\index{org.\-json.\-X\-M\-L\-Tokener@{org.\-json.\-X\-M\-L\-Tokener}}
 }
-
-
-\subsection{Detailed Description}
-The \hyperlink{classorg_1_1json_1_1XMLTokener}{X\-M\-L\-Tokener} extends the \hyperlink{classorg_1_1json_1_1JSONTokener}{J\-S\-O\-N\-Tokener} to provide additional methods for the parsing of \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} texts. \begin{DoxyAuthor}{Author}
-J\-S\-O\-N.\-org 
-\end{DoxyAuthor}
-\begin{DoxyVersion}{Version}
-2015-\/12-\/09 
-\end{DoxyVersion}
 Inheritance diagram for org.\-json.\-X\-M\-L\-Tokener\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -42,6 +33,19 @@ $<$ String, Character $>$ \hyperlink{classorg_1_1json_1_1XMLTokener_a5a02386c42d
 \subsection*{Additional Inherited Members}
 
 
+\subsection{Detailed Description}
+The \hyperlink{classorg_1_1json_1_1XMLTokener}{X\-M\-L\-Tokener} extends the \hyperlink{classorg_1_1json_1_1JSONTokener}{J\-S\-O\-N\-Tokener} to provide additional methods for the parsing of \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} texts. \begin{DoxyAuthor}{Author}
+J\-S\-O\-N.\-org 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2015-\/12-\/09 
+\end{DoxyVersion}
+
+
+Definition at line 33 of file X\-M\-L\-Tokener.\-java.
+
+
+
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classorg_1_1json_1_1XMLTokener_a43ba71b6376938f07b4781fb6c66a7ac}{\index{org\-::json\-::\-X\-M\-L\-Tokener@{org\-::json\-::\-X\-M\-L\-Tokener}!X\-M\-L\-Tokener@{X\-M\-L\-Tokener}}
 \index{X\-M\-L\-Tokener@{X\-M\-L\-Tokener}!org::json::XMLTokener@{org\-::json\-::\-X\-M\-L\-Tokener}}
@@ -49,12 +53,16 @@ $<$ String, Character $>$ \hyperlink{classorg_1_1json_1_1XMLTokener_a5a02386c42d
 \begin{DoxyParamCaption}
 \item[{String}]{s}
 \end{DoxyParamCaption}
-)}}\label{classorg_1_1json_1_1XMLTokener_a43ba71b6376938f07b4781fb6c66a7ac}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1XMLTokener_a43ba71b6376938f07b4781fb6c66a7ac}
 Construct an \hyperlink{classorg_1_1json_1_1XMLTokener}{X\-M\-L\-Tokener} from a string. 
 \begin{DoxyParams}{Parameters}
 {\em s} & A source string. \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 54 of file X\-M\-L\-Tokener.\-java.
+
 
 
 \subsection{Member Function Documentation}
@@ -64,7 +72,7 @@ Construct an \hyperlink{classorg_1_1json_1_1XMLTokener}{X\-M\-L\-Tokener} from a
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1XMLTokener_a0f321a2fa10eb19c08d05cf17cfa4e54}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1XMLTokener_a0f321a2fa10eb19c08d05cf17cfa4e54}
 Get the text in the C\-D\-A\-T\-A block. \begin{DoxyReturn}{Returns}
 The string up to the {\ttfamily \mbox{]}\mbox{]}$>$}. 
 \end{DoxyReturn}
@@ -73,13 +81,17 @@ The string up to the {\ttfamily \mbox{]}\mbox{]}$>$}.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the {\ttfamily \mbox{]}\mbox{]}$>$} is not found. \\
 \hline
 \end{DoxyExceptions}
+
+
+Definition at line 63 of file X\-M\-L\-Tokener.\-java.
+
 \hypertarget{classorg_1_1json_1_1XMLTokener_a356e0c4bb50197720b5eb638783b632c}{\index{org\-::json\-::\-X\-M\-L\-Tokener@{org\-::json\-::\-X\-M\-L\-Tokener}!next\-Content@{next\-Content}}
 \index{next\-Content@{next\-Content}!org::json::XMLTokener@{org\-::json\-::\-X\-M\-L\-Tokener}}
 \subsubsection[{next\-Content}]{\setlength{\rightskip}{0pt plus 5cm}Object org.\-json.\-X\-M\-L\-Tokener.\-next\-Content (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1XMLTokener_a356e0c4bb50197720b5eb638783b632c}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1XMLTokener_a356e0c4bb50197720b5eb638783b632c}
 Get the next \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} outer token, trimming whitespace. There are two kinds of tokens\-: the '$<$' character which begins a markup tag, and the content text between markup tags.
 
 \begin{DoxyReturn}{Returns}
@@ -90,13 +102,17 @@ A string, or a '$<$' Character, or null if there is no more source text.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & \\
 \hline
 \end{DoxyExceptions}
+
+
+Definition at line 90 of file X\-M\-L\-Tokener.\-java.
+
 \hypertarget{classorg_1_1json_1_1XMLTokener_aa67ac8eb561a438290fad648fd295fd5}{\index{org\-::json\-::\-X\-M\-L\-Tokener@{org\-::json\-::\-X\-M\-L\-Tokener}!next\-Entity@{next\-Entity}}
 \index{next\-Entity@{next\-Entity}!org::json::XMLTokener@{org\-::json\-::\-X\-M\-L\-Tokener}}
 \subsubsection[{next\-Entity}]{\setlength{\rightskip}{0pt plus 5cm}Object org.\-json.\-X\-M\-L\-Tokener.\-next\-Entity (
 \begin{DoxyParamCaption}
 \item[{char}]{ampersand}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1XMLTokener_aa67ac8eb561a438290fad648fd295fd5}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1XMLTokener_aa67ac8eb561a438290fad648fd295fd5}
 Return the next entity. These entities are translated to Characters\-: {\ttfamily \& ' $>$ $<$ "}. 
 \begin{DoxyParams}{Parameters}
 {\em ampersand} & An ampersand character. \\
@@ -110,13 +126,17 @@ A Character or an entity String if the entity is not recognized.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If missing ';' in \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} entity. \\
 \hline
 \end{DoxyExceptions}
+
+
+Definition at line 128 of file X\-M\-L\-Tokener.\-java.
+
 \hypertarget{classorg_1_1json_1_1XMLTokener_aa36d5f6baf25f85fef0468fadcc3b8ff}{\index{org\-::json\-::\-X\-M\-L\-Tokener@{org\-::json\-::\-X\-M\-L\-Tokener}!next\-Meta@{next\-Meta}}
 \index{next\-Meta@{next\-Meta}!org::json::XMLTokener@{org\-::json\-::\-X\-M\-L\-Tokener}}
 \subsubsection[{next\-Meta}]{\setlength{\rightskip}{0pt plus 5cm}Object org.\-json.\-X\-M\-L\-Tokener.\-next\-Meta (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1XMLTokener_aa36d5f6baf25f85fef0468fadcc3b8ff}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1XMLTokener_aa36d5f6baf25f85fef0468fadcc3b8ff}
 Returns the next \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} meta token. This is used for skipping over $<$!...$>$ and $<$?...?$>$ structures. \begin{DoxyReturn}{Returns}
 Syntax characters ({\ttfamily $<$ $>$ / = ! ?}) are returned as Character, and strings and names are returned as Boolean. We don't care what the values actually are. 
 \end{DoxyReturn}
@@ -125,13 +145,17 @@ Syntax characters ({\ttfamily $<$ $>$ / = ! ?}) are returned as Character, and s
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If a string is not properly closed or if the \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} is badly structured. \\
 \hline
 \end{DoxyExceptions}
+
+
+Definition at line 184 of file X\-M\-L\-Tokener.\-java.
+
 \hypertarget{classorg_1_1json_1_1XMLTokener_a654e38e5abe2ad37e10f968613dab875}{\index{org\-::json\-::\-X\-M\-L\-Tokener@{org\-::json\-::\-X\-M\-L\-Tokener}!next\-Token@{next\-Token}}
 \index{next\-Token@{next\-Token}!org::json::XMLTokener@{org\-::json\-::\-X\-M\-L\-Tokener}}
 \subsubsection[{next\-Token}]{\setlength{\rightskip}{0pt plus 5cm}Object org.\-json.\-X\-M\-L\-Tokener.\-next\-Token (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-) throws {\bf J\-S\-O\-N\-Exception}}}\label{classorg_1_1json_1_1XMLTokener_a654e38e5abe2ad37e10f968613dab875}
+) throws {\bf J\-S\-O\-N\-Exception}\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1XMLTokener_a654e38e5abe2ad37e10f968613dab875}
 Get the next \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} Token. These tokens are found inside of angle brackets. It may be one of these characters\-: {\ttfamily / $>$ = ! ?} or it may be a string wrapped in single quotes or double quotes, or it may be a name. \begin{DoxyReturn}{Returns}
 a String or a Character. 
 \end{DoxyReturn}
@@ -140,18 +164,26 @@ a String or a Character.
 {\em \hyperlink{classorg_1_1json_1_1JSONException}{J\-S\-O\-N\-Exception}} & If the \hyperlink{classorg_1_1json_1_1XML}{X\-M\-L} is not well formed. \\
 \hline
 \end{DoxyExceptions}
+
+
+Definition at line 249 of file X\-M\-L\-Tokener.\-java.
+
 \hypertarget{classorg_1_1json_1_1XMLTokener_ae07153a6cfc7008a20c9d641652d6dea}{\index{org\-::json\-::\-X\-M\-L\-Tokener@{org\-::json\-::\-X\-M\-L\-Tokener}!skip\-Past@{skip\-Past}}
 \index{skip\-Past@{skip\-Past}!org::json::XMLTokener@{org\-::json\-::\-X\-M\-L\-Tokener}}
 \subsubsection[{skip\-Past}]{\setlength{\rightskip}{0pt plus 5cm}void org.\-json.\-X\-M\-L\-Tokener.\-skip\-Past (
 \begin{DoxyParamCaption}
 \item[{String}]{to}
 \end{DoxyParamCaption}
-)}}\label{classorg_1_1json_1_1XMLTokener_ae07153a6cfc7008a20c9d641652d6dea}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classorg_1_1json_1_1XMLTokener_ae07153a6cfc7008a20c9d641652d6dea}
 Skip characters until past the requested string. If it is not found, we are left at the end of the source with a result of false. 
 \begin{DoxyParams}{Parameters}
 {\em to} & A string to skip past. \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 333 of file X\-M\-L\-Tokener.\-java.
+
 
 
 \subsection{Member Data Documentation}
@@ -160,6 +192,10 @@ Skip characters until past the requested string. If it is not found, we are left
 \subsubsection[{entity}]{\setlength{\rightskip}{0pt plus 5cm}final java.\-util.\-Hash\-Map$<$String, Character$>$ org.\-json.\-X\-M\-L\-Tokener.\-entity\hspace{0.3cm}{\ttfamily [static]}}}\label{classorg_1_1json_1_1XMLTokener_a5a02386c42df34f43f756dd46c03a6ea}
 The table of entity values. It initially contains Character values for amp, apos, gt, lt, quot. 
 
+Definition at line 39 of file X\-M\-L\-Tokener.\-java.
+
+
+
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/org/json/X\-M\-L\-Tokener.\-java\end{DoxyCompactItemize}
+src/org/json/\hyperlink{XMLTokener_8java}{X\-M\-L\-Tokener.\-java}\end{DoxyCompactItemize}

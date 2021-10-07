@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -141,269 +141,268 @@ $(document).ready(function(){initNavTree('ChannelImpl_8java_source.html','');});
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">private</span> <span class="keywordtype">long</span>                    expiration          = 0L;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">private</span> <span class="keywordtype">int</span>                     code                = 0;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class </span>Builder {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="comment">// This is not used, but I discovered this nifty way to create an object and decided to place it here for posterity.</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="comment">// example:</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="comment">// ChannelImpl c = new ChannelImpl.builder(&quot;The name&quot;)</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="comment">// .withDescription (&quot;The description of this channel&quot;)</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="comment">// .withURI (new URI(&quot;https://some.webpage.com/page.html&quot;))</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="comment">// .dwells (200000L)</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="comment">// .withChannelNumber(42)</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="comment">// .build();</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">// Not the lack of ambiguity as to the meaning of the arguments, and that the order of the arguments is irrelevant as</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">// long as the name is in the constructor and it ends with .build()</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">// (but the compiler will flag it most of the time if you get it wrong)</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">private</span> <span class="keyword">final</span> String            name;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keyword">private</span> String                  desc        = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">private</span> URI                     uri         = null;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">private</span> <span class="keywordtype">int</span>                     num         = 0;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keyword">private</span> <span class="keywordtype">long</span>                    dwell       = 0;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a>   category    = <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html#aff2ea773d09e0647abdcb5642bbbec0b">ChannelClassification.MISCELLANEOUS</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class </span>Builder {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="comment">// This is not used, but I discovered this nifty way to create an object and decided to place it here for posterity.</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="comment">// example:</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">// ChannelImpl c = new ChannelImpl.builder(&quot;The name&quot;)</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">// .withDescription (&quot;The description of this channel&quot;)</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">// .withURI (new URI(&quot;https://some.webpage.com/page.html&quot;))</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment">// .dwells (200000L)</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment">// .withChannelNumber(42)</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="comment">// .build();</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment">// Note the lack of ambiguity as to the meaning of the arguments, and that the order of the arguments is irrelevant as</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment">// long as the name is in the constructor and it ends with .build()</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="comment">// (but the compiler will flag it most of the time if you get it wrong)</span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">public</span> Builder(String name) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            this.name = name;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keyword">public</span> Builder withDescription(String desc) {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            this.desc = desc;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keyword">public</span> Builder withURI(<span class="keyword">final</span> URI uri) {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            this.uri = uri;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keyword">public</span> Builder withChanNumber(<span class="keywordtype">int</span> num) {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            this.num = num;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keyword">public</span> Builder dwells(<span class="keywordtype">long</span> dwell) {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keywordflow">if</span> (dwell &lt; 0)</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                dwell = 0;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            this.dwell = dwell;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">private</span> <span class="keyword">final</span> String            name;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">private</span> String                  desc        = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">private</span> URI                     uri         = null;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">private</span> <span class="keywordtype">int</span>                     num         = 0;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keyword">private</span> <span class="keywordtype">long</span>                    dwell       = 0;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a>   category    = <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html#aff2ea773d09e0647abdcb5642bbbec0b">ChannelClassification.MISCELLANEOUS</a>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">public</span> Builder(String name) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            this.name = name;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keyword">public</span> Builder withDescription(String desc) {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            this.desc = desc;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keyword">public</span> Builder withURI(<span class="keyword">final</span> URI uri) {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            this.uri = uri;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keyword">public</span> Builder withChanNumber(<span class="keywordtype">int</span> num) {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            this.num = num;</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keyword">public</span> Builder classification(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> category) {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            this.category = category;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html">ChannelImpl</a> build() {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordflow">if</span> (num &lt;= 0)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> RuntimeException(<span class="stringliteral">&quot;The channel number must be positive-definite&quot;</span>);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">if</span> (uri == null)</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> RuntimeException(<span class="stringliteral">&quot;The URL for a channel cannot be null&quot;</span>);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0136bf00463f15803ac336ede9dd22ef">ChannelImpl</a>(name, category, desc, uri, num, dwell);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        }</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0136bf00463f15803ac336ede9dd22ef">  117</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0136bf00463f15803ac336ede9dd22ef">ChannelImpl</a>(<span class="keyword">final</span> String name, <span class="keyword">final</span> String description, <span class="keyword">final</span> URI uri, <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>, <span class="keyword">final</span> <span class="keywordtype">long</span> dwellTime) {</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keyword">this</span>(name, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html#aff2ea773d09e0647abdcb5642bbbec0b">ChannelClassification.MISCELLANEOUS</a>, description, uri, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>, dwellTime);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    }</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a3841b129f361c795ca8f05bd33b14ae8">  136</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a3841b129f361c795ca8f05bd33b14ae8">ChannelImpl</a>(<span class="keyword">final</span> String name, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> category, <span class="keyword">final</span> String description, <span class="keyword">final</span> URI uri, <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>,</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            <span class="keyword">final</span> <span class="keywordtype">long</span> dwellTime) {</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        assert (name != null);</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        assert (number &gt; 0);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        this.name = name;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        this.number = <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        this.category = category;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">if</span> (description != null)</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            this.description = description;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            this.description = <span class="stringliteral">&quot;This is the &#39;&quot;</span> + name + <span class="stringliteral">&quot;&#39; channel&quot;</span>;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        this.uri = uri;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        this.time = dwellTime;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    }</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
-<div class="line"><a name="l00156"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa613d61797497d882a495bc8cb361294">  156</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa613d61797497d882a495bc8cb361294">ChannelImpl</a>(<span class="keyword">final</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">SignageContent</a> c) {</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        this.name = c.getName();</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        this.category = c.getChannelClassification();</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        this.time = c.getTime();</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        this.description = c.getDescription();</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        this.uri = c.getURI();</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        this.time = c.getTime();</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        this.code = c.getCode();</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="keywordflow">if</span> (c instanceof <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel.html">Channel</a>) {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            this.number = ((Channel) c).getNumber();</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        }</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    }</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
-<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#afdf0ebebdeb8dce27f58bb59da71dc7d">  170</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#afdf0ebebdeb8dce27f58bb59da71dc7d">getName</a>() {</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="keywordflow">return</span> name;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    }</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
-<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa990515286ca3d8245b15b3f50989714">  174</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa990515286ca3d8245b15b3f50989714">getDescription</a>() {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keywordflow">return</span> description;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    }</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
-<div class="line"><a name="l00181"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abf99f1bbe72901a00d1d39228f02cff1">  181</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abf99f1bbe72901a00d1d39228f02cff1">getChannelClassification</a>() {</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="keywordflow">return</span> category;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    }</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="comment">/*</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="comment">     * (non-Javadoc)</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="comment">     * </span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment">     * @see java.lang.Object#hashCode()</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    @Override</div>
-<div class="line"><a name="l00191"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aab7741e5c01a8e946c8bf6e9618d0476">  191</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aab7741e5c01a8e946c8bf6e9618d0476">hashCode</a>() {</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="keyword">final</span> <span class="keywordtype">int</span> prime = 31;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keywordtype">int</span> result = 1;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="comment">// result = prime * result + frameNumber;</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        result = prime * result + ((name == null) ? 0 : name.hashCode());</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        result = prime * result + <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        result = prime * result + ((uri == null) ? 0 : uri.hashCode());</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    }</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="comment">/*</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="comment">     * (non-Javadoc)</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="comment">     * </span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="comment">     * @see java.lang.Object#equals(java.lang.Object)</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    @Override</div>
-<div class="line"><a name="l00207"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af275bb3e62de9af3316698cd7c2074be">  207</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af275bb3e62de9af3316698cd7c2074be">equals</a>(Object obj) {</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">this</span> == obj)</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <span class="keywordflow">if</span> (obj == null)</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <span class="keywordflow">if</span> (!(obj instanceof <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html">ChannelImpl</a>))</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        ChannelImpl other = (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0136bf00463f15803ac336ede9dd22ef">ChannelImpl</a>) obj;</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        <span class="comment">// if (frameNumber != other.frameNumber)</span></div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="comment">// return false;</span></div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <span class="keywordflow">if</span> (name == null) {</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <span class="keywordflow">if</span> (other.name != null)</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!name.equals(other.name))</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a> != other.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>)</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordflow">if</span> (uri == null) {</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="keywordflow">if</span> (other.uri != null)</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!uri.equals(other.uri))</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    }</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
-<div class="line"><a name="l00232"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a4af4ac34390c96d255e9483dfa5ad5d6">  232</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a4af4ac34390c96d255e9483dfa5ad5d6">toString</a>() {</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#afdf0ebebdeb8dce27f58bb59da71dc7d">getName</a>();</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    }</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;</div>
-<div class="line"><a name="l00236"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9d5fbb02930a03147b1240db1371c57a">  236</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9d5fbb02930a03147b1240db1371c57a">getNumber</a>() {</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    }</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    </div>
-<div class="line"><a name="l00240"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af4d05e867b9f3f62c56b5d06f69889f7">  240</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af4d05e867b9f3f62c56b5d06f69889f7">setNumber</a>(<span class="keywordtype">int</span> n) {</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a> = n;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    }</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    @Override</div>
-<div class="line"><a name="l00245"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9004e74f2476cb8f7a4d56285d49ba45">  245</a></span>&#160;    <span class="keyword">public</span> URI <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9004e74f2476cb8f7a4d56285d49ba45">getURI</a>() {</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="keywordflow">return</span> uri;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    }</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    @Override</div>
-<div class="line"><a name="l00250"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0d227de9590cc6ce476497c8f919f2e4">  250</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0d227de9590cc6ce476497c8f919f2e4">setName</a>(String name) {</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        this.name = name;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    }</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    @Override</div>
-<div class="line"><a name="l00255"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abb1380a6a0403aa8b3603d39cdc38ea4">  255</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abb1380a6a0403aa8b3603d39cdc38ea4">setDescription</a>(String d) {</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        this.description = d;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    }</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    @Override</div>
-<div class="line"><a name="l00260"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a4e64970f8cfaf5c9fabe173feb40a0d4">  260</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a4e64970f8cfaf5c9fabe173feb40a0d4">setChannelClassification</a>(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> c) {</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        this.category = c;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    }</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    @Override</div>
-<div class="line"><a name="l00265"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a685f3caf0f4e3d501e68c55794f38111">  265</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a685f3caf0f4e3d501e68c55794f38111">setURI</a>(URI i) {</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        this.uri = i;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    }</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    @Override</div>
-<div class="line"><a name="l00270"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa2d5c561810b90f2401e5da2c1972774">  270</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">long</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa2d5c561810b90f2401e5da2c1972774">getTime</a>() {</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        <span class="keywordflow">return</span> time;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    }</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    @Override</div>
-<div class="line"><a name="l00275"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae5c03927d8473ecae11b4002395da886">  275</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae5c03927d8473ecae11b4002395da886">setTime</a>(<span class="keywordtype">long</span> time) {</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        this.time = time;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    }</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    @Override</div>
-<div class="line"><a name="l00280"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ab7c659985471afada6dece70c1d75b61">  280</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ab7c659985471afada6dece70c1d75b61">getCode</a>() {</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <span class="keywordflow">return</span> code;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    }</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    @Override</div>
-<div class="line"><a name="l00285"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa13af9f5763f97581ec533f91e380906">  285</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa13af9f5763f97581ec533f91e380906">setCode</a>(<span class="keywordtype">int</span> n) {</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        this.code = n;</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    }</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    @Override</div>
-<div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af509fea6b9340b85522025b70cc4e64e">  290</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">long</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af509fea6b9340b85522025b70cc4e64e">getExpiration</a>() {</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        <span class="keywordflow">return</span> expiration;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    }</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    @Override</div>
-<div class="line"><a name="l00295"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9428ab2c22c4272e97c2251eb38e8b2e">  295</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9428ab2c22c4272e97c2251eb38e8b2e">setExpiration</a>(<span class="keywordtype">long</span> expire) {</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        this.expiration = expire;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    }</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;</div>
-<div class="line"><a name="l00302"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abfc920cea3e8ce7156aad3d9a87213c8">  302</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">long</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abfc920cea3e8ce7156aad3d9a87213c8">getChecksum</a>() {</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        Checksum checksum = <span class="keyword">new</span> CRC32();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keyword">public</span> Builder dwells(<span class="keywordtype">long</span> dwell) {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">if</span> (dwell &lt; 0)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                dwell = 0;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            this.dwell = dwell;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keyword">public</span> Builder classification(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> category) {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            this.category = category;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html">ChannelImpl</a> build() {</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="keywordflow">if</span> (num &lt;= 0)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> RuntimeException(<span class="stringliteral">&quot;The channel number must be positive-definite&quot;</span>);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordflow">if</span> (uri == null)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> RuntimeException(<span class="stringliteral">&quot;The URL for a channel cannot be null&quot;</span>);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0136bf00463f15803ac336ede9dd22ef">ChannelImpl</a>(name, category, desc, uri, num, dwell);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0136bf00463f15803ac336ede9dd22ef">  124</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0136bf00463f15803ac336ede9dd22ef">ChannelImpl</a>(<span class="keyword">final</span> String name, <span class="keyword">final</span> String description, <span class="keyword">final</span> URI uri, <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>, <span class="keyword">final</span> <span class="keywordtype">long</span> dwellTime) {</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keyword">this</span>(name, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html#aff2ea773d09e0647abdcb5642bbbec0b">ChannelClassification.MISCELLANEOUS</a>, description, uri, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>, dwellTime);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a3841b129f361c795ca8f05bd33b14ae8">  143</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a3841b129f361c795ca8f05bd33b14ae8">ChannelImpl</a>(<span class="keyword">final</span> String name, <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> category, <span class="keyword">final</span> String description, <span class="keyword">final</span> URI uri, <span class="keyword">final</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>,</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keyword">final</span> <span class="keywordtype">long</span> dwellTime) {</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        assert (name != null);</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        this.name = name;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        this.number = <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        this.category = category;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">if</span> (description != null)</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            this.description = description;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            this.description = <span class="stringliteral">&quot;This is the &#39;&quot;</span> + name + <span class="stringliteral">&quot;&#39; channel&quot;</span>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        this.uri = uri;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        this.time = dwellTime;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    }</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa613d61797497d882a495bc8cb361294">  162</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa613d61797497d882a495bc8cb361294">ChannelImpl</a>(<span class="keyword">final</span> <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">SignageContent</a> c) {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        this.name = c.getName();</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        this.category = c.getChannelClassification();</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        this.time = c.getTime();</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        this.description = c.getDescription();</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        this.uri = c.getURI();</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        this.time = c.getTime();</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        this.code = c.getCode();</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="keywordflow">if</span> (c instanceof <a class="code" href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel.html">Channel</a>) {</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            this.number = ((Channel) c).getNumber();</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        }</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    }</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
+<div class="line"><a name="l00176"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#afdf0ebebdeb8dce27f58bb59da71dc7d">  176</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#afdf0ebebdeb8dce27f58bb59da71dc7d">getName</a>() {</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keywordflow">return</span> name;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    }</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;</div>
+<div class="line"><a name="l00180"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa990515286ca3d8245b15b3f50989714">  180</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa990515286ca3d8245b15b3f50989714">getDescription</a>() {</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <span class="keywordflow">return</span> description;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    }</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
+<div class="line"><a name="l00187"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abf99f1bbe72901a00d1d39228f02cff1">  187</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abf99f1bbe72901a00d1d39228f02cff1">getChannelClassification</a>() {</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keywordflow">return</span> category;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    }</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="comment">/*</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="comment">     * (non-Javadoc)</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="comment">     * </span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="comment">     * @see java.lang.Object#hashCode()</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    @Override</div>
+<div class="line"><a name="l00197"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aab7741e5c01a8e946c8bf6e9618d0476">  197</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aab7741e5c01a8e946c8bf6e9618d0476">hashCode</a>() {</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        <span class="keyword">final</span> <span class="keywordtype">int</span> prime = 31;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        <span class="keywordtype">int</span> result = 1;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="comment">// result = prime * result + frameNumber;</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        result = prime * result + ((name == null) ? 0 : name.hashCode());</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        result = prime * result + <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        result = prime * result + ((uri == null) ? 0 : uri.hashCode());</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    }</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="comment">/*</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="comment">     * (non-Javadoc)</span></div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="comment">     * </span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="comment">     * @see java.lang.Object#equals(java.lang.Object)</span></div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    @Override</div>
+<div class="line"><a name="l00213"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af275bb3e62de9af3316698cd7c2074be">  213</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af275bb3e62de9af3316698cd7c2074be">equals</a>(Object obj) {</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">this</span> == obj)</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keywordflow">if</span> (obj == null)</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="keywordflow">if</span> (!(obj instanceof <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html">ChannelImpl</a>))</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        ChannelImpl other = (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0136bf00463f15803ac336ede9dd22ef">ChannelImpl</a>) obj;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="comment">// if (frameNumber != other.frameNumber)</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        <span class="comment">// return false;</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        <span class="keywordflow">if</span> (name == null) {</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="keywordflow">if</span> (other.name != null)</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!name.equals(other.name))</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a> != other.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>)</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="keywordflow">if</span> (uri == null) {</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            <span class="keywordflow">if</span> (other.uri != null)</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!uri.equals(other.uri))</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    }</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;</div>
+<div class="line"><a name="l00238"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a4af4ac34390c96d255e9483dfa5ad5d6">  238</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a4af4ac34390c96d255e9483dfa5ad5d6">toString</a>() {</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#afdf0ebebdeb8dce27f58bb59da71dc7d">getName</a>();</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    }</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;</div>
+<div class="line"><a name="l00242"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9d5fbb02930a03147b1240db1371c57a">  242</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9d5fbb02930a03147b1240db1371c57a">getNumber</a>() {</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a>;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    }</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    </div>
+<div class="line"><a name="l00246"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af4d05e867b9f3f62c56b5d06f69889f7">  246</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af4d05e867b9f3f62c56b5d06f69889f7">setNumber</a>(<span class="keywordtype">int</span> n) {</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">number</a> = n;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    }</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    @Override</div>
+<div class="line"><a name="l00251"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9004e74f2476cb8f7a4d56285d49ba45">  251</a></span>&#160;    <span class="keyword">public</span> URI <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9004e74f2476cb8f7a4d56285d49ba45">getURI</a>() {</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="keywordflow">return</span> uri;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    }</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    @Override</div>
+<div class="line"><a name="l00256"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0d227de9590cc6ce476497c8f919f2e4">  256</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0d227de9590cc6ce476497c8f919f2e4">setName</a>(String name) {</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        this.name = name;</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    }</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    @Override</div>
+<div class="line"><a name="l00261"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abb1380a6a0403aa8b3603d39cdc38ea4">  261</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abb1380a6a0403aa8b3603d39cdc38ea4">setDescription</a>(String d) {</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        this.description = d;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    }</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    @Override</div>
+<div class="line"><a name="l00266"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a4e64970f8cfaf5c9fabe173feb40a0d4">  266</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a4e64970f8cfaf5c9fabe173feb40a0d4">setChannelClassification</a>(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a> c) {</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        this.category = c;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    }</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    @Override</div>
+<div class="line"><a name="l00271"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a685f3caf0f4e3d501e68c55794f38111">  271</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a685f3caf0f4e3d501e68c55794f38111">setURI</a>(URI i) {</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        this.uri = i;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    }</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    @Override</div>
+<div class="line"><a name="l00276"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa2d5c561810b90f2401e5da2c1972774">  276</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">long</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa2d5c561810b90f2401e5da2c1972774">getTime</a>() {</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        <span class="keywordflow">return</span> time;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    }</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    @Override</div>
+<div class="line"><a name="l00281"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae5c03927d8473ecae11b4002395da886">  281</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae5c03927d8473ecae11b4002395da886">setTime</a>(<span class="keywordtype">long</span> time) {</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        this.time = time;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    }</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    @Override</div>
+<div class="line"><a name="l00286"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ab7c659985471afada6dece70c1d75b61">  286</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ab7c659985471afada6dece70c1d75b61">getCode</a>() {</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        <span class="keywordflow">return</span> code;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    }</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    @Override</div>
+<div class="line"><a name="l00291"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa13af9f5763f97581ec533f91e380906">  291</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa13af9f5763f97581ec533f91e380906">setCode</a>(<span class="keywordtype">int</span> n) {</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        this.code = n;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    }</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    @Override</div>
+<div class="line"><a name="l00296"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af509fea6b9340b85522025b70cc4e64e">  296</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">long</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af509fea6b9340b85522025b70cc4e64e">getExpiration</a>() {</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        <span class="keywordflow">return</span> expiration;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    }</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    @Override</div>
+<div class="line"><a name="l00301"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9428ab2c22c4272e97c2251eb38e8b2e">  301</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9428ab2c22c4272e97c2251eb38e8b2e">setExpiration</a>(<span class="keywordtype">long</span> expire) {</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        this.expiration = expire;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    }</div>
 <div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        byte bytes[] = uri.toASCIIString().getBytes();</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="comment">// update the current checksum with the specified array of bytes</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        checksum.update(bytes, 0, bytes.length);</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        <span class="comment">// get the current checksum value</span></div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        <span class="keywordflow">return</span> checksum.getValue();</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    }</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_af4d05e867b9f3f62c56b5d06f69889f7"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af4d05e867b9f3f62c56b5d06f69889f7">gov.fnal.ppd.dd.channel.ChannelImpl.setNumber</a></div><div class="ttdeci">void setNumber(int n)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00240">ChannelImpl.java:240</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_aab7741e5c01a8e946c8bf6e9618d0476"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aab7741e5c01a8e946c8bf6e9618d0476">gov.fnal.ppd.dd.channel.ChannelImpl.hashCode</a></div><div class="ttdeci">int hashCode()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00191">ChannelImpl.java:191</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_abf99f1bbe72901a00d1d39228f02cff1"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abf99f1bbe72901a00d1d39228f02cff1">gov.fnal.ppd.dd.channel.ChannelImpl.getChannelClassification</a></div><div class="ttdeci">ChannelClassification getChannelClassification()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00181">ChannelImpl.java:181</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a9428ab2c22c4272e97c2251eb38e8b2e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9428ab2c22c4272e97c2251eb38e8b2e">gov.fnal.ppd.dd.channel.ChannelImpl.setExpiration</a></div><div class="ttdeci">void setExpiration(long expire)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00295">ChannelImpl.java:295</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_aa13af9f5763f97581ec533f91e380906"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa13af9f5763f97581ec533f91e380906">gov.fnal.ppd.dd.channel.ChannelImpl.setCode</a></div><div class="ttdeci">void setCode(int n)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00285">ChannelImpl.java:285</a></div></div>
+<div class="line"><a name="l00308"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abfc920cea3e8ce7156aad3d9a87213c8">  308</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">long</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abfc920cea3e8ce7156aad3d9a87213c8">getChecksum</a>() {</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        Checksum checksum = <span class="keyword">new</span> CRC32();</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        byte bytes[] = uri.toASCIIString().getBytes();</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        <span class="comment">// update the current checksum with the specified array of bytes</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        checksum.update(bytes, 0, bytes.length);</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        <span class="comment">// get the current checksum value</span></div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        <span class="keywordflow">return</span> checksum.getValue();</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    }</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_af4d05e867b9f3f62c56b5d06f69889f7"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af4d05e867b9f3f62c56b5d06f69889f7">gov.fnal.ppd.dd.channel.ChannelImpl.setNumber</a></div><div class="ttdeci">void setNumber(int n)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00246">ChannelImpl.java:246</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_aab7741e5c01a8e946c8bf6e9618d0476"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aab7741e5c01a8e946c8bf6e9618d0476">gov.fnal.ppd.dd.channel.ChannelImpl.hashCode</a></div><div class="ttdeci">int hashCode()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00197">ChannelImpl.java:197</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_abf99f1bbe72901a00d1d39228f02cff1"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abf99f1bbe72901a00d1d39228f02cff1">gov.fnal.ppd.dd.channel.ChannelImpl.getChannelClassification</a></div><div class="ttdeci">ChannelClassification getChannelClassification()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00187">ChannelImpl.java:187</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a9428ab2c22c4272e97c2251eb38e8b2e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9428ab2c22c4272e97c2251eb38e8b2e">gov.fnal.ppd.dd.channel.ChannelImpl.setExpiration</a></div><div class="ttdeci">void setExpiration(long expire)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00301">ChannelImpl.java:301</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_aa13af9f5763f97581ec533f91e380906"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa13af9f5763f97581ec533f91e380906">gov.fnal.ppd.dd.channel.ChannelImpl.setCode</a></div><div class="ttdeci">void setCode(int n)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00291">ChannelImpl.java:291</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_html_aff2ea773d09e0647abdcb5642bbbec0b"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html#aff2ea773d09e0647abdcb5642bbbec0b">gov.fnal.ppd.dd.changer.ChannelClassification.MISCELLANEOUS</a></div><div class="ttdeci">static final ChannelClassification MISCELLANEOUS</div><div class="ttdef"><b>Definition:</b> <a href="ChannelClassification_8java_source.html#l00033">ChannelClassification.java:33</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_afdf0ebebdeb8dce27f58bb59da71dc7d"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#afdf0ebebdeb8dce27f58bb59da71dc7d">gov.fnal.ppd.dd.channel.ChannelImpl.getName</a></div><div class="ttdeci">String getName()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00170">ChannelImpl.java:170</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_ae5c03927d8473ecae11b4002395da886"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae5c03927d8473ecae11b4002395da886">gov.fnal.ppd.dd.channel.ChannelImpl.setTime</a></div><div class="ttdeci">void setTime(long time)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00275">ChannelImpl.java:275</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a4e64970f8cfaf5c9fabe173feb40a0d4"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a4e64970f8cfaf5c9fabe173feb40a0d4">gov.fnal.ppd.dd.channel.ChannelImpl.setChannelClassification</a></div><div class="ttdeci">void setChannelClassification(ChannelClassification c)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00260">ChannelImpl.java:260</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a9004e74f2476cb8f7a4d56285d49ba45"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9004e74f2476cb8f7a4d56285d49ba45">gov.fnal.ppd.dd.channel.ChannelImpl.getURI</a></div><div class="ttdeci">URI getURI()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00245">ChannelImpl.java:245</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_afdf0ebebdeb8dce27f58bb59da71dc7d"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#afdf0ebebdeb8dce27f58bb59da71dc7d">gov.fnal.ppd.dd.channel.ChannelImpl.getName</a></div><div class="ttdeci">String getName()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00176">ChannelImpl.java:176</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_ae5c03927d8473ecae11b4002395da886"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae5c03927d8473ecae11b4002395da886">gov.fnal.ppd.dd.channel.ChannelImpl.setTime</a></div><div class="ttdeci">void setTime(long time)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00281">ChannelImpl.java:281</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a4e64970f8cfaf5c9fabe173feb40a0d4"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a4e64970f8cfaf5c9fabe173feb40a0d4">gov.fnal.ppd.dd.channel.ChannelImpl.setChannelClassification</a></div><div class="ttdeci">void setChannelClassification(ChannelClassification c)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00266">ChannelImpl.java:266</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a9004e74f2476cb8f7a4d56285d49ba45"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9004e74f2476cb8f7a4d56285d49ba45">gov.fnal.ppd.dd.channel.ChannelImpl.getURI</a></div><div class="ttdeci">URI getURI()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00251">ChannelImpl.java:251</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html">gov.fnal.ppd.dd.channel.ChannelImpl</a></div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00022">ChannelImpl.java:22</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a685f3caf0f4e3d501e68c55794f38111"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a685f3caf0f4e3d501e68c55794f38111">gov.fnal.ppd.dd.channel.ChannelImpl.setURI</a></div><div class="ttdeci">void setURI(URI i)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00265">ChannelImpl.java:265</a></div></div>
-<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">gov.fnal.ppd.dd.signage.SignageContent</a></div><div class="ttdef"><b>Definition:</b> <a href="SignageContent_8java_source.html#l00019">SignageContent.java:19</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a3841b129f361c795ca8f05bd33b14ae8"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a3841b129f361c795ca8f05bd33b14ae8">gov.fnal.ppd.dd.channel.ChannelImpl.ChannelImpl</a></div><div class="ttdeci">ChannelImpl(final String name, ChannelClassification category, final String description, final URI uri, final int number, final long dwellTime)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00136">ChannelImpl.java:136</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_aa2d5c561810b90f2401e5da2c1972774"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa2d5c561810b90f2401e5da2c1972774">gov.fnal.ppd.dd.channel.ChannelImpl.getTime</a></div><div class="ttdeci">long getTime()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00270">ChannelImpl.java:270</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_aa990515286ca3d8245b15b3f50989714"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa990515286ca3d8245b15b3f50989714">gov.fnal.ppd.dd.channel.ChannelImpl.getDescription</a></div><div class="ttdeci">String getDescription()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00174">ChannelImpl.java:174</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a685f3caf0f4e3d501e68c55794f38111"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a685f3caf0f4e3d501e68c55794f38111">gov.fnal.ppd.dd.channel.ChannelImpl.setURI</a></div><div class="ttdeci">void setURI(URI i)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00271">ChannelImpl.java:271</a></div></div>
+<div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent.html">gov.fnal.ppd.dd.signage.SignageContent</a></div><div class="ttdef"><b>Definition:</b> <a href="SignageContent_8java_source.html#l00024">SignageContent.java:24</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a3841b129f361c795ca8f05bd33b14ae8"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a3841b129f361c795ca8f05bd33b14ae8">gov.fnal.ppd.dd.channel.ChannelImpl.ChannelImpl</a></div><div class="ttdeci">ChannelImpl(final String name, ChannelClassification category, final String description, final URI uri, final int number, final long dwellTime)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00143">ChannelImpl.java:143</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_aa2d5c561810b90f2401e5da2c1972774"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa2d5c561810b90f2401e5da2c1972774">gov.fnal.ppd.dd.channel.ChannelImpl.getTime</a></div><div class="ttdeci">long getTime()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00276">ChannelImpl.java:276</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_aa990515286ca3d8245b15b3f50989714"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa990515286ca3d8245b15b3f50989714">gov.fnal.ppd.dd.channel.ChannelImpl.getDescription</a></div><div class="ttdeci">String getDescription()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00180">ChannelImpl.java:180</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_ae4de39eb5e2f7c434f3b71f054ae9735"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ae4de39eb5e2f7c434f3b71f054ae9735">gov.fnal.ppd.dd.channel.ChannelImpl.number</a></div><div class="ttdeci">int number</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00026">ChannelImpl.java:26</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_ab7c659985471afada6dece70c1d75b61"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ab7c659985471afada6dece70c1d75b61">gov.fnal.ppd.dd.channel.ChannelImpl.getCode</a></div><div class="ttdeci">int getCode()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00280">ChannelImpl.java:280</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_af509fea6b9340b85522025b70cc4e64e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af509fea6b9340b85522025b70cc4e64e">gov.fnal.ppd.dd.channel.ChannelImpl.getExpiration</a></div><div class="ttdeci">long getExpiration()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00290">ChannelImpl.java:290</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_ab7c659985471afada6dece70c1d75b61"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#ab7c659985471afada6dece70c1d75b61">gov.fnal.ppd.dd.channel.ChannelImpl.getCode</a></div><div class="ttdeci">int getCode()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00286">ChannelImpl.java:286</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_af509fea6b9340b85522025b70cc4e64e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af509fea6b9340b85522025b70cc4e64e">gov.fnal.ppd.dd.channel.ChannelImpl.getExpiration</a></div><div class="ttdeci">long getExpiration()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00296">ChannelImpl.java:296</a></div></div>
 <div class="ttc" id="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel_html"><div class="ttname"><a href="interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel.html">gov.fnal.ppd.dd.signage.Channel</a></div><div class="ttdef"><b>Definition:</b> <a href="signage_2Channel_8java_source.html#l00008">Channel.java:8</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_abb1380a6a0403aa8b3603d39cdc38ea4"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abb1380a6a0403aa8b3603d39cdc38ea4">gov.fnal.ppd.dd.channel.ChannelImpl.setDescription</a></div><div class="ttdeci">void setDescription(String d)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00255">ChannelImpl.java:255</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a0d227de9590cc6ce476497c8f919f2e4"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0d227de9590cc6ce476497c8f919f2e4">gov.fnal.ppd.dd.channel.ChannelImpl.setName</a></div><div class="ttdeci">void setName(String name)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00250">ChannelImpl.java:250</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a0136bf00463f15803ac336ede9dd22ef"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0136bf00463f15803ac336ede9dd22ef">gov.fnal.ppd.dd.channel.ChannelImpl.ChannelImpl</a></div><div class="ttdeci">ChannelImpl(final String name, final String description, final URI uri, final int number, final long dwellTime)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00117">ChannelImpl.java:117</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a9d5fbb02930a03147b1240db1371c57a"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9d5fbb02930a03147b1240db1371c57a">gov.fnal.ppd.dd.channel.ChannelImpl.getNumber</a></div><div class="ttdeci">int getNumber()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00236">ChannelImpl.java:236</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a4af4ac34390c96d255e9483dfa5ad5d6"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a4af4ac34390c96d255e9483dfa5ad5d6">gov.fnal.ppd.dd.channel.ChannelImpl.toString</a></div><div class="ttdeci">String toString()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00232">ChannelImpl.java:232</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_aa613d61797497d882a495bc8cb361294"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa613d61797497d882a495bc8cb361294">gov.fnal.ppd.dd.channel.ChannelImpl.ChannelImpl</a></div><div class="ttdeci">ChannelImpl(final SignageContent c)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00156">ChannelImpl.java:156</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_abb1380a6a0403aa8b3603d39cdc38ea4"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abb1380a6a0403aa8b3603d39cdc38ea4">gov.fnal.ppd.dd.channel.ChannelImpl.setDescription</a></div><div class="ttdeci">void setDescription(String d)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00261">ChannelImpl.java:261</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a0d227de9590cc6ce476497c8f919f2e4"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0d227de9590cc6ce476497c8f919f2e4">gov.fnal.ppd.dd.channel.ChannelImpl.setName</a></div><div class="ttdeci">void setName(String name)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00256">ChannelImpl.java:256</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a0136bf00463f15803ac336ede9dd22ef"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a0136bf00463f15803ac336ede9dd22ef">gov.fnal.ppd.dd.channel.ChannelImpl.ChannelImpl</a></div><div class="ttdeci">ChannelImpl(final String name, final String description, final URI uri, final int number, final long dwellTime)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00124">ChannelImpl.java:124</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a9d5fbb02930a03147b1240db1371c57a"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a9d5fbb02930a03147b1240db1371c57a">gov.fnal.ppd.dd.channel.ChannelImpl.getNumber</a></div><div class="ttdeci">int getNumber()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00242">ChannelImpl.java:242</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_a4af4ac34390c96d255e9483dfa5ad5d6"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#a4af4ac34390c96d255e9483dfa5ad5d6">gov.fnal.ppd.dd.channel.ChannelImpl.toString</a></div><div class="ttdeci">String toString()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00238">ChannelImpl.java:238</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_aa613d61797497d882a495bc8cb361294"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#aa613d61797497d882a495bc8cb361294">gov.fnal.ppd.dd.channel.ChannelImpl.ChannelImpl</a></div><div class="ttdeci">ChannelImpl(final SignageContent c)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00162">ChannelImpl.java:162</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">gov.fnal.ppd.dd.changer.ChannelClassification</a></div><div class="ttdef"><b>Definition:</b> <a href="ChannelClassification_8java_source.html#l00026">ChannelClassification.java:26</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_af275bb3e62de9af3316698cd7c2074be"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af275bb3e62de9af3316698cd7c2074be">gov.fnal.ppd.dd.channel.ChannelImpl.equals</a></div><div class="ttdeci">boolean equals(Object obj)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00207">ChannelImpl.java:207</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_abfc920cea3e8ce7156aad3d9a87213c8"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abfc920cea3e8ce7156aad3d9a87213c8">gov.fnal.ppd.dd.channel.ChannelImpl.getChecksum</a></div><div class="ttdeci">long getChecksum()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00302">ChannelImpl.java:302</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_af275bb3e62de9af3316698cd7c2074be"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#af275bb3e62de9af3316698cd7c2074be">gov.fnal.ppd.dd.channel.ChannelImpl.equals</a></div><div class="ttdeci">boolean equals(Object obj)</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00213">ChannelImpl.java:213</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl_html_abfc920cea3e8ce7156aad3d9a87213c8"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html#abfc920cea3e8ce7156aad3d9a87213c8">gov.fnal.ppd.dd.channel.ChannelImpl.getChecksum</a></div><div class="ttdeci">long getChecksum()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelImpl_8java_source.html#l00308">ChannelImpl.java:308</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

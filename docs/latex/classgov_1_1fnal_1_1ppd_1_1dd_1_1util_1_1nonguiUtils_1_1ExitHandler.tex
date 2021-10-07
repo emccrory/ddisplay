@@ -1,21 +1,10 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler}{\section{gov.\-fnal.\-ppd.\-dd.\-util.\-nongui\-Utils.\-Exit\-Handler Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler}\index{gov.\-fnal.\-ppd.\-dd.\-util.\-nongui\-Utils.\-Exit\-Handler@{gov.\-fnal.\-ppd.\-dd.\-util.\-nongui\-Utils.\-Exit\-Handler}}
 }
-
-
-\subsection{Detailed Description}
-There are several places in the code where it is necessary to restart the entire J\-V\-M. This class handles a graceful exit by running the commands that others have set up to assure that the restart is clean.
-
-This is implemented in the display client so that it can save the current channel and then show it again when it gets restarted.
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
-\end{DoxyAuthor}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a27e7e4bcb97555bf97af048202206e23}{static void {\bfseries save\-And\-Exit} (String why)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a27e7e4bcb97555bf97af048202206e23}
-
+static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a27e7e4bcb97555bf97af048202206e23}{save\-And\-Exit} (String why)
 \item 
 static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a5379acd2ff353d389bceb772a08f38d3}{save\-And\-Exit} (String why, int exit\-Code, long wait\-Time)
 \item 
@@ -26,9 +15,22 @@ static \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1Co
 \subsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_ae8ba4587d3eaadd9e6198b07948afec9}{static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_ae8ba4587d3eaadd9e6198b07948afec9}{processing\-Graceful\-Exit} = false}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_ae8ba4587d3eaadd9e6198b07948afec9}
-
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_ae8ba4587d3eaadd9e6198b07948afec9}{processing\-Graceful\-Exit} = false
 \begin{DoxyCompactList}\small\item\em This boolean is set when we have been requested to exit the J\-V\-M. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+There are several places in the code where it is necessary to restart the entire J\-V\-M. This class handles a graceful exit by running the commands that others have set up to assure that the restart is clean.
+
+This is implemented in the display client so that it can save the current channel and then show it again when it gets restarted.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 18 of file Exit\-Handler.\-java.
+
 
 
 \subsection{Member Function Documentation}
@@ -38,7 +40,7 @@ static \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1Co
 \begin{DoxyParamCaption}
 \item[{final {\bf Command}}]{c}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_acc32a4382054c480091b42cbf3055594}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_acc32a4382054c480091b42cbf3055594}
 
 \begin{DoxyParams}{Parameters}
 {\em c} & the command to add to the list of commands to be executed prior to exiting \\
@@ -47,13 +49,17 @@ static \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1Co
 \begin{DoxyReturn}{Returns}
 The command is returned back to the sender 
 \end{DoxyReturn}
+
+
+Definition at line 72 of file Exit\-Handler.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a7869ffc2150941cbeced332cdf57df3a}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler}!remove\-Final\-Command@{remove\-Final\-Command}}
 \index{remove\-Final\-Command@{remove\-Final\-Command}!gov::fnal::ppd::dd::util::nonguiUtils::ExitHandler@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler}}
 \subsubsection[{remove\-Final\-Command}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-util.\-nongui\-Utils.\-Exit\-Handler.\-remove\-Final\-Command (
 \begin{DoxyParamCaption}
 \item[{final {\bf Command}}]{c}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a7869ffc2150941cbeced332cdf57df3a}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a7869ffc2150941cbeced332cdf57df3a}
 Remove this command from the list.
 
 
@@ -61,6 +67,21 @@ Remove this command from the list.
 {\em c} & The command to remove \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 63 of file Exit\-Handler.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a27e7e4bcb97555bf97af048202206e23}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler}!save\-And\-Exit@{save\-And\-Exit}}
+\index{save\-And\-Exit@{save\-And\-Exit}!gov::fnal::ppd::dd::util::nonguiUtils::ExitHandler@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler}}
+\subsubsection[{save\-And\-Exit}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-util.\-nongui\-Utils.\-Exit\-Handler.\-save\-And\-Exit (
+\begin{DoxyParamCaption}
+\item[{String}]{why}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a27e7e4bcb97555bf97af048202206e23}
+
+
+Definition at line 27 of file Exit\-Handler.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a5379acd2ff353d389bceb772a08f38d3}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler}!save\-And\-Exit@{save\-And\-Exit}}
 \index{save\-And\-Exit@{save\-And\-Exit}!gov::fnal::ppd::dd::util::nonguiUtils::ExitHandler@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler}}
 \subsubsection[{save\-And\-Exit}]{\setlength{\rightskip}{0pt plus 5cm}static void gov.\-fnal.\-ppd.\-dd.\-util.\-nongui\-Utils.\-Exit\-Handler.\-save\-And\-Exit (
@@ -69,9 +90,27 @@ Remove this command from the list.
 \item[{int}]{exit\-Code, }
 \item[{long}]{wait\-Time}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a5379acd2ff353d389bceb772a08f38d3}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a5379acd2ff353d389bceb772a08f38d3}
 Run whatever commands have been queued up, and then exit. The exit code of -\/1 should be a signal to the controlling script that we want to be restarted. 
+
+Definition at line 35 of file Exit\-Handler.\-java.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_ae8ba4587d3eaadd9e6198b07948afec9}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler}!processing\-Graceful\-Exit@{processing\-Graceful\-Exit}}
+\index{processing\-Graceful\-Exit@{processing\-Graceful\-Exit}!gov::fnal::ppd::dd::util::nonguiUtils::ExitHandler@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler}}
+\subsubsection[{processing\-Graceful\-Exit}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-util.\-nongui\-Utils.\-Exit\-Handler.\-processing\-Graceful\-Exit = false\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_ae8ba4587d3eaadd9e6198b07948afec9}
+
+
+This boolean is set when we have been requested to exit the J\-V\-M. 
+
+
+
+Definition at line 20 of file Exit\-Handler.\-java.
+
+
 
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/util/nongui\-Utils/Exit\-Handler.\-java\end{DoxyCompactItemize}
+src/gov/fnal/ppd/dd/util/nongui\-Utils/\hyperlink{ExitHandler_8java}{Exit\-Handler.\-java}\end{DoxyCompactItemize}

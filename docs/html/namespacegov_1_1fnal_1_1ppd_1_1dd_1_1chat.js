@@ -1,6 +1,7 @@
 var namespacegov_1_1fnal_1_1ppd_1_1dd_1_1chat =
 [
     [ "original", "namespacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original.html", "namespacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original" ],
+    [ "pubsub", "namespacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub.html", "namespacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub" ],
     [ "DCProtocol", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1DCProtocol.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1DCProtocol" ],
     [ "DDMessage", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1DDMessage.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1DDMessage" ],
     [ "DDSystemStatus", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1DDSystemStatus.html", null ],

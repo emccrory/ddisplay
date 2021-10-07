@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/CrunchifyQRCode.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/testing/CrunchifyQRCode.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -107,100 +107,100 @@ $(document).ready(function(){initNavTree('CrunchifyQRCode_8java_source.html','')
 <div class="title">CrunchifyQRCode.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="CrunchifyQRCode_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util;</div>
+<a href="CrunchifyQRCode_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.testing;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html">   13</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html">CrunchifyQRCode</a> {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">int</span> sizeOfQRCode = 200;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html#a6bf970fcb89f16adf68d1ea7e470eb15">   20</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html#a6bf970fcb89f16adf68d1ea7e470eb15">getSizeOfQRCode</a>() {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordflow">return</span> sizeOfQRCode;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    }</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html">   22</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html">CrunchifyQRCode</a> {</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html#ae71b2f8f878b6cd6c9e090104d91a28f">   27</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html#ae71b2f8f878b6cd6c9e090104d91a28f">setSizeOfQRCode</a>(<span class="keyword">final</span> <span class="keywordtype">int</span> sizeOfQRCode) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">if</span> (sizeOfQRCode &gt; 0)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            CrunchifyQRCode.sizeOfQRCode = sizeOfQRCode;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment">// Tutorial: http://zxing.org/w/docs/javadoc/index.html</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html#a46e2a30a4ce50a4c4424cd2d1d42ab6a">   39</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html#a46e2a30a4ce50a4c4424cd2d1d42ab6a">main</a>(<span class="keyword">final</span> String[] args) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="comment">// writeQRCode(&quot;http://Crunchify.com/&quot;, &quot;CrunchifyQR.png&quot;);</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="comment">// String url = &quot;http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=DUNE-LBNF&quot;;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="comment">// try {</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="comment">// BufferedImage image = createQRCodeImage(url);</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="comment">// JFrame f = new JFrame(&quot;test&quot;);</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="comment">// f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="comment">//</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="comment">// ImageIcon imageIcon = new ImageIcon(image);</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="comment">// JLabel jLabel = new JLabel();</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="comment">// jLabel.setIcon(imageIcon);</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="comment">// JLabel caption = new JLabel(url);</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="comment">// Box b = Box.createVerticalBox();</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">// b.add(jLabel);</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">// b.add(caption);</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">// f.getContentPane().add(b, BorderLayout.CENTER);</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">int</span> sizeOfQRCode = 200;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html#af4be69ca0eb9d5feb41321c2e83ec82c">   29</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html#af4be69ca0eb9d5feb41321c2e83ec82c">getSizeOfQRCode</a>() {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">return</span> sizeOfQRCode;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html#a1ebe1abb8380d254de65ba4879e2ae5e">   36</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html#a1ebe1abb8380d254de65ba4879e2ae5e">setSizeOfQRCode</a>(<span class="keyword">final</span> <span class="keywordtype">int</span> sizeOfQRCode) {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">if</span> (sizeOfQRCode &gt; 0)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            CrunchifyQRCode.sizeOfQRCode = sizeOfQRCode;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    }</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">// Tutorial: http://zxing.org/w/docs/javadoc/index.html</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html#aaca0af77f34556399df2292994d3c4f5">   48</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html#aaca0af77f34556399df2292994d3c4f5">main</a>(<span class="keyword">final</span> String[] args) {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="comment">// writeQRCode(&quot;http://Crunchify.com/&quot;, &quot;CrunchifyQR.png&quot;);</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="comment">// String url = &quot;http://mccrory.fnal.gov/XOC/kenburns/portfolioDisplay.php?exp=DUNE-LBNF&quot;;</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="comment">// try {</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">// BufferedImage image = createQRCodeImage(url);</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">// JFrame f = new JFrame(&quot;test&quot;);</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">// f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment">//</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment">// f.pack();</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="comment">// f.setVisible(true);</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="comment">//</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment">// } catch (WriterException e) {</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment">// e.printStackTrace();</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="comment">// }</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html#af3ad34bec90ccd331cab5adf934be15e">   72</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html#af3ad34bec90ccd331cab5adf934be15e">writeQRCode</a>(<span class="keyword">final</span> String myCodeText, <span class="keyword">final</span> String filePath) {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="comment">// String fileType = &quot;png&quot;;</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment">// File myFile = new File(filePath);</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment">// try {</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment">//</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="comment">// RenderedImage image = createQRCodeImage(myCodeText);</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="comment">//</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="comment">// ImageIO.write(image, fileType, myFile);</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="comment">// } catch (WriterException e) {</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="comment">// e.printStackTrace();</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="comment">// } catch (IOException e) {</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment">// e.printStackTrace();</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="comment">// }</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="comment">// System.out.println(&quot;\n\nYou have successfully created QR Code: &quot; + myFile.getAbsolutePath());</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">// public static BufferedImage createQRCodeImage(final String myCodeText) throws WriterException {</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="comment">// Hashtable&lt;EncodeHintType, ErrorCorrectionLevel&gt; hintMap = new Hashtable&lt;EncodeHintType, ErrorCorrectionLevel&gt;();</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">// hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">// QRCodeWriter qrCodeWriter = new QRCodeWriter();</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="comment">// BitMatrix byteMatrix = qrCodeWriter.encode(myCodeText, BarcodeFormat.QR_CODE, sizeOfQRCode, sizeOfQRCode, hintMap);</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">// int CrunchifyWidth = byteMatrix.getWidth();</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="comment">// BufferedImage image = new BufferedImage(CrunchifyWidth, CrunchifyWidth, BufferedImage.TYPE_INT_RGB);</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="comment">// image.createGraphics();</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="comment">//</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="comment">// Graphics2D graphics = (Graphics2D) image.getGraphics();</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="comment">// graphics.setColor(Color.WHITE);</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="comment">// graphics.fillRect(0, 0, CrunchifyWidth, CrunchifyWidth);</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="comment">// graphics.setColor(Color.BLACK);</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="comment">//</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="comment">// for (int i = 0; i &lt; CrunchifyWidth; i++) {</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">// for (int j = 0; j &lt; CrunchifyWidth; j++) {</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="comment">// if (byteMatrix.get(i, j)) {</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="comment">// graphics.fillRect(i, j, 1, 1);</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">// }</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="comment">// }</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="comment">// }</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="comment">//</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="comment">// return image;</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="comment">// }</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode_html_ae71b2f8f878b6cd6c9e090104d91a28f"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html#ae71b2f8f878b6cd6c9e090104d91a28f">gov.fnal.ppd.dd.util.CrunchifyQRCode.setSizeOfQRCode</a></div><div class="ttdeci">static void setSizeOfQRCode(final int sizeOfQRCode)</div><div class="ttdef"><b>Definition:</b> <a href="CrunchifyQRCode_8java_source.html#l00027">CrunchifyQRCode.java:27</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html">gov.fnal.ppd.dd.util.CrunchifyQRCode</a></div><div class="ttdef"><b>Definition:</b> <a href="CrunchifyQRCode_8java_source.html#l00013">CrunchifyQRCode.java:13</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode_html_af3ad34bec90ccd331cab5adf934be15e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html#af3ad34bec90ccd331cab5adf934be15e">gov.fnal.ppd.dd.util.CrunchifyQRCode.writeQRCode</a></div><div class="ttdeci">static void writeQRCode(final String myCodeText, final String filePath)</div><div class="ttdef"><b>Definition:</b> <a href="CrunchifyQRCode_8java_source.html#l00072">CrunchifyQRCode.java:72</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode_html_a46e2a30a4ce50a4c4424cd2d1d42ab6a"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html#a46e2a30a4ce50a4c4424cd2d1d42ab6a">gov.fnal.ppd.dd.util.CrunchifyQRCode.main</a></div><div class="ttdeci">static void main(final String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="CrunchifyQRCode_8java_source.html#l00039">CrunchifyQRCode.java:39</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode_html_a6bf970fcb89f16adf68d1ea7e470eb15"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1CrunchifyQRCode.html#a6bf970fcb89f16adf68d1ea7e470eb15">gov.fnal.ppd.dd.util.CrunchifyQRCode.getSizeOfQRCode</a></div><div class="ttdeci">static int getSizeOfQRCode()</div><div class="ttdef"><b>Definition:</b> <a href="CrunchifyQRCode_8java_source.html#l00020">CrunchifyQRCode.java:20</a></div></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment">// ImageIcon imageIcon = new ImageIcon(image);</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="comment">// JLabel jLabel = new JLabel();</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="comment">// jLabel.setIcon(imageIcon);</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment">// JLabel caption = new JLabel(url);</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment">// Box b = Box.createVerticalBox();</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="comment">// b.add(jLabel);</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="comment">// b.add(caption);</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment">// f.getContentPane().add(b, BorderLayout.CENTER);</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="comment">//</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="comment">// f.pack();</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">// f.setVisible(true);</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="comment">//</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="comment">// } catch (WriterException e) {</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="comment">// e.printStackTrace();</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="comment">// }</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html#a2d32209f16dc9bd5b114512ed653fb7a">   81</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html#a2d32209f16dc9bd5b114512ed653fb7a">writeQRCode</a>(<span class="keyword">final</span> String myCodeText, <span class="keyword">final</span> String filePath) {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="comment">// String fileType = &quot;png&quot;;</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment">// File myFile = new File(filePath);</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="comment">// try {</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="comment">//</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="comment">// RenderedImage image = createQRCodeImage(myCodeText);</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="comment">//</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="comment">// ImageIO.write(image, fileType, myFile);</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="comment">// } catch (WriterException e) {</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="comment">// e.printStackTrace();</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="comment">// } catch (IOException e) {</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="comment">// e.printStackTrace();</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="comment">// }</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="comment">// System.out.println(&quot;\n\nYou have successfully created QR Code: &quot; + myFile.getAbsolutePath());</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="comment">// public static BufferedImage createQRCodeImage(final String myCodeText) throws WriterException {</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="comment">// Hashtable&lt;EncodeHintType, ErrorCorrectionLevel&gt; hintMap = new Hashtable&lt;EncodeHintType, ErrorCorrectionLevel&gt;();</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="comment">// hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="comment">// QRCodeWriter qrCodeWriter = new QRCodeWriter();</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="comment">// BitMatrix byteMatrix = qrCodeWriter.encode(myCodeText, BarcodeFormat.QR_CODE, sizeOfQRCode, sizeOfQRCode, hintMap);</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="comment">// int CrunchifyWidth = byteMatrix.getWidth();</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">// BufferedImage image = new BufferedImage(CrunchifyWidth, CrunchifyWidth, BufferedImage.TYPE_INT_RGB);</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="comment">// image.createGraphics();</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="comment">//</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">// Graphics2D graphics = (Graphics2D) image.getGraphics();</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="comment">// graphics.setColor(Color.WHITE);</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="comment">// graphics.fillRect(0, 0, CrunchifyWidth, CrunchifyWidth);</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="comment">// graphics.setColor(Color.BLACK);</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="comment">//</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="comment">// for (int i = 0; i &lt; CrunchifyWidth; i++) {</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="comment">// for (int j = 0; j &lt; CrunchifyWidth; j++) {</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="comment">// if (byteMatrix.get(i, j)) {</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="comment">// graphics.fillRect(i, j, 1, 1);</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="comment">// }</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="comment">// }</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="comment">// }</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="comment">//</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="comment">// return image;</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="comment">// }</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode_html_a1ebe1abb8380d254de65ba4879e2ae5e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html#a1ebe1abb8380d254de65ba4879e2ae5e">gov.fnal.ppd.dd.testing.CrunchifyQRCode.setSizeOfQRCode</a></div><div class="ttdeci">static void setSizeOfQRCode(final int sizeOfQRCode)</div><div class="ttdef"><b>Definition:</b> <a href="CrunchifyQRCode_8java_source.html#l00036">CrunchifyQRCode.java:36</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode_html_aaca0af77f34556399df2292994d3c4f5"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html#aaca0af77f34556399df2292994d3c4f5">gov.fnal.ppd.dd.testing.CrunchifyQRCode.main</a></div><div class="ttdeci">static void main(final String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="CrunchifyQRCode_8java_source.html#l00048">CrunchifyQRCode.java:48</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html">gov.fnal.ppd.dd.testing.CrunchifyQRCode</a></div><div class="ttdef"><b>Definition:</b> <a href="CrunchifyQRCode_8java_source.html#l00022">CrunchifyQRCode.java:22</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode_html_af4be69ca0eb9d5feb41321c2e83ec82c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html#af4be69ca0eb9d5feb41321c2e83ec82c">gov.fnal.ppd.dd.testing.CrunchifyQRCode.getSizeOfQRCode</a></div><div class="ttdeci">static int getSizeOfQRCode()</div><div class="ttdef"><b>Definition:</b> <a href="CrunchifyQRCode_8java_source.html#l00029">CrunchifyQRCode.java:29</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode_html_a2d32209f16dc9bd5b114512ed653fb7a"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1CrunchifyQRCode.html#a2d32209f16dc9bd5b114512ed653fb7a">gov.fnal.ppd.dd.testing.CrunchifyQRCode.writeQRCode</a></div><div class="ttdeci">static void writeQRCode(final String myCodeText, final String filePath)</div><div class="ttdef"><b>Definition:</b> <a href="CrunchifyQRCode_8java_source.html#l00081">CrunchifyQRCode.java:81</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="CrunchifyQRCode_8java.html">CrunchifyQRCode.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_bd49752d5b1f58b48b5cb04315435765.html">testing</a></li><li class="navelem"><a class="el" href="CrunchifyQRCode_8java.html">CrunchifyQRCode.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

@@ -1,18 +1,6 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon}{\section{gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server\-Daemon Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon}\index{gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server\-Daemon@{gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server\-Daemon}}
 }
-
-
-\subsection{Detailed Description}
-The messaging server as a daemon (not a G\-U\-I). 
-
-{\bfseries History} -\/ When the Dynamic Display system first started, it was nice to have the central messaging server be a G\-U\-I. All the messages were dumped onto the G\-U\-I, and I could keep track of it rather easily. But as the system matured, it became apparent that the overhead of the G\-U\-I was unnecessary -\/ just be sure that everything gets put into log files. So that is what we have now. 
-
-This class, as you will see, is very small. Essentially all this class does is provide a main method to run the messaging server itself (class \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer}{Messaging\-Server})
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
-\end{DoxyAuthor}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -25,6 +13,22 @@ static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerD
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+The messaging server as a daemon (not a G\-U\-I). 
+
+{\bfseries History} -\/ When the Dynamic Display system first started, it was nice to have the central messaging server be a G\-U\-I. All the messages were dumped onto the G\-U\-I, and I could keep track of it rather easily. But as the system matured, it became apparent that the overhead of the G\-U\-I was unnecessary -\/ just be sure that everything gets put into log files. So that is what we have now. 
+
+This class, as you will see, is very small. Essentially all this class does is provide a main method to run the messaging server itself (class \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer}{Messaging\-Server})
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 37 of file Messaging\-Server\-Daemon.\-java.
+
+
+
 \subsection{Member Function Documentation}
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon_a00c5f81d7957dbba0fe6ef52b10d21f0}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server\-Daemon@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server\-Daemon}!main@{main}}
 \index{main@{main}!gov::fnal::ppd::dd::chat::MessagingServerDaemon@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server\-Daemon}}
@@ -32,7 +36,7 @@ static void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerD
 \begin{DoxyParamCaption}
 \item[{String\mbox{[}$\,$\mbox{]}}]{args}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon_a00c5f81d7957dbba0fe6ef52b10d21f0}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon_a00c5f81d7957dbba0fe6ef52b10d21f0}
 This is the entry point to start the Server that does not use a G\-U\-I
 
 
@@ -40,15 +44,23 @@ This is the entry point to start the Server that does not use a G\-U\-I
 {\em args} & (No arguments are used) \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 80 of file Messaging\-Server\-Daemon.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon_a00cbd9c8eec08febc8d4c8baba8bf5fd}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server\-Daemon@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server\-Daemon}!start@{start}}
 \index{start@{start}!gov::fnal::ppd::dd::chat::MessagingServerDaemon@{gov\-::fnal\-::ppd\-::dd\-::chat\-::\-Messaging\-Server\-Daemon}}
 \subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-Messaging\-Server\-Daemon.\-start (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon_a00cbd9c8eec08febc8d4c8baba8bf5fd}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerDaemon_a00cbd9c8eec08febc8d4c8baba8bf5fd}
 Start listening for messages 
+
+Definition at line 67 of file Messaging\-Server\-Daemon.\-java.
+
+
 
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/chat/Messaging\-Server\-Daemon.\-java\end{DoxyCompactItemize}
+src/gov/fnal/ppd/dd/chat/\hyperlink{MessagingServerDaemon_8java}{Messaging\-Server\-Daemon.\-java}\end{DoxyCompactItemize}

@@ -1,18 +1,6 @@
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{\section{gov.\-fnal.\-ppd.\-dd.\-signage.\-Signage\-Content Interface Reference}
 \label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}\index{gov.\-fnal.\-ppd.\-dd.\-signage.\-Signage\-Content@{gov.\-fnal.\-ppd.\-dd.\-signage.\-Signage\-Content}}
 }
-
-
-\subsection{Detailed Description}
-The signature for content in the Fermilab Dynamic Displays system. 
-
-In order to be fully serializable, the concrete classes must implement all the getters and setters. 
-
-Originally, it was thought that there could be all kinds of different content, like in a commercial digital signage system. But we have settled on all content being a \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel}{Channel}, and all channels are web pages. So this interface is not any more useful that the \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel}{Channel} interface. Nevertheless, it is used in a few places where we want to be the most general. If the system were to be extended to allow for more general sort of content, this interface {\itshape might} make that extension a little easier. 
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab, 2012-\/21 
-\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-signage.\-Signage\-Content\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -52,6 +40,22 @@ void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_a
 \item 
 long \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent_aa1e28916946037eaa2b042c39aa2fa5f}{get\-Checksum} ()
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The signature for content in the Fermilab Dynamic Displays system. 
+
+In order to be fully serializable, the concrete classes must implement all the getters and setters. 
+
+Originally, it was thought that there could be all kinds of different content, like in a commercial digital signage system. But we have settled on all content being a \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel}{Channel}, and all channels are web pages. So this interface is not any more useful that the \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Channel}{Channel} interface. Nevertheless, it is used in a few places where we want to be the most general. If the system were to be extended to allow for more general sort of content, this interface {\itshape might} make that extension a little easier. 
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab, 2012-\/21 
+\end{DoxyAuthor}
+
+
+Definition at line 24 of file Signage\-Content.\-java.
+
 
 
 \subsection{Member Function Documentation}
@@ -295,4 +299,4 @@ Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImp
 
 The documentation for this interface was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/signage/Signage\-Content.\-java\end{DoxyCompactItemize}
+src/gov/fnal/ppd/dd/signage/\hyperlink{SignageContent_8java}{Signage\-Content.\-java}\end{DoxyCompactItemize}

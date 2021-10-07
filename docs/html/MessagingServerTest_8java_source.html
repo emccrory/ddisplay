@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -114,27 +114,8 @@ $(document).ready(function(){initNavTree('MessagingServerTest_8java_source.html'
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.chat;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.MESSAGING_SERVER_PORT;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerTest.html">   16</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerTest.html">MessagingServerTest</a> {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerTest.html#a67da03cd8bf6cf5c8bae99747d1e5ac1">   21</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerTest.html#a67da03cd8bf6cf5c8bae99747d1e5ac1">main</a>(<span class="keyword">final</span> String[] args) {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordtype">int</span> portNumber = MESSAGING_SERVER_PORT;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        String userName = <span class="stringliteral">&quot;TestForMessagingServer&quot;</span>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient.html">MessagingClient</a> client = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient.html">MessagingClient</a>(System.getProperty(<span class="stringliteral">&quot;ddisplay.messagingserver&quot;</span>, <span class="stringliteral">&quot;mccrory.fnal.gov&quot;</span>),</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                portNumber, userName);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">if</span> (!client.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient.html#a68a15cf975653221f512387755cf392e">start</a>())</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            System.exit(-1); <span class="comment">// No messaging server is present</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        System.exit(0); <span class="comment">// Messaging server *is* present!</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerTest_html_a67da03cd8bf6cf5c8bae99747d1e5ac1"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerTest.html#a67da03cd8bf6cf5c8bae99747d1e5ac1">gov.fnal.ppd.dd.chat.MessagingServerTest.main</a></div><div class="ttdeci">static void main(final String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="MessagingServerTest_8java_source.html#l00021">MessagingServerTest.java:21</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient.html">gov.fnal.ppd.dd.chat.MessagingClient</a></div><div class="ttdef"><b>Definition:</b> <a href="MessagingClient_8java_source.html#l00057">MessagingClient.java:57</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient_html_a68a15cf975653221f512387755cf392e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingClient.html#a68a15cf975653221f512387755cf392e">gov.fnal.ppd.dd.chat.MessagingClient.start</a></div><div class="ttdeci">boolean start()</div><div class="ttdef"><b>Definition:</b> <a href="MessagingClient_8java_source.html#l00109">MessagingClient.java:109</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerTest_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerTest.html">gov.fnal.ppd.dd.chat.MessagingServerTest</a></div><div class="ttdef"><b>Definition:</b> <a href="MessagingServerTest_8java_source.html#l00016">MessagingServerTest.java:16</a></div></div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerTest.html">   11</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerTest.html">MessagingServerTest</a> {}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerTest_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServerTest.html">gov.fnal.ppd.dd.chat.MessagingServerTest</a></div><div class="ttdef"><b>Definition:</b> <a href="MessagingServerTest_8java_source.html#l00011">MessagingServerTest.java:11</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

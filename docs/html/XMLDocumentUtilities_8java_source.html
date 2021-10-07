@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -120,43 +120,43 @@ $(document).ready(function(){initNavTree('XMLDocumentUtilities_8java_source.html
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> org.w3c.dom.Document;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;@XmlRootElement</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html">   15</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html">XMLDocumentUtilities</a> {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html">XMLDocumentUtilities</a>() {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    }</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> DocumentBuilderFactory   dbf;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> StringWriter             writer  = <span class="keyword">new</span> StringWriter();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> TransformerFactory       tf      = TransformerFactory.newInstance();</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> StreamResult             result  = <span class="keyword">new</span> StreamResult(writer);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">static</span> {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        dbf = DocumentBuilderFactory.newInstance();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        dbf.setNamespaceAware(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    }</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html#a5113e903c8c8049153bc4b3d6c43da1a">   29</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> Document <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html#a5113e903c8c8049153bc4b3d6c43da1a">convertToDocument</a>(String message) {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keywordflow">return</span> dbf.newDocumentBuilder().parse(<span class="keyword">new</span> ByteArrayInputStream(message.getBytes()));</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> null;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html#a9eed59a958a4e4e56f1b7dcc904cbc90">   38</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html#a9eed59a958a4e4e56f1b7dcc904cbc90">convertToString</a>(Document doc) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            tf.newTransformer().transform(<span class="keyword">new</span> DOMSource(doc), result);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordflow">return</span> writer.toString();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Nothing to see here&quot;</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities_html_a5113e903c8c8049153bc4b3d6c43da1a"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html#a5113e903c8c8049153bc4b3d6c43da1a">gov.fnal.ppd.dd.xml.signature.XMLDocumentUtilities.convertToDocument</a></div><div class="ttdeci">static Document convertToDocument(String message)</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentUtilities_8java_source.html#l00029">XMLDocumentUtilities.java:29</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities_html_a9eed59a958a4e4e56f1b7dcc904cbc90"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html#a9eed59a958a4e4e56f1b7dcc904cbc90">gov.fnal.ppd.dd.xml.signature.XMLDocumentUtilities.convertToString</a></div><div class="ttdeci">static String convertToString(Document doc)</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentUtilities_8java_source.html#l00038">XMLDocumentUtilities.java:38</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html">gov.fnal.ppd.dd.xml.signature.XMLDocumentUtilities</a></div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentUtilities_8java_source.html#l00015">XMLDocumentUtilities.java:15</a></div></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;@XmlRootElement</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html">   22</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html">XMLDocumentUtilities</a> {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html">XMLDocumentUtilities</a>() {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> DocumentBuilderFactory   dbf;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> StringWriter             writer  = <span class="keyword">new</span> StringWriter();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> TransformerFactory       tf      = TransformerFactory.newInstance();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> StreamResult             result  = <span class="keyword">new</span> StreamResult(writer);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">static</span> {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        dbf = DocumentBuilderFactory.newInstance();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        dbf.setNamespaceAware(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html#a5113e903c8c8049153bc4b3d6c43da1a">   36</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> Document <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html#a5113e903c8c8049153bc4b3d6c43da1a">convertToDocument</a>(String message) {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">return</span> dbf.newDocumentBuilder().parse(<span class="keyword">new</span> ByteArrayInputStream(message.getBytes()));</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">return</span> null;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html#a9eed59a958a4e4e56f1b7dcc904cbc90">   45</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html#a9eed59a958a4e4e56f1b7dcc904cbc90">convertToString</a>(Document doc) {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            tf.newTransformer().transform(<span class="keyword">new</span> DOMSource(doc), result);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">return</span> writer.toString();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Nothing to see here&quot;</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities_html_a5113e903c8c8049153bc4b3d6c43da1a"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html#a5113e903c8c8049153bc4b3d6c43da1a">gov.fnal.ppd.dd.xml.signature.XMLDocumentUtilities.convertToDocument</a></div><div class="ttdeci">static Document convertToDocument(String message)</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentUtilities_8java_source.html#l00036">XMLDocumentUtilities.java:36</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities_html_a9eed59a958a4e4e56f1b7dcc904cbc90"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html#a9eed59a958a4e4e56f1b7dcc904cbc90">gov.fnal.ppd.dd.xml.signature.XMLDocumentUtilities.convertToString</a></div><div class="ttdeci">static String convertToString(Document doc)</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentUtilities_8java_source.html#l00045">XMLDocumentUtilities.java:45</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html">gov.fnal.ppd.dd.xml.signature.XMLDocumentUtilities</a></div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentUtilities_8java_source.html#l00022">XMLDocumentUtilities.java:22</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

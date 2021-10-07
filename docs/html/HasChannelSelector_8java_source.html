@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/HasChannelSelector.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/specific/HasChannelSelector.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -107,7 +107,7 @@ $(document).ready(function(){initNavTree('HasChannelSelector_8java_source.html',
 <div class="title">HasChannelSelector.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="HasChannelSelector_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util;</div>
+<a href="HasChannelSelector_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util.specific;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.credentialsSetup;</div>
@@ -119,78 +119,78 @@ $(document).ready(function(){initNavTree('HasChannelSelector_8java_source.html',
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> java.sql.SQLException;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> java.sql.Statement;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.CredentialsNotFoundException</a>;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase.html">gov.fnal.ppd.dd.db.ConnectionToDatabase</a>;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1HasChannelSelector.html">   22</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1HasChannelSelector.html">HasChannelSelector</a> {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1HasChannelSelector.html#a0ed1875b3a8aecfae86174a5b1025418">   28</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1HasChannelSelector.html#a0ed1875b3a8aecfae86174a5b1025418">main</a>(<span class="keyword">final</span> String[] args) {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">boolean</span> hasChannelSelector = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            credentialsSetup();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html">CredentialsNotFoundException</a> e) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            System.exit(-1);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            InetAddress ip = InetAddress.getLocalHost();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            String myName = ip.getCanonicalHostName().replace(<span class="stringliteral">&quot;.dhcp&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            String query = <span class="stringliteral">&quot;SELECT count(*) FROM SelectorLocation WHERE IPName=&#39;&quot;</span> + myName + <span class="stringliteral">&quot;&#39;&quot;</span>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            Connection connection = null;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                connection = ConnectionToDatabase.getDbConnection();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DatabaseNotVisibleException.html">DatabaseNotVisibleException</a> e1) {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                e1.printStackTrace();</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                System.err.println(<span class="stringliteral">&quot;\nNo connection to the Signage/Displays database.&quot;</span>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                System.exit(-1);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keyword">synchronized</span> (connection) {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="comment">// Use ARM to simplify these try blocks.</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="keywordflow">try</span> (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery(<span class="stringliteral">&quot;USE &quot;</span> + DATABASE_NAME)) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                    <span class="keywordflow">try</span> (ResultSet rs2 = stmt.executeQuery(query);) {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                        <span class="keywordflow">if</span> (rs2.first()) {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                            <span class="keywordtype">int</span> count = rs2.getInt(<span class="stringliteral">&quot;COUNT(*)&quot;</span>);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                            hasChannelSelector |= (count != 0);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                            System.err.println(<span class="stringliteral">&quot;No location information for this device, &quot;</span> + myName);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                            <span class="keyword">new</span> Exception().printStackTrace();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                            System.exit(-1);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                        }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                } <span class="keywordflow">catch</span> (SQLException e) {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    System.err.println(query);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                    e.printStackTrace();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        } <span class="keywordflow">catch</span> (UnknownHostException e) {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            System.exit(-1);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        System.out.println (hasChannelSelector? <span class="stringliteral">&quot;This node is expected to run a channel selector&quot;</span> : <span class="stringliteral">&quot;This node will NOT run a channel selector&quot;</span>);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        System.exit(hasChannelSelector ? 0 : -1);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase.html">gov.fnal.ppd.dd.db.ConnectionToDatabase</a>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException.html">gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException</a>;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException</a>;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1HasChannelSelector.html">   23</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1HasChannelSelector.html">HasChannelSelector</a> {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1HasChannelSelector.html#aeac9700ce740a262b6700b1dc5079e7e">   29</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1HasChannelSelector.html#aeac9700ce740a262b6700b1dc5079e7e">main</a>(<span class="keyword">final</span> String[] args) {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordtype">boolean</span> hasChannelSelector = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            credentialsSetup();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html">CredentialsNotFoundException</a> e) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            System.exit(-1);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        }</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            InetAddress ip = InetAddress.getLocalHost();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            String myName = ip.getCanonicalHostName().replace(<span class="stringliteral">&quot;.dhcp&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            String query = <span class="stringliteral">&quot;SELECT count(*) FROM SelectorLocation WHERE IPName=&#39;&quot;</span> + myName + <span class="stringliteral">&quot;&#39;&quot;</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            Connection connection = null;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                connection = ConnectionToDatabase.getDbConnection();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException.html">DatabaseNotVisibleException</a> e1) {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                e1.printStackTrace();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                System.err.println(<span class="stringliteral">&quot;\nNo connection to the Signage/Displays database.&quot;</span>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                System.exit(-1);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keyword">synchronized</span> (connection) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="comment">// Use ARM to simplify these try blocks.</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">try</span> (Statement stmt = connection.createStatement(); ResultSet rs1 = stmt.executeQuery(<span class="stringliteral">&quot;USE &quot;</span> + DATABASE_NAME)) {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                    <span class="keywordflow">try</span> (ResultSet rs2 = stmt.executeQuery(query);) {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                        <span class="keywordflow">if</span> (rs2.first()) {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                            <span class="keywordtype">int</span> count = rs2.getInt(<span class="stringliteral">&quot;COUNT(*)&quot;</span>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                            hasChannelSelector |= (count != 0);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                            System.err.println(<span class="stringliteral">&quot;No location information for this device, &quot;</span> + myName);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                            <span class="keyword">new</span> Exception().printStackTrace();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                            System.exit(-1);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                        }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                } <span class="keywordflow">catch</span> (SQLException e) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                    System.err.println(query);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    e.printStackTrace();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                    System.exit(-1);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        } <span class="keywordflow">catch</span> (UnknownHostException e) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            System.exit(-1);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        System.out.println (hasChannelSelector? <span class="stringliteral">&quot;This node is expected to run a channel selector&quot;</span> : <span class="stringliteral">&quot;This node will NOT run a channel selector&quot;</span>);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        System.exit(hasChannelSelector ? 0 : -1);</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1HasChannelSelector_html_a0ed1875b3a8aecfae86174a5b1025418"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1HasChannelSelector.html#a0ed1875b3a8aecfae86174a5b1025418">gov.fnal.ppd.dd.util.HasChannelSelector.main</a></div><div class="ttdeci">static void main(final String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="HasChannelSelector_8java_source.html#l00028">HasChannelSelector.java:28</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1HasChannelSelector_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1HasChannelSelector.html">gov.fnal.ppd.dd.util.HasChannelSelector</a></div><div class="ttdef"><b>Definition:</b> <a href="HasChannelSelector_8java_source.html#l00022">HasChannelSelector.java:22</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.CredentialsNotFoundException</a></div><div class="ttdef"><b>Definition:</b> <a href="CredentialsNotFoundException_8java_source.html#l00003">CredentialsNotFoundException.java:3</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase.html">gov.fnal.ppd.dd.db.ConnectionToDatabase</a></div><div class="ttdef"><b>Definition:</b> <a href="ConnectionToDatabase_8java_source.html#l00027">ConnectionToDatabase.java:27</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DatabaseNotVisibleException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DatabaseNotVisibleException.html">gov.fnal.ppd.dd.util.DatabaseNotVisibleException</a></div><div class="ttdef"><b>Definition:</b> <a href="dd_2util_2DatabaseNotVisibleException_8java_source.html#l00014">DatabaseNotVisibleException.java:14</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1HasChannelSelector_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1HasChannelSelector.html">gov.fnal.ppd.dd.util.specific.HasChannelSelector</a></div><div class="ttdef"><b>Definition:</b> <a href="HasChannelSelector_8java_source.html#l00023">HasChannelSelector.java:23</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException.html">gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException</a></div><div class="ttdef"><b>Definition:</b> <a href="dd_2interfaces_2DatabaseNotVisibleException_8java_source.html#l00014">DatabaseNotVisibleException.java:14</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException</a></div><div class="ttdef"><b>Definition:</b> <a href="CredentialsNotFoundException_8java_source.html#l00009">CredentialsNotFoundException.java:9</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1HasChannelSelector_html_aeac9700ce740a262b6700b1dc5079e7e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1HasChannelSelector.html#aeac9700ce740a262b6700b1dc5079e7e">gov.fnal.ppd.dd.util.specific.HasChannelSelector.main</a></div><div class="ttdeci">static void main(final String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="HasChannelSelector_8java_source.html#l00029">HasChannelSelector.java:29</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase.html">gov.fnal.ppd.dd.db.ConnectionToDatabase</a></div><div class="ttdef"><b>Definition:</b> <a href="ConnectionToDatabase_8java_source.html#l00028">ConnectionToDatabase.java:28</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="HasChannelSelector_8java.html">HasChannelSelector.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="dir_acbb63a72dc47e1f5dc5cd4ae62bc1a5.html">specific</a></li><li class="navelem"><a class="el" href="HasChannelSelector_8java.html">HasChannelSelector.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

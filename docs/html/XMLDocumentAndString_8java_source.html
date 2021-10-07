@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -128,7 +128,7 @@ $(document).ready(function(){initNavTree('XMLDocumentAndString_8java_source.html
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">import</span> org.w3c.dom.Document;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">import</span> org.xml.sax.SAXException;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.CredentialsNotFoundException</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException</a>;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
@@ -136,119 +136,121 @@ $(document).ready(function(){initNavTree('XMLDocumentAndString_8java_source.html
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html">gov.fnal.ppd.dd.xml.signature.Validate</a>;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html">gov.fnal.ppd.dd.xml.signature.XMLDocumentUtilities</a>;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">   30</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">XMLDocumentAndString</a> {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> DocumentBuilderFactory   dbf = DocumentBuilderFactory.newInstance();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">private</span> Document                        theDoc;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">private</span> String                          theXML;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a785a51fa8313f57b711a6f0234e8282c">   37</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a785a51fa8313f57b711a6f0234e8282c">XMLDocumentAndString</a>(Document doc) {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        theDoc = doc;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        theXML = XMLDocumentUtilities.convertToString(doc);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#acdfa3bc11f59b1dbff8cb5c18e09c143">   42</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#acdfa3bc11f59b1dbff8cb5c18e09c143">XMLDocumentAndString</a>(String xml) {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        theXML = xml;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        theDoc = XMLDocumentUtilities.convertToDocument(xml);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a81c3dc4d99ae73f079d52008fd963990">   47</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a81c3dc4d99ae73f079d52008fd963990">getTheXML</a>() {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">return</span> theXML;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#aabe02a98c1824eb358467f6378594e2f">   51</a></span>&#160;    <span class="keyword">public</span> Document <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#aabe02a98c1824eb358467f6378594e2f">getTheDocument</a>() {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">return</span> theDoc;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#ad8066c55eff8ed13617381bea2c98aab">   55</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">XMLDocumentAndString</a> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#ad8066c55eff8ed13617381bea2c98aab">getSignedDocument</a>()</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            throws MarshalException, XMLSignatureException, TransformerException, InstantiationException, IllegalAccessException,</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            ClassNotFoundException, KeyException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        ByteArrayOutputStream localOutputStream = <span class="keyword">new</span> ByteArrayOutputStream();</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        SignXMLUsingDSAKeys.signDocument(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#aabe02a98c1824eb358467f6378594e2f">getTheDocument</a>(), localOutputStream);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        String theString = localOutputStream.toString();</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">   37</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">XMLDocumentAndString</a> {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> DocumentBuilderFactory   dbf = DocumentBuilderFactory.newInstance();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">private</span> Document                        theDoc;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">private</span> String                          theXML;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a785a51fa8313f57b711a6f0234e8282c">   44</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a785a51fa8313f57b711a6f0234e8282c">XMLDocumentAndString</a>(Document doc) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        theDoc = doc;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        theXML = XMLDocumentUtilities.convertToString(doc);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#acdfa3bc11f59b1dbff8cb5c18e09c143">   49</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#acdfa3bc11f59b1dbff8cb5c18e09c143">XMLDocumentAndString</a>(String xml) {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        theXML = xml;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        theDoc = XMLDocumentUtilities.convertToDocument(xml);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a81c3dc4d99ae73f079d52008fd963990">   54</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a81c3dc4d99ae73f079d52008fd963990">getTheXML</a>() {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">return</span> theXML;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#aabe02a98c1824eb358467f6378594e2f">   58</a></span>&#160;    <span class="keyword">public</span> Document <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#aabe02a98c1824eb358467f6378594e2f">getTheDocument</a>() {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">return</span> theDoc;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="comment">// the method, signDocument, changes the document. So put it back to its unsigned state.</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        theDoc = XMLDocumentUtilities.convertToDocument(theXML);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a785a51fa8313f57b711a6f0234e8282c">XMLDocumentAndString</a>(theString);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a753ec174577aa0b799a56b8fd1f055e0">   68</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a753ec174577aa0b799a56b8fd1f055e0">main</a>(String[] args) {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">if</span> (args.length &lt; 1) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            System.err.println(<span class="stringliteral">&quot;Please specify a filename for the signed XML document.&quot;</span>);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            System.exit(-1);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        Document doc = null;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">try</span> (FileInputStream fis = <span class="keyword">new</span> FileInputStream(args[0])) {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            doc = dbf.newDocumentBuilder().parse(fis);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        } <span class="keywordflow">catch</span> (IOException | SAXException | ParserConfigurationException e) {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">XMLDocumentAndString</a> d1 = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a785a51fa8313f57b711a6f0234e8282c">XMLDocumentAndString</a>(doc);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">XMLDocumentAndString</a> d2 = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a785a51fa8313f57b711a6f0234e8282c">XMLDocumentAndString</a>(d1.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a81c3dc4d99ae73f079d52008fd963990">getTheXML</a>());</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">if</span> (args.length &lt; 2 || args[1].equalsIgnoreCase(<span class="stringliteral">&quot;R&quot;</span>)) {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            System.out.println(<span class="stringliteral">&quot;Doing a round-trip on the XML document &quot;</span> + args[0]);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="comment">// Instantiate the document to be validated</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#ad8066c55eff8ed13617381bea2c98aab">   62</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">XMLDocumentAndString</a> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#ad8066c55eff8ed13617381bea2c98aab">getSignedDocument</a>()</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            throws MarshalException, XMLSignatureException, TransformerException, InstantiationException, IllegalAccessException,</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            ClassNotFoundException, KeyException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        ByteArrayOutputStream localOutputStream = <span class="keyword">new</span> ByteArrayOutputStream();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        SignXMLUsingDSAKeys.signDocument(<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#aabe02a98c1824eb358467f6378594e2f">getTheDocument</a>(), localOutputStream);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        String theString = localOutputStream.toString();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="comment">// the method, signDocument, changes the document. So put it back to its unsigned state.</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        theDoc = XMLDocumentUtilities.convertToDocument(theXML);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a785a51fa8313f57b711a6f0234e8282c">XMLDocumentAndString</a>(theString);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a753ec174577aa0b799a56b8fd1f055e0">   81</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a753ec174577aa0b799a56b8fd1f055e0">main</a>(String[] args) {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">if</span> (args.length &lt; 1) {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            System.err.println(<span class="stringliteral">&quot;Please specify a filename for the signed XML document.&quot;</span>);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            System.exit(-1);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        }</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <span class="keywordflow">if</span> (d1.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a81c3dc4d99ae73f079d52008fd963990">getTheXML</a>().equals(d2.getTheXML())) {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                System.out.println(<span class="stringliteral">&quot;The XMLs match!&quot;</span>);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                System.out.println(<span class="stringliteral">&quot;The XMLs DO NOT match!&quot;</span>);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="comment">// There does not seem to be a Document.equals() method. So it falls bask to Object.equals(), which fails.</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="comment">// if (d1.getTheDocument().equals(d2.getTheDocument())) {</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="comment">// System.out.println(&quot;The Docs match!&quot;);</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="comment">// } else {</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="comment">// System.out.println(&quot;The round-trip constructions: the Docs do NOT match!&quot;);</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="comment">// }</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                credentialsSetup();</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html">CredentialsNotFoundException</a> e) {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                e.printStackTrace();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                System.exit(-1);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        Document doc = null;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">try</span> (FileInputStream fis = <span class="keyword">new</span> FileInputStream(args[0])) {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            doc = dbf.newDocumentBuilder().parse(fis);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        } <span class="keywordflow">catch</span> (IOException | SAXException | ParserConfigurationException e) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            System.exit(-1);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">XMLDocumentAndString</a> d1 = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a785a51fa8313f57b711a6f0234e8282c">XMLDocumentAndString</a>(doc);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">XMLDocumentAndString</a> d2 = <span class="keyword">new</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a785a51fa8313f57b711a6f0234e8282c">XMLDocumentAndString</a>(d1.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a81c3dc4d99ae73f079d52008fd963990">getTheXML</a>());</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">if</span> (args.length &lt; 2 || args[1].equalsIgnoreCase(<span class="stringliteral">&quot;R&quot;</span>)) {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            System.out.println(<span class="stringliteral">&quot;Doing a round-trip on the XML document &quot;</span> + args[0]);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="comment">// Instantiate the document to be validated</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <span class="keywordflow">if</span> (d1.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a81c3dc4d99ae73f079d52008fd963990">getTheXML</a>().equals(d2.getTheXML())) {</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                System.out.println(<span class="stringliteral">&quot;The XMLs match!&quot;</span>);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                System.out.println(<span class="stringliteral">&quot;The XMLs DO NOT match!&quot;</span>);</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            }</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup();</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                SignXMLUsingDSAKeys.setupDSA(args[1], <span class="stringliteral">&quot;ad130482 selector 00&quot;</span>);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            } <span class="keywordflow">catch</span> (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchAlgorithmException</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                    | InvalidAlgorithmParameterException | InvalidKeySpecException | KeyException | IOException e1) {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="comment">// TODO Auto-generated catch block</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                e1.printStackTrace();</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            }</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <span class="comment">// Sign the document from the file and see what happens</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">XMLDocumentAndString</a> <span class="keywordtype">signed</span> = d1.getSignedDocument();</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html">Validate</a>.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html#a9d0a0a1029bc2eeed35a10beb6ab3667">isSignatureValid</a>(<span class="keywordtype">signed</span>))</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                    System.err.println(<span class="stringliteral">&quot;Signed successfully&quot;</span>);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                    System.err.println(<span class="stringliteral">&quot;The signature is NOT VALID&quot;</span>);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            } <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                e.printStackTrace();</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            }</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            System.exit(0);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        }</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html_a753ec174577aa0b799a56b8fd1f055e0"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a753ec174577aa0b799a56b8fd1f055e0">gov.fnal.ppd.dd.xml.XMLDocumentAndString.main</a></div><div class="ttdeci">static void main(String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00068">XMLDocumentAndString.java:68</a></div></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="comment">// There does not seem to be a Document.equals() method. So it falls bask to Object.equals(), which fails.</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="comment">// if (d1.getTheDocument().equals(d2.getTheDocument())) {</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="comment">// System.out.println(&quot;The Docs match!&quot;);</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="comment">// } else {</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="comment">// System.out.println(&quot;The round-trip constructions: the Docs do NOT match!&quot;);</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="comment">// }</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                credentialsSetup();</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html">CredentialsNotFoundException</a> e) {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                e.printStackTrace();</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                System.exit(-1);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            }</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            gov.fnal.ppd.dd.MakeChannelSelector.selectorSetup();</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                SignXMLUsingDSAKeys.setupDSA(args[1], <span class="stringliteral">&quot;ad130482 selector 00&quot;</span>);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            } <span class="keywordflow">catch</span> (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchAlgorithmException</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                    | InvalidAlgorithmParameterException | InvalidKeySpecException | KeyException | IOException e1) {</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                e1.printStackTrace();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                System.exit(-1);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="comment">// Sign the document from the file and see what happens</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">XMLDocumentAndString</a> <span class="keywordtype">signed</span> = d1.getSignedDocument();</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html">Validate</a>.<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html#a9d0a0a1029bc2eeed35a10beb6ab3667">isSignatureValid</a>(<span class="keywordtype">signed</span>))</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                    System.err.println(<span class="stringliteral">&quot;Signed successfully&quot;</span>);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                    System.err.println(<span class="stringliteral">&quot;The signature is NOT VALID&quot;</span>);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            } <span class="keywordflow">catch</span> (Exception e) {</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                e.printStackTrace();</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                System.exit(-1);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            System.exit(0);</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        }</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html_a753ec174577aa0b799a56b8fd1f055e0"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a753ec174577aa0b799a56b8fd1f055e0">gov.fnal.ppd.dd.xml.XMLDocumentAndString.main</a></div><div class="ttdeci">static void main(String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00081">XMLDocumentAndString.java:81</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.util.nonguiUtils.CredentialsNotFoundException</a></div><div class="ttdef"><b>Definition:</b> <a href="CredentialsNotFoundException_8java_source.html#l00009">CredentialsNotFoundException.java:9</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate_html_a9d0a0a1029bc2eeed35a10beb6ab3667"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html#a9d0a0a1029bc2eeed35a10beb6ab3667">gov.fnal.ppd.dd.xml.signature.Validate.isSignatureValid</a></div><div class="ttdeci">static boolean isSignatureValid(XMLDocumentAndString doc)</div><div class="ttdef"><b>Definition:</b> <a href="Validate_8java_source.html#l00093">Validate.java:93</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html_aabe02a98c1824eb358467f6378594e2f"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#aabe02a98c1824eb358467f6378594e2f">gov.fnal.ppd.dd.xml.XMLDocumentAndString.getTheDocument</a></div><div class="ttdeci">Document getTheDocument()</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00051">XMLDocumentAndString.java:51</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html_aabe02a98c1824eb358467f6378594e2f"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#aabe02a98c1824eb358467f6378594e2f">gov.fnal.ppd.dd.xml.XMLDocumentAndString.getTheDocument</a></div><div class="ttdeci">Document getTheDocument()</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00058">XMLDocumentAndString.java:58</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html">gov.fnal.ppd.dd.xml.signature.Validate</a></div><div class="ttdef"><b>Definition:</b> <a href="Validate_8java_source.html#l00044">Validate.java:44</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html_acdfa3bc11f59b1dbff8cb5c18e09c143"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#acdfa3bc11f59b1dbff8cb5c18e09c143">gov.fnal.ppd.dd.xml.XMLDocumentAndString.XMLDocumentAndString</a></div><div class="ttdeci">XMLDocumentAndString(String xml)</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00042">XMLDocumentAndString.java:42</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html_a81c3dc4d99ae73f079d52008fd963990"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a81c3dc4d99ae73f079d52008fd963990">gov.fnal.ppd.dd.xml.XMLDocumentAndString.getTheXML</a></div><div class="ttdeci">String getTheXML()</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00047">XMLDocumentAndString.java:47</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html_a785a51fa8313f57b711a6f0234e8282c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a785a51fa8313f57b711a6f0234e8282c">gov.fnal.ppd.dd.xml.XMLDocumentAndString.XMLDocumentAndString</a></div><div class="ttdeci">XMLDocumentAndString(Document doc)</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00037">XMLDocumentAndString.java:37</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1CredentialsNotFoundException.html">gov.fnal.ppd.dd.CredentialsNotFoundException</a></div><div class="ttdef"><b>Definition:</b> <a href="CredentialsNotFoundException_8java_source.html#l00003">CredentialsNotFoundException.java:3</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">gov.fnal.ppd.dd.xml.XMLDocumentAndString</a></div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00030">XMLDocumentAndString.java:30</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html">gov.fnal.ppd.dd.xml.signature.XMLDocumentUtilities</a></div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentUtilities_8java_source.html#l00015">XMLDocumentUtilities.java:15</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html_ad8066c55eff8ed13617381bea2c98aab"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#ad8066c55eff8ed13617381bea2c98aab">gov.fnal.ppd.dd.xml.XMLDocumentAndString.getSignedDocument</a></div><div class="ttdeci">XMLDocumentAndString getSignedDocument()</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00055">XMLDocumentAndString.java:55</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys.html">gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys</a></div><div class="ttdef"><b>Definition:</b> <a href="SignXMLUsingDSAKeys_8java_source.html#l00067">SignXMLUsingDSAKeys.java:67</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html_acdfa3bc11f59b1dbff8cb5c18e09c143"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#acdfa3bc11f59b1dbff8cb5c18e09c143">gov.fnal.ppd.dd.xml.XMLDocumentAndString.XMLDocumentAndString</a></div><div class="ttdeci">XMLDocumentAndString(String xml)</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00049">XMLDocumentAndString.java:49</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html_a81c3dc4d99ae73f079d52008fd963990"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a81c3dc4d99ae73f079d52008fd963990">gov.fnal.ppd.dd.xml.XMLDocumentAndString.getTheXML</a></div><div class="ttdeci">String getTheXML()</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00054">XMLDocumentAndString.java:54</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html_a785a51fa8313f57b711a6f0234e8282c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#a785a51fa8313f57b711a6f0234e8282c">gov.fnal.ppd.dd.xml.XMLDocumentAndString.XMLDocumentAndString</a></div><div class="ttdeci">XMLDocumentAndString(Document doc)</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00044">XMLDocumentAndString.java:44</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">gov.fnal.ppd.dd.xml.XMLDocumentAndString</a></div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00037">XMLDocumentAndString.java:37</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1XMLDocumentUtilities.html">gov.fnal.ppd.dd.xml.signature.XMLDocumentUtilities</a></div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentUtilities_8java_source.html#l00022">XMLDocumentUtilities.java:22</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html_ad8066c55eff8ed13617381bea2c98aab"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html#ad8066c55eff8ed13617381bea2c98aab">gov.fnal.ppd.dd.xml.XMLDocumentAndString.getSignedDocument</a></div><div class="ttdeci">XMLDocumentAndString getSignedDocument()</div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00062">XMLDocumentAndString.java:62</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys.html">gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys</a></div><div class="ttdef"><b>Definition:</b> <a href="SignXMLUsingDSAKeys_8java_source.html#l00073">SignXMLUsingDSAKeys.java:73</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

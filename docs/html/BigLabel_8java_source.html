@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/BigLabel.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/guiUtils/BigLabel.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -107,7 +107,7 @@ $(document).ready(function(){initNavTree('BigLabel_8java_source.html','');});
 <div class="title">BigLabel.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="BigLabel_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util;</div>
+<a href="BigLabel_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util.guiUtils;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.SHOW_IN_WINDOW;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
@@ -117,26 +117,26 @@ $(document).ready(function(){initNavTree('BigLabel_8java_source.html','');});
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> javax.swing.JComponent;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> javax.swing.JLabel;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1BigLabel.html">   18</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1BigLabel.html">BigLabel</a> <span class="keyword">extends</span> JLabel {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span>   serialVersionUID    = 8296427549410976741L;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1BigLabel.html#a325ac92799bf54125230e3cd672d8bc8">   27</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1BigLabel.html#a325ac92799bf54125230e3cd672d8bc8">BigLabel</a>(<span class="keyword">final</span> String title, <span class="keyword">final</span> <span class="keywordtype">int</span> style) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        super(title);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        setOpaque(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        setBackground(Color.white);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        setFont(<span class="keyword">new</span> Font(<span class="stringliteral">&quot;Arial&quot;</span>, style, (SHOW_IN_WINDOW ? 16 : 24)));</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        setAlignmentX(JComponent.CENTER_ALIGNMENT);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1BigLabel_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1BigLabel.html">gov.fnal.ppd.dd.util.BigLabel</a></div><div class="ttdef"><b>Definition:</b> <a href="BigLabel_8java_source.html#l00018">BigLabel.java:18</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1BigLabel_html_a325ac92799bf54125230e3cd672d8bc8"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1BigLabel.html#a325ac92799bf54125230e3cd672d8bc8">gov.fnal.ppd.dd.util.BigLabel.BigLabel</a></div><div class="ttdeci">BigLabel(final String title, final int style)</div><div class="ttdef"><b>Definition:</b> <a href="BigLabel_8java_source.html#l00027">BigLabel.java:27</a></div></div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1BigLabel.html">   19</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1BigLabel.html">BigLabel</a> <span class="keyword">extends</span> JLabel {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 8296427549410976741L;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1BigLabel.html#a893a2b6ab9309341513be1ae20841a01">   28</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1BigLabel.html#a893a2b6ab9309341513be1ae20841a01">BigLabel</a>(<span class="keyword">final</span> String title, <span class="keyword">final</span> <span class="keywordtype">int</span> style) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        super(title);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        setOpaque(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        setBackground(Color.white);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        setFont(<span class="keyword">new</span> Font(<span class="stringliteral">&quot;Arial&quot;</span>, style, (SHOW_IN_WINDOW ? 16 : 24)));</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        setAlignmentX(JComponent.CENTER_ALIGNMENT);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1BigLabel_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1BigLabel.html">gov.fnal.ppd.dd.util.guiUtils.BigLabel</a></div><div class="ttdef"><b>Definition:</b> <a href="BigLabel_8java_source.html#l00019">BigLabel.java:19</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1BigLabel_html_a893a2b6ab9309341513be1ae20841a01"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1BigLabel.html#a893a2b6ab9309341513be1ae20841a01">gov.fnal.ppd.dd.util.guiUtils.BigLabel.BigLabel</a></div><div class="ttdeci">BigLabel(final String title, final int style)</div><div class="ttdef"><b>Definition:</b> <a href="BigLabel_8java_source.html#l00028">BigLabel.java:28</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="BigLabel_8java.html">BigLabel.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="dir_24537923d3e6c260dac2e886461eff28.html">guiUtils</a></li><li class="navelem"><a class="el" href="BigLabel_8java.html">BigLabel.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

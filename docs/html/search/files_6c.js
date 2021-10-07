@@ -4,6 +4,7 @@ var searchData=
   ['listofexistingcontent_2ejava',['ListOfExistingContent.java',['../ListOfExistingContent_8java.html',1,'']]],
   ['listofexistingcontenttest_2ejava',['ListOfExistingContentTest.java',['../ListOfExistingContentTest_8java.html',1,'']]],
   ['listofvalidchannels_2ejava',['ListOfValidChannels.java',['../ListOfValidChannels_8java.html',1,'']]],
+  ['listofvalidchannelstest_2ejava',['ListOfValidChannelsTest.java',['../ListOfValidChannelsTest_8java.html',1,'']]],
   ['listselectionforsavelist_2ejava',['ListSelectionForSaveList.java',['../ListSelectionForSaveList_8java.html',1,'']]],
   ['listutilsdatabase_2ejava',['ListUtilsDatabase.java',['../ListUtilsDatabase_8java.html',1,'']]],
   ['listutilsgui_2ejava',['ListUtilsGUI.java',['../ListUtilsGUI_8java.html',1,'']]],

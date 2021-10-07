@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -128,26 +128,28 @@ $(document).ready(function(){initNavTree('GossipClient_8java_source.html','');})
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="comment">// receiving from server ( receiveRead object)</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            InputStream istream = sock.getInputStream();</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            BufferedReader receiveRead = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(istream));</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            System.out.println(<span class="stringliteral">&quot;Start the chitchat, type and press Enter key&quot;</span>);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            String receiveMessage, sendMessage;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                sendMessage = keyRead.readLine(); <span class="comment">// keyboard reading</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                pwrite.println(sendMessage); <span class="comment">// sending to server</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                pwrite.flush(); <span class="comment">// flush the data</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                <span class="comment">// Removed the reading from the socket, Aug 2019</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="comment">// if ((receiveMessage = receiveRead.readLine()) != null) // receive from server</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="comment">// {</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="comment">//  System.out.println(receiveMessage); // displaying at DOS prompt</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <span class="comment">// }</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            @SuppressWarnings(<span class="stringliteral">&quot;unused&quot;</span>)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            BufferedReader receiveRead = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(istream));</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            System.out.println(<span class="stringliteral">&quot;Start the chitchat, type and press Enter key&quot;</span>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            @SuppressWarnings(<span class="stringliteral">&quot;unused&quot;</span>)</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            String receiveMessage, sendMessage;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                sendMessage = keyRead.readLine(); <span class="comment">// keyboard reading</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                pwrite.println(sendMessage); <span class="comment">// sending to server</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                pwrite.flush(); <span class="comment">// flush the data</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="comment">// Removed the reading from the socket, Aug 2019</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="comment">// if ((receiveMessage = receiveRead.readLine()) != null) // receive from server</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <span class="comment">// {</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                <span class="comment">//  System.out.println(receiveMessage); // displaying at DOS prompt</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="comment">// }</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            }</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipClient_html_a4e86b84c79eaddbe83d507d3443cc5fa"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipClient.html#a4e86b84c79eaddbe83d507d3443cc5fa">gov.fnal.ppd.dd.chat.original.GossipClient.main</a></div><div class="ttdeci">static void main(String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="GossipClient_8java_source.html#l00011">GossipClient.java:11</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipClient_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1GossipClient.html">gov.fnal.ppd.dd.chat.original.GossipClient</a></div><div class="ttdef"><b>Definition:</b> <a href="GossipClient_8java_source.html#l00010">GossipClient.java:10</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

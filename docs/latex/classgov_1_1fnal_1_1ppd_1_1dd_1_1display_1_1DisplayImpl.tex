@@ -1,14 +1,6 @@
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl}{\section{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl Class Reference}
 \label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl}\index{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl@{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl}}
 }
-
-
-\subsection{Detailed Description}
-The implementation of a Display. This is made concrete on the controller side through \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade}{Display\-Facade}, and on the display side through Display\-Controller\-Messaging\-Abstract (which is made concrete as Display\-As\-Connection\-Through\-Selenium)
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
-\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -18,28 +10,23 @@ Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl\-:\begin
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_acb6974b45a772ac261c72c99d0df724b}{Display\-Impl} (final String ip\-Name, final int v\-Display, final int db\-Display, final int screen\-Number, final String location, final Color color)
+\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_acb6974b45a772ac261c72c99d0df724b}{Display\-Impl} (final String ip\-Name, final int v\-Display, final int db\-Display, final int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ace620614bde13cee492129c27f38db4e}{screen\-Number}, final String location, final Color color)
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a39ab9312ab3a54c61403b95b30f7d831}{\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} {\bfseries set\-Content} (final \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} c)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a39ab9312ab3a54c61403b95b30f7d831}
-
+\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a39ab9312ab3a54c61403b95b30f7d831}{set\-Content} (final \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} c)
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa322597e9f586d4a5c4dfb78e2b7e793}{String {\bfseries to\-String} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa322597e9f586d4a5c4dfb78e2b7e793}
-
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa322597e9f586d4a5c4dfb78e2b7e793}{to\-String} ()
 \item 
 int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1b294a2d2cd0b9f51e2489b06542a522}{get\-D\-B\-Display\-Number} ()
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a254f9588dac8e1d1cff92e99e103adf2}{void {\bfseries set\-D\-B\-Display\-Number} (final int d)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a254f9588dac8e1d1cff92e99e103adf2}
-
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a254f9588dac8e1d1cff92e99e103adf2}{set\-D\-B\-Display\-Number} (final int d)
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a3066278882e766ccb363ae335d25dd18}{void {\bfseries set\-Virtual\-Display\-Number} (final int d)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a3066278882e766ccb363ae335d25dd18}
-
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a3066278882e766ccb363ae335d25dd18}{set\-Virtual\-Display\-Number} (final int d)
 \item 
 int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_af2f963a8459aee3de743051f96e20bc8}{get\-Virtual\-Display\-Number} ()
 \item 
 Color \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1a3e04f0de207a90b4ad2049ac192758}{get\-Preferred\-Highlight\-Color} ()
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a0250d4db31cb4ab616c923285c378251}{void {\bfseries action\-Performed} (Action\-Event e)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a0250d4db31cb4ab616c923285c378251}
-
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a0250d4db31cb4ab616c923285c378251}{action\-Performed} (Action\-Event e)
 \item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ac26f8f2c8b7935585ee0c1f58a56ec4d}{add\-Listener} (Action\-Listener listener)
 \item 
@@ -51,7 +38,7 @@ String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa3ac5
 \item 
 int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ac7077820239a58d29a1cb8d17666180e}{get\-Screen\-Number} ()
 \item 
-Inet\-Address \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a76124d9580e72f645acb77257c033389}{get\-I\-P\-Address} ()
+String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a86f25906887ba6b4c39fd099b0b74b3e}{get\-I\-P\-Address} ()
 \item 
 String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a092466ec2163d44dde2d737608360533}{get\-Location} ()
 \item 
@@ -59,20 +46,16 @@ String \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a3db5e
 \item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ab3982221fd0e7382f530b3c349121838}{disconnect} ()
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad0c1ebb69cec1dfded07d014cc310bf0}{int {\bfseries hash\-Code} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad0c1ebb69cec1dfded07d014cc310bf0}
-
+int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad0c1ebb69cec1dfded07d014cc310bf0}{hash\-Code} ()
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a798cf0131dd1b3f20267f9aca0f12f60}{boolean {\bfseries equals} (Object obj)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a798cf0131dd1b3f20267f9aca0f12f60}
-
+boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a798cf0131dd1b3f20267f9aca0f12f60}{equals} (Object obj)
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_afff95dd462ce7eaf728335537e199bc8}{void {\bfseries java\-Has\-Changed} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_afff95dd462ce7eaf728335537e199bc8}
-
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_afff95dd462ce7eaf728335537e199bc8}{java\-Has\-Changed} ()
 \end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad7d3f64a1788e1ba7887fc47028fb9c3}{abstract boolean {\bfseries local\-Set\-Content} ()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad7d3f64a1788e1ba7887fc47028fb9c3}
-
+abstract boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad7d3f64a1788e1ba7887fc47028fb9c3}{local\-Set\-Content} ()
 \item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a196c203a790e4dfbf873cce363519e57}{respond\-To\-Content\-Change} (boolean success, final String why)
 \item 
@@ -82,33 +65,38 @@ void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a4f5d156
 \item 
 void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ab240ed8a72e4006fb21eb6f30765f3df}{error} (String string)
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a55d3593b3c95df466ddb7f5d59b2bfa2}{void {\bfseries inform\-Listeners} (final Display\-Change\-Event.\-Display\-Change\-Type t, String more)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a55d3593b3c95df466ddb7f5d59b2bfa2}
-
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a55d3593b3c95df466ddb7f5d59b2bfa2}{inform\-Listeners} (final Display\-Change\-Event.\-Display\-Change\-Type t, String more)
 \end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ace620614bde13cee492129c27f38db4e}{int {\bfseries screen\-Number} = 0}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ace620614bde13cee492129c27f38db4e}
-
+int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ace620614bde13cee492129c27f38db4e}{screen\-Number} = 0
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a190a737d7c69248d533e0dc016dcd755}{\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} {\bfseries channel}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a190a737d7c69248d533e0dc016dcd755}
-
+\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a190a737d7c69248d533e0dc016dcd755}{channel}
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1732d577755dfc58b9762a41599fa4ed}{Stack$<$ \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} $>$ {\bfseries previous\-Channel\-Stack} = new Stack$<$\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content}$>$()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1732d577755dfc58b9762a41599fa4ed}
-
+Stack$<$ \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content} $>$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1732d577755dfc58b9762a41599fa4ed}{previous\-Channel\-Stack} = new Stack$<$\hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1SignageContent}{Signage\-Content}$>$()
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_af12ff2aa5231a9bb08e12b1dbd0dea7c}{Color {\bfseries highlight\-Color}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_af12ff2aa5231a9bb08e12b1dbd0dea7c}
-
+Color \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_af12ff2aa5231a9bb08e12b1dbd0dea7c}{highlight\-Color}
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa4a7dad0a486d2f888cf47921423e2c1}{List$<$ Action\-Listener $>$ {\bfseries listeners} = new Array\-List$<$Action\-Listener$>$()}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa4a7dad0a486d2f888cf47921423e2c1}
-
+List$<$ Action\-Listener $>$ \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa4a7dad0a486d2f888cf47921423e2c1}{listeners} = new Array\-List$<$Action\-Listener$>$()
 \end{DoxyCompactItemize}
 \subsection*{Static Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad88d25a9ab5f40882542b19846f83bf3}{static Atomic\-Integer {\bfseries internal\-Thread\-I\-D} = new Atomic\-Integer(0)}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad88d25a9ab5f40882542b19846f83bf3}
-
+static Atomic\-Integer \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad88d25a9ab5f40882542b19846f83bf3}{internal\-Thread\-I\-D} = new Atomic\-Integer(0)
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The implementation of a Display. This is made concrete on the controller side through \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade}{Display\-Facade}, and on the display side through Display\-Controller\-Messaging\-Abstract (which is made concrete as Display\-As\-Connection\-Through\-Selenium)
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 40 of file Display\-Impl.\-java.
+
 
 
 \subsection{Constructor \& Destructor Documentation}
@@ -123,7 +111,7 @@ void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ab240ed8
 \item[{final String}]{location, }
 \item[{final Color}]{color}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_acb6974b45a772ac261c72c99d0df724b}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_acb6974b45a772ac261c72c99d0df724b}
 
 \begin{DoxyParams}{Parameters}
 {\em ip\-Name} & 
@@ -159,14 +147,29 @@ void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ab240ed8
 \end{DoxyParams}
 
 
+Definition at line 88 of file Display\-Impl.\-java.
+
+
+
 \subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a0250d4db31cb4ab616c923285c378251}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!action\-Performed@{action\-Performed}}
+\index{action\-Performed@{action\-Performed}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{action\-Performed}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-action\-Performed (
+\begin{DoxyParamCaption}
+\item[{Action\-Event}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a0250d4db31cb4ab616c923285c378251}
+
+
+Definition at line 284 of file Display\-Impl.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ac26f8f2c8b7935585ee0c1f58a56ec4d}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!add\-Listener@{add\-Listener}}
 \index{add\-Listener@{add\-Listener}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{add\-Listener}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-add\-Listener (
 \begin{DoxyParamCaption}
 \item[{Action\-Listener}]{L}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ac26f8f2c8b7935585ee0c1f58a56ec4d}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ac26f8f2c8b7935585ee0c1f58a56ec4d}
 Add a listener to see when things change on a Display
 
 
@@ -178,16 +181,35 @@ Add a listener to see when things change on a Display
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_abbf3b133460808b9361107fcd5a3ae19}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 305 of file Display\-Impl.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ab3982221fd0e7382f530b3c349121838}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!disconnect@{disconnect}}
 \index{disconnect@{disconnect}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{disconnect}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-disconnect (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ab3982221fd0e7382f530b3c349121838}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ab3982221fd0e7382f530b3c349121838}
 Disconnect this display from the browser 
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ae9ca738d32324acee3e6f912726a70ff}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
+
+
+
+Definition at line 352 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a798cf0131dd1b3f20267f9aca0f12f60}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!equals@{equals}}
+\index{equals@{equals}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{equals}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-equals (
+\begin{DoxyParamCaption}
+\item[{Object}]{obj}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a798cf0131dd1b3f20267f9aca0f12f60}
+
+
+Definition at line 376 of file Display\-Impl.\-java.
 
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ab240ed8a72e4006fb21eb6f30765f3df}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!error@{error}}
 \index{error@{error}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
@@ -195,7 +217,7 @@ Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ae
 \begin{DoxyParamCaption}
 \item[{String}]{string}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ab240ed8a72e4006fb21eb6f30765f3df}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ab240ed8a72e4006fb21eb6f30765f3df}
 An error has been encountered.
 
 This should probably be overridden by the classes that know how to write to the physical display. Pushing this error information into the log file is probably not the best choice for the disposition of this information.
@@ -205,13 +227,17 @@ This should probably be overridden by the classes that know how to write to the 
 {\em string} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 221 of file Display\-Impl.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aef09d861c01a1be4e14a123d881bd211}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!error\-Handler@{error\-Handler}}
 \index{error\-Handler@{error\-Handler}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{error\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-error\-Handler (
 \begin{DoxyParamCaption}
 \item[{String}]{message}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aef09d861c01a1be4e14a123d881bd211}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aef09d861c01a1be4e14a123d881bd211}
 A way for the Display to handle errors from the messaging system
 
 
@@ -223,13 +249,17 @@ A way for the Display to handle errors from the messaging system
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a2acc4186323118548cf5e57b61101350}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 311 of file Display\-Impl.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa48e0f9679a07f8bff85867c4831d528}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!get\-Content@{get\-Content}}
 \index{get\-Content@{get\-Content}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{get\-Content}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Signage\-Content} gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-get\-Content (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa48e0f9679a07f8bff85867c4831d528}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa48e0f9679a07f8bff85867c4831d528}
 What content is playing on this Display?
 
 \begin{DoxyReturn}{Returns}
@@ -239,13 +269,17 @@ The Signage\-Content that is playing now on this Display
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_ab5979ea942bdd40fb9ea00375eccde78}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 325 of file Display\-Impl.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1b294a2d2cd0b9f51e2489b06542a522}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!get\-D\-B\-Display\-Number@{get\-D\-B\-Display\-Number}}
 \index{get\-D\-B\-Display\-Number@{get\-D\-B\-Display\-Number}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{get\-D\-B\-Display\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-get\-D\-B\-Display\-Number (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1b294a2d2cd0b9f51e2489b06542a522}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1b294a2d2cd0b9f51e2489b06542a522}
 What is the Display number? This is either the Database Index or the virutal number the user wants to see.
 
 \begin{DoxyReturn}{Returns}
@@ -257,13 +291,17 @@ The index into the database of this display. This used to be the actual display 
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a16cd7303182205627ccffe5024e041d9}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 259 of file Display\-Impl.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa3ac511af5cffdea8fe664ec9f79e0c8}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!get\-Description@{get\-Description}}
 \index{get\-Description@{get\-Description}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{get\-Description}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-get\-Description (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa3ac511af5cffdea8fe664ec9f79e0c8}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa3ac511af5cffdea8fe664ec9f79e0c8}
 A long description, presumably including the location, of this Display
 
 \begin{DoxyReturn}{Returns}
@@ -273,21 +311,29 @@ the Description
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_afdd0f4294902140944f4aff8b8bc94d0}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
-\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a76124d9580e72f645acb77257c033389}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!get\-I\-P\-Address@{get\-I\-P\-Address}}
+
+
+Definition at line 316 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a86f25906887ba6b4c39fd099b0b74b3e}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!get\-I\-P\-Address@{get\-I\-P\-Address}}
 \index{get\-I\-P\-Address@{get\-I\-P\-Address}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
-\subsubsection[{get\-I\-P\-Address}]{\setlength{\rightskip}{0pt plus 5cm}Inet\-Address gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-get\-I\-P\-Address (
+\subsubsection[{get\-I\-P\-Address}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-get\-I\-P\-Address (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a76124d9580e72f645acb77257c033389}
-What is the I\-P Address of this Display?
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a86f25906887ba6b4c39fd099b0b74b3e}
+What is the I\-P Name of this Display?
 
 \begin{DoxyReturn}{Returns}
-the I\-P number 
+the I\-P name 
 \end{DoxyReturn}
 
 
-Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0ddd8e7cd161e52c853bf4af8c1ae2bd}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
+Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_afd6500b33d87915eb5f09df692141000}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
+
+
+
+Definition at line 335 of file Display\-Impl.\-java.
 
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a092466ec2163d44dde2d737608360533}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!get\-Location@{get\-Location}}
 \index{get\-Location@{get\-Location}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
@@ -295,7 +341,7 @@ Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a0
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a092466ec2163d44dde2d737608360533}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a092466ec2163d44dde2d737608360533}
 \begin{DoxyReturn}{Returns}
 A description of the precise location of this Display 
 \end{DoxyReturn}
@@ -303,13 +349,17 @@ A description of the precise location of this Display
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a569a001d11cb30ff98590241d05d88b9}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 340 of file Display\-Impl.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1a3e04f0de207a90b4ad2049ac192758}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!get\-Preferred\-Highlight\-Color@{get\-Preferred\-Highlight\-Color}}
 \index{get\-Preferred\-Highlight\-Color@{get\-Preferred\-Highlight\-Color}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{get\-Preferred\-Highlight\-Color}]{\setlength{\rightskip}{0pt plus 5cm}Color gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-get\-Preferred\-Highlight\-Color (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1a3e04f0de207a90b4ad2049ac192758}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1a3e04f0de207a90b4ad2049ac192758}
 What is the color coding for this Display?
 
 \begin{DoxyReturn}{Returns}
@@ -319,13 +369,17 @@ the coded Color of this display
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_adc3c8118f22dd4d82c837da04a88723f}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 279 of file Display\-Impl.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ac7077820239a58d29a1cb8d17666180e}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!get\-Screen\-Number@{get\-Screen\-Number}}
 \index{get\-Screen\-Number@{get\-Screen\-Number}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{get\-Screen\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-get\-Screen\-Number (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ac7077820239a58d29a1cb8d17666180e}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ac7077820239a58d29a1cb8d17666180e}
 What is the Screen number within this Display?
 
 \begin{DoxyReturn}{Returns}
@@ -335,13 +389,17 @@ the Screen number
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_aebf42d7e0cbc3e6f0a4009bb61ddfdfb}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 330 of file Display\-Impl.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a3db5e11b8d5108d57d5027e0e8301e39}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!get\-Status@{get\-Status}}
 \index{get\-Status@{get\-Status}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{get\-Status}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-get\-Status (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a3db5e11b8d5108d57d5027e0e8301e39}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a3db5e11b8d5108d57d5027e0e8301e39}
 Return the status of this Display, which is expected to include if it is live and, if so, what it is showing.
 
 \begin{DoxyReturn}{Returns}
@@ -351,13 +409,17 @@ String status message
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a45ec755ef206791045dbc59bdc264875}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 345 of file Display\-Impl.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_af2f963a8459aee3de743051f96e20bc8}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!get\-Virtual\-Display\-Number@{get\-Virtual\-Display\-Number}}
 \index{get\-Virtual\-Display\-Number@{get\-Virtual\-Display\-Number}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{get\-Virtual\-Display\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-get\-Virtual\-Display\-Number (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_af2f963a8459aee3de743051f96e20bc8}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_af2f963a8459aee3de743051f96e20bc8}
 \begin{DoxyReturn}{Returns}
 The display number that the user wants to show on this display 
 \end{DoxyReturn}
@@ -365,13 +427,40 @@ The display number that the user wants to show on this display
 
 Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1signage_1_1Display_a5f3b01b971133b1278f6c80b1aed58e5}{gov.\-fnal.\-ppd.\-dd.\-signage.\-Display}.
 
+
+
+Definition at line 274 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad0c1ebb69cec1dfded07d014cc310bf0}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!hash\-Code@{hash\-Code}}
+\index{hash\-Code@{hash\-Code}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{hash\-Code}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-hash\-Code (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad0c1ebb69cec1dfded07d014cc310bf0}
+
+
+Definition at line 362 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a55d3593b3c95df466ddb7f5d59b2bfa2}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!inform\-Listeners@{inform\-Listeners}}
+\index{inform\-Listeners@{inform\-Listeners}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{inform\-Listeners}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-inform\-Listeners (
+\begin{DoxyParamCaption}
+\item[{final Display\-Change\-Event.\-Display\-Change\-Type}]{t, }
+\item[{String}]{more}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a55d3593b3c95df466ddb7f5d59b2bfa2}
+
+
+Definition at line 292 of file Display\-Impl.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1cd34d3710136494c4cfad17c29bc001}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!is\-Verified\-Channel@{is\-Verified\-Channel}}
 \index{is\-Verified\-Channel@{is\-Verified\-Channel}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{is\-Verified\-Channel}]{\setlength{\rightskip}{0pt plus 5cm}boolean gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-is\-Verified\-Channel (
 \begin{DoxyParamCaption}
 \item[{{\bf Signage\-Content}}]{c}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1cd34d3710136494c4cfad17c29bc001}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1cd34d3710136494c4cfad17c29bc001}
 Had the validness of this channel been checked, and is it valid? Override if this is something you need to check
 
 
@@ -382,6 +471,36 @@ Had the validness of this channel been checked, and is it valid? Override if thi
 \begin{DoxyReturn}{Returns}
 
 \end{DoxyReturn}
+
+
+Definition at line 199 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_afff95dd462ce7eaf728335537e199bc8}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!java\-Has\-Changed@{java\-Has\-Changed}}
+\index{java\-Has\-Changed@{java\-Has\-Changed}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{java\-Has\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-java\-Has\-Changed (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_afff95dd462ce7eaf728335537e199bc8}
+
+
+Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1JavaChangeListener_af445b8c9b305e7493a08dc75266e2c7b}{gov.\-fnal.\-ppd.\-dd.\-util.\-nongui\-Utils.\-Java\-Change\-Listener}.
+
+
+
+Definition at line 392 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad7d3f64a1788e1ba7887fc47028fb9c3}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!local\-Set\-Content@{local\-Set\-Content}}
+\index{local\-Set\-Content@{local\-Set\-Content}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{local\-Set\-Content}]{\setlength{\rightskip}{0pt plus 5cm}abstract boolean gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-local\-Set\-Content (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad7d3f64a1788e1ba7887fc47028fb9c3}
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1DisplayControllerMessagingAbstract_a24673e152db1bddd9927cbc266059b99}{gov.\-fnal.\-ppd.\-dd.\-display.\-client.\-Display\-Controller\-Messaging\-Abstract}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayFacade_aa103a2459e11731f78208f581d6df230}{gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Facade}.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a196c203a790e4dfbf873cce363519e57}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!respond\-To\-Content\-Change@{respond\-To\-Content\-Change}}
 \index{respond\-To\-Content\-Change@{respond\-To\-Content\-Change}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{respond\-To\-Content\-Change}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-respond\-To\-Content\-Change (
@@ -389,7 +508,7 @@ Had the validness of this channel been checked, and is it valid? Override if thi
 \item[{boolean}]{success, }
 \item[{final String}]{why}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a196c203a790e4dfbf873cce363519e57}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a196c203a790e4dfbf873cce363519e57}
 This should be overridden in the real display client
 
 
@@ -405,13 +524,28 @@ This should be overridden in the real display client
 \end{DoxyItemize}\\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 176 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a39ab9312ab3a54c61403b95b30f7d831}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!set\-Content@{set\-Content}}
+\index{set\-Content@{set\-Content}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{set\-Content}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Signage\-Content} gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-set\-Content (
+\begin{DoxyParamCaption}
+\item[{final {\bf Signage\-Content}}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a39ab9312ab3a54c61403b95b30f7d831}
+
+
+Definition at line 112 of file Display\-Impl.\-java.
+
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a4f5d156cebdc544eaa992153e5ccd137}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!set\-Content\-Bypass@{set\-Content\-Bypass}}
 \index{set\-Content\-Bypass@{set\-Content\-Bypass}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
 \subsubsection[{set\-Content\-Bypass}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-set\-Content\-Bypass (
 \begin{DoxyParamCaption}
 \item[{{\bf Signage\-Content}}]{c}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a4f5d156cebdc544eaa992153e5ccd137}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a4f5d156cebdc544eaa992153e5ccd137}
 A necessary mechanism to set the content when something strange is going on in the derived class. {\itshape Use sparingly}
 
 
@@ -421,6 +555,88 @@ A necessary mechanism to set the content when something strange is going on in t
 \end{DoxyParams}
 
 
+Definition at line 209 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a254f9588dac8e1d1cff92e99e103adf2}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!set\-D\-B\-Display\-Number@{set\-D\-B\-Display\-Number}}
+\index{set\-D\-B\-Display\-Number@{set\-D\-B\-Display\-Number}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{set\-D\-B\-Display\-Number}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-set\-D\-B\-Display\-Number (
+\begin{DoxyParamCaption}
+\item[{final int}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a254f9588dac8e1d1cff92e99e103adf2}
+
+
+Definition at line 264 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a3066278882e766ccb363ae335d25dd18}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!set\-Virtual\-Display\-Number@{set\-Virtual\-Display\-Number}}
+\index{set\-Virtual\-Display\-Number@{set\-Virtual\-Display\-Number}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{set\-Virtual\-Display\-Number}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-set\-Virtual\-Display\-Number (
+\begin{DoxyParamCaption}
+\item[{final int}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a3066278882e766ccb363ae335d25dd18}
+
+
+Definition at line 269 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa322597e9f586d4a5c4dfb78e2b7e793}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!to\-String@{to\-String}}
+\index{to\-String@{to\-String}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{to\-String}]{\setlength{\rightskip}{0pt plus 5cm}String gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-to\-String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa322597e9f586d4a5c4dfb78e2b7e793}
+
+
+Definition at line 226 of file Display\-Impl.\-java.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a190a737d7c69248d533e0dc016dcd755}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!channel@{channel}}
+\index{channel@{channel}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{channel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Signage\-Content} gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-channel\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a190a737d7c69248d533e0dc016dcd755}
+
+
+Definition at line 56 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_af12ff2aa5231a9bb08e12b1dbd0dea7c}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!highlight\-Color@{highlight\-Color}}
+\index{highlight\-Color@{highlight\-Color}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{highlight\-Color}]{\setlength{\rightskip}{0pt plus 5cm}Color gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-highlight\-Color\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_af12ff2aa5231a9bb08e12b1dbd0dea7c}
+
+
+Definition at line 62 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad88d25a9ab5f40882542b19846f83bf3}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!internal\-Thread\-I\-D@{internal\-Thread\-I\-D}}
+\index{internal\-Thread\-I\-D@{internal\-Thread\-I\-D}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{internal\-Thread\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}Atomic\-Integer gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-internal\-Thread\-I\-D = new Atomic\-Integer(0)\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ad88d25a9ab5f40882542b19846f83bf3}
+
+
+Definition at line 55 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa4a7dad0a486d2f888cf47921423e2c1}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!listeners@{listeners}}
+\index{listeners@{listeners}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{listeners}]{\setlength{\rightskip}{0pt plus 5cm}List$<$Action\-Listener$>$ gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-listeners = new Array\-List$<$Action\-Listener$>$()\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_aa4a7dad0a486d2f888cf47921423e2c1}
+
+
+Definition at line 63 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1732d577755dfc58b9762a41599fa4ed}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!previous\-Channel\-Stack@{previous\-Channel\-Stack}}
+\index{previous\-Channel\-Stack@{previous\-Channel\-Stack}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{previous\-Channel\-Stack}]{\setlength{\rightskip}{0pt plus 5cm}Stack$<${\bf Signage\-Content}$>$ gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-previous\-Channel\-Stack = new Stack$<${\bf Signage\-Content}$>$()\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_a1732d577755dfc58b9762a41599fa4ed}
+
+
+Definition at line 60 of file Display\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ace620614bde13cee492129c27f38db4e}{\index{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}!screen\-Number@{screen\-Number}}
+\index{screen\-Number@{screen\-Number}!gov::fnal::ppd::dd::display::DisplayImpl@{gov\-::fnal\-::ppd\-::dd\-::display\-::\-Display\-Impl}}
+\subsubsection[{screen\-Number}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-display.\-Display\-Impl.\-screen\-Number = 0\hspace{0.3cm}{\ttfamily [protected]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1DisplayImpl_ace620614bde13cee492129c27f38db4e}
+
+
+Definition at line 54 of file Display\-Impl.\-java.
+
+
+
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/display/Display\-Impl.\-java\end{DoxyCompactItemize}
+src/gov/fnal/ppd/dd/display/\hyperlink{DisplayImpl_8java}{Display\-Impl.\-java}\end{DoxyCompactItemize}

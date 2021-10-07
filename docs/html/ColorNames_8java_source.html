@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/ColorNames.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/nonguiUtils/ColorNames.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -107,11 +107,11 @@ $(document).ready(function(){initNavTree('ColorNames_8java_source.html','');});
 <div class="title">ColorNames.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="ColorNames_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util;</div>
+<a href="ColorNames_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util.nonguiUtils;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.GlobalVariables.DATABASE_NAME;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.println;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.printlnErr;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> java.sql.Connection;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> java.sql.ResultSet;</div>
@@ -120,71 +120,72 @@ $(document).ready(function(){initNavTree('ColorNames_8java_source.html','');});
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> java.util.HashMap;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase.html">gov.fnal.ppd.dd.db.ConnectionToDatabase</a>;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNames.html">   21</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNames.html">ColorNames</a> <span class="keyword">extends</span> HashMap&lt;String, String&gt; {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1727549736099975272L;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNames.html#a4dd6370e3a87d04a7b0bf746d4d2c4eb">   28</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNames.html#a4dd6370e3a87d04a7b0bf746d4d2c4eb">ColorNames</a>() {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        Statement stmt = null;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        ResultSet rs = null;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        Connection connection;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">int</span> count = 0;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            connection = ConnectionToDatabase.getDbConnection();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="keyword">synchronized</span> (connection) {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                stmt = connection.createStatement();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                rs = stmt.executeQuery(<span class="stringliteral">&quot;USE &quot;</span> + DATABASE_NAME);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                String q = <span class="stringliteral">&quot;SELECT ColorCode,ColorName FROM ColorNames&quot;</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                rs = stmt.executeQuery(q);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">if</span> (rs.first()) { <span class="comment">// Move to first returned row</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    <span class="keywordflow">while</span> (!rs.isAfterLast())</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                            String code = rs.getString(<span class="stringliteral">&quot;ColorCode&quot;</span>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                            String name = rs.getString(<span class="stringliteral">&quot;ColorName&quot;</span>);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                            put(code, name);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                            rs.next();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                            count++;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                        } <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                            e.printStackTrace();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                        }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                    stmt.close();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                    rs.close();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                } <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                    printlnErr(getClass(), <span class="stringliteral">&quot;Executed a query that returned no rows: &quot;</span> + q);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        } <span class="keywordflow">catch</span> (SQLException ex) {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            ex.printStackTrace();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            System.exit(1);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DatabaseNotVisibleException.html">DatabaseNotVisibleException</a> e) {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            System.exit(1);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        println(getClass(), <span class="stringliteral">&quot;: Found &quot;</span> + count + <span class="stringliteral">&quot; color names.&quot;</span>);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNames.html#a63fe2b1ed60e8a0f22e267cbfccb1580">   70</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNames.html#a63fe2b1ed60e8a0f22e267cbfccb1580">toString</a>() {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        String retval = <span class="stringliteral">&quot;{&quot;</span>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">for</span> (String N : keySet())</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            retval += <span class="stringliteral">&quot;[&quot;</span> + N + <span class="stringliteral">&quot;-&gt;&quot;</span> + <span class="keyword">get</span>(N) + <span class="stringliteral">&quot;]&quot;</span>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">return</span> retval;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNames_html_a63fe2b1ed60e8a0f22e267cbfccb1580"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNames.html#a63fe2b1ed60e8a0f22e267cbfccb1580">gov.fnal.ppd.dd.util.ColorNames.toString</a></div><div class="ttdeci">String toString()</div><div class="ttdef"><b>Definition:</b> <a href="ColorNames_8java_source.html#l00070">ColorNames.java:70</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNames_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNames.html">gov.fnal.ppd.dd.util.ColorNames</a></div><div class="ttdef"><b>Definition:</b> <a href="ColorNames_8java_source.html#l00021">ColorNames.java:21</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNames_html_a4dd6370e3a87d04a7b0bf746d4d2c4eb"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1ColorNames.html#a4dd6370e3a87d04a7b0bf746d4d2c4eb">gov.fnal.ppd.dd.util.ColorNames.ColorNames</a></div><div class="ttdeci">ColorNames()</div><div class="ttdef"><b>Definition:</b> <a href="ColorNames_8java_source.html#l00028">ColorNames.java:28</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase.html">gov.fnal.ppd.dd.db.ConnectionToDatabase</a></div><div class="ttdef"><b>Definition:</b> <a href="ConnectionToDatabase_8java_source.html#l00027">ConnectionToDatabase.java:27</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DatabaseNotVisibleException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1DatabaseNotVisibleException.html">gov.fnal.ppd.dd.util.DatabaseNotVisibleException</a></div><div class="ttdef"><b>Definition:</b> <a href="dd_2util_2DatabaseNotVisibleException_8java_source.html#l00014">DatabaseNotVisibleException.java:14</a></div></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException.html">gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException</a>;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ColorNames.html">   22</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ColorNames.html">ColorNames</a> <span class="keyword">extends</span> HashMap&lt;String, String&gt; {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keywordtype">long</span> serialVersionUID = 1727549736099975272L;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ColorNames.html#a33e7e1d6596187e15f63db7c3f07b391">   29</a></span>&#160;    <span class="keyword">public</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ColorNames.html#a33e7e1d6596187e15f63db7c3f07b391">ColorNames</a>() {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        Statement stmt = null;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        ResultSet rs = null;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        Connection connection;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">int</span> count = 0;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            connection = ConnectionToDatabase.getDbConnection();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keyword">synchronized</span> (connection) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                stmt = connection.createStatement();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                rs = stmt.executeQuery(<span class="stringliteral">&quot;USE &quot;</span> + DATABASE_NAME);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                String q = <span class="stringliteral">&quot;SELECT ColorCode,ColorName FROM ColorNames&quot;</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                rs = stmt.executeQuery(q);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">if</span> (rs.first()) { <span class="comment">// Move to first returned row</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    <span class="keywordflow">while</span> (!rs.isAfterLast())</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                            String code = rs.getString(<span class="stringliteral">&quot;ColorCode&quot;</span>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                            String name = rs.getString(<span class="stringliteral">&quot;ColorName&quot;</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                            put(code, name);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                            rs.next();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                            count++;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                        } <span class="keywordflow">catch</span> (Exception e) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                            e.printStackTrace();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                        }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                    stmt.close();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                    rs.close();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                } <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                    printlnErr(getClass(), <span class="stringliteral">&quot;Executed a query that returned no rows: &quot;</span> + q);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        } <span class="keywordflow">catch</span> (SQLException ex) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            ex.printStackTrace();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            System.exit(1);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException.html">DatabaseNotVisibleException</a> e) {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            System.exit(1);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        println(getClass(), <span class="stringliteral">&quot;: Found &quot;</span> + count + <span class="stringliteral">&quot; color names.&quot;</span>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ColorNames.html#ab2ef68816f5dfde5d491fd4dd35f4f5f">   71</a></span>&#160;    <span class="keyword">public</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ColorNames.html#ab2ef68816f5dfde5d491fd4dd35f4f5f">toString</a>() {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        String retval = <span class="stringliteral">&quot;{&quot;</span>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">for</span> (String N : keySet())</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            retval += <span class="stringliteral">&quot;[&quot;</span> + N + <span class="stringliteral">&quot;-&gt;&quot;</span> + <span class="keyword">get</span>(N) + <span class="stringliteral">&quot;]&quot;</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">return</span> retval;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException.html">gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException</a></div><div class="ttdef"><b>Definition:</b> <a href="dd_2interfaces_2DatabaseNotVisibleException_8java_source.html#l00014">DatabaseNotVisibleException.java:14</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ColorNames_html_ab2ef68816f5dfde5d491fd4dd35f4f5f"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ColorNames.html#ab2ef68816f5dfde5d491fd4dd35f4f5f">gov.fnal.ppd.dd.util.nonguiUtils.ColorNames.toString</a></div><div class="ttdeci">String toString()</div><div class="ttdef"><b>Definition:</b> <a href="ColorNames_8java_source.html#l00071">ColorNames.java:71</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ColorNames_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ColorNames.html">gov.fnal.ppd.dd.util.nonguiUtils.ColorNames</a></div><div class="ttdef"><b>Definition:</b> <a href="ColorNames_8java_source.html#l00022">ColorNames.java:22</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ColorNames_html_a33e7e1d6596187e15f63db7c3f07b391"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ColorNames.html#a33e7e1d6596187e15f63db7c3f07b391">gov.fnal.ppd.dd.util.nonguiUtils.ColorNames.ColorNames</a></div><div class="ttdeci">ColorNames()</div><div class="ttdef"><b>Definition:</b> <a href="ColorNames_8java_source.html#l00029">ColorNames.java:29</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase.html">gov.fnal.ppd.dd.db.ConnectionToDatabase</a></div><div class="ttdef"><b>Definition:</b> <a href="ConnectionToDatabase_8java_source.html#l00028">ConnectionToDatabase.java:28</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="ColorNames_8java.html">ColorNames.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="dir_628a4efc05c150573ef110f2ce0d8035.html">nonguiUtils</a></li><li class="navelem"><a class="el" href="ColorNames_8java.html">ColorNames.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

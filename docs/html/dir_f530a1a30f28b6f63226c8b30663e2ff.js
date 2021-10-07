@@ -15,6 +15,7 @@ var dir_f530a1a30f28b6f63226c8b30663e2ff =
     [ "MakeEmergencyMessageGUI.java", "MakeEmergencyMessageGUI_8java.html", [
       [ "MakeEmergencyMessageGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1MakeEmergencyMessageGUI.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1MakeEmergencyMessageGUI" ]
     ] ],
+    [ "package-info.java", "gov_2fnal_2ppd_2dd_2emergency_2package-info_8java.html", null ],
     [ "Severity.java", "Severity_8java.html", [
       [ "Severity", "enumgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1Severity.html", "enumgov_1_1fnal_1_1ppd_1_1dd_1_1emergency_1_1Severity" ]
     ] ]

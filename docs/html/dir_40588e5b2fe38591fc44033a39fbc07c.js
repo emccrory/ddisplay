@@ -8,7 +8,10 @@ var dir_40588e5b2fe38591fc44033a39fbc07c =
       [ "ChannelImpl", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelImpl" ]
     ] ],
     [ "ChannelInList.java", "ChannelInList_8java.html", [
-      [ "ChannelInList", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInList.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInList" ]
+      [ "ChannelInList", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInList.html", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInList" ]
+    ] ],
+    [ "ChannelInListImpl.java", "ChannelInListImpl_8java.html", [
+      [ "ChannelInListImpl", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelInListImpl" ]
     ] ],
     [ "ChannelListHolder.java", "ChannelListHolder_8java.html", [
       [ "ChannelListHolder", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelListHolder.html", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ChannelListHolder" ]
@@ -19,11 +22,8 @@ var dir_40588e5b2fe38591fc44033a39fbc07c =
     [ "ConcreteChannelListHolder.java", "ConcreteChannelListHolder_8java.html", [
       [ "ConcreteChannelListHolder", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ConcreteChannelListHolder.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ConcreteChannelListHolder" ]
     ] ],
-    [ "ImageContent.java", "ImageContent_8java.html", [
-      [ "ImageContent", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1ImageContent" ]
-    ] ],
     [ "MapOfChannels.java", "MapOfChannels_8java.html", [
       [ "MapOfChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1MapOfChannels" ]
     ] ],
-    [ "package-info.java", "dd_2channel_2package-info_8java.html", null ]
+    [ "package-info.java", "gov_2fnal_2ppd_2dd_2channel_2package-info_8java.html", null ]
 ];

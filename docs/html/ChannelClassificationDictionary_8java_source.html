@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -114,24 +114,33 @@ $(document).ready(function(){initNavTree('ChannelClassificationDictionary_8java_
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.changer;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.db.ChannelsFromDatabase.getCategoriesDatabase;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html">   16</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html">ChannelClassificationDictionary</a> {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a>[]  categories  = null;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html">ChannelClassificationDictionary</a>() {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="comment">// do not instantiate</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html#a586c766b8a6072e727bdae5d5d8c8b63">   26</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a>[] <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html#a586c766b8a6072e727bdae5d5d8c8b63">getCategories</a>() {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">if</span> (categories == null) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            categories = getCategoriesDatabase();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        }</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">return</span> categories;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary_html_a586c766b8a6072e727bdae5d5d8c8b63"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html#a586c766b8a6072e727bdae5d5d8c8b63">gov.fnal.ppd.dd.changer.ChannelClassificationDictionary.getCategories</a></div><div class="ttdeci">static ChannelClassification[] getCategories()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelClassificationDictionary_8java_source.html#l00026">ChannelClassificationDictionary.java:26</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html">gov.fnal.ppd.dd.changer.ChannelClassificationDictionary</a></div><div class="ttdef"><b>Definition:</b> <a href="ChannelClassificationDictionary_8java_source.html#l00016">ChannelClassificationDictionary.java:16</a></div></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.db.ChannelsFromDatabase.getCategoriesDatabaseForLocation;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.db.ChannelsFromDatabase.getCategoriesDatabaseForAllChannels;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html">   17</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html">ChannelClassificationDictionary</a> {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a>[]  categories  = null;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html">ChannelClassificationDictionary</a>() {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="comment">// do not instantiate</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    }</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html#a8a2e0f016baf28d44dbe7f9cee7703c1">   27</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a>[] <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html#a8a2e0f016baf28d44dbe7f9cee7703c1">getCategoriesForLocation</a>() {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">if</span> (categories == null) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            categories = getCategoriesDatabaseForLocation();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">return</span> categories;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    </div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html#a995477b1962da950f530115442788a7c">   37</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">ChannelClassification</a>[] <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html#a995477b1962da950f530115442788a7c">getCategoriesDatabaseAllChannels</a>() {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">if</span> (categories == null) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            categories = getCategoriesDatabaseForAllChannels();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        }</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">return</span> categories;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html">gov.fnal.ppd.dd.changer.ChannelClassificationDictionary</a></div><div class="ttdef"><b>Definition:</b> <a href="ChannelClassificationDictionary_8java_source.html#l00017">ChannelClassificationDictionary.java:17</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary_html_a995477b1962da950f530115442788a7c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html#a995477b1962da950f530115442788a7c">gov.fnal.ppd.dd.changer.ChannelClassificationDictionary.getCategoriesDatabaseAllChannels</a></div><div class="ttdeci">static ChannelClassification[] getCategoriesDatabaseAllChannels()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelClassificationDictionary_8java_source.html#l00037">ChannelClassificationDictionary.java:37</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary_html_a8a2e0f016baf28d44dbe7f9cee7703c1"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassificationDictionary.html#a8a2e0f016baf28d44dbe7f9cee7703c1">gov.fnal.ppd.dd.changer.ChannelClassificationDictionary.getCategoriesForLocation</a></div><div class="ttdeci">static ChannelClassification[] getCategoriesForLocation()</div><div class="ttdef"><b>Definition:</b> <a href="ChannelClassificationDictionary_8java_source.html#l00027">ChannelClassificationDictionary.java:27</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1changer_1_1ChannelClassification.html">gov.fnal.ppd.dd.changer.ChannelClassification</a></div><div class="ttdef"><b>Definition:</b> <a href="ChannelClassification_8java_source.html#l00026">ChannelClassification.java:26</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

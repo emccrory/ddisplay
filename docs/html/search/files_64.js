@@ -1,13 +1,12 @@
 var searchData=
 [
-  ['databasenotvisibleexception_2ejava',['DatabaseNotVisibleException.java',['../dd_2util_2DatabaseNotVisibleException_8java.html',1,'']]],
+  ['databasenotvisibleexception_2ejava',['DatabaseNotVisibleException.java',['../dd_2interfaces_2DatabaseNotVisibleException_8java.html',1,'']]],
   ['databasenotvisibleexception_2ejava',['DatabaseNotVisibleException.java',['../security_2DatabaseNotVisibleException_8java.html',1,'']]],
   ['dcprotocol_2ejava',['DCProtocol.java',['../DCProtocol_8java.html',1,'']]],
   ['ddbutton_2ejava',['DDButton.java',['../DDButton_8java.html',1,'']]],
   ['ddiconbutton_2ejava',['DDIconButton.java',['../DDIconButton_8java.html',1,'']]],
   ['ddmessage_2ejava',['DDMessage.java',['../DDMessage_8java.html',1,'']]],
   ['ddsystemstatus_2ejava',['DDSystemStatus.java',['../DDSystemStatus_8java.html',1,'']]],
-  ['detailedinformationgrid_2ejava',['DetailedInformationGrid.java',['../DetailedInformationGrid_8java.html',1,'']]],
   ['display_2ejava',['Display.java',['../Display_8java.html',1,'']]],
   ['displayasconnectionthroughselenium_2ejava',['DisplayAsConnectionThroughSelenium.java',['../DisplayAsConnectionThroughSelenium_8java.html',1,'']]],
   ['displayassimplebrowser_2ejava',['DisplayAsSimpleBrowser.java',['../DisplayAsSimpleBrowser_8java.html',1,'']]],
@@ -19,6 +18,7 @@ var searchData=
   ['displaycontrollermessagingabstract_2ejava',['DisplayControllerMessagingAbstract.java',['../DisplayControllerMessagingAbstract_8java.html',1,'']]],
   ['displayfacade_2ejava',['DisplayFacade.java',['../DisplayFacade_8java.html',1,'']]],
   ['displayimpl_2ejava',['DisplayImpl.java',['../DisplayImpl_8java.html',1,'']]],
+  ['displayimpltest_2ejava',['DisplayImplTest.java',['../DisplayImplTest_8java.html',1,'']]],
   ['displaykeeper_2ejava',['DisplayKeeper.java',['../DisplayKeeper_8java.html',1,'']]],
   ['displaylistdatabaseremote_2ejava',['DisplayListDatabaseRemote.java',['../DisplayListDatabaseRemote_8java.html',1,'']]],
   ['displaylistfactory_2ejava',['DisplayListFactory.java',['../DisplayListFactory_8java.html',1,'']]],

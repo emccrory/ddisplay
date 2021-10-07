@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -109,8 +109,8 @@ $(document).ready(function(){initNavTree('Validate_8java_source.html','');});
 <div class="contents">
 <a href="Validate_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.xml.signature;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.println;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.Util.printlnErr;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> <span class="keyword">static</span> gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.printlnErr;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> java.io.FileInputStream;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> java.io.IOException;</div>
@@ -141,7 +141,7 @@ $(document).ready(function(){initNavTree('Validate_8java_source.html','');});
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">import</span> org.w3c.dom.Document;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">import</span> org.w3c.dom.NodeList;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1PropertiesFile.html">gov.fnal.ppd.dd.util.PropertiesFile</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1PropertiesFile.html">gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile</a>;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">import</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">gov.fnal.ppd.dd.xml.XMLDocumentAndString</a>;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
 <div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html">   44</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html">Validate</a> {</div>
@@ -295,12 +295,12 @@ $(document).ready(function(){initNavTree('Validate_8java_source.html','');});
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    }</div>
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1PropertiesFile_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1PropertiesFile.html">gov.fnal.ppd.dd.util.PropertiesFile</a></div><div class="ttdef"><b>Definition:</b> <a href="PropertiesFile_8java_source.html#l00015">PropertiesFile.java:15</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate_html_abaf672a64ab32096e2f296b2543e13ab"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html#abaf672a64ab32096e2f296b2543e13ab">gov.fnal.ppd.dd.xml.signature.Validate.main</a></div><div class="ttdeci">static void main(String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="Validate_8java_source.html#l00058">Validate.java:58</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignatureNotFoundException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignatureNotFoundException.html">gov.fnal.ppd.dd.xml.signature.SignatureNotFoundException</a></div><div class="ttdef"><b>Definition:</b> <a href="SignatureNotFoundException_8java_source.html#l00003">SignatureNotFoundException.java:3</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignatureNotFoundException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignatureNotFoundException.html">gov.fnal.ppd.dd.xml.signature.SignatureNotFoundException</a></div><div class="ttdef"><b>Definition:</b> <a href="SignatureNotFoundException_8java_source.html#l00010">SignatureNotFoundException.java:10</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1PropertiesFile_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1PropertiesFile.html">gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile</a></div><div class="ttdef"><b>Definition:</b> <a href="PropertiesFile_8java_source.html#l00018">PropertiesFile.java:18</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate_html_a9d0a0a1029bc2eeed35a10beb6ab3667"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html#a9d0a0a1029bc2eeed35a10beb6ab3667">gov.fnal.ppd.dd.xml.signature.Validate.isSignatureValid</a></div><div class="ttdeci">static boolean isSignatureValid(XMLDocumentAndString doc)</div><div class="ttdef"><b>Definition:</b> <a href="Validate_8java_source.html#l00093">Validate.java:93</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html">gov.fnal.ppd.dd.xml.signature.Validate</a></div><div class="ttdef"><b>Definition:</b> <a href="Validate_8java_source.html#l00044">Validate.java:44</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">gov.fnal.ppd.dd.xml.XMLDocumentAndString</a></div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00030">XMLDocumentAndString.java:30</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1XMLDocumentAndString.html">gov.fnal.ppd.dd.xml.XMLDocumentAndString</a></div><div class="ttdef"><b>Definition:</b> <a href="XMLDocumentAndString_8java_source.html#l00037">XMLDocumentAndString.java:37</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

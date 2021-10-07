@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/util/TestExitCode.java Source File</title>
+<title>Fermilab Dynamic Displays System: src/gov/fnal/ppd/dd/testing/TestExitCode.java Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Fermilab Dynamic Displays System
-   &#160;<span id="projectnumber">5.3.4</span>
+   &#160;<span id="projectnumber">5.3.6</span>
    </div>
    <div id="projectbrief">Fermilab&#39;s implementation of a digital signage system</div>
   </td>
@@ -107,34 +107,33 @@ $(document).ready(function(){initNavTree('TestExitCode_8java_source.html','');})
 <div class="title">TestExitCode.java</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="TestExitCode_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.util;</div>
+<a href="TestExitCode_8java.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">package </span>gov.fnal.ppd.dd.testing;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;@SuppressWarnings(<span class="stringliteral">&quot;javadoc&quot;</span>)</div>
-<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1TestExitCode.html">    4</a></span>&#160;public class <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1TestExitCode.html">TestExitCode</a> {</div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1TestExitCode.html#ac64fda39c70246ab6b483f63c1cfae50">    5</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1TestExitCode.html#ac64fda39c70246ab6b483f63c1cfae50">main</a>(String[] args) {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;        <span class="keywordtype">int</span> exitCode = 0;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        <span class="keywordflow">if</span> (args.length &gt; 0)</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;            exitCode = Integer.parseInt(args[0]);</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        System.out.println(<span class="stringliteral">&quot;Begin.  Exit code will be &quot;</span> + exitCode);</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            Thread.sleep(10000);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        } <span class="keywordflow">catch</span> (InterruptedException e) {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        }</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1TestExitCode.html">   11</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1TestExitCode.html">TestExitCode</a> {</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1TestExitCode.html#a679a4af30aa2930f66f19df4b0224e0c">   12</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1TestExitCode.html#a679a4af30aa2930f66f19df4b0224e0c">main</a>(String[] args) {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordtype">int</span> exitCode = 0;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keywordflow">if</span> (args.length &gt; 0)</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            exitCode = Integer.parseInt(args[0]);</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        System.out.println(<span class="stringliteral">&quot;Exiting now.&quot;</span>);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        System.exit(exitCode);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    }</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1TestExitCode_html_ac64fda39c70246ab6b483f63c1cfae50"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1TestExitCode.html#ac64fda39c70246ab6b483f63c1cfae50">gov.fnal.ppd.dd.util.TestExitCode.main</a></div><div class="ttdeci">static void main(String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="TestExitCode_8java_source.html#l00005">TestExitCode.java:5</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1TestExitCode_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1TestExitCode.html">gov.fnal.ppd.dd.util.TestExitCode</a></div><div class="ttdef"><b>Definition:</b> <a href="TestExitCode_8java_source.html#l00004">TestExitCode.java:4</a></div></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        System.out.println(<span class="stringliteral">&quot;Begin.  Exit code will be &quot;</span> + exitCode);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            Thread.sleep(10000);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        } <span class="keywordflow">catch</span> (InterruptedException e) {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        }</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        System.out.println(<span class="stringliteral">&quot;Exiting now.&quot;</span>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        System.exit(exitCode);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1TestExitCode_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1TestExitCode.html">gov.fnal.ppd.dd.testing.TestExitCode</a></div><div class="ttdef"><b>Definition:</b> <a href="TestExitCode_8java_source.html#l00011">TestExitCode.java:11</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1TestExitCode_html_a679a4af30aa2930f66f19df4b0224e0c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1TestExitCode.html#a679a4af30aa2930f66f19df4b0224e0c">gov.fnal.ppd.dd.testing.TestExitCode.main</a></div><div class="ttdeci">static void main(String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="TestExitCode_8java_source.html#l00012">TestExitCode.java:12</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_35203c83778c42217b4da31c1265f2a3.html">util</a></li><li class="navelem"><a class="el" href="TestExitCode_8java.html">TestExitCode.java</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7d62d1059ec54d5dc63de032b83eaa8e.html">gov</a></li><li class="navelem"><a class="el" href="dir_de59b757cb762aaa721d0d7067a95e94.html">fnal</a></li><li class="navelem"><a class="el" href="dir_5fb6c0d865c8e3c0cb7b32b6001c3eea.html">ppd</a></li><li class="navelem"><a class="el" href="dir_9d421df149f4cb5ac4aaf6dc794d4959.html">dd</a></li><li class="navelem"><a class="el" href="dir_bd49752d5b1f58b48b5cb04315435765.html">testing</a></li><li class="navelem"><a class="el" href="TestExitCode_8java.html">TestExitCode.java</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.5 </li>

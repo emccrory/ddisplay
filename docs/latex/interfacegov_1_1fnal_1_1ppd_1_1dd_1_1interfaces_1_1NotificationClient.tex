@@ -1,14 +1,6 @@
 \hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient}{\section{gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Notification\-Client Interface Reference}
 \label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient}\index{gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Notification\-Client@{gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Notification\-Client}}
 }
-
-
-\subsection{Detailed Description}
-This interface allows the client to show update information during the process of doing the update. There are two concrete classes\-: A G\-U\-I class and a text class. The G\-U\-I class is used by the \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}{Channel\-Selector} and the Displays, and the text client is used by the Messaging\-Server.
-
-\begin{DoxyAuthor}{Author}
-Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
-\end{DoxyAuthor}
 Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Notification\-Client\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -18,17 +10,75 @@ Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Notification\-Clien
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_ab0cf3325fec8142ebfe7babe9a6dcd41}{void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_ab0cf3325fec8142ebfe7babe9a6dcd41}{show\-New\-Update\-Information} (F\-L\-A\-V\-O\-R flavor, String version\-String)}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_ab0cf3325fec8142ebfe7babe9a6dcd41}
-
+void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_ab0cf3325fec8142ebfe7babe9a6dcd41}{show\-New\-Update\-Information} (F\-L\-A\-V\-O\-R flavor, String version\-String)
 \begin{DoxyCompactList}\small\item\em When the update task starts grabbing an update, tell the client. \end{DoxyCompactList}\item 
-\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_a4f3a03aacbff763583e515a1bcdb4d66}{void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_a4f3a03aacbff763583e515a1bcdb4d66}{failure} ()}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_a4f3a03aacbff763583e515a1bcdb4d66}
-
+void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_a4f3a03aacbff763583e515a1bcdb4d66}{failure} ()
 \begin{DoxyCompactList}\small\item\em If the update task gets an error, tell the client. \end{DoxyCompactList}\item 
-\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_a6aa9aea7f841d3b3af77302d32aa2197}{void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_a6aa9aea7f841d3b3af77302d32aa2197}{success} ()}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_a6aa9aea7f841d3b3af77302d32aa2197}
-
+void \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_a6aa9aea7f841d3b3af77302d32aa2197}{success} ()
 \begin{DoxyCompactList}\small\item\em When the update task succeeds, tell the client. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This interface allows the client to show update information during the process of doing the update. There are two concrete classes\-: A G\-U\-I class and a text class. The G\-U\-I class is used by the \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1ChannelSelector}{Channel\-Selector} and the Displays, and the text client is used by the Messaging\-Server.
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file Notification\-Client.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_a4f3a03aacbff763583e515a1bcdb4d66}{\index{gov\-::fnal\-::ppd\-::dd\-::interfaces\-::\-Notification\-Client@{gov\-::fnal\-::ppd\-::dd\-::interfaces\-::\-Notification\-Client}!failure@{failure}}
+\index{failure@{failure}!gov::fnal::ppd::dd::interfaces::NotificationClient@{gov\-::fnal\-::ppd\-::dd\-::interfaces\-::\-Notification\-Client}}
+\subsubsection[{failure}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Notification\-Client.\-failure (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_a4f3a03aacbff763583e515a1bcdb4d66}
+
+
+If the update task gets an error, tell the client. 
+
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1NotificationClientGUI_a461ff133d0a5f8b53a65c84181a2c631}{gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Notification\-Client\-G\-U\-I}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText_a60f0c1ad444844a27c015753fd23f54a}{gov.\-fnal.\-ppd.\-dd.\-util.\-gui\-Utils.\-Notification\-Client\-Text}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_ab0cf3325fec8142ebfe7babe9a6dcd41}{\index{gov\-::fnal\-::ppd\-::dd\-::interfaces\-::\-Notification\-Client@{gov\-::fnal\-::ppd\-::dd\-::interfaces\-::\-Notification\-Client}!show\-New\-Update\-Information@{show\-New\-Update\-Information}}
+\index{show\-New\-Update\-Information@{show\-New\-Update\-Information}!gov::fnal::ppd::dd::interfaces::NotificationClient@{gov\-::fnal\-::ppd\-::dd\-::interfaces\-::\-Notification\-Client}}
+\subsubsection[{show\-New\-Update\-Information}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Notification\-Client.\-show\-New\-Update\-Information (
+\begin{DoxyParamCaption}
+\item[{F\-L\-A\-V\-O\-R}]{flavor, }
+\item[{String}]{version\-String}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_ab0cf3325fec8142ebfe7babe9a6dcd41}
+
+
+When the update task starts grabbing an update, tell the client. 
+
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1NotificationClientGUI_a373fcb7ff3d7811e0113ec46ad361208}{gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Notification\-Client\-G\-U\-I}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText_ab4879ecf03b2d00f8d4e085c8bd41f0a}{gov.\-fnal.\-ppd.\-dd.\-util.\-gui\-Utils.\-Notification\-Client\-Text}.
+
+\hypertarget{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_a6aa9aea7f841d3b3af77302d32aa2197}{\index{gov\-::fnal\-::ppd\-::dd\-::interfaces\-::\-Notification\-Client@{gov\-::fnal\-::ppd\-::dd\-::interfaces\-::\-Notification\-Client}!success@{success}}
+\index{success@{success}!gov::fnal::ppd::dd::interfaces::NotificationClient@{gov\-::fnal\-::ppd\-::dd\-::interfaces\-::\-Notification\-Client}}
+\subsubsection[{success}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-interfaces.\-Notification\-Client.\-success (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1NotificationClient_a6aa9aea7f841d3b3af77302d32aa2197}
+
+
+When the update task succeeds, tell the client. 
+
+
+
+Implemented in \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1NotificationClientGUI_a4b11dc1662b8cd3e6b4816a60adc2000}{gov.\-fnal.\-ppd.\-dd.\-util.\-specific.\-Notification\-Client\-G\-U\-I}, and \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1NotificationClientText_a8de8c375474d901a6554bd3c39d4cf46}{gov.\-fnal.\-ppd.\-dd.\-util.\-gui\-Utils.\-Notification\-Client\-Text}.
+
 
 
 The documentation for this interface was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-/home/mccrory/git-\/ddisplay/roc-\/dynamicdisplays/\-Dynamic\-Displays/src/gov/fnal/ppd/dd/interfaces/Notification\-Client.\-java\end{DoxyCompactItemize}
+src/gov/fnal/ppd/dd/interfaces/\hyperlink{NotificationClient_8java}{Notification\-Client.\-java}\end{DoxyCompactItemize}
