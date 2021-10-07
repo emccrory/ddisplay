@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>DEVELOPMENT</disposition>
-    <timeStamp>1632147247623</timeStamp>
-    <versionDescription>In the messaging server, remove publish/subscribe subjects that contain the string "_WHO_"</versionDescription>
-    <versionString>5.3.53</versionString>
+    <disposition>PRODUCTION</disposition>
+    <timeStamp>1633636197198</timeStamp>
+    <versionDescription>Wrap up all the changes made in version 5.3.X into a NEW SECOND-LEVEL version, 5.4!  (McCrory retires a week from now.)</versionDescription>
+    <versionString>5.4.1</versionString>
 </versionInformation>
