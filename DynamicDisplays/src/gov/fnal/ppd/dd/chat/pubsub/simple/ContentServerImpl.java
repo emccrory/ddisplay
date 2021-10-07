@@ -25,7 +25,7 @@ import gov.fnal.ppd.dd.chat.pubsub.Topic;
 public class ContentServerImpl implements ContentServer {
 	private Hashtable<Topic, List<SubscriberClient>>	subscriberLists;
 
-	private static ContentServer				serverInstance;
+	private static ContentServer						serverInstance;
 
 	public static ContentServer getInstance() {
 		if (serverInstance == null) {
@@ -38,22 +38,28 @@ public class ContentServerImpl implements ContentServer {
 		this.subscriberLists = new Hashtable<>();
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.fnal.ppd.dd.chat.pubsub.ContentServer#sendMessage(gov.fnal.ppd.dd.chat.pubsub.Topic, gov.fnal.ppd.dd.chat.pubsub.Message)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gov.fnal.ppd.dd.chat.pubsub.ContentServer#sendMessage(gov.fnal.ppd.dd.chat.pubsub.Topic,
+	 * gov.fnal.ppd.dd.chat.pubsub.Message)
 	 */
 	@Override
-	public boolean sendMessage(Topic t, Message m) {
-		boolean retval = false;
+	public int sendMessage(Topic t, Message m) {
+		int retval = 0;
 		List<SubscriberClient> subs = subscriberLists.get(t);
 		for (Subscriber s : subs) {
 			s.receivedMessage(t, m);
-			retval = true; // Someone was interested in this topic.
+			retval++; // Someone was interested in this topic.
 		}
 		return retval;
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.fnal.ppd.dd.chat.pubsub.ContentServer#registerSubscriber(gov.fnal.ppd.dd.chat.pubsub.Subscriber, gov.fnal.ppd.dd.chat.pubsub.Topic)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gov.fnal.ppd.dd.chat.pubsub.ContentServer#registerSubscriber(gov.fnal.ppd.dd.chat.pubsub.Subscriber,
+	 * gov.fnal.ppd.dd.chat.pubsub.Topic)
 	 */
 	@Override
 	public void registerSubscriber(SubscriberClient s, Topic t) {

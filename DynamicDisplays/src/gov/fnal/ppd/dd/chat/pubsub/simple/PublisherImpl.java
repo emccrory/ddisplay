@@ -24,4 +24,9 @@ public class PublisherImpl implements Publisher {
 	public void publish(Message m) {
 		ContentServerImpl.getInstance().sendMessage(this.topic, m);
 	}
+
+	@Override
+	public Topic getTopic() {
+		return topic;
+	}
 }

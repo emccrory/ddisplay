@@ -9,9 +9,9 @@ public interface ContentServer {
 	 * 
 	 * @param t - The topic of this message
 	 * @param m - The message
-	 * @return - Did a client care about this message?
+	 * @return - How many clients were sent this message?
 	 */
-	boolean sendMessage(Topic t, Message m);
+	int sendMessage(Topic t, Message m);
 
 	/**
 	 * Register that a client is interested in a topic

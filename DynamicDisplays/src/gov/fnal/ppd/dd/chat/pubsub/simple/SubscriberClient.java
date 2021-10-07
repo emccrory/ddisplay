@@ -1,5 +1,8 @@
 package gov.fnal.ppd.dd.chat.pubsub.simple;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.fnal.ppd.dd.chat.pubsub.Message;
 import gov.fnal.ppd.dd.chat.pubsub.Subscriber;
 import gov.fnal.ppd.dd.chat.pubsub.Topic;
@@ -12,14 +15,19 @@ import gov.fnal.ppd.dd.chat.pubsub.Topic;
  */
 public class SubscriberClient implements Subscriber {
 
+	private List<Topic> myTopics = new ArrayList<Topic>();
+
 	// Note this syntax for passing variable arguments.
 	public SubscriberClient(Topic... topics) {
 		for (Topic t : topics) {
 			ContentServerImpl.getInstance().registerSubscriber(this, t);
+			myTopics.add(t);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see gov.fnal.ppd.dd.chat.pubsub.Subscriber#addTopicSubscription(gov.fnal.ppd.dd.chat.pubsub.Topic)
 	 */
 	@Override
@@ -27,8 +35,11 @@ public class SubscriberClient implements Subscriber {
 		ContentServerImpl.getInstance().registerSubscriber(this, t);
 	}
 
-	/* (non-Javadoc)
-	 * @see gov.fnal.ppd.dd.chat.pubsub.Subscriber#receivedMessage(gov.fnal.ppd.dd.chat.pubsub.Topic, gov.fnal.ppd.dd.chat.pubsub.Message)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gov.fnal.ppd.dd.chat.pubsub.Subscriber#receivedMessage(gov.fnal.ppd.dd.chat.pubsub.Topic,
+	 * gov.fnal.ppd.dd.chat.pubsub.Message)
 	 */
 	@Override
 	public void receivedMessage(Topic t, Message m) {
