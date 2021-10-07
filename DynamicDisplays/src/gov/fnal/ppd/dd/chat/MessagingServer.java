@@ -793,7 +793,7 @@ public class MessagingServer implements JavaChangeListener {
 			// QUESTION -- Is a bad thing to have duplicate usernames? When/if the server directs messages to the intended user,
 			// this WILL be necessary. But having a fairly anonymous clientelle works just fine.
 			//
-			// BUt I am seeing bugs whereby one client restarts and the server has not dropped the old connection.
+			// But I am seeing bugs whereby one client restarts and the server has not dropped the old connection.
 			numConnectionsSeen++;
 			boolean retval = super.add(ct);
 			if (!retval) {
@@ -834,7 +834,7 @@ public class MessagingServer implements JavaChangeListener {
 
 	// A synchronization object
 	private Object									broadcasting					= "Object 1 for Java synchronization";
-	// the boolean that will be turned of to stop the server
+	// the boolean that will be turned off to stop the server
 	private boolean									keepGoing;
 
 	private int										numConnectionsSeen				= 0;
@@ -849,6 +849,7 @@ public class MessagingServer implements JavaChangeListener {
 	// "Too Old Time" is a minute and a half
 	private long									tooOldTime						= 90 * ONE_SECOND;
 
+	// ---------- Diagnostic counters --------------------------------------------------------
 	protected int									totalMesssagesHandled			= 0;
 
 	private int										numRemovedForPings1				= 0;
@@ -868,13 +869,15 @@ public class MessagingServer implements JavaChangeListener {
 	private int										numDuplicateClients				= 0;
 	private int										numPortScannerAttempts			= 0;
 	private int										numberOfServerMessagesReceived	= 0;
+	// ---------- ------------------- ---------------------------------------------------------
 
 	// private Object oneMessageAtATime = new String("For synchronization");
 
-	// protected Logger logger;
 	protected LoggerForDebugging					logger;
 
-	// private JavaVersion javaVersion;
+	private String									lastSubjectListMessage			= "";
+
+	private int										noChangeCount					= 999;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -886,7 +889,6 @@ public class MessagingServer implements JavaChangeListener {
 		JavaVersion.getInstance().addJavaChangeListener(this);
 
 		try {
-			// logger = Logger.getLogger(MessagingServer.class.getName());
 			logger = new LoggerForDebugging(MessagingServer.class.getName());
 
 			FileHandler fileTxt = new FileHandler("../../log/messagingServer.log");
@@ -944,7 +946,6 @@ public class MessagingServer implements JavaChangeListener {
 	 */
 	protected void broadcast(MessageCarrierXML mc) {
 		synchronized (broadcasting) { // Only send one message at a time
-
 			String subject = mc.getMessageRecipient();
 			if (subject != null) {
 				for (int m = subject.length() - 1; m >= 0; m--) {
@@ -1122,9 +1123,14 @@ public class MessagingServer implements JavaChangeListener {
 					+ "\n         NC rmvd for duplicate name:            " + numRemovedDuplicateUsername //
 					+ "\n         NC rmvd for unexpected closed sockets: " + numUnexpectedClosedSockets1 + " & "
 					+ numUnexpectedClosedSockets2 //
-					+ "\n         NC rmvd for unexpected duplicate clients: " + numDuplicateClients //
-					+ "\n    " + subjectInfo;
-			logger.fine(message);
+					+ "\n         NC rmvd for unexpected duplicate clients: " + numDuplicateClients; //
+			if (subjectInfo.equals(lastSubjectListMessage) && noChangeCount++ < 25)
+				logger.fine(message + "\n    There are still " + subjectListeners.size() + " subjects (no change)");
+			else {
+				logger.fine(message + "\n    " + subjectInfo);
+				noChangeCount = 0;
+			}
+			lastSubjectListMessage = subjectInfo;
 		}
 	}
 
@@ -1545,8 +1551,8 @@ public class MessagingServer implements JavaChangeListener {
 						if (printMe)
 							randomCycleModulo = (int) (Math.random() * 5.0);
 						printMe = printMe || theMostPings > 2;
-						// if (printMe)
-						// logger.fine(diagnostic + "\n\t(" + randomCycleModulo + ")");
+						if (printMe)
+							logger.fine(diagnostic + "\n\t(" + randomCycleModulo + ")");
 
 						clist.add(oldestClientName);
 						lastOldestClientName = oldestClientName;
@@ -1595,7 +1601,7 @@ public class MessagingServer implements JavaChangeListener {
 
 						nextClient = (++nextClient) % listOfMessagingClients.size();
 						if (nextClient == 0) {
-							boolean old = (lastPrint + FIFTEEN_MINUTES) < System.currentTimeMillis();
+							boolean old = (lastPrint + diagnosticWaitTime()) < System.currentTimeMillis();
 							performDiagnostics(old);
 
 							if (old)
@@ -1605,6 +1611,22 @@ public class MessagingServer implements JavaChangeListener {
 						// Random, unexpected exceptions have bitten me before (killing this thread); don't let that happen again.
 						logger.warning(exceptionString(e));
 					}
+			}
+
+			private long startTime = System.currentTimeMillis();
+
+			/**
+			 * Lengthen the time between diagnostic prints as the server gets older.
+			 * 
+			 * @return - How long to wait before printing the diagnostic (in milliseconds)
+			 */
+			private long diagnosticWaitTime() {
+				long upTime = startTime - System.currentTimeMillis();
+				if (upTime < 3 * ONE_HOUR)
+					return FIFTEEN_MINUTES;
+				if (upTime < 3 * ONE_DAY)
+					return ONE_HOUR;
+				return 3 * ONE_HOUR;
 			}
 		}.start();
 	}
