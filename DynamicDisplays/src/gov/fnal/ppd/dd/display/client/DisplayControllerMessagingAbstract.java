@@ -945,11 +945,14 @@ public abstract class DisplayControllerMessagingAbstract extends DisplayImpl imp
 		@Override
 		public void receiveIncomingMessage(MessageCarrierXML msg) throws ErrorProcessingMessage {
 			// TODO -- Should this method be synchronized?
-			// Does it make sense to have two messages processed at the same time, or not?
+			// ------- In other words , does it make sense to have two messages processed at the same time?
 
-			if ((messageCount++ % 5) == 0 || !(msg.getMessageValue() instanceof AreYouAliveMessage)) {
-				println(this.getClass(), screenNumber + ":" + MessagingClientLocal.class.getSimpleName()
-						+ ".displayIncomingMessage(): Got this message:\n[" + msg + "]");
+			if (messageCount++ < 10 || (messageCount % 25) == 0 || !(msg.getMessageValue() instanceof AreYouAliveMessage)) {
+				String sn = "";
+				if (screenNumber != 0)
+					sn = screenNumber + ": ";
+				println(this.getClass(), sn + MessagingClientLocal.class.getSimpleName()
+						+ ".displayIncomingMessage(): Message #" + messageCount + ":\n[" + msg + "]");
 			}
 			lastFrom = msg.getMessageOriginator();
 
