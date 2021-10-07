@@ -30,7 +30,8 @@ import gov.fnal.ppd.dd.xml.messages.YesIAmAliveMessage;
 
 /**
  * <p>
- * An implementation of a Messaging Client in the Dynamic Displays system.  This class can be run both from the command line or as a GUI
+ * An implementation of a Messaging Client in the Dynamic Displays system. This class can be run both from the command line or as a
+ * GUI
  * </p>
  * 
  * <p>
@@ -83,12 +84,9 @@ public class MessagingClient {
 	/**
 	 * Constructor called by console mode server: the server address name: the port number: the username for this instance
 	 * 
-	 * @param server
-	 *            The name of the server, e.g., "localhost" or "vip-mariadb-foobar.fnal.gov"
-	 * @param port
-	 *            The port number, e.g. 12345 (this is a 16-bit, IP socket number)
-	 * @param username
-	 *            The name of the user you want to be identified as
+	 * @param server The name of the server, e.g., "localhost" or "vip-mariadb-foobar.fnal.gov"
+	 * @param port The port number, e.g. 12345 (this is a 16-bit, IP socket number)
+	 * @param username The name of the user you want to be identified as
 	 */
 	public MessagingClient(String server, int port, String username) {
 		this.server = server;
@@ -167,8 +165,8 @@ public class MessagingClient {
 			// November 2019: It looks like Windows may have changed to a finite timeout by default.
 			socket.setSoTimeout(0);
 		} catch (UnknownHostException ec) {
-			displayLogMessage(
-					"The messaging server just does not exist at this time!! '" + server + ":" + portNumber + "'.  Exception is " + ec);
+			displayLogMessage("The messaging server just does not exist at this time!! '" + server + ":" + portNumber
+					+ "'.  Exception is " + ec);
 			disconnect();
 			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 5 * ONE_MINUTE;
 			displayLogMessage(false,
@@ -176,8 +174,8 @@ public class MessagingClient {
 			return false;
 		} catch (Exception ec) {
 			// if it failed not much I can do except wait
-			displayLogMessage(
-					"Error connecting " + username + " to messaging server, '" + server + ":" + portNumber + "'.  Exception is " + ec);
+			displayLogMessage("Error connecting " + username + " to messaging server, '" + server + ":" + portNumber
+					+ "'.  Exception is " + ec);
 			disconnect();
 			dontTryToConnectAgainUntilNow = System.currentTimeMillis() + 10 * ONE_SECOND;
 
@@ -255,8 +253,7 @@ public class MessagingClient {
 	 * that are received, beyond simply printing it out. In practice, many implementers of this method actually ANALYZE the message
 	 * and act on it.
 	 * 
-	 * @param msg
-	 *            The message that was received just now.
+	 * @param msg The message that was received just now.
 	 * @throws ErrorProcessingMessage
 	 */
 	public void receiveIncomingMessage(final MessageCarrierXML msg) throws ErrorProcessingMessage {
@@ -266,8 +263,7 @@ public class MessagingClient {
 	/**
 	 * Send a message to the server, converting it to a signed message if the messaging client, here, has the authority
 	 * 
-	 * @param msg
-	 *            -- The message to sign and then send.
+	 * @param msg -- The message to sign and then send.
 	 */
 	public void sendMessage(MessageCarrierXML msg) {
 		if (MessageConveyor.sendMessage(getClass(), msg, sOutput))
@@ -415,8 +411,7 @@ public class MessagingClient {
 	 * 
 	 * In console mode, if an error occurs the program simply stops when a GUI id used, the GUI is informed of the disconnection
 	 * 
-	 * @param args
-	 *            Command-line arguments
+	 * @param args Command-line arguments
 	 */
 	public static void main(String[] args) {
 		// default values
@@ -489,8 +484,7 @@ public class MessagingClient {
 	}
 
 	/**
-	 * @param readOnly
-	 *            -- Should this client be read-only?
+	 * @param readOnly -- Should this client be read-only?
 	 */
 	public void setReadOnly(final boolean readOnly) {
 		this.readOnly = readOnly;
@@ -499,8 +493,7 @@ public class MessagingClient {
 	/**
 	 * Give the sub-classes here the chance to do something complicated when there is an error
 	 * 
-	 * @param why
-	 *            Why was there an error
+	 * @param why Why was there an error
 	 */
 	public void replyToAnError(final String why) {
 		System.err.println(why);
@@ -540,9 +533,6 @@ public class MessagingClient {
 					lastMessageReceived = System.currentTimeMillis();
 					dumpMessage(msg);
 
-					if (showAllIncomingMessages)
-						println(getClass(), "Received this message: " + msg);
-
 					if (MessageCarrierXML.isUsernameMatch(msg.getMessageRecipient(), username)) {
 						Class<? extends MessagingDataXML> clazz = msg.getMessageValue().getClass();
 						if (clazz.equals(AreYouAliveMessage.class)) {
@@ -580,7 +570,7 @@ public class MessagingClient {
 					// TODO -- We are catching a failure from the lowest level. Need to send an error response to the sender.
 					e.printStackTrace();
 				} catch (SocketTimeoutException e) {
-					// This is unlikely to happen, given the way we have designed the method.  But it is here anyway,
+					// This is unlikely to happen, given the way we have designed the method. But it is here anyway,
 					e.printStackTrace();
 				}
 			} // end of while forever loop
@@ -592,23 +582,26 @@ public class MessagingClient {
 
 		long						nextDump		= 0L;
 		int							messageCounter	= 0;
-		private static final long	QUIET_INTERVAL	= FIFTEEN_MINUTES;
-		private static final long	NOISY_INTERVAL	= 20 * ONE_SECOND;
+		private static final long	QUIET_INTERVAL	= 30 * ONE_MINUTE;
+		private static final long	NOISY_INTERVAL	= 10 * ONE_SECOND;
 
 		/**
-		 * Dump this to the diagnostics stream every 15 minutes, for 20 seconds.
+		 * Dump this to the diagnostics stream every 30 minutes, for 10 seconds.
 		 * 
-		 * @param read
-		 *            The message to dump
+		 * @param read The message to dump
 		 */
 		private void dumpMessage(Object read) {
-			// For the Display messaging client, almost all of the received messages are "Are You Alive?"
 			messageCounter++;
-			if (nextDump > System.currentTimeMillis())
-				return;
-			displayLogMessage("Received message #" + messageCounter + ": [" + read + "]");
-			if (nextDump + NOISY_INTERVAL < System.currentTimeMillis())
-				nextDump = System.currentTimeMillis() + QUIET_INTERVAL;
+			if (showAllIncomingMessages)
+				println(getClass(), "Received message #" + messageCounter + ": [" + read + "]");
+			else {
+				// For the Display messaging client, almost all of the received messages are "Are You Alive?"
+				if (nextDump > System.currentTimeMillis())
+					return;
+				displayLogMessage("Received message #" + messageCounter + ": [" + read + "]");
+				if (nextDump + NOISY_INTERVAL < System.currentTimeMillis())
+					nextDump = System.currentTimeMillis() + QUIET_INTERVAL;
+			}
 		}
 	}
 
