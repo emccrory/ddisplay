@@ -34,21 +34,21 @@ import gov.fnal.ppd.dd.util.version.VersionInformation;
 import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 
 /**
- * This is where all the global constant in the Dynamic Displays system are held.
+ * Global constant for the Dynamic Displays system are held.
  * 
- * TODO - Rationalize the place where global constants are defined. Most of them are supposed to be here, but how are they
- * initialized?
+ * This class was the first place where constant were defined for the suite. It was later in the development of the suite when I
+ * realized that there are different sorts of constants.
  * 
- * The categories of constants, as I see it now, are:
- * 
- * 1. Things that never, ever will change (e.g., the definition of the constant ONE_BILLION) - This will be defined here. To change
+ * TODO - Rationalize how constants are defined. The categories of constants, as I see it now, are:
+ *
+ * 1. Things that never, ever will change (e.g., the definition of ONE_BILLION or ONE_HOUR) - These will be defined here. To change
  * one of these requires a re-compile.
  * 
  * 2. Things that only change on a system-wide basis (e.g., the default web server URL) - These constants should be defined in the
  * Properties file (see class PropertiesFile).
  * 
  * 3. Things that change depending on how the program is being run (e.g., SHOW_IN_WINDOW) - These are changed by a system constant,
- * set when the JVM is launched.
+ * set when the JVM is launched (on the command line, for now).
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -59,6 +59,8 @@ public class GlobalVariables {
 		// Do not instantiate
 	}
 
+	/*************** Constants that can be redefined by arguments to the JVM ********************************/
+
 	/** Do we show in full screen or in a window? Controlled by system constant, ddisplay.selector.inwindow */
 	public final static boolean			SHOW_IN_WINDOW				= Boolean.getBoolean("ddisplay.selector.inwindow");
 
@@ -67,6 +69,52 @@ public class GlobalVariables {
 
 	/** Does the user want to show and extended display name on the display buttons? */
 	public static boolean				SHOW_EXTENDED_DISPLAY_NAMES	= Boolean.getBoolean("ddisplay.extendeddisplaynnames");
+
+	/**
+	 * To allow for multiple Channel Selectors in one node, it will be differentiated with this tag. This has not been used except
+	 * in testing.
+	 */
+	public final static String			THIS_IP_NAME_INSTANCE		= System.getProperty("ddisplay.selectorinstance", "00");
+
+	/**
+	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) in the range of unassigned port number
+	 * (49152 - 65535) Controlled by system constant ddisplay.messagingserver. I like primes.
+	 */
+	public final static int				MESSAGING_SERVER_PORT		= PropertiesFile.getIntProperty("messagingPort", 49999);
+	/** Where is the Web server? Controlled by system constant ddisplay.webserver */
+	public final static String			WEB_SERVER_NAME				= PropertiesFile.getProperty("webServer",
+			"dynamicdisplays.fnal.gov");
+	/** Where is the Web server? Controlled by system constant ddisplay.webserver */
+	private final static String			WEB_SERVER_FOLDER			= PropertiesFile.getProperty("webFolder", "");
+	/** Do we use http or https? */
+	public final static String			WEB_PROTOCOL				= PropertiesFile.getProperty("defaultWebProtocol", "https");
+	/** The top level domains for this installation */
+	public final static String			TOP_LEVEL_DOMAIN			= PropertiesFile.getProperty("TopLevelDomain", "nothing.net");
+
+	/** The name of the ZIP file that will contain a software update */
+	public static final String			SOFTWARE_FILE_ZIP			= PropertiesFile.getProperty("SoftwareFileZip");
+	/** The location of the ZIP file that will contain a software update */
+	public static final String			UNZIP_PROGRAM_LOCATION		= PropertiesFile.getProperty("UnzipLocation");
+	/** Where is the Database server? Controlled by system constant ddisplay.dbserver */
+	public static String				DATABASE_SERVER_NAME		= System.getProperty("ddisplay.dbserver");
+	/** The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname */
+	public static String				DATABASE_NAME				= System.getProperty("ddisplay.dbname");
+	/** The username for accessing the database */
+	public static String				DATABASE_USER_NAME			= System.getProperty("ddisplay.dbusername");
+	/**
+	 * the password corresponding to the username that accesses the database. Note that this MUST be entered by hand for each time
+	 * one runs an application. (This is not the actual password.)
+	 */
+	public static String				DATABASE_PASSWORD			= System.getProperty("ddisplay.dbpassword");
+	/**
+	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
+	 * Controlled by system constant ddisplay.xmlserver
+	 */
+	public final static String			XML_SERVER_NAME				= System.getProperty("ddisplay.xmlserver");
+
+	/** The URL that is the single image display web page. This is a bit of a kludge! */
+	public final static String			SINGLE_IMAGE_DISPLAY		= PropertiesFile.getProperty("singleImageDisplay",
+			getFullURLPrefix() + "/portfolioOneSlide.php?photo=");
 
 	/** How long since last user activity? */
 	private static long					lastUserActivity			= 0L;
@@ -103,12 +151,6 @@ public class GlobalVariables {
 	}
 
 	/**
-	 * To allow for multiple Channel Selectors in one node, it will be differentiated with this tag. This has not been used except
-	 * in testing.
-	 */
-	public final static String THIS_IP_NAME_INSTANCE = System.getProperty("ddisplay.selectorinstance", "00");
-
-	/**
 	 * @return The messaging name for this selector client.
 	 */
 	public final static String getFullSelectorName() {
@@ -116,32 +158,13 @@ public class GlobalVariables {
 	}
 
 	/**
-		 * 
-		 */
-	public static int			INSET_SIZE				= 10;
+	 * 
+	 */
+	public static int	INSET_SIZE	= 10;
 	/**
 	 * 
 	 */
-	public static float			FONT_SIZE				= 40.0f;
-
-	// /**
-	// * Where is the messaging server? Controlled by system constant, ddisplay.messagingserver
-	// */
-	// public final static String MESSAGING_SERVER_NAME = System.getProperty("ddisplay.messagingserver", DEFAULT_SERVER);
-
-	/**
-	 * What port is the Messaging Server listing on? This is an easy to remember (I hope) in the range of unassigned port number
-	 * (49152 - 65535) Controlled by system constant ddisplay.messagingserver. I like primes.
-	 */
-	public final static int		MESSAGING_SERVER_PORT	= PropertiesFile.getIntProperty("messagingPort", 49999);
-	/** Where is the Web server? Controlled by system constant ddisplay.webserver */
-	public final static String	WEB_SERVER_NAME			= PropertiesFile.getProperty("webServer", "dynamicdisplays.fnal.gov");
-	/** Where is the Web server? Controlled by system constant ddisplay.webserver */
-	private final static String	WEB_SERVER_FOLDER		= PropertiesFile.getProperty("webFolder", "");
-	/** Do we use http or https? */
-	public final static String	WEB_PROTOCOL			= PropertiesFile.getProperty("defaultWebProtocol", "https");
-	/** The top level domains for this installation */
-	public final static String	TOP_LEVEL_DOMAIN		= PropertiesFile.getProperty("TopLevelDomain", "nothing.net");
+	public static float	FONT_SIZE	= 40.0f;
 
 	/**
 	 * @return The web server prefix, dealing with whether or not there is a folder in there, too.
@@ -153,30 +176,7 @@ public class GlobalVariables {
 		return WEB_PROTOCOL + "://" + WEB_SERVER_NAME;
 	}
 
-	/** The name of the ZIP file that will contain a software update */
-	public static final String	SOFTWARE_FILE_ZIP			= PropertiesFile.getProperty("SoftwareFileZip");
-	/** The location of the ZIP file that will contain a software update */
-	public static final String	UNZIP_PROGRAM_LOCATION		= PropertiesFile.getProperty("UnzipLocation");
-	/** Where is the Database server? Controlled by system constant ddisplay.dbserver */
-	public static String		DATABASE_SERVER_NAME		= System.getProperty("ddisplay.dbserver");
-	/** The database name, as in "USE " + DATABASE_NAME. Controlled by system constant ddisplay.dbname */
-	public static String		DATABASE_NAME				= System.getProperty("ddisplay.dbname");
-	/** The username for accessing the database */
-	public static String		DATABASE_USER_NAME			= System.getProperty("ddisplay.dbusername");
-	/**
-	 * the password corresponding to the username that accesses the database. Note that this MUST be entered by hand for each time
-	 * one runs an application. (This is not the actual password.)
-	 */
-	public static String		DATABASE_PASSWORD			= System.getProperty("ddisplay.dbpassword");
-	/**
-	 * Where is the XML server? This is the place where the XML schema is stored (8/2014: The only usage of this constant)
-	 * Controlled by system constant ddisplay.xmlserver
-	 */
-	public final static String	XML_SERVER_NAME				= System.getProperty("ddisplay.xmlserver");
-
-	/** The URL that is the single image display web page. This is a bit of a kludge! */
-	public final static String	SINGLE_IMAGE_DISPLAY		= PropertiesFile.getProperty("singleImageDisplay",
-			getFullURLPrefix() + "/portfolioOneSlide.php?photo=");
+	/******************** Unvarying constants **************************************************/
 
 	/** A symbol for 1,000,000,000. */
 	public final static int		ONE_BILLION					= 1000000000;
@@ -262,8 +262,7 @@ public class GlobalVariables {
 	}
 
 	/**
-	 * @param lc
-	 *            the location code to add to the list
+	 * @param lc the location code to add to the list
 	 * @return After Collections.add(), returns true if this operation changed the list of location codes.
 	 */
 	public static boolean addLocationCode(final int lc) {
@@ -285,8 +284,7 @@ public class GlobalVariables {
 	}
 
 	/**
-	 * @param index
-	 *            Which location code to return
+	 * @param index Which location code to return
 	 * @return the index'th location code
 	 */
 	public static int getLocationCode(final int index) {
@@ -379,8 +377,8 @@ public class GlobalVariables {
 	/**
 	 * Start a thread that runs every week (at, say, 0400, plus a random offset) to see if there is a new version of the code
 	 * 
-	 * @param isMessagingServer
-	 *            Set to true if this is the messaging server. It will look for the updates a little earlier than all the other bits
+	 * @param isMessagingServer Set to true if this is the messaging server. It will look for the updates a little earlier than all
+	 *            the other bits
 	 */
 	public static void prepareUpdateWatcher(final boolean isMessagingServer) {
 		// Skip update for the development machine! This can have horrible consequences if the place where the development is
@@ -449,8 +447,7 @@ public class GlobalVariables {
 	 * Set the location this node gets the default FLAVOR of the software to be from the database. If this is not called, it will
 	 * get that FLAVOR from the Properties file.
 	 * 
-	 * @param f
-	 *            The name of this node
+	 * @param f The name of this node
 	 */
 	public static void setFlavorFromDatabase(String f) {
 		DISPLAY_NODE_NAME = f;
@@ -460,8 +457,7 @@ public class GlobalVariables {
 	/**
 	 * What FLAVOR of the software should this instance be looking for.
 	 * 
-	 * @param reset
-	 *            If true, then positively re-read the Properties file. This has no effect if the FLAVOR is being read from the
+	 * @param reset If true, then positively re-read the Properties file. This has no effect if the FLAVOR is being read from the
 	 *            database.
 	 * @return The FLAVOR of the software should this instance be looking for.
 	 */
@@ -607,8 +603,7 @@ public class GlobalVariables {
 
 	/**
 	 * 
-	 * @param l
-	 *            The logger that this instance should be using
+	 * @param l The logger that this instance should be using
 	 */
 	public static void setLogger(Logger l) {
 		logger = l;
