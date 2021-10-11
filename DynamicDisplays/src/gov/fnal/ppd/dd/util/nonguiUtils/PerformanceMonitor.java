@@ -7,6 +7,10 @@ import com.sun.management.OperatingSystemMXBean;
 /**
  * This code was copied from http://stackoverflow.com/questions/25552/get-os-level-system-information, 5/2/2016.
  * 
+ * It is used in the display app in order to report the CPU usage on the computer that is running this display, and then place into
+ * the display's status. This IS NOT important to the operation of the display client. So if the inaccessibility of
+ * com.sun.management.OperatingSystemMXBean, it can be eliminated.
+ * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
  */
@@ -33,6 +37,9 @@ public class PerformanceMonitor {
 		long systemTime = System.nanoTime();
 		long processCpuTime = 0;
 
+		/*
+		 * Eclipse reports warnings on these lines. I made the specific choice to NOT suppress them - this may be a problem someday
+		 */
 		if (ManagementFactory.getOperatingSystemMXBean() instanceof OperatingSystemMXBean) {
 			processCpuTime = ((OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getProcessCpuTime();
 		}
@@ -48,6 +55,9 @@ public class PerformanceMonitor {
 	private void baselineCounters() {
 		lastSystemTime = System.nanoTime();
 
+		/*
+		 * Eclipse reports warnings on these lines. I made the specific choice to NOT suppress them - this may be a problem someday
+		 */
 		if (ManagementFactory.getOperatingSystemMXBean() instanceof OperatingSystemMXBean) {
 			lastProcessCpuTime = ((OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getProcessCpuTime();
 		}
