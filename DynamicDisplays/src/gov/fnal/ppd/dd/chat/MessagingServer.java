@@ -1550,20 +1550,22 @@ public class MessagingServer implements JavaChangeListener {
 								+ (diagnosticPeriod / sleepPeriodBtwPings) + "=" + randomCycleModulo + ")";
 
 						int i = 0, theMostPings = 0;
+						String sa = " sec ago";
 						for (ClientThread CT : listOfMessagingClients) {
 							i++;
 							if (printMe || CT.numOutstandingPings > 0) {
-								String firstPart = "---- " + i + " "
+								String firstPart = " -- " + i + " "
 										+ CT.username.replace("." + TOP_LEVEL_DOMAIN, "").replace(":0", "") + " ";
 								if (firstPart.length() > longestClientName)
 									longestClientName = firstPart.length();
 								while (firstPart.length() < longestClientName)
 									firstPart += " ";
-								diagnostic += "\n" + (firstPart + (System.currentTimeMillis() - CT.lastSeen) / 1000L + " secs ago"
+								diagnostic += "\n" + (firstPart + (System.currentTimeMillis() - CT.lastSeen) / 1000L + sa
 										+ (CT.numOutstandingPings > 0 ? "; num pings=" + CT.numOutstandingPings : ""));
 								if (CT.numOutstandingPings > theMostPings) {
 									theMostPings = CT.numOutstandingPings;
 								}
+								sa = "s";
 							}
 							if (CT.isOnNotice())
 								clist.add(CT);
