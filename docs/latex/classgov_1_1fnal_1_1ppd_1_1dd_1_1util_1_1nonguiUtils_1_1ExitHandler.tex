@@ -22,14 +22,14 @@ static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1
 \subsection{Detailed Description}
 There are several places in the code where it is necessary to restart the entire J\-V\-M. This class handles a graceful exit by running the commands that others have set up to assure that the restart is clean.
 
-This is implemented in the display client so that it can save the current channel and then show it again when it gets restarted.
+The first place it was implemented was in the display client\-: it can save the current channel and then show it again when it gets restarted.
 
 \begin{DoxyAuthor}{Author}
 Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
 \end{DoxyAuthor}
 
 
-Definition at line 18 of file Exit\-Handler.\-java.
+Definition at line 19 of file Exit\-Handler.\-java.
 
 
 
@@ -51,7 +51,7 @@ The command is returned back to the sender
 \end{DoxyReturn}
 
 
-Definition at line 72 of file Exit\-Handler.\-java.
+Definition at line 71 of file Exit\-Handler.\-java.
 
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a7869ffc2150941cbeced332cdf57df3a}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler}!remove\-Final\-Command@{remove\-Final\-Command}}
 \index{remove\-Final\-Command@{remove\-Final\-Command}!gov::fnal::ppd::dd::util::nonguiUtils::ExitHandler@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler}}
@@ -80,7 +80,7 @@ Definition at line 63 of file Exit\-Handler.\-java.
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a27e7e4bcb97555bf97af048202206e23}
 
 
-Definition at line 27 of file Exit\-Handler.\-java.
+Definition at line 28 of file Exit\-Handler.\-java.
 
 \hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a5379acd2ff353d389bceb772a08f38d3}{\index{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler}!save\-And\-Exit@{save\-And\-Exit}}
 \index{save\-And\-Exit@{save\-And\-Exit}!gov::fnal::ppd::dd::util::nonguiUtils::ExitHandler@{gov\-::fnal\-::ppd\-::dd\-::util\-::nongui\-Utils\-::\-Exit\-Handler}}
@@ -93,7 +93,7 @@ Definition at line 27 of file Exit\-Handler.\-java.
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1ExitHandler_a5379acd2ff353d389bceb772a08f38d3}
 Run whatever commands have been queued up, and then exit. The exit code of -\/1 should be a signal to the controlling script that we want to be restarted. 
 
-Definition at line 35 of file Exit\-Handler.\-java.
+Definition at line 36 of file Exit\-Handler.\-java.
 
 
 
@@ -107,7 +107,7 @@ This boolean is set when we have been requested to exit the J\-V\-M.
 
 
 
-Definition at line 20 of file Exit\-Handler.\-java.
+Definition at line 21 of file Exit\-Handler.\-java.
 
 
 

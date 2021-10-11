@@ -7,7 +7,6 @@ var namespacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific =
     [ "IsDisplayNode", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1IsDisplayNode.html", null ],
     [ "NotificationClientGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1NotificationClientGUI.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1NotificationClientGUI" ],
     [ "ObjectSigning", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning" ],
-    [ "ObjectSigningRepository", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigningRepository.html", null ],
     [ "PackageUtilities", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1PackageUtilities.html", null ],
     [ "SelectorInstructions", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SelectorInstructions" ],
     [ "SummarizeContentHistory", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SummarizeContentHistory.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SummarizeContentHistory" ],

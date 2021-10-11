@@ -1,0 +1,100 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository}{\section{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Object\-Signing\-Repository Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository}\index{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Object\-Signing\-Repository@{gov.\-fnal.\-ppd.\-Z\-Zattic.\-Object\-Signing\-Repository}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning}{Object\-Signing} \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository_a31ab6187801d84bcca86ed9f27b40b25}{get\-Public\-Signing} (final String client)
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository_ac6edbb6827da5d7a38b300ff0b7c71ef}{drop\-Client} (final String client)
+\item 
+static boolean \hyperlink{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository_aa45d975901673989670fe0010a8bdbba}{is\-Client\-Authorized} (final String client, final String display\-Name)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Originally part of package \hyperlink{namespacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific}{gov.\-fnal.\-ppd.\-dd.\-util.\-specific} 
+
+I am not sure about this class yet. It seems that the class Object\-Signing is doing two sublty different things that should probably be separated\-: (1) It is an object that can be signed; (2) it checks the validity of an object's signature. 
+
+At this time I have these so intertwined that I cannot unmix them easily. (Or it may be that these two functions are in my imagination.) 
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 35 of file Object\-Signing\-Repository.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository_ac6edbb6827da5d7a38b300ff0b7c71ef}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Object\-Signing\-Repository@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Object\-Signing\-Repository}!drop\-Client@{drop\-Client}}
+\index{drop\-Client@{drop\-Client}!gov::fnal::ppd::ZZattic::ObjectSigningRepository@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Object\-Signing\-Repository}}
+\subsubsection[{drop\-Client}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-Z\-Zattic.\-Object\-Signing\-Repository.\-drop\-Client (
+\begin{DoxyParamCaption}
+\item[{final String}]{client}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository_ac6edbb6827da5d7a38b300ff0b7c71ef}
+Remove a client from the cache of public keys so it can reconnect with different credentials
+
+
+\begin{DoxyParams}{Parameters}
+{\em client} & The name of the client to remove \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+if this client was actually in the list. 
+\end{DoxyReturn}
+
+
+Definition at line 71 of file Object\-Signing\-Repository.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository_a31ab6187801d84bcca86ed9f27b40b25}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Object\-Signing\-Repository@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Object\-Signing\-Repository}!get\-Public\-Signing@{get\-Public\-Signing}}
+\index{get\-Public\-Signing@{get\-Public\-Signing}!gov::fnal::ppd::ZZattic::ObjectSigningRepository@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Object\-Signing\-Repository}}
+\subsubsection[{get\-Public\-Signing}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Object\-Signing} gov.\-fnal.\-ppd.\-Z\-Zattic.\-Object\-Signing\-Repository.\-get\-Public\-Signing (
+\begin{DoxyParamCaption}
+\item[{final String}]{client}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository_a31ab6187801d84bcca86ed9f27b40b25}
+The problem referenced in the comment for the class is shown here. How does one implement this method? Does one even N\-E\-E\-D to implement this method? I'm lost.
+
+
+\begin{DoxyParams}{Parameters}
+{\em client} & -- The name of the client for which you'll need to check the signature \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-- The object that knows about this client's public key 
+\end{DoxyReturn}
+
+
+Definition at line 50 of file Object\-Signing\-Repository.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository_aa45d975901673989670fe0010a8bdbba}{\index{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Object\-Signing\-Repository@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Object\-Signing\-Repository}!is\-Client\-Authorized@{is\-Client\-Authorized}}
+\index{is\-Client\-Authorized@{is\-Client\-Authorized}!gov::fnal::ppd::ZZattic::ObjectSigningRepository@{gov\-::fnal\-::ppd\-::\-Z\-Zattic\-::\-Object\-Signing\-Repository}}
+\subsubsection[{is\-Client\-Authorized}]{\setlength{\rightskip}{0pt plus 5cm}static boolean gov.\-fnal.\-ppd.\-Z\-Zattic.\-Object\-Signing\-Repository.\-is\-Client\-Authorized (
+\begin{DoxyParamCaption}
+\item[{final String}]{client, }
+\item[{final String}]{display\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository_aa45d975901673989670fe0010a8bdbba}
+
+\begin{DoxyParams}{Parameters}
+{\em client} & The client trying to make changes to the display \\
+\hline
+{\em display\-Name} & The I\-D of the display (i.\-e., the display number) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Is this client authorized to change the channel on this display? 
+\end{DoxyReturn}
+
+
+Definition at line 86 of file Object\-Signing\-Repository.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/\-Z\-Zattic/\hyperlink{ObjectSigningRepository_8java}{Object\-Signing\-Repository.\-java}\end{DoxyCompactItemize}

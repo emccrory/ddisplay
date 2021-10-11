@@ -45,6 +45,9 @@ var dir_e0c7be87d9f8670d1760a461e0f8accd =
     [ "MessagingServerXML.java", "MessagingServerXML_8java.html", [
       [ "MessagingServerXML", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessagingServerXML.html", null ]
     ] ],
+    [ "ObjectSigningRepository.java", "ObjectSigningRepository_8java.html", [
+      [ "ObjectSigningRepository", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository.html", null ]
+    ] ],
     [ "package-info.java", "gov_2fnal_2ppd_2ZZattic_2package-info_8java.html", null ],
     [ "Snippet.java", "Snippet_8java.html", [
       [ "Snippet", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1Snippet.html", null ]

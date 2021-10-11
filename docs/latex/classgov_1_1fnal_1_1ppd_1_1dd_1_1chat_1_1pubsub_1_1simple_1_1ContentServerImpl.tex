@@ -1,0 +1,111 @@
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl}{\section{gov.\-fnal.\-ppd.\-dd.\-chat.\-pubsub.\-simple.\-Content\-Server\-Impl Class Reference}
+\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl}\index{gov.\-fnal.\-ppd.\-dd.\-chat.\-pubsub.\-simple.\-Content\-Server\-Impl@{gov.\-fnal.\-ppd.\-dd.\-chat.\-pubsub.\-simple.\-Content\-Server\-Impl}}
+}
+Inheritance diagram for gov.\-fnal.\-ppd.\-dd.\-chat.\-pubsub.\-simple.\-Content\-Server\-Impl\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl_a8751b4e642ee674d78c127fa0ad41e60}{send\-Message} (\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Topic}{Topic} t, \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Message}{Message} m)
+\item 
+void \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl_af5dfa68455616c62af8afc15010eda8d}{register\-Subscriber} (\hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1SubscriberClient}{Subscriber\-Client} s, \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Topic}{Topic} t)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1ContentServer}{Content\-Server} \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl_a262658dc9943adf3be7634da0b8b5412}{get\-Instance} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The bare-\/bones implementation of a server that will distribute messages to clients that are subscribed to topics.
+
+This version of the server can only exist within the J\-V\-M where everything is running. The implementation in the Dynamic Displays system would need to have this class be in a separate J\-V\-M, on a different node on the Internet.
+
+The way I would probably implement this is the same way that Displays were implemented -\/ with a Facade within the J\-V\-M that the client connects to, and them that Facade will have the logic to contact the server on the Internet.
+
+\href{https://riptutorial.com/design-patterns/example/6498/publish-subscribe-in-java}{\tt https\-://riptutorial.\-com/design-\/patterns/example/6498/publish-\/subscribe-\/in-\/java} (Retrieved A\-Wpt 2021)
+
+\begin{DoxyAuthor}{Author}
+Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
+\end{DoxyAuthor}
+
+
+Definition at line 25 of file Content\-Server\-Impl.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl_a262658dc9943adf3be7634da0b8b5412}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::pubsub\-::simple\-::\-Content\-Server\-Impl@{gov\-::fnal\-::ppd\-::dd\-::chat\-::pubsub\-::simple\-::\-Content\-Server\-Impl}!get\-Instance@{get\-Instance}}
+\index{get\-Instance@{get\-Instance}!gov::fnal::ppd::dd::chat::pubsub::simple::ContentServerImpl@{gov\-::fnal\-::ppd\-::dd\-::chat\-::pubsub\-::simple\-::\-Content\-Server\-Impl}}
+\subsubsection[{get\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Content\-Server} gov.\-fnal.\-ppd.\-dd.\-chat.\-pubsub.\-simple.\-Content\-Server\-Impl.\-get\-Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl_a262658dc9943adf3be7634da0b8b5412}
+
+
+Definition at line 30 of file Content\-Server\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl_af5dfa68455616c62af8afc15010eda8d}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::pubsub\-::simple\-::\-Content\-Server\-Impl@{gov\-::fnal\-::ppd\-::dd\-::chat\-::pubsub\-::simple\-::\-Content\-Server\-Impl}!register\-Subscriber@{register\-Subscriber}}
+\index{register\-Subscriber@{register\-Subscriber}!gov::fnal::ppd::dd::chat::pubsub::simple::ContentServerImpl@{gov\-::fnal\-::ppd\-::dd\-::chat\-::pubsub\-::simple\-::\-Content\-Server\-Impl}}
+\subsubsection[{register\-Subscriber}]{\setlength{\rightskip}{0pt plus 5cm}void gov.\-fnal.\-ppd.\-dd.\-chat.\-pubsub.\-simple.\-Content\-Server\-Impl.\-register\-Subscriber (
+\begin{DoxyParamCaption}
+\item[{{\bf Subscriber\-Client}}]{s, }
+\item[{{\bf Topic}}]{t}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl_af5dfa68455616c62af8afc15010eda8d}
+Register that a client is interested in a topic
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & -\/ The client (subscriber) interested in this topic \\
+\hline
+{\em t} & -\/ The topic of interest \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1ContentServer_a14cd665c62027f4cf0ffb849238f40ae}{gov.\-fnal.\-ppd.\-dd.\-chat.\-pubsub.\-Content\-Server}.
+
+
+
+Definition at line 65 of file Content\-Server\-Impl.\-java.
+
+\hypertarget{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl_a8751b4e642ee674d78c127fa0ad41e60}{\index{gov\-::fnal\-::ppd\-::dd\-::chat\-::pubsub\-::simple\-::\-Content\-Server\-Impl@{gov\-::fnal\-::ppd\-::dd\-::chat\-::pubsub\-::simple\-::\-Content\-Server\-Impl}!send\-Message@{send\-Message}}
+\index{send\-Message@{send\-Message}!gov::fnal::ppd::dd::chat::pubsub::simple::ContentServerImpl@{gov\-::fnal\-::ppd\-::dd\-::chat\-::pubsub\-::simple\-::\-Content\-Server\-Impl}}
+\subsubsection[{send\-Message}]{\setlength{\rightskip}{0pt plus 5cm}int gov.\-fnal.\-ppd.\-dd.\-chat.\-pubsub.\-simple.\-Content\-Server\-Impl.\-send\-Message (
+\begin{DoxyParamCaption}
+\item[{{\bf Topic}}]{t, }
+\item[{{\bf Message}}]{m}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl_a8751b4e642ee674d78c127fa0ad41e60}
+Send a message, for the specified \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Topic}{Topic}, to all the clients who care
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & -\/ The topic of this message \\
+\hline
+{\em m} & -\/ The message \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-\/ How many clients were sent this message? 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1ContentServer_a318b70dae02f4c5763820366bd84f534}{gov.\-fnal.\-ppd.\-dd.\-chat.\-pubsub.\-Content\-Server}.
+
+
+
+Definition at line 48 of file Content\-Server\-Impl.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+src/gov/fnal/ppd/dd/chat/pubsub/simple/\hyperlink{ContentServerImpl_8java}{Content\-Server\-Impl.\-java}\end{DoxyCompactItemize}

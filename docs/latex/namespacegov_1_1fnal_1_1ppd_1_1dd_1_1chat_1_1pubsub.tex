@@ -1,28 +1,36 @@
 \hypertarget{namespacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub}{\section{Package gov.\-fnal.\-ppd.\-dd.\-chat.\-pubsub}
 \label{namespacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub}\index{gov.\-fnal.\-ppd.\-dd.\-chat.\-pubsub@{gov.\-fnal.\-ppd.\-dd.\-chat.\-pubsub}}
 }
+\subsection*{Packages}
+\begin{DoxyCompactItemize}
+\item 
+package \hyperlink{namespacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple}{simple}
+\end{DoxyCompactItemize}
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1ContentServer}{Content\-Server}
+interface \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1ContentServer}{Content\-Server}
 \item 
-class \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Message}{Message}
+interface \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Message}{Message}
 \item 
-class \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Publisher}{Publisher}
+interface \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Publisher}{Publisher}
 \item 
-class \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Subscriber}{Subscriber}
+interface \hyperlink{interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Subscriber}{Subscriber}
 \item 
 class \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Topic}{Topic}
-\item 
-enum \hyperlink{enumgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1TopicEnum}{Topic\-Enum}
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 Fermilab's Dynamic Displays System -- A clean and simple attempt, copied from the Internet, to do Publish/\-Subscribe 
 
-This was created September 2021. Note that the first attempt was implemented by hand, by me, in the \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer}{Messaging\-Server}, in around 2018. It is likely that that first attempt was not a great implementation. 
+This was created September 2021. Note that the first attempt was implemented by hand, by me, in the \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessagingServer}{Messaging\-Server}, in around
+\begin{DoxyEnumerate}
+\item It is likely that that first attempt was not a great implementation. 
+\end{DoxyEnumerate}
 
 This is untested. And it is not sophisticated enough to use for our system, but it might be a start. 
 
 These files were taken from \href{https://riptutorial.com/design-patterns/example/6498/publish-subscribe-in-java}{\tt riptutorial.\-com} on 09/23/2021. 
+
+This version has been refactored to have the main classes be defined by an interface. The classes in the simple sub-\/package are very close to the version obtained from the Rip\-Tutorial site. 

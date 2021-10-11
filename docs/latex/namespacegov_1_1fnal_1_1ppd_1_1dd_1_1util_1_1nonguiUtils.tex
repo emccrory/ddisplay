@@ -33,6 +33,12 @@ class \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyU
 \subsection{Detailed Description}
 Utilities that do not depend on any of the other classes in this package and are not G\-U\-I related
 
+There is a warning in the class \hyperlink{classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1PerformanceMonitor}{Performance\-Monitor}\-:
+
+Access restriction\-: The type 'Operating\-System\-M\-X\-Bean' is not A\-P\-I (restriction on required library '/usr/lib/jvm/java-\/1.8.\-0-\/openjdk-\/1.\-8.\-0.\-302.\-b08-\/0.\-el7\-\_\-9.\-x86\-\_\-64/jre/lib/rt.jar')
+
+This may bite us someday. That functionality is used in the display app in order to report the C\-P\-U usage on the computer that is running this display, and then place into the display's status. This I\-S N\-O\-T important to the operation of the display client. So if the inaccessibility of com.\-sun.\-management.\-Operating\-System\-M\-X\-Bean, it can be eliminated.
+
 \begin{DoxyAuthor}{Author}
 Elliott Mc\-Crory, Fermilab A\-D/\-Instrumentation 
 \end{DoxyAuthor}

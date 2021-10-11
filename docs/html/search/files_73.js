@@ -17,6 +17,7 @@ var searchData=
   ['snippet_2ejava',['Snippet.java',['../Snippet_8java.html',1,'']]],
   ['splashscreens_2ejava',['SplashScreens.java',['../SplashScreens_8java.html',1,'']]],
   ['subscriber_2ejava',['Subscriber.java',['../Subscriber_8java.html',1,'']]],
+  ['subscriberclient_2ejava',['SubscriberClient.java',['../SubscriberClient_8java.html',1,'']]],
   ['subscriptionsubject_2ejava',['SubscriptionSubject.java',['../SubscriptionSubject_8java.html',1,'']]],
   ['summarizecontenthistory_2ejava',['SummarizeContentHistory.java',['../SummarizeContentHistory_8java.html',1,'']]],
   ['swingtest_2ejava',['SwingTest.java',['../SwingTest_8java.html',1,'']]]

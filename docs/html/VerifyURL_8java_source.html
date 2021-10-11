@@ -116,40 +116,39 @@ $(document).ready(function(){initNavTree('VerifyURL_8java_source.html','');});
 <div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html">   22</a></span>&#160;<span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html">VerifyURL</a> {</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">private</span> <span class="keyword">static</span> String whyFailed = null;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html">VerifyURL</a>() {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="comment">// Only the static method isValid is needed</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    }</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#a7bb140c03fe2d3b8c5db95d5125366f0">   41</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#a7bb140c03fe2d3b8c5db95d5125366f0">isValid</a>(String u) {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            URL url = <span class="keyword">new</span> URL(u);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            BufferedReader in = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(url.openConnection().getInputStream()));</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">return</span> in.readLine() != null;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            whyFailed = e.getClass().getCanonicalName();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#ad2ddb9ba0d5e339d07f58206afd7163e">   52</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#ad2ddb9ba0d5e339d07f58206afd7163e">getWhyFailed</a>() {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">return</span> whyFailed;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#aeb525d904ceb8db0590f2dcb7f0b8b38">   56</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#aeb525d904ceb8db0590f2dcb7f0b8b38">main</a>(String[] args) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            System.out.println(<span class="stringliteral">&quot;The url [&quot;</span> + args[0] + <span class="stringliteral">&quot;] is &quot;</span> + (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#a7bb140c03fe2d3b8c5db95d5125366f0">isValid</a>(args[0]) ? <span class="stringliteral">&quot;valid&quot;</span> : <span class="stringliteral">&quot;NOT valid - &quot;</span> + whyFailed));</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            System.exit(-1);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL_html_ad2ddb9ba0d5e339d07f58206afd7163e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#ad2ddb9ba0d5e339d07f58206afd7163e">gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL.getWhyFailed</a></div><div class="ttdeci">static String getWhyFailed()</div><div class="ttdef"><b>Definition:</b> <a href="VerifyURL_8java_source.html#l00052">VerifyURL.java:52</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL_html_aeb525d904ceb8db0590f2dcb7f0b8b38"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#aeb525d904ceb8db0590f2dcb7f0b8b38">gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL.main</a></div><div class="ttdeci">static void main(String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="VerifyURL_8java_source.html#l00056">VerifyURL.java:56</a></div></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">private</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html">VerifyURL</a>() {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="comment">// Only the static method isValid is needed</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    }</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#a7bb140c03fe2d3b8c5db95d5125366f0">   36</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#a7bb140c03fe2d3b8c5db95d5125366f0">isValid</a>(String u) {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            URL url = <span class="keyword">new</span> URL(u);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            BufferedReader in = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(url.openConnection().getInputStream()));</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keywordflow">return</span> in.readLine() != null;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            whyFailed = e.getClass().getCanonicalName();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#ad2ddb9ba0d5e339d07f58206afd7163e">   47</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> String <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#ad2ddb9ba0d5e339d07f58206afd7163e">getWhyFailed</a>() {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">return</span> whyFailed;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#aeb525d904ceb8db0590f2dcb7f0b8b38">   51</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#aeb525d904ceb8db0590f2dcb7f0b8b38">main</a>(String[] args) {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            System.out.println(<span class="stringliteral">&quot;The url [&quot;</span> + args[0] + <span class="stringliteral">&quot;] is &quot;</span> + (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#a7bb140c03fe2d3b8c5db95d5125366f0">isValid</a>(args[0]) ? <span class="stringliteral">&quot;valid&quot;</span> : <span class="stringliteral">&quot;NOT valid - &quot;</span> + whyFailed));</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            System.exit(-1);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL_html_ad2ddb9ba0d5e339d07f58206afd7163e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#ad2ddb9ba0d5e339d07f58206afd7163e">gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL.getWhyFailed</a></div><div class="ttdeci">static String getWhyFailed()</div><div class="ttdef"><b>Definition:</b> <a href="VerifyURL_8java_source.html#l00047">VerifyURL.java:47</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL_html_aeb525d904ceb8db0590f2dcb7f0b8b38"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#aeb525d904ceb8db0590f2dcb7f0b8b38">gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL.main</a></div><div class="ttdeci">static void main(String[] args)</div><div class="ttdef"><b>Definition:</b> <a href="VerifyURL_8java_source.html#l00051">VerifyURL.java:51</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html">gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL</a></div><div class="ttdef"><b>Definition:</b> <a href="VerifyURL_8java_source.html#l00022">VerifyURL.java:22</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL_html_a7bb140c03fe2d3b8c5db95d5125366f0"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#a7bb140c03fe2d3b8c5db95d5125366f0">gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL.isValid</a></div><div class="ttdeci">static boolean isValid(String u)</div><div class="ttdef"><b>Definition:</b> <a href="VerifyURL_8java_source.html#l00041">VerifyURL.java:41</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL_html_a7bb140c03fe2d3b8c5db95d5125366f0"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1VerifyURL.html#a7bb140c03fe2d3b8c5db95d5125366f0">gov.fnal.ppd.dd.util.nonguiUtils.VerifyURL.isValid</a></div><div class="ttdeci">static boolean isValid(String u)</div><div class="ttdef"><b>Definition:</b> <a href="VerifyURL_8java_source.html#l00036">VerifyURL.java:36</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

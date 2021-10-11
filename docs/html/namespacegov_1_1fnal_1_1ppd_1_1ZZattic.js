@@ -15,5 +15,6 @@ var namespacegov_1_1fnal_1_1ppd_1_1ZZattic =
     [ "MessageTypeXML", "enumgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageTypeXML.html", null ],
     [ "MessagingClientXML", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessagingClientXML.html", null ],
     [ "MessagingServerXML", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessagingServerXML.html", null ],
+    [ "ObjectSigningRepository", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository.html", null ],
     [ "Snippet", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1Snippet.html", null ]
 ];

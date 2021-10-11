@@ -7,6 +7,7 @@ var searchData=
   ['messagecarrier_2ejava',['MessageCarrier.java',['../MessageCarrier_8java.html',1,'']]],
   ['messagecarrierxml_2ejava',['MessageCarrierXML.java',['../MessageCarrierXML_8java.html',1,'']]],
   ['messageconveyor_2ejava',['MessageConveyor.java',['../MessageConveyor_8java.html',1,'']]],
+  ['messageimpl_2ejava',['MessageImpl.java',['../MessageImpl_8java.html',1,'']]],
   ['messagetype_2ejava',['MessageType.java',['../MessageType_8java.html',1,'']]],
   ['messagetypexml_2ejava',['MessageTypeXML.java',['../MessageTypeXML_8java.html',1,'']]],
   ['messagingclient_2ejava',['MessagingClient.java',['../MessagingClient_8java.html',1,'']]],

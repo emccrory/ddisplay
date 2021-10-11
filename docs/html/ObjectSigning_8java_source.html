@@ -347,90 +347,91 @@ $(document).ready(function(){initNavTree('ObjectSigning_8java_source.html','');}
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            PKCS8EncodedKeySpec privateKeySpec = <span class="keyword">new</span> PKCS8EncodedKeySpec(encodedPrivateKey);</div>
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;</div>
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            privateKey = keyFactory.generatePrivate(privateKeySpec);</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            Signature signature = Signature.getInstance(privateKey.getAlgorithm());</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        }</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    }</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;</div>
-<div class="line"><a name="l00328"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a561eedb67812a4082d737ec182fe288c">  328</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a561eedb67812a4082d737ec182fe288c">isEmergMessAllowed</a>(String clientName) {</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        <span class="keywordflow">if</span> (!emergMessAllowed.containsKey(clientName)) {</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            Connection connection;</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            <span class="keywordtype">boolean</span> ema = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;            <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                connection = ConnectionToDatabase.getDbConnection();</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                <span class="keyword">synchronized</span> (connection) {</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;                    <span class="keywordflow">try</span> (Statement stmt = connection.createStatement();</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                            ResultSet result = stmt.executeQuery(<span class="stringliteral">&quot;USE &quot;</span> + DATABASE_NAME);) {</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;                        String query = <span class="stringliteral">&quot;SELECT EmergMessAllowed FROM PublicKeys WHERE ClientName= &#39;&quot;</span> + clientName + <span class="stringliteral">&quot;&#39;&quot;</span>;</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;                        <span class="keywordflow">try</span> (ResultSet rs = stmt.executeQuery(query);) {</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;                            <span class="keywordflow">if</span> (rs.first()) { <span class="comment">// Move to first returned row (there should only be one)</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                                ema = rs.getInt(<span class="stringliteral">&quot;EmergMessAllowed&quot;</span>) == 1;</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                                println(getClass(), <span class="stringliteral">&quot;: Cient &#39;&quot;</span> + clientName + <span class="stringliteral">&quot;&#39; &quot;</span> + (ema ? <span class="stringliteral">&quot;IS&quot;</span> : <span class="stringliteral">&quot;is NOT&quot;</span>)</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;                                        + <span class="stringliteral">&quot; allowed to make emergency messages&quot;</span>);</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;                                emergMessAllowed.put(clientName, ema);</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;                            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;                                <span class="comment">// Likely culprit here: The source of this message does not have a public key in the DB</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;                                publicKey = null;</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                                System.err.println(<span class="stringliteral">&quot;No entry for client=&#39;&quot;</span> + clientName + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                            }</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;                        }</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                    } <span class="keywordflow">catch</span> (Exception e1) {</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;                        e1.printStackTrace();</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                    }</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;                }</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;            } <span class="keywordflow">catch</span> (Exception e2) {</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                e2.printStackTrace();</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;            }</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;        }</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        <span class="keywordflow">return</span> emergMessAllowed.get(clientName);</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    }</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;</div>
-<div class="line"><a name="l00365"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a07b9c0efe4e036f0902c8d4a18e05693">  365</a></span>&#160;    <span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">synchronized</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a07b9c0efe4e036f0902c8d4a18e05693">writePublicKeyToDatabase</a>(String clientName) {</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        String blob = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        byte[] encoded = publicKey.getEncoded();</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; encoded.length; i++) {</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            <span class="keywordflow">if</span> ((0x000000ff &amp; encoded[i]) &lt; 16)</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                blob += <span class="stringliteral">&quot;0&quot;</span>;</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            blob += Integer.toHexString(0x000000ff &amp; encoded[i]);</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        }</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        Connection connection;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;            connection = ConnectionToDatabase.getDbConnection();</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;            <span class="keyword">synchronized</span> (connection) {</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                <span class="keywordflow">try</span> (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery(<span class="stringliteral">&quot;USE &quot;</span> + DATABASE_NAME);) {</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                    String statementString = <span class="stringliteral">&quot;INSERT INTO PublicKeys VALUES (NULL, &#39;&quot;</span> + clientName + <span class="stringliteral">&quot;&#39;, x&#39;&quot;</span> + blob + <span class="stringliteral">&quot;&#39;, 0);&quot;</span>;</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;                    <span class="keywordtype">int</span> numRows = stmt.executeUpdate(statementString);</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                    <span class="keywordflow">if</span> (numRows == 0 || numRows &gt; 1) {</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;                        System.err.println(</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;                                <span class="stringliteral">&quot;Problem while updating status of Display: Expected to modify exactly one row, but  modified &quot;</span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                                        + numRows + <span class="stringliteral">&quot; rows instead. SQL=&#39;&quot;</span> + statementString + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;                    }</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;                    stmt.close();</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;                } <span class="keywordflow">catch</span> (SQLException ex) {</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;                    System.err.println(<span class="stringliteral">&quot;cannot execute a query. Is the DB server down?  Try again later.&quot;</span>);</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;                    ex.printStackTrace();</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                    System.exit(-1);</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                }</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;            }</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException.html">DatabaseNotVisibleException</a> e) {</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;            <span class="comment">// not good!</span></div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;            System.err.println(<span class="stringliteral">&quot;No connection.  It is likely that the DB server is down.  Try again later.&quot;</span>);</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;            e.printStackTrace();</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;            System.exit(-1);</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        }</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;    }</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;}</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            @SuppressWarnings(<span class="stringliteral">&quot;unused&quot;</span>)</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            Signature signature = Signature.getInstance(privateKey.getAlgorithm());</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        } <span class="keywordflow">catch</span> (Exception e) {</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        }</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    }</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;</div>
+<div class="line"><a name="l00329"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a561eedb67812a4082d737ec182fe288c">  329</a></span>&#160;    <span class="keyword">public</span> <span class="keywordtype">boolean</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a561eedb67812a4082d737ec182fe288c">isEmergMessAllowed</a>(String clientName) {</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        <span class="keywordflow">if</span> (!emergMessAllowed.containsKey(clientName)) {</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            Connection connection;</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;            <span class="keywordtype">boolean</span> ema = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                connection = ConnectionToDatabase.getDbConnection();</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;                <span class="keyword">synchronized</span> (connection) {</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                    <span class="keywordflow">try</span> (Statement stmt = connection.createStatement();</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;                            ResultSet result = stmt.executeQuery(<span class="stringliteral">&quot;USE &quot;</span> + DATABASE_NAME);) {</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;                        String query = <span class="stringliteral">&quot;SELECT EmergMessAllowed FROM PublicKeys WHERE ClientName= &#39;&quot;</span> + clientName + <span class="stringliteral">&quot;&#39;&quot;</span>;</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;                        <span class="keywordflow">try</span> (ResultSet rs = stmt.executeQuery(query);) {</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;                            <span class="keywordflow">if</span> (rs.first()) { <span class="comment">// Move to first returned row (there should only be one)</span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;                                ema = rs.getInt(<span class="stringliteral">&quot;EmergMessAllowed&quot;</span>) == 1;</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;                                println(getClass(), <span class="stringliteral">&quot;: Cient &#39;&quot;</span> + clientName + <span class="stringliteral">&quot;&#39; &quot;</span> + (ema ? <span class="stringliteral">&quot;IS&quot;</span> : <span class="stringliteral">&quot;is NOT&quot;</span>)</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;                                        + <span class="stringliteral">&quot; allowed to make emergency messages&quot;</span>);</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;                                emergMessAllowed.put(clientName, ema);</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;                            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;                                <span class="comment">// Likely culprit here: The source of this message does not have a public key in the DB</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                                publicKey = null;</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                                System.err.println(<span class="stringliteral">&quot;No entry for client=&#39;&quot;</span> + clientName + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;                            }</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                        }</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;                    } <span class="keywordflow">catch</span> (Exception e1) {</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                        e1.printStackTrace();</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;                    }</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                }</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;            } <span class="keywordflow">catch</span> (Exception e2) {</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                e2.printStackTrace();</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;            }</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        }</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        <span class="keywordflow">return</span> emergMessAllowed.get(clientName);</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    }</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;</div>
+<div class="line"><a name="l00366"></a><span class="lineno"><a class="line" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a07b9c0efe4e036f0902c8d4a18e05693">  366</a></span>&#160;    <span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">synchronized</span> <span class="keywordtype">void</span> <a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a07b9c0efe4e036f0902c8d4a18e05693">writePublicKeyToDatabase</a>(String clientName) {</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        String blob = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        byte[] encoded = publicKey.getEncoded();</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; encoded.length; i++) {</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;            <span class="keywordflow">if</span> ((0x000000ff &amp; encoded[i]) &lt; 16)</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                blob += <span class="stringliteral">&quot;0&quot;</span>;</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;            blob += Integer.toHexString(0x000000ff &amp; encoded[i]);</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        }</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        Connection connection;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;            connection = ConnectionToDatabase.getDbConnection();</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;            <span class="keyword">synchronized</span> (connection) {</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                <span class="keywordflow">try</span> (Statement stmt = connection.createStatement(); ResultSet result = stmt.executeQuery(<span class="stringliteral">&quot;USE &quot;</span> + DATABASE_NAME);) {</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                    String statementString = <span class="stringliteral">&quot;INSERT INTO PublicKeys VALUES (NULL, &#39;&quot;</span> + clientName + <span class="stringliteral">&quot;&#39;, x&#39;&quot;</span> + blob + <span class="stringliteral">&quot;&#39;, 0);&quot;</span>;</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                    <span class="keywordtype">int</span> numRows = stmt.executeUpdate(statementString);</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;                    <span class="keywordflow">if</span> (numRows == 0 || numRows &gt; 1) {</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;                        System.err.println(</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                                <span class="stringliteral">&quot;Problem while updating status of Display: Expected to modify exactly one row, but  modified &quot;</span></div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;                                        + numRows + <span class="stringliteral">&quot; rows instead. SQL=&#39;&quot;</span> + statementString + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;                    }</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;                    stmt.close();</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;                } <span class="keywordflow">catch</span> (SQLException ex) {</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;                    System.err.println(<span class="stringliteral">&quot;cannot execute a query. Is the DB server down?  Try again later.&quot;</span>);</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                    ex.printStackTrace();</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                    System.exit(-1);</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;                }</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;            }</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        } <span class="keywordflow">catch</span> (<a class="code" href="classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException.html">DatabaseNotVisibleException</a> e) {</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;            <span class="comment">// not good!</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;            System.err.println(<span class="stringliteral">&quot;No connection.  It is likely that the DB server is down.  Try again later.&quot;</span>);</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;            e.printStackTrace();</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;            System.exit(-1);</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;        }</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;    }</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;}</div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1interfaces_1_1DatabaseNotVisibleException.html">gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException</a></div><div class="ttdef"><b>Definition:</b> <a href="dd_2interfaces_2DatabaseNotVisibleException_8java_source.html#l00014">DatabaseNotVisibleException.java:14</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_html_ab51a44acbc4795b78f9b608c361e9369"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#ab51a44acbc4795b78f9b608c361e9369">gov.fnal.ppd.dd.util.specific.ObjectSigning.dropClient</a></div><div class="ttdeci">static boolean dropClient(final String client)</div><div class="ttdef"><b>Definition:</b> <a href="ObjectSigning_8java_source.html#l00112">ObjectSigning.java:112</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_html_a905548cd8a28135026ff8cd2e3f09598"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a905548cd8a28135026ff8cd2e3f09598">gov.fnal.ppd.dd.util.specific.ObjectSigning.getInstance</a></div><div class="ttdeci">static ObjectSigning getInstance()</div><div class="ttdef"><b>Definition:</b> <a href="ObjectSigning_8java_source.html#l00068">ObjectSigning.java:68</a></div></div>
@@ -440,9 +441,9 @@ $(document).ready(function(){initNavTree('ObjectSigning_8java_source.html','');}
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html">gov.fnal.ppd.dd.util.specific.ObjectSigning</a></div><div class="ttdef"><b>Definition:</b> <a href="ObjectSigning_8java_source.html#l00055">ObjectSigning.java:55</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_html_ad05b0cd592f8f25aa296a80928f31cc7"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#ad05b0cd592f8f25aa296a80928f31cc7">gov.fnal.ppd.dd.util.specific.ObjectSigning.loadPrivateKey</a></div><div class="ttdeci">boolean loadPrivateKey(final String filename)</div><div class="ttdef"><b>Definition:</b> <a href="ObjectSigning_8java_source.html#l00303">ObjectSigning.java:303</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_html_af0b44b53a18273c1ac9b2965e62c496e"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#af0b44b53a18273c1ac9b2965e62c496e">gov.fnal.ppd.dd.util.specific.ObjectSigning.generateNewKeys</a></div><div class="ttdeci">void generateNewKeys(final String filenamePublic, final String filenamePrivate)</div><div class="ttdef"><b>Definition:</b> <a href="ObjectSigning_8java_source.html#l00160">ObjectSigning.java:160</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_html_a561eedb67812a4082d737ec182fe288c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a561eedb67812a4082d737ec182fe288c">gov.fnal.ppd.dd.util.specific.ObjectSigning.isEmergMessAllowed</a></div><div class="ttdeci">boolean isEmergMessAllowed(String clientName)</div><div class="ttdef"><b>Definition:</b> <a href="ObjectSigning_8java_source.html#l00328">ObjectSigning.java:328</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_html_a561eedb67812a4082d737ec182fe288c"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a561eedb67812a4082d737ec182fe288c">gov.fnal.ppd.dd.util.specific.ObjectSigning.isEmergMessAllowed</a></div><div class="ttdeci">boolean isEmergMessAllowed(String clientName)</div><div class="ttdef"><b>Definition:</b> <a href="ObjectSigning_8java_source.html#l00329">ObjectSigning.java:329</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_html_a2c6282d1254482c733c5bdb01ae4fd2b"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a2c6282d1254482c733c5bdb01ae4fd2b">gov.fnal.ppd.dd.util.specific.ObjectSigning.saveClient</a></div><div class="ttdeci">static void saveClient(final String client)</div><div class="ttdef"><b>Definition:</b> <a href="ObjectSigning_8java_source.html#l00097">ObjectSigning.java:97</a></div></div>
-<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_html_a07b9c0efe4e036f0902c8d4a18e05693"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a07b9c0efe4e036f0902c8d4a18e05693">gov.fnal.ppd.dd.util.specific.ObjectSigning.writePublicKeyToDatabase</a></div><div class="ttdeci">final synchronized void writePublicKeyToDatabase(String clientName)</div><div class="ttdef"><b>Definition:</b> <a href="ObjectSigning_8java_source.html#l00365">ObjectSigning.java:365</a></div></div>
+<div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning_html_a07b9c0efe4e036f0902c8d4a18e05693"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html#a07b9c0efe4e036f0902c8d4a18e05693">gov.fnal.ppd.dd.util.specific.ObjectSigning.writePublicKeyToDatabase</a></div><div class="ttdeci">final synchronized void writePublicKeyToDatabase(String clientName)</div><div class="ttdef"><b>Definition:</b> <a href="ObjectSigning_8java_source.html#l00366">ObjectSigning.java:366</a></div></div>
 <div class="ttc" id="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase_html"><div class="ttname"><a href="classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase.html">gov.fnal.ppd.dd.db.ConnectionToDatabase</a></div><div class="ttdef"><b>Definition:</b> <a href="ConnectionToDatabase_8java_source.html#l00028">ConnectionToDatabase.java:28</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

@@ -39,7 +39,9 @@ var hierarchy =
       [ "gov.fnal.ppd.dd.display.client.simplified.SimplifiedBrowserConnection", "classgov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified_1_1SimplifiedBrowserConnection.html", null ]
     ] ],
     [ "gov.fnal.ppd.dd.db.ConnectionToDatabase", "classgov_1_1fnal_1_1ppd_1_1dd_1_1db_1_1ConnectionToDatabase.html", null ],
-    [ "gov.fnal.ppd.dd.chat.pubsub.ContentServer", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1ContentServer.html", null ],
+    [ "gov.fnal.ppd.dd.chat.pubsub.ContentServer", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1ContentServer.html", [
+      [ "gov.fnal.ppd.dd.chat.pubsub.simple.ContentServerImpl", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1ContentServerImpl.html", null ]
+    ] ],
     [ "org.json.Cookie", "classorg_1_1json_1_1Cookie.html", null ],
     [ "org.json.CookieList", "classorg_1_1json_1_1CookieList.html", null ],
     [ "gov.fnal.ppd.dd.channel.list.CreateListOfChannelsHelper", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1CreateListOfChannelsHelper.html", null ],
@@ -129,7 +131,9 @@ var hierarchy =
     [ "gov.fnal.ppd.dd.channel.list.ListUtilsGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1ListUtilsGUI.html", null ],
     [ "gov.fnal.ppd.dd.chat.LoggerForDebugging", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1LoggerForDebugging.html", null ],
     [ "gov.fnal.ppd.dd.MakeChannelSelector", "classgov_1_1fnal_1_1ppd_1_1dd_1_1MakeChannelSelector.html", null ],
-    [ "gov.fnal.ppd.dd.chat.pubsub.Message", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Message.html", null ],
+    [ "gov.fnal.ppd.dd.chat.pubsub.Message", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Message.html", [
+      [ "gov.fnal.ppd.dd.chat.pubsub.simple.MessageImpl", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1MessageImpl.html", null ]
+    ] ],
     [ "gov.fnal.ppd.dd.chat.MessageConveyor", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1MessageConveyor.html", null ],
     [ "gov.fnal.ppd.ZZattic.MessageType", "enumgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageType.html", null ],
     [ "gov.fnal.ppd.ZZattic.MessageTypeXML", "enumgov_1_1fnal_1_1ppd_1_1ZZattic_1_1MessageTypeXML.html", null ],
@@ -175,7 +179,7 @@ var hierarchy =
       [ "gov.fnal.ppd.dd.util.specific.NotificationClientGUI", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1NotificationClientGUI.html", null ]
     ] ],
     [ "gov.fnal.ppd.dd.util.specific.ObjectSigning", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html", null ],
-    [ "gov.fnal.ppd.dd.util.specific.ObjectSigningRepository", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigningRepository.html", null ],
+    [ "gov.fnal.ppd.ZZattic.ObjectSigningRepository", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1ObjectSigningRepository.html", null ],
     [ "gov.fnal.ppd.dd.chat.original.Orig_Client", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1Orig__Client.html", null ],
     [ "gov.fnal.ppd.dd.chat.original.Orig_Server", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1original_1_1Orig__Server.html", null ],
     [ "gov.fnal.ppd.dd.util.specific.PackageUtilities", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1PackageUtilities.html", null ],
@@ -183,7 +187,9 @@ var hierarchy =
     [ "gov.fnal.ppd.dd.util.nonguiUtils.PropertiesFile", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1PropertiesFile.html", null ],
     [ "test.gov.fnal.ppd.dd.util.PropertiesFileTest", "classtest_1_1gov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1PropertiesFileTest.html", null ],
     [ "org.json.Property", "classorg_1_1json_1_1Property.html", null ],
-    [ "gov.fnal.ppd.dd.chat.pubsub.Publisher", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Publisher.html", null ],
+    [ "gov.fnal.ppd.dd.chat.pubsub.Publisher", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Publisher.html", [
+      [ "gov.fnal.ppd.dd.chat.pubsub.simple.PublisherImpl", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1PublisherImpl.html", null ]
+    ] ],
     [ "gov.fnal.ppd.dd.testing.RewriteJsonConfigFileForFirefox", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1RewriteJsonConfigFileForFirefox.html", null ],
     [ "gov.fnal.ppd.dd.util.nonguiUtils.RunPerformanceMonitor", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1nonguiUtils_1_1RunPerformanceMonitor.html", null ],
     [ "RuntimeException", null, [
@@ -196,7 +202,9 @@ var hierarchy =
     [ "gov.fnal.ppd.dd.xml.signature.SignXMLUsingDSAKeys", "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1SignXMLUsingDSAKeys.html", null ],
     [ "gov.fnal.ppd.ZZattic.Snippet", "classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1Snippet.html", null ],
     [ "gov.fnal.ppd.dd.util.guiUtils.ListSelectionForSaveList.SpecialLocalListChangeListener", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1ListSelectionForSaveList_1_1SpecialLocalListChangeListener.html", null ],
-    [ "gov.fnal.ppd.dd.chat.pubsub.Subscriber", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Subscriber.html", null ],
+    [ "gov.fnal.ppd.dd.chat.pubsub.Subscriber", "interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Subscriber.html", [
+      [ "gov.fnal.ppd.dd.chat.pubsub.simple.SubscriberClient", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1SubscriberClient.html", null ]
+    ] ],
     [ "gov.fnal.ppd.dd.util.specific.SummarizeContentHistory", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SummarizeContentHistory.html", null ],
     [ "gov.fnal.ppd.dd.testing.SwingTest", "classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1SwingTest.html", null ],
     [ "gov.fnal.ppd.dd.util.specific.TestAllChannels", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TestAllChannels.html", null ],
@@ -208,7 +216,6 @@ var hierarchy =
       [ "gov.fnal.ppd.dd.util.specific.WhoIsInChatRoom", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1WhoIsInChatRoom.html", null ]
     ] ],
     [ "gov.fnal.ppd.dd.chat.pubsub.Topic", "classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Topic.html", null ],
-    [ "gov.fnal.ppd.dd.chat.pubsub.TopicEnum", "enumgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1TopicEnum.html", null ],
     [ "gov.fnal.ppd.dd.util.specific.TranslateGITHashCodeToDate", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1TranslateGITHashCodeToDate.html", null ],
     [ "gov.fnal.ppd.security.TrustAllSSL", "classgov_1_1fnal_1_1ppd_1_1security_1_1TrustAllSSL.html", null ],
     [ "gov.fnal.ppd.dd.xml.signature.Validate", "classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature_1_1Validate.html", null ],

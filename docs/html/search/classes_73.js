@@ -17,7 +17,8 @@ var searchData=
   ['snippet',['Snippet',['../classgov_1_1fnal_1_1ppd_1_1ZZattic_1_1Snippet.html',1,'gov::fnal::ppd::ZZattic']]],
   ['speciallocallistchangelistener',['SpecialLocalListChangeListener',['../interfacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1ListSelectionForSaveList_1_1SpecialLocalListChangeListener.html',1,'gov::fnal::ppd::dd::util::guiUtils::ListSelectionForSaveList']]],
   ['splashscreens',['SplashScreens',['../classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1guiUtils_1_1SplashScreens.html',1,'gov::fnal::ppd::dd::util::guiUtils']]],
-  ['subscriber',['Subscriber',['../classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Subscriber.html',1,'gov::fnal::ppd::dd::chat::pubsub']]],
+  ['subscriber',['Subscriber',['../interfacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1Subscriber.html',1,'gov::fnal::ppd::dd::chat::pubsub']]],
+  ['subscriberclient',['SubscriberClient',['../classgov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple_1_1SubscriberClient.html',1,'gov::fnal::ppd::dd::chat::pubsub::simple']]],
   ['subscriptionsubject',['SubscriptionSubject',['../classgov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1SubscriptionSubject.html',1,'gov::fnal::ppd::dd::xml']]],
   ['summarizecontenthistory',['SummarizeContentHistory',['../classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1SummarizeContentHistory.html',1,'gov::fnal::ppd::dd::util::specific']]],
   ['swingtest',['SwingTest',['../classgov_1_1fnal_1_1ppd_1_1dd_1_1testing_1_1SwingTest.html',1,'gov::fnal::ppd::dd::testing']]]

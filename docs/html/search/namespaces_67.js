@@ -24,6 +24,7 @@ var searchData=
   ['selenium',['selenium',['../namespacegov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1selenium.html',1,'gov::fnal::ppd::dd::display::client']]],
   ['signage',['signage',['../namespacegov_1_1fnal_1_1ppd_1_1dd_1_1signage.html',1,'gov::fnal::ppd::dd']]],
   ['signature',['signature',['../namespacegov_1_1fnal_1_1ppd_1_1dd_1_1xml_1_1signature.html',1,'gov::fnal::ppd::dd::xml']]],
+  ['simple',['simple',['../namespacegov_1_1fnal_1_1ppd_1_1dd_1_1chat_1_1pubsub_1_1simple.html',1,'gov::fnal::ppd::dd::chat::pubsub']]],
   ['simplified',['simplified',['../namespacegov_1_1fnal_1_1ppd_1_1dd_1_1display_1_1client_1_1simplified.html',1,'gov::fnal::ppd::dd::display::client']]],
   ['specific',['specific',['../namespacegov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific.html',1,'gov::fnal::ppd::dd::util']]],
   ['table',['table',['../namespacegov_1_1fnal_1_1ppd_1_1dd_1_1channel_1_1list_1_1table.html',1,'gov::fnal::ppd::dd::channel::list']]],

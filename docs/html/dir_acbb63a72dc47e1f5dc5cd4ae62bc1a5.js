@@ -21,9 +21,6 @@ var dir_acbb63a72dc47e1f5dc5cd4ae62bc1a5 =
     [ "ObjectSigning.java", "ObjectSigning_8java.html", [
       [ "ObjectSigning", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning.html", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigning" ]
     ] ],
-    [ "ObjectSigningRepository.java", "ObjectSigningRepository_8java.html", [
-      [ "ObjectSigningRepository", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1ObjectSigningRepository.html", null ]
-    ] ],
     [ "package-info.java", "gov_2fnal_2ppd_2dd_2util_2specific_2package-info_8java.html", null ],
     [ "PackageUtilities.java", "PackageUtilities_8java.html", [
       [ "PackageUtilities", "classgov_1_1fnal_1_1ppd_1_1dd_1_1util_1_1specific_1_1PackageUtilities.html", null ]
