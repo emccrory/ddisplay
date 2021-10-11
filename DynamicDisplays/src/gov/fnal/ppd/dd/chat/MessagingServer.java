@@ -875,9 +875,11 @@ public class MessagingServer implements JavaChangeListener {
 
 	protected LoggerForDebugging					logger;
 
-	private String									lastSubjectListMessage			= "";
+	private String									lastSubjectListMessage1			= "";
+	private String									lastSubjectListMessage2			= "";
 
-	private int										noChangeCount					= 999;
+	private int										noChangeCount1					= 999;
+	private int										noChangeCount2					= 999;
 
 	/**
 	 * server constructor that receive the port to listen to for connection as parameter in console
@@ -1078,10 +1080,10 @@ public class MessagingServer implements JavaChangeListener {
 		}
 		if (show) {
 			long aliveTime = System.currentTimeMillis() - startTime;
-			long days = aliveTime / ONE_DAY;
-			long hours = (aliveTime % ONE_DAY) / ONE_HOUR;
-			long mins = (aliveTime % ONE_HOUR) / ONE_MINUTE;
-			long secs = (aliveTime % ONE_MINUTE) / ONE_SECOND;
+			String days = "" + (aliveTime / ONE_DAY);
+			String hours = String.format("%02d", (aliveTime % ONE_DAY) / ONE_HOUR);
+			String mins = String.format("%02d", (aliveTime % ONE_HOUR) / ONE_MINUTE);
+			String secs = String.format("%02d", (aliveTime % ONE_MINUTE) / ONE_SECOND);
 
 			String subjectInfo = "*There are " + subjectListeners.size() + " subjects*\n";
 			String LL = " listeners";
@@ -1104,13 +1106,13 @@ public class MessagingServer implements JavaChangeListener {
 				NN = "none";
 			}
 			// String spacesForStatus = " - ";
-			String message = MessagingServer.class.getSimpleName() + " has been alive " + days + "D " + hours + ":" + mins + ":"
+			String preamble = MessagingServer.class.getSimpleName() + " has been alive " + days + "D " + hours + ":" + mins + ":"
 					+ secs + " (" + aliveTime + " msec)" //
 					+ "\n         " + numConnectionsSeen + " connections accepted, " + listOfMessagingClients.size() + " client"
 					+ (listOfMessagingClients.size() != 1 ? "s" : "") + " connected right now, " + totalMesssagesHandled
-					+ " messages handled" //
-					+ "\n         Oldest client is " + oldestName //
-					+ "\n         Reasons (NC = Num Clients)              Count" //
+					+ " messages handled" + "\n         Oldest client is " + oldestName;
+
+			String theRest = "\n         Reasons (NC = Num Clients)              Count" //
 					+ "\n         Num apparent port scanner connections: " + numPortScannerAttempts //
 					+ "\n         Number of 'Server Message' messages:   " + numberOfServerMessagesReceived //
 					+ "\n         NC put 'on notice':                    " + numClientsPutOnNotice //
@@ -1124,13 +1126,21 @@ public class MessagingServer implements JavaChangeListener {
 					+ "\n         NC rmvd for unexpected closed sockets: " + numUnexpectedClosedSockets1 + " & "
 					+ numUnexpectedClosedSockets2 //
 					+ "\n         NC rmvd for unexpected duplicate clients: " + numDuplicateClients; //
-			if (subjectInfo.equals(lastSubjectListMessage) && noChangeCount++ < 25)
-				logger.fine(message + "\n    There are still " + subjectListeners.size() + " subjects (no change)");
-			else {
-				logger.fine(message + "\n    " + subjectInfo);
-				noChangeCount = 0;
-			}
-			lastSubjectListMessage = subjectInfo;
+			String message = preamble;
+			if (!theRest.equals(lastSubjectListMessage2) || noChangeCount2++ > 25) {
+				message += theRest;
+				noChangeCount2 = 0;
+			} else
+				message += "\n         No change in the diagnostics counters.";
+
+			if (!subjectInfo.equals(lastSubjectListMessage1) || noChangeCount1++ > 25) {
+				message += "\n    " + subjectInfo;
+				noChangeCount1 = 0;
+			} else
+				message += "\n    There are still " + subjectListeners.size() + " subjects (no change)";
+			lastSubjectListMessage1 = subjectInfo;
+			lastSubjectListMessage2 = theRest;
+			logger.fine(message);
 		}
 	}
 
@@ -1451,15 +1461,27 @@ public class MessagingServer implements JavaChangeListener {
 		});
 	}
 
+	private String	lastSeen			= "Last seen ";
+	private int		longestClientName	= 57;
+
 	protected void showAllClientsConnectedNow() {
 		String m = "List of connected clients:\n";
 		for (ClientThread CT : listOfMessagingClients) {
-			String p = CT.username + " (" + CT.getRemoteIPAddress() + ")";
-			if (p.length() < 40)
-				p += "\t";
-			m += "\t" + p + "\tLast seen " + sdf.format(new Date(CT.getLastSeen())) + " ID=" + CT.id + "\n";
+			String p = CT.username.replace("." + TOP_LEVEL_DOMAIN, "") + " (" + CT.getRemoteIPAddress() + ") ";
+			while (p.length() < longestClientName)
+				p += " ";
+			if (p.length() > longestClientName + 2)
+				longestClientName = p.length();
+
+			m += "\t" + p + " " + lastSeen + sdf.format(new Date(CT.getLastSeen())) + " ID=" + CT.id + "\n";
 		}
 		logger.fine(m);
+
+		/*
+		 * Only show the words, "Last seen ", between 00:00 and 00:10 each day (and the first time through). Otherwise, save space
+		 * in the log file
+		 */
+		lastSeen = (System.currentTimeMillis() % ONE_DAY < (10 * ONE_MINUTE) ? "Last seen " : "");
 	}
 
 	private ClientThread lastOldestClientName = null;
@@ -1480,6 +1502,7 @@ public class MessagingServer implements JavaChangeListener {
 			 */
 			private long	diagnosticPeriod	= 3 * ONE_MINUTE;
 			private long	sleepPeriodBtwPings	= 2 * ONE_SECOND;
+			private int		longestClientName	= 30;
 
 			public void run() {
 				catchSleep(15000L); // Wait a bit before starting the pinging and the diagnostics
@@ -1530,15 +1553,17 @@ public class MessagingServer implements JavaChangeListener {
 						for (ClientThread CT : listOfMessagingClients) {
 							i++;
 							if (printMe || CT.numOutstandingPings > 0) {
-								String firstPart = "---- " + i + " " + CT.username.replace("." + TOP_LEVEL_DOMAIN, "") + " ";
-								int initialLength = firstPart.length();
-								for (int m = initialLength; m < 40; m++)
-									firstPart += ' ';
-								diagnostic += "\n" + (firstPart + (new Date(CT.lastSeen)).toString().substring(4, 19) + ", "
-										+ (System.currentTimeMillis() - CT.lastSeen) / 1000L + " secs ago"
+								String firstPart = "---- " + i + " "
+										+ CT.username.replace("." + TOP_LEVEL_DOMAIN, "").replace(":0", "") + " ";
+								if (firstPart.length() > longestClientName)
+									longestClientName = firstPart.length();
+								while (firstPart.length() < longestClientName)
+									firstPart += " ";
+								diagnostic += "\n" + (firstPart + (System.currentTimeMillis() - CT.lastSeen) / 1000L + " secs ago"
 										+ (CT.numOutstandingPings > 0 ? "; num pings=" + CT.numOutstandingPings : ""));
-								if (CT.numOutstandingPings > theMostPings)
+								if (CT.numOutstandingPings > theMostPings) {
 									theMostPings = CT.numOutstandingPings;
+								}
 							}
 							if (CT.isOnNotice())
 								clist.add(CT);
@@ -1568,6 +1593,8 @@ public class MessagingServer implements JavaChangeListener {
 							if (CT.numOutstandingPings > MAX_CONSECUTIVE_UNPONGED_PINGS) {
 								logger.warning("Too many pings (" + CT.numOutstandingPings + ") to the client " + CT.username
 										+ "; removing it!");
+								// A client was removed, so reset the diagnostic period counter
+								diagnosticPeriod = 3 * ONE_MINUTE;
 								remove(CT);
 								CT.close();
 								numRemovedForPings2++;
@@ -1576,6 +1603,9 @@ public class MessagingServer implements JavaChangeListener {
 							} else if (CT.numOutstandingPings > MAX_CONSECUTIVE_UNPONGED_PINGS / 2) {
 								logger.warning("Almost too many pings (" + CT.numOutstandingPings + ") to the client " + CT.username
 										+ ". currentTimeMillis=" + System.currentTimeMillis());
+							} else {
+								// All things are normal - Increase the diagnostic period slowly.
+								diagnosticPeriod = Math.min(4 * diagnosticPeriod / 3, 30 * ONE_MINUTE);
 							}
 							// This is a read-only message and DOES NOT NEED a signature.
 							broadcast(mc);
