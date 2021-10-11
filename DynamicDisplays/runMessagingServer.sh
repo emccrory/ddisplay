@@ -21,9 +21,9 @@ cd "$ddHome/roc-dynamicdisplays/DynamicDisplays" || exit
 
 cd ../../log || exit
 
-for logFile in messagingServerOther messagingServer; do
+for logFile in messagingServerOther messagingServerWarnings messagingServer; do
     if [ -e $logFile.log ]; then
-	# Rename the existing messagingServerOther.log with time stamp of the first access (creation time)
+	# Rename the existing log files with time stamp of the first access (creation time)
 	suffix=$(stat $logFile.log | grep "Access: 2" | cut -b 9-27 | sed 's/ /_/g' | sed 's/:/./g')
 	# This command pipe ASSUMES A LOT!  So expect it to be brittle
 	
@@ -32,20 +32,24 @@ for logFile in messagingServerOther messagingServer; do
 done
 
 # This compression might take some time.  Wait for it so the log file doesn't get overwritten
-gzip messagingServerOther_*.log messagingServer_*.log 
+gzip messagingServerOther_*.log messagingServerWarnings_*.log messagingServer_*.log 
 mv ./*.gz oldLogs
 
 cd ../roc-dynamicdisplays/DynamicDisplays || exit
 workingDirectory=$(pwd)
 
-logFile=messagingServerOther.log
+logFile=messagingServerWarnings.log
 log="../../log/$logFile"
 
 touch "$log"
 {
     # Note: Most of the messages from the server are funneled through a java.lang.util.Logger class object.  These
-    # go to messagingServer.log.  Everything else this script produces goes to messagingServerOther.log.  That
-    # includes the "echo" statements here, and any inadvertant print from within java.
+    # go to messagingServer.log.  Everything else goes to messagingServerWarnings.log.  
+
+    # The messages in this file are:
+    #  -- "echo" statements here, 
+    #  -- many of the warning messages from MessageConveyor,
+    #  -- messages from JavaVersion
     
     # Verify that this script is not running now
     if pgrep -af "$workingDirectory/$0" ; then

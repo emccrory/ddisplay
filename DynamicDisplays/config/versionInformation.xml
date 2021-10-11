@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <versionInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://null signage.xsd">
-    <disposition>PRODUCTION</disposition>
-    <timeStamp>1633636197198</timeStamp>
-    <versionDescription>Wrap up all the changes made in version 5.3.X into a NEW SECOND-LEVEL version, 5.4!  (McCrory retires a week from now.)</versionDescription>
-    <versionString>5.4.1</versionString>
+    <disposition>DEVELOPMENT</disposition>
+    <timeStamp>1633976010806</timeStamp>
+    <versionDescription>Reduce some messaging server output</versionDescription>
+    <versionString>5.4.2</versionString>
 </versionInformation>
