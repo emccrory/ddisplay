@@ -107,6 +107,7 @@ public class GeneralUtilities {
 	 */
 	public static void launchMemoryWatcher(final Logger logger) {
 		new Thread("MemoryWatcher.DEBUG") {
+			String key = "Key to the 'Threads' diagnostic -->\nrunning threads (all threads), Memory: total, free, max\n";
 			public void run() {
 				long time = FIFTEEN_MINUTES / 512;
 				double sq2 = Math.sqrt(2.0);
@@ -123,13 +124,14 @@ public class GeneralUtilities {
 					long free = Runtime.getRuntime().freeMemory() / 1024 / 1024;
 					long max = Runtime.getRuntime().maxMemory() / 1024 / 1024;
 					long total = Runtime.getRuntime().totalMemory() / 1024 / 1024;
-					String msg = "Threads: " + tCount + " (" + activeTCount + "), mem: " + total + "M " + free + "M " + max
+					String msg = "Threads: " + key + "\t"+ tCount + " (" + activeTCount + "), mem: " + total + "M " + free + "M " + max
 							+ "M  (Sleeping " + (time / 1000) + " sec)";
 					if (logger != null) {
 						logger.fine(msg);
 					} else {
 						System.out.println(msg);
 					}
+					key = "";
 				}
 			}
 		}.start();
