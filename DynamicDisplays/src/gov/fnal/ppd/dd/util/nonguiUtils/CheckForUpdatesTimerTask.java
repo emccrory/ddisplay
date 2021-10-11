@@ -15,7 +15,7 @@ import gov.fnal.ppd.dd.util.version.VersionInformation.FLAVOR;
 import gov.fnal.ppd.dd.util.version.VersionInformationComparison;
 
 /**
- * Handles the procedure of checking for an update. Also includes some visual clues for the user that may be watching
+ * Handles the procedure of checking for an update. Also includes some visual clues for a user that may be watching
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *
@@ -53,7 +53,7 @@ public class CheckForUpdatesTimerTask extends TimerTask {
 				workingOnAnUpdate = false;
 				return;
 			}
-			// Let the Properties file change during the running of this daemon.
+			// The Properties file might change during the running of this daemon.  So let's check it now.
 			FLAVOR flavor = getFlavor(true);
 			println(getClass(), "Checking to see if there is a " + flavor + " update for the software");
 

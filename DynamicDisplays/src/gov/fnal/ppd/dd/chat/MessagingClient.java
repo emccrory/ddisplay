@@ -1,6 +1,5 @@
 package gov.fnal.ppd.dd.chat;
 
-import static gov.fnal.ppd.dd.GlobalVariables.FIFTEEN_MINUTES;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_MINUTE;
 import static gov.fnal.ppd.dd.GlobalVariables.ONE_SECOND;
 import static gov.fnal.ppd.dd.GlobalVariables.WAIT_FOR_SERVER_TIME;

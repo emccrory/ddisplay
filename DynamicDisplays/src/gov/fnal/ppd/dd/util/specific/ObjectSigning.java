@@ -313,6 +313,7 @@ public class ObjectSigning {
 			PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(encodedPrivateKey);
 
 			privateKey = keyFactory.generatePrivate(privateKeySpec);
+			@SuppressWarnings("unused")
 			Signature signature = Signature.getInstance(privateKey.getAlgorithm());
 			return true;
 		} catch (Exception e) {

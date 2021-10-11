@@ -101,15 +101,13 @@ public class CheckDisplayStatus extends Thread {
 					+ (SHOW_VIRTUAL_DISPLAY_NUMS ? display.getVirtualDisplayNumber() : display.getDBDisplayNumber()) + ": ";
 			final String isBeingDisplayed = " is being displayed";
 
-			int counter = 0;
-			int failures = 0;
+			int counter = 0, failures = 0;
 			while (true) {
 				try {
 					sleep(PING_INTERVAL);
 					counter++;
-					// Use ARM (Automatic Resource Management) to assure that things get closed properly (a new Java 7
-					// feature)
 					String rawMessage = null;
+					// Use ARM (Automatic Resource Management) to assure that things get closed properly (since Java 7)
 					try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query);) {
 						if (rs.first()) { // Move to first returned row
 							while (!rs.isAfterLast()) {
@@ -253,6 +251,5 @@ public class CheckDisplayStatus extends Thread {
 			// Everything else, tell me about it.
 			e.printStackTrace();
 		}
-
 	}
 }

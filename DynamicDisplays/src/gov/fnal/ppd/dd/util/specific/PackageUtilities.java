@@ -31,7 +31,8 @@ import gov.fnal.ppd.dd.xml.messages.ChangeChannelList;
 
 /**
  * <p>
- * A collection of utilities that
+ * A collection of utilities that do things related to channels
+ * </p>
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * @copyright 2014-21
@@ -43,13 +44,13 @@ public class PackageUtilities {
 	}
 
 	/**
-	 * @param url
-	 *            The URL to show in this empty channel (which can be null)R
+	 * @param url The URL to show in this empty channel (which can be null)R
 	 * @return An empty channel
 	 */
 	public static SignageContent makeEmptyChannel(String url) {
 		try {
-			return new ChannelImpl(GlobalVariables.STANDBY_URL_NAME, "This is a default channel", new URI(url == null ? GlobalVariables.STANDBY_URL : url), 0, 0);
+			return new ChannelImpl(GlobalVariables.STANDBY_URL_NAME, "This is a default channel",
+					new URI(url == null ? GlobalVariables.STANDBY_URL : url), 0, 0);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return null;
@@ -59,20 +60,17 @@ public class PackageUtilities {
 	/**
 	 * Convert a Display object into a succinct string
 	 * 
-	 * @param d
-	 *            The display to identify
+	 * @param d The display to identify
 	 * @return A unique string to identify this display.
 	 */
 	public static String getDisplayID(final Display d) {
 		return "Display " + d.getVirtualDisplayNumber() + "/" + d.getDBDisplayNumber();
-
 	}
 
 	/**
 	 * Convert a SignageContent object to an XML document. This assumes that the SignageContent argument is a Channel.
 	 * 
-	 * @param content
-	 *            The Content object to be turned into a string
+	 * @param content The Content object to be turned into a string
 	 * @return the content converted to a DB-ready string
 	 */
 	public static String convertContentToDBReadyString(final SignageContent theContent) {
@@ -120,15 +118,15 @@ public class PackageUtilities {
 	 * </li>
 	 * </ul>
 	 * </p>
+	 * package gov.fnal.ppd.dd.util.specific;
 	 * 
-	 * @param channelNumber
-	 *            The channel number to look up
+	 * @param channelNumber The channel number to look up
 	 * @return The channel that is specified by this channel number
 	 */
 	public static SignageContent getChannelFromNumber(int channelNumber) {
-		//--  This complexity really does not seem worthwhile.
-		//--  if (alreadyRetrieved.containsKey(channelNumber))
-		//--   return new ChannelImpl(alreadyRetrieved.get(channelNumber));
+		// -- This complexity really does not seem worthwhile.
+		// -- if (alreadyRetrieved.containsKey(channelNumber))
+		// -- return new ChannelImpl(alreadyRetrieved.get(channelNumber));
 
 		Channel retval = null;
 		try {
@@ -140,7 +138,8 @@ public class PackageUtilities {
 
 		if (channelNumber == 0) {
 			// Using the default, Fermilab home page!
-			println(PackageUtilities.class, "***** Received a channel number of 0 - this is unexpected. Using the Fermilab home page as the default channel!");
+			println(PackageUtilities.class,
+					"***** Received a channel number of 0 - this is unexpected. Using the Fermilab home page as the default channel!");
 			return retval;
 		} else if (channelNumber < 0) {
 			// The default channel is a list of channels. Build it!

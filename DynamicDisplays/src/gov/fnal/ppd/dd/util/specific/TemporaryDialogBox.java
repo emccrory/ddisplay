@@ -32,7 +32,7 @@ import gov.fnal.ppd.dd.xml.ChannelSpec;
 
 /**
  * Creates a borderless pop-up window. Used by {@link gov.fnal.ppd.dd.ChannelSelector}, and others, to let the user know that
- * something is happening. Disappears after a short interval.
+ * something is happening. Disappears after an interval specified in the constructor (use case: a few seconds to a minute or two).
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -69,11 +69,9 @@ public class TemporaryDialogBox extends JFrame {
 
 	/**
 	 * 
-	 * @param comp
-	 *            The parent component for this dialog box
-	 * @param di
-	 *            The Display for which we are showing the dialog box
-	 * @param imBusy 
+	 * @param comp The parent component for this dialog box
+	 * @param di The Display for which we are showing the dialog box
+	 * @param imBusy
 	 */
 	public TemporaryDialogBox(final JComponent comp, final Display di) {
 		super(cc++ + " Display " + di + " changed successfully");
@@ -110,13 +108,13 @@ public class TemporaryDialogBox extends JFrame {
 		}
 
 		// if (urlString.startsWith("https://")) {
-        int code = 0;
+		int code = 0;
 
-        if (di.getContent() instanceof Channel)
-                code = ((Channel) di.getContent()).getCode();
-        else if (di.getContent() instanceof ChannelSpec)
-                code = ((ChannelSpec) di.getContent()).getCode();
-        if (code == 2) {	
+		if (di.getContent() instanceof Channel)
+			code = ((Channel) di.getContent()).getCode();
+		else if (di.getContent() instanceof ChannelSpec)
+			code = ((ChannelSpec) di.getContent()).getCode();
+		if (code == 2) {
 			h.add(new MyLabel(fg, bg, "  ****  N O N - S E C U R E   C O N T E N T  **** ", big * 4 / 3));
 			h.add(Box.createRigidArea(new Dimension(10, 10)));
 			h.add(new MyLabel(fg, bg, " The content on " + di + " (" + di.getLocation() + ") "), regular);
@@ -218,10 +216,8 @@ public class TemporaryDialogBox extends JFrame {
 
 	/**
 	 * 
-	 * @param comp
-	 *            The parent component for this dialog box
-	 * @param di
-	 *            The Display for which we are showing the dialog box
+	 * @param comp The parent component for this dialog box
+	 * @param di The Display for which we are showing the dialog box
 	 */
 	public TemporaryDialogBox(final JComponent comp, final String title, final int dwell, final String headline, final String line2,
 			final String line3) {

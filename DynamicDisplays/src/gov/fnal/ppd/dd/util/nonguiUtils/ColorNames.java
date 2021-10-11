@@ -14,7 +14,15 @@ import gov.fnal.ppd.dd.db.ConnectionToDatabase;
 import gov.fnal.ppd.dd.interfaces.DatabaseNotVisibleException;
 
 /**
- * Handles the Map of color names and hex codes
+ * Handles the Map of color names and hex codes.
+ * 
+ * In the early days of the system, it was imagined that it would be tricky for the operator of the channel selector to keep track
+ * of which display is which in a large setting, like the ROC-West. To that end, we invented the concept of a color for each
+ * display. And, further, we thought that having the colors be the same from large room to large room would be required.
+ * 
+ * This has not really been the case.
+ * 
+ * Colors are nice, and they help a little. But naming the colors is an extra bit of complexity that can (realistically) be removed.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  *

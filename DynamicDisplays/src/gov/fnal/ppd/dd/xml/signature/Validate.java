@@ -50,11 +50,11 @@ public class Validate {
 		dbf.setNamespaceAware(true);
 	}
 
-	//
-	// Synopsis: java Validate [document]
-	//
-	// where "document" is the name of a file containing the XML document to be validated.
-	//
+	/**
+	* Synopsis: java Validate [document]
+	*
+	* where "document" is the name of a file containing the XML document to be validated.
+	*/
 	public static void main(String[] args) throws Exception {
 
 		if (args.length < 1) {

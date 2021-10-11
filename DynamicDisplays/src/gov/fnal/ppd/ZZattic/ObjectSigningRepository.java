@@ -5,7 +5,7 @@
  * 
  * Copyright (c) 2015 by Fermilab/FRA
  */
-package gov.fnal.ppd.dd.util.specific;
+package gov.fnal.ppd.ZZattic;
 
 import static gov.fnal.ppd.dd.GlobalVariables.TOP_LEVEL_DOMAIN;
 import static gov.fnal.ppd.dd.util.nonguiUtils.GeneralUtilities.println;
@@ -16,7 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gov.fnal.ppd.dd.util.specific.ObjectSigning;
+
 /**
+ * <p>Originally part of package gov.fnal.ppd.dd.util.specific </p>
  * <p>
  * I am not sure about this class yet. It seems that the class ObjectSigning is doing two sublty different things that should
  * probably be separated: (1) It is an object that can be signed; (2) it checks the validity of an object's signature.

@@ -192,5 +192,4 @@ public class WhoIsInChatRoom extends Thread {
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -10,7 +10,8 @@ import java.util.List;
  * There are several places in the code where it is necessary to restart the entire JVM. This class handles a graceful exit by
  * running the commands that others have set up to assure that the restart is clean.
  * 
- * This is implemented in the display client so that it can save the current channel and then show it again when it gets restarted.
+ * The first place it was implemented was in the display client: it can save the current channel and then show it again when it gets
+ * restarted.
  * 
  * @author Elliott McCrory, Fermilab AD/Instrumentation
  * 
@@ -57,16 +58,14 @@ public class ExitHandler {
 	/**
 	 * Remove this command from the list.
 	 * 
-	 * @param c
-	 *            The command to remove
+	 * @param c The command to remove
 	 */
 	public static void removeFinalCommand(final Command c) {
 		finalCommand.remove(c);
 	}
 
 	/**
-	 * @param c
-	 *            the command to add to the list of commands to be executed prior to exiting
+	 * @param c the command to add to the list of commands to be executed prior to exiting
 	 * @return The command is returned back to the sender
 	 */
 	public static Command addFinalCommand(final Command c) {

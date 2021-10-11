@@ -22,20 +22,15 @@ import java.net.URL;
 public class VerifyURL {
 
 	private static String whyFailed = null;
-	
 
 	private VerifyURL() {
 		// Only the static method isValid is needed
 	}
 
 	/**
-	 * To the best of our knowledge, is this URL valid at this time? echo echo
-	 * "======================================================================" echo "=========="
-	 * gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion java gov.fnal.ppd.dd.util.nonguiUtils.JavaVersion
+	 * To the best of our knowledge, is this URL valid at this time?
 	 * 
-	 * 
-	 * @param u
-	 *            The URL to test
+	 * @param u The URL to test
 	 * @return Is it valid?
 	 */
 	public static boolean isValid(String u) {
